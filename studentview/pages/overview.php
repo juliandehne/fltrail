@@ -1,3 +1,13 @@
+<?php
+include_once '../database/config.php';
+$query = "SELECT (`name`) from users u where u.token = '". $_GET['token']."';";
+//echo $query;
+//echo $db->query($query);
+$result = mysqli_query($db, $query);
+$resultObj = mysqli_fetch_object($result);
+$userName = $resultObj->name;
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -26,7 +36,8 @@
 </head>
 
 <body>
-<p id="user" hidden>Axel</p>
+
+<p id="user" hidden><?php echo $userName; ?></p>
 
 <div id="wrapper" style="margin:0px;">
     <div id="sidebar-wrapper" style="width:190px;">
@@ -37,7 +48,7 @@
         <div class="tab-content">
             <div class="tab-pane" role="tabpanel" id="tab-Teilnehmer">
                 <ul class="sidebar-nav" style="width:200px;margin-top:50px;">
-                    <li> <h3 style="color:white;"> user </h3> </li>
+                    <li> <h3 style="color:white;"> <?php echo $userName; ?> </h3> </li>
                     <li style="width:146px;"> <a href="Projekte.html" style="margin-top:32px;width:200px;">Projekte</a></li>
                     <li style="width:146px;"> <a href="MeineGruppen.html" style="margin-top:32px;width:200px;">Meine Gruppen</a></li>
                     <li style="width:146px;"> <a href="../index.html" style="margin-top:134px;width:200px;">Logout </a></li>
@@ -45,7 +56,7 @@
             </div>
             <div class="tab-pane active" role="tabpanel" id="tab-Leiter">
                 <ul class="sidebar-nav" style="width:200px;margin-top:50px;">
-                    <li> <h3 style="color:white;"> user </h3> </li>
+                    <li> <h3 style="color:white;"> <?php echo $userName; ?> </h3> </li>
                     <li style="width:146px;"> <a href="neuesProjekt.html" style="margin-top:32px;width:200px;">neues Projekt</a></li>
                     <li style="width:146px;"> <a href="overview.html" style="margin-top:32px;width:200px;">Übersicht</a></li>
                     <li style="width:146px;"> <a href="../index.html" style="margin-top:134px;width:200px;">Logout </a></li>
@@ -81,7 +92,7 @@
                                     <div class="row">
                                         <div class="col col-xs-6">
                                             <h3 class="panel-title">Projekte</h3>
-                                            <p>user/</p>
+                                            <p><?php echo $userName; ?>/</p>
                                         </div>
                                         <div class="col col-xs-6 text-right">
                                             <button type="button" class="btn btn-sm btn-primary btn-create">erstelle
@@ -158,7 +169,7 @@
                                     <div class="row">
                                         <div class="col col-xs-6">
                                             <h3 class="panel-title">Gruppen</h3>
-                                            <p id="gruppe">user/Projekt1/</p>
+                                            <p id="gruppe"><?php echo $userName; ?>/Projekt1/</p>
                                         </div>
                                         <div class="col col-xs-6 text-right">
                                             <button type="button" class="btn btn-sm btn-primary btn-create">erstelle
@@ -228,7 +239,7 @@
                                     <div class="row">
                                         <div class="col col-xs-6">
                                             <h3 class="panel-title">Studenten</h3>
-                                            <p id="student">user/Projekt1/Gruppe1/</p>
+                                            <p id="student"><?php echo $userName; ?>/Projekt1/Gruppe1/</p>
                                         </div>
                                         <div class="col col-xs-6 text-right">
                                             <button type="button" class="btn btn-sm btn-primary btn-create">Create New
