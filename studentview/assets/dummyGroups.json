@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "student2": {
+    "name": "student2",
+    "competence": "is able to",
+    "researchQuestion": "researchQuestion2",
+    "tags": "Tags"
+  },
+  "student3": {
+    "name": "student3",
+    "competence": "is unable to",
+    "researchQuestion": "researchQuestion3",
+    "tags": "Tags"
+  },
+  "student4": {
+    "name": "student4",
+    "competence": "is almost able to",
+    "researchQuestion": "researchQuestion4",
+    "tags": "Tags"
+  },
+  "student5": {
+    "name": "student5",
+    "competence": "was able to",
+    "researchQuestion": "researchQuestion5",
+    "tags": "Tags"
+  },
+  "student6": {
+    "name": "student6",
+    "competence": "would like to be able to",
+    "researchQuestion": "researchQuestion6",
+    "tags": "Tags"
+  }
+}
