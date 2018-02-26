@@ -14,16 +14,27 @@ include_once 'config.php';
 // write it to the db
 
 $name = $_POST['name'];
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$password = $_POST['password'];
 $email = $_POST['email'];
 $token = uniqid();
 
 $db->query("use fltrail;");
+
+// if user exists login
+$query = "SELECT (u.token) from users u where u.password = \"".$password. "\" and u.email=\""
+    .$email."\";";
+
+$queryObj = mysqli_query($db, $query);
+$result = mysqli_fetch_object($queryObj);
+if ($result) {
+    header("Location: ../pages/overview.php?token=".$result->token);
+    die();
+}
+
+// is user does not exist create
 $db->query("INSERT INTO `users`(`name`, `password`, `email`, `token` ) VALUES ('" . $name . "','" . $password . "','" . $email
     . "','" . $token . "');");
 $db->commit();
-// write a success message here
 
-//header('Content-Type: application/json');
 header("Location: ../pages/overview.php?token=".$token);
 die();

@@ -1,5 +1,10 @@
 <?php
 include_once '../database/config.php';
+
+if (!isset( $_GET['token'])) {
+    header("Location: ../index.php");
+}
+
 $query = "SELECT (`name`) from users u where u.token = '". $_GET['token']."';";
 //echo $query;
 //echo $db->query($query);
@@ -51,7 +56,7 @@ $userName = $resultObj->name;
                     <li> <h3 style="color:white;"> <?php echo $userName; ?> </h3> </li>
                     <li style="width:146px;"> <a href="Projekte.html" style="margin-top:32px;width:200px;">Projekte</a></li>
                     <li style="width:146px;"> <a href="MeineGruppen.html" style="margin-top:32px;width:200px;">Meine Gruppen</a></li>
-                    <li style="width:146px;"> <a href="../index.html" style="margin-top:134px;width:200px;">Logout </a></li>
+                    <li style="width:146px;"> <a href="../index.php" style="margin-top:134px;width:200px;">Logout </a></li>
                 </ul>
             </div>
             <div class="tab-pane active" role="tabpanel" id="tab-Leiter">
@@ -59,7 +64,7 @@ $userName = $resultObj->name;
                     <li> <h3 style="color:white;"> <?php echo $userName; ?> </h3> </li>
                     <li style="width:146px;"> <a href="neuesProjekt.html" style="margin-top:32px;width:200px;">neues Projekt</a></li>
                     <li style="width:146px;"> <a href="overview.html" style="margin-top:32px;width:200px;">Übersicht</a></li>
-                    <li style="width:146px;"> <a href="../index.html" style="margin-top:134px;width:200px;">Logout </a></li>
+                    <li style="width:146px;"> <a href="../index.php" style="margin-top:134px;width:200px;">Logout </a></li>
                 </ul>
             </div>
         </div>
