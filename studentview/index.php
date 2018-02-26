@@ -32,7 +32,7 @@
             }
             ?>
         </div>
-        <a href="register.html" class="forgot">registrieren</a></form>
+        <a href="register.php" class="forgot">registrieren</a></form>
 
 </div>
 

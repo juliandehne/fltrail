@@ -25,6 +25,15 @@
             <!--<div class="form-group"><input class="form-control" type="password" name="password"
                                            placeholder="Password wiederholen"></div>-->
             <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div>
+            <div class="form-group">
+                <?php
+                if (isset($_GET['emailExists'])) {
+                    echo "<div class=\"alert alert-danger\" role=\"alert\">
+            Es existiert ein Nutzer mit dieser Email!
+        </div>";
+                }
+                ?>
+            </div>
             <a href="index.php" class="forgot">einloggen</a></form>
     </div>
     <script src="assets/js/jquery.min.js"></script>
