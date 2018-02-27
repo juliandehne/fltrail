@@ -24,7 +24,8 @@
 
 <body>
 <p id="user" hidden>Herbert</p>
-<div id="wrapper" style="margin:0px;">
+<div class="loader inactive" id="loader"></div>
+<div id="wrapper" class="wrapper" style="margin:0px;">
     <div id="sidebar-wrapper" style="width:190px;">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-Teilnehmer" role="tab" data-toggle="tab">Teilnehmer </a></li>
@@ -38,7 +39,7 @@
                     </li>
                     <li style="width:146px;"><a href="MeineGruppen.html" style="margin-top:32px;width:200px;">Meine
                         Gruppen</a></li>
-                    <li style="width:146px;"><a href="../index.php" style="margin-top:134px;width:200px;">Logout </a>
+                    <li style="width:146px;"><a href="../index.html" style="margin-top:134px;width:200px;">Logout </a>
                     </li>
                 </ul>
             </div>
@@ -47,9 +48,9 @@
                     <li><h3 style="color:white;"> user </h3></li>
                     <li style="width:146px;"><a href="neuesProjekt.html" style="margin-top:32px;width:200px;">neues
                         Projekt</a></li>
-                    <li style="width:146px;"><a href="overview.php" style="margin-top:32px;width:200px;">Übersicht</a>
+                    <li style="width:146px;"><a href="overview.html" style="margin-top:32px;width:200px;">Übersicht</a>
                     </li>
-                    <li style="width:146px;"><a href="../index.php" style="margin-top:134px;width:200px;">Logout </a>
+                    <li style="width:146px;"><a href="../index.html" style="margin-top:134px;width:200px;">Logout </a>
                     </li>
                 </ul>
             </div>
@@ -68,49 +69,70 @@
             </div>
         </div>
     </div>
+
     <fieldset>
         <legend style="margin-left:13px;">Projekte</legend>
-        <input class="form-control" type="text" id="projectName" name="Competencies" required=""
+        <input class="form-control" type="text" id="projectName" name="Project" required=""
                placeholder="Projekt1" autofocus=""
                style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
 
     </fieldset>
     <fieldset>
-        <legend style="margin-left:13px;">Kompetenzen</legend>
-        <div id="competencies">
-            <input class="form-control" type="text" id="competencies0" name="competencies" required=""
-                   placeholder="Ich kann ..."
-                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
-        </div>
-        <button
-                class="btn btn-default" type="button"
-                style="margin-left:443px;margin-top:-88px;height:36px;width:33px;"
-                id="addCompetenceButton">+
-        </button>
+        <legend style="margin-left:13px;">Passwort</legend>
+        <input class="form-control" type="password" id="projectPassword" name="Password" required=""
+               placeholder="******"
+               style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+    </fieldset>
+    <button id="seeProject">Einsehen</button>
+    <div id="toggleArea">
+        <fieldset>
+            <legend style="margin-left:13px;">Lernziele</legend>
+            <div id="competencies">
+                <input class="form-control" type="text" id="competencies0" name="competencies" required=""
+                       placeholder="Ich möchte folgendes lernen:"
+                       style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+            </div>
+            <button
+                    class="btn btn-default" type="button"
+                    style="margin-left:443px;margin-top:-88px;height:36px;width:33px;"
+                    id="addCompetenceButton">+
+            </button>
+            <button
+                    class="btn btn-default" type="button"
+                    style="margin-left:10px;margin-top:-88px;height:36px;width:33px;"
+                    id="subtractCompetenceButton">-
+            </button>
 
-    </fieldset>
-    <fieldset style="margin-bottom:-3px;">
-        <legend style="margin-left:13px;">Forschungsfrage</legend>
-        <div id="researchQuestion">
-            <input class="form-control" id="researchQuestion0" type="text" name="researchQuestion" required=""
-                   autofocus=""
-                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
-        </div>
-        <button class="btn btn-default" type="button"
-                style="margin-left:443px;margin-top:-88px;height:36px;width:33px;"
-                id="addResearchQuestionButton">+
-        </button>
-    </fieldset>
-    <fieldset>
-        <legend style="margin-left:13px;">Tags</legend>
-        <input class="tags" data-role="tags" id="Tags" type="text" name="Tags"
-               placeholder="Mathe, Psychologie, Sprachen"
-               style="margin-top:2px;margin-bottom:13px;margin-left:14px;width:421px;">
-    </fieldset>
-    <button class="btn btn-primary" id="studentFormSubmit" style="width:90px;margin-left:169px;margin-top:13px;">
-        absenden
-    </button>
+        </fieldset>
+        <fieldset style="margin-bottom:-3px;">
+            <legend style="margin-left:13px;">Forschungsfrage</legend>
+            <div id="researchQuestion">
+                <input class="form-control" id="researchQuestion0" type="text" name="researchQuestion" required=""
+                       autofocus=""
+                       placeholder="Meine Forschungsfrage(n): "
+                       style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+            </div>
+            <button class="btn btn-default" type="button"
+                    style="margin-left:443px;margin-top:-88px;height:36px;width:33px;"
+                    id="addResearchQuestionButton">+
+            </button>
+            <button
+                    class="btn btn-default" type="button"
+                    style="margin-left:10px;margin-top:-88px;height:36px;width:33px;"
+                    id="subtractCResearchQuestionButton">-
+            </button>
+        </fieldset>
+        <fieldset>
+            <legend style="margin-left:13px;">Tags</legend>
+            Wähle 2 der hier angegebenen Tags aus, die am ehesten zu deiner Forschungsfrage passen.
+            <div id="tags">
 
+            </div>
+        </fieldset>
+        <button class="btn btn-primary" id="studentFormSubmit" style="width:90px;margin-left:169px;margin-top:13px;">
+            Eintragen
+        </button>
+    </div>
 </div>
 <input type="text">
 </body>
