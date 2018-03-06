@@ -32,13 +32,12 @@
             }
             ?>
         </div>
-        <a href="register.php" class="forgot">registrieren</a></form>
+        <a href="register.html" class="forgot">registrieren</a></form>
 
 </div>
 
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/js/Sidebar-Menu.js"></script>
 </body>
 
 </html>

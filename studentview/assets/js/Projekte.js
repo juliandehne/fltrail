@@ -36,26 +36,29 @@ $(document).ready(function () {
 });
 
 function seeProject(projectName){
-    var url = "getProjects.php?project="+projectName;
+    var url = "../database/getProjects.php?project="+projectName+"&password="+document.getElementById('projectPassword').value;
     if (projectName===""){
         return false;
     }else{
         $.ajax({
             url: url,
-            type: 'GET',
+            projectName: projectName,
             Accept: "text/plain; charset=utf-8",
-            contentType: "application/json",
+            contentType: "text/plain",
             success: function (response) {
-                console.log(JSON.parse(response).project);
-                console.log(JSON.parse(response).password);
+                if (response === "true"){
+                    getTags(projectName);
+                    $("#toggleArea").toggle();
+                    $("#seeProject").hide();
+                }else{
+                    alert("falsches Passwort");
+                }
             },
             error: function (a, b, c) {
                 console.log(a);
             }
         });
     }
-    //$("#toggleArea").toggle();
-    //$("#seeProject").hide();
 }
 
 function addInput(name){        //creates a new input-Field with the ID 'nameX' where X is number of elements with 'name' as ID
@@ -78,19 +81,33 @@ function deletInput(name){        //deletes latest input-Field with the ID 'name
     }
 }
 
-function getTags(){
-    var i=0;
-    var tagList=["eins","zwei","drei","vier","fünf"];
-    for (i=0 ; i< tagList.length; i++){
-        var newInput=document.createElement("label");
-        newInput.innerHTML = tagList[i]+"<input style='margin-right:10px;' " +
-            "type='checkbox' " +
-            "name='tag' " +
-            "id='tag"+i+"' " +
-            "value="+tagList[i]+">";
-        var div = document.getElementById('tags');
-        div.appendChild(newInput);
-    }
+function getTags(projectName){
+    var url = "../database/getTags.php?project="+projectName;
+    $.ajax({
+        url: url,
+        Accept: "text/plain; charset=utf-8",
+        contentType: "text/plain",
+        success: function (response) {
+            response = JSON.parse(response);
+            var tagList = [];
+            var i = 0;
+            for (i = 0 ; i < response.length; i++)
+            tagList.push(response[i].tag);
+            for (i=0 ; i< tagList.length; i++) {
+                var newInput = document.createElement("label");
+                newInput.innerHTML = tagList[i] + "<input style='margin-right:10px;' " +
+                    "type='checkbox' " +
+                    "name='tag' " +
+                    "id='tag" + i + "' " +
+                    "value=" + tagList[i] + ">";
+                var div = document.getElementById('tags');
+                div.appendChild(newInput);
+            }
+        },
+        error: function (a, b, c) {
+            console.log(a);
+        }
+    });
 }
 
 function takesPartInProject(userID, projectID) {
@@ -111,6 +128,7 @@ function takesPartInProject(userID, projectID) {
         if (document.getElementById("tag"+i).checked === true){
             allTheTags.push(document.getElementById("tag"+i).value);
         }
+        allTheCompetencies.push("Die Studierenden interessieren sich für "+document.getElementById("tag"+i).value);     //todo: Die Tags werden hinter der Schnittstelle noch nicht verwertet, daher diese schnelle Lösung
         if (allTheTags.length > 2){
             alert('Sie haben zu viele Tags ausgewählt');
             allTheTags=[];

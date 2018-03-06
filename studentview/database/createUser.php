@@ -20,15 +20,6 @@ $token = uniqid();
 
 $db->query("use fltrail;");
 
-$query = "SELECT (u.email) from users u where u.email = \"".$email."\";";
-
-$queryObj = mysqli_query($db, $query);
-$result = mysqli_fetch_object($queryObj);
-if ($result) {
-    header("Location: ../register.php?emailExists=true");
-    die();
-}
-
 // if user exists login
 $query = "SELECT (u.token) from users u where u.password = \"".$password. "\" and u.email=\""
     .$email."\";";
