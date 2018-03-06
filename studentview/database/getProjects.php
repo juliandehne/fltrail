@@ -7,9 +7,12 @@
  */
 include_once 'config.php';
 
-if (isset($_GET['project'])&&isset($_GET['password'])){
+if (isset($_GET['project'])){
     $project = $_GET['project'];
+if(isset($_GET['password'])){
     $password = $_GET['password'];
+}else $password = "";
+
 
     if (!$db) {
         die('Could not connect: ' . mysqli_error($db));
@@ -20,10 +23,14 @@ if (isset($_GET['project'])&&isset($_GET['password'])){
     $result = mysqli_query($db,$sql);
 
     $row = mysqli_fetch_array($result);
-    if ($row['password'] === $password){
-        echo 'true';
+    if (count($row) < 1){
+        echo 'project missing';
     }else {
-        echo 'false';
+        if ($row['password'] === $password) {
+            echo 'correct password';
+        } else {
+            echo 'wrong password';
+        }
     }
     mysqli_close($db);
 }

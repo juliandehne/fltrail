@@ -58,7 +58,7 @@ include_once '../database/tokenSetter.php';
                 <div class="col-md-offset-3 col-sm-8 col-xs-1">
                     <h3>Projekt:</h3>
                     <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="projectDropdown">default Button
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="projectDropdown">deine Projekte
                         <span class="caret"></span></button>
                     <ul class="dropdown-menu" id="dropdownOptions">
                         <!--
@@ -71,22 +71,22 @@ include_once '../database/tokenSetter.php';
                 </div>
             </div>
             <div class="row">
-                <div><strong id="student2">Student 2 student@uni-da.de</strong></div>
+                <div><strong id="student2"></strong></div>
                 <div class="col-md-4" style="width:485px;">
                 </div>
             </div>
             <div class="row">
-                <div><strong id="student3">Student 3</strong></div>
+                <div><strong id="student3"></strong></div>
                 <div class="col-md-4" style="width:485px;">
                 </div>
             </div>
             <div class="row">
-                <div><strong id="student4">Student 4</strong></div>
+                <div><strong id="student4"></strong></div>
                 <div class="col-md-4" style="width:485px;">
                 </div>
             </div>
             <div class="row">
-                <div><strong id="student5">Student 5</strong></div>
+                <div><strong id="student5"></strong></div>
                 <div class="col-md-4" style="width:485px;">
                 </div>
             </div>

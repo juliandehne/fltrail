@@ -26,7 +26,7 @@ $(document).ready(function () {
 });
 
 function courseExists(projectName) {
-    var localurl = "../database/getProjectExists.php?project=" + projectName;
+    var localurl = "../database/getProjects.php?project=" + projectName;
     if (projectName === "") {
         $('#projectIsMissing').show();
         return false;
@@ -38,7 +38,7 @@ function courseExists(projectName) {
             Accept: "text/plain; charset=utf-8",
             contentType: "text/plain",
             success: function (response) {
-                if (response === "true") {
+                if (response !== "project missing") {
                     $('#projectNameExists').show();
                     if (allTheTags.length !== 5) {
                         document.getElementById('tagHelper').className = "alert alert-warning";
@@ -61,7 +61,7 @@ function courseExists(projectName) {
 function createNewProject(allTheTags, activ) {
     projectName = $("#nameProject").val();
     password = $("#passwordProject").val();
-    var localurl = "../database/getProjectExists.php?project=" + projectName;
+    var localurl = "../database/getProjects.php?project=" + projectName;
     if (allTheTags.length !== 5) {
         document.getElementById('tagHelper').className = "alert alert-warning";
     } else {
@@ -78,7 +78,7 @@ function createNewProject(allTheTags, activ) {
             Accept: "text/plain; charset=utf-8",
             contentType: "text/plain",
             success: function (response) {
-                if (response === "true") {
+                if (response !== "project missing") {
                     $('#projectNameExists').show();
                     return true;
                 } else {

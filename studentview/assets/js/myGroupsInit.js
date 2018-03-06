@@ -37,14 +37,14 @@ function getProjects(user) {
 }
 
 
-function getMembers(project, user) {
+function getMembers(project, user) {        //gets all Members in the chosen Project user is a part of with email adresses
     var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api2/groups/" + project;     //this API is used, since fleckenroller has security issues with CORS and stuff
     $.ajax({
         url: url,
         user: user,
         type: 'GET',
         contentType: "application/json",
-        dataType: "json",
+        dataType: "json",                               //{groups: [id, users:[]] }
         success: function (data) {
             for (var i = 0; i < data.groups.length; i++) {
                 for (var j = 0; j < data.groups[i].users.length; j++) {
@@ -53,14 +53,18 @@ function getMembers(project, user) {
                         $("#student3").show();
                         var student1 = data.groups[i].users[(j + 1) % data.groups[i].users.length];
                         var student2 = data.groups[i].users[(j + 2) % data.groups[i].users.length];
+                        $("#student2").text(student1 + " keine E-Mail Adresse gefunden");              //if there is no email in the DB, you can just see the name
+                        $("#student3").text(student2 + " keine E-Mail Adresse gefunden");
                         if (data.groups[i].users.length > 3) {      //the fourth student is just shown if the group has at least 4 members
                             var student3 = data.groups[i].users[(j + 3) % data.groups[i].users.length];
+                            $("#student4").text(student3 + " keine E-Mail Adresse gefunden");
                         }
                         if (data.groups[i].users.length > 4) {      //the fifth student is just shown if the group has 5 members
                             var student4 = data.groups[i].users[(j + 4) % data.groups[i].users.length];
+                            $("#student5").text(student4 + " keine E-Mail Adresse gefunden");
                         }
                         var innerurl = "../database/getAdresses.php?student1=" + student1 + "&student2=" + student2 + "&student3=" + student3 + "&student4=" + student4 + "&student5=";
-                        $.ajax({
+                        $.ajax({                    //get email adresses in this ajax.
                             student1: "" + student1,
                             student2: "" + student2,
                             student3: "" + student3,
@@ -96,6 +100,13 @@ function getMembers(project, user) {
                                         }
                                     }
                                 }
+                            },
+                            error: function (a,b,c){
+                                console.log(a);
+                                $("#student2").hide();
+                                $("#student3").hide();
+                                $("#student4").hide();
+                                $("#student5").hide();
                             }
                         });
                     }
