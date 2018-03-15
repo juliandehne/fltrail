@@ -22,22 +22,34 @@
       <file leaf-file-name="Projekte.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/Projekte.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="882">
-              <caret line="42" column="47" lean-forward="true" selection-start-line="42" selection-start-column="47" selection-end-line="42" selection-end-column="47" />
+            <state relative-caret-position="315">
+              <caret line="15" column="32" lean-forward="false" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="createPreferences.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="createPreferences.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/js/createPreferences.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2856">
-              <caret line="137" column="1" lean-forward="false" selection-start-line="137" selection-start-column="1" selection-end-line="137" selection-end-column="1" />
+            <state relative-caret-position="492">
+              <caret line="111" column="65" lean-forward="true" selection-start-line="110" selection-start-column="72" selection-end-line="111" selection-end-column="65" />
               <folding>
                 <element signature="e#0#46#0" expanded="false" />
-                <marker date="1521123082086" expanded="true" signature="1487:1571" ph="..." />
-                <marker date="1521123082086" expanded="true" signature="2610:2628" ph="..." />
+                <marker date="1521124510032" expanded="true" signature="1629:1713" ph="..." />
+                <marker date="1521124510032" expanded="true" signature="2752:2770" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tokenSetter.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/tokenSetter.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="13" selection-end-column="2" />
+              <folding>
+                <marker date="1519647770351" expanded="true" signature="152:218" ph="SELECT (`nam... users" />
               </folding>
             </state>
           </provider>
@@ -46,8 +58,8 @@
       <file leaf-file-name="enrollment.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/enrollment.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="21" column="51" lean-forward="false" selection-start-line="21" selection-start-column="51" selection-end-line="21" selection-end-column="51" />
+            <state relative-caret-position="406">
+              <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="47" />
               <folding />
             </state>
           </provider>
@@ -76,21 +88,21 @@
       <file leaf-file-name="preferences.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/preferences.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="609">
-              <caret line="29" column="61" lean-forward="true" selection-start-line="29" selection-start-column="61" selection-end-line="29" selection-end-column="61" />
+            <state relative-caret-position="650">
+              <caret line="41" column="69" lean-forward="true" selection-start-line="41" selection-start-column="69" selection-end-line="41" selection-end-column="69" />
               <folding>
                 <element signature="n#style#0;n#legend#0;n#fieldset#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <marker date="1521122028759" expanded="true" signature="161:227" ph="SELECT (`nam... users" />
+                <marker date="1521124102982" expanded="true" signature="182:256" ph="SELECT (`id`... projects" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="getProjects.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="getProjects.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/getProjects.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="609">
-              <caret line="29" column="8" lean-forward="false" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
+            <state relative-caret-position="903">
+              <caret line="43" column="2" lean-forward="true" selection-start-line="43" selection-start-column="2" selection-end-line="43" selection-end-column="2" />
               <folding>
                 <marker date="1521123584428" expanded="true" signature="428:476" ph="SELECT * FRO... projects" />
               </folding>
@@ -101,7 +113,7 @@
       <file leaf-file-name="newProject.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/newProject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1479">
+            <state relative-caret-position="3171">
               <caret line="153" column="0" lean-forward="true" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
               <folding>
                 <element signature="e#0#46#0" expanded="false" />
@@ -159,10 +171,10 @@
       <find>project e</find>
       <find>projectWrongPassword</find>
       <find>load</find>
-      <find>loader</find>
       <find>zu we</find>
       <find>$_get</find>
       <find>token</find>
+      <find>loader</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -213,12 +225,12 @@
         <option value="$PROJECT_DIR$/assets/js/newProject.js" />
         <option value="$PROJECT_DIR$/pages/utility.js" />
         <option value="$PROJECT_DIR$/pages/newproject.php" />
-        <option value="$PROJECT_DIR$/pages/preferences.php" />
         <option value="$PROJECT_DIR$/pages/enrollment.php" />
         <option value="$PROJECT_DIR$/assets/js/utility.js" />
-        <option value="$PROJECT_DIR$/assets/js/createPreferences.js" />
         <option value="$PROJECT_DIR$/assets/js/Projekte.js" />
         <option value="$PROJECT_DIR$/database/getProjects.php" />
+        <option value="$PROJECT_DIR$/pages/preferences.php" />
+        <option value="$PROJECT_DIR$/assets/js/createPreferences.js" />
       </list>
     </option>
   </component>
@@ -501,12 +513,12 @@
       <workItem from="1520321988715" duration="8551000" />
       <workItem from="1520505794347" duration="9751000" />
       <workItem from="1520584932715" duration="1329000" />
-      <workItem from="1521105289428" duration="16664000" />
+      <workItem from="1521105289428" duration="17607000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="143496000" />
+    <option name="totallyTimeSpent" value="144439000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-359" y="-1449" width="2578" height="1458" extended-state="6" />
@@ -821,31 +833,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/tokenSetter.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="3" column="30" lean-forward="true" selection-start-line="3" selection-start-column="30" selection-end-line="3" selection-end-column="30" />
-          <folding>
-            <marker date="1519647770351" expanded="true" signature="152:218" ph="SELECT (`nam... users" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/Sidebar-Menu.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/newProject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1479">
-          <caret line="153" column="0" lean-forward="true" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#46#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -857,49 +849,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/preferences.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="29" column="61" lean-forward="true" selection-start-line="29" selection-start-column="61" selection-end-line="29" selection-end-column="61" />
-          <folding>
-            <element signature="n#style#0;n#legend#0;n#fieldset#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1521122028759" expanded="true" signature="161:227" ph="SELECT (`nam... users" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/enrollment.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="21" column="51" lean-forward="false" selection-start-line="21" selection-start-column="51" selection-end-line="21" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/utility.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
           <caret line="1" column="60" lean-forward="false" selection-start-line="1" selection-start-column="60" selection-end-line="1" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/createPreferences.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2856">
-          <caret line="137" column="1" lean-forward="false" selection-start-line="137" selection-start-column="1" selection-end-line="137" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#46#0" expanded="false" />
-            <marker date="1521123082086" expanded="true" signature="1487:1571" ph="..." />
-            <marker date="1521123082086" expanded="true" signature="2610:2628" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/Projekte.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="882">
-          <caret line="42" column="47" lean-forward="true" selection-start-line="42" selection-start-column="47" selection-end-line="42" selection-end-column="47" />
           <folding />
         </state>
       </provider>
@@ -922,12 +875,71 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/database/tokenSetter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="13" selection-end-column="2" />
+          <folding>
+            <marker date="1519647770351" expanded="true" signature="152:218" ph="SELECT (`nam... users" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/database/getProjects.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="609">
-          <caret line="29" column="8" lean-forward="false" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
+        <state relative-caret-position="903">
+          <caret line="43" column="2" lean-forward="true" selection-start-line="43" selection-start-column="2" selection-end-line="43" selection-end-column="2" />
           <folding>
             <marker date="1521123584428" expanded="true" signature="428:476" ph="SELECT * FRO... projects" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/Projekte.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="15" column="32" lean-forward="false" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/newProject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3171">
+          <caret line="153" column="0" lean-forward="true" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#46#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/enrollment.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/preferences.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="650">
+          <caret line="41" column="69" lean-forward="true" selection-start-line="41" selection-start-column="69" selection-end-line="41" selection-end-column="69" />
+          <folding>
+            <element signature="n#style#0;n#legend#0;n#fieldset#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <marker date="1521124102982" expanded="true" signature="182:256" ph="SELECT (`id`... projects" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/js/createPreferences.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="492">
+          <caret line="111" column="65" lean-forward="true" selection-start-line="110" selection-start-column="72" selection-end-line="111" selection-end-column="65" />
+          <folding>
+            <element signature="e#0#46#0" expanded="false" />
+            <marker date="1521124510032" expanded="true" signature="1629:1713" ph="..." />
+            <marker date="1521124510032" expanded="true" signature="2752:2770" ph="..." />
           </folding>
         </state>
       </provider>

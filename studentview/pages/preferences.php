@@ -1,15 +1,15 @@
 <?php
 include_once '../database/tokenSetter.php';
-if (!isset( $_GET['token'])) {
+if (!isset( $_GET['projectToken'])) {
     header("Location: ../enrollment.php");
 }
-$token = $_GET['token'];
-$query = "SELECT (`name`) from users u where u.token = '". $_GET['token']."';";
+$projectToken = $_GET['projectToken'];
+$query = "SELECT (`id`) from projects u where u.token = '". $_GET['projectToken']."';";
 //echo $query;
 //echo $db->query($query);
 $result = mysqli_query($db, $query);
 $resultObj = mysqli_fetch_object($result);
-$userName = $resultObj->name;
+$projectName = $resultObj->id;
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +35,7 @@ $userName = $resultObj->name;
 
 
 <p id="user" hidden><?php echo $userName; ?></p>
+<p id="projectName" hidden><?php echo $projectName; ?></p>
 <div class="loader inactive" id="loader"></div>
 <div id="wrapper" class="wrapper" style="margin:0px;">
     <div id="sidebar-wrapper" style="width:190px;">
@@ -58,7 +59,7 @@ $userName = $resultObj->name;
         <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
             <div class="row">
                 <div class="col-md-12">
-                    <h3>Geben Sie hier ihre Präferenzen für das Projekt ein!</h3>
+                    <h3>Geben Sie hier ihre Präferenzen für das Projekt <?php echo $projectName; ?> ein!</h3>
                     <div class="page-header"></div>
                 </div>
             </div>

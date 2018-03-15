@@ -4,7 +4,8 @@
 
 
 $(document).ready(function () {
-
+var projectName = getProjectByToken();
+    getTags(projectName);
     $("#studentFormSubmit").on("click", function () {
         takesPartInProject();
     });
@@ -22,6 +23,11 @@ $(document).ready(function () {
     });
 
 });
+
+function getProjectByToken(){
+    return $('#projectName').text().trim();
+}
+
 function addInput(name) {        //creates a new input-Field with the ID 'nameX' where X is number of elements with 'name' as ID
     var i = document.getElementsByName(name).length;
     var newInput = document.createElement("span");
@@ -72,8 +78,8 @@ function getTags(projectName) {
 }
 
 function takesPartInProject() {
-    var userID = $("#user").text();
-    var projectID = $("#projectName").val();
+    var userID = $("#user").text().trim();
+    var projectID = $("#projectName").text().trim();
     document.getElementById('loader').className = "loader";
     document.getElementById('wrapper').className = "wrapper inactive";
 
