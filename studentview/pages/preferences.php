@@ -1,5 +1,15 @@
 <?php
 include_once '../database/tokenSetter.php';
+if (!isset( $_GET['token'])) {
+    header("Location: ../enrollment.php");
+}
+$token = $_GET['token'];
+$query = "SELECT (`name`) from users u where u.token = '". $_GET['token']."';";
+//echo $query;
+//echo $db->query($query);
+$result = mysqli_query($db, $query);
+$resultObj = mysqli_fetch_object($result);
+$userName = $resultObj->name;
 ?>
 
 <!DOCTYPE html>
@@ -17,8 +27,7 @@ include_once '../database/tokenSetter.php';
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="../assets/js/Projekte.js"></script>
-    <script src="../assets/js/GETfile.js"></script>
+    <script src="../assets/js/createPreferences.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/Sidebar-Menu.js"></script>
 </head>
@@ -103,7 +112,6 @@ include_once '../database/tokenSetter.php';
     <button class="btn btn-primary" id="studentFormSubmit" style="width:90px;margin-left:169px;margin-top:13px;">
         Eintragen
     </button>
-
 
 </body>
 

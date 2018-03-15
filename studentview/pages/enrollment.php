@@ -17,6 +17,7 @@ include_once '../database/tokenSetter.php';
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/Projekte.js"></script>
     <script src="../assets/js/GETfile.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
@@ -31,12 +32,16 @@ include_once '../database/tokenSetter.php';
     <div id="sidebar-wrapper" style="width:190px;">
         <ul class="sidebar-nav" style="width:200px;margin-top:50px;">
             <li><h3 style="color:white;"><?php echo $userName; ?></h3></li>
-            <li style="width:146px;"><a href="newproject.php?token=<?php echo $token ?>" style="margin-top:32px;width:200px;">Projekt erstellen</a></li>
+            <li style="width:146px;"><a href="newproject.php?token=<?php echo $token ?>"
+                                        style="margin-top:32px;width:200px;">Projekt erstellen</a></li>
 
-            <li style="width:146px;"><a href="enrollment.php?token=<?php echo $token ?>" style="margin-top:32px;width:200px;">Projekt beitreten</a>
+            <li style="width:146px;"><a href="enrollment.php?token=<?php echo $token ?>"
+                                        style="margin-top:32px;width:200px;">Projekt beitreten</a>
             </li>
-            <li style="width:146px;"><a href="projects.php?token=<?php echo $token ?>" style="margin-top:32px;width:200px;">Projekte anzeigen</a></li>
-            <li style="width:146px;"><a href="mygroups.php?token=<?php echo $token ?>" style="margin-top:32px;width:200px;"> Gruppen anzeigen</a></li>
+            <li style="width:146px;"><a href="projects.php?token=<?php echo $token ?>"
+                                        style="margin-top:32px;width:200px;">Projekte anzeigen</a></li>
+            <li style="width:146px;"><a href="mygroups.php?token=<?php echo $token ?>"
+                                        style="margin-top:32px;width:200px;"> Gruppen anzeigen</a></li>
             <li style="width:146px;"><a href="../index.php" style="margin-top:134px;width:200px;">Logout </a>
             </li>
         </ul>
@@ -51,78 +56,27 @@ include_once '../database/tokenSetter.php';
             </div>
         </div>
     </div>
-
-    <fieldset>
-        <legend style="margin-left:13px;">Projekte</legend>
-        <input class="form-control" type="text" id="projectName" name="Project" required=""
-               placeholder="Projekt1" autofocus=""
-               style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
-        <div class="alert alert-warning" role="alert" id="projectIsMissing">
-            Dieser Projektname existiert nicht.
-        </div>
-
-    </fieldset>
-    <fieldset>
-        <legend style="margin-left:13px;">Passwort</legend>
-        <input class="form-control" type="password" id="projectPassword" name="Password" required=""
-               placeholder="******"
-               style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
-        <div class="alert alert-warning" role="alert" id="projectWrongPassword">
-            Falsches Passwort.
-        </div>
-    </fieldset>
-    <button id="seeProject" class="btn btn-primary">Einsehen</button>
-    <div id="toggleArea">
         <fieldset>
-            <legend style="margin-left:13px;">Lernziele</legend>
-            <div id="competencies">
-                <input class="form-control" type="text" id="competencies0" name="competencies" required=""
-                       placeholder="Ich möchte folgendes lernen:"
-                       style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+            <legend style="margin-left:13px;">Projekte</legend>
+            <input class="form-control" type="text" id="projectName" name="Project" required=""
+                   placeholder="Projekt1" autofocus=""
+                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+            <div class="alert alert-warning" role="alert" id="projectIsMissing">
+                Dieser Projektname existiert nicht.
             </div>
-            <button
-                    class="btn btn-default" type="button"
-                    style="margin-left:443px;margin-top:-88px;height:36px;width:33px;"
-                    id="addCompetenceButton">+
-            </button>
-            <button
-                    class="btn btn-default" type="button"
-                    style="margin-left:10px;margin-top:-88px;height:36px;width:33px;"
-                    id="subtractCompetenceButton">-
-            </button>
 
-        </fieldset>
-        <fieldset style="margin-bottom:-3px;">
-            <legend style="margin-left:13px;">Forschungsfrage</legend>
-            <div id="researchQuestion">
-                <input class="form-control" id="researchQuestion0" type="text" name="researchQuestion" required=""
-                       autofocus=""
-                       placeholder="Meine Forschungsfrage(n): "
-                       style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
-            </div>
-            <button class="btn btn-default" type="button"
-                    style="margin-left:443px;margin-top:-88px;height:36px;width:33px;"
-                    id="addResearchQuestionButton">+
-            </button>
-            <button
-                    class="btn btn-default" type="button"
-                    style="margin-left:10px;margin-top:-88px;height:36px;width:33px;"
-                    id="subtractCResearchQuestionButton">-
-            </button>
         </fieldset>
         <fieldset>
-            <legend style="margin-left:13px;">Tags</legend>
-            Wähle 2 der hier angegebenen Tags aus, die am ehesten zu deiner Forschungsfrage passen.
-            <div id="tags">
-
+            <legend style="margin-left:13px;">Passwort</legend>
+            <input class="form-control" type="password" id="projectPassword" name="Password" required=""
+                   placeholder="******"
+                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+            <div class="alert alert-warning" role="alert" id="projectWrongPassword">
+                Falsches Passwort.
             </div>
         </fieldset>
-        <button class="btn btn-primary" id="studentFormSubmit" style="width:90px;margin-left:169px;margin-top:13px;">
-            Eintragen
-        </button>
-    </div>
+        <button id="seeProject" class="btn btn-primary">Einsehen</button>
 </div>
-<input type="text">
 </body>
 
 </html>

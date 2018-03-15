@@ -20,6 +20,7 @@ include_once '../database/tokenSetter.php';
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="../assets/jQuery-Tags-Input-master/src/jquery.tagsinput.js"></script>
     <script src="../assets/js/newProject.js"></script>
+    <script src="../assets/js/utility.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/Sidebar-Menu.js"></script>
 </head>

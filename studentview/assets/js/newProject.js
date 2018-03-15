@@ -151,11 +151,3 @@ function putProjectToLocalDB(allTheTags, projectName, password, activ) {
     });
 }
 
-function getUserTokenFromUrl() {
-    var $_GET = {};
-    for (var i = 0; i < parts.length; i++) {
-        var temp = parts[i].split("=");
-        $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
-    }
-    return $_GET['token'];
-}

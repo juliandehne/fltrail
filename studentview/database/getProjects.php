@@ -7,6 +7,8 @@
  */
 include_once 'config.php';
 
+$userToken = $_GET['token'];
+
 if (isset($_GET['project'])){
     $project = $_GET['project'];
 if(isset($_GET['password'])){
@@ -25,13 +27,18 @@ if(isset($_GET['password'])){
     $row = mysqli_fetch_array($result);
     if (count($row) < 1){
         echo 'project missing';
+        mysqli_close($db);
     }else {
         if ($row['password'] === $password) {
-            echo 'correct password';
+            $projectToken = $row['token'];
+            //header("Location: ../pages/preferences.php?token=".$userToken."&projectToken=".$projectToken);
+            echo $projectToken;
+            mysqli_close($db);
+
         } else {
             echo 'wrong password';
+            mysqli_close($db);
         }
     }
-    mysqli_close($db);
 }
 ?>
