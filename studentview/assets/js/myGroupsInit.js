@@ -2,7 +2,6 @@
  * Created by fides-WHK on 22.01.2018.
  */
 $(document).ready(function () {
-    $("#tableHead").hide();
     //todo: Buttons im Eventhandler steuern und nicht auf der HTML-Seite.
     getProjects(document.getElementById('user').innerHTML);
     //getMembers($('#projectDropdown').innerHTML,$('#user').innerHTML);
@@ -50,20 +49,19 @@ function getMembers(project, user) {        //gets all Members in the chosen Pro
             for (var i = 0; i < data.groups.length; i++) {
                 for (var j = 0; j < data.groups[i].users.length; j++) {
                     if (data.groups[i].users[j] === user) {
-                        $("#tableHead").show();
                         $("#student2").show();
                         $("#student3").show();
                         var student1 = data.groups[i].users[(j + 1) % data.groups[i].users.length];
                         var student2 = data.groups[i].users[(j + 2) % data.groups[i].users.length];
-                        $("#student2").html("<td>"+student1+"</td> <td> keine E-Mail Adresse gefunden </td>");              //if there is no email in the DB, you can just see the name
-                        $("#student3").html("<td>"+student2+"</td> <td> keine E-Mail Adresse gefunden </td>");
+                        $("#student2").text(student1 + " keine E-Mail Adresse gefunden");              //if there is no email in the DB, you can just see the name
+                        $("#student3").text(student2 + " keine E-Mail Adresse gefunden");
                         if (data.groups[i].users.length > 3) {      //the fourth student is just shown if the group has at least 4 members
                             var student3 = data.groups[i].users[(j + 3) % data.groups[i].users.length];
-                            $("#student4").html("<td>"+student3+"</td> <td> keine E-Mail Adresse gefunden </td>");
+                            $("#student4").text(student3 + " keine E-Mail Adresse gefunden");
                         }
                         if (data.groups[i].users.length > 4) {      //the fifth student is just shown if the group has 5 members
                             var student4 = data.groups[i].users[(j + 4) % data.groups[i].users.length];
-                            $("#student5").html("<td>"+student4+"</td> <td> keine E-Mail Adresse gefunden </td>");
+                            $("#student5").text(student4 + " keine E-Mail Adresse gefunden");
                         }
                         var innerurl = "../database/getAdresses.php?student1=" + student1 + "&student2=" + student2 + "&student3=" + student3 + "&student4=" + student4 + "&student5=";
                         $.ajax({                    //get email adresses in this ajax.
@@ -87,18 +85,18 @@ function getMembers(project, user) {        //gets all Members in the chosen Pro
                                 for (k1=0 ; k1 < innerData.length; k1++){
                                     for (k2=0; k2 < innerData.length; k2++){
                                         if (innerData[k2].name === student1){
-                                            $("#student2").html("<td>"+student1+"</td> <td><a href='mailto:"+innerData[k2].email+"'>"+innerData[k2].email+" </a></td>");
+                                            $("#student2").text(student1 + " " + innerData[k2].email);
                                         }else
                                         if (innerData[k2].name === student2){
-                                            $("#student3").html("<td>"+student2+"</td> <td><a href='mailto:"+innerData[k2].email+"'>"+innerData[k2].email+" </a></td>");
+                                            $("#student3").text(student2 + " " + innerData[k2].email);
                                         }else
                                         if (innerData[k2].name === student3){
                                             $("#student4").show();
-                                            $("#student4").html("<td>"+student3+"</td> <td><a href='mailto:"+innerData[k2].email+"'>"+innerData[k2].email+" </a></td>");
+                                            $("#student4").text(student3 + " " + innerData[k2].email);
                                         }else
                                         if (innerData[k2].name === student4){
                                             $("#student5").show();
-                                            $("#student5").html("<td>"+student4+"</td> <td><a href='mailto:"+innerData[k2].email+"'>"+innerData[k2].email+" </a></td>");
+                                            $("#student5").text(student4 + " " + innerData[k2].email);
                                         }
                                     }
                                 }
@@ -116,7 +114,6 @@ function getMembers(project, user) {        //gets all Members in the chosen Pro
             }
         },
         error: function (a, b, c) {
-            $("#tableHead").hide();
             $("#student2").text("In diesem Projekt sind noch nicht ausreichend TeilnehmerInnen vorhanden.");
             $("#student3").hide();
             $("#student4").hide();
