@@ -1,3 +1,7 @@
+<?php
+include_once '../database/tokenSetter.php';
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -21,32 +25,22 @@
 </head>
 
 <body>
-<p id="user" hidden>Axel</p>
+<p id="user" hidden><?php echo $userName; ?></p>
+<div class="loader inactive" id="loader"></div>
 
 <div id="wrapper" style="margin:0px;">
     <div id="sidebar-wrapper" style="width:190px;">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab-Teilnehmer" role="tab" data-toggle="tab">Teilnehmer </a></li>
-            <li><a href="#tab-Leiter" role="tab" data-toggle="tab">Leiter </a></li>
+        <ul class="sidebar-nav" style="width:200px;margin-top:50px;">
+            <li><h3 style="color:white;"><?php echo $userName; ?></h3></li>
+            <li style="width:146px;"><a href="newproject.php?token=<?php echo $token ?>" style="margin-top:32px;width:200px;">Projekt erstellen</a></li>
+
+            <li style="width:146px;"><a href="enrollment.php?token=<?php echo $token ?>" style="margin-top:32px;width:200px;">Projekt beitreten</a>
+            </li>
+            <li style="width:146px;"><a href="projects.php?token=<?php echo $token ?>" style="margin-top:32px;width:200px;">Projekte anzeigen</a></li>
+            <li style="width:146px;"><a href="mygroups.php?token=<?php echo $token ?>" style="margin-top:32px;width:200px;"> Gruppen anzeigen</a></li>
+            <li style="width:146px;"><a href="../index.php" style="margin-top:134px;width:200px;">Logout </a>
+            </li>
         </ul>
-        <div class="tab-content">
-            <div class="tab-pane" role="tabpanel" id="tab-Teilnehmer">
-                <ul class="sidebar-nav" style="width:200px;margin-top:50px;">
-                    <li> <h3 style="color:white;"> user </h3> </li>
-                    <li style="width:146px;"> <a href="Projekte.html" style="margin-top:32px;width:200px;">Projekte</a></li>
-                    <li style="width:146px;"> <a href="MeineGruppen.html" style="margin-top:32px;width:200px;">Meine Gruppen</a></li>
-                    <li style="width:146px;"> <a href="../index.php" style="margin-top:134px;width:200px;">Logout </a></li>
-                </ul>
-            </div>
-            <div class="tab-pane active" role="tabpanel" id="tab-Leiter">
-                <ul class="sidebar-nav" style="width:200px;margin-top:50px;">
-                    <li> <h3 style="color:white;"> user </h3> </li>
-                    <li style="width:146px;"> <a href="neuesProjekt.html" style="margin-top:32px;width:200px;">neues Projekt</a></li>
-                    <li style="width:146px;"> <a href="overview.php" style="margin-top:32px;width:200px;">Übersicht</a></li>
-                    <li style="width:146px;"> <a href="../index.php" style="margin-top:134px;width:200px;">Logout </a></li>
-                </ul>
-            </div>
-        </div>
     </div>
     <div class="page-content-wrapper">
             <div class="container-fluid">
@@ -54,8 +48,7 @@
                     <div class="col-md-12">
                         <div>
                             <p></p>
-                            <p> Erstellen Sie ein neues Projekt. Der Projektname muss dabei einmalig sein, das Passwort ist optional.<br>
-                                Fügen sie zudem 5 Tags zu ihrem Projekt hinzu, welche ihr Projekt inhaltlich umreißen.</p>
+                            <h3> Erstellen Sie ein neues Projekt.</h3>
                         </div>
                     </div>
                 </div>
@@ -65,11 +58,24 @@
     <div class="contact-clean">
         <div style="margin-left:336px;">
             <p>Name des Projekts</p>
+            <div class="alert alert-warning" role="alert" id="projectNameExists">
+                Dieser Projektname exisitiert bereits.
+            </div>
+            <div class="alert alert-warning" role="alert" id="projectIsMissing">
+                Tragen sie einen Projektnamen ein.
+            </div>
             <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name" style="width:286px;margin-left:50px;" id="nameProject"></div>
-            <p>Passwort </p>
+            <p>Passwort (optional) </p>
             <div class="form-group"><input class="form-control" type="email" name="password" placeholder="Passwort" style="width:287px;margin-left:51px;" id="passwordProject"></div>
+            <p>Admin-Passwort</p>
+            <div class="form-group"><input class="form-control" type="email" name="adminpassword" placeholder="Passwort" style="width:287px;margin-left:51px;" id="adminPassword"></div>
             <p>Tags </p>
+            <div id="tagHelper">
+                Fügen sie zudem 5 Tags zu ihrem Projekt hinzu, welche ihr Projekt inhaltlich umreißen.
+            </div>
             <div class="form-group"><input class="tags" data-role="tags" name="Tags" placeholder="Tags" id="tagsProject"></div>
+            <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>
+
             <div class="form-group"><button class="btn btn-primary" style="margin-left:129px;" id="sendProject">erstellen </button></div>
         </div>
     </div>

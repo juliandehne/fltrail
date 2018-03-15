@@ -18,7 +18,7 @@ $query = "SELECT (u.token) from users u where u.password = \"".$password. "\" an
 $queryObj = mysqli_query($db, $query);
 $result = mysqli_fetch_object($queryObj);
 if ($result) {
-    header("Location: ../pages/overview.php?token=".$result->token);
+    header("Location: ../pages/projects.php?token=".$result->token);
     die();
 }
 
