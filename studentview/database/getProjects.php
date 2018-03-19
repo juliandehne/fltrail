@@ -12,6 +12,7 @@ if (isset($_GET['project'])){
 if(isset($_GET['password'])){
     $password = $_GET['password'];
 }else $password = "";
+$userToken = $_GET['token'];
 
 
     if (!$db) {
@@ -27,7 +28,8 @@ if(isset($_GET['password'])){
         echo 'project missing';
     }else {
         if ($row['password'] === $password) {
-            echo 'correct password';
+            echo $userToken." ".$row['token'];
+            //header("Location: ../pages/preferences.php?token=".$userToken."&projectToken=".$row['token']);
         } else {
             echo 'wrong password';
         }
