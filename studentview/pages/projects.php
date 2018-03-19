@@ -19,7 +19,6 @@ include_once '../database/tokenSetter.php';
     <link rel="stylesheet" href="../assets/css/MUSA_panel-table1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet'
           type='text/css'>
 
@@ -43,10 +42,7 @@ include_once '../database/tokenSetter.php';
             <div class="row">
                 <div class="col-md-12">
                     <div>
-                        <p></p>
-                        <p>Hier können Sie ihre Projekte, deren Gruppen und Studenten einsehen. Dafür klicken sie auf
-                            das Projekt / die Gruppe, die sie sehen wollen.<br>
-                            Zurück kommen sie mit den buttons links unten.</p>
+
                     </div>
                 </div>
             </div>
@@ -58,24 +54,14 @@ include_once '../database/tokenSetter.php';
             <div class="carousel-item active">
                 <div class="container">
                     <div class="row">
-
-
                         <div class="col-md-10 col-md-offset-1">
 
                             <div class="panel panel-default panel-table" style="width:550px">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col col-xs-6">
-                                            <h3 class="panel-title">Projekte</h3>
+                                            <h3 class="panel-title" style="margin-top:50px;">Projekte</h3>
                                             <p><?php echo $userName; ?>/</p>
-                                        </div>
-                                        <div class="col col-xs-6 text-right">
-                                            <button type="button" class="btn btn-sm btn-primary btn-create"
-                                                    onclick="location.href='neuesProjekt.php?token=<?php echo $token ?>'">
-                                                erstelle
-                                                neuese
-                                                Projekt
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -98,11 +84,21 @@ include_once '../database/tokenSetter.php';
                                     <div class="row">
                                         <div class="col col-xs-4">Projekte
                                         </div>
+                                        <div class="col col-xs-6 text-right">
+                                            <button type="button" class="btn btn-sm btn-primary btn-create"
+                                                    onclick="location.href='neuesProjekt.php?token=<?php echo $token ?>'">
+                                                erstelle neuese Projekt
+                                            </button>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
 
                         </div>
+                        <p></p>
+                        <p>Hier können Sie ihre Projekte, deren Gruppen und Studenten einsehen. Dafür klicken sie auf
+                            das Projekt, das sie sehen wollen.</p>
                     </div>
                 </div>
             </div>
@@ -110,26 +106,15 @@ include_once '../database/tokenSetter.php';
                 <div class="container">
                     <div class="row">
 
-                        <p></p>
-                        <p>Hier können Sie ihre Projekte, deren Gruppen und Studenten einsehen.</p>
-                        <p></p>
-                        <p></p>
-
                         <div class="col-md-10 col-md-offset-1">
 
                             <div class="panel panel-default panel-table" style="width:550px">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col col-xs-6">
-                                            <h3 class="panel-title">Gruppen</h3>
+                                            <h3 class="panel-title" style="margin-top:50px;">Gruppen</h3>
                                             <p id="gruppe"><?php echo $userName; ?>/<span
                                                         name="pathProject">Projekt</span>/</p>
-                                        </div>
-                                        <div class="col col-xs-6 text-right">
-                                            <button type="button" class="btn btn-sm btn-primary btn-create">erstelle
-                                                neuese
-                                                Projekt
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -158,6 +143,10 @@ include_once '../database/tokenSetter.php';
                             </div>
 
                         </div>
+                        <p></p>
+                        <p> Hier können Sie die Gruppen und deren Studenten einsehen. Klicken sie auf
+                            die Gruppe, die sie sehen detaillierter wollen.<br>
+                            Zurück kommen sie mit dem Button links unten.</p>
                     </div>
                 </div>
             </div>
@@ -165,25 +154,16 @@ include_once '../database/tokenSetter.php';
                 <div class="container">
                     <div class="row">
 
-                        <p></p>
-                        <p>Hier können Sie ihre Projekte, deren Gruppen und Studenten einsehen.</p>
-                        <p></p>
-                        <p></p>
-
                         <div class="col-md-10 col-md-offset-1">
 
                             <div class="panel panel-default panel-table" style="width:550px">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col col-xs-6">
-                                            <h3 class="panel-title">Studenten</h3>
+                                            <h3 class="panel-title" style="margin-top:50px;">Studenten</h3>
                                             <p id="student"><?php echo $userName; ?>/<span
                                                         name="pathProject">Projekt</span>/<span
                                                         name="pathGruppe">Gruppe</span>/</p>
-                                        </div>
-                                        <div class="col col-xs-6 text-right">
-                                            <button type="button" class="btn btn-sm btn-primary btn-create">Create New
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -212,6 +192,9 @@ include_once '../database/tokenSetter.php';
                             </div>
 
                         </div>
+                        <p></p>
+                        <p> Hier können Sie die Daten der Studenten einsehen.
+                            Zurück kommen sie mit dem Button links unten.</p>
                     </div>
                 </div>
             </div>

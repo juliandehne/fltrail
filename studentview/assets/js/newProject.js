@@ -6,6 +6,9 @@ $(document).ready(function () {
     var projectName = "";
     var password = "";
     var activ = "1";
+    document.getElementById('loader').className = "loader-inactive";
+    document.getElementById('wrapper').className = "wrapper";
+    $("#nameProject").focus();
     $('#projectNameExists').hide();
     $('#projectIsMissing').hide();
     $(function () {
@@ -43,10 +46,14 @@ function courseExists(projectName) {
                     if (allTheTags.length !== 5) {
                         document.getElementById('tagHelper').className = "alert alert-warning";
                     }
+                    document.getElementById('loader').className = "loader-inactive";
+                    document.getElementById('wrapper').className = "wrapper";
                     return true;
                 } else {
                     $('#projectNameExists').hide();
                     createNewProject(allTheTags, projectName, password, activ);
+                    document.getElementById('loader').className = "loader-inactive";
+                    document.getElementById('wrapper').className = "wrapper";
                     return false;
                 }
             },
@@ -59,9 +66,11 @@ function courseExists(projectName) {
 }
 
 function createNewProject(allTheTags, activ) {
-    projectName = $("#nameProject").val();
-    password = $("#passwordProject").val();
-    var localurl = "../database/getProjects.php?project=" + projectName;
+    var projectName = $("#nameProject").val();
+    var password = $("#passwordProject").val();
+    document.getElementById('loader').className = "loader";
+    document.getElementById('wrapper').className = "wrapper-inactive";
+    var localurl = "../database/getProjects.php?project=" + projectName + "&token="+getUserTokenFromUrl();
     if (allTheTags.length !== 5) {
         document.getElementById('tagHelper').className = "alert alert-warning";
     } else {
@@ -80,11 +89,15 @@ function createNewProject(allTheTags, activ) {
             success: function (response) {
                 if (response !== "project missing") {
                     $('#projectNameExists').show();
+                    document.getElementById('loader').className = "loader-inactive";
+                    document.getElementById('wrapper').className = "wrapper";
                     return true;
                 } else {
                     $('#projectNameExists').hide();
                     if (allTheTags.length !== 5) {
                         document.getElementById('tagHelper').className = "alert alert-warning";
+                        document.getElementById('loader').className = "loader-inactive";
+                        document.getElementById('wrapper').className = "wrapper";
                         return false;
                     }
                     document.getElementById('tagHelper').className = "";
@@ -102,9 +115,13 @@ function createNewProject(allTheTags, activ) {
                         data: dataString,
                         success: function (response) {
                             alert(response);
+                            document.getElementById('loader').className = "loader-inactive";
+                            document.getElementById('wrapper').className = "wrapper";
                         },
                         error: function (a, b, c) {
                             console.log(a);
+                            document.getElementById('loader').className = "loader-inactive";
+                            document.getElementById('wrapper').className = "wrapper";
                             return false;
                         }
                     });
@@ -116,13 +133,20 @@ function createNewProject(allTheTags, activ) {
                             $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
                         }
                         location.href = "overview.php?token=" + $_GET['token'];
-                    } else return false;
-
+                    } else {
+                        document.getElementById('loader').className = "loader-inactive";
+                        document.getElementById('wrapper').className = "wrapper";
+                        return false;
+                    }
+                    document.getElementById('loader').className = "loader-inactive";
+                    document.getElementById('wrapper').className = "wrapper";
                     return false;
                 }
             },
             error: function (a, b, c) {
                 console.log(a);
+                document.getElementById('loader').className = "loader-inactive";
+                document.getElementById('wrapper').className = "wrapper";
                 return true;
             }
         });

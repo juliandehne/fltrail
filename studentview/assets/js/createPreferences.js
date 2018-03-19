@@ -6,6 +6,7 @@
 $(document).ready(function () {
 var projectName = getProjectByToken();
     getTags(projectName);
+    $("#competencies0").focus();
     $("#studentFormSubmit").on("click", function () {
         takesPartInProject();
     });
@@ -81,7 +82,7 @@ function takesPartInProject() {
     var userID = $("#user").text().trim();
     var projectID = $("#projectName").text().trim();
     document.getElementById('loader').className = "loader";
-    document.getElementById('wrapper').className = "wrapper inactive";
+    document.getElementById('wrapper').className = "wrapper-inactive";
 
     var allTheTags = [];
     var allTheCompetencies = [];
@@ -101,14 +102,14 @@ function takesPartInProject() {
     if (allTheTags.length > 2) {
         alert('Sie haben zu viele Tags ausgewählt');
         allTheTags = [];
-        document.getElementById('loader').className = "loader inactive";
+        document.getElementById('loader').className = "loader-inactive";
         document.getElementById('wrapper').className = "wrapper";
         return false;
     }
     if (allTheTags.length < 2) {
         alert('Sie haben zu wenig Tags ausgewählt');
         allTheTags = [];
-        document.getElementById('loader').className = "loader inactive";
+        document.getElementById('loader').className = "loader-inactive";
         document.getElementById('wrapper').className = "wrapper";
         return false;
     }
@@ -127,7 +128,7 @@ function takesPartInProject() {
         data: dataString,
         success: function (response) {
             console.log(response);
-            document.getElementById('loader').className = "loader inactive";
+            document.getElementById('loader').className = "loader-inactive";
             document.getElementById('wrapper').className = "wrapper";
             var parts = window.location.search.substr(1).split("&");
             var $_GET = {};

@@ -27,49 +27,60 @@ include_once '../database/tokenSetter.php';
 
 <body>
 <p id="user" hidden><?php echo $userName; ?></p>
-<div class="loader inactive" id="loader"></div>
+
+<div class="loader-inactive" id="loader">
+    <div class="sk-cube1 sk-cube"></div>
+    <div class="sk-cube2 sk-cube"></div>
+    <div class="sk-cube4 sk-cube"></div>
+    <div class="sk-cube3 sk-cube"></div>
+</div>
 
 <div id="wrapper" style="margin:0px;">
     <?php
-        include_once 'menu.php'
+    include_once 'menu.php'
     ?>
     <div class="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div>
-                            <p></p>
-                            <h3> Erstellen Sie ein neues Projekt.</h3>
-                        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <p></p>
+                        <h3> Erstellen Sie ein neues Projekt.</h3>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="contact-clean">
-        <div style="margin-left:336px;">
-            <p>Name des Projekts</p>
-            <div class="alert alert-warning" role="alert" id="projectNameExists">
-                Dieser Projektname exisitiert bereits.
-            </div>
-            <div class="alert alert-warning" role="alert" id="projectIsMissing">
-                Tragen sie einen Projektnamen ein.
-            </div>
-            <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name" style="width:286px;margin-left:50px;" id="nameProject"></div>
-            <p>Passwort (optional) </p>
-            <div class="form-group"><input class="form-control" type="email" name="password" placeholder="Passwort" style="width:287px;margin-left:51px;" id="passwordProject"></div>
-            <p>Admin-Passwort</p>
-            <div class="form-group"><input class="form-control" type="email" name="adminpassword" placeholder="Passwort" style="width:287px;margin-left:51px;" id="adminPassword"></div>
-            <p>Tags </p>
-            <div id="tagHelper">
-                Fügen sie zudem 5 Tags zu ihrem Projekt hinzu, welche ihr Projekt inhaltlich umreißen.
-            </div>
-            <div class="form-group"><input class="tags" data-role="tags" name="Tags" placeholder="Tags" id="tagsProject"></div>
-            <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>
+        <p>Name des Projekts</p>
+        <div class="alert alert-warning" role="alert" id="projectNameExists">
+            Dieser Projektname exisitiert bereits.
+        </div>
+        <div class="alert alert-warning" role="alert" id="projectIsMissing">
+            Tragen sie einen Projektnamen ein.
+        </div>
+        <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name"
+                                       style="width:286px;margin-left:50px;" id="nameProject"></div>
+        <p> Passwort zum Teilnehmen (optional) </p>
+        <div class="form-group"><input class="form-control" type="email" name="password" placeholder="Passwort"
+                                       style="width:287px;margin-left:51px;" id="passwordProject"></div>
+        <p> Passwort zum Löschen </p>
+        <div class="form-group"><input class="form-control" type="email" name="adminpassword" placeholder="Passwort"
+                                       style="width:287px;margin-left:51px;" id="adminPassword"></div>
+        <p>Tags </p>
+        <div id="tagHelper" class="alert alert-warning" style="width:475px;">
+            Fügen sie zudem 5 Tags zu ihrem Projekt hinzu, welche ihr Projekt inhaltlich umreißen.
+        </div>
+        <div class="form-group"><input class="tags" data-role="tags" name="Tags" placeholder="Tags"
+                                       id="tagsProject">
+        </div>
+        <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>
 
-            <div class="form-group"><button class="btn btn-primary" style="margin-left:129px;" id="sendProject">erstellen </button></div>
+        <div class="form-group">
+            <button class="btn btn-primary" style="margin-left:129px;" id="sendProject">erstellen</button>
         </div>
     </div>
+</div>
 
 </body>
 

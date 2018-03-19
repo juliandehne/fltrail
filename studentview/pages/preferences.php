@@ -36,7 +36,7 @@ $projectName = $resultObj->id;
 
 <p id="user" hidden><?php echo $userName; ?></p>
 <p id="projectName" hidden><?php echo $projectName; ?></p>
-<div class="loader inactive" id="loader"></div>
+<div class="loader-inactive" id="loader"></div>
 <div id="wrapper" class="wrapper" style="margin:0px;">
     <?php
     include_once 'menu.php'
@@ -75,7 +75,6 @@ $projectName = $resultObj->id;
         <legend style="margin-left:13px;">Forschungsfrage</legend>
         <div id="researchQuestion">
             <input class="form-control" id="researchQuestion0" type="text" name="researchQuestion" required=""
-                   autofocus=""
                    placeholder="Meine Forschungsfrage(n): "
                    style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
         </div>
@@ -91,7 +90,7 @@ $projectName = $resultObj->id;
     </fieldset>
     <fieldset>
         <legend style="margin-left:13px;">Tags</legend>
-        Wähle 2 der hier angegebenen Tags aus, die am ehesten zu deiner Forschungsfrage passen.
+        <p  class="alert alert-warning" style="width:520px;">Wähle 2 der hier angegebenen Tags aus, die am ehesten zu deiner Forschungsfrage passen.</p>
         <div id="tags">
 
         </div>
@@ -99,6 +98,7 @@ $projectName = $resultObj->id;
     <button class="btn btn-primary" id="studentFormSubmit" style="width:90px;margin-left:169px;margin-top:13px;">
         Eintragen
     </button>
+</div>
 
 </body>
 

@@ -139,7 +139,7 @@ function getDetailsOfMembers(group, studentString) {
                     '<a class="btn btn-danger"><em class="fa fa-trash"></em></a>' +
                     '</td>' +
                     '<td class="hidden-xs">' + response[k].name + '</td>' +
-                    '<td>' + response[k].email + '</td>';
+                    '<td> <a href="mailto:' + response[k].email + '">'+response[k].email+'</a></td>';
                 table.appendChild(content);
             }
         },

@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="assets/css/Navigation-with-Button1.css">
     <link rel="stylesheet" href="assets/css/Sidebar-Menu.css">
     <link rel="stylesheet" href="assets/css/Sidebar-Menu1.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body>
@@ -19,7 +18,7 @@
     <form method="post" action="database/userExists.php">
         <h2 class="sr-only">Login Formular</h2>
         <div class="illustration"><img src="assets/img/fides-logo.svg"></div>
-        <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
+        <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" autofocus></div>
         <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password">
         </div>
         <div class="form-group">
