@@ -21,7 +21,7 @@ $(document).ready(function () {
 });
 
 function seeProject(projectName) {
-    var url = "../database/getProjects.php?project=" + projectName + "&password=" + document.getElementById('projectPassword').value+"&token="+getUserTokenFromUrl();
+    var url = "../database/getProjects.php?project=" + projectName + "&password=" + document.getElementById('projectPassword').value;
     if (projectName === "") {
         return false;
     } else {
@@ -34,10 +34,8 @@ function seeProject(projectName) {
                 if (response === "project missing") {
                     $("#projectIsMissing").show();
                 } else {
-                    if (response !== "wrong password") {
-                        var token= response.split(" ")[0];
-                        var projectToken= response.split(" ")[1];
-                        location.href="preferences.php?token="+token+"&projectToken="+projectToken;
+                    if (response !== "wrong password") {            //if response !== project missing and not wrong password, its the projectToken
+                        location.href="preferences.php?token="+getUserTokenFromUrl()+"&projectToken="+response;
                     } else {
                         $("#projectIsMissing").hide();
                         $('#projectWrongPassword').show();

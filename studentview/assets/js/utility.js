@@ -7,3 +7,4 @@ function getUserTokenFromUrl() {
     }
     return $_GET['token'];
 }
+

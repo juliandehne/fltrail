@@ -36,6 +36,6 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
     $db->commit();
 }
 
-header("Location: ../pages/preferences.php?projectToken=".$token."&token=".$userToken);
+header("Location: ../pages/preferences.php?token=".$userToken."&projectToken=".$token);
 die();
 ?>

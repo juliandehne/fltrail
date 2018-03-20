@@ -27,7 +27,7 @@ include_once '../database/tokenSetter.php';
 
 <body>
 <p id="user" hidden><?php echo $userName; ?></p>
-<div class="loader inactive" id="loader"></div>
+<div class="loader-inactive" id="loader"></div>
 <div id="wrapper" class="wrapper" style="margin:0px;">
     <?php
     include_once 'menu.php'

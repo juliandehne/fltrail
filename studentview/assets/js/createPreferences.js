@@ -94,10 +94,11 @@ function takesPartInProject() {
         allTheResearchQuestions.push(document.getElementsByName("researchQuestions")[i].value);
     }
     for (i = 0; i < document.getElementsByName("tag").length; i++) {        //goes through all tags and adds them to allTheTags
-        if (document.getElementById("tag" + i).checked === true) {
+        if (document.getElementById("tag" + i).checked) {
             allTheTags.push(document.getElementById("tag" + i).value);
         }
-        allTheCompetencies.push("Die Studierenden interessieren sich für " + document.getElementById("tag" + i).value);     //todo: Die Tags werden hinter der Schnittstelle noch nicht verwertet, daher diese schnelle Lösung
+        if ($("#tag"+i).prop("checked"))
+            allTheCompetencies.push("Die Studierenden interessieren sich für " + $("#tag" + i).val());     //todo: Die Tags werden hinter der Schnittstelle noch nicht verwertet, daher diese schnelle Lösung
     }
     if (allTheTags.length > 2) {
         alert('Sie haben zu viele Tags ausgewählt');
