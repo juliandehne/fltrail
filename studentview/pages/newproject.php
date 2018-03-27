@@ -70,7 +70,7 @@ include_once '../database/tokenSetter.php';
         <p> Passwort zum Teilnehmen (optional) </p>
         <div class="form-group"><input class="form-control" type="email" name="password" placeholder="Passwort"
                                        style="width:287px;margin-left:51px;" id="passwordProject"></div>
-        <p> Passwort zum Löschen </p>
+        <p> Passwort zum Löschen (sonst: 1234) </p>
         <div class="form-group"><input class="form-control" type="email" name="adminpassword" placeholder="Passwort"
                                        style="width:287px;margin-left:51px;" id="adminPassword"></div>
         <p>Tags </p>

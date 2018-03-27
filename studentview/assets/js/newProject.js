@@ -37,8 +37,12 @@ function createNewProject(allTheTags, activ) {
 
     var projectName = $("#nameProject").val().trim();
     var password = $("#passwordProject").val().trim();
+    var adminPassword = $("#adminPassword").val().trim();
+    if (adminPassword == "") {
+        adminPassword = "1234";
+    }
 
-    var reguexp = /^[a-zA-Z0-9]+$/;
+    var reguexp = /^[a-zA-Z0-9äüöÄÜÖ\ ]+$/;
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
         return false;
@@ -106,7 +110,7 @@ function createNewProject(allTheTags, activ) {
                         return false;
                     }
                 });
-                $.when(addProjectNeo4j, addProjectToLocalDB(allTheTags, projectName, password, activ)).done(function () {
+                $.when(addProjectNeo4j, addProjectToLocalDB(allTheTags, projectName, password, activ, adminPassword)).done(function () {
                     document.getElementById('loader').className = "loader-inactive";
                     document.getElementById('wrapper').className = "wrapper";
                     if ($('#Teilnehmer').prop("checked")) {          //if author wants to join the course, he needs to be redirected to preferences.php
@@ -139,10 +143,9 @@ function createNewProject(allTheTags, activ) {
 
 }
 
-function addProjectToLocalDB(allTheTags, projectName, password, activ) {
+function addProjectToLocalDB(allTheTags, projectName, password, activ, adminPassword) {
     var tags = JSON.stringify(allTheTags);
     var author = $("#user").text().trim();
-    var adminPassword = $("#adminPassword").val();
     var url = "../database/putProject.php?project=" + projectName + "&password=" + password + "&activ=" + activ + "&token=" + getUserTokenFromUrl() + "&adminpassword=" + adminPassword + "&author=" + author;
     return $.ajax({
         url: url,
