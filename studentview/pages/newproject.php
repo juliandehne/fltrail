@@ -59,6 +59,9 @@ include_once '../database/tokenSetter.php';
         <div class="alert alert-danger" role="alert" id="exactNumberOfTags">
             Es müssen genau 5 Tags eingegeben werden.
         </div>
+        <div class="alert alert-danger" role="alert" id="specialChars">
+            Der Projektname darf keine Sonderzeichen enthalten.
+        </div>
         <div class="alert alert-danger" role="alert" id="projectIsMissing">
             Tragen sie einen Projektnamen ein.
         </div>
