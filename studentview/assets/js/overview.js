@@ -1,13 +1,38 @@
 /**
  * Created by fides-WHK on 02.03.2018.
  */
+
 $(document).ready(function () {
     getProjectOverview(document.getElementById('user').innerHTML);
     //getMembers($('#projectDropdown').innerHTML,$('#user').innerHTML);
 
 });
 
+function printProjects(projects, offset) {
+    var table = document.getElementById("projectTable");
+    var i = 0;
+    for (i = 0; i < projects.length; i++) {
+        var project = projects[i];
+        var content = document.createElement("TR");
+        content.role = "button";
+        content.style = "cursor:pointer;";
+        content.id = project;
+        content.innerHTML = '<td align="center">' +
+            '<a class="btn btn-default"><em class="fa fa-pencil"></em></a>' +
+            '<a class="btn btn-danger"><em class="fa fa-trash"></em></a>' +
+            '</td>' +
+            '<td class="hidden-xs" href="#Div_Promo_Carousel" data-slide="next">' + projects[i] + '</td>' +
+            '<td id="projectTags' + (i + offset) + '" href="#Div_Promo_Carousel" data-slide="next"></td>';
+        table.appendChild(content);
+        getTags(project, i + offset);
+        $('#' + project).click(function () {
+            getGroups(this.id);
+        });
+    }
+}
 function getProjectOverview(user) {
+
+
     var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api2/user/" + user + "/projects";
     $.ajax({
         url: url,
@@ -16,25 +41,9 @@ function getProjectOverview(user) {
         contentType: "application/json",
         dataType: "json",
         success: function (data) {
-            var table = document.getElementById("projectTable");
-            var i = 0;
-            for (i = 0; i < data.data.length; i++) {
-                var content = document.createElement("TR");
-                content.role = "button";
-                content.style = "cursor:pointer;";
-                content.id = data.data[i];
-                content.innerHTML = '<td align="center">' +
-                    '<a class="btn btn-default"><em class="fa fa-pencil"></em></a>' +
-                    '<a class="btn btn-danger"><em class="fa fa-trash"></em></a>' +
-                    '</td>' +
-                    '<td class="hidden-xs" href="#Div_Promo_Carousel" data-slide="next">' + data.data[i] + '</td>' +
-                    '<td id="projectTags' + i + '" href="#Div_Promo_Carousel" data-slide="next"></td>';
-                table.appendChild(content);
-                getTags(data.data[i], i);
-                $('#' + data.data[i]).click(function () {
-                    getGroups(this.id);
-                });
-            }
+            var projects = data.data;
+            printProjects(projects, 0);
+            getProjectsOfAuthor(user, projects);
         },
         error: function (a, b, c) {
             console.log(a);
@@ -57,6 +66,28 @@ function getTags(projectName, number) {
                 tagString += response[i].tag + " ";
             }
             table.innerHTML = tagString;
+        },
+        error: function (a, b, c) {
+            console.log(a);
+        }
+    });
+}
+
+
+function getProjectsOfAuthor(author, printedProjects) {
+    var url = "../database/getProjectsOfAuthor.php?author=" + author;
+    $.ajax({
+        url: url,
+        Accept: "text/plain; charset=utf-8",
+        contentType: "text/plain",
+        success: function (response) {
+            var authoredProjects = JSON.parse(response);
+            for (var i = 0; i < printedProjects.length; i++) {
+                authoredProjects = authoredProjects.filter(function(el) {
+                    return el !== printedProjects[i];
+                });
+            }
+            printProjects(authoredProjects, printedProjects.length);
         },
         error: function (a, b, c) {
             console.log(a);

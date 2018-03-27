@@ -53,10 +53,13 @@ include_once '../database/tokenSetter.php';
     </div>
     <div class="contact-clean">
         <p>Name des Projekts</p>
-        <div class="alert alert-warning" role="alert" id="projectNameExists">
+        <div class="alert alert-danger" role="alert" id="projectNameExists">
             Dieser Projektname exisitiert bereits.
         </div>
-        <div class="alert alert-warning" role="alert" id="projectIsMissing">
+        <div class="alert alert-danger" role="alert" id="exactNumberOfTags">
+            Es müssen genau 5 Tags eingegeben werden.
+        </div>
+        <div class="alert alert-danger" role="alert" id="projectIsMissing">
             Tragen sie einen Projektnamen ein.
         </div>
         <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name"

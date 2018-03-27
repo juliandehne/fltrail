@@ -6,6 +6,7 @@ $(document).ready(function () {
     $("#nameProject").focus();
     $('#projectNameExists').hide();
     $('#projectIsMissing').hide();
+    $('#exactNumberOfTags').hide();
     $(function () {
         $('#tagsProject').tagsInput({
             width: '475px',
@@ -25,8 +26,8 @@ $(document).ready(function () {
 
 
 function createNewProject(allTheTags, activ) {
-    var projectName = $("#nameProject").val();
-    var password = $("#passwordProject").val();
+    var projectName = $("#nameProject").val().trim();
+    var password = $("#passwordProject").val().trim();
     document.getElementById('loader').className = "loader";
     document.getElementById('wrapper').className = "wrapper-inactive";
     var localurl = "../database/getProjects.php?project=" + projectName;
@@ -58,6 +59,7 @@ function createNewProject(allTheTags, activ) {
                         document.getElementById('tagHelper').className = "alert alert-warning";
                         document.getElementById('loader').className = "loader-inactive";
                         document.getElementById('wrapper').className = "wrapper";
+                        $('#exactNumberOfTags').show();
                         return false;
                     }
                     document.getElementById('tagHelper').className = "";
@@ -75,7 +77,7 @@ function createNewProject(allTheTags, activ) {
                         type: 'PUT',
                         data: dataString,
                         success: function (response) {
-                            alert(response);
+                            console.log(response);
                             document.getElementById('loader').className = "loader-inactive";
                             document.getElementById('wrapper').className = "wrapper";
                         },

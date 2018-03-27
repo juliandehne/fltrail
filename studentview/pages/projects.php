@@ -27,6 +27,7 @@ include_once '../database/tokenSetter.php';
     <script src="../assets/js/Customizable-Carousel-swipe-enabled.js"></script>
     <script src="../assets/js/Sidebar-Menu.js"></script>
     <script src="../assets/js/overview.js"></script>
+    <script src="../assets/js/showProjects.js"></script>
 </head>
 
 <body>
@@ -86,8 +87,8 @@ include_once '../database/tokenSetter.php';
                                         </div>
                                         <div class="col col-xs-6 text-right">
                                             <button type="button" class="btn btn-sm btn-primary btn-create"
-                                                    onclick="location.href='neuesProjekt.php?token=<?php echo $token ?>'">
-                                                erstelle neuese Projekt
+                                                    onclick="location.href='newproject.php?token=<?php echo $token ?>'">
+                                                 neues Projekt erstellen
                                             </button>
                                         </div>
                                     </div>
