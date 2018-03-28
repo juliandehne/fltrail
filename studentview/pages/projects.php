@@ -28,6 +28,7 @@ include_once '../database/tokenSetter.php';
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/Customizable-Carousel-swipe-enabled.js"></script>
     <script src="../assets/js/Sidebar-Menu.js"></script>
+    <script src="../assets/js/getProjects.js"></script>
     <script src="../assets/js/overview.js"></script>
     <script src="../assets/js/showProjects.js"></script>
 </head>

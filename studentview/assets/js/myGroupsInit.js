@@ -7,6 +7,20 @@ $(document).ready(function () {
     //getMembers($('#projectDropdown').innerHTML,$('#user').innerHTML);
 });
 
+function printProjectDropdown(projects, numberOfProjectsPrinted) {
+    var menu = document.getElementById("dropdownOptions");          //the unordered list of buttons called by the dropdown button
+    var limit = projects.length;
+    for (var i = 0; i < limit; i++) {                               //show every project a student takes
+        // part in
+        var option = document.createElement("SPAN");            //and create a span, containing a button with it
+        option.innerHTML = "<button class='dropdown-item' " +   //which carries the event onClick, the name of the group and a design
+            "onClick=" +
+            '"showProject(' + "'" + projects[i] + "',document.getElementById('user').innerHTML);" + '"' + ">"
+            + projects[i] +
+            "</button>";
+        menu.appendChild(option);
+    }
+}
 function getProjects(user) {
     var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api2/user/" + user + "/projects";
     $.ajax({
@@ -16,26 +30,19 @@ function getProjects(user) {
         contentType: "application/json",
         dataType: "json",
         success: function (data) {
-            var menu = document.getElementById("dropdownOptions");          //the unordered list of buttons called by the dropdown button
             if (data.length !== 0) {
-                var i = 0;
-                var limit = data.data.length;
-                for (i = 0; i < limit; i++) {                               //show every project a student takes part in
-                    var option = document.createElement("SPAN");            //and create a span, containing a button with it
-                    option.innerHTML = "<button class='dropdown-item' " +   //which carries the event onClick, the name of the group and a design
-                        "onClick=" +
-                        '"showProject(' + "'" + data.data[i] + "',document.getElementById('user').innerHTML);" + '"' + ">"
-                        + data.data[i] +
-                        "</button>";
-                    menu.appendChild(option);
+                var projects = [];
+                if (data.data != null) {
+                   projects = data.data;
+                   printProjectDropdown(projects, 0);
                 }
+                getProjectsOfAuthor(user,projects, printProjectDropdown)
             } else {
                 document.getElementById("projectDropdown").innerHTML = "keine Projekte verfügbar";      //no projects of the students where found
             }
         }
     });
 }
-
 
 function getMembers(project, user) {        //gets all Members in the chosen Project user is a part of with email adresses
     var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api2/groups/" + project;     //this API is used, since fleckenroller has security issues with CORS and stuff

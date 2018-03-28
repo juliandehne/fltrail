@@ -52,7 +52,7 @@ function getProjectOverview(user) {
         success: function (data) {
             var projects = data.data;
             printProjects(projects, 0);
-            getProjectsOfAuthor(user, projects);
+            getProjectsOfAuthor(user, projects, printProjects);
         },
         error: function (a, b, c) {
             console.log(a);
@@ -87,33 +87,7 @@ function getTags(projectName, number) {
 }
 
 
-function getProjectsOfAuthor(author, printedProjects) {
-    var url = "../database/getProjectsOfAuthor.php?author=" + author;
-    $.ajax({
-        url: url,
-        Accept: "text/plain; charset=utf-8",
-        contentType: "text/plain",
-        success: function (response) {
-            var authoredProjects = JSON.parse(response);
-            if (authoredProjects != null) {
-                if (printedProjects != null) {
-                    for (var i = 0; i < printedProjects.length; i++) {
-                        authoredProjects = authoredProjects.filter(function (el) {
-                            return el !== printedProjects[i];
-                        });
-                    }
-                    printProjects(authoredProjects, printedProjects.length);
-                } else {
-                    printProjects(authoredProjects, 0);
-                }
 
-            }
-        },
-        error: function (a, b, c) {
-            console.log(a);
-        }
-    });
-}
 
 function getGroups(projectName) {
     var pathName = document.getElementsByName("pathProject");
