@@ -24,12 +24,12 @@
             <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
             <!--<div class="form-group"><input class="form-control" type="password" name="password"
                                            placeholder="Password wiederholen"></div>-->
-            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div>
+            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">registrieren</button></div>
             <div class="form-group">
                 <?php
-                if (isset($_GET['emailExists'])) {
+                if (isset($_GET['userExists'])) {
                     echo "<div class=\"alert alert-danger\" role=\"alert\">
-            Es existiert ein Nutzer mit dieser Email!
+            Es existiert ein Nutzer mit dieser Email oder diesem Benutzernamen!
         </div>";
                 }
                 ?>

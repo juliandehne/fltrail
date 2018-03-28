@@ -21,13 +21,12 @@ $token = uniqid();
 $db->query("use fltrail;");
 
 // if user exists login
-$query = "SELECT (u.token) from users u where u.password = \"".$password. "\" and u.email=\""
-    .$email."\";";
+$query = "SELECT (u.token) from users u where  u.email='".$email."' or u.name='". $name ."';";
 
 $queryObj = mysqli_query($db, $query);
 $result = mysqli_fetch_object($queryObj);
 if ($result) {
-    header("Location: ../pages/projects.php?token=".$result->token);
+    header("Location: ../register.php?userExists=true");
     die();
 }
 
@@ -38,3 +37,6 @@ $db->commit();
 
 header("Location: ../pages/projects.php?token=".$token);
 die();
+
+
+?>
