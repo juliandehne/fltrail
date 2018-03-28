@@ -63,9 +63,12 @@ function getTags(projectName, number) {
             var i = 0;
             var table = document.getElementById("projectTags" + number);
             for (i = 0; i < response.length; i++) {
-                tagString += response[i].tag + " ";
+                tagString += "<label class=\"tagLabel\">"+ response[i].tag + "</label>";;
+                //tagString += response[i].tag + " ";
             }
+
             table.innerHTML = tagString;
+            //table.innerHTML = tagHtml;
         },
         error: function (a, b, c) {
             console.log(a);

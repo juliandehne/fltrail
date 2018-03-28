@@ -9,7 +9,6 @@ include_once '../database/tokenSetter.php';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>dozent-view-alternativ slider</title>
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="../assets/css/Contact-Form-Clean.css">
@@ -21,6 +20,9 @@ include_once '../database/tokenSetter.php';
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet'
           type='text/css'>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/projects.css">
+
 
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
@@ -33,6 +35,8 @@ include_once '../database/tokenSetter.php';
 <body>
 
 <p id="user" hidden><?php echo $userName; ?></p>
+
+
 
 <div id="wrapper" style="margin:0px;">
     <?php
