@@ -8,27 +8,36 @@ $(document).ready(function () {
 
 });
 
+
 function printProjects(projects, offset) {
     var table = document.getElementById("projectTable");
     var i = 0;
-    for (i = 0; i < projects.length; i++) {
-        var project = projects[i];
-        var content = document.createElement("TR");
-        content.role = "button";
-        content.style = "cursor:pointer;";
-        content.id = project;
-        content.innerHTML = '<td align="center">' +
-            '<a class="btn btn-default"><em class="fa fa-pencil"></em></a>' +
-            '<a class="btn btn-danger"><em class="fa fa-trash"></em></a>' +
-            '</td>' +
-            '<td class="hidden-xs" href="#Div_Promo_Carousel" data-slide="next">' + projects[i] + '</td>' +
-            '<td id="projectTags' + (i + offset) + '" href="#Div_Promo_Carousel" data-slide="next"></td>';
-        table.appendChild(content);
-        getTags(project, i + offset);
-        $('#' + project).click(function () {
-            getGroups(this.id);
-        });
+    if (projects != null) {
+        for (i = 0; i < projects.length; i++) {
+            var project = projects[i];
+            var content = document.createElement("TR");
+            content.role = "button";
+            content.style = "cursor:pointer;";
+            content.id = project;
+
+            //'<a class="btn btn-default"><em class="fa fa-pencil" ></em></a>' +
+            //'<button id="deleteButton' +i+ '" class="btn btn-danger fa fa-trash deleteButton"></button>' +
+            content.innerHTML = '<td align="center">' +
+                '<a href="deleteProject.php?token=5aba1b592ea69" class="btn btn-danger fa fa-trash"></a>' +
+                '</td>' +
+                '<td class="hidden-xs" href="#Div_Promo_Carousel" data-slide="next">' + projects[i] + '</td>' +
+                '<td id="projectTags' + (i + offset) + '" href="#Div_Promo_Carousel" data-slide="next"></td>';
+            table.appendChild(content);
+            getTags(project, i + offset);
+            $('#' + project).click(function () {
+                getGroups(this.id);
+            });
+        }
     }
+
+
+    //$('#deleteModal').modal('show');
+
 }
 function getProjectOverview(user) {
 
@@ -63,7 +72,8 @@ function getTags(projectName, number) {
             var i = 0;
             var table = document.getElementById("projectTags" + number);
             for (i = 0; i < response.length; i++) {
-                tagString += "<label class=\"tagLabel\">"+ response[i].tag + "</label>";;
+                tagString += "<label class=\"tagLabel\">" + response[i].tag + "</label>";
+                ;
                 //tagString += response[i].tag + " ";
             }
 
@@ -85,12 +95,19 @@ function getProjectsOfAuthor(author, printedProjects) {
         contentType: "text/plain",
         success: function (response) {
             var authoredProjects = JSON.parse(response);
-            for (var i = 0; i < printedProjects.length; i++) {
-                authoredProjects = authoredProjects.filter(function(el) {
-                    return el !== printedProjects[i];
-                });
+            if (authoredProjects != null) {
+                if (printedProjects != null) {
+                    for (var i = 0; i < printedProjects.length; i++) {
+                        authoredProjects = authoredProjects.filter(function (el) {
+                            return el !== printedProjects[i];
+                        });
+                    }
+                    printProjects(authoredProjects, printedProjects.length);
+                } else {
+                    printProjects(authoredProjects, 0);
+                }
+
             }
-            printProjects(authoredProjects, printedProjects.length);
         },
         error: function (a, b, c) {
             console.log(a);
@@ -173,7 +190,7 @@ function getDetailsOfMembers(group, studentString) {
                     '<a class="btn btn-danger"><em class="fa fa-trash"></em></a>' +
                     '</td>' +
                     '<td class="hidden-xs">' + response[k].name + '</td>' +
-                    '<td> <a href="mailto:' + response[k].email + '">'+response[k].email+'</a></td>';
+                    '<td> <a href="mailto:' + response[k].email + '">' + response[k].email + '</a></td>';
                 table.appendChild(content);
             }
         },
