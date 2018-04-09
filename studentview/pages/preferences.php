@@ -26,6 +26,7 @@ $projectName = $resultObj->id;
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="../assets/js/createPreferences.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
