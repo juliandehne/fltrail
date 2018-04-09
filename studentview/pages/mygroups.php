@@ -57,7 +57,8 @@ include_once '../database/tokenSetter.php';
                     </div>
                 </div>
             </div>
-            <table class="table table-striped table-bordered table-list" style="width: 40%;margin-top: 10px;">
+            <div id="tablesHolder"></div>
+           <!-- <table class="table table-striped table-bordered table-list" style="width: 40%;margin-top: 10px;">
                 <thead id="tableHead">
                 <tr>
                     <th class="hidden-xs">Student</th>
@@ -80,9 +81,9 @@ include_once '../database/tokenSetter.php';
 
                 </tbody>
 
-            </table>
-            <p>Hier können sie ihre Gruppen zu allen Projekten einsehen. Klicken sie dafür auf das Dropdownmenü
-                um ihren Kurs auszuwählen.</p>
+            </table>-->
+            <!--<p>Hier können sie ihre Gruppen zu allen Projekten einsehen. Klicken sie dafür auf das Dropdownmenü
+                um ihren Kurs auszuwählen.</p>-->
         </div>
     </div>
 </div>

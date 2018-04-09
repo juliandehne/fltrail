@@ -23,7 +23,7 @@ function printProjects(projects, offset) {
             //'<a class="btn btn-default"><em class="fa fa-pencil" ></em></a>' +
             //'<button id="deleteButton' +i+ '" class="btn btn-danger fa fa-trash deleteButton"></button>' +
             content.innerHTML = '<td align="center">' +
-                '<a href="deleteProject.php?token=5aba1b592ea69" class="btn btn-danger fa fa-trash"></a>' +
+                '<a href="deleteProject.php?token='+getUserTokenFromUrl()+'" class="btn btn-danger fa fa-trash"></a>' +
                 '</td>' +
                 '<td class="hidden-xs" href="#Div_Promo_Carousel" data-slide="next">' + projects[i] + '</td>' +
                 '<td id="projectTags' + (i + offset) + '" href="#Div_Promo_Carousel" data-slide="next"></td>';

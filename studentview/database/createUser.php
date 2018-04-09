@@ -28,15 +28,15 @@ $result = mysqli_fetch_object($queryObj);
 if ($result) {
     header("Location: ../register.php?userExists=true");
     die();
-}
+} else {
 
 // is user does not exist create
-$db->query("INSERT INTO `users`(`name`, `password`, `email`, `token` ) VALUES ('" . $name . "','" . $password . "','" . $email
-    . "','" . $token . "');");
-$db->commit();
+    $db->query("INSERT INTO `users`(`name`, `password`, `email`, `token` ) VALUES ('" . $name . "','" . $password . "','" . $email
+        . "','" . $token . "');");
+    $db->commit();
 
-header("Location: ../pages/projects.php?token=".$token);
-die();
-
+    header("Location: ../pages/projects.php?token=" . $token);
+    die();
+}
 
 ?>

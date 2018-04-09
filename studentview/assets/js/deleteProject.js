@@ -11,7 +11,8 @@ $(document).ready(function () {
 });
 
 function deleteProject(projectName) {
-    var url = "../database/deleteProject.php?project=" + projectName + "&password=" + document.getElementById('projectPassword').value.trim() + "&token=" + getUserTokenFromUrl();
+    var token = getUserTokenFromUrl();
+    var url = "../database/deleteProject.php?project=" + projectName + "&password=" + document.getElementById('projectPassword').value.trim() + "&token=" + token;
     if (projectName === "") {
         return false;
     } else {

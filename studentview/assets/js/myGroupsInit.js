@@ -33,10 +33,10 @@ function getProjects(user) {
             if (data.length !== 0) {
                 var projects = [];
                 if (data.data != null) {
-                   projects = data.data;
-                   printProjectDropdown(projects, 0);
+                    projects = data.data;
+                    printProjectDropdown(projects, 0);
                 }
-                getProjectsOfAuthor(user,projects, printProjectDropdown)
+                getProjectsOfAuthor(user, projects, printProjectDropdown)
             } else {
                 document.getElementById("projectDropdown").innerHTML = "keine Projekte verfügbar";      //no projects of the students where found
             }
@@ -44,7 +44,52 @@ function getProjects(user) {
     });
 }
 
+
+function printGroupTable(student1, student2, student3, student4) {
+    var innerurl = "../database/getAdresses.php?student1=" + student1 + "&student2=" + student2 + "&student3=" + student3 + "&student4=" + student4;
+    $.ajax({                    //get email adresses in this ajax.
+        student1: "" + student1,
+        student2: "" + student2,
+        student3: "" + student3,
+        student4: "" + student4,
+        url: innerurl,
+        type: 'GET',
+        contentType: "application/json",
+        dataType: "json",
+        success: function (innerData) {
+            var tableStart = '<table class="table table-striped table-bordered table-list"' +
+                ' style="width: 40%;margin-top:' +
+                ' 10px;"> <thead id="tableHead"> ' +
+                '  <tr>' +
+                '    <th class="hidden-xs">Student</th>' +
+                '    <th>E-Mail</th>' +
+                '  </tr>';
+            var tableFinish = '</thead>' + '</table>';
+            for (var k2 = 0; k2 < innerData.length; k2++) {
+                if (innerData[k2].name === student1) {
+                    tableStart = tableStart + ("<tr><td>" + student1 + "</td><td><a" +
+                        " href='mailto:" + innerData[k2].email + "'>" + innerData[k2].email + "</a></td></tr>");
+                } else if (innerData[k2].name === student2) {
+                    tableStart = tableStart + ("<tr><td>" + student2 + "</td><td><a" +
+                        " href='mailto:" + innerData[k2].email + "'>" + innerData[k2].email + "</a></td></tr>");
+                } else if (innerData[k2].name === student3) {
+                    tableStart = tableStart + ("<tr><td>" + student3 + "</td><td><a" +
+                        " href='mailto:" + innerData[k2].email + "'>" + innerData[k2].email + "</a></td></tr>");
+                } else if (innerData[k2].name === student4 && (student4 != null)) {
+                    tableStart = tableStart + ("<tr><td>" + student4 + "</td><td><a" +
+                        " href='mailto:" + innerData[k2].email + "'>" + innerData[k2].email + "</a></td></tr>");
+                }
+            }
+
+            var tableString = tableStart + tableFinish;
+            $("#tablesHolder").append(tableString);
+        }
+    });
+    return innerurl;
+}
 function getMembers(project, user) {        //gets all Members in the chosen Project user is a part of with email adresses
+
+    $("#tablesHolder").empty();
     var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api2/groups/" + project;     //this API is used, since fleckenroller has security issues with CORS and stuff
     $.ajax({
         url: url,
@@ -54,77 +99,16 @@ function getMembers(project, user) {        //gets all Members in the chosen Pro
         dataType: "json",                               //{groups: [id, users:[]] }
         success: function (data) {
             for (var i = 0; i < data.groups.length; i++) {
-                for (var j = 0; j < data.groups[i].users.length; j++) {
-                    if (data.groups[i].users[j] === user) {
-                        $("#student2").show();
-                        $("#student3").show();
-                        var student1 = data.groups[i].users[(j + 1) % data.groups[i].users.length];
-                        var student2 = data.groups[i].users[(j + 2) % data.groups[i].users.length];
-                        $("#student2").text("<td>"+student1 + "</td><td>keine E-Mail Adresse gefunden</td>");              //if there is no email in the DB, you can just see the name
-                        $("#student3").text("<td>"+student2 + "</td><td>keine E-Mail Adresse gefunden</td>");
-                        if (data.groups[i].users.length > 3) {      //the fourth student is just shown if the group has at least 4 members
-                            var student3 = data.groups[i].users[(j + 3) % data.groups[i].users.length];
-                            $("#student4").text("<td>"+student3 + "</td><td>keine E-Mail Adresse gefunden</td>");
-                        }
-                        if (data.groups[i].users.length > 4) {      //the fifth student is just shown if the group has 5 members
-                            var student4 = data.groups[i].users[(j + 4) % data.groups[i].users.length];
-                            $("#student5").text("<td>"+student4 + "</td><td>keine E-Mail Adresse gefunden</td>");
-                        }
-                        var innerurl = "../database/getAdresses.php?student1=" + student1 + "&student2=" + student2 + "&student3=" + student3 + "&student4=" + student4 + "&student5=";
-                        $.ajax({                    //get email adresses in this ajax.
-                            student1: "" + student1,
-                            student2: "" + student2,
-                            student3: "" + student3,
-                            student4: "" + student4,
-                            url: innerurl,
-                            type: 'GET',
-                            contentType: "application/json",
-                            dataType: "json",
-                            success: function (innerData) {
-                                var k1 = 0;
-                                var k2 = 0;
-                                if (student3 == undefined){
-                                    $("#student4").hide();
-                                }
-                                if (student4 == undefined){
-                                    $("#student5").hide();
-                                }
-                                for (k1=0 ; k1 < innerData.length; k1++){
-                                    for (k2=0; k2 < innerData.length; k2++){
-                                        if (innerData[k2].name === student1){
-                                            $("#student2").html("<td>"+student1 + "</td><td><a href='mailto:" + innerData[k2].email+"'>"+ innerData[k2].email+"</a></td>");
-                                        }else
-                                        if (innerData[k2].name === student2){
-                                            $("#student3").html("<td>"+student2 + "</td><td><a href='mailto:" + innerData[k2].email+"'>"+ innerData[k2].email+"</a></td>");
-                                        }else
-                                        if (innerData[k2].name === student3){
-                                            $("#student4").show();
-                                            $("#student4").html("<td>"+student3 + "</td><td><a href='mailto:" + innerData[k2].email+"'>"+ innerData[k2].email+"</a></td>");
-                                        }else
-                                        if (innerData[k2].name === student4){
-                                            $("#student5").show();
-                                            $("#student5").html("<td>"+student4 + "</td><td><a href='mailto:" + innerData[k2].email+"'>"+ innerData[k2].email+"</a></td>");
-                                        }
-                                    }
-                                }
-                            },
-                            error: function (a,b,c){
-                                console.log(a);
-                                $("#student2").hide();
-                                $("#student3").hide();
-                                $("#student4").hide();
-                                $("#student5").hide();
-                            }
-                        });
-                    }
-                }
+
+                var student1 = data.groups[i].users[0];
+                var student2 = data.groups[i].users[1];
+                var student3 = data.groups[i].users[2];
+                var student4 = data.groups[i].users[3];
+                printGroupTable(student1, student2, student3, student4);
             }
         },
-        error: function (a, b, c) {
-            $("#student2").text("In diesem Projekt sind noch nicht ausreichend TeilnehmerInnen vorhanden.");
-            $("#student3").hide();
-            $("#student4").hide();
-            $("#student5").hide();
+        error: function(data) {
+            $("#tablesHolder").append("<p>Es wurden keine Gruppen gefunden. Das Projekt muss mehr als 5 Teilnehmer haben!</p>")
         }
 
     });
