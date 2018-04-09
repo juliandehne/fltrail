@@ -47,6 +47,9 @@ function getProjects(user) {
 
 function printGroupTable(student1, student2, student3, student4) {
     var innerurl = "../database/getAdresses.php?student1=" + student1 + "&student2=" + student2 + "&student3=" + student3 + "&student4=" + student4;
+    /*if (student4) {
+        innerurl = innerurl + "&student4=" + student4;
+    }*/
     $.ajax({                    //get email adresses in this ajax.
         student1: "" + student1,
         student2: "" + student2,
