@@ -103,8 +103,11 @@ $projectName = $resultObj->id;
         </div>
     </fieldset>
     <button class="btn btn-primary" id="studentFormSubmit" style="width:90px;margin-left:169px;margin-top:13px;">
-        Eintragen
+        eintragen
     </button>
+    <div class="alert alert-warning" role="alert">
+        Das Verarbeiten der Lernziele und das Gruppenmatching kann einen Moment dauern!
+    </div>
 </div>
 
 </body>

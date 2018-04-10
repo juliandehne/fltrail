@@ -22,6 +22,7 @@
             <div class="form-group"><input class="form-control" name="name" placeholder="Name"></div>
             <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
             <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
+            <div class="form-group"><label>Bitte kein sensibeles Passwort verwenden!</label></div>
             <!--<div class="form-group"><input class="form-control" type="password" name="password"
                                            placeholder="Password wiederholen"></div>-->
             <div class="form-group"><button class="btn btn-primary btn-block" type="submit">registrieren</button></div>

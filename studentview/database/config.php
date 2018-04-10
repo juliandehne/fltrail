@@ -6,5 +6,5 @@
  * Time: 12:38
  */
 
-$db = mysqli_connect("localhost", "root2", "voyager2", "fltrail");
-//$db = mysqli_connect("localhost", "root", "voyager", "fltrail");
+//$db = mysqli_connect("localhost", "root2", "voyager2", "fltrail");
+$db = mysqli_connect("localhost", "root", "voyager", "fltrail");
