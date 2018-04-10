@@ -116,13 +116,14 @@ function getGroups(projectName) {
                     '<td class="hidden-xs" href="#Div_Promo_Carousel" data-slide="next">Gruppe' + data.groups[i].id + '</td>' +
                     '<td id="memberOf' + content.id + '" href="#Div_Promo_Carousel" data-slide="next">';
                 for (var j = 0; j < data.groups[i].users.length; j++) {
-                    groupMembers += data.groups[i].users[j] + " ";
+                    groupMembers += data.groups[i].users[j] + "&nbsp;";
                 }
                 groupMembers += '</td>';
                 content.innerHTML = groupMembers;
                 table.appendChild(content);
                 $('#Gruppe' + data.groups[i].id).click(function () {
-                    getDetailsOfMembers(this.id, $('#memberOf' + this.id).text());
+                    var memberString = $('#memberOf' + this.id).html();
+                    getDetailsOfMembers(this.id, memberString);
                 });
             }
         },
@@ -143,7 +144,7 @@ function getGroups(projectName) {
 function getDetailsOfMembers(group, studentString) {
     var pathName = document.getElementsByName("pathGruppe");
     pathName[0].innerHTML = group;
-    var students = studentString.split(" ");
+    var students = studentString.split("&nbsp;");
     var innerurl = "../database/getAdresses.php?student1=" + students[0] + "&student2=" + students[1] + "&student3=" + students[2] + "&student4=" + students[3] + "&student5=" + students[4];
     $.ajax({
         student1: "" + students[0],
