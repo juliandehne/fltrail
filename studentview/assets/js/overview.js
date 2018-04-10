@@ -42,7 +42,7 @@ function printProjects(projects, offset) {
 function getProjectOverview(user) {
 
 
-    var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api2/user/" + user + "/projects";
+    var url = compbaseUrl + "/api2/user/" + user + "/projects";
     $.ajax({
         url: url,
         user: user,
@@ -93,7 +93,9 @@ function getGroups(projectName) {
     var pathName = document.getElementsByName("pathProject");
     pathName[0].innerHTML = projectName;
     pathName[1].innerHTML = projectName;
-    var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api2/groups/" + projectName;     //this API is used, since fleckenroller has security issues with CORS and stuff
+    var url = compbaseUrl + "/api2/groups/" + projectName;     //this API is used, since fleckenroller has security
+    // issues with
+    // CORS and stuff
     $.ajax({
         url: url,
         type: 'GET',

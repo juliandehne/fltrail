@@ -27,7 +27,7 @@ function deleteProject(projectName) {
                 } else {
                     if (response !== "wrong password") {            //if response !== project missing and not wrong password, its the projectToken
                         $.ajax({
-                            url: "https://esb.uni-potsdam.de:8243/services/competenceBase/api1/courses/"+projectName,
+                            url: compbaseUrl+"/api1/courses/"+projectName,
                             Accept: "text/plain; charset=utf-8",
                             type: 'DELETE',
                             contentType: "text/plain",

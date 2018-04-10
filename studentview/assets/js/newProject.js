@@ -90,7 +90,7 @@ function createNewProject(allTheTags, activ) {
                     "printableName": projectName,
                     "competences": allTheTags
                 };
-                var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api1/courses/" + $("#nameProject").val();
+                var url = compbaseUrl + "/api1/courses/" + $("#nameProject").val();
                 var dataString = JSON.stringify(obj);
                 var addProjectNeo4j = $.ajax({
                     url: url,

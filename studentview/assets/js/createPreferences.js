@@ -122,7 +122,7 @@ function takesPartInProject() {
         "tagsSelected": allTheTags
     };
     var dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
-    var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api2/user/" + userID + "/projects/" + projectID + "/preferences";
+    var url = compbaseUrl + "/api2/user/" + userID + "/projects/" + projectID + "/preferences";
     $.ajax({
         url: url,
         type: 'PUT',

@@ -22,7 +22,7 @@ function printProjectDropdown(projects, numberOfProjectsPrinted) {
     }
 }
 function getProjects(user) {
-    var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api2/user/" + user + "/projects";
+    var url = compbaseUrl + "/api2/user/" + user + "/projects";
     $.ajax({
         url: url,
         user: user,
@@ -93,7 +93,9 @@ function printGroupTable(student1, student2, student3, student4) {
 function getMembers(project, user) {        //gets all Members in the chosen Project user is a part of with email adresses
 
     $("#tablesHolder").empty();
-    var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api2/groups/" + project;     //this API is used, since fleckenroller has security issues with CORS and stuff
+    var url = compbaseUrl + "/api2/groups/" + project;     //this API is used, since fleckenroller has security issues
+    // with CORS
+    // and stuff
     $.ajax({
         url: url,
         user: user,

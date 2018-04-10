@@ -23,7 +23,7 @@ include_once '../database/tokenSetter.php';
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/projects.css">
 
-
+    <script src="../assets/js/config.js"></script>
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/Customizable-Carousel-swipe-enabled.js"></script>

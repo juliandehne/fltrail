@@ -17,6 +17,7 @@ include_once '../database/tokenSetter.php';
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="../assets/js/config.js"></script>
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/showProjects.js"></script>
     <script src="../assets/js/GETfile.js"></script>
