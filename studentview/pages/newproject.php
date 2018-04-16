@@ -56,6 +56,9 @@ include_once '../database/tokenSetter.php';
         <div class="alert alert-warning" role="alert" id="projectNameExists">
             Dieser Projektname exisitiert bereits.
         </div>
+        <div class="alert alert-warning" role="alert" id="projectHasSpecialCharacter">
+            Vermeiden Sie Sonderzeichen!
+        </div>
         <div class="alert alert-warning" role="alert" id="projectIsMissing">
             Tragen sie einen Projektnamen ein.
         </div>

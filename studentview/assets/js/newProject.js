@@ -5,6 +5,7 @@ $(document).ready(function () {
     var allTheTags = [];
     $("#nameProject").focus();
     $('#projectNameExists').hide();
+    $('#projectHasSpecialCharacter').hide();
     $('#projectIsMissing').hide();
     $(function () {
         $('#tagsProject').tagsInput({
@@ -25,6 +26,12 @@ $(document).ready(function () {
 
 
 function createNewProject(allTheTags, activ) {
+    if (isValid($('#nameProject').text().trim())){
+        $('#projectHasSpecialCharacter').hide();
+    } else {
+        $('#projectHasSpecialCharacter').show();
+        return false;
+    }
     var projectName = $("#nameProject").val();
     var password = $("#passwordProject").val();
     document.getElementById('loader').className = "loader";
@@ -121,7 +128,7 @@ function createNewProject(allTheTags, activ) {
 
 function addProjectToLocalDB(allTheTags, projectName, password, activ) {
     var tags = JSON.stringify(allTheTags);
-    var author = $("#user").text().trim();
+    var author = $("#user").val().trim();
     var adminPassword = $("#adminPassword").val();
     var url = "../database/putProject.php?project=" + projectName + "&password=" + password + "&activ=" + activ + "&token=" + getUserTokenFromUrl() + "&adminpassword=" + adminPassword + "&author=" + author;
     return $.ajax({
@@ -136,4 +143,8 @@ function addProjectToLocalDB(allTheTags, projectName, password, activ) {
             console.log(a);
         }
     });
+}
+
+function isValid(str){
+    return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|":<>\?]/g.test(str);
 }
