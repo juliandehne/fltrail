@@ -65,10 +65,10 @@ include_once '../database/tokenSetter.php';
         <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name"
                                        style="width:286px;margin-left:50px;" id="nameProject"></div>
         <p> Passwort zum Teilnehmen (optional) </p>
-        <div class="form-group"><input class="form-control" type="email" name="password" placeholder="Passwort"
+        <div class="form-group"><input class="form-control" name="password" placeholder="Passwort"
                                        style="width:287px;margin-left:51px;" id="passwordProject"></div>
         <p> Passwort zum Löschen </p>
-        <div class="form-group"><input class="form-control" type="email" name="adminpassword" placeholder="Passwort"
+        <div class="form-group"><input class="form-control" name="adminpassword" placeholder="Passwort"
                                        style="width:287px;margin-left:51px;" id="adminPassword"></div>
         <p>Tags </p>
         <div id="tagHelper" class="alert alert-warning" style="width:475px;">
