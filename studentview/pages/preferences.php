@@ -26,7 +26,9 @@ $projectName = $resultObj->id;
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="../assets/js/config.js"></script>
     <script src="../assets/js/createPreferences.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/Sidebar-Menu.js"></script>
@@ -101,8 +103,11 @@ $projectName = $resultObj->id;
         </div>
     </fieldset>
     <button class="btn btn-primary" id="studentFormSubmit" style="width:90px;margin-left:169px;margin-top:13px;">
-        Eintragen
+        eintragen
     </button>
+    <div class="alert alert-warning" role="alert">
+        Das Verarbeiten der Lernziele und das Gruppenmatching kann einen Moment dauern!
+    </div>
 </div>
 
 </body>

@@ -23,7 +23,7 @@ if(isset($_GET['password'])){
     $result = mysqli_query($db,$sql);
 
     $row = mysqli_fetch_array($result);
-    if (count($row) < 1){
+    if (!$row || count($row) == 0){
         echo 'project missing';
     }else {
         if ($row['password'] === $password) {

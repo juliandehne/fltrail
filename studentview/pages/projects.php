@@ -9,7 +9,6 @@ include_once '../database/tokenSetter.php';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>dozent-view-alternativ slider</title>
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/fonts/ionicons.min.css">
     <link rel="stylesheet" href="../assets/css/Contact-Form-Clean.css">
@@ -21,18 +20,49 @@ include_once '../database/tokenSetter.php';
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet'
           type='text/css'>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/projects.css">
 
+    <script src="../assets/js/config.js"></script>
     <script src="../assets/js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/Customizable-Carousel-swipe-enabled.js"></script>
     <script src="../assets/js/Sidebar-Menu.js"></script>
+    <script src="../assets/js/getProjects.js"></script>
+    <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/overview.js"></script>
+    <script src="../assets/js/showProjects.js"></script>
 </head>
 
 <body>
 
 <p id="user" hidden><?php echo $userName; ?></p>
 
+
+<!-- the delete dialog -->
+
+<!-- Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- the slideshow -->
 <div id="wrapper" style="margin:0px;">
     <?php
     include_once 'menu.php'
@@ -82,12 +112,12 @@ include_once '../database/tokenSetter.php';
                                 </div>
                                 <div class="panel-footer">
                                     <div class="row">
-                                        <div class="col col-xs-4">Projekte
+                                        <div class="col col-xs-4" style="display: none">Projekte
                                         </div>
                                         <div class="col col-xs-6 text-right">
                                             <button type="button" class="btn btn-sm btn-primary btn-create"
-                                                    onclick="location.href='neuesProjekt.php?token=<?php echo $token ?>'">
-                                                erstelle neuese Projekt
+                                                    onclick="location.href='newproject.php?token=<?php echo $token ?>'">
+                                                neues Projekt erstellen
                                             </button>
                                         </div>
                                     </div>
@@ -97,8 +127,11 @@ include_once '../database/tokenSetter.php';
 
                         </div>
                         <p></p>
-                        <p>Hier können Sie ihre Projekte, deren Gruppen und Studenten einsehen. Dafür klicken sie auf
-                            das Projekt, das sie sehen wollen.</p>
+
+                   <!--     <div class="alert alert-primary projectAlert" role="alert">
+                            Hier können Sie ihre Projekte, deren Gruppen und Studenten einsehen. Dafür klicken sie auf
+                                das Projekt, das sie sehen wollen.
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -114,7 +147,7 @@ include_once '../database/tokenSetter.php';
                                         <div class="col col-xs-6">
                                             <h3 class="panel-title" style="margin-top:50px;">Gruppen</h3>
                                             <p id="gruppe"><?php echo $userName; ?>/<span
-                                                        name="pathProject">Projekt</span>/</p>
+                                                    name="pathProject">Projekt</span>/</p>
                                         </div>
                                     </div>
                                 </div>
@@ -144,9 +177,9 @@ include_once '../database/tokenSetter.php';
 
                         </div>
                         <p></p>
-                        <p> Hier können Sie die Gruppen und deren Studenten einsehen. Klicken sie auf
+                        <!--<p> Hier können Sie die Gruppen und deren Studenten einsehen. Klicken sie auf
                             die Gruppe, die sie sehen detaillierter wollen.<br>
-                            Zurück kommen sie mit dem Button links unten.</p>
+                            Zurück kommen sie mit dem Button links unten.</p>-->
                     </div>
                 </div>
             </div>
@@ -162,8 +195,8 @@ include_once '../database/tokenSetter.php';
                                         <div class="col col-xs-6">
                                             <h3 class="panel-title" style="margin-top:50px;">Studenten</h3>
                                             <p id="student"><?php echo $userName; ?>/<span
-                                                        name="pathProject">Projekt</span>/<span
-                                                        name="pathGruppe">Gruppe</span>/</p>
+                                                    name="pathProject">Projekt</span>/<span
+                                                    name="pathGruppe">Gruppe</span>/</p>
                                         </div>
                                     </div>
                                 </div>
@@ -193,8 +226,11 @@ include_once '../database/tokenSetter.php';
 
                         </div>
                         <p></p>
-                        <p> Hier können Sie die Daten der Studenten einsehen.
-                            Zurück kommen sie mit dem Button links unten.</p>
+                        </br>
+                        <!--    <div class="alert alert-primary" role="alert">
+                                Hier können Sie die Daten der Studenten einsehen.
+                                Zurück kommen sie mit dem Button links unten.
+                            </div>-->
                     </div>
                 </div>
             </div>

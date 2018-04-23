@@ -63,11 +63,11 @@ function getTags(projectName) {
                 tagList.push(response[i].tag);
             for (i = 0; i < tagList.length; i++) {
                 var newInput = document.createElement("label");
-                newInput.innerHTML = tagList[i] + "<input style='margin-right:10px;' " +
-                    "type='checkbox' " +
-                    "name='tag' " +
-                    "id='tag" + i + "' " +
-                    "value=" + tagList[i] + ">";
+                newInput.innerHTML =
+                    "<div class='checkbox checkbox-primary' >"
+                        + "<input id='tag" + i + "' "  + " class='styled' " + "name='tag'" + "type='checkbox' " + ">"
+                        + "<label for='tag" + i + "' "+ ">" + tagList[i] + "</label>"
+                    + "</div>";
                 var div = document.getElementById('tags');
                 div.appendChild(newInput);
             }
@@ -101,14 +101,16 @@ function takesPartInProject() {
             allTheCompetencies.push("Die Studierenden interessieren sich für " + $("#tag" + i).val());     //todo: Die Tags werden hinter der Schnittstelle noch nicht verwertet, daher diese schnelle Lösung
     }
     if (allTheTags.length > 2) {
-        alert('Sie haben zu viele Tags ausgewählt');
+        //alert('Sie haben zu viele Tags ausgewählt');
+        $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
         document.getElementById('loader').className = "loader-inactive";
         document.getElementById('wrapper').className = "wrapper";
         return false;
     }
     if (allTheTags.length < 2) {
-        alert('Sie haben zu wenig Tags ausgewählt');
+        //alert('Sie haben zu wenig Tags ausgewählt');
+        $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
         document.getElementById('loader').className = "loader-inactive";
         document.getElementById('wrapper').className = "wrapper";
@@ -120,7 +122,7 @@ function takesPartInProject() {
         "tagsSelected": allTheTags
     };
     var dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
-    var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api2/user/" + userID + "/projects/" + projectID + "/preferences";
+    var url = compbaseUrl + "/api2/user/" + userID + "/projects/" + projectID + "/preferences";
     $.ajax({
         url: url,
         type: 'PUT',

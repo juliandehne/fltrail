@@ -19,6 +19,7 @@ include_once '../database/tokenSetter.php';
     <link rel="stylesheet" type="text/css" href="../assets/jQuery-Tags-Input-master/src/jquery.tagsinput.css"/>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="../assets/jQuery-Tags-Input-master/src/jquery.tagsinput.js"></script>
+    <script src="../assets/js/config.js"></script>
     <script src="../assets/js/newProject.js"></script>
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
@@ -53,22 +54,25 @@ include_once '../database/tokenSetter.php';
     </div>
     <div class="contact-clean">
         <p>Name des Projekts</p>
-        <div class="alert alert-warning" role="alert" id="projectNameExists">
+        <div class="alert alert-danger" role="alert" id="projectNameExists">
             Dieser Projektname exisitiert bereits.
         </div>
-        <div class="alert alert-warning" role="alert" id="projectHasSpecialCharacter">
-            Vermeiden Sie Sonderzeichen!
+        <div class="alert alert-danger" role="alert" id="exactNumberOfTags">
+            Es müssen genau 5 Tags eingegeben werden.
         </div>
-        <div class="alert alert-warning" role="alert" id="projectIsMissing">
+        <div class="alert alert-danger" role="alert" id="specialChars">
+            Der Projektname darf keine Sonderzeichen enthalten.
+        </div>
+        <div class="alert alert-danger" role="alert" id="projectIsMissing">
             Tragen sie einen Projektnamen ein.
         </div>
         <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name"
                                        style="width:286px;margin-left:50px;" id="nameProject"></div>
         <p> Passwort zum Teilnehmen (optional) </p>
-        <div class="form-group"><input class="form-control" name="password" placeholder="Passwort"
+        <div class="form-group"><input class="form-control" type="email" name="password" placeholder="Passwort"
                                        style="width:287px;margin-left:51px;" id="passwordProject"></div>
-        <p> Passwort zum Löschen </p>
-        <div class="form-group"><input class="form-control" name="adminpassword" placeholder="Passwort"
+        <p> Passwort zum Löschen (sonst: 1234) </p>
+        <div class="form-group"><input class="form-control" type="email" name="adminpassword" placeholder="Passwort"
                                        style="width:287px;margin-left:51px;" id="adminPassword"></div>
         <p>Tags </p>
         <div id="tagHelper" class="alert alert-warning" style="width:475px;">

@@ -16,20 +16,21 @@
 
 <body>
     <div class="login-clean">
-        <form method="post" action="database/createUser.php" target="pages/overview.html">
+        <form method="post" action="database/createUser.php">
             <h2 class="sr-only">Login Formular</h2>
             <div class="illustration"><img src="assets/img/fides-logo.svg"></div>
             <div class="form-group"><input class="form-control" name="name" placeholder="Name"></div>
             <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
             <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
+            <div class="form-group"><label>Bitte kein sensibeles Passwort verwenden!</label></div>
             <!--<div class="form-group"><input class="form-control" type="password" name="password"
                                            placeholder="Password wiederholen"></div>-->
-            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div>
+            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">registrieren</button></div>
             <div class="form-group">
                 <?php
-                if (isset($_GET['emailExists'])) {
+                if (isset($_GET['userExists'])) {
                     echo "<div class=\"alert alert-danger\" role=\"alert\">
-            Es existiert ein Nutzer mit dieser Email!
+            Es existiert ein Nutzer mit dieser Email oder diesem Benutzernamen!
         </div>";
                 }
                 ?>

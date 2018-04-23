@@ -5,8 +5,9 @@ $(document).ready(function () {
     var allTheTags = [];
     $("#nameProject").focus();
     $('#projectNameExists').hide();
-    $('#projectHasSpecialCharacter').hide();
     $('#projectIsMissing').hide();
+    $('#exactNumberOfTags').hide();
+    $('#specialChars').hide();
     $(function () {
         $('#tagsProject').tagsInput({
             width: '475px',
@@ -22,18 +23,35 @@ $(document).ready(function () {
         var activ = "1";
         createNewProject(allTheTags, activ);
     });
+
+
 });
 
 
 function createNewProject(allTheTags, activ) {
-    if (isValid($('#nameProject').text().trim())){
-        $('#projectHasSpecialCharacter').hide();
-    } else {
-        $('#projectHasSpecialCharacter').show();
+    $("#nameProject").focus();
+    $('#projectNameExists').hide();
+    $('#projectIsMissing').hide();
+    $('#exactNumberOfTags').hide();
+    $('#specialChars').hide();
+
+    var projectName = $("#nameProject").val().trim();
+    var password = $("#passwordProject").val().trim();
+    var adminPassword = $("#adminPassword").val().trim();
+    if (adminPassword == "") {
+        adminPassword = "1234";
+    }
+
+    var reguexp = /^[a-zA-Z0-9äüöÄÜÖ\ ]+$/;
+    if (!reguexp.test(projectName)) {
+        $('#specialChars').show();
         return false;
     }
-    var projectName = $("#nameProject").val();
-    var password = $("#passwordProject").val();
+    if (projectName === "") {           //project has no name, so abort function
+        $('#projectIsMissing').show();
+        return false;
+    }
+
     document.getElementById('loader').className = "loader";
     document.getElementById('wrapper').className = "wrapper-inactive";
     var localurl = "../database/getProjects.php?project=" + projectName;
@@ -42,94 +60,92 @@ function createNewProject(allTheTags, activ) {
     } else {
         document.getElementById('tagHelper').className = "";
     }
-    if (projectName === "") {           //project has no name, so abort function
-        $('#projectIsMissing').show();
-        return false;
-    } else {
-        $('#projectIsMissing').hide();
-        $.ajax({                        //check local DB for existence of projectName
-            url: localurl,
-            projectName: projectName,
-            activ: activ,
-            Accept: "text/plain; charset=utf-8",
-            contentType: "text/plain",
-            success: function (response) {
-                if (response !== "project missing") {
-                    $('#projectNameExists').show();
+
+
+    $('#projectIsMissing').hide();
+    $.ajax({                        //check local DB for existence of projectName
+        url: localurl,
+        projectName: projectName,
+        activ: activ,
+        Accept: "text/plain; charset=utf-8",
+        contentType: "text/plain",
+        success: function (response) {
+            if (response !== "project missing") {
+                $('#projectNameExists').show();
+                document.getElementById('loader').className = "loader-inactive";
+                document.getElementById('wrapper').className = "wrapper";
+                return true;
+            } else {
+                $('#projectNameExists').hide();
+                if (allTheTags.length !== 5) {
+                    document.getElementById('tagHelper').className = "alert alert-warning";
                     document.getElementById('loader').className = "loader-inactive";
                     document.getElementById('wrapper').className = "wrapper";
-                    return true;
-                } else {
-                    $('#projectNameExists').hide();
-                    if (allTheTags.length !== 5) {
-                        document.getElementById('tagHelper').className = "alert alert-warning";
+                    $('#exactNumberOfTags').show();
+                    return false;
+                }
+                document.getElementById('tagHelper').className = "";
+                var obj = {
+                    "courseId": projectName,
+                    "printableName": projectName,
+                    "competences": allTheTags
+                };
+                var url = compbaseUrl + "/api1/courses/" + $("#nameProject").val();
+                var dataString = JSON.stringify(obj);
+                var addProjectNeo4j = $.ajax({
+                    url: url,
+                    contentType: 'application/json',
+                    activ: activ,
+                    type: 'PUT',
+                    data: dataString,
+                    success: function (response) {
+                        console.log(response);
+                        document.getElementById('loader').className = "loader-inactive";
+                        document.getElementById('wrapper').className = "wrapper";
+                    },
+                    error: function (a, b, c) {
+                        console.log(a);
                         document.getElementById('loader').className = "loader-inactive";
                         document.getElementById('wrapper').className = "wrapper";
                         return false;
                     }
-                    document.getElementById('tagHelper').className = "";
-                    var obj = {
-                        "courseId": projectName,
-                        "printableName": projectName,
-                        "competences": allTheTags
-                    };
-                    var url = "https://esb.uni-potsdam.de:8243/services/competenceBase/api1/courses/" + $("#nameProject").val();
-                    var dataString = JSON.stringify(obj);
-                    var addProjectNeo4j = $.ajax({
-                        url: url,
-                        contentType: 'application/json',
-                        activ: activ,
-                        type: 'PUT',
-                        data: dataString,
-                        success: function (response) {
-                            alert(response);
-                            document.getElementById('loader').className = "loader-inactive";
-                            document.getElementById('wrapper').className = "wrapper";
-                        },
-                        error: function (a, b, c) {
-                            console.log(a);
-                            document.getElementById('loader').className = "loader-inactive";
-                            document.getElementById('wrapper').className = "wrapper";
-                            return false;
-                        }
-                    });
-                    $.when(addProjectNeo4j, addProjectToLocalDB(allTheTags, projectName, password, activ)).done(function () {
-                        document.getElementById('loader').className = "loader-inactive";
-                        document.getElementById('wrapper').className = "wrapper";
-                        if ($('#Teilnehmer').prop("checked")) {          //if author wants to join the course, he needs to be redirected to preferences.php
-                            var url = "../database/getProjects.php?project=" + projectName + "&password=" + document.getElementById('passwordProject').value;
-                            $.ajax({
-                                url: url,
-                                projectName: projectName,
-                                Accept: "text/plain; charset=utf-8",
-                                contentType: "text/plain",
-                                success: function (response) {
-                                    location.href = "preferences.php?token=" + getUserTokenFromUrl() + "&projectToken=" + response;
-                                },
-                                error: function (a, b, c) {
-                                    console.log(a);
-                                }
-                            });
-                        } else {                //if author is just author and not member, he will be directed to projects.php
-                            location.href = "projects.php?token=" + getUserTokenFromUrl();
-                        }
-                    });
-                }
-            },
-            error: function (a, b, c) {
-                console.log(a);
-                document.getElementById('loader').className = "loader-inactive";
-                document.getElementById('wrapper').className = "wrapper";
-                return true;
+                });
+                $.when(addProjectNeo4j, addProjectToLocalDB(allTheTags, projectName, password, activ, adminPassword)).done(function () {
+                    document.getElementById('loader').className = "loader-inactive";
+                    document.getElementById('wrapper').className = "wrapper";
+                    if ($('#Teilnehmer').prop("checked")) {          //if author wants to join the course, he needs to be redirected to preferences.php
+                        var url = "../database/getProjects.php?project=" + projectName + "&password=" + document.getElementById('passwordProject').value;
+                        $.ajax({
+                            url: url,
+                            projectName: projectName,
+                            Accept: "text/plain; charset=utf-8",
+                            contentType: "text/plain",
+                            success: function (response) {
+                                location.href = "preferences.php?token=" + getUserTokenFromUrl() + "&projectToken=" + response;
+                            },
+                            error: function (a, b, c) {
+                                console.log(a);
+                            }
+                        });
+                    } else {                //if author is just author and not member, he will be directed to projects.php
+                        location.href = "projects.php?token=" + getUserTokenFromUrl();
+                    }
+                });
             }
-        });
-    }
+        },
+        error: function (a, b, c) {
+            console.log(a);
+            document.getElementById('loader').className = "loader-inactive";
+            document.getElementById('wrapper').className = "wrapper";
+            return true;
+        }
+    });
+
 }
 
-function addProjectToLocalDB(allTheTags, projectName, password, activ) {
+function addProjectToLocalDB(allTheTags, projectName, password, activ, adminPassword) {
     var tags = JSON.stringify(allTheTags);
-    var author = $("#user").val().trim();
-    var adminPassword = $("#adminPassword").val();
+    var author = $("#user").text().trim();
     var url = "../database/putProject.php?project=" + projectName + "&password=" + password + "&activ=" + activ + "&token=" + getUserTokenFromUrl() + "&adminpassword=" + adminPassword + "&author=" + author;
     return $.ajax({
         url: url,
@@ -143,8 +159,4 @@ function addProjectToLocalDB(allTheTags, projectName, password, activ) {
             console.log(a);
         }
     });
-}
-
-function isValid(str){
-    return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|":<>\?]/g.test(str);
 }

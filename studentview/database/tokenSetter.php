@@ -10,5 +10,9 @@ $query = "SELECT (`name`) from users u where u.token = '". $_GET['token']."';";
 //echo $db->query($query);
 $result = mysqli_query($db, $query);
 $resultObj = mysqli_fetch_object($result);
-$userName = $resultObj->name;
+if ($resultObj) {
+    $userName = $resultObj->name;
+} else {
+    header("Location: ../index.php");
+}
 ?>

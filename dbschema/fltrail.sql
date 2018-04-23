@@ -31,12 +31,8 @@ CREATE TABLE `users` (
   `token` varchar(800) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `users` (`name`, `password`, `email`, `token`) VALUES
-('Axel Wiepke', 'password', 'wiepke@uni.de', '5ab0f28f75d23');
 
 
-ALTER TABLE `users`
-  ADD UNIQUE KEY `password` (`password`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
