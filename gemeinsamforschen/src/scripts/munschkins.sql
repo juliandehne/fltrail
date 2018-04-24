@@ -1,3 +1,6 @@
+
+use munschkins;
+
 CREATE TABLE IF NOT EXISTS Munschkins (
   MunschkinId int,
   LastName varchar(255),
@@ -8,3 +11,4 @@ CREATE TABLE IF NOT EXISTS Munschkins (
 
 INSERT INTO `Munschkins` (MunschkinId, LastName, FirstName, BadThings, Strength) values(1, "Thor", "Theodor", "he
 will eat your feet", 5);
+
