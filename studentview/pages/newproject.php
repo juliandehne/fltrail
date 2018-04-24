@@ -54,25 +54,25 @@ include_once '../database/tokenSetter.php';
     </div>
     <div class="contact-clean">
         <p>Name des Projekts</p>
-        <div class="alert alert-danger" role="alert" id="projectNameExists">
+        <div class="alert alert-danger" role="alert" style="width:475px" id="projectNameExists">
             Dieser Projektname exisitiert bereits.
         </div>
-        <div class="alert alert-danger" role="alert" id="exactNumberOfTags">
+        <div class="alert alert-danger" role="alert" style="width:475px" id="exactNumberOfTags">
             Es müssen genau 5 Tags eingegeben werden.
         </div>
-        <div class="alert alert-danger" role="alert" id="specialChars">
+        <div class="alert alert-danger" role="alert" style="width:475px" id="specialChars">
             Der Projektname darf keine Sonderzeichen enthalten.
         </div>
-        <div class="alert alert-danger" role="alert" id="projectIsMissing">
+        <div class="alert alert-danger" role="alert" style="width:475px" id="projectIsMissing">
             Tragen sie einen Projektnamen ein.
         </div>
-        <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name"
+        <div class="form-group"><input class="form-control" name="name" placeholder="Name"
                                        style="width:286px;margin-left:50px;" id="nameProject"></div>
         <p> Passwort zum Teilnehmen (optional) </p>
-        <div class="form-group"><input class="form-control" type="email" name="password" placeholder="Passwort"
+        <div class="form-group"><input class="form-control" name="password" placeholder="Passwort"
                                        style="width:287px;margin-left:51px;" id="passwordProject"></div>
         <p> Passwort zum Löschen (sonst: 1234) </p>
-        <div class="form-group"><input class="form-control" type="email" name="adminpassword" placeholder="Passwort"
+        <div class="form-group"><input class="form-control" name="adminpassword" placeholder="Passwort"
                                        style="width:287px;margin-left:51px;" id="adminPassword"></div>
         <p>Tags </p>
         <div id="tagHelper" class="alert alert-warning" style="width:475px;">

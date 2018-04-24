@@ -31,6 +31,7 @@ function deleteProject(projectName) {
                             Accept: "text/plain; charset=utf-8",
                             type: 'DELETE',
                             contentType: "text/plain",
+                            async: false,
                             success: function (response) {
 
                             },

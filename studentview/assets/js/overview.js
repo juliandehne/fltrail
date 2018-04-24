@@ -40,8 +40,6 @@ function printProjects(projects, offset) {
 
 }
 function getProjectOverview(user) {
-
-
     var url = compbaseUrl + "/api2/user/" + user + "/projects";
     $.ajax({
         url: url,

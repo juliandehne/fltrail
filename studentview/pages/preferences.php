@@ -105,7 +105,7 @@ $projectName = $resultObj->id;
     <button class="btn btn-primary" id="studentFormSubmit" style="width:90px;margin-left:169px;margin-top:13px;">
         eintragen
     </button>
-    <div class="alert alert-warning" role="alert">
+    <div class="alert alert-warning" style="width:520px" role="alert">
         Das Verarbeiten der Lernziele und das Gruppenmatching kann einen Moment dauern!
     </div>
 </div>
