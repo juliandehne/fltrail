@@ -1,6 +1,7 @@
-import unipotsdam.gf.controller.MunschkinLoader;
-import unipotsdam.gf.model.Munschkin;
 import org.junit.Test;
+import unipotsdam.gf.munschkin.controller.MunschkinLoader;
+import unipotsdam.gf.munschkin.model.Munschkin;
+
 
 /**
  * Created by dehne on 24.04.2018.

@@ -1,0 +1,169 @@
+package uzuzjmd.competence.algorithms.groups.drools;
+dialect  "mvel"
+
+
+rule "fillUnEvenGroupsWithFittingD" salience 17
+    when
+        u1a:DLearner(learnerIda:learnerId, groupId == null)
+        u1b:DLearner(learnerIdb:learnerId, groupId == null)
+        g:DGroup(g.groupSize == g.groupFill + 1)
+        u2:DLearner(learnerId2:learnerId, groupId == g.groupId)
+        m1:DLearnerPair(user2Id == learnerIda,  user1Id ==  learnerId2)
+        m2:DLearnerPair(user2Id == learnerIdb,  user1Id == learnerId2, similarityScore < m1.similarityScore)
+    then
+       modify (g) {updateGroupFill(1)}
+       modify(u1a){setGroupId(g.groupId)}
+       System.out.println("learner "+ learnerIda + " was assigned group: " + g.getGroupId());
+end
+
+rule "fillUnEvenGroupsWithFittingC" salience 16
+    when
+        u1a:DLearner(learnerIda:learnerId, groupId == null)
+        u1b:DLearner(learnerIdb:learnerId, groupId == null)
+        g:DGroup(g.groupSize == g.groupFill + 1)
+        u2:DLearner(learnerId2:learnerId, groupId == g.groupId)
+        m1:DLearnerPair(user1Id == learnerIda, user2Id ==  learnerId2)
+        m2:DLearnerPair(user1Id == learnerIdb,  user2Id == learnerId2, similarityScore < m1.similarityScore)
+    then
+       modify (g) {updateGroupFill(1)}
+       modify(u1a){setGroupId(g.groupId)}
+       System.out.println("learner "+ learnerIda + " was assigned group: " + g.getGroupId());
+end
+
+
+rule "fillUnEvenGroupsWithFittingB" salience 15
+    when
+        u1:DLearner(learnerId:learnerId, groupId == null)
+        g:DGroup(g.groupSize == g.groupFill + 1)
+        u2:DLearner(learnerId2:learnerId, groupId == g.groupId)
+        m1:DLearnerPair(user2Id == learnerId, user1Id ==  learnerId2)
+    then
+       modify (g) {updateGroupFill(1)}
+       modify(u1){setGroupId(g.groupId)}
+       System.out.println("learner "+ learnerId + " was assigned group: " + g.getGroupId());
+end
+
+
+rule "fillUnEvenGroupsWithFittingA" salience 14
+    when
+        u1:DLearner(learnerId:learnerId, groupId == null)
+        g:DGroup(g.groupSize == g.groupFill + 1)
+        u2:DLearner(learnerId2:learnerId, groupId == g.groupId)
+        m1:DLearnerPair(user1Id == learnerId, user2Id ==  learnerId2)
+    then
+       modify (g) {updateGroupFill(1)}
+       modify(u1){setGroupId(g.groupId)}
+       System.out.println("learner "+ learnerId + " was assigned group: " + g.getGroupId());
+end
+
+
+
+rule "addPairsToGroups1" salience 13
+    when
+        u1:DLearner(learnerId:learnerId, groupId == null)
+        u2:DLearner(learnerId2:learnerId, groupId == null)
+        m1:DLearnerPair(user1Id == learnerId, user2Id ==  learnerId2)
+        m2:DLearnerPair(user2Id == learnerId2, similarityScore < m1.similarityScore)
+        g:DGroup(g.groupSize >= g.groupFill + 2)
+    then
+        modify (g) {
+            updateGroupFill(2)
+        }
+        modify(u1){setGroupId(g.groupId)}
+        System.out.println("learner "+ learnerId + " was assigned group: " + g.getGroupId());
+        modify(u2){setGroupId(g.groupId)}
+        System.out.println("learner "+ learnerId2 + " was assigned group: " + g.getGroupId());
+end
+
+
+rule "addPairsToGroups2" salience 13
+    when
+        u1:DLearner(learnerId:learnerId, groupId == null)
+        u2:DLearner(learnerId2:learnerId, groupId == null)
+        m1:DLearnerPair(user1Id == learnerId, user2Id ==  learnerId2)
+        m2:DLearnerPair(user2Id == learnerId, similarityScore < m1.similarityScore)
+        g:DGroup(g.groupSize >= g.groupFill + 2)
+    then
+        modify (g) {
+            updateGroupFill(2)
+        }
+        modify(u1){setGroupId(g.groupId)}
+        System.out.println("learner "+ learnerId + " was assigned group: " + g.getGroupId());
+        modify(u2){setGroupId(g.groupId)}
+        System.out.println("learner "+ learnerId2 + " was assigned group: " + g.getGroupId());
+end
+
+
+rule "addPairsToGroups3" salience 12
+    when
+        u1:DLearner(learnerId:learnerId, groupId == null)
+        u2:DLearner(learnerId2:learnerId, groupId == null)
+        m1:DLearnerPair(user1Id == learnerId, user2Id ==  learnerId2)
+        m2:DLearnerPair(user1Id == learnerId2, similarityScore < m1.similarityScore)
+        g:DGroup(g.groupSize >= g.groupFill + 2)
+    then
+        modify (g) {
+            updateGroupFill(2)
+        }
+        modify(u1){setGroupId(g.groupId)}
+        System.out.println("learner "+ learnerId + " was assigned group: " + g.getGroupId());
+        modify(u2){setGroupId(g.groupId)}
+        System.out.println("learner "+ learnerId2 + " was assigned group: " + g.getGroupId());
+end
+
+rule "addPairsToGroups4" salience 11
+    when
+        u1:DLearner(learnerId:learnerId, groupId == null)
+        u2:DLearner(learnerId2:learnerId, groupId == null)
+        m1:DLearnerPair(user1Id == learnerId, user2Id ==  learnerId2)
+        m2:DLearnerPair(user1Id == learnerId, similarityScore < m1.similarityScore)
+        g:DGroup(g.groupSize >= g.groupFill + 2)
+    then
+        modify (g) {
+            updateGroupFill(2)
+        }
+        modify(u1){setGroupId(g.groupId)}
+        System.out.println("learner "+ learnerId + " was assigned group: " + g.getGroupId());
+        modify(u2){setGroupId(g.groupId)}
+        System.out.println("learner "+ learnerId2 + " was assigned group: " + g.getGroupId());
+end
+
+
+
+rule "addPairsToGroups5" salience 10
+    when
+        u1:DLearner(learnerId:learnerId, groupId == null)
+        u2:DLearner(learnerId2:learnerId, groupId == null)
+        m1:DLearnerPair(user1Id == learnerId, user2Id ==  learnerId2)
+        g:DGroup(g.groupSize >= g.groupFill + 2)
+    then
+        modify (g) {
+            updateGroupFill(2)
+        }
+        modify(u1){setGroupId(g.groupId)}
+        System.out.println("learner "+ learnerId + " was assigned group: " + g.getGroupId());
+        modify(u2){setGroupId(g.groupId)}
+        System.out.println("learner "+ learnerId2 + " was assigned group: " + g.getGroupId());
+end
+
+
+rule "fillUnEvenGroups" salience 2
+    when
+        u1:DLearner(learnerId:learnerId, groupId == null)
+        g:DGroup(g.groupSize == g.groupFill + 1)
+    then
+       modify (g) {updateGroupFill(1)}
+       modify(u1){setGroupId(g.groupId)}
+       System.out.println("learner "+ learnerId + " was assigned group: " + g.getGroupId());
+end
+
+rule "fillRestOfGroups" salience 1
+    when
+        u1:DLearner(learnerId:learnerId, groupId == null)
+        g:DGroup(g.groupSize > g.groupFill)
+    then
+         modify (g) {updateGroupFill(1)}
+         modify(u1){setGroupId(g.groupId)}
+         System.out.println("learner "+ learnerId + " was assigned group: " + g.getGroupId());
+end
+
