@@ -1,13 +1,14 @@
-package unipotsdam.gf.controller;
+package unipotsdam.gf.munchkin.controller;
 
-import unipotsdam.gf.model.Munschkin;
+import unipotsdam.gf.munchkin.IMunschkin;
+import unipotsdam.gf.munchkin.model.Munschkin;
 
 import java.sql.*;
 
 /**
  * Created by dehne on 24.04.2018.
  */
-public class MunschkinLoader {
+public class MunchkinImpl implements IMunschkin {
 
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost";
@@ -17,8 +18,9 @@ public class MunschkinLoader {
     static final String PASS = "voyager2";
 
     // Es gibt natürlich auch libraries, die den Datenbankzugriff einfacher gestalten. Ziel soll sein, dass alle
-    // die Basics können.
-    public Munschkin loadMunschkin(int id) {
+    // die Basics können. Es ist auch sinnvoll, die Datenbankzugriffe in eine eigene Klasse auszulagern!!
+    @Override
+    public Munschkin getMunschkin(int id) {
 
         Munschkin munschkin = new Munschkin();
 
@@ -79,5 +81,10 @@ public class MunschkinLoader {
         }//end try
 
         return munschkin;
+    }
+
+    @Override
+    public void letMunchKinFight(Munschkin otherMunchkin) {
+        // TODO was euer Algorithmus sonst noch so kann
     }
 }

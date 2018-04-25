@@ -1,5 +1,6 @@
-import unipotsdam.gf.controller.MunschkinLoader;
-import unipotsdam.gf.model.Munschkin;
+import unipotsdam.gf.munchkin.IMunschkin;
+import unipotsdam.gf.munchkin.controller.MunchkinImpl;
+import unipotsdam.gf.munchkin.model.Munschkin;
 import org.junit.Test;
 
 /**
@@ -8,8 +9,11 @@ import org.junit.Test;
 public class MunschkinLoaderTest {
     @Test
     public void testMunschKinLoader() {
-        MunschkinLoader m = new MunschkinLoader();
-        Munschkin loadedM = m.loadMunschkin(1);
+        IMunschkin m = new MunchkinImpl();
+        // Nützlich weil: IMunschkin m2 = new HendriksMunchkinImpl();
+
+        // ab hier ist es dem Code egal, welche Implementation hinter dem Interface steht
+        Munschkin loadedM = m.getMunschkin(1);
         assert loadedM != null;
         System.out.print(loadedM.toString());
     }

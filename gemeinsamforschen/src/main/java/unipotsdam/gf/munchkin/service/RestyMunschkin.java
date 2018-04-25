@@ -1,11 +1,12 @@
-package unipotsdam.gf.service;
+package unipotsdam.gf.munchkin.service;
 
 /**
  * Created by dehne on 24.04.2018.
  */
 
-import unipotsdam.gf.controller.MunschkinLoader;
-import unipotsdam.gf.model.Munschkin;
+import unipotsdam.gf.munchkin.IMunschkin;
+import unipotsdam.gf.munchkin.controller.MunchkinImpl;
+import unipotsdam.gf.munchkin.model.Munschkin;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -21,8 +22,8 @@ public class RestyMunschkin {
     @Produces(MediaType.TEXT_HTML)
     @Path("/hello/{id}")
     public String sayHtmlHello(@PathParam("id") String id) {
-        MunschkinLoader munschkinLoader = new MunschkinLoader();
-        Munschkin munschkin = munschkinLoader.loadMunschkin(Integer.parseInt(id));
+        IMunschkin munchkinImpl = new MunchkinImpl();
+        Munschkin munschkin = munchkinImpl.getMunschkin(Integer.parseInt(id));
         return "<html> " + "<title>" + "Hello Munschkin" + "</title>" + "<body><h1>" + munschkin
                 .toString() + "</body></h1>" + "</html> ";
     }
@@ -32,8 +33,8 @@ public class RestyMunschkin {
     @Produces(MediaType.APPLICATION_XML)
     @Path("/munschkin/{id}")
     public Munschkin getMunschkin(@PathParam("id") String id) {
-        MunschkinLoader munschkinLoader = new MunschkinLoader();
-        Munschkin munschkin = munschkinLoader.loadMunschkin(Integer.parseInt(id));
+        IMunschkin munchkinImpl = new MunchkinImpl();
+        Munschkin munschkin = munchkinImpl.getMunschkin(Integer.parseInt(id));
         return munschkin;
     }
 

@@ -1,4 +1,4 @@
-package unipotsdam.gf.model;
+package unipotsdam.gf.munchkin.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
