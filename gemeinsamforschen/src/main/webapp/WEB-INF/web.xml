@@ -18,7 +18,7 @@
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>
-                unipotsdam.gf
+                unipotsdam.gf, com.fasterxml.jackson.jaxrs.json
             </param-value>
         </init-param>
 
@@ -32,6 +32,11 @@
                </init-param>-->
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+    <servlet-mapping>
+        <servlet-name>rest-server</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
 
 
     <filter>

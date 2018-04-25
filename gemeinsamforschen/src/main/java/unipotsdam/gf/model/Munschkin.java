@@ -1,9 +1,12 @@
 package unipotsdam.gf.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * Created by dehne on 24.04.2018.
  */
 
+@XmlRootElement(name = "Munschkin")
 public class Munschkin {
     private int munschkinId;
     private String lastName;
@@ -11,6 +14,11 @@ public class Munschkin {
     private String BadThings;
     private int strength;
 
+    public Munschkin() {
+
+    }
+
+/*
     public Munschkin(int munschkinId, String lastName, String firstName, String badThings, int strength) {
         this.munschkinId = munschkinId;
         this.lastName = lastName;
@@ -18,10 +26,9 @@ public class Munschkin {
         BadThings = badThings;
         this.strength = strength;
     }
+*/
 
-    public Munschkin() {
 
-    }
 
     public int getMunschkinId() {
         return munschkinId;
