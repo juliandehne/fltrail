@@ -84,6 +84,7 @@ function takesPartInProject() {
     document.getElementById('block-screen').className = "block-screen";
     document.getElementById('loader').className = "loader";
     document.getElementById('wrapper').className = "wrapper-inactive";
+    var time = Date.now();
 
     var allTheTags = [];
     var allTheCompetencies = [];
@@ -108,6 +109,7 @@ function takesPartInProject() {
         document.getElementById('block-screen').className = "block-screen-inactive";
         document.getElementById('loader').className = "loader-inactive";
         document.getElementById('wrapper').className = "wrapper";
+        time = 0;
         return false;
     }
     if (allTheTags.length < 2) {
@@ -117,6 +119,7 @@ function takesPartInProject() {
         document.getElementById('block-screen').className = "block-screen-inactive";
         document.getElementById('loader').className = "loader-inactive";
         document.getElementById('wrapper').className = "wrapper";
+        time=0;
         return false;
     }
     var data = {                                            //JSON object 'data' collects everything to send
@@ -128,6 +131,7 @@ function takesPartInProject() {
     var url = compbaseUrl + "/api2/user/" + userID + "/projects/" + projectID + "/preferences";
     $.ajax({
         url: url,
+        projectID: projectID,
         type: 'PUT',
         Accept: "text/plain; charset=utf-8",
         contentType: "application/json",
@@ -137,6 +141,23 @@ function takesPartInProject() {
             document.getElementById('block-screen').className = "block-screen-inactive";
             document.getElementById('loader').className = "loader-inactive";
             document.getElementById('wrapper').className = "wrapper";
+            time = Date.now() - time;       //Timedifference from beginning to end
+            time = Math.floor(time/1000);   //time in seconds.
+            var lernziele = encodeURI($('#competencies0').val().trim());
+            var forschungsfrage = encodeURI($("#researchQuestion0").val().trim());
+            var url = "../database/putTimetrack.php?projectID=" + projectID + "&lernziele=" + lernziele + "&forschungsfrage=" + forschungsfrage + "&dauer=" + time;
+            $.ajax({
+                url: url,
+                async:false,
+                //contentType: 'application/json',
+                success: function (response) {
+                    console.log("this action lasted "+time + " seconds");
+                },
+                error: function (a, b, c) {
+                    console.log(a);
+                }
+            });
+
             var parts = window.location.search.substr(1).split("&");
             var $_GET = {};
             for (var i = 0; i < parts.length; i++) {

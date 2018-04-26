@@ -23,12 +23,12 @@
 }
 
 .block-screen {
-    background-color: #FFFFFF;
+    background-color: #EFEFEF;
     position: fixed;
     width: 100%;
     height:100%;
     z-index: 999;
-    opacity: .2;
+    opacity: .4;
 }
 .block-screen .loader .sk-cube {
     float: left;
