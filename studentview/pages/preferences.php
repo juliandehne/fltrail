@@ -38,12 +38,15 @@ $projectName = $resultObj->id;
 
 <p id="user" hidden><?php echo $userName; ?></p>
 <p id="projectName" hidden><?php echo $projectName; ?></p>
-<div class="loader-inactive" id="loader">
-    <div class="sk-cube1 sk-cube"></div>
-    <div class="sk-cube2 sk-cube"></div>
-    <div class="sk-cube4 sk-cube"></div>
-    <div class="sk-cube3 sk-cube"></div>
+<div class="block-screen-inactive" id="block-screen">
+    <div class="loader-inactive" id="loader">
+        <div class="sk-cube1 sk-cube"></div>
+        <div class="sk-cube2 sk-cube"></div>
+        <div class="sk-cube4 sk-cube"></div>
+        <div class="sk-cube3 sk-cube"></div>
+    </div>
 </div>
+
 <div id="wrapper" class="wrapper" style="margin:0px;">
     <?php
     include_once 'menu.php'

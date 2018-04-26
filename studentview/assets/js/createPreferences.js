@@ -81,6 +81,7 @@ function getTags(projectName) {
 function takesPartInProject() {
     var userID = $("#user").text().trim();
     var projectID = $("#projectName").text().trim();
+    document.getElementById('block-screen').className = "block-screen";
     document.getElementById('loader').className = "loader";
     document.getElementById('wrapper').className = "wrapper-inactive";
 
@@ -104,6 +105,7 @@ function takesPartInProject() {
         //alert('Sie haben zu viele Tags ausgewählt');
         $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
+        document.getElementById('block-screen').className = "block-screen-inactive";
         document.getElementById('loader').className = "loader-inactive";
         document.getElementById('wrapper').className = "wrapper";
         return false;
@@ -112,6 +114,7 @@ function takesPartInProject() {
         //alert('Sie haben zu wenig Tags ausgewählt');
         $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
+        document.getElementById('block-screen').className = "block-screen-inactive";
         document.getElementById('loader').className = "loader-inactive";
         document.getElementById('wrapper').className = "wrapper";
         return false;
@@ -131,6 +134,7 @@ function takesPartInProject() {
         data: dataString,
         success: function (response) {
             console.log(response);
+            document.getElementById('block-screen').className = "block-screen-inactive";
             document.getElementById('loader').className = "loader-inactive";
             document.getElementById('wrapper').className = "wrapper";
             var parts = window.location.search.substr(1).split("&");

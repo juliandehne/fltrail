@@ -71,7 +71,6 @@ function getTags(projectName, number) {
             var table = document.getElementById("projectTags" + number);
             for (i = 0; i < response.length; i++) {
                 tagString += "<label class=\"tagLabel\">" + response[i].tag + "</label>";
-                ;
                 //tagString += response[i].tag + " ";
             }
 
@@ -142,6 +141,7 @@ function getGroups(projectName) {
 function getDetailsOfMembers(group, studentString) {
     var pathName = document.getElementsByName("pathGruppe");
     pathName[0].innerHTML = group;
+    studentString = studentString.substring(0, studentString.length-6);         //cuts off the last &nbsp;
     var students = studentString.split("&nbsp;");
     var innerurl = "../database/getAdresses.php?student1=" + students[0] + "&student2=" + students[1] + "&student3=" + students[2] + "&student4=" + students[3] + "&student5=" + students[4];
     $.ajax({

@@ -21,11 +21,15 @@ if (!$db) {
 mysqli_select_db($db, "fltrail");
 $sql = "SELECT name,email FROM `users` WHERE `name`='".$student1."' OR `name` = '".$student2."' OR `name` = '".$student3."'";
 
-if (isset($_GET['student4'])) {
-    $sql = $sql . "OR `name` = '".$_GET['student4']."';";
+if (isset($_GET['student5'])) {
+    $sql = $sql . "OR `name` = '".$_GET['student4']."' ". "OR `name` = '".$_GET['student5']."'";
 } else {
-    $sql = $sql . ";";
+    if (isset($_GET['student4'])) {
+        $sql = $sql . "OR `name` = '" . $_GET['student4'] . "'";
+    }
 }
+$sql = $sql . ";";
+
 
 if ($result = mysqli_query($db, $sql)) {
     while ($row = mysqli_fetch_array($result)) {
@@ -40,8 +44,12 @@ function filter ($arrayelem) {
 $addresses = array_map('filter', $addresses);
 
 $students = array($student1, $student2, $student3);
-if (isset($_GET['student4']) && $_GET['student4'] != "undefined" ) {
-    $students = array($student1, $student2, $student3, $_GET['student4']);
+if (isset($_GET['student5']) && $_GET['student5'] != "undefined" ){
+    $students = array($student1, $student2, $student3, $_GET['student4'], $_GET['student5']);
+}else {
+    if (isset($_GET['student4']) && $_GET['student4'] != "undefined") {
+        $students = array($student1, $student2, $student3, $_GET['student4']);
+    }
 }
 
 function attributeEmail($studentName, $addresses) {
