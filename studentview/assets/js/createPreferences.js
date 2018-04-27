@@ -81,9 +81,10 @@ function getTags(projectName) {
 function takesPartInProject() {
     var userID = $("#user").text().trim();
     var projectID = $("#projectName").text().trim();
-    document.getElementById('block-screen').className = "block-screen";
-    document.getElementById('loader').className = "loader";
-    document.getElementById('wrapper').className = "wrapper-inactive";
+    setTimeout(function(){
+        location.href="projects.php?token="+getUserTokenFromUrl()+"&timeout=true";
+    }, 10000);
+    blockScreen();
     var time = Date.now();
 
     var allTheTags = [];
@@ -106,9 +107,7 @@ function takesPartInProject() {
         //alert('Sie haben zu viele Tags ausgewählt');
         $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
-        document.getElementById('block-screen').className = "block-screen-inactive";
-        document.getElementById('loader').className = "loader-inactive";
-        document.getElementById('wrapper').className = "wrapper";
+        deblockScreen();
         time = 0;
         return false;
     }
@@ -116,9 +115,7 @@ function takesPartInProject() {
         //alert('Sie haben zu wenig Tags ausgewählt');
         $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
-        document.getElementById('block-screen').className = "block-screen-inactive";
-        document.getElementById('loader').className = "loader-inactive";
-        document.getElementById('wrapper').className = "wrapper";
+        deblockScreen();
         time=0;
         return false;
     }
@@ -138,9 +135,7 @@ function takesPartInProject() {
         data: dataString,
         success: function (response) {
             console.log(response);
-            document.getElementById('block-screen').className = "block-screen-inactive";
-            document.getElementById('loader').className = "loader-inactive";
-            document.getElementById('wrapper').className = "wrapper";
+            deblockScreen();
             time = Date.now() - time;       //Timedifference from beginning to end
             time = Math.floor(time/1000);   //time in seconds.
             var lernziele = encodeURI($('#competencies0').val().trim());
@@ -164,7 +159,7 @@ function takesPartInProject() {
                 var temp = parts[i].split("=");
                 $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
             }
-            location.href = "projects.php?token=" + $_GET['token'];
+            location.href = "projects.php?token=" + $_GET['token'] + "&timeout=false";
         },
         error: function (a, b, c) {
             console.log(a);

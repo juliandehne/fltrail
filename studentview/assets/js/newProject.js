@@ -51,9 +51,7 @@ function createNewProject(allTheTags, activ) {
         $('#projectIsMissing').show();
         return false;
     }
-
-    document.getElementById('loader').className = "loader";
-    document.getElementById('wrapper').className = "wrapper-inactive";
+    blockScreen();
     var localurl = "../database/getProjects.php?project=" + projectName;
     if (allTheTags.length !== 5) {
         document.getElementById('tagHelper').className = "alert alert-warning";
@@ -72,15 +70,14 @@ function createNewProject(allTheTags, activ) {
         success: function (response) {
             if (response !== "project missing") {
                 $('#projectNameExists').show();
-                document.getElementById('loader').className = "loader-inactive";
-                document.getElementById('wrapper').className = "wrapper";
+                deblockScreen();
                 return true;
             } else {
                 $('#projectNameExists').hide();
                 if (allTheTags.length !== 5) {
+                    deblockScreen();
                     document.getElementById('tagHelper').className = "alert alert-warning";
-                    document.getElementById('loader').className = "loader-inactive";
-                    document.getElementById('wrapper').className = "wrapper";
+
                     $('#exactNumberOfTags').show();
                     return false;
                 }
@@ -100,19 +97,16 @@ function createNewProject(allTheTags, activ) {
                     data: dataString,
                     success: function (response) {
                         console.log(response);
-                        document.getElementById('loader').className = "loader-inactive";
-                        document.getElementById('wrapper').className = "wrapper";
+                        deblockScreen();
                     },
                     error: function (a, b, c) {
                         console.log(a);
-                        document.getElementById('loader').className = "loader-inactive";
-                        document.getElementById('wrapper').className = "wrapper";
+                        deblockScreen();
                         return false;
                     }
                 });
                 $.when(addProjectNeo4j, addProjectToLocalDB(allTheTags, projectName, password, activ, adminPassword)).done(function () {
-                    document.getElementById('loader').className = "loader-inactive";
-                    document.getElementById('wrapper').className = "wrapper";
+                    deblockScreen();
                     if ($('#Teilnehmer').prop("checked")) {          //if author wants to join the course, he needs to be redirected to preferences.php
                         var url = "../database/getProjects.php?project=" + projectName + "&password=" + document.getElementById('passwordProject').value;
                         $.ajax({
@@ -135,8 +129,7 @@ function createNewProject(allTheTags, activ) {
         },
         error: function (a, b, c) {
             console.log(a);
-            document.getElementById('loader').className = "loader-inactive";
-            document.getElementById('wrapper').className = "wrapper";
+            deblockScreen();
             return true;
         }
     });

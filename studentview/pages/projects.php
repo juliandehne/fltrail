@@ -78,7 +78,20 @@ include_once '../database/tokenSetter.php';
             </div>
         </div>
     </div>
+    <?php
+        if (isset($_GET['timeout'])){
+            if ($_GET['timeout']=="true"){
+                echo '<div class="alert alert-info" style="width:520px" role="alert">
+        Ihre Präferenzen werden verarbeitet. Melden Sie sich in 5 Minuten erneut an, um die Gruppenzuordnung für dieses Projekt einsehen zu können.
+    </div>';
 
+            }else {
+                echo '<div class="alert alert-info" style="width:520px" role="alert">
+        Ihre Präferenzen wurden verarbeitet. Sobald das Projekt mehr als 5 Teilnehmer hat, können Sie die Gruppenzuordnung für dieses Projekt einsehen.
+    </div>';
+            }
+        }
+    ?>
     <div id="Div_Promo_Carousel" class="carousel slide" data-ride="" data-interval=false style="width:728px">
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">

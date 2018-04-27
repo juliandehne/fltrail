@@ -29,6 +29,7 @@ $projectName = $resultObj->id;
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="../assets/js/config.js"></script>
+    <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/createPreferences.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/Sidebar-Menu.js"></script>

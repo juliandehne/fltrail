@@ -29,11 +29,13 @@ include_once '../database/tokenSetter.php';
 <body>
 <p id="user" hidden><?php echo $userName; ?></p>
 
-<div class="loader-inactive" id="loader">
-    <div class="sk-cube1 sk-cube"></div>
-    <div class="sk-cube2 sk-cube"></div>
-    <div class="sk-cube4 sk-cube"></div>
-    <div class="sk-cube3 sk-cube"></div>
+<div class="block-screen-inactive" id="block-screen">
+    <div class="loader-inactive" id="loader">
+        <div class="sk-cube1 sk-cube"></div>
+        <div class="sk-cube2 sk-cube"></div>
+        <div class="sk-cube4 sk-cube"></div>
+        <div class="sk-cube3 sk-cube"></div>
+    </div>
 </div>
 
 <div id="wrapper" style="margin:0px;">

@@ -8,3 +8,15 @@ function getUserTokenFromUrl() {
     return $_GET['token'];
 }
 
+
+function blockScreen(){                 //todo: in eigenes File auslagern
+    document.getElementById('block-screen').className = "block-screen";
+    document.getElementById('loader').className = "loader";
+    document.getElementById('wrapper').className = "wrapper-inactive";
+}
+
+function deblockScreen(){               //todo: in eigenes File auslagern
+    document.getElementById('block-screen').className = "block-screen-inactive";
+    document.getElementById('loader').className = "loader-inactive";
+    document.getElementById('wrapper').className = "wrapper";
+}
