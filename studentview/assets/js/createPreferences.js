@@ -22,7 +22,6 @@ var projectName = getProjectByToken();
     $("#subtractCResearchQuestionButton").on("click", function () {
         deletInput("researchQuestion");    //deletes the latest input-Field with ID 'researchQuestionX' where X is number of elements with 'researchQuestion' as ID
     });
-
 });
 
 function getProjectByToken(){
@@ -79,13 +78,37 @@ function getTags(projectName) {
 }
 
 function takesPartInProject() {
-    var userID = $("#user").text().trim();
-    var projectID = $("#projectName").text().trim();
+    var time = Date.now();
+
+    function writeTime() {
+        time = Date.now() - time;       //Timedifference from beginning to end
+        time = Math.floor(time / 1000);   //time in seconds.
+        var lernziele = encodeURI($('#competencies0').val().trim());
+        var forschungsfrage = encodeURI($("#researchQuestion0").val().trim());
+        var url = "../database/putTimetrack.php?projectID=" + projectID + "&lernziele=" + lernziele + "&forschungsfrage=" + forschungsfrage + "&dauer=" + time;
+        $.ajax({
+            url: url,
+            async: false,
+            //contentType: 'application/json',
+            success: function (response) {
+                console.log("this action lasted " + time + " seconds");
+            },
+            error: function (a, b, c) {
+                console.log(a);
+            }
+        });
+    }
+
     setTimeout(function(){
+        writeTime();
         location.href="projects.php?token="+getUserTokenFromUrl()+"&timeout=true";
     }, 10000);
+
+
+    var userID = $("#user").text().trim();
+    var projectID = $("#projectName").text().trim();
+
     blockScreen();
-    var time = Date.now();
 
     var allTheTags = [];
     var allTheCompetencies = [];
@@ -108,7 +131,7 @@ function takesPartInProject() {
         $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
         deblockScreen();
-        time = 0;
+        time = 0; // das macht keinen Sinn, oder?
         return false;
     }
     if (allTheTags.length < 2) {
@@ -116,7 +139,7 @@ function takesPartInProject() {
         $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
         deblockScreen();
-        time=0;
+        time=0; // das macht keinen Sinn oder?
         return false;
     }
     var data = {                                            //JSON object 'data' collects everything to send
@@ -126,6 +149,7 @@ function takesPartInProject() {
     };
     var dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
     var url = compbaseUrl + "/api2/user/" + userID + "/projects/" + projectID + "/preferences";
+
     $.ajax({
         url: url,
         projectID: projectID,
@@ -136,22 +160,7 @@ function takesPartInProject() {
         success: function (response) {
             console.log(response);
             deblockScreen();
-            time = Date.now() - time;       //Timedifference from beginning to end
-            time = Math.floor(time/1000);   //time in seconds.
-            var lernziele = encodeURI($('#competencies0').val().trim());
-            var forschungsfrage = encodeURI($("#researchQuestion0").val().trim());
-            var url = "../database/putTimetrack.php?projectID=" + projectID + "&lernziele=" + lernziele + "&forschungsfrage=" + forschungsfrage + "&dauer=" + time;
-            $.ajax({
-                url: url,
-                async:false,
-                //contentType: 'application/json',
-                success: function (response) {
-                    console.log("this action lasted "+time + " seconds");
-                },
-                error: function (a, b, c) {
-                    console.log(a);
-                }
-            });
+            writeTime();
 
             var parts = window.location.search.substr(1).split("&");
             var $_GET = {};
