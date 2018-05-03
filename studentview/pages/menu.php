@@ -5,10 +5,14 @@
  * Date: 16.03.2018
  * Time: 10:05
  */
+$menuWidth=strlen($userName)* 14;
+if ($menuWidth<190){
+    $menuWidth = 190;
+}
 ?>
-<div id="sidebar-wrapper" style="width:190px;">
+<div id="sidebar-wrapper" style="width:<?php echo $menuWidth ?>px;">
     <ul class="sidebar-nav" style="margin-top:50px">
-        <li><h4 style="color:white;display:none;"><?php echo $userName; ?></h4></li>
+        <li><h4 style="color:white;"><?php echo $userName; ?></h4></li>
         <li style="width:146px;"><a href="newproject.php?token=<?php echo $token ?>"
                                     style="margin-top:32px;width:200px;">Projekt erstellen</a></li>
 
