@@ -19,9 +19,10 @@
         <form method="post" action="database/createUser.php">
             <h2 class="sr-only">Login Formular</h2>
             <div class="illustration"><img src="assets/img/fides-logo.svg"></div>
-            <div class="form-group"><input class="form-control" name="name" placeholder="Name"></div>
-            <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
-            <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
+            <div class="form-group"><input class="form-control" name="name" placeholder="Name" required></div>
+            <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" required></div>
+            <div class="form-group"><input class="form-control" type="password" name="password1" placeholder="Passwort" required></div>
+            <div class="form-group"><input class="form-control" type="password" name="password2" placeholder="Passwort wiederholen" required></div>
             <div class="form-group"><label>Bitte kein sensibeles Passwort verwenden!</label></div>
             <!--<div class="form-group"><input class="form-control" type="password" name="password"
                                            placeholder="Password wiederholen"></div>-->
@@ -33,6 +34,12 @@
             Es existiert ein Nutzer mit dieser Email oder diesem Benutzernamen!
         </div>";
                 }
+                if (isset($_GET['passwordConfirmed'])) {
+                echo "<div class=\"alert alert-danger\" role=\"alert\">
+            Ihre Passwörter stimmen nicht überein.
+            
+        </div>";
+                };
                 ?>
             </div>
             <a href="index.php" class="forgot">einloggen</a></form>

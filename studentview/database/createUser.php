@@ -14,7 +14,12 @@ include_once 'config.php';
 // write it to the db
 
 $name = $_POST['name'];
-$password = $_POST['password'];
+$password1 = $_POST['password1'];
+$password2 = $_POST['password2'];
+if ($password1 <> $password2){
+    header("Location: ../register.php?passwordConfirmed=false");
+    die();
+}
 $email = $_POST['email'];
 $token = uniqid();
 

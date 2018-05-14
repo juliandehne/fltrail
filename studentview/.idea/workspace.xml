@@ -35,13 +35,51 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="createPreferences.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="createPreferences.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/createPreferences.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="387">
-              <caret line="132" column="24" lean-forward="false" selection-start-line="132" selection-start-column="24" selection-end-line="132" selection-end-column="24" />
+            <state relative-caret-position="555">
+              <caret line="140" column="24" lean-forward="true" selection-start-line="140" selection-start-column="24" selection-end-line="140" selection-end-column="24" />
               <folding>
                 <marker date="1525345416398" expanded="true" signature="1661:1745" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="register.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/register.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="378">
+              <caret line="18" column="49" lean-forward="false" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
+              <folding>
+                <marker date="1526279677322" expanded="true" signature="2009:2104" ph="..." />
+                <marker date="1526279677322" expanded="true" signature="2253:2332" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="createUser.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/createUser.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="20" column="10" lean-forward="false" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
+              <folding>
+                <marker date="1526281415007" expanded="true" signature="491:572" ph="SELECT (u.to... users" />
+                <marker date="1526281415007" expanded="true" signature="800:945" ph="INSERT INTO `users`... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="userExists.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/database/userExists.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="441">
+              <caret line="26" column="6" lean-forward="true" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+              <folding>
+                <marker date="1526281414999" expanded="true" signature="255:351" ph="SELECT (u.to... users" />
               </folding>
             </state>
           </provider>
@@ -100,6 +138,9 @@
         <option value="$PROJECT_DIR$/pages/menu.php" />
         <option value="$PROJECT_DIR$/pages/projects.php" />
         <option value="$PROJECT_DIR$/assets/js/createPreferences.js" />
+        <option value="$PROJECT_DIR$/register.php" />
+        <option value="$PROJECT_DIR$/database/createUser.php" />
+        <option value="$PROJECT_DIR$/database/userExists.php" />
       </list>
     </option>
   </component>
@@ -329,12 +370,12 @@
       <workItem from="1524743631557" duration="8588000" />
       <workItem from="1524824627676" duration="9017000" />
       <workItem from="1525325005669" duration="1520000" />
-      <workItem from="1526275963445" duration="18000" />
+      <workItem from="1526275963445" duration="3024000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22794000" />
+    <option name="totallyTimeSpent" value="25800000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-359" y="-1449" width="2578" height="1458" extended-state="6" />
@@ -471,7 +512,7 @@
         <state relative-caret-position="420">
           <caret line="25" column="6" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="25" selection-end-column="6" />
           <folding>
-            <marker date="1521440560383" expanded="true" signature="219:314" ph="SELECT (u.to... users" />
+            <marker date="1526281414999" expanded="true" signature="255:351" ph="SELECT (u.to... users" />
           </folding>
         </state>
       </provider>
@@ -673,27 +714,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/userExists.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="25" column="6" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="25" selection-end-column="6" />
-          <folding>
-            <marker date="1521440560383" expanded="true" signature="219:314" ph="SELECT (u.to... users" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/createUser.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1524554408739" expanded="true" signature="346:427" ph="SELECT (u.to... users" />
-            <marker date="1524554408739" expanded="true" signature="655:800" ph="INSERT INTO `users`... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/putTimetrack.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="609">
@@ -754,14 +774,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/preferences.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1575">
@@ -783,10 +795,50 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/createPreferences.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="132" column="24" lean-forward="false" selection-start-line="132" selection-start-column="24" selection-end-line="132" selection-end-column="24" />
+        <state relative-caret-position="555">
+          <caret line="140" column="24" lean-forward="true" selection-start-line="140" selection-start-column="24" selection-end-line="140" selection-end-column="24" />
           <folding>
             <marker date="1525345416398" expanded="true" signature="1661:1745" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/register.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="18" column="49" lean-forward="false" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
+          <folding>
+            <marker date="1526279677322" expanded="true" signature="2009:2104" ph="..." />
+            <marker date="1526279677322" expanded="true" signature="2253:2332" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/createUser.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="20" column="10" lean-forward="false" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
+          <folding>
+            <marker date="1526281415007" expanded="true" signature="491:572" ph="SELECT (u.to... users" />
+            <marker date="1526281415007" expanded="true" signature="800:945" ph="INSERT INTO `users`... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/userExists.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="26" column="6" lean-forward="true" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+          <folding>
+            <marker date="1526281414999" expanded="true" signature="255:351" ph="SELECT (u.to... users" />
           </folding>
         </state>
       </provider>
