@@ -4,7 +4,7 @@
 
 
 $(document).ready(function () {
-var projectName = getProjectByToken();
+    var projectName = getProjectByToken();
     getTags(projectName);
     $("#competencies0").focus();
     $("#studentFormSubmit").on("click", function () {
@@ -24,7 +24,7 @@ var projectName = getProjectByToken();
     });
 });
 
-function getProjectByToken(){
+function getProjectByToken() {
     return $('#projectName').text().trim();
 }
 
@@ -64,8 +64,8 @@ function getTags(projectName) {
                 var newInput = document.createElement("label");
                 newInput.innerHTML =
                     "<div class='checkbox checkbox-primary' >"
-                        + "<input id='tag" + i + "' "  + " class='styled' " + "name='tag'" + "type='checkbox' " + ">"
-                        + "<label for='tag" + i + "' "+ ">" + tagList[i] + "</label>"
+                    + "<input id='tag" + i + "' " + " class='styled' " + "name='tag'" + "type='checkbox' " + ">"
+                    + "<label for='tag" + i + "' " + ">" + tagList[i] + "</label>"
                     + "</div>";
                 var div = document.getElementById('tags');
                 div.appendChild(newInput);
@@ -99,10 +99,10 @@ function takesPartInProject() {
         });
     }
 
-    setTimeout(function(){
-        writeTime();
-        location.href="projects.php?token="+getUserTokenFromUrl()+"&timeout=true";
-    }, 10000);
+    /*    setTimeout(function(){
+     writeTime();
+     location.href="projects.php?token="+getUserTokenFromUrl()+"&timeout=true";
+     }, 10000);*/
 
 
     var userID = $("#user").text().trim();
@@ -123,8 +123,10 @@ function takesPartInProject() {
         if (document.getElementById("tag" + i).checked) {
             allTheTags.push(document.getElementById("tag" + i).value);
         }
-        if ($("#tag"+i).prop("checked"))
-            allTheCompetencies.push("Die Studierenden interessieren sich für " + $("#tag" + i).val());     //todo: Die Tags werden hinter der Schnittstelle noch nicht verwertet, daher diese schnelle Lösung
+        if ($("#tag" + i).prop("checked")) {
+            var tagValue = $("label[for=tag" + i + "]")[0].textContent;
+            allTheCompetencies.push("Die Studierenden interessieren sich für " + tagValue);
+        }
     }
     if (allTheTags.length > 2) {
         //alert('Sie haben zu viele Tags ausgewählt');
@@ -139,7 +141,7 @@ function takesPartInProject() {
         $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
         deblockScreen();
-        time=0; // das macht keinen Sinn oder?
+        time = 0; // das macht keinen Sinn oder?
         return false;
     }
     var data = {                                            //JSON object 'data' collects everything to send

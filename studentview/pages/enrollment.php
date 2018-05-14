@@ -20,7 +20,6 @@ include_once '../database/tokenSetter.php';
     <script src="../assets/js/config.js"></script>
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/showProjects.js"></script>
-    <script src="../assets/js/GETfile.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/Sidebar-Menu.js"></script>
 
