@@ -14,5 +14,6 @@
 /gemeinsamforschen/**/.idea/*
 /gemeinsamforschen/**/out
 /gemeinsamforschen/**/target
+/gemeinsamforschen/**/.settings
 **/.project
 **/.classpath
