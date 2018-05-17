@@ -1,8 +1,93 @@
+legend{
+    margin-left:2%;
+}
+
+input{
+    max-width:33%;
+    margin-left:1%;
+    padding-top:1%;
+    margin-top:1%;
+    margin-bottom:2%;
+}
+
+h3{
+    margin-top: 1%;
+}
+
+label{
+    display: inline;
+}
+
+#user{
+    display:none;
+}
+#projectNameHidden{
+    display:none;
+}
+
+.alert-warning{
+    width:37%;
+}
+.alert-info{
+    width:37%;
+}
+
+.panel-table{
+    width: 100%;
+}
+
+#Div_Promo_Carousel{
+    width:70%;
+}
+
+#addCompetenceButton{
+    margin-left:35%;
+    margin-top:-9%;
+    height:2%;
+    width:3%;
+}
+
+#addResearchQuestionButton{
+    margin-left:35%;
+    margin-top:-9%;
+    height:2%;
+    width:3%;
+}
+
+#subtractCompetenceButton{
+    margin-left:1%;
+    margin-top:-9%;
+    height:2%;
+    width:3%;
+}
+
+#subtractCResearchQuestionButton{
+    margin-left:1%;
+    margin-top:-9%;
+    height:2%;
+    width:3%;
+}
+
+#studentFormSubmit{
+    width:90px;
+    margin-left:169px;
+    margin-top:13px;
+}
+
+.btn-primary{
+    margin-left:12%;
+}
+
+.btn-info{
+    margin-top: 1%;
+}
+
 .wrapper-inactive {
     opacity:0.5;
 }
 .loader-inactive {
     opacity: 0;
+    display: none;
 }
 
 .block-screen .loader {
@@ -20,6 +105,7 @@
 
 .block-screen-inactive {
     opacity: 0;
+    display:none;
 }
 
 .block-screen {

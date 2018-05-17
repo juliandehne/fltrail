@@ -38,7 +38,7 @@ include_once '../database/tokenSetter.php';
     </div>
 </div>
 
-<div id="wrapper" style="margin:0px;">
+<div id="wrapper">
     <?php
     include_once 'menu.php'
     ?>
@@ -56,28 +56,25 @@ include_once '../database/tokenSetter.php';
     </div>
     <div class="contact-clean">
         <p>Name des Projekts</p>
-        <div class="alert alert-danger" role="alert" style="width:475px" id="projectNameExists">
+        <div class="alert alert-danger" role="alert"id="projectNameExists">
             Dieser Projektname exisitiert bereits.
         </div>
-        <div class="alert alert-danger" role="alert" style="width:475px" id="exactNumberOfTags">
+        <div class="alert alert-danger" role="alert"id="exactNumberOfTags">
             Es müssen genau 5 Tags eingegeben werden.
         </div>
-        <div class="alert alert-danger" role="alert" style="width:475px" id="specialChars">
+        <div class="alert alert-danger" role="alert" id="specialChars">
             Der Projektname darf keine Sonderzeichen enthalten.
         </div>
-        <div class="alert alert-danger" role="alert" style="width:475px" id="projectIsMissing">
+        <div class="alert alert-danger" role="alert" id="projectIsMissing">
             Tragen sie einen Projektnamen ein.
         </div>
-        <div class="form-group"><input class="form-control" name="name" placeholder="Name"
-                                       style="width:286px;margin-left:50px;" id="nameProject"></div>
+        <div class="form-group"><input class="form-control" name="name" placeholder="Name" id="nameProject"></div>
         <p> Passwort zum Teilnehmen (optional) </p>
-        <div class="form-group"><input class="form-control" name="password" placeholder="Passwort"
-                                       style="width:287px;margin-left:51px;" id="passwordProject"></div>
+        <div class="form-group"><input class="form-control" name="password" placeholder="Passwort" id="passwordProject"></div>
         <p> Passwort zum Löschen (sonst: 1234) </p>
-        <div class="form-group"><input class="form-control" name="adminpassword" placeholder="Passwort"
-                                       style="width:287px;margin-left:51px;" id="adminPassword"></div>
+        <div class="form-group"><input class="form-control" name="adminpassword" placeholder="Passwort" id="adminPassword"></div>
         <p>Tags </p>
-        <div id="tagHelper" class="alert alert-warning" style="width:475px;">
+        <div id="tagHelper" class="alert alert-warning">
             Fügen sie zudem 5 Tags zu ihrem Projekt hinzu, welche ihr Projekt inhaltlich umreißen.
         </div>
         <div class="form-group"><input class="tags" data-role="tags" name="Tags" placeholder="Tags"
@@ -86,7 +83,7 @@ include_once '../database/tokenSetter.php';
         <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>
 
         <div class="form-group">
-            <button class="btn btn-primary" style="margin-left:129px;" id="sendProject">erstellen</button>
+            <button class="btn btn-primary" id="sendProject">erstellen</button>
         </div>
     </div>
 </div>

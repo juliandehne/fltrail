@@ -25,7 +25,7 @@ $(document).ready(function () {
 });
 
 function getProjectByToken() {
-    return $('#projectName').text().trim();
+    return $('#projectNameHidden').text().trim();
 }
 
 function addInput(name) {        //creates a new input-Field with the ID 'nameX' where X is number of elements with 'name' as ID
@@ -106,7 +106,7 @@ function takesPartInProject() {
 
 
     var userID = $("#user").text().trim();
-    var projectID = $("#projectName").text().trim();
+    var projectID = $("#projectNameHidden").text().trim();
 
     blockScreen();
 

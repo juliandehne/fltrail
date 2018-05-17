@@ -4,7 +4,7 @@
 $(document).ready(function () {
     //todo: Buttons im Eventhandler steuern und nicht auf der HTML-Seite.
     getProjects(document.getElementById('user').innerHTML);
-    //getMembers($('#projectDropdown').innerHTML,$('#user').innerHTML);
+    //getMembers($('#projectDropdown').innerHTML);
 });
 
 function printProjectDropdown(projects, numberOfProjectsPrinted) {
@@ -15,7 +15,7 @@ function printProjectDropdown(projects, numberOfProjectsPrinted) {
         var option = document.createElement("SPAN");            //and create a span, containing a button with it
         option.innerHTML = "<button class='dropdown-item' " +   //which carries the event onClick, the name of the group and a design
             "onClick=" +
-            '"showProject(' + "'" + projects[i] + "',document.getElementById('user').innerHTML);" + '"' + ">"
+            '"showProject(' + "'" + projects[i] + "');" + '"' + ">"
             + projects[i] +
             "</button>";
         menu.appendChild(option);
@@ -83,22 +83,21 @@ function printGroupTable(student1, student2, student3, student4) {
                         " href='mailto:" + innerData[k2].email + "'>" + innerData[k2].email + "</a></td></tr>");
                 }
             }
-
             var tableString = tableStart + tableFinish;
             $("#tablesHolder").append(tableString);
+
         }
     });
     return innerurl;
 }
-function getMembers(project, user) {        //gets all Members in the chosen Project user is a part of with email adresses
 
+function getMembers(project) {        //gets all Members in the chosen Project user is a part of with email adresses
     $("#tablesHolder").empty();
     var url = compbaseUrl + "/api2/groups/" + project;     //this API is used, since fleckenroller has security issues
     // with CORS
     // and stuff
     $.ajax({
         url: url,
-        user: user,
         type: 'GET',
         contentType: "application/json",
         dataType: "json",                               //{groups: [id, users:[]] }
@@ -111,6 +110,8 @@ function getMembers(project, user) {        //gets all Members in the chosen Pro
                 var student4 = data.groups[i].users[3];
                 printGroupTable(student1, student2, student3, student4);
             }
+            var rearrange = '<button class="btn btn-info" onClick="location.href='+"'rearrangeGroups.php?token="+getUserTokenFromUrl()+"&projectId="+$('#projectDropdown').html()+"';"+'">umverteilen</button>';
+            $("#tablesHolder").append(rearrange);
         },
         error: function(data) {
             $("#tablesHolder").append("<p>Es wurden keine Gruppen gefunden. Das Projekt muss mehr als 5 Teilnehmer haben!</p>")
@@ -119,7 +120,7 @@ function getMembers(project, user) {        //gets all Members in the chosen Pro
     });
 }
 
-function showProject(project, user) {           //will display the chosen option in the dropdown button and show all students in a unordered list
+function showProject(project) {           //will display the chosen option in the dropdown button and show all students in a unordered list
     $("#projectDropdown").text(project);        //the dropdown button
-    getMembers(project, user);                  //the students
+    getMembers(project);                  //the students
 }

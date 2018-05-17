@@ -22,6 +22,7 @@ include_once '../database/tokenSetter.php';
           type='text/css'>
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/projects.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
 
     <script src="../assets/js/config.js"></script>
     <script src="../assets/js/jquery.min.js"></script>
@@ -63,7 +64,7 @@ include_once '../database/tokenSetter.php';
 </div>
 -->
 <!-- the slideshow -->
-<div id="wrapper" style="margin:0px;">
+<div id="wrapper">
     <?php
     include_once 'menu.php'
     ?>
@@ -79,37 +80,37 @@ include_once '../database/tokenSetter.php';
         </div>
     </div>
     <?php
-        if (isset($_GET['timeout'])){
-            if ($_GET['timeout']=="true"){
-                echo '<div class="alert alert-info" style="width:520px" role="alert">
+    if (isset($_GET['timeout'])) {
+        if ($_GET['timeout'] == "true") {
+            echo '<div class="alert alert-info" role="alert">
         Ihre Präferenzen werden verarbeitet. Melden Sie sich in 5 Minuten erneut an, um die Gruppenzuordnung für dieses Projekt einsehen zu können.
     </div>';
 
-            }else {
-                echo '<div class="alert alert-info" style="width:520px" role="alert">
+        } else {
+            echo '<div class="alert alert-info" role="alert">
         Ihre Präferenzen wurden verarbeitet. Sobald das Projekt mehr als 5 Teilnehmer hat, können Sie die Gruppenzuordnung für dieses Projekt einsehen.
     </div>';
-            }
         }
+    }
     ?>
-    <div id="Div_Promo_Carousel" class="carousel slide" data-ride="" data-interval=false style="width:728px">
+    <div id="Div_Promo_Carousel" class="carousel slide" data-ride="" data-interval=false>
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-10 col-md-offset-1">
 
-                            <div class="panel panel-default panel-table" style="width:550px">
+                            <div class="panel panel-default panel-table">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col col-xs-6">
-                                            <h3 class="panel-title" style="margin-top:50px;">Projekte</h3>
+                                            <h3 class="panel-title">Projekte</h3>
                                             <p><?php echo $userName; ?>/</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="panel-body">
-                                    <table class="table table-striped table-bordered table-list" style="width:700px">
+                                    <table class="table table-striped table-bordered table-list">
                                         <thead>
                                         <tr>
                                             <th><em class="fa fa-cog"></em></th>
@@ -125,14 +126,10 @@ include_once '../database/tokenSetter.php';
                                 </div>
                                 <div class="panel-footer">
                                     <div class="row">
-                                        <div class="col col-xs-4" style="display: none">Projekte
-                                        </div>
-                                        <div class="col col-xs-6 text-right">
-                                            <button type="button" class="btn btn-sm btn-primary btn-create"
-                                                    onclick="location.href='newproject.php?token=<?php echo $token ?>'">
-                                                neues Projekt erstellen
-                                            </button>
-                                        </div>
+                                        <button type="button" class="btn btn-sm btn-primary btn-create"
+                                                onclick="location.href='newproject.php?token=<?php echo $token ?>'">
+                                            neues Projekt erstellen
+                                        </button>
                                     </div>
 
                                 </div>
@@ -141,10 +138,6 @@ include_once '../database/tokenSetter.php';
                         </div>
                         <p></p>
 
-                   <!--     <div class="alert alert-primary projectAlert" role="alert">
-                            Hier können Sie ihre Projekte, deren Gruppen und Studenten einsehen. Dafür klicken sie auf
-                                das Projekt, das sie sehen wollen.
-                        </div>-->
                     </div>
                 </div>
             </div>
@@ -154,13 +147,13 @@ include_once '../database/tokenSetter.php';
 
                         <div class="col-md-10 col-md-offset-1">
 
-                            <div class="panel panel-default panel-table" style="width:550px">
+                            <div class="panel panel-default panel-table">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col col-xs-6">
-                                            <h3 class="panel-title" style="margin-top:50px;">Gruppen</h3>
+                                            <h3 class="panel-title">Gruppen</h3>
                                             <p id="gruppe"><?php echo $userName; ?>/<span
-                                                    name="pathProject">Projekt</span>/</p>
+                                                        name="pathProject">Projekt</span>/</p>
                                         </div>
                                     </div>
                                 </div>
@@ -190,9 +183,6 @@ include_once '../database/tokenSetter.php';
 
                         </div>
                         <p></p>
-                        <!--<p> Hier können Sie die Gruppen und deren Studenten einsehen. Klicken sie auf
-                            die Gruppe, die sie sehen detaillierter wollen.<br>
-                            Zurück kommen sie mit dem Button links unten.</p>-->
                     </div>
                 </div>
             </div>
@@ -202,14 +192,14 @@ include_once '../database/tokenSetter.php';
 
                         <div class="col-md-10 col-md-offset-1">
 
-                            <div class="panel panel-default panel-table" style="width:550px">
+                            <div class="panel panel-default panel-table">
                                 <div class="panel-heading">
                                     <div class="row">
                                         <div class="col col-xs-6">
-                                            <h3 class="panel-title" style="margin-top:50px;">Studenten</h3>
+                                            <h3 class="panel-title">Studenten</h3>
                                             <p id="student"><?php echo $userName; ?>/<span
-                                                    name="pathProject">Projekt</span>/<span
-                                                    name="pathGruppe">Gruppe</span>/</p>
+                                                        name="pathProject">Projekt</span>/<span
+                                                        name="pathGruppe">Gruppe</span>/</p>
                                         </div>
                                     </div>
                                 </div>
@@ -238,12 +228,6 @@ include_once '../database/tokenSetter.php';
                             </div>
 
                         </div>
-                        <p></p>
-                        </br>
-                        <!--    <div class="alert alert-primary" role="alert">
-                                Hier können Sie die Daten der Studenten einsehen.
-                                Zurück kommen sie mit dem Button links unten.
-                            </div>-->
                     </div>
                 </div>
             </div>

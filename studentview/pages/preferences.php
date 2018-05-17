@@ -37,8 +37,8 @@ $projectName = $resultObj->id;
 <body>
 
 
-<p id="user" hidden><?php echo $userName; ?></p>
-<p id="projectName" hidden><?php echo $projectName; ?></p>
+<p id="user"><?php echo $userName; ?></p>
+<p id="projectNameHidden"><?php echo $projectName; ?></p>
 <div class="block-screen-inactive" id="block-screen">
     <div class="loader-inactive" id="loader">
         <div class="sk-cube1 sk-cube"></div>
@@ -48,12 +48,12 @@ $projectName = $resultObj->id;
     </div>
 </div>
 
-<div id="wrapper" class="wrapper" style="margin:0px;">
+<div id="wrapper" class="wrapper">
     <?php
     include_once 'menu.php'
     ?>
     <div class="page-content-wrapper">
-        <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <h3>Geben Sie hier ihre Präferenzen für das Projekt <?php echo $projectName; ?> ein!</h3>
@@ -64,52 +64,41 @@ $projectName = $resultObj->id;
     </div>
 
     <fieldset>
-        <legend style="margin-left:13px;">Lernziele</legend>
+        <legend>Lernziele</legend>
         <div id="competencies">
-            <input class="form-control" type="text" id="competencies0" name="competencies" required=""
-                   placeholder="Ich möchte folgendes lernen:"
-                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+            <input class="form-control" type="text" id="competencies0" name="competencies" required="" placeholder="Ich möchte folgendes lernen:">
         </div>
         <button
                 class="btn btn-default" type="button"
-                style="margin-left:443px;margin-top:-88px;height:36px;width:33px;"
                 id="addCompetenceButton">+
         </button>
         <button
                 class="btn btn-default" type="button"
-                style="margin-left:10px;margin-top:-88px;height:36px;width:33px;"
                 id="subtractCompetenceButton">-
         </button>
 
     </fieldset>
-    <fieldset style="margin-bottom:-3px;">
-        <legend style="margin-left:13px;">Forschungsfrage</legend>
+    <fieldset>
+        <legend>Forschungsfrage</legend>
         <div id="researchQuestion">
-            <input class="form-control" id="researchQuestion0" type="text" name="researchQuestion" required=""
-                   placeholder="Meine Forschungsfrage(n): "
-                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+            <input class="form-control" id="researchQuestion0" type="text" name="researchQuestion" required="" placeholder="Meine Forschungsfrage(n): ">
         </div>
-        <button class="btn btn-default" type="button"
-                style="margin-left:443px;margin-top:-88px;height:36px;width:33px;"
-                id="addResearchQuestionButton">+
+        <button class="btn btn-default" type="button" id="addResearchQuestionButton">+
         </button>
-        <button
-                class="btn btn-default" type="button"
-                style="margin-left:10px;margin-top:-88px;height:36px;width:33px;"
-                id="subtractCResearchQuestionButton">-
+        <button class="btn btn-default" type="button" id="subtractCResearchQuestionButton">-
         </button>
     </fieldset>
     <fieldset>
-        <legend style="margin-left:13px;">Tags</legend>
-        <p  class="alert alert-warning" style="width:520px;">Wähle 2 der hier angegebenen Tags aus, die am ehesten zu deiner Forschungsfrage passen.</p>
+        <legend>Tags</legend>
+        <p  class="alert alert-warning">Wähle 2 der hier angegebenen Tags aus, die am ehesten zu deiner Forschungsfrage passen.</p>
         <div id="tags">
 
         </div>
     </fieldset>
-    <button class="btn btn-primary" id="studentFormSubmit" style="width:90px;margin-left:169px;margin-top:13px;">
+    <button class="btn btn-primary" id="studentFormSubmit">
         eintragen
     </button>
-    <div class="alert alert-warning" style="width:520px" role="alert">
+    <div class="alert alert-warning" role="alert">
         Das Verarbeiten der Lernziele und das Gruppenmatching kann einen Moment dauern!
     </div>
 </div>

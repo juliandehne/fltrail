@@ -43,20 +43,18 @@ include_once '../database/tokenSetter.php';
         </div>
     </div>
         <fieldset>
-            <legend style="margin-left:13px;">Projektnamen</legend>
+            <legend>Projektnamen</legend>
             <input class="form-control" type="text" id="projectName" name="Project" required=""
-                   placeholder="Projekt1" autofocus=""
-                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+                   placeholder="Projekt1" autofocus="">
             <div class="alert alert-warning" role="alert" id="projectIsMissing">
                 Dieser Projektname existiert nicht oder das Passwort ist falsch.
             </div>
 
         </fieldset>
         <fieldset>
-            <legend style="margin-left:13px;">Passwort zum löschen</legend>
+            <legend>Passwort zum löschen</legend>
             <input class="form-control" type="password" id="projectPassword" name="Password" required=""
-                   placeholder="******"
-                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+                   placeholder="******">
             <div class="alert alert-warning" role="alert" id="projectWrongPassword">
                 Falsches Passwort.
             </div>

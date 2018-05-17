@@ -18,9 +18,10 @@ include_once '../database/tokenSetter.php';
     <link rel="stylesheet" href="../assets/css/styles.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script src="../assets/js/config.js"></script>
     <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/myGroupsInit.js"></script>
+    <script src="../assets/js/rearrange.js"></script>
     <script src="../assets/js/getProjects.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/Sidebar-Menu.js"></script>
@@ -40,16 +41,14 @@ include_once '../database/tokenSetter.php';
         <div class="container">
             <div class="row">
                 <div class="col-md-offset-3 col-sm-8 col-xs-1">
-                    <h3>Projekt</h3>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="projectDropdown">Projekt auswählen
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu" id="dropdownOptions">
-                        </ul>
-                    </div>
+                    <h3>Projekt <?php echo ($_GET['projectId']); ?></h3>
+                    <button class="btn btn-primary" type="button">automatische Zuordnung</button>
+                    <button class="btn btn-primary" type="button">speichern</button>
+                    <button class="btn btn-primary" type="button">Liste leeren</button>
                 </div>
             </div>
-            <div id="tablesHolder"></div>
+            <div id="currentGroups"></div>
+            <div id="newGroups"></div>
         </div>
     </div>
 </div>
