@@ -8,11 +8,12 @@
 
 include_once 'config.php';
 
-$password = $_POST['password'];
+$password1 = $_POST['password1'];
+$password2 = $_POST['password2'];
 $email = $_POST['email'];
 $db->query("use fltrail;");
 
-$query = "SELECT (u.token) from users u where u.password = \"".$password. "\" and u.email=\""
+$query = "SELECT (u.token) from users u where u.password = \"".$password1. "\" and u.email=\""
 .$email."\";";
 
 $queryObj = mysqli_query($db, $query);
