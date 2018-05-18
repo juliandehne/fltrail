@@ -114,10 +114,10 @@ function takesPartInProject() {
     var allTheCompetencies = [];
     var allTheResearchQuestions = [];
     for (i = 0; i < document.getElementsByName("competencies").length; i++) {        //goes through all competencies and adds them to allTheCompetencies
-        allTheCompetencies.push(document.getElementsByName("competencies")[i].value);
+        allTheCompetencies.push("Die Studierenden interessieren sich für " + document.getElementsByName("competencies")[i].value);
     }
     for (i = 0; i < document.getElementsByName("researchQuestions").length; i++) {        //goes through all competencies and adds them to allTheResearchQuestions
-        allTheResearchQuestions.push(document.getElementsByName("researchQuestions")[i].value);
+        allTheResearchQuestions.push("Die Studierenden interessieren sich für" + document.getElementsByName("researchQuestions")[i].value);
     }
     for (i = 0; i < document.getElementsByName("tag").length; i++) {        //goes through all tags and adds them to allTheTags
         if (document.getElementById("tag" + i).checked) {
