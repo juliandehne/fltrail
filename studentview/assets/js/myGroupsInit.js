@@ -47,9 +47,6 @@ function getProjects(user) {
 
 function printGroupTable(student1, student2, student3, student4) {
     var innerurl = "../database/getAdresses.php?student1=" + student1 + "&student2=" + student2 + "&student3=" + student3 + "&student4=" + student4;
-    /*if (student4) {
-        innerurl = innerurl + "&student4=" + student4;
-    }*/
     $.ajax({                    //get email adresses in this ajax.
         student1: "" + student1,
         student2: "" + student2,
@@ -93,9 +90,10 @@ function printGroupTable(student1, student2, student3, student4) {
 
 function getMembers(project) {        //gets all Members in the chosen Project user is a part of with email adresses
     $("#tablesHolder").empty();
-    var url = compbaseUrl + "/api2/groups/" + project;     //this API is used, since fleckenroller has security issues
-    // with CORS
-    // and stuff
+
+    var url = compbaseUrl + "/api2/groups/" + project;      //this API is used, since fleckenroller has security issues
+                                                            // with CORS
+                                                            // and stuff
     $.ajax({
         url: url,
         type: 'GET',
