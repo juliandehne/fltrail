@@ -1,7 +1,7 @@
-package unipotsdam.gf.munchkin.controller;
+package unipotsdam.gf.modules.munchkin.controller;
 
 import unipotsdam.gf.interfaces.IMunschkin;
-import unipotsdam.gf.munchkin.model.Munschkin;
+import unipotsdam.gf.modules.munchkin.model.Munschkin;
 
 import java.sql.*;
 

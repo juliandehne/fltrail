@@ -1,6 +1,6 @@
 import unipotsdam.gf.interfaces.IMunschkin;
-import unipotsdam.gf.munchkin.controller.MunchkinImpl;
-import unipotsdam.gf.munchkin.model.Munschkin;
+import unipotsdam.gf.modules.munchkin.controller.MunchkinImpl;
+import unipotsdam.gf.modules.munchkin.model.Munschkin;
 import org.junit.Test;
 
 /**

@@ -1,8 +1,6 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.munchkin.model.Munschkin;
-
-import javax.ws.rs.PathParam;
+import unipotsdam.gf.modules.munchkin.model.Munschkin;
 
 /**
  * Created by dehne on 25.04.2018.

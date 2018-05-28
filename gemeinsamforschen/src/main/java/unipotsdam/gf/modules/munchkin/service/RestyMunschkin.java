@@ -1,12 +1,12 @@
-package unipotsdam.gf.munchkin.service;
+package unipotsdam.gf.modules.munchkin.service;
 
 /**
  * Created by dehne on 24.04.2018.
  */
 
 import unipotsdam.gf.interfaces.IMunschkin;
-import unipotsdam.gf.munchkin.controller.MunchkinImpl;
-import unipotsdam.gf.munchkin.model.Munschkin;
+import unipotsdam.gf.modules.munchkin.controller.MunchkinImpl;
+import unipotsdam.gf.modules.munchkin.model.Munschkin;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
