@@ -1,8 +1,8 @@
-package unipotsdam.gf.communication.service;
+package unipotsdam.gf.modules.communication.service;
 
 
 import org.junit.Test;
-import unipotsdam.gf.communication.model.SampleAnswer;
+import unipotsdam.gf.modules.communication.model.SampleAnswer;
 
 import static org.junit.Assert.assertEquals;
 

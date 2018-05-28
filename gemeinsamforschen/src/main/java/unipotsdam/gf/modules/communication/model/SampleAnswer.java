@@ -1,4 +1,4 @@
-package unipotsdam.gf.communication.model;
+package unipotsdam.gf.modules.communication.model;
 
 
 public class SampleAnswer {

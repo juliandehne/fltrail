@@ -1,6 +1,6 @@
-package unipotsdam.gf.communication.service;
+package unipotsdam.gf.modules.communication.service;
 
-import unipotsdam.gf.communication.model.SampleAnswer;
+import unipotsdam.gf.modules.communication.model.SampleAnswer;
 
 public class SampleService {
 

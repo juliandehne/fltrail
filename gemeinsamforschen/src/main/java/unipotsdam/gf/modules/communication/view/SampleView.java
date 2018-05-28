@@ -1,9 +1,9 @@
-package unipotsdam.gf.communication.view;
+package unipotsdam.gf.modules.communication.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.communication.model.SampleAnswer;
-import unipotsdam.gf.communication.service.SampleService;
+import unipotsdam.gf.modules.communication.model.SampleAnswer;
+import unipotsdam.gf.modules.communication.service.SampleService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
