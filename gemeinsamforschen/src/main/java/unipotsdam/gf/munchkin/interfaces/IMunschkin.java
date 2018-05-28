@@ -1,4 +1,4 @@
-package unipotsdam.gf.munchkin;
+package unipotsdam.gf.munchkin.interfaces;
 
 import unipotsdam.gf.munchkin.model.Munschkin;
 
