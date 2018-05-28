@@ -4,7 +4,7 @@ package unipotsdam.gf.munchkin.service;
  * Created by dehne on 24.04.2018.
  */
 
-import unipotsdam.gf.munchkin.interfaces.IMunschkin;
+import unipotsdam.gf.interfaces.IMunschkin;
 import unipotsdam.gf.munchkin.controller.MunchkinImpl;
 import unipotsdam.gf.munchkin.model.Munschkin;
 import javax.ws.rs.GET;
