@@ -14,8 +14,8 @@ public class MunchkinImpl implements IMunschkin {
     static final String DB_URL = "jdbc:mysql://localhost";
 
     //  Database credentials
-    static final String USER = "root2";
-    static final String PASS = "voyager2";
+    static final String USER = "root";
+    static final String PASS = "";
 
     // Es gibt natürlich auch libraries, die den Datenbankzugriff einfacher gestalten. Ziel soll sein, dass alle
     // die Basics können. Es ist auch sinnvoll, die Datenbankzugriffe in eine eigene Klasse auszulagern!!
