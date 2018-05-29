@@ -1,7 +1,6 @@
 <?php
 include_once '../database/tokenSetter.php';
 include_once '../database/config.php';
-//todo: right a hidden div with students and groups and refer to it on document ready in rearrange.js
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +32,26 @@ include_once '../database/config.php';
 
 <body>
 <p id="user"><?php echo $userName; ?></p>
-
+<?php
+    $projectId = $_GET['projectId'];
+    $sql = "SELECT * FROM `groups` WHERE projectId = '" . $projectId . "' ORDER BY groupId ASC;";
+    $result = mysqli_query($db, $sql);
+    $group = '';
+    $i = 0;
+    $student = mysqli_fetch_array($result);
+    while ($student) {
+        $group = $student[1];
+        $students[] = $student[2];
+        $student = mysqli_fetch_array($result);
+        if ($group != $student[1]) {
+            echo("<div id='students".$i."' hidden>".json_encode($students)."</div>");
+            $i = $i+1;
+            $students=[];
+        }
+    }
+    mysqli_close($db);
+?>
+<p id="groups"></p>
 <div id="wrapper">
     <?php
     include_once 'menu.php'
@@ -51,40 +69,6 @@ include_once '../database/config.php';
             <div id="Groups">
             </div>
 
-            <?php
-            $projectId = $_GET['projectId'];
-            $sql = "SELECT * FROM `groups` WHERE projectId = '" . $projectId . "' ORDER BY groupId ASC;";
-            $result = mysqli_query($db, $sql);
-            $oldGroup = '';
-            $i = 0;
-            $newStudent = mysqli_fetch_array($result);
-            while ($newStudent) {
-                $oldGroup = $newStudent[1];
-                $students[] = $newStudent[2];
-                $newStudent = mysqli_fetch_array($result);
-                if ($oldGroup != $newStudent[1]) {
-                    echo("
-                <script> 
-                    printGroupTable(" . json_encode($students) . ", ".$i.");
-                </script>");
-                    $i = $i+1;
-                    $students=[];
-                }
-            }
-            if ($oldGroup == '') {
-                echo("<script> automaticArrangement('".$projectId."'); </script>");
-            } else {
-                echo ("
-                <script>
-                    printEmptyTable(".$i.");
-                    for (var j = 0; j < ".$i." + 1; j++) {
-                        $('#addToGruppe' + j).on('click', {group: 'Gruppe' + j, maxGroup: ".$i."}, reorderGroups);
-                }
-                </script>
-                ");
-            }
-            mysqli_close($db);
-            ?>
 
         </div>
     </div>

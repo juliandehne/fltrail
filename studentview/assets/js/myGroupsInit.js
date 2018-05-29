@@ -4,7 +4,6 @@
 $(document).ready(function () {
     //todo: Buttons im Eventhandler steuern und nicht auf der HTML-Seite.
     getProjects(document.getElementById('user').innerHTML);
-    //getMembers($('#projectDropdown').innerHTML);
 });
 
 function printProjectDropdown(projects, numberOfProjectsPrinted) {

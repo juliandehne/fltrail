@@ -9,10 +9,29 @@ $(document).ready(function () {
         var temp = parts[i].split("=");
         $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
     }
-    //todo: get hidden div from rearrangeGroups.php students and groups and initially call printEmptyTable() and printTable()
+    initialGroupPrint($_GET['projectId']);
+    printEmptyTable();
+    var maxGroup = document.getElementById('Groups').childElementCount;
+    for (var j = 0; j < maxGroup; j++) {
+        $('#addToGruppe' + j).on('click', {group: 'Gruppe' + j, maxGroup: maxGroup}, reorderGroups);
+    }
     $('#saveArrangement').on('click',{projectId: $_GET['projectId']}, saveArrangement);
     $('#automaticArrangement').on('click',{projectId: $_GET['projectId']}, automaticArrangement);
 });
+
+function initialGroupPrint(projectId){
+    i=0;
+    var pStudents = $('#students'+i);
+    if (pStudents.length !== 0){
+        while (pStudents.length !== 0){
+            var students=JSON.parse(pStudents.text());
+            printGroupTable(students, i);
+            i++;
+            pStudents = $('#students'+i);
+        }
+    }else
+        automaticArrangement(projectId);
+}
 
 function saveArrangement(event){
     var projectId = event.data.projectId;
@@ -21,7 +40,6 @@ function saveArrangement(event){
     var url = "../database/createGroups.php?projectId=" + projectId + "&token=" + getUserTokenFromUrl();
     return $.ajax({
         url: url,
-        //contentType: 'application/json',
         type: 'POST',
         data: groupSetup,
         success: function (response) {
@@ -52,16 +70,15 @@ function automaticArrangement(event){
                 var students = data.groups[i];
                 printGroupTable(students.users, i);
             }
-            printEmptyTable(data.groups.length);
-            for (var j = 0; j < data.groups.length + 1; j++) {
+            for (var j = 0; j < data.groups.length; j++) {
                 $('#addToGruppe' + j).on('click', {group: 'Gruppe' + j, maxGroup: data.groups.length}, reorderGroups);
             }
-
-            saveArrangement(event);
         },
         error: function (data) {
         }
     });
+    var obj = {data: {projectId: event}};       //for some unexplainable reason event is not an obj anymore down here but the projectId
+    saveArrangement(obj);
 }
 
 function collectStudents(numberOfGroups, opts){
@@ -99,23 +116,6 @@ function reorderGroups(event) {
 
 }
 
-function printEmptyTable(count) {
-    var buttonId = "addToGruppe" + count;
-    var tableStart = '<table class="table table-striped table-bordered table-list"' +
-        ' style="width: 40%;margin-top:' +
-        ' 10px;"> <thead> ' +
-        '  <tr>' +
-        '    <th class="hidden-xs">Gruppe' + count + '</th>' +
-        '    <th class="hidden-xs"><button class="btn btn-info" id="' + buttonId + '">einfügen</button></th>' +
-        '  </tr>' +
-        '</thead>' +
-        '<tbody id="tableGruppe' + count + '">';
-    var tableFinish = '</tbody>' + '</table>';
-
-    var tableString = tableStart + tableFinish;
-    $("#Groups").append(tableString);
-}
-
 function printGroupTable(students, count) {
     var buttonId = "addToGruppe" + count;
     var tableStart = '<table class="table table-striped table-bordered table-list"' +
@@ -140,29 +140,20 @@ function printGroupTable(students, count) {
     $("#Groups").append(tableString);
 }
 
-function getMembers(project) {        //gets all Members in the chosen Project user is a part of with email adresses
-    $("#Groups").empty();
+function printEmptyTable() {
+    var count = document.getElementById('Groups').childElementCount;
+    var buttonId = "addToGruppe" + count;
+    var tableStart = '<table class="table table-striped table-bordered table-list"' +
+        ' style="width: 40%;margin-top:' +
+        ' 10px;"> <thead> ' +
+        '  <tr>' +
+        '    <th class="hidden-xs">Gruppe' + count + '</th>' +
+        '    <th class="hidden-xs"><button class="btn btn-info" id="' + buttonId + '">einfügen</button></th>' +
+        '  </tr>' +
+        '</thead>' +
+        '<tbody id="tableGruppe' + count + '">';
+    var tableFinish = '</tbody>' + '</table>';
 
-    var url = compbaseUrl + "/api2/groups/" + project;      //this API is used, since fleckenroller has security issues
-                                                            // with CORS
-                                                            // and stuff
-    $.ajax({
-        url: url,
-        type: 'GET',
-        contentType: "application/json",
-        dataType: "json",                               //{groups: [id, users:[]] }
-        success: function (data) {
-            for (var i = 0; i < data.groups.length; i++) {
-                var students = data.groups[i];
-                printGroupTable(students, i);
-            }
-            printEmptyTable(data.groups.length);
-            for (var j = 0; j < data.groups.length + 1; j++) {
-                $('#addToGruppe' + j).on('click', {group: 'Gruppe' + j, maxGroup: data.groups.length}, reorderGroups);
-            }
-
-        },
-        error: function (data) {
-        }
-    });
+    var tableString = tableStart + tableFinish;
+    $("#Groups").append(tableString);
 }
