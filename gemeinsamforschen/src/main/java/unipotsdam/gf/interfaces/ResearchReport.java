@@ -15,7 +15,7 @@ public interface ResearchReport {
      * @param filePath Path of the File
      * @param userId The id of the uploader of the File
      */
-    Object addFile(String filename, String filePath, String userId);
+    File addFile(String filename, String filePath, String userId);
 
     /**
      * Return a File / Download
@@ -24,7 +24,7 @@ public interface ResearchReport {
      * @param filePath Path of the File
      * @return Returns the File to download
      */
-    Object getFile(String filename, String filePath);
+    File getFile(String filename, String filePath);
 
     /**
      * Delete a File
