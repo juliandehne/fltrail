@@ -44,13 +44,16 @@ function getProjects(user) {
 }
 
 
-function printGroupTable(student1, student2, student3, student4) {
-    var innerurl = "../database/getAdresses.php?student1=" + student1 + "&student2=" + student2 + "&student3=" + student3 + "&student4=" + student4;
+function printGroupTable(students) {
+    var innerurl = "../database/getAdresses.php";
+    for (var i = 0; i < students.length; i++) {
+        if (i === 0) {
+            innerurl = innerurl + "?students[]=" + students[i]
+        } else
+            innerurl = innerurl + "&students[]=" + students[i]
+    }
     $.ajax({                    //get email adresses in this ajax.
-        student1: "" + student1,
-        student2: "" + student2,
-        student3: "" + student3,
-        student4: "" + student4,
+        students: students,
         url: innerurl,
         type: 'GET',
         contentType: "application/json",
@@ -65,19 +68,8 @@ function printGroupTable(student1, student2, student3, student4) {
                 '  </tr>';
             var tableFinish = '</thead>' + '</table>';
             for (var k2 = 0; k2 < innerData.length; k2++) {
-                if (innerData[k2].name === student1) {
-                    tableStart = tableStart + ("<tr><td>" + student1 + "</td><td><a" +
-                        " href='mailto:" + innerData[k2].email + "'>" + innerData[k2].email + "</a></td></tr>");
-                } else if (innerData[k2].name === student2) {
-                    tableStart = tableStart + ("<tr><td>" + student2 + "</td><td><a" +
-                        " href='mailto:" + innerData[k2].email + "'>" + innerData[k2].email + "</a></td></tr>");
-                } else if (innerData[k2].name === student3) {
-                    tableStart = tableStart + ("<tr><td>" + student3 + "</td><td><a" +
-                        " href='mailto:" + innerData[k2].email + "'>" + innerData[k2].email + "</a></td></tr>");
-                } else if (innerData[k2].name === student4 && (student4 != null)) {
-                    tableStart = tableStart + ("<tr><td>" + student4 + "</td><td><a" +
-                        " href='mailto:" + innerData[k2].email + "'>" + innerData[k2].email + "</a></td></tr>");
-                }
+                tableStart = tableStart + ("<tr><td>" + innerData[k2].name + "</td><td><a" +
+                    " href='mailto:" + innerData[k2].email + "'>" + innerData[k2].email + "</a></td></tr>");
             }
             var tableString = tableStart + tableFinish;
             $("#tablesHolder").append(tableString);
@@ -87,30 +79,57 @@ function printGroupTable(student1, student2, student3, student4) {
     return innerurl;
 }
 
+
 function getMembers(project) {        //gets all Members in the chosen Project user is a part of with email adresses
     $("#tablesHolder").empty();
-
-    var url = compbaseUrl + "/api2/groups/" + project;      //this API is used, since fleckenroller has security issues
-                                                            // with CORS
-                                                            // and stuff
+    var url = "../database/getGroups.php?projectId=" + project;
     $.ajax({
         url: url,
         type: 'GET',
         contentType: "application/json",
         dataType: "json",                               //{groups: [id, users:[]] }
         success: function (data) {
-            for (var i = 0; i < data.groups.length; i++) {
+            if (data.length < 1) {
+                var innerurl = compbaseUrl + "/api2/groups/" + project;      //this API is used, since fleckenroller has security issues
+                // with CORS
+                // and stuff
+                $.ajax({
+                    url: innerurl,
+                    type: 'GET',
+                    contentType: "application/json",
+                    dataType: "json",                               //{groups: [id, users:[]] }
+                    success: function (data) {
+                        var students = [];
+                        for (var i = 0; i < data.groups.length; i++) {
+                            for (var j = 0; j < data.groups[i].users.length; j++) {
+                                students.push(data.groups[i].users[j]);
+                            }
+                            printGroupTable(students);
+                            students = [];
+                        }
+                        var rearrange = '<button class="btn btn-info" onClick="location.href=' + "'rearrangeGroups.php?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectDropdown').html() + "';" + '">umverteilen</button>';
+                        $("#tablesHolder").append(rearrange);
+                    },
+                    error: function (data) {
+                        $("#tablesHolder").append("<p>Es wurden keine Gruppen gefunden. Das Projekt muss mehr als 5 Teilnehmer haben!</p>")
+                    }
 
-                var student1 = data.groups[i].users[0];
-                var student2 = data.groups[i].users[1];
-                var student3 = data.groups[i].users[2];
-                var student4 = data.groups[i].users[3];
-                printGroupTable(student1, student2, student3, student4);
+                });
+            } else {
+                var students = [];
+                for (var i = 0; i < data.groups.length; i++) {
+                    for (var j = 0; j < data.groups[i].users.length; j++) {
+                        students.push(data.groups[i].users[j]);
+                    }
+                    printGroupTable(students);
+                    students = [];
+                }
+                var rearrange = '<button class="btn btn-info" onClick="location.href=' + "'rearrangeGroups.php?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectDropdown').html() + "';" + '">umverteilen</button>';
+                $("#tablesHolder").append(rearrange);
             }
-            var rearrange = '<button class="btn btn-info" onClick="location.href='+"'rearrangeGroups.php?token="+getUserTokenFromUrl()+"&projectId="+$('#projectDropdown').html()+"';"+'">umverteilen</button>';
-            $("#tablesHolder").append(rearrange);
-        },
-        error: function(data) {
+        }
+        ,
+        error: function (data) {
             $("#tablesHolder").append("<p>Es wurden keine Gruppen gefunden. Das Projekt muss mehr als 5 Teilnehmer haben!</p>")
         }
 
