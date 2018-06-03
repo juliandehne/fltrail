@@ -1,6 +1,6 @@
-
+package unipotsdam.gf.modules.peer2peerfeedback;
 /**
- PeerFeedback Object
+ Peer2PeerFeedback Object
  */
 
 public class Peer2PeerFeedback{
@@ -9,10 +9,20 @@ public class Peer2PeerFeedback{
     String feedbacktopic;
     String feedbacktype;
     String feedbackreference;
-   // Student feedbackreceiver; //StudentIdentifier?
-   // Student feedbacksender; //StudentIdentifier?
     File document;
     String feedbacktemplate;
+    User feedbacksender;
+    User feedbackreceiver;
+
+    public Peer2PeerFeedback(String feedbacktopic, String feedbacktype, String feedbackreference, File document, String feedbacktemplate, User feedbacksender, User feedbackreceiver) {
+        this.feedbacktopic = feedbacktopic;
+        this.feedbacktype = feedbacktype;
+        this.feedbackreference = feedbackreference;
+        this.document = document;
+        this.feedbacktemplate = feedbacktemplate;
+        this.feedbacksender = feedbacksender;
+        this.feedbackreceiver = feedbackreceiver;
+    }
 
     public String getFeedbacktopic() {
 
@@ -46,35 +56,13 @@ public class Peer2PeerFeedback{
         this.feedbackreference = feedbackreference;
     }
 
-/**
-    public Student getFeedbackreceiver() {
-
-        return feedbackreceiver;
-    }
-
-    public void setFeedbackreceiver(Student feedbackreceiver) {
-
-        this.feedbackreceiver = feedbackreceiver;
-    }
-
-    public Student getFeedbacksender() {
-
-        return feedbacksender;
-    }
-
-    public void setFeedbacksender(Student feedbacksender) {
-
-        this.feedbacksender = feedbacksender;
-    }
-
- */
 
     public File getDocument() {
 
         return document;
     }
 
-    public void setDocument(Document document) {
+    public void setDocument(File document) {
 
         this.document = document;
     }
@@ -87,6 +75,37 @@ public class Peer2PeerFeedback{
     public void setFeedbacktemplate(String feedbacktemplate) {
 
         this.feedbacktemplate = feedbacktemplate;
+    }
+
+
+    public User getFeedbacksender() {
+        return feedbacksender;
+    }
+
+    public void setFeedbacksender(User feedbacksender) {
+        this.feedbacksender = feedbacksender;
+    }
+
+    public User getFeedbackreceiver() {
+        return feedbackreceiver;
+    }
+
+    public void setFeedbackreceiver(User feedbackreceiver) {
+        this.feedbackreceiver = feedbackreceiver;
+    }
+
+    
+    @Override
+    public String toString() {
+        return "Peer2PeerFeedback{" +
+                "feedbacktopic=" + feedbacktopic +
+                ", feedbacktype=" + feedbacktype +
+                ", feedbackreference=" + feedbackreference +
+                ", feedbacktemplate=" + feedbacktemplate +
+                ", feedbacksender='" + feedbacksender +
+                ", feedbackreceiver=" + feedbackreceiver +
+                ", document=" + document.toString() +
+                '}';
     }
 
 
