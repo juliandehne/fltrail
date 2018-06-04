@@ -1,5 +1,6 @@
 package unipotsdam.gf.interfaces;
-import java.io.*;
+
+import java.io.File;
 
 /**
  * Created by Johannes Zeiße on 30.05.2018.
