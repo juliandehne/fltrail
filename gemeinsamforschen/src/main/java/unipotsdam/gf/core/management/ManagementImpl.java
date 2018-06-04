@@ -66,8 +66,7 @@ public class ManagementImpl implements Management {
     public void register(User user, Project project, UserInterests interests) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest =
-                "INSERT INTO projectuser (`projectId`, `userId`) values (?,?)";
+        String mysqlRequest = "INSERT INTO projectuser (`projectId`, `userId`) values (?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), user.getId());
         connect.close();
     }
@@ -77,8 +76,9 @@ public class ManagementImpl implements Management {
         Boolean result = false;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM users where email = (?)";
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, user.getEmail());
+        String mysqlRequest = "SELECT * FROM users where email = ? and password = ?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, user.getEmail(), user.getPassword());
         result = vereinfachtesResultSet.next();
         connect.close();
         return result;
@@ -86,10 +86,8 @@ public class ManagementImpl implements Management {
 
     @Override
     public List<User> getUsers(Project project) {
-    String query = "SELECT * FROM users u " +
-        " JOIN projectuser pu ON u.email=pu.userId" +
-        " JOIN projects p ON pu.projectId = p.id" +
-        " WHERE pu.projectId = ?";
+        String query =
+                "SELECT * FROM users u " + " JOIN projectuser pu ON u.email=pu.userId" + " JOIN projects p ON pu.projectId = p.id" + " WHERE pu.projectId = ?";
 
         ArrayList<User> result = new ArrayList<User>();
         MysqlConnect connect = new MysqlConnect();
@@ -107,5 +105,37 @@ public class ManagementImpl implements Management {
         }
         connect.close();
         return result;
+    }
+
+    @Override
+    public String getUserToken(User user) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM users where email = ? and password = ?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, user.getEmail(), user.getPassword());
+        boolean next = vereinfachtesResultSet.next();
+        String token = vereinfachtesResultSet.getString("token");
+        return token;
+    }
+
+    @Override
+    public User getUser(String token) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM users where token = ?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, token);
+        boolean next = vereinfachtesResultSet.next();
+        if (next) {
+            String name = vereinfachtesResultSet.getString("name");
+            String password = vereinfachtesResultSet.getString("password");
+            String email = vereinfachtesResultSet.getString("email");
+            User user = new User(name, password, email);
+            connect.close();
+            return user;
+        } else {
+            return null;
+        }
     }
 }

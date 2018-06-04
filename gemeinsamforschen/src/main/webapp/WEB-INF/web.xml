@@ -39,6 +39,41 @@
     </servlet-mapping>
 
 
+    <!-- create user servlet mapping -->
+    <servlet>
+        <servlet-name>CreateUser</servlet-name>
+        <servlet-class>unipotsdam.gf.core.management.user.servlets.CreateUser</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CreateUser</servlet-name>
+        <url-pattern>/servlet/createUser</url-pattern>
+    </servlet-mapping>
+
+    <!-- user exists servlet mapping -->
+    <servlet>
+        <servlet-name>UserExists</servlet-name>
+        <servlet-class>unipotsdam.gf.core.management.user.servlets.UserExists</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserExists</servlet-name>
+        <url-pattern>/servlet/userExists</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- loginFilter -->
+    <filter>
+        <filter-name>RequestLoggingFilter</filter-name> <!-- mandatory -->
+        <filter-class>unipotsdam.gf.core.management.user.servlets.SessionValidator</filter-class> <!-- mandatory -->
+    </filter>
+
+    <filter-mapping>
+        <filter-name>RequestLoggingFilter</filter-name> <!-- mandatory -->
+        <url-pattern>/core/pages/*</url-pattern> <!-- either url-pattern or servlet-name is mandatory -->
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
     <filter>
         <filter-name>CorsFilter</filter-name>
         <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>

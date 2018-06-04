@@ -1,0 +1,11 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>hiddenUserTag</short-name>
+
+    <tag>
+        <name>hiddenUserTag</name>
+        <tag-class>unipotsdam.gf.core.management.user.tags.HiddenUserTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+</taglib>

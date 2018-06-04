@@ -57,5 +57,19 @@ public interface Management {
      * @return
      */
     java.util.List<User> getUsers(Project project);
+
+    /**
+     * get the token for the user
+     * @param user
+     * @return
+     */
+    String getUserToken(User user);
+
+    /**
+     * get the user given his http token
+     * @param token
+     * @return
+     */
+    User getUser(String token);
 }
 
