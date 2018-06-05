@@ -143,13 +143,14 @@ function getDetailsOfMembers(group, studentString) {
     pathName[0].innerHTML = group;
     studentString = studentString.substring(0, studentString.length-6);         //cuts off the last &nbsp;
     var students = studentString.split("&nbsp;");
-    var innerurl = "../database/getAdresses.php?student1=" + students[0] + "&student2=" + students[1] + "&student3=" + students[2] + "&student4=" + students[3] + "&student5=" + students[4];
+    var innerurl = "../database/getAdresses.php";
+    for (var i = 0; i < students.length; i++) {
+        if (i === 0) {
+            innerurl = innerurl + "?students[]=" + students[i]
+        } else
+            innerurl = innerurl + "&students[]=" + students[i]
+    }
     $.ajax({
-        student1: "" + students[0],
-        student2: "" + students[1],
-        student3: "" + students[2],
-        student4: "" + students[3],
-        student5: "" + students[4],
         url: innerurl,
         type: 'GET',
         contentType: "application/json",

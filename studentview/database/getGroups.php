@@ -20,6 +20,15 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 // is user does not exist create
     $result = $db->query("SELECT * FROM `groups`;");
     $db->commit();
+    $finalArray = array();
+
+    foreach ($result as $student) {
+        $email = attributeEmail($student, $addresses);
+        if (!$email) {
+            $email = "";
+        }
+        array_push($finalArray, array("name" => $student, "email" => $email));
+
     if (count(mysqli_fetch_array($result))==0){
         foreach ($students as $i) {
             $db->query("INSERT INTO `groups`(`projectId`, `groupId`, `student`) VALUES ('" . $projectId . "','" . $i['group'] . "','" . $i['student'] . "');");
