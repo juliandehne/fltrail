@@ -29,25 +29,7 @@ public class UserExists extends UserHttpServlet {
 
     private void handeRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = parseUser(request);
-
-        String nextJSP = "../core/pages/projects.jsp?token=";
-        String errorJSP = "../index.jsp?userExists=false";
-
-        ManagementImpl management = new ManagementImpl();
-        Boolean exists = management.exists(user);
-
-        /**
-         * if user exists the page is forwarded to the project page
-         */
-        if (exists) {
-            nextJSP+= management.getUserToken(user);
-            forwardToLocation(response, nextJSP);
-        } else {
-            // if the user does not exist the page is forwarded to itself with a GET-Variable indicating an error
-            forwardToLocation(response, errorJSP);
-        }
-
+       login(false, request, response);
     }
 
 
