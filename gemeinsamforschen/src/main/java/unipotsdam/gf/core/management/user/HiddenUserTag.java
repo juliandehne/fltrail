@@ -1,4 +1,4 @@
-package unipotsdam.gf.core.management.user.tags;
+package unipotsdam.gf.core.management.user;
 
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.user.User;
@@ -8,6 +8,10 @@ import javax.servlet.jsp.tagext.*;
 import javax.servlet.jsp.*;
 import java.io.*;
 
+/**
+ * implemented while porting the login page. It might be useful to have a hidden user field on the page in order to
+ * manipulate the user data with jquery
+ */
 public class HiddenUserTag extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
         PageContext pageContext = (PageContext) getJspContext();

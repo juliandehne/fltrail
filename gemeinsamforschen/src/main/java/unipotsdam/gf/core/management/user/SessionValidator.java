@@ -1,16 +1,17 @@
-package unipotsdam.gf.core.management.user.servlets;
+package unipotsdam.gf.core.management.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.core.management.user.User;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * this filter can be applied to a given space in order to validate, that the tag in the url is a valid one
+ * not applied to to a folder yet (because might lead to confusing experiences in debugging)
+ */
 public class SessionValidator implements Filter {
 
     Logger log = LoggerFactory.getLogger(SessionValidator.class);

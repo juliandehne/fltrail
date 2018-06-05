@@ -41,7 +41,7 @@
     <!-- loginFilter -->
     <filter>
         <filter-name>RequestLoggingFilter</filter-name> <!-- mandatory -->
-        <filter-class>unipotsdam.gf.core.management.user.servlets.SessionValidator</filter-class> <!-- mandatory -->
+        <filter-class>unipotsdam.gf.core.management.user.SessionValidator</filter-class> <!-- mandatory -->
     </filter>
 
     <filter-mapping>
