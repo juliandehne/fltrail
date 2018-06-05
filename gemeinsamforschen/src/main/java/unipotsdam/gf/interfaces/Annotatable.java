@@ -1,5 +1,9 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.modules.annotation.Annotation;
+
+import java.util.ArrayList;
+
 /**
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
@@ -7,42 +11,43 @@ package unipotsdam.gf.interfaces;
 public interface Annotatable {
 
     /**
-     * Adds an annotation to a document and returns the new id
+     * Adds an annotation to a target and returns the new id
      *
-     * @param userId The id of the author of the annotation
-     * @param annotation The annotation as an Object
+     * @param newAnnotation The new annotation as an Object
      * @return Returns the id of the new annotation
      */
-    String addAnnotation(String userId, Object annotation);
+    int addAnnotation(Annotation newAnnotation);
 
     /**
      * Alters an annotation
      *
-     * @param id The id of the annotation
-     * @param annotation The annotation as an Object
+     * @param annotationId The id of the original annotation
+     * @param newBody The new body of the annotation
      */
-    void alterAnnotation(String id, Object annotation);
+    void alterAnnotation(int annotationId, String newBody);
 
     /**
      * Deletes an annotation
      *
-     * @param id The id of the annotation
+     * @param annotationId The id of the annotation
      */
-    void deleteAnnotation(String id);
+    void deleteAnnotation(int annotationId);
 
     /**
-     * Returns a specific annotation from a document
+     * Returns a specific annotation from a target
      *
-     * @param id The id of the annotation
+     * @param annotationId The id of the annotation
+     * @param targetId The id of the target
      * @return Returns a specific annotation
      */
-    Object getAnnotation(String id);
+    Annotation getAnnotation(int annotationId, int targetId);
 
     /**
-     * Return all annotations from a document
+     * Returns all annotations from a target
      *
+     * @param targetIds An ArrayList of target ids
      * @return Returns all annotations
      */
-    Object[] getAnnotations();
+    ArrayList<Annotation> getAnnotations(ArrayList<Integer> targetIds);
 
 }

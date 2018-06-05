@@ -1,5 +1,6 @@
 package unipotsdam.gf.interfaces;
 
+import java.io.File;
 
 import java.io.File;
 
@@ -11,46 +12,37 @@ import java.io.File;
 public interface ResearchReport {
 
     /**
-     * Add a File / Upload or Create
+     * Create a File
      *
-     * @param filename Name of the File
-     * @param filePath Path of the File
-     * @param userId The id of the uploader of the File
+     * @param researchReport Name of the Report
+     * @return Returns the reportId
      */
-    File addFile(String filename, String filePath, String userId);
+    String createReseachReport(ResearchReport researchReport);
+
 
     /**
-     * Return a File / Download
+     * Change a File
      *
-     * @param filename Name of the File
-     * @param filePath Path of the File
-     * @return Returns the File to download
+     * @param researchReport Name of the Report
+     * @return Returns if the report is updated
      */
-    File getFile(String filename, String filePath);
+    boolean updateResearchReport(ResearchReport researchReport);
 
     /**
      * Delete a File
      *
-     * @param filename Name of the File
-     * @param filePath Path of the File
+     * @param researchReport Name of the Report
      */
-    void deleteFile(String filename, String filePath);
+    boolean deleteReport(ResearchReport researchReport);
 
 
     /**
-     * Shows the Name of a File
-     * @return Returns the Name of a File
+     * Shows the Id of a File
+     * @param researchReport Name of the Report
+     * @return Returns the Report
      */
-    String getFileName();
+    File getResearchReport(ResearchReport researchReport);
 
-
-    /**
-     * Shows the Path of a File
-     *
-     * @param filename Name of the File
-     * @return Returns the Path of a FIle
-     */
-    String getFilePath(String filename);
 
 
 }
