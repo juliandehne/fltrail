@@ -1,6 +1,9 @@
 package unipotsdam.gf.interfaces;
-import unipotsdam.gf.modules.peer2peerfeedback.peer2peerfeedback;
+import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.modules.peer2peerfeedback.Peer2PeerFeedback;
 import java.*;
+import java.io.File;
+import java.util.ArrayList;
 
 
 /**
@@ -12,9 +15,9 @@ public interface Feedback {
     /**
      * create Peer2PeerFeedback Object
      *
-     * @param FeedbackUser: The student who is creating the feedback
-     * @param SelectedStudent: The student who receive the feedback
-     * @param Document: The selected document to give feedback about
+     * @param feedbackuser: The student who is creating the feedback
+     * @param selectedstudent: The student who receive the feedback
+     * @param document: The selected document to give feedback about
      * @return Returns the Peer2PeerFeedback Object
      */
 
@@ -23,8 +26,8 @@ public interface Feedback {
     /**
      * give Peer2PeerFeedback
      *
-     * @param Peer2PeerFeedback: The Peer2PeerFeedback as an Object
-     * @param Document: The selected document
+     * @param feedback: The Peer2PeerFeedback as an Object
+     * @param document: The selected document
      * @return Send feedback with doc and return true, if the feedback is successfully sended
      */
 
@@ -37,7 +40,7 @@ public interface Feedback {
      * @return List of Feedbacks with Docs
      */
 
-    ArrayList <Peer2PeerFeedback> showFeedback(User student);
+    ArrayList<Peer2PeerFeedback> showFeedback(User student);
 
     /**
      * count Feedback

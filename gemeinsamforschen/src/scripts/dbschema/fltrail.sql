@@ -37,6 +37,9 @@ CREATE TABLE projectuser
           userId varchar(400) NOT NULL
 );  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+alter table users
+  add isStudent tinyint(1) default '1' null;
+
 
 
 

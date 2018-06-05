@@ -1,4 +1,9 @@
 package unipotsdam.gf.modules.peer2peerfeedback;
+
+import unipotsdam.gf.core.management.user.User;
+
+import java.io.File;
+
 /**
  Peer2PeerFeedback Object
  */

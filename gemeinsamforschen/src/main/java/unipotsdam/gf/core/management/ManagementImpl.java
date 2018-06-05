@@ -32,8 +32,9 @@ public class ManagementImpl implements Management {
 
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "INSERT INTO users (`name`, `password`, `email`, `token`) values (?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(), token);
+        String mysqlRequest = "INSERT INTO users (`name`, `password`, `email`, `token`,`isStudent`) values (?,?,?,?,?)";
+        connect.issueInsertOrDeleteStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
+                token, user.getStudent());
         connect.close();
 
         // TODO implmement UserProfile @Mar
@@ -95,16 +96,21 @@ public class ManagementImpl implements Management {
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getId());
         while (!vereinfachtesResultSet.isLast()) {
             vereinfachtesResultSet.next();
-            String name = vereinfachtesResultSet.getString("name");
-            String password = vereinfachtesResultSet.getString("password");
-            String email = vereinfachtesResultSet.getString("email");
+            User user = getUserFromResultSet(vereinfachtesResultSet);
             String token = vereinfachtesResultSet.getString("token");
-            User user = new User(name, password, email);
             user.setToken(token);
             result.add(user);
         }
         connect.close();
         return result;
+    }
+
+    private User getUserFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
+        String name = vereinfachtesResultSet.getString("name");
+        String password = vereinfachtesResultSet.getString("password");
+        String email = vereinfachtesResultSet.getString("email");
+        Boolean isStudent = vereinfachtesResultSet.getBoolean("isStudent");
+        return new User(name, password, email, isStudent);
     }
 
     @Override
@@ -128,10 +134,7 @@ public class ManagementImpl implements Management {
                 connect.issueSelectStatement(mysqlRequest, token);
         boolean next = vereinfachtesResultSet.next();
         if (next) {
-            String name = vereinfachtesResultSet.getString("name");
-            String password = vereinfachtesResultSet.getString("password");
-            String email = vereinfachtesResultSet.getString("email");
-            User user = new User(name, password, email);
+            User user = getUserFromResultSet(vereinfachtesResultSet);
             connect.close();
             return user;
         } else {

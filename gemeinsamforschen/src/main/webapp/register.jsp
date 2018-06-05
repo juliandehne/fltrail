@@ -32,19 +32,24 @@
         <!--<div class="form-group"><input class="form-control" type="password" name="password"
                                        placeholder="Password wiederholen"></div>-->
         <div class="form-group">
+            <label>
+                <input id="is_Student" class="form-control" type="checkbox" name="isStudent">Dozierender
+            </label>
+        </div>
+        <div class="form-group">
             <button class="btn btn-primary btn-block" type="submit">registrieren</button>
         </div>
         <div class="form-group">
             <!-- scriptlets are terrible. Just tmp for porting the php -->
-       <%--     <%
-                String param = request.getParameter("userExists");
-                if (param != null) {
-                    try (PrintWriter p = response.getWriter()) {
-                        p.println(
-                                "<div class=\"alert alert-danger\" role=\"alert\"> Es existiert ein Nutzer mit dieser Email oder diesem Benutzernamen! </div>");
-                    }
-                }
-            %>--%>
+            <%--     <%
+                     String param = request.getParameter("userExists");
+                     if (param != null) {
+                         try (PrintWriter p = response.getWriter()) {
+                             p.println(
+                                     "<div class=\"alert alert-danger\" role=\"alert\"> Es existiert ein Nutzer mit dieser Email oder diesem Benutzernamen! </div>");
+                         }
+                     }
+                 %>--%>
 
             <%
                 String param = request.getParameter("userExists");

@@ -30,7 +30,7 @@ public class ManagementTest {
     @Test
     public void testExists() throws Exception {
         ManagementImpl management = new ManagementImpl();
-        User user = new User("julian", "1234", "from1123123123@stuff.com");
+        User user = new User("julian", "1234", "from1123123123@stuff.com", true);
         assert !management.exists(user);
     }
 
@@ -41,7 +41,7 @@ public class ManagementTest {
     @Test
     public void testCreate() throws Exception {
         ManagementImpl management = new ManagementImpl();
-        User user = new User("julian", "1234", "from@stuff.com");
+        User user = new User("julian", "1234", "from@stuff.com", false);
         management.create(user, new UserProfile());
         assert management.exists(user);
     }
@@ -60,7 +60,7 @@ public class ManagementTest {
     @Test
     public void testRegister() throws Exception {
         ManagementImpl management = new ManagementImpl();
-        User user = new User("julian", "1234", "from@stuff.com");
+        User user = new User("julian", "1234", "from@stuff.com", true);
         management.create(user, new UserProfile());
         assert management.exists(user);
 
@@ -72,7 +72,7 @@ public class ManagementTest {
     @Test
     public void testGetUsers() throws Exception {
         ManagementImpl management = new ManagementImpl();
-        User user = new User("julian", "1234", "from@stuff.com");
+        User user = new User("julian", "1234", "from@stuff.com", false);
         management.create(user, new UserProfile());
         assert management.exists(user);
 
@@ -80,7 +80,7 @@ public class ManagementTest {
         management.create(project);
         management.register(user, project, null);
 
-        User user2 = new User("julian2", "12345", "from2@stuff.com");
+        User user2 = new User("julian2", "12345", "from2@stuff.com", true);
         management.create(user2, new UserProfile());
         assert management.exists(user2);
 
