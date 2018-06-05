@@ -21,7 +21,8 @@
 
 <body>
 <div class="login-clean">
-    <form method="post" action="./servlet/createUser">
+    <%--<form method="post" action="./servlet/createUser">--%>
+    <form method="post" action="./rest/user/create">
         <h2 class="sr-only">Login Formular</h2>
         <div class="illustration"><img src="assets/img/fides-logo.svg"></div>
         <div class="form-group"><input class="form-control" name="name" placeholder="Name"></div>
