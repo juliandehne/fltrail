@@ -44,7 +44,7 @@ public class UserService {
             return registrationError();
         }
     }
-    
+
     /**
      * checks if a user exists in order to log him in
      *
