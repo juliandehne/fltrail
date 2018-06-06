@@ -31,12 +31,10 @@ public class CommunicationView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/info/{roomId}")
     public Response getChatRoomInformation(@PathParam("roomId") String roomId) {
-        if (isNull(roomId)) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
         CommunicationDummyService communicationDummyService = new CommunicationDummyService();
         ChatRoom chatRoom = communicationDummyService.getChatRoomInfo(roomId);
         if (isNull(chatRoom)) {
+            log.error("chatRoom not found for roomId: {}", roomId);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         log.debug("getChatRoomInformationResponse: {}", chatRoom);
@@ -47,9 +45,6 @@ public class CommunicationView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/history/{roomId}")
     public Response getChatHistory(@PathParam("roomId") String roomId) {
-        if (isNull(roomId)) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
         CommunicationDummyService communicationDummyService = new CommunicationDummyService();
         List<ChatMessage> chatMessages = communicationDummyService.getChatHistory(roomId);
         if (isNull(chatMessages)) {
@@ -66,7 +61,7 @@ public class CommunicationView {
     @Path("/create")
     public Response createChatRoom(@QueryParam("name") String name, List<User> users) {
         if (isNull(name)) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("no name is not allowed").build();
         }
         CommunicationDummyService communicationDummyService = new CommunicationDummyService();
         String chatId = communicationDummyService.createChatRoom(name, users);
