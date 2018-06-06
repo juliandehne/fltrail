@@ -30,12 +30,23 @@
             <button class="btn btn-primary btn-block" type="submit">login</button>
             <!-- scriptlets are terrible. Just tmp for porting the php -->
             <%
-                String param = request.getParameter("userExists");
-                if (param != null) {
+                String message = "";
+
+                String userExists = request.getParameter("userExists");
+                if (userExists != null) {
+                    message = "Nutzer oder Passwort inkorrekt";
+                }
+
+                String loginError = request.getParameter("loginError");
+                if (loginError != null) {
+                    message = "Login bei RocketChat fehlgeschlagen! Bitte kontaktieren Sie den Administrator";
+                }
+
+                if (!message.isEmpty()) {
                     try {
                         PrintWriter p = response.getWriter();
                         p.println(
-                         "<div class=\"alert alert-danger\" role=\"alert\"> Nutzer oder Passwort inkorrekt</div>");
+                                "<div class=\"alert alert-danger\" role=\"alert\"> " + message + "</div>");
                     } finally {
 
                     }

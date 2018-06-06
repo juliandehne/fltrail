@@ -112,8 +112,10 @@ public class ManagementImpl implements Management {
         String name = vereinfachtesResultSet.getString("name");
         String password = vereinfachtesResultSet.getString("password");
         String email = vereinfachtesResultSet.getString("email");
+        String rocketChatId = vereinfachtesResultSet.getString("rocketchatid");
         Boolean isStudent = vereinfachtesResultSet.getBoolean("isStudent");
-        return new User(name, password, email, isStudent);
+
+        return new User(name, password, email, rocketChatId, isStudent);
     }
 
     @Override
