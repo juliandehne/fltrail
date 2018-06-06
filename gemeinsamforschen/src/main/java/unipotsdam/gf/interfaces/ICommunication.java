@@ -1,10 +1,9 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
-import unipotsdam.gf.modules.communication.model.user.User;
-import unipotsdam.gf.modules.communication.model.user.UserCredentials;
-import unipotsdam.gf.modules.communication.model.user.UserRegistrationInformation;
 
 import java.util.List;
 
@@ -23,25 +22,27 @@ public interface ICommunication {
     List<ChatMessage> getChatHistory(String roomId);
 
 
+    boolean sendMessageToChat(Message message);
+
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/create/
      * creates chatroom
      *
-     * @param name    chat room name
-     * @param userIds member of chat by id; can be empty
+     * @param name                  chat room name
+     * @param studentIdentifierList member of chat by id
      * @return chat room id
      */
-    String createChatRoom(String name, List<String> userIds);
+    String createChatRoom(String name, List<User> studentIdentifierList);
 
 
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/invite/
      *
      * @param roomId chat room the user should be add to
-     * @param userId userID to add
+     * @param user   information about user
      * @return if user was added successfully
      */
-    boolean addUserToChatRoom(String roomId, String userId);
+    boolean addUserToChatRoom(String roomId, User user);
 
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/settopic/
@@ -65,17 +66,17 @@ public interface ICommunication {
     /**
      * api: https://rocket.chat/docs/developer-guides/rest-api/authentication/login/
      *
-     * @param userCredentials username and password
+     * @param user username and password
      * @return information about user, especially authtoken for later use of endpoints
      */
-    User loginUser(UserCredentials userCredentials);
+    boolean loginUser(User user);
 
     /**
      * registers new user to rocket chat
      *
-     * @param userRegistrationInformation registers user to rocket.chat
+     * @param user registers user to rocket.chat
      * @return user id
      */
-    String registerUser(UserRegistrationInformation userRegistrationInformation);
+    boolean registerUser(User user);
 
 }
