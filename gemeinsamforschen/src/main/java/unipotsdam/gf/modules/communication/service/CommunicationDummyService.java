@@ -29,7 +29,7 @@ public class CommunicationDummyService implements ICommunication {
     }
 
     @Override
-    public String createChatRoom(String name, List<User> studentIdentifierList) {
+    public String createChatRoom(String name, List<User> users) {
         return "1";
     }
 
