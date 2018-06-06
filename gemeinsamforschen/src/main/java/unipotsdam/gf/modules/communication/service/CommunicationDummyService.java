@@ -9,6 +9,7 @@ import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CommunicationDummyService implements ICommunication {
 
@@ -16,9 +17,9 @@ public class CommunicationDummyService implements ICommunication {
     public List<ChatMessage> getChatHistory(String roomId) {
         ArrayList<ChatMessage> chatMessages = new ArrayList<>();
         int maxValue = 6;
-        for (int i = 1;i <= maxValue;i++) {
-            chatMessages.add(new ChatMessage(String.valueOf(i+1), "Dies ist ein Test" + i + " .",
-                    Instant.now().minusSeconds(maxValue * 10 - i * 10),"testUser" + i));
+        for (int i = 1; i <= maxValue; i++) {
+            chatMessages.add(new ChatMessage(String.valueOf(i), "Dies ist ein Test " + i + ".",
+                    Instant.now().minusSeconds(maxValue * 10 - i * 10), "testUser" + i));
         }
         return chatMessages;
     }
@@ -30,6 +31,10 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public String createChatRoom(String name, List<User> users) {
+        if (Objects.isNull(users)) {
+            return "2";
+        }
+
         return "1";
     }
 
@@ -59,5 +64,11 @@ public class CommunicationDummyService implements ICommunication {
     public boolean registerUser(User user) {
         user.setRocketChatId("1");
         return true;
+    }
+
+    // TODO: remove after done implementing
+    // just for postman testing
+    public User getUser() {
+        return new User("Martin Stähr", "test", "test@test.com", true);
     }
 }

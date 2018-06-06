@@ -92,4 +92,17 @@ public class User {
     public void setRocketChatAuthToken(String rocketChatAuthToken) {
         this.rocketChatAuthToken = rocketChatAuthToken;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", token='" + token + '\'' +
+                ", rocketChatAuthToken='" + rocketChatAuthToken + '\'' +
+                ", rocketChatId='" + rocketChatId + '\'' +
+                ", isStudent=" + isStudent +
+                '}';
+    }
 }
