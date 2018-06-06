@@ -1,14 +1,13 @@
 package unipotsdam.gf.core.management.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by dehne on 31.05.2018.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
-    // the email is the id!
-    public String getId() {
-        return this.email;
-    }
     private String name;
     private String password;
     private String email;
@@ -33,6 +32,11 @@ public class User {
         this.email = email;
         this.rocketChatId = rocketChatId;
         this.isStudent = isStudent;
+    }
+
+    // the email is the id!
+    public String getId() {
+        return this.email;
     }
 
     public String getName() {
@@ -66,7 +70,6 @@ public class User {
     public void setToken(String token) {
         this.token = token;
     }
-
 
 
     public Boolean getStudent() {
