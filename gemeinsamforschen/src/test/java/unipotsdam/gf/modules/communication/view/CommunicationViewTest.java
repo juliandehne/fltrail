@@ -1,10 +1,10 @@
 package unipotsdam.gf.modules.communication.view;
 
-import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.util.runner.ConcurrentRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import unipotsdam.gf.config.GFResourceConfig;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 
@@ -28,9 +28,9 @@ public class CommunicationViewTest extends JerseyTest {
     @Override
     protected Application configure() {
         CommunicationView communicationView = new CommunicationView();
-        ResourceConfig resourceConfig = new ResourceConfig();
-        resourceConfig.register(communicationView);
-        return resourceConfig;
+        GFResourceConfig gfResourceConfig = new GFResourceConfig();
+        gfResourceConfig.register(communicationView);
+        return gfResourceConfig;
     }
 
     @Test

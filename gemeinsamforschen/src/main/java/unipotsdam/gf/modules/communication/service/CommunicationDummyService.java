@@ -6,11 +6,17 @@ import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 
+import javax.annotation.ManagedBean;
+import javax.annotation.Resource;
+import javax.inject.Singleton;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Resource
+@ManagedBean
+@Singleton
 public class CommunicationDummyService implements ICommunication {
 
     @Override

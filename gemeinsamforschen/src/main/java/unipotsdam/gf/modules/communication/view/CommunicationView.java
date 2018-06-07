@@ -3,10 +3,13 @@ package unipotsdam.gf.modules.communication.view;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
+import javax.annotation.ManagedBean;
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,18 +24,19 @@ import java.util.List;
 import static java.util.Objects.isNull;
 
 @Path("/chat")
+@ManagedBean
 public class CommunicationView {
 
-    // TODO: introduce dependency injection
+    private static final Logger log = LoggerFactory.getLogger(SampleView.class);
 
-    Logger log = LoggerFactory.getLogger(SampleView.class);
+    @Inject
+    private ICommunication communicationService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/info/{roomId}")
     public Response getChatRoomInformation(@PathParam("roomId") String roomId) {
-        CommunicationDummyService communicationDummyService = new CommunicationDummyService();
-        ChatRoom chatRoom = communicationDummyService.getChatRoomInfo(roomId);
+        ChatRoom chatRoom = communicationService.getChatRoomInfo(roomId);
         if (isNull(chatRoom)) {
             log.error("chatRoom not found for roomId: {}", roomId);
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -45,8 +49,7 @@ public class CommunicationView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/history/{roomId}")
     public Response getChatHistory(@PathParam("roomId") String roomId) {
-        CommunicationDummyService communicationDummyService = new CommunicationDummyService();
-        List<ChatMessage> chatMessages = communicationDummyService.getChatHistory(roomId);
+        List<ChatMessage> chatMessages = communicationService.getChatHistory(roomId);
         if (isNull(chatMessages)) {
             log.error("chatRoom not found for roomId: {}", roomId);
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -63,8 +66,7 @@ public class CommunicationView {
         if (isNull(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("no name is not allowed").build();
         }
-        CommunicationDummyService communicationDummyService = new CommunicationDummyService();
-        String chatId = communicationDummyService.createChatRoom(name, users);
+        String chatId = communicationService.createChatRoom(name, users);
         if (isNull(chatId)) {
             log.error("error while creating chatRoom for: name: {}, users: {}", name, users);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -79,8 +81,7 @@ public class CommunicationView {
     @Path("/user")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUser() {
-        CommunicationDummyService communicationDummyService = new CommunicationDummyService();
-        User user = communicationDummyService.getUser();
+        User user = ((CommunicationDummyService) communicationService).getUser();
         return Response.ok(user).build();
     }
 

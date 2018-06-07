@@ -1,6 +1,6 @@
 package unipotsdam.gf.core.database.mysql;
 
-import unipotsdam.gf.GFDatabaseConfig;
+import unipotsdam.gf.config.GFDatabaseConfig;
 
 import java.sql.*;
 import java.util.Date;
