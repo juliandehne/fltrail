@@ -47,6 +47,21 @@ include_once '../database/tokenSetter.php';
                     </div>
                 </div>
             </div>
+
+            <div>
+                <button class="btn btn-info" id="rearrangeButton" type="button" onclick="$('#passwordDiv').show();$('#rearrangeButton').hide();">umverteilen</button>
+
+                <div class="alert alert-info" id="passwordDiv" style="margin-top:10px;">
+                    <p>Geben sie das Adminpasswort ein:</p>
+                    <input id="adminPassword" placeholder="****">
+                    <button class="btn btn-info" type="button" onClick="checkAuthor()">umverteilen</button>
+                    <div class="alert alert-danger" style="width:100%;margin-top:5px;" id="wrongPasswordDiv">
+                        <p> Das Passwort ist inkorrekt. </p>
+                    </div>
+                </div>
+
+            </div>
+
             <div id="tablesHolder"></div>
         </div>
     </div>

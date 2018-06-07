@@ -4,16 +4,30 @@
 $(document).ready(function () {
     //todo: Buttons im Eventhandler steuern und nicht auf der HTML-Seite.
     getProjects(document.getElementById('user').innerHTML);
+    $('#rearrangeButton').hide();
+    $('#passwordDiv').hide();
+    $('#wrongPasswordDiv').hide();
 });
 
-function checkAuthor(){
-    $("#rearrangeButton").on('click', function () {
-        var password = prompt("Geben sie das Authorenpasswort an: ", "something something");
-        alert(password);
-        if (password === '1234'){
-            location.href="rearrangeGroups.php?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectDropdown').html();
+function checkAuthor() {
+    var password = document.getElementById('adminPassword').value;
+    var project = document.getElementById('projectDropdown').innerHTML;
+    $.ajax({
+        url: '../database/checkAuthorPassword.php?project='+project+'&password='+password,
+        dataType: 'json',
+        contentType: 'json',
+        project: project,
+        success: function(data){
+            if (data){
+                location.href = "rearrangeGroups.php?token=" + getUserTokenFromUrl() + "&projectId=" + project;
+            }
+            else {
+                $('#wrongPasswordDiv').show();
+            }
+        },
+        error: function(a,b,c){
+            alert('wrong password');
         }
-
     });
 }
 
@@ -118,8 +132,7 @@ function getMembers(project) {        //gets all Members in the chosen Project u
                             printGroupTable(students);
                             students = [];
                         }
-                        var rearrange = '<button class="btn btn-info" id="rearrangeButton" type="button">umverteilen</button>';
-                        $("#tablesHolder").append(rearrange);
+                        $('#rearrangeButton').show();
                     },
                     error: function (data) {
                         $("#tablesHolder").append("<p>Es wurden keine Gruppen gefunden. Das Projekt muss mehr als 5 Teilnehmer haben!</p>")
@@ -130,15 +143,14 @@ function getMembers(project) {        //gets all Members in the chosen Project u
                 var students = [];
                 for (var i = 0; i < data.length; i++) { //data.length is the count of students in the project
                     for (var j = 0; j < data.length; j++) {
-                        if (data[j].student.groupId === 'Gruppe'+i){
+                        if (data[j].student.groupId === 'Gruppe' + i) {
                             students.push(data[j].student.student);
                         }
                     }
                     printGroupTable(students);
                     students = [];
                 }
-                var rearrange = '<button class="btn btn-info" id="rearrangeButton" type="button" onclick="checkAuthor()">umverteilen</button>';
-                $("#tablesHolder").append(rearrange);
+                $('#rearrangeButton').show();
             }
         }
         ,
