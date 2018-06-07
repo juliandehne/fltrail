@@ -11,6 +11,12 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
+    public void createQuiz(StudentIdentifier student, Quiz quiz) {
+
+    }
+
+
+    @Override
     public int[] calculateAssessment(Performance[] performanceOfAllStudents){ // calculates marks for every performance and writes it to an array
         int[] dummy = new int[4];
         dummy[0]=1;

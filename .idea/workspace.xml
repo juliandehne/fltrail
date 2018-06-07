@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b207c042-3fc9-4102-bf50-ee6c9b45c20d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gemeinsamforschen/src/main/webapp/pages/overview-docent.html" afterPath="$PROJECT_DIR$/gemeinsamforschen/src/main/webapp/pages/overview-docent.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/interfaces/IPeerAssessment.java" afterPath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/interfaces/IPeerAssessment.java" />
     </list>
     <ignored path="fltrail.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,7 +37,7 @@
       <file leaf-file-name="ResearchReport.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/interfaces/ResearchReport.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="620">
+            <state relative-caret-position="693">
               <caret line="33" column="39" lean-forward="false" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
               <folding />
             </state>
@@ -47,7 +47,7 @@
       <file leaf-file-name="projects.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/studentview/pages/projects.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1491">
+            <state relative-caret-position="21">
               <caret line="125" column="34" lean-forward="false" selection-start-line="125" selection-start-column="34" selection-end-line="125" selection-end-column="34" />
               <folding />
             </state>
@@ -57,7 +57,7 @@
       <file leaf-file-name="showProjects.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/studentview/assets/js/showProjects.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="444">
+            <state relative-caret-position="651">
               <caret line="31" column="38" lean-forward="false" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
               <folding />
             </state>
@@ -67,8 +67,8 @@
       <file leaf-file-name="overview.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/studentview/assets/js/overview.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="86" column="0" lean-forward="true" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+            <state relative-caret-position="1806">
+              <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -363,12 +363,13 @@
       <workItem from="1522918322507" duration="37691000" />
       <workItem from="1524484938943" duration="3356000" />
       <workItem from="1524585513713" duration="57000" />
-      <workItem from="1528200793936" duration="417000" />
+      <workItem from="1528200793936" duration="888000" />
+      <workItem from="1528354427057" duration="403000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74431000" />
+    <option name="totallyTimeSpent" value="75305000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
@@ -551,20 +552,8 @@
     </entry>
     <entry file="file://$USER_HOME$/phpMyAdmin/index.php" />
     <entry file="file://$USER_HOME$/phpMyAdmin/js/get_scripts.js.php" />
-    <entry file="file://$PROJECT_DIR$/dbschema/fltrail.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dbschema/createDummyUser.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/dbschema/fltrail.sql" />
+    <entry file="file://$PROJECT_DIR$/dbschema/createDummyUser.sql" />
     <entry file="file://$PROJECT_DIR$/studentview/database/getAdresses.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -706,7 +695,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/interfaces/ResearchReport.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="620">
+        <state relative-caret-position="693">
           <caret line="33" column="39" lean-forward="false" selection-start-line="33" selection-start-column="39" selection-end-line="33" selection-end-column="39" />
           <folding />
         </state>
@@ -714,7 +703,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/studentview/assets/js/showProjects.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
+        <state relative-caret-position="651">
           <caret line="31" column="38" lean-forward="false" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
           <folding />
         </state>
@@ -722,15 +711,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/studentview/assets/js/overview.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="86" column="0" lean-forward="true" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
+        <state relative-caret-position="1806">
+          <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/studentview/pages/projects.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1491">
+        <state relative-caret-position="21">
           <caret line="125" column="34" lean-forward="false" selection-start-line="125" selection-start-column="34" selection-end-line="125" selection-end-column="34" />
           <folding />
         </state>
