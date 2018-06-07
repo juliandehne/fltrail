@@ -6,6 +6,17 @@ $(document).ready(function () {
     getProjects(document.getElementById('user').innerHTML);
 });
 
+function checkAuthor(){
+    $("#rearrangeButton").on('click', function () {
+        var password = prompt("Geben sie das Authorenpasswort an: ", "something something");
+        alert(password);
+        if (password === '1234'){
+            location.href="rearrangeGroups.php?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectDropdown').html();
+        }
+
+    });
+}
+
 function printProjectDropdown(projects, numberOfProjectsPrinted) {
     var menu = document.getElementById("dropdownOptions");          //the unordered list of buttons called by the dropdown button
     var limit = projects.length;
@@ -107,7 +118,7 @@ function getMembers(project) {        //gets all Members in the chosen Project u
                             printGroupTable(students);
                             students = [];
                         }
-                        var rearrange = '<button class="btn btn-info" onClick="location.href=' + "'rearrangeGroups.php?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectDropdown').html() + "';" + '">umverteilen</button>';
+                        var rearrange = '<button class="btn btn-info" id="rearrangeButton" type="button">umverteilen</button>';
                         $("#tablesHolder").append(rearrange);
                     },
                     error: function (data) {
@@ -126,7 +137,7 @@ function getMembers(project) {        //gets all Members in the chosen Project u
                     printGroupTable(students);
                     students = [];
                 }
-                var rearrange = '<button class="btn btn-info" onClick="location.href=' + "'rearrangeGroups.php?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectDropdown').html() + "';" + '">umverteilen</button>';
+                var rearrange = '<button class="btn btn-info" id="rearrangeButton" type="button" onclick="checkAuthor()">umverteilen</button>';
                 $("#tablesHolder").append(rearrange);
             }
         }
