@@ -29,8 +29,7 @@ public interface IPeerAssessment {
      * writes a quiz-question into the DB so other students can benefit from another's insights.
      *
      * @param student
-     * @param question
-     * @param answers
+     * @param quiz
      */
     void createQuiz(StudentIdentifier student, Quiz quiz);
 
