@@ -18,27 +18,35 @@ if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 
     mysqli_select_db($db, "fltrail");
 // is user does not exist create
-    $result = $db->query("SELECT * FROM `groups`;");
-    $db->commit();
+    $sql = ("SELECT * FROM `groups` WHERE `projectID`='".$projectId."';");
     $finalArray = array();
 
-    foreach ($result as $student) {
-        $email = attributeEmail($student, $addresses);
-        if (!$email) {
-            $email = "";
-        }
-        array_push($finalArray, array("name" => $student, "email" => $email));
-
-    if (count(mysqli_fetch_array($result))==0){
-        foreach ($students as $i) {
-            $db->query("INSERT INTO `groups`(`projectId`, `groupId`, `student`) VALUES ('" . $projectId . "','" . $i['group'] . "','" . $i['student'] . "');");
-        }
-    } else{
-        foreach ($students as $i) {
-            $db->query("UPDATE `groups` SET `groupId`='" . $i['group'] . "' WHERE `student`='" . $i['student'] . "' ;");
+    if ($result = mysqli_query($db, $sql)) {
+        while ($row = mysqli_fetch_array($result)) {
+            $groups[] = $row;
         }
     }
-    $db->commit();
+
+
+    function filter ($arrayelem) {
+        return array($arrayelem[0], $arrayelem[1]);
+    };
+
+    $groups = array_map('filter', $groups);
+
+    function attributeGroup($studentName, $groups) {
+        foreach ($groups as $group) {
+            if ($group[0] == $studentName) {
+                return $group[1];
+            }
+        }
+    }
+
+    foreach ($result as $student) {
+        $group = attributeGroup($student, $groups);
+        array_push($finalArray, array("student" => $student));
+    }
+    echo json_encode($finalArray);
+    die();
 }
-die();
 ?>

@@ -117,9 +117,11 @@ function getMembers(project) {        //gets all Members in the chosen Project u
                 });
             } else {
                 var students = [];
-                for (var i = 0; i < data.groups.length; i++) {
-                    for (var j = 0; j < data.groups[i].users.length; j++) {
-                        students.push(data.groups[i].users[j]);
+                for (var i = 0; i < data.length; i++) { //data.length is the count of students in the project
+                    for (var j = 0; j < data.length; j++) {
+                        if (data[j].student.groupId === 'Gruppe'+i){
+                            students.push(data[j].student.student);
+                        }
                     }
                     printGroupTable(students);
                     students = [];

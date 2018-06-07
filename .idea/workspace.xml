@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b207c042-3fc9-4102-bf50-ee6c9b45c20d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/studentview/assets/js/overview.js" afterPath="$PROJECT_DIR$/studentview/assets/js/overview.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/studentview/assets/js/myGroupsInit.js" afterPath="$PROJECT_DIR$/studentview/assets/js/myGroupsInit.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/studentview/database/getGroups.php" afterPath="$PROJECT_DIR$/studentview/database/getGroups.php" />
     </list>
     <ignored path="fltrail.iws" />
@@ -35,7 +34,27 @@
     <favorites_list name="fltrail" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="projects.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/studentview/pages/projects.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="273">
+              <caret line="135" column="34" lean-forward="false" selection-start-line="135" selection-start-column="34" selection-end-line="135" selection-end-column="34" />
+              <folding>
+                <marker date="1528355720889" expanded="true" signature="2992:3151" ph="..." />
+                <marker date="1528355720889" expanded="true" signature="3233:3396" ph="..." />
+                <marker date="1528355720889" expanded="true" signature="10194:10221" ph="..." />
+                <marker date="1528355720889" expanded="true" signature="10194:10244" ph="..." />
+                <marker date="1528355720889" expanded="true" signature="10194:10263" ph="..." />
+                <marker date="1528355720889" expanded="true" signature="10194:10278" ph="..." />
+                <marker date="1528355720889" expanded="true" signature="10194:10289" ph="..." />
+                <marker date="1528355720889" expanded="true" signature="10194:10296" ph="..." />
+                <marker date="1528355720889" expanded="true" signature="10194:10304" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/studentview/database/config.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -48,31 +67,46 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="register.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/studentview/register.php">
+      <file leaf-file-name="getGroups.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/studentview/database/getGroups.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="24" column="98" lean-forward="false" selection-start-line="24" selection-start-column="98" selection-end-line="24" selection-end-column="98" />
+            <state relative-caret-position="620">
+              <caret line="46" column="59" lean-forward="false" selection-start-line="46" selection-start-column="59" selection-end-line="46" selection-end-column="59" />
+              <folding>
+                <marker date="1528356537945" expanded="true" signature="539:581" ph="SELECT * FRO... groups" />
+                <marker date="1528356537945" expanded="true" signature="539:596" ph="SELECT * FRO... groups" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="myGroupsInit.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/studentview/assets/js/myGroupsInit.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="273">
+              <caret line="123" column="25" lean-forward="true" selection-start-line="123" selection-start-column="25" selection-end-line="123" selection-end-column="25" />
+              <folding>
+                <marker date="1528357470997" expanded="true" signature="2449:2498" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="getAdresses.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/studentview/database/getAdresses.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="683">
+              <caret line="53" column="10" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mygroups.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/studentview/pages/mygroups.php">
+      <file leaf-file-name="showProjects.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/studentview/assets/js/showProjects.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="19" column="4" lean-forward="false" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="preferences.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/studentview/pages/preferences.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2310">
-              <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+            <state relative-caret-position="651">
+              <caret line="31" column="38" lean-forward="false" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
               <folding />
             </state>
           </provider>
@@ -81,68 +115,16 @@
       <file leaf-file-name="overview.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/studentview/assets/js/overview.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="149" column="14" lean-forward="true" selection-start-line="149" selection-start-column="14" selection-end-line="149" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="myGroupsInit.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/studentview/assets/js/myGroupsInit.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="101" column="42" lean-forward="true" selection-start-line="101" selection-start-column="42" selection-end-line="101" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="getGroups.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/studentview/database/getGroups.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="25" column="15" lean-forward="true" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
+            <state relative-caret-position="1785">
+              <caret line="85" column="0" lean-forward="false" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
               <folding>
-                <marker date="1528184820430" expanded="true" signature="552:574" ph="SELECT * FRO... groups" />
-                <marker date="1528184820430" expanded="true" signature="963:1094" ph="INSERT INTO `groups`... " />
-                <marker date="1528184820430" expanded="true" signature="1181:1272" ph="UPDATE `grou... " />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="utility.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/studentview/assets/js/utility.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="getAdresses.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/studentview/database/getAdresses.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="50" selection-end-column="74" />
-              <folding>
-                <marker date="1528177881071" expanded="true" signature="285:347" ph="SELECT name,... users" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="createGroups.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/studentview/database/createGroups.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <marker date="1528177881067" expanded="true" signature="552:574" ph="SELECT * FRO... groups" />
-                <marker date="1528177881067" expanded="true" signature="706:837" ph="INSERT INTO `groups`... " />
-                <marker date="1528177881067" expanded="true" signature="924:1015" ph="UPDATE `grou... " />
+                <marker date="1528355720858" expanded="true" signature="2039:2586" ph="{...}" />
+                <marker date="1528355720858" expanded="true" signature="2116:2586" ph="{&quot;url&quot;: url...}" />
+                <marker date="1528355720858" expanded="true" signature="2253:2586" ph="{...}" />
+                <marker date="1528355720858" expanded="true" signature="2478:2586" ph="{...}" />
+                <marker date="1528355720858" expanded="true" signature="5919:6660" ph="{...}" />
+                <marker date="1528355720858" expanded="true" signature="6089:6650" ph="{...}" />
+                <marker date="1528355720858" expanded="true" signature="6696:6735" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -186,7 +168,6 @@
         <option value="$PROJECT_DIR$/dbschema/createDummyUser.sql" />
         <option value="$PROJECT_DIR$/studentview/database/getAdresses.php" />
         <option value="$PROJECT_DIR$/studentview/pages/mygroups.php" />
-        <option value="$PROJECT_DIR$/studentview/assets/js/myGroupsInit.js" />
         <option value="$PROJECT_DIR$/studentview/assets/js/createPreferences.js" />
         <option value="$PROJECT_DIR$/studentview/assets/js/deleteProject.js" />
         <option value="$PROJECT_DIR$/studentview/assets/js/newProject.js" />
@@ -200,6 +181,7 @@
         <option value="$PROJECT_DIR$/studentview/database/config.php" />
         <option value="$PROJECT_DIR$/studentview/assets/js/overview.js" />
         <option value="$PROJECT_DIR$/studentview/database/getGroups.php" />
+        <option value="$PROJECT_DIR$/studentview/assets/js/myGroupsInit.js" />
       </list>
     </option>
   </component>
@@ -228,18 +210,19 @@
   <component name="PhpWebServerValidation" path_to_validation_script="C:\dev\amp\htdocs\" selected_validation_type="LOCAL" web_path_to_validation_script="http://127.0.0.1/" />
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="1618" />
-    <option name="y" value="-1089" />
+    <option name="x" value="-9" />
+    <option name="y" value="-9" />
     <option name="width" value="1938" />
-    <option name="height" value="1098" />
+    <option name="height" value="1050" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
       <showLibraryContents />
-      <hideEmptyPackages />
+      <hideEmptyPackages ProjectPane="true" />
       <abbreviatePackageNames />
       <autoscrollToSource />
       <autoscrollFromSource />
@@ -352,9 +335,10 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -449,40 +433,58 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76174000" />
+    <option name="totallyTimeSpent" value="77988000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1618" y="-1089" width="1938" height="1098" extended-state="6" />
+    <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24322917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2125" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" x="9" y="79" width="408" height="943" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23455825" sideWeight="0.47734374" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0890625" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15729167" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35496482" sideWeight="0.71510416" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.331509" sideWeight="0.52265626" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297062" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23455825" sideWeight="0.47734374" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0890625" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.331509" sideWeight="0.52265626" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36247173" sideWeight="0.57851565" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35496482" sideWeight="0.71510416" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Sequence" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45516202" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32994527" sideWeight="0.4984375" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24322917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2736513" sideWeight="0.6203125" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -761,27 +763,28 @@
         <state relative-caret-position="42">
           <caret line="2" column="71" lean-forward="false" selection-start-line="2" selection-start-column="71" selection-end-line="2" selection-end-column="71" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="dbDummy://dbtable:/fc3764cf/14340c2c-ac4b-492f-ac4f-18c0853598a8/fltrail.users" />
-    <entry file="file://$PROJECT_DIR$/studentview/database/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#6#92#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/85944065-0254-4a61-b256-d3493cdb0a4f/console.sql" />
     <entry file="file://$PROJECT_DIR$/studentview/pages/projects.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="125" column="34" lean-forward="false" selection-start-line="125" selection-start-column="34" selection-end-line="125" selection-end-column="34" />
+        <state relative-caret-position="273">
+          <caret line="135" column="34" lean-forward="false" selection-start-line="135" selection-start-column="34" selection-end-line="135" selection-end-column="34" />
+          <folding>
+            <marker date="1528355720889" expanded="true" signature="2992:3151" ph="..." />
+            <marker date="1528355720889" expanded="true" signature="3233:3396" ph="..." />
+            <marker date="1528355720889" expanded="true" signature="10194:10221" ph="..." />
+            <marker date="1528355720889" expanded="true" signature="10194:10244" ph="..." />
+            <marker date="1528355720889" expanded="true" signature="10194:10263" ph="..." />
+            <marker date="1528355720889" expanded="true" signature="10194:10278" ph="..." />
+            <marker date="1528355720889" expanded="true" signature="10194:10289" ph="..." />
+            <marker date="1528355720889" expanded="true" signature="10194:10296" ph="..." />
+            <marker date="1528355720889" expanded="true" signature="10194:10304" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -795,8 +798,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/studentview/assets/js/showProjects.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="28" column="21" lean-forward="true" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+        <state relative-caret-position="651">
+          <caret line="31" column="38" lean-forward="false" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
           <folding />
         </state>
       </provider>
@@ -811,9 +814,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/studentview/assets/js/overview.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="149" column="14" lean-forward="true" selection-start-line="149" selection-start-column="14" selection-end-line="149" selection-end-column="14" />
-          <folding />
+        <state relative-caret-position="1785">
+          <caret line="85" column="0" lean-forward="false" selection-start-line="85" selection-start-column="0" selection-end-line="85" selection-end-column="0" />
+          <folding>
+            <marker date="1528355720858" expanded="true" signature="2039:2586" ph="{...}" />
+            <marker date="1528355720858" expanded="true" signature="2116:2586" ph="{&quot;url&quot;: url...}" />
+            <marker date="1528355720858" expanded="true" signature="2253:2586" ph="{...}" />
+            <marker date="1528355720858" expanded="true" signature="2478:2586" ph="{...}" />
+            <marker date="1528355720858" expanded="true" signature="5919:6660" ph="{...}" />
+            <marker date="1528355720858" expanded="true" signature="6089:6650" ph="{...}" />
+            <marker date="1528355720858" expanded="true" signature="6696:6735" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -821,41 +832,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1528177881067" expanded="true" signature="552:574" ph="SELECT * FRO... groups" />
-            <marker date="1528177881067" expanded="true" signature="706:837" ph="INSERT INTO `groups`... " />
-            <marker date="1528177881067" expanded="true" signature="924:1015" ph="UPDATE `grou... " />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/studentview/assets/js/myGroupsInit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="101" column="42" lean-forward="true" selection-start-line="101" selection-start-column="42" selection-end-line="101" selection-end-column="42" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/studentview/database/getAdresses.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="50" selection-end-column="74" />
-          <folding>
-            <marker date="1528177881071" expanded="true" signature="285:347" ph="SELECT name,... users" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/studentview/database/getGroups.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="25" column="15" lean-forward="true" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
-          <folding>
-            <marker date="1528184820430" expanded="true" signature="552:574" ph="SELECT * FRO... groups" />
-            <marker date="1528184820430" expanded="true" signature="963:1094" ph="INSERT INTO `groups`... " />
-            <marker date="1528184820430" expanded="true" signature="1181:1272" ph="UPDATE `grou... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -864,6 +841,45 @@
         <state relative-caret-position="462">
           <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/studentview/database/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding>
+            <element signature="e#6#92#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/studentview/database/getAdresses.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="683">
+          <caret line="53" column="10" lean-forward="false" selection-start-line="53" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/studentview/database/getGroups.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="620">
+          <caret line="46" column="59" lean-forward="false" selection-start-line="46" selection-start-column="59" selection-end-line="46" selection-end-column="59" />
+          <folding>
+            <marker date="1528356537945" expanded="true" signature="539:581" ph="SELECT * FRO... groups" />
+            <marker date="1528356537945" expanded="true" signature="539:596" ph="SELECT * FRO... groups" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/studentview/assets/js/myGroupsInit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="123" column="25" lean-forward="true" selection-start-line="123" selection-start-column="25" selection-end-line="123" selection-end-column="25" />
+          <folding>
+            <marker date="1528357470997" expanded="true" signature="2449:2498" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
