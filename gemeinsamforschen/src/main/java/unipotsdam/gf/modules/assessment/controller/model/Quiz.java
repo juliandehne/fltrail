@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.assessment.controller;
+package unipotsdam.gf.modules.assessment.controller.model;
 
 public class Quiz {
     private String type;

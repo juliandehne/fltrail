@@ -1,5 +1,10 @@
 package unipotsdam.gf.modules.assessment.controller;
 
+import unipotsdam.gf.modules.assessment.controller.model.Assessment;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+
 /**
  * Created by dehne on 18.05.2018.
  */

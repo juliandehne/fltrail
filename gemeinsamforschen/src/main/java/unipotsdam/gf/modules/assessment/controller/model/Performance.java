@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.assessment.controller;
+package unipotsdam.gf.modules.assessment.controller.model;
 
 import java.util.Arrays;
 

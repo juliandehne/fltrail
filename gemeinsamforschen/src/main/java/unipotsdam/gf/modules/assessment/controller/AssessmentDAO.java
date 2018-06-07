@@ -2,6 +2,8 @@ package unipotsdam.gf.modules.assessment.controller;
 
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.modules.assessment.controller.model.Assessment;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 /**
  * Created by dehne on 18.05.2018.

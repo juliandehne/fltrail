@@ -2,10 +2,10 @@ package unipotsdam.gf.modules.assessment;
 
 import org.junit.Test;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.Assessment;
+import unipotsdam.gf.modules.assessment.controller.model.Assessment;
 import unipotsdam.gf.modules.assessment.controller.FBAssessement;
-import unipotsdam.gf.modules.assessment.controller.Performance;
-import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 public class TestAddAssessment {
 
