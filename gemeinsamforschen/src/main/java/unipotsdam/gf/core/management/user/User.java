@@ -13,6 +13,8 @@ public class User {
     private String password;
     private String email;
     private String token;
+    private String rocketChatAuthToken;
+    private String rocketChatId;
     private Boolean isStudent;
 
     public User() {
@@ -22,6 +24,14 @@ public class User {
         this.name = name;
         this.password = password;
         this.email = email;
+        this.isStudent = isStudent;
+    }
+
+    public User(String name, String password, String email, String rocketChatId, Boolean isStudent) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.rocketChatId = rocketChatId;
         this.isStudent = isStudent;
     }
 
@@ -65,5 +75,21 @@ public class User {
 
     public void setStudent(Boolean student) {
         isStudent = student;
+    }
+
+    public String getRocketChatId() {
+        return rocketChatId;
+    }
+
+    public void setRocketChatId(String rocketChatId) {
+        this.rocketChatId = rocketChatId;
+    }
+
+    public String getRocketChatAuthToken() {
+        return rocketChatAuthToken;
+    }
+
+    public void setRocketChatAuthToken(String rocketChatAuthToken) {
+        this.rocketChatAuthToken = rocketChatAuthToken;
     }
 }

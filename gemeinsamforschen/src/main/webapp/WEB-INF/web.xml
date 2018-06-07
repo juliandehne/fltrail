@@ -38,34 +38,10 @@
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
-
-    <!-- create user servlet mapping -->
-    <servlet>
-        <servlet-name>CreateUser</servlet-name>
-        <servlet-class>unipotsdam.gf.core.management.user.servlets.CreateUser</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>CreateUser</servlet-name>
-        <url-pattern>/servlet/createUser</url-pattern>
-    </servlet-mapping>
-
-    <!-- user exists servlet mapping -->
-    <servlet>
-        <servlet-name>UserExists</servlet-name>
-        <servlet-class>unipotsdam.gf.core.management.user.servlets.UserExists</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>UserExists</servlet-name>
-        <url-pattern>/servlet/userExists</url-pattern>
-    </servlet-mapping>
-
-
     <!-- loginFilter -->
     <filter>
         <filter-name>RequestLoggingFilter</filter-name> <!-- mandatory -->
-        <filter-class>unipotsdam.gf.core.management.user.servlets.SessionValidator</filter-class> <!-- mandatory -->
+        <filter-class>unipotsdam.gf.core.management.user.SessionValidator</filter-class> <!-- mandatory -->
     </filter>
 
     <filter-mapping>

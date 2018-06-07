@@ -21,7 +21,8 @@
 
 <body>
 <div class="login-clean">
-    <form method="post" action="./servlet/createUser">
+    <%--<form method="post" action="./servlet/createUser">--%>
+    <form method="post" action="./rest/user/create">
         <h2 class="sr-only">Login Formular</h2>
         <div class="illustration"><img src="assets/img/fides-logo.svg"></div>
         <div class="form-group"><input class="form-control" name="name" placeholder="Name"></div>
@@ -42,8 +43,8 @@
         <div class="form-group">
             <!-- scriptlets are terrible. Just tmp for porting the php -->
             <%--     <%
-                     String param = request.getParameter("userExists");
-                     if (param != null) {
+                     String userExists = request.getParameter("userExists");
+                     if (userExists != null) {
                          try (PrintWriter p = response.getWriter()) {
                              p.println(
                                      "<div class=\"alert alert-danger\" role=\"alert\"> Es existiert ein Nutzer mit dieser Email oder diesem Benutzernamen! </div>");
@@ -52,12 +53,23 @@
                  %>--%>
 
             <%
-                String param = request.getParameter("userExists");
-                if (param != null) {
+                String message = "";
+
+                String userExists = request.getParameter("userExists");
+                if (userExists != null) {
+                    message = "Es existiert ein Nutzer mit dieser Email oder diesem Benutzernamen!";
+                }
+
+                String registrationError = request.getParameter("registrationError");
+                if (registrationError != null) {
+                    message = "Es ist ein Fehler beim Erstellen des Rocket Chat-Nutzers aufgetreten. Bitte kontaktieren Sie den Administrator";
+                }
+
+                if (!message.isEmpty()) {
                     try {
                         PrintWriter p = response.getWriter();
                         p.println(
-                                "<div class=\"alert alert-danger\" role=\"alert\"> Es existiert ein Nutzer mit dieser Email oder diesem Benutzernamen! </div>");
+                                "<div class=\"alert alert-danger\" role=\"alert\"> " + message + " </div>");
                     } finally {
 
                     }

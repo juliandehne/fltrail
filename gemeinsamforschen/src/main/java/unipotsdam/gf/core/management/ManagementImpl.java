@@ -82,6 +82,9 @@ public class ManagementImpl implements Management {
                 connect.issueSelectStatement(mysqlRequest, user.getEmail(), user.getPassword());
         result = vereinfachtesResultSet.next();
         connect.close();
+        if (result == null) {
+            return false;
+        }
         return result;
     }
 
@@ -109,8 +112,10 @@ public class ManagementImpl implements Management {
         String name = vereinfachtesResultSet.getString("name");
         String password = vereinfachtesResultSet.getString("password");
         String email = vereinfachtesResultSet.getString("email");
+        String rocketChatId = vereinfachtesResultSet.getString("rocketchatid");
         Boolean isStudent = vereinfachtesResultSet.getBoolean("isStudent");
-        return new User(name, password, email, isStudent);
+
+        return new User(name, password, email, rocketChatId, isStudent);
     }
 
     @Override
@@ -121,7 +126,12 @@ public class ManagementImpl implements Management {
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, user.getEmail(), user.getPassword());
         boolean next = vereinfachtesResultSet.next();
+        if (!next) {
+            connect.close();
+            return null;
+        }
         String token = vereinfachtesResultSet.getString("token");
+        connect.close();
         return token;
     }
 
@@ -138,6 +148,7 @@ public class ManagementImpl implements Management {
             connect.close();
             return user;
         } else {
+            connect.close();
             return null;
         }
     }
