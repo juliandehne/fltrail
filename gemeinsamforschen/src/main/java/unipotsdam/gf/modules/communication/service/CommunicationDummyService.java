@@ -32,7 +32,7 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public boolean sendMessageToChat(Message message) {
-        throw new RuntimeException("Do not call this method without implementation");
+        return true;
     }
 
     @Override
@@ -46,12 +46,12 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public boolean addUserToChatRoom(String roomId, User user) {
-        throw new RuntimeException("Do not call this method without implementation");
+        return true;
     }
 
     @Override
     public boolean setChatRoomTopic(String roomId, String topic) {
-        throw new RuntimeException("Do not call this method without implementation");
+        return true;
     }
 
     @Override

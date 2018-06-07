@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
+import static javax.ws.rs.core.Response.Status.CREATED;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.is;
@@ -59,13 +60,13 @@ public class CommunicationViewTest extends JerseyTest {
     public void createChatRoom() {
         String path = "chat/create";
         Response responseOk = target().path(path).queryParam("name", "test").request().post(null);
-        assertThat(responseOk.getStatus(), is(OK.getStatusCode()));
+        assertThat(responseOk.getStatus(), is(CREATED.getStatusCode()));
         assertNotNull(responseOk.readEntity(String.class));
 
         ArrayList<User> users = new ArrayList<>();
         users.add(new User("test", "test", "test", true));
         responseOk = target().path(path).queryParam("name", "test").request().post(Entity.json(users));
-        assertThat(responseOk.getStatus(), is(OK.getStatusCode()));
+        assertThat(responseOk.getStatus(), is(CREATED.getStatusCode()));
         assertNotNull(responseOk.readEntity(String.class));
 
         Response responseBadRequest = target().path(path).request().post(Entity.json(users));
