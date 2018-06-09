@@ -10,9 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
 @Path("/journal")
@@ -30,20 +28,17 @@ public class JournalView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/journals/{student}/{project}")
-    public Response getAllJournals(@PathParam("student") String student, @PathParam("project") String project) {
+    public ArrayList<Journal>  getAllJournals (@PathParam("student") String student, @PathParam("project") String project){
 
         log.debug(">> called getAllJournals(" + student + "," + project + ")");
-        try {
-            ArrayList<Journal> journals = journalService.getAllJournals(student, project);
 
-            JournalListResponse result = new JournalListResponse();
-            result.setJournals(journals);
+        ArrayList<Journal> result = journalService.getAllJournals(student,project);
 
-            return Response.ok(new GenericEntity<JournalListResponse>(result) {
-            }).build();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.noContent().build();
-        }
+
+        log.debug("<< called getAllJournals(" + student + "," + project + ")");
+
+        return result;
+
+
     }
 }

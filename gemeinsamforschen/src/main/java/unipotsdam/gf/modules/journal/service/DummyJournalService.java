@@ -6,7 +6,6 @@ import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.Visibility;
-import unipotsdam.gf.modules.journal.view.JournalView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,6 +37,8 @@ public class DummyJournalService implements JournalService, IJournal {
         log.debug(">> get all journals(" + student , "," + project + ")");
 
         ArrayList<Journal> result = new ArrayList<>();
+
+        resetList();
 
         for (Journal j: journals) {
 
