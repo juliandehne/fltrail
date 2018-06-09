@@ -2,59 +2,70 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
+import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.model.Visibility;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
- * Service Implementation to test the Rest
+ * Service Implementation to test rest, no Database operations
  */
-public class DummyJournalService implements JournalService, IJournal {
+
+public class DummyJournalService implements JournalService {
 
     Logger log = LoggerFactory.getLogger(DummyJournalService.class);
 
 
     Calendar cal = Calendar.getInstance();
-    StudentIdentifier studentIdentifier = new StudentIdentifier("0","0");
-    StudentIdentifier studentIdentifier2 = new StudentIdentifier("0","1");
 
-    Journal j1 = new Journal(studentIdentifier,"test", cal.getTimeInMillis() , Visibility.All, "test1");
-    Journal j2 = new Journal(studentIdentifier,"test2", cal.getTimeInMillis() , Visibility.NONE, "test2");
-    Journal j3 = new Journal(studentIdentifier,"test3", cal.getTimeInMillis() , Visibility.GROUP, "test3");
-    Journal j4 = new Journal(studentIdentifier,"test4", cal.getTimeInMillis() , Visibility.DOZENT ,"test4");
-    Journal j5 = new Journal(studentIdentifier2,"test5", cal.getTimeInMillis() , Visibility.GROUP, "test5");
+    long id = 4;
 
     ArrayList<Journal> journals = new ArrayList<>();
 
+    public DummyJournalService(){
+
+        resetList();
+    }
 
     @Override
-    public ArrayList<Journal> getAllJournals(String student, String project) {
+    public Journal getJournal(String id) {
+        for (Journal j : journals) {
+            if(j.getId() == Long.valueOf(id)){
+                return j;
+            }
+        }
+        return null;
+    }
 
+    @Override
+    public ArrayList<Journal> getAllJournals(String student, String project, JournalFilter filter) {
         log.debug(">> get all journals(" + student , "," + project + ")");
 
         ArrayList<Journal> result = new ArrayList<>();
 
-        resetList();
-
         for (Journal j: journals) {
 
-            if (j.getVisibility() == Visibility.All){
+            //always show own Journals
+            if(j.getStudentIdentifier().getStudentId().equals(student)){
                 result.add(j);
-            }
-            if (j.getVisibility()== Visibility.NONE && j.getStudentIdentifier().getStudentId().equals(student)){
-                result.add(j);
-            }
+            }else{
 
-            //Goup != Project, but for testing ok
-            if (j.getVisibility()== Visibility.NONE && j.getStudentIdentifier().getProjectId().equals(project)){
-                result.add(j);
-            }
+                // if Visibility All, show if Filter allows it
+                if (j.getVisibility() == Visibility.All && filter==JournalFilter.ALL){
+                    result.add(j);
+                }
 
-            //if Dozent
+                //If Visibility Group, show if student is in group and filter allows it
+                //TODO: project != Group, for testing ok, change for real Service
+                if (j.getVisibility()== Visibility.GROUP && j.getStudentIdentifier().getProjectId().equals(project) && filter == JournalFilter.ALL){
+                    result.add(j);
+                }
+
+                //TODO if Dozent
+            }
 
         }
         log.debug("<< get all journals(" + student , "," + project + ")");
@@ -62,13 +73,64 @@ public class DummyJournalService implements JournalService, IJournal {
         return result;
     }
 
+    @Override
+    public ArrayList<Journal> getAllJournals(String student, String project) {
+        return getAllJournals(student,project,JournalFilter.ALL);
+     }
 
     @Override
-    public String exportJournal(StudentIdentifier student) {
-        return null;
+    public boolean saveJournal(long id, String student, String project, String text, String visibility, String category) {
+        if (Long.valueOf(id) == -1){
+
+            StudentIdentifier studentId = new StudentIdentifier(student,project);
+            journals.add(new Journal(this.id++, studentId, text , cal.getTimeInMillis(), stringToVisibility(visibility) , category));
+
+        } else {
+            for (Journal j : journals){
+                if(j.getId() == id){
+                    j.setEntry(text);
+                    j.setVisibility(stringToVisibility(visibility));
+                    j.setCategory(category);
+                }
+            }
+            resetList();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deleteJournal(long id) {
+        for (Journal j : journals) {
+            if (j.getId() == id) {
+                journals.remove(j);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Visibility stringToVisibility(String visibility) {
+        // If String does not match enum IllegalArgumentException
+        Visibility v ;
+        try{
+            v = Visibility.valueOf(visibility);
+        }catch (IllegalArgumentException e){
+            v = Visibility.NONE;
+            log.debug("Illegal argument for visibility, default to NONE");
+        }
+        return v;
     }
 
     ArrayList<Journal> resetList () {
+        StudentIdentifier studentIdentifier = new StudentIdentifier("0","0");
+        StudentIdentifier studentIdentifier2 = new StudentIdentifier("0","1");
+
+        Journal j1 = new Journal(0,studentIdentifier,"test", cal.getTimeInMillis() , Visibility.All, "test1");
+        Journal j2 = new Journal(1,studentIdentifier,"test2", cal.getTimeInMillis() , Visibility.NONE, "test2");
+        Journal j3 = new Journal(2,studentIdentifier,"test3", cal.getTimeInMillis() , Visibility.GROUP, "test3");
+        Journal j4 = new Journal(3,studentIdentifier,"test4", cal.getTimeInMillis() , Visibility.DOZENT ,"test4");
+        Journal j5 = new Journal(4,studentIdentifier2,"test5", cal.getTimeInMillis() , Visibility.GROUP, "test5");
+
         journals = new ArrayList<>();
 
         journals.add(j1);

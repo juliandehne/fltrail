@@ -4,6 +4,7 @@ import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
 
 public class Journal {
 
+    long id;
     StudentIdentifier studentIdentifier;
     String entry;
     long timestamp;
@@ -12,12 +13,21 @@ public class Journal {
 
     public Journal() {}
 
-    public Journal(StudentIdentifier studentIdentifier, String entry, long timestamp, Visibility visibility, String category) {
+    public Journal(long id, StudentIdentifier studentIdentifier, String entry, long timestamp, Visibility visibility, String category) {
+        this.id = id;
         this.studentIdentifier = studentIdentifier;
         this.entry = entry;
         this.timestamp = timestamp;
         this.visibility = visibility;
         this.category = category;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public StudentIdentifier getStudentIdentifier() {
@@ -63,7 +73,8 @@ public class Journal {
     @Override
     public String toString() {
         return "Journal{" +
-                "studentIdentifier=" + studentIdentifier +
+                "id=" + id +
+                ", studentIdentifier=" + studentIdentifier +
                 ", entry='" + entry + '\'' +
                 ", timestamp=" + timestamp +
                 ", visibility=" + visibility +
