@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.journal.view;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.service.DummyJournalService;
@@ -7,6 +9,7 @@ import unipotsdam.gf.modules.journal.service.JournalService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +21,8 @@ import java.util.ArrayList;
 @Path("/journal")
 public class JournalView {
 
-     JournalService journalService = new DummyJournalService();
+    Logger log = LoggerFactory.getLogger(JournalView.class);
+    JournalService journalService = new DummyJournalService();
 
     /**
      * Returns a specific Journal
@@ -28,11 +32,15 @@ public class JournalView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{id}")
-    public Journal  getJournal (@PathParam("id") String id){
+    public Response getJournal (@PathParam("id") String id){
+
+        log.debug(">>> getJournal: id=" + id );
 
         Journal result = journalService.getJournal(id);
 
-        return result;
+        log.debug("<<< getJournal: result=" + result.toString());
+
+        return Response.ok(result).build();
     }
 
     /**
@@ -45,13 +53,16 @@ public class JournalView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/journals/{student}/{project}/{filter}")
-    public ArrayList<Journal>  getAllJournals (@PathParam("student") String student, @PathParam("project") String project, @PathParam("filter") String filter){
+    public Response getAllJournals (@PathParam("student") String student, @PathParam("project") String project, @PathParam("filter") String filter){
 
-         JournalFilter filt = (filter.equals("ALL")) ? JournalFilter.ALL:JournalFilter.OWN;
+        log.debug(">>> getJournals: student=" + student + " project=" + project +" filter="  + filter  );
 
+        JournalFilter filt = (filter.equals("ALL")) ? JournalFilter.ALL:JournalFilter.OWN;
         ArrayList<Journal> result = journalService.getAllJournals(student,project,filt);
 
-     return result;
+        log.debug(">>> getJournals: size=" + result.size());
+
+        return Response.ok(result).build();
     }
 
     /**
@@ -63,11 +74,15 @@ public class JournalView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/journals/{student}/{project}")
-    public ArrayList<Journal>  getAllJournals (@PathParam("student") String student, @PathParam("project") String project){
+    public Response getAllJournals (@PathParam("student") String student, @PathParam("project") String project){
+
+        log.debug(">>> getJournals: student=" + student + " project=" + project );
 
         ArrayList<Journal> result = journalService.getAllJournals(student,project);
 
-        return result;
+        log.debug(">>> getJournals: size=" + result.size());
+
+        return Response.ok(result).build();
     }
 
     /**
@@ -78,37 +93,45 @@ public class JournalView {
      * @param text content of the Journal
      * @param visibility visibility of the Journal
      * @param category category of the Journal
-     * @return TODO
+     * @return Empty Response
      */
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/save")
-    public String saveJournal(@FormParam("id") long id, @FormParam("student") String student,
-                              @FormParam("project") String project, @FormParam("text") String text,
-                              @FormParam("visibility") String visibility, @FormParam("category") String category) {
+    public Response saveJournal(@FormParam("id") long id, @FormParam("student") String student,
+                                @FormParam("project") String project, @FormParam("text") String text,
+                                @FormParam("visibility") String visibility, @FormParam("category") String category) {
+
+        log.debug(">>> saveJournal");
 
         journalService.saveJournal(id, student, project, text, visibility, category);
 
-        return "ok";
+        log.debug("<<< saveJournal");
+
+        return Response.ok().build();
 
     }
 
     /**
      * deletes a Journal
      * @param id id of the Journal
-     * @return TODO
+     * @return Empty Response
      */
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/delete/{id}")
-    public String deleteJournal(@PathParam("id") long id) {
+    public Response deleteJournal(@PathParam("id") long id) {
+
+        log.debug(">>> deleteJournal: id=" + id);
 
         journalService.deleteJournal(id);
 
-        return "ok";
+        log.debug("<<< deleteJournal");
+
+        return Response.ok().build();
     }
 
 
