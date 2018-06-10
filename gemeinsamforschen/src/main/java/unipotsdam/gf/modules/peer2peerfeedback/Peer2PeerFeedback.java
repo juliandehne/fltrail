@@ -1,30 +1,28 @@
 package unipotsdam.gf.modules.peer2peerfeedback;
 
 import unipotsdam.gf.core.management.user.User;
-
 import java.io.File;
 
 /**
  Peer2PeerFeedback Object
+ created by Katharina
  */
 
 public class Peer2PeerFeedback{
 
 
-    String feedbacktopic;
-    String feedbacktype;
-    String feedbackreference;
-    File document;
-    String feedbacktemplate;
-    User feedbacksender;
-    User feedbackreceiver;
+    private String feedbacktopic;
+    private String feedbacktype;
+    private Category feedbackcategory;
+    private File document;
+    private User feedbacksender;
+    private User feedbackreceiver;
 
-    public Peer2PeerFeedback(String feedbacktopic, String feedbacktype, String feedbackreference, File document, String feedbacktemplate, User feedbacksender, User feedbackreceiver) {
+    public Peer2PeerFeedback(String feedbacktopic, String feedbacktype, Category feedbackcategory, File document, User feedbacksender, User feedbackreceiver) {
         this.feedbacktopic = feedbacktopic;
         this.feedbacktype = feedbacktype;
-        this.feedbackreference = feedbackreference;
+        this.feedbackcategory = feedbackcategory;
         this.document = document;
-        this.feedbacktemplate = feedbacktemplate;
         this.feedbacksender = feedbacksender;
         this.feedbackreceiver = feedbackreceiver;
     }
@@ -51,14 +49,13 @@ public class Peer2PeerFeedback{
     }
 
 
-    public String getFeedbackreference() {
 
-        return feedbackreference;
+    public Category getFeedbackcategory() {
+        return feedbackcategory;
     }
 
-    public void setFeedbackreference(String feedbackreference) {
-
-        this.feedbackreference = feedbackreference;
+    public void setFeedbackcategory(Category feedbackcategory) {
+        this.feedbackcategory = feedbackcategory;
     }
 
 
@@ -70,16 +67,6 @@ public class Peer2PeerFeedback{
     public void setDocument(File document) {
 
         this.document = document;
-    }
-
-    public String getFeedbacktemplate() {
-
-        return feedbacktemplate;
-    }
-
-    public void setFeedbacktemplate(String feedbacktemplate) {
-
-        this.feedbacktemplate = feedbacktemplate;
     }
 
 
@@ -105,8 +92,7 @@ public class Peer2PeerFeedback{
         return "Peer2PeerFeedback{" +
                 "feedbacktopic=" + feedbacktopic +
                 ", feedbacktype=" + feedbacktype +
-                ", feedbackreference=" + feedbackreference +
-                ", feedbacktemplate=" + feedbacktemplate +
+                ", feedbackreference=" + feedbackcategory +
                 ", feedbacksender='" + feedbacksender +
                 ", feedbackreceiver=" + feedbackreceiver +
                 ", document=" + document.toString() +
