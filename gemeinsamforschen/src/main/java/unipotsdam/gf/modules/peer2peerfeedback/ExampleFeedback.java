@@ -10,19 +10,19 @@ import java.io.File;
 
 public class ExampleFeedback {
 
-    User feebackrec = new User();
+    String feedbacktopic = "Vorschlag zur Methodik";
+    String feedbacktype = "Text";
+    Category feedbackcategory = Category.METHODIK;
+    User feedbackrec = new User();
     User feedbacksend = new User();
+    File file = new File("src/main/resources/example.txt"); //gibt erstmal nur einen Pfad an
+    //String path = file.getAbsolutePath();
 
 
-    public Peer2PeerFeedback examplePeerFeedback (String feedbacktopic, String feedbacktype, Category feedbackcategory, File document, User feedbacksender, User feedbackreceiver){
+    public Peer2PeerFeedback examplePeerFeedback (){
 
-        Peer2PeerFeedback example = new Peer2PeerFeedback(feedbacktopic, feedbacktype, feedbackcategory, document, feedbacksender, feedbackreceiver);
-        example.setFeedbacktopic("Vorschlag zur Methodik");
-        example.setDocument(new File("C:/exampleMethodik.txt"));
-        example.setFeedbackcategory(Category.METHODIK);
-        example.setFeedbacktype("Text");
-        example.setFeedbacksender(feedbacksend);
-        example.setFeedbackreceiver(feebackrec);
+        Peer2PeerFeedback example = new Peer2PeerFeedback(feedbacktopic, feedbacktype,
+                feedbackcategory, file, feedbacksend, feedbackrec);
 
         return example;
     }
