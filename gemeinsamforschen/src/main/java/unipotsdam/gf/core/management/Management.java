@@ -1,10 +1,13 @@
 package unipotsdam.gf.core.management;
 
+import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
 import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
+
+import java.util.*;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -13,12 +16,14 @@ import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
 public interface Management {
     /**
      * delete a User in the database
+     *
      * @param identifier
      */
     void delete(StudentIdentifier identifier);
 
     /**
      * create a User in the database
+     *
      * @param user
      * @param profile
      */
@@ -26,18 +31,21 @@ public interface Management {
 
     /**
      * create a Project in the database
+     *
      * @param project
      */
     void create(Project project);
 
     /**
      * Delete a Project in the database
+     *
      * @param project
      */
     void delete(Project project);
 
     /**
      * Add an entry in the M:N table linking users and projects
+     *
      * @param user
      * @param project
      * @param interests
@@ -46,6 +54,7 @@ public interface Management {
 
     /**
      * Check if a user exists in the DB
+     *
      * @param user
      * @return
      */
@@ -53,6 +62,7 @@ public interface Management {
 
     /**
      * Get all the users linked to a project
+     *
      * @param project
      * @return
      */
@@ -60,6 +70,7 @@ public interface Management {
 
     /**
      * get the token for the user
+     *
      * @param user
      * @return
      */
@@ -67,9 +78,18 @@ public interface Management {
 
     /**
      * get the user given his http token
+     *
      * @param token
      * @return
      */
     User getUser(String token);
+
+    void createGroup(List<User> groupMembers, String projectId);
+
+    void addGroupMember(User groupMember, int groupId);
+
+    void deleteGroupMember(User groupMember, int groupId);
+
+    List<Group> getGroups(String projectId);
 }
 

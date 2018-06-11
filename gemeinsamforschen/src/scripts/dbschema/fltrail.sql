@@ -1,15 +1,7 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 CREATE DATABASE IF NOT EXISTS `fltrail` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `fltrail`;
 
-CREATE TABLE `projects` (
+CREATE TABLE if not exists `projects` (
   `id` varchar(400) NOT NULL,
   `password` varchar(400) NOT NULL,
   `activ` tinyint(1) NOT NULL,
@@ -19,30 +11,38 @@ CREATE TABLE `projects` (
   `token` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tags` (
+
+CREATE TABLE if not exists `groups` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `projectId` varchar(400) NOT NULL,
+   PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE if not exists groupuser
+        (
+          userEmail varchar(400) NOT NULL,
+          groupId int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE if not exists `tags` (
   `projectId` varchar(400) NOT NULL,
   `tag` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `users` (
+CREATE TABLE if not exists `users` (
   `name` varchar(400) NOT NULL,
   `password` varchar(200) NOT NULL,
   `email` varchar(400) NOT NULL,
   `token` varchar(800) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE projectuser
+CREATE TABLE if not exists projectuser
         (
           projectId varchar(400) NOT NULL,
           userId varchar(400) NOT NULL
-);  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table users
   add isStudent tinyint(1) default '1' null;
 
 
-
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

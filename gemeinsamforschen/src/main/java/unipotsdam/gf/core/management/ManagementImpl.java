@@ -2,6 +2,7 @@ package unipotsdam.gf.core.management;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
@@ -91,7 +92,10 @@ public class ManagementImpl implements Management {
     @Override
     public List<User> getUsers(Project project) {
         String query =
-                "SELECT * FROM users u " + " JOIN projectuser pu ON u.email=pu.userId" + " JOIN projects p ON pu.projectId = p.id" + " WHERE pu.projectId = ?";
+                "SELECT * FROM users u "
+                        + " JOIN projectuser pu ON u.email=pu.userId"
+                        + " JOIN projects p ON pu.projectId = p.id"
+                        + " WHERE pu.projectId = ?";
 
         ArrayList<User> result = new ArrayList<User>();
         MysqlConnect connect = new MysqlConnect();
@@ -151,5 +155,44 @@ public class ManagementImpl implements Management {
             connect.close();
             return null;
         }
+    }
+
+    @Override
+    public void createGroup(List<User> groupMembers, String projectId) {
+
+        for (User groupMember : groupMembers) {
+            UUID uuid = UUID.randomUUID();
+            String token = uuid.toString();
+
+            MysqlConnect connect = new MysqlConnect();
+            connect.connect();
+            String mysqlRequest =
+                    "INSERT INTO projects (`projectId`) values (?)";
+            VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectId);
+            vereinfachtesResultSet.next();
+            int id = vereinfachtesResultSet.getInt("id");
+
+            String mysqlRequest2 =
+                    "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
+            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), projectId);
+            connect.close();
+        }
+
+
+    }
+
+    @Override
+    public void addGroupMember(User groupMember, int groupId) {
+
+    }
+
+    @Override
+    public void deleteGroupMember(User groupMember, int groupId) {
+
+    }
+
+    @Override
+    public List<Group> getGroups(String projectId) {
+        return null;
     }
 }
