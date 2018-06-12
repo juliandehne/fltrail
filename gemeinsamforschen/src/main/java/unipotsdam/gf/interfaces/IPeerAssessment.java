@@ -1,9 +1,6 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.modules.assessment.controller.model.Assessment;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.*;
 
 /**
  * Created by dehne on 18.05.2018.
@@ -29,19 +26,18 @@ public interface IPeerAssessment {
     /**
      * writes a quiz-question into the DB so other students can benefit from another's insights.
      *
-     * @param student
-     * @param quiz
+     * @param studentAndQuiz
      */
-    void createQuiz(StudentIdentifier student, Quiz quiz);
+    void createQuiz(StudentAndQuiz studentAndQuiz);
 
     /**
      * calculate grades for everyone in a list.
      * either it will be overwritten by choice of co- or peer-assessment or it gets a parameter which specifies it.
      *
-     * @param performanceOfAllStudents
-     * @return
+     *
+     * @param totalPerformance @return
      */
-    int[] calculateAssessment(Performance[] performanceOfAllStudents); // calculates marks for every performance and writes it to an array
+    Grades calculateAssessment(TotalPerformance totalPerformance); // calculates marks for every performance and writes it to an array
 
     /**
      * calculates the mean value of all assessments in a project.

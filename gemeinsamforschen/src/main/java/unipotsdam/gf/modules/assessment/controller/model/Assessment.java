@@ -1,5 +1,9 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+
 public class Assessment {
     private StudentIdentifier student;
     private Performance performance;
@@ -8,6 +12,8 @@ public class Assessment {
         this.student = student;
         this.performance = performance;
     }
+
+    public Assessment(){}
 
     public StudentIdentifier getStudent() {
         return student;

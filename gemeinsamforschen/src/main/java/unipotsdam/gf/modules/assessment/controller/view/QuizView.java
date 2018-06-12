@@ -1,10 +1,7 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.Assessment;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 
 import javax.ws.rs.*;
@@ -30,27 +27,45 @@ public class QuizView implements IPeerAssessment {
         peer.addAssessmentDataToDB(assessment);
     }
 
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    @Path("/project/{projectId}/student/{studentId}")
+
     @Override
-    public Assessment getAssessmentDataFromDB(StudentIdentifier student){//@PathParam("projectId") String projectId,@PathParam("studentId") String studentId){
-    //StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+    public Assessment getAssessmentDataFromDB(StudentIdentifier student){
         return peer.getAssessmentDataFromDB(student);
     }
 
-    @Override
-    public void createQuiz(StudentIdentifier student, Quiz quiz) {
-
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/project/{projectId}/student/{studentId}")
+    public Assessment getAssessmentDataFromDB(@PathParam("projectId") String projectId,@PathParam("studentId") String studentId){
+        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+        return getAssessmentDataFromDB(student);
     }
 
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/quiz")
     @Override
-    public int[] calculateAssessment(Performance[] performanceOfAllStudents) {
-        return new int[0];
+    public void createQuiz(StudentAndQuiz studentAndQuiz) {
+        peer.createQuiz(studentAndQuiz);
     }
 
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/calculate")
     @Override
-    public int meanOfAssessement(String ProjectId) {
-        return 0;
+    public Grades calculateAssessment(TotalPerformance totalPerformance) { //todo: maybe the return variable is the problem why it doesnt work.
+
+        return peer.calculateAssessment(totalPerformance);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/mean/project/{projectId}")
+    @Override
+    public int meanOfAssessement(@PathParam("projectId") String ProjectId) {
+        return peer.meanOfAssessement(ProjectId);
     }
 }

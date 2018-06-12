@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="b207c042-3fc9-4102-bf50-ee6c9b45c20d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/interfaces/IPeerAssessment.java" afterPath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/interfaces/IPeerAssessment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/model/Assessment.java" afterPath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/model/Assessment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/service/PeerAssessmentDummy.java" afterPath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/service/PeerAssessmentDummy.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/view/QuizView.java" afterPath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/view/QuizView.java" />
     </list>
     <ignored path="fltrail.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,11 +46,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="projects.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="projects.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/studentview/pages/projects.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="21">
-              <caret line="125" column="34" lean-forward="false" selection-start-line="125" selection-start-column="34" selection-end-line="125" selection-end-column="34" />
+              <caret line="111" column="34" lean-forward="false" selection-start-line="111" selection-start-column="34" selection-end-line="111" selection-end-column="34" />
+              <folding>
+                <marker date="1528377403200" expanded="true" signature="10969:10996" ph="..." />
+                <marker date="1528377403200" expanded="true" signature="10969:11019" ph="..." />
+                <marker date="1528377403200" expanded="true" signature="10969:11038" ph="..." />
+                <marker date="1528377403200" expanded="true" signature="10969:11053" ph="..." />
+                <marker date="1528377403200" expanded="true" signature="10969:11064" ph="..." />
+                <marker date="1528377403200" expanded="true" signature="10969:11071" ph="..." />
+                <marker date="1528377403200" expanded="true" signature="10969:11079" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="newProject.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/studentview/assets/js/newProject.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-651">
+              <caret line="20" column="7" lean-forward="false" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -67,9 +87,19 @@
       <file leaf-file-name="overview.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/studentview/assets/js/overview.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1806">
-              <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="1827">
+              <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+              <folding>
+                <marker date="1528377403191" expanded="true" signature="2039:2586" ph="{...}" />
+                <marker date="1528377403191" expanded="true" signature="2116:2586" ph="{&quot;url&quot;: url...}" />
+                <marker date="1528377403191" expanded="true" signature="2253:2586" ph="{...}" />
+                <marker date="1528377403191" expanded="true" signature="2478:2586" ph="{...}" />
+                <marker date="1528377403191" expanded="true" signature="5783:6754" ph="{&quot;url&quot;: innerurl...}" />
+                <marker date="1528377403191" expanded="true" signature="5783:6758" ph="{...}" />
+                <marker date="1528377403191" expanded="true" signature="5932:6673" ph="{...}" />
+                <marker date="1528377403191" expanded="true" signature="6102:6663" ph="{...}" />
+                <marker date="1528377403191" expanded="true" signature="6709:6748" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -124,13 +154,13 @@
         <option value="$PROJECT_DIR$/studentview/pages/deleteProject.php" />
         <option value="$PROJECT_DIR$/studentview/pages/enrollment.php" />
         <option value="$PROJECT_DIR$/studentview/pages/newproject.php" />
-        <option value="$PROJECT_DIR$/studentview/pages/projects.php" />
         <option value="$PROJECT_DIR$/studentview/register.php" />
         <option value="$PROJECT_DIR$/studentview/pages/preferences.php" />
         <option value="$PROJECT_DIR$/studentview/assets/js/config.js" />
         <option value="$PROJECT_DIR$/studentview/database/config.php" />
         <option value="$PROJECT_DIR$/studentview/assets/js/overview.js" />
         <option value="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/interfaces/ResearchReport.java" />
+        <option value="$PROJECT_DIR$/studentview/pages/projects.php" />
       </list>
     </option>
   </component>
@@ -266,8 +296,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="AndroidView" />
     </panes>
@@ -365,26 +395,28 @@
       <workItem from="1524585513713" duration="57000" />
       <workItem from="1528200793936" duration="888000" />
       <workItem from="1528354427057" duration="403000" />
+      <workItem from="1528809757337" duration="102000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75305000" />
+    <option name="totallyTimeSpent" value="75407000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2125" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" x="9" y="79" width="408" height="943" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2125" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" x="9" y="79" width="408" height="943" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23455825" sideWeight="0.47734374" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15729167" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35496482" sideWeight="0.71510416" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.331509" sideWeight="0.52265626" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -582,13 +614,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/studentview/assets/js/newProject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="92" column="40" lean-forward="false" selection-start-line="92" selection-start-column="40" selection-end-line="92" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
     <entry file="dbDummy://dbtable:/fc3764cf/14340c2c-ac4b-492f-ac4f-18c0853598a8/fltrail.projects" />
     <entry file="file://$PROJECT_DIR$/studentview/assets/js/createPreferences.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -711,16 +736,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/studentview/assets/js/overview.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1806">
-          <caret line="86" column="0" lean-forward="false" selection-start-line="86" selection-start-column="0" selection-end-line="86" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="1827">
+          <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding>
+            <marker date="1528377403191" expanded="true" signature="2039:2586" ph="{...}" />
+            <marker date="1528377403191" expanded="true" signature="2116:2586" ph="{&quot;url&quot;: url...}" />
+            <marker date="1528377403191" expanded="true" signature="2253:2586" ph="{...}" />
+            <marker date="1528377403191" expanded="true" signature="2478:2586" ph="{...}" />
+            <marker date="1528377403191" expanded="true" signature="5783:6754" ph="{&quot;url&quot;: innerurl...}" />
+            <marker date="1528377403191" expanded="true" signature="5783:6758" ph="{...}" />
+            <marker date="1528377403191" expanded="true" signature="5932:6673" ph="{...}" />
+            <marker date="1528377403191" expanded="true" signature="6102:6663" ph="{...}" />
+            <marker date="1528377403191" expanded="true" signature="6709:6748" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/studentview/pages/projects.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
-          <caret line="125" column="34" lean-forward="false" selection-start-line="125" selection-start-column="34" selection-end-line="125" selection-end-column="34" />
+          <caret line="111" column="34" lean-forward="false" selection-start-line="111" selection-start-column="34" selection-end-line="111" selection-end-column="34" />
+          <folding>
+            <marker date="1528377403200" expanded="true" signature="10969:10996" ph="..." />
+            <marker date="1528377403200" expanded="true" signature="10969:11019" ph="..." />
+            <marker date="1528377403200" expanded="true" signature="10969:11038" ph="..." />
+            <marker date="1528377403200" expanded="true" signature="10969:11053" ph="..." />
+            <marker date="1528377403200" expanded="true" signature="10969:11064" ph="..." />
+            <marker date="1528377403200" expanded="true" signature="10969:11071" ph="..." />
+            <marker date="1528377403200" expanded="true" signature="10969:11079" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/studentview/assets/js/newProject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-651">
+          <caret line="20" column="7" lean-forward="false" selection-start-line="20" selection-start-column="7" selection-end-line="20" selection-end-column="7" />
           <folding />
         </state>
       </provider>

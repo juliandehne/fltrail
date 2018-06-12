@@ -1,10 +1,7 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.Assessment;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.*;
 
 public class PeerAssessment implements IPeerAssessment {
     @Override
@@ -23,13 +20,14 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public void createQuiz(StudentIdentifier student, Quiz quiz) {
+    public void createQuiz(StudentAndQuiz studentAndQuiz) {
 
     }
 
     @Override
-    public int[] calculateAssessment(Performance[] performanceOfAllStudents) {
-        return new int[0];
+    public Grades calculateAssessment(TotalPerformance totalPerformance) {
+        Grades grades = new Grades();
+        return grades;
     }
 
     @Override

@@ -1,9 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
-import unipotsdam.gf.modules.assessment.controller.model.Assessment;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.*;
 
 /**
  * Created by dehne on 18.05.2018.
@@ -21,19 +18,15 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public void createQuiz(StudentIdentifier student, Quiz quiz) {
+    public void createQuiz(StudentAndQuiz studentAndQuiz) {
 
     }
 
 
     @Override
-    public int[] calculateAssessment(Performance[] performanceOfAllStudents){ // calculates marks for every performance and writes it to an array
-        int[] dummy = new int[4];
-        dummy[0]=1;
-        dummy[1]=4;
-        dummy[2]=3;
-        dummy[3]=2;
-        return dummy;
+    public Grades calculateAssessment(TotalPerformance totalPerformance){ // calculates marks for every performance and writes it to an array
+        Grades grades = new Grades();
+        return grades;
     }
 
     public void createQuiz(StudentIdentifier student, String question, String[] answers){  //writes a new question into the DB
