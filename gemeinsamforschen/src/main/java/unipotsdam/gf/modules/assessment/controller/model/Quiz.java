@@ -1,5 +1,9 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+
 public class Quiz {
     private String type;
     private String question;
@@ -12,6 +16,7 @@ public class Quiz {
         this.correctAnswers = correctAnswers;
         this.incorrectAnswers = incorrectAnswers;
     }
+    public Quiz(){}
 
     public String[] getIncorrectAnswers() {
         return incorrectAnswers;

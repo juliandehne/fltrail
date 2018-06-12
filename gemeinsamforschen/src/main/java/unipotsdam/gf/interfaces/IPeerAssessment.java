@@ -17,6 +17,7 @@ public interface IPeerAssessment {
      */
     void addAssessmentDataToDB(Assessment assessment);
 
+    Quiz getQuiz(String projectId, String groupId);
     /**
      * will return a saved assessment from the DB
      *

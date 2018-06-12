@@ -38,5 +38,23 @@ public class RestyMunschkin {
         return munschkin;
     }
 
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/project/{projectId}/quiz/{quizId}")
+    public String exampleQuiz(@PathParam("projectId") String name, @PathParam("quizId") String quiz) {
+        /**String[] correctAnswers = new String[2];
+         correctAnswers[0] = "42";
+         correctAnswers[1] = "24";
+         String[] wrongAnswers = {"a god created creature", "a sum of my mistakes"};
+         if (false){
+         return "ProjectId not found: " + name;
+         }
+         Quiz sampleQuiz = new Quiz("multiple","Who am I and if so, how many?", correctAnswers,wrongAnswers);
+         log.info("HelloWorldview helloWorld Method answered: "+ sampleQuiz.toString());
+         return sampleQuiz.toString();*/
+        return "<html> " + "<title>" + "Hello Munschkin" + "</title>" + "<body><h1>" + "</body></h1>" + "</html> ";
+
+    }
+
 
 }

@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.assessment.controller;
+package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.modules.assessment.controller.model.Assessment;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
@@ -13,6 +13,11 @@ public class FBAssessement extends AssessmentDAO {
     @Override
     public void addAssessmentDataToDB(Assessment assessment) {
         // write it to db
+    }
+
+    @Override
+    public Quiz getQuiz(String projectId, String groupId) {
+        return null;
     }
 
     @Override
