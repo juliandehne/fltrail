@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+	<form id="journalform" class="form-journal" method="POST" action="../rest/journal/save">
+		
+		<input type="hidden" name="student" value="0">
+		<input type="hidden" name="project" value="0">
+		
+		<div>
+			<textarea name="text" form="journalform">
+			</textarea>
+		</div>
+		
+		<div>
+		<select name="visibility" form="journalform">
+			<option value="ALL"> Alle </option>
+			<option value="GROUP"> Gruppe </option>
+			<option value="DOZENT"> Dozent </option>
+			<option value="NONE"> Niemand </option>
+		</select>
+		</div>
+		<div>
+		<select name="category" form="journalform">
+			<option value="A"> A </option>
+			<option value="B"> B </option>
+		</select>
+		</div>
+		<input type="submit">
+	</form>
+
+	
+
+</body>
+</html>
