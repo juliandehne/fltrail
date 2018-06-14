@@ -79,4 +79,6 @@ public interface ICommunication {
      */
     boolean registerUser(User user);
 
+    String getChatRoomLink(String userToken,String projectToken, String groupToken);
+
 }

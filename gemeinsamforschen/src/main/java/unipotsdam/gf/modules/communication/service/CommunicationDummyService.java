@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.communication.service;
 
+import unipotsdam.gf.config.Constants;
+import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.Message;
@@ -8,6 +10,7 @@ import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -18,6 +21,9 @@ import java.util.Objects;
 @ManagedBean
 @Singleton
 public class CommunicationDummyService implements ICommunication {
+
+    @Inject
+    Management managementService;
 
     @Override
     public List<ChatMessage> getChatHistory(String roomId) {
@@ -70,6 +76,15 @@ public class CommunicationDummyService implements ICommunication {
     public boolean registerUser(User user) {
         user.setRocketChatId("1");
         return true;
+    }
+
+    public String getChatRoomLink(String userToken, String projectToken, String groupToken) {
+        //User user = managementService.getUser(userToken);
+        // TODO: Implement getProjectbyToken and getGroupByToken
+        //Project project = managementService.getProject(projectToken
+        String channelName = "general";
+        String fullUrl = Constants.ROCKET_CHAT_URL + "/channel/" + channelName + "?layout=embedded";
+        return fullUrl;
     }
 
     // TODO: remove after done implementing

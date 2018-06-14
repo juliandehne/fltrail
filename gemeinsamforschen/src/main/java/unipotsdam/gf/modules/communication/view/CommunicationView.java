@@ -28,7 +28,7 @@ import static java.util.Objects.isNull;
 @ManagedBean
 public class CommunicationView {
 
-    private static final Logger log = LoggerFactory.getLogger(SampleView.class);
+    private static final Logger log = LoggerFactory.getLogger(CommunicationView.class);
 
     @Inject
     private ICommunication communicationService;
@@ -104,6 +104,8 @@ public class CommunicationView {
         }
         return response;
     }
+
+    // TODO: remove user from chatroom
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)

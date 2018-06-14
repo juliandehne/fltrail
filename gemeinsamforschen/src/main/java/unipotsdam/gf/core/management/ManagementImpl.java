@@ -9,6 +9,8 @@ import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
 import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
 
+import javax.annotation.ManagedBean;
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +18,8 @@ import java.util.UUID;
 /**
  * Created by dehne on 31.05.2018.
  */
+@ManagedBean
+@Resource
 public class ManagementImpl implements Management {
     @Override
     public void delete(StudentIdentifier identifier) {
