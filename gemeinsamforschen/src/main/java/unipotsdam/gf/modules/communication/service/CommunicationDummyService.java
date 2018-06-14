@@ -37,7 +37,7 @@ public class CommunicationDummyService implements ICommunication {
     }
 
     @Override
-    public boolean sendMessageToChat(Message message) {
+    public boolean sendMessageToChat(Message message, String roomId) {
         return true;
     }
 
@@ -52,6 +52,11 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public boolean addUserToChatRoom(String roomId, User user) {
+        return true;
+    }
+
+    @Override
+    public boolean removeUserFromChatRoom(User user, String roomId) {
         return true;
     }
 

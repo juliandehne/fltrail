@@ -62,19 +62,19 @@ public class CommunicationView {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/send")
-    public Response sendMessage(Message message) {
+    @Path("/send/{roomId}")
+    public Response sendMessage(Message message, @PathParam("roomId") String roomId) {
         if (isNull(message)) {
             log.trace("sendMessage message object was null");
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide message").build();
         }
-        boolean wasSend = communicationService.sendMessageToChat(message);
+        boolean wasSend = communicationService.sendMessageToChat(message, roomId);
         Response response;
         if (wasSend) {
-            log.error("error while sending message for message: {}", message);
+            log.trace("response for sendMessage: {}", wasSend);
             response = Response.ok(wasSend).build();
         } else {
-            log.trace("response for sendMessage: {}", wasSend);
+            log.error("error while sending message for message: {}", message);
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while sending message").build();
         }
         return response;
@@ -105,7 +105,31 @@ public class CommunicationView {
         return response;
     }
 
-    // TODO: remove user from chatroom
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/removeUser/{roomId}")
+    public Response removeUserFromChatRoom(User user, @PathParam("roomId") String roomId) {
+        if (isNull(user)) {
+            log.trace("removeUser user object was null");
+            return Response.status(Response.Status.BAD_REQUEST).entity("must provide user").build();
+        }
+        boolean wasRemoved = communicationService.removeUserFromChatRoom(user, roomId);
+        if (isNull(wasRemoved)) {
+            log.error("removeUserToChatRoom: chatRoom not found for roomId: {}, user: {}", roomId, user);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        Response response;
+        if (wasRemoved) {
+            log.trace("response for removeUser: {}", wasRemoved);
+            response = Response.ok(wasRemoved).build();
+        } else {
+            log.error("error while adding user to chat room");
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while adding user to chatRoom").build();
+        }
+        return response;
+    }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)

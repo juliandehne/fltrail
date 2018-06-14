@@ -22,7 +22,7 @@ public interface ICommunication {
     List<ChatMessage> getChatHistory(String roomId);
 
 
-    boolean sendMessageToChat(Message message);
+    boolean sendMessageToChat(Message message, String roomId);
 
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/create/
@@ -43,6 +43,8 @@ public interface ICommunication {
      * @return if user was added successfully
      */
     boolean addUserToChatRoom(String roomId, User user);
+
+    boolean removeUserFromChatRoom(User user, String roomId);
 
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/settopic/
@@ -79,6 +81,6 @@ public interface ICommunication {
      */
     boolean registerUser(User user);
 
-    String getChatRoomLink(String userToken,String projectToken, String groupToken);
+    String getChatRoomLink(String userToken, String projectToken, String groupToken);
 
 }
