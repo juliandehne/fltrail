@@ -13,6 +13,10 @@ public class Performance {
         this.workRating = workRating;
     }
 
+    public Performance() {
+
+    }
+
     public int[] getQuizAnswer() {
         return quizAnswer;
     }

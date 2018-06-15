@@ -2,6 +2,8 @@ package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
+import java.util.List;
+
 /**
  * Created by dehne on 18.05.2018.
  */
@@ -37,7 +39,15 @@ public interface IPeerAssessment {
      *
      * @param totalPerformance @return
      */
-    Grades calculateAssessment(TotalPerformance totalPerformance); // calculates marks for every performance and writes it to an array
+    List<Grading> calculateAssessment(TotalPerformance totalPerformance); // calculates marks for every performance and writes it to an array
+
+
+    /**
+     *
+     * @param studentIdentifier
+     * @return
+     */
+    TotalPerformance getTotalAssessment(StudentIdentifier studentIdentifier);
 
     /**
      * calculates the mean value of all assessments in a project.

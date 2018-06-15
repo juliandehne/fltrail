@@ -3,10 +3,12 @@ package unipotsdam.gf.modules.assessment.controller.service;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class PeerAssessmentDummy implements IPeerAssessment {
     @Override
     public void addAssessmentDataToDB(Assessment assessment) {
-
     }
 
     @Override
@@ -33,15 +35,13 @@ public class PeerAssessmentDummy implements IPeerAssessment {
 
     @Override
     public void createQuiz(StudentAndQuiz studentAndQuiz) {
-
     }
 
     @Override
-    public Grades calculateAssessment(TotalPerformance totalPerformance) {
+    public List<Grading> calculateAssessment(TotalPerformance totalPerformance) {
         Performance[] performanceOfAllStudents = totalPerformance.getPerformances();
         StudentIdentifier[] allStudents = totalPerformance.getStudentIdentifier();
         int[] allAssessements = new int[performanceOfAllStudents.length] ;
-        Grades grades = new Grades();
         Grading[] grading = new Grading[performanceOfAllStudents.length];
 
         for (int i=0; i< performanceOfAllStudents.length;i++) {
@@ -51,12 +51,30 @@ public class PeerAssessmentDummy implements IPeerAssessment {
             allAssessements[i] = allAssessements[i]/performanceOfAllStudents[i].getQuizAnswer().length;
         }
         for (int i=0; i<performanceOfAllStudents.length; i++){
-            grading[i].setStudentIdentifier(allStudents[i]);
-            grading[i].setGrade(allAssessements[i]);
+            Grading shuttle = new Grading(allStudents[i], allAssessements[i]);
+            grading[i]= shuttle;
         }
+        return Arrays.asList(grading);
+    }
 
-        grades.setGrading(grading);
-        return grades;
+    @Override
+    public TotalPerformance getTotalAssessment(StudentIdentifier studentIdentifier) {
+        StudentIdentifier[] students = new StudentIdentifier[2];
+        StudentIdentifier student = new StudentIdentifier("gemeinsamForschen","Haralf");
+        students[0] = student;
+        student = new StudentIdentifier("gemeinsamForschen","Regine");
+        students[1]  = student;
+        Performance[] performances = new Performance[2];
+        int[] quiz = {1,0,1,0,0,0,1};
+        int[] quiz2 = {0,1,0,1,1,1,0};
+        int[] work = {5,4,3,2,1};
+        int[] work2 = {1,2,3,4,5};
+        Performance performance = new Performance(quiz, "toller dude",work);
+        performances[0] = performance;
+        performance = new Performance(quiz2, "tolle dudine",work2);
+        performances[1] = performance;
+        TotalPerformance totalPerformance = new TotalPerformance(students,performances);
+        return totalPerformance;
     }
 
     @Override

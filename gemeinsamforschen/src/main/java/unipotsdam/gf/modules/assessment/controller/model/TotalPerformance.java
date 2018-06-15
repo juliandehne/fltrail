@@ -13,6 +13,10 @@ public class TotalPerformance {
     }
 
     public TotalPerformance() {
+        studentIdentifier = new StudentIdentifier[3];
+        performances = new Performance[3];
+        studentIdentifier[0] = new StudentIdentifier("hello", "world");
+        performances[0] = new Performance();
     }
 
     public Performance[] getPerformances() {

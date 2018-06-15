@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b207c042-3fc9-4102-bf50-ee6c9b45c20d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/model/Assessment.java" afterPath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/model/Assessment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/service/PeerAssessmentDummy.java" afterPath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/service/PeerAssessmentDummy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/view/QuizView.java" afterPath="$PROJECT_DIR$/gemeinsamforschen/src/main/java/unipotsdam/gf/modules/assessment/controller/view/QuizView.java" />
-    </list>
+    <list default="true" id="b207c042-3fc9-4102-bf50-ee6c9b45c20d" name="Default" comment="" />
     <ignored path="fltrail.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -395,16 +390,15 @@
       <workItem from="1524585513713" duration="57000" />
       <workItem from="1528200793936" duration="888000" />
       <workItem from="1528354427057" duration="403000" />
-      <workItem from="1528809757337" duration="102000" />
+      <workItem from="1528809757337" duration="698000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="75407000" />
+    <option name="totallyTimeSpent" value="76003000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2125" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" x="9" y="79" width="408" height="943" />

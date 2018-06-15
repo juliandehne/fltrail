@@ -6,6 +6,8 @@ import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 @Path("/assessments")
 public class QuizView implements IPeerAssessment {
@@ -56,9 +58,8 @@ public class QuizView implements IPeerAssessment {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/calculate")
     @Override
-    public Grades calculateAssessment(TotalPerformance totalPerformance) { //todo: maybe the return variable is the problem why it doesnt work.
-
-        return peer.calculateAssessment(totalPerformance);
+    public List<Grading> calculateAssessment(TotalPerformance totalPerformance) { //todo: maybe the return variable is the problem why it doesnt work.
+        return new ArrayList<Grading>();
     }
 
     @GET
@@ -68,4 +69,33 @@ public class QuizView implements IPeerAssessment {
     public int meanOfAssessement(@PathParam("projectId") String ProjectId) {
         return peer.meanOfAssessement(ProjectId);
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/total/project/{projectId}/student/{student}")
+    public TotalPerformance getTotalAssessment(@PathParam("projectId") String ProjectId,@PathParam("student") String student){
+        StudentIdentifier studentIdentifier = new StudentIdentifier(ProjectId, student);
+        return getTotalAssessment(studentIdentifier);
+    };
+
+    @Override
+    public TotalPerformance getTotalAssessment(StudentIdentifier studentIdentifier) {
+        return peer.getTotalAssessment(studentIdentifier);
+    }
+
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/dummy/totalperformance")
+    public List<TotalPerformance> getTotalAssessment() {
+        ArrayList<TotalPerformance> result = new ArrayList<>();
+        TotalPerformance pf = new TotalPerformance();
+        TotalPerformance pf2 = new TotalPerformance();
+        result.add(pf);
+        result.add(pf2);
+        return result;
+        //return peer.getTotalAssessment(studentIdentifier);
+        // TODO fix this
+    }
+
 }

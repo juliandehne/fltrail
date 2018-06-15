@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Assessment {
     private StudentIdentifier student;
     private Performance performance;
+    private TotalPerformance totalPerformance;
 
     public Assessment(StudentIdentifier student, Performance performance) {
         this.student = student;
@@ -14,6 +15,8 @@ public class Assessment {
     }
 
     public Assessment(){}
+
+    public TotalPerformance getTotalAssessment() { return totalPerformance; }
 
     public StudentIdentifier getStudent() {
         return student;
@@ -36,6 +39,7 @@ public class Assessment {
         return "Assessment{" +
                 "student=" + student +
                 ", performance=" + performance +
+                ", totalPerformance=" +totalPerformance +
                 '}';
     }
 }

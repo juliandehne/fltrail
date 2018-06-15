@@ -2,6 +2,8 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
+import java.util.List;
+
 /**
  * Created by dehne on 18.05.2018.
  */
@@ -24,9 +26,13 @@ public class FBAssessement extends AssessmentDAO {
 
 
     @Override
-    public Grades calculateAssessment(TotalPerformance totalPerformance){ // calculates marks for every performance and writes it to an array
-        Grades grades = new Grades();
-        return grades;
+    public List<Grading> calculateAssessment(TotalPerformance totalPerformance){ // calculates marks for every performance and writes it to an array
+        return null;
+    }
+
+    @Override
+    public TotalPerformance getTotalAssessment(StudentIdentifier studentIdentifier) {
+        return null;
     }
 
     public void createQuiz(StudentIdentifier student, String question, String[] answers){  //writes a new question into the DB
