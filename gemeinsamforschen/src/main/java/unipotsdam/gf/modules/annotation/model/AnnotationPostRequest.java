@@ -1,14 +1,12 @@
-package unipotsdam.gf.modules.annotation;
+package unipotsdam.gf.modules.annotation.model;
 
 /**
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
  */
-public class Annotation {
+public class AnnotationPostRequest {
 
     // variables
-    private int id;
-    private long timestamp;
     private int userId;
     private int targetId;
     private String body;
@@ -16,9 +14,7 @@ public class Annotation {
     private int endCharacter;
 
     // constructor
-    public Annotation(int id, long timestamp, int userId, int targetId, String body, int startCharacter, int endCharacter) {
-        this.id = id;
-        this.timestamp = timestamp;
+    public AnnotationPostRequest(int userId, int targetId, String body, int startCharacter, int endCharacter) {
         this.userId = userId;
         this.targetId = targetId;
         this.body = body;
@@ -27,22 +23,6 @@ public class Annotation {
     }
 
     // methods
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public int getUserId() {
         return userId;
     }
@@ -85,15 +65,12 @@ public class Annotation {
 
     @Override
     public String toString() {
-        return "Annotation{" +
-                "id=" + id +
-                ", timestamp=" + timestamp +
-                ", userId=" + userId +
+        return "AnnotationPostRequest{" +
+                "userId=" + userId +
                 ", targetId=" + targetId +
                 ", body='" + body + '\'' +
                 ", startCharacter=" + startCharacter +
                 ", endCharacter=" + endCharacter +
                 '}';
     }
-
 }
