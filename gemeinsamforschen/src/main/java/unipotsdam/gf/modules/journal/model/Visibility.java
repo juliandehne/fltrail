@@ -1,4 +1,4 @@
 package unipotsdam.gf.modules.journal.model;
 
-public enum Visibility { All, GROUP, DOZENT, NONE
+public enum Visibility { ALL, GROUP, DOZENT, NONE
 }

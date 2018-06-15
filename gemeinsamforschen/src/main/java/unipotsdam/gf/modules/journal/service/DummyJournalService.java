@@ -54,7 +54,7 @@ public class DummyJournalService implements JournalService {
             }else{
 
                 // if Visibility All, show if Filter allows it
-                if (j.getVisibility() == Visibility.All && filter==JournalFilter.ALL){
+                if (j.getVisibility() == Visibility.ALL && filter==JournalFilter.ALL){
                     result.add(j);
                 }
 
@@ -125,7 +125,7 @@ public class DummyJournalService implements JournalService {
         StudentIdentifier studentIdentifier = new StudentIdentifier("0","0");
         StudentIdentifier studentIdentifier2 = new StudentIdentifier("0","1");
 
-        Journal j1 = new Journal(0,studentIdentifier,"test", cal.getTimeInMillis() , Visibility.All, "test1");
+        Journal j1 = new Journal(0,studentIdentifier,"test", cal.getTimeInMillis() , Visibility.ALL, "test1");
         Journal j2 = new Journal(1,studentIdentifier,"test2", cal.getTimeInMillis() , Visibility.NONE, "test2");
         Journal j3 = new Journal(2,studentIdentifier,"test3", cal.getTimeInMillis() , Visibility.GROUP, "test3");
         Journal j4 = new Journal(3,studentIdentifier,"test4", cal.getTimeInMillis() , Visibility.DOZENT ,"test4");

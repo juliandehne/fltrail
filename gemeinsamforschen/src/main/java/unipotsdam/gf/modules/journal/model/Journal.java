@@ -2,6 +2,9 @@ package unipotsdam.gf.modules.journal.model;
 
 import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
 
+/**
+ * Model Class for the learnig journal of the e-portfolio
+ */
 public class Journal {
 
     long id;
