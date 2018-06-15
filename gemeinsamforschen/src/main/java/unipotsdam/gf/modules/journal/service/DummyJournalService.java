@@ -1,12 +1,14 @@
 package unipotsdam.gf.modules.journal.service;
 
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.model.Visibility;
-
+import org.commonmark.node.*;
+import org.commonmark.parser.Parser;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -83,7 +85,7 @@ public class DummyJournalService implements JournalService {
         if (Long.valueOf(id) == -1){
 
             StudentIdentifier studentId = new StudentIdentifier(student,project);
-            journals.add(new Journal(this.id++, studentId, text , cal.getTimeInMillis(), stringToVisibility(visibility) , category));
+            journals.add(new Journal(this.id++, studentId, convertMarkdownToHtml(text) , cal.getTimeInMillis(), stringToVisibility(visibility) , category));
 
         } else {
             for (Journal j : journals){
@@ -140,6 +142,18 @@ public class DummyJournalService implements JournalService {
         journals.add(j5);
 
         return journals;
+    }
+
+    /**
+     * Converts a markdown text to html
+     * @param markdown markdown text
+     * @return html text
+     */
+    private String convertMarkdownToHtml (String markdown){
+        Parser parser = Parser.builder().build();
+        Node document = parser.parse("This is *Sparta*");
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        return renderer.render(document);
     }
 
 }

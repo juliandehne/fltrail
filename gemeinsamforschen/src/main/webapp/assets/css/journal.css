@@ -1,0 +1,42 @@
+.jounral-form-container { 
+	height:90vh; 
+	display: grid; 
+	grid-template-rows: 5% 90% 5%; 
+	grid-template-columns: 40% 40% 20%; 
+} 
+
+.visibility{
+	grid-column-start:1; 
+	grid-column-end:1; 
+	grid-row-start:1; 
+	grid-row-end:1; 
+}
+
+.category{
+	grid-column-start:2; 
+	grid-column-end:2; 
+	grid-row-start:1; 
+	grid-row-end:1; 
+}
+
+.editor{
+	grid-column-start:1; 
+	grid-column-end:3; 
+	grid-row-start:2; 
+	grid-row-end:2; 
+}
+
+.save{
+	grid-column-start:1; 
+	grid-column-end:1; 
+	grid-row-start:3; 
+	grid-row-end:3; 
+}
+
+.back{
+	grid-column-start:2; 
+	grid-column-end:2; 
+	grid-row-start:3; 
+	grid-row-end:3; 
+}
+

@@ -1,35 +1,64 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="../assets/css/journal.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
+
+</head>
 <body>
 
-	<form id="journalform" class="form-journal" method="POST" action="../rest/journal/save">
-		
-		<input type="hidden" name="student" value="0">
-		<input type="hidden" name="project" value="0">
-		
-		<div>
-			<textarea name="text" form="journalform">
-			</textarea>
-		</div>
-		
-		<div>
-		<select name="visibility" form="journalform">
-			<option value="ALL"> Alle </option>
-			<option value="GROUP"> Gruppe </option>
-			<option value="DOZENT"> Dozent </option>
-			<option value="NONE"> Niemand </option>
-		</select>
-		</div>
-		<div>
-		<select name="category" form="journalform">
-			<option value="A"> A </option>
-			<option value="B"> B </option>
-		</select>
-		</div>
-		<input type="submit">
-	</form>
+<h1> Tagebucheintrag erstellen </h1>
 
-	
+<form id="journalform" class="form-journal" method="POST" action="../rest/journal/save">
+
+	<input type="hidden" name="student" value="0">
+	<input type="hidden" name="project" value="0">
+
+	<div class="jounral-form-container">
+
+		<div class = "visibility">
+			Sichtbarkeit:
+			<select name="visibility" form="journalform">
+				<option value="ALL"> Alle </option>
+				<option value="GROUP"> Gruppe </option>
+				<option value="DOZENT"> Dozent </option>
+				<option value="NONE"> Niemand </option>
+			</select>
+		</div>
+
+		<div class = "category">
+			Kategorie:
+			<select name="category" form="journalform">
+				<option value="A"> A </option>
+				<option value="B"> B </option>
+			</select>
+		</div>
+
+
+		<div class ="editor">
+				<textarea id = "editor" name="text" form="journalform" >
+				</textarea>
+		</div>
+
+		<div class="save">
+			<input type="submit">
+		</div>
+
+		<div class="back">
+			<button> Zurück </button>
+		</div>
+	</div>
+</form>
+
+<script>
+    var editor = new InscrybMDE({
+        element: document.getElementById("editor"),
+        spellChecker: false,
+        forceSync: true,
+    });
+</script>
 
 </body>
 </html>
