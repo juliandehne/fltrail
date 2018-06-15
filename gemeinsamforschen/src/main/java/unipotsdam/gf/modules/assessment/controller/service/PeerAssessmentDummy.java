@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.assessment.controller.service;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
         int[] quizAnswer = {1,1,1,0,0,0,1,0,0,1,1};
         int[] workRating = {1,5,3,4,1,5,5};
-        Performance performance = new Performance(quizAnswer, "what a nice guy", workRating);
+        Performance performance = new Performance(student, quizAnswer, "what a nice guy", workRating);
         Assessment assessment = new Assessment(student, performance);
         return assessment;
     }
@@ -38,43 +39,38 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
-    public List<Grading> calculateAssessment(TotalPerformance totalPerformance) {
-        Performance[] performanceOfAllStudents = totalPerformance.getPerformances();
-        StudentIdentifier[] allStudents = totalPerformance.getStudentIdentifier();
-        int[] allAssessements = new int[performanceOfAllStudents.length] ;
-        Grading[] grading = new Grading[performanceOfAllStudents.length];
+    public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
+        double[] allAssessements = new double[totalPerformance.size()] ;
+        Grading[] grading = new Grading[totalPerformance.size()];
 
-        for (int i=0; i< performanceOfAllStudents.length;i++) {
-            for (int j=0; j< performanceOfAllStudents[i].getQuizAnswer().length;j++) {
-                allAssessements[i] += performanceOfAllStudents[i].getQuizAnswer()[j];
+        for (int i=0; i< totalPerformance.size();i++) {
+            for (int j=0; j< totalPerformance.get(i).getQuizAnswer().length;j++) {
+                allAssessements[i] += totalPerformance.get(i).getQuizAnswer()[j];
             }
-            allAssessements[i] = allAssessements[i]/performanceOfAllStudents[i].getQuizAnswer().length;
+            allAssessements[i] = allAssessements[i]/totalPerformance.get(i).getQuizAnswer().length;
         }
-        for (int i=0; i<performanceOfAllStudents.length; i++){
-            Grading shuttle = new Grading(allStudents[i], allAssessements[i]);
+        for (int i=0; i<totalPerformance.size(); i++){
+            Grading shuttle = new Grading(totalPerformance.get(i).getStudentIdentifier(), allAssessements[i]);
             grading[i]= shuttle;
         }
         return Arrays.asList(grading);
     }
 
     @Override
-    public TotalPerformance getTotalAssessment(StudentIdentifier studentIdentifier) {
+    public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
         StudentIdentifier[] students = new StudentIdentifier[2];
-        StudentIdentifier student = new StudentIdentifier("gemeinsamForschen","Haralf");
-        students[0] = student;
-        student = new StudentIdentifier("gemeinsamForschen","Regine");
-        students[1]  = student;
-        Performance[] performances = new Performance[2];
+        StudentIdentifier student1 = new StudentIdentifier("gemeinsamForschen","Haralf");
+        StudentIdentifier student2 = new StudentIdentifier("gemeinsamForschen","Regine");
+        ArrayList<Performance> performances = new ArrayList<Performance>();
         int[] quiz = {1,0,1,0,0,0,1};
         int[] quiz2 = {0,1,0,1,1,1,0};
         int[] work = {5,4,3,2,1};
         int[] work2 = {1,2,3,4,5};
-        Performance performance = new Performance(quiz, "toller dude",work);
-        performances[0] = performance;
-        performance = new Performance(quiz2, "tolle dudine",work2);
-        performances[1] = performance;
-        TotalPerformance totalPerformance = new TotalPerformance(students,performances);
-        return totalPerformance;
+        Performance performance = new Performance(student1, quiz, "toller dude",work);
+        performances.add(performance);
+        performance = new Performance(student2, quiz2, "tolle dudine",work2);
+        performances.add(performance);
+        return performances;
     }
 
     @Override

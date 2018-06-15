@@ -2,16 +2,16 @@ package unipotsdam.gf.modules.assessment.controller.model;
 
 public class Grading {
     private StudentIdentifier studentIdentifier;
-    private int grade;
+    private double grade;
 
     public Grading(){}
 
-    public Grading(StudentIdentifier studentIdentifier, int grade) {
+    public Grading(StudentIdentifier studentIdentifier, double grade) {
         this.studentIdentifier = studentIdentifier;
         this.grade = grade;
     }
 
-    public int getGrade() {
+    public double getGrade() {
         return grade;
     }
 

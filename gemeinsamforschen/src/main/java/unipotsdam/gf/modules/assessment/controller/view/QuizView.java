@@ -18,7 +18,7 @@ public class QuizView implements IPeerAssessment {
     @Override
     public Quiz getQuiz(@PathParam("projectId") String projectId, @PathParam("quizId") String quizId) {
         return peer.getQuiz(projectId, quizId);
-    }
+    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
 
     @POST
     @Produces(MediaType.TEXT_PLAIN)
@@ -41,12 +41,12 @@ public class QuizView implements IPeerAssessment {
     public Assessment getAssessmentDataFromDB(@PathParam("projectId") String projectId,@PathParam("studentId") String studentId){
         StudentIdentifier student = new StudentIdentifier(projectId, studentId);
         return getAssessmentDataFromDB(student);
-    }
+    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
 
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/quiz")
     @Override
     public void createQuiz(StudentAndQuiz studentAndQuiz) {
@@ -54,12 +54,12 @@ public class QuizView implements IPeerAssessment {
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/calculate")
     @Override
-    public List<Grading> calculateAssessment(TotalPerformance totalPerformance) { //todo: maybe the return variable is the problem why it doesnt work.
-        return new ArrayList<Grading>();
+    public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
+        return peer.calculateAssessment(totalPerformance);
     }
 
     @GET
@@ -67,35 +67,36 @@ public class QuizView implements IPeerAssessment {
     @Path("/mean/project/{projectId}")
     @Override
     public int meanOfAssessement(@PathParam("projectId") String ProjectId) {
+
         return peer.meanOfAssessement(ProjectId);
-    }
+    }  ///////////////////////////////return 0//////////////////////////////////
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/total/project/{projectId}/student/{student}")
-    public TotalPerformance getTotalAssessment(@PathParam("projectId") String ProjectId,@PathParam("student") String student){
+    public ArrayList<Performance> getTotalAssessment(@PathParam("projectId") String ProjectId,@PathParam("student") String student){
         StudentIdentifier studentIdentifier = new StudentIdentifier(ProjectId, student);
         return getTotalAssessment(studentIdentifier);
-    };
+    };  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
 
     @Override
-    public TotalPerformance getTotalAssessment(StudentIdentifier studentIdentifier) {
+    public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
         return peer.getTotalAssessment(studentIdentifier);
-    }
+    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
 
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/dummy/totalperformance")
-    public List<TotalPerformance> getTotalAssessment() {
-        ArrayList<TotalPerformance> result = new ArrayList<>();
-        TotalPerformance pf = new TotalPerformance();
-        TotalPerformance pf2 = new TotalPerformance();
+    public List<Performance> getTotalAssessment() {
+        ArrayList<Performance> result = new ArrayList<>();
+        StudentIdentifier student = new StudentIdentifier("projekt","student");
+        int[] quiz = {1,0,1,1,1,0};
+        Performance pf = new Performance(student,quiz,"toller dude",quiz);
+        Performance pf2 = new Performance(student,quiz,"super",quiz);
         result.add(pf);
         result.add(pf2);
         return result;
-        //return peer.getTotalAssessment(studentIdentifier);
-        // TODO fix this
-    }
+    }  ///////////////////////////////returns what i expect it to return!!!!!//////////////////////////////////
 
 }

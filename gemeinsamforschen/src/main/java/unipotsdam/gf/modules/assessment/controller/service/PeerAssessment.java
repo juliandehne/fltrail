@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.assessment.controller.service;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PeerAssessment implements IPeerAssessment {
@@ -27,13 +28,12 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public List<Grading> calculateAssessment(TotalPerformance totalPerformance) {
-
+    public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return null;
     }
 
     @Override
-    public TotalPerformance getTotalAssessment(StudentIdentifier studentIdentifier) {
+    public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
         return null;
     }
 

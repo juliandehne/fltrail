@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,14 +25,13 @@ public class FBAssessement extends AssessmentDAO {
 
     }
 
-
     @Override
-    public List<Grading> calculateAssessment(TotalPerformance totalPerformance){ // calculates marks for every performance and writes it to an array
+    public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return null;
     }
 
     @Override
-    public TotalPerformance getTotalAssessment(StudentIdentifier studentIdentifier) {
+    public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
         return null;
     }
 

@@ -9,6 +9,9 @@ public class StudentIdentifier {
         this.studentId = studentId;
     }
 
+    public StudentIdentifier() {
+    }
+
     public String getProjectId() {
         return projectId;
     }

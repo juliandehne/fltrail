@@ -24,7 +24,7 @@ public class TestAddAssessment {
         workRating[2] = 4;      //Hilfsbereitschaft oder so
 
         StudentIdentifier student = new StudentIdentifier("Spaß", "Haralf");
-        Performance performance = new Performance(quizAnswers,"so ein toller Typ", workRating);
+        Performance performance = new Performance(student, quizAnswers,"so ein toller Typ", workRating);
         Assessment assessment = new Assessment(student, performance);
         iPeerAssessment.addAssessmentDataToDB(assessment);
     }

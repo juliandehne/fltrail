@@ -3,18 +3,27 @@ package unipotsdam.gf.modules.assessment.controller.model;
 import java.util.Arrays;
 
 public class Performance {
+    private StudentIdentifier studentIdentifier;
     private int[] quizAnswer;
     private String feedback;
     private int[] workRating;
 
-    public Performance(int[] quizAnswer, String feedback, int[] workRating) {
-        this.quizAnswer = quizAnswer;
-        this.feedback = feedback;
-        this.workRating = workRating;
+    public Performance(){}
+
+    public Performance(StudentIdentifier student, int[] quiz, String feedback, int[] workRating) {
+        this.studentIdentifier = student;
+        this.quizAnswer = quiz;
+        this.feedback=feedback;
+        this.workRating=workRating;
+
     }
 
-    public Performance() {
+    public StudentIdentifier getStudentIdentifier() {
+        return studentIdentifier;
+    }
 
+    public void setStudentIdentifier(StudentIdentifier studentIdentifier) {
+        this.studentIdentifier = studentIdentifier;
     }
 
     public int[] getQuizAnswer() {
@@ -41,12 +50,15 @@ public class Performance {
         this.workRating = workRating;
     }
 
+
     @Override
     public String toString() {
         return "Performance{" +
-                "quizAnswer=" + Arrays.toString(quizAnswer) +
+                "studentIdentifier=" + studentIdentifier +
+                ", quizAnswer=" + Arrays.toString(quizAnswer) +
                 ", feedback='" + feedback + '\'' +
                 ", workRating=" + Arrays.toString(workRating) +
                 '}';
     }
+
 }

@@ -2,6 +2,7 @@ package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public interface IPeerAssessment {
      *
      * @param totalPerformance @return
      */
-    List<Grading> calculateAssessment(TotalPerformance totalPerformance); // calculates marks for every performance and writes it to an array
+    List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance); // calculates marks for every performance and writes it to an array
 
 
     /**
@@ -47,7 +48,7 @@ public interface IPeerAssessment {
      * @param studentIdentifier
      * @return
      */
-    TotalPerformance getTotalAssessment(StudentIdentifier studentIdentifier);
+    ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier);
 
     /**
      * calculates the mean value of all assessments in a project.
