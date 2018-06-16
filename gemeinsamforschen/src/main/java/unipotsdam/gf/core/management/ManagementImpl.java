@@ -203,7 +203,7 @@ public class ManagementImpl implements Management {
     public Project getProjectById(String id) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM project where id = ?";
+        String mysqlRequest = "SELECT * FROM projects where id = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, id);
         boolean next = vereinfachtesResultSet.next();
