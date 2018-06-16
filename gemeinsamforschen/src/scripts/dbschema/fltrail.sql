@@ -32,10 +32,11 @@ CREATE TABLE if not exists `tags` (
 CREATE TABLE if not exists `users` (
   `name`                varchar(400) NOT NULL,
   `password`            varchar(200) NOT NULL,
-  `email`               varchar(400) NOT NULL,
+  `email`               varchar(255) NOT NULL,
   `token`               varchar(800) NOT NULL,
   `rocketChatId`        varchar(400) NOT NULL,
-  `rocketChatAuthToken` varchar(800) NOT NULL
+  `rocketChatAuthToken` varchar(800) NOT NULL,
+  UNIQUE (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE if not exists projectuser
