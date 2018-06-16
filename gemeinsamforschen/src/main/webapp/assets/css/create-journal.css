@@ -1,35 +1,27 @@
-.jounral-form-container { 
-	height:90vh; 
-	display: grid; 
-	grid-template-rows: 5% 90% 5%; 
-	grid-template-columns: 40% 40% 20%; 
+.journal-form-container {
+	display: grid;
+	grid-gap:  10px;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-areas:
+	"visibility category ..."
+	"editor editor editor"
+	"buttons ... ...."
+	;
 } 
 
-.jounral-form-visibility{
-	grid-column-start:1; 
-	grid-column-end:1; 
-	grid-row-start:1; 
-	grid-row-end:1; 
+.journal-form-visibility{
+	grid-area: visibility;
 }
 
-.jounral-form-category{
-	grid-column-start:2; 
-	grid-column-end:2; 
-	grid-row-start:1; 
-	grid-row-end:1; 
+.journal-form-category{
+	grid-area: category;
 }
 
-.jounral-form-editor{
-	grid-column-start:1; 
-	grid-column-end:3; 
-	grid-row-start:2; 
-	grid-row-end:2; 
+.journal-form-editor{
+	grid-area: editor;
 }
 
-.jounral-form-buttons{
-	grid-column-start:1; 
-	grid-column-end:1; 
-	grid-row-start:3; 
-	grid-row-end:3; 
+.journal-form-buttons{
+	grid-area: buttons;
 }
 
