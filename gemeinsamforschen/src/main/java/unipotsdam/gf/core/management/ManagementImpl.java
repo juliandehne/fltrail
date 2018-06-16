@@ -193,7 +193,7 @@ public class ManagementImpl implements Management {
 
             String mysqlRequest2 =
                     "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), projectId);
+            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), id);
             connect.close();
         }
 
