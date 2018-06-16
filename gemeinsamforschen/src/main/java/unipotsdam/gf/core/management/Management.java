@@ -7,7 +7,7 @@ import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
 import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -44,6 +44,13 @@ public interface Management {
     void delete(Project project);
 
     /**
+     * Update a User in the database
+     *
+     * @param user
+     */
+    void update(User user);
+
+    /**
      * Add an entry in the M:N table linking users and projects
      *
      * @param user
@@ -66,7 +73,7 @@ public interface Management {
      * @param project
      * @return
      */
-    java.util.List<User> getUsers(Project project);
+    List<User> getUsers(Project project);
 
     /**
      * get the token for the user

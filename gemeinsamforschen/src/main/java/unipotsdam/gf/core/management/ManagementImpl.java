@@ -37,9 +37,10 @@ public class ManagementImpl implements Management {
 
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "INSERT INTO users (`name`, `password`, `email`, `token`,`isStudent`) values (?,?,?,?,?)";
+        String mysqlRequest = "INSERT INTO users (`name`, `password`, `email`, `token`,`isStudent`," +
+                "`rocketChatId`,`rocketChatAuthToken`) values (?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
-                token, user.getStudent());
+                token, user.getStudent(), user.getRocketChatId(), user.getRocketChatAuthToken());
         connect.close();
 
         // TODO implmement UserProfile @Mar
@@ -53,7 +54,8 @@ public class ManagementImpl implements Management {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest =
-                "INSERT INTO projects (`id`, `password`, `activ`, `timecreated`, `author`, " + "`adminpassword`, `token`) values (?,?,?,?,?,?,?)";
+                "INSERT INTO projects (`id`, `password`, `activ`, `timecreated`, `author`, "
+                        + "`adminpassword`, `token`) values (?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.getActiv(),
                 project.getTimecreated(), project.getAuthor(), project.getAdminpassword(), token);
         connect.close();
@@ -78,8 +80,19 @@ public class ManagementImpl implements Management {
     }
 
     @Override
+    public void update(User user) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "UPDATE `users` SET `name`=?,`password`=?,`email`=?,`token`=?,`isStudent`=?, `rocketChatId`=?,`rocketChatAuthToken`=? WHERE email=? LIMIT 1";
+        //TODO: maybe add handling if a line is actually updated
+        connect.issueUpdateStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
+                user.getToken(), user.getStudent(), user.getRocketChatId(), user.getRocketChatAuthToken(), user.getEmail());
+        connect.close();
+    }
+
+    @Override
     public Boolean exists(User user) {
-        Boolean result = false;
+        Boolean result;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM users where email = ? and password = ?";
@@ -101,7 +114,7 @@ public class ManagementImpl implements Management {
                         + " JOIN projects p ON pu.projectId = p.id"
                         + " WHERE pu.projectId = ?";
 
-        ArrayList<User> result = new ArrayList<User>();
+        ArrayList<User> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getId());

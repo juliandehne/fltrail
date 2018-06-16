@@ -24,6 +24,8 @@ public class User {
         this.password = password;
         this.email = email;
         this.isStudent = isStudent;
+        this.rocketChatAuthToken = "";
+        this.rocketChatId = "";
     }
 
     public User(String name, String password, String email, String rocketChatId, Boolean isStudent) {

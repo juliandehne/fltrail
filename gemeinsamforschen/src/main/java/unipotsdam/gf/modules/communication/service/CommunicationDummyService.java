@@ -72,7 +72,6 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public boolean loginUser(User user) {
-        user.setRocketChatId("1");
         user.setRocketChatAuthToken("abc");
         return true;
     }
@@ -83,13 +82,21 @@ public class CommunicationDummyService implements ICommunication {
         return true;
     }
 
+    @Override
+    public boolean registerAndLoginUser(User user) {
+        if (!registerUser(user)) {
+            return false;
+        }
+        return loginUser(user);
+
+    }
+
     public String getChatRoomLink(String userToken, String projectToken, String groupToken) {
         //User user = managementService.getUser(userToken);
         // TODO: Implement getProjectbyToken and getGroupByToken
         //Project project = managementService.getProject(projectToken
         String channelName = "general";
-        String fullUrl = Constants.ROCKET_CHAT_URL + "/channel/" + channelName + "?layout=embedded";
-        return fullUrl;
+        return Constants.ROCKET_CHAT_URL + "/channel/" + channelName + "?layout=embedded";
     }
 
     // TODO: remove after done implementing

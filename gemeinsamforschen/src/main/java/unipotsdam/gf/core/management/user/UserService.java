@@ -4,6 +4,8 @@ import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
+import javax.annotation.ManagedBean;
+import javax.inject.Inject;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,7 +16,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @Path("/user")
+@ManagedBean
 public class UserService {
+
+    @Inject
+    private ICommunication communicationService;
 
     /**
      * creates a user with given credentials
@@ -36,13 +42,8 @@ public class UserService {
 
         ManagementImpl management = new ManagementImpl();
         User user = new User(name, password, email, isStudent == null);
-        ICommunication iCommunication = new CommunicationDummyService();
-        boolean chatUserCreated = iCommunication.registerUser(user);
-        if (chatUserCreated) {
-            return login(true, user);
-        } else {
-            return registrationError();
-        }
+        return login(true, user);
+
     }
 
     /**
@@ -87,12 +88,21 @@ public class UserService {
         ManagementImpl management = new ManagementImpl();
         if (management.exists(user)) {
             if (!createUser) {
+                boolean successfulLogin = communicationService.loginUser(user);
+                management.update(user);
+                if (!successfulLogin) {
+                    return loginError();
+                }
                 return redirectToProjectPage(user, management);
             }
             String existsUrl = "../register.jsp?userExists=true";
             return forwardToLocation(existsUrl);
         } else {
             if (createUser) {
+                boolean isRegisteredAndLoggedIn = communicationService.registerAndLoginUser(user);
+                if (!isRegisteredAndLoggedIn) {
+                    return registrationError();
+                }
                 management.create(user, null);
             } else {
                 String existsUrl = "../index.jsp?userExists=false";
