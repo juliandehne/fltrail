@@ -104,9 +104,6 @@ public class ManagementImpl implements Management {
                 connect.issueSelectStatement(mysqlRequest, user.getEmail(), user.getPassword());
         result = vereinfachtesResultSet.next();
         connect.close();
-        if (result == null) {
-            return false;
-        }
         return result;
     }
 
@@ -120,9 +117,6 @@ public class ManagementImpl implements Management {
                 connect.issueSelectStatement(mysqlRequest, project.getId(), project.getAdminPassword());
         result = vereinfachtesResultSet.next();
         connect.close();
-        if (result == null) {
-            return false;
-        }
         return result;
     }
 
