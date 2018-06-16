@@ -68,6 +68,12 @@ public interface Management {
     Boolean exists(User user);
 
     /**
+     * Check if a project exists in the DB
+     */
+
+    Boolean exists(Project project);
+
+    /**
      * Get all the users linked to a project
      *
      * @param project

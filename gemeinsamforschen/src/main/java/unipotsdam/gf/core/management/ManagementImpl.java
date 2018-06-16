@@ -111,6 +111,22 @@ public class ManagementImpl implements Management {
     }
 
     @Override
+    public Boolean exists(Project project) {
+        Boolean result;
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM projects where id = ? and adminPassword = ?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, project.getId(), project.getAdminPassword());
+        result = vereinfachtesResultSet.next();
+        connect.close();
+        if (result == null) {
+            return false;
+        }
+        return result;
+    }
+
+    @Override
     public List<User> getUsers(Project project) {
         String query =
                 "SELECT * FROM users u "
