@@ -3,9 +3,10 @@
 <head>
 	<script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="../assets/css/journal.css">
+	<link rel="stylesheet" type="text/css" href="../assets/css/create-journal.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
 
+	<title>Tagebucheintrag erstellen</title>
 </head>
 <body>
 
@@ -18,7 +19,7 @@
 
 	<div class="jounral-form-container">
 
-		<div class = "visibility">
+		<div class = "jounral-form-visibility">
 			Sichtbarkeit:
 			<select name="visibility" form="journalform">
 				<option value="ALL"> Alle </option>
@@ -28,7 +29,7 @@
 			</select>
 		</div>
 
-		<div class = "category">
+		<div class = "jounral-form-category">
 			Kategorie:
 			<select name="category" form="journalform">
 				<option value="A"> A </option>
@@ -37,18 +38,16 @@
 		</div>
 
 
-		<div class ="editor">
+		<div class ="jounral-form-editor">
 				<textarea id = "editor" name="text" form="journalform" >
 				</textarea>
 		</div>
 
-		<div class="save">
+		<div class="jounral-form-buttons">
 			<input type="submit">
+			<button> Zurü &uuml; k </button>
 		</div>
 
-		<div class="back">
-			<button> Zurück </button>
-		</div>
 	</div>
 </form>
 

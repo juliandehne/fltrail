@@ -5,37 +5,30 @@
 	grid-template-columns: 40% 40% 20%; 
 } 
 
-.visibility{
+.jounral-form-visibility{
 	grid-column-start:1; 
 	grid-column-end:1; 
 	grid-row-start:1; 
 	grid-row-end:1; 
 }
 
-.category{
+.jounral-form-category{
 	grid-column-start:2; 
 	grid-column-end:2; 
 	grid-row-start:1; 
 	grid-row-end:1; 
 }
 
-.editor{
+.jounral-form-editor{
 	grid-column-start:1; 
 	grid-column-end:3; 
 	grid-row-start:2; 
 	grid-row-end:2; 
 }
 
-.save{
+.jounral-form-buttons{
 	grid-column-start:1; 
 	grid-column-end:1; 
-	grid-row-start:3; 
-	grid-row-end:3; 
-}
-
-.back{
-	grid-column-start:2; 
-	grid-column-end:2; 
 	grid-row-start:3; 
 	grid-row-end:3; 
 }

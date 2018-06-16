@@ -1,0 +1,90 @@
+.journal-description-container{
+    height:50vh;
+    display: grid;
+    grid-template-rows: 10% 20% 10% 50%;
+    grid-template-columns: 75% 5% 5% 15%;
+}
+
+.journal-description-title{
+    grid-column-start:1;
+    grid-column-end:1;
+    grid-row-start:1;
+    grid-row-end:1;
+}
+
+.journal-description-edit{
+    grid-column-start:2;
+    grid-column-end:2;
+    grid-row-start:1;
+    grid-row-end:1;
+}
+
+.journal-description-group{
+    grid-column-start:4;
+    grid-column-end:4;
+    grid-row-start:1;
+    grid-row-end:2;
+}
+
+.journal-description-text{
+    grid-column-start:1;
+    grid-column-end:3;
+    grid-row-start:2;
+    grid-row-end:4;
+}
+
+.journal-description-links{
+    grid-column-start:4;
+    grid-column-end:4;
+    grid-row-start:3;
+    grid-row-end:4;
+}
+
+.journal-container{
+    height:50vh;
+    display: grid;
+    grid-template-rows: 10% 90%;
+    grid-template-columns: 20% 30% 25% 5%  5% 15%;
+}
+
+.journal-name{
+    grid-column-start:1;
+    grid-column-end:1;
+    grid-row-start:1;
+    grid-row-end:1;
+}
+
+.journal-date{
+    grid-column-start:2;
+    grid-column-end:2;
+    grid-row-start:1;
+    grid-row-end:1;
+}
+
+.journal-category{
+    grid-column-start:3;
+    grid-column-end:3;
+    grid-row-start:1;
+    grid-row-end:1;
+}
+
+.journal-edit{
+    grid-column-start:4;
+    grid-column-end:4;
+    grid-row-start:1;
+    grid-row-end:1;
+}
+
+.journal-avatar{
+    grid-column-start:1;
+    grid-column-end:1;
+    grid-row-start:2;
+    grid-row-end:2;
+}
+
+.journal-text{
+    grid-column-start:2;
+    grid-column-end:5;
+    grid-row-start:2;
+    grid-row-end:2;
+}
