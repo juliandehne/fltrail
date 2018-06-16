@@ -12,6 +12,7 @@ import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Singleton;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -48,6 +49,7 @@ public class ManagementImpl implements Management {
         // TODO implmement UserProfile @Mar
     }
 
+    // TODO: naming convention discussion? all is named create, but group is named createGroup
     @Override
     public void create(Project project) {
         UUID uuid = UUID.randomUUID();
@@ -58,8 +60,8 @@ public class ManagementImpl implements Management {
         String mysqlRequest =
                 "INSERT INTO projects (`id`, `password`, `activ`, `timecreated`, `author`, "
                         + "`adminpassword`, `token`) values (?,?,?,?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.getActiv(),
-                project.getTimecreated(), project.getAuthor(), project.getAdminpassword(), token);
+        connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.isActive(),
+                project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token);
         connect.close();
     }
 
@@ -141,6 +143,18 @@ public class ManagementImpl implements Management {
         return new User(name, password, email, rocketChatId, rocketChatAuthToken, isStudent);
     }
 
+    private Project getProjectFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
+        String id = vereinfachtesResultSet.getString("id");
+        String password = vereinfachtesResultSet.getString("password");
+        boolean active = vereinfachtesResultSet.getBoolean("active");
+        Timestamp timestamp = vereinfachtesResultSet.getTimestamp("timecreated");
+        String author = vereinfachtesResultSet.getString("author");
+        String adminPassword = vereinfachtesResultSet.getString("adminpassword");
+        String token = vereinfachtesResultSet.getString("token");
+
+        return new Project(id, password, active, timestamp, author, adminPassword, token);
+    }
+
     @Override
     public String getUserToken(User user) {
         MysqlConnect connect = new MysqlConnect();
@@ -160,11 +174,20 @@ public class ManagementImpl implements Management {
 
     @Override
     public User getUserByToken(String token) {
+        return getUserByField("token", token);
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return getUserByField("email", email);
+    }
+
+    private User getUserByField(String field, String value) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM users where token = ?";
+        String mysqlRequest = "SELECT * FROM users where " + field + " = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, token);
+                connect.issueSelectStatement(mysqlRequest, value);
         boolean next = vereinfachtesResultSet.next();
         if (next) {
             User user = getUserFromResultSet(vereinfachtesResultSet);
@@ -177,27 +200,35 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public void createGroup(List<User> groupMembers, String projectId) {
-
-        for (User groupMember : groupMembers) {
-            UUID uuid = UUID.randomUUID();
-            String token = uuid.toString();
-
-            MysqlConnect connect = new MysqlConnect();
-            connect.connect();
-            String mysqlRequest =
-                    "INSERT INTO projects (`projectId`) values (?)";
-            VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectId);
-            vereinfachtesResultSet.next();
-            int id = vereinfachtesResultSet.getInt("id");
-
-            String mysqlRequest2 =
-                    "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), id);
+    public Project getProjectById(String id) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM project where id = ?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, id);
+        boolean next = vereinfachtesResultSet.next();
+        if (next) {
+            Project project = getProjectFromResultSet(vereinfachtesResultSet);
             connect.close();
+            return project;
+        } else {
+            connect.close();
+            return null;
         }
+    }
 
+    @Override
+    public void createGroup(Group group, String projectId) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
 
+        Project project = getProjectById(projectId);
+
+        for (User groupMember : group.getMembers()) {
+            String mysqlRequest2 = "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
+            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), project.getId());
+        }
+        connect.close();
     }
 
     @Override

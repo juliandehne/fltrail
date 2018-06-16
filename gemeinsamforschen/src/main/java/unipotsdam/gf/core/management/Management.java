@@ -91,7 +91,23 @@ public interface Management {
      */
     User getUserByToken(String token);
 
-    void createGroup(List<User> groupMembers, String projectId);
+    /**
+     * get user by its email address
+     *
+     * @param email
+     * @return
+     */
+    User getUserByEmail(String email);
+
+    /**
+     * get project by its id
+     *
+     * @param id
+     * @return
+     */
+    Project getProjectById(String id);
+
+    void createGroup(Group group, String projectId);
 
     void addGroupMember(User groupMember, int groupId);
 

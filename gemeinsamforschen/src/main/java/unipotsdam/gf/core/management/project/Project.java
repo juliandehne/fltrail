@@ -1,7 +1,5 @@
 package unipotsdam.gf.core.management.project;
 
-import org.glassfish.grizzly.http.util.TimeStamp;
-
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -13,25 +11,35 @@ public class Project {
 
     private String id;
     private String password;
-    private String activ;
+    private Boolean active;
     private Timestamp timecreated;
     private String author;
-    private String adminpassword;
+    private String adminPassword;
     private String token;
 
     public Project() {
     }
 
-    public Project(
-            String id, String password, String activ, String author, String adminpassword) {
+    public Project(String id, String password, Boolean active, String author, String adminPassword, String token) {
         this.id = id;
         this.password = password;
-        this.activ = activ;
+        this.active = active;
         this.author = author;
-        this.adminpassword = adminpassword;
+        this.adminPassword = adminPassword;
+        this.token = token;
 
-        Timestamp ts = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC")));
-        this.timecreated = ts;
+        this.timecreated = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC")));
+    }
+
+    public Project(String id, String password, Boolean active, Timestamp timecreated, String author,
+                   String adminPassword, String token) {
+        this.id = id;
+        this.password = password;
+        this.active = active;
+        this.timecreated = timecreated;
+        this.author = author;
+        this.adminPassword = adminPassword;
+        this.token = token;
     }
 
     public String getId() {
@@ -50,12 +58,12 @@ public class Project {
         this.password = password;
     }
 
-    public String getActiv() {
-        return activ;
+    public Boolean isActive() {
+        return active;
     }
 
-    public void setActiv(String activ) {
-        this.activ = activ;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getAuthor() {
@@ -66,12 +74,12 @@ public class Project {
         this.author = author;
     }
 
-    public String getAdminpassword() {
-        return adminpassword;
+    public String getAdminPassword() {
+        return adminPassword;
     }
 
-    public void setAdminpassword(String adminpassword) {
-        this.adminpassword = adminpassword;
+    public void setAdminPassword(String adminPassword) {
+        this.adminPassword = adminPassword;
     }
 
     public String getToken() {

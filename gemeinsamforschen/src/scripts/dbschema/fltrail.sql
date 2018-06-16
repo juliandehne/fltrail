@@ -2,13 +2,13 @@ CREATE DATABASE IF NOT EXISTS `fltrail` DEFAULT CHARACTER SET utf8 COLLATE utf8_
 USE `fltrail`;
 
 CREATE TABLE if not exists `projects` (
-  `id` varchar(400) NOT NULL,
-  `password` varchar(400) NOT NULL,
-  `activ` tinyint(1) NOT NULL,
-  `timecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `author` varchar(400) NOT NULL,
-  `adminpassword` varchar(400) NOT NULL,
-  `token` varchar(400) NOT NULL
+  `id`            varchar(400) NOT NULL,
+  `password`      varchar(400) NOT NULL,
+  `active`        tinyint(1)   NOT NULL,
+  `timecreated`   timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `author`        varchar(400) NOT NULL,
+  `adminPassword` varchar(400) NOT NULL,
+  `token`         varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
