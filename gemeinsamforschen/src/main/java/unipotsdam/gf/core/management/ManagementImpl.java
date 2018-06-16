@@ -11,6 +11,7 @@ import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +21,7 @@ import java.util.UUID;
  */
 @ManagedBean
 @Resource
+@Singleton
 public class ManagementImpl implements Management {
     @Override
     public void delete(StudentIdentifier identifier) {
@@ -133,10 +135,10 @@ public class ManagementImpl implements Management {
         String name = vereinfachtesResultSet.getString("name");
         String password = vereinfachtesResultSet.getString("password");
         String email = vereinfachtesResultSet.getString("email");
-        String rocketChatId = vereinfachtesResultSet.getString("rocketchatid");
+        String rocketChatId = vereinfachtesResultSet.getString("rocketChatId");
+        String rocketChatAuthToken = vereinfachtesResultSet.getString("rocketChatAuthToken");
         Boolean isStudent = vereinfachtesResultSet.getBoolean("isStudent");
-
-        return new User(name, password, email, rocketChatId, isStudent);
+        return new User(name, password, email, rocketChatId, rocketChatAuthToken, isStudent);
     }
 
     @Override
@@ -157,7 +159,7 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public User getUser(String token) {
+    public User getUserByToken(String token) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM users where token = ?";

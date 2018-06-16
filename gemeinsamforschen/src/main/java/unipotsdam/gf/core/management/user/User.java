@@ -28,11 +28,12 @@ public class User {
         this.rocketChatId = "";
     }
 
-    public User(String name, String password, String email, String rocketChatId, Boolean isStudent) {
+    public User(String name, String password, String email, String rocketChatId, String rocketChatAuthToken, Boolean isStudent) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.rocketChatId = rocketChatId;
+        this.rocketChatAuthToken = rocketChatAuthToken;
         this.isStudent = isStudent;
     }
 

@@ -75,7 +75,7 @@ public class ManagementTest {
         user.setStudent(false);
         management.update(user);
         assertTrue(management.exists(user));
-        User managementUser = management.getUser(user.getToken());
+        User managementUser = management.getUserByToken(user.getToken());
         assertEquals(user.getStudent(), managementUser.getStudent());
     }
 

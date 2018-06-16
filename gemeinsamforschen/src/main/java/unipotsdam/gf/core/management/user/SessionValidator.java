@@ -4,7 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.management.ManagementImpl;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -14,18 +19,18 @@ import java.io.IOException;
  */
 public class SessionValidator implements Filter {
 
-    Logger log = LoggerFactory.getLogger(SessionValidator.class);
+    private final static Logger log = LoggerFactory.getLogger(SessionValidator.class);
 
     private void redirectToLogin(ServletRequest request, ServletResponse response) {
         log.debug("redirecting user to login because token does not exist");
         String loginJSP = "../../index.jsp";
         ((HttpServletResponse) response).setHeader("Location", loginJSP);
-        ((HttpServletResponse) response).setContentType("text/html");
+        response.setContentType("text/html");
         ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_FOUND); // SC_FOUND = 302
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 
@@ -37,7 +42,7 @@ public class SessionValidator implements Filter {
             redirectToLogin(request, response);
         }
         ManagementImpl management = new ManagementImpl();
-        User user = management.getUser(token);
+        User user = management.getUserByToken(token);
         if (user == null) {
             redirectToLogin(request, response);
         }

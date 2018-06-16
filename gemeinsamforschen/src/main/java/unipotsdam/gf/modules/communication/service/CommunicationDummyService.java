@@ -84,6 +84,7 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public boolean registerAndLoginUser(User user) {
+        // TODO: try to login user first --> if it fails there is no user, register afterwards or add exists function
         if (!registerUser(user)) {
             return false;
         }
@@ -92,7 +93,7 @@ public class CommunicationDummyService implements ICommunication {
     }
 
     public String getChatRoomLink(String userToken, String projectToken, String groupToken) {
-        //User user = managementService.getUser(userToken);
+        //User user = managementService.getUserByToken(userToken);
         // TODO: Implement getProjectbyToken and getGroupByToken
         //Project project = managementService.getProject(projectToken
         String channelName = "general";

@@ -89,7 +89,7 @@ public interface Management {
      * @param token
      * @return
      */
-    User getUser(String token);
+    User getUserByToken(String token);
 
     void createGroup(List<User> groupMembers, String projectId);
 
