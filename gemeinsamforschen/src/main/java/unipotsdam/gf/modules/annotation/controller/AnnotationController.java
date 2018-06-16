@@ -4,6 +4,7 @@ import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.IAnnotation;
 import unipotsdam.gf.modules.annotation.model.Annotation;
+import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
 
 import java.time.ZonedDateTime;
@@ -45,7 +46,7 @@ public class AnnotationController implements IAnnotation {
     }
 
     @Override
-    public void alterAnnotation(String annotationId, String newBody) {
+    public void alterAnnotation(String annotationId, AnnotationPatchRequest annotationPatchRequest) {
 
         // establish connection
         MysqlConnect connection = new MysqlConnect();
@@ -53,7 +54,7 @@ public class AnnotationController implements IAnnotation {
 
         // build and execute request
         String request = "UPDATE `annotations` SET `body` = ? WHERE `id` = ?";
-        connection.issueUpdateStatement(request, newBody, annotationId);
+        connection.issueUpdateStatement(request, annotationPatchRequest.getBody(), annotationId);
 
         // close connection
         connection.close();
@@ -108,7 +109,7 @@ public class AnnotationController implements IAnnotation {
     }
 
     @Override
-    public ArrayList<Annotation> getAnnotations(ArrayList<Integer> targetIds) {
+    public ArrayList<Annotation> getAnnotations(int targetId) {
 
         // declare annotation ArrayList
         ArrayList<Annotation> annotations = new ArrayList<>();
@@ -117,20 +118,9 @@ public class AnnotationController implements IAnnotation {
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
-        // build request
-        StringBuilder builder = new StringBuilder();
-        builder.append("SELECT * FROM annotations WHERE targetId IN (");
-        for (int i = 0; i < targetIds.size(); i++) {
-            builder.append("?");
-            if (i < targetIds.size() - 1) {
-                builder.append(",");
-            }
-        }
-        builder.append(");");
-        String request = builder.toString();
-
-        // execute request
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, targetIds.toArray(new Integer[targetIds.size()]));
+        // build and execute request
+        String request = "SELECT * FROM annotations WHERE targetId = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, targetId);
 
         while (rs.next()) {
             annotations.add(getAnnotationFromResultSet(rs));
@@ -140,6 +130,7 @@ public class AnnotationController implements IAnnotation {
         connection.close();
 
         return annotations;
+
     }
 
     @Override

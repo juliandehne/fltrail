@@ -13,13 +13,16 @@ public class AnnotationPostRequest {
     private int startCharacter;
     private int endCharacter;
 
-    // constructor
+    // constructors
     public AnnotationPostRequest(int userId, int targetId, String body, int startCharacter, int endCharacter) {
         this.userId = userId;
         this.targetId = targetId;
         this.body = body;
         this.startCharacter = startCharacter;
         this.endCharacter = endCharacter;
+    }
+
+    public AnnotationPostRequest() {
     }
 
     // methods

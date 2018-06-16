@@ -1,6 +1,7 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.annotation.model.Annotation;
+import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public interface IAnnotation {
     /**
      * Adds an annotation to a target and returns the new id
      *
-     * @param annotationPostRequest The new annotation as an Object
+     * @param annotationPostRequest The annotation post request
      * @return Returns the new annotation
      */
     Annotation addAnnotation(AnnotationPostRequest annotationPostRequest);
@@ -23,9 +24,9 @@ public interface IAnnotation {
      * Alters an annotation
      *
      * @param annotationId The id of the original annotation
-     * @param newBody The new body of the annotation
+     * @param annotationPatchRequest The annotation patch request
      */
-    void alterAnnotation(String annotationId, String newBody);
+    void alterAnnotation(String annotationId, AnnotationPatchRequest annotationPatchRequest);
 
     /**
      * Deletes an annotation
@@ -45,10 +46,10 @@ public interface IAnnotation {
     /**
      * Returns all annotations from a target
      *
-     * @param targetIds An ArrayList of target ids
+     * @param targetId the target id
      * @return Returns all annotations
      */
-    ArrayList<Annotation> getAnnotations(ArrayList<Integer> targetIds);
+    ArrayList<Annotation> getAnnotations(int targetId);
 
     /**
      * Checks if an annotation id already exists in the database

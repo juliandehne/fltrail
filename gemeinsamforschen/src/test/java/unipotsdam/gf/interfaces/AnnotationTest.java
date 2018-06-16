@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.model.Annotation;
+import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
 
 import java.util.ArrayList;
@@ -63,7 +64,8 @@ public class AnnotationTest {
         assertEquals("The body of the annotation should be " + oldBody + " but was " + response.getBody(), oldBody, response.getBody());
 
         // alter the annotation and update the database
-        controller.alterAnnotation(response.getId(), newBody);
+        AnnotationPatchRequest annotationPatchRequest = new AnnotationPatchRequest(newBody);
+        controller.alterAnnotation(response.getId(), annotationPatchRequest);
 
         // receive the new annotation
         Annotation newResponse = controller.getAnnotation(response.getId());
@@ -125,6 +127,7 @@ public class AnnotationTest {
         // initialize bodys
         String body1 = "body1_testGetAnnotations";
         String body2 = "body2_testGetAnnotations";
+        String body3 = "body3_testGetAnnotations";
 
         // initialize targetIds
         ArrayList<Integer> targetIds = new ArrayList<>();
@@ -134,21 +137,19 @@ public class AnnotationTest {
         // save new annotations in database
         AnnotationPostRequest request1 = new AnnotationPostRequest(0, targetIds.get(0), body1, 0, 0);
         AnnotationPostRequest request2 = new AnnotationPostRequest(0, targetIds.get(1), body2, 0, 0);
+        AnnotationPostRequest request3 = new AnnotationPostRequest(0, targetIds.get(1), body3, 0, 0);
         controller.addAnnotation(request1);
         controller.addAnnotation(request2);
+        controller.addAnnotation(request3);
 
         // receive the new annotations
-        ArrayList<Annotation> getResponse = controller.getAnnotations(targetIds);
+        ArrayList<Annotation> getResponse = controller.getAnnotations(targetIds.get(1));
 
         // the size of the  getResponse should be 2
         assertEquals("The size of the response should be 2 but was " + getResponse.size(), 2, getResponse.size());
 
-        // initialize new targetIds
-        ArrayList<Integer> targetIdsNew = new ArrayList<>();
-        targetIdsNew.add(-1);
-
         // receive the new annotations
-        ArrayList<Annotation> getResponseNew = controller.getAnnotations(targetIdsNew);
+        ArrayList<Annotation> getResponseNew = controller.getAnnotations(targetIds.get(0));
 
         // the size of the  getResponse should be 2
         assertEquals("The size of the response should be 1 but was " + getResponseNew.size(), 1, getResponseNew.size());
@@ -156,6 +157,7 @@ public class AnnotationTest {
         // delete annotations from database
         controller.deleteAnnotation(getResponse.get(0).getId());
         controller.deleteAnnotation(getResponse.get(1).getId());
+        controller.deleteAnnotation(getResponseNew.get(0).getId());
 
     }
 
