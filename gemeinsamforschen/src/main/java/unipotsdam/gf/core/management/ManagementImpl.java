@@ -58,8 +58,8 @@ public class ManagementImpl implements Management {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest =
-                "INSERT INTO projects (`id`, `password`, `activ`, `timecreated`, `author`, "
-                        + "`adminpassword`, `token`) values (?,?,?,?,?,?,?)";
+                "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `author`, "
+                        + "`adminPassword`, `token`) values (?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.isActive(),
                 project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token);
         connect.close();
