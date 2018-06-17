@@ -1,5 +1,9 @@
 package unipotsdam.gf.modules.annotation.model;
 
+/**
+ * @author Sven Kästle
+ * skaestle@uni-potsdam.de
+ */
 public class AnnotationPatchRequest {
 
     // variables
