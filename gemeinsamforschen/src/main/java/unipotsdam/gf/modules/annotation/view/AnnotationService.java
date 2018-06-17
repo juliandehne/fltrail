@@ -1,11 +1,11 @@
 package unipotsdam.gf.modules.annotation.view;
 
-import com.google.gson.Gson;
 import io.dropwizard.jersey.PATCH;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.model.Annotation;
 import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
+import unipotsdam.gf.modules.annotation.model.AnnotationResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -28,11 +28,7 @@ public class AnnotationService {
         AnnotationController controller = new AnnotationController();
         Annotation annotation = controller.addAnnotation(request);
 
-        // build response
-        Gson gson = new Gson();
-        String response = gson.toJson(annotation);
-
-        return Response.status(201).entity(response).build();
+        return Response.ok(annotation).build();
 
     }
 
@@ -40,9 +36,8 @@ public class AnnotationService {
     @Path("{id}")
     public Response alterAnnotation(@PathParam("id") String annotationId, AnnotationPatchRequest request) {
 
-        // declare response and initialize gson
-        String response;
-        Gson gson = new Gson();
+        // declare response
+        AnnotationResponse response = new AnnotationResponse();
 
         // check if annotation exists
         AnnotationController controller = new AnnotationController();
@@ -51,15 +46,15 @@ public class AnnotationService {
         if (exists) {
             // alter annotation and response 200
             controller.alterAnnotation(annotationId, request);
-            response = gson.toJson("Altered the annotation with the id " + annotationId);
+            response.setMessage("Altered the annotation with the id " + annotationId);
 
-            return Response.status(200).entity(response).build();
+            return Response.ok(response).build();
         }
         else {
             // no annotation with the given id, response 404
-            response = gson.toJson("Annotation with the id '" + annotationId + "' can't be found");
+            response.setMessage("Annotation with the id '" + annotationId + "' can't be found");
 
-            return Response.status(404).entity(response).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }
 
     }
@@ -68,9 +63,8 @@ public class AnnotationService {
     @Path("{id}")
     public Response deleteAnnotation(@PathParam("id") String annotationId) {
 
-        // declare response and initialize gson
-        String response;
-        Gson gson = new Gson();
+        // declare response
+        AnnotationResponse response = new AnnotationResponse();
 
         // check if annotation exists
         AnnotationController controller = new AnnotationController();
@@ -79,16 +73,15 @@ public class AnnotationService {
         if (exists) {
             // delete annotation and response 200
             controller.deleteAnnotation(annotationId);
+            response.setMessage("Deleted the annotation with the id " + annotationId);
 
-            response = gson.toJson("Deleted the annotation with the id " + annotationId);
-
-            return Response.status(204).entity(response).build();
-
+            return Response.ok(response).build();
         }
         else {
             // no annotation with the given id, response 404
-            response = gson.toJson("Annotation with the id '" + annotationId + "' can't be found");
-            return Response.status(404).entity(response).build();
+            response.setMessage("Annotation with the id '" + annotationId + "' can't be found");
+
+            return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }
 
     }
@@ -97,21 +90,19 @@ public class AnnotationService {
     @Path("{id}")
     public Response getAnnotation(@PathParam("id") String annotationId) {
 
-        // declare response and initialize gson
-        String response;
-        Gson gson = new Gson();
-
         // receive the annotation
         AnnotationController controller = new AnnotationController();
         Annotation annotation = controller.getAnnotation(annotationId);
 
         if (annotation != null) {
-            response = gson.toJson(annotation);
-            return Response.status(200).entity(response).build();
+            return Response.ok(annotation).build();
         }
         else {
-            response = gson.toJson("Annotation with the id '" + annotationId + "' can't be found");
-            return Response.status(404).entity(response).build();
+            // declare response
+            AnnotationResponse response = new AnnotationResponse();
+            response.setMessage("Annotation with the id '" + annotationId + "' can't be found");
+
+            return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }
 
     }
@@ -120,21 +111,19 @@ public class AnnotationService {
     @Path("/target/{id}")
     public Response getAnnotations(@PathParam("id") int targetId) {
 
-        // declare response and initialize gson
-        String response;
-        Gson gson = new Gson();
-
         // receive the annotation
         AnnotationController controller = new AnnotationController();
         ArrayList<Annotation> annotations = controller.getAnnotations(targetId);
 
         if (!annotations.isEmpty()) {
-            response = gson.toJson(annotations);
-            return Response.status(200).entity(response).build();
+            return Response.ok(annotations).build();
         }
         else {
-            response = gson.toJson("Found no annotations for the target id '" + targetId + "'");
-            return Response.status(404).entity(response).build();
+            // declare response
+            AnnotationResponse response = new AnnotationResponse();
+            response.setMessage("Found no annotations for the target id '" + targetId + "'");
+
+            return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }
 
     }
