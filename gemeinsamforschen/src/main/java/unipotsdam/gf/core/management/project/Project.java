@@ -20,6 +20,16 @@ public class Project {
     public Project() {
     }
 
+    public Project(String id, String password, Boolean active, String author, String adminPassword) {
+        this.id = id;
+        this.password = password;
+        this.active = active;
+        this.author = author;
+        this.adminPassword = adminPassword;
+
+        this.timecreated = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC")));
+    }
+
     public Project(String id, String password, Boolean active, String author, String adminPassword, String token) {
         this.id = id;
         this.password = password;

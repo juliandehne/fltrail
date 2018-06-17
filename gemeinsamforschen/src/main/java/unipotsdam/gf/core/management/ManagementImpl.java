@@ -165,6 +165,13 @@ public class ManagementImpl implements Management {
         return new Project(id, password, active, timestamp, author, adminPassword, token);
     }
 
+    private Group getGroupFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
+        int id = vereinfachtesResultSet.getInt("id");
+        String projectId = vereinfachtesResultSet.getString("projectId");
+        String chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
+        // TODO: determine how to get all User
+        return new Group(id, new ArrayList<>(), projectId, chatRoomId);
+    }
     @Override
     public String getUserToken(User user) {
         MysqlConnect connect = new MysqlConnect();
@@ -227,6 +234,7 @@ public class ManagementImpl implements Management {
         }
     }
 
+
     @Override
     public void createGroup(Group group, String projectId) {
         MysqlConnect connect = new MysqlConnect();
@@ -252,7 +260,23 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public List<Group> getGroups(String projectId) {
-        return null;
+    public List<Group> getGroupsByProjectId(String projectId) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        // TODO: implement correct join and finish implementation
+        String mysqlRequest = "SELECT * FROM groups g " +
+                "JOIN groupuser gu u ON g.id=gu.groupId " + "JOIN users u ON gu.userEmail=u.email" +
+                "where g.projectId = ?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, projectId);
+        ArrayList<Group> groups = new ArrayList<>();
+        while (vereinfachtesResultSet.next()) {
+            //groups.add()
+        }
+        if (groups.isEmpty()) {
+            return null;
+        } else {
+            return groups;
+        }
     }
 }

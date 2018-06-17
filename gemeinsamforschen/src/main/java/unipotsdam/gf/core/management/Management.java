@@ -119,6 +119,6 @@ public interface Management {
 
     void deleteGroupMember(User groupMember, int groupId);
 
-    List<Group> getGroups(String projectId);
+    List<Group> getGroupsByProjectId(String projectId);
 }
 
