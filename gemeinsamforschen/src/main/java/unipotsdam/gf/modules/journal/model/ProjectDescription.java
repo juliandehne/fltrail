@@ -16,14 +16,14 @@ public class ProjectDescription {
     String name;
     String description;
     Project project;
-    ArrayList<Map<String,String>> links ;
-    ArrayList<StudentIdentifier> group;
+    Map<String,String> links;
+    ArrayList<String> group;
     long timestamp;
 
     public ProjectDescription() {
     }
 
-    public ProjectDescription(long id, String name, String description, Project project, ArrayList<Map<String, String>> links, ArrayList<StudentIdentifier> group, long timestamp) {
+    public ProjectDescription(long id, String name, String description, Project project, Map<String, String> links, ArrayList<String> group, long timestamp) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -65,19 +65,19 @@ public class ProjectDescription {
         this.project = project;
     }
 
-    public ArrayList<Map<String, String>> getLinks() {
+    public Map<String, String> getLinks() {
         return links;
     }
 
-    public void setLinks(ArrayList<Map<String, String>> links) {
+    public void setLinks(Map<String, String> links) {
         this.links = links;
     }
 
-    public ArrayList<StudentIdentifier> getGroup() {
+    public ArrayList<String> getGroup() {
         return group;
     }
 
-    public void setGroup(ArrayList<StudentIdentifier> group) {
+    public void setGroup(ArrayList<String> group) {
         this.group = group;
     }
 

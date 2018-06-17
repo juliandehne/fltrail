@@ -128,10 +128,15 @@ public class DummyJournalService implements JournalService {
         StudentIdentifier studentIdentifier2 = new StudentIdentifier("0","1");
 
         Journal j1 = new Journal(0,studentIdentifier,"test", cal.getTimeInMillis() , Visibility.ALL, "test1");
+        j1.setCreator("Test Test");
         Journal j2 = new Journal(1,studentIdentifier,"test2", cal.getTimeInMillis() , Visibility.NONE, "test2");
+        j2.setCreator("Test Test");
         Journal j3 = new Journal(2,studentIdentifier,"test3", cal.getTimeInMillis() , Visibility.GROUP, "test3");
+        j3.setCreator("Test Test");
         Journal j4 = new Journal(3,studentIdentifier,"test4", cal.getTimeInMillis() , Visibility.DOZENT ,"test4");
+        j4.setCreator("Test Test");
         Journal j5 = new Journal(4,studentIdentifier2,"test5", cal.getTimeInMillis() , Visibility.GROUP, "test5");
+        j5.setCreator("ASD DSA");
 
         journals = new ArrayList<>();
 

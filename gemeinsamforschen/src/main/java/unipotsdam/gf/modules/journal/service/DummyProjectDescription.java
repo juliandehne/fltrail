@@ -13,24 +13,21 @@ import java.util.Map;
 public class DummyProjectDescription implements ProjectDescriptionService {
 
     ArrayList<Map<String,String>> links;
-    ArrayList<StudentIdentifier> group;
+    ArrayList<String> group;
     ProjectDescription testProject;
 
     public DummyProjectDescription(){
 
         links = new ArrayList();
-        HashMap<String,String> l1 = new HashMap<>();
-        HashMap<String,String> l2 = new HashMap<>();
-        l1.put("Test", "www.test.de");
-        l2.put("Google", "www.google.de");
-        links.add(l1);
-        links.add(l2);
+        HashMap<String,String> link = new HashMap<>();
+        link.put("Test", "www.test.de");
+        link.put("Google", "www.google.de");
 
         group = new ArrayList<>();
-        group.add(new StudentIdentifier("0","0"));
-        group.add(new StudentIdentifier("0","1"));
+        group.add("Test Person");
+        group.add("Person Test");
 
-        testProject = new ProjectDescription(0,"Test","Testdesription", new Project(), links, group, new Date().getTime());
+        testProject = new ProjectDescription(0,"Test","Testdesription", new Project(), link, group, new Date().getTime());
     }
 
 

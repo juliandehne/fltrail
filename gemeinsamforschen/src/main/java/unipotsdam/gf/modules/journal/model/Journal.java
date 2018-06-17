@@ -9,6 +9,7 @@ public class Journal {
 
     long id;
     StudentIdentifier studentIdentifier;
+    String creator;
     String entry;
     long timestamp;
     Visibility visibility;
@@ -19,6 +20,7 @@ public class Journal {
     public Journal(long id, StudentIdentifier studentIdentifier, String entry, long timestamp, Visibility visibility, String category) {
         this.id = id;
         this.studentIdentifier = studentIdentifier;
+        // TODO setName per StudentID
         this.entry = entry;
         this.timestamp = timestamp;
         this.visibility = visibility;
@@ -73,11 +75,20 @@ public class Journal {
         this.category = category;
     }
 
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
     @Override
     public String toString() {
         return "Journal{" +
                 "id=" + id +
                 ", studentIdentifier=" + studentIdentifier +
+                ", creator='" + creator + '\'' +
                 ", entry='" + entry + '\'' +
                 ", timestamp=" + timestamp +
                 ", visibility=" + visibility +
