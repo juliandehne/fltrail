@@ -2,10 +2,10 @@ package unipotsdam.gf.modules.assessment;
 
 import org.junit.Test;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.Assessment;
-import unipotsdam.gf.modules.assessment.controller.FBAssessement;
-import unipotsdam.gf.modules.assessment.controller.Performance;
-import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.Assessment;
+import unipotsdam.gf.modules.assessment.controller.service.FBAssessement;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 public class TestAddAssessment {
 
@@ -24,7 +24,7 @@ public class TestAddAssessment {
         workRating[2] = 4;      //Hilfsbereitschaft oder so
 
         StudentIdentifier student = new StudentIdentifier("Spaß", "Haralf");
-        Performance performance = new Performance(quizAnswers,"so ein toller Typ", workRating);
+        Performance performance = new Performance(student, quizAnswers,"so ein toller Typ", workRating);
         Assessment assessment = new Assessment(student, performance);
         iPeerAssessment.addAssessmentDataToDB(assessment);
     }
