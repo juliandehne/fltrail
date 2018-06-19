@@ -41,4 +41,14 @@ public class PeerAssessment implements IPeerAssessment {
     public int meanOfAssessement(String ProjectId) {
         return 0;
     }
+
+    @Override
+    public ArrayList<Quiz> getQuiz(String projectId) {
+        return null;
+    }
+
+    @Override
+    public void postPeerRating(String projectId, String groupId, ArrayList<PeerRating> peerRatings) {
+
+    }
 }

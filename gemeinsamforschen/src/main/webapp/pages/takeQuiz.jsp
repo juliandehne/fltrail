@@ -1,3 +1,4 @@
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
 <!DOCTYPE html>
 <html>
 
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../assets/js/takeQuiz.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
@@ -16,70 +18,34 @@
 </head>
 
 <body>
+
+
 <div id="wrapper">
-    <div id="sidebar-wrapper">
-        <ul class="sidebar-nav">
-            <li class="sidebar-brand"><a href="#">overview</a></li>
-            <li><a href="#">Quizfrage</a></li>
-            <li><a href="#">ePortfolio</a></li>
-            <li><a href="#">Beitrag</a></li>
-            <li><a href="#">Bewertung</a></li>
-            <li><a href="#">Logout</a></li>
-        </ul>
-    </div>
+    <menu:menu></menu:menu>
     <div class="page-content-wrapper">
         <div class="container-fluid">
-            <h1>gemeinsam Forschen
-            <a href="#">
+            <h1 id="projectId">project1
+                <a href="#">
                 <span class="glyphicon glyphicon-envelope"
                       style="font-size:27px;margin-top:-17px;margin-left:600px;"></span>
-            </a>
-            <a href="#">
-                <span class="glyphicon glyphicon-cog" style="font-size:29px;margin-left:5px;margin-top:-25px;"></span>
-            </a></h1>
+                </a>
+                <a href="#">
+                    <span class="glyphicon glyphicon-cog" style="font-size:29px;margin-left:5px;margin-top:-25px;"></span>
+                </a></h1>
         </div>
         <div>
             <table>
                 <tr>
                     <td  id="yourContent">
-                        <h1>your content guys and girls!</h1>
+                        <h1>Quiz for project1 </h1>
                         <!-- here will be all the content -->
-                        <table>
-                            <tr>
-                                <td>
-                                    <h3>student1</h3>
-                                    <img src="../assets/img/1.jpg">
-                                    <a href="#">student1@uni.de</a>
-                                    <hr>
-                                    <ul>
-                                        <li>Projektübersicht hochgeladen</li>
-                                        <li>Blumen ins Hausaufgabenheft geklebt</li>
-                                    </ul>
-                                </td>
-                                <td> </td>
-                                <td>
-                                    <h3>student2</h3>
-                                    <img src="../assets/img/2.jpg">
-                                    <a href="#">student2@uni.de</a>
-                                    <hr>
-                                    <ul>
-                                        <li>feedback zu Herbarium im Hausaufgabenheft gegeben</li>
-                                        <li>Blumen an Vegetarier verfüttert</li>
-                                        <li>Die armen Vegetarier</li>
-                                    </ul>
-                                </td>
-                                <td> </td>
-                                <td>
-                                    <h3>student3</h3>
-                                    <img src="../assets/img/3.jpg">
-                                    <a href="#">student3@uni.de</a>
-                                    <hr>
-                                    <ul>
-                                        <li>Viva la Floristika</li>
-                                    </ul>
-                                </td>
-                            </tr>
+
+                        <table class="table-striped">
+                            <tbody id="tableQuiz">
+
+                            </tbody>
                         </table>
+                        <button id="submitQuiz" class="btn btn-success">Antwort speichern</button>
                     </td>
                     <td  id="chat">
                         <div class="card">

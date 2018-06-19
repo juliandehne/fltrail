@@ -1,3 +1,5 @@
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +11,6 @@
 <body>
 <button id="calculateNow">Post Performance</button>
 <button id="giveItBack">Get TotalPerformance</button>
-
+<menu:menu></menu:menu>
 </body>
 </html>

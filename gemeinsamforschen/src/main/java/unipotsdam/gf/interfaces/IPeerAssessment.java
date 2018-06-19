@@ -57,4 +57,21 @@ public interface IPeerAssessment {
      * @return
      */
     int meanOfAssessement(String ProjectId);
+
+    /**
+     * returns all quizzes in a project
+     *
+     * @param projectId
+     * @return all quizzes in projectId
+     */
+    ArrayList<Quiz> getQuiz(String projectId);
+
+    /**
+     * writes the peerRatings into db
+     *
+     * @param projectId
+     * @param groupId
+     * @param peerRatings
+     */
+    void postPeerRating(String projectId, String groupId, ArrayList<PeerRating> peerRatings);
 }

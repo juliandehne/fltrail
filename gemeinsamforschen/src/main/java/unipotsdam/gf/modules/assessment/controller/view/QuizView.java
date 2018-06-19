@@ -20,6 +20,22 @@ public class QuizView implements IPeerAssessment {
         return peer.getQuiz(projectId, quizId);
     }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/project/{projectId}/quiz")
+    @Override
+    public ArrayList<Quiz> getQuiz(@PathParam("projectId") String projectId) {
+        return peer.getQuiz(projectId);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/peer/project/{projectId}/group/{groupId}")
+    @Override
+    public void postPeerRating(@PathParam("projectId") String projectId, @PathParam("groupId") String groupId, ArrayList<PeerRating> peerRatings){
+        peer.postPeerRating(projectId,groupId,peerRatings);
+    }
+
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -77,7 +93,7 @@ public class QuizView implements IPeerAssessment {
     public ArrayList<Performance> getTotalAssessment(@PathParam("projectId") String ProjectId,@PathParam("student") String student){
         StudentIdentifier studentIdentifier = new StudentIdentifier(ProjectId, student);
         return getTotalAssessment(studentIdentifier);
-    };  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
+    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
 
     @Override
     public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {

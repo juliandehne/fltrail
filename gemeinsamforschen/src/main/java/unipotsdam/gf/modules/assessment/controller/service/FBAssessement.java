@@ -47,4 +47,14 @@ public class FBAssessement extends AssessmentDAO {
     public int meanOfAssessement(String projectId) {
         return 0;
     }
+
+    @Override
+    public ArrayList<Quiz> getQuiz(String projectId) {
+        return null;
+    }
+
+    @Override
+    public void postPeerRating(String projectId, String groupId, ArrayList<PeerRating> peerRatings) {
+
+    }
 }

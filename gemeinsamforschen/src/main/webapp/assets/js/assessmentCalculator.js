@@ -65,7 +65,6 @@ $(document).ready(function () {
             url: "http://localhost:8080/gemeinsamforschen/rest/assessments/calculate",
             type: 'POST',
             headers: {
-                "Authorization": "Basic YeahSomethingInAWrap",
                 "Content-Type": "application/json",
                 "Cache-Control": "no-cache"
             },
