@@ -1,22 +1,24 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by dehne on 18.05.2018.
- */
-public class FBAssessement extends AssessmentDAO {
-
+public class PeerAssessment implements IPeerAssessment {
     @Override
     public void addAssessmentDataToDB(Assessment assessment) {
-        // write it to db
+
     }
 
     @Override
     public Quiz getQuiz(String projectId, String groupId) {
+        return null;
+    }
+
+    @Override
+    public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
         return null;
     }
 
@@ -35,16 +37,8 @@ public class FBAssessement extends AssessmentDAO {
         return null;
     }
 
-    public void createQuiz(StudentIdentifier student, String question, String[] answers){  //writes a new question into the DB
-
-    }
-
-    public boolean permission(int feedbackCount){
-        return true;
-    }
-
     @Override
-    public int meanOfAssessement(String projectId) {
+    public int meanOfAssessement(String ProjectId) {
         return 0;
     }
 

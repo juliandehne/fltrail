@@ -1,9 +1,9 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.modules.assessment.controller.Assessment;
-import unipotsdam.gf.modules.assessment.controller.Performance;
-import unipotsdam.gf.modules.assessment.controller.Quiz;
-import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by dehne on 18.05.2018.
@@ -17,6 +17,7 @@ public interface IPeerAssessment {
      */
     void addAssessmentDataToDB(Assessment assessment);
 
+    Quiz getQuiz(String projectId, String groupId);
     /**
      * will return a saved assessment from the DB
      *
@@ -28,19 +29,26 @@ public interface IPeerAssessment {
     /**
      * writes a quiz-question into the DB so other students can benefit from another's insights.
      *
-     * @param student
-     * @param quiz
+     * @param studentAndQuiz
      */
-    void createQuiz(StudentIdentifier student, Quiz quiz);
+    void createQuiz(StudentAndQuiz studentAndQuiz);
 
     /**
      * calculate grades for everyone in a list.
      * either it will be overwritten by choice of co- or peer-assessment or it gets a parameter which specifies it.
      *
-     * @param performanceOfAllStudents
+     *
+     * @param totalPerformance @return
+     */
+    List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance); // calculates marks for every performance and writes it to an array
+
+
+    /**
+     *
+     * @param studentIdentifier
      * @return
      */
-    int[] calculateAssessment(Performance[] performanceOfAllStudents); // calculates marks for every performance and writes it to an array
+    ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier);
 
     /**
      * calculates the mean value of all assessments in a project.
@@ -49,4 +57,21 @@ public interface IPeerAssessment {
      * @return
      */
     int meanOfAssessement(String ProjectId);
+
+    /**
+     * returns all quizzes in a project
+     *
+     * @param projectId
+     * @return all quizzes in projectId
+     */
+    ArrayList<Quiz> getQuiz(String projectId);
+
+    /**
+     * writes the peerRatings into db
+     *
+     * @param projectId
+     * @param groupId
+     * @param peerRatings
+     */
+    void postPeerRating(String projectId, String groupId, ArrayList<PeerRating> peerRatings);
 }

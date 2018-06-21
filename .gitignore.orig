@@ -19,4 +19,8 @@
 **/.classpath
 /.idea/vcs.xml
 /.idea/workspace.xml
+<<<<<<< HEAD
+**/.idea
+=======
 /.idea/workspace.xml
+>>>>>>> PeerAssessmentAxel
