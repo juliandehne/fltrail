@@ -16,7 +16,7 @@ public class Menu extends SimpleTagSupport {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String token = request.getParameter("token");
-        User user =  management.getUser(token);
+        User user =  management.getUserByToken(token);
         JspWriter out = getJspContext().getOut();
         Boolean isStudent = user.getStudent();
         if (isStudent){
