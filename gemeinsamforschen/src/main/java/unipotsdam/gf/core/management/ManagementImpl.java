@@ -236,11 +236,15 @@ public class ManagementImpl implements Management {
 
 
     @Override
-    public void createGroup(Group group, String projectId) {
+    public void create(Group group, String projectId) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
 
         Project project = getProjectById(projectId);
+
+        Group newGroup = new Group(projectId);
+        String mysqlRequestGroup = "INSERT INTO groups (`projectId`,`chatRoomId`) values (?,?)";
+        connect.issueInsertOrDeleteStatement(mysqlRequestGroup, newGroup.getProjectId(), newGroup.getChatRoomId());
 
         for (User groupMember : group.getMembers()) {
             String mysqlRequest2 = "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
