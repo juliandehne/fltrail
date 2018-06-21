@@ -88,7 +88,9 @@ public class User {
     public String getRocketChatAuthToken() {
         return rocketChatAuthToken;
     }
-
+    public boolean istStudent(){
+        return isStudent;
+}
     public void setRocketChatAuthToken(String rocketChatAuthToken) {
         this.rocketChatAuthToken = rocketChatAuthToken;
     }

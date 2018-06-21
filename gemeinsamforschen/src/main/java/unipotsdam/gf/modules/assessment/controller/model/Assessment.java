@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
+import unipotsdam.gf.core.management.user.User;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
@@ -40,5 +42,10 @@ public class Assessment {
                 "student=" + student +
                 ", performance=" + performance +
                 '}';
+    }
+
+    public void setAssessment(User tim, Assessment assessment) {
+
+
     }
 }

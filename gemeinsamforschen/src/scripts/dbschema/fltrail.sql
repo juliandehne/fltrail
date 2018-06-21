@@ -31,6 +31,13 @@ CREATE TABLE `users` (
   `token` varchar(800) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `assessments` (
+  `bewertung` int(200) NOT NULL,
+  `BewertenderId` varchar(200) NOT NULL,
+  `BewerteterId` varchar(200) NOT NULL,
+  `StuoGrp` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE projectuser
         (
           projectId varchar(400) NOT NULL,

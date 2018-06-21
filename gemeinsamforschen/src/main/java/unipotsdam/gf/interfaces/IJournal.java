@@ -1,6 +1,7 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
+//import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 /**
  * Interface for learning journal
