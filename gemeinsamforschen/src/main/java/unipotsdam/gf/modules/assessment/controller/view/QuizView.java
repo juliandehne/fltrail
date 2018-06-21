@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.modules.assessment.controller.model.Assessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 
