@@ -6,12 +6,10 @@ import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserProfile;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by dehne on 01.06.2018.
@@ -19,16 +17,15 @@ import static org.junit.Assert.*;
 public class ManagementTest {
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete() {
 
     }
 
     /**
      *  CREATE a user in the DB using the
-     * @throws Exception
      */
     @Test
-    public void testExists() throws Exception {
+    public void testExists() {
         ManagementImpl management = new ManagementImpl();
         User user = new User("julian", "1234", "from1123123123@stuff.com", true);
         assert !management.exists(user);
@@ -36,10 +33,9 @@ public class ManagementTest {
 
     /**
      *  CREATE a user in the DB using the
-     * @throws Exception
      */
     @Test
-    public void testCreate() throws Exception {
+    public void testCreate() {
         ManagementImpl management = new ManagementImpl();
         User user = new User("julian", "1234", "from@stuff.com", false);
         management.create(user, new UserProfile());
@@ -48,35 +44,49 @@ public class ManagementTest {
 
     /**
      * Test creating a user in the DB
-     * @throws Exception
      */
     @Test
-    public void testCreate1() throws Exception {
+    public void testCreate1() {
         ManagementImpl management = new ManagementImpl();
-        management.create(new Project("Gemainsam Forschen", "1235", "1", "me", "keins"));
+        management.create(new Project("Gemainsam Forschen", "1235", true, "me", "keins"));
 
     }
 
     @Test
-    public void testRegister() throws Exception {
+    public void testRegister() {
         ManagementImpl management = new ManagementImpl();
         User user = new User("julian", "1234", "from@stuff.com", true);
         management.create(user, new UserProfile());
         assert management.exists(user);
 
-        Project project = new Project("Gemainsam Forschen", "1235", "1", "me", "keins");
+        Project project = new Project("Gemainsam Forschen", "1235", true, "me", "keins");
         management.create(project);
         management.register(user, project, null);
     }
 
     @Test
-    public void testGetUsers() throws Exception {
+    public void testUpdateUser() {
+        ManagementImpl management = new ManagementImpl();
+        User user = new User("julian", "1234", "testUpdateUser@stuff.com", true);
+        user.setToken("abc");
+        management.create(user, new UserProfile());
+        assertTrue(management.exists(user));
+
+        user.setStudent(false);
+        management.update(user);
+        assertTrue(management.exists(user));
+        User managementUser = management.getUserByToken(user.getToken());
+        assertEquals(user.getStudent(), managementUser.getStudent());
+    }
+
+    @Test
+    public void testGetUsers() {
         ManagementImpl management = new ManagementImpl();
         User user = new User("julian", "1234", "from@stuff.com", false);
         management.create(user, new UserProfile());
         assert management.exists(user);
 
-        Project project = new Project("Gemainsam Forschen", "1235", "1", "me", "keins");
+        Project project = new Project("Gemainsam Forschen", "1235", true, "me", "keins");
         management.create(project);
         management.register(user, project, null);
 

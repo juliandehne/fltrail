@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ taglib prefix = "communication" uri = "/communication/chatWindow.tld"%>
 <html>
 
 <head>
@@ -128,6 +129,7 @@
                 </div>
             </div>
         </div>
+    <communication:chatWindow orientation="right"></communication:chatWindow>
         <script src="../assets/js/jquery.min.js"></script>
         <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
