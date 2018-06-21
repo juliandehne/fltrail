@@ -88,11 +88,7 @@ public class UserService {
         ManagementImpl management = new ManagementImpl();
         if (management.exists(user)) {
             if (!createUser) {
-                ManagementImpl m = new ManagementImpl();
-                String token = m.getUserToken(user);
-                user = m.getUser(token);
-                    return loginError();
-                }
+                user = fillUserFields(user);
                 return redirectToProjectPage(user, management);
             }
             String existsUrl = "../register.jsp?userExists=true";
@@ -104,15 +100,21 @@ public class UserService {
                     return registrationError();
                 }
                 management.create(user, null);
+                user = fillUserFields(user);
+                return redirectToProjectPage(user, management);
             } else {
                 String existsUrl = "../index.jsp?userExists=false";
                 return forwardToLocation(existsUrl);
             }
-            ManagementImpl m = new ManagementImpl();
-            String token = m.getUserToken(user);
-            user = m.getUser(token); //todo: write query to get user isStudent
-            return redirectToProjectPage(user, management);
+
         }
+    }
+
+    private User fillUserFields(User user) {
+        ManagementImpl m = new ManagementImpl();
+        String token = m.getUserToken(user);
+        user = m.getUserByToken(token);
+        return user;
     }
 
     private Response registrationError() throws URISyntaxException {
