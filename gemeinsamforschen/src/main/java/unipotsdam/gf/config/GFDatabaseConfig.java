@@ -1,4 +1,4 @@
-package unipotsdam.gf;
+package unipotsdam.gf.config;
 
 /**
  * Created by dehne on 31.05.2018.
