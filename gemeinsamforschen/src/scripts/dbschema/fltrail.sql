@@ -1,34 +1,45 @@
-CREATE DATABASE IF NOT EXISTS `fltrail` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE IF NOT EXISTS `fltrail`
+  DEFAULT CHARACTER SET utf8
+  COLLATE utf8_general_ci;
 USE `fltrail`;
 
 CREATE TABLE if not exists `projects` (
   `id`            varchar(400) NOT NULL,
   `password`      varchar(400) NOT NULL,
   `active`        tinyint(1)   NOT NULL,
-  `timecreated`   timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `timecreated`   timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
   `author`        varchar(400) NOT NULL,
   `adminPassword` varchar(400) NOT NULL,
   `token`         varchar(400) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 
 CREATE TABLE if not exists `groups` (
   `id`         int          NOT NULL AUTO_INCREMENT,
   `projectId`  varchar(400) NOT NULL,
   `chatRoomId` varchar(400) NOT NULL,
-   PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (id)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists groupuser
-        (
-          userEmail varchar(400) NOT NULL,
-          groupId int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+(
+  userEmail varchar(400) NOT NULL,
+  groupId   int          NOT NULL
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists `tags` (
   `projectId` varchar(400) NOT NULL,
-  `tag` varchar(400) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `tag`       varchar(400) NOT NULL
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists `users` (
   `name`                varchar(400) NOT NULL,
@@ -38,13 +49,17 @@ CREATE TABLE if not exists `users` (
   `rocketChatId`        varchar(400) NOT NULL,
   `rocketChatAuthToken` varchar(800) NOT NULL,
   UNIQUE (email)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists projectuser
-        (
-          projectId varchar(400) NOT NULL,
-          userId varchar(400) NOT NULL
-)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+(
+  projectId varchar(400) NOT NULL,
+  userId    varchar(400) NOT NULL
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 alter table users
   add isStudent tinyint(1) default '1' null;
