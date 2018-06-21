@@ -3,10 +3,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>assessment calculator</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="../assets/js/assessmentCalculator.js"></script>
+    <script src="../assets/js/utility.js"></script>
 </head>
 <body>
 <button id="calculateNow">Post Performance</button>

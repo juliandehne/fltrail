@@ -8,13 +8,13 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
-
+                                            //todo: isStudent is false for docents. use this for dynamic menus
 public class Menu extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
         JspWriter out = getJspContext().getOut();
         out.println("<div id=\"sidebar-wrapper\">\n" +
                 "        <ul class=\"sidebar-nav\">\n" +
-                "            <li class=\"sidebar-brand\"><a href=\"project-student.jspjsp\">overview</a></li>\n" +
+                "            <li class=\"sidebar-brand\"><a href=\"project-student.jsp\">overview</a></li>\n" +
                 "            <li><a href=\"takeQuiz.jsp\">Quizfrage</a></li>\n" +
                 "            <li><a href=\"#\">ePortfolio</a></li>\n" +
                 "            <li><a href=\"#\">Beitrag</a></li>\n" +
