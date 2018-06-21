@@ -10,8 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.security.acl.Group;
 import java.util.ArrayList;
 
-@XmlRootElement
-package unipotsdam.gf.modules.assessment.controller.model;
+
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
