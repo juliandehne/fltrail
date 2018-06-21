@@ -40,6 +40,8 @@
                         <h1>Quiz for project1 </h1>
                         <!-- here will be all the content -->
 
+
+
                         <table class="table-striped">
                             <tbody id="tableQuiz">
 
@@ -110,10 +112,6 @@
         </div>
     </div>
 </div>
-
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
 </body>
 
 </html>

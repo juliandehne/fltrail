@@ -32,17 +32,18 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     public ArrayList<Quiz> getQuiz(String projectId) {
-        String[] correctAnswers = new String[2];
+        String[] correctAnswers1 = new String[2];
         ArrayList<Quiz> sampleQuiz = new ArrayList<Quiz>();
-        correctAnswers[0] = "42";
-        correctAnswers[1] = "" + projectId + " 24";
+        correctAnswers1[0] = "42";
+        correctAnswers1[1] = "" + projectId + " 24";
         String[] wrongAnswers = {"a god created creature", "a sum of my mistakes"};
-        sampleQuiz.add(new Quiz("multiple", "Who am I and if so, how many?", correctAnswers, wrongAnswers));
+        sampleQuiz.add(new Quiz("multiple", "Who am I and if so, how many?", correctAnswers1, wrongAnswers));
 
-        correctAnswers[0] = "ja, nicht?!";
-        correctAnswers[1] = "nee, oder doch?!";
+        String[] correctAnswers2 = new String[2];
+        correctAnswers2[0] = "ja, nicht?!";
+        correctAnswers2[1] = "nee, oder doch?!";
         wrongAnswers = new String[]{"Mephistopheles", "Der alte Hexenmeister!?", "Der Schimmelreiter", "alle beide"};
-        sampleQuiz.add(new Quiz("multiple", "Ist das nun des Pudels wahrer Kern?", correctAnswers, wrongAnswers));
+        sampleQuiz.add(new Quiz("multiple", "Ist das nun des Pudels wahrer Kern?", correctAnswers2, wrongAnswers));
 
         return sampleQuiz;
 }

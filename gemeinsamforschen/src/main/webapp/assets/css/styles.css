@@ -104,6 +104,10 @@ table .tableTd{
     font-size: 27px;
 }
 
+.questionTd{
+    margin: auto;
+}
+
 table .table-striped{
     margin-left:2%;
     font-size:24px;
