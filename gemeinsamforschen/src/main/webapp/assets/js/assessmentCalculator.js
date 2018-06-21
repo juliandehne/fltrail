@@ -1,10 +1,12 @@
-$(document).ready(function () {
+$(document).ready(function () {     //todo: paths should be relative
     $("#giveItBack").on("click", function () {
         $.ajax({
             url: "http://localhost:8080/gemeinsamforschen/rest/assessments/total/project/" + "gemeinsamForschen" + "/student/" + "Bela",
             type: 'GET',
             success: function (data) {
                 alert("here is the TotalPerformance: " + data);
+
+                location.href="http://localhost:8080/gemeinsamforschen/pages/project-student.jsp?token="+getUserTokenFromUrl();
             },
             error: function (a, b, c) {
                 alert('some error' + a);
