@@ -1,4 +1,9 @@
-package unipotsdam.gf.modules.assessment.controller;
+package unipotsdam.gf.modules.assessment.controller.model;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+
+@XmlRootElement
 
 public class Assessment {
     private StudentIdentifier student;
@@ -8,6 +13,10 @@ public class Assessment {
         this.student = student;
         this.performance = performance;
     }
+
+    public Assessment(){}
+
+    public ArrayList<Performance> getTotalAssessment() { return null; }
 
     public StudentIdentifier getStudent() {
         return student;
