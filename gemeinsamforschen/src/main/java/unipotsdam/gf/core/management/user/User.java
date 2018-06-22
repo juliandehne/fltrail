@@ -1,14 +1,13 @@
 package unipotsdam.gf.core.management.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Created by dehne on 31.05.2018.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
-    // the email is the id!
-    public String getId() {
-        return this.email;
-    }
     private String name;
     private String password;
     private String email;
@@ -25,14 +24,22 @@ public class User {
         this.password = password;
         this.email = email;
         this.isStudent = isStudent;
+        this.rocketChatAuthToken = "";
+        this.rocketChatId = "";
     }
 
-    public User(String name, String password, String email, String rocketChatId, Boolean isStudent) {
+    public User(String name, String password, String email, String rocketChatId, String rocketChatAuthToken, Boolean isStudent) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.rocketChatId = rocketChatId;
+        this.rocketChatAuthToken = rocketChatAuthToken;
         this.isStudent = isStudent;
+    }
+
+    // the email is the id!
+    public String getId() {
+        return this.email;
     }
 
     public String getName() {
@@ -68,7 +75,6 @@ public class User {
     }
 
 
-
     public Boolean getStudent() {
         return isStudent;
     }
@@ -91,5 +97,18 @@ public class User {
 
     public void setRocketChatAuthToken(String rocketChatAuthToken) {
         this.rocketChatAuthToken = rocketChatAuthToken;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", token='" + token + '\'' +
+                ", rocketChatAuthToken='" + rocketChatAuthToken + '\'' +
+                ", rocketChatId='" + rocketChatId + '\'' +
+                ", isStudent=" + isStudent +
+                '}';
     }
 }

@@ -8,4 +8,11 @@
         <tag-class>unipotsdam.gf.core.management.user.HiddenUserTag</tag-class>
         <body-content>empty</body-content>
     </tag>
+
+    <tag>
+        <name>menu</name>
+        <tag-class>unipotsdam.gf.core.management.user.Menu</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+
 </taglib>

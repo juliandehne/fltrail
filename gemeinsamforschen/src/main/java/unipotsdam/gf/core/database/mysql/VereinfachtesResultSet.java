@@ -1,6 +1,10 @@
 package unipotsdam.gf.core.database.mysql;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 
 
 public class VereinfachtesResultSet {
@@ -70,6 +74,15 @@ public class VereinfachtesResultSet {
 		}
 		throw new Error("error in VereinfachtesResultSet");
 	}
+
+    public Timestamp getTimestamp(String columnLabel) {
+        try {
+            return resultSet.getTimestamp(columnLabel);
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+        throw new Error("error in VereinfachtesResultSet");
+    }
 
 
 	public String getString(String columnLabel) {

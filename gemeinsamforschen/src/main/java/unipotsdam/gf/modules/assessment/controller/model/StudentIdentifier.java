@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.assessment.controller;
+package unipotsdam.gf.modules.assessment.controller.model;
 
 public class StudentIdentifier {
     private String projectId;
@@ -7,6 +7,9 @@ public class StudentIdentifier {
     public StudentIdentifier(String projectId, String studentId) {
         this.projectId = projectId;
         this.studentId = studentId;
+    }
+
+    public StudentIdentifier() {
     }
 
     public String getProjectId() {
