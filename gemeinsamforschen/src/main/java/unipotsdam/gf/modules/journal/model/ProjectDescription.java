@@ -1,7 +1,6 @@
 package unipotsdam.gf.modules.journal.model;
 
 import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.modules.assessment.controller.StudentIdentifier;
 
 import java.util.ArrayList;
 import java.util.Map;
