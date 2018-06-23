@@ -29,38 +29,6 @@ ol {
     margin: 10px;
     /* background-color: white; */
 }
-.card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    border-radius: 5px;
-    padding: 5px;
-    display: inline-block;
-    background-color: white;
-    width: 100%;
-
-}
-.card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-}
-.cardAvatar {
-    width: 50px;
-    height: 50px;
-    background: orange;
-    border-radius: 50%;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 50px;
-    color: white;
-    font-size: 25px;
-    display: inline-block;
-    vertical-align: middle;
-}
-.cardContent {
-    color: black;
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 10px;
-}
 .spacing {
     height: 10px;
     /* background-color: orange; */
@@ -68,3 +36,84 @@ ol {
 .hl {
     background-color: yellow;
 }
+
+.annotation-card {
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    display: inline-block;
+    background-color: white;
+}
+.annotation-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.annotation-header {
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    color: white;			}
+.annotation-header i {
+    font-size: 11px;
+}
+.annotation-header span {
+    font-size: 11px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.annotation-header a:link {
+    color: white;
+    text-decoration: none;
+}
+.annotation-header a:visited {
+    color: white;
+    text-decoration: none;
+}
+.annotation-header a:active {
+    color: white;
+    text-decoration: none;
+}
+.annotation-header a:hover {
+    color: #e6e6e6;
+    text-decoration: none;
+}
+.annotation-header-title {
+    display: flex;
+    flex-flow: column;
+    width: calc(100% - 40px);
+}
+.annotation-header-toggle {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.annotation-body {
+    padding: 8px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.annotation-body p {
+    margin: 0px;
+    font-size: 13px;
+}
+.overflow-hidden {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.annotation-footer {
+    padding: 5px;
+    padding-top: 0px;
+    text-align: right;
+    font-size: 9px;
+    color: lightgrey;
+}
+.annotation-footer span {
+    margin-left: 5px;
+}
+

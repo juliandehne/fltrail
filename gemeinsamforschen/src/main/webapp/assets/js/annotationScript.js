@@ -146,23 +146,72 @@ function displayAnnotation(annotation) {
         )
     }
 
+    var dateIcon = "fas fa-calendar";
+    if (timestampIsToday(annotation.timestamp)) {
+        dateIcon = "fas fa-clock";
+    }
+
     // insert annotation card
     list.prepend(
-        $('<li>').mouseenter(function () {
-            addHighlightedText(annotation.startCharacter, annotation.endCharacter);
-        }).mouseleave(function () {
-            deleteHighlightedText();
-        }).data(annotation).attr('class', 'listelement').attr('id', annotation.id).append(
-            $('<div>').attr('class', 'card').append(
-                $('<div>').attr('class', 'cardAvatar').css('background-color', color).append(
-                    $('<b>').append(annotation.id.substr(0,1))
-                )
-            ).append(
-                $('<div>').attr('class', 'cardContent').append(
-                    $('<span>').append(annotation.body.substring(0, 5) + "...")
-                )
+        $('<li>')
+            .mouseenter(function () {
+                addHighlightedText(annotation.startCharacter, annotation.endCharacter);
+            })
+            .mouseleave(function () {
+                deleteHighlightedText();
+            })
+            .data(annotation)
+            .attr('class', 'listelement')
+            .append(
+                $('<div>').attr('class', 'annotation-card')
+                    .append(
+                        $('<div>').attr('class', 'annotation-header')
+                            .css('background-color', color)
+                            .append(
+                                $('<div>').attr('class', 'annotation-header-title')
+                                    .append(
+                                        $('<div>').attr('class', 'overflow-hidden')
+                                            .append(
+                                                $('<i>').attr('class', 'fas fa-user')
+                                            )
+                                            .append(
+                                                $('<span>').append(annotation.userId)
+                                            )
+                                    )
+                                    .append(
+                                        $('<div>').attr('class', 'overflow-hidden')
+                                            .append(
+                                                $('<i>').attr('class', 'fas fa-bookmark')
+                                            )
+                                            .append(
+                                                $('<span>').append('title' + annotation.userId)
+                                            )
+                                    )
+                            )
+                            .append(
+                                $('<div>').attr('class', 'annotation-header-toggle')
+                                    .append(
+                                        $('<i>').attr('class', 'fas fa-chevron-down')
+                                    )
+                            )
+                    )
+                    .append(
+                        $('<div>').attr('class', 'annotation-body')
+                            .append(
+                                $('<p>').attr('class', 'overflow-hidden').append(annotation.body)
+                            )
+                    )
+                    .append(
+                        $('<div>').attr('class', 'annotation-footer')
+                            .append(
+                                $('<i>').attr('class', dateIcon)
+                            )
+                            .append(
+                                $('<span>').append(timestampToReadableTime(annotation.timestamp))
+                            )
+                    )
             )
-        )
+
     );
 }
 
@@ -222,3 +271,65 @@ function getRandomColor() {
         (Math.floor(Math.random()*56)+170) +
         ')';
 }
+
+/**
+ * Calculate and build a readable timestamp from an unix timestamp
+ *
+ * @param timestamp a unix timestamp
+ * @returns {string} a readable timestamp
+ */
+function timestampToReadableTime(timestamp) {
+    // build Date object from timestamp
+    var annotationDate = new Date(timestamp);
+    // declare response
+    var responseTimestamp;
+
+    // if annotation is from today
+    if (timestampIsToday(timestamp)) {
+        // get hours from date
+        var hours = annotationDate.getHours();
+        // get minutes from date
+        var minutes = "0" + annotationDate.getMinutes();
+        // get seconds from date
+        // var seconds = "0" + annotationDate.getSeconds();
+
+        // build readable timestamp
+        responseTimestamp = hours + ":" + minutes.substr(-2);
+    }
+    // else annotation is not from today
+    else {
+        // get date
+        var date = annotationDate.getDate();
+        // get month
+        var month = annotationDate.getMonth();
+        // get year
+        var year = annotationDate.getFullYear();
+
+        // build readable timestamp
+        responseTimestamp = date + "." + month + "." + year;
+    }
+
+    return responseTimestamp;
+}
+
+/**
+ * Check if given timestamp is from today
+ *
+ * @param timestamp the given timestamp in milliseconds
+ * @returns {boolean} returns true if the timestamp is from today
+ */
+function timestampIsToday(timestamp) {
+    // now
+    var now = new Date();
+    // build Date object from timestamp
+    var date = new Date(timestamp);
+
+    // return true if timestamp is today
+    if (now.getDate() == date.getDate() && now.getMonth() == date.getMonth() && now.getFullYear() == date.getFullYear()) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
