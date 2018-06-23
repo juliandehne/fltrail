@@ -91,6 +91,7 @@ ol {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 .annotation-body {
     padding: 8px;

@@ -190,6 +190,9 @@ function displayAnnotation(annotation) {
                             )
                             .append(
                                 $('<div>').attr('class', 'annotation-header-toggle')
+                                    .click(function () {
+                                        toggleButtonHandler($(this));
+                                    })
                                     .append(
                                         $('<i>').attr('class', 'fas fa-chevron-down')
                                     )
@@ -331,5 +334,15 @@ function timestampIsToday(timestamp) {
     else {
         return false;
     }
+}
+
+/**
+ * Toggle between the toggle button status
+ *
+ * @param element the given toggle button
+ */
+function toggleButtonHandler(element) {
+    element.parent().siblings(".annotation-body").children("p").toggleClass("overflow-hidden");
+    element.children("i").toggleClass("fa-chevron-down fa-chevron-up")
 }
 
