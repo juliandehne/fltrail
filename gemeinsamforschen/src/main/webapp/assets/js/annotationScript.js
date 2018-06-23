@@ -1,7 +1,7 @@
-// set color, userId and targetId
-var userId = 11;
+// initialize userId, userColors and targetId
+var userId = randomUserId();
+var userColors = new Map();
 var targetId = 200;
-var color = getRandomColor();
 
 // declare document text
 var documentText;
@@ -155,7 +155,7 @@ function displayAnnotation(annotation) {
     list.prepend(
         $('<li>')
             .mouseenter(function () {
-                addHighlightedText(annotation.startCharacter, annotation.endCharacter);
+                addHighlightedText(annotation.startCharacter, annotation.endCharacter, annotation.userId);
             })
             .mouseleave(function () {
                 deleteHighlightedText();
@@ -166,7 +166,7 @@ function displayAnnotation(annotation) {
                 $('<div>').attr('class', 'annotation-card')
                     .append(
                         $('<div>').attr('class', 'annotation-header')
-                            .css('background-color', color)
+                            .css('background-color', getUserColor(annotation.userId))
                             .append(
                                 $('<div>').attr('class', 'annotation-header-title')
                                     .append(
@@ -224,9 +224,9 @@ function displayAnnotation(annotation) {
  * @param startCharacter the offset of the start character
  * @param endCharacter the offset of the end character
  */
-function addHighlightedText(startCharacter, endCharacter) {
+function addHighlightedText(startCharacter, endCharacter, userId) {
     // create <span> tag with the annotated text
-    var replacement = $('<span></span>').css('background-color', color).html(documentText.slice(startCharacter, endCharacter));
+    var replacement = $('<span></span>').css('background-color', getUserColor(userId)).html(documentText.slice(startCharacter, endCharacter));
 
     // wrap an <p> tag around the replacement, get its parent (the <p>) and ask for the html
     var replacementHtml = replacement.wrap('<p/>').parent().html();
@@ -260,6 +260,21 @@ function getSelectedText() {
     else if(document.selection){
         return document.selection.createRange().text;
     }
+}
+
+/**
+ * Get color based on user id
+ *
+ * @param userId the id of the user
+ * @returns {string} the user color
+ */
+function getUserColor(userId) {
+    // insert new color if there is no userId key
+    if (userColors.get(userId) == null) {
+        userColors.set(userId, getRandomColor());
+    }
+    // return the color
+    return userColors.get(userId);
 }
 
 /**
@@ -344,5 +359,12 @@ function timestampIsToday(timestamp) {
 function toggleButtonHandler(element) {
     element.parent().siblings(".annotation-body").children("p").toggleClass("overflow-hidden");
     element.children("i").toggleClass("fa-chevron-down fa-chevron-up")
+}
+
+/*
+    MOCKUP FUNCTIONS
+ */
+function randomUserId() {
+    return Math.floor((Math.random() * 10) + 1);;
 }
 
