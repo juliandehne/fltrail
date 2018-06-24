@@ -1,6 +1,7 @@
 // initialize userId, userColors and targetId
 var userId = randomUserId();
 var userColors = new Map();
+var userColorsDark = new Map();
 var targetId = 200;
 
 // declare document text
@@ -49,6 +50,7 @@ $(document).ready(function() {
             "annotation": {name: "Annotation", icon: "edit"}
         }
     });
+
     /*
      *   PAGE LOADED
      */
@@ -67,8 +69,8 @@ $(document).ready(function() {
 /**
  * POST: Save an annotation in the database
  *
- * @param annotationPostRequest
- * @param responseHandler
+ * @param annotationPostRequest the post request
+ * @param responseHandler the response handler
  */
 function createAnnotation(annotationPostRequest, responseHandler) {
     var url = "http://localhost:8080/rest/annotations/";
@@ -88,8 +90,9 @@ function createAnnotation(annotationPostRequest, responseHandler) {
 /**
  * PATCH: Alter an annotation
  *
- * @param annotationPatchRequest
- * @param responseHandler
+ * @param id the annotation id
+ * @param annotationPatchRequest the patch request
+ * @param responseHandler the response handler
  */
 function alterAnnotation(id, annotationPatchRequest, responseHandler) {
     var url = "http://localhost:8080/rest/annotations/" + id;
@@ -110,8 +113,8 @@ function alterAnnotation(id, annotationPatchRequest, responseHandler) {
  * GET: Get all annotations for a specific target
  *
  *
- * @param targetId
- * @param responseHandler
+ * @param targetId the target id
+ * @param responseHandler the response handler
  */
 function getAnnotations(targetId, responseHandler) {
     var url = "http://localhost:8080/rest/annotations/target/" + targetId;
@@ -160,10 +163,16 @@ function displayAnnotation(annotation) {
             .mouseleave(function () {
                 deleteHighlightedText();
             })
-            .data(annotation)
+            .data('annotation', annotation)
             .attr('class', 'listelement')
             .append(
                 $('<div>').attr('class', 'annotation-card')
+                    .mouseenter(function () {
+                        $(this).children('.annotation-header').css('background-color', getDarkUserColor(annotation.userId));
+                    })
+                    .mouseleave(function () {
+                        $(this).children('.annotation-header').css('background-color', getUserColor(annotation.userId));
+                    })
                     .append(
                         $('<div>').attr('class', 'annotation-header')
                             .css('background-color', getUserColor(annotation.userId))
@@ -223,6 +232,7 @@ function displayAnnotation(annotation) {
  *
  * @param startCharacter the offset of the start character
  * @param endCharacter the offset of the end character
+ * @param userId the user id
  */
 function addHighlightedText(startCharacter, endCharacter, userId) {
     // create <span> tag with the annotated text
@@ -248,7 +258,7 @@ function deleteHighlightedText() {
 /**
  * Get the text value of the selected text
  *
- * @returns {*} the text
+ * @returns {string} the text
  */
 function getSelectedText() {
     if(window.getSelection){
@@ -271,23 +281,45 @@ function getSelectedText() {
 function getUserColor(userId) {
     // insert new color if there is no userId key
     if (userColors.get(userId) == null) {
-        userColors.set(userId, getRandomColor());
+        generateRandomColor(userId);
     }
     // return the color
     return userColors.get(userId);
 }
 
 /**
+ * Get dark color based on user id
+ *
+ * @param userId the id of the user
+ * @returns {string} the dark user color
+ */
+function getDarkUserColor(userId) {
+    // insert new color if there is no userId key
+    if (userColorsDark.get(userId) == null) {
+        generateRandomColor(userId);
+    }
+    // return the color
+    return userColorsDark.get(userId);
+}
+
+/**
  * Generate a random color of the format 'rgb(r, g, b)'
  *
- * @returns {string} the new color
+ * @param userId the given user id
  */
-function getRandomColor() {
-    return 'rgb(' +
-        (Math.floor(Math.random()*56)+170) + ', ' +
-        (Math.floor(Math.random()*56)+170) + ', ' +
-        (Math.floor(Math.random()*56)+170) +
-        ')';
+function generateRandomColor(userId) {
+    var r = Math.floor(Math.random()*56)+170;
+    var g = Math.floor(Math.random()*56)+170;
+    var b = Math.floor(Math.random()*56)+170;
+    var r_d = r - 50;
+    var g_d = g - 50;
+    var b_d = b - 50;
+
+    var color = 'rgb(' + r + ',' + g + ',' + b + ')';
+    var colorDark = 'rgb(' + r_d + ',' + g_d + ',' + b_d + ')';
+
+    userColors.set(userId, color);
+    userColorsDark.set(userId, colorDark);
 }
 
 /**
@@ -357,7 +389,9 @@ function timestampIsToday(timestamp) {
  * @param element the given toggle button
  */
 function toggleButtonHandler(element) {
+    // open and close annotation text
     element.parent().siblings(".annotation-body").children("p").toggleClass("overflow-hidden");
+    // toggle between up and down button
     element.children("i").toggleClass("fa-chevron-down fa-chevron-up")
 }
 

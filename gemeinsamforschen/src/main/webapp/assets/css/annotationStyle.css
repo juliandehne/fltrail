@@ -7,7 +7,6 @@ ol {
     display: flex;
     box-sizing: border-box;
     font-family: Arial;
-    background-color: #f1f1f1;
     height: 100%;
 }
 .rightcolumn {
