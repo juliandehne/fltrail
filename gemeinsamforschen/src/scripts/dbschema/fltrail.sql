@@ -41,6 +41,8 @@ alter table users
   add isStudent tinyint(1) default '1' null;
 
 CREATE TABLE researchReport (
+   `id` varchar(400) NOT NULL,
+   `author` varchar(400) NOT NULL,
    `title` varchar(400) NOT NULL,
    `method` varchar(10000) NOT NULL,
    `research` varchar(10000) NOT NULL,
@@ -51,18 +53,25 @@ CREATE TABLE researchReport (
 //ToDo
 CREATE TABLE timeplan(
     `reportID` varchar(400) NOT NULL,
+    `startingTime` datetime NOT NULL,
+    `endTIme` datetime NOT NULL,
+    `milestoneTime` datetime NOT NULL,
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE researchQuestion(
     `reportID` varchar(400) NOT NULL,
+    `question` varchar(4000) NOT NULL,
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE bibliography(
     `reportID` varchar(400) NOT NULL,
+    `primarySource` varchar(4000) NOT NULL,
+    `secondarySource` varchar(4000) NOT NULL,
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE learningGoals(
     `reportID` varchar(400) NOT NULL,
+    `goal` varchar(4000) NOT NULL,
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
