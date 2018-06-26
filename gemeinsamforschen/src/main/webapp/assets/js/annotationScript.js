@@ -69,8 +69,8 @@ $(document).ready(function() {
 /**
  * POST: Save an annotation in the database
  *
- * @param annotationPostRequest the post request
- * @param responseHandler the response handler
+ * @param annotationPostRequest The post request
+ * @param responseHandler The response handler
  */
 function createAnnotation(annotationPostRequest, responseHandler) {
     var url = "http://localhost:8080/rest/annotations/";
@@ -88,11 +88,11 @@ function createAnnotation(annotationPostRequest, responseHandler) {
 }
 
 /**
- * PATCH: Alter an annotation
+ * PATCH: Alter an annotation in database
  *
- * @param id the annotation id
- * @param annotationPatchRequest the patch request
- * @param responseHandler the response handler
+ * @param id The annotation id
+ * @param annotationPatchRequest The patch request
+ * @param responseHandler The response handler
  */
 function alterAnnotation(id, annotationPatchRequest, responseHandler) {
     var url = "http://localhost:8080/rest/annotations/" + id;
@@ -110,11 +110,28 @@ function alterAnnotation(id, annotationPatchRequest, responseHandler) {
 }
 
 /**
- * GET: Get all annotations for a specific target
+ * DELETE: Delete an annotation from database
+ *
+ * @param id The annotation id
+ */
+function deleteAnnotation(id) {
+    var url = "http://localhost:8080/rest/annotations/" + id;
+    $.ajax({
+        url: url,
+        type: "DELETE",
+        dataType: "json",
+        success: function (response) {
+            // Nothing to do
+        }
+    });
+}
+
+/**
+ * GET: Get all annotations from database for a specific target
  *
  *
- * @param targetId the target id
- * @param responseHandler the response handler
+ * @param targetId The target id
+ * @param responseHandler The response handler
  */
 function getAnnotations(targetId, responseHandler) {
     var url = "http://localhost:8080/rest/annotations/target/" + targetId;
@@ -134,36 +151,38 @@ function getAnnotations(targetId, responseHandler) {
 }
 
 /**
+ * Delete annotation from list
+ *
+ * @param elem The parent li element
+ * @param id The id of the annotation
+ */
+function deleteAnnotationHandler(elem, id) {
+    // remove annotation from list
+    elem.remove()
+    // remove highlighted text
+    deleteHighlightedText();
+    // remove annotation from database
+    deleteAnnotation(id)
+}
+
+/**
  * Display annotation in the list
  *
- * @param annotation the annotation to be displayed
+ * @param annotation The annotation to be displayed
  */
 function displayAnnotation(annotation) {
     // fetch list of annotations
     var list = $('#annotations')
 
-    // insert spacing if we need one
-    if ($('#annotations li').filter( ".listelement" ).length > 0) {
-        list.prepend(
-            $('<li>').attr('class', 'spacing')
-        )
-    }
-
+    var deleteIcon = "fas fa-trash";
     var dateIcon = "fas fa-calendar";
-    if (timestampIsToday(annotation.timestamp)) {
+    if (isTimestampToday(annotation.timestamp)) {
         dateIcon = "fas fa-clock";
     }
 
     // insert annotation card
     list.prepend(
         $('<li>')
-            .mouseenter(function () {
-                addHighlightedText(annotation.startCharacter, annotation.endCharacter, annotation.userId);
-            })
-            .mouseleave(function () {
-                deleteHighlightedText();
-            })
-            .data('annotation', annotation)
             .attr('class', 'listelement')
             .append(
                 $('<div>').attr('class', 'annotation-card')
@@ -216,23 +235,52 @@ function displayAnnotation(annotation) {
                     .append(
                         $('<div>').attr('class', 'annotation-footer')
                             .append(
-                                $('<i>').attr('class', dateIcon)
+                                function () {
+                                    if (userId == annotation.userId) {
+                                        return $('<div>').attr('class', 'annotation-footer-delete')
+                                            .append(
+                                                $('<i>').attr('class', deleteIcon)
+                                            )
+                                            .click(function () {
+                                                deleteAnnotationHandler($(this).closest('li'), annotation.id)
+                                            })
+                                    }
+                                }
                             )
                             .append(
-                                $('<span>').append(timestampToReadableTime(annotation.timestamp))
+                                $('<div>').attr('class', 'annotation-footer-date overflow-hidden')
+                                    .append(
+                                        $('<i>').attr('class', dateIcon)
+                                    )
+                                    .append(
+                                        $('<span>').append(timestampToReadableTime(annotation.timestamp))
+                                    )
                             )
+
+
                     )
             )
-
+            .data('annotation', annotation)
+            .mouseenter(function () {
+                addHighlightedText(annotation.startCharacter, annotation.endCharacter, annotation.userId);
+            })
+            .mouseleave(function () {
+                deleteHighlightedText();
+            })
+            .append(function () {
+                if ($('#annotations li').filter( ".listelement" ).length > 0) {
+                    return $('<div>').attr('class', 'spacing')
+                }
+            })
     );
 }
 
 /**
  * Add a highlighted text at specific position
  *
- * @param startCharacter the offset of the start character
- * @param endCharacter the offset of the end character
- * @param userId the user id
+ * @param startCharacter The offset of the start character
+ * @param endCharacter The offset of the end character
+ * @param userId The user id
  */
 function addHighlightedText(startCharacter, endCharacter, userId) {
     // create <span> tag with the annotated text
@@ -258,7 +306,7 @@ function deleteHighlightedText() {
 /**
  * Get the text value of the selected text
  *
- * @returns {string} the text
+ * @returns {string} The text
  */
 function getSelectedText() {
     if(window.getSelection){
@@ -275,8 +323,8 @@ function getSelectedText() {
 /**
  * Get color based on user id
  *
- * @param userId the id of the user
- * @returns {string} the user color
+ * @param userId The id of the user
+ * @returns {string} The user color
  */
 function getUserColor(userId) {
     // insert new color if there is no userId key
@@ -290,8 +338,8 @@ function getUserColor(userId) {
 /**
  * Get dark color based on user id
  *
- * @param userId the id of the user
- * @returns {string} the dark user color
+ * @param userId The id of the user
+ * @returns {string} The dark user color
  */
 function getDarkUserColor(userId) {
     // insert new color if there is no userId key
@@ -305,7 +353,7 @@ function getDarkUserColor(userId) {
 /**
  * Generate a random color of the format 'rgb(r, g, b)'
  *
- * @param userId the given user id
+ * @param userId The given user id
  */
 function generateRandomColor(userId) {
     var r = Math.floor(Math.random()*56)+170;
@@ -325,8 +373,8 @@ function generateRandomColor(userId) {
 /**
  * Calculate and build a readable timestamp from an unix timestamp
  *
- * @param timestamp a unix timestamp
- * @returns {string} a readable timestamp
+ * @param timestamp A unix timestamp
+ * @returns {string} A readable timestamp
  */
 function timestampToReadableTime(timestamp) {
     // build Date object from timestamp
@@ -335,7 +383,7 @@ function timestampToReadableTime(timestamp) {
     var responseTimestamp;
 
     // if annotation is from today
-    if (timestampIsToday(timestamp)) {
+    if (isTimestampToday(timestamp)) {
         // get hours from date
         var hours = annotationDate.getHours();
         // get minutes from date
@@ -365,10 +413,10 @@ function timestampToReadableTime(timestamp) {
 /**
  * Check if given timestamp is from today
  *
- * @param timestamp the given timestamp in milliseconds
- * @returns {boolean} returns true if the timestamp is from today
+ * @param timestamp The given timestamp in milliseconds
+ * @returns {boolean} Returns true if the timestamp is from today
  */
-function timestampIsToday(timestamp) {
+function isTimestampToday(timestamp) {
     // now
     var now = new Date();
     // build Date object from timestamp
@@ -386,7 +434,7 @@ function timestampIsToday(timestamp) {
 /**
  * Toggle between the toggle button status
  *
- * @param element the given toggle button
+ * @param element The given toggle button
  */
 function toggleButtonHandler(element) {
     // open and close annotation text
@@ -399,6 +447,6 @@ function toggleButtonHandler(element) {
     MOCKUP FUNCTIONS
  */
 function randomUserId() {
-    return Math.floor((Math.random() * 10) + 1);;
+    return Math.floor((Math.random() * 12) + 1);;
 }
 
