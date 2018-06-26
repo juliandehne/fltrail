@@ -1,0 +1,41 @@
+html, body {
+width: 100%;
+height: 100%;
+margin: 0;
+padding: 0;
+}
+
+.researchReportForm{
+display: grid;
+grid-gap: 10px;
+grid-template-columns: 1fr 1fr 1fr;
+grid-template-areas:
+"sidebar header ."
+"sidebar editor editor"
+"sidebar editor buttons"
+}
+
+.researchReportMenu{
+background: gray;
+color: White;
+grid-area: sidebar;
+}
+
+.researchReportTitlebar{
+background: white;
+color: black;
+grid-area: header;
+}
+
+.researchReportEditor{
+grid-area: editor;
+background: white;
+color: black;
+}
+
+.researchReportButtons{
+grid-area: buttons;
+background: gray;
+color: black;
+}
+

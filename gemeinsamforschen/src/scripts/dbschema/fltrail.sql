@@ -40,6 +40,30 @@ CREATE TABLE projectuser
 alter table users
   add isStudent tinyint(1) default '1' null;
 
+CREATE TABLE researchReport (
+   `title` varchar(400) NOT NULL,
+   `method` varchar(10000) NOT NULL,
+   `research` varchar(10000) NOT NULL,
+   `researchResult` varchar(10000) NOT NULL,
+   `evaluation` varchar(10000) NOT NULL,
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+//ToDo
+CREATE TABLE timeplan(
+    `reportID` varchar(400) NOT NULL,
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE researchQuestion(
+    `reportID` varchar(400) NOT NULL,
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE bibliography(
+    `reportID` varchar(400) NOT NULL,
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE learningGoals(
+    `reportID` varchar(400) NOT NULL,
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 

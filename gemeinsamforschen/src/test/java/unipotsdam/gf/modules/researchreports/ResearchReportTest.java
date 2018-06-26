@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.researchreports;
+/* package unipotsdam.gf.modules.researchreports;
 
 
 
@@ -24,3 +24,4 @@ public class ResearchReportTest {
 
     }
 }
+*/
