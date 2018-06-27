@@ -29,7 +29,7 @@ $(document).ready(function() {
                 '</div><div class="journal-category">' +
                 data[journal].category +
                 '</div><div class="journal-edit">' +
-                '<a href="createJournal.html?journal='+ data[journal].id + '"><i class="fa fa-pencil" aria-hidden="true"></i></a>' +
+                '<a href="createJournal.jsp?journal='+ data[journal].id + '"><i class="fa fa-pencil" aria-hidden="true"></i></a>' +
                 ' </div><div class="journal-text">' +
                 data[journal].entry +
                 '</div>')

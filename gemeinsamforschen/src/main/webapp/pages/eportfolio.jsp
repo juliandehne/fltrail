@@ -62,7 +62,7 @@
                             <option>Eigene</option>
                         </select>
 
-                        <a href="createJournal.html">Neu</a>
+                        <a href="createJournal.jsp">Neu</a>
 
                         <div class="journal">
                         </div>
