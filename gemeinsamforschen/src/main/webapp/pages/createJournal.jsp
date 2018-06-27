@@ -69,8 +69,8 @@
 
 
 								<div class ="journal-form-editor">
-				<textarea id = "editor" name="text" form="journalform" >
-				</textarea>
+                                    <textarea id = "editor" name="text" form="journalform" >
+                                    </textarea>
 								</div>
 
 								<div class="journal-form-buttons">
@@ -91,44 +91,7 @@
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/Sidebar-Menu.js"></script>
-<script>
-    /*
-*/
-    function getQueryVariable(variable)
-    {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
-            var pair = vars[i].split("=");
-            if(pair[0] == variable){return pair[1];}
-        }
-        return(false);
-    }
-
-    $(document).ready(function() {
-        var journalID = getQueryVariable("journal");
-        console.log(journalID);
-        if(journalID){
-            $.ajax({
-                url: "../rest/journal/"+journalID
-            }).then(function(data) {
-                $('#editor').append(data.entry);
-
-                //TODO preselet in select tags
-
-
-                console.log(data);
-
-            });
-        }
-        new InscrybMDE({
-            element: document.getElementById("editor"),
-            spellChecker: false,
-            forceSync: true,
-        });
-
-    })
-</script>
+<script  src="../assets/js/createJournal.js"></script>
 </body>
 
 </html>

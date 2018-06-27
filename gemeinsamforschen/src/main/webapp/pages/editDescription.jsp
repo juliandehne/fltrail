@@ -6,16 +6,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Portfolio</title>
+    <title>Tagebucheintrag erstellen</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
-    <link rel="stylesheet" href="../assets/css/e-portfolio.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/editDescription.css">
+
 </head>
 
 <body>
@@ -37,35 +40,28 @@
             <table>
                 <tr>
                     <td  id="yourContent">
-                        <h1>E-Portfolio</h1>
-                        <div class="journal-description-container">
-                            <div class="journal-description-title">
-                            </div>
-                            <div class="journal-description-edit">
-                                <a href="editDescription.jsp?project=0"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
-                            </div>
-                            <div class="journal-description-text">
-                            </div>
-                            <div class="journal-description-group">
-                                <h3>Gruppe</h3>
-                            </div>
-                            <div class="journal-description-links">
-                                <h3>Links</h3>
+                        <h1> Projektbeschreibung bearbeiten </h1>
+
+                        <form id="descriptionform" class="form-journal" method="POST" action="../rest/projectdescription/saveText">
+
+                            <input type="hidden" name="student" value="0">
+                            <input type="hidden" name="project" value="0">
+
+                            <div class="description-form-container">
+
+                                <div class ="description-form-editor">
+                                    <textarea id = "editor" name="text" form="descriptionform" >
+                                    </textarea>
+                                </div>
+
+                                <div class="description-form-buttons">
+                                    <input type="submit">
+                                    <button> Zur&uuml;ck </button>
+                                </div>
 
                             </div>
+                        </form>
 
-                        </div>
-
-                        <h2>Lernatagebuch</h2>
-                        <select>
-                            <option>Alle</option>
-                            <option>Eigene</option>
-                        </select>
-
-                        <a href="createJournal.jsp">Neu</a>
-
-                        <div class="journal">
-                        </div>
                     </td>
                 </tr>
             </table>
@@ -76,7 +72,7 @@
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/Sidebar-Menu.js"></script>
-<script src="../assets/js/e-portfolio.js"></script>
+<script  src="../assets/js/editDescription.js"></script>
 </body>
 
 </html>

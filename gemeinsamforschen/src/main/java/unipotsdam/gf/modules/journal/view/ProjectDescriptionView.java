@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * TODO error handling
  */
 
-@Path("/prejectdescription")
+@Path("/projectdescription")
 public class ProjectDescriptionView {
 
     Logger log = LoggerFactory.getLogger(ProjectDescriptionView.class);
