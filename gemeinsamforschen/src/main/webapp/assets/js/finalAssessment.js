@@ -20,7 +20,7 @@ function assessPeer(){
     }
     dataP.push(peerRating);
     $.ajax({
-        url:'http://localhost:8080/gemeinsamforschen/rest/assessments/peer/project/1/group/1',
+        url:'../rest/assessments/peer/project/1/group/1',
         type: 'POST',
         headers: {
             "Content-Type": "application/json",
