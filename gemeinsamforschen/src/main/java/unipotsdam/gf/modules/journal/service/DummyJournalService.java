@@ -124,18 +124,21 @@ public class DummyJournalService implements JournalService {
     }
 
     ArrayList<Journal> resetList () {
+
         StudentIdentifier studentIdentifier = new StudentIdentifier("0","0");
         StudentIdentifier studentIdentifier2 = new StudentIdentifier("0","1");
 
-        Journal j1 = new Journal(0,studentIdentifier,"test", cal.getTimeInMillis() , Visibility.ALL, "test1");
+        String test = "Donec nec facilisis nibh, sed sagittis tortor. Suspendisse vel felis ac leo dignissim efficitur. Nunc non egestas eros, sit amet vestibulum nunc. Sed bibendum varius molestie. Proin augue mauris, mollis sed efficitur efficitur, sagittis quis eros. Praesent tincidunt tincidunt porttitor. Maecenas quis ornare tellus. Nunc euismod vestibulum neque, sed luctus neque convallis in. Duis molestie ex ut nunc dignissim condimentum ut vitae dui. Vestibulum diam lorem, eleifend sit amet lobortis nec, vulputate a leo. In nec ante felis. Maecenas interdum nunc et odio placerat fringilla. Aenean felis purus, mollis id lectus non, fringilla tincidunt mi. Nunc sed rutrum ex, vel tempus odio.";
+
+        Journal j1 = new Journal(0,studentIdentifier,test, cal.getTimeInMillis() , Visibility.ALL, "test1");
         j1.setCreator("Test Test");
-        Journal j2 = new Journal(1,studentIdentifier,"test2", cal.getTimeInMillis() , Visibility.NONE, "test2");
+        Journal j2 = new Journal(1,studentIdentifier,test, cal.getTimeInMillis() , Visibility.NONE, "test2");
         j2.setCreator("Test Test");
-        Journal j3 = new Journal(2,studentIdentifier,"test3", cal.getTimeInMillis() , Visibility.GROUP, "test3");
+        Journal j3 = new Journal(2,studentIdentifier,test, cal.getTimeInMillis() , Visibility.GROUP, "test3");
         j3.setCreator("Test Test");
-        Journal j4 = new Journal(3,studentIdentifier,"test4", cal.getTimeInMillis() , Visibility.DOZENT ,"test4");
+        Journal j4 = new Journal(3,studentIdentifier,test, cal.getTimeInMillis() , Visibility.DOZENT ,"test4");
         j4.setCreator("Test Test");
-        Journal j5 = new Journal(4,studentIdentifier2,"test5", cal.getTimeInMillis() , Visibility.GROUP, "test5");
+        Journal j5 = new Journal(4,studentIdentifier2,test, cal.getTimeInMillis() , Visibility.GROUP, "test5");
         j5.setCreator("ASD DSA");
 
         journals = new ArrayList<>();

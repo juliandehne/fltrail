@@ -42,7 +42,7 @@
                             <div class="journal-description-title">
                             </div>
                             <div class="journal-description-edit">
-                                <a href="editDescription.jsp?project=0"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                <a href="editDescription.jsp?project=0&token=test"> <i class="fa fa-pencil" aria-hidden="true"></i></a>
                             </div>
                             <div class="journal-description-text">
                             </div>
@@ -57,12 +57,12 @@
                         </div>
 
                         <h2>Lernatagebuch</h2>
-                        <select>
+                        <select id="journalfilter" onchange="filterJournals()">
                             <option>Alle</option>
                             <option>Eigene</option>
                         </select>
 
-                        <a href="createJournal.jsp">Neu</a>
+                        <a href="createJournal.jsp?token=test">Neu</a>
 
                         <div class="journal">
                         </div>
