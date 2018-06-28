@@ -69,9 +69,9 @@ public interface IPeerAssessment {
     /**
      * writes the peerRatings into db
      *
+     * @param peerRatings
      * @param projectId
      * @param groupId
-     * @param peerRatings
      */
-    void postPeerRating(String projectId, String groupId, ArrayList<PeerRating> peerRatings);
+    void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId);
 }

@@ -19,8 +19,6 @@
 </head>
 
 <body>
-
-
 <div id="wrapper">
     <menu:menu></menu:menu>
     <div class="page-content-wrapper">

@@ -64,4 +64,14 @@ CREATE TABLE if not exists projectuser
 alter table users
   add isStudent tinyint(1) default '1' null;
 
-
+CREATE TABLE if not exists quiz
+(
+  author varchar(400) NOT NULL,
+  projectId varchar(400) NOT NULL,
+  question varchar(400) NOT NULL,
+  mcType varchar(400) NOT NULL,
+  answer varchar(400) NOT NULL,
+  correct tinyint(1) NOT NULL
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;

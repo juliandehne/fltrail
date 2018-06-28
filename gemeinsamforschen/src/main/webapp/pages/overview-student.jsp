@@ -32,7 +32,7 @@
                           style="font-size:29px;margin-left:5px;margin-top:-25px;"></span></a>
         <div>
             <table id="projects">  <!-- getElementById('projects').append um neue Projekte anzufügen -->
-                <tr style="cursor:pointer" role="button">
+                <tr class="pageChanger">
                     <td>
                         <a id="project1Link">
                             <h1>dummy Projekt1</h1>
@@ -65,7 +65,7 @@
                 <tr>
                     <td></td>
                 </tr>
-                <tr style="cursor:pointer" role="button">
+                <tr class="pageChanger">
                     <td>
                         <a href="project-docent.jsp">
                             <h1>dummy Projekt2</h1>
