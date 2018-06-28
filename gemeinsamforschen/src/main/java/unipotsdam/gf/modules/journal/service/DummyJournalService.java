@@ -117,8 +117,8 @@ public class DummyJournalService implements JournalService {
         try{
             v = Visibility.valueOf(visibility);
         }catch (IllegalArgumentException e){
-            v = Visibility.NONE;
-            log.debug("Illegal argument for visibility, default to NONE");
+            v = Visibility.MINE;
+            log.debug("Illegal argument for visibility, default to MINE");
         }
         return v;
     }
@@ -132,7 +132,7 @@ public class DummyJournalService implements JournalService {
 
         Journal j1 = new Journal(0,studentIdentifier,test, cal.getTimeInMillis() , Visibility.ALL, "test1");
         j1.setCreator("Test Test");
-        Journal j2 = new Journal(1,studentIdentifier,test, cal.getTimeInMillis() , Visibility.NONE, "test2");
+        Journal j2 = new Journal(1,studentIdentifier,test, cal.getTimeInMillis() , Visibility.MINE, "test2");
         j2.setCreator("Test Test");
         Journal j3 = new Journal(2,studentIdentifier,test, cal.getTimeInMillis() , Visibility.GROUP, "test3");
         j3.setCreator("Test Test");
