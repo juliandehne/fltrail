@@ -18,26 +18,8 @@ $(document).ready(function() {
     $.ajax({
         url: "../rest/journal//journals/0/0"
     }).then(function(data) {
-            for (var journal in data) {
-                $('.journal').append(
-                    '<div class="journal-container"><div class="journal-avatar">' +
-                    'getBild' +
-                    '</div><div class="journal-date"> ' +
-                    timestamptToDateString(data[journal].timestamp) +
-                    '</div><div class="journal-name">' +
-                    data[journal].creator + '' +
-                    '</div><div class="journal-category">' +
-                    data[journal].category +
-                    '</div><div class="journal-edit">' +
-                    '<a href="createJournal.jsp?token=test&journal=' + data[journal].id + '"><i class="fa fa-pencil" aria-hidden="true"></i></a>' +
-                    ' </div><div class="journal-text">' +
-                    data[journal].entry +
-                    '</div>')
-            }
-
-
+        loadJournals(data)
         console.log(data);
-
     });
 
 });
@@ -50,28 +32,12 @@ function timestamptToDateString(timestamp) {
 function filterJournals() {
     var filter = $( "#journalfilter option:selected" ).val();
 
+    $('.journal').empty();
+
     $.ajax({
         url: "../rest/journal//journals/0/0/"+filter
     }).then(function(data) {
-        function loadJournals() {
-            for (var journal in data) {
-                $('.journal').append(
-                    '<div class="journal-container"><div class="journal-avatar">' +
-                    'getBild' +
-                    '</div><div class="journal-date"> ' +
-                    timestamptToDateString(data[journal].timestamp) +
-                    '</div><div class="journal-name">' +
-                    data[journal].creator + '' +
-                    '</div><div class="journal-category">' +
-                    data[journal].category +
-                    '</div><div class="journal-edit">' +
-                    '<a href="createJournal.jsp?token=test&journal=' + data[journal].id + '"><i class="fa fa-pencil" aria-hidden="true"></i></a>' +
-                    ' </div><div class="journal-text">' +
-                    data[journal].entry +
-                    '</div>')
-            }
-        }
-
+        loadJournals(data)
         console.log(data);
 
     });

@@ -32,7 +32,7 @@ public class DummyProjectDescription implements ProjectDescriptionService {
                 "<p>Donec ut erat eget diam accumsan ornare condimentum eu purus. Morbi ullamcorper ex quam, ut varius magna iaculis ut. Maecenas rutrum vitae arcu ac pretium. Duis congue tempus eros non molestie. Vivamus at erat eu massa iaculis commodo. Nam aliquet, nibh a ultrices faucibus, diam ipsum molestie odio, quis imperdiet ligula nunc et erat. Sed vel leo vitae ex mattis pellentesque.</p>\n" +
                 "<p>Nullam porttitor sit amet augue condimentum finibus. Curabitur ut pharetra lacus, in consequat nibh. Curabitur nec varius sapien, nec ornare felis. Mauris ornare varius arcu. Nulla quis tellus tempor, faucibus elit a, sollicitudin mi. Vivamus ligula diam, interdum a lorem in, pharetra tempor nunc. Mauris et dapibus erat, et sodales tortor. Vestibulum id tristique odio, ac vehicula orci. Quisque diam felis, volutpat nec condimentum vel, cursus eget justo.</p></p>";
 
-        testProject = new ProjectDescription(0,"TestProjekt",desc, new Project(), link, group, new Date().getTime());
+        testProject = new ProjectDescription(0,"Eine kreative Überschrift",desc, new Project(), link, group, new Date().getTime());
     }
 
 
