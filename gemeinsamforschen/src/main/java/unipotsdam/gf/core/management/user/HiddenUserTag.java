@@ -17,6 +17,7 @@ public class HiddenUserTag extends SimpleTagSupport {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String token = request.getParameter("token");
+
         ManagementImpl management = new ManagementImpl();
         User user = management.getUserByToken(token);
         JspWriter out = getJspContext().getOut();
