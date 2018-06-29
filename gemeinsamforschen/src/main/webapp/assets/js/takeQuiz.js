@@ -68,7 +68,7 @@ $(document).ready(function () {
         }
     });
     $("#submitQuiz").on("click", function () {
-
+        location.href="rateContribution.jsp?token="+getUserTokenFromUrl();
     });
 });
 

@@ -33,8 +33,7 @@ function assessPeer(){
         },
         data: JSON.stringify(dataP),
         success: function(){
-            alert("hier bin ich richtig");
-            location.href="takeQuiz.jsp?"+getUserTokenFromUrl();
+            location.href="takeQuiz.jsp?token="+getUserTokenFromUrl();
         },
         error: function(a,b,c){
 

@@ -42,7 +42,6 @@
                         <h1>Assessment for project1 </h1>
                         <!-- here will be all the content -->
                         <div class="container">
-                                <h2>Carousel Example</h2>
                                 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
                                     <!-- Indicators -->
                                     <ol class="carousel-indicators">
