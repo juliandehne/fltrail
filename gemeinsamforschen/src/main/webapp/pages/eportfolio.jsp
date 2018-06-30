@@ -37,38 +37,51 @@
             <table>
                 <tr>
                     <td  id="yourContent">
+
                         <h1>E-Portfolio</h1>
-                        <div class="journal-description-container">
-                            <div class="journal-description-title">
-                            </div>
-                            <div class="journal-description-edit" align="right">
-                                <a class="btn btn-default btn-sm" href="editDescription.jsp?project=0&token=test">
-                                    <i class="fa fa-pencil"></i> Bearbeiten</a>
-                                <a class="btn btn-default btn-sm" href="#">
-                                    <i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>
 
-                            </div>
-                            <div class="journal-description-text">
-                            </div>
-                            <div class="journal-description-group">
-                                <h3>Gruppe</h3>
-                            </div>
-                            <div class="journal-description-links">
-                                <h3>Links</h3>
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#description">Beschreibung</a></li>
+                            <li><a data-toggle="tab" href="#journal-container">Lerntagebuch</a></li>
+                         </ul>
+                        <div class="tab-content">
 
+                            <div id = "description" class="tab-pane fade in active ">
+                              <div class="journal-description-container">
+                                    <div class="journal-description-title">
+                                    </div>
+                                    <div class="journal-description-edit" align="right">
+                                        <a class="btn btn-default btn-sm" href="editDescription.jsp?project=0&token=test">
+                                            <i class="fa fa-pencil"></i> Bearbeiten</a>
+                                        <a class="btn btn-default btn-sm" href="#">
+                                            <i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>
+
+                                    </div>
+                                    <div class="journal-description-text">
+                                    </div>
+                                    <div class="journal-description-group">
+                                        <h3>Gruppe</h3>
+                                    </div>
+                                    <div class="journal-description-links">
+                                        <h3>Links</h3>
+
+                                    </div>
+
+                                </div>
                             </div>
 
+                            <div id="journal-container" class="tab-pane fade">
+                            <h2>Lernatagebuch</h2>
+                            <select id="journalfilter" onchange="filterJournals()">
+                                <option>Alle</option>
+                                <option>Eigene</option>
+                            </select>
+
+                            <a class="btn btn-default btn-sm" href="createJournal.jsp?token=test">Neu</a>
+
+                            <div class="journal">
+                            </div>
                         </div>
-
-                        <h2>Lernatagebuch</h2>
-                        <select id="journalfilter" onchange="filterJournals()">
-                            <option>Alle</option>
-                            <option>Eigene</option>
-                        </select>
-
-                        <a class="btn btn-default btn-sm" href="createJournal.jsp?token=test">Neu</a>
-
-                        <div class="journal">
                         </div>
                     </td>
                 </tr>
