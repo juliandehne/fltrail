@@ -42,7 +42,7 @@
 					<td  id="yourContent">
 						<h1> Tagebucheintrag erstellen </h1>
 
-						<form id="journalform" class="form-journal" method="POST" action="../rest/journal/save">
+						<form id="journalform" class="form-journal" method="POST" action="../rest/journal/save" >
 
 							<input type="hidden" name="student" value="0">
 							<input type="hidden" name="project" value="0">
@@ -75,7 +75,7 @@
 
 								<div class="journal-form-buttons">
 									<input type="submit">
-									<button> Zur&uuml;ck </button>
+									<a href="eportfolio.jsp"><button> Zur&uuml;ck </button></a>
 								</div>
 
 							</div>

@@ -10,6 +10,8 @@ import unipotsdam.gf.modules.journal.service.JournalService;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 /**
@@ -107,6 +109,18 @@ public class JournalView {
         log.debug(">>> saveJournal");
 
         journalService.saveJournal(id, student, project, text, visibility, category);
+
+        //TODO token
+        URI location = null;
+        try {
+            location = new URI("../pages/eportfolio.jsp?token=test");
+            log.debug("<<< saveJournal: redirect to "  +location.toString());
+            return Response.temporaryRedirect(location).build();
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            log.debug("saveJournal: redirect failed" );
+        }
 
         log.debug("<<< saveJournal");
 
