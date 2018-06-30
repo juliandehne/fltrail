@@ -15,6 +15,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.lang.invoke.MethodType;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 /**
@@ -44,14 +46,26 @@ public class ProjectDescriptionView {
 
     //save Description
     @POST
-    @Consumes(MediaType.TEXT_HTML)
-    @Path("/saveText/{text}")
-    public Response saveProjectText(@PathParam("text")String text){
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/saveText")
+    public Response saveProjectText(@FormParam("student")String student,@FormParam("project")String project,@FormParam("text")String text){
         log.debug(">>> saveText: " + text);
 
         descriptionService.saveProjectText(text);
 
-        log.debug(">>> saveText");
+        //TODO token
+        try {
+            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            log.debug("<<< saveText: redirect to "  +location.toString());
+            return Response.temporaryRedirect(location).build();
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            log.debug("saveText: redirect failed" );
+        }
+
+        log.debug("<<< saveText");log.debug(">>> saveText");
 
         return Response.ok().build();
     }

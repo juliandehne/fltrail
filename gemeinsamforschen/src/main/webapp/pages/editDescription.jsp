@@ -56,7 +56,7 @@
 
                                 <div class="description-form-buttons">
                                     <input type="submit">
-                                    <button> Zur&uuml;ck </button>
+                                    <a href="eportfolio.jsp?token=test">Zur&uuml;ck</a>
                                 </div>
 
                             </div>
