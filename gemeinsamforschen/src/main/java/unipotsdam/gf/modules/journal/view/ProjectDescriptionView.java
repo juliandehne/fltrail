@@ -92,8 +92,8 @@ public class ProjectDescriptionView {
     //delete Link
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/deleteLink/{link}")
-    public Response deleteLink(@PathParam("link")String link){
+    @Path("/deleteLink")
+    public Response deleteLink(String link){
         log.debug(">>> deleteLink: " + link);
 
         descriptionService.deleteLink(link);

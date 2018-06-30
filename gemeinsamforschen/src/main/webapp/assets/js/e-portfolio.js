@@ -7,7 +7,7 @@ $(document).ready(function() {
         $('.journal-description-title').append('<h2>' + data.name + '</h2>');
         $('.journal-description-text').append(data.description);
         for(var link in data.links){
-            $('.journal-description-links').append('<a href=' + data.links[link] + '>' + link + '</a> <i class="fa fa-trash" aria-hidden="true" ></i><br/>');
+            $('.journal-description-links').append('<a href=' + data.links[link] + '>' + link + '</a> <button onclick=\'linkLoeschen("'+link+'")\'> <i class="fa fa-trash" aria-hidden="true" ></i></button><br/>');
         }
         $('.journal-description-links').append('<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addLinkModal"><i class="fa fa-plus" aria-hidden="true"></i></button>');
 
@@ -63,4 +63,21 @@ function loadJournals(data) {
             ' </div><div class="journal-text">' +
             data[journal].entry +
             '</div>')
-    }}
+    }};
+
+function linkLoeschen(name) {
+    console.log("löschen" + name);
+    $.ajax({
+        type: "POST",
+        url: "../rest/projectdescription/deleteLink",
+        data: JSON.stringify(name),
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        dataType: "json",
+        success: function (data, status, jqXHR) {
+
+            alert(success);
+        }
+    });
+
+}
