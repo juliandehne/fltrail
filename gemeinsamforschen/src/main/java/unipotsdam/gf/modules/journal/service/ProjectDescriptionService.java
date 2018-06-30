@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.journal.service;
 
-import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
 
 /**
@@ -14,5 +13,7 @@ public interface ProjectDescriptionService {
 
     void saveProjectText(String text);
 
-    void saveProjectLinks(String text);
+    void addLink(String link, String name);
+
+    void deleteLink(String link);
 }

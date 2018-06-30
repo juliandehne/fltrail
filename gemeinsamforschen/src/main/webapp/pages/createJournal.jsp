@@ -74,8 +74,8 @@
 								</div>
 
 								<div class="journal-form-buttons">
-									<input type="submit">
-									<a href="eportfolio.jsp"><button> Zur&uuml;ck </button></a>
+									<input class="btn btn-default btn-sm" type="submit">
+									<a class="btn btn-default btn-sm" href="eportfolio.jsp"> Zur&uuml;ck </a>
 								</div>
 
 							</div>

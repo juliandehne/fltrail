@@ -2,22 +2,15 @@ package unipotsdam.gf.modules.journal.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.security.krb5.internal.MethodData;
-import unipotsdam.gf.modules.journal.model.Journal;
-import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
-import unipotsdam.gf.modules.journal.service.DummyJournalService;
 import unipotsdam.gf.modules.journal.service.DummyProjectDescription;
-import unipotsdam.gf.modules.journal.service.JournalService;
 import unipotsdam.gf.modules.journal.service.ProjectDescriptionService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.lang.invoke.MethodType;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 
 /**
  * View for the project description
@@ -70,17 +63,41 @@ public class ProjectDescriptionView {
         return Response.ok().build();
     }
 
-    //save Link
+    //add Link
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/saveLinks/{links}")
-    public Response saveProjectLinks(@PathParam("links")String text){
-        log.debug(">>> saveLinks: " + text);
+    @Path("/addLink/{link}/{name}")
+    public Response saveProjectLinks(@PathParam("link")String link, @PathParam("name")String name){
+        log.debug(">>> saveLinks: " + name + ":" + link);
 
-        descriptionService.saveProjectLinks(text);
+        descriptionService.addLink(link, name );
 
         log.debug(">>> saveLinks");
 
+        return Response.ok().build();
+    }
+
+
+    //delete Link
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/deleteLink/{link}")
+    public Response deleteLink(@PathParam("link")String link){
+        log.debug(">>> deleteLink: " + link);
+
+        descriptionService.deleteLink(link);
+        //TODO token
+        try {
+            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            log.debug("<<< deleteLink: redirect to "  +location.toString());
+            return Response.temporaryRedirect(location).build();
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            log.debug("deleteLink: redirect failed" );
+        }
+
+        log.debug("<<< deleteLink");log.debug(">>> saveText");
         return Response.ok().build();
     }
 

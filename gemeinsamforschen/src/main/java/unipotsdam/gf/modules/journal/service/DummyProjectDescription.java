@@ -47,8 +47,13 @@ public class DummyProjectDescription implements ProjectDescriptionService {
     }
 
     @Override
-    public void saveProjectLinks(String text) {
+    public void addLink(String link, String name) {
         //convert String to List
         //setLinks
+    }
+
+    @Override
+    public void deleteLink(String link) {
+
     }
 }
