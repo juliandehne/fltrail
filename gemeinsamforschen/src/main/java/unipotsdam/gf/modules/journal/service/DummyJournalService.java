@@ -44,7 +44,7 @@ public class DummyJournalService implements JournalService {
 
     @Override
     public ArrayList<Journal> getAllJournals(String student, String project, JournalFilter filter) {
-        log.debug(">> get all journals(" + student , "," + project + ")");
+        log.debug(">> get all journals(" + student  + "," + project + ","  + filter + ")");
 
         ArrayList<Journal> result = new ArrayList<>();
 

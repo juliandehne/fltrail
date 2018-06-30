@@ -71,16 +71,17 @@
                             </div>
 
                             <div id="journal-container" class="tab-pane fade">
-                            <h2>Lernatagebuch</h2>
-                            <select id="journalfilter" onchange="filterJournals()">
-                                <option>Alle</option>
-                                <option>Eigene</option>
-                            </select>
+                                <h2>Lernatagebuch</h2>
 
-                            <a class="btn btn-default btn-sm" href="createJournal.jsp?token=test">Neu</a>
+                                <select id="journalfilter" onchange="filterJournals()">
+                                    <option value="ALL">Alle</option>
+                                    <option value="OWN">Eigene</option>
+                                </select>
 
-                            <div class="journal">
-                            </div>
+                                <a class="btn btn-default btn-sm" href="createJournal.jsp?token=test">Neu</a>
+
+                                <div class="journal">
+                                </div>
                         </div>
                         </div>
                     </td>
