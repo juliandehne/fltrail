@@ -18,26 +18,26 @@ $(document).ready(function() {
     $.ajax({
         url: "../rest/journal//journals/0/0"
     }).then(function(data) {
-        loadJournals(data)
+        loadJournals(data);
         console.log(data);
     });
 
 });
 
-function timestamptToDateString(timestamp) {
+function timestampToDateString(timestamp) {
     var date = new Date(timestamp);
     return date.toLocaleString("de-DE");
 }
 
 function filterJournals() {
-    var filter = $( "#journalfilter option:selected" ).val();
+    var filter = $( '#journalfilter option:selected' ).val();
 
     $('.journal').empty();
 
     $.ajax({
         url: "../rest/journal//journals/0/0/"+filter
     }).then(function(data) {
-        loadJournals(data)
+        loadJournals(data);
         console.log(data);
 
     });
@@ -50,7 +50,7 @@ function loadJournals(data) {
             '<div class="journal-container"><div class="journal-avatar">' +
             'getBild' +
             '</div><div class="journal-date"> ' +
-            timestamptToDateString(data[journal].timestamp) +
+            timestampToDateString(data[journal].timestamp) +
             '</div><div class="journal-name">' +
             data[journal].creator + '' +
             '</div><div class="journal-category">' +
