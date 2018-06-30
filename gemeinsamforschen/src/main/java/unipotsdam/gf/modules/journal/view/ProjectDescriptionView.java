@@ -65,14 +65,25 @@ public class ProjectDescriptionView {
 
     //add Link
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/addLink/{link}/{name}")
-    public Response saveProjectLinks(@PathParam("link")String link, @PathParam("name")String name){
-        log.debug(">>> saveLinks: " + name + ":" + link);
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("/addLink")
+    public Response addLink(@FormParam("link") String link, @FormParam("name") String name){
+        log.debug(">>> addLink: " + name + ":" + link);
 
         descriptionService.addLink(link, name );
 
-        log.debug(">>> saveLinks");
+
+        try {
+            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            log.debug("<<< addLink: redirect to "  +location.toString());
+            return Response.temporaryRedirect(location).build();
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            log.debug("addLink: redirect failed" );
+        }
+
+        log.debug(">>> addLink");
 
         return Response.ok().build();
     }

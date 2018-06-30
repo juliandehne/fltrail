@@ -77,6 +77,30 @@
     </div>
 </div>
 
+<div class="modal fade" id="addLinkModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Link hinzuf&uuml;gen</h4>
+            </div>
+            <div class="modal-body">
+                <form id="linkform" method="POST" action="../rest/projectdescription/addLink" >
+                    Name:<br>
+                    <input type="text" name="name" form="linkform">
+                    <br>
+                    URL:<br>
+                    <input type="text" name="link" form="linkform">
+                    <br><br>
+                    <input class="btn btn-default" type="submit"  >
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/Sidebar-Menu.js"></script>

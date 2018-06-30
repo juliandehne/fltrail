@@ -9,7 +9,7 @@ $(document).ready(function() {
         for(var link in data.links){
             $('.journal-description-links').append('<a href=' + data.links[link] + '>' + link + '</a> <i class="fa fa-trash" aria-hidden="true" ></i><br/>');
         }
-        $('.journal-description-links').append('<i class="fa fa-plus" aria-hidden="true"></i>');
+        $('.journal-description-links').append('<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addLinkModal"><i class="fa fa-plus" aria-hidden="true"></i></button>');
 
         for(var g in data.group){
             $('.journal-description-group').append(data.group[g]+ '<br/>');
