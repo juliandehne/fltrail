@@ -13,15 +13,15 @@ import static unipotsdam.gf.core.management.utils.MarkdownUtils.convertMarkdownT
 
 public class ProjectDescription {
 
-    long id;
-    String name;
-    String descriptionHTML;
-    String descriptionMD;
-    boolean open;
-    Project project;
-    Map<String,String> links;
-    ArrayList<String> group;
-    long timestamp;
+    private long id;
+    private String name;
+    private String descriptionHTML;
+    private String descriptionMD;
+    private boolean open;
+    private Project project;
+    private Map<String,String> links;
+    private ArrayList<String> group;
+    private long timestamp;
 
     public ProjectDescription() {
     }

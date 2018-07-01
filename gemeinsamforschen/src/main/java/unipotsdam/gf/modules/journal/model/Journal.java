@@ -10,17 +10,16 @@ import static unipotsdam.gf.core.management.utils.MarkdownUtils.convertMarkdownT
  */
 public class Journal {
 
-    long id;
-    StudentIdentifier studentIdentifier;
-    String creator;
-    String entryHTML;
-    String entryMD;
-    long timestamp;
-    Visibility visibility;
-    String category; //TODO enum
+    private long id;
+    private StudentIdentifier studentIdentifier;
+    private String creator;
+    private String entryHTML;
+    private String entryMD;
+    private long timestamp;
+    private Visibility visibility;
+    private String category;//TODO enum
 
     public Journal() {}
-
 
     public Journal(long id, StudentIdentifier studentIdentifier, String entry, long timestamp, Visibility visibility, String category) {
         this.id = id;

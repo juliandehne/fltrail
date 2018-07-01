@@ -21,8 +21,8 @@ import java.net.URISyntaxException;
 @Path("/projectdescription")
 public class ProjectDescriptionView {
 
-    Logger log = LoggerFactory.getLogger(ProjectDescriptionView.class);
-    ProjectDescriptionService descriptionService = new DummyProjectDescription();
+    private Logger log = LoggerFactory.getLogger(ProjectDescriptionView.class);
+    private ProjectDescriptionService descriptionService = new DummyProjectDescription();
 
     //get Description
     @GET

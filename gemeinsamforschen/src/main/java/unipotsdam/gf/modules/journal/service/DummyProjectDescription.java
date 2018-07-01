@@ -6,22 +6,18 @@ import unipotsdam.gf.modules.journal.model.ProjectDescription;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 public class DummyProjectDescription implements ProjectDescriptionService {
 
-    ArrayList<Map<String,String>> links;
-    ArrayList<String> group;
-    ProjectDescription testProject;
+    private ProjectDescription testProject;
 
     public DummyProjectDescription(){
 
-        links = new ArrayList();
         HashMap<String,String> link = new HashMap<>();
         link.put("Test", "www.test.de");
         link.put("Google", "www.google.de");
 
-        group = new ArrayList<>();
+        ArrayList<String> group = new ArrayList<>();
         group.add("Test Person");
         group.add("Person Test");
 

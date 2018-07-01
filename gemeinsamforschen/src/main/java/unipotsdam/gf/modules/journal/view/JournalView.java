@@ -23,8 +23,8 @@ import java.util.ArrayList;
 @Path("/journal")
 public class JournalView {
 
-    Logger log = LoggerFactory.getLogger(JournalView.class);
-    JournalService journalService = new DummyJournalService();
+    private Logger log = LoggerFactory.getLogger(JournalView.class);
+    private JournalService journalService = new DummyJournalService();
 
     /**
      * Returns a specific Journal
@@ -111,7 +111,7 @@ public class JournalView {
         journalService.saveJournal(id, student, project, text, visibility, category);
 
         //TODO token
-        URI location = null;
+        URI location;
         try {
             location = new URI("../pages/eportfolio.jsp?token=test");
             log.debug("<<< saveJournal: redirect to "  +location.toString());

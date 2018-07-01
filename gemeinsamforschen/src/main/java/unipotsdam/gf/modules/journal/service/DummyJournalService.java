@@ -16,14 +16,14 @@ import java.util.Calendar;
 
 public class DummyJournalService implements JournalService {
 
-    Logger log = LoggerFactory.getLogger(DummyJournalService.class);
+    private Logger log = LoggerFactory.getLogger(DummyJournalService.class);
 
 
-    Calendar cal = Calendar.getInstance();
+    private Calendar cal = Calendar.getInstance();
 
-    long id = 4;
+    private long id = 4;
 
-    ArrayList<Journal> journals = new ArrayList<>();
+    private ArrayList<Journal> journals = new ArrayList<>();
 
     public DummyJournalService(){
 
@@ -80,7 +80,7 @@ public class DummyJournalService implements JournalService {
 
     @Override
     public boolean saveJournal(long id, String student, String project, String text, String visibility, String category) {
-        if (Long.valueOf(id) == -1){
+        if (id == -1){
 
             StudentIdentifier studentId = new StudentIdentifier(student,project);
             journals.add(new Journal(this.id++, studentId, text , cal.getTimeInMillis(), stringToVisibility(visibility) , category));
@@ -126,7 +126,7 @@ public class DummyJournalService implements JournalService {
         return v;
     }
 
-    ArrayList<Journal> resetList () {
+    private void resetList() {
 
         StudentIdentifier studentIdentifier = new StudentIdentifier("0","0");
         StudentIdentifier studentIdentifier2 = new StudentIdentifier("0","1");
@@ -152,7 +152,6 @@ public class DummyJournalService implements JournalService {
         journals.add(j4);
         journals.add(j5);
 
-        return journals;
     }
 
 
