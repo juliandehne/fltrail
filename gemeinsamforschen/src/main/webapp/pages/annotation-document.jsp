@@ -1,3 +1,5 @@
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+
 <!DOCTYPE html>
 <html>
 
@@ -34,16 +36,7 @@
 
 <body>
     <div id="wrapper" class="full-height">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"><a href="#">overview</a></li>
-                <li><a href="#">Quizfrage</a></li>
-                <li><a href="#">ePortfolio</a></li>
-                <li><a href="#">Beitrag</a></li>
-                <li><a href="#">Bewertung</a></li>
-                <li><a href="#">Logout</a></li>
-            </ul>
-        </div>
+        <menu:menu></menu:menu>
         <div class="page-content-wrapper full-height">
             <div class="container-fluid full-height">
                 <div class="container-fluid-content">
