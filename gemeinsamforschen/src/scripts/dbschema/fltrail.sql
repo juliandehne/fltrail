@@ -61,6 +61,17 @@ CREATE TABLE if not exists projectuser
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
+CREATE TABLE `annotations` (
+  `id` varchar(120) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `userId` int(11) DEFAULT NULL,
+  `targetId` int(11) DEFAULT NULL,
+  `body` varchar(280) DEFAULT NULL,
+  `startCharacter` int(11) DEFAULT NULL,
+  `endCharacter` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 alter table users
   add isStudent tinyint(1) default '1' null;
 
