@@ -29,6 +29,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
     <!-- js - contextMenu script -->
     <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
+    <!-- js - utility script -->
+    <script src="../assets/js/utility.js"></script>
     <!-- js - annotationScript -->
     <script src="../assets/js/annotationScript.js"></script>
 
@@ -60,7 +62,7 @@
                                 </div>
                                 <div class="leftcontent-buttons">
                                     <div class="leftcontent-buttons-next">
-                                        <button id="btnSave" type="button" class="btn btn-secondary">Weiter</button>
+                                        <button id="btnContinue" type="button" class="btn btn-secondary">Weiter</button>
                                     </div>
                                 </div>
                             </div>

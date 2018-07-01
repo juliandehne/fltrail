@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/viewfeedback.js"></script>
-    <script src="../assets/js/givefeedback.js"></script>
+    <script src="../assets/js/project-student.js"></script>
 </head>
 
 <body>
@@ -63,12 +63,12 @@
                                     <hr>
                                     <ul>
 
-                                        <li><a  role="button" onclick="getUserTokenFromUrl()" >
+                                        <li><a class="givefeedback" role="button">
                                             Projektuebersicht hochgeladen
                                             <i class="far fa-comments"></i>
                                             </a>
                                         </li>
-                                        <li><a  role="button" onclick="getUserTokenFromUrl()">
+                                        <li><a class="givefeedback" role="button">
                                             Blumen ins Hausaufgabenheft geklebt
                                             <i class="far fa-comments"></i>
                                             </a>
@@ -84,15 +84,15 @@
                                     <a href="#">student2@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li><a id="givefeedback" role="button">
+                                        <li><a class="givefeedback" role="button">
                                             feedback zu Herbarium im Hausaufgabenheft gegeben
                                             <i class="far fa-comments"></i>
                                         </a></li>
-                                        <li><a id="givefeedback" role="button">
+                                        <li><a class="givefeedback" role="button">
                                             Blumen an Vegetarier verfuettert
                                             <i class="far fa-comments"></i>
                                             </a></li>
-                                        <li><a id="givefeedback" role="button">
+                                        <li><a class="givefeedback" role="button">
                                             Die armen Vegetarier
                                             <i class="far fa-comments"></i>
                                             </a></li>
@@ -106,7 +106,7 @@
                                     <a href="#">student3@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li><a id="givefeedback" role="button">
+                                        <li><a class="givefeedback" role="button">
                                             Viva la Floristika
                                             <i class="far fa-comments"></i>
                                             </a>
