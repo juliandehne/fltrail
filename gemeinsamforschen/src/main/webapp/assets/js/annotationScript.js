@@ -52,10 +52,10 @@ $(document).ready(function() {
     });
 
     /**
-     * next button
+     * continue button
      */
-    $('#btnSave').click(function () {
-        location.href="#"
+    $('#btnContinue').click(function () {
+        location.href="givefeedback.jsp?token=" + getUserTokenFromUrl();
     });
 
     documentText = $('#documentText').html();

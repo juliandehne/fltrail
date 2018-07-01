@@ -1,3 +1,5 @@
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+
 <!DOCTYPE html>
 <html>
 
@@ -27,6 +29,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
     <!-- js - contextMenu script -->
     <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
+    <!-- js - utility script -->
+    <script src="../assets/js/utility.js"></script>
     <!-- js - annotationScript -->
     <script src="../assets/js/annotationScript.js"></script>
 
@@ -34,16 +38,7 @@
 
 <body>
     <div id="wrapper" class="full-height">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand"><a href="#">overview</a></li>
-                <li><a href="#">Quizfrage</a></li>
-                <li><a href="#">ePortfolio</a></li>
-                <li><a href="#">Beitrag</a></li>
-                <li><a href="#">Bewertung</a></li>
-                <li><a href="#">Logout</a></li>
-            </ul>
-        </div>
+        <menu:menu></menu:menu>
         <div class="page-content-wrapper full-height">
             <div class="container-fluid full-height">
                 <div class="container-fluid-content">
@@ -67,7 +62,7 @@
                                 </div>
                                 <div class="leftcontent-buttons">
                                     <div class="leftcontent-buttons-next">
-                                        <button id="btnSave" type="button" class="btn btn-secondary">Weiter</button>
+                                        <button id="btnContinue" type="button" class="btn btn-secondary">Weiter</button>
                                     </div>
                                 </div>
                             </div>
