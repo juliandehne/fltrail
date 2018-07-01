@@ -53,8 +53,7 @@
                                     <div class="journal-description-edit" align="right">
                                         <a class="btn btn-default btn-sm" href="editDescription.jsp?project=0&token=test">
                                             <i class="fa fa-pencil"></i> Bearbeiten</a>
-                                        <a class="btn btn-default btn-sm" href="#">
-                                            <i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>
+                                        <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeDescriptionModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>'
 
                                     </div>
                                     <div class="journal-description-text">
@@ -71,15 +70,15 @@
                             </div>
 
                             <div id="journal-container" class="tab-pane fade">
-                                <h2>Lernatagebuch</h2>
+                                    <h2>Lernatagebuch</h2>
+                                    <div class="input-group">
+                                    <select id="journalfilter" class="form-control" style="width:auto;" onchange="filterJournals()">
+                                        <option value="ALL">Alle</option>
+                                        <option value="OWN">Eigene</option>
+                                    </select>
 
-                                <select id="journalfilter" onchange="filterJournals()">
-                                    <option value="ALL">Alle</option>
-                                    <option value="OWN">Eigene</option>
-                                </select>
-
-                                <a class="btn btn-default btn-sm" href="createJournal.jsp?token=test">Neu</a>
-
+                                    <a class="btn btn-default btn-sm" href="createJournal.jsp?token=test">Neu</a>
+                                </div>
                                 <div class="journal">
                                 </div>
                         </div>
@@ -114,6 +113,48 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="closeJournalModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Tagebucheintrag schließen</h4>
+            </div>
+            <div class="modal-body">
+                Tagebucheintrag schließen? Dieser Eintrag kann nach Bestätigung nicht mehr bearbeitet werden.
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary mr-auto">Ja</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nein</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="closeDescriptionModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Beschreibung schließen</h4>
+            </div>
+            <div class="modal-body">
+                Beschreibung schließen? Die Projektbeschreibung kann nach Bestätigung nicht mehr bearbeitet werden.
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary mr-auto">Ja</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nein</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>

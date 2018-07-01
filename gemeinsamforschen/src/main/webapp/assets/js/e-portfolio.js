@@ -49,21 +49,29 @@ function filterJournals() {
 function loadJournals(data) {
     for (var journal in data) {
         $('.journal').append(
-            '<div class="journal-container"><div class="journal-avatar">' +
-            'getBild' +
-            '</div><div class="journal-date"> ' +
-            timestampToDateString(data[journal].timestamp) +
-            '</div><div class="journal-name">' +
-            data[journal].creator + '' +
-            '</div><div class="journal-category">' +
-            data[journal].category +
-            '</div><div class="journal-edit" align="right">' +
-            '<a class="btn btn-default btn-sm" href="createJournal.jsp?token=test&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
-            '<a class="btn btn-default btn-sm" href="#"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>' +
-            ' </div><div class="journal-text">' +
-            data[journal].entry +
-            '</div>')
+            '<div class="journal-container">' +
+                '<div class="journal-avatar">' +
+                  'getBild' +
+                '</div>' +
+                '<div class="journal-date"> ' +
+                     timestampToDateString(data[journal].timestamp) +
+                '</div>' +
+                '<div class="journal-name">' +
+                    data[journal].creator +
+                '</div>' +
+                '<div class="journal-category">' +
+                    data[journal].category +
+                '</div>' +
+                '<div class="journal-edit" align="right">' +
+                    '<a class="btn btn-default btn-sm" href="createJournal.jsp?token=test&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
+                    '<a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeJournalModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>' +
+                '</div>' +
+                '<div class="journal-text">' +
+                    data[journal].entry +
+                '</div>' +
+            '</div><br><br>')
     }};
+
 
 function linkLoeschen(name) {
     console.log("löschen" + name);
@@ -71,6 +79,23 @@ function linkLoeschen(name) {
         type: "POST",
         url: "../rest/projectdescription/deleteLink",
         data: JSON.stringify(name),
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        dataType: "json",
+        success: function (data, status, jqXHR) {
+
+            alert(success);
+        }
+    });
+
+}
+
+function closeJournal(journal) {
+    console.log("löschen" + journal);
+    $.ajax({
+        type: "POST",
+        url: "../rest/journal/close",
+        data: JSON.stringify(journal),
         contentType: "application/json; charset=utf-8",
         crossDomain: true,
         dataType: "json",
