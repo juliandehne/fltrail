@@ -62,8 +62,15 @@
 								<div class = "journal-form-category">
 									Kategorie:
 									<select name="category" form="journalform">
-										<option value="A"> A </option>
-										<option value="B"> B </option>
+										<option value="TITEL"> Titel </option>
+										<option value="RECHERCHE"> Recherche </option>
+										<option value="LITERATURVERZEICHNIS"> Literaturverzeichnis </option>
+										<option value="FORSCHUNGSFRAGE"> Forschungsfrage </option>
+										<option value="UNTERSUCHUNGSKONZEPT"> Untersuchungskonzept </option>
+										<option value="METHODIK"> Methodik </option>
+										<option value="DURCHFUEHRUNG"> Durchführung </option>
+										<option value="AUSWERTUNG"> Auswertung </option>
+
 									</select>
 								</div>
 

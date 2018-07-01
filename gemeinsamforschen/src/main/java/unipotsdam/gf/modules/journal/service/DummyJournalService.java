@@ -133,15 +133,15 @@ public class DummyJournalService implements JournalService {
 
         String test = "**nec** nec facilisis nibh, sed sagittis tortor. Suspendisse vel felis ac leo dignissim efficitur. Nunc non egestas eros, sit amet vestibulum nunc. Sed bibendum varius molestie. Proin augue mauris, mollis sed efficitur efficitur, sagittis quis eros. Praesent tincidunt tincidunt porttitor. Maecenas quis ornare tellus. Nunc euismod vestibulum neque, sed luctus neque convallis in. Duis molestie ex ut nunc dignissim condimentum ut vitae dui. Vestibulum diam lorem, eleifend sit amet lobortis nec, vulputate a leo. In nec ante felis. Maecenas interdum nunc et odio placerat fringilla. Aenean felis purus, mollis id lectus non, fringilla tincidunt mi. Nunc sed rutrum ex, vel tempus odio.";
 
-        Journal j1 = new Journal(0,studentIdentifier,test, cal.getTimeInMillis() , Visibility.ALL, "test1");
+        Journal j1 = new Journal(0,studentIdentifier,test, cal.getTimeInMillis() , Visibility.ALL, "Recherche");
         j1.setCreator("Test Test");
-        Journal j2 = new Journal(1,studentIdentifier,test, cal.getTimeInMillis() , Visibility.MINE, "test2");
+        Journal j2 = new Journal(1,studentIdentifier,test, cal.getTimeInMillis() , Visibility.MINE, "Untersuchungskonzept");
         j2.setCreator("Test Test");
-        Journal j3 = new Journal(2,studentIdentifier,test, cal.getTimeInMillis() , Visibility.GROUP, "test3");
+        Journal j3 = new Journal(2,studentIdentifier,test, cal.getTimeInMillis() , Visibility.GROUP, "Methodik");
         j3.setCreator("Test Test");
-        Journal j4 = new Journal(3,studentIdentifier,test, cal.getTimeInMillis() , Visibility.DOZENT ,"test4");
+        Journal j4 = new Journal(3,studentIdentifier,test, cal.getTimeInMillis() , Visibility.DOZENT ,"Recherche");
         j4.setCreator("Test Test");
-        Journal j5 = new Journal(4,studentIdentifier2,test, cal.getTimeInMillis() , Visibility.GROUP, "test5");
+        Journal j5 = new Journal(4,studentIdentifier2,test, cal.getTimeInMillis() , Visibility.GROUP, "Durchführung");
         j5.setCreator("ASD DSA");
 
         journals = new ArrayList<>();
