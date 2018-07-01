@@ -16,4 +16,6 @@ public interface ProjectDescriptionService {
     void addLink(String link, String name);
 
     void deleteLink(String link);
+
+    void closeDescription(String desc);
 }

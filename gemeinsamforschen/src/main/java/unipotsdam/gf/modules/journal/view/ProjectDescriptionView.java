@@ -108,7 +108,30 @@ public class ProjectDescriptionView {
             log.debug("deleteLink: redirect failed" );
         }
 
-        log.debug("<<< deleteLink");log.debug(">>> saveText");
+        log.debug("<<< deleteLink");
+        return Response.ok().build();
+    }
+
+    //close descr
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/close")
+    public Response closeDescription(String desc){
+        log.debug(">>> closeDescription: " + desc);
+
+        descriptionService.closeDescription(desc);
+        //TODO token
+        try {
+            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            log.debug("<<< closeDescription: redirect to "  +location.toString());
+            return Response.temporaryRedirect(location).build();
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            log.debug("closeDescription: redirect failed" );
+        }
+
+        log.debug("<<< closeDescription");
         return Response.ok().build();
     }
 

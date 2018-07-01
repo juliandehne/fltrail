@@ -1,14 +1,12 @@
 package unipotsdam.gf.modules.journal.service;
 
-import org.commonmark.renderer.html.HtmlRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.model.Visibility;
-import org.commonmark.node.*;
-import org.commonmark.parser.Parser;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -85,7 +83,7 @@ public class DummyJournalService implements JournalService {
         if (Long.valueOf(id) == -1){
 
             StudentIdentifier studentId = new StudentIdentifier(student,project);
-            journals.add(new Journal(this.id++, studentId, convertMarkdownToHtml(text) , cal.getTimeInMillis(), stringToVisibility(visibility) , category));
+            journals.add(new Journal(this.id++, studentId, text , cal.getTimeInMillis(), stringToVisibility(visibility) , category));
 
         } else {
             for (Journal j : journals){
@@ -111,6 +109,11 @@ public class DummyJournalService implements JournalService {
         return false;
     }
 
+    @Override
+    public void closeJournal(String journal) {
+
+    }
+
     private Visibility stringToVisibility(String visibility) {
         // If String does not match enum IllegalArgumentException
         Visibility v ;
@@ -128,7 +131,7 @@ public class DummyJournalService implements JournalService {
         StudentIdentifier studentIdentifier = new StudentIdentifier("0","0");
         StudentIdentifier studentIdentifier2 = new StudentIdentifier("0","1");
 
-        String test = "Donec nec facilisis nibh, sed sagittis tortor. Suspendisse vel felis ac leo dignissim efficitur. Nunc non egestas eros, sit amet vestibulum nunc. Sed bibendum varius molestie. Proin augue mauris, mollis sed efficitur efficitur, sagittis quis eros. Praesent tincidunt tincidunt porttitor. Maecenas quis ornare tellus. Nunc euismod vestibulum neque, sed luctus neque convallis in. Duis molestie ex ut nunc dignissim condimentum ut vitae dui. Vestibulum diam lorem, eleifend sit amet lobortis nec, vulputate a leo. In nec ante felis. Maecenas interdum nunc et odio placerat fringilla. Aenean felis purus, mollis id lectus non, fringilla tincidunt mi. Nunc sed rutrum ex, vel tempus odio.";
+        String test = "**nec** nec facilisis nibh, sed sagittis tortor. Suspendisse vel felis ac leo dignissim efficitur. Nunc non egestas eros, sit amet vestibulum nunc. Sed bibendum varius molestie. Proin augue mauris, mollis sed efficitur efficitur, sagittis quis eros. Praesent tincidunt tincidunt porttitor. Maecenas quis ornare tellus. Nunc euismod vestibulum neque, sed luctus neque convallis in. Duis molestie ex ut nunc dignissim condimentum ut vitae dui. Vestibulum diam lorem, eleifend sit amet lobortis nec, vulputate a leo. In nec ante felis. Maecenas interdum nunc et odio placerat fringilla. Aenean felis purus, mollis id lectus non, fringilla tincidunt mi. Nunc sed rutrum ex, vel tempus odio.";
 
         Journal j1 = new Journal(0,studentIdentifier,test, cal.getTimeInMillis() , Visibility.ALL, "test1");
         j1.setCreator("Test Test");
@@ -152,16 +155,6 @@ public class DummyJournalService implements JournalService {
         return journals;
     }
 
-    /**
-     * Converts a markdown text to html
-     * @param markdown markdown text
-     * @return html text
-     */
-    private String convertMarkdownToHtml (String markdown){
-        Parser parser = Parser.builder().build();
-        Node document = parser.parse("This is *Sparta*");
-        HtmlRenderer renderer = HtmlRenderer.builder().build();
-        return renderer.render(document);
-    }
+
 
 }

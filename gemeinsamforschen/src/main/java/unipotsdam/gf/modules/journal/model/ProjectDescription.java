@@ -5,15 +5,19 @@ import unipotsdam.gf.core.management.project.Project;
 import java.util.ArrayList;
 import java.util.Map;
 
+import static unipotsdam.gf.core.management.utils.MarkdownUtils.convertMarkdownToHtml;
+
 /**
- * Model class for the project description of the e portfolio
+ * Model class for the project descriptionHTML of the e portfolio
  */
 
 public class ProjectDescription {
 
     long id;
     String name;
-    String description;
+    String descriptionHTML;
+    String descriptionMD;
+    boolean open;
     Project project;
     Map<String,String> links;
     ArrayList<String> group;
@@ -25,11 +29,18 @@ public class ProjectDescription {
     public ProjectDescription(long id, String name, String description, Project project, Map<String, String> links, ArrayList<String> group, long timestamp) {
         this.id = id;
         this.name = name;
-        this.description = description;
+        this.descriptionHTML = convertMarkdownToHtml(description);
+        this.descriptionMD =description;
         this.project = project;
         this.links = links;
         this.group = group;
         this.timestamp = timestamp;
+        this.open =true;
+    }
+
+    public void setDescription (String description){
+        this.descriptionMD = description;
+        this.descriptionHTML = convertMarkdownToHtml(description);
     }
 
     public long getId() {
@@ -48,12 +59,12 @@ public class ProjectDescription {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescriptionHTML() {
+        return descriptionHTML;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionHTML(String descriptionHTML) {
+        this.descriptionHTML = descriptionHTML;
     }
 
     public Project getProject() {
@@ -88,12 +99,31 @@ public class ProjectDescription {
         this.timestamp = timestamp;
     }
 
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
+    public String getDescriptionMD() {
+        return descriptionMD;
+    }
+
+    public void setDescriptionMD(String descriptionMD) {
+        this.descriptionMD = descriptionMD;
+    }
+
+
     @Override
     public String toString() {
         return "ProjectDescription{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
+                ", descriptionHTML='" + descriptionHTML + '\'' +
+                ", descriptionMD='" + descriptionMD + '\'' +
+                ", open=" + open +
                 ", project=" + project +
                 ", links=" + links +
                 ", group=" + group +

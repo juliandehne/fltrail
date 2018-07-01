@@ -16,7 +16,7 @@ $(document).ready(function() {
         $.ajax({
             url: "../rest/journal/"+journalID
         }).then(function(data) {
-            $('#editor').append(data.entry);
+            $('#editor').append(data.entryMD);
 
             //TODO preselet in select tags
             new InscrybMDE({

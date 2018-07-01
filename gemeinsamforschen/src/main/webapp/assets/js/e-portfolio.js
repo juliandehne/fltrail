@@ -5,7 +5,7 @@ $(document).ready(function() {
         url: "../rest/projectdescription/0"
     }).then(function(data) {
         $('.journal-description-title').append('<h2>' + data.name + '</h2>');
-        $('.journal-description-text').append(data.description);
+        $('.journal-description-text').append(data.descriptionHTML);
         for(var link in data.links){
             $('.journal-description-links').append('<a href=' + data.links[link] + '>' + link + '</a> <button onclick=\'linkLoeschen("'+link+'")\'> <i class="fa fa-trash" aria-hidden="true" ></i></button><br/>');
         }
@@ -15,6 +15,7 @@ $(document).ready(function() {
             $('.journal-description-group').append(data.group[g]+ '<br/>');
 
         }
+        console.log(data);
     });
 
     $.ajax({
@@ -67,7 +68,7 @@ function loadJournals(data) {
                     '<a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeJournalModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>' +
                 '</div>' +
                 '<div class="journal-text">' +
-                    data[journal].entry +
+                    data[journal].entryHTML +
                 '</div>' +
             '</div><br><br>')
     }};
@@ -96,6 +97,23 @@ function closeJournal(journal) {
         type: "POST",
         url: "../rest/journal/close",
         data: JSON.stringify(journal),
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        dataType: "json",
+        success: function (data, status, jqXHR) {
+
+            alert(success);
+        }
+    });
+
+}
+
+function closeJournal(description) {
+    console.log("löschen" + description);
+    $.ajax({
+        type: "POST",
+        url: "../rest/projectdescription/close",
+        data: JSON.stringify(description),
         contentType: "application/json; charset=utf-8",
         crossDomain: true,
         dataType: "json",

@@ -3,6 +3,8 @@ package unipotsdam.gf.modules.journal.model;
 
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
+import static unipotsdam.gf.core.management.utils.MarkdownUtils.convertMarkdownToHtml;
+
 /**
  * Model Class for the learnig journal of the e-portfolio
  */
@@ -11,22 +13,31 @@ public class Journal {
     long id;
     StudentIdentifier studentIdentifier;
     String creator;
-    String entry;
+    String entryHTML;
+    String entryMD;
     long timestamp;
     Visibility visibility;
     String category; //TODO enum
 
     public Journal() {}
 
+
     public Journal(long id, StudentIdentifier studentIdentifier, String entry, long timestamp, Visibility visibility, String category) {
         this.id = id;
         this.studentIdentifier = studentIdentifier;
         // TODO setName per StudentID
-        this.entry = entry;
+        this.entryHTML = convertMarkdownToHtml(entry);
+        this.entryMD = entry;
         this.timestamp = timestamp;
         this.visibility = visibility;
         this.category = category;
     }
+
+    public void setEntry(String entry){
+        this.entryMD = entry;
+        this.entryHTML = convertMarkdownToHtml(entry);
+    }
+
 
     public long getId() {
         return id;
@@ -44,12 +55,12 @@ public class Journal {
         this.studentIdentifier = studentIdentifier;
     }
 
-    public String getEntry() {
-        return entry;
+    public String getEntryHTML() {
+        return entryHTML;
     }
 
-    public void setEntry(String entry) {
-        this.entry = entry;
+    public void setEntryHTML(String entryHTML) {
+        this.entryHTML = entryHTML;
     }
 
     public long getTimestamp() {
@@ -84,13 +95,21 @@ public class Journal {
         this.creator = creator;
     }
 
+    public String getEntryMD() {
+        return entryMD;
+    }
+
+    public void setEntryMD(String entryMD) {
+        this.entryMD = entryMD;
+    }
+
     @Override
     public String toString() {
         return "Journal{" +
                 "id=" + id +
                 ", studentIdentifier=" + studentIdentifier +
                 ", creator='" + creator + '\'' +
-                ", entry='" + entry + '\'' +
+                ", entryHTML='" + entryHTML + '\'' +
                 ", timestamp=" + timestamp +
                 ", visibility=" + visibility +
                 ", category='" + category + '\'' +

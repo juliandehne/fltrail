@@ -55,4 +55,5 @@ public interface JournalService {
      boolean deleteJournal(long id);
 
 
+    void closeJournal(String journal);
 }

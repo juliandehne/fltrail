@@ -148,5 +148,27 @@ public class JournalView {
         return Response.ok().build();
     }
 
+    //close journal
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/close")
+    public Response closeJournal(String journal){
+        log.debug(">>> closeJournal: " + journal);
+
+        journalService.closeJournal(journal);
+        //TODO token
+        try {
+            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            log.debug("<<< closeJournal: redirect to "  +location.toString());
+            return Response.temporaryRedirect(location).build();
+
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            log.debug("closeJournal: redirect failed" );
+        }
+
+        log.debug("<<< closeJournal");
+        return Response.ok().build();
+    }
 
 }
