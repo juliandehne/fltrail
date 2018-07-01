@@ -51,9 +51,13 @@ $(document).ready(function() {
         }
     });
 
-    /*
-     *   PAGE LOADED
+    /**
+     * next button
      */
+    $('#btnSave').click(function () {
+        location.href="#"
+    });
+
     documentText = $('#documentText').html();
 
     // fetch annotations from server on page start

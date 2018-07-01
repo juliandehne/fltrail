@@ -22,6 +22,7 @@ ol {
     /* background-color: blue; */
 }
 .leftcolumn {
+    padding: 10px;
     float: left;
     width: 75%;
     display: inline-block;
@@ -31,7 +32,9 @@ ol {
     margin: 10px;
 }
 .leftcontent {
-    margin: 10px;
+    max-height: 100%;
+    display: flex;
+    flex-flow: column;
     /* background-color: white; */
 }
 .spacing {
@@ -137,5 +140,12 @@ ol {
 }
 .full-height {
     height: 100%;
+}
+.leftcontent-buttons-next {
+    float: right;
+    margin: 20px;
+}
+.leftcontent-text {
+    overflow: scroll;
 }
 
