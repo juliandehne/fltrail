@@ -20,7 +20,7 @@
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.8.5/dist/showdown.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
     <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/viewfeedback.js"></script>
+    <script src="../assets/js/project-student.js"></script>
 </head>
 
 <body>
@@ -38,9 +38,9 @@
             </button>
 
             <ul class="dropdown-menu">
-                <li><a id="viewfeedback" role="button">Feedback A</a></li>
-                <li><a id="viewfeedback" role="button">Feedback B</a></li>
-                <li><a id="viewfeedback" role="button">Feedback C</a></li>
+                <li><a class="viewfeedback" role="button">Feedback A</a></li>
+                <li><a class="viewfeedback" role="button">Feedback B</a></li>
+                <li><a class="viewfeedback" role="button">Feedback C</a></li>
             </ul>
 
             <a href="#">
@@ -103,8 +103,11 @@
                                 element: document.getElementById("demo1"),
                                 spellChecker: false,
                                 //toolbar: ["bold", "italic", "heading", "|", "quote", "table", "code", "|" , "side-by-side", "fullscreen"],
+                                minHeight: "80px",
                             });
 
+
+                            editor.style = "min-height: 100px";
 
                             function save() {
                                 console.log("save");
@@ -118,10 +121,14 @@
                             }
 
                         </script>
-                        <div>
-                            <button class="btn btn-light">Next</button>
-                            <button class="btn btn-light" id="">Back</button>
-                        </div>
+
+                        <button class="btn btn-secondary" onclick="goBack()">Zurück</button>
+
+                        <script>
+                            function goBack() {
+                                window.history.back();
+                            }
+                        </script>
                     </td>
 
             <td  id="chat">

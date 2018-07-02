@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/viewfeedback.js"></script>
     <script src="../assets/js/project-student.js"></script>
 </head>
 
@@ -37,9 +36,9 @@
             </button>
 
             <ul class="dropdown-menu">
-                <li><a id="viewfeedback" role="button">Feedback A</a></li>
-                <li><a id="viewfeedback" role="button">Feedback B</a></li>
-                <li><a id="viewfeedback" role="button">Feedback C</a></li>
+                <li><a class="viewfeedback" role="button">Feedback A</a></li>
+                <li><a class="viewfeedback" role="button">Feedback B</a></li>
+                <li><a class="viewfeedback" role="button">Feedback C</a></li>
             </ul>
 
             <a href="#">
@@ -63,12 +62,12 @@
                                     <hr>
                                     <ul>
 
-                                        <li><a class="givefeedback" role="button">
+                                        <li><a class="annotationview" role="button">
                                             Projektuebersicht hochgeladen
                                             <i class="far fa-comments"></i>
                                             </a>
                                         </li>
-                                        <li><a class="givefeedback" role="button">
+                                        <li><a class="annotationview" role="button">
                                             Blumen ins Hausaufgabenheft geklebt
                                             <i class="far fa-comments"></i>
                                             </a>
@@ -84,15 +83,15 @@
                                     <a href="#">student2@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li><a class="givefeedback" role="button">
-                                            feedback zu Herbarium im Hausaufgabenheft gegeben
-                                            <i class="far fa-comments"></i>
-                                        </a></li>
-                                        <li><a class="givefeedback" role="button">
+                                        <li><a class="annotationview" role="button">
                                             Blumen an Vegetarier verfuettert
                                             <i class="far fa-comments"></i>
+                                        </a></li>
+                                        <li><a class="annotationview" role="button">
+                                            Literaturverzeichnis hochgeladen
+                                            <i class="far fa-comments"></i>
                                             </a></li>
-                                        <li><a class="givefeedback" role="button">
+                                        <li><a class="annotationview" role="button">
                                             Die armen Vegetarier
                                             <i class="far fa-comments"></i>
                                             </a></li>
@@ -106,8 +105,8 @@
                                     <a href="#">student3@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li><a class="givefeedback" role="button">
-                                            Viva la Floristika
+                                        <li><a class="annotationview" role="button">
+                                            "Viva la Floristika" - Titel hochgeladen
                                             <i class="far fa-comments"></i>
                                             </a>
                                         </li>
@@ -116,9 +115,15 @@
 
                             </tr>
                         </table>
-                        <div>
-                            <button class="btn btn-light" id="project1Link">Back</button>
-                        </div>
+
+                        <button onclick="goBack()" class="btn btn-secondary">Zurueck</button>
+
+                        <script>
+                            function goBack() {
+                                window.history.back();
+                            }
+                        </script>
+
                     </td>
                     <td  id="chat">
                         <div class="card">

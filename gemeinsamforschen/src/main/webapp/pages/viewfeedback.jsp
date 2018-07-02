@@ -17,8 +17,7 @@
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
     <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/viewfeedback.js"></script>
-    <script src="../assets/js/givefeedback.js"></script>
+    <script src="../assets/js/project-student.js"></script>
 </head>
 
 <body>
@@ -36,9 +35,9 @@
             </button>
 
             <ul class="dropdown-menu">
-                <li><a id="viewfeedback" role="button">Feedback A</a></li>
-                <li><a id="viewfeedback" role="button">Feedback B</a></li>
-                <li><a id="viewfeedback" role="button">Feedback C</a></li>
+                <li><a class="viewfeedback" role="button">Feedback A</a></li>
+                <li><a class="viewfeedback" role="button">Feedback B</a></li>
+                <li><a class="viewfeedback" role="button">Feedback C</a></li>
             </ul>
 
             <a href="#">
@@ -53,7 +52,16 @@
                         <h2>Feedback Nachrichten von Student X</h2>
 
                         <iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
-                        <button class="btn btn-light" id="">Back</button>
+
+                        <button class="btn btn-secondary" onclick="goBack()">Zurück</button>
+
+                        <script>
+                            function goBack() {
+                                window.history.back();
+                            }
+                        </script>
+
+
                     </td>
 
                     <td  id="chat">
