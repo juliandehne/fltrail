@@ -47,14 +47,14 @@
                             <input type="hidden" name="student" value="0">
                             <input type="hidden" name="project" value="0">
 
-                            <div class="descriptionHTML-form-container">
+                            <div class="description-form-container">
 
-                                <div class ="descriptionHTML-form-editor">
+                                <div class ="description-form-editor">
                                     <textarea id = "editor" name="text" form="descriptionform" >
                                     </textarea>
                                 </div>
 
-                                <div class="descriptionHTML-form-buttons">
+                                <div class="description-form-buttons">
                                     <input class="btn btn-default btn-sm" type="submit">
                                     <a class="btn btn-default btn-sm" href="eportfolio.jsp?token=test">Zur&uuml;ck</a>
                                 </div>

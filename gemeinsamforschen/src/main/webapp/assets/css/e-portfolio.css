@@ -26,7 +26,7 @@
 }
 
 .journal-description-links{
-
+    grid-area:links;
 }
 
 .journal-container{
