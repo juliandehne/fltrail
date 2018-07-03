@@ -134,6 +134,9 @@ ol {
 .document-text-buttons-lock {
     float: left;
 }
+.document-text-buttons-back {
+    float: left;
+}
 .document-text-buttons-save {
     float: right;
 }

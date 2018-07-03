@@ -213,6 +213,7 @@
                 </div>
             </div>
             <button id="nextPhase" class="btn btn-light">nächste Phase</button>
+            <button id="btnUnstructuredUpload" class="btn btn-light">Unstrukturierte Abgabe</button>
         </div>
     </footer>
 </div>
