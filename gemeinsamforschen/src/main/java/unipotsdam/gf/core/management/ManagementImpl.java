@@ -7,6 +7,7 @@ import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import javax.annotation.ManagedBean;
@@ -197,6 +198,36 @@ public class ManagementImpl implements Management {
     @Override
     public User getUserByEmail(String email) {
         return getUserByField("email", email);
+    }
+
+    public Quiz getQuizByProjectGroupId(String projectId, String quizId){
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM quiz where projectId=" + projectId + " , question="+quizId;
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, "");
+        boolean next = vereinfachtesResultSet.next();
+        String question = "";
+        ArrayList<String> correctAnswers = new ArrayList<String>();
+        ArrayList<String> incorrectAnswers = new ArrayList<String>();
+        String answer = "";
+        Boolean correct = false;
+        String mcType = "";
+        while (next) {
+            mcType = vereinfachtesResultSet.getString("mcType");
+            question = vereinfachtesResultSet.getString("question");
+            answer = vereinfachtesResultSet.getString("answer");
+            correct = vereinfachtesResultSet.getBoolean("correct");
+            if (correct){
+                correctAnswers.add(answer);
+            }else{
+                incorrectAnswers.add(answer);
+            }
+            next = vereinfachtesResultSet.next();
+        }
+        Quiz quiz = new Quiz(mcType,question, correctAnswers, incorrectAnswers);
+        connect.close();
+        return quiz;
     }
 
     private User getUserByField(String field, String value) {
