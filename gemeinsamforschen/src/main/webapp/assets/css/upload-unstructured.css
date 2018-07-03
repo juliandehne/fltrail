@@ -1,0 +1,140 @@
+ol {
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+}
+.mainpage {
+    display: flex;
+    box-sizing: border-box;
+    font-family: Arial;
+    height: 100%;
+}
+.rightcolumn {
+    float: right;
+    width: 25%;
+    display: inline-block;
+    /* background-color: blue; */
+}
+.leftcolumn {
+    float: left;
+    width: 75%;
+    display: inline-block;
+    /* background-color: yellow; */
+}
+.rightcontent {
+    margin: 10px;
+}
+.leftcontent {
+    margin: 10px;
+    /* background-color: white; */
+}
+.spacing {
+    height: 10px;
+    /* background-color: orange; */
+}
+
+.annotation-card {
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    display: inline-block;
+    background-color: white;
+}
+.annotation-card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.annotation-header {
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    color: white;			}
+.annotation-header i {
+    font-size: 11px;
+}
+.annotation-header span {
+    font-size: 11px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.annotation-header a:link {
+    color: white;
+    text-decoration: none;
+}
+.annotation-header a:visited {
+    color: white;
+    text-decoration: none;
+}
+.annotation-header a:active {
+    color: white;
+    text-decoration: none;
+}
+.annotation-header a:hover {
+    color: #e6e6e6;
+    text-decoration: none;
+}
+.annotation-header-title {
+    display: flex;
+    flex-flow: column;
+    width: calc(100% - 40px);
+}
+.annotation-header-toggle {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.annotation-body {
+    padding: 8px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.annotation-body p {
+    margin: 0px;
+    font-size: 13px;
+}
+.overflow-hidden {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.annotation-footer {
+    padding: 5px;
+    padding-top: 0px;
+    text-align: right;
+    font-size: 9px;
+    color: lightgrey;
+    display: flex;
+}
+.annotation-footer span {
+    margin-left: 5px;
+}
+.annotation-footer-delete {
+    margin-right: 5px;
+    cursor: pointer;
+}
+.annotation-footer-date {
+    flex: 1
+}
+
+
+
+.unstructured-textarea {
+    resize: none;
+}
+.document-text-buttons {
+    margin-top: 10px;
+    display: inline;
+}
+.document-text-buttons-lock {
+    float: left;
+}
+.document-text-buttons-save {
+    float: right;
+}
+
