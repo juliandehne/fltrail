@@ -68,7 +68,7 @@
                                     <ul>
 
                                         <li><a class="annotationview" role="button">
-                                            Projektübersicht hochgeladen
+                                            ProjektÃ¼bersicht hochgeladen
                                             <i class="far fa-comments"></i>
                                             </a>
                                         </li>
@@ -89,7 +89,7 @@
                                     <hr>
                                     <ul>
                                         <li><a class="annotationview" role="button">
-                                            Blumen an Vegetarier verfüttert
+                                            Blumen an Vegetarier verfÃ¼ttert
                                             <i class="far fa-comments"></i>
                                         </a></li>
                                         <li><a class="annotationview" role="button">
