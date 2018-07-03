@@ -1,5 +1,9 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "communication" uri = "/communication/chatWindow.tld"%>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+
+
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -12,7 +16,13 @@
 </head>
 
 <body>
+<div id="wrapper">
+    <menu:menu></menu:menu>
+
+    <div class="page-content-wrapper">
+        <div class="container-fluid">
     <h1>dummy Projekt1 für Dozent1</h1><button class="btn btn-default" type="button">Gruppen erstellen</button><button class="btn btn-default" type="button">Projekt finalisieren</button><button class="btn btn-default" type="button">Exportiere Projektergebnisse</button>
+        </div>
     <button
         class="btn btn-default" type="button">Exportiere Zwischenstand</button><button class="btn btn-default" type="button">Quizfrage erstellen</button>
         <div>
@@ -129,6 +139,8 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
     <communication:chatWindow orientation="right"></communication:chatWindow>
         <script src="../assets/js/jquery.min.js"></script>
         <script src="../assets/bootstrap/js/bootstrap.min.js"></script>

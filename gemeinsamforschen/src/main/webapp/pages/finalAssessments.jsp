@@ -1,19 +1,21 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>muster-gemeinsam-forschen</title>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../assets/js/finalAssessment.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
+    <script src="../assets/js/utility.js"></script>
+    <script src="../assets/js/finalAssessment.js"></script>
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
 </head>
@@ -40,8 +42,7 @@
                         <h1>Assessment for project1 </h1>
                         <!-- here will be all the content -->
                         <div class="container">
-                                <h2>Carousel Example</h2>
-                                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                                <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
                                     <!-- Indicators -->
                                     <ol class="carousel-indicators">
                                         <li data-target="#myCarousel" data-slide-to="0" class="active"></li>

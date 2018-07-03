@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../assets/js/takeQuiz.js"></script>
+    <script src="../assets/js/viewQuiz.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
@@ -19,6 +19,8 @@
 </head>
 
 <body>
+
+
 <div id="wrapper">
     <menu:menu></menu:menu>
     <div class="page-content-wrapper">
@@ -38,15 +40,12 @@
                     <td  id="yourContent">
                         <h1>Quiz for project1 </h1>
                         <!-- here will be all the content -->
-
-
-
                         <table class="table-striped">
                             <tbody id="tableQuiz">
 
                             </tbody>
                         </table>
-                        <button id="submitQuiz" class="btn btn-success">Antwort speichern</button>
+                        <button id="deleteQuiz" class="btn btn-danger">Quiz löschen</button>
                     </td>
                     <td  id="chat">
                         <div class="card">

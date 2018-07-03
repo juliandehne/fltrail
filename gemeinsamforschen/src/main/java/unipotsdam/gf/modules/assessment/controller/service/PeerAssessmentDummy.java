@@ -49,8 +49,8 @@ public class PeerAssessmentDummy implements IPeerAssessment {
 }
 
     @Override
-    public void postPeerRating(String projectId, String groupId, ArrayList<PeerRating> peerRatings) {
-        int breakpoint = 0;
+    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
+        int breakpoint = 0; //todo: print an http-answer for the ajax-request to receive
     }
 
     @Override
@@ -68,17 +68,17 @@ public class PeerAssessmentDummy implements IPeerAssessment {
 
     @Override
     public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
-        double[] allAssessements = new double[totalPerformance.size()];
+        double[] allAssessments = new double[totalPerformance.size()];
         Grading[] grading = new Grading[totalPerformance.size()];
 
         for (int i = 0; i < totalPerformance.size(); i++) {
             for (int j = 0; j < totalPerformance.get(i).getQuizAnswer().length; j++) {
-                allAssessements[i] += totalPerformance.get(i).getQuizAnswer()[j];
+                allAssessments[i] += totalPerformance.get(i).getQuizAnswer()[j];
             }
-            allAssessements[i] = allAssessements[i] / totalPerformance.get(i).getQuizAnswer().length;
+            allAssessments[i] = allAssessments[i] / totalPerformance.get(i).getQuizAnswer().length;
         }
         for (int i = 0; i < totalPerformance.size(); i++) {
-            Grading shuttle = new Grading(totalPerformance.get(i).getStudentIdentifier(), allAssessements[i]);
+            Grading shuttle = new Grading(totalPerformance.get(i).getStudentIdentifier(), allAssessments[i]);
             grading[i] = shuttle;
         }
         return Arrays.asList(grading);

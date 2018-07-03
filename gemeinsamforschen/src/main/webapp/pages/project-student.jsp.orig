@@ -1,6 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<<<<<<< HEAD
 <%--suppress XmlDuplicatedId --%>
+=======
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+>>>>>>> PeerAssessmentAxel
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
 
 <!DOCTYPE html>
@@ -19,11 +22,16 @@
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
-    <script src="../assets/js/footer.js"></script>
+<<<<<<< HEAD
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/project-student.js"></script>
+=======
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/footer.js"></script>
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/Sidebar-Menu.js"></script>
+>>>>>>> PeerAssessmentAxel
 </head>
 
 <body>
@@ -68,7 +76,7 @@
                                     <ul>
 
                                         <li><a class="annotationview" role="button">
-                                            Projektübersicht hochgeladen
+                                            Projektuebersicht hochgeladen
                                             <i class="far fa-comments"></i>
                                             </a>
                                         </li>
@@ -89,7 +97,7 @@
                                     <hr>
                                     <ul>
                                         <li><a class="annotationview" role="button">
-                                            Blumen an Vegetarier verfüttert
+                                            Blumen an Vegetarier verfuettert
                                             <i class="far fa-comments"></i>
                                         </a></li>
                                         <li><a class="annotationview" role="button">

@@ -1,3 +1,12 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
 <!DOCTYPE html>
@@ -11,7 +20,6 @@
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../assets/js/takeQuiz.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
@@ -36,17 +44,28 @@
             <table>
                 <tr>
                     <td  id="yourContent">
-                        <h1>Quiz for project1 </h1>
-                        <!-- here will be all the content -->
-
-
-
-                        <table class="table-striped">
-                            <tbody id="tableQuiz">
-
-                            </tbody>
+                        <h1>letzter Schritt im Projekt1 </h1>
+                        <table class="table-striped peerStudent"
+                               style="width:70%;border:1px solid; margin:auto;" id="student1">
+                            <tr>
+                                <td align="center">
+                                    <img src="../assets/img/1.jpg" alt="student1"
+                                         style="width:20%;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Lernzieltagebuch:
+                                </td>
+                                <td>
+                                    Dossier:
+                                </td>
+                                <td>
+                                    villt Präsentation:
+                                </td>
+                            </tr>
                         </table>
-                        <button id="submitQuiz" class="btn btn-success">Antwort speichern</button>
+                        <button id="submit" class="btn btn-success">Feedback hochladen</button>
                     </td>
                     <td  id="chat">
                         <div class="card">
