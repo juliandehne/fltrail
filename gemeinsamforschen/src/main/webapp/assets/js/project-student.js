@@ -16,4 +16,8 @@ $(document).ready(function(){
     $('.annotationview').click(function () {
         location.href="annotation-document.jsp?token="+getUserTokenFromUrl();
     });
+
+    $('#btnUnstructuredUpload').click(function () {
+        location.href="upload-unstructured.jsp?token="+getUserTokenFromUrl();
+    })
 });

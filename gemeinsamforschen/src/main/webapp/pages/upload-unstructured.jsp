@@ -30,6 +30,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
     <!-- js - contextMenu script -->
     <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
+    <!-- js - utility script -->
+    <script src="../assets/js/utility.js"></script>
     <!-- js - annotationScript -->
     <script src="../assets/js/uploadUnstructured.js"></script>
 
@@ -68,7 +70,8 @@ At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergr
                             </div>
                         <div class="document-text-buttons">
                             <button onclick="lockButtonHandler()" type="button" class="btn btn-secondary document-text-buttons-lock" id="btnLock"><i class="fas fa-lock-open" id="lock"></i></button>
-                            <button type="button" class="btn btn-secondary document-text-buttons-save" id="btnSave">Speichern</i></button>
+                            <button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück</button>
+                            <button type="button" class="btn btn-primary document-text-buttons-save" id="btnSave">Speichern</button>
                         </div>
                     </div>
                 </div>

@@ -51,9 +51,13 @@ $(document).ready(function() {
         }
     });
 
-    /*
-     *   PAGE LOADED
-     */
+    $('#btnSave').click(function () {
+        location.href="project-student.jsp?token="+getUserTokenFromUrl();
+    });
+
+    $('#btnBack').click(function () {
+        location.href="project-student.jsp?token="+getUserTokenFromUrl();
+    });
 
     documentText = $('#documentText').html();
 
