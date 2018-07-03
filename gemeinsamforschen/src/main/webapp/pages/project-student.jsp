@@ -57,7 +57,7 @@
                     <td  id="yourContent">
                         <h1>Feedbackable Students</h1>
                         <!-- here will be all the content -->
-                        <table>
+                        <table id="myGroupMembers">
                             <tr>
 
                                 <td width="100px" valign="top">
@@ -67,14 +67,16 @@
                                     <hr>
                                     <ul>
 
-                                        <li><a class="annotationview" role="button">
+                                        <li>
                                             Projektübersicht hochgeladen
-                                            <i class="far fa-comments"></i>
+                                            <a class="annotationview" role="button">
+                                            <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
                                             </a>
                                         </li>
-                                        <li><a class="annotationview" role="button">
+                                        <li>
                                             Blumen ins Hausaufgabenheft geklebt
-                                            <i class="far fa-comments"></i>
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
                                             </a>
                                         </li>
                                         </a>
@@ -88,18 +90,24 @@
                                     <a href="#">student2@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li><a class="annotationview" role="button">
+                                        <li>
                                             Blumen an Vegetarier verfüttert
-                                            <i class="far fa-comments"></i>
-                                        </a></li>
-                                        <li><a class="annotationview" role="button">
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
+                                        <li>
                                             Literaturverzeichnis hochgeladen
-                                            <i class="far fa-comments"></i>
-                                            </a></li>
-                                        <li><a class="annotationview" role="button">
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
+                                        <li>
                                             Die armen Vegetarier
-                                            <i class="far fa-comments"></i>
-                                            </a></li>
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </td>
                                 <td></td>
@@ -110,9 +118,10 @@
                                     <a href="#">student3@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li><a class="annotationview" role="button">
+                                        <li>
                                             "Viva la Floristika" - Titel hochgeladen
-                                            <i class="far fa-comments"></i>
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
                                             </a>
                                         </li>
                                     </ul>
@@ -195,10 +204,10 @@
     <footer>
         <div class="container">
             <div class="progress">
-                <div class="progress-bar pg-enrollment" role="progressbar" id="progressbar">
+                <div class="progress-bar pg-groups" role="progressbar" id="progressbar">
                 </div>
                 <div>
-                    Assessment - Präsentationsphase - Dossier - Reflexionsphase - Feedbackphase - Gruppenbildung -  Kursanmeldung
+                    Assessment - Präsentationsphase - Dossier - Reflexionsphase - Feedbackphase - Gruppenbildung
                 </div>
                 <div class="progress-bar pg-rest" role="progressbar">
                 </div>

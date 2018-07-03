@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
 
 <!DOCTYPE html>
@@ -24,12 +24,13 @@
 <div id="wrapper">
     <menu:menu></menu:menu>
     <div class="page-content-wrapper">
-
-        <h1>Übersicht für Student1</h1>
-        <a href="#"><span class="glyphicon glyphicon-envelope"
-                          style="font-size:27px;margin-top:-17px;margin-left:600px;"></span></a>
-        <a href="#"><span class="glyphicon glyphicon-cog"
-                          style="font-size:29px;margin-left:5px;margin-top:-25px;"></span></a>
+        <div class="container-fluid">
+            <h1>Übersicht für Student1</h1>
+            <a href="#"><span class="glyphicon glyphicon-envelope"
+                              style="font-size:27px;margin-top:-17px;margin-left:600px;"></span></a>
+            <a href="#"><span class="glyphicon glyphicon-cog"
+                              style="font-size:29px;margin-left:5px;margin-top:-25px;"></span></a>
+        </div>
         <div>
             <table id="projects">  <!-- getElementById('projects').append um neue Projekte anzufügen -->
                 <tr class="pageChanger">
@@ -46,6 +47,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Newsfeed </h3>
+                                    Status: abgeschlossen mit Bewertung 2+
                                 </div>
                                 <div class="panel-body">
                                     <ul class="list-group">
@@ -67,7 +69,7 @@
                 </tr>
                 <tr class="pageChanger">
                     <td>
-                        <a href="project-docent.jsp">
+                        <a href="project-student.jsp">
                             <h1>dummy Projekt2</h1>
                         </a>
                     </td>
@@ -79,6 +81,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Newsfeed </h3>
+                                    Status: Gruppenbildung
                                 </div>
                                 <div class="panel-body">
                                     <ul class="list-group">
@@ -97,7 +100,7 @@
                 </tr>
             </table>
         </div>
-        <button class="btn btn-default" type="button" style="margin-left:250px;">Projekt beitreten</button>
+        <button class="btn btn-default" type="button" style="margin-left:250px;" id="enrollProject">Projekt beitreten</button>
     </div>
 </div>
 
