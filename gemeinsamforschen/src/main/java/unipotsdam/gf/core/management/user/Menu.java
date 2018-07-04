@@ -23,8 +23,9 @@ public class Menu extends SimpleTagSupport {
                 out.println("<div id=\"sidebar-wrapper\">\n" +
                         "        <ul class=\"sidebar-nav\">\n" +
                         "            <li class=\"sidebar-brand\"><a href=\"overview-student.jsp?token="+token+"\">overview</a></li>\n" +
+                        "            <li><a href=\"profile.jsp?token="+token+"\">Profil</a></li>\n" +
                         "            <li><a href=\"Quiz.jsp?token="+token+"\">Quizfrage</a></li>\n" +
-                        "            <li><a href=\"#\">ePortfolio</a></li>\n" +
+                        "            <li><a href=\"eportfolio.jsp?token="+token+"\">ePortfolio</a></li>\n" +
                         "            <li><a href=\"#\">Beitrag</a></li>\n" +
                         "            <li><a href=\"finalAssessments.jsp?token="+token+"\">Bewertung</a></li>\n" +
                         "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
