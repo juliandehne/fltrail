@@ -47,7 +47,7 @@
 				</textarea>
     </div>
     <div class="ResearchReportButtons">
-        <button class="researchReportButtons"><a href="researchReportEvaluation.jsp">Speichern & weiter</a></button>
+        <button class="researchReportButtons"><a href="project-student.jsp">Speichern & weiter</a></button>
         <button class="researchReportButtons"><a href="researchReportDo.jsp"> Zur&uuml;ck </a></button>
     </div>
 
