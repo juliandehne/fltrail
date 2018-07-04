@@ -147,7 +147,7 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary mr-auto">Ja</button>
+                    <button type="button" class="btn btn-primary mr-auto" data-dismiss="modal">Ja</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Nein</button>
 
                 </div>
