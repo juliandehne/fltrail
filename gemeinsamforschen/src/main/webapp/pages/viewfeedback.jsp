@@ -1,4 +1,4 @@
-<%--suppress XmlDuplicatedId --%>
+
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
 
 <!DOCTYPE html>
@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/project-student.js"></script>
 </head>
@@ -27,7 +26,7 @@
 
     <div class="page-content-wrapper">
         <div class="container-fluid">
-            <h1 id="projectId">Project 1</h1>
+            <h1 id="projectId"> PeerFeedback</h1>
         </div>
         <div align="right" class="dropdown">
             <button style= "position: absolute; right: 50px;" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -49,74 +48,12 @@
         <div>
             <table>
                 <tr>
-                    <td  id="yourContent">
-                        <h1>Feedbackable Students</h1>
-                        <!-- here will be all the content -->
-                        <table>
-                            <tr>
+                    <td  id="Peerfeedback">
+                        <h2>Feedback Nachrichten von Student X</h2>
 
-                                <td width="100px" valign="top">
-                                    <h3>student1</h3>
-                                    <img src="../assets/img/1.jpg">
-                                    <a href="#">student1@uni.de</a>
-                                    <hr>
-                                    <ul>
+                        <iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
 
-                                        <li><a class="annotationview" role="button">
-                                            Projektuebersicht hochgeladen
-                                            <i class="far fa-comments"></i>
-                                            </a>
-                                        </li>
-                                        <li><a class="annotationview" role="button">
-                                            Blumen ins Hausaufgabenheft geklebt
-                                            <i class="far fa-comments"></i>
-                                            </a>
-                                        </li>
-                                        </a>
-                                    </ul>
-                                </td>
-                                <td></td>
-
-                                <td width="100px" valign="top">
-                                    <h3>student2</h3>
-                                    <img src="../assets/img/2.jpg">
-                                    <a href="#">student2@uni.de</a>
-                                    <hr>
-                                    <ul>
-                                        <li><a class="annotationview" role="button">
-                                            Blumen an Vegetarier verfuettert
-                                            <i class="far fa-comments"></i>
-                                        </a></li>
-                                        <li><a class="annotationview" role="button">
-                                            Literaturverzeichnis hochgeladen
-                                            <i class="far fa-comments"></i>
-                                            </a></li>
-                                        <li><a class="annotationview" role="button">
-                                            Die armen Vegetarier
-                                            <i class="far fa-comments"></i>
-                                            </a></li>
-                                    </ul>
-                                </td>
-                                <td></td>
-
-                                <td width="100px" valign="top">
-                                    <h3>student3</h3>
-                                    <img src="../assets/img/3.jpg">
-                                    <a href="#">student3@uni.de</a>
-                                    <hr>
-                                    <ul>
-                                        <li><a class="annotationview" role="button">
-                                            "Viva la Floristika" - Titel hochgeladen
-                                            <i class="far fa-comments"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </td>
-
-                            </tr>
-                        </table>
-
-                        <button onclick="goBack()" class="btn btn-secondary">Zurueck</button>
+                        <button class="btn btn-secondary" onclick="goBack()">Zurück</button>
 
                         <script>
                             function goBack() {
@@ -124,7 +61,9 @@
                             }
                         </script>
 
+
                     </td>
+
                     <td  id="chat">
                         <div class="card">
                             <div class="card-header">
