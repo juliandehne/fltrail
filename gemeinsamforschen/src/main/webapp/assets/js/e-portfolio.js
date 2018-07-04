@@ -64,7 +64,7 @@ function loadJournals(data) {
                     data[journal].category +
                 '</div>' +
                 '<div class="journal-edit" align="right">' +
-                    '<a class="btn btn-default btn-sm" href="createJournal.jsp?token=test&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
+                    '<a class="btn btn-default btn-sm" href="createJournal.jsp?journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
                     '<a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeJournalModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>' +
                 '</div>' +
                 '<div class="journal-text">' +
