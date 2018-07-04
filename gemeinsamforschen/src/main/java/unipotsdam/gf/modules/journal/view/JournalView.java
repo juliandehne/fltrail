@@ -113,7 +113,7 @@ public class JournalView {
         //TODO token
         URI location;
         try {
-            location = new URI("../pages/eportfolio.jsp");
+            location = new URI("../pages/eportfolio.jsp?token=test");
             log.debug("<<< saveJournal: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 

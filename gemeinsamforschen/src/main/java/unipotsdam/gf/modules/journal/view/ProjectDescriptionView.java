@@ -49,7 +49,7 @@ public class ProjectDescriptionView {
 
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?");
+            URI location = new URI("../pages/eportfolio.jsp?token=test");
             log.debug("<<< saveText: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
