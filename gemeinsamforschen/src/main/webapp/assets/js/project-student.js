@@ -20,4 +20,8 @@ $(document).ready(function(){
     $('#btnUnstructuredUpload').click(function () {
         location.href="upload-unstructured.jsp?token="+getUserTokenFromUrl();
     })
+
+    $('.viewprojectstudent').click(function () {
+        location.href="project-student.jsp?token="+getUserTokenFromUrl();
+    })
 });

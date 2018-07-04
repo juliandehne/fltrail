@@ -21,6 +21,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/project-student.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/css/editDescription.css">
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../assets/js/Sidebar-Menu.js"></script>
+    <script  src="../assets/js/editDescription.js"></script>
 </head>
 
 <body>
@@ -85,110 +90,55 @@
                         </label>
                     </div>
                     <hr />
-                    <div class="line-spacer"></div>
-                    <td  id="Peerfeedback" valign="top">
+
+                    <div>
+                        <table>
+                            <tr>
+                                <td  id="yourContent">
+                                    <h2> Schreibe dein Feedback! </h2>
+
+                                    <form id="descriptionform" class="form-journal" method="POST" action="../rest/projectdescription/saveText">
+
+                                        <input type="hidden" name="student" value="0">
+                                        <input type="hidden" name="project" value="0">
+
+                                        <div class="description-form-container">
+
+                                            <div class ="description-form-editor">
+                                    <textarea id = "editor" name="text" form="descriptionform" >
+                                    </textarea>
+                                            </div>
+
+                                            <div class="description-form-buttons">
+
+                                                <button type="button" onclick="goBack()">Zur&uuml;ck</button>
+                                                <button type="button" class="viewprojectstudent">Speichern</button>
+
+                                            </div>
+                                            <div>
+
+                                            </div>
+
+                                        </div>
+                                    </form>
 
 
-                        <div style="height:100px;padding-bottom:100px;">
-			            <textarea id="demo1">
-				            Das ist ein Test!
-			            </textarea>
-                        </div>
-
-                        <button onclick="save()">Speichern</button>
-
-                        <p id = "output"> Output... </p>
-                        <script>
-                            var editor = new InscrybMDE({
-                                element: document.getElementById("demo1"),
-                                spellChecker: false,
-                                //toolbar: ["bold", "italic", "heading", "|", "quote", "table", "code", "|" , "side-by-side", "fullscreen"],
-                                minHeight: "80px",
-                            });
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
 
 
-                            editor.style = "min-height: 100px";
-
-                            function save() {
-                                console.log("save");
-                                console.log(editor.value());
-
-                                var converter = new showdown.Converter(),
-                                    text      = editor.value(),
-                                    html      = converter.makeHtml(text);
-
-                                document.getElementById('output').innerHTML = html;11
-                            }
-
-                        </script>
-
-                        <button class="btn btn-secondary" onclick="goBack()">Zurück</button>
 
                         <script>
                             function goBack() {
                                 window.history.back();
                             }
                         </script>
-                    </td>
+                </tr>
+                </td>
 
-            <td  id="chat">
-             <div class="card">
-                 <div class="card-header">
-                     <h6 class="mb-0">Gruppen+Projekt Chat</h6>
-                 </div>
-                 <div class="card-body">
-                     <ul class="list-group">
-                         <li class="list-group-item">
-                             <div class="media">
-                                 <div></div>
-                                 <div class="media-body">
-                                     <div class="media" style="overflow:visible;">
-                                         <div><img src="../assets/img/1.jpg" class="mr-3"
-                                                   style="width: 25px; height:25px;"></div>
-                                         <div class="media-body" style="overflow:visible;">
-                                             <div class="row">
-                                                 <div class="col-md-12">
-                                                     <p><a href="#">Sara Doe:</a> This guy has been going
-                                                         100+ MPH on side streets. <br>
-                                                         <small class="text-muted">August 6, 2016 @ 10:35am
-                                                         </small>
-                                                     </p>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                         </li>
-                         <li class="list-group-item">
-                             <div class="media">
-                                 <div></div>
-                                 <div class="media-body">
-                                     <div class="media" style="overflow:visible;">
-                                         <div><img src="../assets/img/2.jpg" class="mr-3"
-                                                   style="width: 25px; height:25px;"></div>
-                                         <div class="media-body" style="overflow:visible;">
-                                             <div class="row">
-                                                 <div class="col-md-12">
-                                                     <p><a href="#">Brennan Prill:</a> This guy has been
-                                                         going 100+ MPH on side streets. <br>
-                                                         <small class="text-muted">August 6, 2016 @ 10:35am
-                                                         </small>
-                                                     </p>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                         </li>
-                     </ul>
-                     <button class="btn btn-light">
-                         Add Comment
-                     </button>
-                 </div>
-             </div>
-            </td>
+
 </tr>
 </table>
 </div>

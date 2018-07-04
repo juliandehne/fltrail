@@ -130,7 +130,7 @@
                             </tr>
                         </table>
 
-                        <button onclick="goBack()" class="btn btn-secondary">Zurueck</button>
+                        <button onclick="goBack()" class="btn btn-secondary">Zur&uuml;ck</button>
 
                         <script>
                             function goBack() {

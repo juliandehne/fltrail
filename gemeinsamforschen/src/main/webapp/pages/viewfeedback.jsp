@@ -48,13 +48,13 @@
         <div>
             <table>
                 <tr>
-                    
+
                     <td  id="Peerfeedback">
                         <h2>Feedback Nachrichten von Student X</h2>
 
                         <iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
 
-                        <button class="btn btn-secondary" onclick="goBack()">Zurück</button>
+                        <button class="btn btn-secondary" onclick="goBack()">Zur&uuml;ck</button>
 
                         <script>
                             function goBack() {
