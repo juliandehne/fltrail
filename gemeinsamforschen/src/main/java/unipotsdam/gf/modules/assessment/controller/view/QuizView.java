@@ -32,8 +32,9 @@ public class QuizView implements IPeerAssessment {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/peer/project/{projectId}/group/{groupId}")
     @Override
-    public void postPeerRating(@PathParam("projectId") String projectId, @PathParam("groupId") String groupId, ArrayList<PeerRating> peerRatings){
-        peer.postPeerRating(projectId,groupId,peerRatings);
+    public void postPeerRating(ArrayList<PeerRating> peerRatings,@PathParam("projectId") String projectId, @PathParam("groupId") String groupId){
+        peer.postPeerRating(peerRatings, projectId,groupId);
+        //todo: checkout the POST-variable. should be peerRating but its null atm.
     }
 
     @POST

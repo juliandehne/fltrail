@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
-
 <!DOCTYPE html>
 <html>
 
@@ -12,58 +11,42 @@
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../assets/js/viewQuiz.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
-    <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/project-student.js"></script>
 </head>
 
 <body>
+
+
 <div id="wrapper">
     <menu:menu></menu:menu>
-
     <div class="page-content-wrapper">
         <div class="container-fluid">
-            <h1 id="projectId"> PeerFeedback</h1>
-        </div>
-        <div align="right" class="dropdown">
-            <button style= "position: absolute; right: 50px;" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-
-                <i class="glyphicon glyphicon-envelope"></i>
-            </button>
-
-            <ul class="dropdown-menu">
-                <li><a class="viewfeedback" role="button">Feedback A</a></li>
-                <li><a class="viewfeedback" role="button">Feedback B</a></li>
-                <li><a class="viewfeedback" role="button">Feedback C</a></li>
-            </ul>
-
-            <a href="#">
-                <span class="glyphicon glyphicon-cog" style="font-size:29px;margin-right:30px;margin-top:3px;"></span>
-            </a>
-
+            <h1 id="projectId">project1
+                <a href="#">
+                <span class="glyphicon glyphicon-envelope"
+                      style="font-size:27px;margin-top:-17px;margin-left:600px;"></span>
+                </a>
+                <a href="#">
+                    <span class="glyphicon glyphicon-cog" style="font-size:29px;margin-left:5px;margin-top:-25px;"></span>
+                </a></h1>
         </div>
         <div>
             <table>
                 <tr>
-                    <td  id="Peerfeedback">
-                        <h2>Feedback Nachrichten von Student X</h2>
+                    <td  id="yourContent">
+                        <h1>Quiz for project1 </h1>
+                        <!-- here will be all the content -->
+                        <table class="table-striped">
+                            <tbody id="tableQuiz">
 
-                        <iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
-
-                        <button class="btn btn-secondary" onclick="goBack()">Zurück</button>
-
-                        <script>
-                            function goBack() {
-                                window.history.back();
-                            }
-                        </script>
-
-
+                            </tbody>
+                        </table>
+                        <button id="deleteQuiz" class="btn btn-danger">Quiz löschen</button>
                     </td>
-
                     <td  id="chat">
                         <div class="card">
                             <div class="card-header">
@@ -127,10 +110,6 @@
         </div>
     </div>
 </div>
-
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
 </body>
 
 </html>

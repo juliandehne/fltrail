@@ -5,6 +5,10 @@
     opacity: 0;
 }
 
+tr .pageChanger{
+    cursor:pointer;
+}
+
 .loader {
     display: block;
     margin-left: 470px;

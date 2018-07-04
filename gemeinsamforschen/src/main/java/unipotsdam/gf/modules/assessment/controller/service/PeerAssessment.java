@@ -48,7 +48,7 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public void postPeerRating(String projectId, String groupId, ArrayList<PeerRating> peerRatings) {
+    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
 
     }
 }
