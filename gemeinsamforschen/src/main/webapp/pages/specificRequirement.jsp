@@ -35,11 +35,21 @@
         <div align="center">
             <h2>Wie schätzen Sie sich in folgenden Kategorien ein?</h2>
             <br><br>
-            <p>groupCriterion1
+            <p><input placeholder="Kriterium1">
+                <label>stark<input type="radio" name="groupCriterion1"></label>
+                <input type="radio" name="groupCriterion1">
+                <input type="radio" name="groupCriterion1">
+                <input type="radio" name="groupCriterion1">
+                <label><input type="radio" name="groupCriterion1">schwach</label>
             </p>
-            <p>groupCriterion2
+            <p><input placeholder="Kriterium2">
+                <label>stark<input type="radio" name="groupCriterion2"></label>
+                <input type="radio" name="groupCriterion2">
+                <input type="radio" name="groupCriterion2">
+                <input type="radio" name="groupCriterion2">
+                <label><input type="radio" name="groupCriterion2">schwach</label>
             </p>
-
+            <button type="button" class="btn btn-light"> + </button>
         </div>
         <button class="btn btn-default" type="button" id="submit">beitreten</button>
     </div>

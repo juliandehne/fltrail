@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
     <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/specificSkills.js"></script>
+    <script src="../assets/js/createProject.js"></script>
 
 </head>
 
@@ -32,14 +32,10 @@
             <a href="#"><span class="glyphicon glyphicon-cog"
                               style="font-size:29px;margin-left:5px;margin-top:-25px;"></span></a>
         </div>
-        <div align="center">
-            <h2>Wie schätzen Sie sich in folgenden Kategorien ein?</h2>
+        <div style="margin-left: 2%;">
             <br><br>
-            <p>groupCriterion1
-            </p>
-            <p>groupCriterion2
-            </p>
-
+            <label>Projektname: <input placeholder="Projektname"></label>
+            <label>Passwort: <input placeholder="Passwort"></label>
         </div>
         <button class="btn btn-default" type="button" id="submit">beitreten</button>
     </div>

@@ -9,10 +9,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>project-student (copy)</title>
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
+    <title>fltrail</title>
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
+    <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
+    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
+    <script src="../assets/js/utility.js"></script>
 </head>
 
 <body>
@@ -142,8 +148,6 @@
     </div>
 </div>
     <communication:chatWindow orientation="right"></communication:chatWindow>
-        <script src="../assets/js/jquery.min.js"></script>
-        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

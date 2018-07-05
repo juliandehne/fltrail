@@ -3,6 +3,10 @@
 
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
 
+
+<!--todo: E-mail an Studenten als Notifikation für Phasenwechsel -->
+
+
 <!DOCTYPE html>
 <html>
 

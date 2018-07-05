@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../assets/js/utility.js"></script>
+    <script src="../assets/js/overview-docent.js"></script>
 
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
@@ -66,7 +68,7 @@
                 </tr>
                 <tr class="pageChanger">
                     <td>
-                        <a href="project-docent.jsp">
+                        <a id="project2Link">
                             <h1>dummy Projekt2</h1>
                         </a>
                     </td>
@@ -96,7 +98,7 @@
                 </tr>
             </table>
         </div>
-        <button class="btn btn-default" type="button" style="margin-left:250px;">Projekt erstellen</button>
+        <button class="btn btn-default" type="button" id="createProject" style="margin-left:250px;">Projekt erstellen</button>
     </div>
 </div>
 
