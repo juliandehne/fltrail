@@ -2,10 +2,6 @@ $(document).ready(function(){
     $('#nextPhase').click(function(){
         var progressbar =$('#progressbar');
         switch (progressbar.attr('class')){
-            case 'progress-bar pg-enrollment':
-                progressbar.removeClass('pg-enrollment');
-                progressbar.addClass('pg-groups');
-                break;
             case 'progress-bar pg-groups':
                 progressbar.removeClass('pg-groups');
                 progressbar.addClass('pg-dossier');

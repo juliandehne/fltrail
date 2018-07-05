@@ -1,6 +1,6 @@
-package unipotsdam.gf.interfaces;
+package unipotsdam.gf.modules.researchreport;
 
-import java.io.File;
+import unipotsdam.gf.modules.researchreport.ResearchReport;
 
 import java.io.File;
 
@@ -9,7 +9,7 @@ import java.io.File;
  */
 
 
-public interface ResearchReport {
+public interface ResearchReportManagement {
 
     /**
      * Create a File
@@ -17,7 +17,7 @@ public interface ResearchReport {
      * @param researchReport Name of the Report
      * @return Returns the reportId
      */
-    String createReseachReport(ResearchReport researchReport);
+    String createResearchReport(ResearchReport researchReport);
 
 
     /**
