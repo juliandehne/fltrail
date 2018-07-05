@@ -10,6 +10,10 @@ function getQueryVariable(variable)
 }
 
 $(document).ready(function() {
+    $('#backLink').on('click', function(){
+        location.href="eportfolio.jsp?token="+getUserTokenFromUrl();
+    });
+
     var journalID = getQueryVariable("journal");
     console.log(journalID);
     if(journalID){
