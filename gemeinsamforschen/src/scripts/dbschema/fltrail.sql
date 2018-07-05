@@ -50,7 +50,6 @@ CREATE TABLE researchReport (
    `evaluation` varchar(10000) NOT NULL,
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-//ToDo
 CREATE TABLE timeplan(
     `reportID` varchar(400) NOT NULL,
     `startingTime` datetime NOT NULL,
