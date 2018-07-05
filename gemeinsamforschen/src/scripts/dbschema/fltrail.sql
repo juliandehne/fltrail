@@ -86,3 +86,4 @@ CREATE TABLE if not exists quiz
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+
