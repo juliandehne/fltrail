@@ -9,13 +9,15 @@
     <title>E-Portfolio</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
     <link rel="stylesheet" href="../assets/css/e-portfolio.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../assets/js/utility.js"></script>
+
 </head>
 
 <body>
@@ -51,7 +53,7 @@
                                     <div class="journal-description-title">
                                     </div>
                                     <div class="journal-description-edit" align="right">
-                                        <a class="btn btn-default btn-sm" href="editDescription.jsp?project=0&token=test">
+                                        <a id="editDescriptionLink" class="btn btn-default btn-sm">
                                             <i class="fa fa-pencil"></i> Bearbeiten</a>
                                         <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeDescriptionModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>
 
@@ -70,14 +72,14 @@
                             </div>
 
                             <div id="journal-container" class="tab-pane fade">
-                                    <h2>Lernatagebuch</h2>
+                                    <h2>Lerntagebuch</h2>
                                     <div class="input-group">
                                     <select id="journalfilter" class="form-control" style="width:auto;" onchange="filterJournals()">
                                         <option value="ALL">Alle</option>
                                         <option value="OWN">Eigene</option>
                                     </select>
 
-                                    <a class="btn btn-default btn-sm" href="createJournal.jsp?token=test">Neu</a>
+                                    <a id="createJournalLink"class="btn btn-default btn-sm" >Neu</a>
                                 </div>
                                 <div class="journal">
                                 </div>

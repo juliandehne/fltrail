@@ -1,6 +1,15 @@
 //TODO Get student and project form context
 
 $(document).ready(function() {
+    $('#editDescriptionLink').on('click', function(){
+        /*TODO getJournal*/
+        location.href="editDescription.jsp?project=0&token="+getUserTokenFromUrl();
+    });
+
+    $('#createJournalLink').on('click', function(){
+        location.href="createJournal.jsp?token="+getUserTokenFromUrl();
+    });
+
     $.ajax({
         url: "../rest/projectdescription/0"
     }).then(function(data) {
@@ -64,7 +73,7 @@ function loadJournals(data) {
                     data[journal].category +
                 '</div>' +
                 '<div class="journal-edit" align="right">' +
-                    '<a class="btn btn-default btn-sm" href="createJournal.jsp?token=test&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
+                    '<a class="btn btn-default btn-sm" href="createJournal.jsp?token='+getUserTokenFromUrl()+'&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
                     '<a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeJournalModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>' +
                 '</div>' +
                 '<div class="journal-text">' +

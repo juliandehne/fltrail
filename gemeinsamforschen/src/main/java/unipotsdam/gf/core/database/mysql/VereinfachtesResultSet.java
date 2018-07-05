@@ -11,6 +11,30 @@ public class VereinfachtesResultSet {
 
 	private ResultSet resultSet;
 
+	/**
+	 * creates a more verbose error message that actually tells you whats wrong
+	 * @param columnLabel
+	 * @return
+	 */
+	private String errorMessage(String columnLabel){
+		return String.format(
+			"error in VereinfachtesResultSet: Spalte %s konnte nicht gefunden werden",
+			columnLabel
+		);
+	}
+
+	/**
+	 * creates a more verbose error message that actually tells you whats wrong
+	 * @param columnIndex
+	 * @return
+	 */
+	private String errorMessage(int columnIndex){
+		return String.format(
+			"error in VereinfachtesResultSet: Zeile %d konnte nicht gefunden werden",
+			columnIndex
+		);
+	}
+
 	public VereinfachtesResultSet(ResultSet resultset) {
 		if (resultset == null) {
 			throw new Error("kein Resultset");
@@ -34,7 +58,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnIndex));
 	}
 
 	public float getFloat(int columnIndex) {
@@ -43,7 +67,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnIndex));
 	}
 
 	public double getDouble(int columnIndex) {
@@ -52,7 +76,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnIndex));
 	}
 
 
@@ -62,7 +86,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnIndex));
 	}
 
 
@@ -72,7 +96,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnIndex));
 	}
 
     public Timestamp getTimestamp(String columnLabel) {
@@ -81,7 +105,7 @@ public class VereinfachtesResultSet {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
-        throw new Error("error in VereinfachtesResultSet");
+        throw new Error(errorMessage(columnLabel));
     }
 
 
@@ -91,7 +115,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnLabel));
 	}
 
 	public boolean getBoolean(String columnLabel) {
@@ -100,7 +124,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnLabel));
 	}
 
 	public int getInt(String columnLabel) {
@@ -109,7 +133,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnLabel));
 	}
 
 	public long getLong(String columnLabel) {
@@ -118,7 +142,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnLabel));
 	}
 
 	public float getFloat(String columnLabel) {
@@ -127,7 +151,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnLabel));
 	}
 
 	public double getDouble(String columnLabel) {
@@ -136,7 +160,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnLabel));
 	}
 
 	public ResultSetMetaData getMetaData() {
@@ -154,7 +178,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnIndex));
 	}
 
 	public Object getObject(String columnLabel) {
@@ -163,7 +187,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnLabel));
 	}
 
 	public int findColumn(String columnLabel) {
@@ -172,7 +196,7 @@ public class VereinfachtesResultSet {
 		} catch (SQLException ex) {
 			System.err.println(ex.getMessage());
 		}
-		throw new Error("error in VereinfachtesResultSet");
+		throw new Error(errorMessage(columnLabel));
 	}
 
 	public boolean isBeforeFirst() {
