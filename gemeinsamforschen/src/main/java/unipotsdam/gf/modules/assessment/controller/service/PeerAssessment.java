@@ -22,7 +22,7 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override //returns all quizzes in the course
     public ArrayList<Quiz> getQuiz(String projectId) {
-        return null;
+        return new ManagementImpl().getQuizByProjectId(projectId);
     }
 
     @Override

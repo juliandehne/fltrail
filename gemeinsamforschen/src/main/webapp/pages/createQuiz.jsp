@@ -33,7 +33,7 @@
         </div>
         <div style="margin-left:50px;">
             <div>
-            <input placeholder="Ihre Frage">
+            <input placeholder="Ihre Frage"><!--todo: remember to cut out whitespace and signs (?.,;)-->
             </div>
             <div><label><input type="radio" name="type">Schwierigkeit 3</label></div>
             <div><label><input type="radio" name="type">Schwierigkeit 2</label></div>

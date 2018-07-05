@@ -28,8 +28,9 @@ $(document).ready(function () {
             return 'CORRECT';
     };
 
+    var projectId = document.getElementById('projectId').innerText.trim();
     $.ajax({
-        url: '../rest/assessments/project/1/quiz/',
+        url: '../rest/assessments/project/'+projectId+'/quiz/',
         type: 'GET',
         success: function (data) {
             var table = document.getElementById('tableQuiz');

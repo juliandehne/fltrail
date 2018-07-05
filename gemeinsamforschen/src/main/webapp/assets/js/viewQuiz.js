@@ -34,9 +34,9 @@ $(document).ready(function () {
         $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
     }
     var quizId = $_GET['quizId'];
-
+    var projectId = document.getElementById('projectId').innerText.trim();
     $.ajax({
-        url: '../rest/assessments/project/1/quiz/'+quizId,
+        url: '../rest/assessments/project/'+projectId+'/quiz/'+quizId,
         type: 'GET',
         success: function (data) {
             var table = document.getElementById('tableQuiz');

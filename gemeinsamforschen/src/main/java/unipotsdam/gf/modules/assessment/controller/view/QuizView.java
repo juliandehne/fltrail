@@ -12,7 +12,7 @@ import java.util.List;
 
 @Path("/assessments")
 public class QuizView implements IPeerAssessment {
-    private static IPeerAssessment peer =  new PeerAssessmentDummy();   //TestSubject
+    private static IPeerAssessment peer =  new PeerAssessment();   //TestSubject
     //private static IPeerAssessment peer =  new PeerAssessment();      //correct DB-conn and stuff
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -60,7 +60,7 @@ public class QuizView implements IPeerAssessment {
     public Assessment getAssessmentDataFromDB(@PathParam("projectId") String projectId,@PathParam("studentId") String studentId){
         StudentIdentifier student = new StudentIdentifier(projectId, studentId);
         return getAssessmentDataFromDB(student);
-    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
+    }  //////////dummy//////////////funktioniert wie geplant//////////////////////////////////
 
 
     @POST
@@ -71,6 +71,7 @@ public class QuizView implements IPeerAssessment {
     public void createQuiz(StudentAndQuiz studentAndQuiz) {
         peer.createQuiz(studentAndQuiz);
     }
+    ////////////////////////////////todo: sollte das nächste Element sein, was ich baue////////
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -80,6 +81,7 @@ public class QuizView implements IPeerAssessment {
     public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return peer.calculateAssessment(totalPerformance);
     }
+    ///////////////dummy/////////funktioniert glaube ich!?////////////////////////////////////////
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -96,12 +98,12 @@ public class QuizView implements IPeerAssessment {
     public ArrayList<Performance> getTotalAssessment(@PathParam("projectId") String ProjectId,@PathParam("student") String student){
         StudentIdentifier studentIdentifier = new StudentIdentifier(ProjectId, student);
         return getTotalAssessment(studentIdentifier);
-    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
+    }  //////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
     @Override
     public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
         return peer.getTotalAssessment(studentIdentifier);
-    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
+    }  /////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
 
     @GET
@@ -116,6 +118,6 @@ public class QuizView implements IPeerAssessment {
         result.add(pf);
         result.add(pf2);
         return result;
-    }  ///////////////////////////////returns what i expect it to return!!!!!//////////////////////////////////
+    }  /////////dummy////////////returns what i expect it to return!!!!!//////////////////////////////////
 
 }
