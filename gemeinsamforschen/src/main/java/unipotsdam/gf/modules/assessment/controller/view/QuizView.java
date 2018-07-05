@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.assessment.controller.view;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 
 import javax.ws.rs.*;
@@ -11,7 +12,8 @@ import java.util.List;
 
 @Path("/assessments")
 public class QuizView implements IPeerAssessment {
-    private static IPeerAssessment peer =  new PeerAssessmentDummy();
+    private static IPeerAssessment peer =  new PeerAssessmentDummy();   //TestSubject
+    //private static IPeerAssessment peer =  new PeerAssessment();      //correct DB-conn and stuff
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/project/{projectId}/quiz/{quizId}")

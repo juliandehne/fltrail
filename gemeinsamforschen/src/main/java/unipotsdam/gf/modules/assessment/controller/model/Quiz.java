@@ -1,16 +1,17 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 
 @XmlRootElement
 
 public class Quiz {
     private String type;
     private String question;
-    private String[] correctAnswers;
-    private String[] incorrectAnswers;
+    private ArrayList<String> correctAnswers;
+    private ArrayList<String> incorrectAnswers;
 
-    public Quiz(String type, String question, String[] correctAnswers, String[] incorrectAnswers) {
+    public Quiz(String type, String question, ArrayList<String> correctAnswers, ArrayList<String> incorrectAnswers) {
         this.type = type;
         this.question = question;
         this.correctAnswers = correctAnswers;
@@ -18,19 +19,19 @@ public class Quiz {
     }
     public Quiz(){}
 
-    public String[] getIncorrectAnswers() {
+    public ArrayList<String> getIncorrectAnswers() {
         return incorrectAnswers;
     }
 
-    public void setIncorrectAnswers(String[] incorrectAnswers) {
+    public void setIncorrectAnswers(ArrayList<String> incorrectAnswers) {
         this.incorrectAnswers = incorrectAnswers;
     }
 
-    public String[] getCorrectAnswers() {
+    public ArrayList<String> getCorrectAnswers() {
         return correctAnswers;
     }
 
-    public void setCorrectAnswers(String[] correctAnswers) {
+    public void setCorrectAnswers(ArrayList<String> correctAnswers) {
         this.correctAnswers = correctAnswers;
     }
 
