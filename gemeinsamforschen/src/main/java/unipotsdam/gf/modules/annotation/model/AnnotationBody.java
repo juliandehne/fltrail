@@ -12,12 +12,15 @@ public class AnnotationBody {
     private int startCharacter;
     private int endCharacter;
 
-    // constructor
+    // constructors
     public AnnotationBody(String title, String comment, int startCharacter, int endCharacter) {
         this.title = title;
         this.comment = comment;
         this.startCharacter = startCharacter;
         this.endCharacter = endCharacter;
+    }
+
+    public AnnotationBody() {
     }
 
     // methods
