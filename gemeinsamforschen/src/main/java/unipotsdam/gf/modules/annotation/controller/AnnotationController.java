@@ -4,6 +4,7 @@ import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.IAnnotation;
 import unipotsdam.gf.modules.annotation.model.Annotation;
+import unipotsdam.gf.modules.annotation.model.AnnotationBody;
 import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
 
@@ -26,8 +27,8 @@ public class AnnotationController implements IAnnotation {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT INTO annotations (`id`, `userId`, `targetId`, `body`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, annotationPostRequest.getUserId(), annotationPostRequest.getTargetId(), annotationPostRequest.getBody(), annotationPostRequest.getStartCharacter(), annotationPostRequest.getEndCharacter());
+        String request = "INSERT INTO annotations (`id`, `userToken`, `targetId`, `title`, `comment`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?,?,?,?);";
+        connection.issueInsertOrDeleteStatement(request, uuid, annotationPostRequest.getUserToken(), annotationPostRequest.getTargetId(), annotationPostRequest.getBody().getTitle(), annotationPostRequest.getBody().getComment(),annotationPostRequest.getBody().getStartCharacter(), annotationPostRequest.getBody().getEndCharacter());
 
         // close connection
         connection.close();
@@ -47,8 +48,8 @@ public class AnnotationController implements IAnnotation {
         connection.connect();
 
         // build and execute request
-        String request = "UPDATE `annotations` SET `body` = ? WHERE `id` = ?";
-        connection.issueUpdateStatement(request, annotationPatchRequest.getBody(), annotationId);
+        String request = "UPDATE `annotations` SET `title` = ?, `comment` = ? WHERE `id` = ?";
+        connection.issueUpdateStatement(request, annotationPatchRequest.getTitle(), annotationPatchRequest.getComment(), annotationId);
 
         // close connection
         connection.close();
@@ -159,17 +160,27 @@ public class AnnotationController implements IAnnotation {
 
     }
 
+    /**
+     * Build an annotation object from a given result set
+     *
+     * @param rs The result set from a database query
+     * @return A new annotation object
+     */
     private Annotation getAnnotationFromResultSet(VereinfachtesResultSet rs) {
 
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
-        int userId = rs.getInt("userId");
+        String userToken = rs.getString("userToken");
         int targetId = rs.getInt("targetId");
-        String body = rs.getString("body");
+
+        // initialize new annotation body
+        String title = rs.getString("title");
+        String comment = rs.getString("comment");
         int startCharacter = rs.getInt("startCharacter");
         int endCharacter = rs.getInt("endCharacter");
+        AnnotationBody body = new AnnotationBody(title, comment, startCharacter, endCharacter);
 
-        return new Annotation(id, timestamp, userId, targetId, body, startCharacter, endCharacter);
+        return new Annotation(id, timestamp, userToken, targetId, body);
 
     }
 }
