@@ -1,5 +1,5 @@
-// initialize userId, userColors and targetId
-var userId = randomUserId();
+// initialize userToken, userColors and targetId
+var userToken = getUserTokenFromUrl();
 var userColors = new Map();
 var userColorsDark = new Map();
 var targetId = 200;
@@ -28,17 +28,20 @@ $(document).ready(function() {
             // if user selected something
             if (body.length > 0) {
                 // annotationPostRequest
-                var request = {
-                    userId: userId,
+                var annotationPostRequest = {
+                    userToken: userToken,
                     targetId: targetId,
-                    body: body,
-                    startCharacter: window.getSelection().getRangeAt(0).startOffset,
-                    endCharacter: window.getSelection().getRangeAt(0).endOffset
+                    body: {
+                        title: "title",
+                        comment: body,
+                        startCharacter: window.getSelection().getRangeAt(0).startOffset,
+                        endCharacter: window.getSelection().getRangeAt(0).endOffset
+                    }
                 };
 
-                console.log(request);
+                console.log(annotationPostRequest);
 
-                createAnnotation(request, function(response) {
+                createAnnotation(annotationPostRequest, function(response) {
                     // display the new annotation
                     displayAnnotation(response);
 
@@ -186,41 +189,48 @@ function displayAnnotation(annotation) {
 
     // insert annotation card
     list.prepend(
+        // list element
         $('<li>')
             .attr('class', 'listelement')
             .append(
+                // annotation card
                 $('<div>').attr('class', 'annotation-card')
                     .mouseenter(function () {
-                        $(this).children('.annotation-header').css('background-color', getDarkUserColor(annotation.userId));
+                        $(this).children('.annotation-header').css('background-color', getDarkUserColor(annotation.userToken));
                     })
                     .mouseleave(function () {
-                        $(this).children('.annotation-header').css('background-color', getUserColor(annotation.userId));
+                        $(this).children('.annotation-header').css('background-color', getUserColor(annotation.userToken));
                     })
                     .append(
+                        // annotation header
                         $('<div>').attr('class', 'annotation-header')
-                            .css('background-color', getUserColor(annotation.userId))
+                            .css('background-color', getUserColor(annotation.userToken))
                             .append(
+                                // header data
                                 $('<div>').attr('class', 'annotation-header-title')
                                     .append(
+                                        // user
                                         $('<div>').attr('class', 'overflow-hidden')
                                             .append(
                                                 $('<i>').attr('class', 'fas fa-user')
                                             )
                                             .append(
-                                                $('<span>').append(annotation.userId)
+                                                $('<span>').append(annotation.userToken)
                                             )
                                     )
                                     .append(
+                                        // title
                                         $('<div>').attr('class', 'overflow-hidden')
                                             .append(
                                                 $('<i>').attr('class', 'fas fa-bookmark')
                                             )
                                             .append(
-                                                $('<span>').append('title' + annotation.userId)
+                                                $('<span>').append(annotation.body.title)
                                             )
                                     )
                             )
                             .append(
+                                // unfold button
                                 $('<div>').attr('class', 'annotation-header-toggle')
                                     .click(function () {
                                         toggleButtonHandler($(this));
@@ -231,16 +241,19 @@ function displayAnnotation(annotation) {
                             )
                     )
                     .append(
+                        // annotation body
                         $('<div>').attr('class', 'annotation-body')
                             .append(
-                                $('<p>').attr('class', 'overflow-hidden').append(annotation.body)
+                                $('<p>').attr('class', 'overflow-hidden').append(annotation.body.comment)
                             )
                     )
                     .append(
+                        // annotation footer
                         $('<div>').attr('class', 'annotation-footer')
                             .append(
+                                // delete
                                 function () {
-                                    if (userId == annotation.userId) {
+                                    if (userToken == annotation.userToken) {
                                         return $('<div>').attr('class', 'annotation-footer-delete')
                                             .append(
                                                 $('<i>').attr('class', deleteIcon)
@@ -252,6 +265,7 @@ function displayAnnotation(annotation) {
                                 }
                             )
                             .append(
+                                // timestamp
                                 $('<div>').attr('class', 'annotation-footer-date overflow-hidden')
                                     .append(
                                         $('<i>').attr('class', dateIcon)
@@ -266,7 +280,7 @@ function displayAnnotation(annotation) {
             )
             .data('annotation', annotation)
             .mouseenter(function () {
-                addHighlightedText(annotation.startCharacter, annotation.endCharacter, annotation.userId);
+                addHighlightedText(annotation.body.startCharacter, annotation.body.endCharacter, annotation.userToken);
             })
             .mouseleave(function () {
                 deleteHighlightedText();
@@ -284,11 +298,11 @@ function displayAnnotation(annotation) {
  *
  * @param startCharacter The offset of the start character
  * @param endCharacter The offset of the end character
- * @param userId The user id
+ * @param userToken The user token
  */
-function addHighlightedText(startCharacter, endCharacter, userId) {
+function addHighlightedText(startCharacter, endCharacter, userToken) {
     // create <span> tag with the annotated text
-    var replacement = $('<span></span>').css('background-color', getUserColor(userId)).html(documentText.slice(startCharacter, endCharacter));
+    var replacement = $('<span></span>').css('background-color', getUserColor(userToken)).html(documentText.slice(startCharacter, endCharacter));
 
     // wrap an <p> tag around the replacement, get its parent (the <p>) and ask for the html
     var replacementHtml = replacement.wrap('<p/>').parent().html();
@@ -327,39 +341,39 @@ function getSelectedText() {
 /**
  * Get color based on user id
  *
- * @param userId The id of the user
+ * @param userToken The id of the user
  * @returns {string} The user color
  */
-function getUserColor(userId) {
-    // insert new color if there is no userId key
-    if (userColors.get(userId) == null) {
-        generateRandomColor(userId);
+function getUserColor(userToken) {
+    // insert new color if there is no userToken key
+    if (userColors.get(userToken) == null) {
+        generateRandomColor(userToken);
     }
     // return the color
-    return userColors.get(userId);
+    return userColors.get(userToken);
 }
 
 /**
  * Get dark color based on user id
  *
- * @param userId The id of the user
+ * @param userToken The token of the user
  * @returns {string} The dark user color
  */
-function getDarkUserColor(userId) {
-    // insert new color if there is no userId key
-    if (userColorsDark.get(userId) == null) {
-        generateRandomColor(userId);
+function getDarkUserColor(userToken) {
+    // insert new color if there is no userToken key
+    if (userColorsDark.get(userToken) == null) {
+        generateRandomColor(userToken);
     }
     // return the color
-    return userColorsDark.get(userId);
+    return userColorsDark.get(userToken);
 }
 
 /**
  * Generate a random color of the format 'rgb(r, g, b)'
  *
- * @param userId The given user id
+ * @param userToken The given user token
  */
-function generateRandomColor(userId) {
+function generateRandomColor(userToken) {
     var r = Math.floor(Math.random()*56)+170;
     var g = Math.floor(Math.random()*56)+170;
     var b = Math.floor(Math.random()*56)+170;
@@ -370,8 +384,8 @@ function generateRandomColor(userId) {
     var color = 'rgb(' + r + ',' + g + ',' + b + ')';
     var colorDark = 'rgb(' + r_d + ',' + g_d + ',' + b_d + ')';
 
-    userColors.set(userId, color);
-    userColorsDark.set(userId, colorDark);
+    userColors.set(userToken, color);
+    userColorsDark.set(userToken, colorDark);
 }
 
 /**
@@ -446,11 +460,3 @@ function toggleButtonHandler(element) {
     // toggle between up and down button
     element.children("i").toggleClass("fa-chevron-down fa-chevron-up")
 }
-
-/*
-    MOCKUP FUNCTIONS
- */
-function randomUserId() {
-    return Math.floor((Math.random() * 12) + 1);;
-}
-
