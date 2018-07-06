@@ -77,7 +77,7 @@ $(document).ready(function() {
  * @param responseHandler The response handler
  */
 function createAnnotation(annotationPostRequest, responseHandler) {
-    var url = "http://localhost:8080/rest/annotations/";
+    var url = "../rest/annotations/";
     var json = JSON.stringify(annotationPostRequest);
     $.ajax({
         url: url,
@@ -99,7 +99,7 @@ function createAnnotation(annotationPostRequest, responseHandler) {
  * @param responseHandler The response handler
  */
 function alterAnnotation(id, annotationPatchRequest, responseHandler) {
-    var url = "http://localhost:8080/rest/annotations/" + id;
+    var url = "../rest/annotations/" + id;
     var json = JSON.stringify(annotationPatchRequest);
     $.ajax({
         url: url,
@@ -119,7 +119,7 @@ function alterAnnotation(id, annotationPatchRequest, responseHandler) {
  * @param id The annotation id
  */
 function deleteAnnotation(id) {
-    var url = "http://localhost:8080/rest/annotations/" + id;
+    var url = "../rest/annotations/" + id;
     $.ajax({
         url: url,
         type: "DELETE",
@@ -138,7 +138,7 @@ function deleteAnnotation(id) {
  * @param responseHandler The response handler
  */
 function getAnnotations(targetId, responseHandler) {
-    var url = "http://localhost:8080/rest/annotations/target/" + targetId;
+    var url = "../rest/annotations/target/" + targetId;
     $.ajax({
         url: url,
         type: "GET",
