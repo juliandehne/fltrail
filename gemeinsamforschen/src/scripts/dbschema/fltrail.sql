@@ -20,7 +20,9 @@ CREATE TABLE if not exists `projects` (
 
   `adminPassword` varchar(400) NOT NULL,
 
-  `token`         varchar(400) NOT NULL
+  `token`         varchar(400) NOT NULL,
+
+  `phase`         varchar(400) NOT NULL
 
 )
 
@@ -125,6 +127,7 @@ CREATE TABLE if not exists projectuser
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;alter table users
 
   add isStudent tinyint(1) default '1' null;
+
 CREATE TABLE if not exists quiz
 
 (
@@ -141,6 +144,21 @@ CREATE TABLE if not exists quiz
 
   correct tinyint(1) NOT NULL
 
+)
+
+  ENGINE = InnoDB
+
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE if not exists tasks
+
+(
+
+  userId varchar(400) NOT NULL,
+
+  projectId varchar(400) NOT NULL,
+
+  taskUrl varchar (400) NOT NULL
 )
 
   ENGINE = InnoDB

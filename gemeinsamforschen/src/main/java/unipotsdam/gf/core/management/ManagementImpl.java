@@ -7,6 +7,7 @@ import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
+import unipotsdam.gf.core.states.ProjectPhase;
 import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
@@ -56,11 +57,12 @@ public class ManagementImpl implements Management {
         UUID uuid = UUID.randomUUID();
         String token = uuid.toString();
 
+
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest =
                 "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `author`, "
-                        + "`adminPassword`, `token`) values (?,?,?,?,?,?,?)";
+                        + "`adminPassword`, `token`, `phase`) values (?,?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.isActive(),
                 project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token);
         connect.close();
@@ -162,6 +164,7 @@ public class ManagementImpl implements Management {
         String author = vereinfachtesResultSet.getString("author");
         String adminPassword = vereinfachtesResultSet.getString("adminpassword");
         String token = vereinfachtesResultSet.getString("token");
+        String phase = vereinfachtesResultSet.getString("phase");
 
         return new Project(id, password, active, timestamp, author, adminPassword, token);
     }
@@ -173,6 +176,7 @@ public class ManagementImpl implements Management {
         // TODO: determine how to get all User
         return new Group(id, new ArrayList<>(), projectId, chatRoomId);
     }
+
     @Override
     public String getUserToken(User user) {
         MysqlConnect connect = new MysqlConnect();
@@ -200,6 +204,13 @@ public class ManagementImpl implements Management {
         return getUserByField("email", email);
     }
 
+
+    /**
+     * TODO @Axel bitte in modules/asessment verschieben
+     * @param projectId
+     * @param quizId
+     * @return
+     */
     public Quiz getQuizByProjectGroupId(String projectId, String quizId){
         MysqlConnect connect = new MysqlConnect();
         connect.connect();

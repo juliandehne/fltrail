@@ -100,6 +100,12 @@ public class CommunicationDummyService implements ICommunication {
         return Constants.ROCKET_CHAT_URL + "/channel/" + channelName + "?layout=embedded";
     }
 
+    @Override
+    public void sendSingleMessage(Message message, User user) {
+        // TODO implement as email or directed message, popup after login or whatever
+        System.out.println("sending email with message: "+ message.getMessage() + " to: "+ user.getEmail());
+    }
+
     // TODO: remove after done implementing
     // just for postman testing
     public User getUser() {

@@ -1,5 +1,7 @@
 package unipotsdam.gf.core.management.project;
 
+import unipotsdam.gf.core.states.ProjectPhase;
+
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -16,6 +18,8 @@ public class Project {
     private String author;
     private String adminPassword;
     private String token;
+    // using enum ProjectPhase
+    private String phase;
 
     public Project() {
     }
@@ -26,8 +30,21 @@ public class Project {
         this.active = active;
         this.author = author;
         this.adminPassword = adminPassword;
-
         this.timecreated = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC")));
+        // default starting at course creation if new
+        this.setPhase(ProjectPhase.CourseCreationPhase);
+    }
+
+    public String getPhase() {
+        return phase;
+    }
+
+    /**
+     * setting phase only with enum
+     * @param phase
+     */
+    public void setPhase(ProjectPhase phase) {
+        this.phase = phase.name();
     }
 
     public Project(String id, String password, Boolean active, String author, String adminPassword, String token) {

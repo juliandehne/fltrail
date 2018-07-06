@@ -85,4 +85,5 @@ public interface ICommunication {
 
     String getChatRoomLink(String userToken, String projectToken, String groupToken);
 
+    void sendSingleMessage(Message message, User user);
 }
