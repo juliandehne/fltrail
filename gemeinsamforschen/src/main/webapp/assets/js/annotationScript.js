@@ -48,6 +48,8 @@ $(document).ready(function() {
                 });
             }
 
+            $('#annotation-create-modal').modal('show');
+
         },
         items: {
             "annotation": {name: "Annotation", icon: "edit"}
@@ -266,7 +268,7 @@ function displayAnnotation(annotation) {
                             )
                             .append(
                                 // timestamp
-                                $('<div>').attr('class', 'annotation-footer-date overflow-hidden')
+                                $('<div>').attr('class', 'flex-one overflow-hidden')
                                     .append(
                                         $('<i>').attr('class', dateIcon)
                                     )
