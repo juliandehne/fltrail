@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
+    <script src="../assets/js/utility.js"></script>
+    <script src="../assets/js/project-student.js"></script>
 </head>
 
 <body>
@@ -26,16 +28,16 @@
         <div class="container-fluid">
             <h1 id="projectId"> PeerFeedback</h1>
         </div>
-        <div align="right" class="dropdown" >
+        <div align="right" class="dropdown">
             <button style= "position: absolute; right: 50px;" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
 
                 <i class="glyphicon glyphicon-envelope"></i>
             </button>
 
             <ul class="dropdown-menu">
-                <li><a href="viewfeedback.jsp">Feedback A</a></li>
-                <li><a href="viewfeedback.jsp">Feedback B</a></li>
-                <li><a href="viewfeedback.jsp">Feedback C</a></li>
+                <li><a class="viewfeedback" role="button">Feedback A</a></li>
+                <li><a class="viewfeedback" role="button">Feedback B</a></li>
+                <li><a class="viewfeedback" role="button">Feedback C</a></li>
             </ul>
 
             <a href="#">
@@ -50,6 +52,16 @@
                         <h2>Feedback Nachrichten von Student X</h2>
 
                         <iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
+
+                        <button class="btn btn-secondary" onclick="goBack()">Zurück</button>
+
+                        <script>
+                            function goBack() {
+                                window.history.back();
+                            }
+                        </script>
+
+
                     </td>
 
                     <td  id="chat">

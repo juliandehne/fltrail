@@ -51,7 +51,7 @@
                                     <div class="journal-description-title">
                                     </div>
                                     <div class="journal-description-edit" align="right">
-                                        <a class="btn btn-default btn-sm" href="editDescription.jsp?project=0&token=test">
+                                        <a class="btn btn-default btn-sm" href="editDescription.jsp?project=0">
                                             <i class="fa fa-pencil"></i> Bearbeiten</a>
                                         <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeDescriptionModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>
 
@@ -77,7 +77,7 @@
                                         <option value="OWN">Eigene</option>
                                     </select>
 
-                                    <a class="btn btn-default btn-sm" href="createJournal.jsp?token=test">Neu</a>
+                                    <a class="btn btn-default btn-sm" href="createJournal.jsp">Neu</a>
                                 </div>
                                 <div class="journal">
                                 </div>
@@ -147,7 +147,7 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary mr-auto">Ja</button>
+                    <button type="button" class="btn btn-primary mr-auto" data-dismiss="modal">Ja</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Nein</button>
 
                 </div>

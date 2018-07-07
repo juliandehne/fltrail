@@ -24,7 +24,7 @@ public class Menu extends SimpleTagSupport {
                     "        <ul class=\"sidebar-nav\">\n" +
                     "            <li class=\"sidebar-brand\"><a href=\"overview-student.html\">overview</a></li>\n" +
                     "            <li><a href=\"takeQuiz.jsp\">Quizfrage</a></li>\n" +
-                    "            <li><a href=\"#\">ePortfolio</a></li>\n" +
+                    "            <li><a href=\"eportfolio.jsp\">ePortfolio</a></li>\n" +
                     "            <li><a href=\"#\">Beitrag</a></li>\n" +
                     "            <li><a href=\"finalAssessments.jsp\">Bewertung</a></li>\n" +
                     "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +

@@ -4,8 +4,8 @@
     grid-template-columns: 2fr 1fr 15%;
     grid-template-areas:
             "title edit group"
-            "text text group"
             "text text links"
+            "text text ..."
 ;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .journal-description-links{
-
+    grid-area:links;
 }
 
 .journal-container{

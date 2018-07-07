@@ -7,7 +7,7 @@ $(document).ready(function() {
         $('.journal-description-title').append('<h2>' + data.name + '</h2>');
         $('.journal-description-text').append(data.descriptionHTML);
         for(var link in data.links){
-            $('.journal-description-links').append('<a href=' + data.links[link] + '>' + link + '</a> <button onclick=\'linkLoeschen("'+link+'")\'> <i class="fa fa-trash" aria-hidden="true" ></i></button><br/>');
+            $('.journal-description-links').append('<button class="btn btn-default btn-xs" onclick=\'linkLoeschen("'+link+'")\'> <i class="fa fa-trash" aria-hidden="true" ></i></button><a href=\' + data.links[link] + \'>' + link + '</a> <br/>');
         }
         $('.journal-description-links').append('<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addLinkModal"><i class="fa fa-plus" aria-hidden="true"></i></button>');
 
@@ -64,7 +64,7 @@ function loadJournals(data) {
                     data[journal].category +
                 '</div>' +
                 '<div class="journal-edit" align="right">' +
-                    '<a class="btn btn-default btn-sm" href="createJournal.jsp?token=test&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
+                    '<a class="btn btn-default btn-sm" href="createJournal.jsp?journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
                     '<a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeJournalModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>' +
                 '</div>' +
                 '<div class="journal-text">' +

@@ -1,3 +1,4 @@
+<%--suppress XmlDuplicatedId --%>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
 
 <!DOCTYPE html>
@@ -16,6 +17,8 @@
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <script src="../assets/js/utility.js"></script>
+    <script src="../assets/js/project-student.js"></script>
 </head>
 
 <body>
@@ -24,18 +27,18 @@
 
     <div class="page-content-wrapper">
         <div class="container-fluid">
-            <h1 id="projectId">project1</h1>
+            <h1 id="projectId">Project 1</h1>
         </div>
-        <div align="right" class="dropdown" >
+        <div align="right" class="dropdown">
             <button style= "position: absolute; right: 50px;" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
 
                 <i class="glyphicon glyphicon-envelope"></i>
             </button>
 
             <ul class="dropdown-menu">
-                <li><a href="viewfeedback.jsp">Feedback A</a></li>
-                <li><a href="viewfeedback.jsp">Feedback B</a></li>
-                <li><a href="viewfeedback.jsp">Feedback C</a></li>
+                <li><a class="viewfeedback" role="button">Feedback A</a></li>
+                <li><a class="viewfeedback" role="button">Feedback B</a></li>
+                <li><a class="viewfeedback" role="button">Feedback C</a></li>
             </ul>
 
             <a href="#">
@@ -47,7 +50,7 @@
             <table>
                 <tr>
                     <td  id="yourContent">
-                        <h1>your content guys and girls!</h1>
+                        <h1>Feedbackable Students</h1>
                         <!-- here will be all the content -->
                         <table>
                             <tr>
@@ -58,15 +61,18 @@
                                     <a href="#">student1@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li>Projektübersicht hochgeladen
-                                            <a href="givefeedback.jsp">
-                                                <i class="far fa-comments"></i>
-                                        </a></li>
-                                        <li>Blumen ins Hausaufgabenheft geklebt
-                                            <a href="givefeedback.jsp">
-                                            <span class="glyphicon glyphicon-pencil"
-                                                  style="font-size:18px;margin-left:5px;margin-top:-25px"></span>
-                                            </a></li>
+
+                                        <li><a class="annotationview" role="button">
+                                            Projektuebersicht hochgeladen
+                                            <i class="far fa-comments"></i>
+                                            </a>
+                                        </li>
+                                        <li><a class="annotationview" role="button">
+                                            Blumen ins Hausaufgabenheft geklebt
+                                            <i class="far fa-comments"></i>
+                                            </a>
+                                        </li>
+                                        </a>
                                     </ul>
                                 </td>
                                 <td></td>
@@ -77,20 +83,17 @@
                                     <a href="#">student2@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li>feedback zu Herbarium im Hausaufgabenheft gegeben
-                                            <a href="givefeedback.jsp">
-                                            <span class="glyphicon glyphicon-comment"
-                                                  style="font-size:18px;margin-left:5px;margin-top:-25px"></span>
+                                        <li><a class="annotationview" role="button">
+                                            Blumen an Vegetarier verfuettert
+                                            <i class="far fa-comments"></i>
                                         </a></li>
-                                        <li>Blumen an Vegetarier verfüttert
-                                            <a href="givefeedback.jsp">
-                                            <span class="glyphicon glyphicon-comment"
-                                                  style="font-size:18px;margin-left:5px;margin-top:-25px"></span>
+                                        <li><a class="annotationview" role="button">
+                                            Literaturverzeichnis hochgeladen
+                                            <i class="far fa-comments"></i>
                                             </a></li>
-                                        <li>Die armen Vegetarier
-                                            <a href="givefeedback.jsp">
-                                            <span class="glyphicon glyphicon-comment"
-                                                  style="font-size:18px;margin-left:5px;margin-top:-25px"></span>
+                                        <li><a class="annotationview" role="button">
+                                            Die armen Vegetarier
+                                            <i class="far fa-comments"></i>
                                             </a></li>
                                     </ul>
                                 </td>
@@ -102,14 +105,25 @@
                                     <a href="#">student3@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li>Viva la Floristika <a href="givefeedback.jsp"> <span class="glyphicon glyphicon-pencil"
-                                                  style="font-size:18px;margin-left:5px;margin-top:-25px"></span></a>
+                                        <li><a class="annotationview" role="button">
+                                            "Viva la Floristika" - Titel hochgeladen
+                                            <i class="far fa-comments"></i>
+                                            </a>
                                         </li>
                                     </ul>
                                 </td>
 
                             </tr>
                         </table>
+
+                        <button onclick="goBack()" class="btn btn-secondary">Zurueck</button>
+
+                        <script>
+                            function goBack() {
+                                window.history.back();
+                            }
+                        </script>
+
                     </td>
                     <td  id="chat">
                         <div class="card">

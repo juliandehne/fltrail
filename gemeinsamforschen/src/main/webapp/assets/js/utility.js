@@ -6,5 +6,6 @@ function getUserTokenFromUrl() {
         $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
     }
     return $_GET['token'];
+
 }
 

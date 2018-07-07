@@ -21,27 +21,21 @@ public class AnnotationController implements IAnnotation {
             uuid = UUID.randomUUID().toString();
         }
 
-        // build the annotation
-        Annotation annotation = new Annotation(uuid,
-                ZonedDateTime.now().toEpochSecond(),
-                annotationPostRequest.getUserId(),
-                annotationPostRequest.getTargetId(),
-                annotationPostRequest.getBody(),
-                annotationPostRequest.getStartCharacter(),
-                annotationPostRequest.getEndCharacter());
-
         // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
         String request = "INSERT INTO annotations (`id`, `userId`, `targetId`, `body`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, annotation.getId(), annotation.getUserId(), annotation.getTargetId(), annotation.getBody(), annotation.getStartCharacter(), annotation.getEndCharacter());
+        connection.issueInsertOrDeleteStatement(request, uuid, annotationPostRequest.getUserId(), annotationPostRequest.getTargetId(), annotationPostRequest.getBody(), annotationPostRequest.getStartCharacter(), annotationPostRequest.getEndCharacter());
 
         // close connection
         connection.close();
 
-        return annotation;
+        // build response annotation
+        Annotation annotationResponse = getAnnotation(uuid);
+
+        return annotationResponse;
 
     }
 

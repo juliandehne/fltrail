@@ -49,7 +49,7 @@ public class ProjectDescriptionView {
 
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            URI location = new URI("../pages/eportfolio.jsp?");
             log.debug("<<< saveText: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -74,7 +74,7 @@ public class ProjectDescriptionView {
 
 
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            URI location = new URI("../pages/eportfolio.jsp");
             log.debug("<<< addLink: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -99,7 +99,7 @@ public class ProjectDescriptionView {
         descriptionService.deleteLink(link);
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            URI location = new URI("../pages/eportfolio.jsp");
             log.debug("<<< deleteLink: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -122,7 +122,7 @@ public class ProjectDescriptionView {
         descriptionService.closeDescription(desc);
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            URI location = new URI("../pages/eportfolio.jsp");
             log.debug("<<< closeDescription: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
