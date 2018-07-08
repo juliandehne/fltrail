@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
-import unipotsdam.gf.modules.journal.service.DummyJournalService;
 import unipotsdam.gf.modules.journal.service.JournalService;
+import unipotsdam.gf.modules.journal.service.JournalServiceImpl;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -23,8 +23,8 @@ import java.util.ArrayList;
 @Path("/journal")
 public class JournalView {
 
-    private Logger log = LoggerFactory.getLogger(JournalView.class);
-    private JournalService journalService = new DummyJournalService();
+    private final Logger log = LoggerFactory.getLogger(JournalView.class);
+    private final JournalService journalService = new JournalServiceImpl();
 
     /**
      * Returns a specific Journal
@@ -67,25 +67,6 @@ public class JournalView {
         return Response.ok(result).build();
     }
 
-    /**
-     * Returns all Journals for a student
-     * @param student the requested student
-     * @param project the requested project
-     * @return Json of all Journals
-     */
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/journals/{student}/{project}")
-    public Response getAllJournals (@PathParam("student") String student, @PathParam("project") String project){
-
-        log.debug(">>> getJournals: student=" + student + " project=" + project );
-
-        ArrayList<Journal> result = journalService.getAllJournals(student,project);
-
-        log.debug(">>> getJournals: size=" + result.size());
-
-        return Response.ok(result).build();
-    }
 
     /**
      * Saves or edits a Journal
@@ -102,11 +83,11 @@ public class JournalView {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/save")
-    public Response saveJournal(@FormParam("id") long id, @FormParam("student") String student,
+    public Response saveJournal(@FormParam("id") String id, @FormParam("student") String student,
                                 @FormParam("project") String project, @FormParam("text") String text,
                                 @FormParam("visibility") String visibility, @FormParam("category") String category) {
 
-        log.debug(">>> saveJournal");
+        log.debug(">>> createJournal");
 
         journalService.saveJournal(id, student, project, text, visibility, category);
 
@@ -114,15 +95,15 @@ public class JournalView {
         URI location;
         try {
             location = new URI("../pages/eportfolio.jsp");
-            log.debug("<<< saveJournal: redirect to "  +location.toString());
+            log.debug("<<< createJournal: redirect to " + location.toString());
             return Response.temporaryRedirect(location).build();
 
         } catch (URISyntaxException e) {
             e.printStackTrace();
-            log.debug("saveJournal: redirect failed" );
+            log.debug("createJournal: redirect failed");
         }
 
-        log.debug("<<< saveJournal");
+        log.debug("<<< createJournal");
 
         return Response.ok().build();
 
@@ -137,7 +118,7 @@ public class JournalView {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/delete/{id}")
-    public Response deleteJournal(@PathParam("id") long id) {
+    public Response deleteJournal(@PathParam("id") String id) {
 
         log.debug(">>> deleteJournal: id=" + id);
 

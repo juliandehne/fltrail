@@ -19,7 +19,7 @@ $(document).ready(function() {
     });
 
     $.ajax({
-        url: "../rest/journal//journals/0/0"
+        url: "../rest/journal//journals/0/0/ALL"
     }).then(function(data) {
         loadJournals(data);
         console.log(data);
