@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.journal.model;
 
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -13,25 +14,23 @@ import static unipotsdam.gf.core.management.utils.MarkdownUtils.convertMarkdownT
 
 public class ProjectDescription {
 
-    private long id;
-    private String name;
+    private String id;
+    private StudentIdentifier student;
     private String descriptionHTML;
     private String descriptionMD;
     private boolean open;
-    private Project project;
-    private Map<String,String> links;
+    private ArrayList<Link> links;
     private ArrayList<String> group;
     private long timestamp;
 
     public ProjectDescription() {
     }
 
-    public ProjectDescription(long id, String name, String description, Project project, Map<String, String> links, ArrayList<String> group, long timestamp) {
+    public ProjectDescription(String id, String name, String description, String project, ArrayList<Link> links, ArrayList<String> group, long timestamp) {
         this.id = id;
-        this.name = name;
+        this.student = new StudentIdentifier(project,name);
         this.descriptionHTML = convertMarkdownToHtml(description);
         this.descriptionMD =description;
-        this.project = project;
         this.links = links;
         this.group = group;
         this.timestamp = timestamp;
@@ -43,20 +42,20 @@ public class ProjectDescription {
         this.descriptionHTML = convertMarkdownToHtml(description);
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public StudentIdentifier getStudent() {
+        return student;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStudent(StudentIdentifier student) {
+        this.student = student;
     }
 
     public String getDescriptionHTML() {
@@ -67,19 +66,27 @@ public class ProjectDescription {
         this.descriptionHTML = descriptionHTML;
     }
 
-    public Project getProject() {
-        return project;
+    public String getDescriptionMD() {
+        return descriptionMD;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
+    public void setDescriptionMD(String descriptionMD) {
+        this.descriptionMD = descriptionMD;
     }
 
-    public Map<String, String> getLinks() {
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
+    public ArrayList<Link> getLinks() {
         return links;
     }
 
-    public void setLinks(Map<String, String> links) {
+    public void setLinks(ArrayList<Link> links) {
         this.links = links;
     }
 
@@ -99,32 +106,14 @@ public class ProjectDescription {
         this.timestamp = timestamp;
     }
 
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
-
-    public String getDescriptionMD() {
-        return descriptionMD;
-    }
-
-    public void setDescriptionMD(String descriptionMD) {
-        this.descriptionMD = descriptionMD;
-    }
-
-
     @Override
     public String toString() {
         return "ProjectDescription{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", student=" + student +
                 ", descriptionHTML='" + descriptionHTML + '\'' +
                 ", descriptionMD='" + descriptionMD + '\'' +
                 ", open=" + open +
-                ", project=" + project +
                 ", links=" + links +
                 ", group=" + group +
                 ", timestamp=" + timestamp +

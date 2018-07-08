@@ -1,8 +1,10 @@
 package unipotsdam.gf.modules.journal.service;
 
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.modules.journal.model.Link;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -13,9 +15,9 @@ public class DummyProjectDescription implements ProjectDescriptionService {
 
     public DummyProjectDescription(){
 
-        HashMap<String,String> link = new HashMap<>();
-        link.put("Test", "www.test.de");
-        link.put("Google", "www.google.de");
+        ArrayList<Link> links = new ArrayList<>();
+        links.add(new Link("0","0","Test", "www.test.de"));
+        links.add(new Link("0","0","Google", "www.google.de"));
 
         ArrayList<String> group = new ArrayList<>();
         group.add("Test Person");
@@ -31,7 +33,7 @@ public class DummyProjectDescription implements ProjectDescriptionService {
                 "\n" +
                 "Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. ";
 
-        testProject = new ProjectDescription(0,"Eine kreative Überschrift",desc, new Project(), link, group, new Date().getTime());
+        testProject = new ProjectDescription("0","Eine kreative Überschrift",desc, "asd", links, group, new Date().getTime());
     }
 
 

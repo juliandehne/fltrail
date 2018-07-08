@@ -14,7 +14,7 @@ public class JournalDAOImpl implements JournalDAO {
     public void createJournal(Journal journal) {
         // create a new id if we found no id.
         String uuid = UUID.randomUUID().toString();
-        while (existsJournalId(uuid)) {
+        while (JournalUtils.existsId(uuid,"journals")) {
             uuid = UUID.randomUUID().toString();
         }
 
@@ -161,42 +161,6 @@ public class JournalDAOImpl implements JournalDAO {
 
         //close connection
         connection.close();
-    }
-
-    /**
-     * Checks if uuid ist used
-     *
-     * @param journalId uuid
-     * @return true if free
-     */
-    public boolean existsJournalId(String journalId) {
-
-        // establish connection
-        MysqlConnect connection = new MysqlConnect();
-        connection.connect();
-
-        // build and execute request
-        String request = "SELECT COUNT(*) > 0 AS `exists` FROM journals WHERE id = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, journalId);
-
-        if (rs.next()) {
-            // save the response
-            int count = rs.getInt("exists");
-
-            // close connection
-            connection.close();
-
-            // return true if we found the id
-            if (count < 1) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-        // something happened
-        return true;
-
     }
 
     /**
