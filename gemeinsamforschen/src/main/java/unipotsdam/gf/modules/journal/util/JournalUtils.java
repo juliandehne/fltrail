@@ -5,13 +5,24 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.management.utils.Category;
 import unipotsdam.gf.modules.journal.model.Visibility;
 
+/**
+ * Utility class for Journal and Project description
+ */
 public class JournalUtils {
 
     public static final Logger log = LoggerFactory.getLogger(JournalUtils.class);
 
+    /**
+     * Coverts a strirng to enum category
+     *
+     * @param category string
+     * @return category, TITLE if string does not match
+     */
     public static Category stringToCategory(String category) {
-        // If String does not match enum IllegalArgumentException
+
         Category c;
+
+        // If String does not match enum IllegalArgumentException
         try {
             c = Category.valueOf(category);
         } catch (IllegalArgumentException e) {
@@ -22,9 +33,16 @@ public class JournalUtils {
         return c;
     }
 
+    /**
+     * Converts a string to enum visibility
+     *
+     * @param visibility string
+     * @return visibility, NONE if string does not match
+     */
     public static Visibility stringToVisibility(String visibility) {
-        // If String does not match enum IllegalArgumentException
         Visibility v;
+
+        // If String does not match enum IllegalArgumentException
         try {
             v = Visibility.valueOf(visibility);
         } catch (IllegalArgumentException e) {

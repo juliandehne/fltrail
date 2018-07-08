@@ -149,7 +149,6 @@ public class JournalDAOImpl implements JournalDAO {
 
     }
 
-
     @Override
     public void closeJournal(String id) {
         // establish connection
@@ -164,7 +163,13 @@ public class JournalDAOImpl implements JournalDAO {
         connection.close();
     }
 
-    public boolean existsJournalId(String annotationId) {
+    /**
+     * Checks if uuid ist used
+     *
+     * @param journalId uuid
+     * @return true if free
+     */
+    public boolean existsJournalId(String journalId) {
 
         // establish connection
         MysqlConnect connection = new MysqlConnect();
@@ -172,7 +177,7 @@ public class JournalDAOImpl implements JournalDAO {
 
         // build and execute request
         String request = "SELECT COUNT(*) > 0 AS `exists` FROM journals WHERE id = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, annotationId);
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, journalId);
 
         if (rs.next()) {
             // save the response
@@ -194,6 +199,12 @@ public class JournalDAOImpl implements JournalDAO {
 
     }
 
+    /**
+     * extracts a journal from VereinfachtesResultSet
+     *
+     * @param rs VereinfachtesResultSet
+     * @return journal
+     */
     private Journal getJournalFromResultSet(VereinfachtesResultSet rs) {
 
         String id = rs.getString("id");

@@ -54,31 +54,44 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public ArrayList<Journal> getAllJournals(String student, String project) {
+        log.debug(">> get all journals(" + student + "," + project + ")");
+
         return journalDAO.getAllByProject(project);
     }
 
     @Override
     public void saveJournal(String id, String student, String project, String text, String visibility, String category) {
+        log.debug(">> save journal(" + id + "," + student + "," + project + "," + text + "," + visibility + "," + category + ")");
+
         Journal journal = new Journal(id, new StudentIdentifier(student, project), text, JournalUtils.stringToVisibility(visibility), JournalUtils.stringToCategory(category));
 
         //if id = 0 new Journal else update
         if (id.equals("0")) {
+
+            log.debug("save journal: create new");
             journalDAO.createJournal(journal);
         } else {
+            log.debug("save journal: update" + journal.getId());
             journalDAO.updateJournal(journal);
         }
+        log.debug("<<< save journal");
 
     }
 
     @Override
-    public void deleteJournal(String id) {
+    public void deleteJournal(String journal) {
+        log.debug(">>> delete journal:" + journal);
+        journalDAO.deleteJournal(journal);
+        log.debug("<<< delete journal");
     }
 
     @Override
     public void closeJournal(String journal) {
+        log.debug(">>> close journal: " + journal);
         journalDAO.closeJournal(journal);
+        log.debug("<<< close journal");
     }
 
-
+    //TODO Export for assessment
 }
 

@@ -118,6 +118,7 @@ function linkLoeschen(name) {
 }
 
 function closeJournal() {
+    //TODO reload when modal close
     var journalID = $('#journalID-input').val();
     console.log("schließe:=" + journalID);
 
