@@ -1,13 +1,13 @@
 //TODO Get student and project form context
 
 $(document).ready(function() {
-    $('#editDescriptionLink').on('click', function(){
+    $('#editDescriptionLink').on('click', function () {
         /*TODO getJournal*/
-        location.href="editDescription.jsp?project=0&token="+getUserTokenFromUrl();
+        location.href = "editDescription.jsp?project=0&token=" + getUserTokenFromUrl();
     });
 
-    $('#createJournalLink').on('click', function(){
-        location.href="createJournal.jsp?token="+getUserTokenFromUrl();
+    $('#createJournalLink').on('click', function () {
+        location.href = "createJournal.jsp?token=" + getUserTokenFromUrl();
     });
 
     $.ajax({
@@ -36,6 +36,13 @@ $(document).ready(function() {
 
 });
 
+$(document).on("click", ".open-CloseJournalDialog", function () {
+    var journalID = $(this).data('id');
+    console.log("on:" + $(this).data('id'));
+    $('#journalID-input').val(journalID);
+});
+
+
 function timestampToDateString(timestamp) {
     var date = new Date(timestamp);
     return date.toLocaleString("de-DE");
@@ -58,28 +65,38 @@ function filterJournals() {
 
 function loadJournals(data) {
     for (var journal in data) {
-        $('.journal').append(
-            '<div class="journal-container">' +
-                '<div class="journal-avatar">' +
-                  'getBild' +
-                '</div>' +
-                '<div class="journal-date"> ' +
-                     timestampToDateString(data[journal].timestamp) +
-                '</div>' +
-                '<div class="journal-name">' +
-                    data[journal].creator +
-                '</div>' +
-                '<div class="journal-category">' +
-                    data[journal].category +
-                '</div>' +
-                '<div class="journal-edit" align="right">' +
-                    '<a class="btn btn-default btn-sm" href="createJournal.jsp?token='+getUserTokenFromUrl()+'&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
-                    '<a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeJournalModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>' +
-                '</div>' +
-                '<div class="journal-text">' +
-                    data[journal].entryHTML +
-                '</div>' +
-            '</div><br><br>')
+        var journalString = '<div class="journal-container">' +
+            '<div class="journal-avatar">' +
+            'getBild' +
+            '</div>' +
+            '<div class="journal-date"> ' +
+            timestampToDateString(data[journal].timestamp) +
+            '</div>' +
+            '<div class="journal-name">' +
+            // TODO id to name
+            data[journal].studentIdentifier.studentId +
+            '</div>' +
+            '<div class="journal-category">' +
+            data[journal].category +
+            '</div>' +
+            '<div class="journal-edit" align="right">';
+
+        //TODO userToken...
+        if (data[journal].studentIdentifier.studentId == "0" && data[journal].open) {
+            journalString = journalString +
+                '<a class="btn btn-default btn-sm" href="createJournal.jsp?token=' + getUserTokenFromUrl() + '&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
+                '<a class="open-CloseJournalDialog btn btn-default btn-sm" data-toggle="modal" data-id ='
+                + data[journal].id +
+                ' data-target ="#closeJournalModal" > <i class="fa fa-check-square" aria-hidden = "true" ></i> Abschlie&szlig;en</a> '
+        }
+
+        journalString = journalString + '</div>' +
+            '<div class="journal-text">' +
+            data[journal].entryHTML +
+            '</div>' +
+            '</div><br><br>';
+
+        $('.journal').append(journalString)
     }};
 
 
@@ -88,7 +105,7 @@ function linkLoeschen(name) {
     $.ajax({
         type: "POST",
         url: "../rest/projectdescription/deleteLink",
-        data: JSON.stringify(name),
+        data: JSON.stringify(eval(name)),
         contentType: "application/json; charset=utf-8",
         crossDomain: true,
         dataType: "json",
@@ -100,36 +117,22 @@ function linkLoeschen(name) {
 
 }
 
-function closeJournal(journal) {
-    console.log("löschen" + journal);
+function closeJournal() {
+    var journalID = $('#journalID-input').val();
+    console.log("schließe:=" + journalID);
+
     $.ajax({
         type: "POST",
         url: "../rest/journal/close",
-        data: JSON.stringify(journal),
+        data: journalID,
         contentType: "application/json; charset=utf-8",
         crossDomain: true,
         dataType: "json",
         success: function (data, status, jqXHR) {
 
-            alert(success);
+
         }
+
     });
-
-}
-
-function closeJournal(description) {
-    console.log("löschen" + description);
-    $.ajax({
-        type: "POST",
-        url: "../rest/projectdescription/close",
-        data: JSON.stringify(description),
-        contentType: "application/json; charset=utf-8",
-        crossDomain: true,
-        dataType: "json",
-        success: function (data, status, jqXHR) {
-
-            alert(success);
-        }
-    });
-
+    filterJournals();
 }

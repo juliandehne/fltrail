@@ -15,7 +15,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public Journal getJournal(String id) {
-        return null;
+        return journalDAO.getJournal(id);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public void closeJournal(String journal) {
-
+        journalDAO.closeJournal(journal);
     }
 
 

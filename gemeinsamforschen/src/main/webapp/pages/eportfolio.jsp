@@ -124,11 +124,14 @@
                 <h4 class="modal-title">Tagebucheintrag schließen</h4>
             </div>
             <div class="modal-body">
+                <input type="hidden" name="journalID" id="journalID-input" value=""/>
                 Tagebucheintrag schließen? Dieser Eintrag kann nach Bestätigung nicht mehr bearbeitet werden.
             </div>
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary mr-auto">Ja</button>
+                    <button type="button" class="btn btn-primary mr-auto" data-dismiss="modal" onclick="closeJournal()">
+                        Ja
+                    </button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Nein</button>
 
                 </div>

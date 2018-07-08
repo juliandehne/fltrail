@@ -23,8 +23,8 @@ public class JournalDAOImpl implements JournalDAO {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT INTO journals (`id`, `timestamp`, `author`, `project`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, journal.getTimestamp(), journal.getStudentIdentifier().getStudentId(),
+        String request = "INSERT INTO journals (`id`, `author`, `project`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
+        connection.issueInsertOrDeleteStatement(request, uuid, journal.getStudentIdentifier().getStudentId(),
                 journal.getStudentIdentifier().getProjectId(), journal.getEntryMD(), journal.getVisibility(), journal.getCategory(), true);
 
         //close connection
@@ -205,7 +205,7 @@ public class JournalDAOImpl implements JournalDAO {
         String category = rs.getString("category");
         boolean open = rs.getBoolean("open");
 
-        return new Journal(id, new StudentIdentifier(student, project), text, timestamp, JournalUtils.stringToVisibility(visibility), JournalUtils.stringToCategory(category), open);
+        return new Journal(id, new StudentIdentifier(project, student), text, timestamp, JournalUtils.stringToVisibility(visibility), JournalUtils.stringToCategory(category), open);
 
     }
 }

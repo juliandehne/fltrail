@@ -17,18 +17,20 @@ $(document).ready(function() {
     var journalID = getQueryVariable("journal");
     console.log(journalID);
     if(journalID){
+
         $.ajax({
             url: "../rest/journal/"+journalID
         }).then(function(data) {
             $('#editor').append(data.entryMD);
 
             //TODO preselet in select tags
+
             new InscrybMDE({
                 element: document.getElementById("editor"),
                 spellChecker: false,
                 forceSync: true,
             });
-
+            $('#journalid').val(journalID);
             console.log(data);
 
         });
@@ -38,6 +40,8 @@ $(document).ready(function() {
             spellChecker: false,
             forceSync: true,
         });
+
+        $('#journalid').val("0");
     }
 
 
