@@ -127,7 +127,7 @@ ol {
     margin-right: 5px;
     cursor: pointer;
 }
-.annotation-footer-date {
+.flex-one {
     flex: 1
 }
 .container-fluid-content {
@@ -135,7 +135,7 @@ ol {
     flex-flow: column;
     height: 100%;
 }
-.content-header {
+.flex {
     display: flex;
 }
 .full-height {
@@ -147,5 +147,8 @@ ol {
 }
 .leftcontent-text {
     overflow: scroll;
+}
+.resize-vertical {
+    resize: vertical;
 }
 

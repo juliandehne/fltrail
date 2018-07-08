@@ -24,6 +24,8 @@
 
     <!-- js - jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- js - jQuery validation plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
     <!-- js - bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- js - jQuery ui position -->
@@ -43,7 +45,7 @@
         <div class="page-content-wrapper full-height">
             <div class="container-fluid full-height">
                 <div class="container-fluid-content">
-                    <div class="content-header">
+                    <div class="flex">
                         <h1>gemeinsam Forschen
                             <a href="#">
                     <span class="glyphicon glyphicon-envelope"
@@ -73,6 +75,38 @@
                                 <ol id="annotations">
                                 </ol>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- annotation create modal -->
+        <div id="annotation-create-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content">
+
+                    <!-- modal header -->
+                    <div class="modal-header flex">
+                        <h4 class="modal-title flex-one">Annotation</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- modal body -->
+                    <div class="modal-body">
+                        <form id="annotation-create-form">
+                            <div class="form-group">
+                                <label for="annotation-form-title" class="col-form-label">Titel:</label>
+                                <input type="text" class="form-control" id="annotation-form-title" name="title">
+                            </div>
+                            <div class="form-group">
+                                <label for="annotation-form-comment" class="col-form-label">Kommentar:</label>
+                                <textarea class="form-control resize-vertical" id="annotation-form-comment" name="comment"></textarea>
+                            </div>
+                        </form>
+                        <!-- modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                            <button id="btnSave" type="button" class="btn btn-success">Speichern</button>
                         </div>
                     </div>
                 </div>
