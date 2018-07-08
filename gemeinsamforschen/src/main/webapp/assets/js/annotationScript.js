@@ -4,8 +4,8 @@ var userColors = new Map();
 var userColorsDark = new Map();
 var targetId = 200;
 
-// declare document text
-var documentText;
+// declare document text, start and end character
+var documentText, startCharacter, endCharacter;
 
 /**
  * This function will fire when the DOM is ready
@@ -19,36 +19,17 @@ $(document).ready(function() {
         selector: '.context-menu-one',
         callback: function(key, options) {
 
-            // close context menu
-            window.close;
+            // action for 'annotation' click
+            if (key == 'annotation') {
+                // show modal if something is selected
+                if (getSelectedText().length > 0) {
+                    startCharacter = window.getSelection().getRangeAt(0).startOffset;
+                    endCharacter = window.getSelection().getRangeAt(0).endOffset;
 
-            // initialize selected body
-            var body = getSelectedText();
-
-            // if user selected something
-            if (body.length > 0) {
-                // annotationPostRequest
-                var annotationPostRequest = {
-                    userToken: userToken,
-                    targetId: targetId,
-                    body: {
-                        title: "title",
-                        comment: body,
-                        startCharacter: window.getSelection().getRangeAt(0).startOffset,
-                        endCharacter: window.getSelection().getRangeAt(0).endOffset
-                    }
-                };
-
-                console.log(annotationPostRequest);
-
-                createAnnotation(annotationPostRequest, function(response) {
-                    // display the new annotation
-                    displayAnnotation(response);
-
-                });
+                    // display annotation create modal
+                    $('#annotation-create-modal').modal("show");
+                }
             }
-
-            $('#annotation-create-modal').modal('show');
 
         },
         items: {
@@ -61,6 +42,62 @@ $(document).ready(function() {
      */
     $('#btnContinue').click(function () {
         location.href="givefeedback.jsp?token=" + getUserTokenFromUrl();
+    });
+
+
+
+    /**
+     * validation of annotation create form inside the modal
+     */
+    $('#annotation-create-form').validate({
+        rules: {
+            title: {
+                required: true,
+                maxlength: 120
+            },
+            comment: {
+                required: true,
+                maxlength: 400
+            }
+        },
+        messages: {
+            title: {
+                required: "Bitte geben Sie einen Titel ein",
+                maxlength: "Ihr Titel darf maximal 120 Zeichen lang sein"
+            },
+            comment: {
+                required: "Bitte geben Sie einen Kommentar ein",
+                maxlength: "Ihr Kommentar darf maximal 400 Zeichen lang sein"
+            }
+        }
+    });
+
+    /**
+     * Save button of the annotation create modal
+     * hide modal and build new annotation
+     */
+    $('#btnSave').click(function () {
+        if ($('#annotation-create-form').valid()) {
+            // get title and comment from form
+            var title = $('#annotation-form-title').val();
+            var comment = $('#annotation-form-comment').val();
+
+            // hide and clear the modal
+            $('#annotation-create-modal').modal('hide');
+
+            // save the new annotation in db and display it
+            saveNewAnnotation(title, comment, startCharacter, endCharacter);
+        }
+    });
+
+    /**
+     * Clear the title and comment input field of the modal
+     */
+    $('#annotation-create-modal').on('hidden.bs.modal', function(){
+        // clear title
+        $('#annotation-form-title').val('');
+        // clear comment
+        $('#annotation-form-comment').val('')
     });
 
     documentText = $('#documentText').html();
@@ -461,4 +498,33 @@ function toggleButtonHandler(element) {
     element.parent().siblings(".annotation-body").children("p").toggleClass("overflow-hidden");
     // toggle between up and down button
     element.children("i").toggleClass("fa-chevron-down fa-chevron-up")
+}
+
+/**
+ * Save a new annotation in database and list
+ *
+ * @param title The title of the new annotation
+ * @param comment The comment of the new annotation
+ * @param startCharacter The startCharacter based on the annotated text
+ * @param endCharacter The endCharacter based on the annotated text
+ */
+function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
+    // build annotationPostRequest
+    var annotationPostRequest = {
+        userToken: userToken,
+        targetId: targetId,
+        body: {
+            title: title,
+            comment: comment,
+            startCharacter: startCharacter,
+            endCharacter: endCharacter
+        }
+    };
+
+    // send new annotation to back-end and display it in list
+    createAnnotation(annotationPostRequest, function(response) {
+        // display the new annotation
+        displayAnnotation(response);
+
+    });
 }
