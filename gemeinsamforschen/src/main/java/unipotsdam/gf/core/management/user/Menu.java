@@ -1,6 +1,5 @@
 package unipotsdam.gf.core.management.user;
 
-import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.ManagementImpl;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,38 +11,49 @@ import java.io.IOException;
 
 public class Menu extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
-        Management management = new ManagementImpl();
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String token = request.getParameter("token");
-        User user =  management.getUserByToken(token);
+        ManagementImpl management = new ManagementImpl();
         JspWriter out = getJspContext().getOut();
-        Boolean isStudent = user.getStudent();
-        if (isStudent){
-            out.println("<div id=\"sidebar-wrapper\">\n" +
-                    "        <ul class=\"sidebar-nav\">\n" +
-                    "            <li class=\"sidebar-brand\"><a href=\"overview-student.html\">overview</a></li>\n" +
-                    "            <li><a href=\"takeQuiz.jsp\">Quizfrage</a></li>\n" +
-                    "            <li><a href=\"eportfolio.jsp\">ePortfolio</a></li>\n" +
-                    "            <li><a href=\"#\">Beitrag</a></li>\n" +
-                    "            <li><a href=\"finalAssessments.jsp\">Bewertung</a></li>\n" +
-                    "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
-                    "        </ul>\n" +
-                    "    </div>");
-        } else {
-            out.println("<div id=\"sidebar-wrapper\">\n" +
-                    "        <ul class=\"sidebar-nav\">\n" +
-                    "            <li class=\"sidebar-brand\"><a href=\"overview-docent.html\">overview</a></li>\n" +
-                    "            <li><a href=\"createQuiz.jsp\">Quizfrage</a></li>\n" +
-                    "            <li><a href=\"#\">ePortfolio</a></li>\n" +
-                    "            <li><a href=\"#\">Beitrag</a></li>\n" +
-                    "            <li><a href=\"#\">Gruppen erstellen</a></li>\n" +
-                    "            <li><a href=\"#\">Projektphase ändern</a></li>\n" +
-                    "            <li><a href=\"finalAssessments.jsp\">Bewertung</a></li>\n" +
-                    "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
-                    "        </ul>\n" +
-                    "    </div>");
+        if (token!=null){
+            User user =  management.getUserByToken(token);
+            Boolean isStudent = user.getStudent();
+            if (isStudent){
+                out.println("<div id=\"sidebar-wrapper\">\n" +
+                        "        <ul class=\"sidebar-nav\">\n" +
+                        "            <li class=\"sidebar-brand\"><a href=\"overview-student.jsp?token="+token+"\">overview</a></li>\n" +
+                        "            <li><a href=\"profile.jsp?token="+token+"\">Profil</a></li>\n" +
+                        "            <li><a href=\"Quiz.jsp?token="+token+"\">Quizfrage</a></li>\n" +
+                        "            <li><a href=\"eportfolio.jsp?token="+token+"\">ePortfolio</a></li>\n" +
+                        "            <li><a href=\"researchReportTitle.jsp?token="+token+"\">Beitrag</a></li>\n" +
+                        "            <li><a href=\"finalAssessments.jsp?token="+token+"\">Bewertung</a></li>\n" +
+                        "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
+                        "        </ul>\n" +
+                        "    </div>");
+            } else {
+                out.println("<div id=\"sidebar-wrapper\">\n" +
+                        "        <ul class=\"sidebar-nav\">\n" +
+                        "            <li class=\"sidebar-brand\"><a href=\"overview-docent.jsp?token="+token+"\">overview</a></li>\n" +
+                        "            <li><a href=\"Quiz.jsp?token="+token+"\">Quizfrage</a></li>\n" +
+                        "            <li><a href=\"#\">ePortfolio</a></li>\n" +
+                        "            <li><a href=\"#\">Beitrag</a></li>\n" +
+                        "            <li><a href=\"#\">Gruppen erstellen</a></li>\n" +
+                        "            <li><a href=\"#\">Projektphase ändern</a></li>\n" +
+                        "            <li><a href=\"finalAssessments.jsp?token="+token+"\">Bewertung</a></li>\n" +
+                        "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
+                        "        </ul>\n" +
+                        "    </div>");
+            }
+        }else{
+            out.println("<div class='alert alert-warning'>" +
+                    "You probably did not give the token to the url" +
+                    "</div>");
+            //in active System this will be the point to redirect to index.jsp, because token is "wrong"
         }
 
+
     }
+
+
 };

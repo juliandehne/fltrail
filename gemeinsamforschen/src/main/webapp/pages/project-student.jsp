@@ -1,5 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%--suppress XmlDuplicatedId --%>
+
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+
+
+<!--todo: E-mail an Studenten als Notifikation für Phasenwechsel -->
+
 
 <!DOCTYPE html>
 <html>
@@ -10,15 +16,18 @@
     <title>muster-gemeinsam-forschen</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
+    <script src="../assets/js/footer.js"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/project-student.js"></script>
+    <script src="../assets/js/Sidebar-Menu.js"></script>
 </head>
 
 <body>
@@ -52,7 +61,7 @@
                     <td  id="yourContent">
                         <h1>Feedbackable Students</h1>
                         <!-- here will be all the content -->
-                        <table>
+                        <table id="myGroupMembers">
                             <tr>
 
                                 <td width="100px" valign="top">
@@ -62,14 +71,16 @@
                                     <hr>
                                     <ul>
 
-                                        <li><a class="annotationview" role="button">
-                                            Projektuebersicht hochgeladen
-                                            <i class="far fa-comments"></i>
+                                        <li>
+                                            Projektübersicht hochgeladen
+                                            <a class="annotationview" role="button">
+                                            <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
                                             </a>
                                         </li>
-                                        <li><a class="annotationview" role="button">
+                                        <li>
                                             Blumen ins Hausaufgabenheft geklebt
-                                            <i class="far fa-comments"></i>
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
                                             </a>
                                         </li>
                                         </a>
@@ -83,18 +94,24 @@
                                     <a href="#">student2@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li><a class="annotationview" role="button">
-                                            Blumen an Vegetarier verfuettert
-                                            <i class="far fa-comments"></i>
-                                        </a></li>
-                                        <li><a class="annotationview" role="button">
+                                        <li>
+                                            Blumen an Vegetarier verfüttert
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
+                                        <li>
                                             Literaturverzeichnis hochgeladen
-                                            <i class="far fa-comments"></i>
-                                            </a></li>
-                                        <li><a class="annotationview" role="button">
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
+                                        <li>
                                             Die armen Vegetarier
-                                            <i class="far fa-comments"></i>
-                                            </a></li>
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </td>
                                 <td></td>
@@ -105,9 +122,10 @@
                                     <a href="#">student3@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li><a class="annotationview" role="button">
+                                        <li>
                                             "Viva la Floristika" - Titel hochgeladen
-                                            <i class="far fa-comments"></i>
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
                                             </a>
                                         </li>
                                     </ul>
@@ -187,11 +205,23 @@
             </table>
         </div>
     </div>
+    <footer>
+        <div class="container">
+            <div class="progress">
+                <div class="progress-bar pg-groups" role="progressbar" id="progressbar">
+                </div>
+                <div>
+                    Assessment - Präsentationsphase - Dossier - Reflexionsphase - Feedbackphase - Gruppenbildung
+                </div>
+                <div class="progress-bar pg-rest" role="progressbar">
+                </div>
+            </div>
+            <button id="nextPhase" class="btn btn-light">nächste Phase</button>
+            <button id="btnUnstructuredUpload" class="btn btn-light">Unstrukturierte Abgabe</button>
+        </div>
+    </footer>
 </div>
 
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
 </body>
 
 </html>

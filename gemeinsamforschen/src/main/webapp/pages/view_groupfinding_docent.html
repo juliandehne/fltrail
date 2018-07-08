@@ -1,0 +1,72 @@
+<html>
+<head>
+    <title>Gruppenfindung</title>
+
+    <script type="text/javascript" src="jquery-1.3.2.min.js"></script>
+
+</head>
+
+<body>
+
+<h1>Gruppenfindung </h1>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+
+        $("#isSelect").click(function () {
+
+            alert($('input:radio[name=groupfinding]:checked').val());
+
+        });
+
+        $("#selectMale").click(function () {
+
+            $('input:radio[name=groupfinding]:nth(0)').attr('checked',true);
+            //$('input:radio[name=groupfinding]')[0].checked = true;
+
+        });
+
+        $("#selectFemale").click(function () {
+
+            $('input:radio[name=groupfinding]:nth(1)').attr('checked',true);
+            //$('input:radio[name=groupfinding]')[1].checked = true;
+
+        });
+
+        $("#selectUnknown").click(function () {
+
+            $('input:radio[name=groupfinding]:nth(2)').attr('checked',true);
+            //$('input:radio[name=groupfinding]')[2].checked = true;
+
+        });
+
+        $("#reset").click(function () {
+
+            $('input:radio[name=groupfinding]').attr('checked',false);
+
+        });
+
+    });
+</script>
+</head>
+<input type="text" name="coursename">   Bitte Kursname eingeben</input>
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<input type="radio" name="groupfinding" value="manual">      Manuelle Gruppenbildung</input>
+<input type="radio" name="groupfinding" value="multipleCriteria">Multiple Kriterien</input>
+<input type="radio" name="groupfinding" value="oneCriteria">Einfaches Kriterium</input>
+
+<br/>
+<br/>
+<br/>
+
+<input type='button' value='Weiter' id='isSelect'>
+
+
+</body>
+</html>
