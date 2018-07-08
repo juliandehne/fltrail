@@ -62,12 +62,12 @@ $(document).ready(function() {
         },
         messages: {
             title: {
-                required: "Bitte geben Sie einen Titel ein",
-                maxlength: "Ihr Titel darf maximal 120 Zeichen lang sein"
+                required: "Ein Titel wird benötigt",
+                maxlength: "Maximal 120 Zeichen erlaubt"
             },
             comment: {
-                required: "Bitte geben Sie einen Kommentar ein",
-                maxlength: "Ihr Kommentar darf maximal 400 Zeichen lang sein"
+                required: "Ein Kommentar wird benötigt",
+                maxlength: "Maximal 400 Zeichen erlaubt"
             }
         }
     });
