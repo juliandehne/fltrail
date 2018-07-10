@@ -7,6 +7,11 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->
+
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -50,6 +55,10 @@
         <button class="researchReportButtons"><a href="researchReportQuestion.jsp">Speichern & weiter</a></button>
         <button class="researchReportButtons"><a href="researchReportRecherche.jsp"> Zur&uuml;ck </a></button>
     </div>
+    <div class="ResearchReportUpload">
+        <input type="file" class="filepond" name="filepond"> </input>
+    </div>
+
     <div class="researchReportProgress">
         <nav>
             <menu>
@@ -67,9 +76,8 @@
 
 </form>
 
-<script>
-
-</script>
+<script  src="../assets/js/createReport.js"></script>
+<script  src="../assets/js/researchReportUpload.js.js"></script>
 
 </body>
 </html>
