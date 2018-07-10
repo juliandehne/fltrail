@@ -120,12 +120,34 @@ $(document).ready(function() {
      */
     $('#btnEdit').click(function () {
         if ($('#annotation-edit-form').valid()) {
-            // get title and comment from form
-            var title = $('#annotation-edit-form-title').val();
-            var comment = $('#annotation-edit-form-comment').val();
+            // get title and comment from clicked annotation card
+            var id = $('#annotation-edit-modal').data('id');
+            var card = $('#' + id);
+            var title = card.find('.annotation-header-data-title').text();
+            var comment = card.find('.annotation-body-text').text();
 
-            // hide and clear the modal
-            $('#annotation-edit-modal').modal('hide');
+            // get title and comment from form
+            var newTitle = $('#annotation-edit-form-title').val();
+            var newComment = $('#annotation-edit-form-comment').val();
+
+            // compare new and old card content
+            if (title !== newTitle || comment !== newComment) {
+
+                // build patch request
+                var annotationPatchRequest = {
+                    title: newTitle,
+                    comment: newComment
+                };
+                // send alter request to server
+                alterAnnotation(id, annotationPatchRequest, function (response) {
+                    // alter the annotation card
+                    card.find('.annotation-header-data-title').text(newTitle);
+                    card.find('.annotation-body-text').text(newComment);
+
+                    // hide and clear the modal
+                    $('#annotation-edit-modal').modal('hide');
+                })
+            }
         }
     });
 
@@ -598,6 +620,6 @@ function editAnnotationHandler(id) {
     $('#annotation-edit-form-title').val(title);
     $('#annotation-edit-form-comment').val(comment);
 
-    // display annotation edit modal
-    $('#annotation-edit-modal').modal("show");
+    // display annotation edit modal and pass id
+    $('#annotation-edit-modal').data('id', id).modal("show");
 }
