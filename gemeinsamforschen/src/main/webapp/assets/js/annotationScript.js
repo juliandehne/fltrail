@@ -1,11 +1,11 @@
-// initialize userId, userColors and targetId
-var userId = randomUserId();
+// initialize userToken, userColors and targetId
+var userToken = getUserTokenFromUrl();
 var userColors = new Map();
 var userColorsDark = new Map();
 var targetId = 200;
 
-// declare document text
-var documentText;
+// declare document text, start and end character
+var documentText, startCharacter, endCharacter;
 
 /**
  * This function will fire when the DOM is ready
@@ -19,30 +19,16 @@ $(document).ready(function() {
         selector: '.context-menu-one',
         callback: function(key, options) {
 
-            // close context menu
-            window.close;
+            // action for 'annotation' click
+            if (key == 'annotation') {
+                // show modal if something is selected
+                if (getSelectedText().length > 0) {
+                    startCharacter = window.getSelection().getRangeAt(0).startOffset;
+                    endCharacter = window.getSelection().getRangeAt(0).endOffset;
 
-            // initialize selected body
-            var body = getSelectedText();
-
-            // if user selected something
-            if (body.length > 0) {
-                // annotationPostRequest
-                var request = {
-                    userId: userId,
-                    targetId: targetId,
-                    body: body,
-                    startCharacter: window.getSelection().getRangeAt(0).startOffset,
-                    endCharacter: window.getSelection().getRangeAt(0).endOffset
-                };
-
-                console.log(request);
-
-                createAnnotation(request, function(response) {
-                    // display the new annotation
-                    displayAnnotation(response);
-
-                });
+                    // display annotation create modal
+                    $('#annotation-create-modal').modal("show");
+                }
             }
 
         },
@@ -56,6 +42,62 @@ $(document).ready(function() {
      */
     $('#btnContinue').click(function () {
         location.href="givefeedback.jsp?token=" + getUserTokenFromUrl();
+    });
+
+
+
+    /**
+     * validation of annotation create form inside the modal
+     */
+    $('#annotation-create-form').validate({
+        rules: {
+            title: {
+                required: true,
+                maxlength: 120
+            },
+            comment: {
+                required: true,
+                maxlength: 400
+            }
+        },
+        messages: {
+            title: {
+                required: "Ein Titel wird benötigt",
+                maxlength: "Maximal 120 Zeichen erlaubt"
+            },
+            comment: {
+                required: "Ein Kommentar wird benötigt",
+                maxlength: "Maximal 400 Zeichen erlaubt"
+            }
+        }
+    });
+
+    /**
+     * Save button of the annotation create modal
+     * hide modal and build new annotation
+     */
+    $('#btnSave').click(function () {
+        if ($('#annotation-create-form').valid()) {
+            // get title and comment from form
+            var title = $('#annotation-form-title').val();
+            var comment = $('#annotation-form-comment').val();
+
+            // hide and clear the modal
+            $('#annotation-create-modal').modal('hide');
+
+            // save the new annotation in db and display it
+            saveNewAnnotation(title, comment, startCharacter, endCharacter);
+        }
+    });
+
+    /**
+     * Clear the title and comment input field of the modal
+     */
+    $('#annotation-create-modal').on('hidden.bs.modal', function(){
+        // clear title
+        $('#annotation-form-title').val('');
+        // clear comment
+        $('#annotation-form-comment').val('')
     });
 
     documentText = $('#documentText').html();
@@ -77,7 +119,7 @@ $(document).ready(function() {
  * @param responseHandler The response handler
  */
 function createAnnotation(annotationPostRequest, responseHandler) {
-    var url = "http://localhost:8080/rest/annotations/";
+    var url = "../rest/annotations/";
     var json = JSON.stringify(annotationPostRequest);
     $.ajax({
         url: url,
@@ -99,7 +141,7 @@ function createAnnotation(annotationPostRequest, responseHandler) {
  * @param responseHandler The response handler
  */
 function alterAnnotation(id, annotationPatchRequest, responseHandler) {
-    var url = "http://localhost:8080/rest/annotations/" + id;
+    var url = "../rest/annotations/" + id;
     var json = JSON.stringify(annotationPatchRequest);
     $.ajax({
         url: url,
@@ -119,7 +161,7 @@ function alterAnnotation(id, annotationPatchRequest, responseHandler) {
  * @param id The annotation id
  */
 function deleteAnnotation(id) {
-    var url = "http://localhost:8080/rest/annotations/" + id;
+    var url = "../rest/annotations/" + id;
     $.ajax({
         url: url,
         type: "DELETE",
@@ -138,7 +180,7 @@ function deleteAnnotation(id) {
  * @param responseHandler The response handler
  */
 function getAnnotations(targetId, responseHandler) {
-    var url = "http://localhost:8080/rest/annotations/target/" + targetId;
+    var url = "../rest/annotations/target/" + targetId;
     $.ajax({
         url: url,
         type: "GET",
@@ -186,41 +228,48 @@ function displayAnnotation(annotation) {
 
     // insert annotation card
     list.prepend(
+        // list element
         $('<li>')
             .attr('class', 'listelement')
             .append(
+                // annotation card
                 $('<div>').attr('class', 'annotation-card')
                     .mouseenter(function () {
-                        $(this).children('.annotation-header').css('background-color', getDarkUserColor(annotation.userId));
+                        $(this).children('.annotation-header').css('background-color', getDarkUserColor(annotation.userToken));
                     })
                     .mouseleave(function () {
-                        $(this).children('.annotation-header').css('background-color', getUserColor(annotation.userId));
+                        $(this).children('.annotation-header').css('background-color', getUserColor(annotation.userToken));
                     })
                     .append(
+                        // annotation header
                         $('<div>').attr('class', 'annotation-header')
-                            .css('background-color', getUserColor(annotation.userId))
+                            .css('background-color', getUserColor(annotation.userToken))
                             .append(
+                                // header data
                                 $('<div>').attr('class', 'annotation-header-title')
                                     .append(
+                                        // user
                                         $('<div>').attr('class', 'overflow-hidden')
                                             .append(
                                                 $('<i>').attr('class', 'fas fa-user')
                                             )
                                             .append(
-                                                $('<span>').append(annotation.userId)
+                                                $('<span>').append(annotation.userToken)
                                             )
                                     )
                                     .append(
+                                        // title
                                         $('<div>').attr('class', 'overflow-hidden')
                                             .append(
                                                 $('<i>').attr('class', 'fas fa-bookmark')
                                             )
                                             .append(
-                                                $('<span>').append('title' + annotation.userId)
+                                                $('<span>').append(annotation.body.title)
                                             )
                                     )
                             )
                             .append(
+                                // unfold button
                                 $('<div>').attr('class', 'annotation-header-toggle')
                                     .click(function () {
                                         toggleButtonHandler($(this));
@@ -231,16 +280,19 @@ function displayAnnotation(annotation) {
                             )
                     )
                     .append(
+                        // annotation body
                         $('<div>').attr('class', 'annotation-body')
                             .append(
-                                $('<p>').attr('class', 'overflow-hidden').append(annotation.body)
+                                $('<p>').attr('class', 'overflow-hidden').append(annotation.body.comment)
                             )
                     )
                     .append(
+                        // annotation footer
                         $('<div>').attr('class', 'annotation-footer')
                             .append(
+                                // delete
                                 function () {
-                                    if (userId == annotation.userId) {
+                                    if (userToken == annotation.userToken) {
                                         return $('<div>').attr('class', 'annotation-footer-delete')
                                             .append(
                                                 $('<i>').attr('class', deleteIcon)
@@ -252,7 +304,8 @@ function displayAnnotation(annotation) {
                                 }
                             )
                             .append(
-                                $('<div>').attr('class', 'annotation-footer-date overflow-hidden')
+                                // timestamp
+                                $('<div>').attr('class', 'flex-one overflow-hidden')
                                     .append(
                                         $('<i>').attr('class', dateIcon)
                                     )
@@ -266,7 +319,7 @@ function displayAnnotation(annotation) {
             )
             .data('annotation', annotation)
             .mouseenter(function () {
-                addHighlightedText(annotation.startCharacter, annotation.endCharacter, annotation.userId);
+                addHighlightedText(annotation.body.startCharacter, annotation.body.endCharacter, annotation.userToken);
             })
             .mouseleave(function () {
                 deleteHighlightedText();
@@ -284,11 +337,11 @@ function displayAnnotation(annotation) {
  *
  * @param startCharacter The offset of the start character
  * @param endCharacter The offset of the end character
- * @param userId The user id
+ * @param userToken The user token
  */
-function addHighlightedText(startCharacter, endCharacter, userId) {
+function addHighlightedText(startCharacter, endCharacter, userToken) {
     // create <span> tag with the annotated text
-    var replacement = $('<span></span>').css('background-color', getUserColor(userId)).html(documentText.slice(startCharacter, endCharacter));
+    var replacement = $('<span></span>').css('background-color', getUserColor(userToken)).html(documentText.slice(startCharacter, endCharacter));
 
     // wrap an <p> tag around the replacement, get its parent (the <p>) and ask for the html
     var replacementHtml = replacement.wrap('<p/>').parent().html();
@@ -327,39 +380,39 @@ function getSelectedText() {
 /**
  * Get color based on user id
  *
- * @param userId The id of the user
+ * @param userToken The id of the user
  * @returns {string} The user color
  */
-function getUserColor(userId) {
-    // insert new color if there is no userId key
-    if (userColors.get(userId) == null) {
-        generateRandomColor(userId);
+function getUserColor(userToken) {
+    // insert new color if there is no userToken key
+    if (userColors.get(userToken) == null) {
+        generateRandomColor(userToken);
     }
     // return the color
-    return userColors.get(userId);
+    return userColors.get(userToken);
 }
 
 /**
  * Get dark color based on user id
  *
- * @param userId The id of the user
+ * @param userToken The token of the user
  * @returns {string} The dark user color
  */
-function getDarkUserColor(userId) {
-    // insert new color if there is no userId key
-    if (userColorsDark.get(userId) == null) {
-        generateRandomColor(userId);
+function getDarkUserColor(userToken) {
+    // insert new color if there is no userToken key
+    if (userColorsDark.get(userToken) == null) {
+        generateRandomColor(userToken);
     }
     // return the color
-    return userColorsDark.get(userId);
+    return userColorsDark.get(userToken);
 }
 
 /**
  * Generate a random color of the format 'rgb(r, g, b)'
  *
- * @param userId The given user id
+ * @param userToken The given user token
  */
-function generateRandomColor(userId) {
+function generateRandomColor(userToken) {
     var r = Math.floor(Math.random()*56)+170;
     var g = Math.floor(Math.random()*56)+170;
     var b = Math.floor(Math.random()*56)+170;
@@ -370,8 +423,8 @@ function generateRandomColor(userId) {
     var color = 'rgb(' + r + ',' + g + ',' + b + ')';
     var colorDark = 'rgb(' + r_d + ',' + g_d + ',' + b_d + ')';
 
-    userColors.set(userId, color);
-    userColorsDark.set(userId, colorDark);
+    userColors.set(userToken, color);
+    userColorsDark.set(userToken, colorDark);
 }
 
 /**
@@ -447,10 +500,31 @@ function toggleButtonHandler(element) {
     element.children("i").toggleClass("fa-chevron-down fa-chevron-up")
 }
 
-/*
-    MOCKUP FUNCTIONS
+/**
+ * Save a new annotation in database and list
+ *
+ * @param title The title of the new annotation
+ * @param comment The comment of the new annotation
+ * @param startCharacter The startCharacter based on the annotated text
+ * @param endCharacter The endCharacter based on the annotated text
  */
-function randomUserId() {
-    return Math.floor((Math.random() * 12) + 1);;
-}
+function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
+    // build annotationPostRequest
+    var annotationPostRequest = {
+        userToken: userToken,
+        targetId: targetId,
+        body: {
+            title: title,
+            comment: comment,
+            startCharacter: startCharacter,
+            endCharacter: endCharacter
+        }
+    };
 
+    // send new annotation to back-end and display it in list
+    createAnnotation(annotationPostRequest, function(response) {
+        // display the new annotation
+        displayAnnotation(response);
+
+    });
+}
