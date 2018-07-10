@@ -152,6 +152,25 @@ $(document).ready(function() {
     });
 
     /**
+     * Delete an annotation from list and server
+     */
+    $('#btnDelete').click(function () {
+        // get id from edit modal
+        var id = $('#annotation-edit-modal').data('id');
+
+        // delte annotation from server and from list
+        deleteAnnotation(id, function () {
+            // remove annotation from list
+            $('#' + id).closest('.listelement').remove()
+            // remove highlighted text
+            deleteHighlightedText();
+
+            // hide and clear the modal
+            $('#annotation-edit-modal').modal('hide');
+        })
+    });
+
+    /**
      * Clear the title and comment input field of the create modal
      */
     $('#annotation-create-modal').on('hidden.bs.modal', function(){
@@ -231,14 +250,14 @@ function alterAnnotation(id, annotationPatchRequest, responseHandler) {
  *
  * @param id The annotation id
  */
-function deleteAnnotation(id) {
+function deleteAnnotation(id, responseHandler) {
     var url = "../rest/annotations/" + id;
     $.ajax({
         url: url,
         type: "DELETE",
         dataType: "json",
         success: function (response) {
-            // Nothing to do
+            responseHandler(response)
         }
     });
 }
@@ -265,21 +284,6 @@ function getAnnotations(targetId, responseHandler) {
             responseHandler(response);
         }
     });
-}
-
-/**
- * Delete annotation from list
- *
- * @param elem The parent li element
- * @param id The id of the annotation
- */
-function deleteAnnotationHandler(elem, id) {
-    // remove annotation from list
-    elem.remove()
-    // remove highlighted text
-    deleteHighlightedText();
-    // remove annotation from database
-    deleteAnnotation(id)
 }
 
 /**
@@ -600,7 +604,6 @@ function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
 
     });
 }
-
 
 /**
  * Open edit modal with title and comment from given card

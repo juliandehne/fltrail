@@ -105,7 +105,6 @@
                         </form>
                         <!-- modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                             <button id="btnSave" type="button" class="btn btn-success">Speichern</button>
                         </div>
                     </div>
@@ -138,7 +137,7 @@
                         </form>
                         <!-- modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
+                            <button id="btnDelete" type="button" class="btn btn-danger">Löschen</button>
                             <button id="btnEdit" type="button" class="btn btn-success">Bearbeiten</button>
                         </div>
                     </div>
