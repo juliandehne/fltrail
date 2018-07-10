@@ -511,29 +511,27 @@ function timestampToReadableTime(timestamp) {
     // declare response
     var responseTimestamp;
 
+    // get hours from date
+    var hours = "0" + annotationDate.getHours();
+    // get minutes from date
+    var minutes = "0" + annotationDate.getMinutes();
+
     // if annotation is from today
     if (isTimestampToday(timestamp)) {
-        // get hours from date
-        var hours = annotationDate.getHours();
-        // get minutes from date
-        var minutes = "0" + annotationDate.getMinutes();
-        // get seconds from date
-        // var seconds = "0" + annotationDate.getSeconds();
-
-        // build readable timestamp
-        responseTimestamp = hours + ":" + minutes.substr(-2);
+        // build readable timestamp in format HH:mm
+        responseTimestamp = hours.substr(-2) + ":" + minutes.substr(-2);
     }
     // else annotation is not from today
     else {
         // get date
-        var date = annotationDate.getDate();
+        var date = "0" + annotationDate.getDate();
         // get month
-        var month = annotationDate.getMonth();
+        var month = "0" + annotationDate.getMonth();
         // get year
-        var year = annotationDate.getFullYear();
+        var year = "" + annotationDate.getFullYear();
 
-        // build readable timestamp
-        responseTimestamp = date + "." + month + "." + year;
+        // build readable timestamp dd.MM.yy HH:mm
+        responseTimestamp = date.substr(-2) + "." + month.substr(-2) + "." + year.substr(-2) + " " + hours.substr(-2) + ":" + minutes.substr(-2);
     }
 
     return responseTimestamp;
