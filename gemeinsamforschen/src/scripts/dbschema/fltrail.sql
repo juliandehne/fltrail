@@ -8,7 +8,7 @@ USE `fltrail`;
 
 CREATE TABLE if not exists `projects` (
 
-  `id`            varchar(400) NOT NULL,
+  `id`            varchar(100) NOT NULL,
 
   `password`      varchar(400) NOT NULL,
 
@@ -62,7 +62,7 @@ CREATE TABLE if not exists groupuser
 
 CREATE TABLE if not exists `tags` (
 
-  `projectId` varchar(400) NOT NULL,
+  `projectId` varchar(100) NOT NULL,
 
   `tag`       varchar(400) NOT NULL
 
@@ -74,7 +74,7 @@ CREATE TABLE if not exists `tags` (
 
 CREATE TABLE if not exists `users` (
 
-  `name`                varchar(400) NOT NULL,
+  `name`                varchar(100) NOT NULL,
 
   `password`            varchar(200) NOT NULL,
 
@@ -98,9 +98,9 @@ CREATE TABLE if not exists projectuser
 
 (
 
-  projectId varchar(400) NOT NULL,
+  projectId varchar(100) NOT NULL,
 
-  userId    varchar(400) NOT NULL
+  userId    varchar(100) NOT NULL
 
 )
 
@@ -124,7 +124,9 @@ CREATE TABLE if not exists projectuser
 
   PRIMARY KEY (`id`)
 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;alter table users
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+alter table users
 
   add isStudent tinyint(1) default '1' null;
 
@@ -164,3 +166,7 @@ CREATE TABLE if not exists tasks
   ENGINE = InnoDB
 
   DEFAULT CHARSET = utf8;
+
+ALTER TABLE `projectuser` ADD INDEX( `projectId`, `userId`);
+ALTER TABLE `projectuser` ADD UNIQUE( `projectId`, `userId`);
+ALTER TABLE `projects` ADD UNIQUE( `id`);

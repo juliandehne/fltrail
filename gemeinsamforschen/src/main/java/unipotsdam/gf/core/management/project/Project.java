@@ -32,7 +32,7 @@ public class Project {
         this.adminPassword = adminPassword;
         this.timecreated = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC")));
         // default starting at course creation if new
-        this.setPhase(ProjectPhase.CourseCreationPhase);
+        this.setPhase(ProjectPhase.CourseCreation);
     }
 
     public String getPhase() {

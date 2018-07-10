@@ -64,7 +64,8 @@ public class ManagementImpl implements Management {
                 "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `author`, "
                         + "`adminPassword`, `token`, `phase`) values (?,?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.isActive(),
-                project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token);
+                project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token, project.getPhase()
+                        == null ? ProjectPhase.CourseCreation : project.getPhase());
         connect.close();
     }
 
@@ -136,11 +137,15 @@ public class ManagementImpl implements Management {
         connect.connect();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getId());
         while (!vereinfachtesResultSet.isLast()) {
-            vereinfachtesResultSet.next();
-            User user = getUserFromResultSet(vereinfachtesResultSet);
-            String token = vereinfachtesResultSet.getString("token");
-            user.setToken(token);
-            result.add(user);
+            Boolean next = vereinfachtesResultSet.next();
+            if (next) {
+                User user = getUserFromResultSet(vereinfachtesResultSet);
+                String token = vereinfachtesResultSet.getString("token");
+                user.setToken(token);
+                result.add(user);
+            } else {
+                break;
+            }
         }
         connect.close();
         return result;

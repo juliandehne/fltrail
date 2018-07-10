@@ -1,7 +1,6 @@
 package unipotsdam.gf.modules.peer2peerfeedback;
 
 import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.management.utils.Category;
 
 import java.io.File;
 

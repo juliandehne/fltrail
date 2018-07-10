@@ -1,5 +1,6 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
@@ -85,5 +86,9 @@ public interface ICommunication {
 
     String getChatRoomLink(String userToken, String projectToken, String groupToken);
 
+    // TODO implement as Email or whatever
     void sendSingleMessage(Message message, User user);
+
+    // TODO implement as Email or whatever
+    void sendMessageToUsers(Project project, String message);
 }
