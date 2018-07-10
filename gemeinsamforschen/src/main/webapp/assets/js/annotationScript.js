@@ -283,6 +283,7 @@ function displayAnnotation(annotation) {
             .append(
                 // annotation card
                 $('<div>').attr('class', 'annotation-card')
+                    .attr('id', annotation.id)
                     .mouseenter(function () {
                         $(this).children('.annotation-header').css('background-color', getDarkUserColor(annotation.userToken));
                     })
@@ -321,7 +322,7 @@ function displayAnnotation(annotation) {
                                 // unfold button
                                 $('<div>').attr('class', 'annotation-header-toggle')
                                     .click(function () {
-                                        toggleButtonHandler($(this));
+                                        toggleButtonHandler(annotation.id);
                                     })
                                     .append(
                                         $('<i>').attr('class', 'fas fa-chevron-down')
@@ -347,8 +348,7 @@ function displayAnnotation(annotation) {
                                                 $('<i>').attr('class', editIcon)
                                             )
                                             .click(function () {
-                                                // deleteAnnotationHandler($(this).closest('li'), annotation.id)
-                                                editAnnotationHandler($(this).closest('.annotation-card'))
+                                                editAnnotationHandler(annotation.id)
                                             })
                                     }
                                 }
@@ -541,13 +541,15 @@ function isTimestampToday(timestamp) {
 /**
  * Toggle between the toggle button status
  *
- * @param element The given toggle button
+ * @param id The id of the clicked annotation
  */
-function toggleButtonHandler(element) {
+function toggleButtonHandler(id) {
+    // the clicked annotation card
+    var card = $('#' + id);
     // open and close annotation text
-    element.parent().siblings(".annotation-body").children("p").toggleClass("overflow-hidden");
+    card.find(".annotation-body").children("p").toggleClass("overflow-hidden");
     // toggle between up and down button
-    element.children("i").toggleClass("fa-chevron-down fa-chevron-up")
+    card.find('.annotation-header-toggle').children("i").toggleClass("fa-chevron-down fa-chevron-up")
 }
 
 /**
@@ -583,9 +585,11 @@ function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
 /**
  * Open edit modal with title and comment from given card
  *
- * @param card The clicked annotation card
+ * @param id The id of the clicked annotation
  */
-function editAnnotationHandler(card) {
+function editAnnotationHandler(id) {
+    // the clicked annotation card
+    var card = $('#' + id);
     // get title and comment
     var title = card.find('.annotation-header-data-title').text();
     var comment = card.find('.annotation-body-text').text();
