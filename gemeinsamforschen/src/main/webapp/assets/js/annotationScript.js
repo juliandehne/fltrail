@@ -44,12 +44,36 @@ $(document).ready(function() {
         location.href="givefeedback.jsp?token=" + getUserTokenFromUrl();
     });
 
-
-
     /**
      * validation of annotation create form inside the modal
      */
     $('#annotation-create-form').validate({
+        rules: {
+            title: {
+                required: true,
+                maxlength: 120
+            },
+            comment: {
+                required: true,
+                maxlength: 400
+            }
+        },
+        messages: {
+            title: {
+                required: "Ein Titel wird benötigt",
+                maxlength: "Maximal 120 Zeichen erlaubt"
+            },
+            comment: {
+                required: "Ein Kommentar wird benötigt",
+                maxlength: "Maximal 400 Zeichen erlaubt"
+            }
+        }
+    });
+
+    /**
+     * validation of annotation edit form inside the modal
+     */
+    $('#annotation-edit-form').validate({
         rules: {
             title: {
                 required: true,
@@ -91,13 +115,38 @@ $(document).ready(function() {
     });
 
     /**
-     * Clear the title and comment input field of the modal
+     * Edit button of the annotation edit modal
+     * hide modal and alter the annotation
+     */
+    $('#btnEdit').click(function () {
+        if ($('#annotation-edit-form').valid()) {
+            // get title and comment from form
+            var title = $('#annotation-edit-form-title').val();
+            var comment = $('#annotation-edit-form-comment').val();
+
+            // hide and clear the modal
+            $('#annotation-edit-modal').modal('hide');
+        }
+    });
+
+    /**
+     * Clear the title and comment input field of the create modal
      */
     $('#annotation-create-modal').on('hidden.bs.modal', function(){
         // clear title
         $('#annotation-form-title').val('');
         // clear comment
         $('#annotation-form-comment').val('')
+    });
+
+    /**
+     * Clear the title and comment input field of the edit modal
+     */
+    $('#annotation-edit-modal').on('hidden.bs.modal', function(e){
+        // clear title
+        $('#annotation-edit-form-title').val('');
+        // clear comment
+        $('#annotation-edit-form-comment').val('')
     });
 
     documentText = $('#documentText').html();
@@ -220,7 +269,7 @@ function displayAnnotation(annotation) {
     // fetch list of annotations
     var list = $('#annotations')
 
-    var deleteIcon = "fas fa-trash";
+    var editIcon = "fas fa-edit";
     var dateIcon = "fas fa-calendar";
     if (isTimestampToday(annotation.timestamp)) {
         dateIcon = "fas fa-clock";
@@ -246,7 +295,7 @@ function displayAnnotation(annotation) {
                             .css('background-color', getUserColor(annotation.userToken))
                             .append(
                                 // header data
-                                $('<div>').attr('class', 'annotation-header-title')
+                                $('<div>').attr('class', 'annotation-header-data')
                                     .append(
                                         // user
                                         $('<div>').attr('class', 'overflow-hidden')
@@ -264,7 +313,7 @@ function displayAnnotation(annotation) {
                                                 $('<i>').attr('class', 'fas fa-bookmark')
                                             )
                                             .append(
-                                                $('<span>').append(annotation.body.title)
+                                                $('<span>').attr('class', 'annotation-header-data-title').append(annotation.body.title)
                                             )
                                     )
                             )
@@ -283,22 +332,23 @@ function displayAnnotation(annotation) {
                         // annotation body
                         $('<div>').attr('class', 'annotation-body')
                             .append(
-                                $('<p>').attr('class', 'overflow-hidden').append(annotation.body.comment)
+                                $('<p>').attr('class', 'overflow-hidden annotation-body-text').append(annotation.body.comment)
                             )
                     )
                     .append(
                         // annotation footer
                         $('<div>').attr('class', 'annotation-footer')
                             .append(
-                                // delete
+                                // edit
                                 function () {
                                     if (userToken == annotation.userToken) {
-                                        return $('<div>').attr('class', 'annotation-footer-delete')
+                                        return $('<div>').attr('class', 'annotation-footer-edit')
                                             .append(
-                                                $('<i>').attr('class', deleteIcon)
+                                                $('<i>').attr('class', editIcon)
                                             )
                                             .click(function () {
-                                                deleteAnnotationHandler($(this).closest('li'), annotation.id)
+                                                // deleteAnnotationHandler($(this).closest('li'), annotation.id)
+                                                editAnnotationHandler($(this).closest('.annotation-card'))
                                             })
                                     }
                                 }
@@ -527,4 +577,23 @@ function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
         displayAnnotation(response);
 
     });
+}
+
+
+/**
+ * Open edit modal with title and comment from given card
+ *
+ * @param card The clicked annotation card
+ */
+function editAnnotationHandler(card) {
+    // get title and comment
+    var title = card.find('.annotation-header-data-title').text();
+    var comment = card.find('.annotation-body-text').text();
+
+    // set title and comment
+    $('#annotation-edit-form-title').val(title);
+    $('#annotation-edit-form-comment').val(comment);
+
+    // display annotation edit modal
+    $('#annotation-edit-modal').modal("show");
 }
