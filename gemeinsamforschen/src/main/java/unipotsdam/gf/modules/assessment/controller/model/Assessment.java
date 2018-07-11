@@ -1,10 +1,11 @@
-package unipotsdam.gf.modules.assessment.controller;
 package unipotsdam.gf.modules.assessment.controller.model;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.security.acl.Group;
@@ -51,7 +52,7 @@ public class Assessment {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "INSERT INTO assessments ( `BewertenderId`, `BewerteterId`, `Bewertung`,`StuoGrp`) values (?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, "tom" ,user.getName() , assessment.getPerformance().getWorkRating()[0], user.istStudent());
+        connect.issueInsertOrDeleteStatement(mysqlRequest, "tom" ,user.getName() , assessment.getPerformance().getWorkRating()[0], user.getStudent());
         connect.close();
     }
     @Override

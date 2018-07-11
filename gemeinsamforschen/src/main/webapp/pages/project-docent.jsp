@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../assets/js/AlertAssessmentOutlier.js"></script>
+
 </head>
 
 <body>
@@ -18,13 +22,15 @@
         <div>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="table-responsive" style="width:294px;">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Gruppe1 </th>
                                         <th>Beiträge </th>
+                                        <th> <button id="ProblemGrp1">!</button> </th>
+                                        <p id="demo"></p>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -80,7 +86,10 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Liniendiagramm-Beispiel.svg/750px-Liniendiagramm-Beispiel.svg.png", width="280">
+                    </div>
+                    <div class="col-md-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">ProjektChat</h3>
@@ -130,8 +139,7 @@
             </div>
         </div>
     <communication:chatWindow orientation="right"></communication:chatWindow>
-        <script src="../assets/js/jquery.min.js"></script>
-        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>
