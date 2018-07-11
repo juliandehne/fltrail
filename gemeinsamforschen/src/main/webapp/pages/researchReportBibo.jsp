@@ -77,7 +77,7 @@
 </form>
 
 <script  src="../assets/js/createReport.js"></script>
-<script  src="../assets/js/researchReportUpload.js.js"></script>
+<script  src="../assets/js/researchReportUpload.js"></script>
 
 </body>
 </html>

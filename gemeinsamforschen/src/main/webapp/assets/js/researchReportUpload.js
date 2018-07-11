@@ -1,4 +1,5 @@
-import * as FilePond from 'filepond';
+//import * as FilePond from 'filepond';
+import FilePond from 'filepond';
 import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
 
 FilePond.registerPlugin(

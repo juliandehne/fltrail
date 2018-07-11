@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
-    <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
-    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->
+
 
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -70,7 +69,10 @@
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/Sidebar-Menu.js"></script>
 <script  src="../assets/js/createReport.js"></script>
-<script  src="../assets/js/researchReportUpload.js.js"></script>
+<script  src="../assets/js/researchReportUpload.js"></script>
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->
+<script>FilePond.parse(document.body);</script> <!--FilePond -->
 
 </body>
 </html>
