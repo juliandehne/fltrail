@@ -34,18 +34,29 @@ $(document).ready(function () {
         success: function (data) {
             var table = document.getElementById('tableQuiz');
             for (var quiz = 0; quiz < data.length; quiz++){
+                var question = data[quiz].question.replace(/ /g,"").replace("?","").replace(",","");
                 var answers = data[quiz].correctAnswers.concat(data[quiz].incorrectAnswers);
                 var colspan = answers.length;
                 var trQuestion = document.createElement('TR');
-                var question = '<td colspan="' + colspan + '">' + data[quiz].question + '</td>';
-                trQuestion.innerHTML = question;
+                var tdQuestion = '<td colspan="' + colspan + '"' +
+                    'data-toggle="collapse" href="#'+question+'" aria-expanded="false" aria-controls="'+question+'">' +
+                    '' + data[quiz].question + '</td>';
+                trQuestion.innerHTML = tdQuestion;
                 var trAnswers = document.createElement('TR');
                 answers = shuffle(answers);
-                var answersTd='<div class="quiz" id="quiz" data-toggle="buttons"><td style="display: block;">';
+                var answersTd='<td style="display: block;"><div class="quiz collapse" id="'+question+'" data-toggle="buttons">';
                 for (var i = 0; i < answers.length; i++) {
-                    answersTd = answersTd + '<div><label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span><input type="checkbox">' + answers[i] + '</label></div>';
+                    answersTd = answersTd + '<div>' +
+                        '<label class="element-animation1 btn btn-lg btn-primary btn-block">' +
+                        '<span class="btn-label">' +
+                        '<i class="glyphicon glyphicon-chevron-right">' +
+                        '</i>' +
+                        '</span>' +
+                        '<input type="checkbox">' + answers[i] + '' +
+                        '</label>' +
+                        '</div>';
                 }
-                question ="";
+                tdQuestion ="";
                 answers=[];
                 trAnswers.innerHTML = answersTd+'</div></td>';
                 table.appendChild(trQuestion);
@@ -57,7 +68,7 @@ $(document).ready(function () {
         }
     });
     $("#submitQuiz").on("click", function () {
-
+        document.location="rateContribution.jsp?token="+getUserTokenFromUrl();
     });
 });
 

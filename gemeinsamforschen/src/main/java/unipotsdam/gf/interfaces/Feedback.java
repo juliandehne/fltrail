@@ -1,4 +1,5 @@
 package unipotsdam.gf.interfaces;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.peer2peerfeedback.Peer2PeerFeedback;
 import java.*;
@@ -51,4 +52,12 @@ public interface Feedback {
 
     int countFeedback(User student);
 
+    /**
+     * TODO implement check in DB that everybody has given feedback
+     * @param project
+     * @return
+     */
+    Boolean checkFeedbackConstraints(Project project);
+
+    void assigningMissingFeedbackTasks(Project project);
 }

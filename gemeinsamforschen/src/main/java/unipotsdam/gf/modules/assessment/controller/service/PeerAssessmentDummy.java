@@ -14,43 +14,54 @@ public class PeerAssessmentDummy implements IPeerAssessment {
 
     @Override
     public Quiz getQuiz(String projectId, String quizId) {
-        String[] correctAnswers = new String[2];
+        ArrayList<String> correctAnswers = new ArrayList<String>();
+        ArrayList<String> incorrectAnswers = new ArrayList<String>();
         Quiz sampleQuiz;
         if (quizId.equals("2")) {
-            correctAnswers[0] = "42";
-            correctAnswers[1] = "" + projectId + " " + quizId;
-            String[] wrongAnswers = {"a god created creature", "a sum of my mistakes"};
-            sampleQuiz = new Quiz("multiple", "Who am I and if so, how many?", correctAnswers, wrongAnswers);
+            correctAnswers.add("42");
+            correctAnswers.add("" + projectId + " " + quizId);
+
+            incorrectAnswers.add("a god created creature");
+            incorrectAnswers.add( "a sum of my mistakes");
+            sampleQuiz = new Quiz("multiple", "Who am I and if so, how many?", correctAnswers, incorrectAnswers);
         } else {
-            correctAnswers[0] = "ja, nicht?!";
-            correctAnswers[1] = "nee, oder doch?!";
-            String[] wrongAnswers = {"Mephistopheles", "Der alte Hexenmeister!?", "Der Schimmelreiter", "alle beide"};
-            sampleQuiz = new Quiz("multiple", "Ist das nun des Pudels wahrer Kern?", correctAnswers, wrongAnswers);
+            correctAnswers.add("ja, nicht?!");
+            correctAnswers.add("nee, oder doch?!");
+            incorrectAnswers.add("Mephistopheles");
+            incorrectAnswers.add("Der alte Hexenmeister!?");
+            incorrectAnswers.add("Der Schimmelreiter");
+            incorrectAnswers.add("alle beide");
+            sampleQuiz = new Quiz("multiple", "Ist das nun des Pudels wahrer Kern?", correctAnswers, incorrectAnswers);
         }
 
         return sampleQuiz;
     }
 
     public ArrayList<Quiz> getQuiz(String projectId) {
-        String[] correctAnswers1 = new String[2];
+        ArrayList<String> correctAnswers = new ArrayList<String>();
+        ArrayList<String> incorrectAnswers = new ArrayList<String>();
         ArrayList<Quiz> sampleQuiz = new ArrayList<Quiz>();
-        correctAnswers1[0] = "42";
-        correctAnswers1[1] = "" + projectId + " 24";
-        String[] wrongAnswers = {"a god created creature", "a sum of my mistakes"};
-        sampleQuiz.add(new Quiz("multiple", "Who am I and if so, how many?", correctAnswers1, wrongAnswers));
-
-        String[] correctAnswers2 = new String[2];
-        correctAnswers2[0] = "ja, nicht?!";
-        correctAnswers2[1] = "nee, oder doch?!";
-        wrongAnswers = new String[]{"Mephistopheles", "Der alte Hexenmeister!?", "Der Schimmelreiter", "alle beide"};
-        sampleQuiz.add(new Quiz("multiple", "Ist das nun des Pudels wahrer Kern?", correctAnswers2, wrongAnswers));
+        correctAnswers.add("42");
+        correctAnswers.add("" + projectId + " 24");
+        incorrectAnswers.add("a god created creature");
+        incorrectAnswers.add( "a sum of my mistakes");
+        sampleQuiz.add(new Quiz("multiple", "Who am I and if so, how many?", correctAnswers, incorrectAnswers));
+        correctAnswers.clear();
+        incorrectAnswers.clear();
+        correctAnswers.add("ja, nicht?!");
+        correctAnswers.add("nee, oder doch?!");
+        incorrectAnswers.add("Mephistopheles");
+        incorrectAnswers.add("Der alte Hexenmeister!?");
+        incorrectAnswers.add("Der Schimmelreiter");
+        incorrectAnswers.add("alle beide");
+        sampleQuiz.add(new Quiz("multiple", "Ist das nun des Pudels wahrer Kern?", correctAnswers, incorrectAnswers));
 
         return sampleQuiz;
 }
 
     @Override
-    public void postPeerRating(String projectId, String groupId, ArrayList<PeerRating> peerRatings) {
-        int breakpoint = 0;
+    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
+        int breakpoint = 0; //todo: print an http-answer for the ajax-request to receive
     }
 
     @Override
@@ -68,17 +79,17 @@ public class PeerAssessmentDummy implements IPeerAssessment {
 
     @Override
     public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
-        double[] allAssessements = new double[totalPerformance.size()];
+        double[] allAssessments = new double[totalPerformance.size()];
         Grading[] grading = new Grading[totalPerformance.size()];
 
         for (int i = 0; i < totalPerformance.size(); i++) {
             for (int j = 0; j < totalPerformance.get(i).getQuizAnswer().length; j++) {
-                allAssessements[i] += totalPerformance.get(i).getQuizAnswer()[j];
+                allAssessments[i] += totalPerformance.get(i).getQuizAnswer()[j];
             }
-            allAssessements[i] = allAssessements[i] / totalPerformance.get(i).getQuizAnswer().length;
+            allAssessments[i] = allAssessments[i] / totalPerformance.get(i).getQuizAnswer().length;
         }
         for (int i = 0; i < totalPerformance.size(); i++) {
-            Grading shuttle = new Grading(totalPerformance.get(i).getStudentIdentifier(), allAssessements[i]);
+            Grading shuttle = new Grading(totalPerformance.get(i).getStudentIdentifier(), allAssessments[i]);
             grading[i] = shuttle;
         }
         return Arrays.asList(grading);

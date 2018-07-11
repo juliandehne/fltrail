@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.assessment.controller.view;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.Assessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 
 import javax.ws.rs.*;
@@ -12,7 +13,8 @@ import java.util.List;
 
 @Path("/assessments")
 public class QuizView implements IPeerAssessment {
-    private static IPeerAssessment peer =  new PeerAssessmentDummy();
+    private static IPeerAssessment peer =  new PeerAssessmentDummy();   //TestSubject
+    //private static IPeerAssessment peer =  new PeerAssessment();      //correct DB-conn and stuff
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/project/{projectId}/quiz/{quizId}")
@@ -33,8 +35,9 @@ public class QuizView implements IPeerAssessment {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/peer/project/{projectId}/group/{groupId}")
     @Override
-    public void postPeerRating(@PathParam("projectId") String projectId, @PathParam("groupId") String groupId, ArrayList<PeerRating> peerRatings){
-        peer.postPeerRating(projectId,groupId,peerRatings);
+    public void postPeerRating(ArrayList<PeerRating> peerRatings,@PathParam("projectId") String projectId, @PathParam("groupId") String groupId){
+        peer.postPeerRating(peerRatings, projectId,groupId);
+        //todo: checkout the POST-variable. should be peerRating but its null atm.
     }
 
     @POST

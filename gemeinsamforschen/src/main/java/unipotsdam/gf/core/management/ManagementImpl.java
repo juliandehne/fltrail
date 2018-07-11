@@ -7,6 +7,8 @@ import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
+import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import javax.annotation.ManagedBean;
@@ -55,13 +57,15 @@ public class ManagementImpl implements Management {
         UUID uuid = UUID.randomUUID();
         String token = uuid.toString();
 
+
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest =
                 "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `author`, "
-                        + "`adminPassword`, `token`) values (?,?,?,?,?,?,?)";
+                        + "`adminPassword`, `token`, `phase`) values (?,?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.isActive(),
-                project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token);
+                project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token, project.getPhase()
+                        == null ? ProjectPhase.CourseCreation : project.getPhase());
         connect.close();
     }
 
@@ -133,11 +137,15 @@ public class ManagementImpl implements Management {
         connect.connect();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getId());
         while (!vereinfachtesResultSet.isLast()) {
-            vereinfachtesResultSet.next();
-            User user = getUserFromResultSet(vereinfachtesResultSet);
-            String token = vereinfachtesResultSet.getString("token");
-            user.setToken(token);
-            result.add(user);
+            Boolean next = vereinfachtesResultSet.next();
+            if (next) {
+                User user = getUserFromResultSet(vereinfachtesResultSet);
+                String token = vereinfachtesResultSet.getString("token");
+                user.setToken(token);
+                result.add(user);
+            } else {
+                break;
+            }
         }
         connect.close();
         return result;
@@ -161,6 +169,7 @@ public class ManagementImpl implements Management {
         String author = vereinfachtesResultSet.getString("author");
         String adminPassword = vereinfachtesResultSet.getString("adminpassword");
         String token = vereinfachtesResultSet.getString("token");
+        String phase = vereinfachtesResultSet.getString("phase");
 
         return new Project(id, password, active, timestamp, author, adminPassword, token);
     }
@@ -172,6 +181,7 @@ public class ManagementImpl implements Management {
         // TODO: determine how to get all User
         return new Group(id, new ArrayList<>(), projectId, chatRoomId);
     }
+
     @Override
     public String getUserToken(User user) {
         MysqlConnect connect = new MysqlConnect();
@@ -197,6 +207,43 @@ public class ManagementImpl implements Management {
     @Override
     public User getUserByEmail(String email) {
         return getUserByField("email", email);
+    }
+
+
+    /**
+     * TODO @Axel bitte in modules/asessment verschieben
+     * @param projectId
+     * @param quizId
+     * @return
+     */
+    public Quiz getQuizByProjectGroupId(String projectId, String quizId){
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM quiz where projectId=" + projectId + " , question="+quizId;
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, "");
+        boolean next = vereinfachtesResultSet.next();
+        String question = "";
+        ArrayList<String> correctAnswers = new ArrayList<String>();
+        ArrayList<String> incorrectAnswers = new ArrayList<String>();
+        String answer = "";
+        Boolean correct = false;
+        String mcType = "";
+        while (next) {
+            mcType = vereinfachtesResultSet.getString("mcType");
+            question = vereinfachtesResultSet.getString("question");
+            answer = vereinfachtesResultSet.getString("answer");
+            correct = vereinfachtesResultSet.getBoolean("correct");
+            if (correct){
+                correctAnswers.add(answer);
+            }else{
+                incorrectAnswers.add(answer);
+            }
+            next = vereinfachtesResultSet.next();
+        }
+        Quiz quiz = new Quiz(mcType,question, correctAnswers, incorrectAnswers);
+        connect.close();
+        return quiz;
     }
 
     private User getUserByField(String field, String value) {

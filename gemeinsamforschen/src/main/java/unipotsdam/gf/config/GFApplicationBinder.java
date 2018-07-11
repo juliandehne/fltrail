@@ -3,13 +3,24 @@ package unipotsdam.gf.config;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.core.states.PhasesImpl;
+import unipotsdam.gf.interfaces.*;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.journal.DummyJournalImpl;
+import unipotsdam.gf.modules.journal.model.Journal;
+import unipotsdam.gf.modules.journal.service.DummyJournalService;
+import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
 
 public class GFApplicationBinder extends AbstractBinder {
     @Override
     protected void configure() {
         bind(CommunicationDummyService.class).to(ICommunication.class);
         bind(ManagementImpl.class).to(Management.class);
+        bind(DummyFeedback.class).to(Feedback.class);
+        bind(DummyJournalImpl.class).to(IJournal.class);
+        bind(PeerAssessmentDummy.class).to(IPeerAssessment.class);
+        bind(PhasesImpl.class).to(IPhases.class);
     }
 }

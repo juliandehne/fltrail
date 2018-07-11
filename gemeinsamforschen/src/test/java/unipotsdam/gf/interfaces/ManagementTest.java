@@ -1,6 +1,15 @@
 package unipotsdam.gf.interfaces;
 
+import javafx.application.Application;
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.Binder;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.test.JerseyTest;
+import org.junit.Before;
 import org.junit.Test;
+import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.GFResourceConfig;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
@@ -14,7 +23,11 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by dehne on 01.06.2018.
  */
-public class ManagementTest {
+
+
+public class ManagementTest  {
+
+
 
     @Test
     public void testDelete() {
@@ -89,6 +102,8 @@ public class ManagementTest {
         Project project = new Project("Gemainsam Forschen", "1235", true, "me", "keins");
         management.create(project);
         management.register(user, project, null);
+
+        assertTrue(management.exists(project));
 
         User user2 = new User("julian2", "12345", "from2@stuff.com", true);
         management.create(user2, new UserProfile());

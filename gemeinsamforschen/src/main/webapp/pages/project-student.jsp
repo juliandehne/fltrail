@@ -1,4 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%--suppress XmlDuplicatedId --%>
+
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+
+
+<!--todo: E-mail an Studenten als Notifikation für Phasenwechsel -->
+
 
 <!DOCTYPE html>
 <html>
@@ -9,12 +16,18 @@
     <title>muster-gemeinsam-forschen</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/footer.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
+    <script src="../assets/js/footer.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <script src="../assets/js/utility.js"></script>
+    <script src="../assets/js/project-student.js"></script>
+    <script src="../assets/js/Sidebar-Menu.js"></script>
 </head>
 
 <body>
@@ -23,57 +36,112 @@
 
     <div class="page-content-wrapper">
         <div class="container-fluid">
-            <h1 id="projectId">project1
+            <h1 id="projectId">Project 1</h1>
+        </div>
+        <div align="right" class="dropdown">
+            <button style= "position: absolute; right: 50px;" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+
+                <i class="glyphicon glyphicon-envelope"></i>
+            </button>
+
+            <ul class="dropdown-menu">
+                <li><a class="viewfeedback" role="button">Feedback A</a></li>
+                <li><a class="viewfeedback" role="button">Feedback B</a></li>
+                <li><a class="viewfeedback" role="button">Feedback C</a></li>
+            </ul>
+
             <a href="#">
-                <span class="glyphicon glyphicon-envelope"
-                      style="font-size:27px;margin-top:-17px;margin-left:600px;"></span>
+                <span class="glyphicon glyphicon-cog" style="font-size:29px;margin-right:30px;margin-top:3px;"></span>
             </a>
-            <a href="#">
-                <span class="glyphicon glyphicon-cog" style="font-size:29px;margin-left:5px;margin-top:-25px;"></span>
-            </a></h1>
+
         </div>
         <div>
             <table>
                 <tr>
                     <td  id="yourContent">
-                        <h1>your content guys and girls!</h1>
+                        <h1>Feedbackable Students</h1>
                         <!-- here will be all the content -->
-                        <table>
+                        <table id="myGroupMembers">
                             <tr>
-                                <td>
+
+                                <td width="100px" valign="top">
                                     <h3>student1</h3>
                                     <img src="../assets/img/1.jpg">
                                     <a href="#">student1@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li>Projektübersicht hochgeladen</li>
-                                        <li>Blumen ins Hausaufgabenheft geklebt</li>
+
+                                        <li>
+                                            Projektübersicht hochgeladen
+                                            <a class="annotationview" role="button">
+                                            <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            Blumen ins Hausaufgabenheft geklebt
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
+                                        </a>
                                     </ul>
                                 </td>
-                                <td> </td>
-                                <td>
+                                <td></td>
+
+                                <td width="100px" valign="top">
                                     <h3>student2</h3>
                                     <img src="../assets/img/2.jpg">
                                     <a href="#">student2@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li>feedback zu Herbarium im Hausaufgabenheft gegeben</li>
-                                        <li>Blumen an Vegetarier verfüttert</li>
-                                        <li>Die armen Vegetarier</li>
+                                        <li>
+                                            Blumen an Vegetarier verfüttert
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            Literaturverzeichnis hochgeladen
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            Die armen Vegetarier
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </td>
-                                <td> </td>
-                                <td>
+                                <td></td>
+
+                                <td width="100px" valign="top">
                                     <h3>student3</h3>
                                     <img src="../assets/img/3.jpg">
                                     <a href="#">student3@uni.de</a>
                                     <hr>
                                     <ul>
-                                        <li>Viva la Floristika</li>
+                                        <li>
+                                            "Viva la Floristika" - Titel hochgeladen
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments" style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </td>
+
                             </tr>
                         </table>
+
+                        <button onclick="goBack()" class="btn btn-secondary">Zurueck</button>
+
+                        <script>
+                            function goBack() {
+                                window.history.back();
+                            }
+                        </script>
+
                     </td>
                     <td  id="chat">
                         <div class="card">
@@ -137,11 +205,23 @@
             </table>
         </div>
     </div>
+    <footer>
+        <div class="container">
+            <div class="progress">
+                <div class="progress-bar pg-groups" role="progressbar" id="progressbar">
+                </div>
+                <div>
+                    Assessment - Präsentationsphase - Dossier - Reflexionsphase - Feedbackphase - Gruppenbildung
+                </div>
+                <div class="progress-bar pg-rest" role="progressbar">
+                </div>
+            </div>
+            <button id="nextPhase" class="btn btn-light">nächste Phase</button>
+            <button id="btnUnstructuredUpload" class="btn btn-light">Unstrukturierte Abgabe</button>
+        </div>
+    </footer>
 </div>
 
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
 </body>
 
 </html>

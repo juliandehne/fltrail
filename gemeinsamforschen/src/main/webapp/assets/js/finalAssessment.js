@@ -6,6 +6,11 @@ $(document).ready(function() {
         assessPeer();
     });
 });
+
+function getUser(){//todo: you can see what you need to do
+    return "dummy";
+}
+
 function assessPeer(){
     var peerRating = {
         "fromPeer": getUser(),
@@ -28,7 +33,7 @@ function assessPeer(){
         },
         data: JSON.stringify(dataP),
         success: function(){
-
+            location.href="takeQuiz.jsp?token="+getUserTokenFromUrl();
         },
         error: function(a,b,c){
 

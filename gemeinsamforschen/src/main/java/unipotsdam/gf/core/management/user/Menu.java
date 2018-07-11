@@ -9,6 +9,8 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
+
+// TODO: please move this to a view package at the top of the hierarchy as this is not part of the user package
 public class Menu extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
         PageContext pageContext = (PageContext) getJspContext();
@@ -23,9 +25,10 @@ public class Menu extends SimpleTagSupport {
                 out.println("<div id=\"sidebar-wrapper\">\n" +
                         "        <ul class=\"sidebar-nav\">\n" +
                         "            <li class=\"sidebar-brand\"><a href=\"overview-student.jsp?token="+token+"\">overview</a></li>\n" +
-                        "            <li><a href=\"takeQuiz.jsp?token="+token+"\">Quizfrage</a></li>\n" +
-                        "            <li><a href=\"#\">ePortfolio</a></li>\n" +
-                        "            <li><a href=\"#\">Beitrag</a></li>\n" +
+                        "            <li><a href=\"profile.jsp?token="+token+"\">Profil</a></li>\n" +
+                        "            <li><a href=\"Quiz.jsp?token="+token+"\">Quizfrage</a></li>\n" +
+                        "            <li><a href=\"eportfolio.jsp?token="+token+"\">ePortfolio</a></li>\n" +
+                        "            <li><a href=\"researchReportTitle.jsp?token="+token+"\">Beitrag</a></li>\n" +
                         "            <li><a href=\"finalAssessments.jsp?token="+token+"\">Bewertung</a></li>\n" +
                         "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
                         "        </ul>\n" +
@@ -34,7 +37,7 @@ public class Menu extends SimpleTagSupport {
                 out.println("<div id=\"sidebar-wrapper\">\n" +
                         "        <ul class=\"sidebar-nav\">\n" +
                         "            <li class=\"sidebar-brand\"><a href=\"overview-docent.jsp?token="+token+"\">overview</a></li>\n" +
-                        "            <li><a href=\"createQuiz.jsp?token="+token+"\">Quizfrage</a></li>\n" +
+                        "            <li><a href=\"Quiz.jsp?token="+token+"\">Quizfrage</a></li>\n" +
                         "            <li><a href=\"#\">ePortfolio</a></li>\n" +
                         "            <li><a href=\"#\">Beitrag</a></li>\n" +
                         "            <li><a href=\"#\">Gruppen erstellen</a></li>\n" +

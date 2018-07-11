@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.communication.service;
 
 import unipotsdam.gf.config.Constants;
 import unipotsdam.gf.core.management.Management;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.Message;
@@ -98,6 +99,18 @@ public class CommunicationDummyService implements ICommunication {
         //Project project = managementService.getProject(projectToken
         String channelName = "general";
         return Constants.ROCKET_CHAT_URL + "/channel/" + channelName + "?layout=embedded";
+    }
+
+    @Override
+    public void sendSingleMessage(Message message, User user) {
+        // TODO implement as email or directed message, popup after login or whatever
+        System.out.println("sending email with message: "+ message.getMessage() + " to: "+ user.getEmail());
+    }
+
+    @Override
+    public void sendMessageToUsers(Project project, String message) {
+        // TODO implement as email or directed message, popup after login or whatever
+        System.out.println("sending email with message: "+ message + " to: "+ project.getId());
     }
 
     // TODO: remove after done implementing

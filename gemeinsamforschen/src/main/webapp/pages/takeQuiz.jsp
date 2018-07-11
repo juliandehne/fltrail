@@ -12,6 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../assets/js/takeQuiz.js"></script>
+    <script src="../assets/js/utility.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
@@ -19,8 +20,6 @@
 </head>
 
 <body>
-
-
 <div id="wrapper">
     <menu:menu></menu:menu>
     <div class="page-content-wrapper">
