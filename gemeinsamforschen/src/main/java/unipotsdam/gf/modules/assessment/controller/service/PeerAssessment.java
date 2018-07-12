@@ -1,10 +1,9 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
-import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
+import unipotsdam.gf.modules.assessment.controller.service.QuizDBCommunication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +16,12 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override//returns one quiz
     public Quiz getQuiz(String projectId, String quizId) {
-        return new ManagementImpl().getQuizByProjectGroupId(projectId,quizId);
+        return new QuizDBCommunication().getQuizByProjectGroupId(projectId,quizId);
     }
 
     @Override //returns all quizzes in the course
     public ArrayList<Quiz> getQuiz(String projectId) {
-        return new ManagementImpl().getQuizByProjectId(projectId);
+        return new QuizDBCommunication().getQuizByProjectId(projectId);
     }
 
     @Override
