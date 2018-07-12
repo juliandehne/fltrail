@@ -1,12 +1,19 @@
 package unipotsdam.gf.modules.journal.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
+import unipotsdam.gf.modules.journal.view.ProjectDescriptionView;
 
 import java.util.UUID;
 
 public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
+
+    private Logger log = LoggerFactory.getLogger(ProjectDescriptionDAOImpl.class);
+
+
     @Override
     public void createDescription(ProjectDescription projectDescription) {
         // create a new id

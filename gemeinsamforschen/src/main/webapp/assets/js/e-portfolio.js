@@ -11,8 +11,9 @@ $(document).ready(function() {
     });
 
     $.ajax({
-        url: "../rest/projectdescription/0"
+        url: "../rest/projectdescription/test"
     }).then(function(data) {
+        console.log("desc: " + data);
         $('.journal-description-title').append('<h2>' + data.name + '</h2>');
         $('.journal-description-text').append(data.descriptionHTML);
         for(var link in data.links){
@@ -99,7 +100,6 @@ function loadJournals(data) {
         $('.journal').append(journalString)
     }};
 
-
 function linkLoeschen(name) {
     console.log("löschen" + name);
     $.ajax({
@@ -128,12 +128,11 @@ function closeJournal() {
         data: journalID,
         contentType: "application/json; charset=utf-8",
         crossDomain: true,
-        dataType: "json",
+        dataType: "text",
         success: function (data, status, jqXHR) {
-
+            console.log("succ");
+            filterJournals();
 
         }
-
     });
-    filterJournals();
 }

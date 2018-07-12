@@ -3,7 +3,7 @@ package unipotsdam.gf.modules.journal.view;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
-import unipotsdam.gf.modules.journal.service.DummyProjectDescription;
+import unipotsdam.gf.modules.journal.service.ProjectDescriptionImpl;
 import unipotsdam.gf.modules.journal.service.ProjectDescriptionService;
 
 import javax.ws.rs.*;
@@ -22,7 +22,7 @@ import java.net.URISyntaxException;
 public class ProjectDescriptionView {
 
     private Logger log = LoggerFactory.getLogger(ProjectDescriptionView.class);
-    private ProjectDescriptionService descriptionService = new DummyProjectDescription();
+    private ProjectDescriptionService descriptionService = new ProjectDescriptionImpl();
 
     //get Description
     @GET
@@ -45,7 +45,7 @@ public class ProjectDescriptionView {
     public Response saveProjectText(@FormParam("student")String student,@FormParam("project")String project,@FormParam("text")String text){
         log.debug(">>> saveText: " + text);
 
-        descriptionService.saveProjectText(text);
+        descriptionService.saveProjectText("0",text);
 
         //TODO token
         try {
@@ -70,7 +70,7 @@ public class ProjectDescriptionView {
     public Response addLink(@FormParam("link") String link, @FormParam("name") String name){
         log.debug(">>> addLink: " + name + ":" + link);
 
-        descriptionService.addLink(link, name );
+        descriptionService.addLink("0",link, name );
 
 
         try {
@@ -115,6 +115,7 @@ public class ProjectDescriptionView {
     //close descr
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     @Path("/close")
     public Response closeDescription(String desc){
         log.debug(">>> closeDescription: " + desc);

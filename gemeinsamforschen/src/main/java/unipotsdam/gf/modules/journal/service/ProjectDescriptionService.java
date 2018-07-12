@@ -11,11 +11,11 @@ public interface ProjectDescriptionService {
 
     ProjectDescription getProject(String project);
 
-    void saveProjectText(String text);
+    void saveProjectText(String project, String text);
 
-    void addLink(String link, String name);
+    void addLink(String project, String link, String name);
 
     void deleteLink(String link);
 
-    void closeDescription(String desc);
+    void closeDescription(String project);
 }
