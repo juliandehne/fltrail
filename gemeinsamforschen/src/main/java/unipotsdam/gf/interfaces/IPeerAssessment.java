@@ -74,4 +74,6 @@ public interface IPeerAssessment {
      * @param groupId
      */
     void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId);
+
+    void deleteQuiz(String quizId);
 }

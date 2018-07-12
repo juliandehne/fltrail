@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 
 import javax.annotation.ManagedBean;
@@ -84,5 +85,13 @@ public class QuizDBCommunication {
             next = vereinfachtesResultSet.next();
         }
         return result;
+    }
+
+    public void deleteQuiz(String quizId) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "DELETE FROM quiz where question = (?)";
+        connect.issueInsertOrDeleteStatement(mysqlRequest, quizId);
+        connect.close();
     }
 }

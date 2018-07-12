@@ -57,4 +57,9 @@ public class FBAssessement extends AssessmentDAO {
     public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
 
     }
+
+    @Override
+    public void deleteQuiz(String quizId) {
+
+    }
 }

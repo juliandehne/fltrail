@@ -65,6 +65,11 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
+    public void deleteQuiz(String quizId) {
+
+    }
+
+    @Override
     public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
         int[] quizAnswer = {1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1};
         int[] workRating = {1, 5, 3, 4, 1, 5, 5};

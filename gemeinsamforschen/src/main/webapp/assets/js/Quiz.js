@@ -11,7 +11,7 @@ $(document).ready(function(){
                 var trQuestion = document.createElement('TR');
                 trQuestion.className="pageChanger";
                 trQuestion.innerHTML = '<td colspan="' + colspan + '"><h3>' +
-                    '<a href="viewQuiz.jsp?token='+getUserTokenFromUrl()+'&quizId='+ encodeURI(data[quiz].question) + '"</a>' +
+                    '<a href="viewQuiz.jsp?token='+getUserTokenFromUrl()+'&quizId='+ encodeURIComponent(data[quiz].question) + '"</a>' +
                     data[quiz].question+'</h3></td>';
                 table.appendChild(trQuestion);
             }

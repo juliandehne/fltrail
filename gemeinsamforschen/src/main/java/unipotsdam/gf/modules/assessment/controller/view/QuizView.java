@@ -40,6 +40,14 @@ public class QuizView implements IPeerAssessment {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/quiz/{quizId}")
+    @Override
+    public void deleteQuiz(@PathParam("quizId") String quizId) {
+        peer.deleteQuiz(quizId);
+    }
+
+    @POST
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/assessment")

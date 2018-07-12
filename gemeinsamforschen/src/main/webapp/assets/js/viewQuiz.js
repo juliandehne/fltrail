@@ -61,7 +61,16 @@ $(document).ready(function () {
             alert('Fehler ' + a);
         }
     });
-    $("#submitQuiz").on("click", function () {
-
+    $("#deleteQuiz").on("click", function () {
+        $.ajax({
+            url: '../rest/assessments/quiz/' + encodeURIComponent(quizId),
+            type: 'POST',
+            success: function () {
+                document.location.href="Quiz.jsp?token="+getUserTokenFromUrl();
+            },
+            error: function(a){
+                alert(a)
+            }
+        });
     });
 });

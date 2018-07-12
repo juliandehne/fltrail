@@ -35,6 +35,11 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
+    public void deleteQuiz(String quizId) {
+        new QuizDBCommunication().deleteQuiz(quizId);
+    }
+
+    @Override
     public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return null;
     }
