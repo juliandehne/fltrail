@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.peer2peerfeedback;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.modules.researchreport.ResearchReport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class DummyFeedback implements Feedback {
     }
 
     @Override
-    public Boolean giveFeedback(Peer2PeerFeedback feedback, File document) {
+    public Boolean giveFeedback(Peer2PeerFeedback feedback, ResearchReport document) {
         return null;
     }
 
@@ -39,5 +40,10 @@ public class DummyFeedback implements Feedback {
     @Override
     public void assigningMissingFeedbackTasks(Project project) {
         System.out.println("assigning fake tasks");
+    }
+
+    @Override
+    public void assignFeedbackTasks() {
+
     }
 }

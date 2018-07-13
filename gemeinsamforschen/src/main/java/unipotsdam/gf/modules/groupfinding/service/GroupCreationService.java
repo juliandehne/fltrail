@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.groupCreation.service;
+package unipotsdam.gf.modules.groupfinding.service;
 
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.group.Group;

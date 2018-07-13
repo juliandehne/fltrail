@@ -4,6 +4,7 @@ import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
@@ -325,5 +326,10 @@ public class ManagementImpl implements Management {
         } else {
             return groups;
         }
+    }
+
+    @Override
+    public void create(ProjectConfiguration projectConfiguration, Project project) {
+        // TODO implement
     }
 }

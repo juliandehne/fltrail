@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.researchreport;
 
-import unipotsdam.gf.modules.researchreport.ResearchReport;
+import unipotsdam.gf.core.management.user.User;
 
 import java.io.File;
 
@@ -15,9 +15,10 @@ public interface ResearchReportManagement {
      * Create a File
      *
      * @param researchReport Name of the Report
+     * @param student
      * @return Returns the reportId
      */
-    String createResearchReport(ResearchReport researchReport);
+    String createResearchReport(ResearchReport researchReport, User student);
 
 
     /**

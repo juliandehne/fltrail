@@ -1,26 +1,17 @@
 package unipotsdam.gf.interfaces;
 
 import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.hk2.utilities.Binder;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
-import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import unipotsdam.gf.config.GFApplicationBinder;
-import unipotsdam.gf.config.GFResourceConfig;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserProfile;
-import unipotsdam.gf.core.states.PhasesImpl;
 import unipotsdam.gf.core.states.ProjectPhase;
-
 import javax.inject.Inject;
-import javax.ws.rs.core.Application;
-
 
 public class PhaseTest {
 

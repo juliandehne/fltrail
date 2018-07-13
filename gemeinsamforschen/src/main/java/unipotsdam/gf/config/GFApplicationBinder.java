@@ -12,8 +12,15 @@ import unipotsdam.gf.modules.journal.DummyJournalImpl;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.service.DummyJournalService;
 import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
+import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
+import unipotsdam.gf.modules.researchreport.ResearchReport;
+import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 
 public class GFApplicationBinder extends AbstractBinder {
+
+    /**
+     * TODO replace DummyImplementation
+     */
     @Override
     protected void configure() {
         bind(CommunicationDummyService.class).to(ICommunication.class);
@@ -22,5 +29,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(DummyJournalImpl.class).to(IJournal.class);
         bind(PeerAssessmentDummy.class).to(IPeerAssessment.class);
         bind(PhasesImpl.class).to(IPhases.class);
+        bind(ManagementImpl.class).to(Management.class);
+        bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
     }
 }

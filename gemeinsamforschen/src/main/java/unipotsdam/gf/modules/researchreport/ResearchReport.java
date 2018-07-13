@@ -6,6 +6,7 @@ public class ResearchReport {
     // TODO add properties
     private String title;
     private ResearchQuestion researchQuestion;
+
     private List<String> learningGoals;
     private String method;
     private String research;
