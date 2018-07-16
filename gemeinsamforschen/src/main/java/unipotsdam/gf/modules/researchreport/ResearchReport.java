@@ -6,7 +6,7 @@ public class ResearchReport {
     // TODO add properties
     private String title;
     private ResearchQuestion researchQuestion;
-
+    private String id;
     private List<String> learningGoals;
     private String method;
     private String research;
@@ -107,5 +107,13 @@ public class ResearchReport {
 
     public void setTimeplan(Timeplanning timeplan) {
         this.timeplan = timeplan;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

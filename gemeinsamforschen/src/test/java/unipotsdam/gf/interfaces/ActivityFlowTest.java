@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
@@ -47,7 +48,7 @@ public class ActivityFlowTest {
     @Inject
     ResearchReportManagement researchReportManagement;
 
-    @Inject
+    @Mock
     Feedback feedback;
 
     @Inject
@@ -174,17 +175,10 @@ public class ActivityFlowTest {
 
     public void createCourse() {
         // add Titel
-        Project project = new Project();
-        project.setId("testprojekt");
+        Project project = factory.manufacturePojo(Project.class);
         management.create(project);
 
-        // select criteria, topics, phases, assessment criteria
-        HashMap<ProjectPhase, Boolean> phasesSelected = new HashMap<>();
-        HashMap<Category, Boolean> criteriaSelected = new HashMap<>();
-        HashMap<AssessmentMechanism, Boolean> assessemtsSelected = new HashMap<>();
-        HashMap<GroupFormationMechanism, Boolean> groupFormationSelected = new HashMap<>();
-        ProjectConfiguration projectConfiguration = new ProjectConfiguration(phasesSelected, criteriaSelected,
-                assessemtsSelected, groupFormationSelected);
+        ProjectConfiguration projectConfiguration = factory.manufacturePojo(ProjectConfiguration.class);
         management.create(projectConfiguration, project);
 
         //
