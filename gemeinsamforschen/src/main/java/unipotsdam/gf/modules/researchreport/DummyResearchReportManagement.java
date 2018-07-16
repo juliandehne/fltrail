@@ -1,14 +1,18 @@
 package unipotsdam.gf.modules.researchreport;
 
+import org.mockito.Mock;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.interfaces.Feedback;
 
+import javax.inject.Inject;
 import java.io.File;
 
 public class DummyResearchReportManagement implements ResearchReportManagement {
+
 
     /**
      * Utility to creaty dummy data for students
@@ -18,6 +22,7 @@ public class DummyResearchReportManagement implements ResearchReportManagement {
     @Override
     public String createResearchReport(
             ResearchReport researchReport, Project project, User student) {
+
         return factory.manufacturePojo(ResearchReport.class).getId();
     }
 
