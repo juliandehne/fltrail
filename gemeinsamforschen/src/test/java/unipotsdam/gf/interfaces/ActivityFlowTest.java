@@ -7,6 +7,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
@@ -35,9 +38,6 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class ActivityFlowTest {
 
-
-    Boolean mocked = true;
-
     /**
      * Utility to creaty dummy data for students
      */
@@ -49,11 +49,10 @@ public class ActivityFlowTest {
     @Inject
     ResearchReportManagement researchReportManagement;
 
-    @Mock
-    Feedback mockfeedback;
 
     @Inject
     Feedback feedback;
+
 
     @Inject
     IPhases phases;
@@ -69,9 +68,14 @@ public class ActivityFlowTest {
     public void setUp() {
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
+
+        feedback = Mockito.spy(feedback);
+        researchReportManagement = Mockito.spy(researchReportManagement);
+        phases = Mockito.spy(phases);
+
+        researchReportManagement.setFeedback(feedback);
+        phases.setFeedback(feedback);
     }
-
-
 
     @Test
     public void activityPlayer() {
@@ -126,17 +130,16 @@ public class ActivityFlowTest {
 
     public void uploadDossiers() {
 
+
         for (User student : students) {
             // persist dossiers
             ResearchReport researchReport = factory.manufacturePojo(ResearchReport.class);
             researchReportManagement.createResearchReport(researchReport, project, student);
         }
 
-        if (mocked) {
-            mockfeedback.assignFeedbackTasks();
-        }
+
         // assert that after the last report has been submitted, the feedback tasks were assigned automatically
-        verify(mockfeedback, times(1)).assignFeedbackTasks();
+        verify(feedback).assignFeedbackTasks();
 
         // students give feedback
         for (User student : students) {
@@ -158,20 +161,20 @@ public class ActivityFlowTest {
         Iterator<User> students2Iterator = students2.iterator();
         while (students2Iterator.hasNext()) {
             User student = students2Iterator.next();
-            // persist dossiers (versioning)
+            // persist final dossiers -- assuming this function is intended
+            // if only one time upload is intended and feedback is not incorporated into a final dossier
+            // you should change this test to reflect only one time upload
+            // i.e. removing one student above to reflect no compliance
             ResearchReport researchReport = factory.manufacturePojo(ResearchReport.class);
-            researchReportManagement.createResearchReport(researchReport, project, student);
+            researchReportManagement.createFinalResearchReport(researchReport, project, student);
         }
 
         // docent finishes phase
         phases.endPhase(ProjectPhase.DossierFeedback, project);
 
-        if (mocked) {
-            mockfeedback.assigningMissingFeedbackTasks(project);
-        }
         // student misses mockfeedback -> reassignment
         // assert that while reports are still missing mockfeedback tasks are reassigned
-        verify(mockfeedback, times(1)).assigningMissingFeedbackTasks(project);
+        verify(feedback).assigningMissingFeedbackTasks(project);
 
         // assert that everybody has given and received mockfeedback
         assertTrue(feedback.checkFeedbackConstraints(project));
@@ -192,4 +195,5 @@ public class ActivityFlowTest {
 
         //
     }
+
 }

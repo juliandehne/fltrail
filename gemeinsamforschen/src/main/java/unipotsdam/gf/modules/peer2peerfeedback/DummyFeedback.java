@@ -17,6 +17,7 @@ public class DummyFeedback implements Feedback {
      */
     PodamFactory factory = new PodamFactoryImpl();
 
+    private static Boolean missingTaskAssigned = false;
 
     @Override
     public Peer2PeerFeedback createPeer2PeerFeedbackmask(
@@ -43,12 +44,13 @@ public class DummyFeedback implements Feedback {
     public Boolean checkFeedbackConstraints(Project project) {
         // TODO implement cornstaints
         System.out.println("Checking fake constraints");
-        return true;
+        return missingTaskAssigned;
     }
 
     @Override
     public void assigningMissingFeedbackTasks(Project project) {
         System.out.println("assigning fake tasks");
+        missingTaskAssigned = true;
     }
 
     @Override

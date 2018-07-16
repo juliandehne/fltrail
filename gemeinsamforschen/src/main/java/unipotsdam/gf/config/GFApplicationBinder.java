@@ -4,6 +4,8 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.states.PhasesImpl;
+import unipotsdam.gf.core.testsandbox.TestList;
+import unipotsdam.gf.core.testsandbox.TestListInterface;
 import unipotsdam.gf.interfaces.*;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
@@ -31,5 +33,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(PhasesImpl.class).to(IPhases.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
+        bind(TestList.class).to(TestListInterface.class);
     }
 }

@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.researchreport;
 
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.interfaces.Feedback;
 
 import java.io.File;
 
@@ -48,5 +49,19 @@ public interface ResearchReportManagement {
     File getResearchReport(ResearchReport researchReport);
 
 
+    /**
+     * This represents a second version of the research report where the feedback is incorporated
+     * There is only this second version. Otherwise we could cycle the dossier upload and feedback (would be to
+     * complicated)
+     * @param researchReport
+     * @param project
+     * @param student
+     */
+    void createFinalResearchReport(ResearchReport researchReport, Project project, User student);
 
+    /**
+     * the dependency to feedback should be settable externally for test reasons
+     * @param feedback
+     */
+    void setFeedback(Feedback feedback);
 }

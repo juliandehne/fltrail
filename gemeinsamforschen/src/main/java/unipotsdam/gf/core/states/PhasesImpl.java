@@ -118,9 +118,7 @@ public class PhasesImpl implements IPhases {
     }
 
 
-
-
-
-
-
+    public void setFeedback(Feedback feedback) {
+        this.feedback = feedback;
+    }
 }
