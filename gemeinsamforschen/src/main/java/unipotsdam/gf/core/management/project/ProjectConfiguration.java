@@ -16,7 +16,8 @@ public class ProjectConfiguration {
     private HashMap<GroupFormationMechanism, Boolean> groupMechanismSelected;
 
     public ProjectConfiguration(
-            HashMap<ProjectPhase, Boolean> phasesSelected, HashMap<Category, Boolean> criteriaSelected,
+            HashMap<ProjectPhase, Boolean> phasesSelected,
+            HashMap<Category, Boolean> criteriaSelected,
             HashMap<AssessmentMechanism, Boolean> assessmentMechanismSelected,
             HashMap<GroupFormationMechanism, Boolean> groupMechanismSelected) {
         this.phasesSelected = phasesSelected;

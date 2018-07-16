@@ -5,6 +5,7 @@ import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.project.ProjectConfiguration;
+import unipotsdam.gf.core.management.project.ProjectConfigurationDAO;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
@@ -330,6 +331,13 @@ public class ManagementImpl implements Management {
 
     @Override
     public void create(ProjectConfiguration projectConfiguration, Project project) {
-        // TODO implement
+        ProjectConfigurationDAO projectConfigurationDAO = new ProjectConfigurationDAO();
+        projectConfigurationDAO.persistProjectConfiguration(projectConfiguration,project);
+    }
+
+    @Override
+    public ProjectConfiguration getProjectConfiguration(Project project) {
+        ProjectConfigurationDAO projectConfigurationDAO = new ProjectConfigurationDAO();
+        return projectConfigurationDAO.loadProjectConfiguration(project);
     }
 }

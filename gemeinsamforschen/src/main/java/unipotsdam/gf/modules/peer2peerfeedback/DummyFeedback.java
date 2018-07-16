@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.peer2peerfeedback;
 
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.Feedback;
@@ -9,6 +11,13 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class DummyFeedback implements Feedback {
+
+    /**
+     * Utility to creaty dummy data for students
+     */
+    PodamFactory factory = new PodamFactoryImpl();
+
+
     @Override
     public Peer2PeerFeedback createPeer2PeerFeedbackmask(
             User feedbackuser, User selectedstudent, File document) {
@@ -45,5 +54,10 @@ public class DummyFeedback implements Feedback {
     @Override
     public void assignFeedbackTasks() {
 
+    }
+
+    @Override
+    public ResearchReport getFeedbackTask(User student) {
+        return factory.manufacturePojo(ResearchReport.class);
     }
 }

@@ -8,17 +8,19 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.config.GFResourceConfig;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserProfile;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by dehne on 01.06.2018.
@@ -27,6 +29,11 @@ import static org.junit.Assert.assertTrue;
 
 public class ManagementTest  {
 
+
+    /**
+     * Utility to creaty dummy data for students
+     */
+    PodamFactory factory = new PodamFactoryImpl();
 
 
     @Test
@@ -112,6 +119,22 @@ public class ManagementTest  {
         List<User> users = management.getUsers(project);
         assert users != null;
         assert !users.isEmpty();
+
+    }
+
+    @Test
+    public void testProjectConfiguration() {
+        ProjectConfiguration projectConfiguration = factory.manufacturePojo(ProjectConfiguration.class);
+        Project project = factory.manufacturePojo(Project.class);
+
+        ManagementImpl management = new ManagementImpl();
+        management.create(projectConfiguration, project);
+
+        ProjectConfiguration projectConfiguration1 = management.getProjectConfiguration(project);
+        assertNotNull(projectConfiguration1.getCriteriaSelected());
+        assertNotNull(projectConfiguration1.getAssessmentMechanismSelected());
+        assertNotNull(projectConfiguration1.getGroupMechanismSelected());
+        assertNotNull(projectConfiguration1.getPhasesSelected());
 
     }
 }

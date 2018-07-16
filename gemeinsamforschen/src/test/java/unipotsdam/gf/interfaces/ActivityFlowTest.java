@@ -26,6 +26,7 @@ import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -123,7 +124,7 @@ public class ActivityFlowTest {
         for (User student : students) {
             // persist dossiers
             ResearchReport researchReport = factory.manufacturePojo(ResearchReport.class);
-            researchReportManagement.createResearchReport(researchReport, student);
+            researchReportManagement.createResearchReport(researchReport, project, student);
         }
 
         // assert that after the last report has been submitted, the feedback tasks were assigned automatically
@@ -144,12 +145,30 @@ public class ActivityFlowTest {
         }
 
         // students upload updated dossier
+        ArrayList<User> students2 = students;
+        Iterator<User> students2Iterator = students2.iterator();
+        students2Iterator.remove();
+        students2Iterator.remove();
+        while (students2Iterator.hasNext()) {
+            User student = students2Iterator.next();
+            // persist dossiers (versioning)
+            ResearchReport researchReport = factory.manufacturePojo(ResearchReport.class);
+            researchReportManagement.createResearchReport(researchReport, project, student);
+        }
 
         // docent finishes phase
+        phases.endPhase(ProjectPhase.DossierFeedback, project);
 
         // student misses feedback -> reassignment
+        // assert that while reports are still missing feedback tasks are reassigned
+        verify(feedback, times(1)).assigningMissingFeedbackTasks(project);
 
-        // feedback restarted
+        // assert that everybody has given and received feedback
+        assert feedback.checkFeedbackConstraints(project);
+
+        // docent finishes phase
+        phases.endPhase(ProjectPhase.DossierFeedback, project);
+
     }
 
 
