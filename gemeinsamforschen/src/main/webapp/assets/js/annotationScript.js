@@ -198,8 +198,18 @@ $(document).ready(function() {
         $.each(response, function (i, annotation) {
             displayAnnotation(annotation);
         })
+        // handle drop down button
+        showAndHideToggleButton();
     });
 
+});
+
+/**
+ * This will be called on page resize
+ */
+$( window ).resize(function() {
+    // handle drop down button for every annotation
+    showAndHideToggleButton();
 });
 
 /**
@@ -623,4 +633,33 @@ function editAnnotationHandler(id) {
 
     // display annotation edit modal and pass id
     $('#annotation-edit-modal').data('id', id).modal("show");
+}
+
+/**
+ * Show or hide the drop down button for every annotation card.
+ * Call this on page resize and after annotations GET
+ */
+function showAndHideToggleButton() {
+    // iterate over each annotation card
+    $('#annotations').find('li').each(function () {
+
+        // find the comment element, clone and hide it
+        var comment = $(this).find('.annotation-body').children('p');
+        var clone = comment.clone()
+            .css({display: 'inline', width: 'auto', visibility: 'hidden'})
+            .appendTo('body');
+        var cloneWidth = clone.width();
+
+        // remove the element from the page
+        clone.remove();
+
+        // show drop down button only if text was truncated
+        if(cloneWidth > comment.width()) {
+            $(this).find('.annotation-header-toggle').show();
+        }
+        else {
+            $(this).find('.annotation-header-toggle').hide();
+        }
+
+    })
 }
