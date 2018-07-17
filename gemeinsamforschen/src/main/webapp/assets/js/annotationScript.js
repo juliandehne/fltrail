@@ -144,6 +144,9 @@ $(document).ready(function() {
                     card.find('.annotation-header-data-title').text(newTitle);
                     card.find('.annotation-body-text').text(newComment);
 
+                    // handle drop down button
+                    showAndHideToggleButton();
+
                     // hide and clear the modal
                     $('#annotation-edit-modal').modal('hide');
                 })
