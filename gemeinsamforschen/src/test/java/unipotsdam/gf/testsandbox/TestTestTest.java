@@ -28,11 +28,14 @@ public class TestTestTest {
     @Inject
     TestListInterface spiedList2;
 
-
-
     @Inject
     @Spy
     TestListInterface spiedList3;
+
+
+    @Inject
+    SpiedListHolder spiedListHolder;
+
 
     @Before
     public void setUp() {
@@ -97,4 +100,19 @@ public class TestTestTest {
 
         assertEquals(2, spiedList3.size());
     }
+
+ /*   //
+    @Test
+    public void howSpiesWorkWithConstructorInjection() {
+
+        java.util.List<String> spiedList4 = Mockito.spy(spiedListHolder.getSpiedList());
+
+        spiedList4.add("one");
+        spiedList4.add("two");
+
+        Mockito.verify(spiedList4).add("one");
+        Mockito.verify(spiedList4).add("two");
+
+        assertEquals(2, spiedList4.size());
+    }*/
 }

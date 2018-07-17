@@ -10,6 +10,7 @@ import unipotsdam.gf.interfaces.*;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.groupfinding.DummyGroupfinding;
 import unipotsdam.gf.modules.journal.DummyJournalImpl;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.service.DummyJournalService;
@@ -34,5 +35,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(ManagementImpl.class).to(Management.class);
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
         bind(TestList.class).to(TestListInterface.class);
+        bind(DummyGroupfinding.class).to(IGroupFinding.class);
+
     }
 }

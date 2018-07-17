@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
@@ -62,6 +63,11 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     @Override
     public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
         int breakpoint = 0; //todo: print an http-answer for the ajax-request to receive
+    }
+
+    @Override
+    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
+
     }
 
     @Override

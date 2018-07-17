@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.peer2peerfeedback;
 
+import org.mockito.Mockito;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.management.project.Project;
@@ -18,6 +19,11 @@ public class DummyFeedback implements Feedback {
     PodamFactory factory = new PodamFactoryImpl();
 
     private static Boolean missingTaskAssigned = false;
+
+
+    public DummyFeedback() {
+
+    }
 
     @Override
     public Peer2PeerFeedback createPeer2PeerFeedbackmask(

@@ -17,19 +17,27 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.management.Management;
+import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.modules.assessment.QuizAnswer;
+import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
+import unipotsdam.gf.modules.groupfinding.GroupFormationMechanism;
+import unipotsdam.gf.modules.groupfinding.GroupfindingCriteria;
+import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.peer2peerfeedback.Peer2PeerFeedback;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 import javax.inject.Inject;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -53,9 +61,21 @@ public class ActivityFlowTest {
     @Inject
     Feedback feedback;
 
-
     @Inject
     IPhases phases;
+
+    @Inject
+    IGroupFinding groupFinding;
+
+    @Inject
+    ICommunication iCommunication;
+
+    @Inject
+    IJournal iJournal;
+
+    @Inject
+    IPeerAssessment iPeerAssessment;
+
 
     private final Project project = factory.manufacturePojo(Project.class);
     private final ArrayList<User> students = new ArrayList<>();
@@ -63,6 +83,8 @@ public class ActivityFlowTest {
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
+
+
 
     @Before
     public void setUp() {
@@ -72,9 +94,12 @@ public class ActivityFlowTest {
         feedback = Mockito.spy(feedback);
         researchReportManagement = Mockito.spy(researchReportManagement);
         phases = Mockito.spy(phases);
+        iCommunication = Mockito.spy(iCommunication);
 
+        // TODO @Julian: Find out more elegant way of doing this
         researchReportManagement.setFeedback(feedback);
         phases.setFeedback(feedback);
+
     }
 
     @Test
@@ -87,6 +112,9 @@ public class ActivityFlowTest {
 
         // register students
         loginStudents();
+
+        // form groups
+        formGroups();
 
         // end first phase
         phases.endPhase(ProjectPhase.CourseCreation, project);
@@ -102,6 +130,18 @@ public class ActivityFlowTest {
 
         // end execution phase
         phases.endPhase(ProjectPhase.Execution, project);
+    }
+
+
+
+    public void formGroups() {
+
+        // form groups based on user profil
+        groupFinding.formGroups(GroupFormationMechanism.UserProfilStrategy);
+
+        // update groups manually
+        groupFinding.formGroups(GroupFormationMechanism.Manual);
+
     }
 
 
@@ -122,10 +162,32 @@ public class ActivityFlowTest {
 
     public void uploadReflections() {
         // update single reflection
+        Journal journalEntry = factory.manufacturePojo(Journal.class);
 
-        // answer quiz
+        for (User student : students) {
+            iJournal.uploadJournalEntry(journalEntry, student);
+        }
 
-        //
+
+        // create quiz TODO@Axel this should be a quiz dependend on the student for easier initialization and
+        // de-coupling
+        StudentAndQuiz studentAndQuiz = factory.manufacturePojo(StudentAndQuiz.class);
+        QuizAnswer quizAnswer = factory.manufacturePojo(QuizAnswer.class);
+        iPeerAssessment.createQuiz(studentAndQuiz);
+        iPeerAssessment.answerQuiz(studentAndQuiz, quizAnswer);
+
+        // finales Portfolio zusammenstellen
+        java.util.List<Journal> journalEntries = new ArrayList<Journal>();
+        journalEntries.add(journalEntry);
+
+        ResearchReport finalResearchReport = factory.manufacturePojo(ResearchReport.class);
+        File presentation = new File("dummy.pptx");
+
+        for (User student : students) {
+            iJournal.uploadFinalPortfolio(project,journalEntries, finalResearchReport, presentation, student);
+        }
+        assertNotNull(true);
+
     }
 
     public void uploadDossiers() {
@@ -193,7 +255,9 @@ public class ActivityFlowTest {
         ProjectConfiguration projectConfiguration = factory.manufacturePojo(ProjectConfiguration.class);
         management.create(projectConfiguration, project);
 
-        //
+        GroupfindingCriteria groupfindingCriteria = factory.manufacturePojo(GroupfindingCriteria.class);
+        groupFinding.selectGroupfindingCriteria(groupfindingCriteria);
+
     }
 
 }

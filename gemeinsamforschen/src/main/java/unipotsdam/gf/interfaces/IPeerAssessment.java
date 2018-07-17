@@ -1,5 +1,6 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
@@ -74,4 +75,11 @@ public interface IPeerAssessment {
      * @param groupId
      */
     void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId);
+
+    /**
+     *
+     * @param studentAndQuiz
+     * @param quizAnswer
+     */
+    void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer);
 }
