@@ -12,6 +12,8 @@ var documentText, startCharacter, endCharacter;
  */
 $(document).ready(function() {
 
+    connect("200");
+
     /**
      * Context menu handler
      */
