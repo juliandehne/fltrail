@@ -7,6 +7,9 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> <!--FilePond -->
+
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -25,17 +28,7 @@
 
 <form id="researchReportform" class="researchReportForm" method="POST" action="../rest/researchReport/save">
 
-    <div class = "researchReportMenu">
-        <nav>
-            <menu>
-                <menuitem><p><a href="">Gruppe</a></p> </menuitem>
-                <menuitem><p><a href="">Projekt erstellen</a> </p></menuitem>
-                <menuitem><p><a href="">Forschungsbericht erstellen</a></p></menuitem>
-                <menuitem><p><a href="">Review</a></p></menuitem>
-                <menuitem><p><a href="">User</a></p></menuitem>
-            </menu>
-        </nav>
-    </div>
+
 
     <div class = "researchReportTitlebar">
         <h1> Forschungsbericht erstellen 6/8</h1>
@@ -49,6 +42,9 @@
     <div class="ResearchReportButtons">
         <button class="researchReportButtons"><a href="researchReportDo.jsp">Speichern & weiter</a></button>
         <button class="researchReportButtons"><a href="researchReportConcept.jsp"> Zur&uuml;ck </a></button>
+    </div>
+    <div class="ResearchReportUpload">
+        <input type="file" class="filepond" name="filepond"> </input>
     </div>
 
     <div class="researchReportProgress">
@@ -68,9 +64,14 @@
 
 </form>
 
-<script>
-
-</script>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="../assets/js/Sidebar-Menu.js"></script>
+<script  src="../assets/js/createReport.js"></script>
+<script  src="../assets/js/researchReportUpload.js"></script>
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->
+<script>FilePond.parse(document.body);</script> <!--FilePond -->
 
 </body>
 </html>
