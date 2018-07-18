@@ -15,6 +15,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../assets/js/AlertAssessmentOutlier.js"></script>
+    <script src="../assets/js/grading.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
@@ -28,8 +29,9 @@
 
     <div class="page-content-wrapper">
         <div class="container-fluid">
-            <h1>dummy Projekt1 für Dozent1</h1><button class="btn btn-default" type="button">Gruppen erstellen</button><button class="btn btn-default" type="button">Projekt finalisieren</button><button class="btn btn-default" type="button">Exportiere Projektergebnisse</button>
+            <h1>dummy Projekt1 für Dozent1</h1><button class="btn btn-default" type="button">Gruppen erstellen</button><button class="btn btn-default" type="button" id="ProjektFinalisieren">Projekt finalisieren</button><button class="btn btn-default" type="button">Exportiere Projektergebnisse</button>
         </div>
+        <p hidden id="ProjektId">Projekt1</p>
         <button
                 class="btn btn-default" type="button">Exportiere Zwischenstand</button><button class="btn btn-default" type="button">Quizfrage erstellen</button>
         <div>
