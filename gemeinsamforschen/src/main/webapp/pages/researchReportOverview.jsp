@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/researchReportOverview.css">
     <title>Forschungsbericht Übersicht</title>
+
+
 </head>
 
 <body>
@@ -69,7 +71,7 @@
 
     <div class="ResearchReportUpload">
         <h3>Gesamten Forschungsbericht hochladen </h3>
-        <input type="file" class="filepond">
+        <input type="file" class="filepond" name="filepond">
     </div>
 
     <div class="feedbacks">
@@ -112,9 +114,8 @@
 <script src="../assets/js/Sidebar-Menu.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->
-<script src="../assets/js/researchReportUpload.js"></script> <!--FilePond -->
+<script src="../assets/js/researchReportUpload.js"></script><!--FilePond -->
 <script>FilePond.parse(document.body);</script> <!--FilePond -->
-<!--<script>document.body.appendChild(pond.element);</script> <!--FilePond -->
 
 
 </body>

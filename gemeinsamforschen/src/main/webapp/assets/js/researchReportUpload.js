@@ -4,7 +4,7 @@
 
 
 FilePond.registerPlugin(
-    FilepondPluginImagePreview
+    FilePondPluginImagePreview,
 );
 
 //document.body.appendChild(pond.element);
@@ -14,9 +14,10 @@ const pond = FilePond.create(
     {
         allowImagePreview: true,
         name: 'filepond',
-        labelIdle: 'Drag & Drop your files or <span class="filepond--label-action"> Browse </span>',
+        labelIdle: 'Hier<span class="filepond--label-action"> Browse </span>',
     }
 );
+
 
 FilePond.setOptions(
     {
