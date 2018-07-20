@@ -582,9 +582,11 @@ function showAndHideToggleButton() {
         // show drop down button only if text was truncated
         if(cloneWidth > comment.width()) {
             $(this).find('.annotation-header-toggle').show();
+            $(this).find('.annotation-header-data').css('width', 'calc(100% - 40px)');
         }
         else {
             $(this).find('.annotation-header-toggle').hide();
+            $(this).find('.annotation-header-data').css('width', '100%');
         }
 
     })
