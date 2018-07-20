@@ -108,28 +108,18 @@ CREATE TABLE if not exists projectuser
   ENGINE = InnoDB
 
   DEFAULT CHARSET = utf8;
+
 CREATE TABLE if not exists `annotations` (
-
-  `id`             varchar(120) NOT NULL,
-
-  `timestamp`      timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
-  ON UPDATE CURRENT_TIMESTAMP,
-
-  `userId`         int(11)               DEFAULT NULL,
-
-  `targetId`       int(11)               DEFAULT NULL,
-
-  `body`           varchar(280)          DEFAULT NULL,
-
-  `startCharacter` int(11)               DEFAULT NULL,
-
-  `endCharacter`   int(11)               DEFAULT NULL,
-
+  `id` varchar(120) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `userToken` varchar(120) DEFAULT NULL,
+  `targetId` int(11) DEFAULT NULL,
+  `title` varchar(120) DEFAULT NULL,
+  `comment` varchar(400) DEFAULT NULL,
+  `startCharacter` int(11) DEFAULT NULL,
+  `endCharacter` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table users
 
