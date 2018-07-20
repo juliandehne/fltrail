@@ -25,8 +25,6 @@ public class AnnotationWebSocketEndpoint {
         endpoints.add(this);
         // save mapping of session and target id
         targets.put(session.getId(), targetId);
-
-        System.out.println(endpoints.toString());
     }
 
     @OnMessage
