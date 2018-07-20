@@ -9,6 +9,18 @@ function connect(targetId) {
     ws.onmessage = function (e) {
         var message = JSON.parse(e.data);
         console.log(message.from)
+
+        if (message.type === "GET") {
+            // get annotation from server
+            getAnnotation(message.annotationId, function (response) {
+                // display annotation
+                displayAnnotation(response)
+            })
+        }
+        else if (message.type === "DELETE") {
+            // remove annotation from list
+            $('#' + message.annotationId).closest('.listelement').remove()
+        }
     };
 }
 

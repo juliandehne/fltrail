@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.annotation.model;
 public class AnnotationMessage {
     // variables
     private String from;
+    private String targetId;
     private AnnotationMessageType type;
     private String annotationId;
 
@@ -18,6 +19,14 @@ public class AnnotationMessage {
 
     public void setFrom(String from) {
         this.from = from;
+    }
+
+    public String getTargetId() {
+        return targetId;
+    }
+
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
     }
 
     public AnnotationMessageType getType() {
@@ -40,6 +49,7 @@ public class AnnotationMessage {
     public String toString() {
         return "AnnotationMessage{" +
                 "from='" + from + '\'' +
+                ", targetId='" + targetId + '\'' +
                 ", type=" + type +
                 ", annotationId='" + annotationId + '\'' +
                 '}';

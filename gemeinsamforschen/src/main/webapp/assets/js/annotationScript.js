@@ -166,6 +166,8 @@ $(document).ready(function() {
 
         // delte annotation from server and from list
         deleteAnnotation(id, function () {
+            // send delete request to websocket
+            send("DELETE", id);
             // remove annotation from list
             $('#' + id).closest('.listelement').remove()
             // remove highlighted text
@@ -531,6 +533,8 @@ function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
 
     // send new annotation to back-end and display it in list
     createAnnotation(annotationPostRequest, function(response) {
+        // send new annotation to websocket
+        send("GET", response.id);
         // display the new annotation
         displayAnnotation(response);
 

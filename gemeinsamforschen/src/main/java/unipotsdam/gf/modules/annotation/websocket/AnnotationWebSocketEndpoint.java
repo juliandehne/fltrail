@@ -29,7 +29,8 @@ public class AnnotationWebSocketEndpoint {
 
     @OnMessage
     public void onMessage(Session session, AnnotationMessage annotationMessage) throws IOException, EncodeException {
-        annotationMessage.setFrom(targets.get(session.getId()));
+        annotationMessage.setTargetId(targets.get(session.getId()));
+        annotationMessage.setFrom(session.getId());
         broadcast(annotationMessage);
 
     }
@@ -48,7 +49,9 @@ public class AnnotationWebSocketEndpoint {
         endpoints.forEach(endpoint -> {
             synchronized (endpoint) {
                 try {
-                    if (targets.get(endpoint.session.getId()).equals(annotationMessage.getFrom())) {
+                    if (targets.get(endpoint.session.getId()).equals(annotationMessage.getTargetId())
+                            && !endpoint.session.getId().equals(annotationMessage.getFrom())) {
+                        System.out.println("Send message to session" + endpoint.session.getId() + " from session " + annotationMessage.getFrom());
                         endpoint.session.getBasicRemote().sendObject(annotationMessage);
                     }
                 }
