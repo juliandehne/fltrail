@@ -105,8 +105,40 @@
                         </form>
                         <!-- modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                             <button id="btnSave" type="button" class="btn btn-success">Speichern</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- annotation edit modal -->
+        <div id="annotation-edit-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content">
+
+                    <!-- modal header -->
+                    <div class="modal-header flex">
+                        <h4 class="modal-title flex-one">Annotation bearbeiten</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- modal body -->
+                    <div class="modal-body">
+                        <form id="annotation-edit-form">
+                            <div class="form-group">
+                                <label for="annotation-form-title" class="col-form-label">Titel:</label>
+                                <input type="text" class="form-control" id="annotation-edit-form-title" name="title">
+                            </div>
+                            <div class="form-group">
+                                <label for="annotation-form-comment" class="col-form-label">Kommentar:</label>
+                                <textarea class="form-control resize-vertical" id="annotation-edit-form-comment" name="comment"></textarea>
+                            </div>
+                        </form>
+                        <!-- modal footer -->
+                        <div class="modal-footer">
+                            <button id="btnDelete" type="button" class="btn btn-danger">Löschen</button>
+                            <button id="btnEdit" type="button" class="btn btn-success">Bearbeiten</button>
                         </div>
                     </div>
                 </div>
