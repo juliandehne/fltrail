@@ -59,8 +59,26 @@ function deleteAnnotation(id, responseHandler) {
 }
 
 /**
- * GET: Get all annotations from database for a specific target
+ * GET: Get a specific annotation for a given id
  *
+ * @param id The id of the annotation
+ * @param responseHandler The response handler
+ */
+function getAnnotation(id, responseHandler) {
+    var url = "../rest/annotations/" + id;
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            // handle the response
+            responseHandler(response);
+        }
+    })
+}
+
+/**
+ * GET: Get all annotations from database for a specific target
  *
  * @param targetId The target id
  * @param responseHandler The response handler
