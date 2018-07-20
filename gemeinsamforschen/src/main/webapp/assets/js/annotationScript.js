@@ -143,6 +143,9 @@ $(document).ready(function() {
                 };
                 // send alter request to server
                 alterAnnotation(id, annotationPatchRequest, function (response) {
+                    // send altered annotation to websocket
+                    send("EDIT", id);
+
                     // alter the annotation card
                     card.find('.annotation-header-data-title').text(newTitle);
                     card.find('.annotation-body-text').text(newComment);
@@ -534,7 +537,7 @@ function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
     // send new annotation to back-end and display it in list
     createAnnotation(annotationPostRequest, function(response) {
         // send new annotation to websocket
-        send("GET", response.id);
+        send("CREATE", response.id);
         // display the new annotation
         displayAnnotation(response);
 
@@ -559,6 +562,23 @@ function editAnnotationHandler(id) {
 
     // display annotation edit modal and pass id
     $('#annotation-edit-modal').data('id', id).modal("show");
+}
+
+/**
+ * Change title and comment from annotation by given annotation
+ *
+ * @param annotation The given altered annotation
+ */
+function editAnnotationValues(annotation) {
+    // find annotation
+    var annotationElement =  $('#' + annotation.id);
+
+    // set title and comment
+    annotationElement.find('.annotation-header-data-title').text(annotation.body.title);
+    annotationElement.find('.annotation-body-text').text(annotation.body.comment);
+
+    // handle drop down button
+    showAndHideToggleButtonById(annotation.id);
 }
 
 /**
@@ -590,4 +610,33 @@ function showAndHideToggleButton() {
         }
 
     })
+}
+
+/**
+ * Show or hide the drop down button for a given annotation card.
+ *
+ * @param id The id of the annotation
+ */
+function showAndHideToggleButtonById(id) {
+    // find annotation
+    var annotationElement =  $('#' + id);
+    // find the comment element, clone and hide it
+    var comment = annotationElement.find('.annotation-body').children('p');
+    var clone = comment.clone()
+        .css({display: 'inline', width: 'auto', visibility: 'hidden'})
+        .appendTo('body');
+    var cloneWidth = clone.width();
+
+    // remove the element from the page
+    clone.remove();
+
+    // show drop down button only if text was truncated
+    if(cloneWidth > comment.width()) {
+        annotationElement.find('.annotation-header-toggle').show();
+        annotationElement.find('.annotation-header-data').css('width', 'calc(100% - 40px)');
+    }
+    else {
+        annotationElement.find('.annotation-header-toggle').hide();
+        annotationElement.find('.annotation-header-data').css('width', '100%');
+    }
 }

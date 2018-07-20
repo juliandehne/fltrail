@@ -8,8 +8,9 @@ public class AnnotationMessage {
     private String annotationId;
 
     public enum AnnotationMessageType {
-        GET,
-        DELETE
+        CREATE,
+        DELETE,
+        EDIT
     }
 
     // methods

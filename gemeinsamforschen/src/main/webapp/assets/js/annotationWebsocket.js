@@ -10,7 +10,7 @@ function connect(targetId) {
         var message = JSON.parse(e.data);
         console.log(message.from)
 
-        if (message.type === "GET") {
+        if (message.type === "CREATE") {
             // get annotation from server
             getAnnotation(message.annotationId, function (response) {
                 // display annotation
@@ -20,6 +20,11 @@ function connect(targetId) {
         else if (message.type === "DELETE") {
             // remove annotation from list
             $('#' + message.annotationId).closest('.listelement').remove()
+        }
+        else if (message.type === "EDIT") {
+            getAnnotation(message.annotationId, function (response) {
+                editAnnotationValues(response);
+            })
         }
     };
 }
