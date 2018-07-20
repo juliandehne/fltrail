@@ -36,6 +36,8 @@
     <script src="../assets/js/utility.js"></script>
     <!-- js - annotation websocket script -->
     <script src="../assets/js/annotationWebsocket.js"></script>
+    <!-- js - annotation REST script -->
+    <script src="../assets/js/annotationRest.js"></script>
     <!-- js - annotationScript -->
     <script src="../assets/js/annotationScript.js"></script>
 
