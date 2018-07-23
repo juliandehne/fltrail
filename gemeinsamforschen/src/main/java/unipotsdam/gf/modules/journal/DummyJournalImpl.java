@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.assignments.Assignee;
+import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
@@ -19,39 +21,38 @@ public class DummyJournalImpl implements IJournal {
     private Logger log = LoggerFactory.getLogger(DummyJournalImpl.class);
 
     @Override
-    public String exportJournal(StudentIdentifier student) {
-        // TODO Impl was macht das hier?
-
+    public String exportJournal(StudentIdentifier student)  {
+        NotImplementedLogger.logAssignment(Assignee.THOMAS, IJournal.class);
         return null;
     }
 
     @Override
-    public Boolean getPortfoliosForEvaluationPrepared(Project project) {
-
-        log.debug("checking fake constraints for the portfolio evaluation");
+    public Boolean getPortfoliosForEvaluationPrepared(Project project)  {
+        NotImplementedLogger.logAssignment(Assignee.THOMAS, IJournal.class);
         return false;
     }
 
     @Override
     public void assignMissingPortfolioTasks(Project project) {
-        log.debug("assigning fake MissingPortfolioTasks");
+        NotImplementedLogger.logAssignment(Assignee.THOMAS, IJournal.class);
     }
 
     @Override
     public void uploadJournalEntry(Journal journalEntry, User student) {
-
+        NotImplementedLogger.logAssignment(Assignee.THOMAS, IJournal.class);
     }
 
     @Override
     public void uploadFinalPortfolio(
             Project project, List<Journal> journalEntries, ResearchReport finalResearchReport, File presentation,
-            User user) {
-
+            User user)  {
+        NotImplementedLogger.logAssignment(Assignee.THOMAS, IJournal.class);
     }
 
     @Override
     public HTML getFinalPortfolioForAssessment(
-            Project project, User user) {
+            Project project, User user)  {
+        NotImplementedLogger.logAssignment(Assignee.THOMAS, IJournal.class);
         return null;
     }
 }

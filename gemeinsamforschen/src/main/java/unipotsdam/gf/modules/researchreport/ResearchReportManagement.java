@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.researchreport;
 
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.interfaces.Feedback;
 
 import java.io.File;
@@ -31,14 +32,14 @@ public interface ResearchReportManagement {
      * @param researchReport Name of the Report
      * @return Returns if the report is updated
      */
-    boolean updateResearchReport(ResearchReport researchReport);
+    boolean updateResearchReport(ResearchReport researchReport) ;
 
     /**
      * Delete a File
      *
      * @param researchReport Name of the Report
      */
-    boolean deleteReport(ResearchReport researchReport);
+    boolean deleteReport(ResearchReport researchReport) ;
 
 
     /**
@@ -46,7 +47,7 @@ public interface ResearchReportManagement {
      * @param researchReport Name of the Report
      * @return Returns the Report
      */
-    File getResearchReport(ResearchReport researchReport);
+    File getResearchReport(ResearchReport researchReport) ;
 
 
     /**
@@ -57,7 +58,8 @@ public interface ResearchReportManagement {
      * @param project
      * @param student
      */
-    void createFinalResearchReport(ResearchReport researchReport, Project project, User student);
+    void createFinalResearchReport(ResearchReport researchReport, Project project, User student)
+            ;
 
     /**
      * the dependency to feedback should be settable externally for test reasons

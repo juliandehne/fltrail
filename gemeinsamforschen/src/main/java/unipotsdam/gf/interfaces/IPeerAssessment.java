@@ -1,5 +1,6 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
@@ -32,7 +33,7 @@ public interface IPeerAssessment {
      *
      * @param studentAndQuiz
      */
-    void createQuiz(StudentAndQuiz studentAndQuiz);
+    void createQuiz(StudentAndQuiz studentAndQuiz) ;
 
     /**
      * calculate grades for everyone in a list.

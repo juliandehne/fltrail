@@ -2,6 +2,7 @@ package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.modules.groupfinding.GroupFormationMechanism;
 import unipotsdam.gf.modules.groupfinding.GroupfindingCriteria;
 

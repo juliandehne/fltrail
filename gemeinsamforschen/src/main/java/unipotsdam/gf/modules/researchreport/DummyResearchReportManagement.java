@@ -4,6 +4,8 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.assignments.Assignee;
+import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.interfaces.Feedback;
 
 import javax.inject.Inject;
@@ -37,24 +39,27 @@ public class DummyResearchReportManagement implements ResearchReportManagement {
     }
 
     @Override
-    public boolean updateResearchReport(ResearchReport researchReport) {
+    public boolean updateResearchReport(ResearchReport researchReport)  {
+        NotImplementedLogger.logAssignment(Assignee.QUARK, ResearchReportManagement.class, null, "updateResearchReport");
         return false;
     }
 
     @Override
-    public boolean deleteReport(ResearchReport researchReport) {
+    public boolean deleteReport(ResearchReport researchReport)  {
+        NotImplementedLogger.logAssignment(Assignee.QUARK, ResearchReportManagement.class);
         return false;
     }
 
     @Override
     public File getResearchReport(ResearchReport researchReport) {
+        NotImplementedLogger.logAssignment(Assignee.QUARK, ResearchReportManagement.class);
         return null;
     }
 
     @Override
     public void createFinalResearchReport(
             ResearchReport researchReport, Project project, User student) {
-
+        NotImplementedLogger.logAssignment(Assignee.QUARK, ResearchReportManagement.class);
     }
 
     @Override
