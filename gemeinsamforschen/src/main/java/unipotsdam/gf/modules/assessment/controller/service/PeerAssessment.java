@@ -15,8 +15,8 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override//returns one quiz
-    public Quiz getQuiz(String projectId, String quizId) {
-        return new QuizDBCommunication().getQuizByProjectGroupId(projectId,quizId);
+    public Quiz getQuiz(String projectId, String quizId, String author) {
+        return new QuizDBCommunication().getQuizByProjectQuizId(projectId, quizId, author);
     }
 
     @Override //returns all quizzes in the course
@@ -31,7 +31,7 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public void createQuiz(StudentAndQuiz studentAndQuiz) {
-
+        new QuizDBCommunication().createQuiz(studentAndQuiz.getQuiz(),studentAndQuiz.getStudentIdentifier().getStudentId(), studentAndQuiz.getStudentIdentifier().getProjectId());
     }
 
     @Override
@@ -50,7 +50,7 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public int meanOfAssessement(String ProjectId) {
+    public int meanOfAssessment(String ProjectId) {
         return 0;
     }
 

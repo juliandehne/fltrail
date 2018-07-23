@@ -3,7 +3,6 @@ package unipotsdam.gf.modules.assessment.controller.view;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,14 +11,14 @@ import java.util.List;
 
 @Path("/assessments")
 public class QuizView implements IPeerAssessment {
-    private static IPeerAssessment peer =  new PeerAssessment();   //TestSubject
-    //private static IPeerAssessment peer =  new PeerAssessment();      //correct DB-conn and stuff
+    //private static IPeerAssessment peer =  new PeerAssessmentDummy();   //TestSubject
+    private static IPeerAssessment peer =  new PeerAssessment();      //correct DB-conn and stuff
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/project/{projectId}/quiz/{quizId}")
+    @Path("/project/{projectId}/quiz/{quizId}/author/{author}")
     @Override
-    public Quiz getQuiz(@PathParam("projectId") String projectId, @PathParam("quizId") String quizId) {
-        return peer.getQuiz(projectId, quizId);
+    public Quiz getQuiz(@PathParam("projectId") String projectId, @PathParam("quizId") String quizId, @PathParam("author") String author) {
+        return peer.getQuiz(projectId, quizId, author);
     }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
 
     @GET
@@ -29,6 +28,7 @@ public class QuizView implements IPeerAssessment {
     public ArrayList<Quiz> getQuiz(@PathParam("projectId") String projectId) {
         return peer.getQuiz(projectId);
     }
+    //////////////////////////////////////////funktioniert///////////////////////////////////////
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -46,6 +46,7 @@ public class QuizView implements IPeerAssessment {
     public void deleteQuiz(@PathParam("quizId") String quizId) {
         peer.deleteQuiz(quizId);
     }
+    ////////////////////////////funktioniert////////////////////////////////////////////////////////
 
     @POST
     @Produces(MediaType.TEXT_PLAIN)
@@ -79,7 +80,7 @@ public class QuizView implements IPeerAssessment {
     public void createQuiz(StudentAndQuiz studentAndQuiz) {
         peer.createQuiz(studentAndQuiz);
     }
-    ////////////////////////////////todo: sollte das nächste Element sein, was ich baue////////
+    ////////////////////////////////funktioniert///////////////////////////////////////////
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -95,9 +96,9 @@ public class QuizView implements IPeerAssessment {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/mean/project/{projectId}")
     @Override
-    public int meanOfAssessement(@PathParam("projectId") String ProjectId) {
+    public int meanOfAssessment(@PathParam("projectId") String ProjectId) {
 
-        return peer.meanOfAssessement(ProjectId);
+        return peer.meanOfAssessment(ProjectId);
     }  ///////////////////////////////return 0//////////////////////////////////
 
     @GET

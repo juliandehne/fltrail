@@ -17,7 +17,7 @@ public interface IPeerAssessment {
      */
     void addAssessmentDataToDB(Assessment assessment);
 
-    Quiz getQuiz(String projectId, String groupId);
+    Quiz getQuiz(String projectId, String groupId, String author);
     /**
      * will return a saved assessment from the DB
      *
@@ -56,7 +56,7 @@ public interface IPeerAssessment {
      * @param ProjectId
      * @return
      */
-    int meanOfAssessement(String ProjectId);
+    int meanOfAssessment(String ProjectId);
 
     /**
      * returns all quizzes in a project

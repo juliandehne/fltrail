@@ -2,6 +2,7 @@ $(document).ready(function(){
     var projectId = document.getElementById('projectId').innerText.trim();
     $.ajax({
         url: '../rest/assessments/project/'+projectId+'/quiz/',
+        projectId: projectId,
         type: 'GET',
         success: function (data) {
             var table = document.getElementById('myQuizzes');
@@ -11,7 +12,10 @@ $(document).ready(function(){
                 var trQuestion = document.createElement('TR');
                 trQuestion.className="pageChanger";
                 trQuestion.innerHTML = '<td colspan="' + colspan + '"><h3>' +
-                    '<a href="viewQuiz.jsp?token='+getUserTokenFromUrl()+'&quizId='+ encodeURIComponent(data[quiz].question) + '"</a>' +
+                    '<a href="viewQuiz.jsp' +
+                    '?token='+getUserTokenFromUrl()+
+                    '&projectId='+projectId+
+                    '&quizId='+ encodeURIComponent(data[quiz].question)+'"</a>' +
                     data[quiz].question+'</h3></td>';
                 table.appendChild(trQuestion);
             }

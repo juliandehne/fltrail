@@ -1,3 +1,7 @@
+$(document).ready(function(){
+    $('#headLineProject').html($('#projectId').html());
+});
+
 function getUserTokenFromUrl() {
     var parts = window.location.search.substr(1).split("&");
     var $_GET = {};

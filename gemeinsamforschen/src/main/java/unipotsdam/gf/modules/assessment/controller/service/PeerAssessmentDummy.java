@@ -13,7 +13,7 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
-    public Quiz getQuiz(String projectId, String quizId) {
+    public Quiz getQuiz(String projectId, String quizId, String author) {
         ArrayList<String> correctAnswers = new ArrayList<String>();
         ArrayList<String> incorrectAnswers = new ArrayList<String>();
         Quiz sampleQuiz;
@@ -118,7 +118,7 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
-    public int meanOfAssessement(String ProjectId) {
+    public int meanOfAssessment(String ProjectId) {
         return 0;
     }
 }

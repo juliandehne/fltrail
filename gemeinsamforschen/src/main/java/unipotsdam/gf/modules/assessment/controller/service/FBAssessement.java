@@ -16,7 +16,7 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public Quiz getQuiz(String projectId, String groupId) {
+    public Quiz getQuiz(String projectId, String groupId, String author) {
         return null;
     }
 
@@ -44,7 +44,7 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public int meanOfAssessement(String projectId) {
+    public int meanOfAssessment(String projectId) {
         return 0;
     }
 
