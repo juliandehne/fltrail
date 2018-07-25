@@ -6,6 +6,7 @@ import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,13 @@ public class QuizView implements IPeerAssessment {
     @Path("/project/{projectId}/quiz/{quizId}/author/{author}")
     @Override
     public Quiz getQuiz(@PathParam("projectId") String projectId, @PathParam("quizId") String quizId, @PathParam("author") String author) {
-        return peer.getQuiz(projectId, quizId, author);
-    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
+        try{
+            String question=java.net.URLDecoder.decode(quizId,"UTF-8");
+            return peer.getQuiz(projectId, question, author);
+        }catch(UnsupportedEncodingException e){
+            throw new AssertionError("UTF-8 is unknown");
+        }
+    }  ///////////////////////////////funktioniert//////////////////////////////////
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -44,7 +50,12 @@ public class QuizView implements IPeerAssessment {
     @Path("/quiz/{quizId}")
     @Override
     public void deleteQuiz(@PathParam("quizId") String quizId) {
-        peer.deleteQuiz(quizId);
+        try {
+            String question = java.net.URLDecoder.decode(quizId, "UTF-8");
+            peer.deleteQuiz(question);
+        }catch(UnsupportedEncodingException e){
+            throw new AssertionError("UTF-8 is unknown");
+        }
     }
     ////////////////////////////funktioniert////////////////////////////////////////////////////////
 
@@ -57,7 +68,6 @@ public class QuizView implements IPeerAssessment {
         peer.addAssessmentDataToDB(assessment);
     }
 
-
     @Override
     public Assessment getAssessmentDataFromDB(StudentIdentifier student){
         return peer.getAssessmentDataFromDB(student);
@@ -65,7 +75,7 @@ public class QuizView implements IPeerAssessment {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/project/{projectId}/student/{studentId}")
+    @Path("/get/project/{projectId}/student/{studentId}")
     public Assessment getAssessmentDataFromDB(@PathParam("projectId") String projectId,@PathParam("studentId") String studentId){
         StudentIdentifier student = new StudentIdentifier(projectId, studentId);
         return getAssessmentDataFromDB(student);

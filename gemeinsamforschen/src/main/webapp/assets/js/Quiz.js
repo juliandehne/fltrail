@@ -26,6 +26,6 @@ $(document).ready(function(){
     });
 
     $('#newQuiz').on('click', function(){
-        location.href="createQuiz.jsp?token="+getUserTokenFromUrl();
+        location.href="createQuiz.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
     });
 });

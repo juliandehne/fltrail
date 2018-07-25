@@ -61,12 +61,11 @@ $(document).ready(function () {
             },
             type: 'POST',
             success: function(){
-
+                location.href="Quiz.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
         },
         error: function(a){
 
         }
         });
-       //document.location = "Quiz.jsp?token=" + getUserTokenFromUrl();
     });
 });

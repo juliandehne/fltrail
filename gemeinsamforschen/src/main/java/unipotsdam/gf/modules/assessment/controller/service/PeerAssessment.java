@@ -26,7 +26,7 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
-        return null;
+        return new AssessmentDBCommunication().getAssessment(student);
     }
 
     @Override

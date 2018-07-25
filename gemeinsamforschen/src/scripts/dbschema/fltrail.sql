@@ -146,3 +146,18 @@ CREATE TABLE if not exists quiz
   ENGINE = InnoDB
 
   DEFAULT CHARSET = utf8;
+
+CREATE TABLE if not exists grades
+
+(
+
+  projectId varchar(400) NOT NULL,
+
+  studentId varchar(400) NOT NULL,
+
+  grade double NOT NULL
+)
+
+  ENGINE = InnoDB
+
+  DEFAULT CHARSET = utf8;

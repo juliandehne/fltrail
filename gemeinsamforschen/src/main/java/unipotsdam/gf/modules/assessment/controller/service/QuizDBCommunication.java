@@ -2,7 +2,6 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 
 import javax.annotation.ManagedBean;
@@ -59,6 +58,7 @@ public class QuizDBCommunication {
         String oldQuestion="";
         Boolean correct;
         String mcType = "";
+        Quiz quiz =null;
         while (next) {
             mcType = vereinfachtesResultSet.getString("mcType");
             question = vereinfachtesResultSet.getString("question");
@@ -71,9 +71,11 @@ public class QuizDBCommunication {
                     incorrectAnswers.add(answer);
                 }
             }else{
-                result.add(new Quiz(mcType,question, correctAnswers, incorrectAnswers));
-                correctAnswers.clear();
-                incorrectAnswers.clear();
+                quiz = new Quiz(mcType,oldQuestion, correctAnswers, incorrectAnswers);
+                result.add(quiz);
+                quiz=null;
+                correctAnswers=new ArrayList<String>();
+                incorrectAnswers=new ArrayList<String>();
                 if (correct){
                     correctAnswers.add(answer);
                 }else{
@@ -84,6 +86,8 @@ public class QuizDBCommunication {
             oldQuestion = question;
             next = vereinfachtesResultSet.next();
         }
+        quiz = new Quiz(mcType,oldQuestion, correctAnswers, incorrectAnswers);
+        result.add(quiz);
         return result;
     }
 

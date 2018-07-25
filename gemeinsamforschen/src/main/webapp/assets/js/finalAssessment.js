@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $('#notAllRated').hide();
     $(".carousel").carousel({
         interval: false
     });
@@ -7,21 +8,34 @@ $(document).ready(function() {
     });
 });
 
-function getUser(){//todo: you can see what you need to do
-    return "dummy";
-}
-
 function assessPeer(){
+    ///////initialize variables///////
     var peerRating = {
-        "fromPeer": getUser(),
+        "fromPeer": $('#user').html().trim(),
         "toPeer": "",
         "workRating": []
     };
     var dataP = [];
+    var workRating = [];
+    var rateThis = ['responsibility','partOfWork','cooperation','communication','autonomous'];
+
+    ///////read values from html///////
     var peerStudents =$('.peerStudent');
-    for (var i=0; i< peerStudents.length; i++){
-        peerRating.toPeer = peerStudents[i].id;
-        peerRating.workRating = [5,4,3,2]
+    for (var peer=0; peer< peerStudents.length; peer++){
+        for (var rate=0; rate<rateThis.length; rate++ ){
+            workRating.push($('input[name='+rateThis[rate]+peerStudents[peer].id+']:checked').val());
+        }
+        for (var i=0; i<workRating.length; i++){
+            if(workRating[i]===undefined){
+                $('#notAllRated').show();
+                return;
+            }
+        }
+        peerRating.toPeer = peerStudents[peer].id;
+        peerRating.workRating = workRating;
+        workRating=[];
+        //////write values in Post-Variable
+        dataP.push(peerRating);
     }
     dataP.push(peerRating);
     $.ajax({
