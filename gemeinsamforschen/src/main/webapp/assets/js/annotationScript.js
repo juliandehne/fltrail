@@ -1,16 +1,19 @@
-// initialize userId, userColors and targetId
-var userId = randomUserId();
+// initialize userToken, userColors and targetId
+var userToken = getUserTokenFromUrl();
 var userColors = new Map();
 var userColorsDark = new Map();
 var targetId = 200;
 
-// declare document text
-var documentText;
+// declare document text, start and end character
+var documentText, startCharacter, endCharacter;
 
 /**
  * This function will fire when the DOM is ready
  */
 $(document).ready(function() {
+
+    // connect to websocket on page ready
+    connect(targetId);
 
     /**
      * Context menu handler
@@ -19,30 +22,16 @@ $(document).ready(function() {
         selector: '.context-menu-one',
         callback: function(key, options) {
 
-            // close context menu
-            window.close;
+            // action for 'annotation' click
+            if (key == 'annotation') {
+                // show modal if something is selected
+                if (getSelectedText().length > 0) {
+                    startCharacter = window.getSelection().getRangeAt(0).startOffset;
+                    endCharacter = window.getSelection().getRangeAt(0).endOffset;
 
-            // initialize selected body
-            var body = getSelectedText();
-
-            // if user selected something
-            if (body.length > 0) {
-                // annotationPostRequest
-                var request = {
-                    userId: userId,
-                    targetId: targetId,
-                    body: body,
-                    startCharacter: window.getSelection().getRangeAt(0).startOffset,
-                    endCharacter: window.getSelection().getRangeAt(0).endOffset
-                };
-
-                console.log(request);
-
-                createAnnotation(request, function(response) {
-                    // display the new annotation
-                    displayAnnotation(response);
-
-                });
+                    // display annotation create modal
+                    $('#annotation-create-modal').modal("show");
+                }
             }
 
         },
@@ -58,6 +47,160 @@ $(document).ready(function() {
         location.href="givefeedback.jsp?token=" + getUserTokenFromUrl();
     });
 
+    /**
+     * validation of annotation create form inside the modal
+     */
+    $('#annotation-create-form').validate({
+        rules: {
+            title: {
+                required: true,
+                maxlength: 120
+            },
+            comment: {
+                required: true,
+                maxlength: 400
+            }
+        },
+        messages: {
+            title: {
+                required: "Ein Titel wird benötigt",
+                maxlength: "Maximal 120 Zeichen erlaubt"
+            },
+            comment: {
+                required: "Ein Kommentar wird benötigt",
+                maxlength: "Maximal 400 Zeichen erlaubt"
+            }
+        }
+    });
+
+    /**
+     * validation of annotation edit form inside the modal
+     */
+    $('#annotation-edit-form').validate({
+        rules: {
+            title: {
+                required: true,
+                maxlength: 120
+            },
+            comment: {
+                required: true,
+                maxlength: 400
+            }
+        },
+        messages: {
+            title: {
+                required: "Ein Titel wird benötigt",
+                maxlength: "Maximal 120 Zeichen erlaubt"
+            },
+            comment: {
+                required: "Ein Kommentar wird benötigt",
+                maxlength: "Maximal 400 Zeichen erlaubt"
+            }
+        }
+    });
+
+    /**
+     * Save button of the annotation create modal
+     * hide modal and build new annotation
+     */
+    $('#btnSave').click(function () {
+        if ($('#annotation-create-form').valid()) {
+            // get title and comment from form
+            var title = $('#annotation-form-title').val();
+            var comment = $('#annotation-form-comment').val();
+
+            // hide and clear the modal
+            $('#annotation-create-modal').modal('hide');
+
+            // save the new annotation in db and display it
+            saveNewAnnotation(title, comment, startCharacter, endCharacter);
+        }
+    });
+
+    /**
+     * Edit button of the annotation edit modal
+     * hide modal and alter the annotation
+     */
+    $('#btnEdit').click(function () {
+        if ($('#annotation-edit-form').valid()) {
+            // get title and comment from clicked annotation card
+            var id = $('#annotation-edit-modal').data('id');
+            var card = $('#' + id);
+            var title = card.find('.annotation-header-data-title').text();
+            var comment = card.find('.annotation-body-text').text();
+
+            // get title and comment from form
+            var newTitle = $('#annotation-edit-form-title').val();
+            var newComment = $('#annotation-edit-form-comment').val();
+
+            // compare new and old card content
+            if (title !== newTitle || comment !== newComment) {
+
+                // build patch request
+                var annotationPatchRequest = {
+                    title: newTitle,
+                    comment: newComment
+                };
+                // send alter request to server
+                alterAnnotation(id, annotationPatchRequest, function (response) {
+                    // send altered annotation to websocket
+                    send("EDIT", id);
+
+                    // alter the annotation card
+                    card.find('.annotation-header-data-title').text(newTitle);
+                    card.find('.annotation-body-text').text(newComment);
+
+                    // handle drop down button
+                    showAndHideToggleButton();
+
+                    // hide and clear the modal
+                    $('#annotation-edit-modal').modal('hide');
+                })
+            }
+        }
+    });
+
+    /**
+     * Delete an annotation from list and server
+     */
+    $('#btnDelete').click(function () {
+        // get id from edit modal
+        var id = $('#annotation-edit-modal').data('id');
+
+        // delte annotation from server and from list
+        deleteAnnotation(id, function () {
+            // send delete request to websocket
+            send("DELETE", id);
+            // remove annotation from list
+            $('#' + id).closest('.listelement').remove()
+            // remove highlighted text
+            deleteHighlightedText();
+
+            // hide and clear the modal
+            $('#annotation-edit-modal').modal('hide');
+        })
+    });
+
+    /**
+     * Clear the title and comment input field of the create modal
+     */
+    $('#annotation-create-modal').on('hidden.bs.modal', function(){
+        // clear title
+        $('#annotation-form-title').val('');
+        // clear comment
+        $('#annotation-form-comment').val('')
+    });
+
+    /**
+     * Clear the title and comment input field of the edit modal
+     */
+    $('#annotation-edit-modal').on('hidden.bs.modal', function(e){
+        // clear title
+        $('#annotation-edit-form-title').val('');
+        // clear comment
+        $('#annotation-edit-form-comment').val('')
+    });
+
     documentText = $('#documentText').html();
 
     // fetch annotations from server on page start
@@ -66,108 +209,19 @@ $(document).ready(function() {
         $.each(response, function (i, annotation) {
             displayAnnotation(annotation);
         })
+        // handle drop down button
+        showAndHideToggleButton();
     });
 
 });
 
 /**
- * POST: Save an annotation in the database
- *
- * @param annotationPostRequest The post request
- * @param responseHandler The response handler
+ * This will be called on page resize
  */
-function createAnnotation(annotationPostRequest, responseHandler) {
-    var url = "http://localhost:8080/rest/annotations/";
-    var json = JSON.stringify(annotationPostRequest);
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: json,
-        contentType: "application/json",
-        dataType: "json",
-        success: function (response) {
-            responseHandler(response);
-        }
-    });
-}
-
-/**
- * PATCH: Alter an annotation in database
- *
- * @param id The annotation id
- * @param annotationPatchRequest The patch request
- * @param responseHandler The response handler
- */
-function alterAnnotation(id, annotationPatchRequest, responseHandler) {
-    var url = "http://localhost:8080/rest/annotations/" + id;
-    var json = JSON.stringify(annotationPatchRequest);
-    $.ajax({
-        url: url,
-        type: "PATCH",
-        data: json,
-        contentType: "application/json",
-        dataType: "json",
-        success: function (response) {
-            responseHandler(response);
-        }
-    });
-}
-
-/**
- * DELETE: Delete an annotation from database
- *
- * @param id The annotation id
- */
-function deleteAnnotation(id) {
-    var url = "http://localhost:8080/rest/annotations/" + id;
-    $.ajax({
-        url: url,
-        type: "DELETE",
-        dataType: "json",
-        success: function (response) {
-            // Nothing to do
-        }
-    });
-}
-
-/**
- * GET: Get all annotations from database for a specific target
- *
- *
- * @param targetId The target id
- * @param responseHandler The response handler
- */
-function getAnnotations(targetId, responseHandler) {
-    var url = "http://localhost:8080/rest/annotations/target/" + targetId;
-    $.ajax({
-        url: url,
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-            // sort the responding annotations by timestamp (DESC)
-            response.sort(function (a, b) {
-                return a.timestamp - b.timestamp;
-            });
-            // handle the response
-            responseHandler(response);
-        }
-    });
-}
-
-/**
- * Delete annotation from list
- *
- * @param elem The parent li element
- * @param id The id of the annotation
- */
-function deleteAnnotationHandler(elem, id) {
-    // remove annotation from list
-    elem.remove()
-    // remove highlighted text
-    deleteHighlightedText();
-    // remove annotation from database
-    deleteAnnotation(id)
-}
+$( window ).resize(function() {
+    // handle drop down button for every annotation
+    showAndHideToggleButton();
+});
 
 /**
  * Display annotation in the list
@@ -178,7 +232,7 @@ function displayAnnotation(annotation) {
     // fetch list of annotations
     var list = $('#annotations')
 
-    var deleteIcon = "fas fa-trash";
+    var editIcon = "fas fa-edit";
     var dateIcon = "fas fa-calendar";
     if (isTimestampToday(annotation.timestamp)) {
         dateIcon = "fas fa-clock";
@@ -186,44 +240,52 @@ function displayAnnotation(annotation) {
 
     // insert annotation card
     list.prepend(
+        // list element
         $('<li>')
             .attr('class', 'listelement')
             .append(
+                // annotation card
                 $('<div>').attr('class', 'annotation-card')
+                    .attr('id', annotation.id)
                     .mouseenter(function () {
-                        $(this).children('.annotation-header').css('background-color', getDarkUserColor(annotation.userId));
+                        $(this).children('.annotation-header').css('background-color', getDarkUserColor(annotation.userToken));
                     })
                     .mouseleave(function () {
-                        $(this).children('.annotation-header').css('background-color', getUserColor(annotation.userId));
+                        $(this).children('.annotation-header').css('background-color', getUserColor(annotation.userToken));
                     })
                     .append(
+                        // annotation header
                         $('<div>').attr('class', 'annotation-header')
-                            .css('background-color', getUserColor(annotation.userId))
+                            .css('background-color', getUserColor(annotation.userToken))
                             .append(
-                                $('<div>').attr('class', 'annotation-header-title')
+                                // header data
+                                $('<div>').attr('class', 'annotation-header-data')
                                     .append(
+                                        // user
                                         $('<div>').attr('class', 'overflow-hidden')
                                             .append(
                                                 $('<i>').attr('class', 'fas fa-user')
                                             )
                                             .append(
-                                                $('<span>').append(annotation.userId)
+                                                $('<span>').append(annotation.userToken)
                                             )
                                     )
                                     .append(
+                                        // title
                                         $('<div>').attr('class', 'overflow-hidden')
                                             .append(
                                                 $('<i>').attr('class', 'fas fa-bookmark')
                                             )
                                             .append(
-                                                $('<span>').append('title' + annotation.userId)
+                                                $('<span>').attr('class', 'annotation-header-data-title').append(annotation.body.title)
                                             )
                                     )
                             )
                             .append(
+                                // unfold button
                                 $('<div>').attr('class', 'annotation-header-toggle')
                                     .click(function () {
-                                        toggleButtonHandler($(this));
+                                        toggleButtonHandler(annotation.id);
                                     })
                                     .append(
                                         $('<i>').attr('class', 'fas fa-chevron-down')
@@ -231,28 +293,32 @@ function displayAnnotation(annotation) {
                             )
                     )
                     .append(
+                        // annotation body
                         $('<div>').attr('class', 'annotation-body')
                             .append(
-                                $('<p>').attr('class', 'overflow-hidden').append(annotation.body)
+                                $('<p>').attr('class', 'overflow-hidden annotation-body-text').append(annotation.body.comment)
                             )
                     )
                     .append(
+                        // annotation footer
                         $('<div>').attr('class', 'annotation-footer')
                             .append(
+                                // edit
                                 function () {
-                                    if (userId == annotation.userId) {
-                                        return $('<div>').attr('class', 'annotation-footer-delete')
+                                    if (userToken == annotation.userToken) {
+                                        return $('<div>').attr('class', 'annotation-footer-edit')
                                             .append(
-                                                $('<i>').attr('class', deleteIcon)
+                                                $('<i>').attr('class', editIcon)
                                             )
                                             .click(function () {
-                                                deleteAnnotationHandler($(this).closest('li'), annotation.id)
+                                                editAnnotationHandler(annotation.id)
                                             })
                                     }
                                 }
                             )
                             .append(
-                                $('<div>').attr('class', 'annotation-footer-date overflow-hidden')
+                                // timestamp
+                                $('<div>').attr('class', 'flex-one overflow-hidden')
                                     .append(
                                         $('<i>').attr('class', dateIcon)
                                     )
@@ -266,7 +332,7 @@ function displayAnnotation(annotation) {
             )
             .data('annotation', annotation)
             .mouseenter(function () {
-                addHighlightedText(annotation.startCharacter, annotation.endCharacter, annotation.userId);
+                addHighlightedText(annotation.body.startCharacter, annotation.body.endCharacter, annotation.userToken);
             })
             .mouseleave(function () {
                 deleteHighlightedText();
@@ -284,11 +350,11 @@ function displayAnnotation(annotation) {
  *
  * @param startCharacter The offset of the start character
  * @param endCharacter The offset of the end character
- * @param userId The user id
+ * @param userToken The user token
  */
-function addHighlightedText(startCharacter, endCharacter, userId) {
+function addHighlightedText(startCharacter, endCharacter, userToken) {
     // create <span> tag with the annotated text
-    var replacement = $('<span></span>').css('background-color', getUserColor(userId)).html(documentText.slice(startCharacter, endCharacter));
+    var replacement = $('<span></span>').css('background-color', getUserColor(userToken)).html(documentText.slice(startCharacter, endCharacter));
 
     // wrap an <p> tag around the replacement, get its parent (the <p>) and ask for the html
     var replacementHtml = replacement.wrap('<p/>').parent().html();
@@ -327,39 +393,39 @@ function getSelectedText() {
 /**
  * Get color based on user id
  *
- * @param userId The id of the user
+ * @param userToken The id of the user
  * @returns {string} The user color
  */
-function getUserColor(userId) {
-    // insert new color if there is no userId key
-    if (userColors.get(userId) == null) {
-        generateRandomColor(userId);
+function getUserColor(userToken) {
+    // insert new color if there is no userToken key
+    if (userColors.get(userToken) == null) {
+        generateRandomColor(userToken);
     }
     // return the color
-    return userColors.get(userId);
+    return userColors.get(userToken);
 }
 
 /**
  * Get dark color based on user id
  *
- * @param userId The id of the user
+ * @param userToken The token of the user
  * @returns {string} The dark user color
  */
-function getDarkUserColor(userId) {
-    // insert new color if there is no userId key
-    if (userColorsDark.get(userId) == null) {
-        generateRandomColor(userId);
+function getDarkUserColor(userToken) {
+    // insert new color if there is no userToken key
+    if (userColorsDark.get(userToken) == null) {
+        generateRandomColor(userToken);
     }
     // return the color
-    return userColorsDark.get(userId);
+    return userColorsDark.get(userToken);
 }
 
 /**
  * Generate a random color of the format 'rgb(r, g, b)'
  *
- * @param userId The given user id
+ * @param userToken The given user token
  */
-function generateRandomColor(userId) {
+function generateRandomColor(userToken) {
     var r = Math.floor(Math.random()*56)+170;
     var g = Math.floor(Math.random()*56)+170;
     var b = Math.floor(Math.random()*56)+170;
@@ -370,8 +436,8 @@ function generateRandomColor(userId) {
     var color = 'rgb(' + r + ',' + g + ',' + b + ')';
     var colorDark = 'rgb(' + r_d + ',' + g_d + ',' + b_d + ')';
 
-    userColors.set(userId, color);
-    userColorsDark.set(userId, colorDark);
+    userColors.set(userToken, color);
+    userColorsDark.set(userToken, colorDark);
 }
 
 /**
@@ -386,29 +452,27 @@ function timestampToReadableTime(timestamp) {
     // declare response
     var responseTimestamp;
 
+    // get hours from date
+    var hours = "0" + annotationDate.getHours();
+    // get minutes from date
+    var minutes = "0" + annotationDate.getMinutes();
+
     // if annotation is from today
     if (isTimestampToday(timestamp)) {
-        // get hours from date
-        var hours = annotationDate.getHours();
-        // get minutes from date
-        var minutes = "0" + annotationDate.getMinutes();
-        // get seconds from date
-        // var seconds = "0" + annotationDate.getSeconds();
-
-        // build readable timestamp
-        responseTimestamp = hours + ":" + minutes.substr(-2);
+        // build readable timestamp in format HH:mm
+        responseTimestamp = hours.substr(-2) + ":" + minutes.substr(-2);
     }
     // else annotation is not from today
     else {
         // get date
-        var date = annotationDate.getDate();
+        var date = "0" + annotationDate.getDate();
         // get month
-        var month = annotationDate.getMonth();
+        var month = "0" + annotationDate.getMonth();
         // get year
-        var year = annotationDate.getFullYear();
+        var year = "" + annotationDate.getFullYear();
 
-        // build readable timestamp
-        responseTimestamp = date + "." + month + "." + year;
+        // build readable timestamp dd.MM.yy HH:mm
+        responseTimestamp = date.substr(-2) + "." + month.substr(-2) + "." + year.substr(-2) + " " + hours.substr(-2) + ":" + minutes.substr(-2);
     }
 
     return responseTimestamp;
@@ -438,19 +502,141 @@ function isTimestampToday(timestamp) {
 /**
  * Toggle between the toggle button status
  *
- * @param element The given toggle button
+ * @param id The id of the clicked annotation
  */
-function toggleButtonHandler(element) {
+function toggleButtonHandler(id) {
+    // the clicked annotation card
+    var card = $('#' + id);
     // open and close annotation text
-    element.parent().siblings(".annotation-body").children("p").toggleClass("overflow-hidden");
+    card.find(".annotation-body").children("p").toggleClass("overflow-hidden");
     // toggle between up and down button
-    element.children("i").toggleClass("fa-chevron-down fa-chevron-up")
+    card.find('.annotation-header-toggle').children("i").toggleClass("fa-chevron-down fa-chevron-up")
 }
 
-/*
-    MOCKUP FUNCTIONS
+/**
+ * Save a new annotation in database and list
+ *
+ * @param title The title of the new annotation
+ * @param comment The comment of the new annotation
+ * @param startCharacter The startCharacter based on the annotated text
+ * @param endCharacter The endCharacter based on the annotated text
  */
-function randomUserId() {
-    return Math.floor((Math.random() * 12) + 1);;
+function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
+    // build annotationPostRequest
+    var annotationPostRequest = {
+        userToken: userToken,
+        targetId: targetId,
+        body: {
+            title: title,
+            comment: comment,
+            startCharacter: startCharacter,
+            endCharacter: endCharacter
+        }
+    };
+
+    // send new annotation to back-end and display it in list
+    createAnnotation(annotationPostRequest, function(response) {
+        // send new annotation to websocket
+        send("CREATE", response.id);
+        // display the new annotation
+        displayAnnotation(response);
+
+    });
 }
 
+/**
+ * Open edit modal with title and comment from given card
+ *
+ * @param id The id of the clicked annotation
+ */
+function editAnnotationHandler(id) {
+    // the clicked annotation card
+    var card = $('#' + id);
+    // get title and comment
+    var title = card.find('.annotation-header-data-title').text();
+    var comment = card.find('.annotation-body-text').text();
+
+    // set title and comment
+    $('#annotation-edit-form-title').val(title);
+    $('#annotation-edit-form-comment').val(comment);
+
+    // display annotation edit modal and pass id
+    $('#annotation-edit-modal').data('id', id).modal("show");
+}
+
+/**
+ * Change title and comment from annotation by given annotation
+ *
+ * @param annotation The given altered annotation
+ */
+function editAnnotationValues(annotation) {
+    // find annotation
+    var annotationElement =  $('#' + annotation.id);
+
+    // set title and comment
+    annotationElement.find('.annotation-header-data-title').text(annotation.body.title);
+    annotationElement.find('.annotation-body-text').text(annotation.body.comment);
+
+    // handle drop down button
+    showAndHideToggleButtonById(annotation.id);
+}
+
+/**
+ * Show or hide the drop down button for every annotation card.
+ * Call this on page resize and after annotations GET
+ */
+function showAndHideToggleButton() {
+    // iterate over each annotation card
+    $('#annotations').find('li').each(function () {
+
+        // find the comment element, clone and hide it
+        var comment = $(this).find('.annotation-body').children('p');
+        var clone = comment.clone()
+            .css({display: 'inline', width: 'auto', visibility: 'hidden'})
+            .appendTo('body');
+        var cloneWidth = clone.width();
+
+        // remove the element from the page
+        clone.remove();
+
+        // show drop down button only if text was truncated
+        if(cloneWidth > comment.width()) {
+            $(this).find('.annotation-header-toggle').show();
+            $(this).find('.annotation-header-data').css('width', 'calc(100% - 40px)');
+        }
+        else {
+            $(this).find('.annotation-header-toggle').hide();
+            $(this).find('.annotation-header-data').css('width', '100%');
+        }
+
+    })
+}
+
+/**
+ * Show or hide the drop down button for a given annotation card.
+ *
+ * @param id The id of the annotation
+ */
+function showAndHideToggleButtonById(id) {
+    // find annotation
+    var annotationElement =  $('#' + id);
+    // find the comment element, clone and hide it
+    var comment = annotationElement.find('.annotation-body').children('p');
+    var clone = comment.clone()
+        .css({display: 'inline', width: 'auto', visibility: 'hidden'})
+        .appendTo('body');
+    var cloneWidth = clone.width();
+
+    // remove the element from the page
+    clone.remove();
+
+    // show drop down button only if text was truncated
+    if(cloneWidth > comment.width()) {
+        annotationElement.find('.annotation-header-toggle').show();
+        annotationElement.find('.annotation-header-data').css('width', 'calc(100% - 40px)');
+    }
+    else {
+        annotationElement.find('.annotation-header-toggle').hide();
+        annotationElement.find('.annotation-header-data').css('width', '100%');
+    }
+}

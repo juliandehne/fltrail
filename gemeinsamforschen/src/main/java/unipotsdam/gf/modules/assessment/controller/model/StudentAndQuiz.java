@@ -1,5 +1,9 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
+
+/**
+ * TODO @Axel: Normally a quiz would have a student field property instead of creating a new class
+ */
 public class StudentAndQuiz {
     @Override
     public String toString() {

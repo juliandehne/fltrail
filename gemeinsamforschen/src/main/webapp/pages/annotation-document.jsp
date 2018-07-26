@@ -24,6 +24,8 @@
 
     <!-- js - jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- js - jQuery validation plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
     <!-- js - bootstrap -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- js - jQuery ui position -->
@@ -32,6 +34,10 @@
     <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
     <!-- js - utility script -->
     <script src="../assets/js/utility.js"></script>
+    <!-- js - annotation websocket script -->
+    <script src="../assets/js/annotationWebsocket.js"></script>
+    <!-- js - annotation REST script -->
+    <script src="../assets/js/annotationRest.js"></script>
     <!-- js - annotationScript -->
     <script src="../assets/js/annotationScript.js"></script>
 
@@ -43,7 +49,7 @@
         <div class="page-content-wrapper full-height">
             <div class="container-fluid full-height">
                 <div class="container-fluid-content">
-                    <div class="content-header">
+                    <div class="flex">
                         <h1>gemeinsam Forschen
                             <a href="#">
                     <span class="glyphicon glyphicon-envelope"
@@ -73,6 +79,70 @@
                                 <ol id="annotations">
                                 </ol>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- annotation create modal -->
+        <div id="annotation-create-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content">
+
+                    <!-- modal header -->
+                    <div class="modal-header flex">
+                        <h4 class="modal-title flex-one">Annotation</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- modal body -->
+                    <div class="modal-body">
+                        <form id="annotation-create-form">
+                            <div class="form-group">
+                                <label for="annotation-form-title" class="col-form-label">Titel:</label>
+                                <input type="text" class="form-control" id="annotation-form-title" name="title">
+                            </div>
+                            <div class="form-group">
+                                <label for="annotation-form-comment" class="col-form-label">Kommentar:</label>
+                                <textarea class="form-control resize-vertical" id="annotation-form-comment" name="comment"></textarea>
+                            </div>
+                        </form>
+                        <!-- modal footer -->
+                        <div class="modal-footer">
+                            <button id="btnSave" type="button" class="btn btn-success">Speichern</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- annotation edit modal -->
+        <div id="annotation-edit-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content">
+
+                    <!-- modal header -->
+                    <div class="modal-header flex">
+                        <h4 class="modal-title flex-one">Annotation bearbeiten</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- modal body -->
+                    <div class="modal-body">
+                        <form id="annotation-edit-form">
+                            <div class="form-group">
+                                <label for="annotation-form-title" class="col-form-label">Titel:</label>
+                                <input type="text" class="form-control" id="annotation-edit-form-title" name="title">
+                            </div>
+                            <div class="form-group">
+                                <label for="annotation-form-comment" class="col-form-label">Kommentar:</label>
+                                <textarea class="form-control resize-vertical" id="annotation-edit-form-comment" name="comment"></textarea>
+                            </div>
+                        </form>
+                        <!-- modal footer -->
+                        <div class="modal-footer">
+                            <button id="btnDelete" type="button" class="btn btn-danger">Löschen</button>
+                            <button id="btnEdit" type="button" class="btn btn-success">Bearbeiten</button>
                         </div>
                     </div>
                 </div>

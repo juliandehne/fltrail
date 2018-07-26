@@ -9,6 +9,8 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
+
+// TODO: please move this to a view package at the top of the hierarchy as this is not part of the user package
 public class Menu extends SimpleTagSupport {
     public void doTag() throws JspException, IOException {
         PageContext pageContext = (PageContext) getJspContext();

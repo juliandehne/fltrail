@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
@@ -55,6 +56,11 @@ public class FBAssessement extends AssessmentDAO {
 
     @Override
     public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
+
+    }
+
+    @Override
+    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
 
     }
 }

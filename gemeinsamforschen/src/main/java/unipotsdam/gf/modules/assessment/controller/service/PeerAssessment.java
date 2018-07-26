@@ -1,10 +1,9 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +53,11 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
+
+    }
+
+    @Override
+    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
 
     }
 }

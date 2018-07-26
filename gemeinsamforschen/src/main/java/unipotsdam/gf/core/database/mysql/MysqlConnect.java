@@ -3,13 +3,15 @@ package unipotsdam.gf.core.database.mysql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFDatabaseConfig;
+import unipotsdam.gf.modules.communication.view.CommunicationView;
 
 import java.sql.*;
 import java.util.Date;
 
 public class MysqlConnect {
 
-	private final Logger log = LoggerFactory.getLogger(MysqlConnect.class);
+	private static final Logger log = LoggerFactory.getLogger(MysqlConnect.class);
+
 	public Connection conn = null;
 
 	private static String createConnectionString() {
@@ -28,7 +30,7 @@ public class MysqlConnect {
 			} catch (ClassNotFoundException ex) {
 				System.out.println(ex); //logger?
 			}
-			conn = DriverManager.getConnection(MysqlConnect.createConnectionString());
+			conn = DriverManager.getConnection(createConnectionString());
 		} catch (SQLException ex) {
 			System.out.println("SQLException: " + ex.getMessage());
 			System.out.println("SQLState: " + ex.getSQLState());
@@ -43,71 +45,77 @@ public class MysqlConnect {
 			if (conn != null) {
 				conn.close();
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
+			log.error(e.toString());
 			throw new Error("could not close mysql");
 		}
 	}
 
-	private PreparedStatement addParameters(String statement, Object[] args) {
+	private PreparedStatement addParameters(final String statement, final Object[] args) {
 		try {
-			PreparedStatement ps = conn.prepareStatement(statement);
+			final PreparedStatement ps = conn.prepareStatement(statement);
 			if (args != null) {
 				for (int i = 0; i < args.length; i++) {
-					Object arg = args[i];
+					final Object arg = args[i];
 					setParam(ps, arg, i + 1);
 				}
 			}
 			return ps;
 		} catch (SQLException ex) {
+			log.error(ex.toString());
 			System.out.println(ex);
 		}
 		return null;
 	}
 
 
-	public VereinfachtesResultSet issueSelectStatement(String statement, Object... args) {
+	public VereinfachtesResultSet issueSelectStatement(final String statement, final Object... args) {
 		try {
 			PreparedStatement ps = addParameters(statement, args);
 			ResultSet queryResult = ps.executeQuery();
 			return new VereinfachtesResultSet(queryResult);
 		} catch (SQLException ex) {
+			log.error(ex.toString());
 			System.out.println(ex);
 		}
 		return null;
 	}
 
 
-	public void otherStatements(String statement) {
+	public void otherStatements(final String statement) {
 		try {
-			conn.createStatement().execute(statement);
+			this.conn.createStatement().execute(statement);
 		} catch (SQLException ex) {
+			log.error(ex.toString());
 			System.out.println(ex);
 		}
 	}
 
 
-	public Integer issueUpdateStatement(String statement, Object... args) {
+	public Integer issueUpdateStatement(final String statement, final Object... args) {
 		PreparedStatement ps = addParameters(statement, args);
-		log.debug("Statement:" + ps.toString());
 		try {
 			return ps.executeUpdate();
 		} catch (SQLException ex) {
+			log.error(ex.toString());
 			System.out.println(ex);
 		}
 		return null;
 	}
 
 
-	public void issueInsertOrDeleteStatement(String statement, Object... args) {
+	public void issueInsertOrDeleteStatement(final String statement, final Object... args) {
 		PreparedStatement ps = addParameters(statement, args);
 		try {
 			ps.execute();
 		} catch (SQLException ex) {
+
+			log.error(ex.toString());
 			System.out.println(ex);
 		}
 	}
 
-	private void setParam(PreparedStatement ps, Object arg, int i) throws SQLException {
+	private void setParam(final PreparedStatement ps, final Object arg, final int i) throws SQLException {
 		if (arg instanceof String) {
 			ps.setString(i, (String) arg);
 		} else if (arg instanceof Integer) {
@@ -127,7 +135,7 @@ public class MysqlConnect {
 		} else if (arg instanceof Character) {
 			ps.setString(i, arg.toString());
 		} else if (arg instanceof Date) {
-			java.sql.Date d = new java.sql.Date(((Date) arg).getTime());
+			final java.sql.Date d = new java.sql.Date(((Date) arg).getTime());
 			ps.setDate(i, d);
 		} else if (arg == null) {
 			ps.setNull(i, Types.NULL);

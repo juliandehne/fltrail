@@ -2,7 +2,10 @@ package unipotsdam.gf.modules.communication.service;
 
 import unipotsdam.gf.config.Constants;
 import unipotsdam.gf.core.management.Management;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.assignments.Assignee;
+import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
@@ -38,7 +41,8 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public boolean sendMessageToChat(Message message, String roomId) {
-        return true;
+        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class);
+        return false;
     }
 
     @Override
@@ -51,18 +55,22 @@ public class CommunicationDummyService implements ICommunication {
     }
 
     @Override
-    public boolean addUserToChatRoom(String roomId, User user) {
-        return true;
+    public boolean addUserToChatRoom(String roomId, User user)  {
+        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, "addUserToChatRoom");
+        return false;
     }
 
     @Override
-    public boolean removeUserFromChatRoom(User user, String roomId) {
-        return true;
+    public boolean removeUserFromChatRoom(User user, String roomId)  {
+        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, "removing user from chat " +
+                "room");
+        return false;
     }
 
     @Override
     public boolean setChatRoomTopic(String roomId, String topic) {
-        return true;
+        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, "setting chat room topic");
+        return false;
     }
 
     @Override
@@ -98,6 +106,20 @@ public class CommunicationDummyService implements ICommunication {
         //Project project = managementService.getProject(projectToken
         String channelName = "general";
         return Constants.ROCKET_CHAT_URL + "/channel/" + channelName + "?layout=embedded";
+    }
+
+    @Override
+    public void sendSingleMessage(Message message, User user)  {
+        // TODO implement as email or directed message, popup after login or whatever
+        String message2 = "sending email with message: "+ message.getMessage() + " to: "+ user.getEmail();
+        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, message2);
+    }
+
+    @Override
+    public void sendMessageToUsers(Project project, String message) {
+        // TODO implement as email or directed message, popup after login or whatever
+        String message2 = "sending email with message: "+ message + " to: "+ project.getId();
+        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, message2);
     }
 
     // TODO: remove after done implementing
