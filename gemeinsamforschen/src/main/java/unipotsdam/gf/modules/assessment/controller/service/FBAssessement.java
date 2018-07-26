@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;

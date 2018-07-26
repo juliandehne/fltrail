@@ -7,28 +7,39 @@ package unipotsdam.gf.modules.annotation.model;
 public class AnnotationPatchRequest {
 
     // variables
-    private String body;
+    private String title;
+    private String comment;
 
     // constructors
-    public AnnotationPatchRequest(String body) {
-        this.body = body;
+    public AnnotationPatchRequest(String title, String comment) {
+        this.title = title;
+        this.comment = comment;
     }
 
     public AnnotationPatchRequest() {}
 
     // methods
-    public String getBody() {
-        return body;
+    public String getTitle() {
+        return title;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     @Override
     public String toString() {
         return "AnnotationPatchRequest{" +
-                "body='" + body + '\'' +
+                "title='" + title + '\'' +
+                ", comment='" + comment + '\'' +
                 '}';
     }
 

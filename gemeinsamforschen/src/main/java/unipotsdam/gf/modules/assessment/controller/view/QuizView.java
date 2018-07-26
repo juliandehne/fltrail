@@ -1,8 +1,8 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 
 import javax.ws.rs.*;
@@ -44,6 +44,11 @@ public class QuizView implements IPeerAssessment {
     public void postPeerRating(ArrayList<PeerRating> peerRatings,@PathParam("projectId") String projectId, @PathParam("groupId") String groupId){
         peer.postPeerRating(peerRatings, projectId,groupId);
         //todo: checkout the POST-variable. should be peerRating but its null atm.
+    }
+
+    @Override
+    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
+
     }
 
     @POST

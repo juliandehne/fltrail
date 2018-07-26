@@ -1,6 +1,9 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.assignments.Assignee;
+import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
@@ -65,8 +68,8 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
-    public void deleteQuiz(String quizId) {
-
+    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
+        NotImplementedLogger.logAssignment(Assignee.AXEL, IPeerAssessment.class);
     }
 
     @Override
@@ -80,6 +83,7 @@ public class PeerAssessmentDummy implements IPeerAssessment {
 
     @Override
     public void createQuiz(StudentAndQuiz studentAndQuiz) {
+        NotImplementedLogger.logAssignment(Assignee.AXEL, PeerAssessmentDummy.class);
     }
 
     @Override
