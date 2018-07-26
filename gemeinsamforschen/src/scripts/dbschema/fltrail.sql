@@ -74,25 +74,16 @@ CREATE TABLE if not exists `tags` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists `users` (
-
   `name`                varchar(100) NOT NULL,
-
   `password`            varchar(200) NOT NULL,
-
   `email`               varchar(255) NOT NULL,
-
   `token`               varchar(800) NOT NULL,
-
   `rocketChatId`        varchar(400) NOT NULL,
-
   `rocketChatAuthToken` varchar(800) NOT NULL,
-
   UNIQUE (email)
 
 )
-
   ENGINE = InnoDB
-
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists projectuser
@@ -110,16 +101,19 @@ CREATE TABLE if not exists projectuser
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists `annotations` (
-  `id` varchar(120) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `userToken` varchar(120) DEFAULT NULL,
-  `targetId` int(11) DEFAULT NULL,
-  `title` varchar(120) DEFAULT NULL,
-  `comment` varchar(400) DEFAULT NULL,
-  `startCharacter` int(11) DEFAULT NULL,
-  `endCharacter` int(11) DEFAULT NULL,
+  `id`             varchar(120) NOT NULL,
+  `timestamp`      timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
+  `userToken`      varchar(120)          DEFAULT NULL,
+  `targetId`       int(11)               DEFAULT NULL,
+  `title`          varchar(120)          DEFAULT NULL,
+  `comment`        varchar(400)          DEFAULT NULL,
+  `startCharacter` int(11)               DEFAULT NULL,
+  `endCharacter`   int(11)               DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 alter table users
 
@@ -164,29 +158,29 @@ CREATE TABLE if not exists tasks
 
 
 CREATE TABLE if not exists phasesSelected (
- `projectId`    varchar(100) NOT NULL,
+  `projectId`   varchar(100) NOT NULL,
   phaseSelected varchar(200) NOT NULL
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists categoriesSelected (
-  `projectId`    varchar(100) NOT NULL,
-   categorySelected varchar(200) NOT NULL
+  `projectId`      varchar(100) NOT NULL,
+  categorySelected varchar(200) NOT NULL
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists groupfindingMechanismSelected (
-  `projectId`    varchar(100) NOT NULL,
-   gfmSelected   varchar(200) NOT NULL
+  `projectId` varchar(100) NOT NULL,
+  gfmSelected varchar(200) NOT NULL
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists assessmentMechanismSelected (
-  `projectId`    varchar(100) NOT NULL,
-   amSelected    varchar(200) NOT NULL
+  `projectId` varchar(100) NOT NULL,
+  amSelected  varchar(200) NOT NULL
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
