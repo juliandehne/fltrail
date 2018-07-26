@@ -60,6 +60,11 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
+    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
+
+    }
+
+    @Override
     public void deleteQuiz(String quizId) {
 
     }
