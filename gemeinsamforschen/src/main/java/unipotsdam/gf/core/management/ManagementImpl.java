@@ -313,6 +313,7 @@ public class ManagementImpl implements Management {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         // TODO: implement correct join and finish implementation
+        //SELECT * FROM groupuser gu JOIN groups g ON g.id=gu.groupId JOIN users u ON u.email=gu.userEmail WHERE g.projectId = '1'
         String mysqlRequest = "SELECT * FROM groups g " +
                 "JOIN groupuser gu u ON g.id=gu.groupId " + "JOIN users u ON gu.userEmail=u.email" +
                 "where g.projectId = ?";
