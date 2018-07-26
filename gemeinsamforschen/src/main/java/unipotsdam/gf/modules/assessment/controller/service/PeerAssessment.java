@@ -2,10 +2,9 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.modules.assessment.controller.service.QuizDBCommunication;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PeerAssessment implements IPeerAssessment {
@@ -41,7 +40,49 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
-        return null;
+        List<Grading> quizMean = meanOfQuizzes(totalPerformance);
+        List<Grading> workRateMean = meanOfWorkRate(totalPerformance);
+        Grading[] grading = new Grading[totalPerformance.size()];
+        for (int i=0; i<quizMean.size(); i++){
+            double grade = quizMean.get(i).getGrade() * workRateMean.get(i).getGrade();
+            grading[i] = new Grading(totalPerformance.get(i).getStudentIdentifier(), grade);
+        }
+
+        return Arrays.asList(grading);
+    }
+
+    private List<Grading> meanOfQuizzes(ArrayList<Performance> totalPerformance){
+        double[] allAssessments = new double[totalPerformance.size()];
+        Grading[] grading = new Grading[totalPerformance.size()];
+
+        for (int i = 0; i < totalPerformance.size(); i++) {
+            for (int j = 0; j < totalPerformance.get(i).getQuizAnswer().length; j++) {
+                allAssessments[i] += totalPerformance.get(i).getQuizAnswer()[j];
+            }
+            allAssessments[i] = allAssessments[i] / totalPerformance.get(i).getQuizAnswer().length;
+        }
+        for (int i = 0; i < totalPerformance.size(); i++) {
+            Grading shuttle = new Grading(totalPerformance.get(i).getStudentIdentifier(), allAssessments[i]);
+            grading[i] = shuttle;
+        }
+        return Arrays.asList(grading);
+    }
+
+    private List<Grading> meanOfWorkRate(ArrayList<Performance> totalPerformance){
+        double[] allAssessments = new double[totalPerformance.size()];
+        Grading[] grading = new Grading[totalPerformance.size()];
+
+        for (int i = 0; i < totalPerformance.size(); i++) {
+            for (int j = 0; j < totalPerformance.get(i).getWorkRating().length; j++) {
+                allAssessments[i] += 6-totalPerformance.get(i).getWorkRating()[j];
+            }
+            allAssessments[i] = allAssessments[i] / totalPerformance.get(i).getWorkRating().length;
+        }
+        for (int i = 0; i < totalPerformance.size(); i++) {
+            Grading shuttle = new Grading(totalPerformance.get(i).getStudentIdentifier(), allAssessments[i]);
+            grading[i] = shuttle;
+        }
+        return Arrays.asList(grading);
     }
 
     @Override

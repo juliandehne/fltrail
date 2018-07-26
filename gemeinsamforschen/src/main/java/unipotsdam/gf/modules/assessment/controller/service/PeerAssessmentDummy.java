@@ -88,7 +88,7 @@ public class PeerAssessmentDummy implements IPeerAssessment {
         Grading[] grading = new Grading[totalPerformance.size()];
 
         for (int i = 0; i < totalPerformance.size(); i++) {
-            for (int j = 0; j < totalPerformance.get(i).getQuizAnswer().length; j++) {
+            for (int j = totalPerformance.get(i).getQuizAnswer().length; j > 0; j--) {
                 allAssessments[i] += totalPerformance.get(i).getQuizAnswer()[j];
             }
             allAssessments[i] = allAssessments[i] / totalPerformance.get(i).getQuizAnswer().length;
