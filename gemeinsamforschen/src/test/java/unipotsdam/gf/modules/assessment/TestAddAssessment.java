@@ -7,6 +7,8 @@ import unipotsdam.gf.modules.assessment.controller.service.FBAssessement;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
+import java.util.Date;
+
 public class TestAddAssessment {
 
     @Test
@@ -26,7 +28,14 @@ public class TestAddAssessment {
         StudentIdentifier student = new StudentIdentifier("Spaß", "Haralf");
         Performance performance = new Performance(student, quizAnswers,"so ein toller Typ", workRating);
         Assessment assessment = new Assessment(student, performance);
-        iPeerAssessment.addAssessmentDataToDB(assessment);
+        //iPeerAssessment.addAssessmentDataToDB(assessment);
+    }
+    @Test
+    public void testSetAssessment(){
+        StudentIdentifier ersteller=new StudentIdentifier("projekt","christian");
+        StudentIdentifier empfaenger=new StudentIdentifier("projekt","fgnxn");
+        Assessment testAssessment=new Assessment(true,empfaenger,new Date(),ersteller,"projekt",4);
+        testAssessment.setAssessment(testAssessment);
     }
 
 }

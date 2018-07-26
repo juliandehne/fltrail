@@ -42,7 +42,7 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Gruppe1 </th>
+                                    <th id="testAjax">Gruppe1 </th>
                                     <th>Beiträge </th>
                                     <th> <button id="ProblemGrp1">!</button> </th>
                                 </tr>
