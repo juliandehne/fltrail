@@ -16,12 +16,7 @@
     <menu:menu/>
     <div class="page-content-wrapper">
 
-        <h1>Übersicht für Dozent1</h1>
-        <a href="#"><span class="glyphicon glyphicon-envelope"
-                          style="font-size:27px;margin-top:-17px;margin-left:600px;"></span></a>
-        <a href="#"><span class="glyphicon glyphicon-cog"
-                          style="font-size:29px;margin-left:5px;margin-top:-25px;"></span></a>
-        <div>
+        <headLine:headLine/>
             <table id="projects">  <!-- getElementById('projects').append um neue Projekte anzufügen -->
                 <tr class="pageChanger">
                     <td>
