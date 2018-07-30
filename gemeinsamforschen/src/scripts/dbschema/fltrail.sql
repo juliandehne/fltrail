@@ -87,7 +87,7 @@ CREATE TABLE if not exists `users` (
 
   `rocketChatAuthToken` varchar(800) NOT NULL,
 
-  UNIQUE (email)
+   UNIQUE (email)
 
 )
 
@@ -146,6 +146,8 @@ CREATE TABLE if not exists quiz
   ENGINE = InnoDB
 
   DEFAULT CHARSET = utf8;
+
+
 CREATE TABLE if not exists grades
 
 (
