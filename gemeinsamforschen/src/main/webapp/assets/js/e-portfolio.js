@@ -1,5 +1,6 @@
 //TODO Get student and project form context
 
+
 $(document).ready(function() {
     $('#editDescriptionLink').on('click', function () {
         /*TODO getJournal*/
@@ -11,10 +12,9 @@ $(document).ready(function() {
     });
 
     $.ajax({
-        url: "../rest/projectdescription/test"
+        url: "../rest/projectdescription/0"
     }).then(function(data) {
         console.log("desc: " + data);
-        $('.journal-description-title').append('<h2>' + data.name + '</h2>');
         $('.journal-description-text').append(data.descriptionHTML);
         for(var link in data.links){
             $('.journal-description-links').append('<button class="btn btn-default btn-xs" onclick=\'linkLoeschen("'+link+'")\'> <i class="fa fa-trash" aria-hidden="true" ></i></button><a href=\' + data.links[link] + \'>' + link + '</a> <br/>');

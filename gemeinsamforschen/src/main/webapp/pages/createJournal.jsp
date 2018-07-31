@@ -79,8 +79,7 @@
 
 
                                 <div class="journal-form-editor">
-                                    <textarea id="editor" name="text" form="journalform">
-                                    </textarea>
+                                    <textarea id="editor" name="text" form="journalform"></textarea>
                                 </div>
 
                                 <div class="journal-form-buttons">

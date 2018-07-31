@@ -1,4 +1,7 @@
-package unipotsdam.gf.modules.journal.model;
+package unipotsdam.gf.modules.journal.model.dao;
+
+import unipotsdam.gf.modules.journal.model.Journal;
+import unipotsdam.gf.modules.journal.model.JournalFilter;
 
 import java.util.ArrayList;
 

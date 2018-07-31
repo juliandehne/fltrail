@@ -1,4 +1,6 @@
-package unipotsdam.gf.modules.journal.model;
+package unipotsdam.gf.modules.journal.model.dao;
+
+import unipotsdam.gf.modules.journal.model.Link;
 
 import java.util.ArrayList;
 

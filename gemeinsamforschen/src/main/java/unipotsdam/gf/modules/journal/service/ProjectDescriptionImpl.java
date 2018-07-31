@@ -1,6 +1,13 @@
 package unipotsdam.gf.modules.journal.service;
 
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.*;
+import unipotsdam.gf.modules.journal.model.dao.LinkDAO;
+import unipotsdam.gf.modules.journal.model.dao.LinkDAOImpl;
+import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAO;
+import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAOImpl;
+
+import java.util.Date;
 
 public class ProjectDescriptionImpl implements ProjectDescriptionService {
 
@@ -8,15 +15,23 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
     LinkDAO linkDAO = new LinkDAOImpl();
 
     @Override
-    public ProjectDescription getProject(String project) {
+    public ProjectDescription getProject(StudentIdentifier studentIdentifier) {
 
-        return descriptionDAO.getDescription(project);
+        //if no description exists, create a new
+        if(descriptionDAO.getDescription(studentIdentifier)==null){
+            //TODO richtige Daten, standartwerte über config?
+            ProjectDescription description = new ProjectDescription("0", studentIdentifier.getStudentId(), "Hier soll ein Turtorialtext stehen", studentIdentifier.getProjectId(), null, null, new Date().getTime());
+            descriptionDAO.createDescription(description);
+        }
+
+        return descriptionDAO.getDescription(studentIdentifier);
+
     }
 
     @Override
-    public void saveProjectText(String project, String text) {
+    public void saveProjectText(StudentIdentifier studentIdentifier, String text) {
 
-        ProjectDescription desc = getProject(project);
+        ProjectDescription desc = getProject(studentIdentifier);
         desc.setDescription(text);
         descriptionDAO.updateDescription(desc);
     }
@@ -33,7 +48,7 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
     }
 
     @Override
-    public void closeDescription(String desc) {
-        descriptionDAO.closeDescription(desc);
+    public void closeDescription(String projectDescrID) {
+        descriptionDAO.closeDescription(projectDescrID);
     }
 }

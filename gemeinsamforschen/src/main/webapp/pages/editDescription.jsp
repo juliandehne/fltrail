@@ -51,8 +51,7 @@
                             <div class="description-form-container">
 
                                 <div class ="description-form-editor">
-                                    <textarea id = "editor" name="text" form="descriptionform" >
-                                    </textarea>
+                                    <textarea id = "editor" name="text" form="descriptionform"></textarea>
                                 </div>
 
                                 <div class="description-form-buttons">

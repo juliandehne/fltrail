@@ -1,8 +1,10 @@
-package unipotsdam.gf.modules.journal.model;
+package unipotsdam.gf.modules.journal.model.dao;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.journal.model.Journal;
+import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
 
 import java.util.ArrayList;

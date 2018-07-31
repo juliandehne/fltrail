@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.core.management.utils.Category;
 import unipotsdam.gf.modules.journal.model.Visibility;
+import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
 /**
  * Utility class for Journal and Project description

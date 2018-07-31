@@ -139,7 +139,7 @@ public class JournalView {
         journalService.closeJournal(journal);
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            URI location = new URI("../pages/eportfolio.jsp?token=0");
             log.debug("<<< closeJournal: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 

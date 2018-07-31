@@ -1,12 +1,12 @@
 package unipotsdam.gf.modules.journal.model;
 
 
-import unipotsdam.gf.core.management.utils.Category;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
 import java.util.Date;
 
-import static unipotsdam.gf.core.management.utils.MarkdownUtils.convertMarkdownToHtml;
+import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
 
 /**
  * Model Class for the learnig journal of the e-portfolio

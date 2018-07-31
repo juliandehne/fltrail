@@ -1,12 +1,14 @@
-package unipotsdam.gf.modules.journal.model;
+package unipotsdam.gf.modules.journal.model.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.journal.model.ProjectDescription;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
-import unipotsdam.gf.modules.journal.view.ProjectDescriptionView;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
@@ -50,14 +52,14 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
     }
 
     @Override
-    public ProjectDescription getDescription(String projectDescription) {
+    public ProjectDescription getDescription(StudentIdentifier studentIdentifier) {
         // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM projectdescription WHERE id = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, projectDescription);
+        String request = "SELECT * FROM projectdescription WHERE author = ? AND project = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, studentIdentifier.getStudentId(),studentIdentifier.getProjectId());
 
         if (rs.next()) {
 
@@ -78,14 +80,14 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
     }
 
     @Override
-    public void deleteDescription(String projectDescription) {
+    public void deleteDescription(StudentIdentifier studentIdentifier) {
         // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
-        String request = "DELETE FROM projectdescription WHERE id = ?;";
-        connection.issueInsertOrDeleteStatement(request, projectDescription);
+        String request = "DELETE FROM projectdescription WHERE WHERE author = ? AND project = ?;";
+        connection.issueInsertOrDeleteStatement(request, studentIdentifier.getStudentId(),studentIdentifier.getProjectId());
 
         // close connection
         connection.close();
@@ -94,14 +96,14 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
     }
 
     @Override
-    public void closeDescription(String projectDescription) {
+    public void closeDescription(String id) {
         // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
         String request = "UPDATE projectdescription SET open=? WHERE id = ?";
-        connection.issueUpdateStatement(request, false, projectDescription);
+        connection.issueUpdateStatement(request, false, id);
 
         //close connection
         connection.close();
@@ -115,7 +117,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
         String text = rs.getString("text");
         String open = rs.getString("open");
 
-        return null;
+        return new ProjectDescription(id,author,text,project,new ArrayList<>(),new ArrayList<>(),timestamp);
     }
 
 }

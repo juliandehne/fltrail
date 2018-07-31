@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.*;
+import unipotsdam.gf.modules.journal.model.dao.JournalDAO;
+import unipotsdam.gf.modules.journal.model.dao.JournalDAOImpl;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
 
 import java.util.ArrayList;

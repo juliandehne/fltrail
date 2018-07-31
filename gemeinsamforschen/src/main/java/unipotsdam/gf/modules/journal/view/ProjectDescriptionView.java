@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.journal.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
 import unipotsdam.gf.modules.journal.service.ProjectDescriptionImpl;
 import unipotsdam.gf.modules.journal.service.ProjectDescriptionService;
@@ -27,11 +28,11 @@ public class ProjectDescriptionView {
     //get Description
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{project}")
-    public Response getProjectDescription(@PathParam("project") String project){
-        log.debug(">>> getProjectDescription: " + project);
+    @Path("{project}/{student}")
+    public Response getProjectDescription(@PathParam("project") String project, @PathParam("student") String student){
+        log.debug(">>> getProjectDescription: " + project + "/" + student);
 
-        ProjectDescription result = descriptionService.getProject(project);
+        ProjectDescription result = descriptionService.getProject(new StudentIdentifier(project,student));
 
         log.debug(">>> getProjectDescription");
         return Response.ok(result).build();
@@ -45,11 +46,11 @@ public class ProjectDescriptionView {
     public Response saveProjectText(@FormParam("student")String student,@FormParam("project")String project,@FormParam("text")String text){
         log.debug(">>> saveText: " + text);
 
-        descriptionService.saveProjectText("0",text);
+        descriptionService.saveProjectText(new StudentIdentifier(project,student),text);
 
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            URI location = new URI("../pages/eportfolio.jsp?token=0");
             log.debug("<<< saveText: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
