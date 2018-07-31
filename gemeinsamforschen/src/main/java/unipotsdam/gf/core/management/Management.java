@@ -37,6 +37,8 @@ public interface Management {
      */
     void create(Project project);
 
+    void create(Group group, String projectId);
+
     /**
      * Delete a Project in the database
      *
@@ -113,8 +115,6 @@ public interface Management {
      * @return
      */
     Project getProjectById(String id);
-
-    void createGroup(Group group, String projectId);
 
     void addGroupMember(User groupMember, int groupId);
 
