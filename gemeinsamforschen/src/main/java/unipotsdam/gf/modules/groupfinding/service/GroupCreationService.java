@@ -38,7 +38,7 @@ public class GroupCreationService {
             management.create(project);
         }
 
-        groups.forEach(group -> management.createGroup(group, project.getId()));
+        groups.forEach(group -> management.create(group, project.getId()));
 
         // TODO: read List<Group> of database to get Id for chatRoomName (Should be ProjectName - GroupId)
         // TODO: add projectName as DatabaseEntry
