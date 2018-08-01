@@ -1,25 +1,15 @@
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tagebucheintrag erstellen</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
-    <script src="../assets/js/utility.js"></script>
-    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/create-journal.css">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/css/create-journal.css">
+    <omniDependencies:omniDependencies/>
 </head>
 
 <body>
@@ -46,8 +36,8 @@
 
                         <form id="journalform" class="form-journal" method="POST" action="../rest/journal/save">
 
-                            <input type="hidden" name="student" value="0">
-                            <input type="hidden" name="project" value="0">
+                            <input type="hidden" id="student" name="student">
+                            <input type="hidden" id="project" name="project">
                             <input type="hidden" id="journalid" name="id">
 
                             <div class="journal-form-container">

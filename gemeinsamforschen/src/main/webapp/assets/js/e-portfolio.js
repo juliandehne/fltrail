@@ -1,18 +1,10 @@
-//TODO Get student and project form context
-
+var student = getQueryVariable("token");
+var project = getQueryVariable("projectId");
 
 $(document).ready(function() {
-    $('#editDescriptionLink').on('click', function () {
-        /*TODO getJournal*/
-        location.href = "editDescription.jsp?project=0&token=" + getUserTokenFromUrl();
-    });
-
-    $('#createJournalLink').on('click', function () {
-        location.href = "createJournal.jsp?token=" + getUserTokenFromUrl();
-    });
 
     $.ajax({
-        url: "../rest/projectdescription/0"
+        url: "../rest/projectdescription/" + project + "/" + student
     }).then(function(data) {
         console.log("desc: " + data);
         $('.journal-description-text').append(data.descriptionHTML);
@@ -25,14 +17,26 @@ $(document).ready(function() {
             $('.journal-description-group').append(data.group[g]+ '<br/>');
 
         }
+
+
         console.log(data);
     });
 
+
     $.ajax({
-        url: "../rest/journal//journals/0/0/ALL"
+        url: "../rest/journal//journals/" + student + "/" + project + "/ALL"
     }).then(function(data) {
         loadJournals(data);
         console.log(data);
+    });
+
+    $('#editDescriptionLink').on('click', function () {
+        /*TODO getJournal*/
+        location.href = "editDescription.jsp?project=" + project + "&token=" + student + "&projectId=" + project;
+    });
+
+    $('#createJournalLink').on('click', function () {
+        location.href = "createJournal.jsp?token=" + student + "&projectId=" + project;
     });
 
 });
@@ -55,7 +59,7 @@ function filterJournals() {
     $('.journal').empty();
 
     $.ajax({
-        url: "../rest/journal//journals/0/0/"+filter
+        url: "../rest/journal//journals/" + student + "/" + project / "+filter"
     }).then(function(data) {
         loadJournals(data);
         console.log(data);
@@ -83,9 +87,9 @@ function loadJournals(data) {
             '<div class="journal-edit" align="right">';
 
         //TODO userToken...
-        if (data[journal].studentIdentifier.studentId == "0" && data[journal].open) {
+        if (data[journal].studentIdentifier.studentId == student && data[journal].open) {
             journalString = journalString +
-                '<a class="btn btn-default btn-sm" href="createJournal.jsp?token=' + getUserTokenFromUrl() + '&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
+                '<a class="btn btn-default btn-sm" href="createJournal.jsp?token=' + student + '&projectId=' + project + '&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
                 '<a class="open-CloseJournalDialog btn btn-default btn-sm" data-toggle="modal" data-id ='
                 + data[journal].id +
                 ' data-target ="#closeJournalModal" > <i class="fa fa-check-square" aria-hidden = "true" ></i> Abschlie&szlig;en</a> '

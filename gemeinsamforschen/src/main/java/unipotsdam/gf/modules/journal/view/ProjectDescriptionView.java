@@ -22,8 +22,8 @@ import java.net.URISyntaxException;
 @Path("/projectdescription")
 public class ProjectDescriptionView {
 
-    private Logger log = LoggerFactory.getLogger(ProjectDescriptionView.class);
-    private ProjectDescriptionService descriptionService = new ProjectDescriptionImpl();
+    private final Logger log = LoggerFactory.getLogger(ProjectDescriptionView.class);
+    private final ProjectDescriptionService descriptionService = new ProjectDescriptionImpl();
 
     //get Description
     @GET
@@ -32,7 +32,7 @@ public class ProjectDescriptionView {
     public Response getProjectDescription(@PathParam("project") String project, @PathParam("student") String student){
         log.debug(">>> getProjectDescription: " + project + "/" + student);
 
-        ProjectDescription result = descriptionService.getProject(new StudentIdentifier(project,student));
+        ProjectDescription result = descriptionService.getProjectbyStudent(new StudentIdentifier(project, student));
 
         log.debug(">>> getProjectDescription");
         return Response.ok(result).build();
@@ -43,14 +43,14 @@ public class ProjectDescriptionView {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/saveText")
-    public Response saveProjectText(@FormParam("student")String student,@FormParam("project")String project,@FormParam("text")String text){
+    public Response saveProjectText(@FormParam("student") String student, @FormParam("project") String project, @FormParam("text") String text) {
         log.debug(">>> saveText: " + text);
 
         descriptionService.saveProjectText(new StudentIdentifier(project,student),text);
 
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=0");
+            URI location = new URI("../pages/eportfolio.jsp?token=" + student + "&projectId=" + project);
             log.debug("<<< saveText: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -59,7 +59,8 @@ public class ProjectDescriptionView {
             log.debug("saveText: redirect failed" );
         }
 
-        log.debug("<<< saveText");log.debug(">>> saveText");
+        log.debug("<<< saveText");
+        log.debug(">>> saveText");
 
         return Response.ok().build();
     }
@@ -121,10 +122,11 @@ public class ProjectDescriptionView {
     public Response closeDescription(String desc){
         log.debug(">>> closeDescription: " + desc);
 
+        StudentIdentifier student = descriptionService.getProjectbyId(desc).getStudent();
         descriptionService.closeDescription(desc);
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp");
+            URI location = new URI("../pages/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());
             log.debug("<<< closeDescription: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 

@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.journal.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.service.JournalService;
@@ -94,7 +95,7 @@ public class JournalView {
         //TODO token
         URI location;
         try {
-            location = new URI("../pages/eportfolio.jsp?token=test");
+            location = new URI("../pages/eportfolio.jsp?token=" + student + "&projectId=" + project);
             log.debug("<<< createJournal: redirect to " + location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -136,10 +137,11 @@ public class JournalView {
     public Response closeJournal(String journal){
         log.debug(">>> closeJournal: " + journal);
 
+        StudentIdentifier student = journalService.getJournal(journal).getStudentIdentifier();
         journalService.closeJournal(journal);
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=0");
+            URI location = new URI("../pages/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());
             log.debug("<<< closeJournal: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 

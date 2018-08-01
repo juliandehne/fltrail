@@ -8,6 +8,8 @@ public interface ProjectDescriptionDAO {
     void createDescription(ProjectDescription projectDescription);
     void updateDescription(ProjectDescription projectDescription);
     ProjectDescription getDescription(StudentIdentifier projectDescription);
+
+    ProjectDescription getDescription(String id);
     void deleteDescription(StudentIdentifier projectDescription);
     void closeDescription(String projectDescriptionId);
 }

@@ -3,7 +3,9 @@ package unipotsdam.gf.modules.journal.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.journal.model.*;
+import unipotsdam.gf.modules.journal.model.Journal;
+import unipotsdam.gf.modules.journal.model.JournalFilter;
+import unipotsdam.gf.modules.journal.model.Visibility;
 import unipotsdam.gf.modules.journal.model.dao.JournalDAO;
 import unipotsdam.gf.modules.journal.model.dao.JournalDAOImpl;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
@@ -65,7 +67,7 @@ public class JournalServiceImpl implements JournalService {
     public void saveJournal(String id, String student, String project, String text, String visibility, String category) {
         log.debug(">> save journal(" + id + "," + student + "," + project + "," + text + "," + visibility + "," + category + ")");
 
-        Journal journal = new Journal(id, new StudentIdentifier(student, project), text, JournalUtils.stringToVisibility(visibility), JournalUtils.stringToCategory(category));
+        Journal journal = new Journal(id, new StudentIdentifier(project, student), text, JournalUtils.stringToVisibility(visibility), JournalUtils.stringToCategory(category));
 
         //if id = 0 new Journal else update
         if (id.equals("0")) {

@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
 
-    private Logger log = LoggerFactory.getLogger(ProjectDescriptionDAOImpl.class);
+    private final Logger log = LoggerFactory.getLogger(ProjectDescriptionDAOImpl.class);
 
 
     @Override
@@ -61,7 +61,35 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
         String request = "SELECT * FROM projectdescription WHERE author = ? AND project = ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, studentIdentifier.getStudentId(),studentIdentifier.getProjectId());
 
-        if (rs.next()) {
+        if (rs != null && rs.next()) {
+
+            // save journal
+            ProjectDescription description = getDescriptionFromResultSet(rs);
+
+            // close connection
+            connection.close();
+
+            return description;
+        } else {
+
+            // close connection
+            connection.close();
+
+            return null;
+        }
+    }
+
+    @Override
+    public ProjectDescription getDescription(String id) {
+        // establish connection
+        MysqlConnect connection = new MysqlConnect();
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * FROM projectdescription WHERE id = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, id);
+
+        if (rs != null && rs.next()) {
 
             // save journal
             ProjectDescription description = getDescriptionFromResultSet(rs);

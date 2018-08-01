@@ -10,8 +10,9 @@ import unipotsdam.gf.modules.journal.model.ProjectDescription;
 public interface ProjectDescriptionService {
 
 
-    ProjectDescription getProject(StudentIdentifier studentIdentifier);
+    ProjectDescription getProjectbyStudent(StudentIdentifier studentIdentifier);
 
+    ProjectDescription getProjectbyId(String id);
     void saveProjectText(StudentIdentifier studentIdentifier, String text);
 
     void addLink(String project, String link, String name);

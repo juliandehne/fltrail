@@ -1,17 +1,12 @@
-function getQueryVariable(variable)
-{
-    var query = window.location.search.substring(1);
-    var vars = query.split("&");
-    for (var i=0;i<vars.length;i++) {
-        var pair = vars[i].split("=");
-        if(pair[0] == variable){return pair[1];}
-    }
-    return(false);
-}
+var student = getQueryVariable("token");
+var project = getQueryVariable("projectId");
 
 $(document).ready(function() {
+    $('#student').val(student);
+    $('#project').val(project);
+
     $('#backLink').on('click', function(){
-        location.href="eportfolio.jsp?token="+getUserTokenFromUrl();
+        location.href = "eportfolio.jsp?token=" + student + "&projectId=" + project;
     });
 
     var journalID = getQueryVariable("journal");

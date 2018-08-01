@@ -1,7 +1,8 @@
 package unipotsdam.gf.modules.journal.service;
 
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.journal.model.*;
+import unipotsdam.gf.modules.journal.model.Link;
+import unipotsdam.gf.modules.journal.model.ProjectDescription;
 import unipotsdam.gf.modules.journal.model.dao.LinkDAO;
 import unipotsdam.gf.modules.journal.model.dao.LinkDAOImpl;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAO;
@@ -15,7 +16,7 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
     LinkDAO linkDAO = new LinkDAOImpl();
 
     @Override
-    public ProjectDescription getProject(StudentIdentifier studentIdentifier) {
+    public ProjectDescription getProjectbyStudent(StudentIdentifier studentIdentifier) {
 
         //if no description exists, create a new
         if(descriptionDAO.getDescription(studentIdentifier)==null){
@@ -29,9 +30,14 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
     }
 
     @Override
+    public ProjectDescription getProjectbyId(String id) {
+        return descriptionDAO.getDescription(id);
+    }
+
+    @Override
     public void saveProjectText(StudentIdentifier studentIdentifier, String text) {
 
-        ProjectDescription desc = getProject(studentIdentifier);
+        ProjectDescription desc = getProjectbyStudent(studentIdentifier);
         desc.setDescription(text);
         descriptionDAO.updateDescription(desc);
     }
