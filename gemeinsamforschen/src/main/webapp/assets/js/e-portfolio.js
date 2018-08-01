@@ -24,7 +24,7 @@ $(document).ready(function() {
 
 
     $.ajax({
-        url: "../rest/journal//journals/" + student + "/" + project + "/ALL"
+        url: "../rest/journal/journals/" + student + "/" + project + "/ALL"
     }).then(function(data) {
         loadJournals(data);
         console.log(data);
@@ -55,11 +55,11 @@ function timestampToDateString(timestamp) {
 
 function filterJournals() {
     var filter = $( '#journalfilter option:selected' ).val();
-
+    project = getQueryVariable("projectId");
     $('.journal').empty();
 
     $.ajax({
-        url: "../rest/journal//journals/" + student + "/" + project / "+filter"
+        url: "../rest/journal/journals/" + student + "/" + project + "/" + filter
     }).then(function(data) {
         loadJournals(data);
         console.log(data);
