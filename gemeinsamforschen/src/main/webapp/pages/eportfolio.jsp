@@ -43,7 +43,7 @@
                               <div class="journal-description-container">
                                     <div class="journal-description-title">
                                     </div>
-                                    <div class="journal-description-edit" align="right">
+                                    <div class="journal-description-edit" id="description-edit" align="right">
                                         <a id="editDescriptionLink" class="btn btn-default btn-sm">
                                             <i class="fa fa-pencil"></i> Bearbeiten</a>
                                         <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeDescriptionModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>
@@ -143,7 +143,7 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary mr-auto" data-dismiss="modal">Ja</button>
+                    <button type="button" class="btn btn-primary mr-auto" data-dismiss="modal" onclick="closeDescription()">Ja</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Nein</button>
 
                 </div>

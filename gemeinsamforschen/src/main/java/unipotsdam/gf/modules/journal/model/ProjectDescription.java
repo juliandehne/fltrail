@@ -36,6 +36,16 @@ public class ProjectDescription {
         this.timestamp = timestamp;
         this.open =true;
     }
+    public ProjectDescription(String id, String name, String description, String project, ArrayList<Link> links, ArrayList<String> group, long timestamp, boolean open) {
+        this.id = id;
+        this.student = new StudentIdentifier(project,name);
+        this.descriptionHTML = convertMarkdownToHtml(description);
+        this.descriptionMD =description;
+        this.links = links;
+        this.group = group;
+        this.timestamp = timestamp;
+        this.open = open;
+    }
 
     public void setDescription (String description){
         this.descriptionMD = description;

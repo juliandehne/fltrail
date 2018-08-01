@@ -1,12 +1,16 @@
 var student = getQueryVariable("token");
 var project = getQueryVariable("projectId");
-
+var description = 0;
 $(document).ready(function() {
 
     $.ajax({
         url: "../rest/projectdescription/" + project + "/" + student
     }).then(function(data) {
         console.log("desc: " + data);
+        description = data.id;
+        if (!data.open){
+            $("#description-edit").remove();
+        }
         $('.journal-description-text').append(data.descriptionHTML);
         for(var link in data.links){
             $('.journal-description-links').append('<button class="btn btn-default btn-xs" onclick=\'linkLoeschen("'+link+'")\'> <i class="fa fa-trash" aria-hidden="true" ></i></button><a href=\' + data.links[link] + \'>' + link + '</a> <br/>');
@@ -124,7 +128,7 @@ function linkLoeschen(name) {
 function closeJournal() {
     //TODO reload when modal close
     var journalID = $('#journalID-input').val();
-    console.log("schließe:=" + journalID);
+    console.log("schließe=" + journalID);
 
     $.ajax({
         type: "POST",
@@ -139,4 +143,22 @@ function closeJournal() {
 
         }
     });
+}
+
+function closeDescription() {
+    console.log("schließe=" + description);
+
+    $.ajax({
+        type: "POST",
+        url: "../rest/projectdescription/close",
+        data: description,
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        dataType: "text",
+        success: function (data, status, jqXHR) {
+            console.log("succ");
+            location.reload();
+        }
+    });
+
 }
