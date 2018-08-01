@@ -60,12 +60,11 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
-
-    }
-
-    @Override
+<<<<<<< HEAD
     public void deleteQuiz(String quizId) {
+=======
+    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
+>>>>>>> origin/session_management
 
     }
 }

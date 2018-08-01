@@ -1,5 +1,9 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+<<<<<<< HEAD
+=======
+import unipotsdam.gf.core.management.ManagementImpl;
+>>>>>>> origin/session_management
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;

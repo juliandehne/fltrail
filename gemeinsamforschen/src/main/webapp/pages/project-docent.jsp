@@ -1,30 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix = "communication" uri = "/communication/chatWindow.tld"%>
-<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>fltrail</title>
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
-    <script src="../assets/js/utility.js"></script>
+    <omniDependencies:omniDependencies/>
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu></menu:menu>
-
+    <menu:menu/>
     <div class="page-content-wrapper">
         <div class="container-fluid">
     <h1>dummy Projekt1 für Dozent1</h1><button class="btn btn-default" type="button">Gruppen erstellen</button><button class="btn btn-default" type="button">Projekt finalisieren</button><button class="btn btn-default" type="button">Exportiere Projektergebnisse</button>

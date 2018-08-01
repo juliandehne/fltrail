@@ -146,20 +146,6 @@ CREATE TABLE if not exists quiz
   ENGINE = InnoDB
 
   DEFAULT CHARSET = utf8;
-CREATE TABLE if not exists grades
-
-(
-
-  projectId varchar(400) NOT NULL,
-
-  studentId varchar(400) NOT NULL,
-
-  grade double NOT NULL
-)
-
-  ENGINE = InnoDB
-
-  DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists tasks
 
@@ -205,9 +191,28 @@ CREATE TABLE if not exists assessmentMechanismSelected (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
+<<<<<<< HEAD
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE if not exists grades
+
+(
+
+  projectId varchar(400) NOT NULL,
+
+  studentId varchar(400) NOT NULL,
+
+  grade double NOT NULL
+)
+
+  ENGINE = InnoDB
+
+  DEFAULT CHARSET = utf8;
+=======
 ALTER TABLE `projectuser`
   ADD INDEX (`projectId`, `userId`);
 ALTER TABLE `projectuser`
   ADD UNIQUE (`projectId`, `userId`);
 ALTER TABLE `projects`
   ADD UNIQUE (`id`);
+>>>>>>> origin/session_management

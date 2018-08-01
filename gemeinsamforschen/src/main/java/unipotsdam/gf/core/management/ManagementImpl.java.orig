@@ -9,7 +9,11 @@ import unipotsdam.gf.core.management.project.ProjectConfigurationDAO;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
+<<<<<<< HEAD
+=======
 import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+>>>>>>> origin/session_management
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import javax.annotation.ManagedBean;
@@ -210,6 +214,8 @@ public class ManagementImpl implements Management {
         return getUserByField("email", email);
     }
 
+<<<<<<< HEAD
+=======
 
     /**
      * TODO @Axel bitte in modules/asessment verschieben
@@ -217,6 +223,37 @@ public class ManagementImpl implements Management {
      * @param quizId
      * @return
      */
+    public Quiz getQuizByProjectGroupId(String projectId, String quizId){
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM quiz where projectId=" + projectId + " , question="+quizId;
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, "");
+        boolean next = vereinfachtesResultSet.next();
+        String question = "";
+        ArrayList<String> correctAnswers = new ArrayList<String>();
+        ArrayList<String> incorrectAnswers = new ArrayList<String>();
+        String answer = "";
+        Boolean correct = false;
+        String mcType = "";
+        while (next) {
+            mcType = vereinfachtesResultSet.getString("mcType");
+            question = vereinfachtesResultSet.getString("question");
+            answer = vereinfachtesResultSet.getString("answer");
+            correct = vereinfachtesResultSet.getBoolean("correct");
+            if (correct){
+                correctAnswers.add(answer);
+            }else{
+                incorrectAnswers.add(answer);
+            }
+            next = vereinfachtesResultSet.next();
+        }
+        Quiz quiz = new Quiz(mcType,question, correctAnswers, incorrectAnswers);
+        connect.close();
+        return quiz;
+    }
+
+>>>>>>> origin/session_management
     private User getUserByField(String field, String value) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();

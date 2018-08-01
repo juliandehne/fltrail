@@ -77,11 +77,14 @@ public interface IPeerAssessment {
      */
     void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId);
 
+<<<<<<< HEAD
+    void deleteQuiz(String quizId);
+=======
     /**
      *
      * @param studentAndQuiz
      * @param quizAnswer
      */
     void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer);
-    void deleteQuiz(String quizId);
+>>>>>>> origin/session_management
 }

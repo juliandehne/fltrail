@@ -68,13 +68,13 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
-    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
-        NotImplementedLogger.logAssignment(Assignee.AXEL, IPeerAssessment.class);
-    }
-
-    @Override
+<<<<<<< HEAD
     public void deleteQuiz(String quizId) {
 
+=======
+    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
+        NotImplementedLogger.logAssignment(Assignee.AXEL, IPeerAssessment.class);
+>>>>>>> origin/session_management
     }
 
     @Override

@@ -3,24 +3,31 @@ package unipotsdam.gf.modules.assessment.controller.view;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Path("/assessments")
 public class QuizView implements IPeerAssessment {
-    private static IPeerAssessment peer =  new PeerAssessmentDummy();   //TestSubject
-    //private static IPeerAssessment peer =  new PeerAssessment();      //correct DB-conn and stuff
+    //private static IPeerAssessment peer =  new PeerAssessmentDummy();   //TestSubject
+    private static IPeerAssessment peer =  new PeerAssessment();      //correct DB-conn and stuff
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/project/{projectId}/quiz/{quizId}")
+    @Path("/project/{projectId}/quiz/{quizId}/author/{author}")
     @Override
-    public Quiz getQuiz(@PathParam("projectId") String projectId, @PathParam("quizId") String quizId) {
-        return peer.getQuiz(projectId, quizId);
-    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
+    public Quiz getQuiz(@PathParam("projectId") String projectId, @PathParam("quizId") String quizId, @PathParam("author") String author) {
+        try{
+            String question=java.net.URLDecoder.decode(quizId,"UTF-8");
+            return peer.getQuiz(projectId, question, author);
+        }catch(UnsupportedEncodingException e){
+            throw new AssertionError("UTF-8 is unknown");
+        }
+    }  ///////////////////////////////funktioniert//////////////////////////////////
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -29,6 +36,7 @@ public class QuizView implements IPeerAssessment {
     public ArrayList<Quiz> getQuiz(@PathParam("projectId") String projectId) {
         return peer.getQuiz(projectId);
     }
+    //////////////////////////////////////////funktioniert///////////////////////////////////////
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -45,6 +53,20 @@ public class QuizView implements IPeerAssessment {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/quiz/{quizId}")
+    @Override
+    public void deleteQuiz(@PathParam("quizId") String quizId) {
+        try {
+            String question = java.net.URLDecoder.decode(quizId, "UTF-8");
+            peer.deleteQuiz(question);
+        }catch(UnsupportedEncodingException e){
+            throw new AssertionError("UTF-8 is unknown");
+        }
+    }
+    ////////////////////////////funktioniert////////////////////////////////////////////////////////
+
+    @POST
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/assessment")
@@ -53,7 +75,6 @@ public class QuizView implements IPeerAssessment {
         peer.addAssessmentDataToDB(assessment);
     }
 
-
     @Override
     public Assessment getAssessmentDataFromDB(StudentIdentifier student){
         return peer.getAssessmentDataFromDB(student);
@@ -61,11 +82,11 @@ public class QuizView implements IPeerAssessment {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/project/{projectId}/student/{studentId}")
+    @Path("/get/project/{projectId}/student/{studentId}")
     public Assessment getAssessmentDataFromDB(@PathParam("projectId") String projectId,@PathParam("studentId") String studentId){
         StudentIdentifier student = new StudentIdentifier(projectId, studentId);
         return getAssessmentDataFromDB(student);
-    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
+    }  //////////dummy//////////////funktioniert wie geplant//////////////////////////////////
 
 
     @POST
@@ -76,6 +97,7 @@ public class QuizView implements IPeerAssessment {
     public void createQuiz(StudentAndQuiz studentAndQuiz) {
         peer.createQuiz(studentAndQuiz);
     }
+    ////////////////////////////////funktioniert///////////////////////////////////////////
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -85,14 +107,15 @@ public class QuizView implements IPeerAssessment {
     public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return peer.calculateAssessment(totalPerformance);
     }
+    ///////////////dummy/////////funktioniert glaube ich!?////////////////////////////////////////
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/mean/project/{projectId}")
     @Override
-    public int meanOfAssessement(@PathParam("projectId") String ProjectId) {
+    public int meanOfAssessment(@PathParam("projectId") String ProjectId) {
 
-        return peer.meanOfAssessement(ProjectId);
+        return peer.meanOfAssessment(ProjectId);
     }  ///////////////////////////////return 0//////////////////////////////////
 
     @GET
@@ -101,12 +124,12 @@ public class QuizView implements IPeerAssessment {
     public ArrayList<Performance> getTotalAssessment(@PathParam("projectId") String ProjectId,@PathParam("student") String student){
         StudentIdentifier studentIdentifier = new StudentIdentifier(ProjectId, student);
         return getTotalAssessment(studentIdentifier);
-    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
+    }  //////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
     @Override
     public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
         return peer.getTotalAssessment(studentIdentifier);
-    }  ///////////////////////////////funktioniert wie geplant//////////////////////////////////
+    }  /////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
 
     @GET
@@ -121,6 +144,6 @@ public class QuizView implements IPeerAssessment {
         result.add(pf);
         result.add(pf2);
         return result;
-    }  ///////////////////////////////returns what i expect it to return!!!!!//////////////////////////////////
+    }  /////////dummy////////////returns what i expect it to return!!!!!//////////////////////////////////
 
 }

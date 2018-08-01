@@ -16,26 +16,24 @@
     </tag>
 
     <tag>
-        <name>session</name>
-        <tag-class>unipotsdam.gf.core.session.SessionTag</tag-class>
-        <body-content>empty</body-content>
-    </tag>
-
-    <tag>
-        <name>omniDependencies</name>
-        <tag-class>unipotsdam.gf.core.management.user.omniDependencies</tag-class>
-        <body-content>empty</body-content>
-    </tag>
-
-    <tag>
+<<<<<<< HEAD
         <name>headLine</name>
         <tag-class>unipotsdam.gf.core.management.user.headLine</tag-class>
+=======
+        <name>session</name>
+        <tag-class>unipotsdam.gf.core.session.SessionTag</tag-class>
+>>>>>>> origin/session_management
         <body-content>empty</body-content>
     </tag>
-    
+
     <tag>
+<<<<<<< HEAD
+        <name>omniDependencies</name>
+        <tag-class>unipotsdam.gf.core.management.user.omniDependencies</tag-class>
+=======
         <name>context</name>
         <tag-class>unipotsdam.gf.core.session.ContextTag</tag-class>
+>>>>>>> origin/session_management
         <body-content>empty</body-content>
     </tag>
 
