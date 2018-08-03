@@ -17,52 +17,24 @@ CREATE TABLE if not exists `projects` (
   `token`         varchar(400) NOT NULL,
   `phase`         varchar(400) NOT NULL
 
-)
-
-  ENGINE = InnoDB
-
-  DEFAULT CHARSET = utf8;
+)ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists `groups` (
-
   `id`         int          NOT NULL AUTO_INCREMENT,
-
   `projectId`  varchar(400) NOT NULL,
-
   `chatRoomId` varchar(400) NOT NULL,
-
   PRIMARY KEY (id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
-)
-
-  ENGINE = InnoDB
-
-  DEFAULT CHARSET = utf8;
-
-CREATE TABLE if not exists groupuser
-
-(
-
+CREATE TABLE if not exists groupuser (
   userEmail varchar(400) NOT NULL,
-
   groupId   int          NOT NULL
-
-)
-
-  ENGINE = InnoDB
-
-  DEFAULT CHARSET = utf8;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists `tags` (
-
   `projectId` varchar(100) NOT NULL,
-
   `tag`       varchar(400) NOT NULL
-
-)
-
-  ENGINE = InnoDB
-
+) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists `users` (
@@ -72,24 +44,18 @@ CREATE TABLE if not exists `users` (
   `token`               varchar(800) NOT NULL,
   `rocketChatId`        varchar(400) NOT NULL,
   `rocketChatAuthToken` varchar(800) NOT NULL,
+  `isStudent`           TINYINT(1),
   UNIQUE (email)
 
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE if not exists projectuser
-
-(
-
+CREATE TABLE if not exists projectuser (
   projectId varchar(100) NOT NULL,
-
   userId    varchar(100) NOT NULL
-
 )
-
   ENGINE = InnoDB
-
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE if not exists `annotations` (
@@ -108,44 +74,25 @@ CREATE TABLE if not exists `annotations` (
   DEFAULT CHARSET = utf8;
 
 alter table users
-
   add isStudent tinyint(1) default '1' null;
 
-CREATE TABLE if not exists quiz
-
-(
-
+CREATE TABLE if not exists quiz (
   author    varchar(400) NOT NULL,
-
   projectId varchar(400) NOT NULL,
-
   question  varchar(400) NOT NULL,
-
   mcType    varchar(400) NOT NULL,
-
   answer    varchar(400) NOT NULL,
-
   correct   tinyint(1)   NOT NULL
-
 )
-
   ENGINE = InnoDB
-
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE if not exists tasks
-
-(
-
+CREATE TABLE if not exists tasks (
   userId    varchar(400) NOT NULL,
-
   projectId varchar(400) NOT NULL,
-
   taskUrl   varchar(400) NOT NULL
 )
-
   ENGINE = InnoDB
-
   DEFAULT CHARSET = utf8;
 
 
