@@ -10,8 +10,8 @@
     <omniDependencies:omniDependencies/>
 
     <!-- css - upload-unstructured -->
-    <link rel="stylesheet" type="text/css" href="../assets/css/upload-unstructured.css">
-    
+    <link rel="stylesheet" type="text/css" href="../assets/css/unstructured-upload.css">
+
 </head>
 
 <body>
