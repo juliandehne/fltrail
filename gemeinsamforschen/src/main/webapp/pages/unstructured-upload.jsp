@@ -11,21 +11,7 @@
 
     <!-- css - upload-unstructured -->
     <link rel="stylesheet" type="text/css" href="../assets/css/upload-unstructured.css">
-    <!-- css - contextMenu -->
-    <link href="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
-
-    <!-- js - jQuery validation plugin -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
-    <!-- js - jQuery ui position -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
-    <!-- js - contextMenu script -->
-    <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
-    <!-- js - annotation websocket script -->
-    <script src="../assets/js/annotationWebsocket.js"></script>
-    <!-- js - annotation REST script -->
-    <script src="../assets/js/annotationRest.js"></script>
-    <!-- js - annotationScript -->
-    <script src="../assets/js/annotationScript.js"></script>
+    
 </head>
 
 <body>
