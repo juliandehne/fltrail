@@ -33,7 +33,6 @@ body, html {
     float: right;
 }
 .file-upload-area {
-    background-color: blue;
     height: 20%;
 }
 
@@ -46,6 +45,14 @@ body, html {
     resize: none;
     flex: 1;
 }
+#upload-textarea-form {
+    height: 100%;
+    margin-bottom: 15px;
+}
+label.error {
+    color: red;
+}
 .flex .container-fluid{
     flex: 1;
 }
+

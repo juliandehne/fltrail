@@ -9,6 +9,11 @@
 <head>
     <omniDependencies:omniDependencies/>
 
+    <!-- js - jQuery validation plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+    <!-- js - jQuery ui position -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+
     <!-- css - upload-unstructured -->
     <link rel="stylesheet" type="text/css" href="../assets/css/unstructured-upload.css">
     <!-- js - annotationScript -->
@@ -26,17 +31,20 @@
                     <headLine:headLine/>
                 </div>
                 <div class="content-mainpage">
-                    <div class="form-group upload-text" id="documentText">
-                        <label for="upload-textarea">Texteingabe</label>
-                        <textarea class="upload-text-textarea form-control" placeholder="Text einfügen..." id="upload-textarea"></textarea>
-                    </div>
+                    <form id="upload-textarea-form">
+                        <div class="form-group upload-text" id="documentText">
+                            <label for="upload-textarea">Texteingabe</label>
+                            <textarea class="upload-text-textarea form-control" placeholder="Text einfügen..." id="upload-textarea" name="uploadtextarea"></textarea>
+                        </div>
+                    </form>
+
                     <div>
                         <label for="file">Alternativ bitte Datei wählen</label>
                         <input type="file" id="file" name="file">
                     </div>
                     <div class="document-text-buttons">
                         <button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück</button>
-                        <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">Weiter</button>
+                        <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter</button>
                     </div>
                 </div>
             </div>
