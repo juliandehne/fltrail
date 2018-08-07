@@ -1,16 +1,18 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Performance {
     private StudentIdentifier studentIdentifier;
     private int[] quizAnswer;
     private String feedback;
-    private int[] workRating;
+    private Map workRating;
 
     public Performance(){}
 
-    public Performance(StudentIdentifier student, int[] quiz, String feedback, int[] workRating) {
+    public Performance(StudentIdentifier student, int[] quiz, String feedback, Map workRating) {
         this.studentIdentifier = student;
         this.quizAnswer = quiz;
         this.feedback=feedback;
@@ -42,11 +44,11 @@ public class Performance {
         this.feedback = feedback;
     }
 
-    public int[] getWorkRating() {
+    public Map getWorkRating() {
         return workRating;
     }
 
-    public void setWorkRating(int[] workRating) {
+    public void setWorkRating(Map workRating) {
         this.workRating = workRating;
     }
 
@@ -57,7 +59,7 @@ public class Performance {
                 "studentIdentifier=" + studentIdentifier +
                 ", quizAnswer=" + Arrays.toString(quizAnswer) +
                 ", feedback='" + feedback + '\'' +
-                ", workRating=" + Arrays.toString(workRating) +
+                ", workRating=" + workRating +
                 '}';
     }
 

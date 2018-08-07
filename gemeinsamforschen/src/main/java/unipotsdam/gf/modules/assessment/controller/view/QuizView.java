@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
+import sun.misc.Perf;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
@@ -10,7 +11,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Path("/assessments")
 public class QuizView implements IPeerAssessment {
@@ -107,14 +110,13 @@ public class QuizView implements IPeerAssessment {
     public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return peer.calculateAssessment(totalPerformance);
     }
-    ///////////////dummy/////////funktioniert glaube ich!?////////////////////////////////////////
+    ////////////////////////funktioniert primitiv/////////todo: nicht als jersey zu nutzen///////////////////////////////
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/mean/project/{projectId}")
     @Override
     public int meanOfAssessment(@PathParam("projectId") String ProjectId) {
-
         return peer.meanOfAssessment(ProjectId);
     }  ///////////////////////////////return 0//////////////////////////////////
 
@@ -132,15 +134,36 @@ public class QuizView implements IPeerAssessment {
     }  /////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
 
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/dummy/totalperformance")
     public List<Performance> getTotalAssessment() {
-        ArrayList<Performance> result = new ArrayList<>();
+        List<Performance> result = new ArrayList<>();
         StudentIdentifier student = new StudentIdentifier("projekt","student");
         int[] quiz = {1,0,1,1,1,0};
-        Performance pf = new Performance(student,quiz,"toller dude",quiz);
-        Performance pf2 = new Performance(student,quiz,"super",quiz);
+        Map work = new HashMap<String, Integer>();
+        work.put("responsibility", 1);
+        work.put("partOfWork", 1);
+        work.put("cooperation", 1);
+        work.put("communication", 1);
+        work.put("autonomous", 1);
+        Map work2 = new HashMap<String, Integer>();
+        work2.put("responsibility", 3);
+        work2.put("partOfWork", 4);
+        work2.put("cooperation", 5);
+        work2.put("communication", 3);
+        work2.put("autonomous", 4);
+        Performance pf = new Performance();
+        pf.setFeedback("ein toller typ");
+        pf.setQuizAnswer(quiz);
+        pf.setStudentIdentifier(student);
+        pf.setWorkRating(work);
+        Performance pf2 = new Performance();
+        pf2.setFeedback("feini feini");
+        pf2.setQuizAnswer(quiz);
+        pf2.setStudentIdentifier(student);
+        pf2.setWorkRating(work2);
         result.add(pf);
         result.add(pf2);
         return result;

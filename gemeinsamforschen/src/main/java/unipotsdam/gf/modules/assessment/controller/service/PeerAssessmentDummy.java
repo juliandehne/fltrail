@@ -6,9 +6,7 @@ import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class PeerAssessmentDummy implements IPeerAssessment {
     @Override
@@ -80,7 +78,7 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     @Override
     public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
         int[] quizAnswer = {1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1};
-        int[] workRating = {1, 5, 3, 4, 1, 5, 5};
+        Map workRating = new HashMap<>();
         Performance performance = new Performance(student, quizAnswer, "what a nice guy", workRating);
         Assessment assessment = new Assessment(student, performance);
         return assessment;
@@ -111,18 +109,28 @@ public class PeerAssessmentDummy implements IPeerAssessment {
 
     @Override
     public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
-        StudentIdentifier[] students = new StudentIdentifier[2];
         StudentIdentifier student1 = new StudentIdentifier("gemeinsamForschen", "Haralf");
         StudentIdentifier student2 = new StudentIdentifier("gemeinsamForschen", "Regine");
         ArrayList<Performance> performances = new ArrayList<Performance>();
         int[] quiz = {1, 0, 1, 0, 0, 0, 1};
         int[] quiz2 = {0, 1, 0, 1, 1, 1, 0};
-        int[] work = {5, 4, 3, 2, 1};
-        int[] work2 = {1, 2, 3, 4, 5};
+        Map work = new HashMap();
+        work.put("responsibility", 1);
+        work.put("partOfWork", 1);
+        work.put("cooperation", 1);
+        work.put("communication", 1);
+        work.put("autonomous", 1);
+        Map work2 = new HashMap();
+        work2.put("responsibility", 3);
+        work2.put("partOfWork", 4);
+        work2.put("cooperation", 5);
+        work2.put("communication", 3);
+        work2.put("autonomous", 4);
+
         Performance performance = new Performance(student1, quiz, "toller dude", work);
         performances.add(performance);
-        performance = new Performance(student2, quiz2, "tolle dudine", work2);
-        performances.add(performance);
+        Performance performance2 = new Performance(student2, quiz2, "passt schon", work2);
+        performances.add(performance2);
         return performances;
     }
 

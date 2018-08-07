@@ -11,15 +11,29 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @ManagedBean
 @Resource
 @Singleton
 public class AssessmentDBCommunication {
+    public Map getWorkRating(StudentIdentifier student) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectId`=? AND `studentId`=?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
+        boolean next = vereinfachtesResultSet.next();
+        Map workRating = new HashMap();
+        workRating.put("responsibility", 4);
+        return workRating;
+    }
+
     public Assessment getAssessment(StudentIdentifier student){
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `peerAssessment` WHERE `projectId`=? AND `studentId`=?";
+        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectId`=? AND `studentId`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
         boolean next = vereinfachtesResultSet.next();
