@@ -121,6 +121,14 @@ CREATE TABLE if not exists `annotations` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE if not exists `fullsubmissions` (
+  `id` VARCHAR(120) NOT NULL,
+  `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user` VARCHAR(120) NOT NULL,
+  `text` MEDIUMTEXT NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
 alter table users
 
   add isStudent tinyint(1) default '1' null;
