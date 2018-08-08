@@ -22,7 +22,7 @@ $(document).ready(function() {
                 $('#upload-textarea').val("");
 
                 // jump to next page
-                location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&submission=" + response.id;
+                location.href="unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&submission=" + response.id;
             });
         }
     });

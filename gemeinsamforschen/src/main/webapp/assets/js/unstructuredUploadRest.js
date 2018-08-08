@@ -24,8 +24,9 @@ function createFullSubmission(fullSubmissionPostRequest, responseHandler) {
  *
  * @param id The id of the full submission
  * @param responseHandler The response handler
+ * @param errorHandler The error handler
  */
-function getAnnotation(id, responseHandler) {
+function getFullSubmission(id, responseHandler, errorHandler) {
     var url = "../rest/submissions/full/" + id;
     $.ajax({
         url: url,
@@ -34,6 +35,10 @@ function getAnnotation(id, responseHandler) {
         success: function (response) {
             // handle the response
             responseHandler(response);
+        },
+        error: function () {
+            // handle the error
+            errorHandler();
         }
     })
 }

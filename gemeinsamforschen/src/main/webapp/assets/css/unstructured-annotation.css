@@ -1,0 +1,66 @@
+body, html {
+    height: 100vh;
+    width: 100vw;
+}
+ol {
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+}
+.content-mainpage {
+    display: flex;
+    box-sizing: border-box;
+    font-family: Arial;
+    height: 100%;
+    overflow-y: hidden;
+}
+.rightcolumn {
+    float: right;
+    width: 25%;
+    display: inline-block;
+    overflow: scroll;
+    /* background-color: blue; */
+}
+.leftcolumn {
+    padding: 10px;
+    float: left;
+    width: 75%;
+    display: inline-block;
+    /* background-color: yellow; */
+}
+.rightcontent {
+    margin: 10px;
+}
+.leftcontent {
+    max-height: 100%;
+    display: flex;
+    flex-flow: column;
+    /* background-color: white; */
+}
+.spacing {
+    height: 10px;
+    /* background-color: orange; */
+}
+.container-fluid-content {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+.flex {
+    display: flex;
+}
+.flex .container-fluid{
+    flex: 1;
+}
+.full-height {
+    height: 100%;
+}
+.leftcontent-buttons-save {
+    float: right;
+    margin: 20px;
+}
+.leftcontent-text {
+    overflow: scroll;
+    white-space: pre-line;
+}
+
