@@ -49,6 +49,46 @@
                     <div class="rightcolumn">
                         <div class="rightcontent">
                             <ol id="annotations">
+                                <li class="spacing">
+                                    <div id="titel" class="category-card not-added">
+                                        <p>Titel</p>
+                                    </div>
+                                </li>
+                                <li class="spacing">
+                                    <div id="recherche" class="category-card not-added">
+                                        <p>Recherche</p>
+                                    </div>
+                                </li>
+                                <li class="spacing">
+                                    <div id="literaturverzeichnis" class="category-card not-added">
+                                        <p>Literaturverzeichnis</p>
+                                    </div>
+                                </li>
+                                <li class="spacing">
+                                    <div id="forschungsfrage" class="category-card not-added">
+                                        <p>Forschungsfrage</p>
+                                    </div>
+                                </li>
+                                <li class="spacing">
+                                    <div id="untersuchungskonzept" class="category-card not-added">
+                                        <p>Untersuchungskonzept</p>
+                                    </div>
+                                </li>
+                                <li class="spacing">
+                                    <div id="methodik" class="category-card not-added">
+                                        <p>Methodik</p>
+                                    </div>
+                                </li>
+                                <li class="spacing">
+                                    <div id="durchfuehrung" class="category-card not-added">
+                                        <p>Durchführung</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div id="auswertung" class="category-card not-added">
+                                        <p>Auswertung</p>
+                                    </div>
+                                </li>
                             </ol>
                         </div>
                     </div>

@@ -6,6 +6,11 @@ ol {
     padding: 0px;
     margin: 0px;
     list-style-type: none;
+    height: 100%;
+}
+li {
+    height: calc((100% - 70px) / 8);
+    min-height: 40px;
 }
 .content-mainpage {
     display: flex;
@@ -17,9 +22,10 @@ ol {
 .rightcolumn {
     float: right;
     width: 25%;
+    height: 100%;
+    padding: 10px;
     display: inline-block;
     overflow: scroll;
-    /* background-color: blue; */
 }
 .leftcolumn {
     padding: 10px;
@@ -29,7 +35,7 @@ ol {
     /* background-color: yellow; */
 }
 .rightcontent {
-    margin: 10px;
+    height: 100%;
 }
 .leftcontent {
     max-height: 100%;
@@ -38,7 +44,7 @@ ol {
     /* background-color: white; */
 }
 .spacing {
-    height: 10px;
+    margin-bottom: 10px;
     /* background-color: orange; */
 }
 .container-fluid-content {
@@ -62,5 +68,32 @@ ol {
 .leftcontent-text {
     overflow: scroll;
     white-space: pre-line;
+}
+.category-card {
+    min-height: 30px;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: large;
+    overflow: hidden;
+}
+.category-card p {
+    position: relative;
+    float: left;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+}
+.not-added{
+    border-style: dashed;
+    border-color: lightgray;
+    color: lightgray;
+}
+.added {
+    border-style: solid;
+    border-color: lightgreen;
+    color: lightgreen;
 }
 
