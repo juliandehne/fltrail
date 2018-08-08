@@ -77,8 +77,8 @@ public class PeerAssessment implements IPeerAssessment {
             int size = 0;
             while (it.hasNext()) {
                 HashMap.Entry pair = (HashMap.Entry) it.next();
-                Integer rating = (Integer) pair.getValue();
-                allGrades[i] += (double) rating;
+                Double rating = (Double) pair.getValue();
+                allGrades[i] += rating;
                 it.remove(); // avoids a ConcurrentModificationException
                 size++;
             }
@@ -91,7 +91,7 @@ public class PeerAssessment implements IPeerAssessment {
         return Arrays.asList(grading);
     }
 
-    private Map<String, Double> meanOfWorkRatings(ArrayList<Map<String, Integer>> workRatings) {
+    private Map<String, Double> meanOfWorkRatings(ArrayList<Map<String, Double>> workRatings) {
         HashMap<String, Double> mean = new HashMap();
         double size = (double) workRatings.size();
         Iterator it = workRatings.get(0).entrySet().iterator();
@@ -109,22 +109,41 @@ public class PeerAssessment implements IPeerAssessment {
         }
         return mean;
     }
-//todo: funktioniert noch nicht. Fliegt aus der foreach schleife, kA warum.
-    public ArrayList<Map> cheatChecker(ArrayList<Map<String, Integer>> workRatings) {
-        ArrayList<Map<String, Integer>> possiblyCheating;
-        ArrayList<Map<String, Double>> means = new ArrayList<>();
+
+    public ArrayList<Map<String, Double>> cheatChecker(ArrayList<Map<String, Double>> workRatings, String method) {
+        ArrayList<Map<String, Double>> oneExcludedMeans = new ArrayList<>();
+        ArrayList<Map<String, Double>> result = new ArrayList<>();
         Double threshold = 0.4;
-        boolean cheat;
-        for (Map rating : workRatings) {
-            possiblyCheating = workRatings;
-            possiblyCheating.remove(rating);
-            means.add(meanOfWorkRatings(possiblyCheating));
+        if (workRatings.size() > 1) {
+            for (Map rating : workRatings) {
+                ArrayList<Map<String, Double>> possiblyCheating = new ArrayList<>(workRatings);
+                possiblyCheating.remove(rating);
+                oneExcludedMeans.add(meanOfWorkRatings(possiblyCheating));
+            }
+        } else {
+            oneExcludedMeans.add(meanOfWorkRatings(workRatings));
         }
-        means.sort(byResponsibility);
-        String resp = "responosibility";
-        if (means.get(0).get(resp) - threshold > means.get(1).get(resp))
-            cheat = true;
-        return null;
+        if (method.equals("median")) {
+            workRatings.sort(byMean);
+            result.add(oneExcludedMeans.get(oneExcludedMeans.size() / 2)); //in favor of student
+        }
+        if (method.equals("variance")) {
+            Map<String, Double> meanWorkRating = new HashMap<>(meanOfWorkRatings(oneExcludedMeans));
+            ArrayList<Map<String, Double>> deviation = new ArrayList<>();
+            for (Map<String, Double> rating: oneExcludedMeans){
+                for (String key: rating.keySet()){
+                    HashMap<String, Double> shuttle = new HashMap<>();
+                    Double value = (rating.get(key)-meanWorkRating.get(key))*(rating.get(key)-meanWorkRating.get(key));
+                    shuttle.put(key, value);
+                    deviation.add(shuttle);
+                }
+
+            }
+            result.add(meanOfWorkRatings(oneExcludedMeans));
+        }
+
+
+        return result;
     }
 
     @Override
@@ -147,57 +166,18 @@ public class PeerAssessment implements IPeerAssessment {
     public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
 
     }
-///todo: das ist nicht die feine englische. Kann ich das hübschivieren?
-    final String sortCase1 = "responsibility";
-    Comparator<Map<String, Double>> byResponsibility = (o1, o2) -> {
-        Double first = o1.get(sortCase1);
-        Double second = o2.get(sortCase1);
-        if (first.equals(second)) {
-            return 0;
-        } else {
-            return first < second ? -1 : 1;
-        }
-    };
-    final String sortCase2 = "partOfWork";
-    Comparator<Map<String, Double>> byPartOfWork = (o1, o2) -> {
-        Double first = o1.get(sortCase2);
-        Double second = o2.get(sortCase2);
-        if (first.equals(second)) {
-            return 0;
-        } else {
-            return first < second ? -1 : 1;
-        }
-    };
-    final String sortCase3 = "cooperation";
-    Comparator<Map<String, Double>> byCooperation = (o1, o2) -> {
-        Double first = o1.get(sortCase3);
-        Double second = o2.get(sortCase3);
-        if (first.equals(second)) {
-            return 0;
-        } else {
-            return first < second ? -1 : 1;
-        }
-    };
-    final String sortCase4 = "communication";
-    Comparator<Map<String, Double>> byCommunication = (o1, o2) -> {
-        Double first = o1.get(sortCase4);
-        Double second = o2.get(sortCase4);
-        if (first.equals(second)) {
-            return 0;
-        } else {
-            return first < second ? -1 : 1;
-        }
-    };
-    final String sortCase5 = "autonomous";
-    Comparator<Map<String, Double>> byAutonomous = (o1, o2) -> {
-        Double first = o1.get(sortCase5);
-        Double second = o2.get(sortCase5);
-        if (first.equals(second)) {
-            return 0;
-        } else {
-            return first < second ? -1 : 1;
-        }
-    };
 
-
+    Comparator<Map<String, Double>> byMean = (o1, o2) -> {
+        Double sumOfO1 = 0.;
+        Double sumOfO2 = 0.;
+        for (String key : o1.keySet()) {
+            sumOfO1 += o1.get(key);
+            sumOfO2 += o2.get(key);
+        }
+        if (sumOfO1.equals(sumOfO2)) {
+            return 0;
+        } else {
+            return sumOfO1 > sumOfO2 ? -1 : 1;
+        }
+    };
 }

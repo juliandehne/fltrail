@@ -25,19 +25,26 @@ public class HashMapTest {
         }
         return mean;
     }
+
     final String sortCase1 = "responsibility";
     Comparator<Map<String, Double>> byResponsibility = (o1, o2) -> {
-        Double first = o1.get(sortCase1);
-        Double second = o2.get(sortCase1);
-        if (first.equals(second)) {
+        Double sumOfO1 = 0.;
+        Double sumOfO2 = 0.;
+        for (String key : o1.keySet()) {
+            sumOfO1 += o1.get(key);
+            sumOfO2 += o2.get(key);
+        }
+        //Double first = o1.get(sortCase1);
+        //Double second = o2.get(sortCase1);
+        if (sumOfO1.equals(sumOfO2)) {
             return 0;
         } else {
-            return first < second ? -1 : 1;
+            return sumOfO1 < sumOfO2 ? -1 : 1;
         }
     };
 
     @Test
-    public void sortTest(){
+    public void sortTest() {
         Map work = new HashMap<String, Double>();
         work.put("responsibility", 1.);
         work.put("partOfWork", 1.);
@@ -50,23 +57,38 @@ public class HashMapTest {
         work2.put("cooperation", 5.);
         work2.put("communication", 3.);
         work2.put("autonomous", 4.);
-        ArrayList<Map<String,Integer>> workRatings = new ArrayList<>();
+        Map work3 = new HashMap<String, Double>();
+        work3.put("responsibility", 2.);
+        work3.put("partOfWork", 3.);
+        work3.put("cooperation", 5.);
+        work3.put("communication", 2.);
+        work3.put("autonomous", 1.);
+        Map work4 = new HashMap<String, Double>();
+        work4.put("responsibility", 5.);
+        work4.put("partOfWork", 5.);
+        work4.put("cooperation", 4.);
+        work4.put("communication", 4.);
+        work4.put("autonomous", 5.);
+        ArrayList<Map<String, Integer>> workRatings = new ArrayList<>();
         workRatings.add(work);
         workRatings.add(work2);
-        workRatings.add(work2);
-        ArrayList<Map<String, Integer>> possiblyCheating;
+        workRatings.add(work3);
+        workRatings.add(work4);
         ArrayList<Map<String, Double>> means = new ArrayList<>();
         Double threshold = 0.4;
-        boolean cheat;
-        for (Map rating : workRatings) {
-            possiblyCheating = workRatings;
-            possiblyCheating.remove(rating);
-            means.add(meanOfWorkRatings(possiblyCheating));
+        if (workRatings.size() > 1) {
+            for (Map rating : workRatings) {
+                ArrayList<Map<String, Integer>> possiblyCheating = new ArrayList<>(workRatings);
+                possiblyCheating.remove(rating);
+                means.add(meanOfWorkRatings(possiblyCheating));
+            }
+        } else {
+            for (Map rating : workRatings) {
+                means.add(meanOfWorkRatings(workRatings));
+            }
         }
         means.sort(byResponsibility);
-        String resp = "responosibility";
-        if (means.get(0).get(resp) - threshold > means.get(1).get(resp))
-            cheat = true;
+        System.out.println(means.get(means.size() / 2).toString());
         System.out.println(means.toString());
 
     }
@@ -85,7 +107,7 @@ public class HashMapTest {
         work2.put("cooperation", 5.);
         work2.put("communication", 3.);
         work2.put("autonomous", 4.);
-        ArrayList<Map<String,Integer>> workRatings = new ArrayList<>();
+        ArrayList<Map<String, Integer>> workRatings = new ArrayList<>();
         workRatings.add(work);
         workRatings.add(work2);
         workRatings.add(work2);
