@@ -16,8 +16,10 @@
 
     <!-- css - upload-unstructured -->
     <link rel="stylesheet" type="text/css" href="../assets/css/unstructured-upload.css">
-    <!-- js - annotationScript -->
+    <!-- js - unstructuredUpload -->
     <script src="../assets/js/unstructuredUpload.js"></script>
+    <!-- js - unstructuredUploadRest -->
+    <script src="../assets/js/unstructuredUploadRest.js"></script>
 
 </head>
 
