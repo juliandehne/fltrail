@@ -2,7 +2,13 @@ package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
 
+/**
+ * @author Sven Kästle
+ * skaestle@uni-potsdam.de
+ */
 public interface ISubmission {
 
     /**
@@ -22,11 +28,35 @@ public interface ISubmission {
     FullSubmission getFullSubmission(String fullSubmissionId);
 
     /**
-     * Checks if an full submission id already exists in the database
+     * Checks if a full submission id already exists in the database
      *
-     * @param id The id of the full submission
+     * @param fullSubmissionId The id of the full submission
      * @return Returns true if the id exists
      */
-    boolean existsFullSubmissionId(String id);
+    boolean existsFullSubmissionId(String fullSubmissionId);
+
+    /**
+     * Store the submission part text in the database
+     *
+     * @param submissionPartPostRequest The submission part post request
+     * @return The new submission part
+     */
+    SubmissionPart addSubmissionPart(SubmissionPartPostRequest submissionPartPostRequest);
+
+    /**
+     * Get the entire submission part from database
+     *
+     * @param submissionPartId The id of the submission part
+     * @return The new submission part
+     */
+    SubmissionPart getSubmissionPart(String submissionPartId);
+
+    /**
+     * Checks if a submission part id already exists in the database
+     *
+     * @param submissionPartId The id of the submission part
+     * @return Returns true if the id exists
+     */
+    boolean existsSubmissionPartId(String submissionPartId);
 
 }

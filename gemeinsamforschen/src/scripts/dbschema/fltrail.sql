@@ -129,6 +129,16 @@ CREATE TABLE if not exists `fullsubmissions` (
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE if not exists `submissionparts` (
+  `id` VARCHAR(120) NOT NULL,
+  `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `userId` VARCHAR(120) NOT NULL,
+  `fullSubmissionId` VARCHAR(120) NOT NULL,
+  `text` MEDIUMTEXT NOT NULL,
+  `category` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
 alter table users
 
   add isStudent tinyint(1) default '1' null;
