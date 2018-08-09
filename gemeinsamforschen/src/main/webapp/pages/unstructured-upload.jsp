@@ -18,8 +18,8 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/unstructured-upload.css">
     <!-- js - unstructuredUpload -->
     <script src="../assets/js/unstructuredUpload.js"></script>
-    <!-- js - unstructuredUploadRest -->
-    <script src="../assets/js/unstructuredUploadRest.js"></script>
+    <!-- js - unstructuredRest -->
+    <script src="../assets/js/unstructuredRest.js"></script>
 
 </head>
 

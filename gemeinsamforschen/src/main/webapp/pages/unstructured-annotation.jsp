@@ -20,8 +20,8 @@
     <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
     <!-- js - unstructuredUpload -->
     <script src="../assets/js/unstructuredAnnotation.js"></script>
-    <!-- js - unstructuredUploadRest -->
-    <script src="../assets/js/unstructuredUploadRest.js"></script>
+    <!-- js - unstructuredRest -->
+    <script src="../assets/js/unstructuredRest.js"></script>
 
 
 </head>
