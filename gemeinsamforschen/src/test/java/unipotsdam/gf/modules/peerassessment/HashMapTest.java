@@ -8,7 +8,7 @@ import java.util.*;
 
 public class HashMapTest {
 
-    private Map<String, Double> meanOfWorkRatings(ArrayList<Map<String, Integer>> workRatings) {
+    private Map<String, Double> meanOfWorkRatings(ArrayList<Map<String, Double>> workRatings) {
         HashMap<String, Double> mean = new HashMap();
         double size = (double) workRatings.size();
         Iterator it = workRatings.get(0).entrySet().iterator();
@@ -26,22 +26,63 @@ public class HashMapTest {
         return mean;
     }
 
-    final String sortCase1 = "responsibility";
-    Comparator<Map<String, Double>> byResponsibility = (o1, o2) -> {
+    Comparator<Map<String, Double>> byMean = (o1, o2) -> {
         Double sumOfO1 = 0.;
         Double sumOfO2 = 0.;
         for (String key : o1.keySet()) {
             sumOfO1 += o1.get(key);
             sumOfO2 += o2.get(key);
         }
-        //Double first = o1.get(sortCase1);
-        //Double second = o2.get(sortCase1);
         if (sumOfO1.equals(sumOfO2)) {
             return 0;
         } else {
             return sumOfO1 < sumOfO2 ? -1 : 1;
         }
     };
+
+    public ArrayList<Map<String, Double>> cheatChecker(ArrayList<Map<String, Double>> workRatings, String method) {
+        ArrayList<Map<String, Double>> result = new ArrayList<>();
+        if (method.equals("median")) {
+            workRatings.sort(byMean);
+            result.add(workRatings.get(workRatings.size() / 2)); //in favor of student
+        }
+        if (method.equals("variance")) {
+            ArrayList<Map<String, Double>> oneExcludedMeans = new ArrayList<>();
+            if (workRatings.size() > 1) {
+                for (Map rating : workRatings) {
+                    ArrayList<Map<String, Double>> possiblyCheating = new ArrayList<>(workRatings);
+                    possiblyCheating.remove(rating);
+                    oneExcludedMeans.add(meanOfWorkRatings(possiblyCheating));
+                }
+            } else {
+                oneExcludedMeans.add(meanOfWorkRatings(workRatings));
+            }
+            Map<String, Double> meanWorkRating = new HashMap<>(meanOfWorkRatings(oneExcludedMeans));
+            ArrayList<Map<String, Double>> elementwiseDeviation = new ArrayList<>();
+            for (Map<String, Double> rating: oneExcludedMeans){
+                HashMap<String, Double> shuttle = new HashMap<>();
+                for (String key: rating.keySet()){
+                    Double value = (rating.get(key)-meanWorkRating.get(key))*(rating.get(key)-meanWorkRating.get(key));
+                    shuttle.put(key, value);
+                }
+                elementwiseDeviation.add(shuttle);
+            }
+            Double deviationOld=0.;
+            Integer key=0;
+            for (Integer i=0; i<elementwiseDeviation.size(); i++){
+                Double deviationNew=0.;
+                for (Double devi: elementwiseDeviation.get(i).values()){
+                    deviationNew += devi;
+                }
+                if (deviationNew>deviationOld){
+                    deviationOld=deviationNew;
+                    key = i;
+                }
+            }
+            result.add(oneExcludedMeans.get(key)); //gets set of rates with smallest deviation in data
+        }
+        return result;
+    }
 
     @Test
     public void sortTest() {
@@ -69,28 +110,14 @@ public class HashMapTest {
         work4.put("cooperation", 4.);
         work4.put("communication", 4.);
         work4.put("autonomous", 5.);
-        ArrayList<Map<String, Integer>> workRatings = new ArrayList<>();
+        ArrayList<Map<String, Double>> workRatings = new ArrayList<>();
         workRatings.add(work);
         workRatings.add(work2);
         workRatings.add(work3);
         workRatings.add(work4);
-        ArrayList<Map<String, Double>> means = new ArrayList<>();
-        Double threshold = 0.4;
-        if (workRatings.size() > 1) {
-            for (Map rating : workRatings) {
-                ArrayList<Map<String, Integer>> possiblyCheating = new ArrayList<>(workRatings);
-                possiblyCheating.remove(rating);
-                means.add(meanOfWorkRatings(possiblyCheating));
-            }
-        } else {
-            for (Map rating : workRatings) {
-                means.add(meanOfWorkRatings(workRatings));
-            }
-        }
-        means.sort(byResponsibility);
-        System.out.println(means.get(means.size() / 2).toString());
-        System.out.println(means.toString());
 
+        System.out.println(cheatChecker(workRatings, "median").toString());
+        System.out.println(cheatChecker(workRatings, "variance").toString());
     }
 
     @Test

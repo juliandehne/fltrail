@@ -125,24 +125,33 @@ public class PeerAssessment implements IPeerAssessment {
         }
         if (method.equals("median")) {
             workRatings.sort(byMean);
-            result.add(oneExcludedMeans.get(oneExcludedMeans.size() / 2)); //in favor of student
+            result.add(workRatings.get(workRatings.size() / 2)); //in favor of student
         }
         if (method.equals("variance")) {
             Map<String, Double> meanWorkRating = new HashMap<>(meanOfWorkRatings(oneExcludedMeans));
-            ArrayList<Map<String, Double>> deviation = new ArrayList<>();
+            ArrayList<Map<String, Double>> elementwiseDeviation = new ArrayList<>();
             for (Map<String, Double> rating: oneExcludedMeans){
+                HashMap<String, Double> shuttle = new HashMap<>();
                 for (String key: rating.keySet()){
-                    HashMap<String, Double> shuttle = new HashMap<>();
                     Double value = (rating.get(key)-meanWorkRating.get(key))*(rating.get(key)-meanWorkRating.get(key));
                     shuttle.put(key, value);
-                    deviation.add(shuttle);
                 }
-
+                elementwiseDeviation.add(shuttle);
             }
-            result.add(meanOfWorkRatings(oneExcludedMeans));
+            Double deviationOld=0.;
+            Integer key=0;
+            for (Integer i=0; i<elementwiseDeviation.size(); i++){
+                Double deviationNew=0.;
+                for (Double devi: elementwiseDeviation.get(i).values()){
+                    deviationNew += devi;
+                }
+                if (deviationNew>deviationOld){
+                    deviationOld=deviationNew;
+                    key = i;
+                }
+            }
+            result.add(oneExcludedMeans.get(key)); //gets set of rates with smallest deviation in data
         }
-
-
         return result;
     }
 
