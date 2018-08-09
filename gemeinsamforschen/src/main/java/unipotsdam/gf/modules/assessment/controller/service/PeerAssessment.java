@@ -1,11 +1,9 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
-import sun.misc.Perf;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class PeerAssessment implements IPeerAssessment {
@@ -40,20 +38,27 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
-        List<Grading> quizMean = quizGrade(totalPerformance);
-        List<Grading> workRateMean = workRateGrade(totalPerformance);
+    public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
+        Map<StudentIdentifier, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
+        Map<StudentIdentifier, Double> workRateMean = new HashMap<>(workRateGrade(totalPerformance));
+        Map<StudentIdentifier, Double> result = new HashMap<>();
         Grading[] grading = new Grading[totalPerformance.size()];
-        for (int i = 0; i < quizMean.size(); i++) {
-            double grade = (quizMean.get(i).getGrade() + workRateMean.get(i).getGrade()) / 2.0;
-            grading[i] = new Grading(totalPerformance.get(i).getStudentIdentifier(), grade);
+        for (StudentIdentifier student : quizMean.keySet()) {
+            double grade = (quizMean.get(student) + workRateMean.get(student)) / 2.0;
+            result.put(student, grade);
         }
-        return Arrays.asList(grading);
+        return result;
     }
 
-    private List<Grading> quizGrade(ArrayList<Performance> totalPerformance) {
+    @Override
+    public Map<String, Double> calculateAssessment(String projectId, String method) {
+
+        return null;
+    }
+
+    private Map<StudentIdentifier, Double> quizGrade(ArrayList<Performance> totalPerformance) {
         double[] allAssessments = new double[totalPerformance.size()];
-        Grading[] grading = new Grading[totalPerformance.size()];
+        Map<StudentIdentifier, Double> grading = new HashMap<>();
 
         for (int i = 0; i < totalPerformance.size(); i++) {
             for (int j = 0; j < totalPerformance.get(i).getQuizAnswer().length; j++) {
@@ -62,15 +67,14 @@ public class PeerAssessment implements IPeerAssessment {
             allAssessments[i] = 6.0 - 5.0 * allAssessments[i] / totalPerformance.get(i).getQuizAnswer().length;
         }
         for (int i = 0; i < totalPerformance.size(); i++) {
-            Grading shuttle = new Grading(totalPerformance.get(i).getStudentIdentifier(), allAssessments[i]);
-            grading[i] = shuttle;
+            grading.put(totalPerformance.get(i).getStudentIdentifier(), allAssessments[i]);
         }
-        return Arrays.asList(grading);
+        return grading;
     }
 
-    private List<Grading> workRateGrade(ArrayList<Performance> totalPerformance) {
-        double[] allGrades = new double[totalPerformance.size()];
-        Grading[] grading = new Grading[totalPerformance.size()];
+    private Map<StudentIdentifier, Double> workRateGrade(ArrayList<Performance> totalPerformance) {
+        double[] allAssessments = new double[totalPerformance.size()];
+        Map<StudentIdentifier, Double> grading = new HashMap<>();
         for (int i = 0; i < totalPerformance.size(); i++) {
             Map workRating = totalPerformance.get(i).getWorkRating();
             Iterator it = workRating.entrySet().iterator();
@@ -78,17 +82,17 @@ public class PeerAssessment implements IPeerAssessment {
             while (it.hasNext()) {
                 HashMap.Entry pair = (HashMap.Entry) it.next();
                 Double rating = (Double) pair.getValue();
-                allGrades[i] += rating;
+                allAssessments[i] += rating;
                 it.remove(); // avoids a ConcurrentModificationException
                 size++;
             }
-            allGrades[i] = 6 - allGrades[i] / size;
+            allAssessments[i] = 6 - allAssessments[i] / size;
         }
         for (int i = 0; i < totalPerformance.size(); i++) {
-            Grading shuttle = new Grading(totalPerformance.get(i).getStudentIdentifier(), allGrades[i]);
-            grading[i] = shuttle;
+            grading.put(totalPerformance.get(i).getStudentIdentifier(), allAssessments[i]);
+
         }
-        return Arrays.asList(grading);
+        return grading;
     }
 
     private Map<String, Double> meanOfWorkRatings(ArrayList<Map<String, Double>> workRatings) {

@@ -76,6 +76,11 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
+    public Map<String, Double> calculateAssessment(String projectId, String method) {
+        return null;
+    }
+
+    @Override
     public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
         int[] quizAnswer = {1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1};
         Map workRating = new HashMap<>();
@@ -90,21 +95,8 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
-    public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
-        double[] allAssessments = new double[totalPerformance.size()];
-        Grading[] grading = new Grading[totalPerformance.size()];
-
-        for (int i = 0; i < totalPerformance.size(); i++) {
-            for (int j = totalPerformance.get(i).getQuizAnswer().length; j > 0; j--) {
-                allAssessments[i] += totalPerformance.get(i).getQuizAnswer()[j];
-            }
-            allAssessments[i] = allAssessments[i] / totalPerformance.get(i).getQuizAnswer().length;
-        }
-        for (int i = 0; i < totalPerformance.size(); i++) {
-            Grading shuttle = new Grading(totalPerformance.get(i).getStudentIdentifier(), allAssessments[i]);
-            grading[i] = shuttle;
-        }
-        return Arrays.asList(grading);
+    public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
+        return null;
     }
 
     @Override

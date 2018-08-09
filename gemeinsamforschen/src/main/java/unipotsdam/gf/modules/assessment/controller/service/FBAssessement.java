@@ -4,7 +4,7 @@ import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dehne on 18.05.2018.
@@ -27,7 +27,7 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
+    public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return null;
     }
 
@@ -67,5 +67,10 @@ public class FBAssessement extends AssessmentDAO {
     @Override
     public void deleteQuiz(String quizId) {
 
+    }
+
+    @Override
+    public Map<String, Double> calculateAssessment(String projectId, String method) {
+        return null;
     }
 }

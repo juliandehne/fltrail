@@ -1,11 +1,9 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
-import sun.misc.Perf;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -67,7 +65,6 @@ public class QuizView implements IPeerAssessment {
             throw new AssertionError("UTF-8 is unknown");
         }
     }
-    ////////////////////////////funktioniert////////////////////////////////////////////////////////
 
     @POST
     @Produces(MediaType.TEXT_PLAIN)
@@ -107,10 +104,19 @@ public class QuizView implements IPeerAssessment {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/calculate")
     @Override
-    public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
+    public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return peer.calculateAssessment(totalPerformance);
     }
     ////////////////////////funktioniert primitiv/////////todo: nicht als jersey zu nutzen///////////////////////////////
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/calculate/projectId/{projectId}/cheatChecker/{method}")
+    public Map<String, Double> calculateAssessment(@PathParam("projectId") String projectId, @PathParam("method") String method) {
+        return peer.calculateAssessment(projectId, method);
+    }
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
