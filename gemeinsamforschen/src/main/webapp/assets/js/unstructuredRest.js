@@ -42,3 +42,48 @@ function getFullSubmission(id, responseHandler, errorHandler) {
         }
     })
 }
+
+/**
+ * POST: Save an submission part in the database
+ *
+ * @param submissionPartPostRequest The post request
+ * @param responseHandler The response handler
+ */
+function createSubmissionPart(submissionPartPostRequest, responseHandler) {
+    var url = "../rest/submissions/part/";
+    var json = JSON.stringify(fullSubmissionPostRequest);
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: json,
+        contentType: "application/json",
+        dataType: "json",
+        success: function (response) {
+            responseHandler(response);
+        }
+    });
+}
+
+/**
+ * GET: Get a specific submission part for a given id
+ *
+ * @param id The id of the submission part
+ * @param responseHandler The response handler
+ * @param errorHandler The error handler
+ */
+function getSubmissionPart(id, responseHandler, errorHandler) {
+    var url = "../rest/submissions/part/" + id;
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            // handle the response
+            responseHandler(response);
+        },
+        error: function () {
+            // handle the error
+            errorHandler();
+        }
+    })
+}
