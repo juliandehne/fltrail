@@ -1,22 +1,22 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Performance {
     private StudentIdentifier studentIdentifier;
-    private int[] quizAnswer;
-    private String feedback;
+    private List<Integer> quizAnswer;
     private Map workRating;
+    private Map contributionRating;
 
     public Performance(){}
 
-    public Performance(StudentIdentifier student, int[] quiz, String feedback, Map workRating) {
+    public Performance(StudentIdentifier student, List<Integer> quiz, Map contributionRating, Map workRating) {
         this.studentIdentifier = student;
         this.quizAnswer = quiz;
-        this.feedback=feedback;
         this.workRating=workRating;
+        this.contributionRating=contributionRating;
 
     }
 
@@ -27,21 +27,17 @@ public class Performance {
     public void setStudentIdentifier(StudentIdentifier studentIdentifier) {
         this.studentIdentifier = studentIdentifier;
     }
+    public Map getContributionRating() { return contributionRating;    }
 
-    public int[] getQuizAnswer() {
+    public void setContributionRating(Map contributionRating) { this.contributionRating = contributionRating;    }
+
+
+    public List<Integer> getQuizAnswer() {
         return quizAnswer;
     }
 
-    public void setQuizAnswer(int[] quizAnswer) {
+    public void setQuizAnswer(List<Integer> quizAnswer) {
         this.quizAnswer = quizAnswer;
-    }
-
-    public String getFeedback() {
-        return feedback;
-    }
-
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
     }
 
     public Map getWorkRating() {
@@ -57,8 +53,8 @@ public class Performance {
     public String toString() {
         return "Performance{" +
                 "studentIdentifier=" + studentIdentifier +
-                ", quizAnswer=" + Arrays.toString(quizAnswer) +
-                ", feedback='" + feedback + '\'' +
+                ", quizAnswer=" + quizAnswer +
+                ", contributionRating='" + contributionRating + '\'' +
                 ", workRating=" + workRating +
                 '}';
     }

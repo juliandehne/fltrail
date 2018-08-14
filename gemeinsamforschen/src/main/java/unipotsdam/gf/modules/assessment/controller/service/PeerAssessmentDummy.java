@@ -15,8 +15,8 @@ public class PeerAssessmentDummy implements IPeerAssessment {
 
     @Override
     public Quiz getQuiz(String projectId, String quizId, String author) {
-        ArrayList<String> correctAnswers = new ArrayList<String>();
-        ArrayList<String> incorrectAnswers = new ArrayList<String>();
+        ArrayList<String> correctAnswers = new ArrayList<>();
+        ArrayList<String> incorrectAnswers = new ArrayList<>();
         Quiz sampleQuiz;
         if (quizId.equals("2")) {
             correctAnswers.add("42");
@@ -39,9 +39,9 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     public ArrayList<Quiz> getQuiz(String projectId) {
-        ArrayList<String> correctAnswers = new ArrayList<String>();
-        ArrayList<String> incorrectAnswers = new ArrayList<String>();
-        ArrayList<Quiz> sampleQuiz = new ArrayList<Quiz>();
+        ArrayList<String> correctAnswers = new ArrayList<>();
+        ArrayList<String> incorrectAnswers = new ArrayList<>();
+        ArrayList<Quiz> sampleQuiz = new ArrayList<>();
         correctAnswers.add("42");
         correctAnswers.add("" + projectId + " 24");
         incorrectAnswers.add("a god created creature");
@@ -76,17 +76,23 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
-    public Map<String, Double> calculateAssessment(String projectId, String method) {
+    public Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method) {
         return null;
     }
 
     @Override
     public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
-        int[] quizAnswer = {1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 1};
+        List<Integer> quizAnswer = new ArrayList<>();
+        quizAnswer.add(0);
+        quizAnswer.add(1);
+        quizAnswer.add(1);
+        quizAnswer.add(1);
+        quizAnswer.add(0);
+        quizAnswer.add(0);
         Map workRating = new HashMap<>();
-        Performance performance = new Performance(student, quizAnswer, "what a nice guy", workRating);
-        Assessment assessment = new Assessment(student, performance);
-        return assessment;
+        Map contributionRating = new HashMap<>();
+        Performance performance = new Performance(student, quizAnswer, contributionRating, workRating);
+        return new Assessment(student, performance);
     }
 
     @Override
@@ -103,25 +109,44 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
         StudentIdentifier student1 = new StudentIdentifier("gemeinsamForschen", "Haralf");
         StudentIdentifier student2 = new StudentIdentifier("gemeinsamForschen", "Regine");
-        ArrayList<Performance> performances = new ArrayList<Performance>();
-        int[] quiz = {1, 0, 1, 0, 0, 0, 1};
-        int[] quiz2 = {0, 1, 0, 1, 1, 1, 0};
-        Map work = new HashMap();
-        work.put("responsibility", 1);
-        work.put("partOfWork", 1);
-        work.put("cooperation", 1);
-        work.put("communication", 1);
-        work.put("autonomous", 1);
-        Map work2 = new HashMap();
-        work2.put("responsibility", 3);
-        work2.put("partOfWork", 4);
-        work2.put("cooperation", 5);
-        work2.put("communication", 3);
-        work2.put("autonomous", 4);
-
-        Performance performance = new Performance(student1, quiz, "toller dude", work);
+        ArrayList<Performance> performances = new ArrayList<>();
+        List<Integer> quiz = new ArrayList<>();
+        quiz.add(0);
+        quiz.add(1);
+        quiz.add(1);
+        quiz.add(1);
+        quiz.add(0);
+        quiz.add(0);
+        List<Integer> quiz2 = new ArrayList<>();
+        quiz2.add(0);
+        quiz2.add(1);
+        quiz2.add(1);
+        quiz2.add(1);
+        quiz2.add(0);
+        quiz2.add(0);
+        Map work = new HashMap<String, Double>();
+        work.put("responsibility", 1.);
+        work.put("partOfWork", 1.);
+        work.put("cooperation", 1.);
+        work.put("communication", 1.);
+        work.put("autonomous", 1.);
+        Map work2 = new HashMap<String, Double>();
+        work2.put("responsibility", 3.);
+        work2.put("partOfWork", 4.);
+        work2.put("cooperation", 5.);
+        work2.put("communication", 3.);
+        work2.put("autonomous", 4.);
+        Map contribution1 = new HashMap<String, Double>();
+        contribution1.put("Dossier", 4.);
+        contribution1.put("eJournal", 2.);
+        contribution1.put("research", 4.);
+        Map contribution2 = new HashMap<String, Double>();
+        contribution2.put("Dossier", 2.);
+        contribution2.put("eJournal", 3.);
+        contribution2.put("research", 4.);
+        Performance performance = new Performance(student1, quiz, contribution1, work);
         performances.add(performance);
-        Performance performance2 = new Performance(student2, quiz2, "passt schon", work2);
+        Performance performance2 = new Performance(student2, quiz2, contribution2, work2);
         performances.add(performance2);
         return performances;
     }

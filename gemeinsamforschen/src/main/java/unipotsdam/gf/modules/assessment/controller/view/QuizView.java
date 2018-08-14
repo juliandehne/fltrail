@@ -109,11 +109,11 @@ public class QuizView implements IPeerAssessment {
     }
     ////////////////////////funktioniert primitiv/////////todo: nicht als jersey zu nutzen///////////////////////////////
 
-    @POST
+    @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/calculate/projectId/{projectId}/cheatChecker/{method}")
-    public Map<String, Double> calculateAssessment(@PathParam("projectId") String projectId, @PathParam("method") String method) {
+    public Map<StudentIdentifier, Double> calculateAssessment(@PathParam("projectId") String projectId, @PathParam("method") String method) {
         return peer.calculateAssessment(projectId, method);
     }
 
@@ -147,26 +147,41 @@ public class QuizView implements IPeerAssessment {
     public List<Performance> getTotalAssessment() {
         List<Performance> result = new ArrayList<>();
         StudentIdentifier student = new StudentIdentifier("projekt","student");
-        int[] quiz = {1,0,1,1,1,0};
-        Map work = new HashMap<String, Integer>();
-        work.put("responsibility", 1);
-        work.put("partOfWork", 1);
-        work.put("cooperation", 1);
-        work.put("communication", 1);
-        work.put("autonomous", 1);
-        Map work2 = new HashMap<String, Integer>();
-        work2.put("responsibility", 3);
-        work2.put("partOfWork", 4);
-        work2.put("cooperation", 5);
-        work2.put("communication", 3);
-        work2.put("autonomous", 4);
+        List<Integer> quiz = new ArrayList<>();
+        quiz.add(1);
+        quiz.add(0);
+        quiz.add(1);
+        quiz.add(0);
+        quiz.add(1);
+        quiz.add(0);
+        quiz.add(1);
+        Map work = new HashMap<String, Double>();
+        work.put("responsibility", 1.);
+        work.put("partOfWork", 1.);
+        work.put("cooperation", 1.);
+        work.put("communication", 1.);
+        work.put("autonomous", 1.);
+        Map work2 = new HashMap<String, Double>();
+        work2.put("responsibility", 3.);
+        work2.put("partOfWork", 4.);
+        work2.put("cooperation", 5.);
+        work2.put("communication", 3.);
+        work2.put("autonomous", 4.);
+        Map contribution1 = new HashMap<String, Double>();
+        contribution1.put("Dossier", 4.);
+        contribution1.put("eJournal", 2.);
+        contribution1.put("research", 4.);
+        Map contribution2 = new HashMap<String, Double>();
+        contribution2.put("Dossier", 2.);
+        contribution2.put("eJournal", 3.);
+        contribution2.put("research", 4.);
         Performance pf = new Performance();
-        pf.setFeedback("ein toller typ");
+        pf.setContributionRating(contribution1);
         pf.setQuizAnswer(quiz);
         pf.setStudentIdentifier(student);
         pf.setWorkRating(work);
         Performance pf2 = new Performance();
-        pf2.setFeedback("feini feini");
+        pf2.setContributionRating(contribution2);
         pf2.setQuizAnswer(quiz);
         pf2.setStudentIdentifier(student);
         pf2.setWorkRating(work2);

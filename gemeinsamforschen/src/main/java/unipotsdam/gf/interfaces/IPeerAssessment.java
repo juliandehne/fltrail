@@ -84,5 +84,5 @@ public interface IPeerAssessment {
     void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer);
     void deleteQuiz(String quizId);
 
-    Map<String, Double> calculateAssessment(String projectId, String method);
+    Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method);
 }

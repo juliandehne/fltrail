@@ -24,7 +24,7 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
-        return new AssessmentDBCommunication().getAssessment(student);
+        return null;
     }
 
     @Override
@@ -40,20 +40,41 @@ public class PeerAssessment implements IPeerAssessment {
     @Override
     public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         Map<StudentIdentifier, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
-        Map<StudentIdentifier, Double> workRateMean = new HashMap<>(workRateGrade(totalPerformance));
+        Map<StudentIdentifier, Map<String, Double>> workRating = new HashMap<>();
+        Map<StudentIdentifier, Map<String, Double>> contributionRating = new HashMap<>();
+        for (Performance performance : totalPerformance) {
+            workRating.put(performance.getStudentIdentifier(), performance.getWorkRating());
+            contributionRating.put(performance.getStudentIdentifier(), performance.getContributionRating());
+        }
+        Map<StudentIdentifier, Double> workRateMean = new HashMap<>(mapToGrade(workRating));
+        Map<StudentIdentifier, Double> contributionMean = new HashMap<>(mapToGrade(contributionRating));
         Map<StudentIdentifier, Double> result = new HashMap<>();
-        Grading[] grading = new Grading[totalPerformance.size()];
         for (StudentIdentifier student : quizMean.keySet()) {
-            double grade = (quizMean.get(student) + workRateMean.get(student)) / 2.0;
+            double grade = (quizMean.get(student) + workRateMean.get(student) + contributionMean.get(student)) * 100 / 3. ;
             result.put(student, grade);
         }
         return result;
     }
 
     @Override
-    public Map<String, Double> calculateAssessment(String projectId, String method) {
-
-        return null;
+    public Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method) {
+        ArrayList<Performance> totalPerformance = new ArrayList<>();
+        //get all students in projectID from DB
+        List<String> students = new AssessmentDBCommunication().getStudents(projectId);
+        //for each student
+        for (String student : students) {
+            Performance performance = new Performance();
+            StudentIdentifier studentIdentifier = new StudentIdentifier(projectId, student);
+            List<Integer> answeredQuizzes = new AssessmentDBCommunication().getAnsweredQuizzes(studentIdentifier);
+            ArrayList<Map<String, Double>> workRating = new AssessmentDBCommunication().getWorkRating(studentIdentifier);
+            ArrayList<Map<String, Double>> contributionRating = new AssessmentDBCommunication().getContributionRating(studentIdentifier);
+            performance.setStudentIdentifier(studentIdentifier);
+            performance.setQuizAnswer(answeredQuizzes);
+            performance.setWorkRating(cheatChecker(workRating, cheatCheckerMethods.variance));
+            performance.setContributionRating(cheatChecker(contributionRating, cheatCheckerMethods.variance));
+            totalPerformance.add(performance);
+        }
+        return calculateAssessment(totalPerformance);
     }
 
     private Map<StudentIdentifier, Double> quizGrade(ArrayList<Performance> totalPerformance) {
@@ -61,10 +82,10 @@ public class PeerAssessment implements IPeerAssessment {
         Map<StudentIdentifier, Double> grading = new HashMap<>();
 
         for (int i = 0; i < totalPerformance.size(); i++) {
-            for (int j = 0; j < totalPerformance.get(i).getQuizAnswer().length; j++) {
-                allAssessments[i] += totalPerformance.get(i).getQuizAnswer()[j];
+            for (Integer quiz : totalPerformance.get(i).getQuizAnswer()) {
+                allAssessments[i] += quiz;
             }
-            allAssessments[i] = 6.0 - 5.0 * allAssessments[i] / totalPerformance.get(i).getQuizAnswer().length;
+            allAssessments[i] = allAssessments[i] / totalPerformance.get(i).getQuizAnswer().size();
         }
         for (int i = 0; i < totalPerformance.size(); i++) {
             grading.put(totalPerformance.get(i).getStudentIdentifier(), allAssessments[i]);
@@ -72,52 +93,52 @@ public class PeerAssessment implements IPeerAssessment {
         return grading;
     }
 
-    private Map<StudentIdentifier, Double> workRateGrade(ArrayList<Performance> totalPerformance) {
-        double[] allAssessments = new double[totalPerformance.size()];
+    private Map<StudentIdentifier, Double> mapToGrade(Map<StudentIdentifier, Map<String, Double>> ratings) {
+        Double allAssessments;
         Map<StudentIdentifier, Double> grading = new HashMap<>();
-        for (int i = 0; i < totalPerformance.size(); i++) {
-            Map workRating = totalPerformance.get(i).getWorkRating();
-            Iterator it = workRating.entrySet().iterator();
-            int size = 0;
-            while (it.hasNext()) {
-                HashMap.Entry pair = (HashMap.Entry) it.next();
-                Double rating = (Double) pair.getValue();
-                allAssessments[i] += rating;
-                it.remove(); // avoids a ConcurrentModificationException
-                size++;
+        for (StudentIdentifier student : ratings.keySet()) {
+            if (ratings.get(student) != null){
+                allAssessments = sumOfDimensions(ratings.get(student));
+                Double countDimensions = (double) ratings.get(student).size();
+                grading.put(student, (allAssessments-1) / (countDimensions * 4));
             }
-            allAssessments[i] = 6 - allAssessments[i] / size;
-        }
-        for (int i = 0; i < totalPerformance.size(); i++) {
-            grading.put(totalPerformance.get(i).getStudentIdentifier(), allAssessments[i]);
-
+            else {
+                grading.put(student, 0.);
+            }
         }
         return grading;
+    }
+
+    private Double sumOfDimensions(Map rating) {
+        Double sumOfDimensions = 0.;
+        for (Object o : rating.entrySet()) {
+            HashMap.Entry pair = (HashMap.Entry) o;
+            Double markForDimension = (Double) pair.getValue();
+            sumOfDimensions += markForDimension;
+        }
+        return sumOfDimensions;
     }
 
     private Map<String, Double> meanOfWorkRatings(ArrayList<Map<String, Double>> workRatings) {
-        HashMap<String, Double> mean = new HashMap();
-        double size = (double) workRatings.size();
-        Iterator it = workRatings.get(0).entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
+        HashMap<String, Double> mean = new HashMap<>();
+        Double size = (double) workRatings.size();
+        for (Object o : workRatings.get(0).entrySet()) {
+            Map.Entry pair = (Map.Entry) o;
             mean.put((String) pair.getKey(), 0.0);
-            it.remove(); // avoids a ConcurrentModificationException
         }
-        for (int i = 0; i < workRatings.size(); i++) {
-            it = workRatings.get(i).entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry) it.next();
-                mean.put((String) pair.getKey(), (Double) pair.getValue() / size + mean.get(pair.getKey()));
+        for (Map<String, Double> rating : workRatings) {
+            for (Object o : rating.entrySet()) {
+                Map.Entry pair = (Map.Entry) o;
+                Double value = (double) pair.getValue();
+                mean.put((String) pair.getKey(), value / size + mean.get(pair.getKey()));
             }
         }
         return mean;
     }
 
-    public ArrayList<Map<String, Double>> cheatChecker(ArrayList<Map<String, Double>> workRatings, String method) {
+    private Map<String, Double> cheatChecker(ArrayList<Map<String, Double>> workRatings, cheatCheckerMethods method) {
         ArrayList<Map<String, Double>> oneExcludedMeans = new ArrayList<>();
-        ArrayList<Map<String, Double>> result = new ArrayList<>();
-        Double threshold = 0.4;
+        Map<String, Double> result;
         if (workRatings.size() > 1) {
             for (Map rating : workRatings) {
                 ArrayList<Map<String, Double>> possiblyCheating = new ArrayList<>(workRatings);
@@ -125,36 +146,43 @@ public class PeerAssessment implements IPeerAssessment {
                 oneExcludedMeans.add(meanOfWorkRatings(possiblyCheating));
             }
         } else {
+            if (workRatings.size() <1){
+                return null;
+            }
             oneExcludedMeans.add(meanOfWorkRatings(workRatings));
         }
-        if (method.equals("median")) {
+        if (method.equals(cheatCheckerMethods.median)) {
             workRatings.sort(byMean);
-            result.add(workRatings.get(workRatings.size() / 2)); //in favor of student
-        }
-        if (method.equals("variance")) {
-            Map<String, Double> meanWorkRating = new HashMap<>(meanOfWorkRatings(oneExcludedMeans));
-            ArrayList<Map<String, Double>> elementwiseDeviation = new ArrayList<>();
-            for (Map<String, Double> rating: oneExcludedMeans){
-                HashMap<String, Double> shuttle = new HashMap<>();
-                for (String key: rating.keySet()){
-                    Double value = (rating.get(key)-meanWorkRating.get(key))*(rating.get(key)-meanWorkRating.get(key));
-                    shuttle.put(key, value);
+            result = workRatings.get(workRatings.size() / 2); //in favor of student
+        } else {
+            if (method.equals(cheatCheckerMethods.variance)) {
+                Map<String, Double> meanWorkRating = new HashMap<>(meanOfWorkRatings(oneExcludedMeans));
+                ArrayList<Map<String, Double>> elementwiseDeviation = new ArrayList<>();
+                for (Map<String, Double> rating : oneExcludedMeans) {
+                    HashMap<String, Double> shuttle = new HashMap<>();
+                    for (String key : rating.keySet()) {
+                        Double value = (rating.get(key) - meanWorkRating.get(key)) * (rating.get(key) - meanWorkRating.get(key));
+                        shuttle.put(key, value);
+                    }
+                    elementwiseDeviation.add(shuttle);
                 }
-                elementwiseDeviation.add(shuttle);
+                Double deviationOld = 0.;
+                Integer key = 0;
+                for (Integer i = 0; i < elementwiseDeviation.size(); i++) {
+                    Double deviationNew = 0.;
+                    for (Double devi : elementwiseDeviation.get(i).values()) {
+                        deviationNew += devi;
+                    }
+                    if (deviationNew > deviationOld) {
+                        deviationOld = deviationNew;
+                        key = i;
+                    }
+                }
+                result = oneExcludedMeans.get(key);  //gets set of rates with highest deviation in data
+                                                    //so without the cheater
+            } else {            //without cheatChecking
+                result = meanOfWorkRatings(workRatings);
             }
-            Double deviationOld=0.;
-            Integer key=0;
-            for (Integer i=0; i<elementwiseDeviation.size(); i++){
-                Double deviationNew=0.;
-                for (Double devi: elementwiseDeviation.get(i).values()){
-                    deviationNew += devi;
-                }
-                if (deviationNew>deviationOld){
-                    deviationOld=deviationNew;
-                    key = i;
-                }
-            }
-            result.add(oneExcludedMeans.get(key)); //gets set of rates with smallest deviation in data
         }
         return result;
     }
@@ -180,7 +208,7 @@ public class PeerAssessment implements IPeerAssessment {
 
     }
 
-    Comparator<Map<String, Double>> byMean = (o1, o2) -> {
+    private Comparator<Map<String, Double>> byMean = (o1, o2) -> {
         Double sumOfO1 = 0.;
         Double sumOfO2 = 0.;
         for (String key : o1.keySet()) {

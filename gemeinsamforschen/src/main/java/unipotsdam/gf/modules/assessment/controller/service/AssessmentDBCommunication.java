@@ -2,70 +2,85 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.modules.assessment.controller.model.Assessment;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @ManagedBean
 @Resource
 @Singleton
-public class AssessmentDBCommunication {
-    public Map getWorkRating(StudentIdentifier student) {
+class AssessmentDBCommunication {
+    ArrayList<Map<String, Double>> getWorkRating(StudentIdentifier student) {
+        ArrayList<Map<String, Double>> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectId`=? AND `studentId`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
         boolean next = vereinfachtesResultSet.next();
-        Map workRating = new HashMap();
-        workRating.put("responsibility", 4);
-        return workRating;
-    }
-
-    public Assessment getAssessment(StudentIdentifier student){
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectId`=? AND `studentId`=?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
-        boolean next = vereinfachtesResultSet.next();
-        String question = "";
-        ArrayList<String> correctAnswers = new ArrayList<String>();
-        ArrayList<String> incorrectAnswers = new ArrayList<String>();
-        String answer;
-        Boolean correct;
-        String mcType = "";
         while (next) {
-            mcType = vereinfachtesResultSet.getString("mcType");
-            question = vereinfachtesResultSet.getString("question");
-            answer = vereinfachtesResultSet.getString("answer");
-            correct = vereinfachtesResultSet.getBoolean("correct");
-            if (correct){
-                correctAnswers.add(answer);
-            }else{
-                incorrectAnswers.add(answer);
+            Map workRating = new HashMap();
+            for (String category: Categories.workRatingCategories){
+                workRating.put(category, (double) vereinfachtesResultSet.getInt(category));
             }
+            result.add(workRating);
             next = vereinfachtesResultSet.next();
         }
-        Performance performance=null;
-        Assessment assessment = new Assessment(student, performance);
-        connect.close();
-        return assessment;
+        return result;
     }
 
-    public void deleteQuiz(String quizId) {
+    List<String> getStudents(String projectID){
+        List<String> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "DELETE FROM quiz where question = (?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, quizId);
-        connect.close();
+        String mysqlRequest = "SELECT * FROM `projectuser` WHERE `projectId`=?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, projectID);
+        boolean next = vereinfachtesResultSet.next();
+        while (next) {
+            result.add(vereinfachtesResultSet.getString("userID"));
+            next = vereinfachtesResultSet.next();
+        }
+        return result;
+    }
+
+    ArrayList<Map<String, Double>> getContributionRating(StudentIdentifier student) {
+        ArrayList<Map<String, Double>> result = new ArrayList<>();
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM `contributionrating` WHERE `projectId`=? AND `studentId`=?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
+        boolean next = vereinfachtesResultSet.next();
+        while (next) {
+            Map<String, Double> contributionRating = new HashMap<>();
+            for (String category: Categories.contributionRatingCategories){
+                contributionRating.put(category, (double) vereinfachtesResultSet.getInt(category));
+            }
+            result.add(contributionRating);
+            next = vereinfachtesResultSet.next();
+        }
+        return result;
+    }
+
+    ArrayList<Integer> getAnsweredQuizzes(StudentIdentifier student) {
+        ArrayList<Integer> result = new ArrayList<>();
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM `answeredquiz` WHERE `projectId`=? AND `studentId`=?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
+        boolean next = vereinfachtesResultSet.next();
+        while (next) {
+            result.add(vereinfachtesResultSet.getInt("correct"));
+            next = vereinfachtesResultSet.next();
+        }
+        return result;
     }
 }
