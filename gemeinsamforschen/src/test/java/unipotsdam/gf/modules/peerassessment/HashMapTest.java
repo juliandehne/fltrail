@@ -40,8 +40,10 @@ public class HashMapTest {
         }
     };
 
+    //fixme: use the function from the class .... obviously
     public ArrayList<Map<String, Double>> cheatChecker(ArrayList<Map<String, Double>> workRatings, String method) {
         ArrayList<Map<String, Double>> result = new ArrayList<>();
+        //todo: magicString sollte Enum sein um nutzbarer zu sein.
         if (method.equals("median")) {
             workRatings.sort(byMean);
             result.add(workRatings.get(workRatings.size() / 2)); //in favor of student
@@ -116,6 +118,7 @@ public class HashMapTest {
         workRatings.add(work3);
         workRatings.add(work4);
 
+        //fixme: workRating in class. cheatchecker extends Hashmap<String, Double>!?
         System.out.println(cheatChecker(workRatings, "median").toString());
         System.out.println(cheatChecker(workRatings, "variance").toString());
     }
