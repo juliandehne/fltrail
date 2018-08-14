@@ -6,6 +6,7 @@ import unipotsdam.gf.modules.submission.model.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 
 /**
  * @author Sven Kästle
@@ -65,13 +66,31 @@ public class SubmissionService {
         SubmissionController controller = new SubmissionController();
         SubmissionPart submissionPart = controller.getSubmissionPart(submissionPartId);
 
-        if(submissionPart != null) {
+        if (submissionPart != null) {
             return  Response.ok(submissionPart).build();
         }
         else {
             // declare response
             SubmissionResponse response = new SubmissionResponse();
-            response.setMessage("Submission with the id '" + submissionPartId + "' can't be found");
+            response.setMessage("Submission part with the id '" + submissionPartId + "' can't be found");
+
+            return Response.status(Response.Status.NOT_FOUND).entity(response).build();
+        }
+    }
+
+    @GET
+    @Path("/full/{id}/parts")
+    public Response getAllSubmissionParts(@PathParam("id") String fullSubmissionId) {
+        // get submission parts from database based by id
+        SubmissionController controller = new SubmissionController();
+        ArrayList<SubmissionPart> parts = controller.getAllSubmissionParts(fullSubmissionId);
+
+        if (parts.size() > 0) {
+            return Response.ok(parts).build();
+        }
+        else {
+            SubmissionResponse response = new SubmissionResponse();
+            response.setMessage("No submission parts found for submission with the id '" + fullSubmissionId + "'");
 
             return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }

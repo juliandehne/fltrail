@@ -2,23 +2,26 @@ package unipotsdam.gf.modules.submission.model;
 
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
+import java.util.ArrayList;
+
 /**
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
  */
 public class SubmissionPartPostRequest {
+
     // variables
     private String userId;
     private String fullSubmissionId;
-    private String text;
     private Category category;
+    private ArrayList<SubmissionPartBodyElement> body;
 
     // constructors
-    public SubmissionPartPostRequest(String userId, String fullSubmissionId, String text, Category category) {
+    public SubmissionPartPostRequest(String userId, String fullSubmissionId, Category category, ArrayList<SubmissionPartBodyElement> body) {
         this.userId = userId;
         this.fullSubmissionId = fullSubmissionId;
-        this.text = text;
         this.category = category;
+        this.body = body;
     }
 
     public SubmissionPartPostRequest(){}
@@ -40,14 +43,6 @@ public class SubmissionPartPostRequest {
         this.fullSubmissionId = fullSubmissionId;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -56,13 +51,22 @@ public class SubmissionPartPostRequest {
         this.category = category;
     }
 
+    public ArrayList<SubmissionPartBodyElement> getBody() {
+        return body;
+    }
+
+    public void setBody(ArrayList<SubmissionPartBodyElement> body) {
+        this.body = body;
+    }
+
     @Override
     public String toString() {
         return "SubmissionPartPostRequest{" +
                 "userId='" + userId + '\'' +
                 ", fullSubmissionId='" + fullSubmissionId + '\'' +
-                ", text='" + text + '\'' +
                 ", category=" + category +
+                ", body=" + body +
                 '}';
     }
+
 }

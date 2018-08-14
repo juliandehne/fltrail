@@ -2,27 +2,30 @@ package unipotsdam.gf.modules.submission.model;
 
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
+import java.util.ArrayList;
+
 /**
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
  */
 public class SubmissionPart {
+
     // variables
     private String id;
     private long timestamp;
     private String userId;
     private String fullSubmissionId;
-    private String text;
     private Category category;
+    private ArrayList<SubmissionPartBodyElement> body;
 
     // constructor
-    public SubmissionPart(String id, long timestamp, String userId, String fullSubmissionId, String text, Category category) {
+    public SubmissionPart(String id, long timestamp, String userId, String fullSubmissionId, Category category, ArrayList<SubmissionPartBodyElement> body) {
         this.id = id;
         this.timestamp = timestamp;
         this.userId = userId;
         this.fullSubmissionId = fullSubmissionId;
-        this.text = text;
         this.category = category;
+        this.body = body;
     }
 
     public SubmissionPart(){}
@@ -60,20 +63,20 @@ public class SubmissionPart {
         this.fullSubmissionId = fullSubmissionId;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
     public Category getCategory() {
         return category;
     }
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public ArrayList<SubmissionPartBodyElement> getBody() {
+        return body;
+    }
+
+    public void setBody(ArrayList<SubmissionPartBodyElement> body) {
+        this.body = body;
     }
 
     @Override
@@ -83,8 +86,9 @@ public class SubmissionPart {
                 ", timestamp=" + timestamp +
                 ", userId='" + userId + '\'' +
                 ", fullSubmissionId='" + fullSubmissionId + '\'' +
-                ", text='" + text + '\'' +
                 ", category=" + category +
+                ", body=" + body +
                 '}';
     }
+
 }

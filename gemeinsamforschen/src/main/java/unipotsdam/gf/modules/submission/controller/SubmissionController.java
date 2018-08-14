@@ -1,14 +1,14 @@
 package unipotsdam.gf.modules.submission.controller;
 
+import com.google.common.base.Strings;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.ISubmission;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.*;
 
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /**
@@ -119,8 +119,14 @@ public class SubmissionController implements ISubmission {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT INTO submissionparts (`id`, `userId`, `fullSubmissionId`, `text`, `category`) VALUES (?,?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, submissionPartPostRequest.getUserId(), submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getText(), submissionPartPostRequest.getCategory().toString());
+        String request = "INSERT INTO submissionparts (`id`, `userId`, `fullSubmissionId`, `category`) VALUES (?,?,?,?);";
+        connection.issueInsertOrDeleteStatement(request, uuid, submissionPartPostRequest.getUserId(), submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory().toString());
+
+        // build and execute body requests
+        String requestElement = "INSERT INTO submissionpartbodyelements (`submissionPartId`, `text`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?)";
+        for (SubmissionPartBodyElement element : submissionPartPostRequest.getBody()) {
+            connection.issueInsertOrDeleteStatement(requestElement, uuid, element.getText(), element.getStartCharacter(), element.getEndCharacter());
+        }
 
         // get the new submission from database
         SubmissionPart submissionPart = getSubmissionPart(uuid);
@@ -140,12 +146,12 @@ public class SubmissionController implements ISubmission {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM submissionparts WHERE id = ?;";
+        String request = "SELECT * FROM submissionparts LEFT JOIN submissionpartbodyelements ON id = submissionPartId WHERE id = ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, submissionPartId);
 
         if (rs.next()) {
             // save submission
-            SubmissionPart submissionPart = getSubmissionPartFromResultSelt(rs);
+            SubmissionPart submissionPart = getSubmissionPartFromResultSet(rs);
 
             // close connection
             connection.close();
@@ -158,6 +164,36 @@ public class SubmissionController implements ISubmission {
 
             return null;
         }
+
+    }
+
+    @Override
+    public ArrayList<SubmissionPart> getAllSubmissionParts(String fullSubmissionId) {
+
+        // establish connection
+        MysqlConnect connection = new MysqlConnect();
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * " +
+                "FROM submissionparts " +
+                "LEFT JOIN submissionpartbodyelements " +
+                "ON id = submissionPartId " +
+                "WHERE fullSubmissionId = ? " +
+                "ORDER BY id;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId);
+
+        ArrayList<SubmissionPart> submissionParts = new ArrayList<>();
+
+        if (rs.next()) {
+            // save submission
+            submissionParts = getAllSubmissionPartsFromResultSet(rs);
+        }
+
+        // close connection
+        connection.close();
+
+        return submissionParts;
 
     }
 
@@ -216,15 +252,78 @@ public class SubmissionController implements ISubmission {
      * @param rs The result set from the database query
      * @return A new submission part object
      */
-    private SubmissionPart getSubmissionPartFromResultSelt(VereinfachtesResultSet rs) {
+    private SubmissionPart getSubmissionPartFromResultSet(VereinfachtesResultSet rs) {
 
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp("timestamp").getTime();
         String userId = rs.getString("userId");
         String fullSubmissionId = rs.getString("fullSubmissionId");
-        String text = rs.getString("text");
         Category category = Category.valueOf(rs.getString("category").toUpperCase());
 
-        return new SubmissionPart(id, timestamp, userId, fullSubmissionId, text, category);
+        // build body and iterate over result set
+        ArrayList<SubmissionPartBodyElement> body = new ArrayList<>();
+
+        do {
+            // only add it if the element is not empty
+            if (!Strings.isNullOrEmpty(rs.getString("submissionPartId"))) {
+                SubmissionPartBodyElement element = new SubmissionPartBodyElement(
+                        rs.getString("text"),
+                        rs.getInt("startCharacter"),
+                        rs.getInt("endCharacter"));
+
+                body.add(element);
+            }
+        } while (rs.next());
+
+        return new SubmissionPart(id, timestamp, userId, fullSubmissionId, category, body);
     }
+
+    private ArrayList<SubmissionPart> getAllSubmissionPartsFromResultSet(VereinfachtesResultSet rs) {
+
+        ArrayList<SubmissionPart> submissionParts = new ArrayList<>();
+        // tmp part
+        SubmissionPart tmpPart = null;
+        // tmp body element
+        SubmissionPartBodyElement tmpElement;
+        // tmp category
+        String tmpCategory = "";
+        do {
+
+            if (!tmpCategory.equals(rs.getString("category").toUpperCase())) {
+                // current tmp category
+                tmpCategory = rs.getString("category").toUpperCase();
+
+                // add last submission part
+                if (tmpPart != null) {
+                    submissionParts.add(tmpPart);
+                }
+
+                // build submission part with empty body
+                tmpPart = new SubmissionPart(
+                    rs.getString("id"),
+                    rs.getTimestamp("timestamp").getTime(),
+                    rs.getString("userId"),
+                    rs.getString("fullSubmissionId"),
+                    Category.valueOf(tmpCategory),
+                    new ArrayList<SubmissionPartBodyElement>()
+                );
+            }
+
+            tmpElement = new SubmissionPartBodyElement(
+                    rs.getString("text"),
+                    rs.getInt("startCharacter"),
+                    rs.getInt("endCharacter")
+            );
+
+            tmpPart.getBody().add(tmpElement);
+
+        } while (rs.next());
+
+        // add last part
+        submissionParts.add(tmpPart);
+
+        System.out.println(submissionParts.toString());
+        return submissionParts;
+    }
+
 }

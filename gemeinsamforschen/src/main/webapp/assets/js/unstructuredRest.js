@@ -87,3 +87,27 @@ function getSubmissionPart(id, responseHandler, errorHandler) {
         }
     })
 }
+
+/**
+ * GET: Get all submission parts for a given full submission id
+ *
+ * @param id The id of the full submission
+ * @param responseHandler The response handler
+ * @param errorHandler The error handler
+ */
+function getAllSubmissionParts(id, responseHandler, errorHandler) {
+    var url = "../rest/submissions/full/" + id + "/parts";
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            // handle the response
+            responseHandler(response);
+        },
+        error: function () {
+            // handle the error
+            errorHandler();
+        }
+    })
+}

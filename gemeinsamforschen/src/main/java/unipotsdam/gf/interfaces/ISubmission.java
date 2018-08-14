@@ -5,6 +5,8 @@ import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.submission.model.SubmissionPart;
 import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
 
+import java.util.ArrayList;
+
 /**
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
@@ -50,6 +52,14 @@ public interface ISubmission {
      * @return The new submission part
      */
     SubmissionPart getSubmissionPart(String submissionPartId);
+
+    /**
+     * Get all submission parts based on an id
+     *
+     * @param fullSubmissionId The id of a full submission
+     * @return An ArrayList holding the submission parts
+     */
+    ArrayList<SubmissionPart> getAllSubmissionParts(String fullSubmissionId);
 
     /**
      * Checks if a submission part id already exists in the database

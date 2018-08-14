@@ -134,9 +134,16 @@ CREATE TABLE if not exists `submissionparts` (
   `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `userId` VARCHAR(120) NOT NULL,
   `fullSubmissionId` VARCHAR(120) NOT NULL,
-  `text` MEDIUMTEXT NOT NULL,
   `category` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE if not exists `submissionpartbodyelements` (
+  `submissionPartId` VARCHAR(120) NOT NULL,
+  `text` MEDIUMTEXT NOT NULL,
+  `startCharacter` int(11) NOT NULL,
+  `endCharacter` int(11) NOT NULL,
+  PRIMARY KEY (`submissionPartId`, `startCharacter`, `endCharacter`)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 alter table users
