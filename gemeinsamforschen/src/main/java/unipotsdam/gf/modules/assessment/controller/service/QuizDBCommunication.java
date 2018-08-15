@@ -104,24 +104,21 @@ public class QuizDBCommunication {
         String mcType;
         String question;
         String answer;
-        boolean correct;
         ArrayList<String> correctAnswers = quiz.getCorrectAnswers();
         for (String correctAnswer : correctAnswers) {
             answer = correctAnswer;
             mcType = quiz.getType();
             question = quiz.getQuestion();
-            correct = true;
             String mysqlRequest = "INSERT INTO `quiz`(`author`, `projectId`, `question`, `mcType`, `answer`, `correct`) VALUES (?,?,?,?,?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest, author, projectId, question, mcType, answer, correct);
+            connect.issueInsertOrDeleteStatement(mysqlRequest, author, projectId, question, mcType, answer, true);
         }
         ArrayList<String> incorrectAnswers = quiz.getIncorrectAnswers();
         for (String incorrectAnswer : incorrectAnswers) {
             answer = incorrectAnswer;
             mcType = quiz.getType();
             question = quiz.getQuestion();
-            correct = false;
             String mysqlRequest = "INSERT INTO `quiz`(`author`, `projectId`, `question`, `mcType`, `answer`, `correct`) VALUES (?,?,?,?,?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest, author, projectId, question, mcType, answer, correct);
+            connect.issueInsertOrDeleteStatement(mysqlRequest, author, projectId, question, mcType, answer, false);
         }
         connect.close();
     }
