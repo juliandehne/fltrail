@@ -10,20 +10,21 @@ $(document).ready(function() {
 
 function assessPeer(){
     ///////initialize variables///////
-    var peerRating = {
-        "fromPeer": $('#user').html().trim(),
-        "toPeer": "",
-        "workRating": []
-    };
     var dataP = [];
-    var workRating = [];
+    var workRating = {};
     var rateThis = ['responsibility','partOfWork','cooperation','communication','autonomous'];
 
     ///////read values from html///////
     var peerStudents =$('.peerStudent');
     for (var peer=0; peer< peerStudents.length; peer++){
+        var peerRating = {
+            "fromPeer": $('#user').html().trim(),
+            "toPeer": peerStudents[peer].id,
+            "workRating": {}
+        };
         for (var rate=0; rate<rateThis.length; rate++ ){
-            workRating.push($('input[name='+rateThis[rate]+peerStudents[peer].id+']:checked').val());
+            var category = rateThis[rate];
+            workRating[category]=($('input[name='+rateThis[rate]+peerStudents[peer].id+']:checked').val());
         }
         for (var i=0; i<workRating.length; i++){
             if(workRating[i]===undefined){
@@ -31,15 +32,14 @@ function assessPeer(){
                 return;
             }
         }
-        peerRating.toPeer = peerStudents[peer].id;
         peerRating.workRating = workRating;
         workRating=[];
         //////write values in Post-Variable
         dataP.push(peerRating);
     }
-    dataP.push(peerRating);
+    var projectId=$('#projectId').html().trim();
     $.ajax({
-        url:'../rest/assessments/peer/project/1/group/1',
+        url:'../rest/assessments/peerRating/project/'+projectId,
         type: 'POST',
         headers: {
             "Content-Type": "application/json",

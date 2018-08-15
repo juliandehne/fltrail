@@ -25,7 +25,7 @@ class AssessmentDBCommunication {
                 connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
         boolean next = vereinfachtesResultSet.next();
         while (next) {
-            Map workRating = new HashMap();
+            Map<String, Double> workRating = new HashMap<>();
             for (String category : Categories.workRatingCategories) {
                 workRating.put(category, (double) vereinfachtesResultSet.getInt(category));
             }

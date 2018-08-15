@@ -7,8 +7,8 @@ import java.util.Map;
 public class Performance {
     private StudentIdentifier studentIdentifier;
     private List<Integer> quizAnswer;
-    private Map workRating;
-    private Map contributionRating;
+    private Map<String, Double> workRating;
+    private Map<String, Double> contributionRating;
 
     public Performance(){}
 

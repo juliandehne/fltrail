@@ -61,7 +61,7 @@ public class PeerAssessmentDummy implements IPeerAssessment {
 }
 
     @Override
-    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
+    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId) {
         int breakpoint = 0; //todo: print an http-answer for the ajax-request to receive
     }
 

@@ -199,8 +199,11 @@ public class PeerAssessment implements IPeerAssessment {
 
 
     @Override
-    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
-
+    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId) {
+        for (PeerRating peer: peerRatings){
+            StudentIdentifier student = new StudentIdentifier(projectId, peer.getToPeer());
+            new AssessmentDBCommunication().writeWorkRatingToDB(student, peerRatings.get(1).getFromPeer(), peerRatings.get(1).getWorkRating());
+        }
     }
 
     @Override

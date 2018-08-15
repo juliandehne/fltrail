@@ -72,9 +72,8 @@ public interface IPeerAssessment {
      *
      * @param peerRatings
      * @param projectId
-     * @param groupId
      */
-    void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId);
+    void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId);
 
     /**
      *

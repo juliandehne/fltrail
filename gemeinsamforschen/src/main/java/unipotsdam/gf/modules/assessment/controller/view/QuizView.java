@@ -1,12 +1,17 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.util.JSONPObject;
+import org.glassfish.jersey.server.JSONP;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
+import java.lang.reflect.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,13 +19,12 @@ import java.util.List;
 import java.util.Map;
 
 @Path("/assessments")
-public class QuizView implements IPeerAssessment {
+public class QuizView {
     //private static IPeerAssessment peer =  new PeerAssessmentDummy();   //TestSubject
     private static IPeerAssessment peer =  new PeerAssessment();      //correct DB-conn and stuff
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/project/{projectId}/quiz/{quizId}/author/{author}")
-    @Override
     public Quiz getQuiz(@PathParam("projectId") String projectId, @PathParam("quizId") String quizId, @PathParam("author") String author) {
         try{
             String question=java.net.URLDecoder.decode(quizId,"UTF-8");
@@ -33,7 +37,6 @@ public class QuizView implements IPeerAssessment {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/project/{projectId}/quiz")
-    @Override
     public ArrayList<Quiz> getQuiz(@PathParam("projectId") String projectId) {
         return peer.getQuiz(projectId);
     }
@@ -41,14 +44,28 @@ public class QuizView implements IPeerAssessment {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/peer/project/{projectId}/group/{groupId}")
-    @Override
-    public void postPeerRating(ArrayList<PeerRating> peerRatings,@PathParam("projectId") String projectId, @PathParam("groupId") String groupId){
-        peer.postPeerRating(peerRatings, projectId,groupId);
-        //todo: checkout the POST-variable. should be peerRating but its null atm.
+    @Path("/peerRating/project/{projectId}")
+    public void postPeerRating(String peerRatings, @PathParam("projectId") String projectId) throws IOException {
+        ArrayList data =
+                new ObjectMapper().readValue(peerRatings, ArrayList.class);
+        ArrayList<PeerRating> result = new ArrayList<>();
+        for (Object peer: data){
+            try{
+                //todo: What the fuck? =) kA was dieses getField is supposed to do aber ich hätte gern fromPeer, toPeer und workRating aus dem Objekt
+                Object what = peer.getClass();
+                Field[] the = ((Class) what).getFields();
+                Field from = peer.getClass().getField("0");
+                Field to = peer.getClass().getField("1");
+                Field workRating = peer.getClass().getField("2");
+            }catch(Exception e){
+                return;
+            }
+
+            PeerRating rating = new PeerRating();
+        }
+        peer.postPeerRating(result, projectId);
     }
 
-    @Override
     public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
 
     }
@@ -56,7 +73,6 @@ public class QuizView implements IPeerAssessment {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/quiz/{quizId}")
-    @Override
     public void deleteQuiz(@PathParam("quizId") String quizId) {
         try {
             String question = java.net.URLDecoder.decode(quizId, "UTF-8");
@@ -70,13 +86,11 @@ public class QuizView implements IPeerAssessment {
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/assessment")
-    @Override
     public void addAssessmentDataToDB(Assessment assessment) {
         peer.addAssessmentDataToDB(assessment);
     }
 
-    @Override
-    public Assessment getAssessmentDataFromDB(StudentIdentifier student){
+    private Assessment getAssessmentDataFromDB(StudentIdentifier student){
         return peer.getAssessmentDataFromDB(student);
     }
 
@@ -93,7 +107,6 @@ public class QuizView implements IPeerAssessment {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/quiz")
-    @Override
     public void createQuiz(StudentAndQuiz studentAndQuiz) {
         peer.createQuiz(studentAndQuiz);
     }
@@ -103,7 +116,6 @@ public class QuizView implements IPeerAssessment {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/calculate")
-    @Override
     public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return peer.calculateAssessment(totalPerformance);
     }
@@ -121,7 +133,6 @@ public class QuizView implements IPeerAssessment {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/mean/project/{projectId}")
-    @Override
     public int meanOfAssessment(@PathParam("projectId") String ProjectId) {
         return peer.meanOfAssessment(ProjectId);
     }  ///////////////////////////////return 0//////////////////////////////////
@@ -134,7 +145,6 @@ public class QuizView implements IPeerAssessment {
         return getTotalAssessment(studentIdentifier);
     }  //////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
-    @Override
     public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
         return peer.getTotalAssessment(studentIdentifier);
     }  /////////dummy/////////////funktioniert wie geplant//////////////////////////////////
@@ -155,23 +165,23 @@ public class QuizView implements IPeerAssessment {
         quiz.add(1);
         quiz.add(0);
         quiz.add(1);
-        Map work = new HashMap<String, Double>();
+        Map<String, Double> work = new HashMap<>();
         work.put("responsibility", 1.);
         work.put("partOfWork", 1.);
         work.put("cooperation", 1.);
         work.put("communication", 1.);
         work.put("autonomous", 1.);
-        Map work2 = new HashMap<String, Double>();
+        Map<String, Double> work2 = new HashMap<>();
         work2.put("responsibility", 3.);
         work2.put("partOfWork", 4.);
         work2.put("cooperation", 5.);
         work2.put("communication", 3.);
         work2.put("autonomous", 4.);
-        Map contribution1 = new HashMap<String, Double>();
+        Map<String, Double> contribution1 = new HashMap<>();
         contribution1.put("Dossier", 4.);
         contribution1.put("eJournal", 2.);
         contribution1.put("research", 4.);
-        Map contribution2 = new HashMap<String, Double>();
+        Map<String, Double> contribution2 = new HashMap<>();
         contribution2.put("Dossier", 2.);
         contribution2.put("eJournal", 3.);
         contribution2.put("research", 4.);
