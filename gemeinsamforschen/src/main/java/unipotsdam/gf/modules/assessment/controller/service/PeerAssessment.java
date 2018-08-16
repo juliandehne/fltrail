@@ -202,7 +202,7 @@ public class PeerAssessment implements IPeerAssessment {
     public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId) {
         for (PeerRating peer: peerRatings){
             StudentIdentifier student = new StudentIdentifier(projectId, peer.getToPeer());
-            new AssessmentDBCommunication().writeWorkRatingToDB(student, peerRatings.get(1).getFromPeer(), peerRatings.get(1).getWorkRating());
+            //new AssessmentDBCommunication().writeWorkRatingToDB(student, peerRatings.get(1).getFromPeer(), peerRatings.get(1).getWorkRating());
         }
     }
 

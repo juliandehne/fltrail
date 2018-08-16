@@ -1,14 +1,10 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.util.JSONPObject;
-import org.glassfish.jersey.server.JSONP;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
-import java.lang.reflect.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -21,15 +17,16 @@ import java.util.Map;
 @Path("/assessments")
 public class QuizView {
     //private static IPeerAssessment peer =  new PeerAssessmentDummy();   //TestSubject
-    private static IPeerAssessment peer =  new PeerAssessment();      //correct DB-conn and stuff
+    private static IPeerAssessment peer = new PeerAssessment();      //correct DB-conn and stuff
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/project/{projectId}/quiz/{quizId}/author/{author}")
     public Quiz getQuiz(@PathParam("projectId") String projectId, @PathParam("quizId") String quizId, @PathParam("author") String author) {
-        try{
-            String question=java.net.URLDecoder.decode(quizId,"UTF-8");
+        try {
+            String question = java.net.URLDecoder.decode(quizId, "UTF-8");
             return peer.getQuiz(projectId, question, author);
-        }catch(UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             throw new AssertionError("UTF-8 is unknown");
         }
     }  ///////////////////////////////funktioniert//////////////////////////////////
@@ -60,7 +57,7 @@ public class QuizView {
         try {
             String question = java.net.URLDecoder.decode(quizId, "UTF-8");
             peer.deleteQuiz(question);
-        }catch(UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             throw new AssertionError("UTF-8 is unknown");
         }
     }
@@ -73,14 +70,14 @@ public class QuizView {
         peer.addAssessmentDataToDB(assessment);
     }
 
-    private Assessment getAssessmentDataFromDB(StudentIdentifier student){
+    private Assessment getAssessmentDataFromDB(StudentIdentifier student) {
         return peer.getAssessmentDataFromDB(student);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/project/{projectId}/student/{studentId}")
-    public Assessment getAssessmentDataFromDB(@PathParam("projectId") String projectId,@PathParam("studentId") String studentId){
+    public Assessment getAssessmentDataFromDB(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
         StudentIdentifier student = new StudentIdentifier(projectId, studentId);
         return getAssessmentDataFromDB(student);
     }  //////////dummy//////////////funktioniert wie geplant//////////////////////////////////
@@ -123,7 +120,7 @@ public class QuizView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/total/project/{projectId}/student/{student}")
-    public ArrayList<Performance> getTotalAssessment(@PathParam("projectId") String ProjectId,@PathParam("student") String student){
+    public ArrayList<Performance> getTotalAssessment(@PathParam("projectId") String ProjectId, @PathParam("student") String student) {
         StudentIdentifier studentIdentifier = new StudentIdentifier(ProjectId, student);
         return getTotalAssessment(studentIdentifier);
     }  //////////dummy/////////////funktioniert wie geplant//////////////////////////////////
@@ -133,13 +130,12 @@ public class QuizView {
     }  /////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/dummy/totalperformance")
     public List<Performance> getTotalAssessment() {
         List<Performance> result = new ArrayList<>();
-        StudentIdentifier student = new StudentIdentifier("projekt","student");
+        StudentIdentifier student = new StudentIdentifier("projekt", "student");
         List<Integer> quiz = new ArrayList<>();
         quiz.add(1);
         quiz.add(0);

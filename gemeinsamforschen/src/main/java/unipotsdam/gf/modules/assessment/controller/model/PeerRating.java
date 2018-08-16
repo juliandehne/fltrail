@@ -6,7 +6,7 @@ import java.util.Map;
 public class PeerRating {
     private String fromPeer;
     private String toPeer;
-    private Map<String, Integer> workRating;
+    private Map workRating;
 
     @Override
     public String toString() {
@@ -36,15 +36,15 @@ public class PeerRating {
         this.toPeer = toPeer;
     }
 
-    public Map<String, Integer> getWorkRating() {
+    public Map getWorkRating() {
         return workRating;
     }
 
-    public void setWorkRating(Map<String, Integer> workRating) {
+    public void setWorkRating(Map<String, Number> workRating) {
         this.workRating = workRating;
     }
 
-    public PeerRating(String fromPeer, String toPeer, Map<String, Integer> workRating) {
+    public PeerRating(String fromPeer, String toPeer, Map<String, Number> workRating) {
         this.fromPeer = fromPeer;
         this.toPeer = toPeer;
         this.workRating = workRating;
