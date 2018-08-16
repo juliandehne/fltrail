@@ -45,25 +45,8 @@ public class QuizView {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/peerRating/project/{projectId}")
-    public void postPeerRating(String peerRatings, @PathParam("projectId") String projectId) throws IOException {
-        ArrayList data =
-                new ObjectMapper().readValue(peerRatings, ArrayList.class);
-        ArrayList<PeerRating> result = new ArrayList<>();
-        for (Object peer: data){
-            try{
-                //todo: What the fuck? =) kA was dieses getField is supposed to do aber ich hätte gern fromPeer, toPeer und workRating aus dem Objekt
-                Object what = peer.getClass();
-                Field[] the = ((Class) what).getFields();
-                Field from = peer.getClass().getField("0");
-                Field to = peer.getClass().getField("1");
-                Field workRating = peer.getClass().getField("2");
-            }catch(Exception e){
-                return;
-            }
-
-            PeerRating rating = new PeerRating();
-        }
-        peer.postPeerRating(result, projectId);
+    public void postPeerRating(ArrayList<PeerRating> peerRatings, @PathParam("projectId") String projectId) throws IOException {
+        peer.postPeerRating(peerRatings, projectId);
     }
 
     public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
