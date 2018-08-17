@@ -86,6 +86,21 @@ class AssessmentDBCommunication {
         return result;
     }
 
+    void writeAnsweredQuiz(StudentIdentifier student, Map<String, Boolean> questions) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        for (String question: questions.keySet()){
+            String mysqlRequest = "INSERT INTO `answeredquiz`(`projectId`, `studentId`, `question`, `correct`) VALUES (?,?,?,?)";
+            connect.issueInsertOrDeleteStatement(mysqlRequest,
+                    student.getProjectId(),
+                    student.getStudentId(),
+                    question,
+                    questions.get(question)
+            );
+        }
+        connect.close();
+    }
+
     void writeWorkRatingToDB(StudentIdentifier student, String fromStudent, Map<String, Integer> workRating) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
@@ -96,7 +111,7 @@ class AssessmentDBCommunication {
                 "`communication`, " +
                 "`autonomous`" +
                 ") VALUES (?,?,?,?,?,?,?,?)";
-        connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId(), fromStudent,
+        connect.issueInsertOrDeleteStatement(mysqlRequest, student.getProjectId(), student.getStudentId(), fromStudent,
                 workRating.get("responsibility"),
                 workRating.get("partOfWork"),
                 workRating.get("cooperation"),
@@ -114,7 +129,7 @@ class AssessmentDBCommunication {
                 "`eJournal`, " +
                 "`research`" +
                 ") VALUES (?,?,?,?,?,?)";
-        connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId(), fromStudent,
+        connect.issueInsertOrDeleteStatement(mysqlRequest, student.getProjectId(), student.getStudentId(), fromStudent,
                 contributionRating.get("Dossier"),
                 contributionRating.get("eJournal"),
                 contributionRating.get("research")
@@ -126,7 +141,7 @@ class AssessmentDBCommunication {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "INSERT INTO `grades`(`projectId`, `studentId`, `grade`) VALUES (?,?,?)";
-        connect.issueSelectStatement(mysqlRequest,
+        connect.issueInsertOrDeleteStatement(mysqlRequest,
                 grade.getStudentIdentifier().getProjectId(),
                 grade.getStudentIdentifier().getStudentId(),
                 grade.getGrade()
@@ -134,17 +149,20 @@ class AssessmentDBCommunication {
         connect.close();
     }
 
-    void writeAnsweredQuiz(StudentIdentifier student, String question, Boolean correct) {
+    public Map<String, Boolean> getAnswers(String projectId, String question) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "INSERT INTO `answeredquiz`(`projectId`, `studentId`, `question`, `correct`) VALUES (?,?,?,?)";
-        connect.issueSelectStatement(mysqlRequest,
-                student.getProjectId(),
-                student.getStudentId(),
-                question,
-                correct
-        );
+        Map<String, Boolean> result = new HashMap<>();
+        String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectId`=? AND `question`=?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, projectId, question);
+        boolean next = vereinfachtesResultSet.next();
+        while (next) {
+            result.put(vereinfachtesResultSet.getString("answer"), vereinfachtesResultSet.getBoolean("correct"));
+            next = vereinfachtesResultSet.next();
+        }
         connect.close();
+        return result;
     }
 
 }

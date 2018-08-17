@@ -46,8 +46,12 @@ public class QuizView {
         peer.postPeerRating(peerRatings, projectId);
     }
 
-    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
-
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/quizAnswer/projectId/{projectId}/studentId/{studentId}/")
+    public void answerQuiz(Map<String, List<String>> questions, @PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
+        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+        peer.answerQuiz(questions, student);
     }
 
     @POST

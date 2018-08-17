@@ -66,7 +66,7 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
-    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
+    public void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student) {
         NotImplementedLogger.logAssignment(Assignee.AXEL, IPeerAssessment.class);
     }
 
@@ -124,23 +124,23 @@ public class PeerAssessmentDummy implements IPeerAssessment {
         quiz2.add(1);
         quiz2.add(0);
         quiz2.add(0);
-        Map work = new HashMap<String, Double>();
+        Map<String, Double> work = new HashMap<>();
         work.put("responsibility", 1.);
         work.put("partOfWork", 1.);
         work.put("cooperation", 1.);
         work.put("communication", 1.);
         work.put("autonomous", 1.);
-        Map work2 = new HashMap<String, Double>();
+        Map<String, Double> work2 = new HashMap<>();
         work2.put("responsibility", 3.);
         work2.put("partOfWork", 4.);
         work2.put("cooperation", 5.);
         work2.put("communication", 3.);
         work2.put("autonomous", 4.);
-        Map contribution1 = new HashMap<String, Double>();
+        Map<String, Double> contribution1 = new HashMap<>();
         contribution1.put("Dossier", 4.);
         contribution1.put("eJournal", 2.);
         contribution1.put("research", 4.);
-        Map contribution2 = new HashMap<String, Double>();
+        Map<String, Double> contribution2 = new HashMap<>();
         contribution2.put("Dossier", 2.);
         contribution2.put("eJournal", 3.);
         contribution2.put("research", 4.);

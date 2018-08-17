@@ -9,14 +9,14 @@ $(document).ready(function() {
 });
 
 function assessPeer(){
+    var peerStudents =$('.peerStudent');
     ///////initialize variables///////
-    var dataP = [];
-    var workRating = {};
+    var dataP = new Array(peerStudents.size());
     var rateThis = ['responsibility','partOfWork','cooperation','communication','autonomous'];
 
     ///////read values from html///////
-    var peerStudents =$('.peerStudent');
     for (var peer=0; peer< peerStudents.length; peer++){
+        var workRating = {};
         var peerRating = {
             "fromPeer": $('#user').html().trim(),
             "toPeer": peerStudents[peer].id,
@@ -33,9 +33,8 @@ function assessPeer(){
             }
         }
         peerRating.workRating = workRating;
-        workRating=[];
         //////write values in Post-Variable
-        dataP.push(peerRating);
+        dataP[peer]=peerRating;
     }
     var projectId=$('#projectId').html().trim();
     $.ajax({

@@ -4,6 +4,7 @@ import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,10 +78,10 @@ public interface IPeerAssessment {
 
     /**
      *
-     * @param studentAndQuiz
-     * @param quizAnswer
+     * @param questions
+     * @param student
      */
-    void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer);
+    void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student);
     void deleteQuiz(String quizId);
 
     Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method);

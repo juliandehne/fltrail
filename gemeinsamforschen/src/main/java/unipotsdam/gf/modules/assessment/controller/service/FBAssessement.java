@@ -4,6 +4,7 @@ import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,7 +61,7 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
+    public void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student) {
 
     }
 

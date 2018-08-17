@@ -29,6 +29,7 @@ $(document).ready(function () {
     };
 
     var projectId = document.getElementById('projectId').innerText.trim();
+    var studentId = document.getElementById('user').innerText.trim();
     $.ajax({
         url: '../rest/assessments/project/'+projectId+'/quiz/',
         type: 'GET',
@@ -40,7 +41,7 @@ $(document).ready(function () {
                 var colspan = answers.length;
                 var trQuestion = document.createElement('TR');
                 var tdQuestion = '<td colspan="' + colspan + '"' +
-                    'data-toggle="collapse" href="#'+question+'" aria-expanded="false" aria-controls="'+question+'">' +
+                    ' data-toggle="collapse" href="#'+question+'" aria-expanded="false" aria-controls="'+question+'">' +
                     '' + data[quiz].question + '</td>';
                 trQuestion.innerHTML = tdQuestion;
                 var trAnswers = document.createElement('TR');
@@ -64,12 +65,12 @@ $(document).ready(function () {
                 table.appendChild(trAnswers);
             }
         },
-        error: function (a, b, c) {
+        error: function (a) {
             alert('Fehler ' + a);
         }
     });
     $("#submitQuiz").on("click", function () {
-        document.location="rateContribution.jsp?token="+getUserTokenFromUrl()+'&projectId='+$('#projectId').html().trim();
+        safeQuizAnswers();
     });
 });
 
@@ -82,4 +83,39 @@ function shuffle(a) {
         a[j] = x;
     }
     return a;
+}
+
+function safeQuizAnswers(){   //todo: just written before going home. not tested yet, wont work
+    var quizzes = $('.quiz');
+    ///////initialize variables///////
+    var dataP = new Array(quizzes.size());
+
+    ///////read values from html///////
+    for (var quiz=0; quiz<quizzes.size(); quiz++){
+        var answerList = [];
+        $(quizzes[quiz]+":input:checkbox[name=type]:checked").each(function(){
+            answerList.push($(this).val());
+        });
+        var question = quizzes[quiz].id;
+        var quizAnswers={question: answerList};
+        //////write values in Post-Variable
+        dataP[quiz]=quizAnswers;
+    }
+    var projectId=$('#projectId').html().trim();
+    var studentId=$('#user').html().trim();
+    $.ajax({
+        url:'../rest/assessments/quizAnswer/projectId/'+projectId+'/studentId/'+studentId,
+        type: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        data: JSON.stringify(dataP),
+        success: function(){
+            location.href="takeQuiz.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
+        },
+        error: function(a,b,c){
+
+        }
+    });
 }

@@ -202,13 +202,24 @@ public class PeerAssessment implements IPeerAssessment {
     public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId) {
         for (PeerRating peer: peerRatings){
             StudentIdentifier student = new StudentIdentifier(projectId, peer.getToPeer());
-            //new AssessmentDBCommunication().writeWorkRatingToDB(student, peerRatings.get(1).getFromPeer(), peerRatings.get(1).getWorkRating());
+            new AssessmentDBCommunication().writeWorkRatingToDB(student, peerRatings.get(1).getFromPeer(), peerRatings.get(1).getWorkRating());
         }
     }
 
     @Override
-    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
-
+    public void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student) {
+        for (String question: questions.keySet()){
+            Map<String, Boolean> whatAreAnswers = new AssessmentDBCommunication().getAnswers(student.getProjectId(), question);
+            Map<String, Boolean> wasQuestionAnsweredCorrectly = new HashMap<>();
+            Boolean correct = true;
+            for (String studentAnswer: questions.get(question)){
+                if (!whatAreAnswers.get(studentAnswer)){
+                    correct=false;
+                }
+            }
+            wasQuestionAnsweredCorrectly.put(question, correct);
+            new AssessmentDBCommunication().writeAnsweredQuiz(student, wasQuestionAnsweredCorrectly);
+        }
     }
 
     private Comparator<Map<String, Double>> byMean = (o1, o2) -> {

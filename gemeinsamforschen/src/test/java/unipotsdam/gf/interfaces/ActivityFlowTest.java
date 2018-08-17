@@ -171,10 +171,10 @@ public class ActivityFlowTest {
 
         // create quiz TODO@Axel this should be a quiz dependend on the student for easier initialization and
         // de-coupling
-        StudentAndQuiz studentAndQuiz = factory.manufacturePojo(StudentAndQuiz.class);
-        QuizAnswer quizAnswer = factory.manufacturePojo(QuizAnswer.class);
-        iPeerAssessment.createQuiz(studentAndQuiz);
-        iPeerAssessment.answerQuiz(studentAndQuiz, quizAnswer);
+        //StudentAndQuiz studentAndQuiz = factory.manufacturePojo(StudentAndQuiz.class);
+        //QuizAnswer quizAnswer = factory.manufacturePojo(QuizAnswer.class);
+        //iPeerAssessment.createQuiz(studentAndQuiz);
+        //iPeerAssessment.answerQuiz(studentAndQuiz, quizAnswer);
 
         // finales Portfolio zusammenstellen
         java.util.List<Journal> journalEntries = new ArrayList<Journal>();
