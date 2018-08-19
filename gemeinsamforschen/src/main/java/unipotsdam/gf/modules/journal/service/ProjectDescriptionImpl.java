@@ -25,13 +25,17 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
             descriptionDAO.createDescription(description);
         }
 
-        return descriptionDAO.getDescription(studentIdentifier);
+        ProjectDescription returnDesc = descriptionDAO.getDescription(studentIdentifier);
+        returnDesc.setLinks(linkDAO.getAllLinks(returnDesc.getId()));
+        return returnDesc;
 
     }
 
     @Override
     public ProjectDescription getProjectbyId(String id) {
-        return descriptionDAO.getDescription(id);
+        ProjectDescription returnDesc = descriptionDAO.getDescription(id);
+        returnDesc.setLinks(linkDAO.getAllLinks(returnDesc.getId()));
+        return returnDesc;
     }
 
     @Override
@@ -44,7 +48,7 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
 
     @Override
     public void addLink(String project, String link, String name) {
-        Link newLink = new Link("0",project,name,link);
+        Link newLink = new Link(project,project,name,link);
         linkDAO.addLink(newLink);
     }
 

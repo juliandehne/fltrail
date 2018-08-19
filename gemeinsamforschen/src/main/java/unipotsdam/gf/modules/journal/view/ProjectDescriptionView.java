@@ -45,7 +45,6 @@ public class ProjectDescriptionView {
     @Path("/saveText")
     public Response saveProjectText(@FormParam("student") String student, @FormParam("project") String project, @FormParam("text") String text) {
         log.debug(">>> saveText: " + text);
-
         descriptionService.saveProjectText(new StudentIdentifier(project,student),text);
 
         //TODO token
@@ -69,14 +68,15 @@ public class ProjectDescriptionView {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/addLink")
-    public Response addLink(@FormParam("link") String link, @FormParam("name") String name){
+    public Response addLink(@FormParam("link") String link, @FormParam("name") String name, @FormParam("projectdescriptionId") String project){
         log.debug(">>> addLink: " + name + ":" + link);
 
-        descriptionService.addLink("0",link, name );
+        ProjectDescription desc = descriptionService.getProjectbyId(project);
+        descriptionService.addLink(project,link, name );
 
 
         try {
-            URI location = new URI("../pages/eportfolio.jsp");
+            URI location = new URI("../pages/eportfolio.jsp?token="+ desc.getStudent().getStudentId()+"&projectId="+desc.getStudent().getProjectId());
             log.debug("<<< addLink: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -124,7 +124,6 @@ public class ProjectDescriptionView {
 
         StudentIdentifier student = descriptionService.getProjectbyId(desc).getStudent();
         descriptionService.closeDescription(desc);
-        //TODO token
         try {
             URI location = new URI("../pages/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());
             log.debug("<<< closeDescription: redirect to "  +location.toString());

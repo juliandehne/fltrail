@@ -1,19 +1,22 @@
 var student = getQueryVariable("token");
 var project = getQueryVariable("projectId");
 var description = 0;
-$(document).ready(function() {
 
+$(document).ready(function() {
     $.ajax({
         url: "../rest/projectdescription/" + project + "/" + student
     }).then(function(data) {
         console.log("desc: " + data);
         description = data.id;
+        $('#projectdescriptionId').val(description);
+
         if (!data.open){
             $("#description-edit").remove();
         }
         $('.journal-description-text').append(data.descriptionHTML);
-        for(var link in data.links){
-            $('.journal-description-links').append('<button class="btn btn-default btn-xs" onclick=\'linkLoeschen("'+link+'")\'> <i class="fa fa-trash" aria-hidden="true" ></i></button><a href=\' + data.links[link] + \'>' + link + '</a> <br/>');
+        for(var ii in data.links){
+            console.log(data.links[ii])
+            $('.journal-description-links').append('<button class="btn btn-default btn-xs" onclick=\'linkLoeschen("'+data.links[ii].id +'")\'> <i class="fa fa-trash" aria-hidden="true" ></i></button><a href=' + data.links[ii].link + '>' + data.links[ii].name + '</a> <br/>');
         }
         $('.journal-description-links').append('<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addLinkModal"><i class="fa fa-plus" aria-hidden="true"></i></button>');
 
@@ -35,7 +38,6 @@ $(document).ready(function() {
     });
 
     $('#editDescriptionLink').on('click', function () {
-        /*TODO getJournal*/
         location.href = "editDescription.jsp?project=" + project + "&token=" + student + "&projectId=" + project;
     });
 
@@ -108,21 +110,20 @@ function loadJournals(data) {
         $('.journal').append(journalString)
     }};
 
-function linkLoeschen(name) {
-    console.log("löschen" + name);
+function linkLoeschen(id) {
+    console.log("löschen" + id);
     $.ajax({
         type: "POST",
         url: "../rest/projectdescription/deleteLink",
-        data: JSON.stringify(eval(name)),
+        data: id,
         contentType: "application/json; charset=utf-8",
         crossDomain: true,
         dataType: "json",
         success: function (data, status, jqXHR) {
 
-            alert(success);
         }
     });
-
+    location.reload();
 }
 
 function closeJournal() {

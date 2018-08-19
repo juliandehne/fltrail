@@ -92,11 +92,12 @@
             </div>
             <div class="modal-body">
                 <form id="linkform" method="POST" action="../rest/projectdescription/addLink" >
+                    <input type="hidden" name="projectdescriptionId" id="projectdescriptionId" value=""/>
                     Name:<br>
                     <input type="text" name="name" form="linkform">
                     <br>
                     URL:<br>
-                    <input type="text" name="link" form="linkform">
+                    <input type="url" name="link" form="linkform">
                     <br><br>
                     <input class="btn btn-default" type="submit"  >
                     <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
