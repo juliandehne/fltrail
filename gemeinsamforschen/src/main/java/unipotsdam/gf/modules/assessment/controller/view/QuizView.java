@@ -48,6 +48,17 @@ public class QuizView {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/contributionRating/projectId/{projectId}/studentId/{studentId}/fromPeer/{fromPeer}")
+    public void postContributionRating(Map<String, Integer> contributionRatings,
+                                       @PathParam("projectId") String projectId,
+                                       @PathParam("studentId") String studentId,
+                                       @PathParam("fromPeer") String fromPeer) throws IOException {
+        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+        peer.postContributionRating(student, fromPeer, contributionRatings);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/quizAnswer/projectId/{projectId}/studentId/{studentId}/")
     public void answerQuiz(Map<String, List<String>> questions, @PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
         StudentIdentifier student = new StudentIdentifier(projectId, studentId);

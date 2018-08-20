@@ -124,8 +124,8 @@ class AssessmentDBCommunication {
     void writeContributionRatingToDB(StudentIdentifier student, String fromStudent, Map<String, Integer> contributionRating) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "INSERT INTO `contributionrating`(`studentID`, `projectID`, `fromStudentID`, " +
-                "`Dossier`, " +
+        String mysqlRequest = "INSERT INTO `contributionrating`(`studentId`, `projectId`, `fromPeer`, " +
+                "`dossier`, " +
                 "`eJournal`, " +
                 "`research`" +
                 ") VALUES (?,?,?,?,?,?)";

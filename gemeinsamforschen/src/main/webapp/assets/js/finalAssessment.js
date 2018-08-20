@@ -9,34 +9,37 @@ $(document).ready(function() {
 });
 
 function assessPeer(){
-    var peerStudents =$('.peerStudent');
+    let peerStudents =$('.peerStudent');
     ///////initialize variables///////
-    var dataP = new Array(peerStudents.size());
-    var rateThis = ['responsibility','partOfWork','cooperation','communication','autonomous'];
+    let dataP = new Array(peerStudents.size());
+    let rateThis = ['responsibility','partOfWork','cooperation','communication','autonomous'];
 
     ///////read values from html///////
-    for (var peer=0; peer< peerStudents.length; peer++){
-        var workRating = {};
-        var peerRating = {
+    for (let peer=0; peer< peerStudents.length; peer++){
+        let workRating = {};
+        let peerRating = {
             "fromPeer": $('#user').html().trim(),
             "toPeer": peerStudents[peer].id,
             "workRating": {}
         };
-        for (var rate=0; rate<rateThis.length; rate++ ){
-            var category = rateThis[rate];
+        for (let rate=0; rate<rateThis.length; rate++ ){
+            let category = rateThis[rate];
             workRating[category]=($('input[name='+rateThis[rate]+peerStudents[peer].id+']:checked').val());
         }
-        for (var i=0; i<workRating.length; i++){
-            if(workRating[i]===undefined){
-                $('#notAllRated').show();
-                return;
-            }
-        }
+
         peerRating.workRating = workRating;
         //////write values in Post-Variable
         dataP[peer]=peerRating;
     }
-    var projectId=$('#projectId').html().trim();
+    for (let peer=0; peer< dataP.length; peer++){
+        for (let workRating=0; workRating<rateThis.length;workRating++){
+            if(dataP[peer][workRating]===undefined){
+                $('#notAllRated').show();
+                return;
+            }
+        }
+    }
+    let projectId=$('#projectId').html().trim();
     $.ajax({
         url:'../rest/assessments/peerRating/project/'+projectId,
         type: 'POST',

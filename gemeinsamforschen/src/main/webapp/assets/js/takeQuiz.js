@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var loading = $('#loadbar').hide();
+    let loading = $('#loadbar').hide();
     $(document)
         .ajaxStart(function () {
             loading.show();
@@ -8,7 +8,7 @@ $(document).ready(function () {
     });
 
     $("label.btn").on('click',function () {
-        var choice = $(this).find('input:radio').val();
+        let choice = $(this).find('input:radio').val();
         $('#loadbar').show();
         $('#quiz').fadeOut();
         setTimeout(function(){
@@ -21,40 +21,37 @@ $(document).ready(function () {
 
     $ans = 3;
 
-    $.fn.checking = function(ck) {
-        if (ck != $ans)
-            return 'INCORRECT';
-        else
-            return 'CORRECT';
-    };
-
-    var projectId = document.getElementById('projectId').innerText.trim();
-    var studentId = document.getElementById('user').innerText.trim();
+    let projectId = document.getElementById('projectId').innerText.trim();
     $.ajax({
         url: '../rest/assessments/project/'+projectId+'/quiz/',
         type: 'GET',
         success: function (data) {
-            var table = document.getElementById('tableQuiz');
-            for (var quiz = 0; quiz < data.length; quiz++){
-                var question = data[quiz].question.replace(/ /g,"").replace("?","").replace(",","");
-                var answers = data[quiz].correctAnswers.concat(data[quiz].incorrectAnswers);
-                var colspan = answers.length;
-                var trQuestion = document.createElement('TR');
-                var tdQuestion = '<td colspan="' + colspan + '"' +
+            let table = document.getElementById('tableQuiz');
+            for (let quiz = 0; quiz < data.length; quiz++){
+                let question = data[quiz].question.replace(/ /g,"").replace("?","").replace(",","");
+                let answers = data[quiz].correctAnswers.concat(data[quiz].incorrectAnswers);
+                let colspan = answers.length;
+                let trQuestion = document.createElement('TR');
+                let tdQuestion = '<td colspan="' + colspan + '"' +
                     ' data-toggle="collapse" href="#'+question+'" aria-expanded="false" aria-controls="'+question+'">' +
                     '' + data[quiz].question + '</td>';
                 trQuestion.innerHTML = tdQuestion;
-                var trAnswers = document.createElement('TR');
+                let trAnswers = document.createElement('TR');
                 answers = shuffle(answers);
-                var answersTd='<td style="display: block;"><div class="quiz collapse" id="'+question+'" data-toggle="buttons">';
-                for (var i = 0; i < answers.length; i++) {
+                let answersTd='<td style="display: block;">' +
+                    '<div ' +
+                    'class="quiz collapse" ' +
+                    'id="'+question+'" ' +
+                    'data-toggle="buttons">' +
+                    '<p hidden>'+data[quiz].question+'</p>';
+                for (let i = 0; i < answers.length; i++) {
                     answersTd = answersTd + '<div>' +
                         '<label class="element-animation1 btn btn-lg btn-primary btn-block">' +
                         '<span class="btn-label">' +
                         '<i class="glyphicon glyphicon-chevron-right">' +
                         '</i>' +
                         '</span>' +
-                        '<input type="checkbox">' + answers[i] + '' +
+                        '<input type="checkbox" value="'+answers[i]+'">' + answers[i] + '' +
                         '</label>' +
                         '</div>';
                 }
@@ -75,7 +72,7 @@ $(document).ready(function () {
 });
 
 function shuffle(a) {
-    var j, x, i;
+    let j, x, i;
     for (i = a.length - 1; i > 0; i--) {
         j = Math.floor(Math.random() * (i + 1));
         x = a[i];
@@ -85,24 +82,25 @@ function shuffle(a) {
     return a;
 }
 
-function safeQuizAnswers(){   //todo: just written before going home. not tested yet, wont work
-    var quizzes = $('.quiz');
+function safeQuizAnswers(){
+    let quizzes = $('.quiz');
     ///////initialize variables///////
-    var dataP = new Array(quizzes.size());
+    let dataP = {};
 
     ///////read values from html///////
-    for (var quiz=0; quiz<quizzes.size(); quiz++){
-        var answerList = [];
-        $(quizzes[quiz]+":input:checkbox[name=type]:checked").each(function(){
-            answerList.push($(this).val());
-        });
-        var question = quizzes[quiz].id;
-        var quizAnswers={question: answerList};
-        //////write values in Post-Variable
-        dataP[quiz]=quizAnswers;
+    for (let quiz=0; quiz<quizzes.length; quiz++){
+        let answerList = [];
+        if (quizzes[quiz].id !== ""){
+            let checkedBoxes = $("#"+quizzes[quiz].id+" input:checked");
+            checkedBoxes.each(function(){
+                answerList.push($(this).val());
+            });
+            let question = $("#"+quizzes[quiz].id+" p").html().trim();
+            dataP[question]= answerList;
+        }
     }
-    var projectId=$('#projectId').html().trim();
-    var studentId=$('#user').html().trim();
+    let projectId=$('#projectId').html().trim();
+    let studentId=$('#user').html().trim();
     $.ajax({
         url:'../rest/assessments/quizAnswer/projectId/'+projectId+'/studentId/'+studentId,
         type: 'POST',
@@ -112,7 +110,7 @@ function safeQuizAnswers(){   //todo: just written before going home. not tested
         },
         data: JSON.stringify(dataP),
         success: function(){
-            location.href="takeQuiz.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
+            location.href="rateContribution.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
         },
         error: function(a,b,c){
 

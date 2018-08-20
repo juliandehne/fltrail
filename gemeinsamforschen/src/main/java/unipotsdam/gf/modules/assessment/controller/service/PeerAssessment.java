@@ -207,6 +207,13 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
+    public void postContributionRating(StudentIdentifier student,
+                                       String fromStudent,
+                                       Map<String, Integer> contributionRating) {
+        new AssessmentDBCommunication().writeContributionRatingToDB(student, fromStudent, contributionRating);
+    }
+
+    @Override
     public void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student) {
         for (String question: questions.keySet()){
             Map<String, Boolean> whatAreAnswers = new AssessmentDBCommunication().getAnswers(student.getProjectId(), question);

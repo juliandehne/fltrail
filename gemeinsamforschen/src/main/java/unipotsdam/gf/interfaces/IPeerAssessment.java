@@ -76,6 +76,10 @@ public interface IPeerAssessment {
      */
     void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId);
 
+    void postContributionRating(StudentIdentifier student,
+                                String fromPeer,
+                                Map<String, Integer> contributionRating);
+
     /**
      *
      * @param questions

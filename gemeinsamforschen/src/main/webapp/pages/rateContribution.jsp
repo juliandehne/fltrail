@@ -33,44 +33,51 @@
                             </tr>
                             <tr>
                                 <td>
-                                    Lernzieltagebuch:
-                                    Lernen ist wie Rudern gegen den Strom. Hört man damit auf, treibt man zurück.
-                                    <textarea id="ejournalFeedback">
+                                    <div class="contributionRating" id="eJournal">
+                                        Lernzieltagebuch:
+                                        Lernen ist wie Rudern gegen den Strom. Hört man damit auf, treibt man zurück.
+                                        <textarea id="ejournalFeedback">
 				                        meine Bewertung
 			                        </textarea>
-                                    <label><input type="radio" name="ejournalRating">Perfekt</label>
-                                    <label><input type="radio" name="ejournalRating">Makellos</label>
-                                    <label><input type="radio" name="ejournalRating">regulär</label>
-                                    <label><input type="radio" name="ejournalRating">Makelhaft</label>
-                                    <label><input type="radio" name="ejournalRating">Lädiert</label>
+                                        <label><input type="radio" name="eJournal" value="5">Perfekt</label>
+                                        <label><input type="radio" name="eJournal" value="4">Makellos</label>
+                                        <label><input type="radio" name="eJournal" value="3">regulär</label>
+                                        <label><input type="radio" name="eJournal" value="2">Makelhaft</label>
+                                        <label><input type="radio" name="eJournal" value="1">Lädiert</label>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Dossier:
-                                    Die meisten Menschen sind bereit zu lernen, aber nur die wenigsten, sich belehren zu
-                                    lassen.
-                                    <textarea id="dossierFeedback">
+                                    <div class="contributionRating" id="Dossier">
+                                        Dossier:
+                                        Die meisten Menschen sind bereit zu lernen, aber nur die wenigsten, sich
+                                        belehren zu
+                                        lassen.
+                                        <textarea id="dossierFeedback">
 				                        meine Bewertung
 			                        </textarea>
-                                    <label><input type="radio" name="dossierlRating">Perfekt</label>
-                                    <label><input type="radio" name="dossierRating">Makellos</label>
-                                    <label><input type="radio" name="dossierRating">regulär</label>
-                                    <label><input type="radio" name="dossierRating">Makelhaft</label>
-                                    <label><input type="radio" name="dossierRating">Lädiert</label>
+                                        <label><input type="radio" name="dossier" value="5">Perfekt</label>
+                                        <label><input type="radio" name="dossier" value="4">Makellos</label>
+                                        <label><input type="radio" name="dossier" value="3">regulär</label>
+                                        <label><input type="radio" name="dossier" value="2">Makelhaft</label>
+                                        <label><input type="radio" name="dossier" value="1">Lädiert</label>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Präsentation: <a href="#"><i class="fa fa-paperclip"></i></a>
-                                    <textarea id="presentationFeedback">
+                                    <div class="contributionRating" id="research">
+                                        Präsentation: <a href="#"><i class="fa fa-paperclip"></i></a>
+                                        <textarea id="presentationFeedback">
 				                        meine Bewertung
 			                        </textarea>
-                                    <label><input type="radio" name="presentationRating">Perfekt</label>
-                                    <label><input type="radio" name="presentationRating">Makellos</label>
-                                    <label><input type="radio" name="presentationRating">regulär</label>
-                                    <label><input type="radio" name="presentationRating">Makelhaft</label>
-                                    <label><input type="radio" name="presentationRating">Lädiert</label>
+                                        <label><input type="radio" name="research" value="5">Perfekt</label>
+                                        <label><input type="radio" name="research" value="4">Makellos</label>
+                                        <label><input type="radio" name="research" value="3">regulär</label>
+                                        <label><input type="radio" name="research" value="2">Makelhaft</label>
+                                        <label><input type="radio" name="research" value="1">Lädiert</label>
+                                    </div>
                                 </td>
                             </tr>
                         </table>

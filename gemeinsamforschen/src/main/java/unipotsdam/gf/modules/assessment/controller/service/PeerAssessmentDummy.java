@@ -66,6 +66,11 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
+    public void postContributionRating(StudentIdentifier student, String fromStudent, Map<String, Integer> contributionRating) {
+
+    }
+
+    @Override
     public void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student) {
         NotImplementedLogger.logAssignment(Assignee.AXEL, IPeerAssessment.class);
     }
