@@ -1,5 +1,7 @@
 package unipotsdam.gf.core.management.user;
 
+import unipotsdam.gf.core.management.ManagementImpl;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -12,11 +14,26 @@ public class headLine extends SimpleTagSupport {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String projectId = request.getParameter("projectId");
+        String token = request.getParameter("token");
+        ManagementImpl management = new ManagementImpl();
         JspWriter out = getJspContext().getOut();
+        User user =  management.getUserByToken(token);
+        Boolean isStudent = user.getStudent();
         out.println("<div class=\"container-fluid\">\n" +
                 "            <table style=\"width:100%\">\n" +
                 "                <tr>\n" +
-                "                    <td style=\"width:70%\"><h2 id=\"headLineProject\"></h2></td>\n" +
+                "                    <td style=\"width:70%\"><h2 id=\"headLineProject\">");
+        if (projectId!=null){
+            out.println(projectId);
+        }else{
+            if (isStudent){
+                out.println("Studentenübersicht "+user.getName());
+            }else{
+                out.println("Dozentenübersicht "+user.getName());
+            }
+
+        }
+        out.println("</h2></td>\n" +
                 "                    <td style=\"width:30%\">\n" +
                 "                        <div align=\"right\" class=\"dropdown\">\n" +
                 "                        <button style=\"right: 50px;margin-top:-4px;\" class=\"btn btn-primary dropdown-toggle\" type=\"button\"\n" +
