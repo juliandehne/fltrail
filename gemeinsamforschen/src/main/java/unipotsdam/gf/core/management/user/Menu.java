@@ -38,7 +38,7 @@ public class Menu extends SimpleTagSupport {
                 out.println("<div id=\"sidebar-wrapper\">\n" +
                         "        <ul class=\"sidebar-nav\">\n" +
                         "            <li class=\"sidebar-brand\"><a href=\"overview-docent.jsp?token="+token+"&projectId="+projectId+"\">overview</a></li>\n" +
-                        "            <li><a href=\"Quiz.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
+                        "            <li><a href=\"Quiz-docent.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
                         "            <li><a href=\"#\">ePortfolio</a></li>\n" +
                         "            <li><a href=\"#\">Beitrag</a></li>\n" +
                         "            <li><a href=\"#\">Gruppen erstellen</a></li>\n" +
@@ -64,4 +64,4 @@ public class Menu extends SimpleTagSupport {
     }
 
 
-};
+}

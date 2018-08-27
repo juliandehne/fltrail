@@ -16,6 +16,7 @@ import java.util.Map;
 @Resource
 @Singleton
 class AssessmentDBCommunication {
+
     ArrayList<Map<String, Double>> getWorkRating(StudentIdentifier student) {
         ArrayList<Map<String, Double>> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
@@ -124,13 +125,19 @@ class AssessmentDBCommunication {
     void writeContributionRatingToDB(StudentIdentifier student, String fromStudent, Map<String, Integer> contributionRating) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "INSERT INTO `contributionrating`(`studentId`, `projectId`, `fromPeer`, " +
+        String mysqlRequest = "INSERT INTO `contributionrating`(" +
+                "`studentId`, " +
+                "`projectId`, " +
+                "`fromPeer`, " +
                 "`dossier`, " +
                 "`eJournal`, " +
-                "`research`" +
-                ") VALUES (?,?,?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, student.getProjectId(), student.getStudentId(), fromStudent,
-                contributionRating.get("Dossier"),
+                "`research`) " +
+                "VALUES (?,?,?,?,?,?)";
+        connect.issueInsertOrDeleteStatement(mysqlRequest,
+                student.getStudentId(),
+                student.getProjectId(),
+                fromStudent,
+                contributionRating.get("dossier"),
                 contributionRating.get("eJournal"),
                 contributionRating.get("research")
         );

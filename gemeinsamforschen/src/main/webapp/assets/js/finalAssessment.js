@@ -33,7 +33,7 @@ function assessPeer(){
     }
     for (let peer=0; peer< dataP.length; peer++){
         for (let workRating=0; workRating<rateThis.length;workRating++){
-            if(dataP[peer][workRating]===undefined){
+            if(dataP[peer].workRating[rateThis[workRating]]===undefined){
                 $('#notAllRated').show();
                 return;
             }
