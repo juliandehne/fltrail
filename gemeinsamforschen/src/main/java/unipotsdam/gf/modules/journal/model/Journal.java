@@ -2,6 +2,9 @@ package unipotsdam.gf.modules.journal.model;
 
 
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.peer2peerfeedback.Category;
+
+import java.util.Date;
 
 import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
 
@@ -10,39 +13,57 @@ import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
  */
 public class Journal {
 
-    private long id;
+    private String id;
     private StudentIdentifier studentIdentifier;
-    private String creator;
     private String entryHTML;
     private String entryMD;
     private long timestamp;
     private Visibility visibility;
-    private String category;//TODO enum
+    private Category category;
+    private boolean open;
 
     public Journal() {}
 
-    public Journal(long id, StudentIdentifier studentIdentifier, String entry, long timestamp, Visibility visibility, String category) {
+    public Journal(String id, StudentIdentifier studentIdentifier, String entryMD, Visibility visibility, Category category) {
         this.id = id;
         this.studentIdentifier = studentIdentifier;
-        // TODO setName per StudentID
-        this.entryHTML = convertMarkdownToHtml(entry);
-        this.entryMD = entry;
+        entryHTML = convertMarkdownToHtml(entryMD);
+        this.entryMD = entryMD;
+        this.visibility = visibility;
+        this.category = category;
+        open = true;
+        timestamp = new Date().getTime();
+    }
+
+    public Journal(String id, StudentIdentifier studentIdentifier, String entryMD, long timestamp, Visibility visibility, Category category, boolean open) {
+        this.id = id;
+        this.studentIdentifier = studentIdentifier;
+        entryHTML = convertMarkdownToHtml(entryMD);
+        this.entryMD = entryMD;
         this.timestamp = timestamp;
         this.visibility = visibility;
         this.category = category;
+        this.open = open;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 
     public void setEntry(String entry){
-        this.entryMD = entry;
-        this.entryHTML = convertMarkdownToHtml(entry);
+        entryMD = entry;
+        entryHTML = convertMarkdownToHtml(entry);
     }
 
-
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -78,20 +99,26 @@ public class Journal {
         this.visibility = visibility;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
+    @Override
+    public String toString() {
+        return "Journal{" +
+                "id=" + id +
+                ", studentIdentifier=" + studentIdentifier +
+                ", entryHTML='" + entryHTML + '\'' +
+                ", entryMD='" + entryMD + '\'' +
+                ", timestamp=" + timestamp +
+                ", visibility=" + visibility +
+                ", category=" + category +
+                ", open=" + open +
+                '}';
     }
 
     public String getEntryMD() {
@@ -102,16 +129,4 @@ public class Journal {
         this.entryMD = entryMD;
     }
 
-    @Override
-    public String toString() {
-        return "Journal{" +
-                "id=" + id +
-                ", studentIdentifier=" + studentIdentifier +
-                ", creator='" + creator + '\'' +
-                ", entryHTML='" + entryHTML + '\'' +
-                ", timestamp=" + timestamp +
-                ", visibility=" + visibility +
-                ", category='" + category + '\'' +
-                '}';
-    }
 }
