@@ -8,6 +8,22 @@ $(document).ready(function() {
         // set text in div
         $('#documentText').html(response.text);
 
+        // get submissions parts from database
+        getAllSubmissionParts(getSubmissionIdFromUrl(), function (response) {
+
+            // iterate over response
+            for (var i = 0; i < response.length; i++) {
+                // save current category and body
+                let category = response[i].category;
+                let body = response[i].body;
+                // iterate over body and handle every selection
+                for (var j = 0; j < body.length; j++) {
+                    handleCategorySelection(category.toLowerCase(), body[j].startCharacter, body[j].endCharacter);
+                }
+            }
+
+        });
+
     }, function () {
         // jump to upload page on error
         location.href="unstructured-upload.jsp?token="+getUserTokenFromUrl();
@@ -17,9 +33,7 @@ $(document).ready(function() {
     $('#btnSave').click(function () {
         saveButtonHandler();
     });
-
-
-
+    
     /**
      * Context menu handler
      */

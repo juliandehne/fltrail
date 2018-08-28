@@ -96,9 +96,8 @@ function getSubmissionPart(id, responseHandler, errorHandler) {
  *
  * @param id The id of the full submission
  * @param responseHandler The response handler
- * @param errorHandler The error handler
  */
-function getAllSubmissionParts(id, responseHandler, errorHandler) {
+function getAllSubmissionParts(id, responseHandler) {
     var url = "../rest/submissions/full/" + id + "/parts";
     $.ajax({
         url: url,
@@ -107,10 +106,6 @@ function getAllSubmissionParts(id, responseHandler, errorHandler) {
         success: function (response) {
             // handle the response
             responseHandler(response);
-        },
-        error: function () {
-            // handle the error
-            errorHandler();
         }
     })
 }
