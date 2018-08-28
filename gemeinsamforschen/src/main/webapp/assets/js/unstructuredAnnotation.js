@@ -27,7 +27,8 @@ $(document).ready(function() {
         selector: '.context-menu-one',
         callback: function(key, options) {
 
-            handleContextStuff(key);
+            // handle the category click
+            handleCategoryClick(key);
 
         },
         items: {
@@ -268,7 +269,12 @@ function saveButtonHandler() {
     }
 }
 
-function handleContextStuff(key) {
+/**
+ * Handle the category click and start the saving event
+ *
+ * @param key The selected category
+ */
+function handleCategoryClick(key) {
 
     // if saved selection's range count is > 0
     let sel = rangy.getSelection();
