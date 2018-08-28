@@ -42,8 +42,8 @@ public class Menu extends SimpleTagSupport {
                         "            <li><a href=\"#\">ePortfolio</a></li>\n" +
                         "            <li><a href=\"#\">Beitrag</a></li>\n" +
                         "            <li><a href=\"#\">Gruppen erstellen</a></li>\n" +
-                        "            <li><a href=\"#\">Projektphase ändern</a></li>\n" +
-                        "            <li><a href=\"finalAssessments.jsp?token="+token+"\">Bewertung</a></li>\n" +
+                        "            <li><a href=\"changePhase.jsp?token="+token+"&projectId="+projectId+"\">Projektphase ändern</a></li>\n" +
+                        "            <li><a href=\"finalAssessments.jsp?token="+token+"&projectId="+projectId+"\">Bewertung</a></li>\n" +
                         "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
                         "        </ul>\n" +
                         "    </div>");

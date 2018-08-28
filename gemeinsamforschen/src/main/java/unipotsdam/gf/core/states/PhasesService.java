@@ -38,7 +38,7 @@ public class PhasesService  {
      * @param projectId
      * @return
      */
-    @Path("/{projectPhase}/projects/{projectId}")
+    @Path("/projects/{projectId}")
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public String getCurrentPhase(@PathParam("projectId") String projectId) {

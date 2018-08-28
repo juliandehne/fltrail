@@ -1,7 +1,5 @@
-$(document).ready(function(){
-    $('#submit').on('click', function(){
-        location.href="specificRequirement.jsp?token="+getUserTokenFromUrl();
-    });
+$(document).ready(function () {
+    //$("#save").on('click', function () {
     let projectId = $('#projectId').html().trim();
     $.ajax({
         url: '../rest/phases/projects/'+projectId,
@@ -23,4 +21,5 @@ $(document).ready(function(){
 
         }
     });
+    //});
 });
