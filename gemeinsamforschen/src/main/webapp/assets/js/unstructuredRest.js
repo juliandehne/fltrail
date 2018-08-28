@@ -51,7 +51,7 @@ function getFullSubmission(id, responseHandler, errorHandler) {
  */
 function createSubmissionPart(submissionPartPostRequest, responseHandler) {
     var url = "../rest/submissions/part/";
-    var json = JSON.stringify(fullSubmissionPostRequest);
+    var json = JSON.stringify(submissionPartPostRequest);
     $.ajax({
         url: url,
         type: "POST",
@@ -60,6 +60,9 @@ function createSubmissionPart(submissionPartPostRequest, responseHandler) {
         dataType: "json",
         success: function (response) {
             responseHandler(response);
+        },
+        error: function (e) {
+            console.log(e);
         }
     });
 }

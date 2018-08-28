@@ -91,9 +91,75 @@ body, html {
     border-color: lightgray;
     color: lightgray;
 }
-.added {
+
+.titel {
+    background-color: lightgreen;
+}
+.added-titel {
     border-style: solid;
     border-color: lightgreen;
     color: lightgreen;
 }
 
+.recherche {
+    background-color: lightblue;
+}
+.added-recherche {
+    border-style: solid;
+    border-color: lightblue;
+    color: lightblue;
+}
+
+.literaturverzeichnis {
+    background-color: lightcoral;
+}
+.added-literaturverzeichnis {
+    border-style: solid;
+    border-color: lightcoral;
+    color: lightcoral;
+}
+
+.forschungsfrage {
+    background-color: cyan;
+}
+.added-forschungsfrage {
+    border-style: solid;
+    border-color: cyan;
+    color: cyan;
+}
+
+.untersuchungskonzept {
+    background-color: goldenrod;
+}
+.added-untersuchungskonzept {
+    border-style: solid;
+    border-color: goldenrod;
+    color: goldenrod;
+}
+
+.methodik {
+    background-color: lightpink;
+}
+.added-methodik {
+    border-style: solid;
+    border-color: lightpink;
+    color: lightpink;
+}
+
+.durchfuehrung {
+    background-color: lightsalmon;
+}
+.added-durchfuehrung {
+    border-style: solid;
+    border-color: lightsalmon;
+    color: lightsalmon;
+}
+
+.auswertung {
+    background-color: lightseagreen;
+}
+.added-auswertung {
+    border-style: solid;
+    border-color: lightseagreen;
+    color: lightseagreen;
+}
