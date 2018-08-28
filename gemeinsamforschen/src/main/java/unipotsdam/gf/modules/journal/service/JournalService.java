@@ -43,16 +43,14 @@ public interface JournalService {
      * @param text content of the Journal
      * @param visibility visibility of the Journal
      * @param category category of the Journal
-     * @return true if success
      */
-     boolean saveJournal(long id, String student, String project, String text, String visibility, String category);
+    void saveJournal(String id, String student, String project, String text, String visibility, String category);
 
     /**
      * deletes a Journal
      * @param id id of the Journal
-     * @return true if success
      */
-     boolean deleteJournal(long id);
+    void deleteJournal(String id);
 
 
     void closeJournal(String journal);

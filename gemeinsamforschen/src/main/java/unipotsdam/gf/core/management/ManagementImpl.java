@@ -4,11 +4,12 @@ import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.project.ProjectConfiguration;
+import unipotsdam.gf.core.management.project.ProjectConfigurationDAO;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
 import unipotsdam.gf.core.states.ProjectPhase;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import javax.annotation.ManagedBean;
@@ -211,41 +212,11 @@ public class ManagementImpl implements Management {
 
 
     /**
-     * TODO @Axel bitte in modules/asessment verschieben
-     * @param projectId
-     * @param quizId
+     *
+     * @param field
+     * @param value
      * @return
      */
-    public Quiz getQuizByProjectGroupId(String projectId, String quizId){
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest = "SELECT * FROM quiz where projectId=" + projectId + " , question="+quizId;
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, "");
-        boolean next = vereinfachtesResultSet.next();
-        String question = "";
-        ArrayList<String> correctAnswers = new ArrayList<String>();
-        ArrayList<String> incorrectAnswers = new ArrayList<String>();
-        String answer = "";
-        Boolean correct = false;
-        String mcType = "";
-        while (next) {
-            mcType = vereinfachtesResultSet.getString("mcType");
-            question = vereinfachtesResultSet.getString("question");
-            answer = vereinfachtesResultSet.getString("answer");
-            correct = vereinfachtesResultSet.getBoolean("correct");
-            if (correct){
-                correctAnswers.add(answer);
-            }else{
-                incorrectAnswers.add(answer);
-            }
-            next = vereinfachtesResultSet.next();
-        }
-        Quiz quiz = new Quiz(mcType,question, correctAnswers, incorrectAnswers);
-        connect.close();
-        return quiz;
-    }
-
     private User getUserByField(String field, String value) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
@@ -325,5 +296,17 @@ public class ManagementImpl implements Management {
         } else {
             return groups;
         }
+    }
+
+    @Override
+    public void create(ProjectConfiguration projectConfiguration, Project project) {
+        ProjectConfigurationDAO projectConfigurationDAO = new ProjectConfigurationDAO();
+        projectConfigurationDAO.persistProjectConfiguration(projectConfiguration,project);
+    }
+
+    @Override
+    public ProjectConfiguration getProjectConfiguration(Project project) {
+        ProjectConfigurationDAO projectConfigurationDAO = new ProjectConfigurationDAO();
+        return projectConfigurationDAO.loadProjectConfiguration(project);
     }
 }

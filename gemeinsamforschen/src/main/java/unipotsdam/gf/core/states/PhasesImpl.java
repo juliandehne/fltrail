@@ -19,16 +19,12 @@ import javax.inject.Singleton;
 @ManagedBean
 public class PhasesImpl implements IPhases {
 
-    @Inject
     private IPeerAssessment iPeerAssessment;
 
-    @Inject
     private Feedback feedback;
 
-    @Inject
     private ICommunication iCommunication;
 
-    @Inject
     private IJournal iJournal;
 
     public PhasesImpl() {
@@ -41,6 +37,7 @@ public class PhasesImpl implements IPhases {
      * @param iCommunication
      * @param iJournal
      */
+    @Inject
     public PhasesImpl(IPeerAssessment iPeerAssessment, Feedback feedback, ICommunication iCommunication, IJournal iJournal) {
         this.iPeerAssessment = iPeerAssessment;
         this.feedback = feedback;
@@ -118,9 +115,7 @@ public class PhasesImpl implements IPhases {
     }
 
 
-
-
-
-
-
+    public void setFeedback(Feedback feedback) {
+        this.feedback = feedback;
+    }
 }

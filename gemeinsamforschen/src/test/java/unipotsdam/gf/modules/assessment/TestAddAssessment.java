@@ -26,16 +26,9 @@ public class TestAddAssessment {
         workRating[2] = 4;      //Hilfsbereitschaft oder so
 
         StudentIdentifier student = new StudentIdentifier("Spaß", "Haralf");
-        Performance performance = new Performance(student, quizAnswers,"so ein toller Typ", workRating);
-        Assessment assessment = new Assessment(student, performance);
+        //Performance performance = new Performance(student, quizAnswers,"so ein toller Typ", workRating);
+        //Assessment assessment = new Assessment(student, performance);
         //iPeerAssessment.addAssessmentDataToDB(assessment);
-    }
-    @Test
-    public void testSetAssessment(){
-        StudentIdentifier ersteller=new StudentIdentifier("projekt","christian");
-        StudentIdentifier empfaenger=new StudentIdentifier("projekt","fgnxn");
-        Assessment testAssessment=new Assessment(true,empfaenger,new Date(),ersteller,"projekt",4);
-        testAssessment.setAssessment(testAssessment);
     }
 
 }

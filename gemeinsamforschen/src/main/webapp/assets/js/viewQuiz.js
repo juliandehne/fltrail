@@ -33,10 +33,11 @@ $(document).ready(function () {
         var temp = parts[i].split("=");
         $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
     }
-    var quizId = $_GET['quizId'];
-
+    var quizId = encodeURIComponent($_GET['quizId']);
+    var author = $('#user').html().trim();
+    var projectId = document.getElementById('projectId').innerText.trim();
     $.ajax({
-        url: '../rest/assessments/project/1/quiz/'+quizId,
+        url: '../rest/assessments/project/'+projectId+'/quiz/'+quizId+'/author/'+author,
         type: 'GET',
         success: function (data) {
             var table = document.getElementById('tableQuiz');
@@ -61,7 +62,16 @@ $(document).ready(function () {
             alert('Fehler ' + a);
         }
     });
-    $("#submitQuiz").on("click", function () {
-
+    $("#deleteQuiz").on("click", function () {
+        $.ajax({
+            url: '../rest/assessments/quiz/' + encodeURIComponent(quizId),
+            type: 'POST',
+            success: function () {
+                document.location.href="Quiz.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
+            },
+            error: function(a){
+                alert(a)
+            }
+        });
     });
 });

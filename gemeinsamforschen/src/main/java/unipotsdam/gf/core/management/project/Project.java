@@ -122,5 +122,18 @@ public class Project {
         return timecreated;
     }
 
-
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Project{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", active=").append(active);
+        sb.append(", timecreated=").append(timecreated);
+        sb.append(", author='").append(author).append('\'');
+        sb.append(", adminPassword='").append(adminPassword).append('\'');
+        sb.append(", token='").append(token).append('\'');
+        sb.append(", phase='").append(phase).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

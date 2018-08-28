@@ -2,7 +2,8 @@ package unipotsdam.gf.interfaces;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.peer2peerfeedback.Peer2PeerFeedback;
-import java.*;
+import unipotsdam.gf.modules.researchreport.ResearchReport;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -27,12 +28,12 @@ public interface Feedback {
     /**
      * give Peer2PeerFeedback
      *
-     * @param feedback: The Peer2PeerFeedback as an Object
-     * @param document: The selected document
+     * @param feedback : The Peer2PeerFeedback as an Object
+     * @param document : The selected document
      * @return Send feedback with doc and return true, if the feedback is successfully sended
      */
 
-    Boolean giveFeedback(Peer2PeerFeedback feedback, File document);
+    Boolean giveFeedback(Peer2PeerFeedback feedback, ResearchReport document);
 
     /**
      * show Feedbackhistory
@@ -59,5 +60,21 @@ public interface Feedback {
      */
     Boolean checkFeedbackConstraints(Project project);
 
+    /**
+     * TODO implement a routine that assigns missing feedback tasks if someone drops out of a course
+     * @param project
+     */
     void assigningMissingFeedbackTasks(Project project);
+
+    /**
+     * TODO implement: Assigns each student in a project a feedback target
+     */
+    void assignFeedbackTasks();
+
+    /**
+     * TODO implement: Get the research report you have to give feedback to
+     * @param student
+     * @return
+     */
+    ResearchReport getFeedbackTask(User student);
 }

@@ -1,42 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>muster-gemeinsam-forschen</title>
+    <omniDependencies:omniDependencies/>
 
     <!-- css - annotationStyle -->
     <link rel="stylesheet" type="text/css" href="../assets/css/annotationStyle.css">
     <!-- css - contextMenu -->
     <link href="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
-    <!-- css - bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- css - styles -->
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <!-- css - font awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <!-- css - sidebar -->
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
 
-    <!-- js - jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- js - jQuery validation plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
-    <!-- js - bootstrap -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <!-- js - jQuery ui position -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
     <!-- js - contextMenu script -->
     <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
-    <!-- js - utility script -->
-    <script src="../assets/js/utility.js"></script>
+    <!-- js - annotation websocket script -->
+    <script src="../assets/js/annotationWebsocket.js"></script>
+    <!-- js - annotation REST script -->
+    <script src="../assets/js/annotationRest.js"></script>
     <!-- js - annotationScript -->
     <script src="../assets/js/annotationScript.js"></script>
-
 </head>
 
 <body>
@@ -46,15 +35,7 @@
             <div class="container-fluid full-height">
                 <div class="container-fluid-content">
                     <div class="flex">
-                        <h1>gemeinsam Forschen
-                            <a href="#">
-                    <span class="glyphicon glyphicon-envelope"
-                          style="font-size:27px;margin-top:-17px;margin-left:600px;"></span>
-                            </a>
-                            <a href="#">
-                                <span class="glyphicon glyphicon-cog" style="font-size:29px;margin-left:5px;margin-top:-25px;"></span>
-                            </a>
-                        </h1>
+                        <headLine:headLine/>
                     </div>
                     <div class="content-mainpage">
                         <div class="leftcolumn">
@@ -105,8 +86,40 @@
                         </form>
                         <!-- modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Abbrechen</button>
                             <button id="btnSave" type="button" class="btn btn-success">Speichern</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- annotation edit modal -->
+        <div id="annotation-edit-modal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content">
+
+                    <!-- modal header -->
+                    <div class="modal-header flex">
+                        <h4 class="modal-title flex-one">Annotation bearbeiten</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- modal body -->
+                    <div class="modal-body">
+                        <form id="annotation-edit-form">
+                            <div class="form-group">
+                                <label for="annotation-form-title" class="col-form-label">Titel:</label>
+                                <input type="text" class="form-control" id="annotation-edit-form-title" name="title">
+                            </div>
+                            <div class="form-group">
+                                <label for="annotation-form-comment" class="col-form-label">Kommentar:</label>
+                                <textarea class="form-control resize-vertical" id="annotation-edit-form-comment" name="comment"></textarea>
+                            </div>
+                        </form>
+                        <!-- modal footer -->
+                        <div class="modal-footer">
+                            <button id="btnDelete" type="button" class="btn btn-danger">Löschen</button>
+                            <button id="btnEdit" type="button" class="btn btn-success">Bearbeiten</button>
                         </div>
                     </div>
                 </div>
