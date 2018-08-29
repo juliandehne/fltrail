@@ -1,11 +1,5 @@
 $(document).ready(function () {
     new InscrybMDE({
-        element: document.getElementById("ejournalFeedback"),
-        spellChecker: false,
-        //toolbar: ["bold", "italic", "heading", "|", "quote", "table", "code", "|" , "side-by-side", "fullscreen"],
-        minHeight: "80px",
-    });
-    new InscrybMDE({
         element: document.getElementById("presentationFeedback"),
         spellChecker: false,
         //toolbar: ["bold", "italic", "heading", "|", "quote", "table", "code", "|" , "side-by-side", "fullscreen"],
@@ -39,10 +33,10 @@ function safeContributionRating() {
     }
     let projectId = $('#projectId').html().trim();
     let fromPeer = $('#user').html().trim();
-    let toStudent = $('.peerStudent').attr('id');
+    let toGroup = $('.peerStudent').attr('id');
     $.ajax({
         url: '../rest/assessments/contributionRating/projectId/' + projectId +
-        '/studentId/' + toStudent + '/fromPeer/' + fromPeer,
+        '/studentId/' + toGroup + '/fromPeer/' + fromPeer,
         type: 'POST',
         headers: {
             "Content-Type": "application/json",

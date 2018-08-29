@@ -122,6 +122,7 @@ class AssessmentDBCommunication {
         connect.close();
     }
 
+    //todo: Studentidentifier student should be replaced by groupID. then you get the students in the group ...
     void writeContributionRatingToDB(StudentIdentifier student, String fromStudent, Map<String, Integer> contributionRating) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
@@ -130,7 +131,6 @@ class AssessmentDBCommunication {
                 "`projectId`, " +
                 "`fromPeer`, " +
                 "`dossier`, " +
-                "`eJournal`, " +
                 "`research`) " +
                 "VALUES (?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest,
@@ -138,7 +138,6 @@ class AssessmentDBCommunication {
                 student.getProjectId(),
                 fromStudent,
                 contributionRating.get("dossier"),
-                contributionRating.get("eJournal"),
                 contributionRating.get("research")
         );
         connect.close();

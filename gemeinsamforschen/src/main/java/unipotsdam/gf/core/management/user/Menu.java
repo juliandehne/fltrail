@@ -34,19 +34,18 @@ public class Menu extends SimpleTagSupport {
                         "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
                         "        </ul>\n" +
                         "    </div>");
+                out.println("<p id=\"userRole\" hidden>isStudent</p>");
             } else {
                 out.println("<div id=\"sidebar-wrapper\">\n" +
                         "        <ul class=\"sidebar-nav\">\n" +
                         "            <li class=\"sidebar-brand\"><a href=\"overview-docent.jsp?token="+token+"&projectId="+projectId+"\">overview</a></li>\n" +
                         "            <li><a href=\"Quiz-docent.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
-                        "            <li><a href=\"#\">ePortfolio</a></li>\n" +
-                        "            <li><a href=\"#\">Beitrag</a></li>\n" +
-                        "            <li><a href=\"#\">Gruppen erstellen</a></li>\n" +
+                        "            <li><a href=\"createGroups.jsp?token="+token+"&projectId="+projectId+"\">Gruppen erstellen</a></li>\n" +
                         "            <li><a href=\"changePhase.jsp?token="+token+"&projectId="+projectId+"\">Projektphase ändern</a></li>\n" +
-                        "            <li><a href=\"finalAssessments.jsp?token="+token+"&projectId="+projectId+"\">Bewertung</a></li>\n" +
-                        "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
+                        "            <li><a id=\"logout\">Logout</a></li>\n" +
                         "        </ul>\n" +
                         "    </div>");
+                out.println("<p id=\"userRole\" hidden>isDocent</p>");
             }
         }else{
             out.println("<div class='alert alert-warning'>" +
@@ -59,6 +58,7 @@ public class Menu extends SimpleTagSupport {
         User user = management.getUserByToken(token);
         if (user != null)
             out.println("<p id=\"user\" hidden>"+user.getName()+"</p>");
+
 
 
     }

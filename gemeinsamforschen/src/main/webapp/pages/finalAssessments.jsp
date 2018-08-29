@@ -2,6 +2,7 @@
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="footer" %>
 
 <!DOCTYPE html>
 <html>
@@ -43,13 +44,6 @@
                         <!-- here will be all the content -->
                         <div class="container">
                             <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
-                                <!-- Indicators -->
-                                <ol class="carousel-indicators">
-                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                                    <li data-target="#myCarousel" data-slide-to="1"></li>
-                                    <li data-target="#myCarousel" data-slide-to="2"></li>
-                                </ol>
-
                                 <!-- Wrapper for slides -->
                                 <div class="alert alert-info" id="notAllRated">
                                     Es wurden noch nicht alle Studenten vollständig bewertet
@@ -146,6 +140,12 @@
                                                 </td>
                                             </tr>
                                         </table>
+                                        <div align="center">
+                                            <button class="btn btn-primary" id="btnJournalStudent1" >zeige Lernzieltagebuch</button>
+                                            <div id="eJournalStudent1">
+                                                Fasel Blubba Bla
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="item">
@@ -238,6 +238,12 @@
                                                 </td>
                                             </tr>
                                         </table>
+                                        <div align="center">
+                                            <button class="btn btn-primary" id="btnJournalStudent2">zeige Lernzieltagebuch</button>
+                                            <div id="eJournalStudent2">
+                                                Fasel Blubba Bla
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="item">
@@ -330,6 +336,12 @@
                                                 </td>
                                             </tr>
                                         </table>
+                                        <div align="center">
+                                            <button class="btn btn-primary" id="btnJournalStudent3">zeige Lernzieltagebuch</button>
+                                            <div id="eJournalStudent3" align="center">
+                                                Fasel Blubba Bla
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -410,9 +422,7 @@
     </div>
 </div>
 
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
+<footer:footer/>
 </body>
 
 </html>

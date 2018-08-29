@@ -16,8 +16,7 @@ public class Categories {
     );
     public static final List<String> contributionRatingCategories = Collections.unmodifiableList(
             new ArrayList<String>() {{
-                add("Dossier");
-                add("eJournal");
+                add("dossier");
                 add("research");
             }}
     );

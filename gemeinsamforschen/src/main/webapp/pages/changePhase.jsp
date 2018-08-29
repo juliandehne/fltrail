@@ -2,6 +2,8 @@
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
+
 
 <html>
 <head>
@@ -34,6 +36,6 @@
         </div>
     </div>
 </div>
-
+<footer:footer/>
 </body>
 </html>

@@ -6,6 +6,15 @@ $(document).ready(function() {
     $('#assessThePeer').on("click", function () {
         assessPeer();
     });
+    $('#btnJournalStudent1').on("click", function(){
+        $('#eJournalStudent1').toggle();
+    });
+    $('#btnJournalStudent2').on("click", function(){
+        $('#eJournalStudent2').toggle();
+    });
+    $('#btnJournalStudent3').on("click", function(){
+        $('#eJournalStudent3').toggle();
+    });
 });
 
 function assessPeer(){
