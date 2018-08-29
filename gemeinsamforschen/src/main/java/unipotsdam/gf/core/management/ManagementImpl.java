@@ -212,9 +212,9 @@ public class ManagementImpl implements Management {
 
 
     /**
-     * TODO @Axel bitte in modules/asessment verschieben
-     * @param projectId
-     * @param quizId
+     *
+     * @param field
+     * @param value
      * @return
      */
     private User getUserByField(String field, String value) {

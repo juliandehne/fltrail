@@ -211,3 +211,38 @@ ALTER TABLE `projectuser`
   ADD UNIQUE (`projectId`, `userId`);
 ALTER TABLE `projects`
   ADD UNIQUE (`id`);
+
+CREATE TABLE if not exists answeredquiz (
+  `projectId`    varchar(400) NOT NULL,
+  `studentId`   varchar(400) NOT NULL,
+  `question`   varchar(400) NOT NULL,
+  `correct`   tinyint(4) NOT NULL
+
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE if not exists workrating (
+  `projectId`    varchar(400) NOT NULL,
+  `studentId`   varchar(400) NOT NULL,
+  `fromPeer`   varchar(400) NOT NULL,
+  `responsibility`   int(11) NOT NULL,
+  `partOfWork`   int(11) NOT NULL,
+  `cooperation`   int(11) NOT NULL,
+  `communication`   int(11) NOT NULL,
+  `autonomous`   int(11) NOT NULL
+
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE if not exists contributionrating (
+  `projectId`    varchar(400) NOT NULL,
+  `studentId`   varchar(400) NOT NULL,
+  `fromPeer`   varchar(400) NOT NULL,
+  `dossier`   int(11) NOT NULL,
+  `eJournal`   int(11) NOT NULL,
+  `research`   int(11) NOT NULL
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;

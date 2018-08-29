@@ -1,11 +1,11 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dehne on 18.05.2018.
@@ -42,7 +42,7 @@ public interface IPeerAssessment {
      *
      * @param totalPerformance @return
      */
-    List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance); // calculates marks for every performance and writes it to an array
+    Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance); // calculates marks for every performance and writes it to an array
 
 
     /**
@@ -73,15 +73,20 @@ public interface IPeerAssessment {
      *
      * @param peerRatings
      * @param projectId
-     * @param groupId
      */
-    void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId);
+    void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId);
+
+    void postContributionRating(StudentIdentifier student,
+                                String fromPeer,
+                                Map<String, Integer> contributionRating);
 
     /**
      *
-     * @param studentAndQuiz
-     * @param quizAnswer
+     * @param questions
+     * @param student
      */
-    void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer);
+    void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student);
     void deleteQuiz(String quizId);
+
+    Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method);
 }

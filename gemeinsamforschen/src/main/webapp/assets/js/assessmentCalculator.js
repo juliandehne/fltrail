@@ -18,7 +18,7 @@ $(document).ready(function () {     //todo: paths should be relative
             {
                 "studentIdentifier": {
                     "projectId": "projekt",
-                    "studentId": "Keiler"
+                    "studentId": "student"
                 },
                 "quizAnswer": [
                     1,
@@ -28,38 +28,36 @@ $(document).ready(function () {     //todo: paths should be relative
                     1,
                     0
                 ],
-                "feedback": "toller dude",
-                "workRating": [
-                    5,
-                    4,
-                    3,
-                    2,
-                    1,
-                    0
-                ]
+                "feedback": "ein toller typ",
+                "workRating": {
+                    "responsibility": 1,
+                    "partOfWork": 1,
+                    "autonomous": 1,
+                    "communication": 1,
+                    "cooperation": 1
+                }
             },
             {
                 "studentIdentifier": {
                     "projectId": "projekt",
-                    "studentId": "Glucke"
+                    "studentId": "student"
                 },
                 "quizAnswer": [
                     1,
-                    1,
+                    0,
                     1,
                     1,
                     1,
                     0
                 ],
-                "feedback": "super",
-                "workRating": [
-                    1,
-                    1,
-                    1,
-                    2,
-                    3,
-                    2
-                ]
+                "feedback": "feini feini",
+                "workRating": {
+                    "responsibility": 3,
+                    "partOfWork": 4,
+                    "autonomous": 4,
+                    "communication": 3,
+                    "cooperation": 5
+                }
             }
         ];
 

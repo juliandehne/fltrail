@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    $('#newQuiz').on('click', function(){
+        location.href="createQuiz.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
+    });
+
     let loading = $('#loadbar').hide();
     $(document)
         .ajaxStart(function () {
@@ -37,7 +41,6 @@ $(document).ready(function () {
                     '' + data[quiz].question + '</td>';
                 trQuestion.innerHTML = tdQuestion;
                 let trAnswers = document.createElement('TR');
-                answers = shuffle(answers);
                 let answersTd='<td style="display: block;">' +
                     '<div ' +
                     'class="quiz collapse" ' +
@@ -57,63 +60,28 @@ $(document).ready(function () {
                 }
                 tdQuestion ="";
                 answers=[];
-                trAnswers.innerHTML = answersTd+'</div></td>';
+                let deletebutton = '<button class="btn btn-danger" id="delete'+question+'">löschen</button>';
+                trAnswers.innerHTML = answersTd+deletebutton+'</div></td>';
                 table.appendChild(trQuestion);
                 table.appendChild(trAnswers);
+                $("#delete"+question).click({quizId: data[quiz].question}, deleteQuiz);
             }
         },
         error: function (a) {
             alert('Fehler ' + a);
         }
     });
-    $("#submitQuiz").on("click", function () {
-        safeQuizAnswers();
-    });
+
+    function deleteQuiz(event){
+        $.ajax({
+            url: '../rest/assessments/quiz/' + encodeURIComponent(event.data.quizId),
+            type: 'POST',
+            success: function () {
+                document.location.href="Quiz-docent.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
+            },
+            error: function(a){
+                alert(a)
+            }
+        });
+    }
 });
-
-function shuffle(a) {
-    let j, x, i;
-    for (i = a.length - 1; i > 0; i--) {
-        j = Math.floor(Math.random() * (i + 1));
-        x = a[i];
-        a[i] = a[j];
-        a[j] = x;
-    }
-    return a;
-}
-
-function safeQuizAnswers(){
-    let quizzes = $('.quiz');
-    ///////initialize variables///////
-    let dataP = {};
-
-    ///////read values from html///////
-    for (let quiz=0; quiz<quizzes.length; quiz++){
-        let answerList = [];
-        if (quizzes[quiz].id !== ""){
-            let checkedBoxes = $("#"+quizzes[quiz].id+" input:checked");
-            checkedBoxes.each(function(){
-                answerList.push($(this).val());
-            });
-            let question = $("#"+quizzes[quiz].id+" p").html().trim();
-            dataP[question]= answerList;
-        }
-    }
-    let projectId=$('#projectId').html().trim();
-    let studentId=$('#user').html().trim();
-    $.ajax({
-        url:'../rest/assessments/quizAnswer/projectId/'+projectId+'/studentId/'+studentId,
-        type: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "Cache-Control": "no-cache"
-        },
-        data: JSON.stringify(dataP),
-        success: function(){
-            location.href="rateContribution.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
-        },
-        error: function(a,b,c){
-
-        }
-    });
-}

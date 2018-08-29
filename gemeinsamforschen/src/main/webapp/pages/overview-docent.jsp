@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
@@ -85,8 +85,6 @@
         </div>
         <button class="btn btn-default" type="button" id="createProject" style="margin-left:250px;">Projekt erstellen</button>
     </div>
-</div>
-
 </body>
 
 </html>
