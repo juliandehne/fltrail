@@ -20,13 +20,6 @@ import java.util.List;
 public interface IJournal {
 
     /**
-     * Exports the learning journal
-     * @param student StudentIdentifier
-     * @return the journal as String (may change)
-     */
-    String exportJournal (StudentIdentifier student) ;
-
-    /**
      * check if all students have prepared their portfolios to be evaluated
      * @return
      * @param project

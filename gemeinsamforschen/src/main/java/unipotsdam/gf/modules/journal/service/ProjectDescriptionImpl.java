@@ -1,5 +1,8 @@
 package unipotsdam.gf.modules.journal.service;
 
+import unipotsdam.gf.core.management.ManagementImpl;
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Link;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
@@ -8,6 +11,7 @@ import unipotsdam.gf.modules.journal.model.dao.LinkDAOImpl;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAO;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAOImpl;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ProjectDescriptionImpl implements ProjectDescriptionService {
@@ -60,5 +64,23 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
     @Override
     public void closeDescription(String projectDescrID) {
         descriptionDAO.closeDescription(projectDescrID);
+    }
+
+    @Override
+    public boolean checkIfAllDescriptionsClosed(Project project) {
+        return (descriptionDAO.getOpenDescriptions(project).size() == 0); //TODO Jeder eine desc?
+    }
+
+    @Override
+    public ArrayList<User> getOpenUserByProject(Project project) {
+        ManagementImpl management = new ManagementImpl();
+
+        ArrayList<String> userId = descriptionDAO.getOpenDescriptions(project);
+        ArrayList<User> users = new ArrayList<>();
+
+        for(String id : userId){
+            users.add(management.getUserByToken(id));
+        }
+        return users;
     }
 }

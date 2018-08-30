@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
@@ -135,6 +136,28 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
 
         //close connection
         connection.close();
+    }
+
+    @Override
+    public ArrayList<String> getOpenDescriptions(Project project) {
+        ArrayList<String> userIds = new ArrayList<>();
+
+        // establish connection
+        MysqlConnect connection = new MysqlConnect();
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * FROM projectdescription WHERE project = ? AND open = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project, true);
+
+        while (rs.next()) {
+            userIds.add(getDescriptionFromResultSet(rs).getStudent().getStudentId());
+        }
+
+        // close connection
+        connection.close();
+
+        return userIds;
     }
 
     private ProjectDescription getDescriptionFromResultSet(VereinfachtesResultSet rs) {

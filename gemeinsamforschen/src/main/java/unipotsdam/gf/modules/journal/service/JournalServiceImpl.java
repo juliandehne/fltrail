@@ -2,6 +2,9 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.core.management.ManagementImpl;
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
@@ -96,6 +99,23 @@ public class JournalServiceImpl implements JournalService {
         log.debug("<<< close journal");
     }
 
-    //TODO Export for assessment
-}
+    @Override
+    public boolean checkIfAllJournalClosed(Project project) {
+        return (journalDAO.getOpenJournals(project).size() == 0);
+    }
 
+    @Override
+    public ArrayList<User> getOpenUserByProject(Project project) {
+
+        ManagementImpl management = new ManagementImpl();
+
+        ArrayList<String> userId = journalDAO.getOpenJournals(project);
+        ArrayList<User> users = new ArrayList<>();
+
+        for(String id : userId){
+            users.add(management.getUserByToken(id));
+        }
+        return users;
+    }
+
+}

@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.journal.service;
 
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
 
@@ -54,4 +56,8 @@ public interface JournalService {
 
 
     void closeJournal(String journal);
+
+    boolean checkIfAllJournalClosed(Project project);
+
+    ArrayList<User> getOpenUserByProject(Project project);
 }

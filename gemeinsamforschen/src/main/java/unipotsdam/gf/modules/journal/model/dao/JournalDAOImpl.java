@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.journal.model.dao;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
@@ -163,6 +164,29 @@ public class JournalDAOImpl implements JournalDAO {
 
         //close connection
         connection.close();
+    }
+
+    @Override
+    public ArrayList<String> getOpenJournals(Project project) {
+        ArrayList<String> userIds = new ArrayList<>();
+
+        // establish connection
+        MysqlConnect connection = new MysqlConnect();
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * FROM journals WHERE project = ? AND open = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project, true);
+
+        while (rs.next()) {
+            userIds.add(getJournalFromResultSet(rs).getStudentIdentifier().getStudentId());
+        }
+
+        // close connection
+        connection.close();
+
+        return userIds;
+
     }
 
     /**
