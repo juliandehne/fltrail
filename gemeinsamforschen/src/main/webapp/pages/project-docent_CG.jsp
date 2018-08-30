@@ -29,7 +29,7 @@
 
     <div class="page-content-wrapper">
         <div class="container-fluid">
-            <h1>dummy Projekt1 für Dozent1</h1><button class="btn btn-default" type="button">Gruppen erstellen</button><button class="btn btn-default" type="button" id="ProjektFinalisieren">Projekt finalisieren</button><button class="btn btn-default" type="button">Exportiere Projektergebnisse</button>
+            <h1 id="headline">dummy Projekt1 für Dozent1</h1><button class="btn btn-default" type="button">Gruppen erstellen</button><button class="btn btn-default" type="button" id="ProjektFinalisieren">Projekt finalisieren</button><button class="btn btn-default" type="button">Exportiere Projektergebnisse</button>
         </div>
         <p hidden id="ProjektId">Projekt1</p>
         <button
