@@ -36,18 +36,8 @@
             <h2>Wie schätzen Sie sich in folgenden Kategorien ein?</h2>
             <br><br>
             <p>groupCriterion1
-                <label>stark<input type="radio" name="groupCriterion1"></label>
-                <input type="radio" name="groupCriterion1">
-                <input type="radio" name="groupCriterion1">
-                <input type="radio" name="groupCriterion1">
-                <label><input type="radio" name="groupCriterion1">schwach</label>
             </p>
             <p>groupCriterion2
-                <label>stark<input type="radio" name="groupCriterion2"></label>
-                <input type="radio" name="groupCriterion2">
-                <input type="radio" name="groupCriterion2">
-                <input type="radio" name="groupCriterion2">
-                <label><input type="radio" name="groupCriterion2">schwach</label>
             </p>
 
         </div>
