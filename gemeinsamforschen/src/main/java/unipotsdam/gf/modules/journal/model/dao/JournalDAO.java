@@ -17,7 +17,7 @@ public interface JournalDAO {
 
     Journal getJournal(String id);
 
-    ArrayList<Journal> getAllByProject(String project);
+    ArrayList<Journal> getAllByProject(String project, String student);
 
     ArrayList<Journal> getAllByProjectAndFilter(String project, String student, JournalFilter filter);
 

@@ -96,7 +96,7 @@ public class JournalDAOImpl implements JournalDAO {
     }
 
     @Override
-    public ArrayList<Journal> getAllByProject(String project) {
+    public ArrayList<Journal> getAllByProject(String project, String student) {
 
         ArrayList<Journal> journals = new ArrayList<>();
 
@@ -105,8 +105,8 @@ public class JournalDAOImpl implements JournalDAO {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM journals WHERE project= ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project);
+        String request = "SELECT * FROM journals WHERE project= ? AND (author = ? OR visibility = \"ALL\" or visibility = \"GROUP\");";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project, student);
 
         while (rs.next()) {
             journals.add(getJournalFromResultSet(rs));
@@ -145,7 +145,7 @@ public class JournalDAOImpl implements JournalDAO {
     @Override
     public ArrayList<Journal> getAllByProjectAndFilter(String project, String student, JournalFilter filter) {
         if (filter == JournalFilter.ALL) {
-            return getAllByProject(project);
+            return getAllByProject(project, student);
         } else {
             return getAllByStudent(student);
         }
@@ -176,7 +176,7 @@ public class JournalDAOImpl implements JournalDAO {
 
         // build and execute request
         String request = "SELECT * FROM journals WHERE project = ? AND open = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project, true);
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getId(), true);
 
         while (rs.next()) {
             userIds.add(getJournalFromResultSet(rs).getStudentIdentifier().getStudentId());

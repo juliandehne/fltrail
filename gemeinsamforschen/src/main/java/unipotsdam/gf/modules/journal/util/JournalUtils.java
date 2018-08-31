@@ -70,7 +70,7 @@ public class JournalUtils {
         //TODO Formatstring
         String request = "SELECT COUNT(*) > 0 AS `exists` FROM " + table+ " WHERE id = ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request,id);
-        log.debug("querry: " + rs.toString());
+        JournalUtils.log.debug("querry: " + rs.toString());
         if (rs.next()) {
             // save the response
             int count = rs.getInt("exists");

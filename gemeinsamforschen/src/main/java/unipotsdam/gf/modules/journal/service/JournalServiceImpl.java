@@ -63,7 +63,7 @@ public class JournalServiceImpl implements JournalService {
     public ArrayList<Journal> getAllJournals(String student, String project) {
         log.debug(">> get all journals(" + student + "," + project + ")");
 
-        return journalDAO.getAllByProject(project);
+        return journalDAO.getAllByProject(project, student);
     }
 
     @Override
