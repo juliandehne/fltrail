@@ -1,0 +1,16 @@
+USE `fltrail`;
+
+CREATE TABLE if not exists `peerfeedback` (
+  `id`         varchar(130) NOT NULL,
+  `timestamp`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
+  `reciever`   varchar(400) NOT NULL,
+  `sender`     varchar(400) NOT NULL,
+  `text`       varchar(1000) NOT NULL,
+  `category`   varchar(400) NOT NULL,
+  `filename`   varchar(400) NOT NULL,
+  PRIMARY KEY( id )
+
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;

@@ -1,10 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
 <!DOCTYPE html>
 <html>
 
 <head>
+    <%--
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>muster-gemeinsam-forschen</title>
@@ -26,37 +29,22 @@
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="../assets/js/Sidebar-Menu.js"></script>
     <script  src="../assets/js/editDescription.js"></script>
+        --%>
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../assets/css/create-journal.css">
+    <script src="../assets/js/utility.js"></script>
+    <script src="../assets/js/project-student.js"></script>
+    <script src="../assets/js/peerfeedback.js"></script>
+        <omniDependencies:omniDependencies/>
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu></menu:menu>
-
+    <menu:menu/>
     <div class="page-content-wrapper">
-        <div class="container-fluid">
-            <h1 id="projectId"> PeerFeedback</h1>
-        </div>
-        <div align="right" class="dropdown" >
-            <button style= "position: absolute; right: 50px;" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-
-                <i class="glyphicon glyphicon-envelope"></i>
-            </button>
-
-            <ul class="dropdown-menu">
-                <li><a class="viewfeedback" role="button">Feedback A</a></li>
-                <li><a class="viewfeedback" role="button">Feedback B</a></li>
-                <li><a class="viewfeedback" role="button">Feedback C</a></li>
-            </ul>
-
-            <a href="#">
-                <span class="glyphicon glyphicon-cog" style="font-size:29px;margin-right:30px;margin-top:3px;"></span>
-            </a>
-
-        </div>
-
-        <div>
-
-        </div>
+        <headLine:headLine/>
         <div>
             <table>
                 <tr>
@@ -97,26 +85,32 @@
                                 <td  id="yourContent">
                                     <h2> Schreibe dein Feedback! </h2>
 
-                                    <form id="descriptionform" class="form-journal" method="POST" action="../rest/projectdescription/saveText">
+                                    <form  id= "form" method="POST" action="../rest/peerfeedback/save">
+                                        <%--id="journalform" class="form-journal"--%>
+                                        <input type="hidden" id="student" name="student">
+                                        <input type="hidden" id="project" name="project">
+                                        <input type="hidden" id="feedbackid" name="id">
+                                        <input type="hidden" id="reciever" name="reciever">
+                                        <input type="hidden" id="sender" name="sender">
+                                        <input type="hidden" id="filename" name="filename">
+                                        <input type="hidden" id="category" name="category">
+                                        <input type="hidden" id="filename" name="filename">
 
-                                        <input type="hidden" name="student" value="0">
-                                        <input type="hidden" name="project" value="0">
 
-                                        <div class="description-form-container">
+                                        <div class="journal-form-container">
 
-                                            <div class ="description-form-editor">
-                                    <textarea id = "editor" name="text" form="descriptionform" >
-                                    </textarea>
+                                            <div class="journal-form-editor">
+                                                <textarea id="editor" name="text"></textarea> <%--form="journalform"--%>
                                             </div>
 
-                                            <div class="description-form-buttons">
-
-                                                <button type="button" onclick="goBack()">Zur&uuml;ck</button>
-                                                <button type="button" class="viewprojectstudent">Speichern</button>
-
+                                            <div class="journal-form-buttons">
+                                                <input class="btn btn-default btn-sm" type="submit">
+                                                <a id="backLink" class="btn btn-default btn-sm"> Zur&uuml;ck </a>
                                             </div>
+
                                             <div>
-
+                                                <p id="as">Now what</p>
+                                                <input type="button" value="get txt" onclick="go()" />
                                             </div>
 
                                         </div>
@@ -148,6 +142,7 @@
 <script src="../assets/js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/Sidebar-Menu.js"></script>
+<script src="../assets/js/createJournal.js"></script>
 </body>
 
 </html>
