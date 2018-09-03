@@ -1,24 +1,15 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <omniDependencies:omniDependencies/>
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> <!--FilePond -->
-
-    <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../assets/js/utility.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
-    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/researchReport.css">
     <title>Forschungsbericht erstellen</title>
 </head>
@@ -27,8 +18,15 @@
 
 
 
-<form id="researchReportform" class="researchReportForm" method="POST" action="../rest/researchReport/save">
-
+<div id="wrapper">
+    <menu:menu></menu:menu>
+    <div class="page-content-wrapper">
+        <headLine:headLine/>
+        <div style="margin-left:50px;">
+            <table>
+                <tr>
+                    <td  id="yourContent">
+                        <form id="researchReportform" class="researchReportForm" method="POST" action="../rest/researchReport/save">
 
 
     <div class = "researchReportTitlebar">
@@ -62,13 +60,17 @@
         </nav>
     </div>
 
-</form>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
-<script  src="../assets/js/createReport.js"></script>
-<script  src="../assets/js/researchReportUpload.js"></script>
+
+<script src="../assets/js/createReport.js"></script>
+<script src="../assets/js/researchReportUpload.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->
 <script>FilePond.parse(document.body);</script> <!--FilePond -->

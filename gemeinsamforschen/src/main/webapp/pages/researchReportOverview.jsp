@@ -1,29 +1,15 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: quark
-  Date: 18.07.2018
-  Time: 16:44
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1", charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <omniDependencies:omniDependencies/>
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> <!--FilePond -->
-
-    <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../assets/js/utility.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
-    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> <!--FilePond -->
     <link rel="stylesheet" type="text/css" href="../assets/css/researchReportOverview.css">
     <title>Forschungsbericht Übersicht</title>
 
@@ -32,11 +18,18 @@
 
 <body>
 
-
-<form id="researchReportOverview" class="researchReportOverview">
-    <div class = "researchReportTitlebar">
-        <h1> Forschungsbericht Übersicht</h1>
-    </div>
+<div id="wrapper">
+    <menu:menu></menu:menu>
+    <div class="page-content-wrapper">
+        <headLine:headLine/>
+        <div style="margin-left:50px;">
+            <table>
+                <tr>
+                    <td  id="yourContent">
+                        <form id="researchReportOverview" class="researchReportOverview">
+                            <div class = "researchReportTitlebar">
+                                <h1> Forschungsbericht Übersicht</h1>
+                            </div>
 
 
             <div class="reports">
@@ -104,14 +97,17 @@
         </table>
     </div>
 
-</form>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 
 
 
 
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->
 <script src="../assets/js/researchReportUpload.js"></script><!--FilePond -->

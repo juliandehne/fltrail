@@ -1,25 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
 <!DOCTYPE html>
 
 <html>
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <omniDependencies:omniDependencies/>
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> <!--FilePond -->
-
-    <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../assets/js/utility.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
-    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/researchReport.css">
     <title>Forschungsbericht erstellen</title>
 </head>
@@ -28,18 +18,8 @@
 <div id="wrapper">
     <menu:menu></menu:menu>
         <div class="page-content-wrapper">
-            <div class="container-fluid">
-                <h1 id="projectId">project1
-                    <a href="#">
-                <span class="glyphicon glyphicon-envelope"
-                      style="font-size:27px;margin-top:-17px;margin-left:600px;"></span>
-                    </a>
-                    <a href="#">
-                        <span class="glyphicon glyphicon-cog" style="font-size:29px;margin-left:5px;margin-top:-25px;"></span>
-                    </a></h1>
-            </div>
-
-            <div>
+            <headLine:headLine/>
+            <div style="margin-left:50px;">
                 <table>
                     <tr>
                         <td  id="yourContent">
@@ -75,6 +55,7 @@
         <input type="file" class="filepond" name="filepond"> </input>
     </div>
 
+
     <div class="researchReportProgress">
         <nav>
             <menu>
@@ -98,9 +79,7 @@
         </div>
 </div>
 
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
+
 <script  src="../assets/js/createReport.js"></script>
 <script  src="../assets/js/researchReportUpload.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
