@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
-import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
@@ -61,7 +60,12 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public void postContributionRating(StudentIdentifier student, String fromStudent, Map<String, Integer> contributionRating) {
+    public Integer whichGroupToRate(StudentIdentifier student) {
+        return null;
+    }
+
+    @Override
+    public void postContributionRating(String groupId, String fromStudent, Map<String, Integer> contributionRating) {
 
     }
 

@@ -39,6 +39,7 @@ public class QuizView {
     }
     //////////////////////////////////////////funktioniert///////////////////////////////////////
 
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/peerRating/project/{projectId}")
@@ -46,15 +47,22 @@ public class QuizView {
         peer.postPeerRating(peerRatings, projectId);
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/groupRate/project/{projectId}/student/{studentId}")
+    public Integer whichGroupToRate(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId)
+    {
+        StudentIdentifier student = new StudentIdentifier(projectId,studentId);
+        return peer.whichGroupToRate(student);
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/contributionRating/projectId/{projectId}/studentId/{studentId}/fromPeer/{fromPeer}")
+    @Path("/contributionRating/group/{groupId}/fromPeer/{fromPeer}")
     public void postContributionRating(Map<String, Integer> contributionRatings,
-                                       @PathParam("projectId") String projectId,
-                                       @PathParam("studentId") String studentId,
+                                       @PathParam("groupId") String groupId,
                                        @PathParam("fromPeer") String fromPeer) throws IOException {
-        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
-        peer.postContributionRating(student, fromPeer, contributionRatings);
+        peer.postContributionRating(groupId, fromPeer, contributionRatings);
     }
 
     @POST
@@ -140,7 +148,7 @@ public class QuizView {
         return getTotalAssessment(studentIdentifier);
     }  //////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
-    public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
+    private ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
         return peer.getTotalAssessment(studentIdentifier);
     }  /////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 

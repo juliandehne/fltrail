@@ -17,6 +17,7 @@
 <body>
 <div id="wrapper">
     <menu:menu/>
+    <p id="groupId" hidden>Hier steht jetzt das richtige</p>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div>
@@ -25,7 +26,7 @@
                     <td id="yourContent">
                         <h2>letzter Schritt im Projekt1 </h2>
                         <table class="table-striped peerStudent"
-                               style="width:100%;border:1px solid; margin:auto;" id="student1">
+                               style="width:100%;border:1px solid; margin:auto;" id="2">
                             <tr>
                                 <td align="center">
                                     <h3>Gruppe 4</h3>

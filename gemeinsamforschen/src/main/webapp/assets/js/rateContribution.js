@@ -12,6 +12,7 @@ $(document).ready(function () {
         minHeight: "80px",
     });
 
+    whichGroupToRate();
 
     //editor.style = "min-height: 100px";
 
@@ -20,6 +21,25 @@ $(document).ready(function () {
         safeContributionRating();
     });
 });
+
+function whichGroupToRate(){
+    let projectId = $('#projectId').html().trim();
+    let studentId = $('#user').html().trim();
+    $.ajax({
+        url: '../rest/assessments/groupRate/project/'+projectId+'/student/'+studentId,
+        type: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        success: function (groupId) {
+            $('#groupId').html(groupId);
+        },
+        error: function () {
+
+        }
+    })
+}
 
 function safeContributionRating() {
     let contributions = $('.contributionRating');
@@ -31,12 +51,10 @@ function safeContributionRating() {
         let checkbox = $("#" + contributions[contribution].id + " input:checked");
         dataP[checkbox.attr('name')] = checkbox.val();
     }
-    let projectId = $('#projectId').html().trim();
     let fromPeer = $('#user').html().trim();
-    let toGroup = $('.peerStudent').attr('id');
+    let groupId = $('#groupId').html().trim();
     $.ajax({
-        url: '../rest/assessments/contributionRating/projectId/' + projectId +
-        '/studentId/' + toGroup + '/fromPeer/' + fromPeer,
+        url: '../rest/assessments/contributionRating/group/'+groupId+'/fromPeer/' + fromPeer,
         type: 'POST',
         headers: {
             "Content-Type": "application/json",
