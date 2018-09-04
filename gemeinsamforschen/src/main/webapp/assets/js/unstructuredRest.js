@@ -68,14 +68,15 @@ function createSubmissionPart(submissionPartPostRequest, responseHandler) {
 }
 
 /**
- * GET: Get a specific submission part for a given id
+ * GET: Get a specific submission part for a given full submission id and its category
  *
- * @param id The id of the submission part
+ * @param id The id of the full submission
+ * @param category The category of the submission part
  * @param responseHandler The response handler
  * @param errorHandler The error handler
  */
-function getSubmissionPart(id, responseHandler, errorHandler) {
-    var url = "../rest/submissions/part/" + id;
+function getSubmissionPart(id, category, responseHandler, errorHandler) {
+    var url = "/full/" + id + "/category/" + category;
     $.ajax({
         url: url,
         type: "GET",

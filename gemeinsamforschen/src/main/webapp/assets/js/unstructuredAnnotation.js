@@ -12,12 +12,12 @@ $(document).ready(function() {
         getAllSubmissionParts(getSubmissionIdFromUrl(), function (response) {
 
             // iterate over response
-            for (var i = 0; i < response.length; i++) {
+            for (let i = 0; i < response.length; i++) {
                 // save current category and body
                 let category = response[i].category;
                 let body = response[i].body;
                 // iterate over body and handle every selection
-                for (var j = 0; j < body.length; j++) {
+                for (let j = 0; j < body.length; j++) {
                     handleCategorySelection(category.toLowerCase(), body[j].startCharacter, body[j].endCharacter);
                 }
             }
