@@ -85,7 +85,7 @@ ol {
     color: #e6e6e6;
     text-decoration: none;
 }
-.annotation-header-title {
+.annotation-header-data {
     display: flex;
     flex-flow: column;
     width: calc(100% - 40px);
@@ -123,11 +123,11 @@ ol {
 .annotation-footer span {
     margin-left: 5px;
 }
-.annotation-footer-delete {
+.annotation-footer-edit {
     margin-right: 5px;
     cursor: pointer;
 }
-.annotation-footer-date {
+.flex-one {
     flex: 1
 }
 .container-fluid-content {
@@ -135,8 +135,11 @@ ol {
     flex-flow: column;
     height: 100%;
 }
-.content-header {
+.flex {
     display: flex;
+}
+.flex .container-fluid{
+    flex: 1;
 }
 .full-height {
     height: 100%;
@@ -147,5 +150,8 @@ ol {
 }
 .leftcontent-text {
     overflow: scroll;
+}
+.resize-vertical {
+    resize: vertical;
 }
 

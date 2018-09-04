@@ -9,21 +9,17 @@ public class Annotation {
     // variables
     private String id;
     private long timestamp;
-    private int userId;
+    private String userToken;
     private int targetId;
-    private String body;
-    private int startCharacter;
-    private int endCharacter;
+    private AnnotationBody body;
 
     // constructor
-    public Annotation(String id, long timestamp, int userId, int targetId, String body, int startCharacter, int endCharacter) {
+    public Annotation(String id, long timestamp, String userToken, int targetId, AnnotationBody body) {
         this.id = id;
         this.timestamp = timestamp;
-        this.userId = userId;
+        this.userToken = userToken;
         this.targetId = targetId;
         this.body = body;
-        this.startCharacter = startCharacter;
-        this.endCharacter = endCharacter;
     }
 
     // methods
@@ -43,12 +39,12 @@ public class Annotation {
         this.timestamp = timestamp;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserToken() {
+        return userToken;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserToken(String userToken) {
+        this.userToken = userToken;
     }
 
     public int getTargetId() {
@@ -59,40 +55,22 @@ public class Annotation {
         this.targetId = targetId;
     }
 
-    public String getBody() {
+    public AnnotationBody getBody() {
         return body;
     }
 
-    public void setBody(String body) {
+    public void setBody(AnnotationBody body) {
         this.body = body;
-    }
-
-    public int getStartCharacter() {
-        return startCharacter;
-    }
-
-    public void setStartCharacter(int startCharacter) {
-        this.startCharacter = startCharacter;
-    }
-
-    public int getEndCharacter() {
-        return endCharacter;
-    }
-
-    public void setEndCharacter(int endCharacter) {
-        this.endCharacter = endCharacter;
     }
 
     @Override
     public String toString() {
         return "Annotation{" +
-                "id=" + id +
+                "id='" + id + '\'' +
                 ", timestamp=" + timestamp +
-                ", userId=" + userId +
+                ", userToken='" + userToken + '\'' +
                 ", targetId=" + targetId +
-                ", body='" + body + '\'' +
-                ", startCharacter=" + startCharacter +
-                ", endCharacter=" + endCharacter +
+                ", body=" + body +
                 '}';
     }
 
