@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
@@ -23,7 +23,7 @@
         <button class="btn btn-primary" id="newQuiz">neues Quiz</button>
 
     </div>
+    <footer:footer/>
 </div>
-<footer:footer/>
 </body>
 </html>

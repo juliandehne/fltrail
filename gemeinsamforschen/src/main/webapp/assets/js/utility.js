@@ -4,10 +4,48 @@ $(document).ready(function(){
         //todo: delete cookies / reset session
         document.location="../index.jsp";
     });
+    $('#assessment').click(function(){
+       checkAssessementPhase();
+    });
     function goBack() {
         window.history.back();
     }
 });
+
+function checkAssessementPhase(){
+    let studentId = $('#user').html().trim();
+    let projectId = $('#projectId').html().trim();
+    $.ajax({
+        url: '../rest/assessments/whatToRate/project/'+projectId+'/student/'+studentId,
+        type: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        success: function (phase) {
+            switch (phase){
+                case "workRating":{
+                    document.location="finalAssessment.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    break;
+                }
+                case "quiz":{
+                    location.href = "takeQuiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    break;
+                }
+                case "contributionRating":{
+                    location.href = "rateContribution.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    break;
+                }
+                case "done":{
+                    location.href = "project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    break;
+                }
+            }
+        },
+        error: function(a){
+        }
+    });
+}
 
 function getUserTokenFromUrl() {
     let parts = window.location.search.substr(1).split("&");

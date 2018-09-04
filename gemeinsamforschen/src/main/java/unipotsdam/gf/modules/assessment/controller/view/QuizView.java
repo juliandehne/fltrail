@@ -85,6 +85,15 @@ public class QuizView {
         }
     }
 
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/whatToRate/project/{projectId}/student/{studentId}")
+    public String whatToRate(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId)
+    {
+        StudentIdentifier student = new StudentIdentifier(projectId,studentId);
+        return peer.whatToRate(student);
+    }
+
     @POST
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)

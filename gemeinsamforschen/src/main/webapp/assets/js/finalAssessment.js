@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    checkAssessementPhase();
+
+
     $('#notAllRated').hide();
     $(".carousel").carousel({
         interval: false
@@ -10,6 +13,7 @@ $(document).ready(function () {
     });
 });
 
+
 function buildTablesForPeers() {
     let studentId = $('#user').html().trim();
     let projectId = $('#projectId').html().trim();
@@ -17,7 +21,7 @@ function buildTablesForPeers() {
             url: '../rest/group/project/' + projectId + '/student/' + studentId,
             type: 'GET',
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "text/javascript",
                 "Cache-Control": "no-cache"
             },
             success: function (peers) {

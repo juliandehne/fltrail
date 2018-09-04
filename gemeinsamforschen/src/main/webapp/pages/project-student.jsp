@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%--suppress XmlDuplicatedId --%>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
@@ -56,7 +56,6 @@
                                                                                   style="font-size:15px;"></i>feedback</label>
                                             </a>
                                         </li>
-                                        </a>
                                     </ul>
                                 </td>
                                 <td></td>
@@ -112,13 +111,6 @@
                         </table>
 
                         <button onclick="goBack()" class="btn btn-secondary">Zurueck</button>
-
-                        <script>
-                            function goBack() {
-                                window.history.back();
-                            }
-                        </script>
-
                     </td>
                 </tr>
             </table>

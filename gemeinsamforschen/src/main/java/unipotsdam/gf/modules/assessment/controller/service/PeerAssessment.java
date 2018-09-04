@@ -37,6 +37,29 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
+    public String whatToRate(StudentIdentifier student) {
+        Integer groupId = new AssessmentDBCommunication().getGroupByStudent(student);
+        ArrayList<String> groupMembers = new AssessmentDBCommunication().getStudentsByGroupAndProject(groupId, student.getProjectId());
+        for (String peer: groupMembers){
+            if (!peer.equals(student.getStudentId())){
+                StudentIdentifier groupMember = new StudentIdentifier(student.getProjectId(), peer);
+                if (!new AssessmentDBCommunication().getWorkRating(groupMember, student.getStudentId())){
+                    return "workRating";
+                }
+            }
+        }
+        ArrayList<Integer> answers = new AssessmentDBCommunication().getAnsweredQuizzes(student);
+        if (answers==null){
+            return "quiz";
+        }
+        Integer groupToRate = new AssessmentDBCommunication().getWhichGroupToRate(student);
+        if (!new AssessmentDBCommunication().getContributionRating(groupToRate, student.getStudentId())){
+            return "contributionRating";
+        }
+        return "done";
+    }
+
+    @Override
     public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         Map<StudentIdentifier, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
         Map<StudentIdentifier, Map<String, Double>> workRating = new HashMap<>();

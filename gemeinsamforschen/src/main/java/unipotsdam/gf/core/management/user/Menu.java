@@ -1,6 +1,7 @@
 package unipotsdam.gf.core.management.user;
 
 import unipotsdam.gf.core.management.ManagementImpl;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -30,8 +31,8 @@ public class Menu extends SimpleTagSupport {
                         "            <li><a href=\"Quiz.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
                         "            <li><a href=\"eportfolio.jsp?token="+token+"&projectId="+projectId+"\">ePortfolio</a></li>\n" +
                         "            <li><a href=\"researchReportTitle.jsp?token="+token+"&projectId="+projectId+"\">Beitrag</a></li>\n" +
-                        "            <li><a href=\"finalAssessments.jsp?token="+token+"&projectId="+projectId+"\">Bewertung</a></li>\n" +
-                        "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
+                        "            <li><a id=\"assessment\">Bewertung</a></li>\n" +
+                        "            <li><a id=\"logout\">Logout</a></li>\n" +
                         "        </ul>\n" +
                         "    </div>");
                 out.println("<p id=\"userRole\" hidden>isStudent</p>");

@@ -37,8 +37,8 @@
             </table>
         </div>
     </div>
+    <footer:footer/>
 </div>
-<footer:footer/>
 </body>
 
 </html>

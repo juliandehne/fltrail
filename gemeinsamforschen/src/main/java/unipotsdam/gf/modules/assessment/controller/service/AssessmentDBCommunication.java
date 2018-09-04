@@ -36,6 +36,15 @@ class AssessmentDBCommunication {
         return result;
     }
 
+    Boolean getWorkRating(StudentIdentifier student, String fromStudent){
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectId`=? AND `studentId`=? AND `fromPeer`=?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId(), fromStudent);
+        return vereinfachtesResultSet.next();
+    }
+
     List<String> getStudents(String projectID) {
         List<String> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
@@ -63,6 +72,21 @@ class AssessmentDBCommunication {
         return result;
     }
 
+    ArrayList<String> getStudentsByGroupAndProject(Integer groupId, String projectId){
+        ArrayList<String> result = new ArrayList<>();
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM `groupuser` WHERE `groupId`=? AND `projectId`=?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, groupId, projectId);
+        Boolean next = vereinfachtesResultSet.next();
+        while (next){
+            result.add(vereinfachtesResultSet.getString("studentId"));
+            next = vereinfachtesResultSet.next();
+        }
+        return result;
+    }
+
     ArrayList<Map<String, Double>> getContributionRating(Integer groupId) {
         ArrayList<Map<String, Double>> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
@@ -81,6 +105,15 @@ class AssessmentDBCommunication {
         }
         connect.close();
         return result;
+    }
+
+    Boolean getContributionRating(Integer groupId, String fromStudent) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM `contributionrating` WHERE `groupId`=? AND `fromPeer`=?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, groupId, fromStudent);
+        return vereinfachtesResultSet.next();
     }
 
     ArrayList<Integer> getAnsweredQuizzes(StudentIdentifier student) {

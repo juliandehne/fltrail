@@ -1,8 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
-<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="footer" %>
 
 <html>
 <head>
@@ -29,7 +29,7 @@
             <button id="save">speichern</button>
         </div>
     </div>
+    <footer:footer/>
 </div>
-<footer:footer/>
 </body>
 </html>

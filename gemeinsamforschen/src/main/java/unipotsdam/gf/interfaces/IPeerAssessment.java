@@ -18,7 +18,7 @@ public interface IPeerAssessment {
      */
     void addAssessmentDataToDB(Assessment assessment);
 
-    Quiz getQuiz(String projectId, String groupId, String author);
+    Quiz getQuiz(String projectId, String quizId, String author);
     /**
      * will return a saved assessment from the DB
      *
@@ -94,5 +94,6 @@ public interface IPeerAssessment {
     void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student);
     void deleteQuiz(String quizId);
 
+    String whatToRate(StudentIdentifier student);
     Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method);
 }

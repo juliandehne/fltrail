@@ -80,6 +80,11 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
+    public String whatToRate(StudentIdentifier student) {
+        return null;
+    }
+
+    @Override
     public Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method) {
         return null;
     }
