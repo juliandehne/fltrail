@@ -93,73 +93,73 @@ body, html {
 }
 
 .titel {
-    background-color: lightgreen;
+    background-color: #ba68c8;
 }
 .added-titel {
     border-style: solid;
-    border-color: lightgreen;
-    color: lightgreen;
+    border-color: #ba68c8;
+    color: #ba68c8;
 }
 
 .recherche {
-    background-color: lightblue;
+    background-color: #7986cb;
 }
 .added-recherche {
     border-style: solid;
-    border-color: lightblue;
-    color: lightblue;
+    border-color: #7986cb;
+    color: #7986cb;
 }
 
 .literaturverzeichnis {
-    background-color: lightcoral;
+    background-color: #4dd0e1;
 }
 .added-literaturverzeichnis {
     border-style: solid;
-    border-color: lightcoral;
-    color: lightcoral;
+    border-color: #4dd0e1;
+    color: #4dd0e1;
 }
 
 .forschungsfrage {
-    background-color: cyan;
+    background-color: #81c784;
 }
 .added-forschungsfrage {
     border-style: solid;
-    border-color: cyan;
-    color: cyan;
+    border-color: #81c784;
+    color: #81c784;
 }
 
 .untersuchungskonzept {
-    background-color: goldenrod;
+    background-color: #dce775;
 }
 .added-untersuchungskonzept {
     border-style: solid;
-    border-color: goldenrod;
-    color: goldenrod;
+    border-color: #dce775;
+    color: #dce775;
 }
 
 .methodik {
-    background-color: lightpink;
+    background-color: #ffd54f;
 }
 .added-methodik {
     border-style: solid;
-    border-color: lightpink;
-    color: lightpink;
+    border-color: #ffd54f;
+    color: #ffd54f;
 }
 
 .durchfuehrung {
-    background-color: lightsalmon;
+    background-color: #ff8a65;
 }
 .added-durchfuehrung {
     border-style: solid;
-    border-color: lightsalmon;
-    color: lightsalmon;
+    border-color: #ff8a65;
+    color: #ff8a65;
 }
 
 .auswertung {
-    background-color: lightseagreen;
+    background-color: #a1887f;
 }
 .added-auswertung {
     border-style: solid;
-    border-color: lightseagreen;
-    color: lightseagreen;
+    border-color: #a1887f;
+    color: #a1887f;
 }
