@@ -5,6 +5,7 @@ import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.journal.model.EPorfolio;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 
@@ -55,13 +56,15 @@ public interface IJournal {
      * @param finalResearchReport
      * @param presentation
      */
+
     void uploadFinalPortfolio(Project project, List<Journal> journalEntries, ResearchReport finalResearchReport, File
             presentation, User user) ;
 
     /**
-     *
+     * Gets EPortfolio for assesment
      * @param project
-     * @return
+     * @return EPortfolio (containing Report, ProjectDescription and Journal)
      */
-    HTML getFinalPortfolioForAssessment(Project project, User user) ;
+
+    EPorfolio getFinalPortfolioForAssessment(Project project, User user) ;
 }

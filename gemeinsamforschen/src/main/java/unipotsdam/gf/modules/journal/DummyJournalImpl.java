@@ -8,6 +8,7 @@ import unipotsdam.gf.assignments.Assignee;
 import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.journal.model.EPorfolio;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 
@@ -50,7 +51,7 @@ public class DummyJournalImpl implements IJournal {
     }
 
     @Override
-    public HTML getFinalPortfolioForAssessment(
+    public EPorfolio getFinalPortfolioForAssessment(
             Project project, User user)  {
         NotImplementedLogger.logAssignment(Assignee.THOMAS, IJournal.class);
         return null;
