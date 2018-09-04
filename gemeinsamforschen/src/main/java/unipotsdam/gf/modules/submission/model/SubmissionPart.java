@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class SubmissionPart {
 
     // variables
-    private String id;
     private long timestamp;
     private String userId;
     private String fullSubmissionId;
@@ -19,8 +18,7 @@ public class SubmissionPart {
     private ArrayList<SubmissionPartBodyElement> body;
 
     // constructor
-    public SubmissionPart(String id, long timestamp, String userId, String fullSubmissionId, Category category, ArrayList<SubmissionPartBodyElement> body) {
-        this.id = id;
+    public SubmissionPart(long timestamp, String userId, String fullSubmissionId, Category category, ArrayList<SubmissionPartBodyElement> body) {
         this.timestamp = timestamp;
         this.userId = userId;
         this.fullSubmissionId = fullSubmissionId;
@@ -31,14 +29,6 @@ public class SubmissionPart {
     public SubmissionPart(){}
 
     // methods
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public long getTimestamp() {
         return timestamp;
     }
@@ -82,8 +72,7 @@ public class SubmissionPart {
     @Override
     public String toString() {
         return "SubmissionPart{" +
-                "id='" + id + '\'' +
-                ", timestamp=" + timestamp +
+                "timestamp=" + timestamp +
                 ", userId='" + userId + '\'' +
                 ", fullSubmissionId='" + fullSubmissionId + '\'' +
                 ", category=" + category +

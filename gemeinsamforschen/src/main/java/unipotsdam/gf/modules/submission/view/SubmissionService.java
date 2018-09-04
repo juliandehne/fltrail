@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.submission.view;
 
+import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.*;
 
@@ -60,11 +61,11 @@ public class SubmissionService {
     }
 
     @GET
-    @Path("/part/{id}")
-    public Response getSubmissionPart(@PathParam("id") String submissionPartId) {
+    @Path("/full/{id}/category/{category}")
+    public Response getSubmissionPart(@PathParam("id") String fullSubmissionId, @PathParam("category") String category) {
         // get submission part from database based by id
         SubmissionController controller = new SubmissionController();
-        SubmissionPart submissionPart = controller.getSubmissionPart(submissionPartId);
+        SubmissionPart submissionPart = controller.getSubmissionPart(fullSubmissionId, Category.valueOf(category.toUpperCase()));
 
         if (submissionPart != null) {
             return  Response.ok(submissionPart).build();
@@ -72,7 +73,7 @@ public class SubmissionService {
         else {
             // declare response
             SubmissionResponse response = new SubmissionResponse();
-            response.setMessage("Submission part with the id '" + submissionPartId + "' can't be found");
+            response.setMessage("Submission part with the full submission id '" + fullSubmissionId + "' and the category '" + category.toUpperCase() + "' can't be found");
 
             return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }
