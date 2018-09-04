@@ -12,6 +12,7 @@
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/AlertAssessmentOutlier.js"></script>
     <script src="../assets/js/grading.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 </head>
 
 
@@ -106,7 +107,7 @@
                     </div>
                     <div class="col-md-4">
                         <button id="DiaBlende">Zeitlicher Verlauf</button>
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Liniendiagramm-Beispiel.svg/750px-Liniendiagramm-Beispiel.svg.png", width="280", id = "Diagramm" >
+                        <canvas height="280" width="280", id = "Diagramm" ></canvas>
                     </div>
                     <div class="col-md-4">
                         <div class="panel panel-default">

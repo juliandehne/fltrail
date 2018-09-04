@@ -1,12 +1,32 @@
 $(document).ready(function () {
-    if(!$("#Diagramm").hidden){
-        $("#Diagramm").hide();
-    };
 
-    document.getElementById("Diagramm").style.visibility="invisible";
+
     $('#DiaBlende').on('click',function () {
-        $("#Diagramm").show();
-        document.getElementById("demo").innerHTML="verlauf";
+        var ctx = document.getElementById("Diagramm").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["Erstes Assessment", "Zweites Assessment", "Drittes Assessment", "Viertes Assessment", "Fünftes Assessment", "Sechstes Assessment"],
+                datasets: [{
+                    label: 'Note Student 1',
+                    data: [
+                        {x:1,y:2},{x:2,y:3},{x:3,y:1},{x:4,y:4}, {x:5,y:1}, {x:6,y:3}],
+                    borderColor: 'rgba(255,0,3,0.2)',
+                    backgroundColor: 'rgba(255,0,3,0.2)',
+                    fill:false
+                }
+                    ,
+                    {
+                    label:"Note Student 2",
+                    data: [{x:1,y:3},{x:2,y:2},{x:3,y:5},{x:4,y:5}, {x:5,y:5}, {x:6,y:1}]
+                        ,borderColor: 'rgba(0,255,0,0.2)'
+                        , backgroundColor: 'rgba(0,255,3,0.2)'
+                        ,fill:false
+
+                }]
+            },
+            options: {scales: {yAxes: [{ticks: {beginAtZero:true}}]},layout:{padding:{left:50,right:50,top:50, bottom:50}}}
+        });
     });
 });
 
