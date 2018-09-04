@@ -105,7 +105,7 @@ public class Assessment {
     public void setAssessment(Assessment assessment) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "INSERT INTO assessments ( `Adressat`, `Deadline`, `ErstellerId`,`EmpfängerId`, `ProjektId`, `Bewertung`) values (?,?,?,?,?,?)";
+        String mysqlRequest = "INSERT INTO assessments ( `adressat`, `deadline`, `erstellerId`,`empfaengerId`, `projektId`, `bewertung`) values (?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest,
                 assessment.isAdressat(),
                 assessment.getDeadline(),

@@ -46,7 +46,6 @@ public class TestAddAssessment {
 
         connect.connect();
         String mysqlRequest = "SELECT * FROM `assessments` WHERE `empfaengerId`=? AND `projektId`=?";
-
         String test = "fgnxn";
         String test2 = "projekt";
         VereinfachtesResultSet ausgabe = connect.issueSelectStatement(mysqlRequest,test, test2);

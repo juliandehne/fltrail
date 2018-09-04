@@ -1,19 +1,16 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
-import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.Assessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 
 
-import javax.annotation.PostConstruct;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Path("/assessments2")
 public class AssessmentView implements IPeerAssessment{
@@ -23,7 +20,7 @@ public class AssessmentView implements IPeerAssessment{
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/calculate3")
     @Override
-    public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
+    public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return peer.calculateAssessment(totalPerformance);
     }
 
@@ -37,6 +34,11 @@ public class AssessmentView implements IPeerAssessment{
         shuttle.setAssessment(assessment);      //inhalte werden in die DB geschrieben und es wird erfolg zurückgemeldet
         return "1";
     }
+
+
+
+
+
     /*}
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
@@ -57,7 +59,13 @@ public class AssessmentView implements IPeerAssessment{
     @Override
     public void addAssessmentDataToDB(Assessment assessment) {
     }
+
     @Override
+    public Quiz getQuiz(String projectId, String groupId, String author) {
+        return null;
+    }
+
+
     public Quiz getQuiz(String projectId, String groupId) {
         return null;
     }
@@ -72,7 +80,13 @@ public class AssessmentView implements IPeerAssessment{
     public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
         return null;
     }
+
     @Override
+    public int meanOfAssessment(String ProjectId) {
+        return 0;
+    }
+
+
     public int meanOfAssessement(String ProjectId) {
         return 0;
     }
@@ -80,7 +94,33 @@ public class AssessmentView implements IPeerAssessment{
     public ArrayList<Quiz> getQuiz(String projectId) {
         return null;
     }
+
     @Override
+    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId) {
+
+    }
+
+    @Override
+    public void postContributionRating(StudentIdentifier student, String fromPeer, Map<String, Integer> contributionRating) {
+
+    }
+
+    @Override
+    public void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student) {
+
+    }
+
+    @Override
+    public void deleteQuiz(String quizId) {
+
+    }
+
+    @Override
+    public Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method) {
+        return null;
+    }
+
+
     public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
     }
 }
