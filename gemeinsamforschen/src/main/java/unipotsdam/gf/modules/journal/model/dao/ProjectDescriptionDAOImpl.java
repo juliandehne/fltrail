@@ -115,7 +115,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
         connection.connect();
 
         // build and execute request
-        String request = "DELETE FROM projectdescription WHERE WHERE author = ? AND project = ?;";
+        String request = "DELETE FROM projectdescription WHERE author = ? AND project = ?;";
         connection.issueInsertOrDeleteStatement(request, studentIdentifier.getStudentId(),studentIdentifier.getProjectId());
 
         // close connection
@@ -148,7 +148,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
 
         // build and execute request
         String request = "SELECT * FROM projectdescription WHERE project = ? AND open = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project, true);
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getId(), true);
 
         while (rs.next()) {
             userIds.add(getDescriptionFromResultSet(rs).getStudent().getStudentId());

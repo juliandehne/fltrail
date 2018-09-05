@@ -12,7 +12,6 @@ import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAO;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAOImpl;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ProjectDescriptionImpl implements ProjectDescriptionService {
 
@@ -25,7 +24,7 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
         //if no description exists, create a new
         if(descriptionDAO.getDescription(studentIdentifier)==null){
             //TODO richtige Daten, standartwerte über config?
-            ProjectDescription description = new ProjectDescription("0", studentIdentifier.getStudentId(), "Hier soll ein Turtorialtext stehen", studentIdentifier.getProjectId(), null, null, new Date().getTime());
+            ProjectDescription description = new ProjectDescription("0", studentIdentifier.getStudentId(), "Hier soll ein Turtorialtext stehen", studentIdentifier.getProjectId(), null, null);
             descriptionDAO.createDescription(description);
         }
 
