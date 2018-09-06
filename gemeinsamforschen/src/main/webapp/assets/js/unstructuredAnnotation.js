@@ -26,7 +26,7 @@ $(document).ready(function() {
 
     }, function () {
         // jump to upload page on error
-        location.href="unstructured-upload.jsp?token="+getUserTokenFromUrl();
+        location.href="unstructured-upload.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl();
     });
 
     // set click listener to save button
@@ -246,6 +246,8 @@ function addSelectionDataToList(startCharacter, endCharacter, category) {
 function saveButtonHandler() {
     // show alert message
     if (window.confirm("Möchten Sie wirklich ihre Annotationen speichern?")) {
+        // declare array of promises
+        let promises = []
         $('#annotations').find('.category-card').each(function () {
             let array = $(this).data('array');
             if (array != null) {
@@ -273,13 +275,21 @@ function saveButtonHandler() {
                     submissionPartPostRequest.body.push(submissionPartBodyElement);
                 }
 
-                // send the post request to the back-end
-                createSubmissionPart(submissionPartPostRequest, function (response) {
+                // send the post request to the back-end and save promise
+                promises.push(createSubmissionPart(submissionPartPostRequest, function (response) {
                     console.log("send " + response.category + "'s post request to back-end")
-                })
+                }));
 
             }
         });
+
+        $.when.apply($, promises).then(function () {
+            // redirect user to project page after saving
+            location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl();
+        });
+
+        // redirect user to project page after saving
+        // location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl();
     }
 }
 

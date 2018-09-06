@@ -126,6 +126,7 @@ CREATE TABLE if not exists `fullsubmissions` (
   `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user` VARCHAR(120) NOT NULL,
   `text` MEDIUMTEXT NOT NULL,
+  `projectId` VARCHAR(120) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 

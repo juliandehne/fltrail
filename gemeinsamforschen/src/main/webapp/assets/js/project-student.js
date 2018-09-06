@@ -18,6 +18,6 @@ $(document).ready(function(){
     });
 
     $('#btnUnstructuredUpload').click(function () {
-        location.href="unstructured-upload.jsp?token="+getUserTokenFromUrl();
+        location.href="unstructured-upload.jsp?token="+getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl();
     })
 });

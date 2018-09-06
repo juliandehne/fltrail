@@ -13,7 +13,8 @@ $(document).ready(function() {
             // build request
             var fullSubmissionPostRequest = {
                 user: user,
-                text: text
+                text: text,
+                projectId: getProjectIdFromUrl()
             };
 
             // save request in database
@@ -22,7 +23,7 @@ $(document).ready(function() {
                 $('#upload-textarea').val("");
 
                 // jump to next page
-                location.href="unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&submission=" + response.id;
+                location.href="unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl() + "&submission=" + response.id;
             });
         }
     });
@@ -36,13 +37,15 @@ $(document).ready(function() {
                 $('#upload-textarea').val("");
 
                 // jump to previous page
-                location.href="project-student.jsp?token="+getUserTokenFromUrl();
+                window.history.back();
+                //location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl();
             }
         }
         // nothing to check
         else {
             // jump to previous page
-            location.href="project-student.jsp?token="+getUserTokenFromUrl();
+            window.history.back();
+            //location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl();
         }
     });
 
@@ -63,6 +66,3 @@ $(document).ready(function() {
     });
 
 });
-
-
-

@@ -30,8 +30,8 @@ public class SubmissionController implements ISubmission {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT INTO fullsubmissions (`id`, `user`, `text`) VALUES (?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, fullSubmissionPostRequest.getUser(), fullSubmissionPostRequest.getText());
+        String request = "INSERT INTO fullsubmissions (`id`, `user`, `text`, `projectId`) VALUES (?,?,?,?);";
+        connection.issueInsertOrDeleteStatement(request, uuid, fullSubmissionPostRequest.getUser(), fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectId());
 
         // get the new submission from database
         FullSubmission fullSubmission = getFullSubmission(uuid);
@@ -283,8 +283,9 @@ public class SubmissionController implements ISubmission {
         long timestamp = rs.getTimestamp("timestamp").getTime();
         String user = rs.getString("user");
         String text = rs.getString("text");
+        String projectId = rs.getString("projectId");
 
-        return new FullSubmission(id, timestamp, user, text);
+        return new FullSubmission(id, timestamp, user, text, projectId);
 
     }
 

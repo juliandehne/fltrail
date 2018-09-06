@@ -48,11 +48,12 @@ function getFullSubmission(id, responseHandler, errorHandler) {
  *
  * @param submissionPartPostRequest The post request
  * @param responseHandler The response handler
+ * @returns A promise object
  */
 function createSubmissionPart(submissionPartPostRequest, responseHandler) {
     var url = "../rest/submissions/part/";
     var json = JSON.stringify(submissionPartPostRequest);
-    $.ajax({
+    return $.ajax({
         url: url,
         type: "POST",
         data: json,
