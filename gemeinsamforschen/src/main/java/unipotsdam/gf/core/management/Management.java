@@ -2,6 +2,7 @@ package unipotsdam.gf.core.management;
 
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
@@ -120,5 +121,9 @@ public interface Management {
     void deleteGroupMember(User groupMember, int groupId);
 
     List<Group> getGroupsByProjectId(String projectId);
+
+    void create(ProjectConfiguration projectConfiguration, Project project);
+
+    ProjectConfiguration getProjectConfiguration(Project project);
 }
 

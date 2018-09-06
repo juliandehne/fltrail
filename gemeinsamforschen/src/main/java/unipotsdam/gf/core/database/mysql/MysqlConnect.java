@@ -1,11 +1,16 @@
 package unipotsdam.gf.core.database.mysql;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFDatabaseConfig;
+import unipotsdam.gf.modules.communication.view.CommunicationView;
 
 import java.sql.*;
 import java.util.Date;
 
 public class MysqlConnect {
+
+	private static final Logger log = LoggerFactory.getLogger(MysqlConnect.class);
 
 	public Connection conn = null;
 
@@ -41,6 +46,7 @@ public class MysqlConnect {
 				conn.close();
 			}
 		} catch (final SQLException e) {
+			log.error(e.toString());
 			throw new Error("could not close mysql");
 		}
 	}
@@ -56,6 +62,7 @@ public class MysqlConnect {
 			}
 			return ps;
 		} catch (SQLException ex) {
+			log.error(ex.toString());
 			System.out.println(ex);
 		}
 		return null;
@@ -68,6 +75,7 @@ public class MysqlConnect {
 			ResultSet queryResult = ps.executeQuery();
 			return new VereinfachtesResultSet(queryResult);
 		} catch (SQLException ex) {
+			log.error(ex.toString());
 			System.out.println(ex);
 		}
 		return null;
@@ -78,6 +86,7 @@ public class MysqlConnect {
 		try {
 			this.conn.createStatement().execute(statement);
 		} catch (SQLException ex) {
+			log.error(ex.toString());
 			System.out.println(ex);
 		}
 	}
@@ -88,6 +97,7 @@ public class MysqlConnect {
 		try {
 			return ps.executeUpdate();
 		} catch (SQLException ex) {
+			log.error(ex.toString());
 			System.out.println(ex);
 		}
 		return null;
@@ -99,6 +109,8 @@ public class MysqlConnect {
 		try {
 			ps.execute();
 		} catch (SQLException ex) {
+
+			log.error(ex.toString());
 			System.out.println(ex);
 		}
 	}

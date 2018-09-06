@@ -1,4 +1,4 @@
-package unipotsdam.gf.core.management.utils;
+package unipotsdam.gf.view;
 
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;

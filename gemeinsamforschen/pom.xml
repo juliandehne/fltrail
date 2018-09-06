@@ -165,11 +165,49 @@
             <version>1.3.4</version>
         </dependency>
 
+        <!-- websocket api -->
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+
         <dependency>
             <groupId>com.atlassian.commonmark</groupId>
             <artifactId>commonmark</artifactId>
             <version>0.11.0</version>
         </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/de.dev-eth0.dummycreator/dummy-creator -->
+      <!--  <dependency>
+            <groupId>de.dev-eth0.dummycreator</groupId>
+            <artifactId>dummy-creator</artifactId>
+            <version>1.2</version>
+        </dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>2.19.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>uk.co.jemos.podam</groupId>
+            <artifactId>podam</artifactId>
+            <version>7.1.1.RELEASE</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>
