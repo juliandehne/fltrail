@@ -24,6 +24,8 @@
     <script src="../assets/js/annotationWebsocket.js"></script>
     <!-- js - annotation REST script -->
     <script src="../assets/js/annotationRest.js"></script>
+    <!-- js - unstructuredRest -->
+    <script src="../assets/js/unstructuredRest.js"></script>
     <!-- js - annotationScript -->
     <script src="../assets/js/annotationScript.js"></script>
 </head>

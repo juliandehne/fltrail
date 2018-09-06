@@ -132,8 +132,8 @@ public class SubmissionController implements ISubmission {
                 // no similar element
                 case 0:
                     if (!hasOverlappingBoundaries(submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory(), element)) {
-                        requestElement = "INSERT IGNORE INTO submissionpartbodyelements (`fullSubmissionId`, `category`, `text`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?,?);";
-                        connection.issueInsertOrDeleteStatement(requestElement, submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory().toString().toUpperCase(), element.getText(), element.getStartCharacter(), element.getEndCharacter());
+                        requestElement = "INSERT IGNORE INTO submissionpartbodyelements (`fullSubmissionId`, `category`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?);";
+                        connection.issueInsertOrDeleteStatement(requestElement, submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory().toString().toUpperCase(), element.getStartCharacter(), element.getEndCharacter());
                     }
                     break;
                 // similar element on the right side
@@ -181,30 +181,46 @@ public class SubmissionController implements ISubmission {
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
-        // build and execute request
-        String request = "SELECT * FROM submissionparts s " +
-                "LEFT JOIN submissionpartbodyelements b " +
-                "ON s.fullSubmissionId = b.fullSubmissionId " +
-                "AND s.category = b.category " +
-                "WHERE s.fullSubmissionId = ? " +
-                "AND s.category = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId, category);
+        // declare text
+        String text;
 
-        if (rs.next()) {
-            // save submission
-            SubmissionPart submissionPart = getSubmissionPartFromResultSet(rs);
+        // build and execute request to receive text
+        String requestText = "SELECT text " +
+                "FROM fullsubmissions " +
+                "WHERE id = ?";
+        VereinfachtesResultSet rsText = connection.issueSelectStatement(requestText, fullSubmissionId);
 
-            // close connection
-            connection.close();
+        if (rsText.next()) {
+            // save text
+            text = rsText.getString("text");
 
-            return submissionPart;
+            // build and execute request
+            String request = "SELECT * FROM submissionparts s " +
+                    "LEFT JOIN submissionpartbodyelements b " +
+                    "ON s.fullSubmissionId = b.fullSubmissionId " +
+                    "AND s.category = b.category " +
+                    "WHERE s.fullSubmissionId = ? " +
+                    "AND s.category = ?;";
+            VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId, category);
+
+            if (rs.next()) {
+                // save submission
+                SubmissionPart submissionPart = getSubmissionPartFromResultSet(rs, text);
+
+                // close connection
+                connection.close();
+
+                return submissionPart;
+            }
+            else {
+                // close connection
+                connection.close();
+
+                return null;
+            }
         }
-        else {
-            // close connection
-            connection.close();
 
-            return null;
-        }
+        return null;
 
     }
 
@@ -215,27 +231,46 @@ public class SubmissionController implements ISubmission {
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
-        // build and execute request
-        String request = "SELECT * " +
-                "FROM submissionparts sp " +
-                "LEFT JOIN submissionpartbodyelements  spbe " +
-                "ON sp.fullSubmissionId = spbe.fullSubmissionId " +
-                "AND sp.category = spbe.category " +
-                "WHERE sp.fullSubmissionId = ? " +
-                "ORDER BY sp.timestamp;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId);
+        // declare text
+        String text;
 
-        ArrayList<SubmissionPart> submissionParts = new ArrayList<>();
+        // build and execute request to receive text
+        String requestText = "SELECT text " +
+                "FROM fullsubmissions " +
+                "WHERE id = ?";
+        VereinfachtesResultSet rsText = connection.issueSelectStatement(requestText, fullSubmissionId);
 
-        if (rs.next()) {
-            // save submission
-            submissionParts = getAllSubmissionPartsFromResultSet(rs);
+        if (rsText.next()) {
+            // save text
+            text = rsText.getString("text");
+
+            // build and execute request
+            String request = "SELECT * " +
+                    "FROM submissionparts sp " +
+                    "LEFT JOIN submissionpartbodyelements  spbe " +
+                    "ON sp.fullSubmissionId = spbe.fullSubmissionId " +
+                    "AND sp.category = spbe.category " +
+                    "WHERE sp.fullSubmissionId = ? " +
+                    "ORDER BY sp.timestamp;";
+            VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId);
+
+            ArrayList<SubmissionPart> submissionParts = new ArrayList<>();
+
+            if (rs.next()) {
+                // save submission
+                submissionParts = getAllSubmissionPartsFromResultSet(rs, text);
+            }
+
+            // close connection
+            connection.close();
+
+            return submissionParts;
         }
 
         // close connection
         connection.close();
 
-        return submissionParts;
+        return null;
 
     }
 
@@ -322,8 +357,13 @@ public class SubmissionController implements ISubmission {
      * @param rs The result set from the database query
      * @return A new submission part object
      */
-    private SubmissionPart getSubmissionPartFromResultSet(VereinfachtesResultSet rs) {
+    private SubmissionPart getSubmissionPartFromResultSet(VereinfachtesResultSet rs, String text) {
 
+        // declare variables
+        int start, end;
+        String textPart;
+
+        // initialize variables
         long timestamp = rs.getTimestamp("timestamp").getTime();
         String userId = rs.getString("userId");
         String fullSubmissionId = rs.getString("fullSubmissionId");
@@ -333,15 +373,15 @@ public class SubmissionController implements ISubmission {
         ArrayList<SubmissionPartBodyElement> body = new ArrayList<>();
 
         do {
-            // only add it if the element is not empty
-            if (!Strings.isNullOrEmpty(rs.getString("text"))) {
-                SubmissionPartBodyElement element = new SubmissionPartBodyElement(
-                        rs.getString("text"),
-                        rs.getInt("startCharacter"),
-                        rs.getInt("endCharacter"));
+            // initialize body variables
+            start = rs.getInt("startCharacter");
+            end = rs.getInt("endCharacter");
+            textPart = text.substring(start, end);
 
-                body.add(element);
-            }
+            // build element
+            SubmissionPartBodyElement element = new SubmissionPartBodyElement(textPart, start, end);
+
+            body.add(element);
         } while (rs.next());
 
         return new SubmissionPart(timestamp, userId, fullSubmissionId, category, body);
@@ -353,7 +393,11 @@ public class SubmissionController implements ISubmission {
      * @param rs The result set from the database query, holding different submission parts
      * @return An array of submission parts
      */
-    private ArrayList<SubmissionPart> getAllSubmissionPartsFromResultSet(VereinfachtesResultSet rs) {
+    private ArrayList<SubmissionPart> getAllSubmissionPartsFromResultSet(VereinfachtesResultSet rs, String text) {
+
+        // declare variables
+        int start, end;
+        String textPart;
 
         ArrayList<SubmissionPart> submissionParts = new ArrayList<>();
         // tmp part
@@ -383,11 +427,12 @@ public class SubmissionController implements ISubmission {
                 );
             }
 
-            tmpElement = new SubmissionPartBodyElement(
-                    rs.getString("text"),
-                    rs.getInt("startCharacter"),
-                    rs.getInt("endCharacter")
-            );
+            // initialize body variables
+            start = rs.getInt("startCharacter");
+            end = rs.getInt("endCharacter");
+            textPart = text.substring(start, end);
+
+            tmpElement = new SubmissionPartBodyElement(textPart, start, end);
 
             tmpPart.getBody().add(tmpElement);
 

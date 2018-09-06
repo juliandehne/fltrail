@@ -142,7 +142,6 @@ CREATE TABLE if not exists `submissionparts` (
 CREATE TABLE if not exists `submissionpartbodyelements` (
   `fullSubmissionId` VARCHAR(120) NOT NULL,
   `category` VARCHAR(30) NOT NULL,
-  `text` MEDIUMTEXT NOT NULL,
   `startCharacter` int(11) NOT NULL,
   `endCharacter` int(11) NOT NULL,
   PRIMARY KEY (`fullSubmissionId`, `category`, `startCharacter`, `endCharacter`)

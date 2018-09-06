@@ -3,6 +3,7 @@ var userToken = getUserTokenFromUrl();
 var userColors = new Map();
 var userColorsDark = new Map();
 var targetId = 200;
+var targetCategory = "TITEL";
 
 // declare document text, start and end character
 var documentText, startCharacter, endCharacter;
@@ -14,6 +15,13 @@ $(document).ready(function() {
 
     // connect to websocket on page ready
     connect(targetId);
+
+    // receive text
+    getSubmissionPart("2f216683-5f13-4b5f-8a26-4ffa0566eca1", targetCategory, function (response) {
+        // todo success
+    }, function () {
+        // todo error
+    });
 
     /**
      * Context menu handler
@@ -204,7 +212,7 @@ $(document).ready(function() {
     documentText = $('#documentText').html();
 
     // fetch annotations from server on page start
-    getAnnotations(targetId, function (response) {
+    getAnnotations(targetId, targetCategory, function (response) {
         // iterate over annotations and display each
         $.each(response, function (i, annotation) {
             displayAnnotation(annotation);
@@ -526,6 +534,7 @@ function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
     var annotationPostRequest = {
         userToken: userToken,
         targetId: targetId,
+        targetCategory: targetCategory,
         body: {
             title: title,
             comment: comment,
