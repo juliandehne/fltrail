@@ -6,6 +6,7 @@ import unipotsdam.gf.modules.annotation.model.Annotation;
 import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationResponse;
+import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -108,12 +109,12 @@ public class AnnotationService {
     }
 
     @GET
-    @Path("/target/{id}")
-    public Response getAnnotations(@PathParam("id") int targetId) {
+    @Path("/targetid/{id}/targetcategory/{category}")
+    public Response getAnnotations(@PathParam("id") int targetId, @PathParam("category") String category) {
 
         // receive the annotation
         AnnotationController controller = new AnnotationController();
-        ArrayList<Annotation> annotations = controller.getAnnotations(targetId);
+        ArrayList<Annotation> annotations = controller.getAnnotations(targetId, Category.valueOf(category.toUpperCase()));
 
         if (!annotations.isEmpty()) {
             return Response.ok(annotations).build();

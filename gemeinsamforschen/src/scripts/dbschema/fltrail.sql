@@ -114,6 +114,7 @@ CREATE TABLE if not exists `annotations` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `userToken` varchar(120) DEFAULT NULL,
   `targetId` int(11) DEFAULT NULL,
+  `targetCategory` VARCHAR(30) NOT NULL,
   `title` varchar(120) DEFAULT NULL,
   `comment` varchar(400) DEFAULT NULL,
   `startCharacter` int(11) DEFAULT NULL,

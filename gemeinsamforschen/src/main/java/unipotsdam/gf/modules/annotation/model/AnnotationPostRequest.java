@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.annotation.model;
 
+import unipotsdam.gf.modules.peer2peerfeedback.Category;
+
 /**
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
@@ -9,12 +11,14 @@ public class AnnotationPostRequest {
     // variables
     private String userToken;
     private int targetId;
+    private Category targetCategory;
     private AnnotationBody body;
 
     // constructors
-    public AnnotationPostRequest(String userToken, int targetId, AnnotationBody body) {
+    public AnnotationPostRequest(String userToken, int targetId, Category targetCategory, AnnotationBody body) {
         this.userToken = userToken;
         this.targetId = targetId;
+        this.targetCategory = targetCategory;
         this.body = body;
     }
 
@@ -38,6 +42,14 @@ public class AnnotationPostRequest {
         this.targetId = targetId;
     }
 
+    public Category getTargetCategory() {
+        return targetCategory;
+    }
+
+    public void setTargetCategory(Category targetCategory) {
+        this.targetCategory = targetCategory;
+    }
+
     public AnnotationBody getBody() {
         return body;
     }
@@ -51,8 +63,9 @@ public class AnnotationPostRequest {
         return "AnnotationPostRequest{" +
                 "userToken='" + userToken + '\'' +
                 ", targetId=" + targetId +
-                ", body=" + body.toString() +
+                ", targetCategory=" + targetCategory +
+                ", body=" + body +
                 '}';
     }
-
+    
 }

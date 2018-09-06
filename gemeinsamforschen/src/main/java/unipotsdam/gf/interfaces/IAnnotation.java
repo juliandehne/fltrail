@@ -3,6 +3,7 @@ package unipotsdam.gf.interfaces;
 import unipotsdam.gf.modules.annotation.model.Annotation;
 import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
+import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
 import java.util.ArrayList;
 
@@ -44,12 +45,13 @@ public interface IAnnotation {
     Annotation getAnnotation(String annotationId);
 
     /**
-     * Returns all annotations from a target
+     * Returns all annotations for a specific target id and category
      *
-     * @param targetId the target id
-     * @return Returns all annotations
+     * @param targetId The if of the target
+     * @param targetCategory The category of the target
+     * @return Returns all annotations for a target
      */
-    ArrayList<Annotation> getAnnotations(int targetId);
+    ArrayList<Annotation> getAnnotations(int targetId, Category targetCategory);
 
     /**
      * Checks if an annotation id already exists in the database
