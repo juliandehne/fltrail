@@ -96,4 +96,22 @@ public class SubmissionService {
             return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }
     }
+
+    @GET
+    @Path("/project/{id}")
+    public Response getSubmissionPartsByProjectId(@PathParam("id") String projectId) {
+        // get submission project representation from database based by project id
+        SubmissionController controller = new SubmissionController();
+        ArrayList<SubmissionProjectRepresentation> representations = controller.getSubmissionPartsByProjectId(projectId);
+
+        if (representations.size() > 0) {
+            return Response.ok(representations).build();
+        }
+        else {
+            SubmissionResponse response = new SubmissionResponse();
+            response.setMessage("No submission parts found for project id '" + projectId + "'");
+
+            return Response.status(Response.Status.NOT_FOUND).entity(response).build();
+        }
+    }
 }

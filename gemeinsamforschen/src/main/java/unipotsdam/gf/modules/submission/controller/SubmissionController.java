@@ -240,6 +240,33 @@ public class SubmissionController implements ISubmission {
     }
 
     @Override
+    public ArrayList<SubmissionProjectRepresentation> getSubmissionPartsByProjectId(String projectId) {
+
+        // establish connection
+        MysqlConnect connection = new MysqlConnect();
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT s.userId, s.category, s.fullSubmissionId " +
+                "FROM fullsubmissions f " +
+                "LEFT JOIN submissionparts s " +
+                "ON f.id = s.fullSubmissionId " +
+                "WHERE f.projectId = ?";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, projectId);
+
+        ArrayList<SubmissionProjectRepresentation> representations;
+
+        // save submission
+        representations = getAllSubmissionProjectRepresentationsFromResultSet(rs);
+
+        // close connection
+        connection.close();
+
+        return representations;
+
+    }
+
+    @Override
     public boolean existsSubmissionPart(String fullSubmissionId, Category category) {
 
         // establish connection
@@ -370,6 +397,22 @@ public class SubmissionController implements ISubmission {
         submissionParts.add(tmpPart);
 
         return submissionParts;
+    }
+
+    private ArrayList<SubmissionProjectRepresentation> getAllSubmissionProjectRepresentationsFromResultSet(VereinfachtesResultSet rs) {
+
+        ArrayList<SubmissionProjectRepresentation> representations = new ArrayList<>();
+
+        while (rs.next()) {
+            representations.add(new SubmissionProjectRepresentation(
+                    rs.getString("userId"),
+                    Category.valueOf(rs.getString("category").toUpperCase()),
+                    rs.getString("fullSubmissionId")
+            ));
+        }
+
+        return representations;
+
     }
 
     /**
