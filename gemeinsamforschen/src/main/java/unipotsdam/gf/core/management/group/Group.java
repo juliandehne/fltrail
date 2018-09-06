@@ -17,8 +17,6 @@ public class Group {
 
     public Group(String projectId) {
         this(new ArrayList<>(), projectId);
-
-
     }
 
     public Group(List<User> members, String projectId) {

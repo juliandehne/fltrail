@@ -37,7 +37,12 @@ public interface Management {
      */
     void create(Project project);
 
-    void create(Group group, String projectId);
+    /**
+     * create a Group in the database
+     *
+     * @param group
+     */
+    void create(Group group);
 
     /**
      * Delete a Project in the database

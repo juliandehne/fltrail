@@ -18,7 +18,7 @@ public class Project {
     private String author;
     private String adminPassword;
     private String token;
-    // using enum ProjectPhase
+    // TODO: using enum ProjectPhase
     private String phase;
 
     public Project() {
@@ -35,31 +35,19 @@ public class Project {
         this.setPhase(ProjectPhase.CourseCreation);
     }
 
-    public String getPhase() {
-        return phase;
-    }
-
-    /**
-     * setting phase only with enum
-     * @param phase
-     */
-    public void setPhase(ProjectPhase phase) {
-        this.phase = phase.name();
-    }
-
-    public Project(String id, String password, Boolean active, String author, String adminPassword, String token) {
+    public Project(String id, String password, Boolean active, String author, String adminPassword, String token, ProjectPhase projectPhase) {
         this.id = id;
         this.password = password;
         this.active = active;
         this.author = author;
         this.adminPassword = adminPassword;
         this.token = token;
+        this.phase = projectPhase.name();
 
         this.timecreated = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC")));
     }
 
-    public Project(String id, String password, Boolean active, Timestamp timecreated, String author,
-                   String adminPassword, String token) {
+    public Project(String id, String password, Boolean active, Timestamp timecreated, String author, String adminPassword, String token, String phase) {
         this.id = id;
         this.password = password;
         this.active = active;
@@ -67,6 +55,7 @@ public class Project {
         this.author = author;
         this.adminPassword = adminPassword;
         this.token = token;
+        this.phase = phase;
     }
 
     public String getId() {
@@ -117,9 +106,21 @@ public class Project {
         this.token = token;
     }
 
-
     public Timestamp getTimecreated() {
         return timecreated;
+    }
+
+    public String getPhase() {
+        return phase;
+    }
+
+    /**
+     * setting phase only with enum
+     *
+     * @param phase
+     */
+    public void setPhase(ProjectPhase phase) {
+        this.phase = phase.name();
     }
 
 
