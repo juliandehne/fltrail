@@ -1,6 +1,6 @@
 $(document).ready(function(){
     // fetch all submission part project representations from database
-    getSubmissionPartsByProjectId(getProjectIdFromUrl(), function (response) {
+    getSubmissionPartsByProjectId(getValueFromUrl("projectId"), function (response) {
         
         // iterate over response and display each element
         for (let i = 0; i < response.length; i++) {
@@ -9,7 +9,12 @@ $(document).ready(function(){
 
         // add click listener to feedback buttons
         $('.annotationview').click(function () {
-            location.href="annotation-document.jsp?token="+getUserTokenFromUrl();
+            let fullSubmissionId = $(this).closest("li").data("fullSubmissionId");
+            let category = $(this).closest("li").data("category");
+            location.href="annotation-document.jsp?token=" + getUserTokenFromUrl() +
+                "&projectId=" + getValueFromUrl("projectId") +
+                "&fullSubmissionId=" + fullSubmissionId +
+                "&category=" + category;
         });
         
     }, function () {
@@ -32,7 +37,7 @@ $(document).ready(function(){
     });
 
     $('#btnUnstructuredUpload').click(function () {
-        location.href="unstructured-upload.jsp?token="+getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl();
+        location.href="unstructured-upload.jsp?token="+getUserTokenFromUrl() + "&projectId=" + getValueFromUrl("projectId");
     })
 });
 
@@ -54,9 +59,11 @@ function displaySubmission(user, category, fullSubmissionId) {
                         .append("feedback")
                     )
             )
-    )
-        // add data to link
-        .data("fullSubmissionId", fullSubmissionId);
+            // add data to link
+            .data("fullSubmissionId", fullSubmissionId)
+            .data("category", category)
+    );
+
 }
 
 /**

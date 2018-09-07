@@ -6,22 +6,49 @@ var targetId = 200;
 var targetCategory = "TITEL";
 
 // declare document text, start and end character
-var documentText, startCharacter, endCharacter;
+var startCharacter, endCharacter;
 
 /**
  * This function will fire when the DOM is ready
  */
 $(document).ready(function() {
+    let fullSubmissionId = getValueFromUrl("fullSubmissionId");
+    let category = getValueFromUrl("category");
+
+    getFullSubmission(getValueFromUrl("fullSubmissionId"), function (response) {
+
+        // set text
+        $('#documentText').html(response.text);
+
+        // fetch submission parts
+        getSubmissionPart(fullSubmissionId, category, function (response) {
+
+            let body = response.body;
+            // save body
+            $('#documentText').data("body", body);
+            let offset = 0;
+            for (let i = 0; i < body.length; i++) {
+                addHighlightedTextWithOffset(body[i].startCharacter, body[i].endCharacter, offset);
+                // add char count of '<span class="categoryText"></span>'
+                offset += 34;
+            }
+
+            // scroll document text to first span element
+            let documentText = $('#documentText');
+            let span = $('#documentText span').first();
+            documentText.scrollTo(span);
+
+
+        }, function () {
+            // error
+        })
+
+    }, function () {
+        // error
+    });
 
     // connect to websocket on page ready
     connect(targetId);
-
-    // receive text
-    getSubmissionPart("2f216683-5f13-4b5f-8a26-4ffa0566eca1", targetCategory, function (response) {
-        // todo success
-    }, function () {
-        // todo error
-    });
 
     /**
      * Context menu handler
@@ -209,8 +236,6 @@ $(document).ready(function() {
         $('#annotation-edit-form-comment').val('')
     });
 
-    documentText = $('#documentText').html();
-
     // fetch annotations from server on page start
     getAnnotations(targetId, targetCategory, function (response) {
         // iterate over annotations and display each
@@ -366,6 +391,8 @@ function displayAnnotation(annotation) {
  * @param userToken The user token
  */
 function addHighlightedText(startCharacter, endCharacter, userToken) {
+    // initialize variables
+    let documentText = $('#documentText').text();
     // create <span> tag with the annotated text
     var replacement = $('<span></span>').attr('id', 'anchor').css('background-color', getUserColor(userToken)).html(documentText.slice(startCharacter, endCharacter));
 
@@ -380,9 +407,57 @@ function addHighlightedText(startCharacter, endCharacter, userToken) {
 }
 
 /**
+ * Add a highlighted text at specific position
+ *
+ * @param startCharacter The offset of the start character
+ * @param endCharacter The offset of the end character
+ * @param offset The calculated extra offset depending on already highlighted text
+ */
+function addHighlightedTextWithOffset(startCharacter, endCharacter, offset) {
+
+    var documentText = $('#documentText').text();
+    var documentHtml = $('#documentText').html();
+
+    // create <span> tag with the annotated text
+    var replacement = $('<span></span>').attr('class', 'categoryText').html(documentText.slice(startCharacter, endCharacter));
+
+    // wrap an <p> tag around the replacement, get its parent (the <p>) and ask for the html
+    var replacementHtml = replacement.wrap('<p/>').parent().html();
+
+    // insert the replacementHtml
+    var newDocument = documentHtml.slice(0, startCharacter + offset) + replacementHtml + documentHtml.slice(endCharacter + offset);
+
+    // set new document text
+    $('#documentText').html(newDocument);
+}
+
+/**
+ * Iterate over all data arrays and calculate the offset for a given start character
+ *
+ * @param startCharacter The given start character
+ * @returns {number} The offset
+ */
+function calculateExtraOffset(startCharacter) {
+    let extraOffset = 0;
+    $('#annotations').find('.category-card').each(function () {
+        let array = $(this).data('array');
+        if (array != null) {
+            for (let i = 0; i < array.length; i++) {
+                if (array[i].end <= startCharacter) {
+                    extraOffset += 22 + $(this).attr('id').length;
+                }
+            }
+        }
+    });
+    return extraOffset;
+}
+
+/**
  * Restore the base text
  */
 function deleteHighlightedText() {
+    // initialize variables
+    let documentText = $('#documentText').text();
     $('#documentText').html(documentText);
 }
 

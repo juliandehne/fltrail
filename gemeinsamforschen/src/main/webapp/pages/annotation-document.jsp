@@ -22,6 +22,8 @@
     <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
     <!-- js - scrollTo -->
     <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+    <!-- js - utility -->
+    <script src="../assets/js/utility.js"></script>
     <!-- js - annotation websocket script -->
     <script src="../assets/js/annotationWebsocket.js"></script>
     <!-- js - annotation REST script -->
@@ -44,10 +46,7 @@
                     <div class="content-mainpage">
                         <div class="leftcolumn">
                             <div class="leftcontent">
-                                <div class="leftcontent-text context-menu-one" id="documentText">
-                                    Style never met and those among great. At no or september sportsmen he perfectly happiness attending. Depending listening delivered off new she procuring satisfied sex existence. Person plenty answer to exeter it if. Law use assistance especially resolution cultivated did out sentiments unsatiable. Way necessary had intention happiness but september delighted his curiosity. Furniture furnished or on strangers neglected remainder engrossed. Shot what able cold new the see hold. Friendly as an betrayed formerly he. Morning because as to society behaved moments. Put ladies design mrs sister was. Play on hill felt john no gate. Am passed figure to marked in. Prosperous middletons is ye inhabiting as assistance me especially. For looking two cousins regular amongst.
-                                    Style never met and those among great. At no or september sportsmen he perfectly happiness attending. Depending listening delivered off new she procuring satisfied sex existence. Person plenty answer to exeter it if. Law use assistance especially resolution cultivated did out sentiments unsatiable. Way necessary had intention happiness but september delighted his curiosity. Furniture furnished or on strangers neglected remainder engrossed. Shot what able cold new the see hold. Friendly as an betrayed formerly he. Morning because as to society behaved moments. Put ladies design mrs sister was. Play on hill felt john no gate. Am passed figure to marked in. Prosperous middletons is ye inhabiting as assistance me especially. For looking two cousins regular amongst.
-                                </div>
+                                <div class="leftcontent-text context-menu-one" id="documentText"></div>
                                 <div class="leftcontent-buttons">
                                     <div class="leftcontent-buttons-next">
                                         <button id="btnContinue" type="button" class="btn btn-secondary">Weiter</button>
