@@ -449,11 +449,13 @@ public class SubmissionController implements ISubmission {
         ArrayList<SubmissionProjectRepresentation> representations = new ArrayList<>();
 
         while (rs.next()) {
-            representations.add(new SubmissionProjectRepresentation(
-                    rs.getString("userId"),
-                    Category.valueOf(rs.getString("category").toUpperCase()),
-                    rs.getString("fullSubmissionId")
-            ));
+            if (!Strings.isNullOrEmpty(rs.getString("category"))) {
+                representations.add(new SubmissionProjectRepresentation(
+                        rs.getString("userId"),
+                        Category.valueOf(rs.getString("category").toUpperCase()),
+                        rs.getString("fullSubmissionId")
+                ));
+            }
         }
 
         return representations;
