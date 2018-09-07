@@ -20,6 +20,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
     <!-- js - contextMenu script -->
     <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js" type="text/javascript"></script>
+    <!-- js - scrollTo -->
+    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
     <!-- js - annotation websocket script -->
     <script src="../assets/js/annotationWebsocket.js"></script>
     <!-- js - annotation REST script -->

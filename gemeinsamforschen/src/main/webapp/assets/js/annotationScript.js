@@ -341,6 +341,11 @@ function displayAnnotation(annotation) {
             .data('annotation', annotation)
             .mouseenter(function () {
                 addHighlightedText(annotation.body.startCharacter, annotation.body.endCharacter, annotation.userToken);
+
+                // scroll document text to anchor element
+                let documentText = $('#documentText');
+                let anchor = $('#anchor');
+                documentText.scrollTo(anchor);
             })
             .mouseleave(function () {
                 deleteHighlightedText();
@@ -362,7 +367,7 @@ function displayAnnotation(annotation) {
  */
 function addHighlightedText(startCharacter, endCharacter, userToken) {
     // create <span> tag with the annotated text
-    var replacement = $('<span></span>').css('background-color', getUserColor(userToken)).html(documentText.slice(startCharacter, endCharacter));
+    var replacement = $('<span></span>').attr('id', 'anchor').css('background-color', getUserColor(userToken)).html(documentText.slice(startCharacter, endCharacter));
 
     // wrap an <p> tag around the replacement, get its parent (the <p>) and ask for the html
     var replacementHtml = replacement.wrap('<p/>').parent().html();
