@@ -2,7 +2,7 @@
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
-<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="footer" %>
 
 
 <html>
@@ -16,26 +16,26 @@
     <menu:menu/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
-        <div class="alert" id="CourseCreation">
-            Projekterstellungsphase
+        <div class="alert"id="CourseCreation">
+            <button id="btnCourseCreation" class="btn btn-secondary">Projekterstellungsphase</button>
         </div>
         <div class="alert" id="GroupFormation">
-            Entwurfsphase
-        </div>
-        <div class="alert" id="Execution">
-            Durchführungsphase
+            <button id="btnGroupformation" class="btn btn-secondary">Gruppen erstellen</button>
         </div>
         <div class="alert" id="DossierFeedback">
-            Feedbackphase
+            <button id="btnDossierFeedback" class="btn btn-secondary">Feedbackphase</button>
+        </div>
+        <div class="alert" id="Execution">
+            <button id="btnExecution" class="btn btn-secondary">Durchführungsphase</button>
         </div>
         <div class="alert" id="Assessment">
-            Bewertungsphase
+            <button id="btnAssessment" class="btn btn-secondary">Bewertungsphase</button>
         </div>
         <div class="alert" id="end">
-            Ende
+            <button id="btnProjectfinished" class="btn btn-secondary">Ende</button>
         </div>
     </div>
+    <footer:footer/>
 </div>
-<footer:footer/>
 </body>
 </html>

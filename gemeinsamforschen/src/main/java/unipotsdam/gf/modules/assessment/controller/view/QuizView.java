@@ -1,10 +1,14 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
+import unipotsdam.gf.core.management.Management;
+import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -210,5 +214,4 @@ public class QuizView {
         result.add(pf2);
         return result;
     }  /////////dummy////////////returns what i expect it to return!!!!!//////////////////////////////////
-
 }

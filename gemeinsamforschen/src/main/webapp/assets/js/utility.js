@@ -7,10 +7,14 @@ $(document).ready(function(){
     $('#assessment').click(function(){
        checkAssessementPhase();
     });
-    function goBack() {
-        window.history.back();
-    }
+    $('#footerBack').click(function(){
+       goBack();
+    });
 });
+
+function goBack() {
+    window.history.back();
+}
 
 function checkAssessementPhase(){
     let studentId = $('#user').html().trim();

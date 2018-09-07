@@ -36,7 +36,7 @@ function buildTablesForPeers() {
                     let innerPeerTable = '<table class="table-striped peerStudent" id="' + peers[peer] + '">' +
                         '<tr>' +
                         '<td align="center">' +
-                        '<img src="../assets/img/1.jpg" alt="' + peers[peer] + '" style="width:20%;">' +
+                        '<img src="../assets/img/noImg.png" alt="' + peers[peer] + '" style="width:20%;">' +
                         '</td>' +
                         '</tr>' +
                         '<tr>' +

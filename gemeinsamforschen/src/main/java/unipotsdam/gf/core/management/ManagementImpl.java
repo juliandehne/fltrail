@@ -171,8 +171,10 @@ public class ManagementImpl implements Management {
         String adminPassword = vereinfachtesResultSet.getString("adminpassword");
         String token = vereinfachtesResultSet.getString("token");
         String phase = vereinfachtesResultSet.getString("phase");
-
-        return new Project(id, password, active, timestamp, author, adminPassword, token);
+        Project project = new Project(id, password, active, timestamp, author, adminPassword, token);
+        ProjectPhase projectPhase = ProjectPhase.valueOf(phase);
+        project.setPhase(projectPhase);
+        return project;
     }
 
     private Group getGroupFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
@@ -236,6 +238,9 @@ public class ManagementImpl implements Management {
 
     @Override
     public Project getProjectById(String id) {
+        if (id == null){
+            return null;
+        }
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM projects where id = ?";
