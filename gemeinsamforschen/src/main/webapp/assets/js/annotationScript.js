@@ -12,6 +12,7 @@ $(document).ready(function() {
     let fullSubmissionId = getValueFromUrl("fullSubmissionId");
     let category = getValueFromUrl("category");
 
+    // fetch full submission from database
     getFullSubmission(getValueFromUrl("fullSubmissionId"), function (response) {
 
         // set text
@@ -25,7 +26,7 @@ $(document).ready(function() {
             $('#documentText').data("body", body);
             let offset = 0;
             for (let i = 0; i < body.length; i++) {
-                addHighlightedTextWithOffset(body[i].startCharacter, body[i].endCharacter, offset);
+                addHighlightedSubmissionPart(body[i].startCharacter, body[i].endCharacter, offset);
                 // add char count of '<span class="categoryText"></span>'
                 offset += 34;
             }
@@ -54,17 +55,8 @@ $(document).ready(function() {
         selector: '.context-menu-one',
         callback: function(key, options) {
 
-            // action for 'annotation' click
-            if (key == 'annotation') {
-                // show modal if something is selected
-                if (getSelectedText().length > 0) {
-                    startCharacter = window.getSelection().getRangeAt(0).startOffset;
-                    endCharacter = window.getSelection().getRangeAt(0).endOffset;
-
-                    // display annotation create modal
-                    $('#annotation-create-modal').modal("show");
-                }
-            }
+            // handle annotation context click
+            handleAnnotationClick()
 
         },
         items: {
@@ -362,7 +354,7 @@ function displayAnnotation(annotation) {
             )
             .data('annotation', annotation)
             .mouseenter(function () {
-                addHighlightedText(annotation.body.startCharacter, annotation.body.endCharacter, annotation.userToken);
+                addHighlightedAnnotation(annotation.body.startCharacter, annotation.body.endCharacter, annotation.userToken);
 
                 // scroll document text to anchor element
                 let documentText = $('#documentText');
@@ -387,9 +379,13 @@ function displayAnnotation(annotation) {
  * @param endCharacter The offset of the end character
  * @param userToken The user token
  */
-function addHighlightedText(startCharacter, endCharacter, userToken) {
+function addHighlightedAnnotation(startCharacter, endCharacter, userToken) {
+    let offset = calculateExtraOffset(startCharacter);
+
     // initialize variables
     let documentText = $('#documentText').text();
+    let documentHtml = $('#documentText').html();
+
     // create <span> tag with the annotated text
     var replacement = $('<span></span>').attr('id', 'anchor').css('background-color', getUserColor(userToken)).html(documentText.slice(startCharacter, endCharacter));
 
@@ -397,7 +393,7 @@ function addHighlightedText(startCharacter, endCharacter, userToken) {
     var replacementHtml = replacement.wrap('<p/>').parent().html();
 
     // insert the replacementHtml
-    var newDocument = documentText.slice(0, startCharacter) + replacementHtml + documentText.slice(endCharacter);
+    var newDocument = documentHtml.slice(0, startCharacter + offset) + replacementHtml + documentHtml.slice(endCharacter + offset);
 
     // set new document text
     $('#documentText').html(newDocument);
@@ -410,7 +406,7 @@ function addHighlightedText(startCharacter, endCharacter, userToken) {
  * @param endCharacter The offset of the end character
  * @param offset The calculated extra offset depending on already highlighted text
  */
-function addHighlightedTextWithOffset(startCharacter, endCharacter, offset) {
+function addHighlightedSubmissionPart(startCharacter, endCharacter, offset) {
 
     var documentText = $('#documentText').text();
     var documentHtml = $('#documentText').html();
@@ -435,17 +431,19 @@ function addHighlightedTextWithOffset(startCharacter, endCharacter, offset) {
  * @returns {number} The offset
  */
 function calculateExtraOffset(startCharacter) {
+    // get submission part body
+    let body = $('#documentText').data("body");
     let extraOffset = 0;
-    $('#annotations').find('.category-card').each(function () {
-        let array = $(this).data('array');
-        if (array != null) {
-            for (let i = 0; i < array.length; i++) {
-                if (array[i].end <= startCharacter) {
-                    extraOffset += 22 + $(this).attr('id').length;
-                }
-            }
+
+    for (let i = 0; i < body.length; i++) {
+        if (body[i].startCharacter <= startCharacter) {
+            extraOffset += 27;
         }
-    });
+        if (body[i].endCharacter <= startCharacter) {
+            extraOffset += 7;
+        }
+    }
+
     return extraOffset;
 }
 
@@ -453,9 +451,12 @@ function calculateExtraOffset(startCharacter) {
  * Restore the base text
  */
 function deleteHighlightedText() {
-    // initialize variables
-    let documentText = $('#documentText').text();
-    $('#documentText').html(documentText);
+
+    let documentText = $('#documentText');
+    let highlight = documentText.find('#anchor');
+    let text = highlight.text();
+    highlight.replaceWith(text);
+
 }
 
 /**
@@ -731,4 +732,55 @@ function showAndHideToggleButtonById(id) {
         annotationElement.find('.annotation-header-toggle').hide();
         annotationElement.find('.annotation-header-data').css('width', '100%');
     }
+}
+
+/**
+ * Handle the annotation click and show the modal
+ *
+ */
+function handleAnnotationClick() {
+
+    // if saved selection's range count is > 0
+    let sel = rangy.getSelection();
+    if (sel.rangeCount > 0) {
+        // calculate character range offset from range
+        let range = sel.getRangeAt(0);
+        let offsets = range.toCharacterRange($('#documentText')[0]);
+
+        // if selected text's length is > 0
+        let selectedText = getSelectedText();
+        if (selectedText.length > 0) {
+            // save start and end character and handle the selection
+            startCharacter = offsets.start;
+            endCharacter = offsets.end;
+
+            if (isAnnotationInRange(startCharacter, endCharacter)) {
+                // display annotation create modal
+                $('#annotation-create-modal').modal("show");
+            }
+            else {
+                window.alert("Annotationen sind nur in vorgehobenen Bereichen möglich")
+            }
+
+
+        }
+    }
+
+}
+
+/**
+ * Checks if user selected area is inside submission part range
+ *
+ * @param start The start character of the selection
+ * @param end The end character of the selection
+ * @returns {boolean} Returns true if the selection is in range
+ */
+function isAnnotationInRange(start, end) {
+    let body = $('#documentText').data("body");
+    for (let i = 0; i < body.length; i++) {
+        if (body[i].startCharacter <= start && end <= body[i].endCharacter) {
+            return true;
+        }
+    }
+    return false;
 }
