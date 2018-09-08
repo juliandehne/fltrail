@@ -38,8 +38,18 @@ public class PeerFeedbackView {
         controller.createPeer2PeerFeedback(feedback);
 
 
-        return Response.ok(feedback).build();
+        return Response.ok().build(); //feedback
 
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{id}")
+    public Response getPeerfeedback(@PathParam("id") String id){
+
+        PeerFeedbackController controller = new PeerFeedbackController();
+        Peer2PeerFeedback fd = controller.getPeer2PeerFeedback(id);
+        return Response.ok(fd).build();
     }
 
 

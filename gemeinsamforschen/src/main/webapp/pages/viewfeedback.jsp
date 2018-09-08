@@ -7,10 +7,11 @@
 <html>
 
 <head>
-
+    <omniDependencies:omniDependencies/>
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/project-student.js"></script>
-    <omniDependencies:omniDependencies/>
+    <script src="../assets/js/givepeerfeedback.js"></script>
+
 </head>
 
 <body>
@@ -45,7 +46,12 @@
                     <td  id="Peerfeedback">
                         <h2>Feedback Nachrichten von Student X</h2>
 
-                        <iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
+                        <%--<iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
+                        --%>
+                        <%--<p id="view"></p>      type="hidden"--%>
+                        <input  name="peerfeedbackID" id="peerfeedbackID-input" value=""/>
+
+                        <div id="div1"></div>
 
                         <button class="btn btn-secondary" onclick="goBack()">Zur&uuml;ck</button>
 

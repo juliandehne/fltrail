@@ -29,13 +29,6 @@ function go(){
 
     //b = document.getElementById("editor").innerHTML;
 
-        if ($('#form').valid()) {
-            // get title and comment from form
-            var text = $('#editor').val();
-
-            // save the new annotation in db and display it
-            //saveNewAnnotation(title, comment, startCharacter, endCharacter);
-        }
 
 }
 
@@ -48,14 +41,15 @@ $(document).ready(function() {
     }).then(function (data) {
         $('#editor').append(data.descriptionMD);
 
-        //TODO preselet in select tags
+       /** //TODO preselet in select tags
         new InscrybMDE({
             element: document.getElementById("editor"),
             spellChecker: false,
             forceSync: true,
-        });
+        });*/
 
-        console.log(data);
-
+        //console.log(data);
+       location.href="givefeedback.jsp?token=" + getUserTokenFromUrl();
+       alert("Feedback wurde gesendet!");
     });
 })
