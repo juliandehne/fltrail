@@ -10,12 +10,12 @@ public class AnnotationPostRequest {
 
     // variables
     private String userToken;
-    private int targetId;
+    private String targetId;
     private Category targetCategory;
     private AnnotationBody body;
 
     // constructors
-    public AnnotationPostRequest(String userToken, int targetId, Category targetCategory, AnnotationBody body) {
+    public AnnotationPostRequest(String userToken, String targetId, Category targetCategory, AnnotationBody body) {
         this.userToken = userToken;
         this.targetId = targetId;
         this.targetCategory = targetCategory;
@@ -34,11 +34,11 @@ public class AnnotationPostRequest {
         this.userToken = userToken;
     }
 
-    public int getTargetId() {
+    public String getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(int targetId) {
+    public void setTargetId(String targetId) {
         this.targetId = targetId;
     }
 

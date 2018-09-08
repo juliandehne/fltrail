@@ -105,7 +105,7 @@ public class AnnotationController implements IAnnotation {
     }
 
     @Override
-    public ArrayList<Annotation> getAnnotations(int targetId, Category category) {
+    public ArrayList<Annotation> getAnnotations(String targetId, Category category) {
 
         // declare annotation ArrayList
         ArrayList<Annotation> annotations = new ArrayList<>();
@@ -172,7 +172,7 @@ public class AnnotationController implements IAnnotation {
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
         String userToken = rs.getString("userToken");
-        int targetId = rs.getInt("targetId");
+        String targetId = rs.getString("targetId");
         Category targetCategory = Category.valueOf(rs.getString("targetCategory"));
 
         // initialize new annotation body

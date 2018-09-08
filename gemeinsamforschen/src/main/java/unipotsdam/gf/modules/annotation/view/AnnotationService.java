@@ -110,7 +110,7 @@ public class AnnotationService {
 
     @GET
     @Path("/targetid/{id}/targetcategory/{category}")
-    public Response getAnnotations(@PathParam("id") int targetId, @PathParam("category") String category) {
+    public Response getAnnotations(@PathParam("id") String targetId, @PathParam("category") String category) {
 
         // receive the annotation
         AnnotationController controller = new AnnotationController();

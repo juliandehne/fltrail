@@ -51,7 +51,7 @@ public interface IAnnotation {
      * @param targetCategory The category of the target
      * @return Returns all annotations for a target
      */
-    ArrayList<Annotation> getAnnotations(int targetId, Category targetCategory);
+    ArrayList<Annotation> getAnnotations(String targetId, Category targetCategory);
 
     /**
      * Checks if an annotation id already exists in the database

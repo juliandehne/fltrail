@@ -12,12 +12,12 @@ public class Annotation {
     private String id;
     private long timestamp;
     private String userToken;
-    private int targetId;
+    private String targetId;
     private Category targetCategory;
     private AnnotationBody body;
 
     // constructor
-    public Annotation(String id, long timestamp, String userToken, int targetId, Category targetCategory, AnnotationBody body) {
+    public Annotation(String id, long timestamp, String userToken, String targetId, Category targetCategory, AnnotationBody body) {
         this.id = id;
         this.timestamp = timestamp;
         this.userToken = userToken;
@@ -51,11 +51,11 @@ public class Annotation {
         this.userToken = userToken;
     }
 
-    public int getTargetId() {
+    public String getTargetId() {
         return targetId;
     }
 
-    public void setTargetId(int targetId) {
+    public void setTargetId(String targetId) {
         this.targetId = targetId;
     }
 

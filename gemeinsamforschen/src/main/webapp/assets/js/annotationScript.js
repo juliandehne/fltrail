@@ -1,9 +1,6 @@
-// initialize userToken, userColors and targetId
-var userToken = getUserTokenFromUrl();
+// initialize userToken, userColors
 var userColors = new Map();
 var userColorsDark = new Map();
-var targetId = 200;
-var targetCategory = "TITEL";
 
 // declare document text, start and end character
 var startCharacter, endCharacter;
@@ -48,7 +45,7 @@ $(document).ready(function() {
     });
 
     // connect to websocket on page ready
-    connect(targetId);
+    connect(fullSubmissionId, category);
 
     /**
      * Context menu handler
@@ -237,7 +234,7 @@ $(document).ready(function() {
     });
 
     // fetch annotations from server on page start
-    getAnnotations(targetId, targetCategory, function (response) {
+    getAnnotations(fullSubmissionId, category, function (response) {
         // iterate over annotations and display each
         $.each(response, function (i, annotation) {
             displayAnnotation(annotation);
@@ -338,7 +335,7 @@ function displayAnnotation(annotation) {
                             .append(
                                 // edit
                                 function () {
-                                    if (userToken == annotation.userToken) {
+                                    if (getUserTokenFromUrl() === annotation.userToken) {
                                         return $('<div>').attr('class', 'annotation-footer-edit')
                                             .append(
                                                 $('<i>').attr('class', editIcon)
@@ -610,6 +607,12 @@ function toggleButtonHandler(id) {
  * @param endCharacter The endCharacter based on the annotated text
  */
 function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
+
+    // initialize target
+    let targetId = getValueFromUrl("fullSubmissionId");
+    let targetCategory = getValueFromUrl("category");
+    let userToken = getUserTokenFromUrl();
+
     // build annotationPostRequest
     var annotationPostRequest = {
         userToken: userToken,
