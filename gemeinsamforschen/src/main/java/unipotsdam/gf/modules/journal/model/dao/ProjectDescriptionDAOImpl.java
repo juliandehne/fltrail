@@ -168,7 +168,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
         String text = rs.getString("text");
         boolean open = rs.getBoolean("open");
 
-        return new ProjectDescription(id,author,text,project,new ArrayList<>(),new ArrayList<>(),timestamp, open);
+        return new ProjectDescription(id,author,text,project,new ArrayList<>(), timestamp, open);
     }
 
 }

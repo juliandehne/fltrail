@@ -18,13 +18,13 @@ public class ProjectDescriptionImplDAOTest {
     private final ProjectDescriptionDAO descriptionDAO = new ProjectDescriptionDAOImpl();
     private final MysqlConnect connection = new MysqlConnect();
 
-    String testId = "-1";
-    String testStudent = "testStudent";
-    String testDescription = "testDescription";
-    String testProjekt = "testProjekt";
-    ArrayList<String> testGroup = new ArrayList<>();
+    private String testId = "-1";
+    private String testStudent = "testStudent";
+    private String testDescription = "testDescription";
+    private String testProjekt = "testProjekt";
+    private ArrayList<String> testGroup = new ArrayList<>();
 
-    ProjectDescription testProjectDescription = new ProjectDescription(testId, testStudent, testDescription, testProjekt, null /*Links are added in Service*/, testGroup);
+    private ProjectDescription testProjectDescription = new ProjectDescription(testId, testStudent, testDescription, testProjekt, null /*Links are added in Service*/);
 
     @Test
     public void createDescription() {
@@ -32,7 +32,6 @@ public class ProjectDescriptionImplDAOTest {
         connection.connect();
 
         ProjectDescription createDescription = testProjectDescription;
-        createDescription.getGroup().add("test");
 
         descriptionDAO.createDescription(testProjectDescription);
 
@@ -223,7 +222,7 @@ public class ProjectDescriptionImplDAOTest {
         String text = rs.getString("text");
         boolean open = rs.getBoolean("open");
 
-        return new ProjectDescription(id, author, text, project, new ArrayList<>(), new ArrayList<>(), timestamp, open);
+        return new ProjectDescription(id, author, text, project, new ArrayList<>(), timestamp, open);
     }
 
 }

@@ -15,16 +15,15 @@ import java.util.ArrayList;
 
 public class ProjectDescriptionImpl implements ProjectDescriptionService {
 
-    ProjectDescriptionDAO descriptionDAO = new ProjectDescriptionDAOImpl();
-    LinkDAO linkDAO = new LinkDAOImpl();
+    private ProjectDescriptionDAO descriptionDAO = new ProjectDescriptionDAOImpl();
+    private LinkDAO linkDAO = new LinkDAOImpl();
 
     @Override
     public ProjectDescription getProjectbyStudent(StudentIdentifier studentIdentifier) {
 
-        //if no description exists, create a new
+        //if no description exists (when page is opend for the first time), create a new one
         if(descriptionDAO.getDescription(studentIdentifier)==null){
-            //TODO richtige Daten, standartwerte über config?
-            ProjectDescription description = new ProjectDescription("0", studentIdentifier.getStudentId(), "Hier soll ein Turtorialtext stehen", studentIdentifier.getProjectId(), null, null);
+            ProjectDescription description = new ProjectDescription("0", studentIdentifier.getStudentId(), "Hier soll ein Turtorialtext stehen", studentIdentifier.getProjectId(), null);
             descriptionDAO.createDescription(description);
         }
 
@@ -67,7 +66,7 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
 
     @Override
     public boolean checkIfAllDescriptionsClosed(Project project) {
-        return (descriptionDAO.getOpenDescriptions(project).size() == 0); //TODO Jeder eine desc?
+        return (descriptionDAO.getOpenDescriptions(project).size() == 0);
     }
 
     @Override
