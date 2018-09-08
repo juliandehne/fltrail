@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class JournalServiceImpl implements JournalService {
 
     private final Logger log = LoggerFactory.getLogger(JournalServiceImpl.class);
-    JournalDAO journalDAO = new JournalDAOImpl();
+    private JournalDAO journalDAO = new JournalDAOImpl();
 
     @Override
     public Journal getJournal(String id) {
@@ -45,7 +45,6 @@ public class JournalServiceImpl implements JournalService {
                 }
 
                 //If Visibility Group, show if student is in group and filter allows it
-                //TODO: project != Group, for testing ok, change for real Service
                 if (j.getVisibility() == Visibility.GROUP && j.getStudentIdentifier().getProjectId().equals(project) && filter == JournalFilter.ALL) {
                     result.add(j);
                 }
