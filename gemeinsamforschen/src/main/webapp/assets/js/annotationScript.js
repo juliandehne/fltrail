@@ -72,6 +72,13 @@ $(document).ready(function() {
     });
 
     /**
+     * back button
+     */
+    $('#btnBack').click(function () {
+        location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+    });
+
+    /**
      * validation of annotation create form inside the modal
      */
     $('#annotation-create-form').validate({

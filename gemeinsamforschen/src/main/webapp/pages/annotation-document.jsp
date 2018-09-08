@@ -52,8 +52,11 @@
                             <div class="leftcontent">
                                 <div class="leftcontent-text context-menu-one" id="documentText"></div>
                                 <div class="leftcontent-buttons">
+                                    <div class="leftcontent-buttons-back">
+                                        <button id="btnBack" type="button" class="btn btn-secondary">Zurück</button>
+                                    </div>
                                     <div class="leftcontent-buttons-next">
-                                        <button id="btnContinue" type="button" class="btn btn-secondary">Weiter</button>
+                                        <button id="btnContinue" type="button" class="btn btn-primary">Weiter</button>
                                     </div>
                                 </div>
                             </div>

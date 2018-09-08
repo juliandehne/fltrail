@@ -148,6 +148,10 @@ ol {
     float: right;
     margin: 20px;
 }
+.leftcontent-buttons-back {
+    float: left;
+    margin: 20px;
+}
 .leftcontent-text {
     overflow: scroll;
     white-space: pre-line;
