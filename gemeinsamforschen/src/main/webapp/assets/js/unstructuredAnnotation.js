@@ -26,7 +26,7 @@ $(document).ready(function() {
 
     }, function () {
         // jump to upload page on error
-        location.href="unstructured-upload.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getValueFromUrl("projectId");
+        location.href="unstructured-upload.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
     });
 
     // set click listener to save button
@@ -285,7 +285,7 @@ function saveButtonHandler() {
 
         $.when.apply($, promises).then(function () {
             // redirect user to project page after saving
-            location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getValueFromUrl("projectId");
+            location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
         });
 
         // redirect user to project page after saving

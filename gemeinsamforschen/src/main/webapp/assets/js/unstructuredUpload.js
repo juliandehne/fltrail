@@ -14,7 +14,7 @@ $(document).ready(function() {
             var fullSubmissionPostRequest = {
                 user: user,
                 text: text,
-                projectId: getValueFromUrl("projectId")
+                projectId: getQueryVariable("projectId")
             };
 
             // save request in database
@@ -23,7 +23,7 @@ $(document).ready(function() {
                 $('#upload-textarea').val("");
 
                 // jump to next page
-                location.href="unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getValueFromUrl("projectId") + "&submission=" + response.id;
+                location.href="unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId") + "&submission=" + response.id;
             });
         }
     });

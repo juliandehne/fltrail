@@ -9,11 +9,11 @@ var startCharacter, endCharacter;
  * This function will fire when the DOM is ready
  */
 $(document).ready(function() {
-    let fullSubmissionId = getValueFromUrl("fullSubmissionId");
-    let category = getValueFromUrl("category");
+    let fullSubmissionId = getQueryVariable("fullSubmissionId");
+    let category = getQueryVariable("category");
 
     // fetch full submission from database
-    getFullSubmission(getValueFromUrl("fullSubmissionId"), function (response) {
+    getFullSubmission(getQueryVariable("fullSubmissionId"), function (response) {
 
         // set text
         $('#documentText').html(response.text);
@@ -610,8 +610,8 @@ function toggleButtonHandler(id) {
 function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
 
     // initialize target
-    let targetId = getValueFromUrl("fullSubmissionId");
-    let targetCategory = getValueFromUrl("category");
+    let targetId = getQueryVariable("fullSubmissionId");
+    let targetCategory = getQueryVariable("category");
     let userToken = getUserTokenFromUrl();
 
     // build annotationPostRequest

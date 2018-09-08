@@ -1,6 +1,6 @@
 $(document).ready(function(){
     // fetch all submission part project representations from database
-    getSubmissionPartsByProjectId(getValueFromUrl("projectId"), function (response) {
+    getSubmissionPartsByProjectId(getQueryVariable("projectId"), function (response) {
         
         // iterate over response and display each element
         for (let i = 0; i < response.length; i++) {
@@ -12,7 +12,7 @@ $(document).ready(function(){
             let fullSubmissionId = $(this).closest("li").data("fullSubmissionId");
             let category = $(this).closest("li").data("category");
             location.href="annotation-document.jsp?token=" + getUserTokenFromUrl() +
-                "&projectId=" + getValueFromUrl("projectId") +
+                "&projectId=" + getQueryVariable("projectId") +
                 "&fullSubmissionId=" + fullSubmissionId +
                 "&category=" + category;
         });
@@ -37,7 +37,7 @@ $(document).ready(function(){
     });
 
     $('#btnUnstructuredUpload').click(function () {
-        location.href="unstructured-upload.jsp?token="+getUserTokenFromUrl() + "&projectId=" + getValueFromUrl("projectId");
+        location.href="unstructured-upload.jsp?token="+getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
     })
 });
 
