@@ -1,7 +1,7 @@
 package unipotsdam.gf.core.management.user;
 
-import unipotsdam.gf.core.management.ManagementImpl;
-
+import javax.annotation.ManagedBean;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
@@ -11,43 +11,47 @@ import java.io.IOException;
 
 
 // TODO: please move this to a view package at the top of the hierarchy as this is not part of the user package
+@ManagedBean
 public class Menu extends SimpleTagSupport {
+
+    @Inject
+    private UserDAO userDAO;
+
     public void doTag() throws JspException, IOException {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String token = request.getParameter("token");
-        ManagementImpl management = new ManagementImpl();
         JspWriter out = getJspContext().getOut();
-        if (token!=null){
-            User user =  management.getUserByToken(token);
+        if (token != null) {
+            User user = userDAO.getUserByToken(token);
             Boolean isStudent = user.getStudent();
-            if (isStudent){
+            if (isStudent) {
                 out.println("<div id=\"sidebar-wrapper\">\n" +
                         "        <ul class=\"sidebar-nav\">\n" +
-                        "            <li class=\"sidebar-brand\"><a href=\"overview-student.jsp?token="+token+"\">overview</a></li>\n" +
-                        "            <li><a href=\"profile.jsp?token="+token+"\">Profil</a></li>\n" +
-                        "            <li><a href=\"Quiz.jsp?token="+token+"\">Quizfrage</a></li>\n" +
-                        "            <li><a href=\"eportfolio.jsp?token="+token+"\">ePortfolio</a></li>\n" +
-                        "            <li><a href=\"researchReportTitle.jsp?token="+token+"\">Beitrag</a></li>\n" +
-                        "            <li><a href=\"finalAssessments.jsp?token="+token+"\">Bewertung</a></li>\n" +
+                        "            <li class=\"sidebar-brand\"><a href=\"overview-student.jsp?token=" + token + "\">overview</a></li>\n" +
+                        "            <li><a href=\"profile.jsp?token=" + token + "\">Profil</a></li>\n" +
+                        "            <li><a href=\"Quiz.jsp?token=" + token + "\">Quizfrage</a></li>\n" +
+                        "            <li><a href=\"eportfolio.jsp?token=" + token + "\">ePortfolio</a></li>\n" +
+                        "            <li><a href=\"researchReportTitle.jsp?token=" + token + "\">Beitrag</a></li>\n" +
+                        "            <li><a href=\"finalAssessments.jsp?token=" + token + "\">Bewertung</a></li>\n" +
                         "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
                         "        </ul>\n" +
                         "    </div>");
             } else {
                 out.println("<div id=\"sidebar-wrapper\">\n" +
                         "        <ul class=\"sidebar-nav\">\n" +
-                        "            <li class=\"sidebar-brand\"><a href=\"overview-docent.jsp?token="+token+"\">overview</a></li>\n" +
-                        "            <li><a href=\"Quiz.jsp?token="+token+"\">Quizfrage</a></li>\n" +
+                        "            <li class=\"sidebar-brand\"><a href=\"overview-docent.jsp?token=" + token + "\">overview</a></li>\n" +
+                        "            <li><a href=\"Quiz.jsp?token=" + token + "\">Quizfrage</a></li>\n" +
                         "            <li><a href=\"#\">ePortfolio</a></li>\n" +
                         "            <li><a href=\"#\">Beitrag</a></li>\n" +
                         "            <li><a href=\"#\">Gruppen erstellen</a></li>\n" +
                         "            <li><a href=\"#\">Projektphase ändern</a></li>\n" +
-                        "            <li><a href=\"finalAssessments.jsp?token="+token+"\">Bewertung</a></li>\n" +
+                        "            <li><a href=\"finalAssessments.jsp?token=" + token + "\">Bewertung</a></li>\n" +
                         "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
                         "        </ul>\n" +
                         "    </div>");
             }
-        }else{
+        } else {
             out.println("<div class='alert alert-warning'>" +
                     "You probably did not give the token to the url" +
                     "</div>");

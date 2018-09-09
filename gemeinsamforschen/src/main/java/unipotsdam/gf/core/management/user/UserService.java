@@ -22,6 +22,9 @@ public class UserService {
     @Inject
     private ICommunication communicationService;
 
+    @Inject
+    private UserDAO userDAO;
+
     /**
      * creates a user with given credentials
      *
@@ -111,9 +114,8 @@ public class UserService {
     }
 
     private User fillUserFields(User user) {
-        ManagementImpl m = new ManagementImpl();
-        String token = m.getUserToken(user);
-        user = m.getUserByToken(token);
+        String token = userDAO.getUserToken(user);
+        user = userDAO.getUserByToken(token);
         return user;
     }
 
@@ -142,7 +144,7 @@ public class UserService {
         } else {
             successUrl = "../pages/overview-docent.jsp?token=";
         }
-        successUrl += management.getUserToken(user);
+        successUrl += userDAO.getUserToken(user);
         return forwardToLocation(successUrl);
     }
 

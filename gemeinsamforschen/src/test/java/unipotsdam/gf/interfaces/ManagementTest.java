@@ -1,26 +1,20 @@
 package unipotsdam.gf.interfaces;
 
-import javafx.application.Application;
-import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.hk2.utilities.Binder;
-import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
-import org.junit.Before;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import unipotsdam.gf.config.GFApplicationBinder;
-import unipotsdam.gf.config.GFResourceConfig;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.management.user.UserProfile;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by dehne on 01.06.2018.
@@ -87,6 +81,7 @@ public class ManagementTest  {
     @Test
     public void testUpdateUser() {
         ManagementImpl management = new ManagementImpl();
+        UserDAO userDAO = new UserDAO();
         User user = new User("julian", "1234", "testUpdateUser@stuff.com", true);
         user.setToken("abc");
         management.create(user, new UserProfile());
@@ -95,7 +90,7 @@ public class ManagementTest  {
         user.setStudent(false);
         management.update(user);
         assertTrue(management.exists(user));
-        User managementUser = management.getUserByToken(user.getToken());
+        User managementUser = userDAO.getUserByToken(user.getToken());
         assertEquals(user.getStudent(), managementUser.getStudent());
     }
 
@@ -116,7 +111,8 @@ public class ManagementTest  {
         management.create(user2, new UserProfile());
         assert management.exists(user2);
 
-        List<User> users = management.getUsers(project);
+        UserDAO userDAO = new UserDAO();
+        List<User> users = userDAO.getUsers(project);
         assert users != null;
         assert !users.isEmpty();
 

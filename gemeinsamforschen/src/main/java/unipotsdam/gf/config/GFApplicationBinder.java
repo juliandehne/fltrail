@@ -3,6 +3,9 @@ package unipotsdam.gf.config;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.ManagementImpl;
+import unipotsdam.gf.core.management.group.GroupDAO;
+import unipotsdam.gf.core.management.project.ProjectDAO;
+import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.states.PhasesImpl;
 import unipotsdam.gf.core.testsandbox.TestList;
 import unipotsdam.gf.core.testsandbox.TestListInterface;
@@ -39,6 +42,9 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(TestList.class).to(TestListInterface.class);
         bind(DummyGroupfinding.class).to(IGroupFinding.class);
         bind(DummyProjectCreationService.class);
+        bind(UserDAO.class).to(UserDAO.class);
+        bind(ProjectDAO.class).to(ProjectDAO.class);
+        bind(GroupDAO.class).to(GroupDAO.class);
 
     }
 }

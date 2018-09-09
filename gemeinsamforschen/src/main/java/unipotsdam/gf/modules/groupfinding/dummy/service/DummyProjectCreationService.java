@@ -2,8 +2,10 @@ package unipotsdam.gf.modules.groupfinding.dummy.service;
 
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.group.Group;
+import unipotsdam.gf.core.management.group.GroupDAO;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.management.user.UserProfile;
 import unipotsdam.gf.interfaces.ICommunication;
 
@@ -27,6 +29,12 @@ public class DummyProjectCreationService {
     @Inject
     private Management management;
 
+    @Inject
+    private GroupDAO groupDAO;
+
+    @Inject
+    private UserDAO userDAO;
+
     public boolean createExampleProject() {
 
         User docentUser = getDocentUser();
@@ -43,7 +51,7 @@ public class DummyProjectCreationService {
             nonCreatedGroups.forEach(group -> management.create(group));
         }
 
-        List<Group> groupsWithId = management.getGroupsByProjectId(project.getId());
+        List<Group> groupsWithId = groupDAO.getGroupsByProjectId(project.getId());
         groupsWithId.forEach(group -> {
             String chatRoomName = String.join(" - ", project.getId(), String.valueOf(group.getId()));
             group.setChatRoomId(communicationService.createChatRoom(chatRoomName, group.getMembers()));
@@ -83,7 +91,7 @@ public class DummyProjectCreationService {
         if (!management.exists(docent)) {
             saveUserToDatabase(docent);
         } else {
-            docent = management.getUserByEmail(docent.getEmail());
+            docent = userDAO.getUserByEmail(docent.getEmail());
         }
         return docent;
     }
