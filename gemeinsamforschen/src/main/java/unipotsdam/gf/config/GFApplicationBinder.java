@@ -6,17 +6,19 @@ import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.states.PhasesImpl;
 import unipotsdam.gf.core.testsandbox.TestList;
 import unipotsdam.gf.core.testsandbox.TestListInterface;
-import unipotsdam.gf.interfaces.*;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
+import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.interfaces.IJournal;
+import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 import unipotsdam.gf.modules.groupfinding.DummyGroupfinding;
+import unipotsdam.gf.modules.groupfinding.dummy.service.DummyProjectCreationService;
 import unipotsdam.gf.modules.journal.DummyJournalImpl;
-import unipotsdam.gf.modules.journal.model.Journal;
-import unipotsdam.gf.modules.journal.service.DummyJournalService;
 import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
 import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
-import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 
 public class GFApplicationBinder extends AbstractBinder {
@@ -36,6 +38,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
         bind(TestList.class).to(TestListInterface.class);
         bind(DummyGroupfinding.class).to(IGroupFinding.class);
+        bind(DummyProjectCreationService.class);
 
     }
 }

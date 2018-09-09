@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.groupfinding.service;
+package unipotsdam.gf.modules.groupfinding.dummy.service;
 
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.group.Group;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @ManagedBean
 @Resource
 @Singleton
-public class GroupCreationService {
+public class DummyProjectCreationService {
 
     @Inject
     private ICommunication communicationService;
