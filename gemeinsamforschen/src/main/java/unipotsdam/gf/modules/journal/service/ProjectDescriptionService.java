@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public interface ProjectDescriptionService {
 
 
-    ProjectDescription getProjectbyStudent(StudentIdentifier studentIdentifier);
+    ProjectDescription getProjectByStudent(StudentIdentifier studentIdentifier);
 
-    ProjectDescription getProjectbyId(String id);
+    ProjectDescription getProjectById(String id);
     void saveProjectText(StudentIdentifier studentIdentifier, String text);
 
     void addLink(String project, String link, String name);

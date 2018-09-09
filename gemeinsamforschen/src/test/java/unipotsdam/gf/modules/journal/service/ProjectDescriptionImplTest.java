@@ -58,7 +58,7 @@ public class ProjectDescriptionImplTest {
     @Test
     public void getProjectbyStudent() {
         //NO description exists
-        projectDescriptionService.getProjectbyStudent(new StudentIdentifier(testProject, testStudent));
+        projectDescriptionService.getProjectByStudent(new StudentIdentifier(testProject, testStudent));
 
         ProjectDescription resProjectDescription = descriptionDAO.getDescription(new StudentIdentifier(testProject, testStudent));
         String id = resProjectDescription.getId();
@@ -88,7 +88,7 @@ public class ProjectDescriptionImplTest {
         testLinkObj.setProjectDescription(id);
         linkDAO.addLink(testLinkObj);
 
-        ProjectDescription resProjectDescription = projectDescriptionService.getProjectbyId(id);
+        ProjectDescription resProjectDescription = projectDescriptionService.getProjectById(id);
 
         assertNotNull(resProjectDescription);
         assertEquals(testDescription, resProjectDescription.getDescriptionMD());

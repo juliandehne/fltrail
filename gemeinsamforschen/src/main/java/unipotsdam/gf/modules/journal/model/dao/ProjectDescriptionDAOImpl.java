@@ -14,8 +14,6 @@ import java.util.UUID;
 
 public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
 
-    private final Logger log = LoggerFactory.getLogger(ProjectDescriptionDAOImpl.class);
-
 
     @Override
     public void createDescription(ProjectDescription projectDescription) {

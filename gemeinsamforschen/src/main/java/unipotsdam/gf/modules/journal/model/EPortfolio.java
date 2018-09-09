@@ -9,21 +9,21 @@ import java.util.ArrayList;
  * Class for passing e-portfolio to assessment
  */
 
-public class EPorfolio {
+public class EPortfolio {
 
-    StudentIdentifier student;
-    ProjectDescription descrition;
-    ArrayList<Journal> journals;
-    ResearchReport report;
-    //TODO mehr?
+    private StudentIdentifier student;
+    private ProjectDescription description;
+    private ArrayList<Journal> journals;
+    private ResearchReport report;
 
 
-    public EPorfolio() {
+
+    public EPortfolio() {
     }
 
-    public EPorfolio(StudentIdentifier student, ProjectDescription descrition, ArrayList<Journal> journals, ResearchReport report) {
+    public EPortfolio(StudentIdentifier student, ProjectDescription description, ArrayList<Journal> journals, ResearchReport report) {
         this.student = student;
-        this.descrition = descrition;
+        this.description = description;
         this.journals = journals;
         this.report = report;
     }
@@ -36,12 +36,12 @@ public class EPorfolio {
         this.student = student;
     }
 
-    public ProjectDescription getDescrition() {
-        return descrition;
+    public ProjectDescription getDescription() {
+        return description;
     }
 
-    public void setDescrition(ProjectDescription descrition) {
-        this.descrition = descrition;
+    public void setDescription(ProjectDescription description) {
+        this.description = description;
     }
 
     public ArrayList<Journal> getJournals() {

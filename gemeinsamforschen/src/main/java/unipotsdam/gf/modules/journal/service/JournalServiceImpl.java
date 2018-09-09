@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class JournalServiceImpl implements JournalService {
 
     private final Logger log = LoggerFactory.getLogger(JournalServiceImpl.class);
-    private JournalDAO journalDAO = new JournalDAOImpl();
+    private final JournalDAO journalDAO = new JournalDAOImpl();
 
     @Override
     public Journal getJournal(String id) {

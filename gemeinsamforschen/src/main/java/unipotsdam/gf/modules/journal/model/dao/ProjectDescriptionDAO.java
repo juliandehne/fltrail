@@ -5,7 +5,6 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public interface ProjectDescriptionDAO {
 

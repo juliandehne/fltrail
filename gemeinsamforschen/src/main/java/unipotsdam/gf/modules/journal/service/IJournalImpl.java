@@ -6,7 +6,7 @@ import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.journal.model.EPorfolio;
+import unipotsdam.gf.modules.journal.model.EPortfolio;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 
@@ -16,23 +16,15 @@ import java.util.List;
 
 public class IJournalImpl implements IJournal {
 
-    private Logger log = LoggerFactory.getLogger(IJournalImpl.class);
+    private final Logger log = LoggerFactory.getLogger(IJournalImpl.class);
 
-    JournalService journalService = new JournalServiceImpl();
-    ProjectDescriptionService descriptionService = new ProjectDescriptionImpl();
+    private final JournalService journalService = new JournalServiceImpl();
+    private final ProjectDescriptionService descriptionService = new ProjectDescriptionImpl();
 
 
     @Override
     public Boolean getPortfoliosForEvaluationPrepared(Project project) {
-
-        if(!descriptionService.checkIfAllDescriptionsClosed(project) || !journalService.checkIfAllJournalClosed(project)){
-            //assignMissingPortfolioTasks()?
-            return false;
-        }
-
-        //TODO check Constrains (5? Journals...)...
-
-        return true;
+        return descriptionService.checkIfAllDescriptionsClosed(project) && journalService.checkIfAllJournalClosed(project);
     }
 
 
@@ -71,12 +63,12 @@ public class IJournalImpl implements IJournal {
     }
 
     @Override
-    public EPorfolio getFinalPortfolioForAssessment(Project project, User user) {
+    public EPortfolio getFinalPortfolioForAssessment(Project project, User user) {
 
-        EPorfolio result = new EPorfolio();
+        EPortfolio result = new EPortfolio();
         StudentIdentifier studentIdentifier = new StudentIdentifier(project.getId(),user.getId());
 
-        result.setDescrition(descriptionService.getProjectbyStudent(studentIdentifier));
+        result.setDescription(descriptionService.getProjectByStudent(studentIdentifier));
         result.setJournals(journalService.getAllJournals(user.getId(),project.getId()));
         //TODO result.setReport(...);
 

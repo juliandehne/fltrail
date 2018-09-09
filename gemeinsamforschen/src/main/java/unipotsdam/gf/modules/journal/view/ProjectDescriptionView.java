@@ -32,7 +32,7 @@ public class ProjectDescriptionView {
     public Response getProjectDescription(@PathParam("project") String project, @PathParam("student") String student){
         log.debug(">>> getProjectDescription: " + project + "/" + student);
 
-        ProjectDescription result = descriptionService.getProjectbyStudent(new StudentIdentifier(project, student));
+        ProjectDescription result = descriptionService.getProjectByStudent(new StudentIdentifier(project, student));
 
         log.debug(">>> getProjectDescription");
         return Response.ok(result).build();
@@ -71,7 +71,7 @@ public class ProjectDescriptionView {
     public Response addLink(@FormParam("link") String link, @FormParam("name") String name, @FormParam("projectdescriptionId") String project){
         log.debug(">>> addLink: " + name + ":" + link);
 
-        ProjectDescription desc = descriptionService.getProjectbyId(project);
+        ProjectDescription desc = descriptionService.getProjectById(project);
         descriptionService.addLink(project,link, name );
 
 
@@ -122,7 +122,7 @@ public class ProjectDescriptionView {
     public Response closeDescription(String desc){
         log.debug(">>> closeDescription: " + desc);
 
-        StudentIdentifier student = descriptionService.getProjectbyId(desc).getStudent();
+        StudentIdentifier student = descriptionService.getProjectById(desc).getStudent();
         descriptionService.closeDescription(desc);
         try {
             URI location = new URI("../pages/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());

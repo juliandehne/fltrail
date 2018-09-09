@@ -22,7 +22,6 @@ public class ProjectDescriptionImplDAOTest {
     private String testStudent = "testStudent";
     private String testDescription = "testDescription";
     private String testProjekt = "testProjekt";
-    private ArrayList<String> testGroup = new ArrayList<>();
 
     private ProjectDescription testProjectDescription = new ProjectDescription(testId, testStudent, testDescription, testProjekt, null /*Links are added in Service*/);
 
@@ -30,8 +29,6 @@ public class ProjectDescriptionImplDAOTest {
     public void createDescription() {
 
         connection.connect();
-
-        ProjectDescription createDescription = testProjectDescription;
 
         descriptionDAO.createDescription(testProjectDescription);
 
