@@ -10,6 +10,7 @@ import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Controller.PeerFeedb
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 
 @Path("/peerfeedback")
 //@Consumes({"application/json"})
@@ -44,11 +45,11 @@ public class PeerFeedbackView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{id}")
-    public Response getPeerfeedback(@PathParam("id") String id){
+    @Path("{sender}")
+    public Response getPeerfeedback(@PathParam("sender") String sender){
 
         PeerFeedbackController controller = new PeerFeedbackController();
-        Peer2PeerFeedback fd = controller.getPeer2PeerFeedback(id);
+        ArrayList<Peer2PeerFeedback> fd = controller.getAllFeedbacks(sender);
         return Response.ok(fd).build();
     }
 

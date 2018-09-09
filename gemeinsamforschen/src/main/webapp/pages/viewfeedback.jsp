@@ -49,7 +49,7 @@
                         <%--<iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
                         --%>
                         <%--<p id="view"></p>      type="hidden"--%>
-                        <input  name="peerfeedbackID" id="peerfeedbackID-input" value=""/>
+                        <input  type="hidden" name="peerfeedbackID" id="peerfeedbackID-input" value=""/>
 
                         <div id="div1"></div>
 

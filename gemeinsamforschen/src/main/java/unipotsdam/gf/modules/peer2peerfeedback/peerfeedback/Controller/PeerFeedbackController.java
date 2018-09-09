@@ -2,11 +2,10 @@ package unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Controller;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.modules.annotation.model.Annotation;
-import unipotsdam.gf.modules.annotation.model.AnnotationBody;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class PeerFeedbackController {
@@ -70,6 +69,30 @@ public class PeerFeedbackController {
        }
 
     }
+
+    public ArrayList<Peer2PeerFeedback> getAllFeedbacks(String sender) {
+
+        ArrayList<Peer2PeerFeedback> feedbacks = new ArrayList<>();
+
+        // establish connection
+        MysqlConnect connection = new MysqlConnect();
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * FROM peerfeedback WHERE sender= ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, sender);
+
+        while (rs.next()) {
+            feedbacks.add(getPeerfeedbackFromResultSet(rs));
+        }
+
+        // close connection
+        connection.close();
+        System.out.print(feedbacks);
+        return feedbacks;
+
+    }
+
 
     private Peer2PeerFeedback getPeerfeedbackFromResultSet(VereinfachtesResultSet rs) {
 

@@ -10,10 +10,11 @@ $(document).ready(function() {
     var peerfeedbackID = getQueryVariable("Peerfeedback");
     console.log(peerfeedbackID);
     var peerfeedbackID = "a3cef66d-e1b7-4030-8fcd-1413d6e77ba0";
+    var sender = "sender";
     console.log(peerfeedbackID);
     //if(peerfeedbackID) {
         $.ajax({
-            url: "../rest/peerfeedback/"+peerfeedbackID     //{id}
+            url: "../rest/peerfeedback/"+sender              //peerfeedbackID     {id}
 
         }).then(function (data) {
             //$('#editor').append(data.descriptionMD);
@@ -21,25 +22,26 @@ $(document).ready(function() {
             loadFeedback(data);
             console.log("function2");
 
-            document.getElementById("Peerfeedback").innerHTML = data;
+            //document.getElementById("Peerfeedback").innerHTML = data.text +"text";
             //document.write(data);
             //console.log(data);
-
+            /**
             var newDiv = document.createElement("div");
             var newContent = document.createTextNode(data.text);
             newDiv.appendChild(newContent); // füge den Textknoten zum neu erstellten div hinzu.
 
             // füge das neu erstellte Element und seinen Inhalt ins DOM ein
             var currentDiv = document.getElementById("div1");
-            document.body.insertBefore(newDiv, currentDiv);
-
+            currentDiv.appendChild(newDiv);
+            //document.body.insertBefore(newDiv, currentDiv);
+            */
             //$('#peerfeedbackID').val(peerfeedbackID);
             console.log(data);
         });
    // }
     function loadFeedback(data) {
         for (var feedback in data) {
-            var feedbackString = '<div class="pf-container">' +
+            /**var feedbackString = '<div class="pf-container">' +
                 '<div class="journal-date"> ' +
                 data[feedback].timestamp +
                 '</div>' +
@@ -56,8 +58,17 @@ $(document).ready(function() {
                 '<div class="journal-text">' +
                 data[feedback].entryHTML +
                 '</div>' +
-                '</div><br><br>';
+                '</div><br><br>';*/
 
-            $('.Peerfeedback').append(feedbackString)
+            var newdiv = document.createElement("div");
+            var newcontent = document.createTextNode(data[feedback].text);
+            newdiv.appendChild(newcontent); // füge den Textknoten zum neu erstellten div hinzu.
+
+            // füge das neu erstellte Element und seinen Inhalt ins DOM ein
+            var currentdiv = document.getElementById("div1");
+            currentdiv.appendChild(newdiv);
+            //document.body.insertBefore(newDiv, currentDiv);
+
+            //$('.Peerfeedback').append(feedbackString)
         }};
 })
