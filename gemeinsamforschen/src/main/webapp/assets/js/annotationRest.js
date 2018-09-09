@@ -81,10 +81,11 @@ function getAnnotation(id, responseHandler) {
  * GET: Get all annotations from database for a specific target
  *
  * @param targetId The target id
+ * @param targetCategory The category of the target
  * @param responseHandler The response handler
  */
-function getAnnotations(targetId, responseHandler) {
-    var url = "../rest/annotations/target/" + targetId;
+function getAnnotations(targetId, targetCategory, responseHandler) {
+    var url = "../rest/annotations/targetid/" + targetId + "/targetcategory/" + targetCategory;
     $.ajax({
         url: url,
         type: "GET",
