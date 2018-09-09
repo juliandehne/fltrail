@@ -8,7 +8,6 @@ function connect(targetId, targetCategory) {
 
     ws.onmessage = function (e) {
         var message = JSON.parse(e.data);
-        console.log(message.from)
 
         if (message.type === "CREATE") {
             // get annotation from server

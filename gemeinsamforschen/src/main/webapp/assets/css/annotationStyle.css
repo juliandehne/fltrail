@@ -17,7 +17,8 @@ ol {
 .rightcolumn {
     float: right;
     width: 25%;
-    display: inline-block;
+    display: flex;
+    flex-flow: column;
     overflow: scroll;
     /* background-color: blue; */
 }
@@ -29,7 +30,9 @@ ol {
     /* background-color: yellow; */
 }
 .rightcontent {
-    margin: 10px;
+    padding: 10px;
+    flex: 1;
+    overflow: scroll;
 }
 .leftcontent {
     max-height: 100%;
@@ -51,7 +54,7 @@ ol {
     background-color: white;
 }
 .annotation-card:hover {
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2);
 }
 .annotation-header {
     padding: 5px;
@@ -163,5 +166,10 @@ ol {
 .categoryText {
     color: black;
     font-weight: bold;
+}
+#annotation-search {
+    width: 100%;
+    padding: 5px;
+    font-size: 11px;
 }
 

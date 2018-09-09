@@ -62,6 +62,7 @@
                             </div>
                         </div>
                         <div class="rightcolumn">
+                            <input type="text" id="annotation-search" onkeyup="searchAnnotation()" placeholder="Suchen...">
                             <div class="rightcontent">
                                 <ol id="annotations">
                                 </ol>
