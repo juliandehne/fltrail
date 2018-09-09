@@ -108,6 +108,16 @@ public class ManagementImpl implements Management {
     }
 
     @Override
+    public void update(Group group) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "UPDATE group SET projectId=?,chatRoomid=?";
+        connect.issueUpdateStatement(mysqlRequest, group.getProjectId(), group.getChatRoomId());
+
+        // TODO: implement update of groupuser if needed later (if member list need to be updated)
+    }
+
+    @Override
     public Boolean exists(User user) {
         Boolean result;
         MysqlConnect connect = new MysqlConnect();
@@ -131,6 +141,12 @@ public class ManagementImpl implements Management {
         result = vereinfachtesResultSet.next();
         connect.close();
         return result;
+    }
+
+    @Override
+    public Boolean exists(Group group) {
+        List<Group> groups = getGroupsByProjectId(group.getProjectId());
+        return groups.contains(group);
     }
 
     @Override
@@ -341,6 +357,7 @@ public class ManagementImpl implements Management {
         if (groups.isEmpty()) {
             return null;
         }
+        connect.close();
 
         return groups;
     }

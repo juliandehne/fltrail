@@ -4,6 +4,7 @@ import unipotsdam.gf.core.management.user.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Group {
 
@@ -34,6 +35,21 @@ public class Group {
         this.members = members;
         this.projectId = projectId;
         this.chatRoomId = chatRoomId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Group group = (Group) o;
+        return Objects.equals(members, group.members) &&
+                Objects.equals(projectId, group.projectId) &&
+                Objects.equals(chatRoomId, group.chatRoomId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(members, projectId, chatRoomId);
     }
 
     public List<User> getMembers() {

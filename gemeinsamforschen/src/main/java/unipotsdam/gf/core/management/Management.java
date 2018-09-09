@@ -58,6 +58,8 @@ public interface Management {
      */
     void update(User user);
 
+    void update(Group group);
+
     /**
      * Add an entry in the M:N table linking users and projects
      *
@@ -80,6 +82,8 @@ public interface Management {
      */
 
     Boolean exists(Project project);
+
+    Boolean exists(Group group);
 
     /**
      * Get all the users linked to a project

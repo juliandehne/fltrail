@@ -22,7 +22,7 @@ CREATE TABLE if not exists `projects` (
 CREATE TABLE if not exists `groups` (
   `id`         int          NOT NULL AUTO_INCREMENT,
   `projectId`  varchar(400) NOT NULL,
-  `chatRoomId` varchar(400) NOT NULL,
+  `chatRoomId` varchar(400),
   PRIMARY KEY (id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 

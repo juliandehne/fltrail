@@ -30,25 +30,25 @@ public class GroupCreationService {
     public boolean createExampleProject() {
 
         User docentUser = getDocentUser();
-        Project project = new Project("1", "", true, docentUser.getEmail(), "admin");
+        Project project = new Project("1", "password", true, docentUser.getEmail(), "admin");
 
         List<Group> groups = createDummyGroups(project.getId());
 
         if (!management.exists(project)) {
             management.create(project);
         }
+        List<Group> nonCreatedGroups = groups.stream().filter(group -> management.exists(group)).collect(Collectors.toList());
 
-        groups.forEach(group -> management.create(group));
-        // TODO: read List<Group> of database to get Id for chatRoomName (Should be ProjectName - GroupId)
-        // TODO: implement sql service injection for, so connection is only done once in app
-
-
-        List<Group> nonEmptyGroups = groups.stream().filter(group -> group.getMembers().isEmpty())
-                .collect(Collectors.toList());
-        if (nonEmptyGroups.isEmpty()) {
-            return false;
+        if (!nonCreatedGroups.isEmpty()) {
+            nonCreatedGroups.forEach(group -> management.create(group));
         }
 
+        List<Group> groupsWithId = management.getGroupsByProjectId(project.getId());
+        groupsWithId.forEach(group -> {
+            String chatRoomName = String.join(" - ", project.getId(), String.valueOf(group.getId()));
+            group.setChatRoomId(communicationService.createChatRoom(chatRoomName, group.getMembers()));
+            management.update(group);
+        });
 
         return true;
     }
