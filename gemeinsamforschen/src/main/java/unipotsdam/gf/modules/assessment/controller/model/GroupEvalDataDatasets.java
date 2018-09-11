@@ -4,7 +4,7 @@ package unipotsdam.gf.modules.assessment.controller.model;
 
 public class GroupEvalDataDatasets {
     private String label;
-    private int[] data;
+    private int[] data= new int[50];
 
     private String borderColor= "rgba(0,255,0,0.2)";
     private String backgroundColor= "rgba(0,255,0,0.2)";
@@ -19,7 +19,11 @@ public class GroupEvalDataDatasets {
         this.fill=fill;
         this.label=label;
     }
+    public  GroupEvalDataDatasets(String label, int[] data){
 
+        this.data=data;
+        this.label=label;
+    }
 
     public int[] getData() {
         return data;

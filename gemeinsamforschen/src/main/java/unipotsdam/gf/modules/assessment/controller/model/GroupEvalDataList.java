@@ -7,7 +7,10 @@ public class GroupEvalDataList {
     private List<GroupEvalDataDatasets> datasets = new ArrayList<>();
 
     public GroupEvalDataList(){}
-
+    public GroupEvalDataList(String[] labels, List<GroupEvalDataDatasets> datasets){
+        this.datasets=datasets;
+        this.labels=labels;
+    }
 
     public GroupEvalDataList(List<GroupEvalDataDatasets> datasets,String[] labels){
         this.labels=labels;
@@ -15,11 +18,11 @@ public class GroupEvalDataList {
     }
 
 
-    public List<GroupEvalDataDatasets> getDataset() {
+    public List<GroupEvalDataDatasets> getDatasets() {
         return datasets;
     }
 
-    public void setDataset(List<GroupEvalDataDatasets> dataset) {
+    public void setDatasets(List<GroupEvalDataDatasets> dataset) {
         this.datasets = dataset;
     }
 
@@ -33,8 +36,6 @@ public class GroupEvalDataList {
 
     public void appendDataSet(GroupEvalDataDatasets data) {
         this.datasets.add(data);
-
-
 
     }
 }

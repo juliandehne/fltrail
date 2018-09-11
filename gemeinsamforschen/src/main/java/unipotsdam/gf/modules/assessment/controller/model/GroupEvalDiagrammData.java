@@ -55,28 +55,35 @@ public class GroupEvalDiagrammData {
 
         //GruppenID muss noch irgendwie aus der Seite ausgelesen werden, wenn die dann mal dynamisch gefüllt wurde
         GroupEvalDiagrammData diagramm= new GroupEvalDiagrammData();
-        diagramm.setType("line");
         GroupEvalOption option=new GroupEvalOption();
         GroupEvalDiagrammLegende legende =new GroupEvalDiagrammLegende();
+
+        diagramm.setType("line");
+        diagramm.setOption(option);
         legende.setDisplay(false);
         option.setLegende(legende);
-        diagramm.setOption(option);
+
+
         MysqlConnect connect = new MysqlConnect();
         List<String> userNamen=new ArrayList<>();
+
         GroupEvalDataDatasets datenSaetze = new GroupEvalDataDatasets();
         GroupEvalDataList datenDia = new GroupEvalDataList();
+
+        diagramm.setData(datenDia);
+
+
         connect.connect();
 
         String mysqlRequestGroupuser = "SELECT * FROM `groupuser` WHERE `groupId`=? ";
-
         VereinfachtesResultSet namenDerUser = connect.issueSelectStatement(mysqlRequestGroupuser,3);
         List<Integer> bewertungenZwischen = new ArrayList<Integer>();
         List<String> labelZwischen = new ArrayList<String>();
 
+        List<GroupEvalDataDatasets> hilfeBittefunktionierEndlich=new ArrayList<>();
 
         while (namenDerUser.next()){
             userNamen.add(namenDerUser.getString("userEmail"));
-
         }
         for (String anUserNamen : userNamen) {
             String mysqlRequestAssessment = "SELECT * FROM `assessments` WHERE `empfaengerId`=?";
@@ -90,23 +97,25 @@ public class GroupEvalDiagrammData {
             for (int z = 0; z < labelZwischen.size(); z++) {
                 hilfeDaten[z] = bewertungenZwischen.get(z);
             }
-            datenSaetze.setData(hilfeDaten);
-            datenSaetze.setLabel(anUserNamen);
-            datenDia.appendDataSet(datenSaetze);
+
+
 
             String[] hilfeLabel = new String[labelZwischen.size()];
             for (int z = 0; z < labelZwischen.size(); z++) {
                 hilfeLabel[z] = labelZwischen.get(z);
             }
-            datenDia.setLabels(hilfeLabel);
-            System.out.println(Arrays.toString(datenSaetze.getData()));
-            System.out.println(labelZwischen);
+            hilfeBittefunktionierEndlich.add(new GroupEvalDataDatasets(anUserNamen,hilfeDaten));
+            datenSaetze.setData(hilfeDaten);
+            datenSaetze.setLabel(anUserNamen);
             System.out.println(anUserNamen);
+            
             bewertungenZwischen.clear();
             labelZwischen.clear();
+            diagramm.setData(new GroupEvalDataList(hilfeLabel,hilfeBittefunktionierEndlich));
         }
+
         connect.close();
-        diagramm.setData(datenDia);
+
 
 
         return diagramm;
