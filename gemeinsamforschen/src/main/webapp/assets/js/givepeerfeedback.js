@@ -61,13 +61,21 @@ $(document).ready(function() {
                 '</div><br><br>';*/
 
             var newdiv = document.createElement("div");
-            var newcontent = document.createTextNode(data[feedback].text);
-            newdiv.appendChild(newcontent); // füge den Textknoten zum neu erstellten div hinzu.
+
+
+            //newdiv.innerHTML = data[feedback].text;
+            //newdiv.append(data[feedback].text);
+            newdiv.insertAdjacentHTML('beforeend',data[feedback].text);
+            newdiv.className = "feedback-container";
+            //var text = convertMarkdownToHtml(data[feedback].text);
+            //var newcontent = document.createTextNode(data[feedback].text);
+            //newdiv.appendChild(newcontent); // füge den Textknoten zum neu erstellten div hinzu.
 
             // füge das neu erstellte Element und seinen Inhalt ins DOM ein
             var currentdiv = document.getElementById("div1");
             currentdiv.appendChild(newdiv);
             //document.body.insertBefore(newDiv, currentDiv);
+            //document.getElementById("div").innerHTML = data[feedback].text;
 
             //$('.Peerfeedback').append(feedbackString)
         }};

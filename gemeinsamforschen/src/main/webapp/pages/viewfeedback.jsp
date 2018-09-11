@@ -7,6 +7,7 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="../assets/css/viewfeedback.css">
     <omniDependencies:omniDependencies/>
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/project-student.js"></script>
@@ -42,27 +43,65 @@
         <div>
             <table>
                 <tr>
+                    <tr>
+                        <th>Feedback Nachrichten von Student X</th>
+                    </tr>
 
-                    <td  id="Peerfeedback">
-                        <h2>Feedback Nachrichten von Student X</h2>
 
-                        <%--<iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
-                        --%>
-                        <%--<p id="view"></p>      type="hidden"--%>
-                        <input  type="hidden" name="peerfeedbackID" id="peerfeedbackID-input" value=""/>
+                        <td  id="filter-feedbacks">
 
-                        <div id="div1"></div>
 
-                        <button class="btn btn-secondary" onclick="goBack()">Zur&uuml;ck</button>
+                            <%--<iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
+                            --%>
+                            <%--<p id="view"></p>      type="hidden"--%>
+                            <input  type="hidden" name="peerfeedbackID" id="peerfeedbackID-input" value=""/>
+                                <div style="height: 100px; overflow: auto">
+                                <div class="feedback-container">
+                                    <p>Sender</p>
+                                    <span class="time-right">11:00</span>
+                                </div>
+                                </div>
 
-                        <script>
-                            function goBack() {
-                                window.history.back();
-                            }
-                        </script>
 
+                        </td>
+
+
+                        <td id="view-feedbacks">
+
+                            <div style="height: 300px; overflow: auto">
+
+                            <div class="feedback-container">
+                                <p>Hello. How are you today?</p>
+                                <span class="time-right">11:00</span>
+                            </div>
+
+                            <div class="feedback-container">
+                                <p>Hey! I'm fine. Thanks for asking!</p>
+                                <span class="time-left">11:01</span>
+                            </div>
+
+                            <div class="feedback-container">
+                                <p>Sweet! So, what do you wanna do today?</p>
+                                <span class="time-right">11:02</span>
+                            </div>
+
+                            <div id="div1"></div>
+
+                            </div>
+                        </td>
+
+
+                <button class="btn btn-secondary" onclick="goBack()">Zur&uuml;ck</button>
+
+                <script>
+                    function goBack() {
+                        window.history.back();
+                    }
+                </script>
 
                     </td>
+
+
 
                     <td  id="chat">
                         <div class="card">

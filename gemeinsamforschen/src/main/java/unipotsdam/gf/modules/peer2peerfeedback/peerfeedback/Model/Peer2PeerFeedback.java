@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model;
 
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
 
 import java.io.File;
 
@@ -25,7 +26,7 @@ public class Peer2PeerFeedback{
         this.id = id;
         this.timestamp = timestamp;
         this.category = category;
-        this.text = text;
+        this.text = convertMarkdownToHtml(text);
         this.sender = sender;
         this.receiver = receiver;
         this.filename = filename;
