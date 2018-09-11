@@ -6,6 +6,7 @@ import unipotsdam.gf.core.states.ProjectPhase;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.sql.Timestamp;
 import java.util.UUID;
@@ -15,12 +16,17 @@ import java.util.UUID;
 @Singleton
 public class ProjectDAO {
 
+    private MysqlConnect connect;
+
+    @Inject
+    public ProjectDAO(MysqlConnect connect) {
+        this.connect = connect;
+    }
+
     public void persist(Project project) {
         UUID uuid = UUID.randomUUID();
         String token = uuid.toString();
 
-
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest =
                 "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `author`, "
@@ -32,7 +38,6 @@ public class ProjectDAO {
     }
 
     public void delete(Project project) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "DELETE FROM projects where id = (?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId());
@@ -44,7 +49,6 @@ public class ProjectDAO {
 
     public Boolean exists(Project project) {
         Boolean result;
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM projects where id = ? and adminPassword = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
@@ -55,7 +59,6 @@ public class ProjectDAO {
     }
 
     public Project getProjectById(String id) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM projects where id = ?";
         VereinfachtesResultSet vereinfachtesResultSet =

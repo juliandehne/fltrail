@@ -7,6 +7,7 @@ import unipotsdam.gf.core.management.util.ResultSetUtil;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,8 +19,14 @@ import java.util.List;
 @Singleton
 public class GroupDAO {
 
+    private MysqlConnect connect;
+
+    @Inject
+    public GroupDAO(MysqlConnect connect) {
+        this.connect = connect;
+    }
+
     public void persist(Group group) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
 
         String mysqlRequestGroup = "INSERT INTO groups (`projectId`,`chatRoomId`) values (?,?)";
@@ -33,11 +40,10 @@ public class GroupDAO {
     }
 
     public void update(Group group) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "UPDATE group SET projectId=?,chatRoomid=?";
         connect.issueUpdateStatement(mysqlRequest, group.getProjectId(), group.getChatRoomId());
-
+        connect.close();
         // TODO: implement update of groupuser if needed later (if member list need to be updated)
     }
 
@@ -56,7 +62,6 @@ public class GroupDAO {
     }
 
     public List<Group> getGroupsByProjectId(String projectId) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM groups g " +
                 "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu.userEmail=u.email" +
@@ -69,11 +74,11 @@ public class GroupDAO {
         }
         ArrayList<Group> groups = new ArrayList<>();
         groupHashMap.forEach((key, group) -> groups.add(group));
+
+        connect.close();
         if (groups.isEmpty()) {
             return null;
         }
-        connect.close();
-
         return groups;
     }
 

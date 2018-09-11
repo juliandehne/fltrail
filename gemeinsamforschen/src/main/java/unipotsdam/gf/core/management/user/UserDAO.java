@@ -7,6 +7,7 @@ import unipotsdam.gf.core.management.util.ResultSetUtil;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,18 @@ import java.util.UUID;
 @Singleton
 public class UserDAO {
 
+
+    private MysqlConnect connect;
+
+    @Inject
+    public UserDAO(MysqlConnect connect) {
+        this.connect = connect;
+    }
+
     public void persist(User user, UserProfile profile) {
         UUID uuid = UUID.randomUUID();
         String token = uuid.toString();
 
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "INSERT INTO users (`name`, `password`, `email`, `token`,`isStudent`," +
                 "`rocketChatId`,`rocketChatAuthToken`) values (?,?,?,?,?,?,?)";
@@ -33,7 +41,6 @@ public class UserDAO {
     }
 
     public void delete(User user) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "DELETE FROM users where email = (?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, user.getEmail());
@@ -41,7 +48,6 @@ public class UserDAO {
     }
 
     public void update(User user) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "UPDATE `users` SET `name`=?,`password`=?,`email`=?,`token`=?,`isStudent`=?," +
                 "`rocketChatId`=?,`rocketChatAuthToken`=? WHERE email=? LIMIT 1";
@@ -55,7 +61,6 @@ public class UserDAO {
 
     public boolean exists(User user) {
         boolean result;
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM users where email = ? and password = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
@@ -73,7 +78,6 @@ public class UserDAO {
                         + " WHERE pu.projectId = ?";
 
         ArrayList<User> result = new ArrayList<>();
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getId());
         while (!vereinfachtesResultSet.isLast()) {
@@ -92,7 +96,6 @@ public class UserDAO {
     }
 
     public String getUserToken(User user) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM users where email = ? and password = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
@@ -116,7 +119,6 @@ public class UserDAO {
     }
 
     private User getUserByField(String field, String value) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM users where " + field + " = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
@@ -131,6 +133,4 @@ public class UserDAO {
             return null;
         }
     }
-
-
 }

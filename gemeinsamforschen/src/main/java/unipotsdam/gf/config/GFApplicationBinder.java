@@ -1,6 +1,7 @@
 package unipotsdam.gf.config;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.group.GroupDAO;
@@ -45,6 +46,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(UserDAO.class).to(UserDAO.class);
         bind(ProjectDAO.class).to(ProjectDAO.class);
         bind(GroupDAO.class).to(GroupDAO.class);
+        bind(MysqlConnect.class).to(MysqlConnect.class);
 
     }
 }
