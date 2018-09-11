@@ -107,7 +107,7 @@
                     </div>
                     <div class="col-md-4">
                         <button id="DiaBlende">Zeitlicher Verlauf</button>
-                        <canvas height="280" width="280", id = "Diagramm" ></canvas>
+                        <canvas height="480" width="480", id = "Diagramm" ></canvas>
                     </div>
                     <div class="col-md-4">
                         <div class="panel panel-default">

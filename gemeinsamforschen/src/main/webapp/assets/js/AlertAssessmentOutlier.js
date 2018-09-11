@@ -2,31 +2,64 @@ $(document).ready(function () {
 
 
     $('#DiaBlende').on('click',function () {
+
+
+
+        $.ajax({
+            url: "../rest/assessments4/diagramm1/"+getQueryVariable("projectId"),
+            type: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache"
+            },
+
+            success: function (response) {
+                var ctx = document.getElementById("Diagramm").getContext('2d');
+                var myChart = new Chart(ctx, response);
+
+            },
+            error: function (a,b,c) {
+                alert('some error' + b);
+            }
+        });
+
+   /*
         var ctx = document.getElementById("Diagramm").getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ["Erstes Assessment", "Zweites Assessment", "Drittes Assessment", "Viertes Assessment", "Fünftes Assessment", "Sechstes Assessment"],
+                labels: ["05.06.1009", "05.06.1009", "05.06.1009", "05.06.1009"],
                 datasets: [{
-                    label: 'Note Student 1',
+                    label: "Note Student 1",
                     data: [
-                        {x:1,y:2},{x:2,y:3},{x:3,y:1},{x:4,y:4}, {x:5,y:1}, {x:6,y:3}],
-                    borderColor: 'rgba(255,0,3,0.2)',
-                    backgroundColor: 'rgba(255,0,3,0.2)',
+                        5,4,4,3],
+                    borderColor: "rgba(255,0,3,0.2)",
+                    backgroundColor: "rgba(255,0,3,0.2)",
                     fill:false
                 }
                     ,
                     {
-                    label:"Note Student 2",
-                    data: [{x:1,y:3},{x:2,y:2},{x:3,y:5},{x:4,y:5}, {x:5,y:5}, {x:6,y:1}]
+                        label:"Note Student 2",
+                        data: [
+                            1,2,3,4 ]
                         ,borderColor: 'rgba(0,255,0,0.2)'
                         , backgroundColor: 'rgba(0,255,3,0.2)'
                         ,fill:false
 
-                }]
+                    },
+                    {
+                        label:"Note Student 3",
+                        data: [
+                            5,2,4,6]
+                        ,borderColor: 'rgba(0,255,0,0.2)'
+                        , backgroundColor: 'rgba(0,255,3,0.2)'
+                        ,fill:false
+
+                    }]
             },
-            options: {scales: {yAxes: [{ticks: {beginAtZero:true}}]},layout:{padding:{left:50,right:50,top:50, bottom:50}}}
-        });
+
+            options: {legend:{display:false}}
+        });*/
     });
 });
 
