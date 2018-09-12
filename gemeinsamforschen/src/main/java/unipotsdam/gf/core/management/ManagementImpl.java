@@ -1,5 +1,6 @@
 package unipotsdam.gf.core.management;
 
+import sun.misc.IOUtils;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.core.management.group.Group;
@@ -15,6 +16,9 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Singleton;
+import java.io.File;
+import java.io.FileInputStream;
+import java.sql.Blob;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -171,8 +175,10 @@ public class ManagementImpl implements Management {
         String adminPassword = vereinfachtesResultSet.getString("adminpassword");
         String token = vereinfachtesResultSet.getString("token");
         String phase = vereinfachtesResultSet.getString("phase");
-
-        return new Project(id, password, active, timestamp, author, adminPassword, token);
+        Project project = new Project(id, password, active, timestamp, author, adminPassword, token);
+        ProjectPhase projectPhase = ProjectPhase.valueOf(phase);
+        project.setPhase(projectPhase);
+        return project;
     }
 
     private Group getGroupFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
@@ -236,6 +242,9 @@ public class ManagementImpl implements Management {
 
     @Override
     public Project getProjectById(String id) {
+        if (id == null){
+            return null;
+        }
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM projects where id = ?";
@@ -308,5 +317,14 @@ public class ManagementImpl implements Management {
     public ProjectConfiguration getProjectConfiguration(Project project) {
         ProjectConfigurationDAO projectConfigurationDAO = new ProjectConfigurationDAO();
         return projectConfigurationDAO.loadProjectConfiguration(project);
+    }
+
+    public String saveProfilePicture(FileInputStream image, String studentId){
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        Blob blobbedImage= (Blob) image;
+        String mysqlRequest = "INSERT INTO `profilepicture`(`studentId`, `image`) VALUES (?,?)";
+        connect.issueInsertOrDeleteStatement(mysqlRequest, studentId, blobbedImage);
+        return "success";
     }
 }

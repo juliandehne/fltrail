@@ -11,8 +11,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static javax.swing.UIManager.getString;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TestAddAssessment {
+
+    private IPeerAssessment peer = new PeerAssessment();
+    private String studentId = "Kevin";
+    private String projectId = "test a la test";
+    private String quizId = "Whats a good Test?";
+
+    @Test
+    public void createQuiz(){
+        StudentAndQuiz studentAndQuiz = new StudentAndQuiz();
+        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+        studentAndQuiz.setStudentIdentifier(student);
+        Quiz quiz = new Quiz();
+        ArrayList<String> correctAnswers = new ArrayList<>();
+        correctAnswers.add("1");
+        correctAnswers.add("2");
+        correctAnswers.add("3");
+        ArrayList<String> incorrectAnswers = new ArrayList<>();
+        incorrectAnswers.add("4");
+        incorrectAnswers.add("5");
+        incorrectAnswers.add("6");
+        quiz.setQuestion(quizId);
+        quiz.setIncorrectAnswers(incorrectAnswers);
+        quiz.setType("mc");
+        quiz.setCorrectAnswers(correctAnswers);
+        studentAndQuiz.setQuiz(quiz);
+        peer.createQuiz(studentAndQuiz);
+    }
+
+    @Test
+    public void getAllQuizzesInProject(){
+        peer.getQuiz(projectId);
+    }
+
+    @Test
+    public void getQuiz(){
+        peer.getQuiz(projectId, quizId, studentId);
+    }
+
+    @Test
+    public void answerQuiz(){
+        Map<String, List<String>> questions = new HashMap<>();
+        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+        List<String> answers = new ArrayList<>();
+        answers.add("1");
+        answers.add("2");
+        answers.add("3");
+        questions.put(quizId, answers);
+        peer.answerQuiz(questions, student);
+    }
+
+    @Test
+    public void deleteQuiz(){
+        peer.deleteQuiz(quizId);
+    }
 
     @Test
     public void addTestAssessment() {
