@@ -95,14 +95,7 @@
                                     <img src="../assets/img/3.jpg">
                                     <a href="#">student3@uni.de</a>
                                     <hr>
-                                    <ul>
-                                        <li>
-                                            "Viva la Floristika" - Titel hochgeladen
-                                            <a class="annotationview" role="button">
-                                                <label style="font-size:10px;"><i class="far fa-comments"
-                                                                                  style="font-size:15px;"></i>feedback</label>
-                                            </a>
-                                        </li>
+                                    <ul id="submissionUpload">
                                     </ul>
                                 </td>
 

@@ -1,0 +1,165 @@
+body, html {
+    height: 100vh;
+    width: 100vw;
+}
+.content-mainpage {
+    display: flex;
+    box-sizing: border-box;
+    font-family: Arial;
+    height: 100%;
+    overflow-y: hidden;
+}
+.rightcolumn {
+    float: right;
+    width: 25%;
+    height: 100%;
+    padding: 10px;
+    display: inline-block;
+    overflow: scroll;
+}
+.leftcolumn {
+    padding: 10px;
+    float: left;
+    width: 75%;
+    display: inline-block;
+    /* background-color: yellow; */
+}
+.rightcontent {
+    height: 100%;
+}
+.rightcontent ol {
+    padding: 0px;
+    margin: 0px;
+    list-style-type: none;
+    height: 100%;
+}
+.rightcontent li {
+    height: calc((100% - 70px) / 8);
+    min-height: 40px;
+}
+.leftcontent {
+    max-height: 100%;
+    display: flex;
+    flex-flow: column;
+    /* background-color: white; */
+}
+.spacing {
+    margin-bottom: 10px;
+    /* background-color: orange; */
+}
+.container-fluid-content {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+.flex {
+    display: flex;
+}
+.flex .container-fluid{
+    flex: 1;
+}
+.full-height {
+    height: 100%;
+}
+.leftcontent-buttons-save {
+    float: right;
+    margin: 20px;
+}
+.leftcontent-text {
+    overflow: scroll;
+    white-space: pre-line;
+}
+.category-card {
+    min-height: 30px;
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: large;
+    overflow: hidden;
+}
+.category-card p {
+    position: relative;
+    float: left;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+}
+.not-added{
+    border-style: dashed;
+    border-color: lightgray;
+    color: lightgray;
+}
+
+.titel {
+    background-color: #ba68c8;
+}
+.added-titel {
+    border-style: solid;
+    border-color: #ba68c8;
+    color: #ba68c8;
+}
+
+.recherche {
+    background-color: #7986cb;
+}
+.added-recherche {
+    border-style: solid;
+    border-color: #7986cb;
+    color: #7986cb;
+}
+
+.literaturverzeichnis {
+    background-color: #4dd0e1;
+}
+.added-literaturverzeichnis {
+    border-style: solid;
+    border-color: #4dd0e1;
+    color: #4dd0e1;
+}
+
+.forschungsfrage {
+    background-color: #81c784;
+}
+.added-forschungsfrage {
+    border-style: solid;
+    border-color: #81c784;
+    color: #81c784;
+}
+
+.untersuchungskonzept {
+    background-color: #dce775;
+}
+.added-untersuchungskonzept {
+    border-style: solid;
+    border-color: #dce775;
+    color: #dce775;
+}
+
+.methodik {
+    background-color: #ffd54f;
+}
+.added-methodik {
+    border-style: solid;
+    border-color: #ffd54f;
+    color: #ffd54f;
+}
+
+.durchfuehrung {
+    background-color: #ff8a65;
+}
+.added-durchfuehrung {
+    border-style: solid;
+    border-color: #ff8a65;
+    color: #ff8a65;
+}
+
+.auswertung {
+    background-color: #a1887f;
+}
+.added-auswertung {
+    border-style: solid;
+    border-color: #a1887f;
+    color: #a1887f;
+}
