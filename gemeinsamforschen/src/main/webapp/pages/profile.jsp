@@ -41,15 +41,16 @@
                             </li>
                             <li class="list-group-item">
                                 <p>Sonstiges:</p>
-                                <form id="uploadimage" action="" method="post" enctype="multipart/form-data">
+                                <form id="uploadimage" method="post" action="../rest/user/student/wiepke">
                                     <div id="image_preview"><img id="previewing" src="../assets/img/noImg.png" /></div>
                                     <hr id="line">
                                     <div id="selectImage">
                                         <label>Select Your Image</label><br/>
-                                        <input type="file" name="file" id="file" required />
+                                        <input type="file" name="image" id="file" required />
                                         <input type="submit" value="Upload" class="submit" />
                                     </div>
                                 </form>
+                                <p id="message"></p>
                             </li>
                         </ul>
 
@@ -113,9 +114,8 @@
             </div>
 
         </div>
+    <footer:footer/>
     </div>
-<footer:footer/>
-</div>
 </body>
 
 </html>

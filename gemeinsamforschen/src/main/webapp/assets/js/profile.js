@@ -1,10 +1,11 @@
 $(document).ready(function (e) {
-    $("#uploadimage").on('submit',(function(e) {
+    /*$("#uploadimage").on('submit',(function(e) {
         e.preventDefault();
         $("#message").empty();
         $('#loading').show();
         $.ajax({
-            url: "ajax_php_file.php", // Url to which the request is send
+            url: "../rest/user/student/wiepke", // Url to which the request is send
+            method: "POST",
             type: "POST",             // Type of request to be send, called as method
             data: new FormData(this), // Data sent to server, a set of key/value pairs (i.e. form fields and values)
             contentType: false,       // The content type used when sending data to the server.
@@ -16,16 +17,15 @@ $(document).ready(function (e) {
                 $("#message").html(data);
             }
         });
-    }));
+    }));*/
 
 // Function to preview image after validation
     $(function() {
         $("#file").change(function() {
             $("#message").empty(); // To remove the previous error message
             let file = this.files[0];
-            let imagefile = file.type;
             let match= ["image/jpeg","image/png","image/jpg"];
-            if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2])))
+            if(!((file.type===match[0]) || (file.type===match[1]) || (file.type===match[2])))
             {
                 $('#previewing').attr('src','noimage.png');
                 $("#message").html("<p id='error'>Please Select A valid Image File</p>"+"<h4>Note</h4>"+"<span id='error_message'>Only jpeg, jpg and png Images type allowed</span>");
