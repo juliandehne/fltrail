@@ -1,5 +1,5 @@
 package unipotsdam.gf.modules.assessment.controller.model;
-
+import java.util.Random;
 
 
 public class GroupEvalDataDatasets {
@@ -20,9 +20,11 @@ public class GroupEvalDataDatasets {
         this.label=label;
     }
     public  GroupEvalDataDatasets(String label, int[] data){
-
+        Random rand=new Random();
         this.data=data;
         this.label=label;
+        //legt eine zufällige Farbe fest
+        this.borderColor="rgba(" + rand.nextInt(254) +","+ rand.nextInt(254) +","+ rand.nextInt(254) +",0.8)";
     }
 
     public int[] getData() {

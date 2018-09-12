@@ -108,7 +108,7 @@ public class GroupEvalDiagrammData {
             datenSaetze.setData(hilfeDaten);
             datenSaetze.setLabel(anUserNamen);
             System.out.println(anUserNamen);
-            
+
             bewertungenZwischen.clear();
             labelZwischen.clear();
             diagramm.setData(new GroupEvalDataList(hilfeLabel,hilfeBittefunktionierEndlich));
