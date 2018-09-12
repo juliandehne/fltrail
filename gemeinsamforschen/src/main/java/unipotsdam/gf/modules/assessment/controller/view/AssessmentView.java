@@ -13,13 +13,12 @@ import java.util.List;
 import java.util.Map;
 
 @Path("/assessments2")
-public class AssessmentView implements IPeerAssessment{
+public class AssessmentView{
     private static IPeerAssessment peer =  new PeerAssessmentDummy();
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/calculate3")
-    @Override
     public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return peer.calculateAssessment(totalPerformance);
     }
@@ -55,72 +54,4 @@ public class AssessmentView implements IPeerAssessment{
 
         return null;
     }*/
-
-    @Override
-    public void addAssessmentDataToDB(Assessment assessment) {
-    }
-
-    @Override
-    public Quiz getQuiz(String projectId, String groupId, String author) {
-        return null;
-    }
-
-
-    public Quiz getQuiz(String projectId, String groupId) {
-        return null;
-    }
-    @Override
-    public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
-        return null;
-    }
-    @Override
-    public void createQuiz(StudentAndQuiz studentAndQuiz) {
-    }
-    @Override
-    public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
-        return null;
-    }
-
-    @Override
-    public int meanOfAssessment(String ProjectId) {
-        return 0;
-    }
-
-
-    public int meanOfAssessement(String ProjectId) {
-        return 0;
-    }
-    @Override
-    public ArrayList<Quiz> getQuiz(String projectId) {
-        return null;
-    }
-
-    @Override
-    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId) {
-
-    }
-
-    @Override
-    public void postContributionRating(StudentIdentifier student, String fromPeer, Map<String, Integer> contributionRating) {
-
-    }
-
-    @Override
-    public void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student) {
-
-    }
-
-    @Override
-    public void deleteQuiz(String quizId) {
-
-    }
-
-    @Override
-    public Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method) {
-        return null;
-    }
-
-
-    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
-    }
 }

@@ -183,10 +183,15 @@ public class ManagementImpl implements Management {
         String adminPassword = vereinfachtesResultSet.getString("adminpassword");
         String token = vereinfachtesResultSet.getString("token");
         String phase = vereinfachtesResultSet.getString("phase");
+<<<<<<< HEAD
         Project project = new Project(id, password, active, timestamp, author, adminPassword, token);
         ProjectPhase projectPhase = ProjectPhase.valueOf(phase);
         project.setPhase(projectPhase);
         return project;
+=======
+
+        return new Project(id, password, active, timestamp, author, adminPassword, token, phase);
+>>>>>>> origin/#40_dummyProjectCreation
     }
 
     private void fillGroupFromResultSet(VereinfachtesResultSet vereinfachtesResultSet, HashMap<Integer, Group> existingGroups) {
@@ -232,11 +237,50 @@ public class ManagementImpl implements Management {
 
 
     /**
+<<<<<<< HEAD
      *
-     *
+     * @param field
      * @param value
      * @return
      */
+=======
+     * TODO @Axel bitte in modules/asessment verschieben
+     *
+     * @param projectId
+     * @param quizId
+     * @return
+     */
+    public Quiz getQuizByProjectGroupId(String projectId, String quizId) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM quiz where projectId=" + projectId + " , question=" + quizId;
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, "");
+        boolean next = vereinfachtesResultSet.next();
+        String question = "";
+        ArrayList<String> correctAnswers = new ArrayList<String>();
+        ArrayList<String> incorrectAnswers = new ArrayList<String>();
+        String answer = "";
+        Boolean correct = false;
+        String mcType = "";
+        while (next) {
+            mcType = vereinfachtesResultSet.getString("mcType");
+            question = vereinfachtesResultSet.getString("question");
+            answer = vereinfachtesResultSet.getString("answer");
+            correct = vereinfachtesResultSet.getBoolean("correct");
+            if (correct) {
+                correctAnswers.add(answer);
+            } else {
+                incorrectAnswers.add(answer);
+            }
+            next = vereinfachtesResultSet.next();
+        }
+        Quiz quiz = new Quiz(mcType, question, correctAnswers, incorrectAnswers);
+        connect.close();
+        return quiz;
+    }
+
+>>>>>>> origin/#40_dummyProjectCreation
     private User getUserByField(String field, String value) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();

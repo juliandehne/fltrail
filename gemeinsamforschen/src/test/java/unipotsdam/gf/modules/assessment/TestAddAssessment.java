@@ -6,8 +6,10 @@ import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.assessment.controller.service.FBAssessement;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static javax.swing.UIManager.getString;

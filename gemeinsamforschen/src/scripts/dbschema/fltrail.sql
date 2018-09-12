@@ -25,42 +25,35 @@ CREATE TABLE `answeredquiz` (
   `question` varchar(400) NOT NULL,
   `correct` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 CREATE TABLE `contributionrating` (
   `groupId` int(11) NOT NULL,
   `fromPeer` varchar(400) NOT NULL,
   `dossier` int(11) NOT NULL,
   `research` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 CREATE TABLE `grades` (
   `projectId` varchar(400) NOT NULL,
   `studentId` varchar(400) NOT NULL,
   `grade` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 CREATE TABLE `groups` (
   `id` int(11) NOT NULL,
   `projectId` varchar(400) NOT NULL,
   `chatRoomId` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `groupuser` (
   `studentId` varchar(400) NOT NULL,
   `projectId` varchar(400) NOT NULL,
   `groupId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `phasesselected` (
   `projectId` varchar(100) NOT NULL,
   `phaseSelected` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 CREATE TABLE `profilepicture` (
   `studentId` varchar(200) NOT NULL,
   `image` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 CREATE TABLE `projects` (
   `id` varchar(400) NOT NULL,
   `password` varchar(400) NOT NULL,
@@ -85,12 +78,10 @@ CREATE TABLE `quiz` (
   `answer` varchar(400) NOT NULL,
   `correct` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `tags` (
   `projectId` varchar(400) NOT NULL,
   `tag` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `tasks` (
   `userId` varchar(400) NOT NULL,
   `projectId` varchar(400) NOT NULL,
@@ -105,7 +96,10 @@ CREATE TABLE `users` (
   `rocketChatId` varchar(400) NOT NULL,
   `rocketChatAuthToken` varchar(800) NOT NULL,
   `isStudent` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  ON UPDATE CURRENT_TIMESTAMP,
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
 CREATE TABLE `workrating` (
   `projectId` varchar(400) NOT NULL,
@@ -117,7 +111,6 @@ CREATE TABLE `workrating` (
   `communication` int(11) NOT NULL,
   `autonomous` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 ALTER TABLE `annotations`
   ADD PRIMARY KEY (`id`);
