@@ -1,10 +1,10 @@
 var ws;
 
-function connect(targetId) {
+function connect(targetId, targetCategory) {
     var host = document.location.host;
     var pathname = document.location.pathname;
 
-    ws = new WebSocket("ws://" + host  + "/ws/annotation/" + targetId);
+    ws = new WebSocket("ws://" + host  + "/ws/annotation/" + targetId + "/" + targetCategory);
 
     ws.onmessage = function (e) {
         var message = JSON.parse(e.data);
