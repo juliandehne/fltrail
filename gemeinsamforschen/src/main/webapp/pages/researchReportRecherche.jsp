@@ -48,14 +48,14 @@
     <div class="researchReportProgress">
         <nav>
             <menu>
-                <menuitem><a href="researchReportTitle.jsp">Titel</a> </menuitem>
-                <menuitem><a href="researchReportRecherche.jsp"><font color="#green">Recherche</font></a> </menuitem>
-                <menuitem><a href="researchReportBibo.jsp">Literaturverzeichnis</a> </menuitem>
-                <menuitem><a href="researchReportQuestion.jsp">Forschnugsfrage</a> </menuitem>
-                <menuitem><a href="researchReportConcept.jsp">Konzept</a></menuitem>
-                <menuitem><a href="researchReportMethod.jsp">Methodik</a></menuitem>
-                <menuitem><a href="researchReportDo.jsp">Durchf&uuml;hrung</a></menuitem>
-                <menuitem><a href="researchReportEvaluation.jsp">Evalution</a></menuitem>
+                <menuitem><a id="title">Titel</a> </menuitem>
+                <menuitem><a id="recherche"><font color="#green">Recherche</font></a> </menuitem>
+                <menuitem><a id="bibo">Literaturverzeichnis</a> </menuitem>
+                <menuitem><a id="question">Forschnugsfrage</a> </menuitem>
+                <menuitem><a id="concept">Konzept</a></menuitem>
+                <menuitem><a id="method">Methodik</a></menuitem>
+                <menuitem><a id="reportDo">Durchf&uuml;hrung</a></menuitem>
+                <menuitem><a id="evaluation">Evalution</a></menuitem>
             </menu>
         </nav>
     </div>
@@ -71,8 +71,8 @@
 
 
 
-<script  src="../assets/js/createReport.js"></script>
-<script  src="../assets/js/researchReportUpload.js"></script>
+<script  src="../assets/js/createReportRecherche.js"></script>
+<script  src="../assets/js/createReportProgress.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->
 <script>FilePond.parse(document.body);</script> <!--FilePond -->

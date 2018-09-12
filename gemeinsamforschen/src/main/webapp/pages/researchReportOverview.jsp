@@ -11,6 +11,7 @@
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> <!--FilePond -->
     <link rel="stylesheet" type="text/css" href="../assets/css/researchReportOverview.css">
+    <script src="../assets/js/createReportOverview.js"></script>
     <title>Forschungsbericht Übersicht</title>
 
 
@@ -62,10 +63,10 @@
                 </table>
             </div>
 
-    <div class="ResearchReportUpload">
+  <!--  <div class="ResearchReportUpload">
         <h3>Gesamten Forschungsbericht hochladen </h3>
         <input type="file" class="filepond" name="filepond">
-    </div>
+    </div> -->
 
     <div class="feedbacks">
         <h2>Feedbacks</h2>
@@ -97,6 +98,13 @@
         </table>
     </div>
 
+
+     <div class="ResearchReportButtons">
+         <button class="researchReportButtons"><a id="uploader">Upload File</a></button>
+         <button class="researchReportButtons"><a id="forwardLink">Bericht erstellen</a></button>
+         <button class="researchReportButtons"><a id="backLink">Zur&uuml;ck</a></button>
+     </div>
+
                         </form>
                     </td>
                 </tr>
@@ -110,7 +118,6 @@
 
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->
-<script src="../assets/js/researchReportUpload.js"></script><!--FilePond -->
 <script>FilePond.parse(document.body);</script> <!--FilePond -->
 
 
