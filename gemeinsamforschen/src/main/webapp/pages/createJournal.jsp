@@ -1,5 +1,5 @@
-<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
 <!DOCTYPE html>
 <html>

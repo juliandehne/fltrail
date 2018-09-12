@@ -7,27 +7,17 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
+
 <html>
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dozent-view-alternativ slider</title>
-    <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700">
-    <link rel="stylesheet" href="../../assets/css/Login-Form-Clean.css">
-    <link rel="stylesheet" href="../../assets/css/Navigation-with-Button1.css">
-    <link rel="stylesheet" href="../../assets/css/Sidebar-Menu.css">
-    <link rel="stylesheet" href="../../assets/css/Sidebar-Menu1.css">
-    <link rel="stylesheet" href="../../assets/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="../../assets/jQuery-Tags-Input-master/src/jquery.tagsinput.css"/>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script type="text/javascript" src="../../assets/jQuery-Tags-Input-master/src/jquery.tagsinput.js"></script>
-    <script src="../assets/js/config.js"></script>
-    <script src="../assets/js/newProject.js"></script>
-    <script src="../../assets/js/utility.js"></script>
-    <script src="../../assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../../assets/js/Sidebar-Menu.js"></script>
+    <title>Projekterstellung</title>
+    <script src="js/config.js"></script>
+    <script src="js/newProject.js"></script>
 </head>
 
 <body>
@@ -41,9 +31,7 @@
 </div>
 
 <div id="wrapper" style="margin:0px;">
-    <?php
-    include_once 'menu.php'
-    ?>
+    <menu:menu/>
     <div class="page-content-wrapper">
         <div class="container-fluid">
             <div class="row">
