@@ -29,7 +29,7 @@ public class Menu extends SimpleTagSupport {
                         "            <li><a href=\"profile.jsp?token="+token+"&projectId="+projectId+"\">Profil</a></li>\n" +
                         "            <li><a href=\"Quiz.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
                         "            <li><a href=\"eportfolio.jsp?token="+token+"&projectId="+projectId+"\">ePortfolio</a></li>\n" +
-                        "            <li><a href=\"researchReportTitle.jsp?token="+token+"&projectId="+projectId+"\">Beitrag</a></li>\n" +
+                        "            <li><a href=\"researchReportOverview.jsp?token="+token+"&projectId="+projectId+"\">Beitrag</a></li>\n" +
                         "            <li><a href=\"finalAssessments.jsp?token="+token+"&projectId="+projectId+"\">Bewertung</a></li>\n" +
                         "            <li><a href=\"../index.jsp\">Logout</a></li>\n" +
                         "        </ul>\n" +

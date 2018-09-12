@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
@@ -12,8 +13,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
-
-    private final Logger log = LoggerFactory.getLogger(ProjectDescriptionDAOImpl.class);
 
 
     @Override
@@ -114,7 +113,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
         connection.connect();
 
         // build and execute request
-        String request = "DELETE FROM projectdescription WHERE WHERE author = ? AND project = ?;";
+        String request = "DELETE FROM projectdescription WHERE author = ? AND project = ?;";
         connection.issueInsertOrDeleteStatement(request, studentIdentifier.getStudentId(),studentIdentifier.getProjectId());
 
         // close connection
@@ -137,6 +136,28 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
         connection.close();
     }
 
+    @Override
+    public ArrayList<String> getOpenDescriptions(Project project) {
+        ArrayList<String> userIds = new ArrayList<>();
+
+        // establish connection
+        MysqlConnect connection = new MysqlConnect();
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * FROM projectdescription WHERE project = ? AND open = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getId(), true);
+
+        while (rs.next()) {
+            userIds.add(getDescriptionFromResultSet(rs).getStudent().getStudentId());
+        }
+
+        // close connection
+        connection.close();
+
+        return userIds;
+    }
+
     private ProjectDescription getDescriptionFromResultSet(VereinfachtesResultSet rs) {
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
@@ -145,7 +166,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
         String text = rs.getString("text");
         boolean open = rs.getBoolean("open");
 
-        return new ProjectDescription(id,author,text,project,new ArrayList<>(),new ArrayList<>(),timestamp, open);
+        return new ProjectDescription(id,author,text,project,new ArrayList<>(), timestamp, open);
     }
 
 }

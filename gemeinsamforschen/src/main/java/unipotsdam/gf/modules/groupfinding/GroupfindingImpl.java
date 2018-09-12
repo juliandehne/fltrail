@@ -3,7 +3,11 @@ package unipotsdam.gf.modules.groupfinding;
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.groupfinding.service.GroupCreationService;
+import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupfindingImpl implements IGroupFinding {
@@ -26,5 +30,9 @@ public class GroupfindingImpl implements IGroupFinding {
     @Override
     public void formGroups(GroupFormationMechanism groupFindingMechanism) {
 
+    }
+
+    public ArrayList<String> getStudentsInSameGroup(StudentIdentifier student){
+        return new GroupDAO().getStudentsInSameGroupAs(student);
     }
 }
