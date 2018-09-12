@@ -78,7 +78,7 @@ CREATE TABLE `projectuser` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `quiz` (
-  `author` varchar(400) NOT NULL,
+  `studentId` varchar(400) NOT NULL,
   `projectId` varchar(400) NOT NULL,
   `question` varchar(400) NOT NULL,
   `mcType` varchar(400) NOT NULL,
