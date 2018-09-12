@@ -41,10 +41,10 @@ public class ProjectDAO {
         connect.connect();
         String mysqlRequest = "DELETE FROM projects where id = (?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId());
-
+        connect.close();
         // TODO: delete all groups of project?
 
-        connect.close();
+
     }
 
     public Boolean exists(Project project) {

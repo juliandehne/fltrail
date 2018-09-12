@@ -28,16 +28,22 @@ import java.util.ArrayList;
 @Singleton
 public class ManagementImpl implements Management {
 
-    @Inject
     private UserDAO userDAO;
-    @Inject
     private GroupDAO groupDAO;
-    @Inject
     private ProjectDAO projectDAO;
+
+    private MysqlConnect connect;
+
+    @Inject
+    public ManagementImpl(UserDAO userDAO, GroupDAO groupDAO, ProjectDAO projectDAO, MysqlConnect connect) {
+        this.userDAO = userDAO;
+        this.groupDAO = groupDAO;
+        this.projectDAO = projectDAO;
+        this.connect = connect;
+    }
 
     @Override
     public void register(User user, Project project, UserInterests interests) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "INSERT INTO projectuser (`projectId`, `userId`) values (?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), user.getId());
@@ -51,8 +57,8 @@ public class ManagementImpl implements Management {
      * @param quizId
      * @return
      */
+    @Override
     public Quiz getQuizByProjectGroupId(String projectId, String quizId) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM quiz where projectId=" + projectId + " , question=" + quizId;
         VereinfachtesResultSet vereinfachtesResultSet =

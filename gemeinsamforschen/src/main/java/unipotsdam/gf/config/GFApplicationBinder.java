@@ -48,5 +48,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(GroupDAO.class).to(GroupDAO.class);
         bind(MysqlConnect.class).to(MysqlConnect.class);
 
+
     }
 }

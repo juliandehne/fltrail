@@ -28,7 +28,6 @@ public class GroupDAO {
 
     public void persist(Group group) {
         connect.connect();
-
         String mysqlRequestGroup = "INSERT INTO groups (`projectId`,`chatRoomId`) values (?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequestGroup, group.getProjectId(), group.getChatRoomId());
 
@@ -37,6 +36,7 @@ public class GroupDAO {
             connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getProjectId());
         }
         connect.close();
+
     }
 
     public void update(Group group) {
@@ -74,7 +74,6 @@ public class GroupDAO {
         }
         ArrayList<Group> groups = new ArrayList<>();
         groupHashMap.forEach((key, group) -> groups.add(group));
-
         connect.close();
         if (groups.isEmpty()) {
             return null;

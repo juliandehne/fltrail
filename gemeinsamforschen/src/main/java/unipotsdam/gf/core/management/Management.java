@@ -6,6 +6,7 @@ import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -85,5 +86,7 @@ public interface Management {
     void create(ProjectConfiguration projectConfiguration, Project project);
 
     ProjectConfiguration getProjectConfiguration(Project project);
+
+    Quiz getQuizByProjectGroupId(String projectId, String quizId);
 }
 

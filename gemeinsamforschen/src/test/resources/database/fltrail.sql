@@ -44,7 +44,6 @@ CREATE TABLE if not exists `users` (
   `token`               varchar(800) NOT NULL,
   `rocketChatId`        varchar(400) NOT NULL,
   `rocketChatAuthToken` varchar(800) NOT NULL,
-  `isStudent`           TINYINT(1),
   UNIQUE (email)
 
 )

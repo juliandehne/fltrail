@@ -39,6 +39,7 @@ public class MysqlConnect {
                 System.out.println(ex); //logger?
             }
             conn = DriverManager.getConnection(createConnectionString());
+
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());

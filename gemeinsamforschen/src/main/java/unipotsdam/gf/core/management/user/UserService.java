@@ -1,6 +1,6 @@
 package unipotsdam.gf.core.management.user;
 
-import unipotsdam.gf.core.management.ManagementImpl;
+import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
@@ -19,11 +19,18 @@ import java.net.URISyntaxException;
 @ManagedBean
 public class UserService {
 
-    @Inject
     private ICommunication communicationService;
 
-    @Inject
     private UserDAO userDAO;
+
+    private Management management;
+
+    @Inject
+    public UserService(ICommunication communicationService, UserDAO userDAO, Management management) {
+        this.communicationService = communicationService;
+        this.userDAO = userDAO;
+        this.management = management;
+    }
 
     /**
      * creates a user with given credentials
@@ -43,7 +50,6 @@ public class UserService {
                                @FormParam("email") String email, @FormParam("isStudent") String isStudent)
             throws URISyntaxException {
 
-        ManagementImpl management = new ManagementImpl();
         User user = new User(name, password, email, isStudent == null);
         return login(true, user);
 
@@ -66,7 +72,6 @@ public class UserService {
                                @FormParam("email") String email)
             throws URISyntaxException {
 
-        ManagementImpl management = new ManagementImpl();
         User user = new User(name, password, email, null);
         ICommunication iCommunication = new CommunicationDummyService();
         boolean isLoggedIn = iCommunication.loginUser(user);
@@ -88,11 +93,11 @@ public class UserService {
      * @throws URISyntaxException
      */
     protected Response login(boolean createUser, User user) throws URISyntaxException {
-        ManagementImpl management = new ManagementImpl();
+
         if (management.exists(user)) {
             if (!createUser) {
                 user = fillUserFields(user);
-                return redirectToProjectPage(user, management);
+                return redirectToProjectPage(user);
             }
             String existsUrl = "../register.jsp?userExists=true";
             return forwardToLocation(existsUrl);
@@ -104,7 +109,7 @@ public class UserService {
                 }
                 management.create(user, null);
                 user = fillUserFields(user);
-                return redirectToProjectPage(user, management);
+                return redirectToProjectPage(user);
             } else {
                 String existsUrl = "../index.jsp?userExists=false";
                 return forwardToLocation(existsUrl);
@@ -133,11 +138,10 @@ public class UserService {
      * helper function for redirecting to the right project page
      *
      * @param user
-     * @param management
      * @return
      * @throws URISyntaxException
      */
-    private Response redirectToProjectPage(User user, ManagementImpl management) throws URISyntaxException {
+    private Response redirectToProjectPage(User user) throws URISyntaxException {
         String successUrl;
         if (user.getStudent() != null && user.getStudent()) {
             successUrl = "../pages/overview-student.jsp?token=";

@@ -2,7 +2,6 @@ package unipotsdam.gf.core.management.user;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.util.ResultSetUtil;
 
 import javax.annotation.ManagedBean;
@@ -29,31 +28,28 @@ public class UserDAO {
     public void persist(User user, UserProfile profile) {
         UUID uuid = UUID.randomUUID();
         String token = uuid.toString();
-
         connect.connect();
         String mysqlRequest = "INSERT INTO users (`name`, `password`, `email`, `token`,`isStudent`," +
                 "`rocketChatId`,`rocketChatAuthToken`) values (?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
                 token, user.getStudent(), user.getRocketChatId(), user.getRocketChatAuthToken());
         connect.close();
-
         // TODO implmement UserProfile @Mar
     }
 
     public void delete(User user) {
-        connect.connect();
         String mysqlRequest = "DELETE FROM users where email = (?)";
+        connect.connect();
         connect.issueInsertOrDeleteStatement(mysqlRequest, user.getEmail());
         connect.close();
     }
 
     public void update(User user) {
-        connect.connect();
         String mysqlRequest = "UPDATE `users` SET `name`=?,`password`=?,`email`=?,`token`=?,`isStudent`=?," +
                 "`rocketChatId`=?,`rocketChatAuthToken`=? WHERE email=? LIMIT 1";
         //TODO: maybe add handling if a line is actually updated
         //TODO: if user is updated, it also must update all other tables which includes some information about the user, for example project user
-
+        connect.connect();
         connect.issueUpdateStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
                 user.getToken(), user.getStudent(), user.getRocketChatId(), user.getRocketChatAuthToken(), user.getEmail());
         connect.close();
@@ -70,7 +66,8 @@ public class UserDAO {
         return result;
     }
 
-    public List<User> getUsers(Project project) {
+    public List<User> getUsersByProjectId(String projectId) {
+        connect.connect();
         String query =
                 "SELECT * FROM users u "
                         + " JOIN projectuser pu ON u.email=pu.userId"
@@ -78,8 +75,7 @@ public class UserDAO {
                         + " WHERE pu.projectId = ?";
 
         ArrayList<User> result = new ArrayList<>();
-        connect.connect();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getId());
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, projectId);
         while (!vereinfachtesResultSet.isLast()) {
             boolean next = vereinfachtesResultSet.next();
             if (next) {
