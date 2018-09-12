@@ -9,7 +9,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
-public class footer extends SimpleTagSupport {
+public class Footer extends SimpleTagSupport {
     public void doTag() throws IOException {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
@@ -22,7 +22,7 @@ public class footer extends SimpleTagSupport {
             projectPhase = null;
         }
         JspWriter out = getJspContext().getOut();
-        String footerString = "<footer>\n" +
+        String footerString = "<Footer>\n" +
                 "        <div class=\"container\">\n";
         if (projectPhase != null) {
             footerString += "        <div class=\"progress\">\n" +
@@ -48,7 +48,7 @@ public class footer extends SimpleTagSupport {
         footerString += "<button id=\"btnUnstructuredUpload\" class=\"btn btn-light\">Unstrukturierte Abgabe</button>\n" +
                 "<button id=\"footerBack\" class=\"btn btn-light\">zurück</button>\n" +
                 "        </div>\n" +
-                "    </footer>";
+                "    </Footer>";
         out.println(footerString);
     }
 }

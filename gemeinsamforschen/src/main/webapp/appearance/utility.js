@@ -1,8 +1,16 @@
+function changeLocationTo(target) {
+    let level = $('#hierarchyLevel').html().trim();
+    let link = calculateHierachy(level) + target;
+    return link;
+}
+
 $(document).ready(function(){
     $('#headLineProject').html($('#projectId').html());
     $('#logout').click(function(){
         //todo: delete cookies / reset session
-        document.location="../index.jsp";
+        let target = "index.jsp";
+        let link = changeLocationTo(target);
+        document.location=link;
     });
     $('#assessment').click(function(){
        checkAssessementPhase();
@@ -29,19 +37,19 @@ function checkAssessementPhase(){
         success: function (phase) {
             switch (phase){
                 case "workRating":{
-                    document.location="finalAssessment.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    changeLocationTo("finalAssessment.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
                 case "quiz":{
-                    location.href = "take-quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    changeLocationTo("take-quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
                 case "contributionRating":{
-                    location.href = "rate-contribution.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    changeLocationTo("rate-contribution.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
                 case "done":{
-                    location.href = "project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    changeLocationTo("project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
             }
@@ -74,3 +82,18 @@ function getQueryVariable(variable) {
     return (false);
 }
 
+
+
+function calculateHierachy(level) {
+
+    if (level == 0) {
+
+        return "";
+
+    } else {
+
+        return calculateHierachy(level-1)+"../";
+
+    }
+
+}

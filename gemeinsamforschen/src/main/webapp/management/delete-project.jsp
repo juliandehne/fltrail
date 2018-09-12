@@ -21,7 +21,7 @@
 <body>
 <div class="loader-inactive" id="loader"></div>
 <div id="wrapper" class="wrapper" style="margin:0px;">
-    <menu:menu></menu:menu>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
             <div class="row">

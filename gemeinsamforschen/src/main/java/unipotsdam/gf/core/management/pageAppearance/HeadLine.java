@@ -9,7 +9,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
-public class headLine extends SimpleTagSupport {
+public class HeadLine extends SimpleTagSupport {
     public void doTag() throws IOException {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
