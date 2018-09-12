@@ -10,7 +10,7 @@
     <omniDependencies:omniDependencies/>
 
     <!-- css - unstructured-annotation -->
-    <link rel="stylesheet" type="text/css" href="../assets/css/unstructured-annotation.css">
+    <link rel="stylesheet" type="text/css" href="css/unstructured-annotation.css">
     <!-- css - contextMenu -->
     <link href="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.css" rel="stylesheet" type="text/css" />
 
@@ -25,16 +25,16 @@
     <!-- js - rangy TextRange Module -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-textrange.js" type="text/javascript"></script>
     <!-- js - unstructuredRest -->
-    <script src="../assets/js/unstructuredRest.js"></script>
+    <script src="js/unstructuredRest.js"></script>
     <!-- js - unstructuredUpload -->
-    <script src="../assets/js/unstructuredAnnotation.js"></script>
+    <script src="js/unstructuredAnnotation.js"></script>
 
 
 </head>
 
 <body>
 <div id="wrapper" class="full-height">
-    <menu:menu></menu:menu>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper full-height">
         <div class="container-fluid full-height">
             <div class="container-fluid-content">

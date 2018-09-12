@@ -1,32 +1,40 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: dehne
-  Date: 12.09.2018
-  Time: 12:06
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gruppenmatcher</title>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700">
+    <link rel="stylesheet" href="css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="css/Navigation-with-Button1.css">
+    <link rel="stylesheet" href="css/Sidebar-Menu.css">
+    <link rel="stylesheet" href="css/Sidebar-Menu1.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="js/config.js"></script>
-    <script src="js/deleteProject.js"></script>
+    <script src="js/utility.js"></script>
+    <script src="js/showProjects.js"></script>
+    <script src="js/GETfile.js"></script>
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/Sidebar-Menu.js"></script>
 
 </head>
 
 <body>
+<p id="user" hidden><?php echo $userName; ?></p>
 <div class="loader-inactive" id="loader"></div>
 <div id="wrapper" class="wrapper" style="margin:0px;">
-    <menu:menu></menu:menu>
+    <?php
+    include_once 'menu.php'
+    ?>
     <div class="page-content-wrapper">
         <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
             <div class="row">
                 <div class="col-md-12">
-                    <h3>Projekt löschen! </h3>
+                    <h3>Tragen sie sich in ein neues Projekt ein. </h3>
                     <div class="page-header"></div>
                 </div>
             </div>
@@ -38,12 +46,12 @@
                    placeholder="Projekt1" autofocus=""
                    style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
             <div class="alert alert-warning" role="alert" id="projectIsMissing">
-                Dieser Projektname existiert nicht oder das Passwort ist falsch.
+                Dieser Projektname existiert nicht.
             </div>
 
         </fieldset>
         <fieldset>
-            <legend style="margin-left:13px;">Passwort zum löschen</legend>
+            <legend style="margin-left:13px;">Passwort</legend>
             <input class="form-control" type="password" id="projectPassword" name="Password" required=""
                    placeholder="******"
                    style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
@@ -51,7 +59,7 @@
                 Falsches Passwort.
             </div>
         </fieldset>
-        <button id="deleteProject" class="btn btn-danger">löschen</button>
+        <button id="seeProject" class="btn btn-primary">Einsehen</button>
 </div>
 </body>
 

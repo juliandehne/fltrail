@@ -8,13 +8,13 @@
 
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/overview-student.js"></script>
+    <script src="js/overview-student.js"></script>
 
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="0"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div>

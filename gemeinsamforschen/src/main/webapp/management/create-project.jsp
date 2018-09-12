@@ -31,7 +31,7 @@
 </div>
 
 <div id="wrapper" style="margin:0px;">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <div class="container-fluid">
             <div class="row">

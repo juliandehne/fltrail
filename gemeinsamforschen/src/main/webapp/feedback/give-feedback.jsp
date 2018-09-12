@@ -12,37 +12,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>muster-gemeinsam-forschen</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
+    <link rel="stylesheet" href="css/Community-ChatComments.css">
+    <link rel="stylesheet" href="css/Sidebar-Menu-1.css">
+    <link rel="stylesheet" href="css/Sidebar-Menu.css">
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.8.5/dist/showdown.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
-    <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/project-student.js"></script>
-    <link rel="stylesheet" type="text/css" href="../assets/css/editDescription.css">
-    <script src="../assets/js/jquery.min.js"></script>
+    <script src="js/utility.js"></script>
+    <script src="js/project-student.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/editDescription.css">
+    <script src="js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../assets/js/Sidebar-Menu.js"></script>
-    <script  src="../assets/js/editDescription.js"></script>
+    <script src="js/Sidebar-Menu.js"></script>
+    <script  src="js/editDescription.js"></script>
         --%>
 
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
         <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="../assets/css/create-journal.css">
-    <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/project-student.js"></script>
-    <script src="../assets/js/peerfeedback.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/create-journal.css">
+    <script src="js/utility.js"></script>
+    <script src="js/project-student.js"></script>
+    <script src="js/peerfeedback.js"></script>
         <omniDependencies:omniDependencies/>
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div>
@@ -139,10 +139,10 @@
 </div>
 </div>
 
-<script src="../assets/js/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
-<script src="../assets/js/createJournal.js"></script>
+<script src="js/Sidebar-Menu.js"></script>
+<script src="js/createJournal.js"></script>
 </body>
 
 </html>

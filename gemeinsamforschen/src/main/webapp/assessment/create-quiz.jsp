@@ -7,12 +7,12 @@
 <html>
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/createQuiz.js"></script>
+    <script src="js/createQuiz.js"></script>
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div style="margin-left:50px;">

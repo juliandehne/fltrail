@@ -8,13 +8,13 @@
 
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/takeQuiz.js"></script>
+    <script src="js/takeQuiz.js"></script>
 
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div>

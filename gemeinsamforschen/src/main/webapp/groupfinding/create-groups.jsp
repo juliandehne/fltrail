@@ -6,12 +6,12 @@
 <html>
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/changePhase.js"></script>
+    <script src="js/changePhase.js"></script>
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         student1<br>

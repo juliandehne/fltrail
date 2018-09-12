@@ -8,7 +8,7 @@
 
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/viewQuiz.js"></script>
+    <script src="js/viewQuiz.js"></script>
 
 </head>
 
@@ -16,7 +16,7 @@
 
 
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div>

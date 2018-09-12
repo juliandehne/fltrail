@@ -9,9 +9,9 @@
 
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/AlertAssessmentOutlier.js"></script>
-    <script src="../assets/js/grading.js"></script>
+    <script src="js/utility.js"></script>
+    <script src="js/AlertAssessmentOutlier.js"></script>
+    <script src="js/grading.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 </head>
 
@@ -19,7 +19,7 @@
 
 <body>
 <div id="wrapper">
-    <menu:menu></menu:menu>
+    <menu:menu hierarchy="1"/>
 
     <div class="page-content-wrapper">
         <div class="container-fluid">

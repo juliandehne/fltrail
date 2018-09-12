@@ -15,14 +15,14 @@
 
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/project-student.js"></script>
-    <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
+    <script src="js/project-student.js"></script>
+    <link rel="stylesheet" href="css/Community-ChatComments.css">
 
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="0"/>
 
     <div class="page-content-wrapper">
         <headLine:headLine/>

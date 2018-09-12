@@ -10,8 +10,8 @@
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> <!--FilePond -->
-    <link rel="stylesheet" type="text/css" href="../assets/css/researchReportOverview.css">
-    <script src="../assets/js/createReportOverview.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/researchReportOverview.css">
+    <script src="js/createReportOverview.js"></script>
     <title>Forschungsbericht Übersicht</title>
 
 
@@ -20,7 +20,7 @@
 <body>
 
 <div id="wrapper">
-    <menu:menu></menu:menu>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div style="margin-left:50px;">

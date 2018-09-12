@@ -12,7 +12,7 @@
 <head>
     <omniDependencies:omniDependencies/>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed|Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-    <script src="../assets/js/profile.js"></script>
+    <script src="js/profile.js"></script>
 </head>
 
 
@@ -25,7 +25,7 @@
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
 
     <div class="page-content-wrapper">
         <headLine:headLine/>

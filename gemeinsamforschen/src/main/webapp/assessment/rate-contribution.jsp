@@ -11,12 +11,12 @@
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.8.5/dist/showdown.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
-    <script src="../assets/js/rateContribution.js"></script>
+    <script src="js/rateContribution.js"></script>
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
     <p id="groupId" hidden>Hier steht jetzt das richtige</p>
     <div class="page-content-wrapper">
         <headLine:headLine/>

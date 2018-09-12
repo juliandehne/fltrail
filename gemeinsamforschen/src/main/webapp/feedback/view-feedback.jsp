@@ -7,17 +7,17 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="../assets/css/viewfeedback.css">
+    <link rel="stylesheet" href="css/viewfeedback.css">
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/project-student.js"></script>
-    <script src="../assets/js/givepeerfeedback.js"></script>
+    <script src="js/utility.js"></script>
+    <script src="js/project-student.js"></script>
+    <script src="js/givepeerfeedback.js"></script>
 
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div class="container-fluid">
@@ -167,9 +167,9 @@
     </div>
 </div>
 
-<script src="../assets/js/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
+<script src="js/Sidebar-Menu.js"></script>
 </body>
 
 </html>

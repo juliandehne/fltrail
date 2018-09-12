@@ -8,13 +8,13 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../assets/css/create-journal.css">
+    <link rel="stylesheet" type="text/css" href="css/create-journal.css">
     <omniDependencies:omniDependencies/>
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu></menu:menu>
+    <menu:menu hierarchy="1"/>
 
     <div class="page-content-wrapper">
         <div class="container-fluid">
@@ -87,10 +87,10 @@
     </div>
 </div>
 
-<script src="../assets/js/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
-<script src="../assets/js/createJournal.js"></script>
+<script src="js/Sidebar-Menu.js"></script>
+<script src="js/createJournal.js"></script>
 </body>
 
 </html>

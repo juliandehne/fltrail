@@ -6,14 +6,14 @@
 
 <head>
 
-    <link rel="stylesheet" href="../assets/css/e-portfolio.css">
+    <link rel="stylesheet" href="css/e-portfolio.css">
     <omniDependencies:omniDependencies/>
 
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
 
     <div class="page-content-wrapper">
         <div class="container-fluid">
@@ -153,10 +153,10 @@
     </div>
 </div>
 
-<script src="../assets/js/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
-<script src="../assets/js/e-portfolio.js"></script>
+<script src="js/Sidebar-Menu.js"></script>
+<script src="js/e-portfolio.js"></script>
 </body>
 
 </html>

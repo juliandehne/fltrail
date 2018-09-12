@@ -8,17 +8,17 @@
     <title>student-form-design</title>
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700">
-    <link rel="stylesheet" href="../assets/css/Login-Form-Clean.css">
-    <link rel="stylesheet" href="../assets/css/Navigation-with-Button1.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
+    <link rel="stylesheet" href="css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="css/Navigation-with-Button1.css">
+    <link rel="stylesheet" href="css/Sidebar-Menu.css">
+    <link rel="stylesheet" href="css/Sidebar-Menu1.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../assets/js/config.js"></script>
-    <script src="../assets/js/myGroupsInit.js"></script>
-    <script src="../assets/js/getProjects.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/myGroupsInit.js"></script>
+    <script src="js/getProjects.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../assets/js/Sidebar-Menu.js"></script>
+    <script src="js/Sidebar-Menu.js"></script>
 
 
 

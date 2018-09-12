@@ -13,6 +13,11 @@
         <name>menu</name>
         <tag-class>unipotsdam.gf.core.management.pageAppearance.Menu</tag-class>
         <body-content>empty</body-content>
+        <attribute>
+            <name>hierarchy</name>
+            <required>yes</required>
+            <rtexprvalue>no</rtexprvalue>
+        </attribute>
     </tag>
 
     <tag>
@@ -23,19 +28,19 @@
 
     <tag>
         <name>omniDependencies</name>
-        <tag-class>unipotsdam.gf.core.management.pageAppearance.omniDependencies</tag-class>
+        <tag-class>unipotsdam.gf.core.management.pageAppearance.OmniDependencies</tag-class>
         <body-content>empty</body-content>
     </tag>
 
     <tag>
         <name>headLine</name>
-        <tag-class>unipotsdam.gf.core.management.pageAppearance.headLine</tag-class>
+        <tag-class>unipotsdam.gf.core.management.pageAppearance.HeadLine</tag-class>
         <body-content>empty</body-content>
     </tag>
 
     <tag>
         <name>footer</name>
-        <tag-class>unipotsdam.gf.core.management.pageAppearance.footer</tag-class>
+        <tag-class>unipotsdam.gf.core.management.pageAppearance.Footer</tag-class>
         <body-content>empty</body-content>
     </tag>
     
