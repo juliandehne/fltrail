@@ -1,0 +1,27 @@
+.tagLabel {
+    color: #000 !important;
+    text-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    display: inline !important;;
+    padding: .2em .6em .3em !important;
+    margin: 3px !important;
+    font-size: 75% !important;;
+    font-weight: 700 !important;;
+    line-height: 1 !important;;
+    color: #fff !important;;
+    text-align: center !important;;
+    white-space: nowrap !important;;
+    vertical-align: baseline !important;;
+    border-radius: .25em !important;;
+    background-color: #5cb85c !important;
+
+}
+
+.label {
+    border: 1px solid #000;
+}
+
+
+
+

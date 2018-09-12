@@ -6,6 +6,8 @@
 <!DOCTYPE html>
 <html>
 
+<!-- TODO refactor @Sven: bitte nutze einen Unterordner für dein Modul z.B. webapp/annotation/ -->
+
 <head>
     <omniDependencies:omniDependencies/>
 
