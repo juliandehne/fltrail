@@ -3,12 +3,12 @@ package unipotsdam.gf.modules.assessment.controller.service;
 import unipotsdam.gf.assignments.Assignee;
 import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.*;
 
 public class PeerAssessmentDummy implements IPeerAssessment {
+
     @Override
     public void addAssessmentDataToDB(Assessment assessment) {
     }
@@ -34,10 +34,8 @@ public class PeerAssessmentDummy implements IPeerAssessment {
             incorrectAnswers.add("alle beide");
             sampleQuiz = new Quiz("multiple", "Ist das nun des Pudels wahrer Kern?", correctAnswers, incorrectAnswers);
         }
-
         return sampleQuiz;
     }
-
     public ArrayList<Quiz> getQuiz(String projectId) {
         ArrayList<String> correctAnswers = new ArrayList<>();
         ArrayList<String> incorrectAnswers = new ArrayList<>();
@@ -66,7 +64,12 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
-    public void postContributionRating(StudentIdentifier student, String fromStudent, Map<String, Integer> contributionRating) {
+    public Integer whichGroupToRate(StudentIdentifier student) {
+        return null;
+    }
+
+    @Override
+    public void postContributionRating(String groupId, String fromStudent, Map<String, Integer> contributionRating) {
 
     }
 
@@ -78,6 +81,11 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     @Override
     public void deleteQuiz(String quizId) {
 
+    }
+
+    @Override
+    public String whatToRate(StudentIdentifier student) {
+        return null;
     }
 
     @Override

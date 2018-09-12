@@ -1,6 +1,5 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ public interface IPeerAssessment {
      */
     void addAssessmentDataToDB(Assessment assessment);
 
-    Quiz getQuiz(String projectId, String groupId, String author);
+    Quiz getQuiz(String projectId, String quizId, String author);
     /**
      * will return a saved assessment from the DB
      *
@@ -76,7 +75,14 @@ public interface IPeerAssessment {
      */
     void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId);
 
-    void postContributionRating(StudentIdentifier student,
+    /**
+     *
+     * @param student
+     * @return
+     */
+    Integer whichGroupToRate(StudentIdentifier student);
+
+    void postContributionRating(String groupId,
                                 String fromPeer,
                                 Map<String, Integer> contributionRating);
 
@@ -88,5 +94,6 @@ public interface IPeerAssessment {
     void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student);
     void deleteQuiz(String quizId);
 
+    String whatToRate(StudentIdentifier student);
     Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method);
 }

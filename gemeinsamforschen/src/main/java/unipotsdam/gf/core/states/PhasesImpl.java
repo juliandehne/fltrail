@@ -46,16 +46,16 @@ public class PhasesImpl implements IPhases {
     }
 
     @Override
-    public void endPhase(ProjectPhase currentPhase, Project project) {
-        switch (currentPhase) {
+    public void endPhase(ProjectPhase changeToPhase, Project project) {
+        switch (changeToPhase) {
             case CourseCreation:
                 // saving the state
-                saveState(project,getNextPhase(currentPhase));
+                saveState(project,changeToPhase);
                 break;
             case GroupFormation:
                 // inform users about the formed groups, optionally giving them a hint on what happens next
                 iCommunication.sendMessageToUsers(project, Messages.GroupFormation(project));
-                saveState(project,getNextPhase(currentPhase));
+                saveState(project,changeToPhase);
                 break;
             case DossierFeedback:
                 // check if everybody has uploaded a dossier
@@ -65,7 +65,7 @@ public class PhasesImpl implements IPhases {
                 } else {
                     // send a message to the users informing them about the start of the new phase
                     iCommunication.sendMessageToUsers(project, Messages.NewFeedbackTask(project));
-                    saveState(project,getNextPhase(currentPhase));
+                    saveState(project,changeToPhase);
                 }
                 break;
             case Execution:
@@ -74,7 +74,7 @@ public class PhasesImpl implements IPhases {
                 if (portfoliosReady) {
                     // inform users about the end of the phase
                     iCommunication.sendMessageToUsers(project, Messages.AssessmentPhaseStarted(project));
-                    saveState(project,getNextPhase(currentPhase));
+                    saveState(project,changeToPhase);
                 } else {
                     iJournal.assignMissingPortfolioTasks(project);
                 }

@@ -2,6 +2,9 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.core.management.ManagementImpl;
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
@@ -15,7 +18,7 @@ import java.util.ArrayList;
 public class JournalServiceImpl implements JournalService {
 
     private final Logger log = LoggerFactory.getLogger(JournalServiceImpl.class);
-    JournalDAO journalDAO = new JournalDAOImpl();
+    private final JournalDAO journalDAO = new JournalDAOImpl();
 
     @Override
     public Journal getJournal(String id) {
@@ -42,7 +45,6 @@ public class JournalServiceImpl implements JournalService {
                 }
 
                 //If Visibility Group, show if student is in group and filter allows it
-                //TODO: project != Group, for testing ok, change for real Service
                 if (j.getVisibility() == Visibility.GROUP && j.getStudentIdentifier().getProjectId().equals(project) && filter == JournalFilter.ALL) {
                     result.add(j);
                 }
@@ -60,7 +62,7 @@ public class JournalServiceImpl implements JournalService {
     public ArrayList<Journal> getAllJournals(String student, String project) {
         log.debug(">> get all journals(" + student + "," + project + ")");
 
-        return journalDAO.getAllByProject(project);
+        return journalDAO.getAllByProject(project, student);
     }
 
     @Override
@@ -96,6 +98,23 @@ public class JournalServiceImpl implements JournalService {
         log.debug("<<< close journal");
     }
 
-    //TODO Export for assessment
-}
+    @Override
+    public boolean checkIfAllJournalClosed(Project project) {
+        return (journalDAO.getOpenJournals(project).size() == 0);
+    }
 
+    @Override
+    public ArrayList<User> getOpenUserByProject(Project project) {
+
+        ManagementImpl management = new ManagementImpl();
+
+        ArrayList<String> userId = journalDAO.getOpenJournals(project);
+        ArrayList<User> users = new ArrayList<>();
+
+        for(String id : userId){
+            users.add(management.getUserByToken(id));
+        }
+        return users;
+    }
+
+}

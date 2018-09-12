@@ -2,6 +2,7 @@ package unipotsdam.gf.core.management.group;
 
 import unipotsdam.gf.core.management.user.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Group {
@@ -14,10 +15,12 @@ public class Group {
     public Group() {
     }
 
+    public Group(String projectId) {
+        this(new ArrayList<>(), projectId);
+    }
+
     public Group(List<User> members, String projectId) {
-        this.members = members;
-        this.projectId = projectId;
-        this.chatRoomId = "";
+        this(members, projectId, "");
     }
 
     public Group(List<User> members, String projectId, String chatRoomId) {

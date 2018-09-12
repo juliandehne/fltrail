@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.peer2peerfeedback;
 
-import org.mockito.Mockito;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.assignments.Assignee;
@@ -8,6 +7,7 @@ import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 
 import java.io.File;
@@ -32,6 +32,8 @@ public class DummyFeedback implements Feedback {
             User feedbackuser, User selectedstudent, File document) {
         return null;
     }
+
+    public Peer2PeerFeedback createPeer2PeerFeedback (Peer2PeerFeedback feedback){return null; }
 
     @Override
     public Boolean giveFeedback(Peer2PeerFeedback feedback, ResearchReport document) {
