@@ -12,7 +12,7 @@ $(document).ready(function(){
                 let trQuestion = document.createElement('TR');
                 trQuestion.className="pageChanger";
                 trQuestion.innerHTML = '<td colspan="' + colspan + '"><h3>' +
-                    '<a href="viewQuiz.jsp' +
+                    '<a href="view-quiz.jsp' +
                     '?token='+getUserTokenFromUrl()+
                     '&projectId='+projectId+
                     '&quizId='+ encodeURIComponent(data[quiz].question)+'"</a>' +
@@ -26,6 +26,6 @@ $(document).ready(function(){
     });
 
     $('#newQuiz').on('click', function(){
-        location.href="createQuiz.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
+        location.href="create-quiz.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
     });
 });

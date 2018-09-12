@@ -172,7 +172,7 @@ function assessPeer() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            location.href = "takeQuiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+            location.href = "take-quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
         },
         error: function (a, b, c) {
 

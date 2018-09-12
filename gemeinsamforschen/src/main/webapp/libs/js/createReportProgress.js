@@ -6,35 +6,35 @@ $(document).ready(function() {
     $('#project').val(project);
 
     $('#title').on('click', function(){
-        location.href = "researchReportTitle.jsp?token=" + student + "&projectId=" + project;
+        location.href = "create-title.jsp?token=" + student + "&projectId=" + project;
         return false;
     });
     $('#recherche').on('click', function(){
-        location.href = "researchReportRecherche.jsp?token=" + student + "&projectId=" + project;
+        location.href = "create-research.jsp?token=" + student + "&projectId=" + project;
         return false;
     });
     $('#bibo').on('click', function(){
-        location.href = "researchReportBibo.jsp?token=" + student + "&projectId=" + project;
+        location.href = "create-bibliography.jsp?token=" + student + "&projectId=" + project;
         return false;
     });
     $('#question').on('click', function(){
-        location.href = "researchReportQuestion.jsp?token=" + student + "&projectId=" + project;
+        location.href = "create-question.jsp?token=" + student + "&projectId=" + project;
         return false;
     });
     $('#concept').on('click', function(){
-        location.href = "researchReportConcept.jsp?token=" + student + "&projectId=" + project;
+        location.href = "create-concept.jsp?token=" + student + "&projectId=" + project;
         return false;
     });
     $('#method').on('click', function(){
-        location.href = "researchReportMethod.jsp?token=" + student + "&projectId=" + project;
+        location.href = "create-method.jsp?token=" + student + "&projectId=" + project;
         return false;
     });
     $('#reportDo').on('click', function(){
-        location.href = "researchReportDo.jsp?token=" + student + "&projectId=" + project;
+        location.href = "create-process-description.jsp?token=" + student + "&projectId=" + project;
         return false;
     });
     $('#evaluation').on('click', function(){
-        location.href = "researchReportEvaluation.jsp?token=" + student + "&projectId=" + project;
+        location.href = "create-evaluation.jsp?token=" + student + "&projectId=" + project;
         return false;
     });
 

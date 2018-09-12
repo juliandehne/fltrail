@@ -26,7 +26,7 @@ $(document).ready(function() {
 
     }, function () {
         // jump to upload page on error
-        location.href="unstructured-upload.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+        location.href="upload-unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
     });
 
     // set click listener to save button
