@@ -12,7 +12,7 @@ $(document).ready(function () {
 
 function deleteProject(projectName) {
     var token = getUserTokenFromUrl();
-    var url = "../database/deleteProject.php?project=" + projectName + "&password=" + document.getElementById('projectPassword').value.trim() + "&token=" + token;
+    var url = "../database/delete-project.jsp?project=" + projectName + "&password=" + document.getElementById('projectPassword').value.trim() + "&token=" + token;
     if (projectName === "") {
         return false;
     } else {

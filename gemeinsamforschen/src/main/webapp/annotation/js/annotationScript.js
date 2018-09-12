@@ -68,7 +68,7 @@ $(document).ready(function() {
      * continue button
      */
     $('#btnContinue').click(function () {
-        location.href="givefeedback.jsp?token=" + getUserTokenFromUrl();
+        location.href="give-feedback.jsp?token=" + getUserTokenFromUrl();
     });
 
     /**

@@ -33,11 +33,11 @@ function checkAssessementPhase(){
                     break;
                 }
                 case "quiz":{
-                    location.href = "takeQuiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    location.href = "take-quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
                     break;
                 }
                 case "contributionRating":{
-                    location.href = "rateContribution.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    location.href = "rate-contribution.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
                     break;
                 }
                 case "done":{

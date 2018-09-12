@@ -48,13 +48,13 @@ public class Menu extends SimpleTagSupport {
                     if (projectPhase.equals(ProjectPhase.DossierFeedback)){
                         menuString += "      <li><p>Quizfrage</p></li>\n" +
                                 "            <li><a href=\"eportfolio.jsp?token="+token+"&projectId="+projectId+"\">ePortfolio</a></li>\n" +
-                                "            <li><a href=\"researchReportTitle.jsp?token="+token+"&projectId="+projectId+"\">Beitrag</a></li>\n" +
+                                "            <li><a href=\"create-title.jsp?token="+token+"&projectId="+projectId+"\">Beitrag</a></li>\n" +
                                 "            <li><p>Bewertung</p></li>\n";
                     }
                     if (projectPhase.equals(ProjectPhase.Execution)){
-                        menuString += "      <li><a href=\"Quiz.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
+                        menuString += "      <li><a href=\"quiz.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
                                 "            <li><a href=\"eportfolio.jsp?token="+token+"&projectId="+projectId+"\">ePortfolio</a></li>\n" +
-                                "            <li><a href=\"researchReportTitle.jsp?token="+token+"&projectId="+projectId+"\">Beitrag</a></li>\n" +
+                                "            <li><a href=\"create-title.jsp?token="+token+"&projectId="+projectId+"\">Beitrag</a></li>\n" +
                                 "            <li><p>Bewertung</p></li>\n";
                     }
                     if (projectPhase.equals(ProjectPhase.Assessment)){
@@ -77,13 +77,13 @@ public class Menu extends SimpleTagSupport {
                         "            <li class=\"sidebar-brand\"><a href=\"overview-docent.jsp?token="+token+"&projectId="+projectId+"\">overview</a></li>\n";
                 if (projectPhase!=null) {
                     if (!projectPhase.equals(ProjectPhase.GroupFormation)) {
-                        menuString += "<li><a href=\"Quiz-docent.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
+                        menuString += "<li><a href=\"quiz-docent.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
                                 "      <li><p>Gruppen erstellen</p></li>\n" +
-                                "      <li><a href=\"changePhase.jsp?token="+token+"&projectId="+projectId+"\">Projektphase ändern</a></li>\n";
+                                "      <li><a href=\"change-phase.jsp?token="+token+"&projectId="+projectId+"\">Projektphase ändern</a></li>\n";
                     }else {
-                        menuString += "<li><a href=\"Quiz-docent.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
-                                "      <li><a href=\"createGroups.jsp?token="+token+"&projectId="+projectId+"\">Gruppen erstellen</a></li>\n" +
-                                "      <li><a href=\"changePhase.jsp?token="+token+"&projectId="+projectId+"\">Projektphase ändern</a></li>\n";
+                        menuString += "<li><a href=\"quiz-docent.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
+                                "      <li><a href=\"create-groups.jsp?token="+token+"&projectId="+projectId+"\">Gruppen erstellen</a></li>\n" +
+                                "      <li><a href=\"change-phase.jsp?token="+token+"&projectId="+projectId+"\">Projektphase ändern</a></li>\n";
                     }
                 }
                 menuString +="<li><a id=\"logout\" style=\"cursor:pointer\">Logout</a></li>\n" +

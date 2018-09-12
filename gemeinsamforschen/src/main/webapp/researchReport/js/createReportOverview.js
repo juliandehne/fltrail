@@ -5,7 +5,7 @@ $(document).ready(function() {
     $('#student').val(student);
     $('#project').val(project);
         $('#uploader').on('click', function(){
-                //location.href="researchReportTitle.jsp?token="+getUserTokenFromUrl();
+                //location.href="create-title.jsp?token="+getUserTokenFromUrl();
             //boolean uploaded=true;
             });
     $('#backLink').on('click', function(){
@@ -14,7 +14,7 @@ $(document).ready(function() {
     });
 
     $('#forwardLink').on('click', function(){
-        location.href = "researchReportTitle.jsp?token=" + student + "&projectId=" + project;
+        location.href = "create-title.jsp?token=" + student + "&projectId=" + project;
         return false;
     });
 

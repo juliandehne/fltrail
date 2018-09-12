@@ -23,7 +23,7 @@ $(document).ready(function() {
                 $('#upload-textarea').val("");
 
                 // jump to next page
-                location.href="unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId") + "&submission=" + response.id;
+                location.href="create-unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId") + "&submission=" + response.id;
             });
         }
     });

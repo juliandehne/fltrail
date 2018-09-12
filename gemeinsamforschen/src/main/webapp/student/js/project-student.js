@@ -30,10 +30,10 @@ $(document).ready(function(){
     });
     */
     $('.givefeedback').click(function () {
-        location.href="givefeedback.jsp?token="+getUserTokenFromUrl();
+        location.href="give-feedback.jsp?token="+getUserTokenFromUrl();
     });
     $('.viewfeedback').click(function () {
-        location.href="viewfeedback.jsp?token="+getUserTokenFromUrl();
+        location.href="view-feedback.jsp?token="+getUserTokenFromUrl();
     });
 
     $('.annotationview').click(function () {
@@ -41,7 +41,7 @@ $(document).ready(function(){
     });
 
     $('#btnUnstructuredUpload').click(function () {
-        location.href="unstructured-upload.jsp?token="+getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+        location.href="upload-unstructured-annotation.jsp?token="+getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
     })
 
     $('.viewprojectstudent').click(function () {

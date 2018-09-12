@@ -15,7 +15,6 @@
 <body>
 
 
-
 <div id="wrapper">
     <menu:menu></menu:menu>
     <div class="page-content-wrapper">
@@ -27,32 +26,34 @@
                         <form id="researchReportform" class="researchReportForm" method="POST" action="../rest/researchReport/save">
 
 
+
     <div class = "researchReportTitlebar">
-        <h1> Forschungsbericht erstellen 6/8</h1>
+        <h1> Forschungsbericht erstellen 2/8</h1>
     </div>
 
     <div class ="researchReportEditor">
-        <h2 class="editor-inhalt">Methodik eingeben:</h2>
+        <h2 class="editor-inhalt">Recherche eingeben:</h2>
         <textarea id = "editor" name="text" form="researchReportForm" rows="20" cols="100">
 				</textarea>
     </div>
     <div class="ResearchReportButtons">
-        <button class="researchReportButtons"><a href="researchReportDo.jsp">Speichern & weiter</a></button>
-        <button class="researchReportButtons"><a href="researchReportConcept.jsp"> Zur&uuml;ck </a></button>
+        <button class="researchReportButtons"><a href="create-bibliography.jsp">Speichern & weiter</a></button>
+        <button class="researchReportButtons"><a href="create-title.jsp"> Zur&uuml;ck </a></button>
     </div>
+
     <div class="ResearchReportUpload">
-        <input type="file" class="filepond" name="filepond"> </input>
+        <input type="file" class="filepond" name="filepond" />
     </div>
 
     <div class="researchReportProgress">
         <nav>
             <menu>
                 <menuitem><a id="title">Titel</a> </menuitem>
-                <menuitem><a id="recherche">Recherche</a> </menuitem>
+                <menuitem><a id="recherche"><font color="#green">Recherche</font></a> </menuitem>
                 <menuitem><a id="bibo">Literaturverzeichnis</a> </menuitem>
                 <menuitem><a id="question">Forschnugsfrage</a> </menuitem>
                 <menuitem><a id="concept">Konzept</a></menuitem>
-                <menuitem><a id="method"><font color="#green">Methodik</font></a></menuitem>
+                <menuitem><a id="method">Methodik</a></menuitem>
                 <menuitem><a id="reportDo">Durchf&uuml;hrung</a></menuitem>
                 <menuitem><a id="evaluation">Evalution</a></menuitem>
             </menu>
@@ -68,7 +69,9 @@
 </div>
 
 
-<script  src="../assets/js/createReportMethod.js"></script>
+
+
+<script  src="../assets/js/createReportRecherche.js"></script>
 <script  src="../assets/js/createReportProgress.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->

@@ -61,7 +61,7 @@ $(document).ready(function () {
             },
             type: 'POST',
             success: function(){
-                location.href="Quiz.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
+                location.href="quiz.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
         },
         error: function(a){
 

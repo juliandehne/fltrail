@@ -113,7 +113,7 @@ function createNewProject(allTheTags, activ) {
                 $.when(addProjectNeo4j, addProjectToLocalDB(allTheTags, projectName, password, activ, adminPassword)).done(function () {
                     document.getElementById('loader').className = "loader-inactive";
                     document.getElementById('wrapper').className = "wrapper";
-                    if ($('#Teilnehmer').prop("checked")) {          //if author wants to join the course, he needs to be redirected to preferences.php
+                    if ($('#Teilnehmer').prop("checked")) {          //if author wants to join the course, he needs to be redirected to enter-preferences.jsp
                         var url = "../database/getProjects.php?project=" + projectName + "&password=" + document.getElementById('passwordProject').value;
                         $.ajax({
                             url: url,
@@ -121,7 +121,7 @@ function createNewProject(allTheTags, activ) {
                             Accept: "text/plain; charset=utf-8",
                             contentType: "text/plain",
                             success: function (response) {
-                                location.href = "preferences.php?token=" + getUserTokenFromUrl() + "&projectToken=" + response;
+                                location.href = "enter-preferences.jsp?token=" + getUserTokenFromUrl() + "&projectToken=" + response;
                             },
                             error: function (a, b, c) {
                                 console.log(a);
