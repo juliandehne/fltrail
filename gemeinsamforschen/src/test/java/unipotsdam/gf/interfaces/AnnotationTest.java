@@ -7,6 +7,7 @@ import unipotsdam.gf.modules.annotation.model.Annotation;
 import unipotsdam.gf.modules.annotation.model.AnnotationBody;
 import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
+import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class AnnotationTest {
         String comment = "comment_testAddAnnotation";
 
         // prepare and execute request
-        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", 1, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", "1", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
         Annotation response = controller.addAnnotation(annotationPostRequest);
 
         // the new annotation should be found in the database
@@ -58,7 +59,7 @@ public class AnnotationTest {
         String commentNew = "commentNew_testAlterAnnotation";
 
         // save new annotation in database
-        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", 0, new AnnotationBody(titleOld, commentOld, 1, 2));
+        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", "0", Category.TITEL, new AnnotationBody(titleOld, commentOld, 1, 2));
         Annotation response = controller.addAnnotation(annotationPostRequest);
 
         // the new annotation should be found in the database
@@ -96,7 +97,7 @@ public class AnnotationTest {
         String comment = "comment_testDeleteAnnotation";
 
         // prepare and execute request
-        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", 1, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", "1", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
         Annotation response = controller.addAnnotation(annotationPostRequest);
 
         // the new annotation should be found in the database
@@ -118,7 +119,7 @@ public class AnnotationTest {
         String comment = "comment_testGetAnnotation";
 
         // prepare and execute request
-        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", 1, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", "1", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
         Annotation response = controller.addAnnotation(annotationPostRequest);
 
         // receive the new annotation
@@ -143,26 +144,26 @@ public class AnnotationTest {
         String comment = "comment_testGetAnnotations";
 
         // initialize targetIds
-        ArrayList<Integer> targetIds = new ArrayList<>();
-        targetIds.add(-1);
-        targetIds.add(-2);
+        ArrayList<String> targetIds = new ArrayList<>();
+        targetIds.add("-1");
+        targetIds.add("-2");
 
         // save new annotations in database
-        AnnotationPostRequest request1 = new AnnotationPostRequest("userToken", targetIds.get(0), new AnnotationBody(title, comment, 1, 2));
-        AnnotationPostRequest request2 = new AnnotationPostRequest("userToken", targetIds.get(1), new AnnotationBody(title, comment, 1, 2));
-        AnnotationPostRequest request3 = new AnnotationPostRequest("userToken", targetIds.get(1), new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest request1 = new AnnotationPostRequest("userToken", targetIds.get(0), Category.TITEL, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest request2 = new AnnotationPostRequest("userToken", targetIds.get(1), Category.TITEL, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest request3 = new AnnotationPostRequest("userToken", targetIds.get(1), Category.TITEL, new AnnotationBody(title, comment, 1, 2));
         controller.addAnnotation(request1);
         controller.addAnnotation(request2);
         controller.addAnnotation(request3);
 
         // receive the new annotations with targetId = -2
-        ArrayList<Annotation> getResponse = controller.getAnnotations(targetIds.get(1));
+        ArrayList<Annotation> getResponse = controller.getAnnotations(targetIds.get(1), Category.TITEL);
 
         // the size of the getResponse should be 2
         assertEquals("The size of the response should be 2 but was " + getResponse.size(), 2, getResponse.size());
 
         // receive the new annotations with targetId = -1
-        ArrayList<Annotation> getResponseNew = controller.getAnnotations(targetIds.get(0));
+        ArrayList<Annotation> getResponseNew = controller.getAnnotations(targetIds.get(0), Category.TITEL);
 
         // the size of the getResponse should be 1
         assertEquals("The size of the response should be 1 but was " + getResponseNew.size(), 1, getResponseNew.size());
@@ -183,7 +184,7 @@ public class AnnotationTest {
         String badId = "badId";
 
         // save new annotation in database
-        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", 0, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", "0", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
         Annotation response = controller.addAnnotation(annotationPostRequest);
 
         // the annotation shouldn't be found in the database

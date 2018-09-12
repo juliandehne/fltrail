@@ -1,34 +1,34 @@
 $(document).ready(function () {
     $('#addCorrectAnswer').on('click', function(){
-        var divCorrectAnswer = document.getElementById('correctAnswers');
-        var i = divCorrectAnswer.children.length;
-        var inputCorrectAnswer = document.createElement('INPUT');
+        let divCorrectAnswer = document.getElementById('correctAnswers');
+        let i = divCorrectAnswer.children.length;
+        let inputCorrectAnswer = document.createElement('INPUT');
         inputCorrectAnswer.id='correctAnswer'+i;
         divCorrectAnswer.appendChild(inputCorrectAnswer);
     });
 
     $('#addIncorrectAnswer').on('click', function(){
-        var divIncorrectAnswer = document.getElementById('incorrectAnswers');
-        var i = divIncorrectAnswer.children.length;
-        var inputIncorrectAnswer = document.createElement('INPUT');
+        let divIncorrectAnswer = document.getElementById('incorrectAnswers');
+        let i = divIncorrectAnswer.children.length;
+        let inputIncorrectAnswer = document.createElement('INPUT');
         inputIncorrectAnswer.id='incorrectAnswer'+i;
         divIncorrectAnswer.appendChild(inputIncorrectAnswer);
     });
 
     $('#deleteCorrectAnswer').on('click', function(){
-        var divCorrectAnswer = document.getElementById('correctAnswers');
+        let divCorrectAnswer = document.getElementById('correctAnswers');
         divCorrectAnswer.removeChild(divCorrectAnswer.lastChild);
     });
 
     $('#deleteIncorrectAnswer').on('click', function(){
-        var divIncorrectAnswer = document.getElementById('incorrectAnswers');
+        let divIncorrectAnswer = document.getElementById('incorrectAnswers');
         divIncorrectAnswer.removeChild(divIncorrectAnswer.lastChild);
     });
 
     $("#save").on('click', function () {
-        var correctAnswers= [];
-        var incorrectAnswers= [];
-        var shuttleList = document.getElementById('correctAnswers');
+        let correctAnswers= [];
+        let incorrectAnswers= [];
+        let shuttleList = document.getElementById('correctAnswers');
         for (var i=0; i<shuttleList.children.length; i++)
         {
             correctAnswers.push(shuttleList.children[i].value.trim())
@@ -38,17 +38,17 @@ $(document).ready(function () {
         {
             incorrectAnswers.push(shuttleList.children[i].value.trim())
         }
-        var quiz = {
+        let quiz = {
             question: $('#question').val().trim(),
             type: 'mc',
             correctAnswers: correctAnswers,
             incorrectAnswers: incorrectAnswers
         };
-        var studentIdentifier = {
+        let studentIdentifier = {
             studentId: $('#user').html().trim(),
             projectId: $('#projectId').html().trim()
         };
-        var data = JSON.stringify({
+        let data = JSON.stringify({
             studentIdentifier: studentIdentifier,
             quiz: quiz
         });

@@ -1,6 +1,7 @@
 package unipotsdam.gf.core.states;
 
 import unipotsdam.gf.core.management.Management;
+import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.interfaces.IPhases;
 
@@ -15,11 +16,9 @@ import javax.ws.rs.core.MediaType;
 @Path("/phases")
 public class PhasesService  {
 
-    @Inject
-    private IPhases phases;
+    private IPhases phases = new PhasesImpl();
 
-    @Inject
-    private Management management;
+    private Management management = new ManagementImpl();
 
     /**
      * end phase
@@ -38,10 +37,10 @@ public class PhasesService  {
      * @param projectId
      * @return
      */
-    @Path("/{projectPhase}/projects/{projectId}")
+    @Path("/projects/{projectId}")
     @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.TEXT_PLAIN})
     public String getCurrentPhase(@PathParam("projectId") String projectId) {
-        return management.getProjectById(projectId).getPhase();
+        return management.getProjectById(projectId).getPhase().toString();
     }
 }

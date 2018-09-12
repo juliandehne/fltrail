@@ -2,10 +2,10 @@ package unipotsdam.gf.modules.journal.model;
 
 public class Link {
 
-    String id;
-    String projectDescription;
-    String name;
-    String link;
+    private String id;
+    private String projectDescription;
+    private String name;
+    private String link;
 
     public Link() {
     }

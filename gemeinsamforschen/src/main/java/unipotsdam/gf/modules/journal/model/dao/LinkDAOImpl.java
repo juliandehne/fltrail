@@ -36,7 +36,7 @@ public class LinkDAOImpl implements LinkDAO{
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
-        // build and execute requestxam
+        // build and execute request stream
         String request = "DELETE FROM links WHERE id = ?;";
         connection.issueInsertOrDeleteStatement(request, linkId);
 

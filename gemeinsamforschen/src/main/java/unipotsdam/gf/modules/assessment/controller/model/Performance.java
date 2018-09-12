@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
