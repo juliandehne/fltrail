@@ -26,7 +26,7 @@
 
 <body>
 <div id="wrapper" class="full-height">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper full-height">
         <div class="container-fluid full-height">
             <div class="container-fluid-content">

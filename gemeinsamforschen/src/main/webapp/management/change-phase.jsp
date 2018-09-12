@@ -13,7 +13,7 @@
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div class="alert"id="CourseCreation">

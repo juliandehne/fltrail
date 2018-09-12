@@ -16,7 +16,7 @@
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="1"/>
     <p id="groupId" hidden>Hier steht jetzt das richtige</p>
     <div class="page-content-wrapper">
         <headLine:headLine/>

@@ -22,7 +22,7 @@
 
 <body>
 <div id="wrapper">
-    <menu:menu/>
+    <menu:menu hierarchy="0"/>
 
     <div class="page-content-wrapper">
         <headLine:headLine/>

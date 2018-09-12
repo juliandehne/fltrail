@@ -13,7 +13,7 @@
     <script src="../libs/js/assessmentCalculator.js"></script>
 </head>
 <body>
-<menu:menu/>
+<menu:menu hierarchy="1"/>
 <button id="calculateNow">Post Performance</button>
 <button id="giveItBack">Get TotalPerformance</button>
 <headLine:headLine/>
