@@ -183,7 +183,7 @@ public class ManagementImpl implements Management {
         String adminPassword = vereinfachtesResultSet.getString("adminpassword");
         String token = vereinfachtesResultSet.getString("token");
         String phase = vereinfachtesResultSet.getString("phase");
-        Project project = new Project(id, password, active, timestamp, author, adminPassword, token);
+        Project project = new Project(id, password, active, timestamp, author, adminPassword, token, ProjectPhase.valueOf(phase));
         ProjectPhase projectPhase = ProjectPhase.valueOf(phase);
         project.setPhase(projectPhase);
         return project;

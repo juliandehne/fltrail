@@ -18,7 +18,6 @@ public class Project {
     private String author;
     private String adminPassword;
     private String token;
-    // TODO: using enum ProjectPhase
     private ProjectPhase phase;
 
     public Project() {
@@ -35,20 +34,9 @@ public class Project {
         this.setPhase(ProjectPhase.CourseCreation);
     }
 
-    public ProjectPhase getPhase() {
-        this.phase = phase;
-        this.id = id;
-        this.password = password;
-        this.active = active;
-        this.author = author;
-        this.adminPassword = adminPassword;
-        this.token = token;
-        this.phase = projectPhase.name();
-
-        this.timecreated = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC")));
-    }
-
-    public Project(String id, String password, Boolean active, Timestamp timecreated, String author, String adminPassword, String token, String phase) {
+    public Project(String id, String password, Boolean active,
+                   Timestamp timecreated, String author, String adminPassword,
+                   String token, ProjectPhase phase) {
         this.id = id;
         this.password = password;
         this.active = active;
@@ -111,7 +99,7 @@ public class Project {
         return timecreated;
     }
 
-    public String getPhase() {
+    public ProjectPhase getPhase() {
         return phase;
     }
 
@@ -121,7 +109,7 @@ public class Project {
      * @param phase
      */
     public void setPhase(ProjectPhase phase) {
-        this.phase = phase.name();
+        this.phase = phase;
     }
 
     @Override
