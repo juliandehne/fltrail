@@ -1,30 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>muster-gemeinsam-forschen</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
+    <link rel="stylesheet" href="../assets/css/viewfeedback.css">
+    <omniDependencies:omniDependencies/>
     <script src="../assets/js/utility.js"></script>
     <script src="../assets/js/project-student.js"></script>
+    <script src="../assets/js/givepeerfeedback.js"></script>
+
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu></menu:menu>
-
+    <menu:menu/>
     <div class="page-content-wrapper">
+        <headLine:headLine/>
         <div class="container-fluid">
             <h1 id="projectId"> PeerFeedback</h1>
         </div>
@@ -48,21 +43,65 @@
         <div>
             <table>
                 <tr>
-                    <td  id="Peerfeedback">
-                        <h2>Feedback Nachrichten von Student X</h2>
+                    <tr>
+                        <th>Feedback Nachrichten von Student X</th>
+                    </tr>
 
-                        <iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
 
-                        <button class="btn btn-secondary" onclick="goBack()">Zurück</button>
+                        <td  id="filter-feedbacks">
 
-                        <script>
-                            function goBack() {
-                                window.history.back();
-                            }
-                        </script>
 
+                            <%--<iframe width="90%" height="200%" src="http://rocketchat.westeurope.cloudapp.azure.com/channel/general?layout=embedded"></iframe>
+                            --%>
+                            <%--<p id="view"></p>      type="hidden"--%>
+                            <input  type="hidden" name="peerfeedbackID" id="peerfeedbackID-input" value=""/>
+                                <div style="height: 100px; overflow: auto">
+                                <div class="feedback-container">
+                                    <p>Sender</p>
+                                    <span class="time-right">11:00</span>
+                                </div>
+                                </div>
+
+
+                        </td>
+
+
+                        <td id="view-feedbacks">
+
+                            <div style="height: 300px; overflow: auto">
+
+                            <div class="feedback-container">
+                                <p>Hello. How are you today?</p>
+                                <span class="time-right">11:00</span>
+                            </div>
+
+                            <div class="feedback-container">
+                                <p>Hey! I'm fine. Thanks for asking!</p>
+                                <span class="time-left">11:01</span>
+                            </div>
+
+                            <div class="feedback-container">
+                                <p>Sweet! So, what do you wanna do today?</p>
+                                <span class="time-right">11:02</span>
+                            </div>
+
+                            <div id="div1"></div>
+
+                            </div>
+                        </td>
+
+
+                <button class="btn btn-secondary" onclick="goBack()">Zur&uuml;ck</button>
+
+                <script>
+                    function goBack() {
+                        window.history.back();
+                    }
+                </script>
 
                     </td>
+
+
 
                     <td  id="chat">
                         <div class="card">
