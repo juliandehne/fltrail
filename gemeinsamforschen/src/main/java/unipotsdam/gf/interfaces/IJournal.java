@@ -10,6 +10,8 @@ import unipotsdam.gf.modules.researchreport.ResearchReport;
 import java.io.File;
 import java.util.List;
 
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+
 /**
  * Interface for learning journal
  */

@@ -8,6 +8,7 @@ import unipotsdam.gf.modules.assessment.controller.model.*;
 import java.util.*;
 
 public class PeerAssessmentDummy implements IPeerAssessment {
+
     @Override
     public void addAssessmentDataToDB(Assessment assessment) {
     }
@@ -33,10 +34,8 @@ public class PeerAssessmentDummy implements IPeerAssessment {
             incorrectAnswers.add("alle beide");
             sampleQuiz = new Quiz("multiple", "Ist das nun des Pudels wahrer Kern?", correctAnswers, incorrectAnswers);
         }
-
         return sampleQuiz;
     }
-
     public ArrayList<Quiz> getQuiz(String projectId) {
         ArrayList<String> correctAnswers = new ArrayList<>();
         ArrayList<String> incorrectAnswers = new ArrayList<>();
