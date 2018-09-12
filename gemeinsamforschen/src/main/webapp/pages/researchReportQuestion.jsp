@@ -48,14 +48,14 @@
     <div class="researchReportProgress">
         <nav>
             <menu>
-                <menuitem><a href="researchReportTitle.jsp">Titel</a> </menuitem>
-                <menuitem><a href="researchReportRecherche.jsp">Recherche</a> </menuitem>
-                <menuitem><a href="researchReportBibo.jsp">Literaturverzeichnis</a> </menuitem>
-                <menuitem><a href="researchReportQuestion.jsp"><font color="#green">Forschnugsfrage</font></a> </menuitem>
-                <menuitem><a href="researchReportConcept.jsp">Konzept</a></menuitem>
-                <menuitem><a href="researchReportMethod.jsp">Methodik</a></menuitem>
-                <menuitem><a href="researchReportDo.jsp">Durchf&uuml;hrung</a></menuitem>
-                <menuitem><a href="researchReportEvaluation.jsp">Evalution</a></menuitem>
+                <menuitem><a id="title">Titel</a> </menuitem>
+                <menuitem><a id="recherche">Recherche</a> </menuitem>
+                <menuitem><a id="bibo">Literaturverzeichnis</a> </menuitem>
+                <menuitem><a id="question"><font color="#green">Forschnugsfrage</font></a> </menuitem>
+                <menuitem><a id="concept">Konzept</a></menuitem>
+                <menuitem><a id="method">Methodik</a></menuitem>
+                <menuitem><a id="reportDo">Durchf&uuml;hrung</a></menuitem>
+                <menuitem><a id="evaluation">Evalution</a></menuitem>
             </menu>
         </nav>
     </div>
