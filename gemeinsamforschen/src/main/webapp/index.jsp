@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="assets/css/Sidebar-Menu.css">
     <link rel="stylesheet" href="assets/css/Sidebar-Menu1.css">
 
-    <script src="assets/js/jquery.min.js"></script>
+    <script src="libs/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </head>
 

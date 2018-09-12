@@ -8,7 +8,7 @@
 
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/viewQuiz.js"></script>
+    <script src="../libs/js/viewQuiz.js"></script>
 
 </head>
 

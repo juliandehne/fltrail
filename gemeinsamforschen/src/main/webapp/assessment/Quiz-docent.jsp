@@ -7,7 +7,7 @@
 <html>
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/Quiz-docent.js"></script>
+    <script src="../libs/js/Quiz-docent.js"></script>
 </head>
 
 <body>

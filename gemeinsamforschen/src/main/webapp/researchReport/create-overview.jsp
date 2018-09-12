@@ -11,7 +11,7 @@
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> <!--FilePond -->
     <link rel="stylesheet" type="text/css" href="../assets/css/researchReportOverview.css">
-    <script src="../assets/js/createReportOverview.js"></script>
+    <script src="../libs/js/createReportOverview.js"></script>
     <title>Forschungsbericht Übersicht</title>
 
 

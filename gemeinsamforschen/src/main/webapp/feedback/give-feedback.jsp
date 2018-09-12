@@ -22,21 +22,21 @@
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.8.5/dist/showdown.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
-    <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/project-student.js"></script>
+    <script src="../libs/js/utility.js"></script>
+    <script src="../libs/js/project-student.js"></script>
     <link rel="stylesheet" type="text/css" href="../assets/css/editDescription.css">
-    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../libs/js/jquery.min.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../assets/js/Sidebar-Menu.js"></script>
-    <script  src="../assets/js/editDescription.js"></script>
+    <script src="../libs/js/Sidebar-Menu.js"></script>
+    <script  src="../libs/js/editDescription.js"></script>
         --%>
 
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
         <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
         <link rel="stylesheet" type="text/css" href="../assets/css/create-journal.css">
-    <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/project-student.js"></script>
-    <script src="../assets/js/peerfeedback.js"></script>
+    <script src="../libs/js/utility.js"></script>
+    <script src="../libs/js/project-student.js"></script>
+    <script src="../libs/js/peerfeedback.js"></script>
         <omniDependencies:omniDependencies/>
 </head>
 
@@ -139,10 +139,10 @@
 </div>
 </div>
 
-<script src="../assets/js/jquery.min.js"></script>
+<script src="../libs/js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
-<script src="../assets/js/createJournal.js"></script>
+<script src="../libs/js/Sidebar-Menu.js"></script>
+<script src="../libs/js/createJournal.js"></script>
 </body>
 
 </html>

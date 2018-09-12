@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="assets/css/Sidebar-Menu1.css">
     <link rel="stylesheet" href="assets/css/styles.css">
 
-    <script src="assets/js/jquery.min.js"></script>
+    <script src="libs/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/Sidebar-Menu.js"></script>
+    <script src="libs/js/Sidebar-Menu.js"></script>
 </head>
 
 <body>

@@ -9,9 +9,9 @@
 
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/utility.js"></script>
-    <script src="../assets/js/AlertAssessmentOutlier.js"></script>
-    <script src="../assets/js/grading.js"></script>
+    <script src="../libs/js/utility.js"></script>
+    <script src="../libs/js/AlertAssessmentOutlier.js"></script>
+    <script src="../libs/js/grading.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 </head>
 

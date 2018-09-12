@@ -67,8 +67,8 @@
 </div>
 
 
-<script  src="../assets/js/createReportDo.js"></script>
-<script  src="../assets/js/createReportProgress.js"></script>
+<script  src="../libs/js/createReportDo.js"></script>
+<script  src="../libs/js/createReportProgress.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->
 <script>FilePond.parse(document.body);</script> <!--FilePond -->

@@ -18,9 +18,9 @@
     <!-- css - upload-unstructured -->
     <link rel="stylesheet" type="text/css" href="../assets/css/unstructured-upload.css">
     <!-- js - unstructuredUpload -->
-    <script src="../assets/js/unstructuredUpload.js"></script>
+    <script src="../libs/js/unstructuredUpload.js"></script>
     <!-- js - unstructuredRest -->
-    <script src="../assets/js/unstructuredRest.js"></script>
+    <script src="../libs/js/unstructuredRest.js"></script>
 
 </head>
 

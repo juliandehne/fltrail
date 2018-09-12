@@ -87,10 +87,10 @@
     </div>
 </div>
 
-<script src="../assets/js/jquery.min.js"></script>
+<script src="../libs/js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
-<script src="../assets/js/createJournal.js"></script>
+<script src="../libs/js/Sidebar-Menu.js"></script>
+<script src="../libs/js/createJournal.js"></script>
 </body>
 
 </html>

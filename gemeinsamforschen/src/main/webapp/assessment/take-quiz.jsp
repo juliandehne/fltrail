@@ -8,7 +8,7 @@
 
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/takeQuiz.js"></script>
+    <script src="../libs/js/takeQuiz.js"></script>
 
 </head>
 

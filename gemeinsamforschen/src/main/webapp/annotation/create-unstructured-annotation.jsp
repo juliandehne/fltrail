@@ -25,9 +25,9 @@
     <!-- js - rangy TextRange Module -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-textrange.js" type="text/javascript"></script>
     <!-- js - unstructuredRest -->
-    <script src="../assets/js/unstructuredRest.js"></script>
+    <script src="../libs/js/unstructuredRest.js"></script>
     <!-- js - unstructuredUpload -->
-    <script src="../assets/js/unstructuredAnnotation.js"></script>
+    <script src="../libs/js/unstructuredAnnotation.js"></script>
 
 
 </head>

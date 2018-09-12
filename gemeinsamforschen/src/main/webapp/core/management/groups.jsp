@@ -14,11 +14,11 @@
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../assets/js/config.js"></script>
-    <script src="../assets/js/myGroupsInit.js"></script>
-    <script src="../assets/js/getProjects.js"></script>
+    <script src="../libs/js/config.js"></script>
+    <script src="../libs/js/myGroupsInit.js"></script>
+    <script src="../libs/js/getProjects.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../assets/js/Sidebar-Menu.js"></script>
+    <script src="../libs/js/Sidebar-Menu.js"></script>
 
 
 

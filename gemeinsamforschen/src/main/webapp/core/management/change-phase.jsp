@@ -8,7 +8,7 @@
 <html>
 <head>
     <omniDependencies:omniDependencies/>
-    <script src="../assets/js/changePhase.js"></script>
+    <script src="../libs/js/changePhase.js"></script>
 </head>
 
 <body>

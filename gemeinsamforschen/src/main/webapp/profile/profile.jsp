@@ -12,7 +12,7 @@
 <head>
     <omniDependencies:omniDependencies/>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed|Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-    <script src="../assets/js/profile.js"></script>
+    <script src="../libs/js/profile.js"></script>
 </head>
 
 

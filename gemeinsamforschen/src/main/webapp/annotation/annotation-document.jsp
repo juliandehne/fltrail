@@ -28,15 +28,15 @@
     <!-- js - rangy TextRange Module -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-textrange.js" type="text/javascript"></script>
     <!-- js - utility -->
-    <script src="../assets/js/utility.js"></script>
+    <script src="../libs/js/utility.js"></script>
     <!-- js - annotation websocket script -->
-    <script src="../assets/js/annotationWebsocket.js"></script>
+    <script src="../libs/js/annotationWebsocket.js"></script>
     <!-- js - annotation REST script -->
-    <script src="../assets/js/annotationRest.js"></script>
+    <script src="../libs/js/annotationRest.js"></script>
     <!-- js - unstructuredRest -->
-    <script src="../assets/js/unstructuredRest.js"></script>
+    <script src="../libs/js/unstructuredRest.js"></script>
     <!-- js - annotationScript -->
-    <script src="../assets/js/annotationScript.js"></script>
+    <script src="../libs/js/annotationScript.js"></script>
 </head>
 
 <body>
