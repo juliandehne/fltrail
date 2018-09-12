@@ -267,10 +267,30 @@ function displayAnnotation(annotation) {
         dateIcon = "fas fa-clock";
     }
 
+    // declare variables
+    let display, input, filter, user, title, comment;
+    input = $('#annotation-search');
+    filter = input.val().toLowerCase();
+
+    user = annotation.userToken.toLowerCase();
+    title = annotation.body.title.toLowerCase();
+    comment = annotation.body.comment.toLowerCase();
+
+    // hiding based on user, title and comment
+    if (user.indexOf(filter) > -1 ||
+        title.indexOf(filter) > -1 ||
+        comment.indexOf(filter) > -1) {
+        display = ''
+    }
+    else {
+        display = 'none'
+    }
+
     // insert annotation card
     list.prepend(
         // list element
         $('<li>')
+            .css('display', display)
             .attr('class', 'listelement')
             .append(
                 // annotation card
@@ -296,7 +316,7 @@ function displayAnnotation(annotation) {
                                                 $('<i>').attr('class', 'fas fa-user')
                                             )
                                             .append(
-                                                $('<span>').append(annotation.userToken)
+                                                $('<span>').attr('class', 'annotation-header-data-user').append(annotation.userToken)
                                             )
                                     )
                                     .append(
@@ -371,11 +391,9 @@ function displayAnnotation(annotation) {
             .mouseleave(function () {
                 deleteHighlightedText();
             })
-            .append(function () {
-                if ($('#annotations li').filter( ".listelement" ).length > 0) {
-                    return $('<div>').attr('class', 'spacing')
-                }
-            })
+            .append(
+                $('<div>').attr('class', 'spacing')
+            )
     );
 }
 
@@ -790,4 +808,33 @@ function isAnnotationInRange(start, end) {
         }
     }
     return false;
+}
+
+/**
+ * Display or hide annotations based on filter string
+ */
+function searchAnnotation() {
+    // declare variables
+    let input, filter;
+    input = $('#annotation-search');
+    filter = input.val().toLowerCase();
+
+    // iterate over annotation card and hide those who don't match the search query
+    $('#annotations').find('li').each(function () {
+        let user, title, comment;
+        user = $(this).find('.annotation-header-data-user').text().toLowerCase();
+        title = $(this).find('.annotation-header-data-title').text().toLowerCase();
+        comment = $(this).find('.annotation-body-text').text().toLowerCase();
+
+        // hiding based on user, title and comment
+        if (user.indexOf(filter) > -1 ||
+            title.indexOf(filter) > -1 ||
+            comment.indexOf(filter) > -1) {
+            $(this).css('display', '')
+        }
+        else {
+            $(this).css('display', 'none')
+        }
+    });
+
 }
