@@ -19,7 +19,7 @@ public class Project {
     private String adminPassword;
     private String token;
     // using enum ProjectPhase
-    private String phase;
+    private ProjectPhase phase;
 
     public Project() {
     }
@@ -35,7 +35,7 @@ public class Project {
         this.setPhase(ProjectPhase.CourseCreation);
     }
 
-    public String getPhase() {
+    public ProjectPhase getPhase() {
         return phase;
     }
 
@@ -44,7 +44,7 @@ public class Project {
      * @param phase
      */
     public void setPhase(ProjectPhase phase) {
-        this.phase = phase.name();
+        this.phase = phase;
     }
 
     public Project(String id, String password, Boolean active, String author, String adminPassword, String token) {

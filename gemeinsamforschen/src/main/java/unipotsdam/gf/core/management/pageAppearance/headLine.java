@@ -1,16 +1,16 @@
-package unipotsdam.gf.core.management.user;
+package unipotsdam.gf.core.management.pageAppearance;
 
 import unipotsdam.gf.core.management.ManagementImpl;
+import unipotsdam.gf.core.management.user.User;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
 public class headLine extends SimpleTagSupport {
-    public void doTag() throws JspException, IOException {
+    public void doTag() throws IOException {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String projectId = request.getParameter("projectId");
@@ -58,6 +58,4 @@ public class headLine extends SimpleTagSupport {
                 "            </table>\n" +
                 "        </div>");
     }
-
-
-};
+}
