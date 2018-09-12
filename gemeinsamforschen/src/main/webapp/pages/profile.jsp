@@ -1,22 +1,18 @@
 <%@ page import="unipotsdam.gf.core.management.ManagementImpl" %>
 <%@ page import="unipotsdam.gf.core.management.user.User" %>
 <%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="menu"%>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../core/pages/gemeinsamForschen.tld" prefix="footer" %>
+
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/styles.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/Community-ChatComments.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu-1.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
+    <omniDependencies:omniDependencies/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed|Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <script src="../assets/js/profile.js"></script>
 </head>
 
 
@@ -29,25 +25,10 @@
 
 <body>
 <div id="wrapper">
-    <menu:menu></menu:menu>
+    <menu:menu/>
 
     <div class="page-content-wrapper">
-        <div class="container-fluid">
-            <h1 id="projectId">
-                <a href="#">
-                        <span class="glyphicon glyphicon-envelope"
-                              style="font-size:27px;margin-top:-17px;margin-left:600px;"></span>
-                </a>
-                <a href="#">
-                    <span class="glyphicon glyphicon-cog" style="font-size:29px;margin-left:5px;margin-top:-25px;"></span>
-                </a></h1>
-        </div>
-        <div id="content">
-
-            <div class="page-header text-center">
-                <h1>Mein Profil</h1>
-            </div>
-
+        <headLine:headLine/>
             <div class="container">
                 <div class="row">
                     <%-- about --%>
@@ -60,6 +41,16 @@
                             </li>
                             <li class="list-group-item">
                                 <p>Sonstiges:</p>
+                                <form id="uploadimage" method="post" action="../rest/user/student/wiepke">
+                                    <div id="image_preview"><img id="previewing" src="../assets/img/noImg.png" /></div>
+                                    <hr id="line">
+                                    <div id="selectImage">
+                                        <label>Select Your Image</label><br/>
+                                        <input type="file" name="image" id="file" required />
+                                        <input type="submit" value="Upload" class="submit" />
+                                    </div>
+                                </form>
+                                <p id="message"></p>
                             </li>
                         </ul>
 
@@ -123,13 +114,8 @@
             </div>
 
         </div>
+    <footer:footer/>
     </div>
-</div>
-
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/Sidebar-Menu.js"></script>
-
 </body>
 
 </html>

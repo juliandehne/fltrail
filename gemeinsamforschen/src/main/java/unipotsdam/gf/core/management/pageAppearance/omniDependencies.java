@@ -1,17 +1,11 @@
-package unipotsdam.gf.core.management.user;
+package unipotsdam.gf.core.management.pageAppearance;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
 public class omniDependencies extends SimpleTagSupport {
-    public void doTag() throws JspException, IOException {
-        PageContext pageContext = (PageContext) getJspContext();
-        HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-        String projectId = request.getParameter("projectId");
+    public void doTag() throws IOException {
         JspWriter out = getJspContext().getOut();
         out.println("<meta charset=\"utf-8\">\n" +
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
@@ -28,8 +22,6 @@ public class omniDependencies extends SimpleTagSupport {
                 "    <script src=\"../assets/js/utility.js\"></script>\n" +
                 "    <script src=\"../assets/js/footer.js\"></script>\n" +
                 "    <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.1.0/css/all.css\"\n" +
-                "          integrity=\"sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt\" crossorigin=\"anonymous\">");
+                "      integrity=\"sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt\" crossorigin=\"anonymous\">");
     }
-
-
-};
+}

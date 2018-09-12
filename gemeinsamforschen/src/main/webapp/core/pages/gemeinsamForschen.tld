@@ -11,7 +11,7 @@
 
     <tag>
         <name>menu</name>
-        <tag-class>unipotsdam.gf.core.management.user.Menu</tag-class>
+        <tag-class>unipotsdam.gf.core.management.pageAppearance.Menu</tag-class>
         <body-content>empty</body-content>
     </tag>
 
@@ -23,13 +23,19 @@
 
     <tag>
         <name>omniDependencies</name>
-        <tag-class>unipotsdam.gf.core.management.user.omniDependencies</tag-class>
+        <tag-class>unipotsdam.gf.core.management.pageAppearance.omniDependencies</tag-class>
         <body-content>empty</body-content>
     </tag>
 
     <tag>
         <name>headLine</name>
-        <tag-class>unipotsdam.gf.core.management.user.headLine</tag-class>
+        <tag-class>unipotsdam.gf.core.management.pageAppearance.headLine</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+
+    <tag>
+        <name>footer</name>
+        <tag-class>unipotsdam.gf.core.management.pageAppearance.footer</tag-class>
         <body-content>empty</body-content>
     </tag>
     

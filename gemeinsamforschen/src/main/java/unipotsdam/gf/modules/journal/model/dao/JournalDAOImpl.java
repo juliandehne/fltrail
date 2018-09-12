@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.journal.model.dao;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
@@ -95,7 +96,7 @@ public class JournalDAOImpl implements JournalDAO {
     }
 
     @Override
-    public ArrayList<Journal> getAllByProject(String project) {
+    public ArrayList<Journal> getAllByProject(String project, String student) {
 
         ArrayList<Journal> journals = new ArrayList<>();
 
@@ -104,8 +105,8 @@ public class JournalDAOImpl implements JournalDAO {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM journals WHERE project= ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project);
+        String request = "SELECT * FROM journals WHERE project= ? AND (author = ? OR visibility = \"ALL\" or visibility = \"GROUP\");";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project, student);
 
         while (rs.next()) {
             journals.add(getJournalFromResultSet(rs));
@@ -144,7 +145,7 @@ public class JournalDAOImpl implements JournalDAO {
     @Override
     public ArrayList<Journal> getAllByProjectAndFilter(String project, String student, JournalFilter filter) {
         if (filter == JournalFilter.ALL) {
-            return getAllByProject(project);
+            return getAllByProject(project, student);
         } else {
             return getAllByStudent(student);
         }
@@ -163,6 +164,29 @@ public class JournalDAOImpl implements JournalDAO {
 
         //close connection
         connection.close();
+    }
+
+    @Override
+    public ArrayList<String> getOpenJournals(Project project) {
+        ArrayList<String> userIds = new ArrayList<>();
+
+        // establish connection
+        MysqlConnect connection = new MysqlConnect();
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * FROM journals WHERE project = ? AND open = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getId(), true);
+
+        while (rs.next()) {
+            userIds.add(getJournalFromResultSet(rs).getStudentIdentifier().getStudentId());
+        }
+
+        // close connection
+        connection.close();
+
+        return userIds;
+
     }
 
     /**
