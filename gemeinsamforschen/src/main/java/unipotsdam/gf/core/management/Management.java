@@ -130,5 +130,7 @@ public interface Management {
     void create(ProjectConfiguration projectConfiguration, Project project);
 
     ProjectConfiguration getProjectConfiguration(Project project);
+
+    String getProjectToken(String projectName, String password);
 }
 

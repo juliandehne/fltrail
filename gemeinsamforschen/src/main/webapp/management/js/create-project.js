@@ -54,23 +54,35 @@ function createNewProject(allTheTags, activ) {
 
     document.getElementById('loader').className = "loader";
     document.getElementById('wrapper').className = "wrapper-inactive";
-    var localurl = "../database/getProjects.php?project=" + projectName;
+    var localurl = "../../gemeinsamforschen/rest/project/create";
     if (allTheTags.length !== 5) {
         document.getElementById('tagHelper').className = "alert alert-warning";
     } else {
         document.getElementById('tagHelper').className = "";
     }
 
+    // TODO find out author
+    var project = {
+        "id": projectName,
+        "password": password,
+        "active": true,
+        "timecreated": null,
+        "author": "STFHXOqQj2",
+        "adminPassword": adminPassword,
+        "token": "QCqGuQlYLL",
+        "phase": "GroupFormation",
+        "tags": allTheTags
+    }
 
     $('#projectIsMissing').hide();
     $.ajax({                        //check local DB for existence of projectName
         url: localurl,
-        projectName: projectName,
+        contentType: 'application/json',
         activ: activ,
-        Accept: "text/plain; charset=utf-8",
-        contentType: "text/plain",
+        type: 'PUT',
+        data: JSON.stringify(project),
         success: function (response) {
-            if (response !== "project missing") {
+            if (response === "project missing") {
                 $('#projectNameExists').show();
                 document.getElementById('loader').className = "loader-inactive";
                 document.getElementById('wrapper').className = "wrapper";
@@ -114,7 +126,7 @@ function createNewProject(allTheTags, activ) {
                     document.getElementById('loader').className = "loader-inactive";
                     document.getElementById('wrapper').className = "wrapper";
                     if ($('#Teilnehmer').prop("checked")) {          //if author wants to join the course, he needs to be redirected to enter-preferences.jsp
-                        var url = "../database/getProjects.php?project=" + projectName + "&password=" + document.getElementById('passwordProject').value;
+                        var url = "../../gemeinsamforschen/rest/project/token?project=" + projectName + "&password=" + document.getElementById('passwordProject').value;
                         $.ajax({
                             url: url,
                             projectName: projectName,
@@ -128,7 +140,7 @@ function createNewProject(allTheTags, activ) {
                             }
                         });
                     } else {                //if author is just author and not member, he will be directed to projects.php
-                        location.href = "projects.php?token=" + getUserTokenFromUrl();
+                        location.href = "../project-docent.jsp?token=" + getUserTokenFromUrl();
                     }
                 });
             }
@@ -144,7 +156,7 @@ function createNewProject(allTheTags, activ) {
 }
 
 function addProjectToLocalDB(allTheTags, projectName, password, activ, adminPassword) {
-    var tags = JSON.stringify(allTheTags);
+    /*var tags = JSON.stringify(allTheTags);
     var author = $("#user").text().trim();
     var url = "../database/putProject.php?project=" + projectName + "&password=" + password + "&activ=" + activ + "&token=" + getUserTokenFromUrl() + "&adminpassword=" + adminPassword + "&author=" + author;
     return $.ajax({
@@ -158,5 +170,6 @@ function addProjectToLocalDB(allTheTags, projectName, password, activ, adminPass
         error: function (a, b, c) {
             console.log(a);
         }
-    });
+    });*/
+    // Project has been added with the exist function - maybe that was the wrong approach?
 }

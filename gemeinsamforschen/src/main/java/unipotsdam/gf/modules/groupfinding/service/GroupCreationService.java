@@ -30,7 +30,7 @@ public class GroupCreationService {
     public boolean createExampleProject() {
 
         User docentUser = getDocentUser();
-        Project project = new Project("1", "", true, docentUser.getEmail(), "admin");
+        Project project = new Project("1", "", true, docentUser.getEmail(), "admin", null);
 
         List<Group> groups = createDummyGroups(project.getId());
 
