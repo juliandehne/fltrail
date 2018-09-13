@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1", charset="utf-8">
-    <omniDependencies:omniDependencies/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->

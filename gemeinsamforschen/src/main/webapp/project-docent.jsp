@@ -11,7 +11,7 @@
 <html>
 
 <head>
-    <omniDependencies:omniDependencies/>
+    <omniDependencies:omniDependencies hierarchy="0"/>
 </head>
 
 <body>

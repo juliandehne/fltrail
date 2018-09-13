@@ -7,7 +7,7 @@
 <head>
 
     <link rel="stylesheet" href="../assets/css/e-portfolio.css">
-    <omniDependencies:omniDependencies/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
 
 </head>
 

@@ -8,7 +8,7 @@
 <html>
 
 <head>
-    <omniDependencies:omniDependencies/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
 
     <!-- js - jQuery validation plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>

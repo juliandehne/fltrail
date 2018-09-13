@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <omniDependencies:omniDependencies/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
     <script src="../libs/js/assessmentCalculator.js"></script>
 </head>
 <body>

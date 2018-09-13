@@ -7,7 +7,7 @@
 <html>
 
 <head>
-    <omniDependencies:omniDependencies/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
 
     <!-- css - unstructured-annotation -->
     <link rel="stylesheet" type="text/css" href="../assets/css/unstructured-annotation.css">

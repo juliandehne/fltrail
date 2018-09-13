@@ -8,7 +8,7 @@
 
 
 <head>
-    <omniDependencies:omniDependencies/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
 
     <!-- css - annotationStyle -->
     <link rel="stylesheet" type="text/css" href="../assets/css/annotationStyle.css">

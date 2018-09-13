@@ -37,7 +37,7 @@
     <script src="../libs/js/utility.js"></script>
     <script src="../libs/js/project-student.js"></script>
     <script src="../libs/js/peerfeedback.js"></script>
-        <omniDependencies:omniDependencies/>
+        <omniDependencies:omniDependencies hierarchy="1"/>
 </head>
 
 <body>

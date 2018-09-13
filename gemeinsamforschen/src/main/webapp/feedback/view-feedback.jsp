@@ -8,7 +8,7 @@
 
 <head>
     <link rel="stylesheet" href="../assets/css/viewfeedback.css">
-    <omniDependencies:omniDependencies/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
     <script src="../libs/js/utility.js"></script>
     <script src="../libs/js/project-student.js"></script>
     <script src="../libs/js/givepeerfeedback.js"></script>

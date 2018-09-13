@@ -8,7 +8,7 @@
 
 
 <head>
-    <omniDependencies:omniDependencies/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
     <script src="../libs/js/utility.js"></script>
     <script src="../libs/js/AlertAssessmentOutlier.js"></script>
     <script src="../libs/js/grading.js"></script>

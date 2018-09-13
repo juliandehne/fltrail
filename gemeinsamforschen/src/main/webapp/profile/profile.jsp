@@ -10,9 +10,9 @@
 <html>
 
 <head>
-    <omniDependencies:omniDependencies/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed|Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-    <script src="../libs/js/profile.js"></script>
+    <script src="js/profile.js"></script>
 </head>
 
 
@@ -41,8 +41,8 @@
                             </li>
                             <li class="list-group-item">
                                 <p>Sonstiges:</p>
-                                <form id="uploadimage" method="post" action="../rest/user/student/wiepke">
-                                    <div id="image_preview"><img id="previewing" src="../assets/img/noImg.png" /></div>
+                                <form id="uploadimage" method="post" action="rest/user/student/wiepke">
+                                    <div id="image_preview"><img id="previewing" src="../libs/img/noImg.png" /></div>
                                     <hr id="line">
                                     <div id="selectImage">
                                         <label>Select Your Image</label><br/>
