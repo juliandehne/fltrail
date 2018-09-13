@@ -21,7 +21,6 @@ public class OmniDependencies extends SimpleTagSupport {
                 "    <link rel=\"stylesheet\" href=\""+hierarchyToString(hierarchyLevel)+"libs/fonts/font-awesome.min.css\">\n" +
                 "    <link rel=\"stylesheet\" href=\""+hierarchyToString(hierarchyLevel)+"libs/css/Sidebar-Menu-1.css\">\n" +
                 "    <link rel=\"stylesheet\" href=\""+hierarchyToString(hierarchyLevel)+"libs/css/Sidebar-Menu.css\">\n" +
-                "    <script src=\""+hierarchyToString(hierarchyLevel)+"libs/js/Sidebar-Menu.js\"></script>\n" +
                 "    <script src=\""+hierarchyToString(hierarchyLevel)+"core/utility.js\"></script>\n" +
                 "    <script src=\""+hierarchyToString(hierarchyLevel)+"core/footer.js\"></script>\n" +
                 "    <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.1.0/css/all.css\"\n" +
