@@ -9,15 +9,43 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 
-CREATE TABLE `annotations` (
+CREATE TABLE if not exists `annotations` (
   `id` varchar(120) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `userId` int(11) DEFAULT NULL,
-  `targetId` int(11) DEFAULT NULL,
-  `body` varchar(280) DEFAULT NULL,
+  `userToken` varchar(120) DEFAULT NULL,
+  `targetId` varchar(120) DEFAULT NULL,
+  `targetCategory` VARCHAR(30) NOT NULL,
+  `title` varchar(120) DEFAULT NULL,
+  `comment` varchar(400) DEFAULT NULL,
   `startCharacter` int(11) DEFAULT NULL,
-  `endCharacter` int(11) DEFAULT NULL
+  `endCharacter` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE if not exists `fullsubmissions` (
+  `id` VARCHAR(120) NOT NULL,
+  `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `user` VARCHAR(120) NOT NULL,
+  `text` MEDIUMTEXT NOT NULL,
+  `projectId` VARCHAR(120) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE if not exists `submissionparts` (
+  `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `userId` VARCHAR(120) NOT NULL,
+  `fullSubmissionId` VARCHAR(120) NOT NULL,
+  `category` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`fullSubmissionId`, `category`)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE if not exists `submissionpartbodyelements` (
+  `fullSubmissionId` VARCHAR(120) NOT NULL,
+  `category` VARCHAR(30) NOT NULL,
+  `startCharacter` int(11) NOT NULL,
+  `endCharacter` int(11) NOT NULL,
+  PRIMARY KEY (`fullSubmissionId`, `category`, `startCharacter`, `endCharacter`)
+) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `answeredquiz` (
   `projectId` varchar(400) NOT NULL,
@@ -111,9 +139,6 @@ CREATE TABLE `workrating` (
   `communication` int(11) NOT NULL,
   `autonomous` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-ALTER TABLE `annotations`
-  ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`);
