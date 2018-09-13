@@ -124,7 +124,6 @@ CREATE TABLE `users` (
   `rocketChatId` varchar(400) NOT NULL,
   `rocketChatAuthToken` varchar(800) NOT NULL,
   `isStudent` tinyint(1) DEFAULT '1'
-  ON UPDATE CURRENT_TIMESTAMP,
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
