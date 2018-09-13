@@ -31,8 +31,7 @@ public class JournalDAOImplTest {
     public void createJournal() {
 
         // Create Journal
-        Journal createJournal = testJournal;
-        journalDAO.createJournal(createJournal);
+        journalDAO.createJournal(testJournal);
 
         connection.connect();
 
@@ -108,13 +107,12 @@ public class JournalDAOImplTest {
 
     @Test
     public void deleteJournal() {
-        Journal deleteJournal = testJournal;
 
         //createJournal
         connection.connect();
 
         // build and execute request
-        create(deleteJournal);
+        create(testJournal);
 
         //check if Journal was added
         ArrayList<Journal> resultJournals = getJournals();
@@ -138,14 +136,13 @@ public class JournalDAOImplTest {
     @Test
     public void getJournal() {
 
-        //create Journal
-        Journal getJournal = testJournal;
+
         //createJournal
 
         connection.connect();
 
         // build and execute request
-        create(getJournal);
+        create(testJournal);
 
         //get that Journal
         Journal resultJournal = journalDAO.getJournal(testId);
@@ -224,8 +221,7 @@ public class JournalDAOImplTest {
         connection.connect();
 
         //create Journal
-        Journal closeJournal = testJournal;
-        create(closeJournal);
+        create(testJournal);
 
         Journal resultJournal = getJournals().get(0);
 

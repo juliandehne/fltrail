@@ -80,9 +80,7 @@ public class ProjectDescriptionImplDAOTest {
     public void getDescriptionSI() {
         connection.connect();
 
-        ProjectDescription getDescription = testProjectDescription;
-
-        create(getDescription);
+        create(testProjectDescription);
 
         ProjectDescription result = descriptionDAO.getDescription(new StudentIdentifier(testProjekt, testStudent));
 
@@ -99,9 +97,7 @@ public class ProjectDescriptionImplDAOTest {
     public void getDescriptionID() {
         connection.connect();
 
-        ProjectDescription getDescription = testProjectDescription;
-
-        create(getDescription);
+        create(testProjectDescription);
 
         ProjectDescription result = descriptionDAO.getDescription(testId);
 
@@ -118,9 +114,7 @@ public class ProjectDescriptionImplDAOTest {
     public void deleteDescription() {
         connection.connect();
 
-        ProjectDescription deleteDescription = testProjectDescription;
-
-        create(deleteDescription);
+        create(testProjectDescription);
 
         ArrayList<ProjectDescription> resultDescriptions = getProjectDescription();
 
@@ -141,9 +135,7 @@ public class ProjectDescriptionImplDAOTest {
     public void closeDescription() {
         connection.connect();
 
-        ProjectDescription closeDescription = testProjectDescription;
-
-        create(closeDescription);
+        create(testProjectDescription);
 
         ArrayList<ProjectDescription> resultDescriptions = getProjectDescription();
 
