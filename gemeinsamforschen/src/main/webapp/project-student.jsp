@@ -102,8 +102,6 @@
 
                             </tr>
                         </table>
-
-                        <button onclick="goBack()" class="btn btn-secondary">Zur&uuml;ck</button>
                     </td>
                 </tr>
             </table>

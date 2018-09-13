@@ -2,6 +2,7 @@
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
 
 <!DOCTYPE html>
 <html>
@@ -135,12 +136,8 @@
 </table>
 </div>
 </div>
+    <footer:footer/>
 </div>
-
-<script src="js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="js/Sidebar-Menu.js"></script>
-<script src="js/createJournal.js"></script>
 </body>
 
 </html>
