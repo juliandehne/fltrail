@@ -11,7 +11,7 @@ $(document).ready(function(){
         $('.annotationview').click(function () {
             let fullSubmissionId = $(this).closest("li").data("fullSubmissionId");
             let category = $(this).closest("li").data("category");
-            location.href="annotation-document.jsp?token=" + getUserTokenFromUrl() +
+            location.href="/annotation/annotation-document.jsp?token=" + getUserTokenFromUrl() +
                 "&projectId=" + getQueryVariable("projectId") +
                 "&fullSubmissionId=" + fullSubmissionId +
                 "&category=" + category;
@@ -41,7 +41,7 @@ $(document).ready(function(){
     });
 
     $('#btnUnstructuredUpload').click(function () {
-        location.href="unstructured-upload.jsp?token="+getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+        location.href="/annotation/upload-unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
     })
 
     $('.viewprojectstudent').click(function () {

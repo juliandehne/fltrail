@@ -285,7 +285,7 @@ function saveButtonHandler() {
 
         $.when.apply($, promises).then(function () {
             // redirect user to project page after saving
-            location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+            location.href="../project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
         });
 
         // redirect user to project page after saving

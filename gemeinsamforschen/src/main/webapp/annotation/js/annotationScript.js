@@ -68,14 +68,14 @@ $(document).ready(function() {
      * continue button
      */
     $('#btnContinue').click(function () {
-        location.href="give-feedback.jsp?token=" + getUserTokenFromUrl();
+        location.href="../feedback/give-feedback.jsp?token=" + getUserTokenFromUrl();
     });
 
     /**
      * back button
      */
     $('#btnBack').click(function () {
-        location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+        location.href="../project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
     });
 
     /**
