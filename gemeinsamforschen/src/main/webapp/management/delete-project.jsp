@@ -5,14 +5,15 @@
   Time: 12:06
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gruppenmatcher</title>
+    <omniDependencies:omniDependencies hierarchy="1"/>
     <script src="js/config.js"></script>
     <script src="js/deleteProject.js"></script>
 
@@ -20,7 +21,7 @@
 
 <body>
 <div class="loader-inactive" id="loader"></div>
-<div id="wrapper" class="wrapper" style="margin:0px;">
+<div id="wrapper" class="wrapper">
     <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
@@ -36,7 +37,7 @@
             <legend style="margin-left:13px;">Projektnamen</legend>
             <input class="form-control" type="text" id="projectName" name="Project" required=""
                    placeholder="Projekt1" autofocus=""
-                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+                   style="max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
             <div class="alert alert-warning" role="alert" id="projectIsMissing">
                 Dieser Projektname existiert nicht oder das Passwort ist falsch.
             </div>
@@ -46,12 +47,13 @@
             <legend style="margin-left:13px;">Passwort zum löschen</legend>
             <input class="form-control" type="password" id="projectPassword" name="Password" required=""
                    placeholder="******"
-                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+                   style="max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
             <div class="alert alert-warning" role="alert" id="projectWrongPassword">
                 Falsches Passwort.
             </div>
         </fieldset>
         <button id="deleteProject" class="btn btn-danger">löschen</button>
+    <footer:footer/>
 </div>
 </body>
 

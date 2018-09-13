@@ -16,11 +16,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
 
     <!-- css - upload-unstructured -->
-    <link rel="stylesheet" type="text/css" href="../assets/css/unstructured-upload.css">
+    <link rel="stylesheet" type="text/css" href="css/unstructured-upload.css">
     <!-- js - unstructuredUpload -->
-    <script src="../libs/js/unstructuredUpload.js"></script>
+    <script src="js/unstructuredUpload.js"></script>
     <!-- js - unstructuredRest -->
-    <script src="../libs/js/unstructuredRest.js"></script>
+    <script src="js/unstructuredRest.js"></script>
 
 </head>
 

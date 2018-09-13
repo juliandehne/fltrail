@@ -6,8 +6,9 @@
 
 <head>
 
-    <link rel="stylesheet" href="../assets/css/e-portfolio.css">
+    <link rel="stylesheet" href="css/eportfolio.css">
     <omniDependencies:omniDependencies hierarchy="1"/>
+    <script src="js/eportfolio.js"></script>
 
 </head>
 
@@ -152,11 +153,6 @@
         </div>
     </div>
 </div>
-
-<script src="../libs/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../libs/js/Sidebar-Menu.js"></script>
-<script src="../libs/js/e-portfolio.js"></script>
 </body>
 
 </html>

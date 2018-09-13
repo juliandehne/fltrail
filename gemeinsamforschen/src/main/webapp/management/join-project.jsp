@@ -14,12 +14,12 @@
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
     <link rel="stylesheet" href="../assets/css/styles.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="../libs/js/config.js"></script>
-    <script src="../libs/js/utility.js"></script>
-    <script src="../libs/js/showProjects.js"></script>
-    <script src="../libs/js/GETfile.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/utility.js"></script>
+    <script src="js/showProjects.js"></script>
+    <script src="js/GETfile.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../libs/js/Sidebar-Menu.js"></script>
+    <script src="js/Sidebar-Menu.js"></script>
 
 </head>
 

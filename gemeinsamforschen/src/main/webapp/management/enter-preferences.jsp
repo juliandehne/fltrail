@@ -20,7 +20,7 @@
     <div class="sk-cube4 sk-cube"></div>
     <div class="sk-cube3 sk-cube"></div>
 </div>
-<div id="wrapper" class="wrapper" style="margin:0px;">
+<div id="wrapper" class="wrapper">
     <?php
     include_once 'menu.php'
     ?>

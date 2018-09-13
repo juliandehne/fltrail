@@ -5,7 +5,7 @@
   Time: 12:06
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
@@ -30,7 +30,7 @@
     <div class="sk-cube3 sk-cube"></div>
 </div>
 
-<div id="wrapper" style="margin:0px;">
+<div id="wrapper">
     <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <div class="container-fluid">

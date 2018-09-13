@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 
@@ -14,11 +14,11 @@
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="../libs/js/config.js"></script>
-    <script src="../libs/js/myGroupsInit.js"></script>
-    <script src="../libs/js/getProjects.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/myGroupsInit.js"></script>
+    <script src="js/getProjects.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="../libs/js/Sidebar-Menu.js"></script>
+    <script src="js/Sidebar-Menu.js"></script>
 
 
 
@@ -27,7 +27,7 @@
 <body>
 <p id="user" hidden><?php echo $userName; ?></p>
 
-<div id="wrapper" style="margin:0px;">
+<div id="wrapper">
     <?php
     include_once 'menu.php'
     ?>
@@ -43,7 +43,7 @@
     </div>
 
     <div>
-        <div class="container" style="margin-left:0px;">
+        <div class="container">
             <div class="row">
                 <div class="col-md-offset-3 col-sm-8 col-xs-1">
                     <h3>Projekt</h3>
