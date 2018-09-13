@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @ManagedBean
 @Resource
@@ -41,7 +42,7 @@ public class GroupDAO {
 
     public void update(Group group) {
         connect.connect();
-        String mysqlRequest = "UPDATE group SET projectId=?,chatRoomid=?";
+        String mysqlRequest = "UPDATE groups SET projectId=?,chatRoomid=?";
         connect.issueUpdateStatement(mysqlRequest, group.getProjectId(), group.getChatRoomId());
         connect.close();
         // TODO: implement update of groupuser if needed later (if member list need to be updated)
@@ -64,10 +65,14 @@ public class GroupDAO {
     public List<Group> getGroupsByProjectId(String projectId) {
         connect.connect();
         String mysqlRequest = "SELECT * FROM groups g " +
-                "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu.userEmail=u.email" +
+                "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu.userEmail=u.email " +
                 "where g.projectId = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, projectId);
+        if (Objects.isNull(vereinfachtesResultSet)) {
+            connect.close();
+            return Collections.emptyList();
+        }
         HashMap<Integer, Group> groupHashMap = new HashMap<>();
         while (vereinfachtesResultSet.next()) {
             fillGroupFromResultSet(vereinfachtesResultSet, groupHashMap);
