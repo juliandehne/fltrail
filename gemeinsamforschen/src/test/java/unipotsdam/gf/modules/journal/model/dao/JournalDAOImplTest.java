@@ -277,7 +277,7 @@ public class JournalDAOImplTest {
     //utility
 
     private ArrayList<Journal> getJournals() {
-        String request = "SELECT * FROM journals WHERE project= ?;";
+        String request = "SELECT * FROM journals WHERE projectId= ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, testProject);
 
         ArrayList<Journal> resultJournals = new ArrayList<>();
@@ -288,7 +288,7 @@ public class JournalDAOImplTest {
     }
 
     private void create(Journal getJournal) {
-        String createRequest = "INSERT INTO journals (`id`, `author`, `project`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
+        String createRequest = "INSERT INTO journals (`id`, `studentId`, `projectId`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(createRequest, getJournal.getId(), getJournal.getStudentIdentifier().getStudentId(),
                 getJournal.getStudentIdentifier().getProjectId(), getJournal.getEntryMD(), getJournal.getVisibility(), getJournal.getCategory(), getJournal.isOpen());
     }
@@ -304,8 +304,8 @@ public class JournalDAOImplTest {
 
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
-        String student = rs.getString("author");
-        String project = rs.getString("project");
+        String student = rs.getString("studentId");
+        String project = rs.getString("projectId");
         String text = rs.getString("text");
         String visibility = rs.getString("visibility");
         String category = rs.getString("category");
