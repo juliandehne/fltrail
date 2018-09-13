@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
@@ -82,6 +83,16 @@ public class FBAssessement extends AssessmentDAO {
     @Override
     public String whatToRate(StudentIdentifier student) {
         return null;
+    }
+
+    @Override
+    public Boolean allAssessmentsDone(String projectId) {
+        return null;
+    }
+
+    @Override
+    public void assignMissingAssessmentTasks(Project project) {
+
     }
 
     @Override

@@ -2,16 +2,15 @@ package unipotsdam.gf.core.states;
 
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.interfaces.IPhases;
 
-import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 /**
  * REST API for switching phases
- * In order to look up the possible phases @see unipotsdam.gf.core.states.ProjectPhase
+ * In order to look up the possible phases @see unipotsdam.gf.core.states.model.ProjectPhase
  */
 @Path("/phases")
 public class PhasesService  {

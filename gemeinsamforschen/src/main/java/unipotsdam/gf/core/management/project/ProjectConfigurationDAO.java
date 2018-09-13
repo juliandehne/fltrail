@@ -2,13 +2,11 @@ package unipotsdam.gf.core.management.project;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.groupfinding.GroupFormationMechanism;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ProjectConfigurationDAO {

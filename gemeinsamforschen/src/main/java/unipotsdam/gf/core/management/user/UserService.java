@@ -1,8 +1,6 @@
 package unipotsdam.gf.core.management.user;
 
-import org.glassfish.grizzly.streams.BufferedInput;
 import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.core.states.ProjectPhase;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
@@ -11,8 +9,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URI;
@@ -154,9 +150,9 @@ public class UserService {
     private Response redirectToProjectPage(User user, ManagementImpl management) throws URISyntaxException {
         String successUrl;
         if (user.getStudent() != null && user.getStudent()) {
-            successUrl = "../pages/overview-student.jsp?token=";
+            successUrl = "../overview-student.jsp?token=";
         } else {
-            successUrl = "../pages/overview-docent.jsp?token=";
+            successUrl = "../overview-docent.jsp?token=";
         }
         successUrl += management.getUserToken(user);
         return forwardToLocation(successUrl);

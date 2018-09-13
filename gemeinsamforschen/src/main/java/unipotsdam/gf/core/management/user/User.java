@@ -20,20 +20,20 @@ public class User {
     }
 
     public User(String name, String password, String email, Boolean isStudent) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.isStudent = isStudent;
-        this.rocketChatAuthToken = "";
-        this.rocketChatId = "";
+        this(name, password, email, "", "", isStudent);
     }
 
     public User(String name, String password, String email, String rocketChatId, String rocketChatAuthToken, Boolean isStudent) {
+        this(name, password, email, "", rocketChatAuthToken, rocketChatId, isStudent);
+    }
+
+    public User(String name, String password, String email, String token, String rocketChatAuthToken, String rocketChatId, Boolean isStudent) {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.rocketChatId = rocketChatId;
+        this.token = token;
         this.rocketChatAuthToken = rocketChatAuthToken;
+        this.rocketChatId = rocketChatId;
         this.isStudent = isStudent;
     }
 
