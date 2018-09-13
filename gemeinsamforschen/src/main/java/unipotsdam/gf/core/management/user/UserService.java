@@ -154,9 +154,9 @@ public class UserService {
     private Response redirectToProjectPage(User user, ManagementImpl management) throws URISyntaxException {
         String successUrl;
         if (user.getStudent() != null && user.getStudent()) {
-            successUrl = "../pages/overview-student.jsp?token=";
+            successUrl = "../overview-student.jsp?token=";
         } else {
-            successUrl = "../pages/overview-docent.jsp?token=";
+            successUrl = "../overview-docent.jsp?token=";
         }
         successUrl += management.getUserToken(user);
         return forwardToLocation(successUrl);

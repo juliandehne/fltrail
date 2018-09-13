@@ -33,7 +33,7 @@ public class Menu extends SimpleTagSupport {
             if (isStudent){
                 String menuString = "<div id=\"sidebar-wrapper\">\n" +
                         "        <ul class=\"sidebar-nav\">\n" +
-                        "            <li class=\"sidebar-brand\"><a href=\""+hierarchyToString(hierarchyLevel-1)+"overview-student.jsp?token="+token+"&projectId="+projectId+"\">overview</a></li>\n" +
+                        "            <li class=\"sidebar-brand\"><a href=\""+hierarchyToString(hierarchyLevel)+"overview-student.jsp?token="+token+"&projectId="+projectId+"\">overview</a></li>\n" +
                         "            <li><a href=\""+hierarchyToString(hierarchyLevel)+"profile/profile.jsp?token="+token+"&projectId="+projectId+"\">Profil</a></li>\n";
                 if (projectPhase!=null){
                     if (projectPhase.equals(ProjectPhase.CourseCreation)){

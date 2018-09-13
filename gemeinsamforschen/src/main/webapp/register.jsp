@@ -5,18 +5,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gruppenmatcher</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <title>flTrail</title>
+    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700">
-    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button1.css">
-    <link rel="stylesheet" href="assets/css/Sidebar-Menu.css">
-    <link rel="stylesheet" href="assets/css/Sidebar-Menu1.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-
-    <script src="libs/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="libs/js/Sidebar-Menu.js"></script>
+    <link rel="stylesheet" href="libs/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="libs/css/Navigation-with-Button1.css">
+    <link rel="stylesheet" href="libs/css/Sidebar-Menu.css">
+    <link rel="stylesheet" href="libs/css/Sidebar-Menu1.css">
+    <script src="libs/jquery/jquery.min.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -24,7 +21,7 @@
     <%--<form method="post" action="./servlet/createUser">--%>
     <form method="post" action="./rest/user/create">
         <h2 class="sr-only">Login Formular</h2>
-        <div class="illustration"><img src="assets/img/fides-logo.svg"></div>
+        <div class="illustration"><img src="libs/img/fides-logo.svg"></div>
         <div class="form-group"><input class="form-control" name="name" placeholder="Name"></div>
         <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
         <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password">
