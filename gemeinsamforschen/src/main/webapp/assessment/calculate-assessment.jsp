@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
     <omniDependencies:omniDependencies hierarchy="1"/>
-    <script src="../libs/js/assessmentCalculator.js"></script>
+    <script src="js/assessmentCalculator.js"></script>
 </head>
 <body>
 <menu:menu hierarchy="1"/>

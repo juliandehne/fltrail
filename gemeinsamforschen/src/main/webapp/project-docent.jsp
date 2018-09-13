@@ -92,9 +92,9 @@
             </div>
         </div>
     </div>
+    <footer:footer/>
 </div>
 <communication:chatWindow orientation="right" />
-<footer:footer/>
 </body>
 
 </html>

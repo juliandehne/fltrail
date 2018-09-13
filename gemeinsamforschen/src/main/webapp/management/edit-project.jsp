@@ -15,7 +15,7 @@
 
 <body>
 <div id="wrapper">
-    <menu:menu></menu:menu>
+    <menu:menu hierarchy="1"/>
 
     <div class="page-content-wrapper">
         <div class="container-fluid">
@@ -34,7 +34,7 @@
                     <td  id="yourContent">
                         <h1> Projektbeschreibung bearbeiten </h1>
 
-                        <form id="descriptionform" class="form-journal" method="POST" action="../rest/projectdescription/saveText">
+                        <form id="descriptionform" class="form-journal" method="POST" action="rest/projectdescription/saveText">
 
                             <input type="hidden" id="student" name="student">
                             <input type="hidden" id="project" name="project">
@@ -59,11 +59,7 @@
         </div>
     </div>
 </div>
-
-<script src="../libs/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../libs/js/Sidebar-Menu.js"></script>
-<script  src="../libs/js/editDescription.js"></script>
+<script  src="js/editDescription.js"></script>
 </body>
 
 </html>

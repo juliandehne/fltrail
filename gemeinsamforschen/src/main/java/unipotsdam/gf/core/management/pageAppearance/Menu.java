@@ -77,12 +77,12 @@ public class Menu extends SimpleTagSupport {
             } else {
                 String menuString ="<div id=\"sidebar-wrapper\">\n" +
                         "        <ul class=\"sidebar-nav\">\n" +
-                        "            <li class=\"sidebar-brand\"><a href=\"overview-docent.jsp?token="+token+"&projectId="+projectId+"\">overview</a></li>\n";
+                        "            <li class=\"sidebar-brand\"><a href=\""+OmniDependencies.hierarchyToString(hierarchyLevel)+"overview-docent.jsp?token="+token+"&projectId="+projectId+"\">overview</a></li>\n";
                 if (projectPhase!=null) {
                     if (!projectPhase.equals(ProjectPhase.GroupFormation)) {
                         menuString += "<li><a href=\""+OmniDependencies.hierarchyToString(hierarchyLevel)+"assessment/Quiz-docent.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
                                 "      <li><p>Gruppen erstellen</p></li>\n" +
-                                "      <li><a href=\""+OmniDependencies.hierarchyToString(hierarchyLevel)+"core/management/change-phase.jsp?token="+token+"&projectId="+projectId+"\">Projektphase ändern</a></li>\n";
+                                "      <li><a href=\""+OmniDependencies.hierarchyToString(hierarchyLevel)+"management/change-phase.jsp?token="+token+"&projectId="+projectId+"\">Projektphase ändern</a></li>\n";
                     }else {
                         menuString += "<li><a href=\""+OmniDependencies.hierarchyToString(hierarchyLevel)+"assessment/quiz-docent.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
                                 "      <li><a href=\""+OmniDependencies.hierarchyToString(hierarchyLevel)+"groupfinding/create-groups.jsp?token="+token+"&projectId="+projectId+"\">Gruppen erstellen</a></li>\n" +

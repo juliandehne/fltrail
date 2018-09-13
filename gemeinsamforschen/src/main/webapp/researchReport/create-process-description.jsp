@@ -9,7 +9,7 @@
     <omniDependencies:omniDependencies hierarchy="1"/>
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet"> <!--FilePond -->
-    <link rel="stylesheet" type="text/css" href="../assets/css/researchReport.css">
+    <link rel="stylesheet" type="text/css" href="css/researchReport.css">
     <title>Forschungsbericht erstellen</title>
 </head>
 <body>
@@ -17,7 +17,7 @@
 
 
 <div id="wrapper">
-    <menu:menu></menu:menu>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div style="margin-left:50px;">
@@ -67,8 +67,8 @@
 </div>
 
 
-<script  src="../libs/js/createReportDo.js"></script>
-<script  src="../libs/js/createReportProgress.js"></script>
+<script  src="js/createReportDo.js"></script>
+<script  src="js/createReportProgress.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script> <!--FilePond -->
 <script>FilePond.parse(document.body);</script> <!--FilePond -->

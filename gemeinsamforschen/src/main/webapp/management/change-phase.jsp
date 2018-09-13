@@ -8,7 +8,7 @@
 <html>
 <head>
     <omniDependencies:omniDependencies hierarchy="1"/>
-    <script src="../libs/js/changePhase.js"></script>
+    <script src="js/changePhase.js"></script>
 </head>
 
 <body>
@@ -16,7 +16,7 @@
     <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
-        <div class="alert"id="CourseCreation">
+        <div class="alert" id="CourseCreation">
             <button id="btnCourseCreation" class="btn btn-secondary">Projekterstellungsphase</button>
         </div>
         <div class="alert" id="GroupFormation">

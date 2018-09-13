@@ -7,11 +7,9 @@
 <html>
 
 <head>
-    <link rel="stylesheet" href="../assets/css/viewfeedback.css">
+    <link rel="stylesheet" href="css/viewfeedback.css">
     <omniDependencies:omniDependencies hierarchy="1"/>
-    <script src="../libs/js/utility.js"></script>
-    <script src="../libs/js/project-student.js"></script>
-    <script src="../libs/js/givepeerfeedback.js"></script>
+    <script src="js/givepeerfeedback.js"></script>
 
 </head>
 
@@ -167,9 +165,9 @@
     </div>
 </div>
 
-<script src="../libs/js/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../libs/js/Sidebar-Menu.js"></script>
+<script src="js/Sidebar-Menu.js"></script>
 </body>
 
 </html>

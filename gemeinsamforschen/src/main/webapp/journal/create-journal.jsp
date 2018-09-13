@@ -8,13 +8,14 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../assets/css/create-journal.css">
+    <link rel="stylesheet" type="text/css" href="css/create-journal.css">
     <omniDependencies:omniDependencies hierarchy="1"/>
+    <script src="js/create-journal.js"></script>
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu></menu:menu>
+    <menu:menu hierarchy="1"/>
 
     <div class="page-content-wrapper">
         <div class="container-fluid">
@@ -34,7 +35,7 @@
                     <td id="yourContent">
                         <h1> Tagebucheintrag erstellen </h1>
 
-                        <form id="journalform" class="form-journal" method="POST" action="../rest/journal/save">
+                        <form id="journalform" class="form-journal" method="POST" action="rest/journal/save">
 
                             <input type="hidden" id="student" name="student">
                             <input type="hidden" id="project" name="project">
@@ -86,11 +87,6 @@
         </div>
     </div>
 </div>
-
-<script src="../libs/js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="../libs/js/Sidebar-Menu.js"></script>
-<script src="../libs/js/createJournal.js"></script>
 </body>
 
 </html>

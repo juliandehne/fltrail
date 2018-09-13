@@ -9,7 +9,7 @@
 
 <head>
     <omniDependencies:omniDependencies hierarchy="1"/>
-    <script src="../libs/js/finalAssessment.js"></script>
+    <script src="js/assess-work.js"></script>
 
 </head>
 
