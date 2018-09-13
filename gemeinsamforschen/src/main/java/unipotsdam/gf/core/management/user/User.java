@@ -2,6 +2,8 @@ package unipotsdam.gf.core.management.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Objects;
+
 /**
  * Created by dehne on 31.05.2018.
  */
@@ -110,5 +112,18 @@ public class User {
                 ", rocketChatId='" + rocketChatId + '\'' +
                 ", isStudent=" + isStudent +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(name, user.name) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(email, user.email) &&
+                Objects.equals(rocketChatAuthToken, user.rocketChatAuthToken) &&
+                Objects.equals(rocketChatId, user.rocketChatId) &&
+                Objects.equals(isStudent, user.isStudent);
     }
 }

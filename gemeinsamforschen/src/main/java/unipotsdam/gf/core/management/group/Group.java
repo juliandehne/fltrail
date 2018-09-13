@@ -5,6 +5,7 @@ import unipotsdam.gf.core.management.user.User;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Group {
 
@@ -37,21 +38,6 @@ public class Group {
         this.chatRoomId = chatRoomId;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Group group = (Group) o;
-        return Objects.equals(members, group.members) &&
-                Objects.equals(projectId, group.projectId) &&
-                Objects.equals(chatRoomId, group.chatRoomId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(members, projectId, chatRoomId);
-    }
-
     public List<User> getMembers() {
         return members;
     }
@@ -82,5 +68,24 @@ public class Group {
 
     public int getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Group group = (Group) o;
+        List<User> newMemberList = members.stream()
+                .filter(member -> group.members.contains(member))
+                .collect(Collectors.toList());
+        return Objects.equals(members.size(), newMemberList.size()) &&
+                Objects.equals(members.size(), group.members.size()) &&
+                Objects.equals(projectId, group.projectId) &&
+                Objects.equals(chatRoomId, group.chatRoomId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(members, projectId, chatRoomId);
     }
 }

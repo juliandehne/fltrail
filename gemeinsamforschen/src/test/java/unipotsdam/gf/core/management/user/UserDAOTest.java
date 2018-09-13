@@ -20,12 +20,12 @@ public class UserDAOTest {
     private InMemoryMySqlConnect inMemoryMySqlConnect;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         inMemoryMySqlConnect = new InMemoryMySqlConnect();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         inMemoryMySqlConnect.tearDown();
     }
 
