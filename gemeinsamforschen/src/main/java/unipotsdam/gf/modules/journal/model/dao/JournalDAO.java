@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.journal.model.dao;
 
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
 
@@ -16,10 +17,11 @@ public interface JournalDAO {
 
     Journal getJournal(String id);
 
-    ArrayList<Journal> getAllByProject(String project);
+    ArrayList<Journal> getAllByProject(String project, String student);
 
     ArrayList<Journal> getAllByProjectAndFilter(String project, String student, JournalFilter filter);
 
     void closeJournal(String id);
 
+    ArrayList<String> getOpenJournals(Project project);
 }

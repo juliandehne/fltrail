@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.assignments.Assignee;
 import unipotsdam.gf.assignments.NotImplementedLogger;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
@@ -86,6 +87,16 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     @Override
     public String whatToRate(StudentIdentifier student) {
         return null;
+    }
+
+    @Override
+    public Boolean allAssessmentsDone(String projectId) {
+        return true;
+    }
+
+    @Override
+    public void assignMissingAssessmentTasks(Project project) {
+
     }
 
     @Override

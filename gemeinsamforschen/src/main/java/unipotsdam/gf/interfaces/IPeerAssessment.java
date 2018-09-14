@@ -1,5 +1,6 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public interface IPeerAssessment {
      * @param totalPerformance @return
      */
     Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance); // calculates marks for every performance and writes it to an array
+    Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method);
 
 
     /**
@@ -95,5 +97,8 @@ public interface IPeerAssessment {
     void deleteQuiz(String quizId);
 
     String whatToRate(StudentIdentifier student);
-    Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method);
+
+    Boolean allAssessmentsDone(String projectId);
+
+    void assignMissingAssessmentTasks(Project project);
 }

@@ -60,8 +60,8 @@ public class JournalView {
 
         log.debug(">>> getJournals: student=" + student + " project=" + project +" filter="  + filter  );
 
-        JournalFilter filt = (filter.equals("ALL")) ? JournalFilter.ALL:JournalFilter.OWN;
-        ArrayList<Journal> result = journalService.getAllJournals(student,project,filt);
+        JournalFilter journalFilter = (filter.equals("ALL")) ? JournalFilter.ALL:JournalFilter.OWN;
+        ArrayList<Journal> result = journalService.getAllJournals(student,project,journalFilter);
 
         log.debug(">>> getJournals: size=" + result.size());
 

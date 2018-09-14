@@ -1,0 +1,58 @@
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>hiddenUserTag</short-name>
+
+    <tag>
+        <name>hiddenUserTag</name>
+        <tag-class>unipotsdam.gf.core.management.user.HiddenUserTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+
+    <tag>
+        <name>menu</name>
+        <tag-class>unipotsdam.gf.core.management.pageAppearance.Menu</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>hierarchy</name>
+            <required>yes</required>
+            <rtexprvalue>no</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>session</name>
+        <tag-class>unipotsdam.gf.core.session.SessionTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+
+    <tag>
+        <name>omniDependencies</name>
+        <tag-class>unipotsdam.gf.core.management.pageAppearance.OmniDependencies</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>hierarchy</name>
+            <required>yes</required>
+            <rtexprvalue>no</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>headLine</name>
+        <tag-class>unipotsdam.gf.core.management.pageAppearance.HeadLine</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+
+    <tag>
+        <name>footer</name>
+        <tag-class>unipotsdam.gf.core.management.pageAppearance.Footer</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+    
+    <tag>
+        <name>context</name>
+        <tag-class>unipotsdam.gf.core.session.ContextTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+
+</taglib>

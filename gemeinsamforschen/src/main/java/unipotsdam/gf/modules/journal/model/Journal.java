@@ -9,7 +9,7 @@ import java.util.Date;
 import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
 
 /**
- * Model Class for the learnig journal of the e-portfolio
+ * Model Class for the learning journal of the e-portfolio
  */
 public class Journal {
 
