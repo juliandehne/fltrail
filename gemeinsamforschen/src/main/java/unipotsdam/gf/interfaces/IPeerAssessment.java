@@ -1,6 +1,7 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
@@ -98,7 +99,7 @@ public interface IPeerAssessment {
 
     String whatToRate(StudentIdentifier student);
 
-    Boolean allAssessmentsDone(String projectId);
+    Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId);
 
     void assignMissingAssessmentTasks(Project project);
 }

@@ -2,10 +2,13 @@ package unipotsdam.gf.modules.journal.service;
 
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Service for learning Journal
@@ -57,7 +60,7 @@ public interface JournalService {
 
     void closeJournal(String journal);
 
-    boolean checkIfAllJournalClosed(Project project);
+    Map<StudentIdentifier, ConstraintsMessages> checkIfAllJournalClosed(Project project);
 
     ArrayList<User> getOpenUserByProject(Project project);
 }

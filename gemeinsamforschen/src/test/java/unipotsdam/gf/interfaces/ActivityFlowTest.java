@@ -31,8 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 
@@ -232,7 +231,7 @@ public class ActivityFlowTest {
         verify(feedback).assigningMissingFeedbackTasks(project);
 
         // assert that everybody has given and received mockfeedback
-        assertTrue(feedback.checkFeedbackConstraints(project));
+        assertEquals(0, feedback.checkFeedbackConstraints(project).size());
 
         // docent finishes phase
         phases.endPhase(ProjectPhase.DossierFeedback, project);

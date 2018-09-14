@@ -3,6 +3,7 @@ package unipotsdam.gf.core.states;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.states.model.Constraints;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.interfaces.*;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
@@ -75,7 +76,7 @@ public class PhasesImpl implements IPhases {
     @Override
     public void endPhase(ProjectPhase currentPhase, Project project) {
         ProjectPhase changeToPhase = getNextPhase(currentPhase);
-        Map<StudentIdentifier, Constraints> tasks = new HashMap<>();
+        Map<StudentIdentifier, ConstraintsMessages> tasks = new HashMap<>();
         switch (changeToPhase) {
             case CourseCreation:
                 // saving the state
@@ -89,9 +90,9 @@ public class PhasesImpl implements IPhases {
             case DossierFeedback:
                 // check if everybody has uploaded a dossier
 
-                Boolean feedbacksGiven = feedback.checkFeedbackConstraints(project);
-                if (!feedbacksGiven) {
-                    feedback.assigningMissingFeedbackTasks(project);
+                tasks = feedback.checkFeedbackConstraints(project);
+                if (tasks.size()>0) {
+                    iCommunication.informAboutMissingTasks(tasks, project);
                 } else {
                     // send a message to the users informing them about the start of the new phase
                     iCommunication.sendMessageToUsers(project, Messages.NewFeedbackTask(project));
@@ -100,19 +101,18 @@ public class PhasesImpl implements IPhases {
                 break;
             case Execution:
                 // check if the portfolios have been prepared for evaluation (relevant entries selected)
-                // todo: Boolean portfoliosReady = iJournal.getPortfoliosForEvaluationPrepared(project);
-                Boolean portfoliosReady = true;
-                if (portfoliosReady) {
+                tasks = iJournal.getPortfoliosForEvaluationPrepared(project);
+                if (tasks.size()<1) {
                     // inform users about the end of the phase
                     iCommunication.sendMessageToUsers(project, Messages.AssessmentPhaseStarted(project));
                     saveState(project,changeToPhase);
                 } else {
-                    iJournal.assignMissingPortfolioTasks(project);
+                    iCommunication.informAboutMissingTasks(tasks, project);
                 }
                 break;
             case Assessment:
-                Boolean allAssessmentsDone = iPeerAssessment.allAssessmentsDone(project.getId());
-                if(allAssessmentsDone){
+                tasks = iPeerAssessment.allAssessmentsDone(project.getId());
+                if(tasks.size()<1){
                     iCommunication.sendMessageToUsers(project, Messages.CourseEnds(project));
                     saveState(project, changeToPhase);
                 }else{
