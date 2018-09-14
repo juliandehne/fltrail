@@ -10,6 +10,9 @@
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
+<omniDependencies:omniDependencies hierarchy="1"></omniDependencies:omniDependencies>
+<script type="text/javascript" src="../libs/jQuery-Tags-Input-master/src/jquery.tagsinput.js"></script>
+
 <html>
 
 <head>
@@ -17,11 +20,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projekterstellung</title>
     <script src="js/config.js"></script>
-    <script src="js/newProject.js"></script>
+    <script src="js/create-project.js"></script>
 </head>
 
 <body>
-<p id="user" hidden><?php echo $userName; ?></p>
 
 <div class="loader-inactive" id="loader">
     <div class="sk-cube1 sk-cube"></div>

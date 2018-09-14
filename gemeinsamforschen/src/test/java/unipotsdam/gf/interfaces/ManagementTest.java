@@ -68,7 +68,8 @@ public class ManagementTest  {
     @Test
     public void testCreate1() {
         ManagementImpl management = new ManagementImpl();
-        management.create(new Project("Gemainsam Forschen", "1235", true, "me", "keins"));
+        Project project = factory.manufacturePojo(Project.class);
+        management.create(project);
 
     }
 
@@ -79,7 +80,7 @@ public class ManagementTest  {
         management.create(user, new UserProfile());
         assert management.exists(user);
 
-        Project project = new Project("Gemainsam Forschen", "1235", true, "me", "keins");
+        Project project = factory.manufacturePojo(Project.class);
         management.create(project);
         management.register(user, project, null);
     }
@@ -106,7 +107,7 @@ public class ManagementTest  {
         management.create(user, new UserProfile());
         assert management.exists(user);
 
-        Project project = new Project("Gemainsam Forschen", "1235", true, "me", "keins");
+        Project project = factory.manufacturePojo(Project.class);
         management.create(project);
         management.register(user, project, null);
 
