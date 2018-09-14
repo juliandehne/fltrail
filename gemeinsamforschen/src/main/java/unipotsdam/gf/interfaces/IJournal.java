@@ -10,8 +10,6 @@ import unipotsdam.gf.modules.researchreport.ResearchReport;
 import java.io.File;
 import java.util.List;
 
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-
 /**
  * Interface for learning journal
  */
@@ -20,14 +18,14 @@ public interface IJournal {
 
     /**
      * check if all students have prepared their portfolios to be evaluated
-     * @return
-     * @param project
+     * @return true if all students have prepared their portfolios
+     * @param project project
      */
     Boolean getPortfoliosForEvaluationPrepared(Project project) ;
 
     /**
      * find out, who hasn't prepared their portfolio for evaluation and send message or highlight in view
-     * @param project
+     * @param project project
      */
     void assignMissingPortfolioTasks(Project project) ;
 
@@ -52,9 +50,11 @@ public interface IJournal {
 
     /**
      * Gets EPortfolio for assesment
-     * @param project
+     * @param project project
      * @return EPortfolio (containing Report, ProjectDescription and Journal)
      */
 
     EPortfolio getFinalPortfolioForAssessment(Project project, User user) ;
+
+    byte[] exportPortfolioToPdf(EPortfolio ePortfolio);
 }
