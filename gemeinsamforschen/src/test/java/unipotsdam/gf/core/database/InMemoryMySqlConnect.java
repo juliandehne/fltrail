@@ -19,7 +19,8 @@ public class InMemoryMySqlConnect extends MysqlConnect {
 
     private Connection getDatabaseConnection() throws ManagedProcessException, SQLException {
         DBConfigurationBuilder config = DBConfigurationBuilder.newBuilder();
-        config.setPort(0);
+        // set port for testing statically
+        config.setPort(3307);
         DB db = DB.newEmbeddedDB(config.build());
 
         db.start();

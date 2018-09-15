@@ -30,11 +30,13 @@ public class GroupDAO {
     public void persist(Group group) {
         connect.connect();
         String mysqlRequestGroup = "INSERT INTO groups (`projectId`,`chatRoomId`) values (?,?)";
+        // TODO: refactor insert or delete to get the full object back from database to get group or just use UUID instead of autoincrement
         connect.issueInsertOrDeleteStatement(mysqlRequestGroup, group.getProjectId(), group.getChatRoomId());
 
         for (User groupMember : group.getMembers()) {
             String mysqlRequest2 = "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getProjectId());
+            // TODO: fix -> getProjectId is not correct. it need to be the groupId
         }
         connect.close();
 
@@ -42,8 +44,8 @@ public class GroupDAO {
 
     public void update(Group group) {
         connect.connect();
-        String mysqlRequest = "UPDATE groups SET projectId=?,chatRoomid=?";
-        connect.issueUpdateStatement(mysqlRequest, group.getProjectId(), group.getChatRoomId());
+        String mysqlRequest = "UPDATE groups SET projectId = ?, chatRoomId = ? where id = ?";
+        connect.issueUpdateStatement(mysqlRequest, group.getProjectId(), group.getChatRoomId(), group.getId());
         connect.close();
         // TODO: implement update of groupuser if needed later (if member list need to be updated)
     }
@@ -80,9 +82,6 @@ public class GroupDAO {
         ArrayList<Group> groups = new ArrayList<>();
         groupHashMap.forEach((key, group) -> groups.add(group));
         connect.close();
-        if (groups.isEmpty()) {
-            return null;
-        }
         return groups;
     }
 
@@ -95,7 +94,7 @@ public class GroupDAO {
             User user = ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet);
             String chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
             ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
-            Group group = new Group(userList, projectId, chatRoomId);
+            Group group = new Group(id, userList, projectId, chatRoomId);
             existingGroups.put(id, group);
         }
     }
