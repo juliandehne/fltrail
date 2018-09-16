@@ -64,7 +64,7 @@ public class Peer2PeerFeedback{
         return sender;
     }
 
-    public void setFeedbacksender(String feedbacksender) {
+    public void setFeedbacksender(String sender) {
         this.sender = sender;
     }
 
@@ -72,7 +72,7 @@ public class Peer2PeerFeedback{
         return receiver;
     }
 
-    public void setFeedbackreceiver(String feedbackreceiver) {
+    public void setFeedbackreceiver(String receiver) {
         this.receiver = receiver;
     }
 

@@ -16,6 +16,7 @@
 <head>
     <omniDependencies:omniDependencies hierarchy="0"/>
     <script src="core/project-student.js"></script>
+    <script src="management/js/project-student.js"></script>
     <link rel="stylesheet" href="../libs/css/Community-ChatComments.css">
 
 </head>
@@ -52,6 +53,13 @@
                                         <li>
                                             Blumen ins Hausaufgabenheft geklebt
                                             <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments"
+                                                                                  style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            Peerfeedback
+                                            <a class="givefeedback" role="button">
                                                 <label style="font-size:10px;"><i class="far fa-comments"
                                                                                   style="font-size:15px;"></i>feedback</label>
                                             </a>
