@@ -29,14 +29,17 @@ public class GroupDAO {
 
     public void persist(Group group) {
         connect.connect();
+        List<Group> existingGroups = getExistingEntriesOfGroups(group.getProjectId());
+
         String mysqlRequestGroup = "INSERT INTO groups (`projectId`,`chatRoomId`) values (?,?)";
-        // TODO: refactor insert or delete to get the full object back from database to get group or just use UUID instead of autoincrement
         connect.issueInsertOrDeleteStatement(mysqlRequestGroup, group.getProjectId(), group.getChatRoomId());
 
+        List<Group> existingGroupsWithNewEntry = getExistingEntriesOfGroups(group.getProjectId());
+        existingGroupsWithNewEntry.removeAll(existingGroups);
+        group.setId(existingGroupsWithNewEntry.get(0).getId());
         for (User groupMember : group.getMembers()) {
             String mysqlRequest2 = "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getProjectId());
-            // TODO: fix -> getProjectId is not correct. it need to be the groupId
+            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getId());
         }
         connect.close();
 
@@ -52,8 +55,8 @@ public class GroupDAO {
 
 
     public Boolean exists(Group group) {
-        List<Group> groups = getGroupsByProjectId(group.getProjectId());
-        return groups.contains(group);
+        List<Group> existingGroups = getGroupsByProjectId(group.getProjectId());
+        return existingGroups.contains(group);
     }
 
     public void addGroupMember(User groupMember, int groupId) {
@@ -97,5 +100,17 @@ public class GroupDAO {
             Group group = new Group(id, userList, projectId, chatRoomId);
             existingGroups.put(id, group);
         }
+    }
+
+    private List<Group> getExistingEntriesOfGroups(String projectId) {
+        String mysqlExistingGroup = "SELECT * FROM groups WHERE projectId = ?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlExistingGroup, projectId);
+        ArrayList<Group> existingGroups = new ArrayList<>();
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            Group existingGroup = new Group(id, projectId);
+            existingGroups.add(existingGroup);
+        }
+        return existingGroups;
     }
 }

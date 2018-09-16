@@ -23,33 +23,37 @@ import java.util.stream.Collectors;
 @Singleton
 public class DummyProjectCreationService {
 
-    @Inject
+
     private ICommunication communicationService;
-
-    @Inject
     private Management management;
-
-    @Inject
     private GroupDAO groupDAO;
+    private UserDAO userDAO;
 
     @Inject
-    private UserDAO userDAO;
+    public DummyProjectCreationService(ICommunication communicationService, Management management, GroupDAO groupDAO, UserDAO userDAO) {
+        this.communicationService = communicationService;
+        this.management = management;
+        this.groupDAO = groupDAO;
+        this.userDAO = userDAO;
+    }
 
     public boolean createExampleProject() {
 
         User docentUser = getDocentUser();
+        if (!management.exists(docentUser)) {
+            management.create(docentUser, null);
+        }
+
         Project project = new Project("1", "password", true, docentUser.getEmail(), "admin");
-
-        List<Group> groups = createDummyGroups(project.getId());
-
         if (!management.exists(project)) {
             management.create(project);
         }
-        List<Group> nonCreatedGroups = groups.stream().filter(group -> management.exists(group)).collect(Collectors.toList());
 
-        if (!nonCreatedGroups.isEmpty()) {
-            nonCreatedGroups.forEach(group -> management.create(group));
-        }
+        List<Group> groups = createDummyGroups(project.getId());
+
+        List<Group> nonCreatedGroups = groups.stream().filter(group -> !management.exists(group)).collect(Collectors.toList());
+
+        nonCreatedGroups.forEach(group -> management.create(group));
 
         List<Group> groupsWithId = groupDAO.getGroupsByProjectId(project.getId());
         groupsWithId.forEach(group -> {
@@ -61,7 +65,7 @@ public class DummyProjectCreationService {
         return true;
     }
 
-    private List<Group> createDummyGroups(String projectId) {
+    List<Group> createDummyGroups(String projectId) {
         Group group1 = new Group(new ArrayList<>(), projectId);
         Group group2 = new Group(new ArrayList<>(), projectId);
         Group group3 = new Group(new ArrayList<>(), projectId);
@@ -86,7 +90,7 @@ public class DummyProjectCreationService {
         return groups;
     }
 
-    private User getDocentUser() {
+    User getDocentUser() {
         User docent = new User("Julian", "docent", "docent@docent.com", false);
         if (!management.exists(docent)) {
             saveUserToDatabase(docent);
