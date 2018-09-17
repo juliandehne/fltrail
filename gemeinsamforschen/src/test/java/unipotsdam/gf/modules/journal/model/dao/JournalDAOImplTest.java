@@ -31,8 +31,7 @@ public class JournalDAOImplTest {
     public void createJournal() {
 
         // Create Journal
-        Journal createJournal = testJournal;
-        journalDAO.createJournal(createJournal);
+        journalDAO.createJournal(testJournal);
 
         connection.connect();
 
@@ -108,13 +107,12 @@ public class JournalDAOImplTest {
 
     @Test
     public void deleteJournal() {
-        Journal deleteJournal = testJournal;
 
         //createJournal
         connection.connect();
 
         // build and execute request
-        create(deleteJournal);
+        create(testJournal);
 
         //check if Journal was added
         ArrayList<Journal> resultJournals = getJournals();
@@ -138,14 +136,13 @@ public class JournalDAOImplTest {
     @Test
     public void getJournal() {
 
-        //create Journal
-        Journal getJournal = testJournal;
+
         //createJournal
 
         connection.connect();
 
         // build and execute request
-        create(getJournal);
+        create(testJournal);
 
         //get that Journal
         Journal resultJournal = journalDAO.getJournal(testId);
@@ -224,8 +221,7 @@ public class JournalDAOImplTest {
         connection.connect();
 
         //create Journal
-        Journal closeJournal = testJournal;
-        create(closeJournal);
+        create(testJournal);
 
         Journal resultJournal = getJournals().get(0);
 
@@ -277,7 +273,7 @@ public class JournalDAOImplTest {
     //utility
 
     private ArrayList<Journal> getJournals() {
-        String request = "SELECT * FROM journals WHERE project= ?;";
+        String request = "SELECT * FROM journals WHERE projectId= ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, testProject);
 
         ArrayList<Journal> resultJournals = new ArrayList<>();
@@ -288,7 +284,7 @@ public class JournalDAOImplTest {
     }
 
     private void create(Journal getJournal) {
-        String createRequest = "INSERT INTO journals (`id`, `author`, `project`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
+        String createRequest = "INSERT INTO journals (`id`, `studentId`, `projectId`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(createRequest, getJournal.getId(), getJournal.getStudentIdentifier().getStudentId(),
                 getJournal.getStudentIdentifier().getProjectId(), getJournal.getEntryMD(), getJournal.getVisibility(), getJournal.getCategory(), getJournal.isOpen());
     }
@@ -304,8 +300,8 @@ public class JournalDAOImplTest {
 
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
-        String student = rs.getString("author");
-        String project = rs.getString("project");
+        String student = rs.getString("studentId");
+        String project = rs.getString("projectId");
         String text = rs.getString("text");
         String visibility = rs.getString("visibility");
         String category = rs.getString("category");
