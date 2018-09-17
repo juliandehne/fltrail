@@ -1,10 +1,11 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
-import unipotsdam.gf.modules.assessment.QuizAnswer;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dehne on 18.05.2018.
@@ -17,7 +18,7 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public Quiz getQuiz(String projectId, String groupId) {
+    public Quiz getQuiz(String projectId, String groupId, String author) {
         return null;
     }
 
@@ -27,7 +28,7 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance) {
+    public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         return null;
     }
 
@@ -45,7 +46,7 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public int meanOfAssessement(String projectId) {
+    public int meanOfAssessment(String projectId) {
         return 0;
     }
 
@@ -55,12 +56,47 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId) {
+    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId) {
 
     }
 
     @Override
-    public void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer) {
+    public Integer whichGroupToRate(StudentIdentifier student) {
+        return null;
+    }
 
+    @Override
+    public void postContributionRating(String groupId, String fromStudent, Map<String, Integer> contributionRating) {
+
+    }
+
+    @Override
+    public void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student) {
+
+    }
+
+    @Override
+    public void deleteQuiz(String quizId) {
+
+    }
+
+    @Override
+    public String whatToRate(StudentIdentifier student) {
+        return null;
+    }
+
+    @Override
+    public Boolean allAssessmentsDone(String projectId) {
+        return null;
+    }
+
+    @Override
+    public void assignMissingAssessmentTasks(Project project) {
+
+    }
+
+    @Override
+    public Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method) {
+        return null;
     }
 }

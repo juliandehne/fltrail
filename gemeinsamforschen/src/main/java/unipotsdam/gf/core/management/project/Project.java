@@ -1,6 +1,6 @@
 package unipotsdam.gf.core.management.project;
 
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -18,8 +18,7 @@ public class Project {
     private String author;
     private String adminPassword;
     private String token;
-    // TODO: using enum ProjectPhase
-    private String phase;
+    private ProjectPhase phase;
 
     public Project() {
     }
@@ -35,19 +34,9 @@ public class Project {
         this.setPhase(ProjectPhase.CourseCreation);
     }
 
-    public Project(String id, String password, Boolean active, String author, String adminPassword, String token, ProjectPhase projectPhase) {
-        this.id = id;
-        this.password = password;
-        this.active = active;
-        this.author = author;
-        this.adminPassword = adminPassword;
-        this.token = token;
-        this.phase = projectPhase.name();
-
-        this.timecreated = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC")));
-    }
-
-    public Project(String id, String password, Boolean active, Timestamp timecreated, String author, String adminPassword, String token, String phase) {
+    public Project(String id, String password, Boolean active,
+                   Timestamp timecreated, String author, String adminPassword,
+                   String token, ProjectPhase phase) {
         this.id = id;
         this.password = password;
         this.active = active;
@@ -110,7 +99,7 @@ public class Project {
         return timecreated;
     }
 
-    public String getPhase() {
+    public ProjectPhase getPhase() {
         return phase;
     }
 
@@ -120,8 +109,21 @@ public class Project {
      * @param phase
      */
     public void setPhase(ProjectPhase phase) {
-        this.phase = phase.name();
+        this.phase = phase;
     }
 
-
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Project{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", password='").append(password).append('\'');
+        sb.append(", active=").append(active);
+        sb.append(", timecreated=").append(timecreated);
+        sb.append(", author='").append(author).append('\'');
+        sb.append(", adminPassword='").append(adminPassword).append('\'');
+        sb.append(", token='").append(token).append('\'');
+        sb.append(", phase='").append(phase).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

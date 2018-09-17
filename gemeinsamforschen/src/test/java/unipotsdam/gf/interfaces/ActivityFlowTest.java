@@ -6,10 +6,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
@@ -17,18 +14,15 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.management.Management;
-import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.states.ProjectPhase;
-import unipotsdam.gf.modules.assessment.QuizAnswer;
-import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.modules.groupfinding.GroupFormationMechanism;
 import unipotsdam.gf.modules.groupfinding.GroupfindingCriteria;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
-import unipotsdam.gf.modules.peer2peerfeedback.Peer2PeerFeedback;
+import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 import javax.inject.Inject;
@@ -39,7 +33,6 @@ import java.util.Iterator;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 
@@ -171,10 +164,10 @@ public class ActivityFlowTest {
 
         // create quiz TODO@Axel this should be a quiz dependend on the student for easier initialization and
         // de-coupling
-        StudentAndQuiz studentAndQuiz = factory.manufacturePojo(StudentAndQuiz.class);
-        QuizAnswer quizAnswer = factory.manufacturePojo(QuizAnswer.class);
-        iPeerAssessment.createQuiz(studentAndQuiz);
-        iPeerAssessment.answerQuiz(studentAndQuiz, quizAnswer);
+        //StudentAndQuiz studentAndQuiz = factory.manufacturePojo(StudentAndQuiz.class);
+        //QuizAnswer quizAnswer = factory.manufacturePojo(QuizAnswer.class);
+        //iPeerAssessment.createQuiz(studentAndQuiz);
+        //iPeerAssessment.answerQuiz(studentAndQuiz, quizAnswer);
 
         // finales Portfolio zusammenstellen
         java.util.List<Journal> journalEntries = new ArrayList<Journal>();

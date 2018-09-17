@@ -10,9 +10,8 @@ import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserProfile;
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.util.TestHelper;
-
 import javax.inject.Inject;
 
 public class PhaseTest {

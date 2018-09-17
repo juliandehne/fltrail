@@ -1,9 +1,9 @@
 package unipotsdam.gf.modules.journal.model;
 
-import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Date;
 
 import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
 
@@ -13,50 +13,56 @@ import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
 
 public class ProjectDescription {
 
-    private long id;
-    private String name;
+    private String id;
+    private StudentIdentifier student;
     private String descriptionHTML;
     private String descriptionMD;
     private boolean open;
-    private Project project;
-    private Map<String,String> links;
-    private ArrayList<String> group;
+    private ArrayList<Link> links;
     private long timestamp;
 
     public ProjectDescription() {
     }
 
-    public ProjectDescription(long id, String name, String description, Project project, Map<String, String> links, ArrayList<String> group, long timestamp) {
+    public ProjectDescription(String id, String name, String description, String project, ArrayList<Link> links) {
         this.id = id;
-        this.name = name;
+        this.student = new StudentIdentifier(project, name);
         this.descriptionHTML = convertMarkdownToHtml(description);
-        this.descriptionMD =description;
-        this.project = project;
+        this.descriptionMD = description;
         this.links = links;
-        this.group = group;
-        this.timestamp = timestamp;
-        this.open =true;
+        this.timestamp = new Date().getTime();
+        this.open = true;
     }
 
-    public void setDescription (String description){
+    public ProjectDescription(String id, String name, String description, String project, ArrayList<Link> links, long timestamp, boolean open) {
+        this.id = id;
+        this.student = new StudentIdentifier(project, name);
+        this.descriptionHTML = convertMarkdownToHtml(description);
+        this.descriptionMD = description;
+        this.links = links;
+        this.timestamp = timestamp;
+        this.open = open;
+    }
+
+    public void setDescription(String description) {
         this.descriptionMD = description;
         this.descriptionHTML = convertMarkdownToHtml(description);
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public StudentIdentifier getStudent() {
+        return student;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStudent(StudentIdentifier student) {
+        this.student = student;
     }
 
     public String getDescriptionHTML() {
@@ -67,36 +73,12 @@ public class ProjectDescription {
         this.descriptionHTML = descriptionHTML;
     }
 
-    public Project getProject() {
-        return project;
+    public String getDescriptionMD() {
+        return descriptionMD;
     }
 
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public Map<String, String> getLinks() {
-        return links;
-    }
-
-    public void setLinks(Map<String, String> links) {
-        this.links = links;
-    }
-
-    public ArrayList<String> getGroup() {
-        return group;
-    }
-
-    public void setGroup(ArrayList<String> group) {
-        this.group = group;
-    }
-
-    public long getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
+    public void setDescriptionMD(String descriptionMD) {
+        this.descriptionMD = descriptionMD;
     }
 
     public boolean isOpen() {
@@ -107,26 +89,31 @@ public class ProjectDescription {
         this.open = open;
     }
 
-    public String getDescriptionMD() {
-        return descriptionMD;
+    public ArrayList<Link> getLinks() {
+        return links;
     }
 
-    public void setDescriptionMD(String descriptionMD) {
-        this.descriptionMD = descriptionMD;
+    public void setLinks(ArrayList<Link> links) {
+        this.links = links;
     }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 
     @Override
     public String toString() {
         return "ProjectDescription{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", student=" + student +
                 ", descriptionHTML='" + descriptionHTML + '\'' +
                 ", descriptionMD='" + descriptionMD + '\'' +
                 ", open=" + open +
-                ", project=" + project +
                 ", links=" + links +
-                ", group=" + group +
                 ", timestamp=" + timestamp +
                 '}';
     }

@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.journal.service;
 
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
 
@@ -43,17 +45,19 @@ public interface JournalService {
      * @param text content of the Journal
      * @param visibility visibility of the Journal
      * @param category category of the Journal
-     * @return true if success
      */
-     boolean saveJournal(long id, String student, String project, String text, String visibility, String category);
+    void saveJournal(String id, String student, String project, String text, String visibility, String category);
 
     /**
      * deletes a Journal
      * @param id id of the Journal
-     * @return true if success
      */
-     boolean deleteJournal(long id);
+    void deleteJournal(String id);
 
 
     void closeJournal(String journal);
+
+    boolean checkIfAllJournalClosed(Project project);
+
+    ArrayList<User> getOpenUserByProject(Project project);
 }

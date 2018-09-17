@@ -2,8 +2,9 @@ package unipotsdam.gf.modules.journal.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
-import unipotsdam.gf.modules.journal.service.DummyProjectDescription;
+import unipotsdam.gf.modules.journal.service.ProjectDescriptionImpl;
 import unipotsdam.gf.modules.journal.service.ProjectDescriptionService;
 
 import javax.ws.rs.*;
@@ -21,17 +22,17 @@ import java.net.URISyntaxException;
 @Path("/projectdescription")
 public class ProjectDescriptionView {
 
-    private Logger log = LoggerFactory.getLogger(ProjectDescriptionView.class);
-    private ProjectDescriptionService descriptionService = new DummyProjectDescription();
+    private final Logger log = LoggerFactory.getLogger(ProjectDescriptionView.class);
+    private final ProjectDescriptionService descriptionService = new ProjectDescriptionImpl();
 
     //get Description
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{project}")
-    public Response getProjectDescription(@PathParam("project") String project){
-        log.debug(">>> getProjectDescription: " + project);
+    @Path("{project}/{student}")
+    public Response getProjectDescription(@PathParam("project") String project, @PathParam("student") String student){
+        log.debug(">>> getProjectDescription: " + project + "/" + student);
 
-        ProjectDescription result = descriptionService.getProject(project);
+        ProjectDescription result = descriptionService.getProjectByStudent(new StudentIdentifier(project, student));
 
         log.debug(">>> getProjectDescription");
         return Response.ok(result).build();
@@ -42,14 +43,13 @@ public class ProjectDescriptionView {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/saveText")
-    public Response saveProjectText(@FormParam("student")String student,@FormParam("project")String project,@FormParam("text")String text){
+    public Response saveProjectText(@FormParam("student") String student, @FormParam("project") String project, @FormParam("text") String text) {
         log.debug(">>> saveText: " + text);
-
-        descriptionService.saveProjectText(text);
+        descriptionService.saveProjectText(new StudentIdentifier(project,student),text);
 
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=test");
+            URI location = new URI("../pages/eportfolio.jsp?token=" + student + "&projectId=" + project);
             log.debug("<<< saveText: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -58,7 +58,8 @@ public class ProjectDescriptionView {
             log.debug("saveText: redirect failed" );
         }
 
-        log.debug("<<< saveText");log.debug(">>> saveText");
+        log.debug("<<< saveText");
+        log.debug(">>> saveText");
 
         return Response.ok().build();
     }
@@ -67,14 +68,15 @@ public class ProjectDescriptionView {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/addLink")
-    public Response addLink(@FormParam("link") String link, @FormParam("name") String name){
+    public Response addLink(@FormParam("link") String link, @FormParam("name") String name, @FormParam("projectdescriptionId") String project){
         log.debug(">>> addLink: " + name + ":" + link);
 
-        descriptionService.addLink(link, name );
+        ProjectDescription desc = descriptionService.getProjectById(project);
+        descriptionService.addLink(project,link, name );
 
 
         try {
-            URI location = new URI("../pages/eportfolio.jsp");
+            URI location = new URI("../pages/eportfolio.jsp?token="+ desc.getStudent().getStudentId()+"&projectId="+desc.getStudent().getProjectId());
             log.debug("<<< addLink: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -115,14 +117,15 @@ public class ProjectDescriptionView {
     //close descr
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     @Path("/close")
     public Response closeDescription(String desc){
         log.debug(">>> closeDescription: " + desc);
 
+        StudentIdentifier student = descriptionService.getProjectById(desc).getStudent();
         descriptionService.closeDescription(desc);
-        //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp");
+            URI location = new URI("../pages/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());
             log.debug("<<< closeDescription: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 

@@ -1,11 +1,11 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.assignments.NotImplementedLogger;
-import unipotsdam.gf.modules.assessment.QuizAnswer;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dehne on 18.05.2018.
@@ -19,7 +19,7 @@ public interface IPeerAssessment {
      */
     void addAssessmentDataToDB(Assessment assessment);
 
-    Quiz getQuiz(String projectId, String groupId);
+    Quiz getQuiz(String projectId, String quizId, String author);
     /**
      * will return a saved assessment from the DB
      *
@@ -42,7 +42,8 @@ public interface IPeerAssessment {
      *
      * @param totalPerformance @return
      */
-    List<Grading> calculateAssessment(ArrayList<Performance> totalPerformance); // calculates marks for every performance and writes it to an array
+    Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance); // calculates marks for every performance and writes it to an array
+    Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method);
 
 
     /**
@@ -58,7 +59,7 @@ public interface IPeerAssessment {
      * @param ProjectId
      * @return
      */
-    int meanOfAssessement(String ProjectId);
+    int meanOfAssessment(String ProjectId);
 
     /**
      * returns all quizzes in a project
@@ -73,14 +74,31 @@ public interface IPeerAssessment {
      *
      * @param peerRatings
      * @param projectId
-     * @param groupId
      */
-    void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId, String groupId);
+    void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId);
 
     /**
      *
-     * @param studentAndQuiz
-     * @param quizAnswer
+     * @param student
+     * @return
      */
-    void answerQuiz(StudentAndQuiz studentAndQuiz, QuizAnswer quizAnswer);
+    Integer whichGroupToRate(StudentIdentifier student);
+
+    void postContributionRating(String groupId,
+                                String fromPeer,
+                                Map<String, Integer> contributionRating);
+
+    /**
+     *
+     * @param questions
+     * @param student
+     */
+    void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student);
+    void deleteQuiz(String quizId);
+
+    String whatToRate(StudentIdentifier student);
+
+    Boolean allAssessmentsDone(String projectId);
+
+    void assignMissingAssessmentTasks(Project project);
 }

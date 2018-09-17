@@ -6,22 +6,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>gemeinsam Forschen</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700">
-    <link rel="stylesheet" href="assets/css/Login-Form-Clean.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button1.css">
-    <link rel="stylesheet" href="assets/css/Sidebar-Menu.css">
-    <link rel="stylesheet" href="assets/css/Sidebar-Menu1.css">
+    <link rel="stylesheet" href="libs/css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="libs/css/Navigation-with-Button1.css">
+    <link rel="stylesheet" href="libs/css/Sidebar-Menu.css">
+    <link rel="stylesheet" href="libs/css/Sidebar-Menu1.css">
 
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 <body>
 <div class="login-clean">
     <form method="post" action="./rest/user/exists">
         <h2 class="sr-only">Login Formular</h2>
-        <div class="illustration"><img src="assets/img/fides-logo.svg"></div>
+        <div class="illustration"><img src="libs/img/fides-logo.svg"></div>
         <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" autofocus>
         </div>
         <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password">

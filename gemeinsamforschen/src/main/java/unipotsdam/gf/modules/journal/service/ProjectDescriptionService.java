@@ -1,6 +1,11 @@
 package unipotsdam.gf.modules.journal.service;
 
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
+
+import java.util.ArrayList;
 
 /**
  * Service for learning Journal
@@ -9,13 +14,18 @@ import unipotsdam.gf.modules.journal.model.ProjectDescription;
 public interface ProjectDescriptionService {
 
 
-    ProjectDescription getProject(String project);
+    ProjectDescription getProjectByStudent(StudentIdentifier studentIdentifier);
 
-    void saveProjectText(String text);
+    ProjectDescription getProjectById(String id);
+    void saveProjectText(StudentIdentifier studentIdentifier, String text);
 
-    void addLink(String link, String name);
+    void addLink(String project, String link, String name);
 
     void deleteLink(String link);
 
-    void closeDescription(String desc);
+    void closeDescription(String projectDescriptionId);
+
+    boolean checkIfAllDescriptionsClosed(Project project);
+
+    ArrayList<User> getOpenUserByProject(Project project);
 }
