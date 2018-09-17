@@ -48,7 +48,7 @@
         <tag-class>unipotsdam.gf.core.management.pageAppearance.Footer</tag-class>
         <body-content>empty</body-content>
     </tag>
-    
+
     <tag>
         <name>context</name>
         <tag-class>unipotsdam.gf.core.session.ContextTag</tag-class>

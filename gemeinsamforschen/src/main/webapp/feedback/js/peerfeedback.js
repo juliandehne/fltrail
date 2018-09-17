@@ -22,7 +22,7 @@
 var student = getQueryVariable("token");
 var project = getQueryVariable("projectId");
 
-function go(){
+function go() {
     var a = document.getElementById("editor").valueOf().toString();
     var b = document.getElementById("as");
     b.innerHTML = a.toString();
@@ -32,7 +32,7 @@ function go(){
 
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('#student').val(student);
     $('#project').val(project);
 
@@ -41,15 +41,15 @@ $(document).ready(function() {
     }).then(function (data) {
         $('#editor').append(data.descriptionMD);
 
-       /** //TODO preselet in select tags
-        new InscrybMDE({
+        /** //TODO preselet in select tags
+         new InscrybMDE({
             element: document.getElementById("editor"),
             spellChecker: false,
             forceSync: true,
         });*/
 
         //console.log(data);
-       location.href="give-feedback.jsp?token=" + getUserTokenFromUrl();
-       alert("Feedback wurde gesendet!");
+        location.href = "give-feedback.jsp?token=" + getUserTokenFromUrl();
+        alert("Feedback wurde gesendet!");
     });
 })

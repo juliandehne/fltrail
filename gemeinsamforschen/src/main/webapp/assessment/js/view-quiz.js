@@ -37,7 +37,7 @@ $(document).ready(function () {
     var author = $('#user').html().trim();
     var projectId = document.getElementById('projectId').innerText.trim();
     $.ajax({
-        url: '../rest/assessments/project/'+projectId+'/quiz/'+quizId+'/author/'+author,
+        url: '../rest/assessments/project/' + projectId + '/quiz/' + quizId + '/author/' + author,
         type: 'GET',
         success: function (data) {
             var table = document.getElementById('tableQuiz');
@@ -67,9 +67,9 @@ $(document).ready(function () {
             url: '../rest/assessments/quiz/' + encodeURIComponent(quizId),
             type: 'POST',
             success: function () {
-                document.location.href="quiz.jsp?token="+getUserTokenFromUrl()+"&projectId="+$('#projectId').html().trim();
+                document.location.href = "quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
             },
-            error: function(a){
+            error: function (a) {
                 alert(a)
             }
         });

@@ -1,7 +1,7 @@
-$(document).ready(function(){
+$(document).ready(function () {
     // fetch all submission part project representations from database
     getSubmissionPartsByProjectId(getQueryVariable("projectId"), function (response) {
-        
+
         // iterate over response and display each element
         for (let i = 0; i < response.length; i++) {
             displaySubmission(response[i].user, response[i].category, response[i].fullSubmissionId);
@@ -11,12 +11,12 @@ $(document).ready(function(){
         $('.annotationview').click(function () {
             let fullSubmissionId = $(this).closest("li").data("fullSubmissionId");
             let category = $(this).closest("li").data("category");
-            location.href="annotation-document.jsp?token=" + getUserTokenFromUrl() +
+            location.href = "annotation-document.jsp?token=" + getUserTokenFromUrl() +
                 "&projectId=" + getQueryVariable("projectId") +
                 "&fullSubmissionId=" + fullSubmissionId +
                 "&category=" + category;
         });
-        
+
     }, function () {
         // display empty view
         displayEmptyView()
@@ -30,22 +30,22 @@ $(document).ready(function(){
     });
     */
     $('.givefeedback').click(function () {
-        location.href="give-feedback.jsp?token="+getUserTokenFromUrl();
+        location.href = "give-feedback.jsp?token=" + getUserTokenFromUrl();
     });
     $('.viewfeedback').click(function () {
-        location.href="view-feedback.jsp?token="+getUserTokenFromUrl();
+        location.href = "view-feedback.jsp?token=" + getUserTokenFromUrl();
     });
 
     $('.annotationview').click(function () {
-        location.href="annotation-document.jsp?token="+getUserTokenFromUrl();
+        location.href = "annotation-document.jsp?token=" + getUserTokenFromUrl();
     });
 
     $('#btnUnstructuredUpload').click(function () {
-        location.href="upload-unstructured-annotation.jsp?token="+getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+        location.href = "upload-unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
     })
 
     $('.viewprojectstudent').click(function () {
-        location.href="project-student.jsp?token="+getUserTokenFromUrl();
+        location.href = "project-student.jsp?token=" + getUserTokenFromUrl();
     })
 });
 
@@ -62,10 +62,10 @@ function displaySubmission(user, category, fullSubmissionId) {
         $('<li>')
             .append($('<span>').append(category.toUpperCase() + " eingereicht"))
             .append($('<a>').attr("class", "annotationview").attr("role", "button")
-                    .append($('<label>').css("font-size", "10px")
-                        .append($('<i>').attr("class", "far fa-comments").css("font-size", "15px"))
-                        .append("feedback")
-                    )
+                .append($('<label>').css("font-size", "10px")
+                    .append($('<i>').attr("class", "far fa-comments").css("font-size", "15px"))
+                    .append("feedback")
+                )
             )
             // add data to link
             .data("fullSubmissionId", fullSubmissionId)

@@ -8,7 +8,13 @@ import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.service.JournalService;
 import unipotsdam.gf.modules.journal.service.JournalServiceImpl;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
@@ -60,8 +66,8 @@ public class JournalView {
 
         log.debug(">>> getJournals: student=" + student + " project=" + project +" filter="  + filter  );
 
-        JournalFilter journalFilter = (filter.equals("ALL")) ? JournalFilter.ALL:JournalFilter.OWN;
-        ArrayList<Journal> result = journalService.getAllJournals(student,project,journalFilter);
+        JournalFilter journalFilter = (filter.equals("ALL")) ? JournalFilter.ALL : JournalFilter.OWN;
+        ArrayList<Journal> result = journalService.getAllJournals(student, project, journalFilter);
 
         log.debug(">>> getJournals: size=" + result.size());
 

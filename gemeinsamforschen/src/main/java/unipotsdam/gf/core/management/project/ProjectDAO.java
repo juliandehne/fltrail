@@ -2,7 +2,7 @@ package unipotsdam.gf.core.management.project;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -84,6 +84,6 @@ public class ProjectDAO {
         String token = vereinfachtesResultSet.getString("token");
         String phase = vereinfachtesResultSet.getString("phase");
 
-        return new Project(id, password, active, timestamp, author, adminPassword, token, phase);
+        return new Project(id, password, active, timestamp, author, adminPassword, token, ProjectPhase.valueOf(phase));
     }
 }

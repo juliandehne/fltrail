@@ -21,16 +21,16 @@ public interface Feedback {
      * @return Returns the Peer2PeerFeedback Object
      */
 
-    Peer2PeerFeedback createPeer2PeerFeedback (Peer2PeerFeedback feedback);
+    Peer2PeerFeedback createPeer2PeerFeedback(Peer2PeerFeedback feedback);
     //(String id, String reciever, String sender, String text, Category category, String filename);
 
     /**
      * create Peer2PeerFeedback Object
      *
-    * @param feedbackuser:
-    * @param selectedstudent:
-    * @param document:
-     * **/
+     * @param feedbackuser:
+     * @param selectedstudent:
+     * @param document:
+     **/
     Peer2PeerFeedback createPeer2PeerFeedbackmask(User feedbackuser, User selectedstudent, File document);
 
     /**

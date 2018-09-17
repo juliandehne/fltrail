@@ -1,11 +1,10 @@
 package unipotsdam.gf.core.states;
 
-import unipotsdam.gf.core.management.Management;
-import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.core.management.project.ProjectDAO;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.interfaces.IPhases;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,16 +18,16 @@ import javax.ws.rs.core.MediaType;
  * In order to look up the possible phases @see unipotsdam.gf.core.states.model.ProjectPhase
  */
 @Path("/phases")
-public class PhasesService  {
+public class PhasesService {
 
     private IPhases phases = new PhasesImpl();
 
-    private Management management = new ManagementImpl();
     @Inject
     private ProjectDAO projectDAO;
 
     /**
      * end phase
+     *
      * @param projectPhase
      * @param projectId
      */
@@ -41,6 +40,7 @@ public class PhasesService  {
 
     /**
      * get current phase
+     *
      * @param projectId
      * @return
      */

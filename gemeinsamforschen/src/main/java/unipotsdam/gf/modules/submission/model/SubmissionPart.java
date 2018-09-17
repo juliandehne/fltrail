@@ -26,7 +26,8 @@ public class SubmissionPart {
         this.body = body;
     }
 
-    public SubmissionPart(){}
+    public SubmissionPart() {
+    }
 
     // methods
     public long getTimestamp() {

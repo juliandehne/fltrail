@@ -1,4 +1,4 @@
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu"%>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
 <!DOCTYPE html>
@@ -34,7 +34,8 @@
                     <td  id="yourContent">
                         <h1> Projektbeschreibung bearbeiten </h1>
 
-                        <form id="descriptionform" class="form-journal" method="POST" action="rest/projectdescription/saveText">
+                        <form id="descriptionform" class="form-journal" method="POST"
+                              action="rest/projectdescription/saveText">
 
                             <input type="hidden" id="student" name="student">
                             <input type="hidden" id="project" name="project">
@@ -42,7 +43,7 @@
                             <div class="description-form-container">
 
                                 <div class ="description-form-editor">
-                                    <textarea id = "editor" name="text" form="descriptionform"></textarea>
+                                    <textarea id="editor" name="text" form="descriptionform"></textarea>
                                 </div>
 
                                 <div class="description-form-buttons">
@@ -59,7 +60,7 @@
         </div>
     </div>
 </div>
-<script  src="js/editDescription.js"></script>
+<script src="js/editDescription.js"></script>
 </body>
 
 </html>

@@ -22,11 +22,11 @@ public class GroupDAO {
         VereinfachtesResultSet vereinfachtesResultSet2 =
                 connect.issueSelectStatement(mysqlRequest2, groupId);
         boolean next2 = vereinfachtesResultSet2.next();
-        while(next2){
+        while (next2) {
             String peer = vereinfachtesResultSet2.getString("studentId");
-            if (!peer.equals( student.getStudentId()))
+            if (!peer.equals(student.getStudentId()))
                 result.add(peer);
-            next2=vereinfachtesResultSet2.next();
+            next2 = vereinfachtesResultSet2.next();
         }
         connect.close();
         return result;

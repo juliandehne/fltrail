@@ -13,12 +13,12 @@ import java.util.ArrayList;
 @Resource
 @Singleton
 public class QuizDBCommunication {
-    Quiz getQuizByProjectQuizId(String projectId, String quizId, String author){
+    Quiz getQuizByProjectQuizId(String projectId, String quizId, String author) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectId`=? AND `question`=? AND `author`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, projectId,quizId,author);
+                connect.issueSelectStatement(mysqlRequest, projectId, quizId, author);
         boolean next = vereinfachtesResultSet.next();
         String question = "";
         ArrayList<String> correctAnswers = new ArrayList<>();
@@ -31,21 +31,21 @@ public class QuizDBCommunication {
             question = vereinfachtesResultSet.getString("question");
             answer = vereinfachtesResultSet.getString("answer");
             correct = vereinfachtesResultSet.getBoolean("correct");
-            if (correct){
+            if (correct) {
                 correctAnswers.add(answer);
-            }else{
+            } else {
                 incorrectAnswers.add(answer);
             }
             next = vereinfachtesResultSet.next();
         }
-        Quiz quiz = new Quiz(mcType,question, correctAnswers, incorrectAnswers);
+        Quiz quiz = new Quiz(mcType, question, correctAnswers, incorrectAnswers);
         connect.close();
         return quiz;
     }
 
     ArrayList<Quiz> getQuizByProjectId(String projectId) {
         MysqlConnect connect = new MysqlConnect();
-        ArrayList<Quiz> result= new ArrayList<>();
+        ArrayList<Quiz> result = new ArrayList<>();
         connect.connect();
         String mysqlRequest = "SELECT * FROM quiz where projectId= ?";
         VereinfachtesResultSet vereinfachtesResultSet =
@@ -55,7 +55,7 @@ public class QuizDBCommunication {
         ArrayList<String> correctAnswers = new ArrayList<>();
         ArrayList<String> incorrectAnswers = new ArrayList<>();
         String answer;
-        String oldQuestion="";
+        String oldQuestion = "";
         Boolean correct;
         String mcType = "";
         Quiz quiz;
@@ -64,20 +64,20 @@ public class QuizDBCommunication {
             question = vereinfachtesResultSet.getString("question");
             answer = vereinfachtesResultSet.getString("answer");
             correct = vereinfachtesResultSet.getBoolean("correct");
-            if (oldQuestion.equals(question)){
-                if (correct){
+            if (oldQuestion.equals(question)) {
+                if (correct) {
                     correctAnswers.add(answer);
-                }else{
+                } else {
                     incorrectAnswers.add(answer);
                 }
-            }else{
-                quiz = new Quiz(mcType,oldQuestion, correctAnswers, incorrectAnswers);
+            } else {
+                quiz = new Quiz(mcType, oldQuestion, correctAnswers, incorrectAnswers);
                 result.add(quiz);
-                correctAnswers=new ArrayList<>();
-                incorrectAnswers=new ArrayList<>();
-                if (correct){
+                correctAnswers = new ArrayList<>();
+                incorrectAnswers = new ArrayList<>();
+                if (correct) {
                     correctAnswers.add(answer);
-                }else{
+                } else {
                     incorrectAnswers.add(answer);
                 }
 
@@ -85,7 +85,7 @@ public class QuizDBCommunication {
             oldQuestion = question;
             next = vereinfachtesResultSet.next();
         }
-        quiz = new Quiz(mcType,oldQuestion, correctAnswers, incorrectAnswers);
+        quiz = new Quiz(mcType, oldQuestion, correctAnswers, incorrectAnswers);
         result.add(quiz);
         return result;
     }

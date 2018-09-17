@@ -6,7 +6,6 @@
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
 
 
-
 <!DOCTYPE html>
 <html>
 
@@ -94,7 +93,7 @@
     </div>
     <footer:footer/>
 </div>
-<communication:chatWindow orientation="right" />
+<communication:chatWindow orientation="right"/>
 </body>
 
 </html>

@@ -12,7 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-    <gf:session></gf:session>
-    <a href="session_example_2.jsp">click mich</a>
+<gf:session></gf:session>
+<a href="session_example_2.jsp">click mich</a>
 </body>
 </html>

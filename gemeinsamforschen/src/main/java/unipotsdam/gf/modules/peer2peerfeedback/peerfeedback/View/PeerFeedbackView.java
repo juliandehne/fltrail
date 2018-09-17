@@ -1,13 +1,16 @@
 package unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.View;
 
-import com.sun.tools.xjc.model.Model;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
-import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Controller.PeerFeedbackController;
+import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ public class PeerFeedbackView {
     @POST
     @Path("/save")
     public Response createPeerfeedback(@FormParam("text") String text, @FormParam("student") String student, @FormParam("id") String id, @FormParam("reciever") String reciever,
-                                        @FormParam("sender") String sender, @FormParam("filename") String filename, @FormParam("category") Category category, @FormParam("timestamp") Long timestamp) {
+                                       @FormParam("sender") String sender, @FormParam("filename") String filename, @FormParam("category") Category category, @FormParam("timestamp") Long timestamp) {
 
         // save peerfeedback request in database and receive the new peerfeedback object
         //PeerFeedbackController controller = new PeerFeedbackController();
@@ -46,7 +49,7 @@ public class PeerFeedbackView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{sender}")
-    public Response getPeerfeedback(@PathParam("sender") String sender){
+    public Response getPeerfeedback(@PathParam("sender") String sender) {
 
         PeerFeedbackController controller = new PeerFeedbackController();
         ArrayList<Peer2PeerFeedback> fd = controller.getAllFeedbacks(sender);

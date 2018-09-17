@@ -6,7 +6,8 @@ import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+
+import java.io.FileInputStream;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -87,6 +88,6 @@ public interface Management {
 
     ProjectConfiguration getProjectConfiguration(Project project);
 
-    Quiz getQuizByProjectGroupId(String projectId, String quizId);
+    String saveProfilePicture(FileInputStream image, String studentId);
 }
 

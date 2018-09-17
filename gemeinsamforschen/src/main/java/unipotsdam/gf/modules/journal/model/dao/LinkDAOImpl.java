@@ -8,13 +8,13 @@ import unipotsdam.gf.modules.journal.util.JournalUtils;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class LinkDAOImpl implements LinkDAO{
+public class LinkDAOImpl implements LinkDAO {
 
     @Override
     public void addLink(Link link) {
         // create a new id
         String uuid = UUID.randomUUID().toString();
-        while (JournalUtils.existsId(uuid,"links")) {
+        while (JournalUtils.existsId(uuid, "links")) {
             uuid = UUID.randomUUID().toString();
         }
 
@@ -24,7 +24,7 @@ public class LinkDAOImpl implements LinkDAO{
 
         // build and execute request
         String request = "INSERT INTO links (`id`, `projecdesription`, `name`, `link`) VALUES (?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, link.getProjectDescription(),link.getName(),link.getLink());
+        connection.issueInsertOrDeleteStatement(request, uuid, link.getProjectDescription(), link.getName(), link.getLink());
 
         //close connection
         connection.close();
@@ -103,7 +103,7 @@ public class LinkDAOImpl implements LinkDAO{
         String project = rs.getString("projecdesription");
         String name = rs.getString("name");
         String link = rs.getString("link");
-        return new Link(id,project,name,link);
+        return new Link(id, project, name, link);
     }
 
 }

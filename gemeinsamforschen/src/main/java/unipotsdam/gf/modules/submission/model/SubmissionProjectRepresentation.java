@@ -16,7 +16,8 @@ public class SubmissionProjectRepresentation {
         this.fullSubmissionId = fullSubmissionId;
     }
 
-    public SubmissionProjectRepresentation(){}
+    public SubmissionProjectRepresentation() {
+    }
 
     // methods
     public String getUser() {

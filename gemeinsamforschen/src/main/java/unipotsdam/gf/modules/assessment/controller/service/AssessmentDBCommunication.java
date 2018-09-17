@@ -2,7 +2,9 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.modules.assessment.controller.model.Categories;
+import unipotsdam.gf.modules.assessment.controller.model.Grading;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -36,7 +38,7 @@ class AssessmentDBCommunication {
         return result;
     }
 
-    Boolean getWorkRating(StudentIdentifier student, String fromStudent){
+    Boolean getWorkRating(StudentIdentifier student, String fromStudent) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectId`=? AND `studentId`=? AND `fromPeer`=?";
@@ -72,7 +74,7 @@ class AssessmentDBCommunication {
         return result;
     }
 
-    ArrayList<String> getStudentsByGroupAndProject(Integer groupId, String projectId){
+    ArrayList<String> getStudentsByGroupAndProject(Integer groupId, String projectId) {
         ArrayList<String> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
@@ -80,7 +82,7 @@ class AssessmentDBCommunication {
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, groupId, projectId);
         Boolean next = vereinfachtesResultSet.next();
-        while (next){
+        while (next) {
             result.add(vereinfachtesResultSet.getString("studentId"));
             next = vereinfachtesResultSet.next();
         }
@@ -135,7 +137,7 @@ class AssessmentDBCommunication {
     void writeAnsweredQuiz(StudentIdentifier student, Map<String, Boolean> questions) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        for (String question: questions.keySet()){
+        for (String question : questions.keySet()) {
             String mysqlRequest = "INSERT INTO `answeredquiz`(`projectId`, `studentId`, `question`, `correct`) VALUES (?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest,
                     student.getProjectId(),
@@ -167,13 +169,13 @@ class AssessmentDBCommunication {
         connect.close();
     }
 
-    Integer getWhichGroupToRate(StudentIdentifier student){
+    Integer getWhichGroupToRate(StudentIdentifier student) {
         Integer result;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `projectId`=? AND `studentId`=? ";
         VereinfachtesResultSet vereinfachtesResultSet1 =
-                connect.issueSelectStatement(mysqlRequest1, student.getProjectId(),student.getStudentId());
+                connect.issueSelectStatement(mysqlRequest1, student.getProjectId(), student.getStudentId());
         vereinfachtesResultSet1.next();
         Integer groupId = vereinfachtesResultSet1.getInt("groupId");
 
@@ -182,13 +184,13 @@ class AssessmentDBCommunication {
                 connect.issueSelectStatement(mysqlRequest2, student.getProjectId());
         Boolean next = vereinfachtesResultSet2.next();
         result = vereinfachtesResultSet2.getInt("groupId");
-        while(next){
-            if (vereinfachtesResultSet2.getInt("groupId") == groupId){
+        while (next) {
+            if (vereinfachtesResultSet2.getInt("groupId") == groupId) {
                 next = vereinfachtesResultSet2.next();
-                if (next){
+                if (next) {
                     result = vereinfachtesResultSet2.getInt("groupId");
                 }
-            }else{
+            } else {
                 next = vereinfachtesResultSet2.next();
             }
 

@@ -33,7 +33,7 @@ public class IJournalImpl implements IJournal {
 
         ArrayList<User> descUser = descriptionService.getOpenUserByProject(project);
 
-        for(User user : descUser){
+        for (User user : descUser) {
 
             log.debug("Send close description message to user {}", user.getId());
             //TODO send message when implemented
@@ -42,7 +42,7 @@ public class IJournalImpl implements IJournal {
 
         ArrayList<User> journalUser = journalService.getOpenUserByProject(project);
 
-        for(User user : journalUser){
+        for (User user : journalUser) {
 
             log.debug("Send close journal message to user {}", user.getId());
             //TODO send message when implemented
@@ -66,10 +66,10 @@ public class IJournalImpl implements IJournal {
     public EPortfolio getFinalPortfolioForAssessment(Project project, User user) {
 
         EPortfolio result = new EPortfolio();
-        StudentIdentifier studentIdentifier = new StudentIdentifier(project.getId(),user.getId());
+        StudentIdentifier studentIdentifier = new StudentIdentifier(project.getId(), user.getId());
 
         result.setDescription(descriptionService.getProjectByStudent(studentIdentifier));
-        result.setJournals(journalService.getAllJournals(user.getId(),project.getId()));
+        result.setJournals(journalService.getAllJournals(user.getId(), project.getId()));
         //TODO result.setReport(...);
 
         return result;

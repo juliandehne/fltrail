@@ -17,7 +17,7 @@
         student1<br>
         student2<br>
         <br>
-        in Gruppe 1    2     3
+        in Gruppe 1 2 3
     </div>
 </div>
 </body>

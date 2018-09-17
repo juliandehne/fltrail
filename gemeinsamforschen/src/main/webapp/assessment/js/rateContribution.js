@@ -22,11 +22,11 @@ $(document).ready(function () {
     });
 });
 
-function whichGroupToRate(){
+function whichGroupToRate() {
     let projectId = $('#projectId').html().trim();
     let studentId = $('#user').html().trim();
     $.ajax({
-        url: '../rest/assessments/groupRate/project/'+projectId+'/student/'+studentId,
+        url: '../rest/assessments/groupRate/project/' + projectId + '/student/' + studentId,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -54,7 +54,7 @@ function safeContributionRating() {
     let fromPeer = $('#user').html().trim();
     let groupId = $('#groupId').html().trim();
     $.ajax({
-        url: '../rest/assessments/contributionRating/group/'+groupId+'/fromPeer/' + fromPeer,
+        url: '../rest/assessments/contributionRating/group/' + groupId + '/fromPeer/' + fromPeer,
         type: 'POST',
         headers: {
             "Content-Type": "application/json",
