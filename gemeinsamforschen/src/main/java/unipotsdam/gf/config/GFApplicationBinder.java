@@ -42,7 +42,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
         bind(TestList.class).to(TestListInterface.class);
         bind(DummyGroupfinding.class).to(IGroupFinding.class);
-        bind(DummyProjectCreationService.class);
+        bind(DummyProjectCreationService.class).to(DummyProjectCreationService.class);
         bind(UserDAO.class).to(UserDAO.class);
         bind(ProjectDAO.class).to(ProjectDAO.class);
         bind(GroupDAO.class).to(GroupDAO.class);

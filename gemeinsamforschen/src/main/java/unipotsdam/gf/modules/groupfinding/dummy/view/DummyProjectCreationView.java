@@ -17,6 +17,7 @@ public class DummyProjectCreationView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/create")
     public Response createDummyProject() {
 
         boolean success = dummyProjectCreationService.createExampleProject();
