@@ -7,8 +7,10 @@ import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.interfaces.*;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.journal.service.IJournalImpl;
 import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
 import unipotsdam.gf.view.Messages;
 
@@ -26,13 +28,13 @@ import java.util.Map;
 @ManagedBean
 public class PhasesImpl implements IPhases {
 
-    private IPeerAssessment iPeerAssessment = new PeerAssessmentDummy();
+    private IPeerAssessment iPeerAssessment = new PeerAssessment();
 
     private Feedback feedback = new DummyFeedback();
 
     private ICommunication iCommunication = new CommunicationDummyService();
 
-    private IJournal iJournal;
+    private IJournal iJournal = new IJournalImpl();
 
     public PhasesImpl() {
     }
@@ -76,7 +78,8 @@ public class PhasesImpl implements IPhases {
     @Override
     public void endPhase(ProjectPhase currentPhase, Project project) {
         ProjectPhase changeToPhase = getNextPhase(currentPhase);
-        Map<StudentIdentifier, ConstraintsMessages> tasks = new HashMap<>();
+        Map<StudentIdentifier, ConstraintsMessages> tasks;
+        if (changeToPhase != null)
         switch (changeToPhase) {
             case CourseCreation:
                 // saving the state
@@ -122,6 +125,7 @@ public class PhasesImpl implements IPhases {
             case Projectfinished:
                 closeProject();
                 break;
+            default:{}
         }
     }
 
@@ -129,7 +133,7 @@ public class PhasesImpl implements IPhases {
         // TODO implement
     }
 
-    ProjectPhase getNextPhase(ProjectPhase projectPhase) {
+    private ProjectPhase getNextPhase(ProjectPhase projectPhase) {
         switch (projectPhase) {
             case CourseCreation:
                 return ProjectPhase.GroupFormation;

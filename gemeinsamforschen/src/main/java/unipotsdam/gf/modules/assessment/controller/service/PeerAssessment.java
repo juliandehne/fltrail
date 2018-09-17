@@ -63,7 +63,9 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId) {
-        return null;
+        Map<StudentIdentifier, ConstraintsMessages> result;
+        result = new AssessmentDBCommunication().missingAssessments(projectId);
+        return result;
     }
 
     @Override
