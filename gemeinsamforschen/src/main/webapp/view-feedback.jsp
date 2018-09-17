@@ -17,12 +17,11 @@
     <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
-        <div>
+       <%-- <div>
             <div>Feedback Nachrichten</div>
             <table>
                 <tr>
                         <hr>
-
                         <td  id="filter-feedbacks" class="feedback-table">
 
                             <input type="hidden" name="peerfeedbackID" id="peerfeedbackID-input" value=""/>
@@ -41,26 +40,16 @@
                                     <span class="time-right">11:00</span>
                                 </div>
                                 </div>
-
-
                         </td>
-
-
                         <td id="view-feedbacks" class="feedback-table">
-
                             <div style="overflow: auto">
-
                             <div class="feedback-container">
                                 <p>Hello. How are you today?</p>
                                 <span class="time-right">11:00</span>
                             </div>
-
                             <div id="div1"></div>
-
                             </div>
                         </td>
-
-
                 </tr>
             </table>
             <hr>
@@ -71,7 +60,33 @@
                     window.history.back();
                 }
             </script>
-        </div>
+        </div>--%>
+        <div class="container">
+            <h3 class=" text-center">Feedback Nachrichten</h3>
+            <div class="messaging">
+                <div class="inbox_msg">
+                    <div class="inbox_people">
+                        <div class="headind_srch">
+                            <div class="recent_heading">
+                                <h4>Übersicht</h4>
+                            </div>
+                        </div>
+                        <div class="inbox_chat" id="inbox_chat">
+                        </div>
+                    </div>
+                    <div class="mesgs">
+                        <div class="msg_history" id="msg_history">
+                        </div>
+                    </div>
+                </div>
+            </div></div>
+        <button class="btn btn-secondary" onclick="goBack()">Zur&uuml;ck</button>
+
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
     </div>
 </div>
 </body>

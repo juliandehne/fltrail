@@ -30,6 +30,10 @@ $(document).ready(function() {
     $('#project').val(project);
     $('#name').val(name);
 
+    $('.viewfeedback').click(function () {
+        location.href="viewfeedback.jsp?token="+getUserTokenFromUrl();
+    });
+
     new InscrybMDE({
         element: document.getElementById("editor"),
         spellChecker: false,
@@ -41,38 +45,50 @@ $(document).ready(function() {
     var cln_user = user.cloneNode(true);
     document.getElementById("journalform").appendChild(cln_user);
 
+    var getToken = document.getElementById("user").textContent;
+    //var checkFeedback = document.getElementById("user").textContent;
+
+    //var i = document.getElementById("defaultCheck1").onclick.valueOf();
+    //console.log("i:"+i);
+
     console.log(student);
-    console.log(user);
+    console.log(getToken);
+
+    var checkFeedback = student;
+    console.log(checkFeedback);
 
     $.ajax({
-        url: "../rest/peerfeedback/save" //+ student
+        url: "../rest/peerfeedback/save", //+ student
     }).then(function (data) {
         $('#editor').append(data.descriptionMD);
 
-       /** //TODO preselet in select tags
-        new InscrybMDE({
-            element: document.getElementById("editor"),
-            spellChecker: false,
-            forceSync: true,
-        });*/
+        console.log("save:"+data);
 
-        console.log(data);
-       //location.href="give-feedback.jsp?token=" + getUserTokenFromUrl();
-       //alert("Feedback wurde gesendet!");
     });
+
+    /**$.ajax({
+        url: "../rest/peerfeedback/getToken/" +getToken,
+    }).then(function (data) {
+        console.log("getToken-js:"+data);
+    });*/
 
     $.ajax({
         url: "../rest/peerfeedback/getUsers" //+ student
     }).then(function (data) {
-        console.log(data);
+        console.log("getUsers:"+data);
         loadUsers(data);
     });
 
-    $.ajax({
-        url: "../rest/peerfeedback/getToken" + user //+ student
+    /**$.ajax({
+        url: "../rest/peerfeedback/getToken/" +getToken
     }).then(function (data) {
-        console.log(data);
-        //loadUsers(data);
+        console.log("getToken:"+data);
+    });*/
+
+    $.ajax({
+        url: "../rest/peerfeedback/checkFeedback/" +checkFeedback
+    }).then(function (data) {
+        console.log("checkFeedback:"+data);
     });
 
     function loadUsers(data) {
@@ -89,5 +105,17 @@ $(document).ready(function() {
 
         }
 
+    }
+
+    function getUsername(name) {
+        let query = data;
+        let vars = query.split("+");
+        for (let i = 0; i < vars.length; i++) {
+            let pair = vars[i].split("=");
+            if (pair[0] === name) {
+                return pair[1];
+            }
+        }
+        return (false);
     }
 })

@@ -25,12 +25,10 @@
                 <tr>
                     <h2> Gib dein Feedback ein!</h2>
                     <div class="line-spacer"></div>
-                    <p><span> Datei zum Feedback: SelectedFile.pdf </span></p>
-                    <p class="text-primary"><span> Kategorie: Untersuchungskonzept </span></p>
                     <hr />
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
+                        <label class="form-check-label" for="defaultCheck1" id="Check1">
                             Das fand ich gut
                         </label>
                     </div>

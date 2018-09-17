@@ -8,4 +8,7 @@ $(document).ready(function(){
     $('#enrollProject').on('click', function(){
         location.href="enrollProject.jsp?token="+getUserTokenFromUrl();
     });
+    $('.viewfeedback').click(function () {
+        location.href="viewfeedback.jsp?token="+getUserTokenFromUrl();
+    });
 });

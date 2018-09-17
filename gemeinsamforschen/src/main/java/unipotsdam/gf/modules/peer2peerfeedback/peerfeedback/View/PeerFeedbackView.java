@@ -20,9 +20,6 @@ public class PeerFeedbackView {
     public Response createPeerfeedback( @FormParam("id") String id, @FormParam("timestamp") Long timestamp, @FormParam("category") Category category,
                                         @FormParam("student") String sender, @FormParam("reciever") String reciever,  @FormParam("text") String text, @FormParam("filename") String filename) {
 
-        System.out.print("id="+id +"time="+timestamp +"cat="+category +
-                "sender="+sender +"reciever="+reciever +"text="+text +"fn"+filename);
-
         //Peer2PeerFeedback feedback = new Peer2PeerFeedback(id, timestamp, Category.TITEL, sender, text, reciever, filename);
         Peer2PeerFeedback f = new Peer2PeerFeedback();
         f.setID(id);
@@ -50,7 +47,7 @@ public class PeerFeedbackView {
 
         PeerFeedbackController controller = new PeerFeedbackController();
         ArrayList<Peer2PeerFeedback> fd = controller.getAllFeedbacks(sender);
-        System.out.print(fd);
+        System.out.print("getallfd:"+fd);
         return Response.ok(fd).build();
     }
 
@@ -61,20 +58,34 @@ public class PeerFeedbackView {
 
         PeerFeedbackController controller = new PeerFeedbackController();
         ArrayList<String> users = controller.getUserforFeedback();
-        System.out.print(users);
+        System.out.print("usersview:"+users);
         return Response.ok(users).build();
     }
 
-    @POST
-    //@Produces(MediaType.APPLICATION_JSON)
-    @Path("{getToken}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/checkFeedback/{checkFeedback}")
+    public Response checkFeedback(@PathParam("checkFeedback") String checkFeedback){
+
+        System.out.print("sendcf:"+checkFeedback);
+        PeerFeedbackController controller = new PeerFeedbackController();
+        Boolean check = controller.checkFeedback(checkFeedback);
+        System.out.print("checkcf:"+check);
+        return Response.ok(check).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getToken/{getToken}")
     public Response getToken(@PathParam("getToken") String user){
 
+        System.out.print("getToken:"+user);
         PeerFeedbackController controller = new PeerFeedbackController();
-        controller.getTokenforFeedback(user);
-        System.out.print(user);
-        return Response.ok().build();
+        Boolean checktoken = controller.getTokenforFeedback(user);
+        System.out.print("getToken:"+checktoken);
+        return Response.ok(checktoken).build();
     }
+
 
 
 }
