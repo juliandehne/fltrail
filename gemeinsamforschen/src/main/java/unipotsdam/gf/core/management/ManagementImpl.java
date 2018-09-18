@@ -57,7 +57,7 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public void create(Project project) {
+    public String create(Project project) {
         UUID uuid = UUID.randomUUID();
         String token = uuid.toString();
 
@@ -76,6 +76,7 @@ public class ManagementImpl implements Management {
             connect.issueInsertOrDeleteStatement(mysql2Request, project.getId(), tag);
         }
         connect.close();
+        return token;
     }
 
     @Override
@@ -334,15 +335,28 @@ public class ManagementImpl implements Management {
     public String getProjectToken(String projectName, String password) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String query = "SELECT a.token from projects a where a.password = ? and a.id = ?";
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(projectName, password);
+        if (password != null && !password.trim().equals("")) {
+            String query = "SELECT a.token from projects a where a.password = ? and a.id = ?";
+            VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(projectName, password);
 
-        String result = "";
-        while (vereinfachtesResultSet.next()) {
-            result = vereinfachtesResultSet.getString("token");
+            String result = "";
+            while (vereinfachtesResultSet.next()) {
+                result = vereinfachtesResultSet.getString("token");
+            }
+            connect.close();
+            return result;
+        } else {
+            String query = "SELECT a.token from projects a where a.id = ?";
+            VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(projectName);
+
+            String result = "";
+            while (vereinfachtesResultSet.next()) {
+                result = vereinfachtesResultSet.getString("token");
+            }
+            connect.close();
+            return result;
         }
-        connect.close();
-        return result;
+
     }
 
     public String saveProfilePicture(FileInputStream image, String studentId) {

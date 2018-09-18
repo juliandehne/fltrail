@@ -17,6 +17,7 @@ public class Project {
     private String password;
     private Boolean active;
     private Timestamp timecreated;
+    // the id of the author (not the token)
     private String author;
     private String adminPassword;
     private String token;

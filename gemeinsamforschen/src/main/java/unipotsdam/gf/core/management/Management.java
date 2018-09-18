@@ -35,7 +35,7 @@ public interface Management {
      *
      * @param project
      */
-    void create(Project project);
+    String create(Project project);
 
     /**
      * create a Group in the database

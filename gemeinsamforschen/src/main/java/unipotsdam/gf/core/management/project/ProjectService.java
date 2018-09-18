@@ -25,10 +25,18 @@ public class ProjectService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/create")
-    public Response createProject(Project project) throws URISyntaxException {
+    public String createProject(Project project) throws URISyntaxException {
+        // we assume the token is send not the author id
+        String authorToken = project.getAuthor();
+        User userByToken = iManagement.getUserByToken(authorToken);
+        project.setAuthor(userByToken.getId());
+        try {
+            String token = iManagement.create(project);
+            return token;
+        } catch (Exception e) {
+            return "project exists";
+        }
 
-        iManagement.create(project);
-        return Response.ok("project has been created").build();
     }
 
     @GET

@@ -25,13 +25,6 @@
 
 <body>
 
-<div class="loader-inactive" id="loader">
-    <div class="sk-cube1 sk-cube"></div>
-    <div class="sk-cube2 sk-cube"></div>
-    <div class="sk-cube4 sk-cube"></div>
-    <div class="sk-cube3 sk-cube"></div>
-</div>
-
 <div id="wrapper">
     <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
@@ -75,7 +68,7 @@
         <div class="form-group"><input class="tags" data-role="tags" name="Tags" placeholder="Tags"
                                        id="tagsProject">
         </div>
-        <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>
+       <%-- <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>--%>
 
         <div class="form-group">
             <button class="btn btn-primary" style="margin-left:129px;" id="sendProject">erstellen</button>
