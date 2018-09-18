@@ -38,7 +38,7 @@ $(document).ready(function() {
     });
 
     $('#editDescriptionLink').on('click', function () {
-        location.href = "edit-project.jsp?project=" + project + "&token=" + student + "&projectId=" + project;
+        location.href = "edit-description.jsp?project=" + project + "&token=" + student + "&projectId=" + project;
     });
 
     $('#createJournalLink').on('click', function () {
