@@ -2,6 +2,7 @@
     position:absolute;
     margin-left:160px;
     height:90px;
+    border: solid;
 }
 .arrowCourseCreation{
     margin-top:20px;
@@ -16,7 +17,7 @@
     margin-top:210px;
 }
 .arrowAssessment{
-    margin-top:280px;
+    margin-top:305px;
 }
 .arrowDone{
     visibility: hidden;

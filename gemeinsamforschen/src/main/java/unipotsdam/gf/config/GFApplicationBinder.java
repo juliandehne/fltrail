@@ -7,7 +7,7 @@ import unipotsdam.gf.core.states.PhasesImpl;
 import unipotsdam.gf.core.testsandbox.TestList;
 import unipotsdam.gf.core.testsandbox.TestListInterface;
 import unipotsdam.gf.interfaces.*;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 import unipotsdam.gf.modules.groupfinding.DummyGroupfinding;
 import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
@@ -24,7 +24,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(CommunicationDummyService.class).to(ICommunication.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(DummyFeedback.class).to(Feedback.class);
-        bind(PeerAssessmentDummy.class).to(IPeerAssessment.class);
+        bind(PeerAssessment.class).to(IPeerAssessment.class);
         bind(PhasesImpl.class).to(IPhases.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);

@@ -5,14 +5,12 @@ import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
-import unipotsdam.gf.modules.assessment.controller.service.FBAssessement;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static javax.swing.UIManager.getString;
 import java.util.Map;
 
 public class TestAddAssessment {
@@ -73,7 +71,6 @@ public class TestAddAssessment {
 
     @Test
     public void addTestAssessment() {
-        IPeerAssessment iPeerAssessment = new FBAssessement();
         int [] quizAnswers = new int[5];
         quizAnswers[0] = 0;
         quizAnswers[1] = 1;

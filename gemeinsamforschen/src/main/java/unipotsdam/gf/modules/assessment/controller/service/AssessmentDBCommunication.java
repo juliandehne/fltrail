@@ -5,7 +5,6 @@ import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.core.states.model.Constraints;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
-import unipotsdam.gf.modules.assessment.controller.model.Grading;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import javax.annotation.ManagedBean;
@@ -219,15 +218,16 @@ class AssessmentDBCommunication {
         connect.close();
     }
 
-    void writeGradesToDB(Grading grade) {
+    void writeGradesToDB(Map<StudentIdentifier, Double> grade) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "INSERT INTO `grades`(`projectId`, `studentId`, `grade`) VALUES (?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest,
-                grade.getStudentIdentifier().getProjectId(),
-                grade.getStudentIdentifier().getStudentId(),
-                grade.getGrade()
-        );
+        for (StudentIdentifier student: grade.keySet()) {
+            connect.issueInsertOrDeleteStatement(mysqlRequest,
+                    student.getProjectId(),
+                    student.getStudentId(),
+                    grade.get(student));
+        }
         connect.close();
     }
 

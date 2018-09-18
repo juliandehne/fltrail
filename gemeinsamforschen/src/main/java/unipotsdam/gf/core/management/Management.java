@@ -106,6 +106,13 @@ public interface Management {
     User getUserByToken(String token);
 
     /**
+     *
+     * @param studentId
+     * @return
+     */
+    User getUserByName(String studentId);
+
+    /**
      * get user by its email address
      *
      * @param email
