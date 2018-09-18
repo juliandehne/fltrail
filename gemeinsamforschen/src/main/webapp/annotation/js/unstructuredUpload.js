@@ -37,15 +37,15 @@ $(document).ready(function() {
                 $('#upload-textarea').val("");
 
                 // jump to previous page
-                window.history.back();
-                //location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl();
+                //window.history.back();
+                location.href="../project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
             }
         }
         // nothing to check
         else {
             // jump to previous page
-            window.history.back();
-            //location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl();
+            //window.history.back();
+            location.href="../project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
         }
     });
 

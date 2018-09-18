@@ -2,6 +2,7 @@
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
 
 <!DOCTYPE html>
 <html>
@@ -113,7 +114,7 @@
                                             <div></div>
                                             <div class="media-body">
                                                 <div class="media" style="overflow:visible;">
-                                                    <div><img src="../assets/img/1.jpg" class="mr-3"
+                                                    <div><img src="../libs/img/1.jpg" class="mr-3"
                                                               style="width: 25px; height:25px;"></div>
                                                     <div class="media-body" style="overflow:visible;">
                                                         <div class="row">
@@ -135,7 +136,7 @@
                                             <div></div>
                                             <div class="media-body">
                                                 <div class="media" style="overflow:visible;">
-                                                    <div><img src="../assets/img/2.jpg" class="mr-3"
+                                                    <div><img src="../libs/img/2.jpg" class="mr-3"
                                                               style="width: 25px; height:25px;"></div>
                                                     <div class="media-body" style="overflow:visible;">
                                                         <div class="row">
@@ -163,11 +164,8 @@
             </table>
         </div>
     </div>
+    <footer:footer/>
 </div>
-
-<script src="js/jquery.min.js"></script>
-<script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="js/Sidebar-Menu.js"></script>
 </body>
 
 </html>

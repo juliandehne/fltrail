@@ -1,9 +1,3 @@
-function changeLocationTo(target) {
-    let level = $('#hierarchyLevel').html().trim();
-    let link = calculateHierachy(level) + target;
-    return link;
-}
-
 $(document).ready(function(){
     $('#headLineProject').html($('#projectId').html());
     $('#logout').click(function(){
@@ -19,6 +13,13 @@ $(document).ready(function(){
        goBack();
     });
 });
+
+function changeLocationTo(target) {
+    let level = $('#hierarchyLevel').html().trim();
+    let link = calculateHierachy(level) + target;
+    return link;
+}
+
 
 function goBack() {
     window.history.back();

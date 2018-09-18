@@ -17,4 +17,9 @@ public class Messages {
         // TODO add link to site + markup
         return "Die Bewertungsphase hat begonnen. Bitte geht auf ... und macht ....";
     }
+
+    public static String CourseEnds(Project project) {
+        // TODO add link to site + markup
+        return "Die Bewertung ist abgeschlossen. Sie erhalten ihre Bewertung in Kürze.";
+    }
 }

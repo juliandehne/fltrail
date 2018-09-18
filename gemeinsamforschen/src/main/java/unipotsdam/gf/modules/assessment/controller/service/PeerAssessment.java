@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
@@ -57,6 +58,16 @@ public class PeerAssessment implements IPeerAssessment {
             return "contributionRating";
         }
         return "done";
+    }
+
+    @Override
+    public Boolean allAssessmentsDone(String projectId) {
+        return null;
+    }
+
+    @Override
+    public void assignMissingAssessmentTasks(Project project) {
+
     }
 
     @Override

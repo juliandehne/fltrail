@@ -1,7 +1,7 @@
 package unipotsdam.gf.core.management.pageAppearance;
 
 import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;

@@ -1,6 +1,5 @@
 package unipotsdam.gf.core.management;
 
-import sun.misc.IOUtils;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.core.management.group.Group;
@@ -10,13 +9,12 @@ import unipotsdam.gf.core.management.project.ProjectConfigurationDAO;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Singleton;
-import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Blob;
 import java.sql.Timestamp;

@@ -12,14 +12,14 @@ import static org.junit.Assert.assertFalse;
 
 public class LinkDAOImplTest {
 
-    MysqlConnect connection = new MysqlConnect();
-    LinkDAO linkDAO = new LinkDAOImpl();
+    private final MysqlConnect connection = new MysqlConnect();
+    private final LinkDAO linkDAO = new LinkDAOImpl();
 
-    String testId = "-1";
-    String testProjectDescription = "testproject";
-    String testName = "testname";
-    String testLink = "https://www.test.de";
-    Link testLinkObj = new Link(testId, testProjectDescription, testName, testLink);
+    private final String testId = "-1";
+    private final String testProjectDescription = "testproject";
+    private final String testName = "testname";
+    private final String testLink = "https://www.test.de";
+    private final Link testLinkObj = new Link(testId, testProjectDescription, testName, testLink);
 
     @Test
     public void addLink() {

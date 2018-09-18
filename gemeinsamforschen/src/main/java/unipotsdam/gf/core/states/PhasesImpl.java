@@ -2,13 +2,19 @@ package unipotsdam.gf.core.states;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.states.model.Constraints;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.interfaces.*;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
+import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
 import unipotsdam.gf.view.Messages;
 
 import javax.annotation.ManagedBean;
-import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.inject.Singleton;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -19,11 +25,11 @@ import javax.inject.Singleton;
 @ManagedBean
 public class PhasesImpl implements IPhases {
 
-    private IPeerAssessment iPeerAssessment;
+    private IPeerAssessment iPeerAssessment = new PeerAssessmentDummy();
 
-    private Feedback feedback;
+    private Feedback feedback = new DummyFeedback();
 
-    private ICommunication iCommunication;
+    private ICommunication iCommunication = new CommunicationDummyService();
 
     private IJournal iJournal;
 
@@ -45,8 +51,31 @@ public class PhasesImpl implements IPhases {
         this.iJournal = iJournal;
     }
 
+    /*Optionen für die Constraints:
+    Gesucht ist ein Objekt, welches man an den Dozenten übergibt, in dem die fehlenden Abgaben codiert sind
+
+    Als Map<StudentIdentifier, class Constraints>
+        + Immer wenn etwas nicht erfüllt wurde, speichert man es hier ab
+        - Jedes Interface bräuchte eine Funktion, die diese Datenstruktur bedient
+        - einige nutzlose Daten müssten mitgeschliffen werden
+        - Die variable wird immer wieder neu erzeugt und so sollte alles in der DB gespeichert sein!?
+    Constraints als Enum
+        + Die Funktionen der Interfaces checken ob dieser Constraint überall gilt
+        - Jedes Interface muss eine Funktion schreiben, die jeden Studenten untersucht.
+            Sinnvoller wäre nur die Studenten zurück zu geben, die die Constraint nicht erfüllen
+        - Enums können glaube keine Werte als Default tragen
+    Map<StudentIdentifier, String>
+        + Wenn Map keine Elemente trägt, ist alles erfüllt.
+        + zurück zu geben vom Interface wäre die Kennung (StudentIdentifier) und was fehlt (Constraint)
+        - Keine Default Werte
+
+
+    */
+
     @Override
-    public void endPhase(ProjectPhase changeToPhase, Project project) {
+    public void endPhase(ProjectPhase currentPhase, Project project) {
+        ProjectPhase changeToPhase = getNextPhase(currentPhase);
+        Map<StudentIdentifier, Constraints> tasks = new HashMap<>();
         switch (changeToPhase) {
             case CourseCreation:
                 // saving the state
@@ -59,6 +88,7 @@ public class PhasesImpl implements IPhases {
                 break;
             case DossierFeedback:
                 // check if everybody has uploaded a dossier
+
                 Boolean feedbacksGiven = feedback.checkFeedbackConstraints(project);
                 if (!feedbacksGiven) {
                     feedback.assigningMissingFeedbackTasks(project);
@@ -70,7 +100,8 @@ public class PhasesImpl implements IPhases {
                 break;
             case Execution:
                 // check if the portfolios have been prepared for evaluation (relevant entries selected)
-                Boolean portfoliosReady = iJournal.getPortfoliosForEvaluationPrepared(project);
+                // todo: Boolean portfoliosReady = iJournal.getPortfoliosForEvaluationPrepared(project);
+                Boolean portfoliosReady = true;
                 if (portfoliosReady) {
                     // inform users about the end of the phase
                     iCommunication.sendMessageToUsers(project, Messages.AssessmentPhaseStarted(project));
@@ -80,6 +111,15 @@ public class PhasesImpl implements IPhases {
                 }
                 break;
             case Assessment:
+                Boolean allAssessmentsDone = iPeerAssessment.allAssessmentsDone(project.getId());
+                if(allAssessmentsDone){
+                    iCommunication.sendMessageToUsers(project, Messages.CourseEnds(project));
+                    saveState(project, changeToPhase);
+                }else{
+                    iPeerAssessment.assignMissingAssessmentTasks(project);
+                }
+                break;
+            case Projectfinished:
                 closeProject();
                 break;
         }

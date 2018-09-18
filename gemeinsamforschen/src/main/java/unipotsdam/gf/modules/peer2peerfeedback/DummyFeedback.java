@@ -16,11 +16,12 @@ import java.util.ArrayList;
 public class DummyFeedback implements Feedback {
 
     /**
-     * Utility to creaty dummy data for students
+     * Utility to create dummy data for students
      */
     PodamFactory factory = new PodamFactoryImpl();
 
     private static Boolean missingTaskAssigned = false;
+    private Boolean constraintsFulfilled = false;
 
 
     public DummyFeedback() {
@@ -52,10 +53,11 @@ public class DummyFeedback implements Feedback {
 
     @Override
     public Boolean checkFeedbackConstraints(Project project) {
-        // TODO implement cornstaints
+        // TODO implement constraints
         NotImplementedLogger.logAssignment(Assignee.KATHARINA, Feedback.class, "check Feedback constraints",
                 "checking feedback constraints ");
-        return missingTaskAssigned;
+        constraintsFulfilled = true;
+        return constraintsFulfilled;
     }
 
     @Override

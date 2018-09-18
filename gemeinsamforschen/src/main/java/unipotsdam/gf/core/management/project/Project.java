@@ -1,6 +1,6 @@
 package unipotsdam.gf.core.management.project;
 
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Timestamp;
