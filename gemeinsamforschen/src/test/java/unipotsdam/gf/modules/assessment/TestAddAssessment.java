@@ -19,7 +19,7 @@ import java.util.List;
 
 import static javax.swing.UIManager.getString;
 import java.util.Map;
->>>>>>>>> Temporary merge branch 2
+//>>>>>>>>> Temporary merge branch 2
 
 public class TestAddAssessment {
 
