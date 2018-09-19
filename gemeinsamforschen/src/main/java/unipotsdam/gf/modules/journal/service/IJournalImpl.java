@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.EPortfolio;
@@ -12,7 +13,9 @@ import unipotsdam.gf.modules.researchreport.ResearchReport;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class IJournalImpl implements IJournal {
 
@@ -23,8 +26,11 @@ public class IJournalImpl implements IJournal {
 
 
     @Override
-    public Boolean getPortfoliosForEvaluationPrepared(Project project) {
-        return descriptionService.checkIfAllDescriptionsClosed(project) && journalService.checkIfAllJournalClosed(project);
+    public Map<StudentIdentifier, ConstraintsMessages> getPortfoliosForEvaluationPrepared(Project project) {
+        Map<StudentIdentifier, ConstraintsMessages> result =new HashMap<>();
+        result.putAll(descriptionService.checkIfAllDescriptionsClosed(project));
+        result.putAll(journalService.checkIfAllJournalClosed(project));
+        return result;
     }
 
 

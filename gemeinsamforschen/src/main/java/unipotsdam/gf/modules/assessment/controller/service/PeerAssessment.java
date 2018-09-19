@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 
@@ -8,8 +9,10 @@ import java.util.*;
 
 public class PeerAssessment implements IPeerAssessment {
     @Override
-    public void addAssessmentDataToDB(Assessment assessment) {
-
+    public void finalizeAssessment(String projectId){
+        cheatCheckerMethods method = new AssessmentDBCommunication().getAssessmentMethod(projectId);
+        Map<StudentIdentifier, Double> grading = calculateAssessment(projectId, method);
+        new AssessmentDBCommunication().writeGradesToDB(grading);
     }
 
     @Override//returns one quiz
@@ -22,8 +25,18 @@ public class PeerAssessment implements IPeerAssessment {
         return new QuizDBCommunication().getQuizByProjectId(projectId);
     }
 
+    @Override //returns all quizzes in the course
+    public ArrayList<Quiz> getQuiz(String projectId, String author) {
+        return new QuizDBCommunication().getQuizByProjectIdAuthor(projectId, author);
+    }
+
     @Override
-    public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
+    public Map<StudentIdentifier, Double> getAssessmentForProject(String projectId) {
+        return null;
+    }
+
+    @Override
+    public Map<StudentIdentifier, Double> getAssessmentForStudent(StudentIdentifier student) {
         return null;
     }
 
@@ -61,15 +74,16 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public Boolean allAssessmentsDone(String projectId) {
-        return null;
+    public Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId) {
+        Map<StudentIdentifier, ConstraintsMessages> result;
+        result = new AssessmentDBCommunication().missingAssessments(projectId);
+        return result;
     }
 
     @Override
     public void assignMissingAssessmentTasks(Project project) {
 
     }
-
     @Override
     public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         Map<StudentIdentifier, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
@@ -89,8 +103,7 @@ public class PeerAssessment implements IPeerAssessment {
         return result;
     }
 
-    @Override
-    public Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method) {
+    private Map<StudentIdentifier, Double> calculateAssessment(String projectId, cheatCheckerMethods method) {
         ArrayList<Performance> totalPerformance = new ArrayList<>();
         //get all students in projectID from DB
         List<String> students = new AssessmentDBCommunication().getStudents(projectId);
@@ -106,8 +119,8 @@ public class PeerAssessment implements IPeerAssessment {
                     new AssessmentDBCommunication().getContributionRating(groupId);
             performance.setStudentIdentifier(studentIdentifier);
             performance.setQuizAnswer(answeredQuizzes);
-            performance.setWorkRating(cheatChecker(workRating, cheatCheckerMethods.variance));
-            performance.setContributionRating(cheatChecker(contributionRating, cheatCheckerMethods.variance));
+            performance.setWorkRating(cheatChecker(workRating, method));
+            performance.setContributionRating(cheatChecker(contributionRating, method));
             totalPerformance.add(performance);
         }
         return calculateAssessment(totalPerformance);

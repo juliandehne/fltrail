@@ -32,7 +32,8 @@ $(document).ready(function () {
         success: function (data) {
             let table = document.getElementById('tableQuiz');
             for (let quiz = 0; quiz < data.length; quiz++){
-                let question = data[quiz].question.replace(/ /g,"").replace("?","").replace(",","");
+                let question = data[quiz].question.replace(/ /g,"").replace(/\?/g,"").replace(/,/g,"");
+                question = question.replace(/\"/g, "").replace(/\'/g,"");
                 let answers = data[quiz].correctAnswers.concat(data[quiz].incorrectAnswers);
                 let colspan = answers.length;
                 let trQuestion = document.createElement('TR');

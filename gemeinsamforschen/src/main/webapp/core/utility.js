@@ -16,8 +16,7 @@ $(document).ready(function(){
 
 function changeLocationTo(target) {
     let level = $('#hierarchyLevel').html().trim();
-    let link = calculateHierachy(level) + target;
-    return link;
+    return calculateHierachy(level) + target;;
 }
 
 
@@ -29,7 +28,7 @@ function checkAssessementPhase(){
     let studentId = $('#user').html().trim();
     let projectId = $('#projectId').html().trim();
     $.ajax({
-        url: '../rest/assessments/whatToRate/project/'+projectId+'/student/'+studentId,
+        url: 'rest/assessments/whatToRate/project/'+projectId+'/student/'+studentId,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",

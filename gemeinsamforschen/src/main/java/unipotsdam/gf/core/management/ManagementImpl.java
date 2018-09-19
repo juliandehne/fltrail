@@ -228,6 +228,10 @@ public class ManagementImpl implements Management {
     }
 
     @Override
+    public User getUserByName(String studentId) {
+        return getUserByField("name", studentId);    }
+
+    @Override
     public User getUserByEmail(String email) {
         return getUserByField("email", email);
     }

@@ -3,18 +3,17 @@ package unipotsdam.gf.modules.assessment.controller.view;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.Assessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 @Path("/assessments2")
 public class AssessmentView{
-    private static IPeerAssessment peer =  new PeerAssessmentDummy();
+    private static IPeerAssessment peer =  new PeerAssessment();
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
