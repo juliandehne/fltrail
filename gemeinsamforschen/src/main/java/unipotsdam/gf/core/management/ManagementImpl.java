@@ -2,7 +2,7 @@ package unipotsdam.gf.core.management;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.core.management.group.Group;
+import unipotsdam.gf.modules.groupfinding.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.project.ProjectConfigurationDAO;
@@ -75,6 +75,11 @@ public class ManagementImpl implements Management {
         for (String tag : tags) {
             connect.issueInsertOrDeleteStatement(mysql2Request, project.getId(), tag);
         }
+     /*   VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement("Select * from projects a where a.id=?", project.getId());
+        while (vereinfachtesResultSet.next()) {
+            System.out.println(vereinfachtesResultSet.getString("id"));
+        }*/
         connect.close();
         return token;
     }
@@ -359,12 +364,33 @@ public class ManagementImpl implements Management {
 
     }
 
+    @Override
+    public Project getProjectByToken(String projectToken) {
+        if (projectToken == null) {
+            return null;
+        }
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM projects where token = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectToken);
+        boolean next = vereinfachtesResultSet.next();
+        if (next) {
+            Project project = getProjectFromResultSet(vereinfachtesResultSet);
+            connect.close();
+            return project;
+        } else {
+            connect.close();
+            return null;
+        }
+    }
+
     public String saveProfilePicture(FileInputStream image, String studentId) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         Blob blobbedImage = (Blob) image;
         String mysqlRequest = "INSERT INTO `profilepicture`(`studentId`, `image`) VALUES (?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, studentId, blobbedImage);
+        connect.close();
         return "success";
     }
 }

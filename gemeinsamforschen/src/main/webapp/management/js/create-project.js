@@ -114,7 +114,7 @@ function getProjectValues() {
         "timecreated": null,
         "author": getUserTokenFromUrl(),
         "adminPassword": adminPassword,
-        "token": "QCqGuQlYLL",
+        "token": "",
         "phase": "GroupFormation",
         "tags": allTheTags
     }
@@ -145,6 +145,7 @@ function createProjectinCompbase(projectName) {
         error: function (a, b, c) {
             console.log(a);
             // and also in this case
+            return false;
         }
     });
 }

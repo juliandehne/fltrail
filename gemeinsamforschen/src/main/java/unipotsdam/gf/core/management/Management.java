@@ -1,6 +1,6 @@
 package unipotsdam.gf.core.management;
 
-import unipotsdam.gf.core.management.group.Group;
+import unipotsdam.gf.modules.groupfinding.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.user.User;
@@ -132,5 +132,7 @@ public interface Management {
     ProjectConfiguration getProjectConfiguration(Project project);
 
     String getProjectToken(String projectName, String password);
+
+    Project getProjectByToken(String projectToken);
 }
 

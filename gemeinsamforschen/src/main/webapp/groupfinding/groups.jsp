@@ -14,9 +14,9 @@
     <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="js/config.js"></script>
+    <script src="../management/js/config.js"></script>
     <script src="js/myGroupsInit.js"></script>
-    <script src="js/getProjects.js"></script>
+    <script src="../management/js/getProjects.js"></script>
     <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="js/Sidebar-Menu.js"></script>
 

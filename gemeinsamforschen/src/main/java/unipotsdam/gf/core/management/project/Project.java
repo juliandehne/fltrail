@@ -53,6 +53,10 @@ public class Project {
         this.tags = tags;
     }
 
+    public Project(String projectId) {
+        setId(projectId);
+    }
+
     public String getId() {
         return id;
     }

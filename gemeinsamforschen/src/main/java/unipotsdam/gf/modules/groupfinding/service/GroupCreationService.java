@@ -1,7 +1,7 @@
 package unipotsdam.gf.modules.groupfinding.service;
 
 import unipotsdam.gf.core.management.Management;
-import unipotsdam.gf.core.management.group.Group;
+import unipotsdam.gf.modules.groupfinding.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserProfile;

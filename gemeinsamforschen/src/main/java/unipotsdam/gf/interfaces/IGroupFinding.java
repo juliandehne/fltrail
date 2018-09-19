@@ -1,10 +1,12 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.core.management.group.Group;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.groupfinding.Group;
 import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.modules.groupfinding.GroupFormationMechanism;
 import unipotsdam.gf.modules.groupfinding.GroupfindingCriteria;
+
+import java.util.ArrayList;
 
 public interface IGroupFinding {
 
@@ -33,4 +35,10 @@ public interface IGroupFinding {
     void formGroups(GroupFormationMechanism groupFindingMechanism);
 
 
+    /**
+     *
+     * @param student
+     * @return
+     */
+    ArrayList<String> getStudentsInSameGroup(StudentIdentifier student);
 }

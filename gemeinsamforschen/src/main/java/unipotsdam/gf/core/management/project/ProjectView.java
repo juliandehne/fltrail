@@ -15,7 +15,7 @@ import java.net.URISyntaxException;
 
 @ManagedBean
 @Path("/project")
-public class ProjectService {
+public class ProjectView {
 
 
     @Inject
@@ -31,8 +31,8 @@ public class ProjectService {
         User userByToken = iManagement.getUserByToken(authorToken);
         project.setAuthor(userByToken.getId());
         try {
-            String token = iManagement.create(project);
-            return token;
+            String projectToken = iManagement.create(project);
+            return projectToken;
         } catch (Exception e) {
             return "project exists";
         }
@@ -51,15 +51,5 @@ public class ProjectService {
         return token;
     }
 
-  /*  @GET
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
-    @Path("/token")
-    public String projectExists(
-            @QueryParam("project") String projectName, @QueryParam("password") String password)
-            throws URISyntaxException {
 
-        String token = iManagement.getProjectToken(projectName, password);
-        return token;
-    }*/
 }
