@@ -23,40 +23,14 @@
         <div>
             <table>
                 <tr>
-                    <h2> Gib dein Feedback ein!</h2>
+                    <h2> Schreibe dein Feedback ein!</h2>
                     <div class="line-spacer"></div>
-                    <hr />
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1" id="Check1">
-                            Das fand ich gut
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Ich habe noch eine Frage
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Das wuerde ich anders machen
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck4">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Ich habe eine Idee
-                        </label>
-                    </div>
                     <hr />
 
                     <div>
                         <table>
                             <tr>
                                 <td  id="yourContent">
-                                    <h2> Schreibe dein Feedback! </h2>
 
                                     <form  id= "journalform" method="POST" action="../rest/peerfeedback/save">
 
@@ -88,7 +62,7 @@
                                         <div class="journal-form-category">
                                             Feedbackempfänger:
                                             <select name="reciever" id="reciever" form="journalform"> <%--form="journalform"--%>
-                                                <option value="sandra"> sandra </option>
+                                                <%--option value="sandra"> sandra </option>--%>
                                             </select>
                                         </div>
 

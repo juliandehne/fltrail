@@ -5,6 +5,8 @@ import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
 
 import java.io.File;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 /**
  Peer2PeerFeedback Object
@@ -15,14 +17,14 @@ public class Peer2PeerFeedback{
 
 
     private String id;
-    private long timestamp;
+    private Timestamp timestamp;
     private Category category;
     private String text;
     private String sender;
     private String receiver;
     private String filename;
 
-    public Peer2PeerFeedback(String id, long timestamp, Category category, String text, String sender, String receiver, String filename) {
+    public Peer2PeerFeedback(String id, Timestamp timestamp, Category category, String text, String sender, String receiver, String filename) {
         this.id = id;
         this.timestamp = timestamp;
         this.category = category;
@@ -40,9 +42,9 @@ public class Peer2PeerFeedback{
 
     public void setID(String id) { this.id = id; }
 
-    public long getTimestamp() { return timestamp; }
+    public Timestamp getTimestamp() { return timestamp; }
 
-    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
+    public void setTimestamp(Timestamp timestamp) { this.timestamp = timestamp; }
 
     public Category getFeedbackcategory() {
         return category;

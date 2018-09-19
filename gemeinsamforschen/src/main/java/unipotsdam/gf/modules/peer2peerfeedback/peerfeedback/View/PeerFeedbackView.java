@@ -7,6 +7,7 @@ import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Controller.PeerFeedb
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @Path("/peerfeedback")
@@ -17,13 +18,13 @@ public class PeerFeedbackView {
 
     @POST
     @Path("/save")
-    public Response createPeerfeedback( @FormParam("id") String id, @FormParam("timestamp") Long timestamp, @FormParam("category") Category category,
-                                        @FormParam("student") String sender, @FormParam("reciever") String reciever,  @FormParam("text") String text, @FormParam("filename") String filename) {
+    public Response createPeerfeedback(@FormParam("id") String id, @FormParam("timestamp") Timestamp timestamp, @FormParam("category") Category category,
+                                       @FormParam("student") String sender, @FormParam("reciever") String reciever, @FormParam("text") String text, @FormParam("filename") String filename) {
 
         //Peer2PeerFeedback feedback = new Peer2PeerFeedback(id, timestamp, Category.TITEL, sender, text, reciever, filename);
         Peer2PeerFeedback f = new Peer2PeerFeedback();
         f.setID(id);
-        f.setTimestamp(33333);
+        f.setTimestamp(timestamp);
         f.setFeedbackcategory(category);
         f.setFeedbacksender(sender);
         f.setFeedbackreceiver(reciever);
@@ -53,11 +54,11 @@ public class PeerFeedbackView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/getUsers")
-    public Response getUsers(){
+    @Path("/getUsers/{token}")
+    public Response getUsers(@PathParam("token") String token){
 
         PeerFeedbackController controller = new PeerFeedbackController();
-        ArrayList<String> users = controller.getUserforFeedback();
+        ArrayList<String> users = controller.getUserforFeedback(token);
         System.out.print("usersview:"+users);
         return Response.ok(users).build();
     }
@@ -76,16 +77,14 @@ public class PeerFeedbackView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/getToken/{getToken}")
-    public Response getToken(@PathParam("getToken") String user){
+    @Path("/getSender/{list}")
+    public Response getSender(@PathParam("list") String token){
 
-        System.out.print("getToken:"+user);
+        System.out.print("sendcf:"+token);
         PeerFeedbackController controller = new PeerFeedbackController();
-        Boolean checktoken = controller.getTokenforFeedback(user);
-        System.out.print("getToken:"+checktoken);
-        return Response.ok(checktoken).build();
+        ArrayList<String> name = controller.getSender(token);
+        System.out.print("checkcf:"+name);
+        return Response.ok(name).build();
     }
-
-
 
 }

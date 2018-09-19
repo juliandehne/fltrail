@@ -73,17 +73,12 @@ $(document).ready(function() {
     });*/
 
     $.ajax({
-        url: "../rest/peerfeedback/getUsers" //+ student
+        url: "../rest/peerfeedback/getUsers/" + student
     }).then(function (data) {
         console.log("getUsers:"+data);
         loadUsers(data);
     });
 
-    /**$.ajax({
-        url: "../rest/peerfeedback/getToken/" +getToken
-    }).then(function (data) {
-        console.log("getToken:"+data);
-    });*/
 
     $.ajax({
         url: "../rest/peerfeedback/checkFeedback/" +checkFeedback
@@ -107,7 +102,7 @@ $(document).ready(function() {
 
     }
 
-    function getUsername(name) {
+    /**function getUsername(name) {
         let query = data;
         let vars = query.split("+");
         for (let i = 0; i < vars.length; i++) {
@@ -117,5 +112,5 @@ $(document).ready(function() {
             }
         }
         return (false);
-    }
+    }*/
 })

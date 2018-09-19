@@ -32,19 +32,29 @@ $(document).ready(function(){
             console.log(data);
             loadFeedback(data);
             console.log("function1");
-
+            var list = [];
+            for(var id in data){
+                if(!list.includes(data[id].feedbacksender)){
+                    list.push(data[id].feedbacksender);
+                    console.log(data[id].feedbacksender);
+                }
+            }
+            console.log(list);
             loadFeedbackSender(data);
+            $.ajax({
+                url: "../rest/peerfeedback/getSender/" + list
+            }).then(function (data) {
+                console.log("getSender:"+data);
+                loadFeedbackSender(data);
+                //loadUsers(data);
+            });
             console.log("function2");
 
             console.log(data);
         });
 
-    $.ajax({
-        url: "../rest/peerfeedback/getUsers" //+ student
-    }).then(function (data) {
-        console.log("getUsers:"+data);
-        //loadUsers(data);
-    });
+
+
    // }
     function loadFeedback(data) {
         for (var feedback in data) {
@@ -54,56 +64,73 @@ $(document).ready(function(){
             var newdiv4 = document.createElement("div");
             newdiv4.className = "chat_img";
             var newdiv5 = document.createElement("img");
-            newdiv5.src = "https://ptetutorials.com/images/user-profile.png";
-            newdiv4.appendChild(newdiv5);
+            newdiv5.src = "../libs/img/noImg.png";
+            newdiv5.alt="Avatar";
+            newdiv5.className = "img-reciever";
 
             var newdiv2 = document.createElement("div");
             newdiv2.className = "received_msg";
             var newdiv3 = document.createElement("div");
             newdiv3.className = "received_withd_msg";
+            newdiv3.appendChild(newdiv5);
             var newp = document.createElement("p");
             //newp.className = "received_withd_msg";
             newp.insertAdjacentHTML('beforeend', data[feedback].text)
             var newspan = document.createElement("span");
+            newspan.className = "chat_date";
             newspan.insertAdjacentHTML('beforeend',timestampToDateString(data[feedback].timestamp));
+            var newhr =document.createElement("hr");
 
-            newdiv.insertBefore(newdiv4, newdiv.childNodes[0]);
+            newdiv2.insertBefore(newdiv4, newdiv.childNodes[0]);
             newdiv.appendChild(newdiv2);
             newdiv2.appendChild(newdiv3);
             newdiv3.appendChild(newp);
-            //newdiv.appendChild(newdiv4);
-
             newp.appendChild(newspan);
-
-            //newdiv.insertAdjacentHTML('beforeend',data[feedback].text);
-            //newdiv.className = "feedback-container";
-
-
-            // füge das neu erstellte Element und seinen Inhalt ins DOM ein
             var currentdiv = document.getElementById("msg_history");
             currentdiv.appendChild(newdiv);
+            currentdiv.appendChild(newhr);
+
         }
     }
 
         function loadFeedbackSender(data) {
 
-            for (var feedback in data) {
+            var list = [];
+            for(var id in data){
+                if(!list.includes(data[id].feedbacksender)){
+                    list.push(data[id].feedbacksender);
+                    console.log(data[id].feedbacksender);
+                }
+            }
+            console.log(list);
+
+            for (var feedback in list) {
+
+
+
+                //if(data[feedback].feedbacksender === data[feedback].feedbacksender)
+                //console.log("check:"+data[feedback].feedbacksender === data.get(data[feedback].feedbacksender))
+
+
                 var newdiv = document.createElement("div");
                 newdiv.className = "chat_list";
+                newdiv.href ="#";
                 var newdiv2 = document.createElement("div");
                 newdiv2.className = "chat_people";
                 var newdiv4 = document.createElement("div");
                 newdiv4.className = "chat_img";
                 var newdiv5 = document.createElement("img");
-                newdiv5.src = "https://ptetutorials.com/images/user-profile.png";
+                newdiv5.src = "../libs/img/noImg.png";
+                newdiv5.alt="Avatar";
+                newdiv5.className = "img-sender";
                 newdiv4.appendChild(newdiv5);
                 var newdiv3 = document.createElement("div");
                 newdiv3.className = "chat_ib";
                 var newh = document.createElement("h5");
-                newh.insertAdjacentHTML('beforeend', data[feedback].feedbacksender)
+                newh.insertAdjacentHTML('beforeend', list[feedback])
                 var newspan = document.createElement("span");
                 newspan.className = "chat_date";
-                newspan.insertAdjacentHTML('beforeend',timestampToDateString(data[feedback].timestamp));
+                //newspan.insertAdjacentHTML('beforeend',timestampToDateString(data[feedback].timestamp));
 
                 newdiv.insertBefore(newdiv4, newdiv.childNodes[0]);
                 newdiv.appendChild(newdiv2);
@@ -115,26 +142,28 @@ $(document).ready(function(){
                 var currentdiv = document.getElementById("inbox_chat");
                 currentdiv.appendChild(newdiv);
 
-                var username = getUsername(data);
-                console.log("username:"+username);
+                //var username = getUsername(data[feedback]);
+                //console.log("username:"+username);
 
             }
         }
 
-    function getUsername(data) {
+    /**function getUsername(data) {
         console.log("getusername:"+data);
-        var query = data.split(",");
+        //var query = data.split(",");
         //var vars = query.split(",");
-        console.log(query);
-        for (let i = 0; i < query.length; i++) {
-            let pair = query[i].split("+");
-            console.log(pair[i]);
-            if (pair[0] === data) {
-                return pair[1];
+        //console.log(query);
+        for (var user in data) {
+            for (let i = 0; i < user.length; i++) {
+                let pair = query[i].split("+");
+                console.log(pair[i]);
+                if (pair[0] === data) {
+                    return pair[1];
+                }
             }
         }
         return (false);
-    }
+    }*/
 
         //timestampToDateString(data[feedback].timestamp)
     function timestampToDateString(timestamp) {

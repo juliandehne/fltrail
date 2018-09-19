@@ -5,6 +5,7 @@ import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -53,7 +54,6 @@ public class PeerFeedbackController {
         String request = "SELECT * FROM peerfeedback WHERE reciever= ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, reciever);
         System.out.print("rs:"+rs);
-
         while (rs.next()) {
             feedbacks.add(getPeerfeedbackFromResultSet(rs));
         }
@@ -65,61 +65,122 @@ public class PeerFeedbackController {
 
     }
 
-    public ArrayList<String> getUserforFeedback() {
+    public ArrayList<String> getSender(String token){
+
+        ArrayList<String> username = new ArrayList<>();
+        ArrayList<String> tok = new ArrayList<>();
+
+        // establish connection
+        MysqlConnect connection1 = new MysqlConnect();
+        connection1.connect();
+
+        //for (int i = 0; i < token.length(); i++) {
+            String[] pair = token.split(",");
+            System.out.print("pair" + pair);
+            for(int i = 0; i < pair.length; i++) {
+                String request1 = "SELECT * FROM users WHERE token= ?;";
+                VereinfachtesResultSet rs1 = connection1.issueSelectStatement(request1, pair[i]);
+
+                while (rs1.next()) {
+                    username.add(getNameFromResultSet(rs1));
+                }
+            }
+        //}
+        // build and execute request
+        /**System.out.print("token:"+token);
+        String request1 = "SELECT * FROM users WHERE token= ?;";
+        VereinfachtesResultSet rs1 = connection1.issueSelectStatement(request1, token);
+        System.out.print("getSender:"+rs1);
+
+        while (rs1.next()) {
+            username.add(getNameFromResultSet(rs1));
+        }*/
+        System.out.print("getSender:"+username);
+        return username;
+    }
+
+
+
+    public ArrayList<String> getUserforFeedback(String token) {
+
+        System.out.print("IN");
 
         ArrayList<String> users = new ArrayList<>();
+        ArrayList<String> email = new ArrayList<>();
+        ArrayList<String> emails = new ArrayList<>();
+        ArrayList<String> groupid = new ArrayList<>();
 
         // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
-        // build and execute request
-        String request = "SELECT * FROM users WHERE isStudent= 1";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request);
+        String request1 = "SELECT * FROM users WHERE token=?";
+        VereinfachtesResultSet rs1 = connection.issueSelectStatement(request1, token);
+        while (rs1.next()) {
+            email.add(getMailFromResultSet(rs1));
+        }
+        System.out.print("rs1:"+email);
+        String el = email.get(0);
+        System.out.print("email"+el);
 
-        while (rs.next()) {
-            users.add(getUserFromResultSet(rs)+"+"+getTokenFromResultSet(rs));
+
+        // establish connection
+        MysqlConnect connection1 = new MysqlConnect();
+        connection1.connect();
+
+        String request2 = "SELECT * FROM groupuser WHERE userEmail=?";
+        VereinfachtesResultSet rs2 = connection1.issueSelectStatement(request2, el);
+
+        while (rs2.next()) {
+            groupid.add(getGroupIDFromResultSet(rs2));
+        }
+        String us = groupid.get(0);
+        System.out.print("groupid"+us);
+
+
+        // establish connection
+        MysqlConnect connection2 = new MysqlConnect();
+        connection2.connect();
+
+        String request3 = "SELECT * FROM groupuser WHERE groupId=?";
+        VereinfachtesResultSet rs3 = connection2.issueSelectStatement(request3, us);
+
+        while (rs3.next()) {
+            emails.add(getEmailFromResultSet(rs3));
+        }
+        String ems = emails.get(0);
+        System.out.print("emails:"+emails);
+        String[] e = ems.split(",");
+        System.out.print("emails:"+e);
+
+
+        // establish connection
+        MysqlConnect connection3 = new MysqlConnect();
+        connection3.connect();
+
+        for (int i = 0; i < emails.size(); i++) {
+            String pair = emails.get(i);
+            System.out.print("pair" + pair);
+            String request4 = "SELECT * FROM users WHERE email=?";
+            VereinfachtesResultSet rs4 = connection3.issueSelectStatement(request4, pair);
+
+            while (rs4.next()) {
+                users.add(getNameFromResultSet(rs4));
+            }
+
         }
 
+        System.out.print("rs4:" + users);
         // close connection
         connection.close();
+        connection1.close();
+        connection2.close();
+        connection3.close();
         System.out.print("userscontroller:"+users);
         return users;
 
     }
 
-    public boolean getTokenforFeedback(String user) {
-
-        System.out.print("getTokencontroller:"+user);
-
-        // establish connection
-        MysqlConnect connection = new MysqlConnect();
-        connection.connect();
-
-        // build and execute request
-        /**String request = "UPDATE\n" +
-                "  peerfeedback\n" +
-                "SET\n" +
-                "  reciever = (\n" +
-                "    SELECT\n" +
-                "      token\n" +
-                "    FROM\n" +
-                "      users\n" +
-                "    WHERE\n" +
-                "      name = ?\n" +
-                "  ) WHERE reciever = ?";*/
-        String request = "UPDATE peerfeedback SET reciever =(SELECT token FROM users WHERE name=?) WHERE reciever=?";
-        //VereinfachtesResultSet rs = connection.issueSelectStatement(request, user); (SELECT token FROM users WHERE name=?)
-        //connection.issueInsertOrDeleteStatement(request, user);
-        connection.issueUpdateStatement(request, user, user);
-
-        // close connection
-        System.out.print("token");
-        connection.close();
-
-        return true;
-
-    }
 
     public boolean checkFeedback(String checkFeedback) {
 
@@ -153,7 +214,7 @@ public class PeerFeedbackController {
     private Peer2PeerFeedback getPeerfeedbackFromResultSet(VereinfachtesResultSet rs) {
 
         String id = rs.getString("id");
-        long timestamp = rs.getTimestamp(2).getTime();
+        Timestamp timestamp = rs.getTimestamp(2);
         String category = rs.getString("category");
         String rec = rs.getString("text");
         String sender = rs.getString("sender");
@@ -164,21 +225,34 @@ public class PeerFeedbackController {
         return new Peer2PeerFeedback(id,timestamp,Category.valueOf(category),rec, sender, txt, filename);
     }
 
-    private String getUserFromResultSet(VereinfachtesResultSet rs) {
+    private String getGroupIDFromResultSet(VereinfachtesResultSet rs) {
 
-        String user = rs.getString("name");
-        return new String(user);
+        String grID = rs.getString("groupId");
+        return new String(grID);
+    }
+
+    private String getEmailFromResultSet(VereinfachtesResultSet rs) {
+
+        String mail = rs.getString("userEmail");
+        return new String(mail);
+    }
+
+    private String getNameFromResultSet(VereinfachtesResultSet rs) {
+
+        String name = rs.getString("name");
+        return new String(name);
+    }
+
+    private String getMailFromResultSet(VereinfachtesResultSet rs) {
+
+        String mail = rs.getString("email");
+        return new String(mail);
     }
 
     private String getTokenFromResultSet(VereinfachtesResultSet rs) {
 
-        String token = rs.getString("token");
+        String token = rs.getString("sender");
         return new String(token);
     }
 
-    private String getCheckFromResultSet(VereinfachtesResultSet rs) {
-
-        String check = rs.getString("token");
-        return new String(check);
-    }
 }
