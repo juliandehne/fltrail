@@ -25,7 +25,7 @@
 <button class="btn btn-primary" style="margin-left:129px;" id="selectGFM">wählen</button>
 
 <%--
-<a href="../groupfinding/create-groups.jsp?token=<%=request.getParameter("token")+"&projectToken="+request.getParameter("projectToken") %>" > Weiter </a>
+<a href="../groupfinding/create-create-groups-learninggoal.jsp?token=<%=request.getParameter("token")+"&projectToken="+request.getParameter("projectToken") %>" > Weiter </a>
 --%>
 
 

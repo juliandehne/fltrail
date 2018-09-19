@@ -39,9 +39,7 @@ function createNewProject(allTheTags, activ) {
                         // it actually worked
                         projectToken = response;
                         createProjectinCompbase(project.id);
-
                     }
-
                 }
             },
             error: function (a, b, c) {

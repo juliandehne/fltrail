@@ -384,6 +384,30 @@ public class ManagementImpl implements Management {
         }
     }
 
+    @Override
+    public List<String> getProjects(String authorToken) {
+        if (authorToken == null) {
+            return null;
+        }
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest =
+                "SELECT p.id FROM users u " +
+                        " JOIN projects p ON u.email = p.author" +
+                        " WHERE u.token = ?";
+
+        //49c6eeda-62d2-465e-8832-dc2db27e760c
+
+        List<String> result = new ArrayList<>();
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, authorToken);
+        while (vereinfachtesResultSet.next()) {
+            String project = vereinfachtesResultSet.getString("id");
+            result.add(project);
+        }
+        connect.close();
+        return result;
+    }
+
     public String saveProfilePicture(FileInputStream image, String studentId) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();

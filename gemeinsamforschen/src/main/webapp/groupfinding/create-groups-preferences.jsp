@@ -8,7 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Gruppenfindung basierend auf psychometrischen Merkmalen wurde noch nicht implementiert. Klicken sie
+        auf zurück im browser</title>
+    <span>@Mirjam: Hier kämen deine Einstellungen für den Dozierenden bezüglich der Gruppenfindung basierend auf
+        Merkmalen</span>
 </head>
 <body>
 

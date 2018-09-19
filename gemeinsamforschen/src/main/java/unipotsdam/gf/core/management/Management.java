@@ -134,5 +134,7 @@ public interface Management {
     String getProjectToken(String projectName, String password);
 
     Project getProjectByToken(String projectToken);
+
+    List<String> getProjects(String userToken);
 }
 

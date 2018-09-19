@@ -123,3 +123,37 @@ function showProject(project, user) {           //will display the chosen option
     $("#projectDropdown").text(project);        //the dropdown button
     getMembers(project, user);                  //the students
 }
+
+/**
+ * Created by dehne on 28.03.2018.
+ */
+
+function getProjectsOfAuthor(author, printedProjects, handleProjects) {
+    var url = "../../gemeinsamforschen/rest/project/all/author/"+getUserTokenFromUrl();
+    $.ajax({
+        url: url,
+        Accept: "application/json",
+        contentType: "text/plain",
+        success: function (response) {
+            //  var authoredProjects = JSON.parse(response);
+            var authoredProjects = response;
+
+            if (authoredProjects != null) {
+                if (printedProjects != null) {
+                    for (var i = 0; i < printedProjects.length; i++) {
+                        authoredProjects = authoredProjects.filter(function (el) {
+                            return el !== printedProjects[i];
+                        });
+                    }
+                    handleProjects(authoredProjects, printedProjects.length);
+                } else {
+                    handleProjects(authoredProjects, 0);
+                }
+
+            }
+        },
+        error: function (a, b, c) {
+            console.log(a);
+        }
+    });
+}

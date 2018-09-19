@@ -1,5 +1,6 @@
 package unipotsdam.gf.core.management.project;
 
+import jdk.nashorn.internal.objects.annotations.Getter;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.user.User;
@@ -49,6 +50,17 @@ public class ProjectView {
 
         String token = iManagement.getProjectToken(projectName, password);
         return token;
+    }
+
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/all/author/{userToken}")
+    public java.util.List<String> getProjects(
+            @PathParam("userToken") String authorToken) {
+
+        java.util.List<String> projects = iManagement.getProjects(authorToken);
+        return projects;
     }
 
 
