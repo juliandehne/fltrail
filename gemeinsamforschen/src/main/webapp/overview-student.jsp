@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
@@ -33,7 +33,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Newsfeed </h3>
-                                    Status: abgeschlossen mit Bewertung 2+
+                                    Status: <p id="statusgemeinsamForschen"></p>
                                 </div>
                                 <div class="panel-body">
                                     <ul class="list-group">
@@ -67,7 +67,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Newsfeed </h3>
-                                    Status: Gruppenbildung
+                                    Status: <p id="statusKaleo"></p>
                                 </div>
                                 <div class="panel-body">
                                     <ul class="list-group">

@@ -36,8 +36,8 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public Map<StudentIdentifier, Double> getAssessmentForStudent(StudentIdentifier student) {
-        return null;
+    public Double getAssessmentForStudent(StudentIdentifier student) {
+        return new AssessmentDBCommunication().getGradesFromDB(student);
     }
 
     @Override
@@ -113,7 +113,12 @@ public class PeerAssessment implements IPeerAssessment {
             Performance performance = new Performance();
             StudentIdentifier studentIdentifier = new StudentIdentifier(projectId, student);
             groupId = new AssessmentDBCommunication().getGroupByStudent(studentIdentifier);
+            //todo: answered quizzes vervöllstandigen
+            Integer numberOfQuizzes = new AssessmentDBCommunication().getQuizCount(projectId);
             List<Integer> answeredQuizzes = new AssessmentDBCommunication().getAnsweredQuizzes(studentIdentifier);
+            for (Integer i=answeredQuizzes.size(); i<numberOfQuizzes;i++){
+                answeredQuizzes.add(0);
+            }
             ArrayList<Map<String, Double>> workRating = new AssessmentDBCommunication().getWorkRating(studentIdentifier);
             ArrayList<Map<String, Double>> contributionRating =
                     new AssessmentDBCommunication().getContributionRating(groupId);

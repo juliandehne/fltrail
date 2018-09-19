@@ -118,10 +118,10 @@ public class QuizView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/project/{projectId}/student/{studentId}")
-    public Map<StudentIdentifier, Double> getAssessmentForStudent(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
+    public Double getAssessmentForStudent(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
         StudentIdentifier student = new StudentIdentifier(projectId, studentId);
         return peer.getAssessmentForStudent(student);
-    }  //////////dummy//////////////funktioniert wie geplant//////////////////////////////////
+    }
 
 
     @POST

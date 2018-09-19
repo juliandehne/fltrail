@@ -24,7 +24,7 @@ public interface IPeerAssessment {
      */
     Map<StudentIdentifier, Double> getAssessmentForProject(String projectId);
 
-    Map<StudentIdentifier, Double> getAssessmentForStudent(StudentIdentifier student);
+    Double getAssessmentForStudent(StudentIdentifier student);
 
     //todo: obsolete, get rid of the following function
     Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance);

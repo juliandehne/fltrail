@@ -134,6 +134,21 @@ class AssessmentDBCommunication {
         return vereinfachtesResultSet.next();
     }
 
+    Integer getQuizCount(String projectId){
+        Integer result = 0;
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectId`=?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, projectId);
+        Boolean next = vereinfachtesResultSet.next();
+        while (next){
+            result++;
+            next = vereinfachtesResultSet.next();
+        }
+        return result;
+    }
+
     ArrayList<Integer> getAnsweredQuizzes(StudentIdentifier student) {
         ArrayList<Integer> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
@@ -244,6 +259,17 @@ class AssessmentDBCommunication {
                     grade.get(student));
         }
         connect.close();
+    }
+
+    Double getGradesFromDB(StudentIdentifier student) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM `grades` WHERE `projectId`=? AND `studentId`=?";
+        //todo: fix this. for some reason it throws an error
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
+        vereinfachtesResultSet.next();
+        return vereinfachtesResultSet.getDouble("grade");
     }
 
     Map<String, Boolean> getAnswers(String projectId, String question) {

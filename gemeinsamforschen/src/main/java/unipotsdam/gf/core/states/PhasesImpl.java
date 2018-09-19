@@ -6,7 +6,6 @@ import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.interfaces.*;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 import unipotsdam.gf.modules.journal.service.IJournalImpl;
@@ -39,6 +38,7 @@ public class PhasesImpl implements IPhases {
 
     /**
      * use this if you don't know how dependency injection works
+     *
      * @param iPeerAssessment
      * @param feedback
      * @param iCommunication
@@ -77,54 +77,54 @@ public class PhasesImpl implements IPhases {
     public void endPhase(ProjectPhase currentPhase, Project project) {
         ProjectPhase changeToPhase = getNextPhase(currentPhase);
         Map<StudentIdentifier, ConstraintsMessages> tasks;
-        if (changeToPhase != null)
-        switch (changeToPhase) {
+        switch (currentPhase) {
             case CourseCreation:
                 // saving the state
-                saveState(project,changeToPhase);
+                saveState(project, changeToPhase);
                 break;
             case GroupFormation:
                 // inform users about the formed groups, optionally giving them a hint on what happens next
                 iCommunication.sendMessageToUsers(project, Messages.GroupFormation(project));
-                saveState(project,changeToPhase);
+                saveState(project, changeToPhase);
                 break;
             case DossierFeedback:
                 // check if everybody has uploaded a dossier
 
                 tasks = feedback.checkFeedbackConstraints(project);
-                if (tasks.size()>0) {
+                if (tasks.size() > 0) {
                     iCommunication.informAboutMissingTasks(tasks, project);
                 } else {
                     // send a message to the users informing them about the start of the new phase
                     iCommunication.sendMessageToUsers(project, Messages.NewFeedbackTask(project));
-                    saveState(project,changeToPhase);
+                    saveState(project, changeToPhase);
                 }
                 break;
             case Execution:
                 // check if the portfolios have been prepared for evaluation (relevant entries selected)
                 tasks = iJournal.getPortfoliosForEvaluationPrepared(project);
-                if (tasks.size()<1) {
+                if (tasks.size() < 1) {
                     // inform users about the end of the phase
                     iCommunication.sendMessageToUsers(project, Messages.AssessmentPhaseStarted(project));
-                    saveState(project,changeToPhase);
+                    saveState(project, changeToPhase);
                 } else {
                     iCommunication.informAboutMissingTasks(tasks, project);
                 }
                 break;
             case Assessment:
                 tasks = iPeerAssessment.allAssessmentsDone(project.getId());
-                if(tasks.size()<1){
+                if (tasks.size() < 1) {
                     iCommunication.sendMessageToUsers(project, Messages.CourseEnds(project));
                     iPeerAssessment.finalizeAssessment(project.getId());
                     saveState(project, changeToPhase);
-                }else{
+                } else {
                     iPeerAssessment.assignMissingAssessmentTasks(project);
                 }
                 break;
             case Projectfinished:
                 closeProject();
                 break;
-            default:{}
+            default: {
+            }
         }
     }
 
@@ -144,16 +144,17 @@ public class PhasesImpl implements IPhases {
                 return ProjectPhase.Assessment;
             case Assessment:
                 return ProjectPhase.Projectfinished;
+            default:
+                return ProjectPhase.Projectfinished;
         }
-        return null;
     }
 
-    private void saveState(Project project, ProjectPhase currentPhase) {
+    private void saveState(Project project, ProjectPhase phase) {
         assert project.getId() != null;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "UPDATE `projects` SET `phase`=? WHERE id=? LIMIT 1";
-        connect.issueUpdateStatement(mysqlRequest, currentPhase.name(), project.getId());
+        connect.issueUpdateStatement(mysqlRequest, phase.name(), project.getId());
         connect.close();
     }
 
