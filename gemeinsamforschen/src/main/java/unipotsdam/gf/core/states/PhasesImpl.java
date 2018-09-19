@@ -6,6 +6,7 @@ import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.interfaces.*;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 import unipotsdam.gf.modules.journal.service.IJournalImpl;

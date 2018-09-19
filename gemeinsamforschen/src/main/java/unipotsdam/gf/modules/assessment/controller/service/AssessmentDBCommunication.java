@@ -6,6 +6,7 @@ import unipotsdam.gf.core.states.model.Constraints;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -19,6 +20,20 @@ import java.util.Map;
 @Resource
 @Singleton
 class AssessmentDBCommunication {
+
+    cheatCheckerMethods getAssessmentMethod(String projectId){
+        cheatCheckerMethods result = cheatCheckerMethods.none;
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM `assessmentmethod` WHERE `projectId`=?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, projectId);
+        if (vereinfachtesResultSet.next()){
+            String resultString = vereinfachtesResultSet.getString("cheatCheckerMethod");
+            result = cheatCheckerMethods.valueOf(resultString);
+        }
+        return result;
+    }
 
     ArrayList<Map<String, Double>> getWorkRating(StudentIdentifier student) {
         ArrayList<Map<String, Double>> result = new ArrayList<>();

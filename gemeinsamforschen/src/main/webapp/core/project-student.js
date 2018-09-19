@@ -89,7 +89,7 @@ function displayEmptyView() {
  * @param errorHandler The error handler
  */
 function getSubmissionPartsByProjectId(projectId, responseHandler, errorHandler) {
-    var url = "../rest/submissions/project/" + projectId;
+    let url = "rest/submissions/project/" + projectId;
     $.ajax({
         url: url,
         type: "GET",

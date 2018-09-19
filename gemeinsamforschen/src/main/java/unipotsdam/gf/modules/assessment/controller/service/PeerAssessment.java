@@ -10,7 +10,8 @@ import java.util.*;
 public class PeerAssessment implements IPeerAssessment {
     @Override
     public void finalizeAssessment(String projectId){
-        Map<StudentIdentifier, Double> grading = calculateAssessment(projectId, "variance");
+        cheatCheckerMethods method = new AssessmentDBCommunication().getAssessmentMethod(projectId);
+        Map<StudentIdentifier, Double> grading = calculateAssessment(projectId, method);
         new AssessmentDBCommunication().writeGradesToDB(grading);
     }
 
@@ -102,7 +103,7 @@ public class PeerAssessment implements IPeerAssessment {
         return result;
     }
 
-    private Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method) {
+    private Map<StudentIdentifier, Double> calculateAssessment(String projectId, cheatCheckerMethods method) {
         ArrayList<Performance> totalPerformance = new ArrayList<>();
         //get all students in projectID from DB
         List<String> students = new AssessmentDBCommunication().getStudents(projectId);
@@ -118,8 +119,8 @@ public class PeerAssessment implements IPeerAssessment {
                     new AssessmentDBCommunication().getContributionRating(groupId);
             performance.setStudentIdentifier(studentIdentifier);
             performance.setQuizAnswer(answeredQuizzes);
-            performance.setWorkRating(cheatChecker(workRating, cheatCheckerMethods.valueOf(method)));
-            performance.setContributionRating(cheatChecker(contributionRating, cheatCheckerMethods.valueOf(method)));
+            performance.setWorkRating(cheatChecker(workRating, method));
+            performance.setContributionRating(cheatChecker(contributionRating, method));
             totalPerformance.add(performance);
         }
         return calculateAssessment(totalPerformance);

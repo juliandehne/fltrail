@@ -141,7 +141,7 @@ public class QuizView {
         }
     }
     ////////////////////////////////funktioniert///////////////////////////////////////////
-
+//todo: is unnecessary I guess. finalizing should just happen when phase ends
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/finalize/project/{projectId}")
