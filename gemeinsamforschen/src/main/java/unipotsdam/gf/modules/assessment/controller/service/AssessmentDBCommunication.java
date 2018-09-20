@@ -265,7 +265,6 @@ class AssessmentDBCommunication {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM `grades` WHERE `projectId`=? AND `studentId`=?";
-        //todo: fix this. for some reason it throws an error
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
         vereinfachtesResultSet.next();
