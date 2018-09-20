@@ -2,7 +2,6 @@ package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
@@ -31,10 +30,10 @@ public interface ICommunication {
      * creates chatroom
      *
      * @param name                  chat room name
-     * @param studentIdentifierList member of chat by id
+     * @param userList member of chat by id
      * @return chat room id
      */
-    String createChatRoom(String name, List<User> studentIdentifierList);
+    String createChatRoom(String name, List<User> userList);
 
 
     /**

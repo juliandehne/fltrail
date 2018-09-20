@@ -43,21 +43,13 @@ public class GroupDAOTest {
 
     @Test
     public void testExist() {
-        inMemoryMySqlConnect.connect();
-        String mysqlRequestGroup = "INSERT INTO groups (`projectId`,`chatRoomId`) values (?,?)";
-        inMemoryMySqlConnect.issueInsertOrDeleteStatement(mysqlRequestGroup, group.getProjectId(), group.getChatRoomId());
-
-        for (User groupMember : group.getMembers()) {
-            String mysqlRequest2 = "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
-            inMemoryMySqlConnect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getProjectId());
-        }
-
+        groupDAO.persist(group);
         assertThat(groupDAO.exists(group), is(true));
-        inMemoryMySqlConnect.tearDown();
     }
 
     @Test
     public void testPersist() {
+        assertThat(groupDAO.exists(group), is(false));
         groupDAO.persist(group);
         assertThat(groupDAO.exists(group), is(true));
     }

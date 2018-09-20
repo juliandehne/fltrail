@@ -38,8 +38,8 @@ public class GroupDAO {
         existingGroupsWithNewEntry.removeAll(existingGroups);
         group.setId(existingGroupsWithNewEntry.get(0).getId());
         for (User groupMember : group.getMembers()) {
-            String mysqlRequest2 = "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getId());
+            String mysqlRequest2 = "INSERT INTO groupuser (`studentId`, `projectId`, `groupId`) values (?,?,?)";
+            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getProjectId(), group.getId());
         }
         connect.close();
 
@@ -70,7 +70,7 @@ public class GroupDAO {
     public List<Group> getGroupsByProjectId(String projectId) {
         connect.connect();
         String mysqlRequest = "SELECT * FROM groups g " +
-                "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu.userEmail=u.email " +
+                "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu.studentId=u.email " +
                 "where g.projectId = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, projectId);
