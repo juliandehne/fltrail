@@ -7,6 +7,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.InMemoryMySqlConnect;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
+import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import java.util.Arrays;
 import java.util.List;

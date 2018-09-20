@@ -2,7 +2,6 @@ package unipotsdam.gf.core.management;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.group.Group;
-import unipotsdam.gf.core.management.group.GroupDAO;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.project.ProjectConfigurationDAO;
@@ -11,6 +10,7 @@ import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
+import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;

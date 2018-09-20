@@ -6,10 +6,19 @@ import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GroupfindingImpl implements IGroupFinding {
+
+    private GroupDAO groupDAO;
+
+    @Inject
+    public GroupfindingImpl(GroupDAO groupDAO) {
+        this.groupDAO = groupDAO;
+    }
+
     @Override
     public void selectGroupfindingCriteria(GroupfindingCriteria groupfindingCriteria) {
 
@@ -32,6 +41,6 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
     public ArrayList<String> getStudentsInSameGroup(StudentIdentifier student) {
-        return new GroupDAO().getStudentsInSameGroupAs(student);
+        return groupDAO.getStudentsInSameGroupAs(student);
     }
 }

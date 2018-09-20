@@ -2,9 +2,9 @@ package unipotsdam.gf.util;
 
 import unipotsdam.gf.core.database.InMemoryMySqlConnect;
 import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.core.management.group.GroupDAO;
 import unipotsdam.gf.core.management.project.ProjectDAO;
 import unipotsdam.gf.core.management.user.UserDAO;
+import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 public class TestHelper {
 

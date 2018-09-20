@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.groupfinding.view;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.groupfinding.GroupfindingImpl;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -13,7 +14,9 @@ import java.util.ArrayList;
 
 @Path("/group")
 public class GroupView {
-    private GroupfindingImpl groupfinding = new GroupfindingImpl();
+
+    @Inject
+    private GroupfindingImpl groupfinding;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

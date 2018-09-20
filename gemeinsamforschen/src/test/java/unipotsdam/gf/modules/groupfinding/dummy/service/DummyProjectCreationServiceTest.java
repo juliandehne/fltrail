@@ -4,13 +4,13 @@ import org.junit.Test;
 import unipotsdam.gf.core.database.InMemoryMySqlConnect;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.group.Group;
-import unipotsdam.gf.core.management.group.GroupDAO;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.project.ProjectDAO;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 import unipotsdam.gf.util.TestHelper;
 
 import java.util.List;

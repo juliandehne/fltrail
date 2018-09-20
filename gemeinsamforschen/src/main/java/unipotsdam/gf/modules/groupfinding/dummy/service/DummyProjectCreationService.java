@@ -2,12 +2,12 @@ package unipotsdam.gf.modules.groupfinding.dummy.service;
 
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.group.Group;
-import unipotsdam.gf.core.management.group.GroupDAO;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.management.user.UserProfile;
 import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
