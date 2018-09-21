@@ -1,4 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <!DOCTYPE html>
 <html>
 
@@ -6,14 +9,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gruppenmatcher</title>
-    <script src="js/config.js"></script>
+    <script src="../core/config.js"></script>
     <script src="js/createPreferences.js"></script>
 </head>
 <body>
 
-
-<p id="user" hidden><?php echo $userName; ?></p>
-<p id="projectName" hidden><?php echo $projectName; ?></p>
 <div class="loader-inactive" id="loader">
     <div class="sk-cube1 sk-cube"></div>
     <div class="sk-cube2 sk-cube"></div>
@@ -21,14 +21,11 @@
     <div class="sk-cube3 sk-cube"></div>
 </div>
 <div id="wrapper" class="wrapper">
-    <?php
-    include_once 'menu.php'
-    ?>
     <div class="page-content-wrapper">
         <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
             <div class="row">
                 <div class="col-md-12">
-                    <h3>Geben Sie hier ihre Präferenzen für das Projekt <?php echo $projectName; ?> ein!</h3>
+                    <h3>Geben Sie hier ihre Präferenzen ein!</h3>
                     <div class="page-header"></div>
                 </div>
             </div>

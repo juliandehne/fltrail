@@ -6,6 +6,6 @@ $(document).ready(function(){
         location.href="project-student.jsp?token="+getUserTokenFromUrl()+'&projectId='+'Kaleo';
     });
     $('#enrollProject').on('click', function(){
-        location.href="enrollProject.jsp?token="+getUserTokenFromUrl();
+        location.href="management/enroll-project.jsp?token="+getUserTokenFromUrl();
     });
 });

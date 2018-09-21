@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="css/Sidebar-Menu.css">
     <link rel="stylesheet" href="css/Sidebar-Menu1.css">
 
-    <script src="../management/js/config.js"></script>
+    <script src="../core/config.js"></script>
     <script src="js/myGroupsInit.js"></script>
     <script src="js/Sidebar-Menu.js"></script>
 
