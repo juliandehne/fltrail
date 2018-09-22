@@ -1,25 +1,21 @@
 package unipotsdam.gf.core.management.pageAppearance;
 
+import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.project.ProjectDAO;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.states.model.ProjectPhase;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
+
 public class Menu extends SimpleTagSupport {
+
     private Integer hierarchyLevel = 0;
-
-    @Inject
-    private ProjectDAO projectDAO;
-
-    @Inject
-    private UserDAO userDAO;
 
     public void doTag() throws IOException {
         hierarchyLevel = getHierarchy();
@@ -29,11 +25,13 @@ public class Menu extends SimpleTagSupport {
         String projectId = request.getParameter("projectId");
         ProjectPhase projectPhase;
         try {
+            ProjectDAO projectDAO = new ProjectDAO(new MysqlConnect());
             projectPhase = projectDAO.getProjectById(projectId).getPhase();
         } catch (Exception e) {
             projectPhase = null;
         }
         JspWriter out = getJspContext().getOut();
+        UserDAO userDAO = new UserDAO(new MysqlConnect());
         if (token != null) {
             User user = userDAO.getUserByToken(token);
             Boolean isStudent = user.getStudent();
