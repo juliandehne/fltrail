@@ -56,5 +56,8 @@ public interface IJournal {
 
     EPortfolio getFinalPortfolioForAssessment(Project project, User user) ;
 
+
+    EPortfolio getPortfolio(String project, String user);
+
     byte[] exportPortfolioToPdf(EPortfolio ePortfolio);
 }

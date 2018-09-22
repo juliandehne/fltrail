@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.IJournal;
+import unipotsdam.gf.interfaces.ResearchReports;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.EPortfolio;
 import unipotsdam.gf.modules.journal.model.Journal;
@@ -15,7 +16,6 @@ import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,23 +62,33 @@ public class IJournalImpl implements IJournal {
 
     @Override
     public void uploadJournalEntry(Journal journalEntry, User student) {
-        //TODO
+        journalService.saveJournal("0",student.getId(),journalEntry.getStudentIdentifier().getProjectId(),journalEntry.getEntryMD(),journalEntry.getVisibility().toString(),journalEntry.getCategory().toString());
     }
 
     @Override
     public void uploadFinalPortfolio(Project project, List<Journal> journalEntries, ResearchReport finalResearchReport, File presentation, User user) {
-        //TODO
+        //TODO for version 2
     }
 
     @Override
     public EPortfolio getFinalPortfolioForAssessment(Project project, User user) {
 
+        return getPortfolio(project.getId(), user.getId());
+    }
+
+    @Override
+    public EPortfolio getPortfolio(String project, String user) {
+
         EPortfolio result = new EPortfolio();
-        StudentIdentifier studentIdentifier = new StudentIdentifier(project.getId(), user.getId());
+        StudentIdentifier studentIdentifier = new StudentIdentifier(project, user);
+        ResearchReports researchReports /*TODO = ??*/;
 
         result.setDescription(descriptionService.getProjectByStudent(studentIdentifier));
-        result.setJournals(journalService.getAllJournals(user.getId(), project.getId()));
-        //TODO result.setReport(...);
+        result.setJournals(journalService.getAllJournals(user, project));
+        /*
+        TODO wenn von Quark implementiert
+        result.setReport(getReports(new StudentIdentifier(project,user));
+         */
 
         return result;
     }
@@ -86,6 +96,7 @@ public class IJournalImpl implements IJournal {
     @Override
     public byte[] exportPortfolioToPdf(EPortfolio ePortfolio) {
 
+        //IntelliJs solution for lambda statement
         final byte[][] res = new byte[1][1];
 
         //Build String
@@ -97,25 +108,13 @@ public class IJournalImpl implements IJournal {
                     .newConverter()
                     .readFrom(() -> input)
                     .writeTo(out -> {
-                        //TODO für rest anpassen
-                        FileOutputStream outputStream;
                         res[0] = out;
-                        try {
-                            outputStream = new FileOutputStream("C:\\Users\\thomas\\Desktop\\test_" + new Date().getTime() + ".pdf");
-                            outputStream.write(out);
-                            outputStream.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
                     })
                     .doIt();
         } catch (ConversionException | Markdown2PdfLogicException e) {
-            //TODO
             e.printStackTrace();
         }
 
-
-        //Return
         return res[0];
     }
 
@@ -150,7 +149,7 @@ public class IJournalImpl implements IJournal {
 
             result.append(researchReport.getMethod()).append("\n");
 
-            //TODO ???????
+            //TODO zuordnung Absprechen
             result.append(journalStringByCategory(journals, Category.UNTERSUCHUNGSKONZEPT));
             result.append(journalStringByCategory(journals, Category.METHODIK));
 
@@ -221,6 +220,4 @@ public class IJournalImpl implements IJournal {
     private String journalAsString(Journal j) {
         return jdf.format(new Date(j.getTimestamp())) + " " + j.getCategory() + "\n" + j.getEntryMD() + "\n";
     }
-
-
 }

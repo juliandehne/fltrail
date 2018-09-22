@@ -18,7 +18,7 @@ import java.util.ArrayList;
 /**
  * View for the learning journal
  *
- * TODO error handling, (maybe) method to change visibility
+ * TODO (maybe) method to change visibility
  */
 
 @Path("/journal")
@@ -92,7 +92,6 @@ public class JournalView {
 
         journalService.saveJournal(id, student, project, text, visibility, category);
 
-        //TODO token
         URI location;
         try {
             location = new URI("../pages/eportfolio.jsp?token=" + student + "&projectId=" + project);
@@ -139,7 +138,6 @@ public class JournalView {
 
         StudentIdentifier student = journalService.getJournal(journal).getStudentIdentifier();
         journalService.closeJournal(journal);
-        //TODO token
         try {
             URI location = new URI("../pages/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());
             log.debug("<<< closeJournal: redirect to "  +location.toString());
