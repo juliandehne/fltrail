@@ -1,11 +1,15 @@
 package unipotsdam.gf.interfaces;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.states.model.Constraints;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 
 
 /**
@@ -66,7 +70,7 @@ public interface Feedback {
      * @param project
      * @return
      */
-    Boolean checkFeedbackConstraints(Project project);
+    Map<StudentIdentifier, ConstraintsMessages> checkFeedbackConstraints(Project project);
 
     /**
      * TODO implement a routine that assigns missing feedback tasks if someone drops out of a course

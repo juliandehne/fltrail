@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.Assessment;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
@@ -77,8 +78,10 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public Boolean allAssessmentsDone(String projectId) {
-        return null;
+    public Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId) {
+        Map<StudentIdentifier, ConstraintsMessages> result;
+        result = new AssessmentDBCommunication().missingAssessments(projectId);
+        return result;
     }
 
     @Override

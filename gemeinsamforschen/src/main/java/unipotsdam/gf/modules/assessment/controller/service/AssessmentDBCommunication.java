@@ -2,6 +2,11 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.core.states.model.Constraints;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.assessment.controller.model.Categories;
+import unipotsdam.gf.modules.assessment.controller.model.Grading;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.assessment.controller.model.Grading;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
@@ -243,6 +248,62 @@ class AssessmentDBCommunication {
         }
         connect.close();
         return result;
+    }
+
+    Map<StudentIdentifier, ConstraintsMessages> missingAssessments(String projectId) {
+        Map<StudentIdentifier, ConstraintsMessages> result = new HashMap<>();
+        ArrayList<String> studentsInProject = new ArrayList<>(getStudents(projectId));
+        ArrayList<StudentIdentifier> missingStudentsCauseOfWorkrating = missingWorkRatings(studentsInProject, projectId);
+        if (missingStudentsCauseOfWorkrating != null)
+            for (StudentIdentifier missingStudent : missingStudentsCauseOfWorkrating) {
+                result.put(missingStudent, new ConstraintsMessages(Constraints.AssessmentOpen, missingStudent));
+            }
+        // ArrayList<StudentIdentifier> missingStudentsCauseOfQuiz <--- I can't check that atm
+        ArrayList<StudentIdentifier> missingStudentsCauseOfContribution = missingContribution(studentsInProject, projectId);
+        if (missingStudentsCauseOfContribution != null)
+            for (StudentIdentifier missingStudent : missingStudentsCauseOfContribution) {
+                result.put(missingStudent, new ConstraintsMessages(Constraints.AssessmentOpen, missingStudent));
+            }
+        return result;
+    }
+
+    private ArrayList<StudentIdentifier> missingWorkRatings(ArrayList<String> studentsInProject, String projectId) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        ArrayList<StudentIdentifier> result = new ArrayList<>();
+        String sqlSelectWorkRating = "SELECT DISTINCT fromPeer FROM `workrating` WHERE `projectId`='"+projectId+"' AND `fromPeer`=''";
+        for (String studentId : studentsInProject) {
+            sqlSelectWorkRating = sqlSelectWorkRating + " OR `fromPeer`='" + studentId+"'";
+        }
+        VereinfachtesResultSet selectWorkRatingResultSet =
+                connect.issueSelectStatement(sqlSelectWorkRating);
+        Boolean next = selectWorkRatingResultSet.next();
+        resultSetToStudentIdentifierList(studentsInProject, projectId, result, selectWorkRatingResultSet, next);
+        return result;
+    }
+
+    private ArrayList<StudentIdentifier> missingContribution(ArrayList<String> studentsInProject, String projectId) {
+        MysqlConnect connect = new MysqlConnect();
+        connect.connect();
+        ArrayList<StudentIdentifier> result = new ArrayList<>();
+        String sqlContribution = "SELECT DISTINCT cr.fromPeer FROM groupuser gu " +
+                "JOIN contributionrating cr ON gu.groupId=cr.groupId WHERE gu.projectId = ?;";
+        VereinfachtesResultSet selectContributionResultSet =
+                connect.issueSelectStatement(sqlContribution, projectId);
+        Boolean next = selectContributionResultSet.next();
+        resultSetToStudentIdentifierList(studentsInProject, projectId, result, selectContributionResultSet, next);
+        return result;
+    }
+
+    private void resultSetToStudentIdentifierList(ArrayList<String> studentsInProject, String projectId, ArrayList<StudentIdentifier> result, VereinfachtesResultSet selectWorkRatingResultSet, Boolean next) {
+        while (next) {
+            String fromPeer = selectWorkRatingResultSet.getString("fromPeer");
+            if (!studentsInProject.contains(fromPeer)) {
+                StudentIdentifier studentIdentifier = new StudentIdentifier(projectId, fromPeer);
+                result.add(studentIdentifier);
+            }
+            next = selectWorkRatingResultSet.next();
+        }
     }
 
 }

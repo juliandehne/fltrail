@@ -1,6 +1,7 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.Assessment;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
@@ -104,7 +105,7 @@ public interface IPeerAssessment {
 
     String whatToRate(StudentIdentifier student);
 
-    Boolean allAssessmentsDone(String projectId);
+    Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId);
 
     void assignMissingAssessmentTasks(Project project);
 }

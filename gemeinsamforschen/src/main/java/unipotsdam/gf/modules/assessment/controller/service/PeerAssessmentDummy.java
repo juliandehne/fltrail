@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.assessment.controller.service;
 import unipotsdam.gf.assignments.Assignee;
 import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.Assessment;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
@@ -98,8 +99,8 @@ public class PeerAssessmentDummy implements IPeerAssessment {
     }
 
     @Override
-    public Boolean allAssessmentsDone(String projectId) {
-        return true;
+    public Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId) {
+        return new HashMap<StudentIdentifier, ConstraintsMessages>();
     }
 
     @Override

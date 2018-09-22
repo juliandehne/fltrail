@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
+import unipotsdam.gf.core.states.model.Constraints;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
@@ -15,6 +17,8 @@ import unipotsdam.gf.modules.journal.util.JournalUtils;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JournalServiceImpl implements JournalService {
 
@@ -103,8 +107,13 @@ public class JournalServiceImpl implements JournalService {
     }
 
     @Override
-    public boolean checkIfAllJournalClosed(Project project) {
-        return (journalDAO.getOpenJournals(project).size() == 0);
+    public Map<StudentIdentifier, ConstraintsMessages> checkIfAllJournalClosed(Project project) {
+        Map<StudentIdentifier, ConstraintsMessages> result = new HashMap<>();
+        for (String studentId: journalDAO.getOpenJournals(project)) {
+            StudentIdentifier student = new StudentIdentifier(project.getId(), studentId);
+            result.put(student, new ConstraintsMessages(Constraints.JournalOpen, student));
+        }
+        return result;
     }
 
     @Override

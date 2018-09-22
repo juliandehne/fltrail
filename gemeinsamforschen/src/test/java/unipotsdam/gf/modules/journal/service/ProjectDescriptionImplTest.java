@@ -175,13 +175,13 @@ public class ProjectDescriptionImplTest {
 
         Project project = new Project();
         project.setId(testProject);
-        assertFalse(projectDescriptionService.checkIfAllDescriptionsClosed(project));
+        assertEquals(0, projectDescriptionService.checkIfAllDescriptionsClosed(project).size());
 
         ProjectDescription resDescription = descriptionDAO.getDescription(new StudentIdentifier(testProject, testStudent));
 
         descriptionDAO.closeDescription(resDescription.getId());
 
-        assertTrue(projectDescriptionService.checkIfAllDescriptionsClosed(project));
+        assertEquals(0,projectDescriptionService.checkIfAllDescriptionsClosed(project).size());
 
     }
 

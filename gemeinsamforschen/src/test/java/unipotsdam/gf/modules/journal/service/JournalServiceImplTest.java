@@ -184,13 +184,13 @@ public class JournalServiceImplTest {
 
         ArrayList<Journal> resultJournals = journalDAO.getAllByProject(testProject, testStudent);
 
-        assertFalse(journalService.checkIfAllJournalClosed(project));
+        assertEquals(0, journalService.checkIfAllJournalClosed(project).size());
 
         for (Journal j : resultJournals) {
             journalDAO.closeJournal(j.getId());
         }
 
-        assertTrue(journalService.checkIfAllJournalClosed(project));
+        assertEquals(0, journalService.checkIfAllJournalClosed(project).size());
 
     }
 
