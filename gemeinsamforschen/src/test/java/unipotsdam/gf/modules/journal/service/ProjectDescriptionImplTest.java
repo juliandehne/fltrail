@@ -2,10 +2,10 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.junit.After;
 import org.junit.Test;
-import unipotsdam.gf.core.management.Management;
-import unipotsdam.gf.core.management.ManagementImpl;
+import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Link;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
@@ -16,7 +16,10 @@ import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAOImpl;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class ProjectDescriptionImplTest {
 
@@ -24,7 +27,7 @@ public class ProjectDescriptionImplTest {
 
     private ProjectDescriptionDAO descriptionDAO = new ProjectDescriptionDAOImpl();
     private LinkDAO linkDAO = new LinkDAOImpl();
-    private Management management = new ManagementImpl();
+    private UserDAO userDAO = new UserDAO(new MysqlConnect());
 
     private String testId = "-1";
     private String testStudent = "testStudent";
@@ -172,20 +175,20 @@ public class ProjectDescriptionImplTest {
 
         Project project = new Project();
         project.setId(testProject);
-        assertFalse(projectDescriptionService.checkIfAllDescriptionsClosed(project));
+        assertEquals(0, projectDescriptionService.checkIfAllDescriptionsClosed(project).size());
 
         ProjectDescription resDescription = descriptionDAO.getDescription(new StudentIdentifier(testProject, testStudent));
 
         descriptionDAO.closeDescription(resDescription.getId());
 
-        assertTrue(projectDescriptionService.checkIfAllDescriptionsClosed(project));
+        assertEquals(0,projectDescriptionService.checkIfAllDescriptionsClosed(project).size());
 
     }
 
     @Test
     public void getOpenUserByProject() {
         User user = new User("Test", "Test", "test@test.de", true);
-        String token = management.getUserToken(user);
+        String token = userDAO.getUserToken(user);
 
         Project project = new Project();
         project.setId(testProject);

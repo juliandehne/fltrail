@@ -3,11 +3,18 @@ package unipotsdam.gf.core.states;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.states.model.Constraints;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.core.states.model.ProjectPhase;
-import unipotsdam.gf.interfaces.*;
+import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.interfaces.IJournal;
+import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.journal.service.IJournalImpl;
 import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
 import unipotsdam.gf.view.Messages;
 
@@ -25,13 +32,13 @@ import java.util.Map;
 @ManagedBean
 public class PhasesImpl implements IPhases {
 
-    private IPeerAssessment iPeerAssessment = new PeerAssessmentDummy();
+    private IPeerAssessment iPeerAssessment = new PeerAssessment();
 
     private Feedback feedback = new DummyFeedback();
 
     private ICommunication iCommunication = new CommunicationDummyService();
 
-    private IJournal iJournal;
+    private IJournal iJournal = new IJournalImpl();
 
     public PhasesImpl() {
     }
@@ -75,53 +82,54 @@ public class PhasesImpl implements IPhases {
     @Override
     public void endPhase(ProjectPhase currentPhase, Project project) {
         ProjectPhase changeToPhase = getNextPhase(currentPhase);
-        Map<StudentIdentifier, Constraints> tasks = new HashMap<>();
+        Map<StudentIdentifier, ConstraintsMessages> tasks;
+        if (changeToPhase != null)
         switch (changeToPhase) {
             case CourseCreation:
                 // saving the state
-                saveState(project,changeToPhase);
+                saveState(project, changeToPhase);
                 break;
             case GroupFormation:
                 // inform users about the formed groups, optionally giving them a hint on what happens next
                 iCommunication.sendMessageToUsers(project, Messages.GroupFormation(project));
-                saveState(project,changeToPhase);
+                saveState(project, changeToPhase);
                 break;
             case DossierFeedback:
                 // check if everybody has uploaded a dossier
 
-                Boolean feedbacksGiven = feedback.checkFeedbackConstraints(project);
-                if (!feedbacksGiven) {
-                    feedback.assigningMissingFeedbackTasks(project);
+                tasks = feedback.checkFeedbackConstraints(project);
+                if (tasks.size()>0) {
+                    iCommunication.informAboutMissingTasks(tasks, project);
                 } else {
                     // send a message to the users informing them about the start of the new phase
                     iCommunication.sendMessageToUsers(project, Messages.NewFeedbackTask(project));
-                    saveState(project,changeToPhase);
+                    saveState(project, changeToPhase);
                 }
                 break;
             case Execution:
                 // check if the portfolios have been prepared for evaluation (relevant entries selected)
-                // todo: Boolean portfoliosReady = iJournal.getPortfoliosForEvaluationPrepared(project);
-                Boolean portfoliosReady = true;
-                if (portfoliosReady) {
+                tasks = iJournal.getPortfoliosForEvaluationPrepared(project);
+                if (tasks.size()<1) {
                     // inform users about the end of the phase
                     iCommunication.sendMessageToUsers(project, Messages.AssessmentPhaseStarted(project));
-                    saveState(project,changeToPhase);
+                    saveState(project, changeToPhase);
                 } else {
-                    iJournal.assignMissingPortfolioTasks(project);
+                    iCommunication.informAboutMissingTasks(tasks, project);
                 }
                 break;
             case Assessment:
-                Boolean allAssessmentsDone = iPeerAssessment.allAssessmentsDone(project.getId());
-                if(allAssessmentsDone){
+                tasks = iPeerAssessment.allAssessmentsDone(project.getId());
+                if(tasks.size()<1){
                     iCommunication.sendMessageToUsers(project, Messages.CourseEnds(project));
                     saveState(project, changeToPhase);
-                }else{
+                } else {
                     iPeerAssessment.assignMissingAssessmentTasks(project);
                 }
                 break;
             case Projectfinished:
                 closeProject();
                 break;
+            default:{}
         }
     }
 
@@ -129,7 +137,7 @@ public class PhasesImpl implements IPhases {
         // TODO implement
     }
 
-    ProjectPhase getNextPhase(ProjectPhase projectPhase) {
+    private ProjectPhase getNextPhase(ProjectPhase projectPhase) {
         switch (projectPhase) {
             case CourseCreation:
                 return ProjectPhase.GroupFormation;

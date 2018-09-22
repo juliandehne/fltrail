@@ -2,9 +2,19 @@ package unipotsdam.gf.modules.submission.view;
 
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.SubmissionResponse;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -39,8 +49,7 @@ public class SubmissionService {
 
         if (fullSubmission != null) {
             return Response.ok(fullSubmission).build();
-        }
-        else {
+        } else {
             // declare response
             SubmissionResponse response = new SubmissionResponse();
             response.setMessage("Submission with the id '" + fullSubmissionId + "' can't be found");
@@ -68,9 +77,8 @@ public class SubmissionService {
         SubmissionPart submissionPart = controller.getSubmissionPart(fullSubmissionId, Category.valueOf(category.toUpperCase()));
 
         if (submissionPart != null) {
-            return  Response.ok(submissionPart).build();
-        }
-        else {
+            return Response.ok(submissionPart).build();
+        } else {
             // declare response
             SubmissionResponse response = new SubmissionResponse();
             response.setMessage("Submission part with the full submission id '" + fullSubmissionId + "' and the category '" + category.toUpperCase() + "' can't be found");
@@ -88,8 +96,7 @@ public class SubmissionService {
 
         if (parts.size() > 0) {
             return Response.ok(parts).build();
-        }
-        else {
+        } else {
             SubmissionResponse response = new SubmissionResponse();
             response.setMessage("No submission parts found for submission with the id '" + fullSubmissionId + "'");
 
@@ -106,8 +113,7 @@ public class SubmissionService {
 
         if (representations.size() > 0) {
             return Response.ok(representations).build();
-        }
-        else {
+        } else {
             SubmissionResponse response = new SubmissionResponse();
             response.setMessage("No submission parts found for project id '" + projectId + "'");
 

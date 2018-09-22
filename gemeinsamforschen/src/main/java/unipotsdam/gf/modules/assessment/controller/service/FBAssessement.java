@@ -1,7 +1,13 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.assessment.controller.model.Assessment;
+import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +92,7 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public Boolean allAssessmentsDone(String projectId) {
+    public Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId) {
         return null;
     }
 

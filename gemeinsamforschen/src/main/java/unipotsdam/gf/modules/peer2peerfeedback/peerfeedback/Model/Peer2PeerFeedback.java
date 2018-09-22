@@ -1,17 +1,15 @@
 package unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model;
 
-import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
+
 import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
 
-import java.io.File;
-
 /**
- Peer2PeerFeedback Object
- created by Katharina
+ * Peer2PeerFeedback Object
+ * created by Katharina
  */
 
-public class Peer2PeerFeedback{
+public class Peer2PeerFeedback {
 
 
     private String id;
@@ -32,17 +30,25 @@ public class Peer2PeerFeedback{
         this.filename = filename;
     }
 
-    public Peer2PeerFeedback(){
+    public Peer2PeerFeedback() {
 
     }
 
-    public String getID() { return id; }
+    public String getID() {
+        return id;
+    }
 
-    public void setID(String id) { this.id = id; }
+    public void setID(String id) {
+        this.id = id;
+    }
 
-    public long getTimestamp() { return timestamp; }
+    public long getTimestamp() {
+        return timestamp;
+    }
 
-    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public Category getFeedbackcategory() {
         return category;
@@ -52,13 +58,21 @@ public class Peer2PeerFeedback{
         this.category = category;
     }
 
-    public String getText() { return text; }
+    public String getText() {
+        return text;
+    }
 
-    public void setText(String text) { this.text = text; }
+    public void setText(String text) {
+        this.text = text;
+    }
 
-    public String getFilename() { return filename; }
+    public String getFilename() {
+        return filename;
+    }
 
-    public void setFilename(String filename) { this.filename = filename; }
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
 
     public String getFeedbacksender() {
         return sender;
@@ -76,7 +90,7 @@ public class Peer2PeerFeedback{
         this.receiver = receiver;
     }
 
-    
+
     @Override
     public String toString() {
         return "Peer2PeerFeedback{" +

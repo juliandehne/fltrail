@@ -17,7 +17,7 @@ $(document).ready(function () {
 function buildTablesForPeers() {
     let studentId = $('#user').html().trim();
     let projectId = $('#projectId').html().trim();
-        $.ajax({
+    $.ajax({
             url: '../rest/group/project/' + projectId + '/student/' + studentId,
             type: 'GET',
             headers: {

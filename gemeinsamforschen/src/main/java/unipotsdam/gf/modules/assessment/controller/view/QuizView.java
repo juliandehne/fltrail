@@ -1,16 +1,20 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
-import unipotsdam.gf.core.management.Management;
-import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.interfaces.IPhases;
-import unipotsdam.gf.modules.assessment.QuizAnswer;
 import unipotsdam.gf.modules.assessment.controller.model.Assessment;
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
-import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -55,9 +59,8 @@ public class QuizView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/groupRate/project/{projectId}/student/{studentId}")
-    public Integer whichGroupToRate(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId)
-    {
-        StudentIdentifier student = new StudentIdentifier(projectId,studentId);
+    public Integer whichGroupToRate(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
+        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
         return peer.whichGroupToRate(student);
     }
 
@@ -93,9 +96,8 @@ public class QuizView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path("/whatToRate/project/{projectId}/student/{studentId}")
-    public String whatToRate(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId)
-    {
-        StudentIdentifier student = new StudentIdentifier(projectId,studentId);
+    public String whatToRate(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
+        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
         return peer.whatToRate(student);
     }
 

@@ -6,9 +6,8 @@ import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
-import java.util.List;
+import java.io.FileInputStream;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -18,9 +17,9 @@ public interface Management {
     /**
      * delete a User in the database
      *
-     * @param identifier
+     * @param user
      */
-    void delete(StudentIdentifier identifier);
+    void delete(User user);
 
     /**
      * create a User in the database
@@ -58,6 +57,8 @@ public interface Management {
      */
     void update(User user);
 
+    void update(Group group);
+
     /**
      * Add an entry in the M:N table linking users and projects
      *
@@ -81,54 +82,12 @@ public interface Management {
 
     Boolean exists(Project project);
 
-    /**
-     * Get all the users linked to a project
-     *
-     * @param project
-     * @return
-     */
-    List<User> getUsers(Project project);
-
-    /**
-     * get the token for the user
-     *
-     * @param user
-     * @return
-     */
-    String getUserToken(User user);
-
-    /**
-     * get the user given his http token
-     *
-     * @param token
-     * @return
-     */
-    User getUserByToken(String token);
-
-    /**
-     * get user by its email address
-     *
-     * @param email
-     * @return
-     */
-    User getUserByEmail(String email);
-
-    /**
-     * get project by its id
-     *
-     * @param id
-     * @return
-     */
-    Project getProjectById(String id);
-
-    void addGroupMember(User groupMember, int groupId);
-
-    void deleteGroupMember(User groupMember, int groupId);
-
-    List<Group> getGroupsByProjectId(String projectId);
+    Boolean exists(Group group);
 
     void create(ProjectConfiguration projectConfiguration, Project project);
 
     ProjectConfiguration getProjectConfiguration(Project project);
+
+    String saveProfilePicture(FileInputStream image, String studentId);
 }
 

@@ -5,9 +5,13 @@ import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.ISubmission;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -62,8 +66,7 @@ public class SubmissionController implements ISubmission {
             connection.close();
 
             return fullSubmission;
-        }
-        else {
+        } else {
 
             // close connection
             connection.close();
@@ -94,8 +97,7 @@ public class SubmissionController implements ISubmission {
             // return true if we found the id
             if (count < 1) {
                 return false;
-            }
-            else {
+            } else {
                 return true;
             }
         }
@@ -211,8 +213,7 @@ public class SubmissionController implements ISubmission {
                 connection.close();
 
                 return submissionPart;
-            }
-            else {
+            } else {
                 // close connection
                 connection.close();
 
@@ -322,8 +323,7 @@ public class SubmissionController implements ISubmission {
             // return true if we found the id
             if (count < 1) {
                 return false;
-            }
-            else {
+            } else {
                 return true;
             }
         }
@@ -419,11 +419,11 @@ public class SubmissionController implements ISubmission {
 
                 // build submission part with empty body
                 tmpPart = new SubmissionPart(
-                    rs.getTimestamp("timestamp").getTime(),
-                    rs.getString("userId"),
-                    rs.getString("fullSubmissionId"),
-                    Category.valueOf(tmpCategory),
-                    new ArrayList<SubmissionPartBodyElement>()
+                        rs.getTimestamp("timestamp").getTime(),
+                        rs.getString("userId"),
+                        rs.getString("fullSubmissionId"),
+                        Category.valueOf(tmpCategory),
+                        new ArrayList<SubmissionPartBodyElement>()
                 );
             }
 
@@ -466,9 +466,9 @@ public class SubmissionController implements ISubmission {
      * Calculates how many similar body elements (based on start and end character) can be found in the database
      *
      * @param fullSubmissionId The id of the full submission
-     * @param category The category of the submission part
-     * @param startCharacter The start character of the new element
-     * @param endCharacter The end character of the old element
+     * @param category         The category of the submission part
+     * @param startCharacter   The start character of the new element
+     * @param endCharacter     The end character of the old element
      * @return Return 0 if there are no similar elements, 2 if we found two similar elements (right and left side),
      * 1 if we found a similar element on the right side and -1 if we found a similar element on the left side.
      */
@@ -501,14 +501,12 @@ public class SubmissionController implements ISubmission {
 
                     if (side == 1) {
                         return -1;
-                    }
-                    else {
+                    } else {
                         return 1;
                     }
 
                 }
-            }
-            else {
+            } else {
                 // close connection
                 connection.close();
 
@@ -524,8 +522,8 @@ public class SubmissionController implements ISubmission {
      * Checks if a new body element has overlapping boundaries with an already existing element
      *
      * @param fullSubmissionId The id of the full submission
-     * @param category The category
-     * @param element The new element
+     * @param category         The category
+     * @param element          The new element
      * @return Returns true if overlapping boundaries have been found
      */
     private boolean hasOverlappingBoundaries(String fullSubmissionId, Category category, SubmissionPartBodyElement element) {
@@ -554,8 +552,7 @@ public class SubmissionController implements ISubmission {
             // return true if we found the id
             if (count < 1) {
                 return false;
-            }
-            else {
+            } else {
                 return true;
             }
         }

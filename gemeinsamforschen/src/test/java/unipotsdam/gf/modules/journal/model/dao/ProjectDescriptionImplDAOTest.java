@@ -9,7 +9,9 @@ import unipotsdam.gf.modules.journal.model.ProjectDescription;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ProjectDescriptionImplDAOTest {
 
@@ -172,7 +174,7 @@ public class ProjectDescriptionImplDAOTest {
         ArrayList<String> resultDescriptions = descriptionDAO.getOpenDescriptions(project);
         assertEquals(2, resultDescriptions.size());
 
-        cleanup("-1","-2","-3");
+        cleanup("-1", "-2", "-3");
         connection.close();
     }
 

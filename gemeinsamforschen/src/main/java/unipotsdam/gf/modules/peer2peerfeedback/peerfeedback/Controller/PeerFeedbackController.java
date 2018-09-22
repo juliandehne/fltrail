@@ -60,13 +60,13 @@ public class PeerFeedbackController {
             System.out.print(feedback);
 
             return feedback;
-       } else {
+        } else {
 
             // close connection
             connection.close();
-           System.out.print("null");
-           return null;
-       }
+            System.out.print("null");
+            return null;
+        }
 
     }
 
@@ -107,6 +107,6 @@ public class PeerFeedbackController {
         //AnnotationBody body = new AnnotationBody(title, comment, startCharacter, endCharacter);
 
         //return new Peer2PeerFeedback("id", 1234, Category.TITEL, "reciever", "sender", "test", "filename");
-        return new Peer2PeerFeedback(id,timestamp,Category.TITEL,reciever, sender, text, filename);
+        return new Peer2PeerFeedback(id, timestamp, Category.TITEL, reciever, sender, text, filename);
     }
 }

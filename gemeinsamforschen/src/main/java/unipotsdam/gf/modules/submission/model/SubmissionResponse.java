@@ -14,7 +14,8 @@ public class SubmissionResponse {
         this.message = message;
     }
 
-    public SubmissionResponse(){}
+    public SubmissionResponse() {
+    }
 
     // methods
     public String getMessage() {

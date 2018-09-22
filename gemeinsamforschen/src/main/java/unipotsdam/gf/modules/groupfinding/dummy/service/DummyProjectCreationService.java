@@ -1,11 +1,13 @@
-package unipotsdam.gf.modules.groupfinding.service;
+package unipotsdam.gf.modules.groupfinding.dummy.service;
 
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.management.user.UserProfile;
 import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -19,41 +21,51 @@ import java.util.stream.Collectors;
 @ManagedBean
 @Resource
 @Singleton
-public class GroupCreationService {
+public class DummyProjectCreationService {
 
-    @Inject
+
     private ICommunication communicationService;
+    private Management management;
+    private GroupDAO groupDAO;
+    private UserDAO userDAO;
 
     @Inject
-    private Management management;
+    public DummyProjectCreationService(ICommunication communicationService, Management management, GroupDAO groupDAO, UserDAO userDAO) {
+        this.communicationService = communicationService;
+        this.management = management;
+        this.groupDAO = groupDAO;
+        this.userDAO = userDAO;
+    }
 
     public boolean createExampleProject() {
 
         User docentUser = getDocentUser();
-        Project project = new Project("1", "", true, docentUser.getEmail(), "admin");
+        if (!management.exists(docentUser)) {
+            management.create(docentUser, null);
+        }
 
-        List<Group> groups = createDummyGroups(project.getId());
-
+        Project project = new Project("1", "password", true, docentUser.getEmail(), "admin");
         if (!management.exists(project)) {
             management.create(project);
         }
 
-        groups.forEach(group -> management.create(group));
-        // TODO: read List<Group> of database to get Id for chatRoomName (Should be ProjectName - GroupId)
-        // TODO: implement sql service injection for, so connection is only done once in app
+        List<Group> groups = createDummyGroups(project.getId());
 
+        List<Group> nonCreatedGroups = groups.stream().filter(group -> !management.exists(group)).collect(Collectors.toList());
 
-        List<Group> nonEmptyGroups = groups.stream().filter(group -> group.getMembers().isEmpty())
-                .collect(Collectors.toList());
-        if (nonEmptyGroups.isEmpty()) {
-            return false;
-        }
+        nonCreatedGroups.forEach(group -> management.create(group));
 
+        List<Group> groupsWithId = groupDAO.getGroupsByProjectId(project.getId());
+        groupsWithId.forEach(group -> {
+            String chatRoomName = String.join(" - ", project.getId(), String.valueOf(group.getId()));
+            group.setChatRoomId(communicationService.createChatRoom(chatRoomName, group.getMembers()));
+            management.update(group);
+        });
 
         return true;
     }
 
-    private List<Group> createDummyGroups(String projectId) {
+    List<Group> createDummyGroups(String projectId) {
         Group group1 = new Group(new ArrayList<>(), projectId);
         Group group2 = new Group(new ArrayList<>(), projectId);
         Group group3 = new Group(new ArrayList<>(), projectId);
@@ -78,12 +90,12 @@ public class GroupCreationService {
         return groups;
     }
 
-    private User getDocentUser() {
+    User getDocentUser() {
         User docent = new User("Julian", "docent", "docent@docent.com", false);
         if (!management.exists(docent)) {
             saveUserToDatabase(docent);
         } else {
-            docent = management.getUserByEmail(docent.getEmail());
+            docent = userDAO.getUserByEmail(docent.getEmail());
         }
         return docent;
     }

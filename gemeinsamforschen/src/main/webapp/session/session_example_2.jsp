@@ -12,6 +12,6 @@
     <title>Big Deal</title>
 </head>
 <body>
-    <gf:context/>
+<gf:context/>
 </body>
 </html>

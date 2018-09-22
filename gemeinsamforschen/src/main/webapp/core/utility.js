@@ -1,16 +1,16 @@
-$(document).ready(function(){
+$(document).ready(function () {
     $('#headLineProject').html($('#projectId').html());
-    $('#logout').click(function(){
+    $('#logout').click(function () {
         //todo: delete cookies / reset session
         let target = "index.jsp";
         let link = changeLocationTo(target);
-        document.location=link;
+        document.location = link;
     });
-    $('#assessment').click(function(){
-       checkAssessementPhase();
+    $('#assessment').click(function () {
+        checkAssessementPhase();
     });
-    $('#footerBack').click(function(){
-       goBack();
+    $('#footerBack').click(function () {
+        goBack();
     });
 });
 
@@ -25,37 +25,37 @@ function goBack() {
     window.history.back();
 }
 
-function checkAssessementPhase(){
+function checkAssessementPhase() {
     let studentId = $('#user').html().trim();
     let projectId = $('#projectId').html().trim();
     $.ajax({
-        url: '../rest/assessments/whatToRate/project/'+projectId+'/student/'+studentId,
+        url: '../rest/assessments/whatToRate/project/' + projectId + '/student/' + studentId,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         success: function (phase) {
-            switch (phase){
-                case "workRating":{
+            switch (phase) {
+                case "workRating": {
                     changeLocationTo("finalAssessment.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
-                case "quiz":{
+                case "quiz": {
                     changeLocationTo("take-quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
-                case "contributionRating":{
+                case "contributionRating": {
                     changeLocationTo("rate-contribution.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
-                case "done":{
+                case "done": {
                     changeLocationTo("project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
             }
         },
-        error: function(a){
+        error: function (a) {
         }
     });
 }
@@ -84,7 +84,6 @@ function getQueryVariable(variable) {
 }
 
 
-
 function calculateHierachy(level) {
 
     if (level == 0) {
@@ -93,7 +92,7 @@ function calculateHierachy(level) {
 
     } else {
 
-        return calculateHierachy(level-1)+"../";
+        return calculateHierachy(level - 1) + "../";
 
     }
 

@@ -24,7 +24,8 @@ public class SubmissionPartPostRequest {
         this.body = body;
     }
 
-    public SubmissionPartPostRequest(){}
+    public SubmissionPartPostRequest() {
+    }
 
     // methods
     public String getUserId() {

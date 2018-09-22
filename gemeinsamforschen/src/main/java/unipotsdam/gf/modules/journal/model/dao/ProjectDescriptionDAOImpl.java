@@ -17,7 +17,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
     public void createDescription(ProjectDescription projectDescription) {
         // create a new id
         String uuid = UUID.randomUUID().toString();
-        while (JournalUtils.existsId(uuid,"projectdescription")) {
+        while (JournalUtils.existsId(uuid, "projectdescription")) {
             uuid = UUID.randomUUID().toString();
         }
 
@@ -27,7 +27,8 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
 
         // build and execute request
         String request = "INSERT INTO projectdescription(`id`, `studentId`, `projectId`, `text`, `open`) VALUES (?,?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, projectDescription.getStudent().getStudentId(),projectDescription.getStudent().getProjectId(),projectDescription.getDescriptionMD(),true);
+        connection.issueInsertOrDeleteStatement(request, uuid, projectDescription.getStudent().getStudentId(),
+                projectDescription.getStudent().getProjectId(), projectDescription.getDescriptionMD(), true);
 
         //close connection
         connection.close();
@@ -56,7 +57,8 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
 
         // build and execute request
         String request = "SELECT * FROM projectdescription WHERE studentId = ? AND projectId = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, studentIdentifier.getStudentId(),studentIdentifier.getProjectId());
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, studentIdentifier.getStudentId(),
+                studentIdentifier.getProjectId());
 
         if (rs != null && rs.next()) {
 
@@ -112,7 +114,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
 
         // build and execute request
         String request = "DELETE FROM projectdescription WHERE studentId = ? AND projectId = ?;";
-        connection.issueInsertOrDeleteStatement(request, studentIdentifier.getStudentId(),studentIdentifier.getProjectId());
+        connection.issueInsertOrDeleteStatement(request, studentIdentifier.getStudentId(), studentIdentifier.getProjectId());
 
         // close connection
         connection.close();
@@ -164,7 +166,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
         String text = rs.getString("text");
         boolean open = rs.getBoolean("open");
 
-        return new ProjectDescription(id,author,text,project,new ArrayList<>(), timestamp, open);
+        return new ProjectDescription(id, author, text, project, new ArrayList<>(), timestamp, open);
     }
 
 }

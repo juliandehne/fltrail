@@ -1,7 +1,11 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 
 import java.util.ArrayList;
 
@@ -47,7 +51,7 @@ public interface ISubmission {
      * Get the entire submission part from database
      *
      * @param fullSubmissionId The id of the full submission
-     * @param category The category of the submission
+     * @param category         The category of the submission
      * @return The returned submission part
      */
     SubmissionPart getSubmissionPart(String fullSubmissionId, Category category);
@@ -72,7 +76,7 @@ public interface ISubmission {
      * Checks if a submission part already exists in the database
      *
      * @param fullSubmissionId The id of the full submission
-     * @param category The category of the submission
+     * @param category         The category of the submission
      * @return Returns true if the submission part exists
      */
     boolean existsSubmissionPart(String fullSubmissionId, Category category);

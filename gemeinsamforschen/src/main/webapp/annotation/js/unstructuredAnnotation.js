@@ -1,7 +1,7 @@
 /**
  * This function will fire when the DOM is ready
  */
-$(document).ready(function() {
+$(document).ready(function () {
 
     // fetch the document text of the given id
     getFullSubmission(getSubmissionIdFromUrl(), function (response) {
@@ -26,20 +26,20 @@ $(document).ready(function() {
 
     }, function () {
         // jump to upload page on error
-        location.href="upload-unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+        location.href = "upload-unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
     });
 
     // set click listener to save button
     $('#btnSave').click(function () {
         saveButtonHandler();
     });
-    
+
     /**
      * Context menu handler
      */
     $.contextMenu({
         selector: '.context-menu-one',
-        callback: function(key, options) {
+        callback: function (key, options) {
 
             // handle the category click
             handleCategoryClick(key);
@@ -119,13 +119,13 @@ function handleCategorySelection(category, startCharacter, endCharacter) {
  * @returns {string} The text
  */
 function getSelectedText() {
-    if(window.getSelection){
+    if (window.getSelection) {
         return window.getSelection().toString();
     }
-    else if(document.getSelection){
+    else if (document.getSelection) {
         return document.getSelection();
     }
-    else if(document.selection){
+    else if (document.selection) {
         return document.selection.createRange().text;
     }
 }
@@ -285,7 +285,7 @@ function saveButtonHandler() {
 
         $.when.apply($, promises).then(function () {
             // redirect user to project page after saving
-            location.href="../project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+            location.href = "../project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
         });
 
         // redirect user to project page after saving

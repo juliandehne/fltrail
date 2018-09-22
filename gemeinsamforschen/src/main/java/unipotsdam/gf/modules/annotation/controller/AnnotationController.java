@@ -9,7 +9,6 @@ import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -29,7 +28,7 @@ public class AnnotationController implements IAnnotation {
 
         // build and execute request
         String request = "INSERT INTO annotations (`id`, `userToken`, `targetId`, `targetCategory`, `title`, `comment`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?,?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, annotationPostRequest.getUserToken(), annotationPostRequest.getTargetId(), annotationPostRequest.getTargetCategory().toString().toUpperCase(), annotationPostRequest.getBody().getTitle(), annotationPostRequest.getBody().getComment(),annotationPostRequest.getBody().getStartCharacter(), annotationPostRequest.getBody().getEndCharacter());
+        connection.issueInsertOrDeleteStatement(request, uuid, annotationPostRequest.getUserToken(), annotationPostRequest.getTargetId(), annotationPostRequest.getTargetCategory().toString().toUpperCase(), annotationPostRequest.getBody().getTitle(), annotationPostRequest.getBody().getComment(), annotationPostRequest.getBody().getStartCharacter(), annotationPostRequest.getBody().getEndCharacter());
 
         // close connection
         connection.close();

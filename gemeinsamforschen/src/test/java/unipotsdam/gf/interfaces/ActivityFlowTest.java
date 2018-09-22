@@ -25,14 +25,14 @@ import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
+
 import javax.inject.Inject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 
@@ -232,7 +232,7 @@ public class ActivityFlowTest {
         verify(feedback).assigningMissingFeedbackTasks(project);
 
         // assert that everybody has given and received mockfeedback
-        assertTrue(feedback.checkFeedbackConstraints(project));
+        assertEquals(0, feedback.checkFeedbackConstraints(project).size());
 
         // docent finishes phase
         phases.endPhase(ProjectPhase.DossierFeedback, project);

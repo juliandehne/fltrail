@@ -1,0 +1,23 @@
+.arrow {
+    position:absolute;
+    margin-left:160px;
+    height:90px;
+}
+.arrowCourseCreation{
+    margin-top:20px;
+}
+.arrowGroupFormation{
+    margin-top:90px;
+}
+.arrowDossierFeedback{
+    margin-top:160px;
+}
+.arrowExecution{
+    margin-top:210px;
+}
+.arrowAssessment{
+    margin-top:280px;
+}
+.arrowDone{
+    visibility: hidden;
+}

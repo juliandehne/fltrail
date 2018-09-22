@@ -17,7 +17,7 @@ public class JournalDAOImpl implements JournalDAO {
     public void createJournal(Journal journal) {
         // create a new id if we found no id.
         String uuid = UUID.randomUUID().toString();
-        while (JournalUtils.existsId(uuid,"journals")) {
+        while (JournalUtils.existsId(uuid, "journals")) {
             uuid = UUID.randomUUID().toString();
         }
 

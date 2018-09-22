@@ -18,7 +18,8 @@ public class FullSubmissionPostRequest {
         this.projectId = projectId;
     }
 
-    public FullSubmissionPostRequest() {}
+    public FullSubmissionPostRequest() {
+    }
 
     // methods
     public String getUser() {

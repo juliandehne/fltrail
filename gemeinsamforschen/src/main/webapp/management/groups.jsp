@@ -21,7 +21,6 @@
     <script src="js/Sidebar-Menu.js"></script>
 
 
-
 </head>
 
 <body>
@@ -57,30 +56,30 @@
                 </div>
             </div>
             <div id="tablesHolder"></div>
-           <!-- <table class="table table-striped table-bordered table-list" style="width: 40%;margin-top: 10px;">
-                <thead id="tableHead">
-                <tr>
-                    <th class="hidden-xs">Student</th>
-                    <th>E-Mail</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr id="student2">
+            <!-- <table class="table table-striped table-bordered table-list" style="width: 40%;margin-top: 10px;">
+                 <thead id="tableHead">
+                 <tr>
+                     <th class="hidden-xs">Student</th>
+                     <th>E-Mail</th>
+                 </tr>
+                 </thead>
+                 <tbody>
+                 <tr id="student2">
 
-                </tr>
-                <tr id="student3">
+                 </tr>
+                 <tr id="student3">
 
-                </tr>
-                <tr id="student4">
+                 </tr>
+                 <tr id="student4">
 
-                </tr>
-                <tr id="student5">
+                 </tr>
+                 <tr id="student5">
 
-                </tr>
+                 </tr>
 
-                </tbody>
+                 </tbody>
 
-            </table>-->
+             </table>-->
             <!--<p>Hier können sie ihre Gruppen zu allen Projekten einsehen. Klicken sie dafür auf das Dropdownmenü
                 um ihren Kurs auszuwählen.</p>-->
         </div>

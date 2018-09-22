@@ -4,7 +4,7 @@
 
 
 $(document).ready(function () {
-var projectName = getProjectByToken();
+    var projectName = getProjectByToken();
     getTags(projectName);
     $("#competencies0").focus();
     $("#studentFormSubmit").on("click", function () {
@@ -25,7 +25,7 @@ var projectName = getProjectByToken();
 
 });
 
-function getProjectByToken(){
+function getProjectByToken() {
     return $('#projectName').text().trim();
 }
 
@@ -65,8 +65,8 @@ function getTags(projectName) {
                 var newInput = document.createElement("label");
                 newInput.innerHTML =
                     "<div class='checkbox checkbox-primary' >"
-                        + "<input id='tag" + i + "' "  + " class='styled' " + "name='tag'" + "type='checkbox' " + ">"
-                        + "<label for='tag" + i + "' "+ ">" + tagList[i] + "</label>"
+                    + "<input id='tag" + i + "' " + " class='styled' " + "name='tag'" + "type='checkbox' " + ">"
+                    + "<label for='tag" + i + "' " + ">" + tagList[i] + "</label>"
                     + "</div>";
                 var div = document.getElementById('tags');
                 div.appendChild(newInput);
@@ -97,7 +97,7 @@ function takesPartInProject() {
         if (document.getElementById("tag" + i).checked) {
             allTheTags.push(document.getElementById("tag" + i).value);
         }
-        if ($("#tag"+i).prop("checked"))
+        if ($("#tag" + i).prop("checked"))
             allTheCompetencies.push("Die Studierenden interessieren sich für " + $("#tag" + i).val());     //todo: Die Tags werden hinter der Schnittstelle noch nicht verwertet, daher diese schnelle Lösung
     }
     if (allTheTags.length > 2) {
