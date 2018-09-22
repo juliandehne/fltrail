@@ -48,7 +48,10 @@
                                         <a id="editDescriptionLink" class="btn btn-default btn-sm">
                                             <i class="fa fa-pencil"></i> Bearbeiten</a>
                                         <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeDescriptionModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>
-
+                                        <!-- TODO: find place for Button -->
+                                        <button type="button" class="btn btn-primary mr-auto" data-dismiss="modal" onclick="downloadPortfolio()">
+                                            EPortfolio heurunterladen
+                                        </button>
                                     </div>
                                     <div class="journal-description-text">
                                     </div>
@@ -60,7 +63,8 @@
 
                                     </div>
 
-                                </div>
+
+                              </div>
                             </div>
 
                             <div id="journal-container" class="tab-pane fade">

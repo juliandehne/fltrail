@@ -161,5 +161,40 @@ function closeDescription() {
             location.reload();
         }
     });
-
 }
+
+//load PDF via rest
+//source: https://stackoverflow.com/questions/41803925/download-octet-stream-via-jquery
+
+function downloadPortfolio() {
+    const saveData = (() => {
+        const a = document.createElement('a');
+        a.style = 'display: none';
+        document.body.appendChild(a);
+
+        return (data, fileName, type = 'octet/stream') => {
+            console.log(data);
+
+            const blob = new Blob([data], { type });
+
+            if (navigator.msSaveBlob) {
+                return navigator.msSaveBlob(blob, fileName);
+            }
+
+            const url = URL.createObjectURL(blob);
+            a.href = url;
+            a.download = fileName;
+            a.click();
+            URL.revokeObjectURL(url);
+            return true;
+        };
+    })();
+
+    $.ajax({
+        method: "GET",
+        contentType: "application/x-www-form-urlencoded",
+        url: "../rest/eportfolio/pdf/" + student + "/" + project,
+    })
+        .done((data) => saveData(data, 'portfolio.pdf'));
+}
+
