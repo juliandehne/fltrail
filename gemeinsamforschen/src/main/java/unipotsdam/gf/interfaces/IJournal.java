@@ -57,5 +57,11 @@ public interface IJournal {
      * @return EPortfolio (containing Report, ProjectDescription and Journal)
      */
 
-    EPortfolio getFinalPortfolioForAssessment(Project project, User user);
+
+    EPortfolio getFinalPortfolioForAssessment(Project project, User user) ;
+
+    EPortfolio getPortfolio(String project, String user);
+
+    byte[] exportPortfolioToPdf(EPortfolio ePortfolio);
+
 }
