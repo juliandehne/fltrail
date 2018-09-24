@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
+import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.IPeerAssessment;
@@ -10,6 +11,7 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,6 +29,9 @@ import java.util.Map;
 @Path("/assessments")
 public class QuizView {
     private static IPeerAssessment peer = new PeerAssessment();      //correct DB-conn and stuff
+
+    @Inject
+    Management management;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -137,7 +142,7 @@ public class QuizView {
     @Produces(MediaType.TEXT_HTML)
     @Path("/quiz")
     public String createQuiz(StudentAndQuiz studentAndQuiz) {
-        ManagementImpl management = new ManagementImpl();
+
         Project project = management.getProjectById(studentAndQuiz.getStudentIdentifier().getProjectId());
         User user = management.getUserByName(studentAndQuiz.getStudentIdentifier().getStudentId());
         Boolean isStudent = user.getStudent();

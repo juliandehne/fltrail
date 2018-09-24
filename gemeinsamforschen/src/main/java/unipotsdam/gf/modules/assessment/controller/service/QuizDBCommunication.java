@@ -56,7 +56,7 @@ public class QuizDBCommunication {
 
     private ArrayList<Quiz> RequestToQuizList(String sqlRequest, Object ... params) {
         MysqlConnect connect = new MysqlConnect();
-        ArrayList<Quiz> result = new ArrayList<>();
+
         connect.connect();
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(sqlRequest, params);

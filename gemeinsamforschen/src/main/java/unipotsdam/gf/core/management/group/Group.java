@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.groupfinding;
+package unipotsdam.gf.core.management.group;
 
 import unipotsdam.gf.core.management.user.User;
 

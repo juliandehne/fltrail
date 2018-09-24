@@ -1,16 +1,12 @@
 package unipotsdam.gf.core.management.project;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
 import unipotsdam.gf.core.management.Management;
-import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.interfaces.ICommunication;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.net.URISyntaxException;
 
 

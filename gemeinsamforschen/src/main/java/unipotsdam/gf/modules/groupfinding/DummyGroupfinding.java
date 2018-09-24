@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.groupfinding;
 
+import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.assignments.Assignee;
 import unipotsdam.gf.assignments.NotImplementedLogger;

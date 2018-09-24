@@ -1,7 +1,7 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.groupfinding.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.groupfinding.GroupFormationMechanism;
 import unipotsdam.gf.modules.groupfinding.GroupfindingCriteria;

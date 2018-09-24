@@ -2,6 +2,8 @@ package unipotsdam.gf.core.management.project;
 
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.InMemoryMySqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 
@@ -15,12 +17,13 @@ public class ProjectDAOTest {
     private ProjectDAO projectDAO;
     private Project project;
 
+    static PodamFactory factory = new PodamFactoryImpl();
+
     @Before
     public void setUp() {
         inMemoryMySqlConnect = new InMemoryMySqlConnect();
         projectDAO = new ProjectDAO(inMemoryMySqlConnect);
-        project = new Project("Gemeinsam Forschen", "1235", true, "me",
-                "keins");
+        project = factory.manufacturePojo(Project.class);
     }
 
     @Test

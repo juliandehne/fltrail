@@ -1,6 +1,8 @@
 package unipotsdam.gf.modules.groupfinding.dummy.service;
 
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.InMemoryMySqlConnect;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.group.Group;
@@ -19,6 +21,8 @@ import static org.junit.Assert.assertTrue;
 
 public class DummyProjectCreationServiceTest {
 
+    static PodamFactory factory = new PodamFactoryImpl();
+
     @Test
     public void testCreateExampleProject() {
         ICommunication communication = new CommunicationDummyService();
@@ -35,7 +39,7 @@ public class DummyProjectCreationServiceTest {
         assertTrue(userDAO.exists(docentUser));
 
         ProjectDAO projectDAO = new ProjectDAO(inMemoryMySqlConnect);
-        Project project = new Project("1", "password", true, docentUser.getEmail(), "admin");
+        Project project = factory.manufacturePojo(Project.class);
         assertTrue(projectDAO.exists(project));
 
         List<Group> dummyGroups = dummyProjectCreationService.createDummyGroups(project.getId());

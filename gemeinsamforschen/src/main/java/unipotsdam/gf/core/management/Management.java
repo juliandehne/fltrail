@@ -1,6 +1,6 @@
 package unipotsdam.gf.core.management;
 
-import unipotsdam.gf.modules.groupfinding.Group;
+import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.user.User;
@@ -8,6 +8,7 @@ import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
 
 import java.io.FileInputStream;
+import java.util.List;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -83,13 +84,8 @@ public interface Management {
     Boolean exists(Project project);
 
     Boolean exists(Group group);
-     *
-     * @param studentId
-     * @return
-     */
-    User getUserByName(String studentId);
 
-    /**
+    User getUserByName(String studentId);
 
     void create(ProjectConfiguration projectConfiguration, Project project);
 
@@ -100,5 +96,11 @@ public interface Management {
     Project getProjectByToken(String projectToken);
 
     List<String> getProjects(String userToken);
+
+    User getUserByToken(String authorToken);
+
+    Project getProjectById(String projectId);
+
+    String saveProfilePicture(FileInputStream fis, String studentId);
 }
 

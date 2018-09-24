@@ -7,8 +7,6 @@ import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
-import unipotsdam.gf.modules.assessment.controller.model.Grading;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -23,14 +21,14 @@ import java.util.Map;
 @Singleton
 class AssessmentDBCommunication {
 
-    cheatCheckerMethods getAssessmentMethod(String projectId){
+    cheatCheckerMethods getAssessmentMethod(String projectId) {
         cheatCheckerMethods result = cheatCheckerMethods.none;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM `assessmentmethod` WHERE `projectId`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, projectId);
-        if (vereinfachtesResultSet.next()){
+        if (vereinfachtesResultSet.next()) {
             String resultString = vereinfachtesResultSet.getString("cheatCheckerMethod");
             result = cheatCheckerMethods.valueOf(resultString);
         }
@@ -136,7 +134,7 @@ class AssessmentDBCommunication {
         return vereinfachtesResultSet.next();
     }
 
-    Integer getQuizCount(String projectId){
+    Integer getQuizCount(String projectId) {
         Integer result = 0;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
@@ -144,7 +142,7 @@ class AssessmentDBCommunication {
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, projectId);
         Boolean next = vereinfachtesResultSet.next();
-        while (next){
+        while (next) {
             result++;
             next = vereinfachtesResultSet.next();
         }
@@ -254,7 +252,7 @@ class AssessmentDBCommunication {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "INSERT INTO `grades`(`projectId`, `studentId`, `grade`) VALUES (?,?,?)";
-        for (StudentIdentifier student: grade.keySet()) {
+        for (StudentIdentifier student : grade.keySet()) {
             connect.issueInsertOrDeleteStatement(mysqlRequest,
                     student.getProjectId(),
                     student.getStudentId(),
@@ -310,9 +308,9 @@ class AssessmentDBCommunication {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         ArrayList<StudentIdentifier> result = new ArrayList<>();
-        String sqlSelectWorkRating = "SELECT DISTINCT fromPeer FROM `workrating` WHERE `projectId`='"+projectId+"' AND `fromPeer`=''";
+        String sqlSelectWorkRating = "SELECT DISTINCT fromPeer FROM `workrating` WHERE `projectId`='" + projectId + "' AND `fromPeer`=''";
         for (String studentId : studentsInProject) {
-            sqlSelectWorkRating = sqlSelectWorkRating + " OR `fromPeer`='" + studentId+"'";
+            sqlSelectWorkRating = sqlSelectWorkRating + " OR `fromPeer`='" + studentId + "'";
         }
         VereinfachtesResultSet selectWorkRatingResultSet =
                 connect.issueSelectStatement(sqlSelectWorkRating);

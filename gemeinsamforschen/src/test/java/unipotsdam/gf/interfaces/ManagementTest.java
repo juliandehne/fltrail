@@ -31,8 +31,7 @@ public class ManagementTest  {
         management = TestHelper.getManagementImpl();
     }
 
-        Project project = factory.manufacturePojo(Project.class);
-        management.create(project);
+
     @Test
     public void testRegister() {
         User user = new User("julian", "1234", "from@stuff.com", true);
@@ -45,7 +44,6 @@ public class ManagementTest  {
     }
 
     @Test
-        Project project = factory.manufacturePojo(Project.class);
     public void testProjectConfiguration() {
         ProjectConfiguration projectConfiguration = factory.manufacturePojo(ProjectConfiguration.class);
         Project project = factory.manufacturePojo(Project.class);

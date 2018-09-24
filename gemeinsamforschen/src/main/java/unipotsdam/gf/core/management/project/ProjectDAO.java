@@ -64,6 +64,19 @@ public class ProjectDAO {
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, id);
         boolean next = vereinfachtesResultSet.next();
+        return getProject(vereinfachtesResultSet, next);
+    }
+
+    public Project getProjectByToken(String token) {
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM projects where token = ?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, token);
+        boolean next = vereinfachtesResultSet.next();
+        return getProject(vereinfachtesResultSet, next);
+    }
+
+    private Project getProject(VereinfachtesResultSet vereinfachtesResultSet, boolean next) {
         if (next) {
             Project project = getProjectFromResultSet(vereinfachtesResultSet);
             connect.close();
