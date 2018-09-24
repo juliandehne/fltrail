@@ -21,7 +21,7 @@ $(document).ready(function () {
 });
 
 function seeProject(projectName) {
-    var url = "../database/getProjects.php?project=" + projectName + "&password=" + document.getElementById('projectPassword').value;
+    var url = "../project/join/project/"+projectName+"/password/" + $('#projectPassword').val();
     if (projectName === "") {
         return false;
     } else {

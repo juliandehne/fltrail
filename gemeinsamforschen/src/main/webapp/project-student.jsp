@@ -16,7 +16,6 @@
 <head>
     <omniDependencies:omniDependencies hierarchy="0"/>
     <script src="core/project-student.js"></script>
-    <link rel="stylesheet" href="../libs/css/Community-ChatComments.css">
 
 </head>
 

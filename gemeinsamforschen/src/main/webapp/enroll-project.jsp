@@ -12,7 +12,7 @@
     <title>Gruppenmatcher</title>
     <script src="core/config.js"></script>
     <script src="core/utility.js"></script>
-    <script src="management/js/showProjects.js"></script>
+    <script src="management/js/join-project.js"></script>
 
 </head>
 

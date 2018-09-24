@@ -63,5 +63,20 @@ public class ProjectView {
         return projects;
     }
 
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/join/project/{projectId}/password/{password}")
+    public String logInProject(@PathParam("projectId") String projectId, @PathParam("password") String password) {
+        Project project = iManagement.getProjectById(projectId);
+        if (project == null){
+            return "project missing";
+        }
+        if (project.getPassword().equals(password))
+            return "wrong password";
+
+        return "success";
+    }
+
 
 }
