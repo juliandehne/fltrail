@@ -5,7 +5,7 @@
 
 $(document).ready(function () {
     var projectName = getProjectByToken();
-    getTags(projectName);
+    printTags();
     $("#competencies0").focus();
     $("#studentFormSubmit").on("click", function () {
         takesPartInProject();
@@ -49,8 +49,8 @@ function deletInput(name) {        //deletes latest input-Field with the ID 'nam
     }
 }
 
-function getTags(projectName) {
-    var url = "../database/getTags.php?project=" + projectName;
+function printTags() {
+    var url = "../../gemeinsamforschen/rest/project/tags/" + getProjectTokenFromUrl();
     $.ajax({
         url: url,
         Accept: "text/plain; charset=utf-8",

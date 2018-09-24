@@ -61,18 +61,30 @@ public class ProjectView {
 
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/join/project/{projectId}/password/{password}")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/login/{projectId}/password/{password}")
     public String logInProject(@PathParam("projectId") String projectId, @PathParam("password") String password) {
         Project project = iManagement.getProjectById(projectId);
         if (project == null){
             return "project missing";
         }
-        if (project.getPassword().equals(password))
+        if (project.getPassword().equals(password) || project.getPassword().trim().equals(""))
             return "wrong password";
 
-        return "success";
+        String result =  project.getToken();
+        return result;
     }
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/tags/{projectToken}")
+    public java.util.List<String> getTags(@PathParam("projectToken") String projectToken) {
+        // TODO write single query
+        Project project = iManagement.getProjectByToken(projectToken);
+        return iManagement.getTags(project);
+    }
+
 
 
 }

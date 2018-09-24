@@ -12,16 +12,16 @@ $(document).ready(function () {
     });
     $("#projectPassword").keypress(function (e) {
         if (e.which == 13) {
-            seeProject($('#projectName').val());
+            loginProject($('#projectName').val());
         }
     });
-    $("#seeProject").on('click', function () {
-        seeProject($('#projectName').val());
+    $("#loginProject").on('click', function () {
+        loginProject($('#projectName').val());
     });
 });
 
-function seeProject(projectName) {
-    var url = "../project/join/project/"+projectName+"/password/" + $('#projectPassword').val();
+function loginProject(projectName) {
+    var url = "../../gemeinsamforschen/rest/project/login/"+projectName+"/password/" + $('#projectPassword').val();
     if (projectName === "") {
         return false;
     } else {
@@ -35,7 +35,8 @@ function seeProject(projectName) {
                     $("#projectIsMissing").show();
                 } else {
                     if (response !== "wrong password") {            //if response !== project missing and not wrong password, its the projectToken
-                        location.href = "enter-preferences.jsp?token=" + getUserTokenFromUrl() + "&projectToken=" + response;
+                        var projectToken = response;
+                        document.location.href = "../groupfinding/enter-preferences.jsp?token="+getUserTokenFromUrl()+"&projectToken="+projectToken;
                     } else {
                         $("#projectIsMissing").hide();
                         $('#projectWrongPassword').show();
@@ -44,6 +45,7 @@ function seeProject(projectName) {
             },
             error: function (a, b, c) {
                 console.log(a);
+                $("#projectIsMissing").show();
             }
         });
     }

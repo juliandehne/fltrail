@@ -38,7 +38,7 @@
             Falsches Passwort.
         </div>
     </fieldset>
-    <button id="seeProject" class="btn btn-primary">Einsehen</button>
+    <button id="loginProject" class="btn btn-primary">Einsehen</button>
     </div>
 </div>
 </body>
