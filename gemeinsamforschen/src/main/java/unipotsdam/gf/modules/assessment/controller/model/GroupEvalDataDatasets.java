@@ -1,28 +1,29 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
 
-
 public class GroupEvalDataDatasets {
     private String label;
-    private int[] data= new int[50];
+    private int[] data = new int[50];
 
-    private String borderColor= "rgba(0,255,0,0.2)";
-    private String backgroundColor= "rgba(0,255,0,0.2)";
-    private boolean fill=false;
+    private String borderColor = "rgba(0,255,0,0.2)";
+    private String backgroundColor = "rgba(0,255,0,0.2)";
+    private boolean fill = false;
 
-    public GroupEvalDataDatasets(){}
-
-    public GroupEvalDataDatasets(String label,int[] data, String backgroundColor, String borderColor, boolean fill){
-        this.backgroundColor=backgroundColor;
-        this.borderColor=borderColor;
-        this.data=data;
-        this.fill=fill;
-        this.label=label;
+    public GroupEvalDataDatasets() {
     }
-    public  GroupEvalDataDatasets(String label, int[] data){
 
-        this.data=data;
-        this.label=label;
+    public GroupEvalDataDatasets(String label, int[] data, String backgroundColor, String borderColor, boolean fill) {
+        this.backgroundColor = backgroundColor;
+        this.borderColor = borderColor;
+        this.data = data;
+        this.fill = fill;
+        this.label = label;
+    }
+
+    public GroupEvalDataDatasets(String label, int[] data) {
+
+        this.data = data;
+        this.label = label;
     }
 
     public int[] getData() {
@@ -32,11 +33,12 @@ public class GroupEvalDataDatasets {
     public void setData(int[] data) {
         this.data = data;
     }
-/*
-    public void appendData(int data) {
-        this.data.add(data);
-    }
-*/
+
+    /*
+        public void appendData(int data) {
+            this.data.add(data);
+        }
+    */
     public String getBorderColor() {
         return borderColor;
     }

@@ -70,7 +70,8 @@
     </fieldset>
     <fieldset>
         <legend style="margin-left:13px;">Tags</legend>
-        <p  class="alert alert-warning" style="width:520px;">Wähle 2 der hier angegebenen Tags aus, die am ehesten zu deiner Forschungsfrage passen.</p>
+        <p class="alert alert-warning" style="width:520px;">Wähle 2 der hier angegebenen Tags aus, die am ehesten zu
+            deiner Forschungsfrage passen.</p>
         <div id="tags">
 
         </div>

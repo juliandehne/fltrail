@@ -17,7 +17,6 @@ public class EPortfolio {
     private ResearchReport report;
 
 
-
     public EPortfolio() {
     }
 

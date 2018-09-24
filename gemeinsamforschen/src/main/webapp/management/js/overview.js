@@ -23,7 +23,7 @@ function printProjects(projects, offset) {
             //'<a class="btn btn-default"><em class="fa fa-pencil" ></em></a>' +
             //'<button id="deleteButton' +i+ '" class="btn btn-danger fa fa-trash deleteButton"></button>' +
             content.innerHTML = '<td align="center">' +
-                '<a href="delete-project.jsp?token='+getUserTokenFromUrl()+'" class="btn btn-danger fa fa-trash"></a>' +
+                '<a href="delete-project.jsp?token=' + getUserTokenFromUrl() + '" class="btn btn-danger fa fa-trash"></a>' +
                 '</td>' +
                 '<td class="hidden-xs" href="#Div_Promo_Carousel" data-slide="next">' + projects[i] + '</td>' +
                 '<td id="projectTags' + (i + offset) + '" href="#Div_Promo_Carousel" data-slide="next"></td>';
@@ -39,6 +39,7 @@ function printProjects(projects, offset) {
     //$('#deleteModal').modal('show');
 
 }
+
 function getProjectOverview(user) {
     var url = compbaseUrl + "/api2/user/" + user + "/projects";
     $.ajax({
@@ -83,8 +84,6 @@ function getTags(projectName, number) {
         }
     });
 }
-
-
 
 
 function getGroups(projectName) {

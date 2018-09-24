@@ -6,7 +6,6 @@
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
 
 
-
 <!--todo: E-mail an Studenten als Notifikation für Phasenwechsel -->
 
 

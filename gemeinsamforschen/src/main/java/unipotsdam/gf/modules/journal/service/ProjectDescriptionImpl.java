@@ -1,8 +1,8 @@
 package unipotsdam.gf.modules.journal.service;
 
-import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.states.model.Constraints;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
@@ -13,6 +13,7 @@ import unipotsdam.gf.modules.journal.model.dao.LinkDAOImpl;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAO;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAOImpl;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,11 +23,14 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
     private final ProjectDescriptionDAO descriptionDAO = new ProjectDescriptionDAOImpl();
     private final LinkDAO linkDAO = new LinkDAOImpl();
 
+    @Inject
+    private UserDAO userDAO;
+
     @Override
     public ProjectDescription getProjectByStudent(StudentIdentifier studentIdentifier) {
 
         //if no description exists (when page is opened for the first time), create a new one
-        if(descriptionDAO.getDescription(studentIdentifier)==null){
+        if (descriptionDAO.getDescription(studentIdentifier) == null) {
             ProjectDescription description = new ProjectDescription("0", studentIdentifier.getStudentId(), "Hier soll ein Turtorialtext stehen", studentIdentifier.getProjectId(), null);
             descriptionDAO.createDescription(description);
         }
@@ -54,7 +58,7 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
 
     @Override
     public void addLink(String project, String link, String name) {
-        Link newLink = new Link(project,project,name,link);
+        Link newLink = new Link(project, project, name, link);
         linkDAO.addLink(newLink);
     }
 
@@ -81,13 +85,12 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
 
     @Override
     public ArrayList<User> getOpenUserByProject(Project project) {
-        ManagementImpl management = new ManagementImpl();
 
         ArrayList<String> userId = descriptionDAO.getOpenDescriptions(project);
         ArrayList<User> users = new ArrayList<>();
 
-        for(String id : userId){
-            users.add(management.getUserByToken(id));
+        for (String id : userId) {
+            users.add(userDAO.getUserByToken(id));
         }
         return users;
     }

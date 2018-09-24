@@ -32,11 +32,11 @@
     <script  src="js/create-journal.js"></script>
         --%>
 
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="../journal/css/create-journal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../journal/css/create-journal.css">
     <script src="js/peerfeedback.js"></script>
-        <omniDependencies:omniDependencies hierarchy="1"/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
 </head>
 
 <body>
@@ -51,7 +51,7 @@
                     <div class="line-spacer"></div>
                     <p><span> Datei zum Feedback: SelectedFile.pdf </span></p>
                     <p class="text-primary"><span> Kategorie: Untersuchungskonzept </span></p>
-                    <hr />
+                    <hr/>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                         <label class="form-check-label" for="defaultCheck1">
@@ -76,15 +76,15 @@
                             Ich habe eine Idee
                         </label>
                     </div>
-                    <hr />
+                    <hr/>
 
                     <div>
                         <table>
                             <tr>
-                                <td  id="yourContent">
+                                <td id="yourContent">
                                     <h2> Schreibe dein Feedback! </h2>
 
-                                    <form  id= "form" method="POST" action="../rest/peerfeedback/save">
+                                    <form id="form" method="POST" action="../rest/peerfeedback/save">
                                         <%--id="journalform" class="form-journal"--%>
                                         <input type="hidden" id="student" name="student">
                                         <input type="hidden" id="project" name="project">
@@ -109,7 +109,7 @@
 
                                             <div>
                                                 <p id="as">Now what</p>
-                                                <input type="button" value="get txt" onclick="go()" />
+                                                <input type="button" value="get txt" onclick="go()"/>
                                             </div>
 
                                         </div>
@@ -122,20 +122,19 @@
                     </div>
 
 
-
-                        <script>
-                            function goBack() {
-                                window.history.back();
-                            }
-                        </script>
+                    <script>
+                        function goBack() {
+                            window.history.back();
+                        }
+                    </script>
                 </tr>
                 </td>
 
 
-</tr>
-</table>
-</div>
-</div>
+                </tr>
+            </table>
+        </div>
+    </div>
     <footer:footer/>
 </div>
 </body>

@@ -35,10 +35,10 @@ public interface ICommunication {
      * creates chatroom
      *
      * @param name                  chat room name
-     * @param studentIdentifierList member of chat by id
+     * @param userList member of chat by id
      * @return chat room id
      */
-    String createChatRoom(String name, List<User> studentIdentifierList);
+    String createChatRoom(String name, List<User> userList);
 
 
     /**

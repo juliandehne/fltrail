@@ -39,7 +39,9 @@ public class DummyFeedback implements Feedback {
         return null;
     }
 
-    public Peer2PeerFeedback createPeer2PeerFeedback (Peer2PeerFeedback feedback){return null; }
+    public Peer2PeerFeedback createPeer2PeerFeedback(Peer2PeerFeedback feedback) {
+        return null;
+    }
 
     @Override
     public Boolean giveFeedback(Peer2PeerFeedback feedback, ResearchReport document) {

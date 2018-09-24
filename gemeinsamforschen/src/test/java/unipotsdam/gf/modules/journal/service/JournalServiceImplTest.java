@@ -2,10 +2,10 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.junit.After;
 import org.junit.Test;
-import unipotsdam.gf.core.management.Management;
-import unipotsdam.gf.core.management.ManagementImpl;
+import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.Visibility;
@@ -15,7 +15,10 @@ import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class JournalServiceImplTest {
 
@@ -28,7 +31,7 @@ public class JournalServiceImplTest {
     private final Journal testJournal = new Journal(testId, new StudentIdentifier(testProject, testStudent), testEntry, testVisibility, testCategory);
     private JournalService journalService = new JournalServiceImpl();
     private JournalDAO journalDAO = new JournalDAOImpl();
-    private Management management = new ManagementImpl();
+    private UserDAO userDAO = new UserDAO(new MysqlConnect());
 
     @After
     public void cleanUp() {
@@ -104,7 +107,7 @@ public class JournalServiceImplTest {
     public void saveJournal() {
         //Create new
 
-        journalService.saveJournal("0",testStudent,testProject,testEntry,testVisibility.toString(),testVisibility.toString());
+        journalService.saveJournal("0", testStudent, testProject, testEntry, testVisibility.toString(), testVisibility.toString());
 
         String journalID = journalDAO.getAllByProject(testProject, testStudent).get(0).getId();
 
@@ -122,7 +125,7 @@ public class JournalServiceImplTest {
 
         //Update
 
-        journalService.saveJournal(journalID,testStudent,testProject,testEntry+testEntry,Visibility.MINE.toString(),Category.AUSWERTUNG.toString());
+        journalService.saveJournal(journalID, testStudent, testProject, testEntry + testEntry, Visibility.MINE.toString(), Category.AUSWERTUNG.toString());
 
         resultJournal = journalDAO.getJournal(journalID);
 
@@ -130,7 +133,7 @@ public class JournalServiceImplTest {
 
         assertEquals(resultJournal.getStudentIdentifier().getStudentId(), testStudent);
         assertEquals(resultJournal.getStudentIdentifier().getProjectId(), testProject);
-        assertEquals(resultJournal.getEntryMD(), testEntry+testEntry);
+        assertEquals(resultJournal.getEntryMD(), testEntry + testEntry);
         assertEquals(resultJournal.getId(), journalID);
         assertEquals(resultJournal.getVisibility(), Visibility.MINE);
         assertEquals(resultJournal.getCategory(), Category.AUSWERTUNG);
@@ -179,11 +182,11 @@ public class JournalServiceImplTest {
         journalDAO.createJournal(testJournal);
         journalDAO.createJournal(testJournal);
 
-        ArrayList<Journal> resultJournals = journalDAO.getAllByProject(testProject,testStudent);
+        ArrayList<Journal> resultJournals = journalDAO.getAllByProject(testProject, testStudent);
 
         assertEquals(0, journalService.checkIfAllJournalClosed(project).size());
 
-        for(Journal j : resultJournals){
+        for (Journal j : resultJournals) {
             journalDAO.closeJournal(j.getId());
         }
 
@@ -195,7 +198,7 @@ public class JournalServiceImplTest {
     public void getOpenUserByProject() {
 
         User user = new User("Test", "Test", "test@test.de", true);
-        String token = management.getUserToken(user);
+        String token = userDAO.getUserToken(user);
 
         Project project = new Project();
 
@@ -206,7 +209,7 @@ public class JournalServiceImplTest {
 
         ArrayList<User> resultUsers = journalService.getOpenUserByProject(project);
 
-        assertEquals(1,resultUsers.size());
-        assertEquals(user.getEmail(),resultUsers.get(0).getId());
+        assertEquals(1, resultUsers.size());
+        assertEquals(user.getEmail(), resultUsers.get(0).getId());
     }
 }

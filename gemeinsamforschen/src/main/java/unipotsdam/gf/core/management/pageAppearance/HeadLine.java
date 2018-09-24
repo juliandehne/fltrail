@@ -1,7 +1,8 @@
 package unipotsdam.gf.core.management.pageAppearance;
 
-import unipotsdam.gf.core.management.ManagementImpl;
+import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -10,26 +11,27 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
 public class HeadLine extends SimpleTagSupport {
+
     public void doTag() throws IOException {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String projectId = request.getParameter("projectId");
         String token = request.getParameter("token");
-        ManagementImpl management = new ManagementImpl();
         JspWriter out = getJspContext().getOut();
-        User user =  management.getUserByToken(token);
+        UserDAO userDAO = new UserDAO(new MysqlConnect());
+        User user = userDAO.getUserByToken(token);
         Boolean isStudent = user.getStudent();
         out.println("<div class=\"container-fluid\">\n" +
                 "            <table style=\"width:100%\">\n" +
                 "                <tr>\n" +
                 "                    <td style=\"width:70%\"><h2 id=\"headLineProject\">");
-        if (projectId!=null){
+        if (projectId != null) {
             out.println(projectId);
-        }else{
-            if (isStudent){
-                out.println("Studentenübersicht "+user.getName());
-            }else{
-                out.println("Dozentenübersicht "+user.getName());
+        } else {
+            if (isStudent) {
+                out.println("Studentenübersicht " + user.getName());
+            } else {
+                out.println("Dozentenübersicht " + user.getName());
             }
 
         }

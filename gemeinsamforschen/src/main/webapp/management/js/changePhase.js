@@ -1,7 +1,7 @@
 $(document).ready(function () {
     let projectId = $('#projectId').html().trim();
     $.ajax({
-        url: '../rest/phases/projects/'+projectId,
+        url: '../rest/phases/projects/' + projectId,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
@@ -10,8 +10,8 @@ $(document).ready(function () {
         success: function (response) {
             let arrow = $('#changePhase');
             arrow.toggleClass('arrow'+response);
-            let phaseDiv = $('#'+response);
-            if (phaseDiv !== null){
+            let phaseDiv = $('#' + response);
+            if (phaseDiv !== null) {
                 phaseDiv.toggleClass('alert-info');
             } else {
                 $('#end').toggleClass('alert-info');
@@ -21,7 +21,7 @@ $(document).ready(function () {
 
         }
     });
-    $('#changePhase').on('click', function(){
+    $('#changePhase').on('click', function () {
         let projectId = $('#projectId').html().trim();
         $.ajax({
             url: '../rest/phases/projects/'+projectId,
@@ -31,7 +31,7 @@ $(document).ready(function () {
             },
             type: 'GET',
             success: function (response) {
-                changePhase(response);
+        changePhase(response);
             },
             error: function (a) {
 
@@ -40,10 +40,10 @@ $(document).ready(function () {
     });
 });
 
-function changePhase(currentPhase){
+function changePhase(currentPhase) {
     let projectId = $('#projectId').html().trim();
     $.ajax({
-        url: '../rest/phases/'+currentPhase+'/projects/'+projectId,
+        url: '../rest/phases/' + currentPhase + '/projects/' + projectId,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"

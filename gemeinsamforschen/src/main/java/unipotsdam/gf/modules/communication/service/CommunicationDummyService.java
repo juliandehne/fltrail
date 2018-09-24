@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.communication.service;
 
+import unipotsdam.gf.assignments.Assignee;
+import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.config.Constants;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.project.Project;
@@ -50,8 +52,8 @@ public class CommunicationDummyService implements ICommunication {
     }
 
     @Override
-    public String createChatRoom(String name, List<User> users) {
-        if (Objects.isNull(users)) {
+    public String createChatRoom(String name, List<User> userList) {
+        if (Objects.isNull(userList)) {
             return "2";
         }
 

@@ -18,7 +18,8 @@ public class SubmissionPartBodyElement {
         this.endCharacter = endCharacter;
     }
 
-    public SubmissionPartBodyElement() {}
+    public SubmissionPartBodyElement() {
+    }
 
     // methods
     public String getText() {

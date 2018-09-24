@@ -21,6 +21,7 @@ function printProjectDropdown(projects, numberOfProjectsPrinted) {
         menu.appendChild(option);
     }
 }
+
 function getProjects(user) {
     var url = compbaseUrl + "/api2/user/" + user + "/projects";
     $.ajax({
@@ -90,6 +91,7 @@ function printGroupTable(student1, student2, student3, student4) {
     });
     return innerurl;
 }
+
 function getMembers(project, user) {        //gets all Members in the chosen Project user is a part of with email adresses
 
     $("#tablesHolder").empty();
@@ -112,7 +114,7 @@ function getMembers(project, user) {        //gets all Members in the chosen Pro
                 printGroupTable(student1, student2, student3, student4);
             }
         },
-        error: function(data) {
+        error: function (data) {
             $("#tablesHolder").append("<p>Es wurden keine Gruppen gefunden. Das Projekt muss mehr als 5 Teilnehmer haben!</p>")
         }
 

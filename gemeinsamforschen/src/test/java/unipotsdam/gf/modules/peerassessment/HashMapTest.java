@@ -4,7 +4,12 @@ import org.junit.Test;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class HashMapTest {
 
@@ -61,23 +66,23 @@ public class HashMapTest {
             }
             Map<String, Double> meanWorkRating = new HashMap<>(meanOfWorkRatings(oneExcludedMeans));
             ArrayList<Map<String, Double>> elementwiseDeviation = new ArrayList<>();
-            for (Map<String, Double> rating: oneExcludedMeans){
+            for (Map<String, Double> rating : oneExcludedMeans) {
                 HashMap<String, Double> shuttle = new HashMap<>();
-                for (String key: rating.keySet()){
-                    Double value = (rating.get(key)-meanWorkRating.get(key))*(rating.get(key)-meanWorkRating.get(key));
+                for (String key : rating.keySet()) {
+                    Double value = (rating.get(key) - meanWorkRating.get(key)) * (rating.get(key) - meanWorkRating.get(key));
                     shuttle.put(key, value);
                 }
                 elementwiseDeviation.add(shuttle);
             }
-            Double deviationOld=0.;
-            Integer key=0;
-            for (Integer i=0; i<elementwiseDeviation.size(); i++){
-                Double deviationNew=0.;
-                for (Double devi: elementwiseDeviation.get(i).values()){
+            Double deviationOld = 0.;
+            Integer key = 0;
+            for (Integer i = 0; i < elementwiseDeviation.size(); i++) {
+                Double deviationNew = 0.;
+                for (Double devi : elementwiseDeviation.get(i).values()) {
                     deviationNew += devi;
                 }
-                if (deviationNew>deviationOld){
-                    deviationOld=deviationNew;
+                if (deviationNew > deviationOld) {
+                    deviationOld = deviationNew;
                     key = i;
                 }
             }

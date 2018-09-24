@@ -2,26 +2,26 @@ var student = getQueryVariable("token");
 var project = getQueryVariable("projectId");
 var description = 0;
 
-$(document).ready(function() {
+$(document).ready(function () {
     $.ajax({
         url: "../rest/projectdescription/" + project + "/" + student
-    }).then(function(data) {
+    }).then(function (data) {
         console.log("desc: " + data);
         description = data.id;
         $('#projectdescriptionId').val(description);
 
-        if (!data.open){
+        if (!data.open) {
             $("#description-edit").remove();
         }
         $('.journal-description-text').append(data.descriptionHTML);
-        for(var ii in data.links){
+        for (var ii in data.links) {
             console.log(data.links[ii])
-            $('.journal-description-links').append('<button class="btn btn-default btn-xs" onclick=\'linkLoeschen("'+data.links[ii].id +'")\'> <i class="fa fa-trash" aria-hidden="true" ></i></button><a href=' + data.links[ii].link + '>' + data.links[ii].name + '</a> <br/>');
+            $('.journal-description-links').append('<button class="btn btn-default btn-xs" onclick=\'linkLoeschen("' + data.links[ii].id + '")\'> <i class="fa fa-trash" aria-hidden="true" ></i></button><a href=' + data.links[ii].link + '>' + data.links[ii].name + '</a> <br/>');
         }
         $('.journal-description-links').append('<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#addLinkModal"><i class="fa fa-plus" aria-hidden="true"></i></button>');
 
-        for(var g in data.group){
-            $('.journal-description-group').append(data.group[g]+ '<br/>');
+        for (var g in data.group) {
+            $('.journal-description-group').append(data.group[g] + '<br/>');
 
         }
 
@@ -32,13 +32,13 @@ $(document).ready(function() {
 
     $.ajax({
         url: "../rest/journal/journals/" + student + "/" + project + "/ALL"
-    }).then(function(data) {
+    }).then(function (data) {
         loadJournals(data);
         console.log(data);
     });
 
     $('#editDescriptionLink').on('click', function () {
-        location.href = "edit-project.jsp?project=" + project + "&token=" + student + "&projectId=" + project;
+        location.href = "edit-description.jsp?project=" + project + "&token=" + student + "&projectId=" + project;
     });
 
     $('#createJournalLink').on('click', function () {
@@ -60,13 +60,13 @@ function timestampToDateString(timestamp) {
 }
 
 function filterJournals() {
-    var filter = $( '#journalfilter option:selected' ).val();
+    var filter = $('#journalfilter option:selected').val();
     project = getQueryVariable("projectId");
     $('.journal').empty();
 
     $.ajax({
         url: "../rest/journal/journals/" + student + "/" + project + "/" + filter
-    }).then(function(data) {
+    }).then(function (data) {
         loadJournals(data);
         console.log(data);
 
@@ -108,7 +108,8 @@ function loadJournals(data) {
             '</div><br><br>';
 
         $('.journal').append(journalString)
-    }};
+    }
+};
 
 function linkLoeschen(id) {
     console.log("löschen" + id);

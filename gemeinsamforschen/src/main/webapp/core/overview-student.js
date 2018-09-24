@@ -2,10 +2,10 @@ $(document).ready(function(){
     let projectId="gemeinsamForschen";
     updateStatus(projectId);
     $('#project1Link').on('click', function(){
-        location.href="project-student.jsp?token="+getUserTokenFromUrl()+'&projectId='+'gemeinsamForschen';
+        location.href = "project-student.jsp?token=" + getUserTokenFromUrl() + '&projectId=' + 'gemeinsamForschen';
     });
-    $('#project2Link').on('click', function(){
-        location.href="project-student.jsp?token="+getUserTokenFromUrl()+'&projectId='+'Kaleo';
+    $('#project2Link').on('click', function () {
+        location.href = "project-student.jsp?token=" + getUserTokenFromUrl() + '&projectId=' + 'Kaleo';
     });
     $('#enrollProject').on('click', function(){
         location.href="management/join-project.jsp?token="+getUserTokenFromUrl();

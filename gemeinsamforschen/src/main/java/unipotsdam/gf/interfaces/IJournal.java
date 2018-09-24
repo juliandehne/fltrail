@@ -4,6 +4,7 @@ package unipotsdam.gf.interfaces;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.EPortfolio;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
@@ -11,8 +12,6 @@ import unipotsdam.gf.modules.researchreport.ResearchReport;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 /**
  * Interface for learning journal
@@ -58,5 +57,5 @@ public interface IJournal {
      * @return EPortfolio (containing Report, ProjectDescription and Journal)
      */
 
-    EPortfolio getFinalPortfolioForAssessment(Project project, User user) ;
+    EPortfolio getFinalPortfolioForAssessment(Project project, User user);
 }

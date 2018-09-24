@@ -15,7 +15,6 @@
 </head>
 
 
-
 <body>
 <div id="wrapper">
     <menu:menu hierarchy="1"/>
@@ -29,7 +28,9 @@
         </div>
         <p hidden id="ProjektId">Projekt1</p>
         <button
-                class="btn btn-default" type="button">Exportiere Zwischenstand</button><button class="btn btn-default" type="button">Quizfrage erstellen</button>
+                class="btn btn-default" type="button">Exportiere Zwischenstand
+        </button>
+        <button class="btn btn-default" type="button">Quizfrage erstellen</button>
         <div>
             <div class="container">
                 <div class="row">
@@ -38,21 +39,27 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th id="testAjax">Gruppe1 </th>
-                                    <th>Beiträge </th>
-                                    <th> <button id="ProblemGrp1">!</button> </th>
+                                    <th id="testAjax">Gruppe1</th>
+                                    <th>Beiträge</th>
+                                    <th>
+                                        <button id="ProblemGrp1">!</button>
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>student1 </td>
-                                    <td>Interfaces </td>
-                                    <th> <button id="ProblemGrp1S1">!</button> </th>
+                                    <td>student1</td>
+                                    <td>Interfaces</td>
+                                    <th>
+                                        <button id="ProblemGrp1S1">!</button>
+                                    </th>
                                 </tr>
                                 <tr>
-                                    <td>student2 </td>
-                                    <td>Design </td>
-                                    <th> <button id="ProblemGrp1S2">!</button> </th>
+                                    <td>student2</td>
+                                    <td>Design</td>
+                                    <th>
+                                        <button id="ProblemGrp1S2">!</button>
+                                    </th>
                                 </tr>
                                 </tbody>
                             </table>
@@ -61,21 +68,27 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Gruppe2 </th>
-                                    <th>Beiträge </th>
-                                    <th> <button id="ProblemGrp2">!</button> </th>
+                                    <th>Gruppe2</th>
+                                    <th>Beiträge</th>
+                                    <th>
+                                        <button id="ProblemGrp2">!</button>
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>student3 </td>
-                                    <td>Interfaces </td>
-                                    <th> <button id="ProblemGrp2S3">!</button> </th>
+                                    <td>student3</td>
+                                    <td>Interfaces</td>
+                                    <th>
+                                        <button id="ProblemGrp2S3">!</button>
+                                    </th>
                                 </tr>
                                 <tr>
-                                    <td>student4 </td>
-                                    <td>Design </td>
-                                    <th> <button id="ProblemGrp2S4">!</button> </th>
+                                    <td>student4</td>
+                                    <td>Design</td>
+                                    <th>
+                                        <button id="ProblemGrp2S4">!</button>
+                                    </th>
                                 </tr>
                                 </tbody>
                             </table>
@@ -84,21 +97,27 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>Gruppe3 </th>
-                                    <th>Beiträge </th>
-                                    <th> <button id="ProblemGrp3">!</button> </th>
+                                    <th>Gruppe3</th>
+                                    <th>Beiträge</th>
+                                    <th>
+                                        <button id="ProblemGrp3">!</button>
+                                    </th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>student5 </td>
-                                    <td>Interfaces </td>
-                                    <th> <button id="ProblemGrp3S5">!</button> </th>
+                                    <td>student5</td>
+                                    <td>Interfaces</td>
+                                    <th>
+                                        <button id="ProblemGrp3S5">!</button>
+                                    </th>
                                 </tr>
                                 <tr>
-                                    <td>student6 </td>
-                                    <td>Design </td>
-                                    <th> <button id="ProblemGrp3S6">!</button> </th>
+                                    <td>student6</td>
+                                    <td>Design</td>
+                                    <th>
+                                        <button id="ProblemGrp3S6">!</button>
+                                    </th>
                                 </tr>
                                 </tbody>
                             </table>
@@ -106,7 +125,7 @@
                     </div>
                     <div class="col-md-4">
                         <button id="DiaBlende">Zeitlicher Verlauf</button>
-                        <canvas height="480" width="480", id = "Diagramm" ></canvas>
+                        <canvas height="480" width="480" , id="Diagramm"></canvas>
                     </div>
                     <div class="col-md-4">
                         <div class="panel panel-default">
@@ -125,7 +144,9 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <p><a href="#">Sara Doe:</a> This guy has been going 100+ MPH on side streets. <br>
-                                                                    <small class="text-muted">August 6, 2016 @ 10:35am </small></p>
+                                                                    <small class="text-muted">August 6, 2016 @ 10:35am
+                                                                    </small>
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -143,7 +164,9 @@
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <p><a href="#">Brennan Prill:</a> This guy has been going 100+ MPH on side streets. <br>
-                                                                    <small class="text-muted">August 6, 2016 @ 10:35am </small></p>
+                                                                    <small class="text-muted">August 6, 2016 @ 10:35am
+                                                                    </small>
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>

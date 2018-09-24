@@ -19,6 +19,7 @@ public interface ProjectDescriptionService {
     ProjectDescription getProjectByStudent(StudentIdentifier studentIdentifier);
 
     ProjectDescription getProjectById(String id);
+
     void saveProjectText(StudentIdentifier studentIdentifier, String text);
 
     void addLink(String project, String link, String name);
