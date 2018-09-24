@@ -54,13 +54,16 @@ public class ProjectView {
     @Path("/all/author/{userToken}")
     public java.util.List<String> getProjects(
             @PathParam("userToken") String authorToken) {
-
         java.util.List<String> projects = iManagement.getProjects(authorToken);
         return projects;
     }
 
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
+<<<<<<< HEAD
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/login/{projectId}/password/{password}")
+=======
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all/student/{studentToken}")
     public java.util.List<String> getProjectsStudent(
@@ -71,8 +74,9 @@ public class ProjectView {
 
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    @Path("/login/{projectId}/password/{password}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/join/project/{projectId}/password/{password}")
+>>>>>>> 05a31d1f59f28ad502822884c1e2f196f9239de7
     public String logInProject(@PathParam("projectId") String projectId, @PathParam("password") String password) {
         Project project = iManagement.getProjectById(projectId);
         if (project == null){

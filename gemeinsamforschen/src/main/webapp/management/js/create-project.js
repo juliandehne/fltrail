@@ -110,7 +110,7 @@ function getProjectValues() {
         "password": password,
         "active": true,
         "timecreated": null,
-        "author": getUserTokenFromUrl(),
+        "authorEmail": getUserTokenFromUrl(),
         "adminPassword": adminPassword,
         "token": "",
         "phase": "GroupFormation",

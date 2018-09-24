@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    let studentToken = getUserTokenFromUrl();
+    getProjects(studentToken);
+
     let projectId="gemeinsamForschen";
     updateStatus(projectId);
     $('#project1Link').on('click', function(){
@@ -65,6 +68,25 @@ function getGrade(projectId){
             $('#status'+projectId).html("Sie erreichten "+response+"%");
         },
         error: function(a){
+        }
+    });
+}
+
+function getProjects(studentToken){
+    $.ajax({
+        url: 'rest/project/all/author/' + studentToken,
+        headers: {
+            "Content-Type": "text/plain",
+            "Cache-Control": "no-cache"
+        },
+        type: 'GET',
+        success: function (response) {
+            for (let i=0; i<response.size(); i++){
+                let projectName = response[i];
+            }
+        },
+        error: function(a){
+
         }
     });
 }

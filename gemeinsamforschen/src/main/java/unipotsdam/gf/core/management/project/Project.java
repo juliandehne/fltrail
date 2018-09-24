@@ -17,8 +17,8 @@ public class Project {
     private String password;
     private Boolean active;
     private Timestamp timecreated;
-    // the id of the author (not the token)
-    private String author;
+    // the id of the authorEmail (not the token)
+    private String authorEmail;
     private String adminPassword;
     private String token;
     private ProjectPhase phase;
@@ -31,7 +31,7 @@ public class Project {
         this.id = id;
         this.password = password;
         this.active = active;
-        this.author = author;
+        this.authorEmail = author;
         this.adminPassword = adminPassword;
         this.timecreated = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC")));
         // default starting at course creation if new
@@ -46,7 +46,7 @@ public class Project {
         this.password = password;
         this.active = active;
         this.timecreated = timecreated;
-        this.author = author;
+        this.authorEmail = author;
         this.adminPassword = adminPassword;
         this.token = token;
         this.phase = phase;
@@ -81,12 +81,12 @@ public class Project {
         this.active = active;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorEmail() {
+        return authorEmail;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorEmail(String authorEmail) {
+        this.authorEmail = authorEmail;
     }
 
     public String getAdminPassword() {
@@ -137,7 +137,7 @@ public class Project {
         sb.append(", password='").append(password).append('\'');
         sb.append(", active=").append(active);
         sb.append(", timecreated=").append(timecreated);
-        sb.append(", author='").append(author).append('\'');
+        sb.append(", authorEmail='").append(authorEmail).append('\'');
         sb.append(", adminPassword='").append(adminPassword).append('\'');
         sb.append(", token='").append(token).append('\'');
         sb.append(", phase='").append(phase).append('\'');
