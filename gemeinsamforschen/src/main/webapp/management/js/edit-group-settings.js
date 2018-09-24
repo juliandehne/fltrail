@@ -16,6 +16,7 @@ $(document).ready(function () {
         var projectToken = getProjectTokenFromUrl();
         var localurl = "../../gemeinsamforschen/rest/group/settings/projects/"+getProjectTokenFromUrl();
         $.ajax({
+            gfm: gfm,
             url: localurl,
             contentType: 'application/json',
             type: 'POST',
