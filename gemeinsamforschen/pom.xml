@@ -24,6 +24,7 @@
     <properties>
         <org.springframework.version>3.2.4.RELEASE</org.springframework.version>
         <jersey.version>2.6</jersey.version>
+        <jackson.version>2.9.4</jackson.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -106,25 +107,25 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.4.5</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.4.5</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.4.5</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
-            <version>2.4.5</version>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>
@@ -225,6 +226,16 @@
             <groupId>commons-dbutils</groupId>
             <artifactId>commons-dbutils</artifactId>
             <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openunirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>2.4.02</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.openunirest</groupId>
+            <artifactId>object-mappers-jackson</artifactId>
+            <version>1.0.01</version>
         </dependency>
 
 

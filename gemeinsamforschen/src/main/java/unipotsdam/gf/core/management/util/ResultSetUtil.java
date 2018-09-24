@@ -10,9 +10,12 @@ public class ResultSetUtil {
         String password = vereinfachtesResultSet.getString("password");
         String email = vereinfachtesResultSet.getString("email");
         String token = vereinfachtesResultSet.getString("token");
-        String rocketChatId = vereinfachtesResultSet.getString("rocketChatId");
+        String rocketChatUsername = vereinfachtesResultSet.getString("rocketChatUsername");
         String rocketChatAuthToken = vereinfachtesResultSet.getString("rocketChatAuthToken");
+        String rocketChatPersonalAccessToken = vereinfachtesResultSet.getString("rocketChatPersonalAccessToken");
+        String rocketChatUserId = vereinfachtesResultSet.getString("rocketChatUserId");
         Boolean isStudent = vereinfachtesResultSet.getBoolean("isStudent");
-        return new User(name, password, email, token, rocketChatId, rocketChatAuthToken, isStudent);
+        return new User(name, password, email, token, rocketChatUsername, rocketChatAuthToken,
+                rocketChatPersonalAccessToken, rocketChatUserId, isStudent);
     }
 }

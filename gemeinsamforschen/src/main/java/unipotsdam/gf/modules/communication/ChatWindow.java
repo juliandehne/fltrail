@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.communication;
 
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.communication.service.UnirestService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -21,7 +22,7 @@ public class ChatWindow extends SimpleTagSupport {
         String groupToken = request.getParameter("groupToken");
         String projectToken = request.getParameter("projectToken");
         //get ProjetbyToken
-        ICommunication communicationService = new CommunicationDummyService();
+        ICommunication communicationService = new CommunicationDummyService(new UnirestService());
         String chatRoomLink = communicationService.getChatRoomLink(token, projectToken, groupToken);
 
         JspWriter out = getJspContext().getOut();

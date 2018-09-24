@@ -30,10 +30,13 @@ public class UserDAO {
         String token = uuid.toString();
         connect.connect();
         String mysqlRequest = "INSERT INTO users (`name`, `password`, `email`, `token`,`isStudent`," +
-                "`rocketChatId`,`rocketChatAuthToken`) values (?,?,?,?,?,?,?)";
+                "`rocketChatUserId`,`rocketChatUsername`,`rocketChatAuthToken`,`rocketChatPersonalAccessToken`) " +
+                "values (?,?,?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
-                token, user.getStudent(), user.getRocketChatId(), user.getRocketChatAuthToken());
+                token, user.getStudent(), user.getRocketChatUserId(), user.getRocketChatUsername(), user.getRocketChatAuthToken(),
+                user.getRocketChatPersonalAccessToken());
         connect.close();
+        user.setToken(token);
         // TODO implmement UserProfile @Mar
     }
 
@@ -51,7 +54,7 @@ public class UserDAO {
         //TODO: if user is updated, it also must update all other tables which includes some information about the user, for example project user
         connect.connect();
         connect.issueUpdateStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
-                user.getToken(), user.getStudent(), user.getRocketChatId(), user.getRocketChatAuthToken(), user.getEmail());
+                user.getToken(), user.getStudent(), user.getRocketChatUserId(), user.getRocketChatAuthToken(), user.getEmail());
         connect.close();
     }
 

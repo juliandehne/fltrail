@@ -16,6 +16,7 @@ import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.groupfinding.DummyGroupfinding;
 import unipotsdam.gf.modules.groupfinding.GroupfindingImpl;
 import unipotsdam.gf.modules.groupfinding.dummy.service.DummyProjectCreationService;
@@ -46,5 +47,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(GroupDAO.class).to(GroupDAO.class);
         bind(MysqlConnect.class).to(MysqlConnect.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
+        bind(UnirestService.class).to(UnirestService.class);
     }
 }

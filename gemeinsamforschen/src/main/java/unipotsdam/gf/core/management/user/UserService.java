@@ -2,7 +2,6 @@ package unipotsdam.gf.core.management.user;
 
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -26,7 +25,6 @@ public class UserService {
 
     private UserDAO userDAO;
 
-    @Inject
     private Management management;
 
     @Inject
@@ -77,8 +75,7 @@ public class UserService {
             throws URISyntaxException {
 
         User user = new User(name, password, email, null);
-        ICommunication iCommunication = new CommunicationDummyService();
-        boolean isLoggedIn = iCommunication.loginUser(user);
+        boolean isLoggedIn = communicationService.loginUser(user);
         if (isLoggedIn) {
             return login(false, user);
         } else {

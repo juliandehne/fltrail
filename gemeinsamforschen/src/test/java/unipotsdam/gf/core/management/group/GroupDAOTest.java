@@ -33,9 +33,11 @@ public class GroupDAOTest {
         userDAO = new UserDAO(inMemoryMySqlConnect);
 
         User userStudent = new User("Student", "password", "testStudent@mail.com", "1",
-                "1", "1", true);
-        User userDocent = new User("Docent", "password", "testDocent@mail.com",
-                "1", "1", "1", false);
+                "1", "1", "1", "1",
+                true);
+        User userDocent = new User("Docent", "password", "testDocent@mail.com", "1",
+                "1", "1", "1", "1",
+                false);
         userDAO.persist(userStudent, null);
         userDAO.persist(userDocent, null);
 

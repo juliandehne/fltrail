@@ -2,7 +2,6 @@ package unipotsdam.gf.core.states;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.states.model.Constraints;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.interfaces.Feedback;
@@ -12,15 +11,14 @@ import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.journal.service.IJournalImpl;
 import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
 import unipotsdam.gf.view.Messages;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -36,7 +34,7 @@ public class PhasesImpl implements IPhases {
 
     private Feedback feedback = new DummyFeedback();
 
-    private ICommunication iCommunication = new CommunicationDummyService();
+    private ICommunication iCommunication = new CommunicationDummyService(new UnirestService());
 
     private IJournal iJournal = new IJournalImpl();
 
