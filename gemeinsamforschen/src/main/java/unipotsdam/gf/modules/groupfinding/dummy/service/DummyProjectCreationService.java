@@ -49,7 +49,7 @@ public class DummyProjectCreationService {
         project.setPhase(ProjectPhase.DossierFeedback);
         project.setId("1");
         project.setTags(tags);
-        project.setAuthor("author");
+        project.setAuthorEmail("author");
         project.setActive(true);
         project.setPassword("1234");
         project.setToken("32trgr");

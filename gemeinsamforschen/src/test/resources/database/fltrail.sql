@@ -83,7 +83,7 @@ CREATE TABLE `projects` (
   `password` varchar(400) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `timecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `author` varchar(400) NOT NULL,
+  `authorEmail` varchar(400) NOT NULL,
   `adminPassword` varchar(400) NOT NULL,
   `token` varchar(400) NOT NULL,
   `phase` varchar(400) NOT NULL

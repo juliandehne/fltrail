@@ -3,7 +3,7 @@ $(document).ready(function () {
     let studentId = document.getElementById('user').innerText.trim();
     $.ajax({
 <<<<<<< HEAD
-        url: '../rest/assessments/project/'+projectId+'/quiz/author/'+studentId,
+        url: '../rest/assessments/project/'+projectId+'/quiz/authorEmail/'+studentId,
 =======
         url: '../rest/assessments/project/' + projectId + '/quiz/',
 >>>>>>> origin/development_master

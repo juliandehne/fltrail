@@ -19,8 +19,8 @@ import java.util.Map;
 public interface IPeerAssessment {
     void finalizeAssessment(String projectId);
 
-    Quiz getQuiz(String projectId, String quizId, String author);
-    ArrayList<Quiz> getQuiz(String projectId, String author);
+    Quiz getQuiz(String projectId, String quizId, String authorEmail);
+    ArrayList<Quiz> getQuiz(String projectId, String authorEmail);
     /**
      * will return a saved assessment from the DB
      *

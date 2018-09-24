@@ -101,6 +101,8 @@ public interface Management {
 
     Project getProjectById(String projectId);
 
+    List<String> getProjectsStudent(String studentToken);
+
     String saveProfilePicture(FileInputStream fis, String studentId);
 }
 

@@ -40,11 +40,11 @@ public class QuizView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/project/{projectId}/quiz/{quizId}/author/{author}")
-    public Quiz getQuiz(@PathParam("projectId") String projectId, @PathParam("quizId") String quizId, @PathParam("author") String author) {
+    @Path("/project/{projectId}/quiz/{quizId}/authorEmail/{authorEmail}")
+    public Quiz getQuiz(@PathParam("projectId") String projectId, @PathParam("quizId") String quizId, @PathParam("authorEmail") String authorEmail) {
         try {
             String question = java.net.URLDecoder.decode(quizId, "UTF-8");
-            return peer.getQuiz(projectId, question, author);
+            return peer.getQuiz(projectId, question, authorEmail);
         } catch (UnsupportedEncodingException e) {
             throw new AssertionError("UTF-8 is unknown");
         }
@@ -52,9 +52,9 @@ public class QuizView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/project/{projectId}/quiz/author/{author}")
-    public ArrayList<Quiz> getQuiz(@PathParam("projectId") String projectId, @PathParam("author") String author) {
-        return peer.getQuiz(projectId, author);
+    @Path("/project/{projectId}/quiz/authorEmail/{authorEmail}")
+    public ArrayList<Quiz> getQuiz(@PathParam("projectId") String projectId, @PathParam("authorEmail") String authorEmail) {
+        return peer.getQuiz(projectId, authorEmail);
     }
 
     @GET

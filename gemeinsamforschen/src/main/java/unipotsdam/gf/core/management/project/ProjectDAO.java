@@ -23,18 +23,19 @@ public class ProjectDAO {
         this.connect = connect;
     }
 
-    public void persist(Project project) {
+    public String persist(Project project) {
         UUID uuid = UUID.randomUUID();
         String token = uuid.toString();
 
         connect.connect();
         String mysqlRequest =
-                "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `author`, "
+                "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `authorEmail`, "
                         + "`adminPassword`, `token`, `phase`) values (?,?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.isActive(),
-                project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token, project.getPhase()
+                project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(), token, project.getPhase()
                         == null ? ProjectPhase.CourseCreation : project.getPhase());
         connect.close();
+        return token;
     }
 
     public void delete(Project project) {

@@ -22,7 +22,9 @@ public class OmniDependencies extends SimpleTagSupport {
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/css/Sidebar-Menu-1.css\">\n" +
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/css/Sidebar-Menu.css\">\n" +
                 "    <script src=\"" + hierarchyToString(hierarchyLevel) + "core/utility.js\"></script>\n" +
+                "    <script src=\"" + hierarchyToString(hierarchyLevel) + "libs/jQuery-Tags-Input-master/src/jquery.tagsinput.js\"></script>\n" +
                 "    <script src=\"" + hierarchyToString(hierarchyLevel) + "core/footer.js\"></script>\n" +
+                "    <link rel=\"" + hierarchyToString(hierarchyLevel) + "libs/jQuery-Tags-Input-master/src/jquery.tagsinput.css\">\n" +
                 "    <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.1.0/css/all.css\"\n" +
                 "      integrity=\"sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt\" crossorigin=\"anonymous\">");
     }

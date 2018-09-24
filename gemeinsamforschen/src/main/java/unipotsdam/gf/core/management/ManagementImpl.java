@@ -63,31 +63,8 @@ public class ManagementImpl implements Management {
 
     @Override
     public String create(Project project) {
-        UUID uuid = UUID.randomUUID();
-        String token = uuid.toString();
-
-        connect.connect();
-        String mysqlRequest =
-                "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `author`, " + "`adminPassword`, `token`, `phase`) values (?,?,?,?,?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.isActive(),
-                project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token,
-                project.getPhase() == null ? ProjectPhase.CourseCreation : project.getPhase());
-
-        String mysql2Request = "INSERT INTO tags (`projectId`, `tag`) values (?,?)";
-        String[] tags = project.getTags();
-        for (String tag : tags) {
-            connect.issueInsertOrDeleteStatement(mysql2Request, project.getId(), tag);
-        }
-     /*   VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement("Select * from projects a where a.id=?", project.getId());
-        while (vereinfachtesResultSet.next()) {
-            System.out.println(vereinfachtesResultSet.getString("id"));
-        }*/
-        connect.close();
-        return token;
+        return projectDAO.persist(project);
     }
-
-
 
     @Override
     public void delete(Project project) {
@@ -262,13 +239,36 @@ public class ManagementImpl implements Management {
         connect.connect();
         String mysqlRequest =
                 "SELECT p.id FROM users u " +
-                        " JOIN projects p ON u.email = p.author" +
+                        " JOIN projects p ON u.email = p.authorEmail" +
                         " WHERE u.token = ?";
 
         //49c6eeda-62d2-465e-8832-dc2db27e760c
 
         List<String> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, authorToken);
+        while (vereinfachtesResultSet.next()) {
+            String project = vereinfachtesResultSet.getString("id");
+            result.add(project);
+        }
+        connect.close();
+        return result;
+    }
+
+    @Override
+    public List<String> getProjectsStudent(String studentToken) {
+        if (studentToken == null) {
+            return null;
+        }
+        connect.connect();
+        String mysqlRequest =
+                "SELECT p.id FROM users u " +
+                        " JOIN projects p ON u.email = p.authorEmail" +
+                        " WHERE u.token = ?";
+
+        //49c6eeda-62d2-465e-8832-dc2db27e760c
+
+        List<String> result = new ArrayList<>();
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, studentToken);
         while (vereinfachtesResultSet.next()) {
             String project = vereinfachtesResultSet.getString("id");
             result.add(project);

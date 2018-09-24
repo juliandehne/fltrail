@@ -24,9 +24,9 @@ public class ProjectView {
     @Path("/create")
     public String createProject(Project project) throws URISyntaxException {
         // we assume the token is send not the author id
-        String authorToken = project.getAuthor();
+        String authorToken = project.getAuthorEmail();
         User userByToken = iManagement.getUserByToken(authorToken);
-        project.setAuthor(userByToken.getId());
+        project.setAuthorEmail(userByToken.getId());
         try {
             String projectToken = iManagement.create(project);
             return projectToken;
@@ -54,8 +54,17 @@ public class ProjectView {
     @Path("/all/author/{userToken}")
     public java.util.List<String> getProjects(
             @PathParam("userToken") String authorToken) {
-
         java.util.List<String> projects = iManagement.getProjects(authorToken);
+        return projects;
+    }
+
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/all/student/{studentToken}")
+    public java.util.List<String> getProjectsStudent(
+            @PathParam("studentToken") String studentToken) {
+        java.util.List<String> projects = iManagement.getProjectsStudent(studentToken);
         return projects;
     }
 
