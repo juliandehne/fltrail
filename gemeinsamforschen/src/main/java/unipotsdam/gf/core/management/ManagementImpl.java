@@ -261,16 +261,14 @@ public class ManagementImpl implements Management {
         }
         connect.connect();
         String mysqlRequest =
-                "SELECT p.id FROM users u " +
-                        " JOIN projects p ON u.email = p.authorEmail" +
-                        " WHERE u.token = ?";
+                "SELECT projectId FROM projectuser WHERE userId=?";
 
         //49c6eeda-62d2-465e-8832-dc2db27e760c
 
         List<String> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, studentToken);
         while (vereinfachtesResultSet.next()) {
-            String project = vereinfachtesResultSet.getString("id");
+            String project = vereinfachtesResultSet.getString("projectId");
             result.add(project);
         }
         connect.close();

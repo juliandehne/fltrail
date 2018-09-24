@@ -64,8 +64,7 @@ public class ProjectView {
     @Path("/all/student/{studentToken}")
     public java.util.List<String> getProjectsStudent(
             @PathParam("studentToken") String studentToken) {
-        java.util.List<String> projects = iManagement.getProjectsStudent(studentToken);
-        return projects;
+        return iManagement.getProjectsStudent(studentToken);
     }
 
     @GET

@@ -18,7 +18,7 @@
 
 <body>
 <div class="loader-inactive" id="loader"></div>
-<div id="wrapper" class="wrapper" style="margin:0px;">
+<div id="wrapper" class="wrapper">
     <div class="page-content-wrapper">
         <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
             <div class="row">
@@ -33,7 +33,7 @@
             <legend style="margin-left:13px;">Projektnamen</legend>
             <input class="form-control" type="text" id="projectName" name="Project" required=""
                    placeholder="Projekt1" autofocus=""
-                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+                   style="max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
             <div class="alert alert-warning" role="alert" id="projectIsMissing">
                 Dieser Projektname existiert nicht.
             </div>
@@ -43,7 +43,7 @@
             <legend style="margin-left:13px;">Passwort</legend>
             <input class="form-control" type="password" id="projectPassword" name="Password" required=""
                    placeholder="******"
-                   style="margin:0px;max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+                   style="max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
             <div class="alert alert-warning" role="alert" id="projectWrongPassword">
                 Falsches Passwort.
             </div>
