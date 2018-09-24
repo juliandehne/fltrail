@@ -85,7 +85,7 @@ public class Menu extends SimpleTagSupport {
                                 "      <li><a href=\""+OmniDependencies.hierarchyToString(hierarchyLevel)+"management/change-phase.jsp?token="+token+"&projectId="+projectId+"\">Projektphase ändern</a></li>\n";
                     }else {
                         menuString += "<li><a href=\""+OmniDependencies.hierarchyToString(hierarchyLevel)+"assessment/quiz-docent.jsp?token="+token+"&projectId="+projectId+"\">Quizfrage</a></li>\n" +
-                                "      <li><a href=\""+OmniDependencies.hierarchyToString(hierarchyLevel)+"groupfinding/create-groups.jsp?token="+token+"&projectId="+projectId+"\">Gruppen erstellen</a></li>\n" +
+                                "      <li><a href=\""+OmniDependencies.hierarchyToString(hierarchyLevel)+"groupfinding/create-create-groups-learninggoal.jsp?token="+token+"&projectId="+projectId+"\">Gruppen erstellen</a></li>\n" +
                                 "      <li><a href=\""+OmniDependencies.hierarchyToString(hierarchyLevel)+"management/change-phase.jsp?token="+token+"&projectId="+projectId+"\">Projektphase ändern</a></li>\n";
                     }
                 }

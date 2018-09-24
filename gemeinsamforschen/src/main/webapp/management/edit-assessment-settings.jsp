@@ -10,10 +10,11 @@
 
 <body>
 
-<h1> Projektbeschreibung bearbeiten </h1>
+<h1> Bewertungsverfahren einstellen </h1>
 
 <a
-        href="edit-assessment-settings.jsp?token=<%=request.getParameter("token")+"&projectToken="+request.getParameter("projectToken") %>" > Weiter </a>
+        href="edit-group-settings.jsp?token=<%=request.getParameter("token")+"&projectToken="+request.getParameter("projectToken") %>">
+    Weiter </a>
 
 
 </body>

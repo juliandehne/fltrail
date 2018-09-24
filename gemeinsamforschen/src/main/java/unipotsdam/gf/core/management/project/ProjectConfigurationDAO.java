@@ -41,16 +41,15 @@ public class ProjectConfigurationDAO {
         }
 
         // persist GroupFinding
-        HashMap<GroupFormationMechanism, Boolean> groupFindingMechanism =
+       GroupFormationMechanism groupFindingMechanism =
                 projectConfiguration.getGroupMechanismSelected();
-        for (GroupFormationMechanism gfm : groupFindingMechanism.keySet()) {
-            Boolean groupFindingMechanismSelected = groupFindingMechanism.get(gfm);
-            if (groupFindingMechanismSelected != null && groupFindingMechanismSelected) {
+
+            if (groupFindingMechanism != null) {
                 String mysqlRequest =
                         "insert INTO groupfindingMechanismSelected (`projectId`,`gfmSelected`) VALUES (?,?)";
-                connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), gfm.name());
+                connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), groupFindingMechanism.name());
             }
-        }
+
 
 
         // persist assessmentMechanismSelected
@@ -82,9 +81,18 @@ public class ProjectConfigurationDAO {
                 getSelectionFromTable(connect, AssessmentMechanism.class, project, "assessmentMechanismSelected");
 
 
-        HashMap<GroupFormationMechanism, Boolean> gfmSelected =
+        HashMap<GroupFormationMechanism, Boolean> groupfindingMechanismSelected =
                 getSelectionFromTable(connect, GroupFormationMechanism.class, project, "groupfindingMechanismSelected");
 
+
+
+        GroupFormationMechanism gfmSelected = null;
+
+        for (GroupFormationMechanism groupFormationMechanism : groupfindingMechanismSelected.keySet()) {
+            if (groupfindingMechanismSelected.get(groupFormationMechanism)) {
+                gfmSelected = groupFormationMechanism;
+            }
+        }
         connect.close();
 
         ProjectConfiguration projectConfiguration = new ProjectConfiguration(projectPhasesSelected, categorySelected,

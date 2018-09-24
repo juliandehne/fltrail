@@ -1,4 +1,7 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <!DOCTYPE html>
 <html>
 
@@ -6,18 +9,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>student-form-design</title>
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <omniDependencies:omniDependencies hierarchy="1"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700">
-    <link rel="stylesheet" href="../assets/css/Login-Form-Clean.css">
-    <link rel="stylesheet" href="../assets/css/Navigation-with-Button1.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu.css">
-    <link rel="stylesheet" href="../assets/css/Sidebar-Menu1.css">
+    <link rel="stylesheet" href="css/Login-Form-Clean.css">
+    <link rel="stylesheet" href="css/Navigation-with-Button1.css">
+    <link rel="stylesheet" href="css/Sidebar-Menu.css">
+    <link rel="stylesheet" href="css/Sidebar-Menu1.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="js/config.js"></script>
+    <script src="../core/config.js"></script>
     <script src="js/myGroupsInit.js"></script>
-    <script src="js/getProjects.js"></script>
-    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="js/Sidebar-Menu.js"></script>
 
 
@@ -25,12 +25,10 @@
 </head>
 
 <body>
-<p id="user" hidden><?php echo $userName; ?></p>
+
 
 <div id="wrapper">
-    <?php
-    include_once 'menu.php'
-    ?>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
             <div class="row">

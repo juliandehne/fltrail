@@ -2,6 +2,7 @@ package unipotsdam.gf.core.management.project;
 
 import unipotsdam.gf.core.states.model.ProjectPhase;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -9,21 +10,24 @@ import java.time.ZoneId;
 /**
  * Created by dehne on 31.05.2018.
  */
+@XmlRootElement(name = "Project")
 public class Project {
 
     private String id;
     private String password;
     private Boolean active;
     private Timestamp timecreated;
+    // the id of the author (not the token)
     private String author;
     private String adminPassword;
     private String token;
     private ProjectPhase phase;
+    private String[] tags;
 
     public Project() {
     }
 
-    public Project(String id, String password, Boolean active, String author, String adminPassword) {
+    public Project(String id, String password, Boolean active, String author, String adminPassword, String[] tags) {
         this.id = id;
         this.password = password;
         this.active = active;
@@ -32,6 +36,7 @@ public class Project {
         this.timecreated = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC")));
         // default starting at course creation if new
         this.setPhase(ProjectPhase.CourseCreation);
+        this.tags = tags;
     }
 
     public Project(String id, String password, Boolean active,
@@ -45,6 +50,11 @@ public class Project {
         this.adminPassword = adminPassword;
         this.token = token;
         this.phase = phase;
+        this.tags = tags;
+    }
+
+    public Project(String projectId) {
+        setId(projectId);
     }
 
     public String getId() {
@@ -110,6 +120,14 @@ public class Project {
      */
     public void setPhase(ProjectPhase phase) {
         this.phase = phase;
+    }
+
+    public String[] getTags() {
+        return tags;
+    }
+
+    public void setTags(String[] tags) {
+        this.tags = tags;
     }
 
     @Override
