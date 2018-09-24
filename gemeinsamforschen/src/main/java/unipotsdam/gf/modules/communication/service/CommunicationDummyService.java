@@ -103,7 +103,6 @@ public class CommunicationDummyService implements ICommunication {
                         .post(GFRocketChatConfig.ROCKET_CHAT_API_LINK + "login")
                         .body(rocketChatAuth)
                         .asObject(RocketChatResponse.class);
-        // TODO: add Error class which holds Errors and posts them
         int status = response.getStatus();
         if (status == Response.Status.UNAUTHORIZED.getStatusCode() || status == Response.Status.BAD_REQUEST.getStatusCode()) {
             return false;
