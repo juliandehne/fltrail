@@ -49,18 +49,17 @@ function deletInput(name) {        //deletes latest input-Field with the ID 'nam
     }
 }
 
+/**
+ * selects the tags from the db and prints the seleciton
+ */
 function printTags() {
     var url = "../../gemeinsamforschen/rest/project/tags/" + getProjectTokenFromUrl();
     $.ajax({
         url: url,
-        Accept: "text/plain; charset=utf-8",
+        Accept: "application/json",
         contentType: "text/plain",
         success: function (response) {
-            response = JSON.parse(response);
-            var tagList = [];
-            var i = 0;
-            for (i = 0; i < response.length; i++)
-                tagList.push(response[i].tag);
+            var tagList = response;
             for (i = 0; i < tagList.length; i++) {
                 var newInput = document.createElement("label");
                 newInput.innerHTML =

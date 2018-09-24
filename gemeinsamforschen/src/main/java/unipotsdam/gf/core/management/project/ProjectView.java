@@ -86,13 +86,13 @@ public class ProjectView {
     }
 
     @GET
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/tags/{projectToken}")
-    public java.util.List<String> getTags(@PathParam("projectToken") String projectToken) {
+    public String[] getTags(@PathParam("projectToken") String projectToken) {
         // TODO write single query
         Project project = iManagement.getProjectByToken(projectToken);
-        return iManagement.getTags(project);
+        return iManagement.getTags(project).toArray(new String[0]);
     }
 
 
