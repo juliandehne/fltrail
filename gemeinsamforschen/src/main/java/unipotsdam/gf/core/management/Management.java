@@ -98,7 +98,7 @@ public interface Management {
 
     List<String> getProjects(String userToken);
 
-    User getUserByToken(String authorToken);
+    User getUserByToken(String userToken);
 
     Project getProjectById(String projectId);
 

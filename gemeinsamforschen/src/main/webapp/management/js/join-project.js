@@ -21,7 +21,8 @@ $(document).ready(function () {
 });
 
 function loginProject(projectName) {
-    var url = "../../gemeinsamforschen/rest/project/login/"+projectName+"/password/" + $('#projectPassword').val();
+    var password = $('#projectPassword').val();
+    var url = "../../gemeinsamforschen/rest/project/login/"+projectName+"?password="+password;
     if (projectName === "") {
         return false;
     } else {

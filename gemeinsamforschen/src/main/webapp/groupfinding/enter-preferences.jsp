@@ -7,7 +7,8 @@
 
 <head>
     <omniDependencies:omniDependencies hierarchy="1"></omniDependencies:omniDependencies>
-    <script src="js/createPreferences.js"></script>
+    <script src="../core/config.js"></script>
+    <script src="js/create-preferences.js"></script>
 </head>
 <body>
 

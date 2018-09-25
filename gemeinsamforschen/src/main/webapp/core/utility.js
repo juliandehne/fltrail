@@ -16,7 +16,8 @@ $(document).ready(function () {
 
 function changeLocationTo(target) {
     let level = $('#hierarchyLevel').html().trim();
-    return calculateHierachy(level) + target;;
+    return calculateHierachy(level) + target;
+    ;
 }
 
 
@@ -28,7 +29,7 @@ function checkAssessementPhase() {
     let studentId = $('#user').html().trim();
     let projectId = $('#projectId').html().trim();
     $.ajax({
-        url: 'rest/assessments/whatToRate/project/'+projectId+'/student/'+studentId,
+        url: 'rest/assessments/whatToRate/project/' + projectId + '/student/' + studentId,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -105,5 +106,23 @@ function calculateHierachy(level) {
         return calculateHierachy(level - 1) + "../";
 
     }
+}
+
+function getContextData(callback) {
+    var userToken = getUserTokenFromUrl();
+    var projectToken = getProjectTokenFromUrl();
+
+    var url = "../../gemeinsamforschen/rest/context/full?projectToken=" + getProjectTokenFromUrl() + "&userToken=" + getUserTokenFromUrl();
+    $.ajax({
+        url: url,
+        type: 'GET',
+        Accept: "contentType: application/json",
+        success: function (response) {
+            callback(response);
+        },
+        error: function (a, b, c) {
+            console.log(a+b+c);
+        }
+    });
 
 }

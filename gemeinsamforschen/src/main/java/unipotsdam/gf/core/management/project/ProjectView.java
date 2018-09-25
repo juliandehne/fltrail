@@ -72,14 +72,15 @@ public class ProjectView {
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
-    @Path("/login/{projectId}/password/{password}")
-    public String logInProject(@PathParam("projectId") String projectId, @PathParam("password") String password) {
+    @Path("/login/{projectId}")
+    public String logInProject(@PathParam("projectId") String projectId, @QueryParam("password") String password) {
         Project project = iManagement.getProjectById(projectId);
         if (project == null){
             return "project missing";
         }
-        if (project.getPassword().equals(password) || project.getPassword().trim().equals(""))
+        if (!project.getPassword().equals(password) ) {
             return "wrong password";
+        }
 
         String result =  project.getToken();
         return result;

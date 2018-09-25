@@ -3,12 +3,13 @@
  */
 
 
+
 $(document).ready(function () {
-    var projectName = getProjectByToken();
+
     printTags();
     $("#competencies0").focus();
     $("#studentFormSubmit").on("click", function () {
-        takesPartInProject();
+        getContextData(takesPartInProject);
     });
     $("#addCompetenceButton").on("click", function () {
         addInput("competencies");       //creates a new input-Field with the ID 'competenciesX' where X is number of elements with 'competencies' as ID
@@ -25,9 +26,6 @@ $(document).ready(function () {
 
 });
 
-function getProjectByToken() {
-    return $('#projectName').text().trim();
-}
 
 function addInput(name) {        //creates a new input-Field with the ID 'nameX' where X is number of elements with 'name' as ID
     var i = document.getElementsByName(name).length;
@@ -77,9 +75,8 @@ function printTags() {
     });
 }
 
-function takesPartInProject() {
-    var userID = $("#user").text().trim();
-    var projectID = $("#projectName").text().trim();
+function takesPartInProject(context) {
+
     document.getElementById('loader').className = "loader";
     document.getElementById('wrapper').className = "wrapper-inactive";
 
@@ -92,7 +89,7 @@ function takesPartInProject() {
     for (i = 0; i < document.getElementsByName("researchQuestions").length; i++) {        //goes through all competencies and adds them to allTheResearchQuestions
         allTheResearchQuestions.push(document.getElementsByName("researchQuestions")[i].value);
     }
-    for (i = 0; i < document.getElementsByName("tag").length; i++) {        //goes through all tags and adds them to allTheTags
+    for (i = 0; i < document.getElementsByName("tag").length; i++) {   //goes through all tags and adds them to allTheTags
         if (document.getElementById("tag" + i).checked) {
             allTheTags.push(document.getElementById("tag" + i).value);
         }
@@ -120,8 +117,12 @@ function takesPartInProject() {
         "researchQuestions": allTheResearchQuestions,
         "tagsSelected": allTheTags
     };
+
+
+    var userId = context.user.email;
+    var projectId = context.project.id;
     var dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
-    var url = compbaseUrl + "/api2/user/" + userID + "/projects/" + projectID + "/preferences";
+    var url = compbaseUrl + "/api2/user/" + userId + "/projects/" + projectId + "/preferences";
     $.ajax({
         url: url,
         type: 'PUT',
@@ -132,13 +133,7 @@ function takesPartInProject() {
             console.log(response);
             document.getElementById('loader').className = "loader-inactive";
             document.getElementById('wrapper').className = "wrapper";
-            var parts = window.location.search.substr(1).split("&");
-            var $_GET = {};
-            for (var i = 0; i < parts.length; i++) {
-                var temp = parts[i].split("=");
-                $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
-            }
-            location.href = "projects.php?token=" + $_GET['token'];
+            location.href = "../overview-student.jsp?token=" + getUserTokenFromUrl();
         },
         error: function (a, b, c) {
             console.log(a);
