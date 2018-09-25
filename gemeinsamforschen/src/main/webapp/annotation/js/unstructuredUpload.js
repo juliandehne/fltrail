@@ -7,7 +7,7 @@ $(document).ready(function () {
         if ($('#upload-textarea-form').valid()) {
 
             // fetch user and text
-            let user = getUserTokenFromUrl();
+            let user = getUserEmail();
             let text = $('#upload-textarea').val();
 
             // build request
@@ -23,7 +23,7 @@ $(document).ready(function () {
                 $('#upload-textarea').val("");
 
                 // jump to next page
-                location.href = "create-unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId") + "&submission=" + response.id;
+                location.href = "create-unstructured-annotation.jsp?token=" + getUserEmail() + "&projectId=" + getQueryVariable("projectId") + "&submission=" + response.id;
             });
         }
     });
@@ -38,14 +38,14 @@ $(document).ready(function () {
 
                 // jump to previous page
                 //window.history.back();
-                location.href = "../project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+                location.href = "../project-student.jsp?token=" + getUserEmail() + "&projectId=" + getQueryVariable("projectId");
             }
         }
         // nothing to check
         else {
             // jump to previous page
             //window.history.back();
-            location.href = "../project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+            location.href = "../project-student.jsp?token=" + getUserEmail() + "&projectId=" + getQueryVariable("projectId");
         }
     });
 

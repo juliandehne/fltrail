@@ -11,7 +11,7 @@ $(document).ready(function () {
         $('.annotationview').click(function () {
             let fullSubmissionId = $(this).closest("li").data("fullSubmissionId");
             let category = $(this).closest("li").data("category");
-            location.href = "annotation/annotation-document.jsp?token=" + getUserTokenFromUrl() +
+            location.href = "annotation/annotation-document.jsp?token=" + getUserEmail() +
                 "&projectId=" + getQueryVariable("projectId") +
                 "&fullSubmissionId=" + fullSubmissionId +
                 "&category=" + category;
@@ -30,18 +30,18 @@ $(document).ready(function () {
     });
     */
     $('.givefeedback').click(function () {
-        location.href = "feedback/give-feedback.jsp?token=" + getUserTokenFromUrl();
+        location.href = "feedback/give-feedback.jsp?token=" + getUserEmail();
     });
     $('.viewfeedback').click(function () {
-        location.href = "feedback/view-feedback.jsp?token=" + getUserTokenFromUrl();
+        location.href = "feedback/view-feedback.jsp?token=" + getUserEmail();
     });
 
     $('.annotationview').click(function () {
-        location.href = "annotation/annotation-document.jsp?token=" + getUserTokenFromUrl();
+        location.href = "annotation/annotation-document.jsp?token=" + getUserEmail();
     });
 
     $('.viewprojectstudent').click(function () {
-        location.href = "project-student.jsp?token=" + getUserTokenFromUrl();
+        location.href = "project-student.jsp?token=" + getUserEmail();
     })
 });
 

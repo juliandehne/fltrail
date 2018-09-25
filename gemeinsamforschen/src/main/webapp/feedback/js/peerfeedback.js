@@ -49,7 +49,7 @@ $(document).ready(function () {
         });*/
 
         //console.log(data);
-        location.href = "give-feedback.jsp?token=" + getUserTokenFromUrl();
+        location.href = "give-feedback.jsp?token=" + getUserEmail();
         alert("Feedback wurde gesendet!");
     });
 })

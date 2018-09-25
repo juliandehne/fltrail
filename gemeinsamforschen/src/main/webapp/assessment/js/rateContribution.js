@@ -62,7 +62,7 @@ function safeContributionRating() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            location.href = "project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+            location.href = "project-student.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
         },
         error: function (a, b, c) {
 

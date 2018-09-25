@@ -1,5 +1,5 @@
 $(document).ready(function(){
     $('#submit').on('click', function(){
-        location.href="project-docent.jsp?token="+getUserTokenFromUrl();
+        location.href="project-docent.jsp?token="+getUserEmail();
     });
 });

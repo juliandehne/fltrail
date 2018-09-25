@@ -67,7 +67,7 @@ $(document).ready(function () {
             url: '../rest/assessments/quiz/' + encodeURIComponent(quizId),
             type: 'POST',
             success: function () {
-                document.location.href = "quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                document.location.href = "quiz.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
             },
             error: function (a) {
                 alert(a)

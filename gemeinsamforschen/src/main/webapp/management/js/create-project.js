@@ -110,7 +110,7 @@ function getProjectValues() {
         "password": password,
         "active": true,
         "timecreated": null,
-        "authorEmail": getUserTokenFromUrl(),
+        "authorEmail": getUserEmail(),
         "adminPassword": adminPassword,
         "token": "",
         "phase": "GroupFormation",
@@ -138,7 +138,7 @@ function createProjectinCompbase(projectName) {
         success: function (response) {
             console.log(response);
             // it actually worked, too
-            document.location.href = "edit-project.jsp?token="+getUserTokenFromUrl()+"&projectToken="+projectToken;
+            document.location.href = "edit-project.jsp?token="+getUserEmail()+"&projectToken="+projectToken;
         },
         error: function (a, b, c) {
             console.log(a);

@@ -110,7 +110,7 @@ function safeQuizAnswers() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            location.href = "rate-contribution.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+            location.href = "rate-contribution.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
         },
         error: function (a, b, c) {
 

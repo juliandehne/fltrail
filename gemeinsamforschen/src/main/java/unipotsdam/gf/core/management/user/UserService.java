@@ -1,18 +1,24 @@
 package unipotsdam.gf.core.management.user;
 
 import unipotsdam.gf.core.management.Management;
+import unipotsdam.gf.core.session.GFContext;
+import unipotsdam.gf.core.session.GFContexts;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.PageContext;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URI;
@@ -50,12 +56,12 @@ public class UserService {
     @POST
     @Produces(MediaType.TEXT_HTML)
     @Path("/create")
-    public Response createUser(@FormParam("name") String name, @FormParam("password") String password,
+    public Response createUser(@Context HttpServletRequest req, @FormParam("name") String name, @FormParam("password") String password,
                                @FormParam("email") String email, @FormParam("isStudent") String isStudent)
             throws URISyntaxException {
 
         User user = new User(name, password, email, isStudent == null);
-        return login(true, user);
+        return login(req,true, user);
 
     }
 
@@ -72,7 +78,7 @@ public class UserService {
     @POST
     @Produces(MediaType.TEXT_HTML)
     @Path("/exists")
-    public Response existsUser(@FormParam("name") String name, @FormParam("password") String password,
+    public Response existsUser(@Context HttpServletRequest req, @FormParam("name") String name, @FormParam("password") String password,
                                @FormParam("email") String email)
             throws URISyntaxException {
 
@@ -80,7 +86,7 @@ public class UserService {
         ICommunication iCommunication = new CommunicationDummyService();
         boolean isLoggedIn = iCommunication.loginUser(user);
         if (isLoggedIn) {
-            return login(false, user);
+            return login(req,false, user);
         } else {
             return loginError();
         }
@@ -108,12 +114,12 @@ public class UserService {
      * @return
      * @throws URISyntaxException
      */
-    protected Response login(boolean createUser, User user) throws URISyntaxException {
+    protected Response login(HttpServletRequest req, boolean createUser, User user) throws URISyntaxException {
 
         if (management.exists(user)) {
             if (!createUser) {
                 user = fillUserFields(user);
-                return redirectToProjectPage(user);
+                return redirectToProjectPage(req,user);
             }
             String existsUrl = "../register.jsp?userExists=true";
             return forwardToLocation(existsUrl);
@@ -125,7 +131,7 @@ public class UserService {
                 }
                 management.create(user, null);
                 user = fillUserFields(user);
-                return redirectToProjectPage(user);
+                return redirectToProjectPage(req,user);
             } else {
                 String existsUrl = "../index.jsp?userExists=false";
                 return forwardToLocation(existsUrl);
@@ -157,15 +163,20 @@ public class UserService {
      * @return
      * @throws URISyntaxException
      */
-    private Response redirectToProjectPage(User user) throws URISyntaxException {
+    private Response redirectToProjectPage(HttpServletRequest req, User user) throws URISyntaxException {
         String successUrl;
+
+
         if (user.getStudent() != null && user.getStudent()) {
             successUrl = "../overview-student.jsp?token=";
         } else {
             successUrl = "../overview-docent.jsp?token=";
         }
         successUrl += userDAO.getUserToken(user);
-        return forwardToLocation(successUrl);
+        Response result =  forwardToLocation(successUrl);
+
+        req.getSession().setAttribute(GFContexts.USEREMAIL, user.getEmail());
+        return result;
     }
 
     /**

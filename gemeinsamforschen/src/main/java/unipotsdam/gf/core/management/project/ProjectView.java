@@ -2,11 +2,16 @@ package unipotsdam.gf.core.management.project;
 
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.session.GFContexts;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
 import java.net.URISyntaxException;
 
 
@@ -22,18 +27,38 @@ public class ProjectView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/create")
-    public String createProject(Project project) throws URISyntaxException {
+    public String createProject(@Context HttpServletRequest req, Project project) throws URISyntaxException {
         // we assume the token is send not the author id
         String authorToken = project.getAuthorEmail();
         User userByToken = iManagement.getUserByToken(authorToken);
         project.setAuthorEmail(userByToken.getId());
         try {
             String projectToken = iManagement.create(project);
+            req.getSession().setAttribute(GFContexts.PROJECTNAME, project.getId());
             return projectToken;
         } catch (Exception e) {
             return "project exists";
         }
+    }
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/view/project/{projectName}")
+    public Response viewProject(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws URISyntaxException {
+        // we assume the token is send not the author id
+        req.getSession().setAttribute(GFContexts.PROJECTNAME, projectName);
+        String userEmail = req.getSession().getAttribute(GFContexts.USEREMAIL).toString();
+        User user = iManagement.getUserByToken(userEmail);
+        if (user.getStudent()){
+            return forwardToLocation("project-student.jsp");
+        }else{
+            return forwardToLocation("project-docent.jsp");
+        }
+
+    }
+
+    private Response forwardToLocation(String existsUrl) throws URISyntaxException {
+        return Response.seeOther(new URI(existsUrl)).build();
     }
 
     @GET

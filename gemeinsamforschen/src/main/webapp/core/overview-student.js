@@ -2,7 +2,7 @@ $(document).ready(function(){
     let studentId = $('#user').html().trim();
     getProjects(studentId);
     $('#enrollProject').on('click', function(){
-        location.href="management/join-project.jsp?token="+getUserTokenFromUrl();
+        location.href="management/join-project.jsp?token="+getUserEmail();
     });
 });
 
@@ -78,21 +78,15 @@ function getProjects(studentId){
                     tmplObject.push({projectName: response[project]});
             }
             $('#projectTRTemplate').tmpl(tmplObject).appendTo('#projects');
+            for (let projectName in response){
+                if (response.hasOwnProperty(projectName)) {
+                    $('#project' + response[projectName]).on('click', function () {
+                        viewProject(response[projectName]);
+                    });
+                    updateStatus(response[projectName]);
 
-
-/*
-            let projectTable = document.getElementById('projects');
-            for (let i=0; i<response.length; i++){
-                let projectName = response[i];
-                let projectDiv = document.createElement('DIV');
-                let projectTRString = nameToTableString(projectName);
-                projectDiv.innerHTML=projectTRString;
-                projectTable.appendChild(projectDiv);
-                updateStatus(projectName);
-                $('#project'+projectName).on('click', function(){
-                    location.href = "project-student.jsp?token=" + getUserTokenFromUrl() + '&projectId=' + projectName;
-                });
-            }*/
+                }
+            }
         },
         error: function(a){
 
@@ -100,41 +94,18 @@ function getProjects(studentId){
     });
 }
 
-function nameToTableString(projectName){
-    return'<tr class="pageChanger">'+
-        '   <td>'+
-        '       <a id="project'+projectName+'">'+
-        '       <h1>'+projectName+'</h1>'+
-        '       </a>'+
-        '   </td>'+
-        '</tr>'+
-        '<tr>'+
-        '   <td>'+
-        '       <div class="panel panel-default">'+
-        '           <div class="panel-heading">'+
-        '               <h3 class="panel-title">Newsfeed </h3>'+
-        '               Status: <p id="status'+projectName+'"></p>'+
-        '           </div>'+
-        '           <div class="panel-body">'+
-        '               <ul class="list-group">'+
-        newsFeedMessages(projectName)+
-        '              </ul>'+
-        '          </div>'+
-        '      </div>'+
-        '   </td>'+
-        '</tr>'+
-        '<tr>'+
-        '   <td></td>'+
-        '</tr>';
-}
+function viewProject(projectName){
+    $.ajax({
+        url: 'rest/project/view/project/' + projectName,
+        headers: {
+            "Content-Type": "text/plain",
+            "Cache-Control": "no-cache"
+        },
+        type: 'POST',
+        success: function (response) {
 
-function newsFeedMessages(projectName){
-    return'                       <li class="list-group-item">'+
-    '                           <span>dummy</span>'+
-    '                       </li>'+
-    '                       <li class="list-group-item">' +
-    '                           <span>dummy</span>'+
-    '                       </li>'+
-    '                       <li class="list-group-item">'+
-    '                           <span>dummy</span></li>';
+        },
+        error: function(a){
+        }
+    });
 }

@@ -13,8 +13,8 @@ $(document).ready(function () {
             gfm = "LearningGoalStrategy";
         }
 
-        var projectToken = getProjectTokenFromUrl();
-        var localurl = "../../gemeinsamforschen/rest/group/settings/projects/"+getProjectTokenFromUrl();
+        var projectToken = getProjectName();
+        var localurl = "../../gemeinsamforschen/rest/group/settings/projects/"+getProjectName();
         $.ajax({
             gfm: gfm,
             url: localurl,
@@ -23,13 +23,13 @@ $(document).ready(function () {
             data: gfm,
             success: function (a,b,c) {
                 if (gfm == "Manual") {
-                    document.location.href = "../groupfinding/create-groups-manual.jsp?token="+getUserTokenFromUrl()+"&projectToken="+projectToken;
+                    document.location.href = "../groupfinding/create-groups-manual.jsp?token="+getUserEmail()+"&projectToken="+projectToken;
                 }
                 if (gfm == "UserProfilStrategy"){
-                    document.location.href = "../groupfinding/create-groups-preferences.jsp?token="+getUserTokenFromUrl()+"&projectToken="+projectToken;
+                    document.location.href = "../groupfinding/create-groups-preferences.jsp?token="+getUserEmail()+"&projectToken="+projectToken;
                 }
                 else {
-                    document.location.href = "../groupfinding/create-groups-learninggoal.jsp?token="+getUserTokenFromUrl()+"&projectToken="+projectToken;
+                    document.location.href = "../groupfinding/create-groups-learninggoal.jsp?token="+getUserEmail()+"&projectToken="+projectToken;
                 }
                 return true;
             },

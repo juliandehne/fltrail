@@ -5,7 +5,7 @@ $(document).ready(function () {
     $('#student').val(student);
     $('#project').val(project);
     $('#uploader').on('click', function () {
-        //location.href="create-title.jsp?token="+getUserTokenFromUrl();
+        //location.href="create-title.jsp?token="+getUserEmail();
         //boolean uploaded=true;
     });
     $('#backLink').on('click', function () {

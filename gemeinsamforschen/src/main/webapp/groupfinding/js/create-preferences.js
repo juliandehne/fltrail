@@ -51,7 +51,7 @@ function deletInput(name) {        //deletes latest input-Field with the ID 'nam
  * selects the tags from the db and prints the seleciton
  */
 function printTags() {
-    var url = "../../gemeinsamforschen/rest/project/tags/" + getProjectTokenFromUrl();
+    var url = "../../gemeinsamforschen/rest/project/tags/" + getProjectName();
     $.ajax({
         url: url,
         Accept: "application/json",
@@ -133,7 +133,7 @@ function takesPartInProject(context) {
             console.log(response);
             document.getElementById('loader').className = "loader-inactive";
             document.getElementById('wrapper').className = "wrapper";
-            location.href = "../overview-student.jsp?token=" + getUserTokenFromUrl();
+            location.href = "../overview-student.jsp?token=" + getUserEmail();
         },
         error: function (a, b, c) {
             console.log(a);

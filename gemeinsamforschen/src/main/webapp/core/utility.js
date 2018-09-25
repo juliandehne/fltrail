@@ -17,7 +17,6 @@ $(document).ready(function () {
 function changeLocationTo(target) {
     let level = $('#hierarchyLevel').html().trim();
     return calculateHierachy(level) + target;
-    ;
 }
 
 
@@ -38,19 +37,19 @@ function checkAssessementPhase() {
         success: function (phase) {
             switch (phase) {
                 case "workRating": {
-                    changeLocationTo("finalAssessment.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
+                    changeLocationTo("finalAssessment.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
                 case "quiz": {
-                    changeLocationTo("take-quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
+                    changeLocationTo("take-quiz.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
                 case "contributionRating": {
-                    changeLocationTo("rate-contribution.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
+                    changeLocationTo("rate-contribution.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
                 case "done": {
-                    changeLocationTo("project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
+                    changeLocationTo("project-student.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
             }
@@ -60,26 +59,13 @@ function checkAssessementPhase() {
     });
 }
 
-function getUserTokenFromUrl() {
-    let parts = window.location.search.substr(1).split("&");
-    let $_GET = {};
-    for (let i = 0; i < parts.length; i++) {
-        let temp = parts[i].split("=");
-        $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
-    }
-    return $_GET['token'];
-
+function getUserEmail() {
+    return $('#userEmail').html().trim();
 }
 
 
-function getProjectTokenFromUrl() {
-    let parts = window.location.search.substr(1).split("&");
-    let $_GET = {};
-    for (let i = 0; i < parts.length; i++) {
-        let temp = parts[i].split("=");
-        $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
-    }
-    return $_GET['projectToken'];
+function getProjectName() {
+    return $('#projectName').html().trim();
 }
 
 function getQueryVariable(variable) {
@@ -106,23 +92,4 @@ function calculateHierachy(level) {
         return calculateHierachy(level - 1) + "../";
 
     }
-}
-
-function getContextData(callback) {
-    var userToken = getUserTokenFromUrl();
-    var projectToken = getProjectTokenFromUrl();
-
-    var url = "../../gemeinsamforschen/rest/context/full?projectToken=" + getProjectTokenFromUrl() + "&userToken=" + getUserTokenFromUrl();
-    $.ajax({
-        url: url,
-        type: 'GET',
-        Accept: "contentType: application/json",
-        success: function (response) {
-            callback(response);
-        },
-        error: function (a, b, c) {
-            console.log(a+b+c);
-        }
-    });
-
 }

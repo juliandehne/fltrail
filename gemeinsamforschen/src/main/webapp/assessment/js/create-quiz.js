@@ -60,10 +60,10 @@ $(document).ready(function () {
             type: 'POST',
             success: function (response) {
                 if (response === "student") {
-                    location.href = "Quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    location.href = "Quiz.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
                 }
                 if (response === "docent") {
-                    location.href = "Quiz-docent.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                    location.href = "Quiz-docent.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
                 }
 
             },

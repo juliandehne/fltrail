@@ -11,7 +11,7 @@ $(document).ready(function () {
 });
 
 function deleteProject(projectName) {
-    var token = getUserTokenFromUrl();
+    var token = getUserEmail();
     var url = "../database/delete-project.jsp?project=" + projectName + "&password=" + document.getElementById('projectPassword').value.trim() + "&token=" + token;
     if (projectName === "") {
         return false;
@@ -39,7 +39,7 @@ function deleteProject(projectName) {
                                 console.log(a);
                             }
                         });
-                        window.location.href = " ../pages/projects.php?token=" + getUserTokenFromUrl();
+                        window.location.href = " ../pages/projects.php?token=" + getUserEmail();
                     } else {
                         $("#projectIsMissing").hide();
                         $('#projectWrongPassword').show();

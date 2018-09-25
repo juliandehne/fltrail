@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#submit').on('click', function () {
-        location.href = "specificRequirement.jsp?token=" + getUserTokenFromUrl();
+        location.href = "specificRequirement.jsp?token=" + getUserEmail();
     });
     let projectId = $('#projectId').html().trim();
     $.ajax({

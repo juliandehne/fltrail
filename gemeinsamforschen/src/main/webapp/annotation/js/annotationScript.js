@@ -68,14 +68,14 @@ $(document).ready(function() {
      * continue button
      */
     $('#btnContinue').click(function () {
-        location.href = "../feedback/give-feedback.jsp?token=" + getUserTokenFromUrl();
+        location.href = "../feedback/give-feedback.jsp?token=" + getUserEmail();
     });
 
     /**
      * back button
      */
     $('#btnBack').click(function () {
-        location.href = "../project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
+        location.href = "../project-student.jsp?token=" + getUserEmail() + "&projectId=" + getQueryVariable("projectId");
     });
 
     /**
@@ -354,7 +354,7 @@ function displayAnnotation(annotation) {
                             .append(
                                 // edit
                                 function () {
-                                    if (getUserTokenFromUrl() === annotation.userToken) {
+                                    if (getUserEmail() === annotation.userToken) {
                                         return $('<div>').attr('class', 'annotation-footer-edit')
                                             .append(
                                                 $('<i>').attr('class', editIcon)
@@ -637,7 +637,7 @@ function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
     // initialize target
     let targetId = getQueryVariable("fullSubmissionId");
     let targetCategory = getQueryVariable("category");
-    let userToken = getUserTokenFromUrl();
+    let userToken = getUserEmail();
 
     // build annotationPostRequest
     var annotationPostRequest = {
