@@ -12,12 +12,7 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -124,7 +119,7 @@ public class QuizView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/project/{projectId}")
-    public Map<StudentIdentifier, Double> getAssessmentForProject(String projectId) {
+    public Map<StudentIdentifier, Double> getAssessmentForProject(@PathParam("projectId") String projectId) {
         return peer.getAssessmentForProject(projectId);
     }
 

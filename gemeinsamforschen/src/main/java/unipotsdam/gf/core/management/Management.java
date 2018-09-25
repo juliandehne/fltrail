@@ -7,6 +7,7 @@ import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
 
+import javax.ws.rs.Produces;
 import java.io.FileInputStream;
 import java.util.List;
 
@@ -97,12 +98,14 @@ public interface Management {
 
     List<String> getProjects(String userToken);
 
-    User getUserByToken(String authorToken);
+    User getUserByToken(String userToken);
 
     Project getProjectById(String projectId);
 
     List<String> getProjectsStudent(String studentToken);
 
     String saveProfilePicture(FileInputStream fis, String studentId);
+
+    List<String> getTags(Project project);
 }
 

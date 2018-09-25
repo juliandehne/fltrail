@@ -60,7 +60,7 @@ function getProjectOverview(user) {
 }
 
 function getTags(projectName, number) {
-    var url = "../database/getTags.php?project=" + projectName;
+    var url = "../database/printTags.php?project=" + projectName;
     $.ajax({
         url: url,
         Accept: "text/plain; charset=utf-8",

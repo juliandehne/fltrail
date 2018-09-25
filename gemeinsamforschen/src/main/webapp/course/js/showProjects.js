@@ -15,7 +15,7 @@ $(document).ready(function () {
             seeProject($('#projectName').val());
         }
     });
-    $("#seeProject").on('click', function () {
+    $("#loginProject").on('click', function () {
         seeProject($('#projectName').val());
     });
 });

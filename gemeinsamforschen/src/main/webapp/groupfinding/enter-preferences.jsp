@@ -6,11 +6,9 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gruppenmatcher</title>
+    <omniDependencies:omniDependencies hierarchy="1"></omniDependencies:omniDependencies>
     <script src="../core/config.js"></script>
-    <script src="js/createPreferences.js"></script>
+    <script src="js/create-preferences.js"></script>
 </head>
 <body>
 

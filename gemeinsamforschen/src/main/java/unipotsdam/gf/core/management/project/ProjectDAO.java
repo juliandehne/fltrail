@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @ManagedBean
@@ -44,7 +45,6 @@ public class ProjectDAO {
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId());
         connect.close();
         // TODO: delete all groups of project?
-
 
     }
 
@@ -99,5 +99,20 @@ public class ProjectDAO {
         String phase = vereinfachtesResultSet.getString("phase");
 
         return new Project(id, password, active, timestamp, author, adminPassword, token, ProjectPhase.valueOf(phase));
+    }
+
+    public java.util.List<String> getTags(Project project) {
+        connect.connect();
+        String mysqlRequest =
+                "SELECT t.tag from tags t where t.projectId = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getId());
+
+        java.util.List<String> result = new ArrayList<>();
+
+        while (vereinfachtesResultSet.next()) {
+            result.add(vereinfachtesResultSet.getString("tag"));
+        }
+        connect.close();
+        return  result;
     }
 }

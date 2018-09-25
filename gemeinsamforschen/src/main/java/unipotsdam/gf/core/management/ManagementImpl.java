@@ -282,4 +282,9 @@ public class ManagementImpl implements Management {
         connect.issueInsertOrDeleteStatement(mysqlRequest, studentId, blobbedImage);
         connect.close();
         return "success";    }
+
+    @Override
+    public List<String> getTags(Project project) {
+        return projectDAO.getTags(project);
+    }
 }
