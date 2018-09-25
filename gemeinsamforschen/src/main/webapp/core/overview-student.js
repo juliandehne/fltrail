@@ -72,6 +72,15 @@ function getProjects(studentId){
         },
         type: 'GET',
         success: function (response) {
+            let tmplObject = [];
+            for (let project in response){
+                if (response.hasOwnProperty(project))
+                    tmplObject.push({projectName: response[project]});
+            }
+            $('#projectTRTemplate').tmpl(tmplObject).appendTo('#projects');
+
+
+/*
             let projectTable = document.getElementById('projects');
             for (let i=0; i<response.length; i++){
                 let projectName = response[i];
@@ -83,7 +92,7 @@ function getProjects(studentId){
                 $('#project'+projectName).on('click', function(){
                     location.href = "project-student.jsp?token=" + getUserTokenFromUrl() + '&projectId=' + projectName;
                 });
-            }
+            }*/
         },
         error: function(a){
 
