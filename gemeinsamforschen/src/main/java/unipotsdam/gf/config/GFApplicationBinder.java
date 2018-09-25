@@ -7,6 +7,7 @@ import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.ProjectDAO;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.states.PhasesImpl;
+import unipotsdam.gf.core.tasks.TaskDAO;
 import unipotsdam.gf.core.testsandbox.TestList;
 import unipotsdam.gf.core.testsandbox.TestListInterface;
 import unipotsdam.gf.interfaces.Feedback;
@@ -46,5 +47,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(GroupDAO.class).to(GroupDAO.class);
         bind(MysqlConnect.class).to(MysqlConnect.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
+        bind(TaskDAO.class).to(TaskDAO.class);
     }
 }
