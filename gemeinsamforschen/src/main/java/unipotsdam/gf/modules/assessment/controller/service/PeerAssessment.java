@@ -25,8 +25,10 @@ public class PeerAssessment implements IPeerAssessment {
     private Management management;
 
     @Override
-    public void addAssessmentDataToDB(Assessment assessment) {
-
+    public void finalizeAssessment(String projectId){
+        cheatCheckerMethods method = new AssessmentDBCommunication().getAssessmentMethod(projectId);
+        Map<StudentIdentifier, Double> grading = calculateAssessment(projectId, method);
+        new AssessmentDBCommunication().writeGradesToDB(grading);
     }
 
     @Override//returns one quiz
@@ -39,9 +41,19 @@ public class PeerAssessment implements IPeerAssessment {
         return new QuizDBCommunication().getQuizByProjectId(projectId);
     }
 
+    @Override //returns all quizzes in the course
+    public ArrayList<Quiz> getQuiz(String projectId, String author) {
+        return new QuizDBCommunication().getQuizByProjectIdAuthor(projectId, author);
+    }
+
     @Override
-    public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
+    public Map<StudentIdentifier, Double> getAssessmentForProject(String projectId) {
         return null;
+    }
+
+    @Override
+    public Double getAssessmentForStudent(StudentIdentifier student) {
+        return new AssessmentDBCommunication().getGradesFromDB(student);
     }
 
     @Override
@@ -88,7 +100,6 @@ public class PeerAssessment implements IPeerAssessment {
     public void assignMissingAssessmentTasks(Project project) {
 
     }
-
     @Override
     public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         Map<StudentIdentifier, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
@@ -108,8 +119,7 @@ public class PeerAssessment implements IPeerAssessment {
         return result;
     }
 
-    @Override
-    public Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method) {
+    private Map<StudentIdentifier, Double> calculateAssessment(String projectId, cheatCheckerMethods method) {
         ArrayList<Performance> totalPerformance = new ArrayList<>();
         //get all students in projectID from DB
         List<String> students = new AssessmentDBCommunication().getStudents(projectId);
@@ -119,14 +129,19 @@ public class PeerAssessment implements IPeerAssessment {
             Performance performance = new Performance();
             StudentIdentifier studentIdentifier = new StudentIdentifier(projectId, student);
             groupId = new AssessmentDBCommunication().getGroupByStudent(studentIdentifier);
+            //todo: answered quizzes vervöllstandigen
+            Integer numberOfQuizzes = new AssessmentDBCommunication().getQuizCount(projectId);
             List<Integer> answeredQuizzes = new AssessmentDBCommunication().getAnsweredQuizzes(studentIdentifier);
+            for (Integer i=answeredQuizzes.size(); i<numberOfQuizzes;i++){
+                answeredQuizzes.add(0);
+            }
             ArrayList<Map<String, Double>> workRating = new AssessmentDBCommunication().getWorkRating(studentIdentifier);
             ArrayList<Map<String, Double>> contributionRating =
                     new AssessmentDBCommunication().getContributionRating(groupId);
             performance.setStudentIdentifier(studentIdentifier);
             performance.setQuizAnswer(answeredQuizzes);
-            performance.setWorkRating(cheatChecker(workRating, cheatCheckerMethods.variance));
-            performance.setContributionRating(cheatChecker(contributionRating, cheatCheckerMethods.variance));
+            performance.setWorkRating(cheatChecker(workRating, method));
+            performance.setContributionRating(cheatChecker(contributionRating, method));
             totalPerformance.add(performance);
         }
         return calculateAssessment(totalPerformance);

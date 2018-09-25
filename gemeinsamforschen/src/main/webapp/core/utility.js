@@ -16,8 +16,8 @@ $(document).ready(function () {
 
 function changeLocationTo(target) {
     let level = $('#hierarchyLevel').html().trim();
-    let link = calculateHierachy(level) + target;
-    return link;
+    return calculateHierachy(level) + target;
+    ;
 }
 
 
@@ -29,7 +29,7 @@ function checkAssessementPhase() {
     let studentId = $('#user').html().trim();
     let projectId = $('#projectId').html().trim();
     $.ajax({
-        url: '../rest/assessments/whatToRate/project/' + projectId + '/student/' + studentId,
+        url: 'rest/assessments/whatToRate/project/' + projectId + '/student/' + studentId,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -71,6 +71,17 @@ function getUserTokenFromUrl() {
 
 }
 
+
+function getProjectTokenFromUrl() {
+    let parts = window.location.search.substr(1).split("&");
+    let $_GET = {};
+    for (let i = 0; i < parts.length; i++) {
+        let temp = parts[i].split("=");
+        $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
+    }
+    return $_GET['projectToken'];
+}
+
 function getQueryVariable(variable) {
     let query = window.location.search.substring(1);
     let vars = query.split("&");
@@ -95,5 +106,23 @@ function calculateHierachy(level) {
         return calculateHierachy(level - 1) + "../";
 
     }
+}
+
+function getContextData(callback) {
+    var userToken = getUserTokenFromUrl();
+    var projectToken = getProjectTokenFromUrl();
+
+    var url = "../../gemeinsamforschen/rest/context/full?projectToken=" + getProjectTokenFromUrl() + "&userToken=" + getUserTokenFromUrl();
+    $.ajax({
+        url: url,
+        type: 'GET',
+        Accept: "contentType: application/json",
+        success: function (response) {
+            callback(response);
+        },
+        error: function (a, b, c) {
+            console.log(a+b+c);
+        }
+    });
 
 }

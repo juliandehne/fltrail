@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.groupfinding.dummy.service;
 
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.group.Group;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
@@ -43,8 +44,16 @@ public class DummyProjectCreationService {
         if (!management.exists(docentUser)) {
             management.create(docentUser, null);
         }
-
-        Project project = new Project("1", "password", true, docentUser.getEmail(), "admin");
+        String[] tags ={"tag1", "tag2", "tag3"};
+        Project project = new Project();
+        project.setPhase(ProjectPhase.DossierFeedback);
+        project.setId("1");
+        project.setTags(tags);
+        project.setAuthorEmail("author");
+        project.setActive(true);
+        project.setPassword("1234");
+        project.setToken("32trgr");
+        project.setAdminPassword("1234");
         if (!management.exists(project)) {
             management.create(project);
         }

@@ -7,7 +7,9 @@ import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
 
+import javax.ws.rs.Produces;
 import java.io.FileInputStream;
+import java.util.List;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -34,7 +36,7 @@ public interface Management {
      *
      * @param project
      */
-    void create(Project project);
+    String create(Project project);
 
     /**
      * create a Group in the database
@@ -84,10 +86,26 @@ public interface Management {
 
     Boolean exists(Group group);
 
+    User getUserByName(String studentId);
+
     void create(ProjectConfiguration projectConfiguration, Project project);
 
     ProjectConfiguration getProjectConfiguration(Project project);
 
-    String saveProfilePicture(FileInputStream image, String studentId);
+    String getProjectToken(String projectName, String password);
+
+    Project getProjectByToken(String projectToken);
+
+    List<String> getProjects(String userToken);
+
+    User getUserByToken(String userToken);
+
+    Project getProjectById(String projectId);
+
+    List<String> getProjectsStudent(String studentToken);
+
+    String saveProfilePicture(FileInputStream fis, String studentId);
+
+    List<String> getTags(Project project);
 }
 

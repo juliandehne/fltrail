@@ -31,13 +31,14 @@ public class ManagementTest  {
         management = TestHelper.getManagementImpl();
     }
 
+
     @Test
     public void testRegister() {
         User user = new User("julian", "1234", "from@stuff.com", true);
         management.create(user, new UserProfile());
         assert management.exists(user);
 
-        Project project = new Project("Gemainsam Forschen", "1235", true, "me", "keins");
+        Project project = factory.manufacturePojo(Project.class);
         management.create(project);
         management.register(user, project, null);
     }

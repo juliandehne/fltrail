@@ -6,7 +6,7 @@ $(document).ready(function(){
         location.href = "project-docent.jsp?token=" + getUserTokenFromUrl() + '&projectId=' + 'Kaleo';
     });
     $('#createProject').on('click', function(){
-        location.href="createProject.jsp?token="+getUserTokenFromUrl();
+        location.href="./management/create-project.jsp?token="+getUserTokenFromUrl();
     });
 
 });

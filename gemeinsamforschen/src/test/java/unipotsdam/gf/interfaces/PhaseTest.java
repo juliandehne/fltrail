@@ -5,6 +5,8 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
@@ -20,6 +22,11 @@ public class PhaseTest {
     @Inject
     private IPhases phases;
 
+    /**
+     * Utility to creaty dummy data for students
+     */
+    static PodamFactory factory = new PodamFactoryImpl();
+
 
     @Before
     public void setUp() {
@@ -34,7 +41,7 @@ public class PhaseTest {
         management.create(user, new UserProfile());
         assert management.exists(user);
 
-        Project project = new Project("Gemainsam Forschen", "1235", true, "me", "keins");
+        Project project = factory.manufacturePojo(Project.class);
         management.create(project);
         management.register(user, project, null);
     }

@@ -58,8 +58,14 @@ $(document).ready(function () {
                 "Cache-Control": "no-cache"
             },
             type: 'POST',
-            success: function () {
-                location.href = "quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+            success: function (response) {
+                if (response === "student") {
+                    location.href = "Quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                }
+                if (response === "docent") {
+                    location.href = "Quiz-docent.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim();
+                }
+
             },
             error: function (a) {
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @XmlRootElement
-
+//todo: I guess this can be deleted. Check this first
 public class Assessment {
     private StudentIdentifier student;// gemeint als Ziel der Bewertung, kann auch gruppe sein
     @JsonIgnore

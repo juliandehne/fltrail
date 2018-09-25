@@ -3,6 +3,8 @@ package unipotsdam.gf.core.management.user;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.InMemoryMySqlConnect;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
@@ -18,6 +20,8 @@ import static org.junit.Assert.assertTrue;
 public class UserDAOTest {
 
     private InMemoryMySqlConnect inMemoryMySqlConnect;
+
+    static PodamFactory factory = new PodamFactoryImpl();
 
     @Before
     public void setUp() {
@@ -38,7 +42,7 @@ public class UserDAOTest {
         assert management.exists(user);
 
 
-        Project project = new Project("Gemeinsam Forschen", "1235", true, "me", "keins");
+        Project project = factory.manufacturePojo(Project.class);
         management.create(project);
         management.register(user, project, null);
 

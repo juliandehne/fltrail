@@ -1,7 +1,9 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
+import unipotsdam.gf.core.management.Management;
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.Assessment;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
 import unipotsdam.gf.modules.assessment.controller.model.Quiz;
@@ -9,12 +11,8 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.inject.Inject;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -25,8 +23,10 @@ import java.util.Map;
 
 @Path("/assessments")
 public class QuizView {
-    //private static IPeerAssessment peer =  new PeerAssessmentDummy();   //TestSubject
     private static IPeerAssessment peer = new PeerAssessment();      //correct DB-conn and stuff
+
+    @Inject
+    Management management;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -39,6 +39,13 @@ public class QuizView {
             throw new AssertionError("UTF-8 is unknown");
         }
     }  ///////////////////////////////funktioniert//////////////////////////////////
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/project/{projectId}/quiz/author/{author}")
+    public ArrayList<Quiz> getQuiz(@PathParam("projectId") String projectId, @PathParam("author") String author) {
+        return peer.getQuiz(projectId, author);
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -101,53 +108,55 @@ public class QuizView {
         return peer.whatToRate(student);
     }
 
-    @POST
+    /*@POST
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/assessment")
     public void addAssessmentDataToDB(Assessment assessment) {
         peer.addAssessmentDataToDB(assessment);
-    }
+    }*/
 
-    private Assessment getAssessmentDataFromDB(StudentIdentifier student) {
-        return peer.getAssessmentDataFromDB(student);
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/get/project/{projectId}")
+    public Map<StudentIdentifier, Double> getAssessmentForProject(@PathParam("projectId") String projectId) {
+        return peer.getAssessmentForProject(projectId);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/project/{projectId}/student/{studentId}")
-    public Assessment getAssessmentDataFromDB(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
+    public Double getAssessmentForStudent(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
         StudentIdentifier student = new StudentIdentifier(projectId, studentId);
-        return getAssessmentDataFromDB(student);
-    }  //////////dummy//////////////funktioniert wie geplant//////////////////////////////////
+        return peer.getAssessmentForStudent(student);
+    }
 
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_HTML)
     @Path("/quiz")
-    public void createQuiz(StudentAndQuiz studentAndQuiz) {
+    public String createQuiz(StudentAndQuiz studentAndQuiz) {
+
+        Project project = management.getProjectById(studentAndQuiz.getStudentIdentifier().getProjectId());
+        User user = management.getUserByName(studentAndQuiz.getStudentIdentifier().getStudentId());
+        Boolean isStudent = user.getStudent();
         peer.createQuiz(studentAndQuiz);
+        if (isStudent) {
+            return "student";
+        } else {
+            return "docent";
+        }
     }
     ////////////////////////////////funktioniert///////////////////////////////////////////
-
+//todo: is unnecessary I guess. finalizing should just happen when phase ends
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/calculate")
-    public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
-        return peer.calculateAssessment(totalPerformance);
+    @Path("/finalize/project/{projectId}")
+    public String calculateAssessment(@PathParam("projectId") String projectId) {
+        peer.finalizeAssessment(projectId);
+        return "successfully finalized "+projectId;
     }
-    ////////////////////////funktioniert primitiv/////////todo: nicht als jersey zu nutzen///////////////////////////////
-
-    @GET
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/calculate/projectId/{projectId}/cheatChecker/{method}")
-    public Map<StudentIdentifier, Double> calculateAssessment(@PathParam("projectId") String projectId, @PathParam("method") String method) {
-        return peer.calculateAssessment(projectId, method);
-    }
-
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

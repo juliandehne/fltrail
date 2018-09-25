@@ -9,7 +9,6 @@ import unipotsdam.gf.modules.assessment.controller.model.GroupEvalDataList;
 import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.assessment.controller.service.FBAssessement;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
 import java.util.ArrayList;
@@ -75,7 +74,6 @@ public class TestAddAssessment {
 
     @Test
     public void addTestAssessment() {
-        IPeerAssessment iPeerAssessment = new FBAssessement();
         int [] quizAnswers = new int[5];
         quizAnswers[0] = 0;
         quizAnswers[1] = 1;

@@ -5,6 +5,7 @@ import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.assignments.Assignee;
 import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,5 +31,11 @@ public class DummyGroupfinding implements IGroupFinding {
     @Override
     public void formGroups(GroupFormationMechanism groupFindingMechanism) {
         NotImplementedLogger.logAssignment(Assignee.MIRJAM, IGroupFinding.class);
+    }
+
+    @Override
+    public ArrayList<String> getStudentsInSameGroup(
+            StudentIdentifier student) {
+        return null;
     }
 }

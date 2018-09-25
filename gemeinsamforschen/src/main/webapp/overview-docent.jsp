@@ -83,7 +83,9 @@
                 </tr>
             </table>
         </div>
-        <button class="btn btn-default" type="button" id="createProject" style="margin-left:250px;">Projekt erstellen</button>
+
+        <button class="btn btn-default" type="button" id="createProject" style="margin-left:250px;">Projekt
+            erstellen</button>
     </div>
 </body>
 

@@ -14,7 +14,7 @@
 <html>
 <head>
     <omniDependencies:omniDependencies hierarchy="1"/>
-    <script src="js/config.js"></script>
+    <script src="../core/config.js"></script>
     <script src="js/deleteProject.js"></script>
 
 </head>

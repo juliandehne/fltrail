@@ -50,7 +50,7 @@ function changePhase(currentPhase) {
         },
         type: 'POST',
         success: function () {
-            location.reload(1);
+            location.reload(true);
         },
         error: function (a) {
 

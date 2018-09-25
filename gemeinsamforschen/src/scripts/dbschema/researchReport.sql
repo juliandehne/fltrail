@@ -1,6 +1,6 @@
 CREATE TABLE `researchReport` (
   `reportID` varchar(400) NOT NULL,
-  `author` varchar(100) NOT NULL,
+  `authorEmail` varchar(100) NOT NULL,
   `title` varchar(400) NOT NULL,
   `method` text NOT NULL,
   `research` text NOT NULL,

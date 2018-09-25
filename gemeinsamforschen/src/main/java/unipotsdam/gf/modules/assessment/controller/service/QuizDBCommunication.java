@@ -44,13 +44,24 @@ public class QuizDBCommunication {
     }
 
     ArrayList<Quiz> getQuizByProjectId(String projectId) {
-        MysqlConnect connect = new MysqlConnect();
-        ArrayList<Quiz> result = new ArrayList<>();
-        connect.connect();
         String mysqlRequest = "SELECT * FROM quiz where projectId= ?";
+        return RequestToQuizList(mysqlRequest, projectId);
+    }
+
+
+    ArrayList<Quiz> getQuizByProjectIdAuthor(String projectId, String author){
+        String mysqlRequest = "SELECT * FROM quiz where projectId= ? AND author=?";
+        return RequestToQuizList(mysqlRequest, projectId, author);
+    }
+
+    private ArrayList<Quiz> RequestToQuizList(String sqlRequest, Object ... params) {
+        MysqlConnect connect = new MysqlConnect();
+
+        connect.connect();
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, projectId);
+                connect.issueSelectStatement(sqlRequest, params);
         boolean next = vereinfachtesResultSet.next();
+        ArrayList<Quiz> result = new ArrayList<>();
         String question;
         ArrayList<String> correctAnswers = new ArrayList<>();
         ArrayList<String> incorrectAnswers = new ArrayList<>();

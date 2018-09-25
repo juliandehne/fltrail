@@ -34,7 +34,7 @@
             <div class="alert" id="Assessment">
                 <p>Bewertungsphase</p>
             </div>
-            <div class="alert" id="end">
+            <div class="alert" id="Projectfinished">
                 <p>Ende</p>
             </div>
         </div>

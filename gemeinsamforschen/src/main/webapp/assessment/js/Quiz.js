@@ -1,7 +1,8 @@
 $(document).ready(function () {
     let projectId = document.getElementById('projectId').innerText.trim();
+    let studentId = document.getElementById('user').innerText.trim();
     $.ajax({
-        url: '../rest/assessments/project/' + projectId + '/quiz/',
+        url: '../rest/assessments/project/'+projectId+'/quiz/author/'+studentId,
         projectId: projectId,
         type: 'GET',
         success: function (data) {
@@ -20,8 +21,8 @@ $(document).ready(function () {
                 table.appendChild(trQuestion);
             }
         },
-        error: function (a) {
-            alert('Fehler ' + a);
+        error: function (a,b) {
+            alert('Fehler ' + b);
         }
     });
 

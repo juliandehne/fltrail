@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @ManagedBean
@@ -23,18 +24,19 @@ public class ProjectDAO {
         this.connect = connect;
     }
 
-    public void persist(Project project) {
+    public String persist(Project project) {
         UUID uuid = UUID.randomUUID();
         String token = uuid.toString();
 
         connect.connect();
         String mysqlRequest =
-                "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `author`, "
+                "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `authorEmail`, "
                         + "`adminPassword`, `token`, `phase`) values (?,?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.isActive(),
-                project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token, project.getPhase()
+                project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(), token, project.getPhase()
                         == null ? ProjectPhase.CourseCreation : project.getPhase());
         connect.close();
+        return token;
     }
 
     public void delete(Project project) {
@@ -43,7 +45,6 @@ public class ProjectDAO {
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId());
         connect.close();
         // TODO: delete all groups of project?
-
 
     }
 
@@ -64,6 +65,19 @@ public class ProjectDAO {
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, id);
         boolean next = vereinfachtesResultSet.next();
+        return getProject(vereinfachtesResultSet, next);
+    }
+
+    public Project getProjectByToken(String token) {
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM projects where token = ?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, token);
+        boolean next = vereinfachtesResultSet.next();
+        return getProject(vereinfachtesResultSet, next);
+    }
+
+    private Project getProject(VereinfachtesResultSet vereinfachtesResultSet, boolean next) {
         if (next) {
             Project project = getProjectFromResultSet(vereinfachtesResultSet);
             connect.close();
@@ -79,11 +93,26 @@ public class ProjectDAO {
         String password = vereinfachtesResultSet.getString("password");
         boolean active = vereinfachtesResultSet.getBoolean("active");
         Timestamp timestamp = vereinfachtesResultSet.getTimestamp("timecreated");
-        String author = vereinfachtesResultSet.getString("author");
+        String author = vereinfachtesResultSet.getString("authorEmail");
         String adminPassword = vereinfachtesResultSet.getString("adminpassword");
         String token = vereinfachtesResultSet.getString("token");
         String phase = vereinfachtesResultSet.getString("phase");
 
         return new Project(id, password, active, timestamp, author, adminPassword, token, ProjectPhase.valueOf(phase));
+    }
+
+    public java.util.List<String> getTags(Project project) {
+        connect.connect();
+        String mysqlRequest =
+                "SELECT t.tag from tags t where t.projectId = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getId());
+
+        java.util.List<String> result = new ArrayList<>();
+
+        while (vereinfachtesResultSet.next()) {
+            result.add(vereinfachtesResultSet.getString("tag"));
+        }
+        connect.close();
+        return  result;
     }
 }

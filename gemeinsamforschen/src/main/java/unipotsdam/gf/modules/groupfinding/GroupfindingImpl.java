@@ -25,10 +25,10 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
     @Override
-    public void persistGroups(
-            List<Group> groupComposition, Project project) {
+    public void persistGroups(List<Group> groupComposition, Project project) {
 
     }
+
 
     @Override
     public List<Group> getGroups(Project project) {
