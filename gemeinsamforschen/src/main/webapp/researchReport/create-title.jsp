@@ -25,37 +25,29 @@
                 <tr>
                     <td id="yourContent">
                         <form id="researchReportform" class="researchReportForm" method="POST"
-                              action="../rest/researchReport/save">
+                              action="../rest/researchReport/saveResearchReportPart">
 
-                            <!-- <div class = "researchReportMenu">
-                                   <nav>
-                                       <menu>
-                                           <menuitem><p><a href="">Gruppe</a></p> </menuitem>
-                                           <menuitem><p><a href="">Projekt erstellen</a> </p></menuitem>
-                                           <menuitem><p><a href="">Forschungsbericht erstellen</a></p></menuitem>
-                                           <menuitem><p><a href="">Review</a></p></menuitem>
-                                           <menuitem><p><a href="">User</a></p></menuitem>
-                                       </menu>
-                                   </nav>
-                               </div> -->
-
+                            <input type="hidden" id="student" name="student">
+                            <input type="hidden" id="project" name="project">
+                            <input type="hidden" id="category" name="category" value="TITEL">
                             <div class="researchReportTitlebar">
                                 <h1> Forschungsbericht erstellen 1/8</h1>
                             </div>
 
                             <div class="researchReportEditor">
                                 <h2 class="editor-inhalt">Titel eingeben:</h2>
-                                <textarea id="editor" name="text" form="researchReportForm" rows="20" cols="100">
-				</textarea>
+
+                                <textarea id="editor" name="text" form="researchReportform" rows="20"
+                                          cols="100"></textarea>
                             </div>
                             <div class="ResearchReportButtons">
-                                <button class="researchReportButtons"><a id="forwardLink">Speichern & weiter</a>
+                                <button class="researchReportButtons" type="submit">Speichern & weiter
                                 </button>
                                 <button class="researchReportButtons"><a id="backLink"> Zur&uuml;ck </a></button>
                             </div>
 
                             <div class="ResearchReportUpload">
-                                <input type="file" class="filepond" name="filepond"> </input>
+                                <input type="file" class="filepond" name="filepond">
                             </div>
 
 
@@ -83,7 +75,7 @@
 </div>
 
 
-<script src="js/createReportTitle.js"></script>
+<script src="js/researchReportNavigation.js"></script>
 <script src="js/createReportProgress.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>

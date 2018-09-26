@@ -28,6 +28,9 @@
                         <form id="researchReportform" class="researchReportForm" method="POST"
                               action="../rest/researchReport/save">
 
+                            <input type="hidden" id="student" name="student">
+                            <input type="hidden" id="project" name="project">
+                            <input type="hidden" id="category" name="category" value="FORSCHUNGSFRAGE">
 
                             <div class="researchReportTitlebar">
                                 <h1> Forschungsbericht erstellen 4/8</h1>
@@ -35,8 +38,8 @@
 
                             <div class="researchReportEditor">
                                 <h2 class="editor-inhalt">Forschungsfrage eingeben:</h2>
-                                <textarea id="editor" name="text" form="researchReportForm" rows="10" cols="100">
-				</textarea>
+                                <textarea id="editor" name="text" form="researchReportform" rows="20"
+                                          cols="100"></textarea>
                             </div>
                             <div class="ResearchReportButtons">
                                 <button class="researchReportButtons"><a href="create-concept.jsp">Speichern &
@@ -72,7 +75,7 @@
 </div>
 
 
-<script src="js/createReportQuestion.js"></script>
+<script src="js/researchReportNavigation.js"></script>
 <script src="js/createReportProgress.js"></script>
 <script src="https://unpkg.com/filepond/dist/filepond.js"></script> <!--FilePond -->
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
