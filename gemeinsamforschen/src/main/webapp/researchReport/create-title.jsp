@@ -41,8 +41,7 @@
                                           cols="100"></textarea>
                             </div>
                             <div class="ResearchReportButtons">
-                                <button class="researchReportButtons" type="submit">Speichern & weiter
-                                </button>
+                                <button class="researchReportButtons" type="submit">Speichern & weiter</button>
                                 <button class="researchReportButtons"><a id="backLink"> Zur&uuml;ck </a></button>
                             </div>
 

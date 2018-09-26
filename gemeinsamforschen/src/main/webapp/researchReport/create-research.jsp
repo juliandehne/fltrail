@@ -25,7 +25,7 @@
                 <tr>
                     <td id="yourContent">
                         <form id="researchReportform" class="researchReportForm" method="POST"
-                              action="../rest/researchReport/save">
+                              action="../rest/researchReport/saveResearchReportPart">
 
                             <input type="hidden" id="student" name="student">
                             <input type="hidden" id="project" name="project">
@@ -41,8 +41,8 @@
                                           cols="100"></textarea>
                             </div>
                             <div class="ResearchReportButtons">
-                                <button class="researchReportButtons">Speichern & weiter</button>
-                                <button class="researchReportButtons"><a href="create-title.jsp"> Zur&uuml;ck </a>
+                                <button class="researchReportButtons" type="submit">Speichern & weiter</button>
+                                <button class="researchReportButtons"><a id="backLink"> Zur&uuml;ck </a></button>
                                 </button>
                             </div>
 
