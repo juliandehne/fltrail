@@ -1,8 +1,8 @@
 package unipotsdam.gf.modules.communication;
 
-import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.communication.service.UnirestService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -18,16 +18,15 @@ public class ChatWindow extends SimpleTagSupport {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String token = request.getParameter("token");
-        ManagementImpl management = new ManagementImpl();
         //User user = management.getUserByToken(token);
         String groupToken = request.getParameter("groupToken");
         String projectToken = request.getParameter("projectToken");
         //get ProjetbyToken
-        ICommunication communicationService = new CommunicationDummyService();
-        String chatRoomLink = communicationService.getChatRoomLink(token,projectToken,groupToken);
+        ICommunication communicationService = new CommunicationDummyService(new UnirestService());
+        String chatRoomLink = communicationService.getChatRoomLink(token, projectToken, groupToken);
 
         JspWriter out = getJspContext().getOut();
-        out.println("<iframe width=\"30%\" height=\"100%\" src=\""+chatRoomLink+"\"/>");
+        out.println("<iframe width=\"30%\" height=\"100%\" src=\"" + chatRoomLink + "\"/>");
     }
 
     public void setOrientation(String orientation) {

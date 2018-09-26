@@ -1,0 +1,63 @@
+.journal-description-container{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 2fr 1fr 15%;
+    grid-template-areas: "edit edit group"
+            "text text links"
+            "text text ..."
+;
+}
+
+.journal-description-title{
+    grid-area:title;
+}
+
+.journal-description-edit{
+    grid-area:edit;
+}
+
+.journal-description-group{
+    grid-area:group;
+}
+
+.journal-description-text{
+    grid-area:text;
+}
+
+.journal-description-links{
+    grid-area:links;
+}
+
+.journal-container{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 1fr 2fr 2fr 15%;
+    grid-template-areas:
+    "name date category edit ..."
+    "avatar text text text ..."
+    ;
+}
+
+.journal-name{
+    grid-area:name;
+}
+
+.journal-date{
+    grid-area:date;
+}
+
+.journal-category{
+    grid-area:category;
+}
+
+.journal-edit{
+    grid-area:edit;
+}
+
+.journal-avatar{
+    grid-area:avatar;
+}
+
+.journal-text{
+    grid-area:text;
+}

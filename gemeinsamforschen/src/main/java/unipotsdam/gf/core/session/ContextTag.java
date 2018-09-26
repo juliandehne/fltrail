@@ -1,7 +1,5 @@
 package unipotsdam.gf.core.session;
 
-import unipotsdam.gf.core.management.project.Project;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -21,7 +19,7 @@ public class ContextTag extends SimpleTagSupport {
          * in the view, then the project is loaded from db and added via setAttribute like below
          */
         GFContext gfContext = (GFContext) request.getSession().getAttribute("gf_context");
-        out.println("<p>project:"+gfContext.getProject().toString()+"</p>");
+        out.println("<p>project:" + gfContext.getProject().toString() + "</p>");
 
     }
 }

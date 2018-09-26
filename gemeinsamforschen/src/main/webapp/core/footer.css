@@ -1,0 +1,38 @@
+.pg-rest{
+    background:#DDDDDD;
+}
+
+.pg-CourseCreation {
+    background: #777777;
+    width:5%;
+}
+
+.pg-GroupFormation {
+    background: #AAAA77;
+    width:15%;
+}
+
+.pg-test {
+    background: #4F3A3E;
+    width: 50%;
+}
+
+.pg-DossierFeedback {
+    background: #AA77AA;
+    width:30%;
+}
+
+.pg-Execution {
+    background: #77AAAA;
+    width: 55%;
+}
+
+.pg-Assessment {
+    background: #AA5555;
+    width: 75%;
+}
+
+.pg-Projectfinished {
+    background: #34DD44;
+    width:100%;
+}

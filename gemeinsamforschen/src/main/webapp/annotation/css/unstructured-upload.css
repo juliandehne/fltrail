@@ -1,0 +1,70 @@
+body, html {
+    height: 100vh;
+    width: 100vw;
+}
+
+.content-mainpage {
+    display: flex;
+    box-sizing: border-box;
+    font-family: Arial;
+    height: 100%;
+    overflow-y: scroll;
+    flex-flow: column nowrap;
+}
+
+.container-fluid-content {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.document-text-buttons {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    display: inline;
+}
+
+.document-text-buttons-back {
+    float: left;
+}
+
+.document-text-buttons-next {
+    float: right;
+}
+
+.file-upload-area {
+    height: 20%;
+}
+
+.upload-text {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.upload-text-textarea {
+    resize: none;
+    flex: 1;
+}
+
+#upload-textarea-form {
+    height: 100%;
+    margin-bottom: 15px;
+}
+
+label.error {
+    color: red;
+}
+
+.flex .container-fluid {
+    flex: 1;
+}
+

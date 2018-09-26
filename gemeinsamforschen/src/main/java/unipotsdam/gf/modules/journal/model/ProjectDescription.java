@@ -1,10 +1,9 @@
 package unipotsdam.gf.modules.journal.model;
 
-import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Date;
 
 import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
 
@@ -20,34 +19,32 @@ public class ProjectDescription {
     private String descriptionMD;
     private boolean open;
     private ArrayList<Link> links;
-    private ArrayList<String> group;
     private long timestamp;
 
     public ProjectDescription() {
     }
 
-    public ProjectDescription(String id, String name, String description, String project, ArrayList<Link> links, ArrayList<String> group, long timestamp) {
+    public ProjectDescription(String id, String name, String description, String project, ArrayList<Link> links) {
         this.id = id;
-        this.student = new StudentIdentifier(project,name);
+        this.student = new StudentIdentifier(project, name);
         this.descriptionHTML = convertMarkdownToHtml(description);
-        this.descriptionMD =description;
+        this.descriptionMD = description;
         this.links = links;
-        this.group = group;
-        this.timestamp = timestamp;
-        this.open =true;
+        this.timestamp = new Date().getTime();
+        this.open = true;
     }
-    public ProjectDescription(String id, String name, String description, String project, ArrayList<Link> links, ArrayList<String> group, long timestamp, boolean open) {
+
+    public ProjectDescription(String id, String name, String description, String project, ArrayList<Link> links, long timestamp, boolean open) {
         this.id = id;
-        this.student = new StudentIdentifier(project,name);
+        this.student = new StudentIdentifier(project, name);
         this.descriptionHTML = convertMarkdownToHtml(description);
-        this.descriptionMD =description;
+        this.descriptionMD = description;
         this.links = links;
-        this.group = group;
         this.timestamp = timestamp;
         this.open = open;
     }
 
-    public void setDescription (String description){
+    public void setDescription(String description) {
         this.descriptionMD = description;
         this.descriptionHTML = convertMarkdownToHtml(description);
     }
@@ -100,14 +97,6 @@ public class ProjectDescription {
         this.links = links;
     }
 
-    public ArrayList<String> getGroup() {
-        return group;
-    }
-
-    public void setGroup(ArrayList<String> group) {
-        this.group = group;
-    }
-
     public long getTimestamp() {
         return timestamp;
     }
@@ -125,7 +114,6 @@ public class ProjectDescription {
                 ", descriptionMD='" + descriptionMD + '\'' +
                 ", open=" + open +
                 ", links=" + links +
-                ", group=" + group +
                 ", timestamp=" + timestamp +
                 '}';
     }

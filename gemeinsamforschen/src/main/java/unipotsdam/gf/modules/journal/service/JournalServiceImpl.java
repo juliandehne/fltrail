@@ -2,6 +2,11 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
+import unipotsdam.gf.core.states.model.Constraints;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
@@ -10,12 +15,18 @@ import unipotsdam.gf.modules.journal.model.dao.JournalDAO;
 import unipotsdam.gf.modules.journal.model.dao.JournalDAOImpl;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JournalServiceImpl implements JournalService {
 
     private final Logger log = LoggerFactory.getLogger(JournalServiceImpl.class);
-    JournalDAO journalDAO = new JournalDAOImpl();
+    private final JournalDAO journalDAO = new JournalDAOImpl();
+
+    @Inject
+    private UserDAO userDAO;
 
     @Override
     public Journal getJournal(String id) {
@@ -42,7 +53,6 @@ public class JournalServiceImpl implements JournalService {
                 }
 
                 //If Visibility Group, show if student is in group and filter allows it
-                //TODO: project != Group, for testing ok, change for real Service
                 if (j.getVisibility() == Visibility.GROUP && j.getStudentIdentifier().getProjectId().equals(project) && filter == JournalFilter.ALL) {
                     result.add(j);
                 }
@@ -60,7 +70,7 @@ public class JournalServiceImpl implements JournalService {
     public ArrayList<Journal> getAllJournals(String student, String project) {
         log.debug(">> get all journals(" + student + "," + project + ")");
 
-        return journalDAO.getAllByProject(project);
+        return journalDAO.getAllByProject(project, student);
     }
 
     @Override
@@ -96,6 +106,26 @@ public class JournalServiceImpl implements JournalService {
         log.debug("<<< close journal");
     }
 
-    //TODO Export for assessment
-}
+    @Override
+    public Map<StudentIdentifier, ConstraintsMessages> checkIfAllJournalClosed(Project project) {
+        Map<StudentIdentifier, ConstraintsMessages> result = new HashMap<>();
+        for (String studentId: journalDAO.getOpenJournals(project)) {
+            StudentIdentifier student = new StudentIdentifier(project.getId(), studentId);
+            result.put(student, new ConstraintsMessages(Constraints.JournalOpen, student));
+        }
+        return result;
+    }
 
+    @Override
+    public ArrayList<User> getOpenUserByProject(Project project) {
+
+        ArrayList<String> userId = journalDAO.getOpenJournals(project);
+        ArrayList<User> users = new ArrayList<>();
+
+        for (String id : userId) {
+            users.add(userDAO.getUserByToken(id));
+        }
+        return users;
+    }
+
+}

@@ -2,12 +2,14 @@ package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.assignments.NotImplementedLogger;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Provides connection to rocket chat
@@ -24,17 +26,17 @@ public interface ICommunication {
     List<ChatMessage> getChatHistory(String roomId);
 
 
-    boolean sendMessageToChat(Message message, String roomId) ;
+    boolean sendMessageToChat(Message message, String roomId);
 
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/create/
      * creates chatroom
      *
-     * @param name                  chat room name
-     * @param studentIdentifierList member of chat by id
+     * @param name     chat room name
+     * @param userList member of chat by id
      * @return chat room id
      */
-    String createChatRoom(String name, List<User> studentIdentifierList);
+    String createChatRoom(String name, List<User> userList);
 
 
     /**
@@ -46,7 +48,7 @@ public interface ICommunication {
      */
     boolean addUserToChatRoom(String roomId, User user);
 
-    boolean removeUserFromChatRoom(User user, String roomId) ;
+    boolean removeUserFromChatRoom(User user, String roomId);
 
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/settopic/
@@ -76,6 +78,9 @@ public interface ICommunication {
     boolean loginUser(User user);
 
     /**
+     * api 1: https://rocket.chat/docs/developer-guides/rest-api/users/generatepersonalaccesstoken/
+     * api 2: https://rocket.chat/docs/developer-guides/rest-api/users/getpersonalaccesstokens/
+     *
      * registers new user to rocket chat
      *
      * @param user registers user to rocket.chat
@@ -89,6 +94,9 @@ public interface ICommunication {
 
     // TODO implement as Email or whatever
     void sendSingleMessage(Message message, User user);
+
+    //added by Axel.
+    void informAboutMissingTasks(Map<StudentIdentifier, ConstraintsMessages> tasks, Project project);
 
     // TODO implement as Email or whatever
     void sendMessageToUsers(Project project, String message);

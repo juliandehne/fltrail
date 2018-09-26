@@ -1,7 +1,7 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 
 public interface IPhases {
     /**

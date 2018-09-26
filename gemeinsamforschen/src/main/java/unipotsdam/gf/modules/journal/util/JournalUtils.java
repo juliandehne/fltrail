@@ -15,7 +15,7 @@ public class JournalUtils {
     public static final Logger log = LoggerFactory.getLogger(JournalUtils.class);
 
     /**
-     * Coverts a strirng to enum category
+     * Coverts a string to enum category
      *
      * @param category string
      * @return category, TITLE if string does not match
@@ -30,7 +30,7 @@ public class JournalUtils {
         } catch (IllegalArgumentException e) {
             c = Category.TITEL;
             //TODO extra Category for fail?
-            JournalUtils.log.debug("Illegal argument for visibility, default to TITLR");
+            JournalUtils.log.debug("Illegal argument for visibility, default to TITLE");
         }
         return c;
     }
@@ -67,10 +67,9 @@ public class JournalUtils {
         connection.connect();
 
         // build and execute request
-        //TODO Formatstring
-        String request = "SELECT COUNT(*) > 0 AS `exists` FROM " + table+ " WHERE id = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request,id);
-        log.debug("querry: " + rs.toString());
+        String request = "SELECT COUNT(*) > 0 AS `exists` FROM " + table + " WHERE id = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, id);
+        JournalUtils.log.debug("query: " + rs.toString());
         if (rs.next()) {
             // save the response
             int count = rs.getInt("exists");
@@ -79,11 +78,7 @@ public class JournalUtils {
             connection.close();
 
             // return true if we found the id
-            if (count < 1) {
-                return false;
-            } else {
-                return true;
-            }
+            return count >= 1;
         }
 
         // something happened

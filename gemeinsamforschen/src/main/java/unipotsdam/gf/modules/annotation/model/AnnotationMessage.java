@@ -1,9 +1,12 @@
 package unipotsdam.gf.modules.annotation.model;
 
+import unipotsdam.gf.modules.peer2peerfeedback.Category;
+
 public class AnnotationMessage {
     // variables
     private String from;
     private String targetId;
+    private Category targetCategory;
     private AnnotationMessageType type;
     private String annotationId;
 
@@ -30,6 +33,14 @@ public class AnnotationMessage {
         this.targetId = targetId;
     }
 
+    public Category getTargetCategory() {
+        return targetCategory;
+    }
+
+    public void setTargetCategory(Category targetCategory) {
+        this.targetCategory = targetCategory;
+    }
+
     public AnnotationMessageType getType() {
         return type;
     }
@@ -51,8 +62,10 @@ public class AnnotationMessage {
         return "AnnotationMessage{" +
                 "from='" + from + '\'' +
                 ", targetId='" + targetId + '\'' +
+                ", targetCategory=" + targetCategory +
                 ", type=" + type +
                 ", annotationId='" + annotationId + '\'' +
                 '}';
     }
+
 }

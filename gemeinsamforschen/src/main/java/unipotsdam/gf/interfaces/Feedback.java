@@ -1,11 +1,15 @@
 package unipotsdam.gf.interfaces;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.modules.peer2peerfeedback.Peer2PeerFeedback;
+import unipotsdam.gf.core.states.model.Constraints;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Map;
 
 
 /**
@@ -17,12 +21,20 @@ public interface Feedback {
     /**
      * create Peer2PeerFeedback Object
      *
-     * @param feedbackuser: The student who is creating the feedback
-     * @param selectedstudent: The student who receive the feedback
-     * @param document: The selected document to give feedback about
+     * @param feedback:
      * @return Returns the Peer2PeerFeedback Object
      */
 
+    Peer2PeerFeedback createPeer2PeerFeedback(Peer2PeerFeedback feedback);
+    //(String id, String reciever, String sender, String text, Category category, String filename);
+
+    /**
+     * create Peer2PeerFeedback Object
+     *
+     * @param feedbackuser:
+     * @param selectedstudent:
+     * @param document:
+     **/
     Peer2PeerFeedback createPeer2PeerFeedbackmask(User feedbackuser, User selectedstudent, File document);
 
     /**
@@ -58,7 +70,7 @@ public interface Feedback {
      * @param project
      * @return
      */
-    Boolean checkFeedbackConstraints(Project project);
+    Map<StudentIdentifier, ConstraintsMessages> checkFeedbackConstraints(Project project);
 
     /**
      * TODO implement a routine that assigns missing feedback tasks if someone drops out of a course

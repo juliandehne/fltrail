@@ -7,8 +7,8 @@ import unipotsdam.gf.modules.annotation.model.Annotation;
 import unipotsdam.gf.modules.annotation.model.AnnotationBody;
 import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
+import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -27,8 +27,8 @@ public class AnnotationController implements IAnnotation {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT INTO annotations (`id`, `userToken`, `targetId`, `title`, `comment`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, annotationPostRequest.getUserToken(), annotationPostRequest.getTargetId(), annotationPostRequest.getBody().getTitle(), annotationPostRequest.getBody().getComment(),annotationPostRequest.getBody().getStartCharacter(), annotationPostRequest.getBody().getEndCharacter());
+        String request = "INSERT INTO annotations (`id`, `userToken`, `targetId`, `targetCategory`, `title`, `comment`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?,?,?,?,?);";
+        connection.issueInsertOrDeleteStatement(request, uuid, annotationPostRequest.getUserToken(), annotationPostRequest.getTargetId(), annotationPostRequest.getTargetCategory().toString().toUpperCase(), annotationPostRequest.getBody().getTitle(), annotationPostRequest.getBody().getComment(), annotationPostRequest.getBody().getStartCharacter(), annotationPostRequest.getBody().getEndCharacter());
 
         // close connection
         connection.close();
@@ -104,7 +104,7 @@ public class AnnotationController implements IAnnotation {
     }
 
     @Override
-    public ArrayList<Annotation> getAnnotations(int targetId) {
+    public ArrayList<Annotation> getAnnotations(String targetId, Category category) {
 
         // declare annotation ArrayList
         ArrayList<Annotation> annotations = new ArrayList<>();
@@ -114,8 +114,8 @@ public class AnnotationController implements IAnnotation {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM annotations WHERE targetId = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, targetId);
+        String request = "SELECT * FROM annotations WHERE targetId = ? AND targetCategory = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, targetId, category.toString().toUpperCase());
 
         while (rs.next()) {
             annotations.add(getAnnotationFromResultSet(rs));
@@ -171,7 +171,8 @@ public class AnnotationController implements IAnnotation {
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
         String userToken = rs.getString("userToken");
-        int targetId = rs.getInt("targetId");
+        String targetId = rs.getString("targetId");
+        Category targetCategory = Category.valueOf(rs.getString("targetCategory"));
 
         // initialize new annotation body
         String title = rs.getString("title");
@@ -180,7 +181,7 @@ public class AnnotationController implements IAnnotation {
         int endCharacter = rs.getInt("endCharacter");
         AnnotationBody body = new AnnotationBody(title, comment, startCharacter, endCharacter);
 
-        return new Annotation(id, timestamp, userToken, targetId, body);
+        return new Annotation(id, timestamp, userToken, targetId, targetCategory, body);
 
     }
 }

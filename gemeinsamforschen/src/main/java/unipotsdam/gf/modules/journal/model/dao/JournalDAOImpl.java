@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.journal.model.dao;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
@@ -16,7 +17,7 @@ public class JournalDAOImpl implements JournalDAO {
     public void createJournal(Journal journal) {
         // create a new id if we found no id.
         String uuid = UUID.randomUUID().toString();
-        while (JournalUtils.existsId(uuid,"journals")) {
+        while (JournalUtils.existsId(uuid, "journals")) {
             uuid = UUID.randomUUID().toString();
         }
 
@@ -25,7 +26,7 @@ public class JournalDAOImpl implements JournalDAO {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT INTO journals (`id`, `author`, `project`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
+        String request = "INSERT INTO journals (`id`, `studentId`, `projectId`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, uuid, journal.getStudentIdentifier().getStudentId(),
                 journal.getStudentIdentifier().getProjectId(), journal.getEntryMD(), journal.getVisibility(), journal.getCategory(), true);
 
@@ -95,7 +96,7 @@ public class JournalDAOImpl implements JournalDAO {
     }
 
     @Override
-    public ArrayList<Journal> getAllByProject(String project) {
+    public ArrayList<Journal> getAllByProject(String project, String student) {
 
         ArrayList<Journal> journals = new ArrayList<>();
 
@@ -104,8 +105,8 @@ public class JournalDAOImpl implements JournalDAO {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM journals WHERE project= ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project);
+        String request = "SELECT * FROM journals WHERE projectId= ? AND (studentId = ? OR visibility = \"ALL\" or visibility = \"GROUP\");";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project, student);
 
         while (rs.next()) {
             journals.add(getJournalFromResultSet(rs));
@@ -127,7 +128,7 @@ public class JournalDAOImpl implements JournalDAO {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM journals WHERE author= ?;";
+        String request = "SELECT * FROM journals WHERE studentId= ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, student);
 
         while (rs.next()) {
@@ -144,7 +145,7 @@ public class JournalDAOImpl implements JournalDAO {
     @Override
     public ArrayList<Journal> getAllByProjectAndFilter(String project, String student, JournalFilter filter) {
         if (filter == JournalFilter.ALL) {
-            return getAllByProject(project);
+            return getAllByProject(project, student);
         } else {
             return getAllByStudent(student);
         }
@@ -165,6 +166,29 @@ public class JournalDAOImpl implements JournalDAO {
         connection.close();
     }
 
+    @Override
+    public ArrayList<String> getOpenJournals(Project project) {
+        ArrayList<String> userIds = new ArrayList<>();
+
+        // establish connection
+        MysqlConnect connection = new MysqlConnect();
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * FROM journals WHERE projectId = ? AND open = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getId(), true);
+
+        while (rs.next()) {
+            userIds.add(getJournalFromResultSet(rs).getStudentIdentifier().getStudentId());
+        }
+
+        // close connection
+        connection.close();
+
+        return userIds;
+
+    }
+
     /**
      * extracts a journal from VereinfachtesResultSet
      *
@@ -175,8 +199,8 @@ public class JournalDAOImpl implements JournalDAO {
 
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
-        String student = rs.getString("author");
-        String project = rs.getString("project");
+        String student = rs.getString("studentId");
+        String project = rs.getString("projectId");
         String text = rs.getString("text");
         String visibility = rs.getString("visibility");
         String category = rs.getString("category");

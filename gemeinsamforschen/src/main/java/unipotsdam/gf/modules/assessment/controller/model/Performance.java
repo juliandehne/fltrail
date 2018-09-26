@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public class Performance {
         this.studentIdentifier = student;
         this.quizAnswer = quiz;
         this.workRating=workRating;
-        this.contributionRating=contributionRating;
+        this.contributionRating = contributionRating;
 
     }
 
@@ -27,9 +26,14 @@ public class Performance {
     public void setStudentIdentifier(StudentIdentifier studentIdentifier) {
         this.studentIdentifier = studentIdentifier;
     }
-    public Map getContributionRating() { return contributionRating;    }
 
-    public void setContributionRating(Map contributionRating) { this.contributionRating = contributionRating;    }
+    public Map getContributionRating() {
+        return contributionRating;
+    }
+
+    public void setContributionRating(Map contributionRating) {
+        this.contributionRating = contributionRating;
+    }
 
 
     public List<Integer> getQuizAnswer() {

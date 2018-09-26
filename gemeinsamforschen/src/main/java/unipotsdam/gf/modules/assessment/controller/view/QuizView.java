@@ -1,11 +1,20 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.QuizAnswer;
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.modules.assessment.controller.model.Assessment;
+import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -39,6 +48,7 @@ public class QuizView {
     }
     //////////////////////////////////////////funktioniert///////////////////////////////////////
 
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/peerRating/project/{projectId}")
@@ -46,15 +56,21 @@ public class QuizView {
         peer.postPeerRating(peerRatings, projectId);
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/groupRate/project/{projectId}/student/{studentId}")
+    public Integer whichGroupToRate(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
+        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+        return peer.whichGroupToRate(student);
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/contributionRating/projectId/{projectId}/studentId/{studentId}/fromPeer/{fromPeer}")
+    @Path("/contributionRating/group/{groupId}/fromPeer/{fromPeer}")
     public void postContributionRating(Map<String, Integer> contributionRatings,
-                                       @PathParam("projectId") String projectId,
-                                       @PathParam("studentId") String studentId,
+                                       @PathParam("groupId") String groupId,
                                        @PathParam("fromPeer") String fromPeer) throws IOException {
-        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
-        peer.postContributionRating(student, fromPeer, contributionRatings);
+        peer.postContributionRating(groupId, fromPeer, contributionRatings);
     }
 
     @POST
@@ -75,6 +91,14 @@ public class QuizView {
         } catch (UnsupportedEncodingException e) {
             throw new AssertionError("UTF-8 is unknown");
         }
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/whatToRate/project/{projectId}/student/{studentId}")
+    public String whatToRate(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
+        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+        return peer.whatToRate(student);
     }
 
     @POST
@@ -140,7 +164,7 @@ public class QuizView {
         return getTotalAssessment(studentIdentifier);
     }  //////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
-    public ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
+    private ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
         return peer.getTotalAssessment(studentIdentifier);
     }  /////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
@@ -193,5 +217,4 @@ public class QuizView {
         result.add(pf2);
         return result;
     }  /////////dummy////////////returns what i expect it to return!!!!!//////////////////////////////////
-
 }

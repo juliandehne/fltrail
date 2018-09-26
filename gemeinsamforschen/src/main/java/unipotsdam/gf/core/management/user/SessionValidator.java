@@ -2,8 +2,9 @@ package unipotsdam.gf.core.management.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.core.management.ManagementImpl;
 
+import javax.annotation.ManagedBean;
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -17,9 +18,13 @@ import java.io.IOException;
  * this filter can be applied to a given space in order to validate, that the tag in the url is a valid one
  * not applied to to a folder yet (because might lead to confusing experiences in debugging)
  */
+@ManagedBean
 public class SessionValidator implements Filter {
 
     private final static Logger log = LoggerFactory.getLogger(SessionValidator.class);
+
+    @Inject
+    private UserDAO userDAO;
 
     private void redirectToLogin(ServletRequest request, ServletResponse response) {
         log.debug("redirecting user to login because token does not exist");
@@ -41,8 +46,8 @@ public class SessionValidator implements Filter {
         if (token == null) {
             redirectToLogin(request, response);
         }
-        ManagementImpl management = new ManagementImpl();
-        User user = management.getUserByToken(token);
+
+        User user = userDAO.getUserByToken(token);
         if (user == null) {
             redirectToLogin(request, response);
         }

@@ -1,7 +1,13 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
-import unipotsdam.gf.modules.assessment.QuizAnswer;
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.assessment.controller.model.Assessment;
+import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +67,12 @@ public class FBAssessement extends AssessmentDAO {
     }
 
     @Override
-    public void postContributionRating(StudentIdentifier student, String fromStudent, Map<String, Integer> contributionRating) {
+    public Integer whichGroupToRate(StudentIdentifier student) {
+        return null;
+    }
+
+    @Override
+    public void postContributionRating(String groupId, String fromStudent, Map<String, Integer> contributionRating) {
 
     }
 
@@ -72,6 +83,21 @@ public class FBAssessement extends AssessmentDAO {
 
     @Override
     public void deleteQuiz(String quizId) {
+
+    }
+
+    @Override
+    public String whatToRate(StudentIdentifier student) {
+        return null;
+    }
+
+    @Override
+    public Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId) {
+        return null;
+    }
+
+    @Override
+    public void assignMissingAssessmentTasks(Project project) {
 
     }
 

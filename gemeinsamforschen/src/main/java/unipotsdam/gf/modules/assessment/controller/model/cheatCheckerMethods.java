@@ -7,11 +7,12 @@ public enum cheatCheckerMethods {
 
     private final String text;
 
-    cheatCheckerMethods(final String text){
+    cheatCheckerMethods(final String text) {
         this.text = text;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return text;
     }
 }

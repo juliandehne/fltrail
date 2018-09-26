@@ -1,7 +1,13 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.modules.assessment.QuizAnswer;
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.assessment.controller.model.Assessment;
+import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +25,7 @@ public interface IPeerAssessment {
      */
     void addAssessmentDataToDB(Assessment assessment);
 
-    Quiz getQuiz(String projectId, String groupId, String author);
+    Quiz getQuiz(String projectId, String quizId, String author);
     /**
      * will return a saved assessment from the DB
      *
@@ -43,6 +49,8 @@ public interface IPeerAssessment {
      * @param totalPerformance @return
      */
     Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance); // calculates marks for every performance and writes it to an array
+
+    Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method);
 
 
     /**
@@ -76,17 +84,28 @@ public interface IPeerAssessment {
      */
     void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId);
 
-    void postContributionRating(StudentIdentifier student,
+    /**
+     *
+     * @param student
+     * @return
+     */
+    Integer whichGroupToRate(StudentIdentifier student);
+
+    void postContributionRating(String groupId,
                                 String fromPeer,
                                 Map<String, Integer> contributionRating);
 
     /**
-     *
      * @param questions
      * @param student
      */
     void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student);
+
     void deleteQuiz(String quizId);
 
-    Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method);
+    String whatToRate(StudentIdentifier student);
+
+    Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId);
+
+    void assignMissingAssessmentTasks(Project project);
 }
