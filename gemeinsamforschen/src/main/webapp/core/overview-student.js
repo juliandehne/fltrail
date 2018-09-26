@@ -79,62 +79,16 @@ function getProjects(studentId){
             }
             $('#projectTRTemplate').tmpl(tmplObject).appendTo('#projects');
 
-
-/*
-            let projectTable = document.getElementById('projects');
             for (let i=0; i<response.length; i++){
                 let projectName = response[i];
-                let projectDiv = document.createElement('DIV');
-                let projectTRString = nameToTableString(projectName);
-                projectDiv.innerHTML=projectTRString;
-                projectTable.appendChild(projectDiv);
                 updateStatus(projectName);
                 $('#project'+projectName).on('click', function(){
                     location.href = "project-student.jsp?token=" + getUserTokenFromUrl() + '&projectId=' + projectName;
                 });
-            }*/
+            }
         },
         error: function(a){
 
         }
     });
-}
-
-function nameToTableString(projectName){
-    return'<tr class="pageChanger">'+
-        '   <td>'+
-        '       <a id="project'+projectName+'">'+
-        '       <h1>'+projectName+'</h1>'+
-        '       </a>'+
-        '   </td>'+
-        '</tr>'+
-        '<tr>'+
-        '   <td>'+
-        '       <div class="panel panel-default">'+
-        '           <div class="panel-heading">'+
-        '               <h3 class="panel-title">Newsfeed </h3>'+
-        '               Status: <p id="status'+projectName+'"></p>'+
-        '           </div>'+
-        '           <div class="panel-body">'+
-        '               <ul class="list-group">'+
-        newsFeedMessages(projectName)+
-        '              </ul>'+
-        '          </div>'+
-        '      </div>'+
-        '   </td>'+
-        '</tr>'+
-        '<tr>'+
-        '   <td></td>'+
-        '</tr>';
-}
-
-function newsFeedMessages(projectName){
-    return'                       <li class="list-group-item">'+
-    '                           <span>dummy</span>'+
-    '                       </li>'+
-    '                       <li class="list-group-item">' +
-    '                           <span>dummy</span>'+
-    '                       </li>'+
-    '                       <li class="list-group-item">'+
-    '                           <span>dummy</span></li>';
 }
