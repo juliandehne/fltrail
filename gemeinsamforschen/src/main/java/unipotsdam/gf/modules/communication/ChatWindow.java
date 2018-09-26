@@ -17,7 +17,7 @@ public class ChatWindow extends SimpleTagSupport {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String token = request.getParameter("token");
-        //User user = management.getUserByToken(token);
+        //User user = management.getUserByEmail(token);
         String groupToken = request.getParameter("groupToken");
         String projectToken = request.getParameter("projectToken");
         //get ProjetbyToken

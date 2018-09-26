@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    let studentId = $('#user').html().trim();
+    let studentId = $('#userEmail').html().trim();
     getProjects(studentId);
     $('#enrollProject').on('click', function(){
         location.href="management/join-project.jsp?token="+getUserEmail();
@@ -47,7 +47,7 @@ function updateStatus(projectId){
 }
 
 function getGrade(projectId){
-    let studentId = $('#user').html().trim();
+    let studentId = $('#userEmail').html().trim();
     $.ajax({
         url: 'rest/assessments/get/project/'+projectId+'/student/'+studentId,
         headers: {

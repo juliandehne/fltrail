@@ -106,12 +106,12 @@ public class UserDAO {
         return token;
     }
 
-    public User getUserByToken(String token) {
-        return getUserByField("token", token);
-    }
-
     public User getUserByEmail(String email) {
         return getUserByField("email", email);
+    }
+
+    public User getUserByToken(String token) {
+        return getUserByField("token", token);
     }
 
     private User getUserByField(String field, String value) {

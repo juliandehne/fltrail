@@ -87,10 +87,10 @@ public class ProjectView {
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/all/student/{studentToken}")
+    @Path("/all/student/{studentEmail}")
     public java.util.List<String> getProjectsStudent(
-            @PathParam("studentToken") String studentToken) {
-        return iManagement.getProjectsStudent(studentToken);
+            @PathParam("studentEmail") String studentEmail) {
+        return iManagement.getProjectsStudent(studentEmail);
     }
 
     @GET

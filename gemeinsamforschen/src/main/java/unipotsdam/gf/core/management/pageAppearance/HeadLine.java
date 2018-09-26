@@ -3,6 +3,7 @@ package unipotsdam.gf.core.management.pageAppearance;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
+import unipotsdam.gf.core.session.GFContexts;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -15,11 +16,17 @@ public class HeadLine extends SimpleTagSupport {
     public void doTag() throws IOException {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-        String projectId = request.getParameter("projectId");
-        String token = request.getParameter("token");
+        String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
+        String projectId;
+        try{
+            projectId = request.getSession().getAttribute(GFContexts.PROJECTNAME).toString();
+        }catch ( Exception e){
+            projectId = null;
+        }
+
         JspWriter out = getJspContext().getOut();
         UserDAO userDAO = new UserDAO(new MysqlConnect());
-        User user = userDAO.getUserByToken(token);
+        User user = userDAO.getUserByEmail(userEmail);
         Boolean isStudent = user.getStudent();
         out.println("<div class=\"container-fluid\">\n" +
                 "            <table style=\"width:100%\">\n" +

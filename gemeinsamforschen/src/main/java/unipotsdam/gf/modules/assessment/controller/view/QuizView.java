@@ -125,9 +125,9 @@ public class QuizView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/get/project/{projectId}/student/{studentId}")
-    public Double getAssessmentForStudent(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
-        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+    @Path("/get/project/{projectId}/student/{studentEmail}")
+    public Double getAssessmentForStudent(@PathParam("projectId") String projectId, @PathParam("studentEmail") String studentEmail) {
+        StudentIdentifier student = new StudentIdentifier(projectId, studentEmail);
         return peer.getAssessmentForStudent(student);
     }
 

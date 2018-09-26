@@ -123,7 +123,7 @@ public class JournalServiceImpl implements JournalService {
         ArrayList<User> users = new ArrayList<>();
 
         for (String id : userId) {
-            users.add(userDAO.getUserByToken(id));
+            users.add(userDAO.getUserByEmail(id));
         }
         return users;
     }
