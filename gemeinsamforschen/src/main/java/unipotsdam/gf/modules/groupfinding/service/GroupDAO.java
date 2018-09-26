@@ -11,11 +11,7 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @ManagedBean
 @Resource
@@ -137,6 +133,19 @@ public class GroupDAO {
             existingGroups.add(existingGroup);
         }
         return existingGroups;
+    }
+
+    public int getGroupIdByStudentIdentifier(StudentIdentifier studentIdentifier) {
+        String mysqlQuery = "SELECT id FROM groups where projectId=? AND studentId=?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlQuery, studentIdentifier.getProjectId()
+                , studentIdentifier.getStudentId());
+        int id;
+        if (resultSet.next()) {
+            id = resultSet.getInt("id");
+        } else {
+            id = 0;
+        }
+        return id;
     }
 
 }

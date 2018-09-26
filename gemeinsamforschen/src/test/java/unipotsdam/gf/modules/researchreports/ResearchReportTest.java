@@ -6,7 +6,7 @@
 import com.sun.org.apache.xerces.internal.xs.LSInputList;
 import org.junit.Test;
 import org.w3c.dom.ls.LSInput;
-import unipotsdam.gf.modules.researchreport.ResearchReport;
+import unipotsdam.gf.modules.researchreport.model.ResearchReport;
 
 import java.util.*;
 

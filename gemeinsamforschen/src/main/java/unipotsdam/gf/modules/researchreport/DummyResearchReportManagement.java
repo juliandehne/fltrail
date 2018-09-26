@@ -2,11 +2,12 @@ package unipotsdam.gf.modules.researchreport;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.assignments.Assignee;
 import unipotsdam.gf.assignments.NotImplementedLogger;
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.modules.researchreport.model.ResearchReport;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -35,7 +36,7 @@ public class DummyResearchReportManagement implements ResearchReportManagement {
             DummyResearchReportCounter.feedbackTasksNotAssigned = false;
             feedback.assignFeedbackTasks();
         }
-        return factory.manufacturePojo(ResearchReport.class).getId();
+        return "1";
     }
 
     @Override

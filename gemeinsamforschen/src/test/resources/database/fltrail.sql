@@ -137,6 +137,16 @@ CREATE TABLE `workrating` (
   `autonomous` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE if not exists `researchreport` (
+  `id`        int(11)      NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `groupId`   int(11)      NOT NULL,
+  `projectId` VARCHAR(800) NOT NULL,
+  `content`   VARCHAR(800) NOT NULL,
+  `category`  VARCHAR(800) NOT NULL
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
 ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`);
 

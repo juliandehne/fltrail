@@ -9,7 +9,7 @@ import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.EPortfolio;
 import unipotsdam.gf.modules.journal.model.Journal;
-import unipotsdam.gf.modules.researchreport.ResearchReport;
+import unipotsdam.gf.modules.researchreport.model.ResearchReport;
 
 import java.io.File;
 import java.util.ArrayList;

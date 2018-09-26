@@ -1,7 +1,7 @@
 package unipotsdam.gf.modules.journal.model;
 
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.researchreport.ResearchReport;
+import unipotsdam.gf.modules.researchreport.model.ResearchReport;
 
 import java.util.ArrayList;
 

@@ -23,8 +23,8 @@ import unipotsdam.gf.modules.groupfinding.GroupfindingCriteria;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
-import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
+import unipotsdam.gf.modules.researchreport.model.ResearchReport;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -32,7 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 
 

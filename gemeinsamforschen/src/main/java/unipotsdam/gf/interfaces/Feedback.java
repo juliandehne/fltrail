@@ -1,11 +1,10 @@
 package unipotsdam.gf.interfaces;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.states.model.Constraints;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
-import unipotsdam.gf.modules.researchreport.ResearchReport;
+import unipotsdam.gf.modules.researchreport.model.ResearchReport;
 
 import java.io.File;
 import java.util.ArrayList;
