@@ -90,7 +90,7 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
         ArrayList<User> users = new ArrayList<>();
 
         for (String id : userId) {
-            users.add(userDAO.getUserByToken(id));
+            users.add(userDAO.getUserByEmail(id));
         }
         return users;
     }

@@ -86,7 +86,7 @@ public class UserDAOTest {
         user.setStudent(false);
         userDAO.update(user);
         assertTrue(userDAO.exists(user));
-        User managementUser = userDAO.getUserByToken(user.getToken());
+        User managementUser = userDAO.getUserByEmail(user.getToken());
         assertEquals(user.getStudent(), managementUser.getStudent());
     }
 

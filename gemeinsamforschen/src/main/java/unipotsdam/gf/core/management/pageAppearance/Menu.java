@@ -23,7 +23,12 @@ public class Menu extends SimpleTagSupport {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
-        String projectName = request.getSession().getAttribute(GFContexts.PROJECTNAME).toString();
+        String projectName;
+        try {
+            projectName = request.getSession().getAttribute(GFContexts.PROJECTNAME).toString();
+        } catch(Exception e){
+            projectName = "";
+        }
         ProjectPhase projectPhase;
         try {
             ProjectDAO projectDAO = new ProjectDAO(new MysqlConnect());
@@ -34,7 +39,7 @@ public class Menu extends SimpleTagSupport {
         JspWriter out = getJspContext().getOut();
         UserDAO userDAO = new UserDAO(new MysqlConnect());
         if (userEmail != null) {
-            User user = userDAO.getUserByToken(userEmail);
+            User user = userDAO.getUserByEmail(userEmail);
             Boolean isStudent = user.getStudent();
             if (isStudent) {
                 String menuString = "<div id=\"sidebar-wrapper\">\n" +
@@ -123,7 +128,7 @@ public class Menu extends SimpleTagSupport {
         }
         if (projectName != null)
             out.println("<p id=\"projectName\" hidden>" + projectName + "</p>");
-        User user = userDAO.getUserByToken(userEmail);
+        User user = userDAO.getUserByEmail(userEmail);
         if (user != null)
             out.println("<p id=\"userEmail\" hidden>" + user.getEmail() + "</p>");
         out.println("<p id=\"hierarchyLevel\" hidden>" + hierarchyLevel.toString() + "</p>");

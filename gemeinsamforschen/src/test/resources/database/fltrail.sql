@@ -91,7 +91,8 @@ CREATE TABLE `projects` (
 
 CREATE TABLE `projectuser` (
   `projectId` varchar(400) NOT NULL,
-  `userId` varchar(400) NOT NULL
+  `useremail` varchar(400) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT;
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `quiz` (

@@ -12,8 +12,6 @@ import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
 import unipotsdam.gf.core.management.util.ResultSetUtil;
-import unipotsdam.gf.core.states.model.ProjectPhase;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import javax.annotation.ManagedBean;
@@ -22,12 +20,10 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.FileInputStream;
 import java.sql.Blob;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -139,8 +135,8 @@ public class ManagementImpl implements Management {
     }
 
 
-    public User getUserByToken(String token) {
-        return userDAO.getUserByToken(token);
+    public User getUserByToken(String email) {
+        return userDAO.getUserByEmail(email);
     }
 
 
@@ -255,18 +251,18 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public List<String> getProjectsStudent(String studentToken) {
-        if (studentToken == null) {
+    public List<String> getProjectsStudent(String studentEmail) {
+        if (studentEmail == null) {
             return null;
         }
         connect.connect();
         String mysqlRequest =
-                "SELECT projectId FROM projectuser WHERE userId=?";
+                "SELECT projectId FROM projectuser WHERE useremail=?";
 
         //49c6eeda-62d2-465e-8832-dc2db27e760c
 
         List<String> result = new ArrayList<>();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, studentToken);
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, studentEmail);
         while (vereinfachtesResultSet.next()) {
             String project = vereinfachtesResultSet.getString("projectId");
             result.add(project);

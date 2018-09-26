@@ -47,7 +47,7 @@ public class SessionValidator implements Filter {
             redirectToLogin(request, response);
         }
 
-        User user = userDAO.getUserByToken(token);
+        User user = userDAO.getUserByEmail(token);
         if (user == null) {
             redirectToLogin(request, response);
         }

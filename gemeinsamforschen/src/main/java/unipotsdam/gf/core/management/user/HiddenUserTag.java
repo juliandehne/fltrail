@@ -23,7 +23,7 @@ public class HiddenUserTag extends SimpleTagSupport {
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String token = request.getParameter("token");
 
-        User user = userDAO.getUserByToken(token);
+        User user = userDAO.getUserByEmail(token);
         JspWriter out = getJspContext().getOut();
         out.println("<p id=\"user\" hidden>" + user.getName() + "</p>");
     }

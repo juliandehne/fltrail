@@ -1,7 +1,6 @@
 package unipotsdam.gf.core.management.user;
 
 import unipotsdam.gf.core.management.Management;
-import unipotsdam.gf.core.session.GFContext;
 import unipotsdam.gf.core.session.GFContexts;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
@@ -9,7 +8,6 @@ import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.PageContext;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -18,7 +16,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URI;
@@ -141,8 +138,7 @@ public class UserService {
     }
 
     private User fillUserFields(User user) {
-        String token = userDAO.getUserToken(user);
-        user = userDAO.getUserByToken(token);
+        user = userDAO.getUserByEmail(user.getEmail());
         return user;
     }
 
