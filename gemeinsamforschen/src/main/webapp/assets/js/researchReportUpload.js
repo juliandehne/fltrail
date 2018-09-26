@@ -7,6 +7,15 @@ FilePond.registerPlugin(
     FilePondPluginImagePreview,
 );
 
+$(document).ready(function() {
+    $('#student').val(student);
+    $('#project').val(project);
+
+
+})
+
+var student = getQueryVariable("token");
+var project = getQueryVariable("projectId");
 //document.body.appendChild(pond.element);
 const inputElement = document.querySelector('input[type="file"]');
 const pond = FilePond.create(
@@ -18,9 +27,12 @@ const pond = FilePond.create(
     }
 );
 
+var storage = "../uploads/" + student + "/" + project;
 
 FilePond.setOptions(
     {
-        server: 'test/'  //Here insert server
+        server: storage  //Here insert server
     }
 );
+
+
