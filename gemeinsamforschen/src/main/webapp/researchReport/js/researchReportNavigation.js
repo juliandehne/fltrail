@@ -6,7 +6,7 @@ $(document).ready(function () {
     $('#project').val(project);
 
     let locationLink;
-    switch ($('#category')) {
+    switch ($('#category').val()) {
         case "TITEL":
             locationLink = "create-overview.jsp?token=" + student + "&projectId=" + project;
             break;
@@ -34,7 +34,8 @@ $(document).ready(function () {
     }
 
     $('#backLink').on('click', function () {
-        location.href = locationLink
+        location.href = locationLink;
+        return false;
     });
 
 });
