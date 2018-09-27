@@ -1,21 +1,14 @@
-package unipotsdam.gf.modules.assessment.controller.model;
+package unipotsdam.gf.modules.coAssessment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.security.acl.Group;
 import java.util.ArrayList;
 
 
-
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
 import java.util.Date;
 
 @XmlRootElement

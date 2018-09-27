@@ -11,10 +11,10 @@ import java.util.List;
 
 import static javax.swing.UIManager.getString;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
+import unipotsdam.gf.modules.coAssessment.GroupEvalDataDatasets;
+import unipotsdam.gf.modules.coAssessment.GroupEvalDataList;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import java.util.Map;
 //>>>>>>>>> Temporary merge branch 2

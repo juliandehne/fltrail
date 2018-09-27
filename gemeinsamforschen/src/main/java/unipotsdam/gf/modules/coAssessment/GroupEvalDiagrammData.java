@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.assessment.controller.model;
+package unipotsdam.gf.modules.coAssessment;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
@@ -6,10 +6,9 @@ import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-@Path("/assessments4")
+@Path("/diagramms")
 
 public class GroupEvalDiagrammData {
     private String type;
@@ -49,7 +48,7 @@ public class GroupEvalDiagrammData {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/diagramm1/{projectId}")
+    @Path("/project/{projectId}")
     public GroupEvalDiagrammData getValuesFromDBByProjectID(@PathParam("projectId") String projectId)
     {
 

@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.assessment.controller.model;
+package unipotsdam.gf.modules.coAssessment;
 import com.mysql.jdbc.Statement;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;

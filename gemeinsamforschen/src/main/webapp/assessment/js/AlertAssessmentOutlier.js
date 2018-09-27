@@ -6,7 +6,7 @@ $(document).ready(function () {
 
 
         $.ajax({
-            url: "../rest/assessments4/diagramm1/"+getQueryVariable("projectId"),
+            url: "rest/diagramms/project/"+getQueryVariable("projectId"),
             type: 'POST',
             headers: {
                 "Content-Type": "application/json",
