@@ -67,8 +67,10 @@ CREATE TABLE IF NOT EXISTS `groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `groupuser` (
-  `userEmail` varchar(400) NOT NULL,
-  `groupId` int(11) NOT NULL
+  `userEmail` varchar(255) NOT NULL,
+  `groupId` int(11) NOT NULL,
+   FOREIGN KEY (`userEmail`) REFERENCES users(`email`),
+   FOREIGN KEY (`groupId`) REFERENCES groups(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `phasesselected` (
@@ -91,8 +93,8 @@ CREATE TABLE IF NOT EXISTS `projects` (
 CREATE TABLE IF NOT EXISTS `projectuser` (
   `projectName` varchar(100) NOT NULL,
   `userEmail` varchar(100) NOT NULL,
-  UNIQUE KEY `projectName_2` (`projectName`,`userEmail`),
-  KEY `projectName` (`projectName`,`userEmail`)
+  FOREIGN KEY (`userEmail`) REFERENCES users(`email`),
+  FOREIGN KEY (`projectName`) REFERENCES projects(`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `quiz` (
@@ -161,7 +163,6 @@ CREATE TABLE IF NOT EXISTS `workrating` (
   `autonomous` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-ALTER TABLE groupuser ADD projectName varchar(150) NULL;
 
 COMMIT;
 

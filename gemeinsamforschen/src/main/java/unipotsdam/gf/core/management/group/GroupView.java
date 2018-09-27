@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.groupfinding.view;
+package unipotsdam.gf.core.management.group;
 
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.project.Project;
@@ -8,14 +8,7 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.groupfinding.GroupFormationMechanism;
 
 import javax.inject.Inject;
-<<<<<<< HEAD
 import javax.ws.rs.*;
-=======
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
->>>>>>> origin/development_master
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -26,17 +19,11 @@ import java.util.HashMap;
 @Path("/group")
 public class GroupView {
 
-<<<<<<< HEAD
-
     @Inject
     private IGroupFinding groupfinding;
 
     @Inject
     private Management iManagement;
-=======
-    @Inject
-    private GroupfindingImpl groupfinding;
->>>>>>> origin/development_master
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

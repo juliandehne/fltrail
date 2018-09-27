@@ -20,7 +20,7 @@ import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 import unipotsdam.gf.modules.groupfinding.DummyGroupfinding;
 import unipotsdam.gf.modules.groupfinding.GroupfindingImpl;
 import unipotsdam.gf.modules.groupfinding.dummy.service.DummyProjectCreationService;
-import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
+import unipotsdam.gf.core.management.group.GroupDAO;
 import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
 import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;

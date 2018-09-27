@@ -7,9 +7,9 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
-import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -21,7 +21,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class GroupDAOTest {
-
 
     @Inject
     private GroupDAO groupDAO;
@@ -35,8 +34,8 @@ public class GroupDAOTest {
 
     @Before
     public void setUp() {
-        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
 
 
@@ -49,11 +48,16 @@ public class GroupDAOTest {
         userDAO.persist(userDocent, null);
         //group = new Group(Arrays.asList(userStudent, userDocent), "1", "1");
         group = factory.manufacturePojo(Group.class);
+        List<User> members = group.getMembers();
+        for (User member : members) {
+            userDAO.persist(member, null);
+        }
         assertThat (group.getMembers().isEmpty(), is(false));
     }
 
     @Test
     public void testExist() {
+        // we have to assert that all the members of the group exist in the db first
         groupDAO.persist(group);
         assertThat(groupDAO.exists(group), is(true));
     }

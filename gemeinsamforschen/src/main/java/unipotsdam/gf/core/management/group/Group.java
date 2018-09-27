@@ -81,21 +81,12 @@ public class Group {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
         Group group = (Group) o;
-        List<User> newMemberList = members.stream()
-                .filter(member -> group.members.contains(member))
-                .collect(Collectors.toList());
-        return Objects.equals(members.size(), newMemberList.size()) &&
-                Objects.equals(members.size(), group.members.size()) &&
-                Objects.equals(projectName, group.projectName) &&
-                Objects.equals(chatRoomId, group.chatRoomId) &&
-                Objects.equals(id, group.id) || Objects.equals(id, 0) || Objects.equals(group.id, 0);
+        return this.getId() == group.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(members, projectName, chatRoomId);
+        return getId();
     }
 }

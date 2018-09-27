@@ -12,7 +12,7 @@ import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
-import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
+import unipotsdam.gf.core.management.group.GroupDAO;
 import unipotsdam.gf.util.TestHelper;
 
 import java.util.List;

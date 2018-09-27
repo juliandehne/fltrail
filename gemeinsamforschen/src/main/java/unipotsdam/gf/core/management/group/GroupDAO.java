@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.groupfinding.service;
+package unipotsdam.gf.core.management.group;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
@@ -39,8 +39,7 @@ public class GroupDAO {
         vereinfachtesResultSet1.next();
         groupId = vereinfachtesResultSet1.getInt("groupId");
         String mysqlRequest2 = "SELECT * FROM `groupuser` WHERE `groupId`=?";
-        VereinfachtesResultSet vereinfachtesResultSet2 =
-                connect.issueSelectStatement(mysqlRequest2, groupId);
+        VereinfachtesResultSet vereinfachtesResultSet2 = connect.issueSelectStatement(mysqlRequest2, groupId);
         boolean next2 = vereinfachtesResultSet2.next();
         while (next2) {
             String peer = vereinfachtesResultSet2.getString("userName");
@@ -55,15 +54,15 @@ public class GroupDAO {
 
     // refactor (you get the id as a return value when inserting into the db)
     public void persist(Group group) {
+        assert group.getProjectName() != null;
+
         connect.connect();
-        List<Group> existingGroups = getExistingEntriesOfGroups(group.getProjectName());
 
         String mysqlRequestGroup = "INSERT INTO groups (`projectName`,`chatRoomId`) values (?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequestGroup, group.getProjectName(), group.getChatRoomId());
+        int groupId = connect.issueInsertStatementWithAutoincrement(mysqlRequestGroup, group.getProjectName(),
+                group.getChatRoomId());
 
-        List<Group> existingGroupsWithNewEntry = getExistingEntriesOfGroups(group.getProjectName());
-        existingGroupsWithNewEntry.removeAll(existingGroups);
-        group.setId(existingGroupsWithNewEntry.get(0).getId());
+        group.setId(groupId);
         for (User groupMember : group.getMembers()) {
             String mysqlRequest2 = "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getId());
@@ -96,50 +95,50 @@ public class GroupDAO {
 
     public List<Group> getGroupsByProjectName(String projectName) {
         connect.connect();
-        String mysqlRequest = "SELECT * FROM groups g " +
-                "JOIN groupuser gu ON g.id=gu.groupId " +
-                "JOIN users u ON gu.userEmail=u.email " +
-                "where g.projectName = ?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, projectName);
+        String mysqlRequest =
+                "SELECT * FROM groups g " + "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu" +
+                        ".userEmail=u.email " + "where g.projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
         if (Objects.isNull(vereinfachtesResultSet)) {
             connect.close();
             return Collections.emptyList();
         }
-        HashMap<Integer, Group> groupHashMap = new HashMap<>();
-        while (vereinfachtesResultSet.next()) {
-            fillGroupFromResultSet(vereinfachtesResultSet, groupHashMap);
-        }
+
         ArrayList<Group> groups = new ArrayList<>();
-        groupHashMap.forEach((key, group) -> groups.add(group));
+
+        fillGroupFromResultSet(groups, vereinfachtesResultSet);
+
+        ArrayList<Group> uniqueGroups = new ArrayList<>();
+        for (Group group : groups) {
+            // transmuting the table to a map with group as key and members as value
+            if (uniqueGroups.contains(group)) {
+                Group toComplete = uniqueGroups.get(uniqueGroups.indexOf(group));
+                toComplete.addMember(group.getMembers().iterator().next());
+                uniqueGroups.remove(group);
+                uniqueGroups.add(toComplete);
+            } else {
+                uniqueGroups.add(group);
+            }
+        }
+        // the groups now contain their members, too
         connect.close();
-        return groups;
+        return uniqueGroups;
     }
 
-    private void fillGroupFromResultSet(VereinfachtesResultSet vereinfachtesResultSet, HashMap<Integer, Group> existingGroups) {
-        int id = vereinfachtesResultSet.getInt("id");
-        if (existingGroups.containsKey(id)) {
-            existingGroups.get(id).addMember(ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet));
-        } else {
+    private void fillGroupFromResultSet(ArrayList<Group> groups, VereinfachtesResultSet vereinfachtesResultSet) {
+        Boolean next = vereinfachtesResultSet.next();
+        while (next) {
             String projectName = vereinfachtesResultSet.getString("projectName");
             User user = ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet);
             String chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
             ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
-            Group group = new Group(id, userList, projectName, chatRoomId);
-            existingGroups.put(id, group);
+            Group group = new Group(vereinfachtesResultSet.getInt("groupId"), userList, projectName, chatRoomId);
+            groups.add(group);
+            next = vereinfachtesResultSet.next();
         }
     }
-
-    private List<Group> getExistingEntriesOfGroups(String projectName) {
-        String mysqlExistingGroup = "SELECT * FROM groups WHERE projectName = ?";
-        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlExistingGroup, projectName);
-        ArrayList<Group> existingGroups = new ArrayList<>();
-        while (resultSet.next()) {
-            int id = resultSet.getInt("id");
-            Group existingGroup = new Group(id, projectName);
-            existingGroups.add(existingGroup);
-        }
-        return existingGroups;
-    }
-
 }
+
+
+
+

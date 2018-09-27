@@ -4,7 +4,7 @@ import unipotsdam.gf.core.database.InMemoryMySqlConnect;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.ProjectDAO;
 import unipotsdam.gf.core.management.user.UserDAO;
-import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
+import unipotsdam.gf.core.management.group.GroupDAO;
 
 public class TestHelper {
 

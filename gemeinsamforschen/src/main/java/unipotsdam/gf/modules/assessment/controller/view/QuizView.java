@@ -139,7 +139,7 @@ public class QuizView {
     public String createQuiz(StudentAndQuiz studentAndQuiz) {
 
         Project project = management.getProjectById(studentAndQuiz.getStudentIdentifier().getProjectName());
-        User user = management.getUserByName(studentAndQuiz.getStudentIdentifier().getUserEmail());
+        User user = management.getUserByEmail(studentAndQuiz.getStudentIdentifier().getUserEmail());
         Boolean isStudent = user.getStudent();
         peer.createQuiz(studentAndQuiz);
         if (isStudent) {

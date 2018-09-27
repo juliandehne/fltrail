@@ -86,7 +86,7 @@ public interface Management {
 
     Boolean exists(Group group);
 
-    User getUserByName(String userName);
+    User getUserByEmail(String userEmail);
 
     void create(ProjectConfiguration projectConfiguration, Project project);
 

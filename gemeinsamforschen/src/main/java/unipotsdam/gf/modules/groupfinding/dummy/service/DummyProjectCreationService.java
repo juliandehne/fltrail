@@ -8,7 +8,7 @@ import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.management.user.UserProfile;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
+import unipotsdam.gf.core.management.group.GroupDAO;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;

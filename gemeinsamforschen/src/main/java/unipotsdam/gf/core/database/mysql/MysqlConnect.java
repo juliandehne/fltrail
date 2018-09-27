@@ -1,5 +1,6 @@
 package unipotsdam.gf.core.database.mysql;
 
+import com.mysql.jdbc.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFDatabaseConfig;
@@ -24,10 +25,8 @@ public class MysqlConnect {
 
     private static String createConnectionString() {
 
-        String connString = "jdbc:mysql://" + "localhost" +
-                "/" + GFDatabaseConfig.DB_NAME +
-                "?user=" + GFDatabaseConfig.USER +
-                "&password=" + GFDatabaseConfig.PASS;
+        String connString =
+                "jdbc:mysql://" + "localhost" + "/" + GFDatabaseConfig.DB_NAME + "?user=" + GFDatabaseConfig.USER + "&password=" + GFDatabaseConfig.PASS;
         return String.format(connString, GFDatabaseConfig.DB_NAME);
     }
 
@@ -60,9 +59,15 @@ public class MysqlConnect {
         }
     }
 
-    private PreparedStatement addParameters(final String statement, final Object[] args) {
+    private PreparedStatement addParameters(final String statement, boolean returnGenerated, final Object[] args) {
         try {
-            final PreparedStatement ps = conn.prepareStatement(statement);
+            PreparedStatement ps = null;
+
+            if (returnGenerated) {
+                ps = conn.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
+            } else {
+                ps = conn.prepareStatement(statement);
+            }
             if (args != null) {
                 for (int i = 0; i < args.length; i++) {
                     final Object arg = args[i];
@@ -80,7 +85,7 @@ public class MysqlConnect {
 
     public VereinfachtesResultSet issueSelectStatement(final String statement, final Object... args) {
         try {
-            PreparedStatement ps = addParameters(statement, args);
+            PreparedStatement ps = addParameters(statement, false, args);
             ResultSet queryResult = ps.executeQuery();
             return new VereinfachtesResultSet(queryResult);
         } catch (SQLException ex) {
@@ -89,18 +94,33 @@ public class MysqlConnect {
         return null;
     }
 
+    public int issueInsertStatementWithAutoincrement(final String sql, final Object... args) {
+        PreparedStatement stmt = null;
+        try {
+            stmt = addParameters(sql, true, args);
+            stmt.executeUpdate();
+            ResultSet rs = stmt.getGeneratedKeys();
+            rs.next();
+            int auto_id = rs.getInt(1);
+            return auto_id;
+        } catch (SQLException e) {
+            printErrorMessage(sql, e);
+        }
+        return -1;
+    }
+
 
     public void otherStatements(final String statement) {
         try {
             this.conn.createStatement().execute(statement);
         } catch (SQLException ex) {
-           printErrorMessage(statement, ex);
+            printErrorMessage(statement, ex);
         }
     }
 
 
     public Integer issueUpdateStatement(final String statement, final Object... args) {
-        PreparedStatement ps = addParameters(statement, args);
+        PreparedStatement ps = addParameters(statement, false, args);
         try {
             return ps.executeUpdate();
         } catch (SQLException ex) {
@@ -117,7 +137,7 @@ public class MysqlConnect {
 
 
     public void issueInsertOrDeleteStatement(final String statement, final Object... args) {
-        PreparedStatement ps = addParameters(statement, args);
+        PreparedStatement ps = addParameters(statement, false, args);
         try {
             ps.execute();
         } catch (SQLException ex) {

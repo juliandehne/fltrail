@@ -12,7 +12,7 @@ import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
 import unipotsdam.gf.core.management.util.ResultSetUtil;
-import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
+import unipotsdam.gf.core.management.group.GroupDAO;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -82,7 +82,7 @@ public class ManagementImpl implements Management {
 
     @Override
     public void update(Group group) {
-
+        groupDAO.update(group);
     }
 
     @Override
@@ -97,14 +97,8 @@ public class ManagementImpl implements Management {
 
     @Override
     public Boolean exists(Group group) {
-        return null;
+        return groupDAO.exists(group);
     }
-
-    @Override
-    public User getUserByName(String userName) {
-        return null;
-    }
-
 
     public List<User> getUsers(Project project) {
         return userDAO.getUsersByProjectId(project.getName());
@@ -112,21 +106,6 @@ public class ManagementImpl implements Management {
 
     private User getUserFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
         return ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet);
-    }
-
-    private void fillGroupFromResultSet(
-            VereinfachtesResultSet vereinfachtesResultSet, HashMap<Integer, Group> existingGroups) {
-        int id = vereinfachtesResultSet.getInt("id");
-        if (existingGroups.containsKey(id)) {
-            existingGroups.get(id).addMember(getUserFromResultSet(vereinfachtesResultSet));
-        } else {
-            String projectName = vereinfachtesResultSet.getString("projectName");
-            User user = getUserFromResultSet(vereinfachtesResultSet);
-            String chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
-            ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
-            Group group = new Group(userList, projectName, chatRoomId);
-            existingGroups.put(id, group);
-        }
     }
 
 
@@ -150,38 +129,9 @@ public class ManagementImpl implements Management {
 
     @Override
     public void create(Group group) {
-
-        connect.connect();
-
-        String mysqlRequestGroup = "INSERT INTO groups (`projectName`,`chatRoomId`) values (?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequestGroup, group.getProjectName(), group.getChatRoomId());
-
-        for (User groupMember : group.getMembers()) {
-            String mysqlRequest2 = "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getProjectName());
-        }
-        connect.close();
+        groupDAO.persist(group);
     }
 
-
-    public List<Group> getGroupsByProjectId(String projectName) {
-
-        connect.connect();
-        String mysqlRequest =
-                "SELECT * FROM groups g " + "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu.userEmail=u.email" + "where g.projectName = ?";
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
-        HashMap<Integer, Group> groupHashMap = new HashMap<>();
-        while (vereinfachtesResultSet.next()) {
-            fillGroupFromResultSet(vereinfachtesResultSet, groupHashMap);
-        }
-        ArrayList<Group> groups = new ArrayList<>();
-        groupHashMap.forEach((key, group) -> groups.add(group));
-        if (groups.isEmpty()) {
-            return null;
-        }
-
-        return groups;
-    }
 
     @Override
     public void create(ProjectConfiguration projectConfiguration, Project project) {
