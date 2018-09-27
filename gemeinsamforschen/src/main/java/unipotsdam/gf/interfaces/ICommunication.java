@@ -89,7 +89,7 @@ public interface ICommunication {
 
     boolean registerAndLoginUser(User user);
 
-    String getChatRoomLink(String userToken, String projectToken, String groupToken);
+    String getChatRoomLink(String userEmail, String projectToken, String groupToken);
 
     // TODO implement as Email or whatever
     void sendSingleMessage(Message message, User user);

@@ -51,9 +51,9 @@ public class ProjectView {
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/all/author/{userToken}")
+    @Path("/all/author/{userEmail}")
     public java.util.List<String> getProjects(
-            @PathParam("userToken") String authorToken) {
+            @PathParam("userEmail") String authorToken) {
         java.util.List<String> projects = iManagement.getProjects(authorToken);
         return projects;
     }
@@ -62,7 +62,7 @@ public class ProjectView {
     @Consumes(MediaType.TEXT_PLAIN)
 <<<<<<< HEAD
     @Produces(MediaType.TEXT_PLAIN)
-    @Path("/login/{projectId}/password/{password}")
+    @Path("/login/{projectName}/password/{password}")
 =======
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all/student/{studentToken}")
@@ -75,10 +75,10 @@ public class ProjectView {
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/join/project/{projectId}/password/{password}")
+    @Path("/join/project/{projectName}/password/{password}")
 >>>>>>> 05a31d1f59f28ad502822884c1e2f196f9239de7
-    public String logInProject(@PathParam("projectId") String projectId, @PathParam("password") String password) {
-        Project project = iManagement.getProjectById(projectId);
+    public String logInProject(@PathParam("projectName") String projectName, @PathParam("password") String password) {
+        Project project = iManagement.getProjectById(projectName);
         if (project == null){
             return "project missing";
         }

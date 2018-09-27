@@ -11,16 +11,16 @@ public class Annotation {
     // variables
     private String id;
     private long timestamp;
-    private String userToken;
+    private String userEmail;
     private String targetId;
     private Category targetCategory;
     private AnnotationBody body;
 
     // constructor
-    public Annotation(String id, long timestamp, String userToken, String targetId, Category targetCategory, AnnotationBody body) {
+    public Annotation(String id, long timestamp, String userEmail, String targetId, Category targetCategory, AnnotationBody body) {
         this.id = id;
         this.timestamp = timestamp;
-        this.userToken = userToken;
+        this.userEmail = userEmail;
         this.targetId = targetId;
         this.targetCategory = targetCategory;
         this.body = body;
@@ -44,11 +44,11 @@ public class Annotation {
     }
 
     public String getUserToken() {
-        return userToken;
+        return userEmail;
     }
 
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
+    public void setUserToken(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getTargetId() {
@@ -80,7 +80,7 @@ public class Annotation {
         return "Annotation{" +
                 "id='" + id + '\'' +
                 ", timestamp=" + timestamp +
-                ", userToken='" + userToken + '\'' +
+                ", userEmail='" + userEmail + '\'' +
                 ", targetId=" + targetId +
                 ", targetCategory=" + targetCategory +
                 ", body=" + body +

@@ -138,7 +138,7 @@ function createProjectinCompbase(projectName) {
         success: function (response) {
             console.log(response);
             // it actually worked, too
-            document.location.href = "edit-project.jsp?token="+getUserEmail()+"&projectToken="+projectToken;
+            document.location.href = "edit-project.jsp"+"&projectToken="+projectToken;
         },
         error: function (a, b, c) {
             console.log(a);

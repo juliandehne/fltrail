@@ -27,14 +27,14 @@ public class Task {
     private String link;
 
     public String getUserToken() {
-        return userToken;
+        return userEmail;
     }
 
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
+    public void setUserToken(String userEmail) {
+        this.userEmail = userEmail;
     }
 
-    private String userToken;
+    private String userEmail;
 
     public String getProjectToken() {
         return projectToken;

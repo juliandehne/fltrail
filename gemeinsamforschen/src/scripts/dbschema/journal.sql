@@ -4,8 +4,8 @@ CREATE TABLE if not exists `journals` (
   `id`         varchar(400) NOT NULL,
   `timestamp`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
   ON UPDATE CURRENT_TIMESTAMP,
-  `studentId`     varchar(400) NOT NULL,
-  `projectId`    varchar(400) NOT NULL,
+  `userName`     varchar(400) NOT NULL,
+  `projectName`    varchar(400) NOT NULL,
   `text`       text,
   `visibility` varchar(50),
   `category`   varchar(50),
@@ -18,8 +18,8 @@ CREATE TABLE if not exists `projectDescription` (
   `id`         varchar(400) NOT NULL,
   `timestamp`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
   ON UPDATE CURRENT_TIMESTAMP,
-  `studentId`     varchar(400) NOT NULL,
-  `projectId`    varchar(400) NOT NULL,
+  `userName`     varchar(400) NOT NULL,
+  `projectName`    varchar(400) NOT NULL,
   `text`       text,
   `open`       TINYINT(1)
 )

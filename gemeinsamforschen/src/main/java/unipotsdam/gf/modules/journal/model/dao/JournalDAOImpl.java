@@ -26,9 +26,9 @@ public class JournalDAOImpl implements JournalDAO {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT INTO journals (`id`, `studentId`, `projectId`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, journal.getStudentIdentifier().getStudentId(),
-                journal.getStudentIdentifier().getProjectId(), journal.getEntryMD(), journal.getVisibility(), journal.getCategory(), true);
+        String request = "INSERT INTO journals (`id`, `userName`, `projectName`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
+        connection.issueInsertOrDeleteStatement(request, uuid, journal.getStudentIdentifier().getUserEmail(),
+                journal.getStudentIdentifier().getProjectName(), journal.getEntryMD(), journal.getVisibility(), journal.getCategory(), true);
 
         //close connection
         connection.close();
@@ -105,7 +105,7 @@ public class JournalDAOImpl implements JournalDAO {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM journals WHERE projectId= ? AND (studentId = ? OR visibility = \"ALL\" or visibility = \"GROUP\");";
+        String request = "SELECT * FROM journals WHERE projectName= ? AND (userName = ? OR visibility = \"ALL\" or visibility = \"GROUP\");";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, project, student);
 
         while (rs.next()) {
@@ -128,7 +128,7 @@ public class JournalDAOImpl implements JournalDAO {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM journals WHERE studentId= ?;";
+        String request = "SELECT * FROM journals WHERE userName= ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, student);
 
         while (rs.next()) {
@@ -168,24 +168,24 @@ public class JournalDAOImpl implements JournalDAO {
 
     @Override
     public ArrayList<String> getOpenJournals(Project project) {
-        ArrayList<String> userIds = new ArrayList<>();
+        ArrayList<String> userEmails = new ArrayList<>();
 
         // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM journals WHERE projectId = ? AND open = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getId(), true);
+        String request = "SELECT * FROM journals WHERE projectName = ? AND open = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getName(), true);
 
         while (rs.next()) {
-            userIds.add(getJournalFromResultSet(rs).getStudentIdentifier().getStudentId());
+            userEmails.add(getJournalFromResultSet(rs).getStudentIdentifier().getUserEmail());
         }
 
         // close connection
         connection.close();
 
-        return userIds;
+        return userEmails;
 
     }
 
@@ -199,8 +199,8 @@ public class JournalDAOImpl implements JournalDAO {
 
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
-        String student = rs.getString("studentId");
-        String project = rs.getString("projectId");
+        String student = rs.getString("userName");
+        String project = rs.getString("projectName");
         String text = rs.getString("text");
         String visibility = rs.getString("visibility");
         String category = rs.getString("category");

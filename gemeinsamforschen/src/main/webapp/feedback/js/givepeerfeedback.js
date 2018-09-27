@@ -1,5 +1,5 @@
 var student = getQueryVariable("token");
-var project = getQueryVariable("projectId");
+var project = getQueryVariable("projectName");
 
 $(document).ready(function () {
     $('#student').val(student);

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Performance {
-    private StudentIdentifier studentIdentifier;
+    private StudentIdentifier userNameentifier;
     private List<Integer> quizAnswer;
     private Map<String, Double> workRating;
     private Map<String, Double> contributionRating;
@@ -12,7 +12,7 @@ public class Performance {
     public Performance(){}
 
     public Performance(StudentIdentifier student, List<Integer> quiz, Map contributionRating, Map workRating) {
-        this.studentIdentifier = student;
+        this.userNameentifier = student;
         this.quizAnswer = quiz;
         this.workRating=workRating;
         this.contributionRating = contributionRating;
@@ -20,11 +20,11 @@ public class Performance {
     }
 
     public StudentIdentifier getStudentIdentifier() {
-        return studentIdentifier;
+        return userNameentifier;
     }
 
-    public void setStudentIdentifier(StudentIdentifier studentIdentifier) {
-        this.studentIdentifier = studentIdentifier;
+    public void setStudentIdentifier(StudentIdentifier userNameentifier) {
+        this.userNameentifier = userNameentifier;
     }
 
     public Map getContributionRating() {
@@ -56,7 +56,7 @@ public class Performance {
     @Override
     public String toString() {
         return "Performance{" +
-                "studentIdentifier=" + studentIdentifier +
+                "userNameentifier=" + userNameentifier +
                 ", quizAnswer=" + quizAnswer +
                 ", contributionRating='" + contributionRating + '\'' +
                 ", workRating=" + workRating +

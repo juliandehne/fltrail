@@ -11,14 +11,14 @@ import java.util.ArrayList;
 public class SubmissionPartPostRequest {
 
     // variables
-    private String userId;
+    private String userEmail;
     private String fullSubmissionId;
     private Category category;
     private ArrayList<SubmissionPartBodyElement> body;
 
     // constructors
-    public SubmissionPartPostRequest(String userId, String fullSubmissionId, Category category, ArrayList<SubmissionPartBodyElement> body) {
-        this.userId = userId;
+    public SubmissionPartPostRequest(String userEmail, String fullSubmissionId, Category category, ArrayList<SubmissionPartBodyElement> body) {
+        this.userEmail = userEmail;
         this.fullSubmissionId = fullSubmissionId;
         this.category = category;
         this.body = body;
@@ -29,11 +29,11 @@ public class SubmissionPartPostRequest {
 
     // methods
     public String getUserId() {
-        return userId;
+        return userEmail;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserId(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getFullSubmissionId() {
@@ -63,7 +63,7 @@ public class SubmissionPartPostRequest {
     @Override
     public String toString() {
         return "SubmissionPartPostRequest{" +
-                "userId='" + userId + '\'' +
+                "userEmail='" + userEmail + '\'' +
                 ", fullSubmissionId='" + fullSubmissionId + '\'' +
                 ", category=" + category +
                 ", body=" + body +

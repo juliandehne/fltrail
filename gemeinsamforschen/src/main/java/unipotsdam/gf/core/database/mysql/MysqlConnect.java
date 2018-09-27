@@ -71,8 +71,8 @@ public class MysqlConnect {
             }
             return ps;
         } catch (SQLException ex) {
-            log.error(ex.toString());
-            System.out.println(ex);
+
+            printErrorMessage(statement, ex);
         }
         return null;
     }
@@ -84,8 +84,7 @@ public class MysqlConnect {
             ResultSet queryResult = ps.executeQuery();
             return new VereinfachtesResultSet(queryResult);
         } catch (SQLException ex) {
-            log.error(ex.toString());
-            System.out.println(ex);
+            printErrorMessage(statement, ex);
         }
         return null;
     }
@@ -95,8 +94,7 @@ public class MysqlConnect {
         try {
             this.conn.createStatement().execute(statement);
         } catch (SQLException ex) {
-            log.error(ex.toString());
-            System.out.println(ex);
+           printErrorMessage(statement, ex);
         }
     }
 
@@ -106,10 +104,15 @@ public class MysqlConnect {
         try {
             return ps.executeUpdate();
         } catch (SQLException ex) {
-            log.error(ex.toString());
-            System.out.println(ex);
+            printErrorMessage(statement, ex);
         }
         return null;
+    }
+
+    private void printErrorMessage(String statement, SQLException ex) {
+        String message = ex.toString() + " for statement \n" + statement;
+        log.error(message);
+        System.out.println(message);
     }
 
 
@@ -118,9 +121,7 @@ public class MysqlConnect {
         try {
             ps.execute();
         } catch (SQLException ex) {
-
-            log.error(ex.toString());
-            System.out.println(ex);
+            printErrorMessage(statement, ex);
         }
     }
 

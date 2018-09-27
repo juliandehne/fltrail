@@ -13,12 +13,12 @@ import java.util.ArrayList;
 @Resource
 @Singleton
 public class QuizDBCommunication {
-    Quiz getQuizByProjectQuizId(String projectId, String quizId, String authorEmail) {
+    Quiz getQuizByProjectQuizId(String projectName, String quizId, String authorEmail) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectId`=? AND `question`=? AND `authorEmail`=?";
+        String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectName`=? AND `question`=? AND `authorEmail`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, projectId, quizId, authorEmail);
+                connect.issueSelectStatement(mysqlRequest, projectName, quizId, authorEmail);
         boolean next = vereinfachtesResultSet.next();
         String question = "";
         ArrayList<String> correctAnswers = new ArrayList<>();
@@ -43,15 +43,15 @@ public class QuizDBCommunication {
         return quiz;
     }
 
-    ArrayList<Quiz> getQuizByProjectId(String projectId) {
-        String mysqlRequest = "SELECT * FROM quiz where projectId= ?";
-        return RequestToQuizList(mysqlRequest, projectId);
+    ArrayList<Quiz> getQuizByProjectId(String projectName) {
+        String mysqlRequest = "SELECT * FROM quiz where projectName= ?";
+        return RequestToQuizList(mysqlRequest, projectName);
     }
 
 
-    ArrayList<Quiz> getQuizByProjectIdAuthor(String projectId, String authorEmail){
-        String mysqlRequest = "SELECT * FROM quiz where projectId= ? AND authorEmail=?";
-        return RequestToQuizList(mysqlRequest, projectId, authorEmail);
+    ArrayList<Quiz> getQuizByProjectIdAuthor(String projectName, String authorEmail){
+        String mysqlRequest = "SELECT * FROM quiz where projectName= ? AND authorEmail=?";
+        return RequestToQuizList(mysqlRequest, projectName, authorEmail);
     }
 
     private ArrayList<Quiz> RequestToQuizList(String sqlRequest, Object ... params) {
@@ -112,7 +112,7 @@ public class QuizDBCommunication {
         connect.close();
     }
 
-    public void createQuiz(Quiz quiz, String authorEmail, String projectId) {
+    public void createQuiz(Quiz quiz, String authorEmail, String projectName) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mcType;
@@ -123,16 +123,16 @@ public class QuizDBCommunication {
             answer = correctAnswer;
             mcType = quiz.getType();
             question = quiz.getQuestion();
-            String mysqlRequest = "INSERT INTO `quiz`(`authorEmail`, `projectId`, `question`, `mcType`, `answer`, `correct`) VALUES (?,?,?,?,?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest, authorEmail, projectId, question, mcType, answer, true);
+            String mysqlRequest = "INSERT INTO `quiz`(`authorEmail`, `projectName`, `question`, `mcType`, `answer`, `correct`) VALUES (?,?,?,?,?,?)";
+            connect.issueInsertOrDeleteStatement(mysqlRequest, authorEmail, projectName, question, mcType, answer, true);
         }
         ArrayList<String> incorrectAnswers = quiz.getIncorrectAnswers();
         for (String incorrectAnswer : incorrectAnswers) {
             answer = incorrectAnswer;
             mcType = quiz.getType();
             question = quiz.getQuestion();
-            String mysqlRequest = "INSERT INTO `quiz`(`authorEmail`, `projectId`, `question`, `mcType`, `answer`, `correct`) VALUES (?,?,?,?,?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest, authorEmail, projectId, question, mcType, answer, false);
+            String mysqlRequest = "INSERT INTO `quiz`(`authorEmail`, `projectName`, `question`, `mcType`, `answer`, `correct`) VALUES (?,?,?,?,?,?)";
+            connect.issueInsertOrDeleteStatement(mysqlRequest, authorEmail, projectName, question, mcType, answer, false);
         }
         connect.close();
     }

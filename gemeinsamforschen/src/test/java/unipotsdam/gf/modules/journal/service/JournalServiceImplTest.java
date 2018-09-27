@@ -55,8 +55,8 @@ public class JournalServiceImplTest {
 
         assertNotNull(resultJournal);
 
-        assertEquals(resultJournal.getStudentIdentifier().getStudentId(), testStudent);
-        assertEquals(resultJournal.getStudentIdentifier().getProjectId(), testProject);
+        assertEquals(resultJournal.getStudentIdentifier().getUserEmail(), testStudent);
+        assertEquals(resultJournal.getStudentIdentifier().getProjectName(), testProject);
         assertEquals(resultJournal.getEntryMD(), testEntry);
         assertEquals(resultJournal.getId(), journalID);
         assertEquals(resultJournal.getVisibility(), testVisibility);
@@ -115,8 +115,8 @@ public class JournalServiceImplTest {
 
         assertNotNull(resultJournal);
 
-        assertEquals(resultJournal.getStudentIdentifier().getStudentId(), testStudent);
-        assertEquals(resultJournal.getStudentIdentifier().getProjectId(), testProject);
+        assertEquals(resultJournal.getStudentIdentifier().getUserEmail(), testStudent);
+        assertEquals(resultJournal.getStudentIdentifier().getProjectName(), testProject);
         assertEquals(resultJournal.getEntryMD(), testEntry);
         assertEquals(resultJournal.getId(), journalID);
         assertEquals(resultJournal.getVisibility(), testVisibility);
@@ -131,8 +131,8 @@ public class JournalServiceImplTest {
 
         assertNotNull(resultJournal);
 
-        assertEquals(resultJournal.getStudentIdentifier().getStudentId(), testStudent);
-        assertEquals(resultJournal.getStudentIdentifier().getProjectId(), testProject);
+        assertEquals(resultJournal.getStudentIdentifier().getUserEmail(), testStudent);
+        assertEquals(resultJournal.getStudentIdentifier().getProjectName(), testProject);
         assertEquals(resultJournal.getEntryMD(), testEntry + testEntry);
         assertEquals(resultJournal.getId(), journalID);
         assertEquals(resultJournal.getVisibility(), Visibility.MINE);
@@ -202,7 +202,7 @@ public class JournalServiceImplTest {
 
         Project project = new Project();
 
-        testJournal.getStudentIdentifier().setStudentId(token);
+        testJournal.getStudentIdentifier().setUserEmail(token);
         project.setId(testProject);
 
         journalDAO.createJournal(testJournal);
@@ -210,6 +210,6 @@ public class JournalServiceImplTest {
         ArrayList<User> resultUsers = journalService.getOpenUserByProject(project);
 
         assertEquals(1, resultUsers.size());
-        assertEquals(user.getEmail(), resultUsers.get(0).getId());
+        assertEquals(user.getEmail(), resultUsers.get(0).getEmail());
     }
 }

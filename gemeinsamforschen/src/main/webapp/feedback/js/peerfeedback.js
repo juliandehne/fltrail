@@ -20,7 +20,7 @@
 }*/
 
 var student = getQueryVariable("token");
-var project = getQueryVariable("projectId");
+var project = getQueryVariable("projectName");
 
 function go() {
     var a = document.getElementById("editor").valueOf().toString();
@@ -49,7 +49,7 @@ $(document).ready(function () {
         });*/
 
         //console.log(data);
-        location.href = "give-feedback.jsp?token=" + getUserEmail();
+        location.href = "give-feedback.jsp" + getUserEmail();
         alert("Feedback wurde gesendet!");
     });
 })

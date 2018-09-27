@@ -19,7 +19,7 @@
 
     <div class="page-content-wrapper">
         <div class="container-fluid">
-            <h1 id="projectId">project1
+            <h1 id="projectName">project1
                 <a href="#">
                 <span class="glyphicon glyphicon-envelope"
                       style="font-size:27px;margin-top:-17px;margin-left:600px;"></span>

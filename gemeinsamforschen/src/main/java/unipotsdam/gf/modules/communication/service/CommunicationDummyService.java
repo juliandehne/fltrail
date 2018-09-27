@@ -6,9 +6,6 @@ import unipotsdam.gf.config.Constants;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.assignments.Assignee;
-import unipotsdam.gf.assignments.NotImplementedLogger;
-import unipotsdam.gf.core.states.model.Constraints;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
@@ -106,8 +103,8 @@ public class CommunicationDummyService implements ICommunication {
 
     }
 
-    public String getChatRoomLink(String userToken, String projectToken, String groupToken) {
-        //User user = managementService.getUserByEmail(userToken);
+    public String getChatRoomLink(String userEmail, String projectToken, String groupToken) {
+        //User user = managementService.getUserByEmail(userEmail);
         // TODO: Implement getProjectbyToken and getGroupByToken
         //Project project = managementService.getProject(projectToken
         String channelName = "general";
@@ -129,7 +126,7 @@ public class CommunicationDummyService implements ICommunication {
     @Override
     public void sendMessageToUsers(Project project, String message) {
         // TODO implement as email or directed message, popup after login or whatever
-        String message2 = "sending email with message: "+ message + " to: "+ project.getId();
+        String message2 = "sending email with message: "+ message + " to: "+ project.getName();
         NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, message2);
     }
 

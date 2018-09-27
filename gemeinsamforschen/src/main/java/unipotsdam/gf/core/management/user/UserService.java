@@ -26,7 +26,6 @@ import java.net.URISyntaxException;
 public class UserService {
 
     private ICommunication communicationService;
-
     private UserDAO userDAO;
 
     @Inject
@@ -91,12 +90,12 @@ public class UserService {
 
     @POST
     @Produces(MediaType.TEXT_PLAIN)
-    @Path("/student/{studentId}")
-    public String getQuiz(@FormParam("image") File file, @PathParam("studentId") String studentId) {
+    @Path("/student/{userName}")
+    public String getQuiz(@FormParam("image") File file, @PathParam("userName") String userName) {
         try {
             FileInputStream fis = new FileInputStream(file);
 
-            return management.saveProfilePicture(fis, studentId);
+            return management.saveProfilePicture(fis, userName);
         } catch (Exception e) {
             return e.toString();
         }
@@ -164,11 +163,10 @@ public class UserService {
 
 
         if (user.getStudent() != null && user.getStudent()) {
-            successUrl = "../overview-student.jsp?token=";
+            successUrl = "../overview-student.jsp";
         } else {
-            successUrl = "../overview-docent.jsp?token=";
+            successUrl = "../overview-docent.jsp";
         }
-        successUrl += userDAO.getUserToken(user);
         Response result =  forwardToLocation(successUrl);
 
         req.getSession().setAttribute(GFContexts.USEREMAIL, user.getEmail());

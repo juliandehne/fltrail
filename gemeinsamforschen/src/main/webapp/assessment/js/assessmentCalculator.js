@@ -6,7 +6,7 @@ $(document).ready(function () {     //todo: paths should be relative
             success: function (data) {
                 alert("here is the TotalPerformance: " + data);
 
-                location.href="../pages/project-student.jsp?token="+getUserEmail();
+                location.href="../pages/project-student.jsp";
             },
             error: function (a, b, c) {
                 alert('some error' + a);
@@ -16,9 +16,9 @@ $(document).ready(function () {     //todo: paths should be relative
     $("#calculateNow").on("click", function () {
         var dataP = [
             {
-                "studentIdentifier": {
-                    "projectId": "projekt",
-                    "studentId": "student"
+                "userNameentifier": {
+                    "projectName": "projekt",
+                    "userName": "student"
                 },
                 "quizAnswer": [
                     1,
@@ -38,9 +38,9 @@ $(document).ready(function () {     //todo: paths should be relative
                 }
             },
             {
-                "studentIdentifier": {
-                    "projectId": "projekt",
-                    "studentId": "student"
+                "userNameentifier": {
+                    "projectName": "projekt",
+                    "userName": "student"
                 },
                 "quizAnswer": [
                     1,
@@ -70,8 +70,8 @@ $(document).ready(function () {     //todo: paths should be relative
             },
             data: JSON.stringify(dataP),
             success: function (response) {
-                alert(response[0].studentIdentifier.studentId + " got " +response[0].grade*100+"% /n"+
-                    response[1].studentIdentifier.studentId + " got " +response[1].grade*100+"% /n");
+                alert(response[0].userNameentifier.userName + " got " +response[0].grade*100+"% /n"+
+                    response[1].userNameentifier.userName + " got " +response[1].grade*100+"% /n");
             },
             error: function (a) {
                 alert('some error' + a);

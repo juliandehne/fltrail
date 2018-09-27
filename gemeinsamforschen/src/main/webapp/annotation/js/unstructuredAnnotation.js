@@ -26,7 +26,7 @@ $(document).ready(function () {
 
     }, function () {
         // jump to upload page on error
-        location.href = "upload-unstructured-annotation.jsp?token=" + getUserEmail() + "&projectId=" + getQueryVariable("projectId");
+        location.href = "upload-unstructured-annotation.jsp"
     });
 
     // set click listener to save button
@@ -255,7 +255,7 @@ function saveButtonHandler() {
                 // initialize the post request
                 let category = $(this).attr('id').toUpperCase();
                 let submissionPartPostRequest = {
-                    userId: getUserEmail(),
+                    userEmail: getUserEmail(),
                     fullSubmissionId: getSubmissionIdFromUrl(),
                     category: category,
                     body: []
@@ -285,11 +285,11 @@ function saveButtonHandler() {
 
         $.when.apply($, promises).then(function () {
             // redirect user to project page after saving
-            location.href = "../project-student.jsp?token=" + getUserEmail() + "&projectId=" + getQueryVariable("projectId");
+            location.href = "../project-student.jsp"
         });
 
         // redirect user to project page after saving
-        // location.href="project-student.jsp?token=" + getUserEmail() + "&projectId=" + getProjectIdFromUrl();
+        // location.href="project-student.jsp" + getUserEmail() + "&projectName=" + getProjectIdFromUrl();
     }
 }
 

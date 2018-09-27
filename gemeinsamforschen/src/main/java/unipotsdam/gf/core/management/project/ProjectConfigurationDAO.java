@@ -23,10 +23,10 @@ public class ProjectConfigurationDAO {
         for (Category category : criteriaSelected.keySet()) {
             Boolean criteriumSelected = criteriaSelected.get(category);
             if (criteriumSelected != null && criteriumSelected) {
-                String projectId = project.getId();
+                String projectName = project.getName();
                 String categoryName = category.name();
-                String mysqlRequest = "insert INTO categoriesSelected (`projectId`,`categorySelected`) VALUES (?,?)";
-                connect.issueInsertOrDeleteStatement(mysqlRequest, projectId, categoryName );
+                String mysqlRequest = "insert INTO categoriesSelected (`projectName`,`categorySelected`) VALUES (?,?)";
+                connect.issueInsertOrDeleteStatement(mysqlRequest, projectName, categoryName );
             }
         }
 
@@ -35,8 +35,8 @@ public class ProjectConfigurationDAO {
         for (ProjectPhase phase : phasesSelected.keySet()) {
             Boolean projectPhaseSelected = phasesSelected.get(phase);
             if (projectPhaseSelected != null && projectPhaseSelected) {
-                String mysqlRequest = "insert INTO phasesSelected (`projectId`,`phaseSelected`) VALUES (?,?)";
-                connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), phase.name());
+                String mysqlRequest = "insert INTO phasesSelected (`projectName`,`phaseSelected`) VALUES (?,?)";
+                connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), phase.name());
             }
         }
 
@@ -46,8 +46,8 @@ public class ProjectConfigurationDAO {
 
             if (groupFindingMechanism != null) {
                 String mysqlRequest =
-                        "insert INTO groupfindingMechanismSelected (`projectId`,`gfmSelected`) VALUES (?,?)";
-                connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), groupFindingMechanism.name());
+                        "insert INTO groupfindingMechanismSelected (`projectName`,`gfmSelected`) VALUES (?,?)";
+                connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), groupFindingMechanism.name());
             }
 
 
@@ -59,8 +59,8 @@ public class ProjectConfigurationDAO {
             Boolean asmSelected = assessmentMechanismsSelected.get(assessmentMechanism);
             if (asmSelected != null && asmSelected) {
                 String mysqlRequest =
-                        "insert INTO assessmentMechanismSelected (`projectId`,`amSelected`) VALUES (?,?)";
-                connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), assessmentMechanism.name());
+                        "insert INTO assessmentMechanismSelected (`projectName`,`amSelected`) VALUES (?,?)";
+                connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), assessmentMechanism.name());
             }
         }
         connect.close();
@@ -115,8 +115,8 @@ public class ProjectConfigurationDAO {
     private <T extends Enum<T>> HashMap<T, Boolean> getSelectionFromTable(
             MysqlConnect connect, Class<T> selectionclass, Project project, String table) {
         // get phasesSelected
-        String id = project.getId();
-        String mysqlRequest = "SELECT * FROM " + table + " where projectId = ?";
+        String id = project.getName();
+        String mysqlRequest = "SELECT * FROM " + table + " where projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, id);
         HashMap<T, Boolean> projectPhaseBoolean = new HashMap<>();
         while (!vereinfachtesResultSet.isLast()) {

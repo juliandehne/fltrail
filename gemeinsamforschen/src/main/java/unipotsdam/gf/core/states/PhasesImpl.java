@@ -115,10 +115,10 @@ public class PhasesImpl implements IPhases {
                 }
                 break;
             case Assessment:
-                tasks = iPeerAssessment.allAssessmentsDone(project.getId());
+                tasks = iPeerAssessment.allAssessmentsDone(project.getName());
                 if (tasks.size() < 1) {
                     iCommunication.sendMessageToUsers(project, Messages.CourseEnds(project));
-                    iPeerAssessment.finalizeAssessment(project.getId());
+                    iPeerAssessment.finalizeAssessment(project.getName());
                     saveState(project, changeToPhase);
                 } else {
                     iPeerAssessment.assignMissingAssessmentTasks(project);
@@ -154,11 +154,11 @@ public class PhasesImpl implements IPhases {
     }
 
     private void saveState(Project project, ProjectPhase phase) {
-        assert project.getId() != null;
+        assert project.getName() != null;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "UPDATE `projects` SET `phase`=? WHERE id=? LIMIT 1";
-        connect.issueUpdateStatement(mysqlRequest, phase.name(), project.getId());
+        connect.issueUpdateStatement(mysqlRequest, phase.name(), project.getName());
         connect.close();
     }
 

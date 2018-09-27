@@ -1,21 +1,21 @@
 $(document).ready(function(){
-    let studentId = $('#userEmail').html().trim();
-    getProjects(studentId);
+    let userName = $('#userEmail').html().trim();
+    getProjects(userName);
     $('#enrollProject').on('click', function(){
-        location.href="management/join-project.jsp?token="+getUserEmail();
+        location.href="management/join-project.jsp";
     });
 });
 
-function updateStatus(projectId){
+function updateStatus(projectName){
     $.ajax({
-        url: 'rest/phases/projects/'+projectId,
+        url: 'rest/phases/projects/'+projectName,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         type: 'GET',
         success: function (response) {
-            let statusField = $('#status'+projectId);
+            let statusField = $('#status'+projectName);
             switch (response){
                 case "CourseCreation":
                     statusField.html("Der Kurs wurde gerade angelegt. Sie können sich nun anmelden.");
@@ -33,7 +33,7 @@ function updateStatus(projectId){
                     statusField.html("Nehmen Sie die Bewertungen vor.");
                     break;
                 case "Projectfinished":
-                    getGrade(projectId);
+                    getGrade(projectName);
                     break;
                 default:
                     break;
@@ -46,26 +46,26 @@ function updateStatus(projectId){
     });
 }
 
-function getGrade(projectId){
-    let studentId = $('#userEmail').html().trim();
+function getGrade(projectName){
+    let userName = $('#userEmail').html().trim();
     $.ajax({
-        url: 'rest/assessments/get/project/'+projectId+'/student/'+studentId,
+        url: 'rest/assessments/get/project/'+projectName+'/student/'+userName,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         type: 'GET',
         success: function (response) {
-            $('#status'+projectId).html("Sie erreichten "+response+"%");
+            $('#status'+projectName).html("Sie erreichten "+response+"%");
         },
         error: function(a){
         }
     });
 }
 
-function getProjects(studentId){
+function getProjects(userName){
     $.ajax({
-        url: 'rest/project/all/student/' + studentId,
+        url: 'rest/project/all/student/' + userName,
         headers: {
             "Content-Type": "text/plain",
             "Cache-Control": "no-cache"

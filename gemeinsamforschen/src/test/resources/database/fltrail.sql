@@ -8,7 +8,7 @@ USE fltrail;
 CREATE TABLE if not exists `annotations` (
   `id` varchar(120) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `userToken` varchar(120) DEFAULT NULL,
+  `userEmail` varchar(120) DEFAULT NULL,
   `targetId` varchar(120) DEFAULT NULL,
   `targetCategory` VARCHAR(30) NOT NULL,
   `title` varchar(120) DEFAULT NULL,
@@ -23,13 +23,13 @@ CREATE TABLE if not exists `fullsubmissions` (
   `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user` VARCHAR(120) NOT NULL,
   `text` MEDIUMTEXT NOT NULL,
-  `projectId` VARCHAR(120) NOT NULL,
+  `projectName` VARCHAR(120) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE if not exists `submissionparts` (
   `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `userId` VARCHAR(120) NOT NULL,
+  `userEmail` VARCHAR(120) NOT NULL,
   `fullSubmissionId` VARCHAR(120) NOT NULL,
   `category` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`fullSubmissionId`, `category`)
@@ -44,8 +44,8 @@ CREATE TABLE if not exists `submissionpartbodyelements` (
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `answeredquiz` (
-  `projectId` varchar(400) NOT NULL,
-  `studentId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
+  `userName` varchar(400) NOT NULL,
   `question` varchar(400) NOT NULL,
   `correct` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -56,26 +56,26 @@ CREATE TABLE `contributionrating` (
   `research` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 CREATE TABLE `grades` (
-  `projectId` varchar(400) NOT NULL,
-  `studentId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
+  `userName` varchar(400) NOT NULL,
   `grade` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 CREATE TABLE `groups` (
   `id` int(11) NOT NULL,
-  `projectId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
   `chatRoomId` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE TABLE `groupuser` (
-  `studentId` varchar(400) NOT NULL,
-  `projectId` varchar(400) NOT NULL,
+  `userName` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
   `groupId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE TABLE `phasesselected` (
-  `projectId` varchar(100) NOT NULL,
+  `projectName` varchar(100) NOT NULL,
   `phaseSelected` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 CREATE TABLE `profilepicture` (
-  `studentId` varchar(200) NOT NULL,
+  `userName` varchar(200) NOT NULL,
   `image` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 CREATE TABLE `projects` (
@@ -90,26 +90,26 @@ CREATE TABLE `projects` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `projectuser` (
-  `projectId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
   `useremail` varchar(400) NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT;
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `quiz` (
-  `studentId` varchar(400) NOT NULL,
-  `projectId` varchar(400) NOT NULL,
+  `userName` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
   `question` varchar(400) NOT NULL,
   `mcType` varchar(400) NOT NULL,
   `answer` varchar(400) NOT NULL,
   `correct` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE TABLE `tags` (
-  `projectId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
   `tag` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE TABLE `tasks` (
-  `userId` varchar(400) NOT NULL,
-  `projectId` varchar(400) NOT NULL,
+  `userEmail` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
   `taskUrl` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -126,8 +126,8 @@ CREATE TABLE `users` (
   DEFAULT CHARSET = utf8;
 
 CREATE TABLE `workrating` (
-  `projectId` varchar(400) NOT NULL,
-  `studentId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
+  `userName` varchar(400) NOT NULL,
   `fromPeer` varchar(400) NOT NULL,
   `responsibility` int(11) NOT NULL,
   `partOfWork` int(11) NOT NULL,
@@ -140,7 +140,7 @@ ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `projectuser`
-  ADD KEY `projectId` (`projectId`(255),`userId`(255));
+  ADD KEY `projectName` (`projectName`(255),`userEmail`(255));
 
 ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);

@@ -27,15 +27,15 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
     private UserDAO userDAO;
 
     @Override
-    public ProjectDescription getProjectByStudent(StudentIdentifier studentIdentifier) {
+    public ProjectDescription getProjectByStudent(StudentIdentifier userNameentifier) {
 
         //if no description exists (when page is opened for the first time), create a new one
-        if (descriptionDAO.getDescription(studentIdentifier) == null) {
-            ProjectDescription description = new ProjectDescription("0", studentIdentifier.getStudentId(), "Hier soll ein Turtorialtext stehen", studentIdentifier.getProjectId(), null);
+        if (descriptionDAO.getDescription(userNameentifier) == null) {
+            ProjectDescription description = new ProjectDescription("0", userNameentifier.getUserEmail(), "Hier soll ein Turtorialtext stehen", userNameentifier.getProjectName(), null);
             descriptionDAO.createDescription(description);
         }
 
-        ProjectDescription returnDesc = descriptionDAO.getDescription(studentIdentifier);
+        ProjectDescription returnDesc = descriptionDAO.getDescription(userNameentifier);
         returnDesc.setLinks(linkDAO.getAllLinks(returnDesc.getId()));
         return returnDesc;
 
@@ -49,9 +49,9 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
     }
 
     @Override
-    public void saveProjectText(StudentIdentifier studentIdentifier, String text) {
+    public void saveProjectText(StudentIdentifier userNameentifier, String text) {
 
-        ProjectDescription desc = getProjectByStudent(studentIdentifier);
+        ProjectDescription desc = getProjectByStudent(userNameentifier);
         desc.setDescription(text);
         descriptionDAO.updateDescription(desc);
     }
@@ -76,8 +76,8 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
     public Map<StudentIdentifier, ConstraintsMessages> checkIfAllDescriptionsClosed(Project project) {
         ArrayList<String> missingStudents = descriptionDAO.getOpenDescriptions(project);
         Map<StudentIdentifier, ConstraintsMessages> result = new HashMap<>();
-        for (String studentId: missingStudents) {
-            StudentIdentifier student = new StudentIdentifier(project.getId(), studentId);
+        for (String userName: missingStudents) {
+            StudentIdentifier student = new StudentIdentifier(project.getName(), userName);
             result.put(student, new ConstraintsMessages(Constraints.DescriptionsOpen, student));
         }
         return result;
@@ -86,10 +86,10 @@ public class ProjectDescriptionImpl implements ProjectDescriptionService {
     @Override
     public ArrayList<User> getOpenUserByProject(Project project) {
 
-        ArrayList<String> userId = descriptionDAO.getOpenDescriptions(project);
+        ArrayList<String> userEmail = descriptionDAO.getOpenDescriptions(project);
         ArrayList<User> users = new ArrayList<>();
 
-        for (String id : userId) {
+        for (String id : userEmail) {
             users.add(userDAO.getUserByEmail(id));
         }
         return users;

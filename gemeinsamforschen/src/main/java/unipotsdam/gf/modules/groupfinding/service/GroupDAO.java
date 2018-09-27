@@ -33,9 +33,9 @@ public class GroupDAO {
         connect.connect();
         ArrayList<String> result = new ArrayList<>();
         Integer groupId;
-        String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `projectId`=? AND `studentId`=?";
+        String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `projectName`=? AND `userEmail`=?";
         VereinfachtesResultSet vereinfachtesResultSet1 =
-                connect.issueSelectStatement(mysqlRequest1, student.getProjectId(), student.getStudentId());
+                connect.issueSelectStatement(mysqlRequest1, student.getProjectName(), student.getUserEmail());
         vereinfachtesResultSet1.next();
         groupId = vereinfachtesResultSet1.getInt("groupId");
         String mysqlRequest2 = "SELECT * FROM `groupuser` WHERE `groupId`=?";
@@ -43,8 +43,8 @@ public class GroupDAO {
                 connect.issueSelectStatement(mysqlRequest2, groupId);
         boolean next2 = vereinfachtesResultSet2.next();
         while (next2) {
-            String peer = vereinfachtesResultSet2.getString("studentId");
-            if (!peer.equals(student.getStudentId()))
+            String peer = vereinfachtesResultSet2.getString("userName");
+            if (!peer.equals(student.getUserEmail()))
                 result.add(peer);
             next2 = vereinfachtesResultSet2.next();
         }
@@ -52,19 +52,21 @@ public class GroupDAO {
         return result;
     }
 
+
+    // refactor (you get the id as a return value when inserting into the db)
     public void persist(Group group) {
         connect.connect();
-        List<Group> existingGroups = getExistingEntriesOfGroups(group.getProjectId());
+        List<Group> existingGroups = getExistingEntriesOfGroups(group.getProjectName());
 
-        String mysqlRequestGroup = "INSERT INTO groups (`projectId`,`chatRoomId`) values (?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequestGroup, group.getProjectId(), group.getChatRoomId());
+        String mysqlRequestGroup = "INSERT INTO groups (`projectName`,`chatRoomId`) values (?,?)";
+        connect.issueInsertOrDeleteStatement(mysqlRequestGroup, group.getProjectName(), group.getChatRoomId());
 
-        List<Group> existingGroupsWithNewEntry = getExistingEntriesOfGroups(group.getProjectId());
+        List<Group> existingGroupsWithNewEntry = getExistingEntriesOfGroups(group.getProjectName());
         existingGroupsWithNewEntry.removeAll(existingGroups);
         group.setId(existingGroupsWithNewEntry.get(0).getId());
         for (User groupMember : group.getMembers()) {
-            String mysqlRequest2 = "INSERT INTO groupuser (`studentId`, `projectId`, `groupId`) values (?,?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getProjectId(), group.getId());
+            String mysqlRequest2 = "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
+            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getId());
         }
         connect.close();
 
@@ -72,15 +74,15 @@ public class GroupDAO {
 
     public void update(Group group) {
         connect.connect();
-        String mysqlRequest = "UPDATE groups SET projectId = ?, chatRoomId = ? where id = ?";
-        connect.issueUpdateStatement(mysqlRequest, group.getProjectId(), group.getChatRoomId(), group.getId());
+        String mysqlRequest = "UPDATE groups SET projectName = ?, chatRoomId = ? where id = ?";
+        connect.issueUpdateStatement(mysqlRequest, group.getProjectName(), group.getChatRoomId(), group.getId());
         connect.close();
         // TODO: implement update of groupuser if needed later (if member list need to be updated)
     }
 
 
     public Boolean exists(Group group) {
-        List<Group> existingGroups = getGroupsByProjectId(group.getProjectId());
+        List<Group> existingGroups = getGroupsByProjectName(group.getProjectName());
         return existingGroups.contains(group);
     }
 
@@ -92,13 +94,14 @@ public class GroupDAO {
         // TODO: implement
     }
 
-    public List<Group> getGroupsByProjectId(String projectId) {
+    public List<Group> getGroupsByProjectName(String projectName) {
         connect.connect();
         String mysqlRequest = "SELECT * FROM groups g " +
-                "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu.studentId=u.email " +
-                "where g.projectId = ?";
+                "JOIN groupuser gu ON g.id=gu.groupId " +
+                "JOIN users u ON gu.userEmail=u.email " +
+                "where g.projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, projectId);
+                connect.issueSelectStatement(mysqlRequest, projectName);
         if (Objects.isNull(vereinfachtesResultSet)) {
             connect.close();
             return Collections.emptyList();
@@ -118,22 +121,22 @@ public class GroupDAO {
         if (existingGroups.containsKey(id)) {
             existingGroups.get(id).addMember(ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet));
         } else {
-            String projectId = vereinfachtesResultSet.getString("projectId");
+            String projectName = vereinfachtesResultSet.getString("projectName");
             User user = ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet);
             String chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
             ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
-            Group group = new Group(id, userList, projectId, chatRoomId);
+            Group group = new Group(id, userList, projectName, chatRoomId);
             existingGroups.put(id, group);
         }
     }
 
-    private List<Group> getExistingEntriesOfGroups(String projectId) {
-        String mysqlExistingGroup = "SELECT * FROM groups WHERE projectId = ?";
-        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlExistingGroup, projectId);
+    private List<Group> getExistingEntriesOfGroups(String projectName) {
+        String mysqlExistingGroup = "SELECT * FROM groups WHERE projectName = ?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlExistingGroup, projectName);
         ArrayList<Group> existingGroups = new ArrayList<>();
         while (resultSet.next()) {
             int id = resultSet.getInt("id");
-            Group existingGroup = new Group(id, projectId);
+            Group existingGroup = new Group(id, projectName);
             existingGroups.add(existingGroup);
         }
         return existingGroups;

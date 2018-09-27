@@ -40,10 +40,10 @@ public class GroupView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/project/{projectId}/student/{studentId}")
+    @Path("/project/{projectName}/student/{userName}")
     public ArrayList<String> getStudentsInSameGroup(
-            @PathParam("projectId") String projectId, @PathParam("studentId") String studentId) throws IOException {
-        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+            @PathParam("projectName") String projectName, @PathParam("userName") String userName) throws IOException {
+        StudentIdentifier student = new StudentIdentifier(projectName, userName);
         return groupfinding.getStudentsInSameGroup(student);
     }
 

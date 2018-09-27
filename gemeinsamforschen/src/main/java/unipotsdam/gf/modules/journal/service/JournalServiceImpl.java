@@ -43,7 +43,7 @@ public class JournalServiceImpl implements JournalService {
         for (Journal j : dbJournals) {
 
             //always show own Journals
-            if (j.getStudentIdentifier().getStudentId().equals(student)) {
+            if (j.getStudentIdentifier().getUserEmail().equals(student)) {
                 result.add(j);
             } else {
 
@@ -53,7 +53,7 @@ public class JournalServiceImpl implements JournalService {
                 }
 
                 //If Visibility Group, show if student is in group and filter allows it
-                if (j.getVisibility() == Visibility.GROUP && j.getStudentIdentifier().getProjectId().equals(project) && filter == JournalFilter.ALL) {
+                if (j.getVisibility() == Visibility.GROUP && j.getStudentIdentifier().getProjectName().equals(project) && filter == JournalFilter.ALL) {
                     result.add(j);
                 }
 
@@ -109,8 +109,8 @@ public class JournalServiceImpl implements JournalService {
     @Override
     public Map<StudentIdentifier, ConstraintsMessages> checkIfAllJournalClosed(Project project) {
         Map<StudentIdentifier, ConstraintsMessages> result = new HashMap<>();
-        for (String studentId: journalDAO.getOpenJournals(project)) {
-            StudentIdentifier student = new StudentIdentifier(project.getId(), studentId);
+        for (String userName: journalDAO.getOpenJournals(project)) {
+            StudentIdentifier student = new StudentIdentifier(project.getName(), userName);
             result.put(student, new ConstraintsMessages(Constraints.JournalOpen, student));
         }
         return result;
@@ -119,10 +119,10 @@ public class JournalServiceImpl implements JournalService {
     @Override
     public ArrayList<User> getOpenUserByProject(Project project) {
 
-        ArrayList<String> userId = journalDAO.getOpenJournals(project);
+        ArrayList<String> userEmail = journalDAO.getOpenJournals(project);
         ArrayList<User> users = new ArrayList<>();
 
-        for (String id : userId) {
+        for (String id : userEmail) {
             users.add(userDAO.getUserByEmail(id));
         }
         return users;

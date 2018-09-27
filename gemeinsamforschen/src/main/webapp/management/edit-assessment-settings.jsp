@@ -13,7 +13,7 @@
 <h1> Bewertungsverfahren einstellen </h1>
 
 <a
-        href="edit-group-settings.jsp?token=<%=request.getParameter("token")+"&projectToken="+request.getParameter("projectToken") %>">
+        href="edit-group-settings.jsp">
     Weiter </a>
 
 

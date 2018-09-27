@@ -1,5 +1,5 @@
 var student = getQueryVariable("token");
-var project = getQueryVariable("projectId");
+var project = getQueryVariable("projectName");
 
 
 $(document).ready(function () {
@@ -7,7 +7,7 @@ $(document).ready(function () {
     $('#project').val(project);
 
     $('#backLink').on('click', function () {
-        location.href = "eportfolio.jsp?token=" + student + "&projectId=" + project;
+        location.href = "eportfolio.jsp";
     });
 
     $.ajax({

@@ -106,16 +106,16 @@ public class SubmissionService {
 
     @GET
     @Path("/project/{id}")
-    public Response getSubmissionPartsByProjectId(@PathParam("id") String projectId) {
+    public Response getSubmissionPartsByProjectId(@PathParam("id") String projectName) {
         // get submission project representation from database based by project id
         SubmissionController controller = new SubmissionController();
-        ArrayList<SubmissionProjectRepresentation> representations = controller.getSubmissionPartsByProjectId(projectId);
+        ArrayList<SubmissionProjectRepresentation> representations = controller.getSubmissionPartsByProjectId(projectName);
 
         if (representations.size() > 0) {
             return Response.ok(representations).build();
         } else {
             SubmissionResponse response = new SubmissionResponse();
-            response.setMessage("No submission parts found for project id '" + projectId + "'");
+            response.setMessage("No submission parts found for project id '" + projectName + "'");
 
             return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }

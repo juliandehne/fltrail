@@ -67,10 +67,10 @@ public interface ISubmission {
     /**
      * Get all project representations of submission part for a given project id
      *
-     * @param projectId The given project id
+     * @param projectName The given project id
      * @return An ArrayList of submission project representations
      */
-    ArrayList<SubmissionProjectRepresentation> getSubmissionPartsByProjectId(String projectId);
+    ArrayList<SubmissionProjectRepresentation> getSubmissionPartsByProjectId(String projectName);
 
     /**
      * Checks if a submission part already exists in the database

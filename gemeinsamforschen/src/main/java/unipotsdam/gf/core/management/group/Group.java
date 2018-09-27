@@ -11,33 +11,41 @@ public class Group {
 
     private int id; // do not set yourself, autoincrement
     private List<User> members;
-    private String projectId;
+    private String projectName;
     private String chatRoomId;
 
     public Group() {
     }
 
 
-    public Group(String projectId) {
-        this(new ArrayList<>(), projectId);
+    public String getProjectName() {
+        return projectName;
     }
 
-    public Group(List<User> members, String projectId) {
-        this(members, projectId, "");
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
-    public Group(int id, String projectId) {
-        this(id, new ArrayList<>(), projectId, "");
+    public Group(String projectName) {
+        this(new ArrayList<>(), projectName);
     }
 
-    public Group(List<User> members, String projectId, String chatRoomId) {
-        this(0, members, projectId, chatRoomId);
+    public Group(List<User> members, String projectName) {
+        this(members, projectName, "");
     }
 
-    public Group(int id, List<User> members, String projectId, String chatRoomId) {
+    public Group(int id, String projectName) {
+        this(id, new ArrayList<>(), projectName, "");
+    }
+
+    public Group(List<User> members, String projectName, String chatRoomId) {
+        this(0, members, projectName, chatRoomId);
+    }
+
+    public Group(int id, List<User> members, String projectName, String chatRoomId) {
         this.id = id;
         this.members = members;
-        this.projectId = projectId;
+        this.projectName = projectName;
         this.chatRoomId = chatRoomId;
     }
 
@@ -61,13 +69,7 @@ public class Group {
         members.add(user);
     }
 
-    public String getProjectId() {
-        return projectId;
-    }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
 
     public int getId() {
         return id;
@@ -87,13 +89,13 @@ public class Group {
                 .collect(Collectors.toList());
         return Objects.equals(members.size(), newMemberList.size()) &&
                 Objects.equals(members.size(), group.members.size()) &&
-                Objects.equals(projectId, group.projectId) &&
+                Objects.equals(projectName, group.projectName) &&
                 Objects.equals(chatRoomId, group.chatRoomId) &&
                 Objects.equals(id, group.id) || Objects.equals(id, 0) || Objects.equals(group.id, 0);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(members, projectId, chatRoomId);
+        return Objects.hash(members, projectName, chatRoomId);
     }
 }

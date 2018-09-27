@@ -101,7 +101,7 @@ public class JournalView {
         //TODO token
         URI location;
         try {
-            location = new URI("../pages/eportfolio.jsp?token=" + student + "&projectId=" + project);
+            location = new URI("../pages/eportfolio.jsp");
             log.debug("<<< createJournal: redirect to " + location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -147,7 +147,7 @@ public class JournalView {
         journalService.closeJournal(journal);
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());
+            URI location = new URI("../pages/eportfolio.jsp" + student.getUserEmail() + "&projectName=" + student.getProjectName());
             log.debug("<<< closeJournal: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 

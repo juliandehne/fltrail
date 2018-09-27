@@ -17,8 +17,8 @@ CREATE TABLE if not exists events
 (
   eventId     varchar(400) NOT NULL,
   eventType   varchar(400) NOT NULL,
-  studentId   varchar(400) NOT NULL,
-  projectId   varchar(400) NOT NULL,
+  userName   varchar(400) NOT NULL,
+  projectName   varchar(400) NOT NULL,
   title       varchar(400) NOT NULL,
   description varchar(400) NOT NULL
 )
@@ -36,7 +36,7 @@ CREATE TABLE if not exists tasks
 (
   taskId     varchar(400) NOT NULL,
   taskType   varchar(400) NOT NULL,
-  projectId   varchar(400) NOT NULL,
+  projectName   varchar(400) NOT NULL,
   title       varchar(400) NOT NULL,
   description varchar(400) NOT NULL,
   state       varchar(400) NOT NULL -- should be "open" or "closed"
@@ -48,7 +48,7 @@ CREATE TABLE if not exists tasks
 CREATE TABLE if not exists achievements
 (
   authorEmail varchar(400) NOT NULL,
-  projectId varchar(400) NOT NULL,
+  projectName varchar(400) NOT NULL,
   question varchar(400) NOT NULL,
   mcType varchar(400) NOT NULL,
   answer varchar(400) NOT NULL,

@@ -9,13 +9,13 @@ public class FullSubmissionPostRequest {
     // variables
     private String user;
     private String text;
-    private String projectId;
+    private String projectName;
 
     // constructors
-    public FullSubmissionPostRequest(String user, String text, String projectId) {
+    public FullSubmissionPostRequest(String user, String text, String projectName) {
         this.user = user;
         this.text = text;
-        this.projectId = projectId;
+        this.projectName = projectName;
     }
 
     public FullSubmissionPostRequest() {
@@ -39,11 +39,11 @@ public class FullSubmissionPostRequest {
     }
 
     public String getProjectId() {
-        return projectId;
+        return projectName;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setProjectId(String projectName) {
+        this.projectName = projectName;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class FullSubmissionPostRequest {
         return "FullSubmissionPostRequest{" +
                 "user='" + user + '\'' +
                 ", text='" + text + '\'' +
-                ", projectId='" + projectId + '\'' +
+                ", projectName='" + projectName + '\'' +
                 '}';
     }
 

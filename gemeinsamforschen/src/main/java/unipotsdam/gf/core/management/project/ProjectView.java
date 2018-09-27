@@ -31,10 +31,10 @@ public class ProjectView {
         // we assume the token is send not the author id
         String authorToken = project.getAuthorEmail();
         User userByToken = iManagement.getUserByToken(authorToken);
-        project.setAuthorEmail(userByToken.getId());
+        project.setAuthorEmail(userByToken.getEmail());
         try {
             String projectToken = iManagement.create(project);
-            req.getSession().setAttribute(GFContexts.PROJECTNAME, project.getId());
+            req.getSession().setAttribute(GFContexts.PROJECTNAME, project.getName());
             return projectToken;
         } catch (Exception e) {
             return "project exists";
@@ -76,9 +76,9 @@ public class ProjectView {
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/all/author/{userToken}")
+    @Path("/all/author/{userEmail}")
     public java.util.List<String> getProjects(
-            @PathParam("userToken") String authorToken) {
+            @PathParam("userEmail") String authorToken) {
 
         java.util.List<String> projects = iManagement.getProjects(authorToken);
         return projects;
@@ -96,9 +96,9 @@ public class ProjectView {
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
-    @Path("/login/{projectId}")
-    public String logInProject(@PathParam("projectId") String projectId, @QueryParam("password") String password) {
-        Project project = iManagement.getProjectById(projectId);
+    @Path("/login/{projectName}")
+    public String logInProject(@PathParam("projectName") String projectName, @QueryParam("password") String password) {
+        Project project = iManagement.getProjectById(projectName);
         if (project == null){
             return "project missing";
         }

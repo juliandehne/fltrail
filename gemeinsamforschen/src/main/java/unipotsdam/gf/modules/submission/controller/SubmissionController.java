@@ -34,7 +34,7 @@ public class SubmissionController implements ISubmission {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT INTO fullsubmissions (`id`, `user`, `text`, `projectId`) VALUES (?,?,?,?);";
+        String request = "INSERT INTO fullsubmissions (`id`, `user`, `text`, `projectName`) VALUES (?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, uuid, fullSubmissionPostRequest.getUser(), fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectId());
 
         // get the new submission from database
@@ -115,7 +115,7 @@ public class SubmissionController implements ISubmission {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT IGNORE INTO submissionparts (`userId`, `fullSubmissionId`, `category`) VALUES (?,?,?);";
+        String request = "INSERT IGNORE INTO submissionparts (`userEmail`, `fullSubmissionId`, `category`) VALUES (?,?,?);";
         connection.issueInsertOrDeleteStatement(request, submissionPartPostRequest.getUserId(), submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory().toString().toUpperCase());
 
         // declare request string
@@ -276,19 +276,19 @@ public class SubmissionController implements ISubmission {
     }
 
     @Override
-    public ArrayList<SubmissionProjectRepresentation> getSubmissionPartsByProjectId(String projectId) {
+    public ArrayList<SubmissionProjectRepresentation> getSubmissionPartsByProjectId(String projectName) {
 
         // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
-        String request = "SELECT s.userId, s.category, s.fullSubmissionId " +
+        String request = "SELECT s.userEmail, s.category, s.fullSubmissionId " +
                 "FROM fullsubmissions f " +
                 "LEFT JOIN submissionparts s " +
                 "ON f.id = s.fullSubmissionId " +
-                "WHERE f.projectId = ?";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, projectId);
+                "WHERE f.projectName = ?";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, projectName);
 
         ArrayList<SubmissionProjectRepresentation> representations;
 
@@ -345,9 +345,9 @@ public class SubmissionController implements ISubmission {
         long timestamp = rs.getTimestamp("timestamp").getTime();
         String user = rs.getString("user");
         String text = rs.getString("text");
-        String projectId = rs.getString("projectId");
+        String projectName = rs.getString("projectName");
 
-        return new FullSubmission(id, timestamp, user, text, projectId);
+        return new FullSubmission(id, timestamp, user, text, projectName);
 
     }
 
@@ -365,7 +365,7 @@ public class SubmissionController implements ISubmission {
 
         // initialize variables
         long timestamp = rs.getTimestamp("timestamp").getTime();
-        String userId = rs.getString("userId");
+        String userEmail = rs.getString("userEmail");
         String fullSubmissionId = rs.getString("fullSubmissionId");
         Category category = Category.valueOf(rs.getString("category").toUpperCase());
 
@@ -384,7 +384,7 @@ public class SubmissionController implements ISubmission {
             body.add(element);
         } while (rs.next());
 
-        return new SubmissionPart(timestamp, userId, fullSubmissionId, category, body);
+        return new SubmissionPart(timestamp, userEmail, fullSubmissionId, category, body);
     }
 
     /**
@@ -420,7 +420,7 @@ public class SubmissionController implements ISubmission {
                 // build submission part with empty body
                 tmpPart = new SubmissionPart(
                         rs.getTimestamp("timestamp").getTime(),
-                        rs.getString("userId"),
+                        rs.getString("userEmail"),
                         rs.getString("fullSubmissionId"),
                         Category.valueOf(tmpCategory),
                         new ArrayList<SubmissionPartBodyElement>()
@@ -451,7 +451,7 @@ public class SubmissionController implements ISubmission {
         while (rs.next()) {
             if (!Strings.isNullOrEmpty(rs.getString("category"))) {
                 representations.add(new SubmissionProjectRepresentation(
-                        rs.getString("userId"),
+                        rs.getString("userEmail"),
                         Category.valueOf(rs.getString("category").toUpperCase()),
                         rs.getString("fullSubmissionId")
                 ));

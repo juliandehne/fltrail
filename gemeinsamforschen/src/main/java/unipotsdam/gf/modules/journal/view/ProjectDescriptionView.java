@@ -55,7 +55,7 @@ public class ProjectDescriptionView {
 
         //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=" + student + "&projectId=" + project);
+            URI location = new URI("../pages/eportfolio.jsp");
             log.debug("<<< saveText: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -82,7 +82,7 @@ public class ProjectDescriptionView {
 
 
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=" + desc.getStudent().getStudentId() + "&projectId=" + desc.getStudent().getProjectId());
+            URI location = new URI("../pages/eportfolio.jsp" + desc.getStudent().getUserEmail() + "&projectName=" + desc.getStudent().getProjectName());
             log.debug("<<< addLink: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -131,7 +131,7 @@ public class ProjectDescriptionView {
         StudentIdentifier student = descriptionService.getProjectById(desc).getStudent();
         descriptionService.closeDescription(desc);
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());
+            URI location = new URI("../pages/eportfolio.jsp" + student.getUserEmail() + "&projectName=" + student.getProjectName());
             log.debug("<<< closeDescription: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 

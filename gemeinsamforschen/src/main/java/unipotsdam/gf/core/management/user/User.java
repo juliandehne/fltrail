@@ -13,7 +13,6 @@ public class User {
     private String name;
     private String password;
     private String email;
-    private String token;
     private String rocketChatAuthToken;
     private String rocketChatId;
     private Boolean isStudent;
@@ -25,23 +24,13 @@ public class User {
         this(name, password, email, "", "", isStudent);
     }
 
-    public User(String name, String password, String email, String rocketChatId, String rocketChatAuthToken, Boolean isStudent) {
-        this(name, password, email, "", rocketChatAuthToken, rocketChatId, isStudent);
-    }
-
-    public User(String name, String password, String email, String token, String rocketChatAuthToken, String rocketChatId, Boolean isStudent) {
+    public User(String name, String password, String email,  String rocketChatAuthToken, String rocketChatId, Boolean isStudent) {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.token = token;
         this.rocketChatAuthToken = rocketChatAuthToken;
         this.rocketChatId = rocketChatId;
         this.isStudent = isStudent;
-    }
-
-    // the email is the id!
-    public String getId() {
-        return this.email;
     }
 
     public String getName() {
@@ -67,15 +56,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
 
     public Boolean getStudent() {
         return isStudent;
@@ -107,7 +87,6 @@ public class User {
                 "name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", token='" + token + '\'' +
                 ", rocketChatAuthToken='" + rocketChatAuthToken + '\'' +
                 ", rocketChatId='" + rocketChatId + '\'' +
                 ", isStudent=" + isStudent +

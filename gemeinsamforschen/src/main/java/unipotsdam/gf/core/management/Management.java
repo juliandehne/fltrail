@@ -86,7 +86,7 @@ public interface Management {
 
     Boolean exists(Group group);
 
-    User getUserByName(String studentId);
+    User getUserByName(String userName);
 
     void create(ProjectConfiguration projectConfiguration, Project project);
 
@@ -96,15 +96,15 @@ public interface Management {
 
     Project getProjectByToken(String projectToken);
 
-    List<String> getProjects(String userToken);
+    List<String> getProjects(String userEmail);
 
-    User getUserByToken(String userToken);
+    User getUserByToken(String userEmail);
 
-    Project getProjectById(String projectId);
+    Project getProjectById(String projectName);
 
     List<String> getProjectsStudent(String studentToken);
 
-    String saveProfilePicture(FileInputStream fis, String studentId);
+    String saveProfilePicture(FileInputStream fis, String userName);
 
     List<String> getTags(Project project);
 }

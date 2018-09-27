@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    let projectId = $('#projectId').html().trim();
+    let projectName = $('#projectName').html().trim();
     $.ajax({
-        url: '../rest/phases/projects/' + projectId,
+        url: '../rest/phases/projects/' + projectName,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
@@ -22,9 +22,9 @@ $(document).ready(function () {
         }
     });
     $('#changePhase').on('click', function () {
-        let projectId = $('#projectId').html().trim();
+        let projectName = $('#projectName').html().trim();
         $.ajax({
-            url: '../rest/phases/projects/'+projectId,
+            url: '../rest/phases/projects/'+projectName,
             headers: {
                 "Content-Type": "application/json",
                 "Cache-Control": "no-cache"
@@ -41,9 +41,9 @@ $(document).ready(function () {
 });
 
 function changePhase(currentPhase) {
-    let projectId = $('#projectId').html().trim();
+    let projectName = $('#projectName').html().trim();
     $.ajax({
-        url: '../rest/phases/' + currentPhase + '/projects/' + projectId,
+        url: '../rest/phases/' + currentPhase + '/projects/' + projectName,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"

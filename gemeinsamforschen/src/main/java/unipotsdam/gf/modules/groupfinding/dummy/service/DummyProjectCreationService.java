@@ -58,15 +58,15 @@ public class DummyProjectCreationService {
             management.create(project);
         }
 
-        List<Group> groups = createDummyGroups(project.getId());
+        List<Group> groups = createDummyGroups(project.getName());
 
         List<Group> nonCreatedGroups = groups.stream().filter(group -> !management.exists(group)).collect(Collectors.toList());
 
         nonCreatedGroups.forEach(group -> management.create(group));
 
-        List<Group> groupsWithId = groupDAO.getGroupsByProjectId(project.getId());
+        List<Group> groupsWithId = groupDAO.getGroupsByProjectName(project.getName());
         groupsWithId.forEach(group -> {
-            String chatRoomName = String.join(" - ", project.getId(), String.valueOf(group.getId()));
+            String chatRoomName = String.join(" - ", project.getName(), String.valueOf(group.getId()));
             group.setChatRoomId(communicationService.createChatRoom(chatRoomName, group.getMembers()));
             management.update(group);
         });
@@ -74,11 +74,11 @@ public class DummyProjectCreationService {
         return true;
     }
 
-    List<Group> createDummyGroups(String projectId) {
-        Group group1 = new Group(new ArrayList<>(), projectId);
-        Group group2 = new Group(new ArrayList<>(), projectId);
-        Group group3 = new Group(new ArrayList<>(), projectId);
-        Group group4 = new Group(new ArrayList<>(), projectId);
+    List<Group> createDummyGroups(String projectName) {
+        Group group1 = new Group(new ArrayList<>(), projectName);
+        Group group2 = new Group(new ArrayList<>(), projectName);
+        Group group3 = new Group(new ArrayList<>(), projectName);
+        Group group4 = new Group(new ArrayList<>(), projectName);
         List<Group> groups = Arrays.asList(group1, group2, group3, group4);
 
         String baseUserName = "Name ";

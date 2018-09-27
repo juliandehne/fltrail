@@ -12,7 +12,7 @@ $(document).ready(function () {
 
 function deleteProject(projectName) {
     var token = getUserEmail();
-    var url = "../database/delete-project.jsp?project=" + projectName + "&password=" + document.getElementById('projectPassword').value.trim() + "&token=" + token;
+    var url = "../database/delete-project.jsp?project=" + projectName + "&password=" + document.getElementById('projectPassword').value.trim();
     if (projectName === "") {
         return false;
     } else {
@@ -39,7 +39,7 @@ function deleteProject(projectName) {
                                 console.log(a);
                             }
                         });
-                        window.location.href = " ../pages/projects.php?token=" + getUserEmail();
+                        window.location.href = " ../pages/projects.php" + getUserEmail();
                     } else {
                         $("#projectIsMissing").hide();
                         $('#projectWrongPassword').show();

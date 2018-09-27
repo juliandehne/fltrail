@@ -14,7 +14,7 @@ import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
 public class Journal {
 
     private String id;
-    private StudentIdentifier studentIdentifier;
+    private StudentIdentifier userNameentifier;
     private String entryHTML;
     private String entryMD;
     private long timestamp;
@@ -24,9 +24,9 @@ public class Journal {
 
     public Journal() {}
 
-    public Journal(String id, StudentIdentifier studentIdentifier, String entryMD, Visibility visibility, Category category) {
+    public Journal(String id, StudentIdentifier userNameentifier, String entryMD, Visibility visibility, Category category) {
         this.id = id;
-        this.studentIdentifier = studentIdentifier;
+        this.userNameentifier = userNameentifier;
         entryHTML = convertMarkdownToHtml(entryMD);
         this.entryMD = entryMD;
         this.visibility = visibility;
@@ -35,9 +35,9 @@ public class Journal {
         timestamp = new Date().getTime();
     }
 
-    public Journal(String id, StudentIdentifier studentIdentifier, String entryMD, long timestamp, Visibility visibility, Category category, boolean open) {
+    public Journal(String id, StudentIdentifier userNameentifier, String entryMD, long timestamp, Visibility visibility, Category category, boolean open) {
         this.id = id;
-        this.studentIdentifier = studentIdentifier;
+        this.userNameentifier = userNameentifier;
         entryHTML = convertMarkdownToHtml(entryMD);
         this.entryMD = entryMD;
         this.timestamp = timestamp;
@@ -68,11 +68,11 @@ public class Journal {
     }
 
     public StudentIdentifier getStudentIdentifier() {
-        return studentIdentifier;
+        return userNameentifier;
     }
 
-    public void setStudentIdentifier(StudentIdentifier studentIdentifier) {
-        this.studentIdentifier = studentIdentifier;
+    public void setStudentIdentifier(StudentIdentifier userNameentifier) {
+        this.userNameentifier = userNameentifier;
     }
 
     public String getEntryHTML() {
@@ -111,7 +111,7 @@ public class Journal {
     public String toString() {
         return "Journal{" +
                 "id=" + id +
-                ", studentIdentifier=" + studentIdentifier +
+                ", userNameentifier=" + userNameentifier +
                 ", entryHTML='" + entryHTML + '\'' +
                 ", entryMD='" + entryMD + '\'' +
                 ", timestamp=" + timestamp +

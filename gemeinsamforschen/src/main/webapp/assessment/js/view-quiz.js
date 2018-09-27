@@ -35,9 +35,9 @@ $(document).ready(function () {
     }
     let quizId = encodeURIComponent($_GET['quizId']);
     let author = $('#user').html().trim();
-    let projectId = document.getElementById('projectId').innerText.trim();
+    let projectName = document.getElementById('projectName').innerText.trim();
     $.ajax({
-        url: '../rest/assessments/project/' + projectId + '/quiz/' + quizId + '/author/' + author,
+        url: '../rest/assessments/project/' + projectName + '/quiz/' + quizId + '/author/' + author,
         type: 'GET',
         success: function (data) {
             let table = document.getElementById('tableQuiz');
@@ -67,7 +67,7 @@ $(document).ready(function () {
             url: '../rest/assessments/quiz/' + encodeURIComponent(quizId),
             type: 'POST',
             success: function () {
-                document.location.href = "quiz.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
+                document.location.href = "quiz.jsp";
             },
             error: function (a) {
                 alert(a)

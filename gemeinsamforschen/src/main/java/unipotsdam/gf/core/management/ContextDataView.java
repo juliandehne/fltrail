@@ -22,10 +22,10 @@ public class ContextDataView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/full")
-    public ContextDataOutput getContextData(@QueryParam("userToken") String userToken, @QueryParam("projectToken")
+    public ContextDataOutput getContextData(@QueryParam("userEmail") String userEmail, @QueryParam("projectToken")
                                             String projectToken) {
         Project projectByToken = iManagement.getProjectByToken(projectToken);
-        User user = iManagement.getUserByToken(userToken);
+        User user = iManagement.getUserByToken(userEmail);
 
         return new ContextDataOutput(projectByToken, user);
 

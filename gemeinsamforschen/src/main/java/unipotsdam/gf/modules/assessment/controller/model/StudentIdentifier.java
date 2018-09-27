@@ -1,38 +1,39 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
 public class StudentIdentifier {
-    private String projectId;
-    private String studentId;
-
-    public StudentIdentifier(String projectId, String studentId) {
-        this.projectId = projectId;
-        this.studentId = studentId;
+    public StudentIdentifier(String projectName, String userEmail) {
+        this.projectName = projectName;
+        this.userEmail = userEmail;
     }
+
+    private String projectName;
+    private String userEmail;
+
+
 
     public StudentIdentifier() {
     }
 
-    public String getProjectId() {
-        return projectId;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
-    public String getStudentId() {
-        return studentId;
-    }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
 
     @Override
     public String toString() {
-        return "StudentIdentifier{" +
-                "projectId='" + projectId + '\'' +
-                ", studentId='" + studentId + '\'' +
-                '}';
+        return super.toString();
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 }

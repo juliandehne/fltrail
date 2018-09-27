@@ -30,19 +30,19 @@ INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rock
 INSERT INTO  `projects` (`id`, `password`,`active`,`timecreated`,`authorEmail`,`adminpassword`,`token`,`phase`) VALUES
   ('1','123',1,current_timestamp,'Julian','123','abc','CourseCreation');
 
-INSERT INTO `projectuser` (`projectId`,`userId`) VALUES ('1','test1@uni.de');
-INSERT INTO `projectuser` (`projectId`,`userId`) VALUES ('1','test2@uni.de');
-INSERT INTO `projectuser` (`projectId`,`userId`) VALUES ('1','test3@uni.de');
-INSERT INTO `projectuser` (`projectId`,`userId`) VALUES ('1','test4@uni.de');
-INSERT INTO `projectuser` (`projectId`,`userId`) VALUES ('1','test5@uni.de');
-INSERT INTO `projectuser` (`projectId`,`userId`) VALUES ('1','test6@uni.de');
-INSERT INTO `projectuser` (`projectId`,`userId`) VALUES ('1','test7@uni.de');
-INSERT INTO `projectuser` (`projectId`,`userId`) VALUES ('1','test8@uni.de');
+INSERT INTO `projectuser` (`projectName`,`userEmail`) VALUES ('1','test1@uni.de');
+INSERT INTO `projectuser` (`projectName`,`userEmail`) VALUES ('1','test2@uni.de');
+INSERT INTO `projectuser` (`projectName`,`userEmail`) VALUES ('1','test3@uni.de');
+INSERT INTO `projectuser` (`projectName`,`userEmail`) VALUES ('1','test4@uni.de');
+INSERT INTO `projectuser` (`projectName`,`userEmail`) VALUES ('1','test5@uni.de');
+INSERT INTO `projectuser` (`projectName`,`userEmail`) VALUES ('1','test6@uni.de');
+INSERT INTO `projectuser` (`projectName`,`userEmail`) VALUES ('1','test7@uni.de');
+INSERT INTO `projectuser` (`projectName`,`userEmail`) VALUES ('1','test8@uni.de');
 
-INSERT INTO groups (projectId, chatRoomId) VALUES ('1','1');
-INSERT INTO groups (projectId, chatRoomId) VALUES ('1','2');
-INSERT INTO groups (projectId, chatRoomId) VALUES ('1','3');
-INSERT INTO groups (projectId, chatRoomId) VALUES ('1','4');
+INSERT INTO groups (projectName, chatRoomId) VALUES ('1','1');
+INSERT INTO groups (projectName, chatRoomId) VALUES ('1','2');
+INSERT INTO groups (projectName, chatRoomId) VALUES ('1','3');
+INSERT INTO groups (projectName, chatRoomId) VALUES ('1','4');
 
 INSERT INTO groupuser (userEmail, groupId) VALUES ('test1@uni.de','1');
 INSERT INTO groupuser (userEmail, groupId) VALUES ('test2@uni.de','2');

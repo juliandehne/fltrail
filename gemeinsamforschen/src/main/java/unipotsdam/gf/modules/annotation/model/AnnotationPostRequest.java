@@ -9,14 +9,14 @@ import unipotsdam.gf.modules.peer2peerfeedback.Category;
 public class AnnotationPostRequest {
 
     // variables
-    private String userToken;
+    private String userEmail;
     private String targetId;
     private Category targetCategory;
     private AnnotationBody body;
 
     // constructors
-    public AnnotationPostRequest(String userToken, String targetId, Category targetCategory, AnnotationBody body) {
-        this.userToken = userToken;
+    public AnnotationPostRequest(String userEmail, String targetId, Category targetCategory, AnnotationBody body) {
+        this.userEmail = userEmail;
         this.targetId = targetId;
         this.targetCategory = targetCategory;
         this.body = body;
@@ -27,11 +27,11 @@ public class AnnotationPostRequest {
 
     // methods
     public String getUserToken() {
-        return userToken;
+        return userEmail;
     }
 
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
+    public void setUserToken(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getTargetId() {
@@ -61,7 +61,7 @@ public class AnnotationPostRequest {
     @Override
     public String toString() {
         return "AnnotationPostRequest{" +
-                "userToken='" + userToken + '\'' +
+                "userEmail='" + userEmail + '\'' +
                 ", targetId=" + targetId +
                 ", targetCategory=" + targetCategory +
                 ", body=" + body +

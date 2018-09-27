@@ -17,17 +17,17 @@ import java.util.Map;
  * Created by dehne on 18.05.2018.
  */
 public interface IPeerAssessment {
-    void finalizeAssessment(String projectId);
+    void finalizeAssessment(String projectName);
 
-    Quiz getQuiz(String projectId, String quizId, String author);
-    ArrayList<Quiz> getQuiz(String projectId, String author);
+    Quiz getQuiz(String projectName, String quizId, String author);
+    ArrayList<Quiz> getQuiz(String projectName, String author);
     /**
      * will return a saved assessment from the DB
      *
      *
-     * @param projectId @return Assessement = studentIdentifier , performance
+     * @param projectName @return Assessement = userNameentifier , performance
      */
-    Map<StudentIdentifier, Double> getAssessmentForProject(String projectId);
+    Map<StudentIdentifier, Double> getAssessmentForProject(String projectName);
 
     Double getAssessmentForStudent(StudentIdentifier student);
 
@@ -44,10 +44,10 @@ public interface IPeerAssessment {
     /**
 
      *
-     * @param studentIdentifier
+     * @param userNameentifier
      * @return
      */
-    ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier);
+    ArrayList<Performance> getTotalAssessment(StudentIdentifier userNameentifier);
 
     /**
      * calculates the mean value of all assessments in a project.
@@ -60,18 +60,18 @@ public interface IPeerAssessment {
     /**
      * returns all quizzes in a project
      *
-     * @param projectId
-     * @return all quizzes in projectId
+     * @param projectName
+     * @return all quizzes in projectName
      */
-    ArrayList<Quiz> getQuiz(String projectId);
+    ArrayList<Quiz> getQuiz(String projectName);
 
     /**
      * writes the peerRatings into db
      *
      * @param peerRatings
-     * @param projectId
+     * @param projectName
      */
-    void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId);
+    void postPeerRating(ArrayList<PeerRating> peerRatings, String projectName);
 
     /**
      *
@@ -94,7 +94,7 @@ public interface IPeerAssessment {
 
     String whatToRate(StudentIdentifier student);
 
-    Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId);
+    Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectName);
 
     void assignMissingAssessmentTasks(Project project);
 }

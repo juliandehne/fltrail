@@ -1,5 +1,5 @@
 var student = getQueryVariable("token");
-var project = getQueryVariable("projectId");
+var project = getQueryVariable("projectName");
 var description = 0;
 
 $(document).ready(function () {
@@ -38,11 +38,11 @@ $(document).ready(function () {
     });
 
     $('#editDescriptionLink').on('click', function () {
-        location.href = "edit-description.jsp?project=" + project + "&token=" + student + "&projectId=" + project;
+        location.href = "edit-description.jsp";
     });
 
     $('#createJournalLink').on('click', function () {
-        location.href = "create-journal.jsp?token=" + student + "&projectId=" + project;
+        location.href = "create-journal.jsp";
     });
 
 });
@@ -61,7 +61,7 @@ function timestampToDateString(timestamp) {
 
 function filterJournals() {
     var filter = $('#journalfilter option:selected').val();
-    project = getQueryVariable("projectId");
+    project = getQueryVariable("projectName");
     $('.journal').empty();
 
     $.ajax({
@@ -85,17 +85,17 @@ function loadJournals(data) {
             '</div>' +
             '<div class="journal-name">' +
             // TODO id to name
-            data[journal].studentIdentifier.studentId +
+            data[journal].userNameentifier.userName +
             '</div>' +
             '<div class="journal-category">' +
             data[journal].category +
             '</div>' +
             '<div class="journal-edit" align="right">';
 
-        //TODO userToken...
-        if (data[journal].studentIdentifier.studentId == student && data[journal].open) {
+        //TODO userEmail...
+        if (data[journal].userNameentifier.userName == student && data[journal].open) {
             journalString = journalString +
-                '<a class="btn btn-default btn-sm" href="create-journal.jsp?token=' + student + '&projectId=' + project + '&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
+                '<a class="btn btn-default btn-sm" href="create-journal.jsp&journal=' + data[journal].id + '"><i class="fa fa-pencil"></i> Bearbeiten</a>' +
                 '<a class="open-CloseJournalDialog btn btn-default btn-sm" data-toggle="modal" data-id ='
                 + data[journal].id +
                 ' data-target ="#closeJournalModal" > <i class="fa fa-check-square" aria-hidden = "true" ></i> Abschlie&szlig;en</a> '

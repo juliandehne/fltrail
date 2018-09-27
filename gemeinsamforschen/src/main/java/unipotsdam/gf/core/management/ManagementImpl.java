@@ -70,8 +70,8 @@ public class ManagementImpl implements Management {
     @Override
     public void register(User user, Project project, UserInterests interests) {
         connect.connect();
-        String mysqlRequest = "INSERT INTO projectuser (`projectId`, `userId`) values (?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), user.getId());
+        String mysqlRequest = "INSERT INTO projectuser (`projectName`, `userEmail`) values (?,?)";
+        connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), user.getEmail());
         connect.close();
     }
 
@@ -101,13 +101,13 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public User getUserByName(String studentId) {
+    public User getUserByName(String userName) {
         return null;
     }
 
 
     public List<User> getUsers(Project project) {
-        return userDAO.getUsersByProjectId(project.getId());
+        return userDAO.getUsersByProjectId(project.getName());
     }
 
     private User getUserFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
@@ -120,11 +120,11 @@ public class ManagementImpl implements Management {
         if (existingGroups.containsKey(id)) {
             existingGroups.get(id).addMember(getUserFromResultSet(vereinfachtesResultSet));
         } else {
-            String projectId = vereinfachtesResultSet.getString("projectId");
+            String projectName = vereinfachtesResultSet.getString("projectName");
             User user = getUserFromResultSet(vereinfachtesResultSet);
             String chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
             ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
-            Group group = new Group(userList, projectId, chatRoomId);
+            Group group = new Group(userList, projectName, chatRoomId);
             existingGroups.put(id, group);
         }
     }
@@ -153,23 +153,23 @@ public class ManagementImpl implements Management {
 
         connect.connect();
 
-        String mysqlRequestGroup = "INSERT INTO groups (`projectId`,`chatRoomId`) values (?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequestGroup, group.getProjectId(), group.getChatRoomId());
+        String mysqlRequestGroup = "INSERT INTO groups (`projectName`,`chatRoomId`) values (?,?)";
+        connect.issueInsertOrDeleteStatement(mysqlRequestGroup, group.getProjectName(), group.getChatRoomId());
 
         for (User groupMember : group.getMembers()) {
             String mysqlRequest2 = "INSERT INTO groupuser (`userEmail`, `groupId`) values (?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getProjectId());
+            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getProjectName());
         }
         connect.close();
     }
 
 
-    public List<Group> getGroupsByProjectId(String projectId) {
+    public List<Group> getGroupsByProjectId(String projectName) {
 
         connect.connect();
         String mysqlRequest =
-                "SELECT * FROM groups g " + "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu.userEmail=u.email" + "where g.projectId = ?";
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectId);
+                "SELECT * FROM groups g " + "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu.userEmail=u.email" + "where g.projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
         HashMap<Integer, Group> groupHashMap = new HashMap<>();
         while (vereinfachtesResultSet.next()) {
             fillGroupFromResultSet(vereinfachtesResultSet, groupHashMap);
@@ -257,25 +257,25 @@ public class ManagementImpl implements Management {
         }
         connect.connect();
         String mysqlRequest =
-                "SELECT projectId FROM projectuser WHERE useremail=?";
+                "SELECT projectName FROM projectuser WHERE useremail=?";
 
         //49c6eeda-62d2-465e-8832-dc2db27e760c
 
         List<String> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, studentEmail);
         while (vereinfachtesResultSet.next()) {
-            String project = vereinfachtesResultSet.getString("projectId");
+            String project = vereinfachtesResultSet.getString("projectName");
             result.add(project);
         }
         connect.close();
         return result;
     }
 
-    public String saveProfilePicture(FileInputStream image, String studentId) {
+    public String saveProfilePicture(FileInputStream image, String userName) {
         connect.connect();
         Blob blobbedImage = (Blob) image;
-        String mysqlRequest = "INSERT INTO `profilepicture`(`studentId`, `image`) VALUES (?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, studentId, blobbedImage);
+        String mysqlRequest = "INSERT INTO `profilepicture`(`userName`, `image`) VALUES (?,?)";
+        connect.issueInsertOrDeleteStatement(mysqlRequest, userName, blobbedImage);
         connect.close();
         return "success";    }
 

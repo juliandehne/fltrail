@@ -54,7 +54,7 @@ public class UserDAOTest {
         assert management.exists(user2);
 
         UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
-        List<User> users = userDAO.getUsersByProjectId(project.getId());
+        List<User> users = userDAO.getUsersByProjectId(project.getName());
         assert users != null;
         assert !users.isEmpty();
         assertThat(users, hasSize(2));
@@ -79,14 +79,13 @@ public class UserDAOTest {
     public void testUpdateUser() {
         UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
         User user = new User("julian", "1234", "testUpdateUser@stuff.com", true);
-        user.setToken("abc");
         userDAO.persist(user, new UserProfile());
         assertTrue(userDAO.exists(user));
 
         user.setStudent(false);
         userDAO.update(user);
         assertTrue(userDAO.exists(user));
-        User managementUser = userDAO.getUserByEmail(user.getToken());
+        User managementUser = userDAO.getUserByEmail(user.getEmail());
         assertEquals(user.getStudent(), managementUser.getStudent());
     }
 

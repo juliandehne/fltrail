@@ -53,8 +53,8 @@ public class GroupEvalDiagrammData {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/diagramm1/{projectId}")
-    public GroupEvalDiagrammData getValuesFromDBByProjectID(@PathParam("projectId") String projectId) {
+    @Path("/diagramm1/{projectName}")
+    public GroupEvalDiagrammData getValuesFromDBByProjectID(@PathParam("projectName") String projectName) {
 
         //GruppenID muss noch irgendwie aus der Seite ausgelesen werden, wenn die dann mal dynamisch gefüllt wurde
         GroupEvalDiagrammData diagramm = new GroupEvalDiagrammData();

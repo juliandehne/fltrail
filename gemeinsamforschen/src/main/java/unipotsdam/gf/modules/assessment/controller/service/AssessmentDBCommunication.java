@@ -21,13 +21,13 @@ import java.util.Map;
 @Singleton
 class AssessmentDBCommunication {
 
-    cheatCheckerMethods getAssessmentMethod(String projectId) {
+    cheatCheckerMethods getAssessmentMethod(String projectName) {
         cheatCheckerMethods result = cheatCheckerMethods.none;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `assessmentmethod` WHERE `projectId`=?";
+        String mysqlRequest = "SELECT * FROM `assessmentmethod` WHERE `projectName`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, projectId);
+                connect.issueSelectStatement(mysqlRequest, projectName);
         if (vereinfachtesResultSet.next()) {
             String resultString = vereinfachtesResultSet.getString("cheatCheckerMethod");
             result = cheatCheckerMethods.valueOf(resultString);
@@ -39,9 +39,9 @@ class AssessmentDBCommunication {
         ArrayList<Map<String, Double>> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectId`=? AND `studentId`=?";
+        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectName`=? AND `userName`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
+                connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail());
         boolean next = vereinfachtesResultSet.next();
         while (next) {
             Map<String, Double> workRating = new HashMap<>();
@@ -57,9 +57,9 @@ class AssessmentDBCommunication {
     Boolean getWorkRating(StudentIdentifier student, String fromStudent) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectId`=? AND `studentId`=? AND `fromPeer`=?";
+        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectName`=? AND `userName`=? AND `fromPeer`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId(), fromStudent);
+                connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail(), fromStudent);
         return vereinfachtesResultSet.next();
     }
 
@@ -67,7 +67,7 @@ class AssessmentDBCommunication {
         List<String> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `projectuser` WHERE `projectId`=?";
+        String mysqlRequest = "SELECT * FROM `projectuser` WHERE `projectName`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, projectID);
         boolean next = vereinfachtesResultSet.next();
@@ -82,24 +82,24 @@ class AssessmentDBCommunication {
         Integer result;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT groupId FROM `groupuser` WHERE `projectId`=? AND `studentId`=?";
+        String mysqlRequest = "SELECT groupId FROM `groupuser` WHERE `projectName`=? AND `userName`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
+                connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail());
         vereinfachtesResultSet.next();
         result = vereinfachtesResultSet.getInt("groupId");
         return result;
     }
 
-    ArrayList<String> getStudentsByGroupAndProject(Integer groupId, String projectId) {
+    ArrayList<String> getStudentsByGroupAndProject(Integer groupId, String projectName) {
         ArrayList<String> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `groupuser` WHERE `groupId`=? AND `projectId`=?";
+        String mysqlRequest = "SELECT * FROM `groupuser` WHERE `groupId`=? AND `projectName`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, groupId, projectId);
+                connect.issueSelectStatement(mysqlRequest, groupId, projectName);
         Boolean next = vereinfachtesResultSet.next();
         while (next) {
-            result.add(vereinfachtesResultSet.getString("studentId"));
+            result.add(vereinfachtesResultSet.getString("userName"));
             next = vereinfachtesResultSet.next();
         }
         return result;
@@ -134,13 +134,13 @@ class AssessmentDBCommunication {
         return vereinfachtesResultSet.next();
     }
 
-    Integer getQuizCount(String projectId) {
+    Integer getQuizCount(String projectName) {
         Integer result = 0;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectId`=?";
+        String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectName`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, projectId);
+                connect.issueSelectStatement(mysqlRequest, projectName);
         Boolean next = vereinfachtesResultSet.next();
         while (next) {
             result++;
@@ -153,9 +153,9 @@ class AssessmentDBCommunication {
         ArrayList<Integer> result = new ArrayList<>();
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `answeredquiz` WHERE `projectId`=? AND `studentId`=?";
+        String mysqlRequest = "SELECT * FROM `answeredquiz` WHERE `projectName`=? AND `userName`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
+                connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail());
         boolean next = vereinfachtesResultSet.next();
         while (next) {
             result.add(vereinfachtesResultSet.getInt("correct"));
@@ -169,10 +169,10 @@ class AssessmentDBCommunication {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         for (String question : questions.keySet()) {
-            String mysqlRequest = "INSERT INTO `answeredquiz`(`projectId`, `studentId`, `question`, `correct`) VALUES (?,?,?,?)";
+            String mysqlRequest = "INSERT INTO `answeredquiz`(`projectName`, `userName`, `question`, `correct`) VALUES (?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest,
-                    student.getProjectId(),
-                    student.getStudentId(),
+                    student.getProjectName(),
+                    student.getUserEmail(),
                     question,
                     questions.get(question)
             );
@@ -183,14 +183,14 @@ class AssessmentDBCommunication {
     void writeWorkRatingToDB(StudentIdentifier student, String fromStudent, Map<String, Integer> workRating) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "INSERT INTO `workrating`(`projectId`, `studentId`, `fromPeer`, " +
+        String mysqlRequest = "INSERT INTO `workrating`(`projectName`, `userName`, `fromPeer`, " +
                 "`responsibility`, " +
                 "`partOfWork`, " +
                 "`cooperation`, " +
                 "`communication`, " +
                 "`autonomous`" +
                 ") VALUES (?,?,?,?,?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, student.getProjectId(), student.getStudentId(), fromStudent,
+        connect.issueInsertOrDeleteStatement(mysqlRequest, student.getProjectName(), student.getUserEmail(), fromStudent,
                 workRating.get("responsibility"),
                 workRating.get("partOfWork"),
                 workRating.get("cooperation"),
@@ -204,15 +204,15 @@ class AssessmentDBCommunication {
         Integer result;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `projectId`=? AND `studentId`=? ";
+        String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `projectName`=? AND `userName`=? ";
         VereinfachtesResultSet vereinfachtesResultSet1 =
-                connect.issueSelectStatement(mysqlRequest1, student.getProjectId(), student.getStudentId());
+                connect.issueSelectStatement(mysqlRequest1, student.getProjectName(), student.getUserEmail());
         vereinfachtesResultSet1.next();
         Integer groupId = vereinfachtesResultSet1.getInt("groupId");
 
-        String mysqlRequest2 = "SELECT DISTINCT groupId FROM `groupuser` WHERE `projectId`=? ";
+        String mysqlRequest2 = "SELECT DISTINCT groupId FROM `groupuser` WHERE `projectName`=? ";
         VereinfachtesResultSet vereinfachtesResultSet2 =
-                connect.issueSelectStatement(mysqlRequest2, student.getProjectId());
+                connect.issueSelectStatement(mysqlRequest2, student.getProjectName());
         Boolean next = vereinfachtesResultSet2.next();
         result = vereinfachtesResultSet2.getInt("groupId");
         while (next) {
@@ -251,11 +251,11 @@ class AssessmentDBCommunication {
     void writeGradesToDB(Map<StudentIdentifier, Double> grade) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "INSERT INTO `grades`(`projectId`, `studentId`, `grade`) VALUES (?,?,?)";
+        String mysqlRequest = "INSERT INTO `grades`(`projectName`, `userName`, `grade`) VALUES (?,?,?)";
         for (StudentIdentifier student : grade.keySet()) {
             connect.issueInsertOrDeleteStatement(mysqlRequest,
-                    student.getProjectId(),
-                    student.getStudentId(),
+                    student.getProjectName(),
+                    student.getUserEmail(),
                     grade.get(student));
         }
         connect.close();
@@ -264,20 +264,20 @@ class AssessmentDBCommunication {
     Double getGradesFromDB(StudentIdentifier student) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `grades` WHERE `projectId`=? AND `studentId`=?";
+        String mysqlRequest = "SELECT * FROM `grades` WHERE `projectName`=? AND `userName`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, student.getProjectId(), student.getStudentId());
+                connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail());
         vereinfachtesResultSet.next();
         return vereinfachtesResultSet.getDouble("grade");
     }
 
-    Map<String, Boolean> getAnswers(String projectId, String question) {
+    Map<String, Boolean> getAnswers(String projectName, String question) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         Map<String, Boolean> result = new HashMap<>();
-        String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectId`=? AND `question`=?";
+        String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectName`=? AND `question`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, projectId, question);
+                connect.issueSelectStatement(mysqlRequest, projectName, question);
         boolean next = vereinfachtesResultSet.next();
         while (next) {
             result.put(vereinfachtesResultSet.getString("answer"), vereinfachtesResultSet.getBoolean("correct"));
@@ -287,16 +287,16 @@ class AssessmentDBCommunication {
         return result;
     }
 
-    Map<StudentIdentifier, ConstraintsMessages> missingAssessments(String projectId) {
+    Map<StudentIdentifier, ConstraintsMessages> missingAssessments(String projectName) {
         Map<StudentIdentifier, ConstraintsMessages> result = new HashMap<>();
-        ArrayList<String> studentsInProject = new ArrayList<>(getStudents(projectId));
-        ArrayList<StudentIdentifier> missingStudentsCauseOfWorkrating = missingWorkRatings(studentsInProject, projectId);
+        ArrayList<String> studentsInProject = new ArrayList<>(getStudents(projectName));
+        ArrayList<StudentIdentifier> missingStudentsCauseOfWorkrating = missingWorkRatings(studentsInProject, projectName);
         if (missingStudentsCauseOfWorkrating != null)
             for (StudentIdentifier missingStudent : missingStudentsCauseOfWorkrating) {
                 result.put(missingStudent, new ConstraintsMessages(Constraints.AssessmentOpen, missingStudent));
             }
         // ArrayList<StudentIdentifier> missingStudentsCauseOfQuiz <--- I can't check that atm
-        ArrayList<StudentIdentifier> missingStudentsCauseOfContribution = missingContribution(studentsInProject, projectId);
+        ArrayList<StudentIdentifier> missingStudentsCauseOfContribution = missingContribution(studentsInProject, projectName);
         if (missingStudentsCauseOfContribution != null)
             for (StudentIdentifier missingStudent : missingStudentsCauseOfContribution) {
                 result.put(missingStudent, new ConstraintsMessages(Constraints.AssessmentOpen, missingStudent));
@@ -304,40 +304,40 @@ class AssessmentDBCommunication {
         return result;
     }
 
-    private ArrayList<StudentIdentifier> missingWorkRatings(ArrayList<String> studentsInProject, String projectId) {
+    private ArrayList<StudentIdentifier> missingWorkRatings(ArrayList<String> studentsInProject, String projectName) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         ArrayList<StudentIdentifier> result = new ArrayList<>();
-        String sqlSelectWorkRating = "SELECT DISTINCT fromPeer FROM `workrating` WHERE `projectId`='" + projectId + "' AND `fromPeer`=''";
-        for (String studentId : studentsInProject) {
-            sqlSelectWorkRating = sqlSelectWorkRating + " OR `fromPeer`='" + studentId + "'";
+        String sqlSelectWorkRating = "SELECT DISTINCT fromPeer FROM `workrating` WHERE `projectName`='" + projectName + "' AND `fromPeer`=''";
+        for (String userName : studentsInProject) {
+            sqlSelectWorkRating = sqlSelectWorkRating + " OR `fromPeer`='" + userName + "'";
         }
         VereinfachtesResultSet selectWorkRatingResultSet =
                 connect.issueSelectStatement(sqlSelectWorkRating);
         Boolean next = selectWorkRatingResultSet.next();
-        resultSetToStudentIdentifierList(studentsInProject, projectId, result, selectWorkRatingResultSet, next);
+        resultSetToStudentIdentifierList(studentsInProject, projectName, result, selectWorkRatingResultSet, next);
         return result;
     }
 
-    private ArrayList<StudentIdentifier> missingContribution(ArrayList<String> studentsInProject, String projectId) {
+    private ArrayList<StudentIdentifier> missingContribution(ArrayList<String> studentsInProject, String projectName) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
         ArrayList<StudentIdentifier> result = new ArrayList<>();
         String sqlContribution = "SELECT DISTINCT cr.fromPeer FROM groupuser gu " +
-                "JOIN contributionrating cr ON gu.groupId=cr.groupId WHERE gu.projectId = ?;";
+                "JOIN contributionrating cr ON gu.groupId=cr.groupId WHERE gu.projectName = ?;";
         VereinfachtesResultSet selectContributionResultSet =
-                connect.issueSelectStatement(sqlContribution, projectId);
+                connect.issueSelectStatement(sqlContribution, projectName);
         Boolean next = selectContributionResultSet.next();
-        resultSetToStudentIdentifierList(studentsInProject, projectId, result, selectContributionResultSet, next);
+        resultSetToStudentIdentifierList(studentsInProject, projectName, result, selectContributionResultSet, next);
         return result;
     }
 
-    private void resultSetToStudentIdentifierList(ArrayList<String> studentsInProject, String projectId, ArrayList<StudentIdentifier> result, VereinfachtesResultSet selectWorkRatingResultSet, Boolean next) {
+    private void resultSetToStudentIdentifierList(ArrayList<String> studentsInProject, String projectName, ArrayList<StudentIdentifier> result, VereinfachtesResultSet selectWorkRatingResultSet, Boolean next) {
         while (next) {
             String fromPeer = selectWorkRatingResultSet.getString("fromPeer");
             if (!studentsInProject.contains(fromPeer)) {
-                StudentIdentifier studentIdentifier = new StudentIdentifier(projectId, fromPeer);
-                result.add(studentIdentifier);
+                StudentIdentifier userNameentifier = new StudentIdentifier(projectName, fromPeer);
+                result.add(userNameentifier);
             }
             next = selectWorkRatingResultSet.next();
         }

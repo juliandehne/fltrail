@@ -44,35 +44,35 @@ public class Menu extends SimpleTagSupport {
             if (isStudent) {
                 String menuString = "<div id=\"sidebar-wrapper\">\n" +
                         "        <ul class=\"sidebar-nav\">\n" +
-                        "            <li class=\"sidebar-brand\"><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "overview-student.jsp?token=" + userEmail + "&projectId=" + projectName + "\">overview</a></li>\n" +
-                        "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "profile/profile.jsp?token=" + userEmail + "&projectId=" + projectName + "\">Profil</a></li>\n";
+                        "            <li class=\"sidebar-brand\"><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "overview-student.jsp" + userEmail + "&projectName=" + projectName + "\">overview</a></li>\n" +
+                        "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "profile/profile.jsp" + userEmail + "&projectName=" + projectName + "\">Profil</a></li>\n";
                 if (projectPhase != null) {
                     switch (projectPhase){
                         case CourseCreation:{
                             menuString += "      <li><p>Quizfrage</p></li>\n" +
-                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "journal/eportfolio.jsp?token=" + userEmail + "&projectId=" + projectName + "\">ePortfolio</a></li>\n" +
+                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "journal/eportfolio.jsp" + userEmail + "&projectName=" + projectName + "\">ePortfolio</a></li>\n" +
                                     "            <li><p>Beitrag</p></li>\n" +
                                     "            <li><p>Bewertung</p></li>\n";
                             break;
                         }
                         case GroupFormation:{
                             menuString += "      <li><p>Quizfrage</p></li>\n" +
-                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "journal/eportfolio.jsp?token=" + userEmail + "&projectId=" + projectName + "\">ePortfolio</a></li>\n" +
+                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "journal/eportfolio.jsp" + userEmail + "&projectName=" + projectName + "\">ePortfolio</a></li>\n" +
                                     "            <li><p>Beitrag</p></li>\n" +
                                     "            <li><p>Bewertung</p></li>\n";
                             break;
                         }
                         case DossierFeedback:{
                             menuString += "      <li><p>Quizfrage</p></li>\n" +
-                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "journal/eportfolio.jsp?token=" + userEmail + "&projectId=" + projectName + "\">ePortfolio</a></li>\n" +
-                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "researchReport/create-title.jsp?token=" + userEmail + "&projectId=" + projectName + "\">Beitrag</a></li>\n" +
+                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "journal/eportfolio.jsp" + userEmail + "&projectName=" + projectName + "\">ePortfolio</a></li>\n" +
+                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "researchReport/create-title.jsp" + userEmail + "&projectName=" + projectName + "\">Beitrag</a></li>\n" +
                                     "            <li><p>Bewertung</p></li>\n";
                             break;
                         }
                         case Execution:{
-                            menuString += "      <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "assessment/Quiz.jsp?token=" + userEmail + "&projectId=" + projectName + "\">Quizfrage</a></li>\n" +
-                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "journal/eportfolio.jsp?token=" + userEmail + "&projectId=" + projectName + "\">ePortfolio</a></li>\n" +
-                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "researchReport/create-title.jsp?token=" + userEmail + "&projectId=" + projectName + "\">Beitrag</a></li>\n" +
+                            menuString += "      <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "assessment/Quiz.jsp" + userEmail + "&projectName=" + projectName + "\">Quizfrage</a></li>\n" +
+                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "journal/eportfolio.jsp" + userEmail + "&projectName=" + projectName + "\">ePortfolio</a></li>\n" +
+                                    "            <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "researchReport/create-title.jsp" + userEmail + "&projectName=" + projectName + "\">Beitrag</a></li>\n" +
                                     "            <li><p>Bewertung</p></li>\n";
                             break;
                         }
@@ -102,16 +102,16 @@ public class Menu extends SimpleTagSupport {
             } else {
                 String menuString = "<div id=\"sidebar-wrapper\">\n" +
                         "        <ul class=\"sidebar-nav\">\n" +
-                        "            <li class=\"sidebar-brand\"><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "overview-docent.jsp?token=" + userEmail + "&projectId=" + projectName + "\">overview</a></li>\n";
+                        "            <li class=\"sidebar-brand\"><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "overview-docent.jsp" + userEmail + "&projectName=" + projectName + "\">overview</a></li>\n";
                 if (projectPhase != null) {
                     if (!projectPhase.equals(ProjectPhase.GroupFormation)) {
-                        menuString += "<li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "assessment/Quiz-docent.jsp?token=" + userEmail + "&projectId=" + projectName + "\">Quizfrage</a></li>\n" +
+                        menuString += "<li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "assessment/Quiz-docent.jsp" + userEmail + "&projectName=" + projectName + "\">Quizfrage</a></li>\n" +
                                 "      <li><p>Gruppen erstellen</p></li>\n" +
-                                "      <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "management/change-phase.jsp?token=" + userEmail + "&projectId=" + projectName + "\">Projektphase ändern</a></li>\n";
+                                "      <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "management/change-phase.jsp" + userEmail + "&projectName=" + projectName + "\">Projektphase ändern</a></li>\n";
                     } else {
-                        menuString += "<li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "assessment/quiz-docent.jsp?token=" + userEmail + "&projectId=" + projectName + "\">Quizfrage</a></li>\n" +
-                                "      <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "groupfinding/create-groups.jsp?token=" + userEmail + "&projectId=" + projectName + "\">Gruppen erstellen</a></li>\n" +
-                                "      <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "management/change-phase.jsp?token=" + userEmail + "&projectId=" + projectName + "\">Projektphase ändern</a></li>\n";
+                        menuString += "<li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "assessment/quiz-docent.jsp" + userEmail + "&projectName=" + projectName + "\">Quizfrage</a></li>\n" +
+                                "      <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "groupfinding/create-groups.jsp" + userEmail + "&projectName=" + projectName + "\">Gruppen erstellen</a></li>\n" +
+                                "      <li><a href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "management/change-phase.jsp" + userEmail + "&projectName=" + projectName + "\">Projektphase ändern</a></li>\n";
                     }
                 }
                 menuString += "<li><a id=\"logout\" style=\"cursor:pointer\">Logout</a></li>\n" +

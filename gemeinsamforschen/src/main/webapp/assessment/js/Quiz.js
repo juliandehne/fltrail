@@ -1,9 +1,9 @@
 $(document).ready(function () {
-    let projectId = document.getElementById('projectId').innerText.trim();
-    let studentId = document.getElementById('user').innerText.trim();
+    let projectName = document.getElementById('projectName').innerText.trim();
+    let userName = document.getElementById('user').innerText.trim();
     $.ajax({
-        url: '../rest/assessments/project/'+projectId+'/quiz/author/'+studentId,
-        projectId: projectId,
+        url: '../rest/assessments/project/'+projectName+'/quiz/author/'+userName,
+        projectName: projectName,
         type: 'GET',
         success: function (data) {
             let table = document.getElementById('myQuizzes');
@@ -14,8 +14,6 @@ $(document).ready(function () {
                 trQuestion.className = "pageChanger";
                 trQuestion.innerHTML = '<td colspan="' + colspan + '"><h3>' +
                     '<a href="view-quiz.jsp' +
-                    '?token=' + getUserEmail() +
-                    '&projectId=' + projectId +
                     '&quizId=' + encodeURIComponent(data[quiz].question) + '"</a>' +
                     data[quiz].question + '</h3></td>';
                 table.appendChild(trQuestion);
@@ -27,6 +25,6 @@ $(document).ready(function () {
     });
 
     $('#newQuiz').on('click', function () {
-        location.href = "create-quiz.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
+        location.href = "create-quiz.jsp";
     });
 });

@@ -12,13 +12,13 @@ public class TaskDAO {
     @Inject
     MysqlConnect connect;
 
-    public Task[] getTasks(String userToken, String projectToken) throws NotImplemented {
+    public Task[] getTasks(String userEmail, String projectToken) throws NotImplemented {
         throw new NotImplemented();
     }
 
     public void persist(Task task) throws NotImplemented {
         connect.connect();
-        String query = "INSERT INTO fltrail.tasks (userId, projectId, taskUrl, speakingName, technicalName, " +
+        String query = "INSERT INTO fltrail.tasks (userEmail, projectName, taskUrl, speakingName, technicalName, " +
                 "linkedMode, groupTask, importance, progress, phase, created, due) VALUES ('?', '?', '?', '?', '?', " +
                 "'?', ?, '?', '?', '?', '?', '?')";
 

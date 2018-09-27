@@ -32,7 +32,7 @@ public class ProjectDAOTest {
         inMemoryMySqlConnect.connect();
         String mysqlRequest = "SELECT * FROM projects where id = ? and adminPassword = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                inMemoryMySqlConnect.issueSelectStatement(mysqlRequest, project.getId(), project.getAdminPassword());
+                inMemoryMySqlConnect.issueSelectStatement(mysqlRequest, project.getName(), project.getAdminPassword());
         boolean result = vereinfachtesResultSet.next();
         assertThat(result, is(true));
     }
@@ -55,11 +55,11 @@ public class ProjectDAOTest {
     @Test
     public void testGetProjectById() {
         projectDAO.persist(project);
-        Project projectActual = projectDAO.getProjectById(project.getId());
+        Project projectActual = projectDAO.getProjectById(project.getName());
 
         assertEquals(project.getAdminPassword(), projectActual.getAdminPassword());
         assertEquals(project.getAuthorEmail(), projectActual.getAuthorEmail());
-        assertEquals(project.getId(), projectActual.getId());
+        assertEquals(project.getName(), projectActual.getName());
         assertEquals(project.getPassword(), projectActual.getPassword());
         assertEquals(project.getPhase(), projectActual.getPhase());
         assertEquals(project.isActive(), projectActual.isActive());

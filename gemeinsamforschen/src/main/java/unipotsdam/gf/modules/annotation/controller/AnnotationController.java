@@ -27,7 +27,7 @@ public class AnnotationController implements IAnnotation {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT INTO annotations (`id`, `userToken`, `targetId`, `targetCategory`, `title`, `comment`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?,?,?,?,?);";
+        String request = "INSERT INTO annotations (`id`, `userEmail`, `targetId`, `targetCategory`, `title`, `comment`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, uuid, annotationPostRequest.getUserToken(), annotationPostRequest.getTargetId(), annotationPostRequest.getTargetCategory().toString().toUpperCase(), annotationPostRequest.getBody().getTitle(), annotationPostRequest.getBody().getComment(), annotationPostRequest.getBody().getStartCharacter(), annotationPostRequest.getBody().getEndCharacter());
 
         // close connection
@@ -170,7 +170,7 @@ public class AnnotationController implements IAnnotation {
 
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
-        String userToken = rs.getString("userToken");
+        String userEmail = rs.getString("userEmail");
         String targetId = rs.getString("targetId");
         Category targetCategory = Category.valueOf(rs.getString("targetCategory"));
 
@@ -181,7 +181,7 @@ public class AnnotationController implements IAnnotation {
         int endCharacter = rs.getInt("endCharacter");
         AnnotationBody body = new AnnotationBody(title, comment, startCharacter, endCharacter);
 
-        return new Annotation(id, timestamp, userToken, targetId, targetCategory, body);
+        return new Annotation(id, timestamp, userEmail, targetId, targetCategory, body);
 
     }
 }

@@ -68,8 +68,8 @@ public class ProjectDescriptionImplTest {
 
         assertNotNull(resProjectDescription);
         assertEquals("Hier soll ein Turtorialtext stehen", resProjectDescription.getDescriptionMD());
-        assertEquals(testStudent, resProjectDescription.getStudent().getStudentId());
-        assertEquals(testProject, resProjectDescription.getStudent().getProjectId());
+        assertEquals(testStudent, resProjectDescription.getStudent().getUserEmail());
+        assertEquals(testProject, resProjectDescription.getStudent().getProjectName());
 
         //description exists
         resProjectDescription = descriptionDAO.getDescription(new StudentIdentifier(testProject, testStudent));
@@ -77,8 +77,8 @@ public class ProjectDescriptionImplTest {
         assertNotNull(resProjectDescription);
         assertEquals(id, resProjectDescription.getId());
         assertEquals("Hier soll ein Turtorialtext stehen", resProjectDescription.getDescriptionMD());
-        assertEquals(testStudent, resProjectDescription.getStudent().getStudentId());
-        assertEquals(testProject, resProjectDescription.getStudent().getProjectId());
+        assertEquals(testStudent, resProjectDescription.getStudent().getUserEmail());
+        assertEquals(testProject, resProjectDescription.getStudent().getProjectName());
 
     }
 
@@ -95,8 +95,8 @@ public class ProjectDescriptionImplTest {
 
         assertNotNull(resProjectDescription);
         assertEquals(testDescription, resProjectDescription.getDescriptionMD());
-        assertEquals(testStudent, resProjectDescription.getStudent().getStudentId());
-        assertEquals(testProject, resProjectDescription.getStudent().getProjectId());
+        assertEquals(testStudent, resProjectDescription.getStudent().getUserEmail());
+        assertEquals(testProject, resProjectDescription.getStudent().getProjectName());
 
         ArrayList<Link> links = resProjectDescription.getLinks();
         assertEquals(1, links.size());
@@ -193,13 +193,13 @@ public class ProjectDescriptionImplTest {
         Project project = new Project();
         project.setId(testProject);
 
-        testProjectDescriptionObj.getStudent().setStudentId(token);
+        testProjectDescriptionObj.getStudent().setUserEmail(token);
         descriptionDAO.createDescription(testProjectDescriptionObj);
 
         ArrayList<User> resultUser = projectDescriptionService.getOpenUserByProject(project);
 
         assertEquals(1, resultUser.size());
-        assertEquals(user.getEmail(), resultUser.get(0).getId());
+        assertEquals(user.getEmail(), resultUser.get(0).getEmail());
 
         StudentIdentifier delUser = new StudentIdentifier(testProject, token);
         descriptionDAO.deleteDescription(delUser);

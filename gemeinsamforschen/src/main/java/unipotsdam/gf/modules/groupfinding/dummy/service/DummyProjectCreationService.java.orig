@@ -71,11 +71,11 @@ public class DummyProjectCreationService {
         return true;
     }
 
-    List<Group> createDummyGroups(String projectId) {
-        Group group1 = new Group(new ArrayList<>(), projectId);
-        Group group2 = new Group(new ArrayList<>(), projectId);
-        Group group3 = new Group(new ArrayList<>(), projectId);
-        Group group4 = new Group(new ArrayList<>(), projectId);
+    List<Group> createDummyGroups(String projectName) {
+        Group group1 = new Group(new ArrayList<>(), projectName);
+        Group group2 = new Group(new ArrayList<>(), projectName);
+        Group group3 = new Group(new ArrayList<>(), projectName);
+        Group group4 = new Group(new ArrayList<>(), projectName);
         List<Group> groups = Arrays.asList(group1, group2, group3, group4);
 
         String baseUserName = "Name ";

@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#newQuiz').on('click', function () {
-        location.href = "create-quiz.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
+        location.href = "create-quiz.jsp";
     });
 
     let loading = $('#loadbar').hide();
@@ -25,9 +25,9 @@ $(document).ready(function () {
 
     $ans = 3;
 
-    let projectId = document.getElementById('projectId').innerText.trim();
+    let projectName = document.getElementById('projectName').innerText.trim();
     $.ajax({
-        url: '../rest/assessments/project/' + projectId + '/quiz/',
+        url: '../rest/assessments/project/' + projectName + '/quiz/',
         type: 'GET',
         success: function (data) {
             let table = document.getElementById('tableQuiz');
@@ -78,7 +78,7 @@ $(document).ready(function () {
             url: '../rest/assessments/quiz/' + encodeURIComponent(event.data.quizId),
             type: 'POST',
             success: function () {
-                document.location.href = "quiz-docent.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
+                document.location.href = "quiz-docent.jsp";
             },
             error: function (a) {
                 alert(a)

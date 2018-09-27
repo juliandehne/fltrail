@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // fetch all submission part project representations from database
-    getSubmissionPartsByProjectId(getQueryVariable("projectId"), function (response) {
+    getSubmissionPartsByProjectId(getQueryVariable("projectName"), function (response) {
 
         // iterate over response and display each element
         for (let i = 0; i < response.length; i++) {
@@ -11,8 +11,8 @@ $(document).ready(function () {
         $('.annotationview').click(function () {
             let fullSubmissionId = $(this).closest("li").data("fullSubmissionId");
             let category = $(this).closest("li").data("category");
-            location.href = "annotation/annotation-document.jsp?token=" + getUserEmail() +
-                "&projectId=" + getQueryVariable("projectId") +
+            location.href = "annotation/annotation-document.jsp" + getUserEmail() +
+                "&projectName=" + getQueryVariable("projectName") +
                 "&fullSubmissionId=" + fullSubmissionId +
                 "&category=" + category;
         });
@@ -30,18 +30,18 @@ $(document).ready(function () {
     });
     */
     $('.givefeedback').click(function () {
-        location.href = "feedback/give-feedback.jsp?token=" + getUserEmail();
+        location.href = "feedback/give-feedback.jsp" + getUserEmail();
     });
     $('.viewfeedback').click(function () {
-        location.href = "feedback/view-feedback.jsp?token=" + getUserEmail();
+        location.href = "feedback/view-feedback.jsp" + getUserEmail();
     });
 
     $('.annotationview').click(function () {
-        location.href = "annotation/annotation-document.jsp?token=" + getUserEmail();
+        location.href = "annotation/annotation-document.jsp" + getUserEmail();
     });
 
     $('.viewprojectstudent').click(function () {
-        location.href = "project-student.jsp?token=" + getUserEmail();
+        location.href = "project-student.jsp" + getUserEmail();
     })
 });
 
@@ -84,12 +84,12 @@ function displayEmptyView() {
 /**
  * GET: Get all representations of a submission part for a given project id
  *
- * @param projectId The id of the project
+ * @param projectName The id of the project
  * @param responseHandler The response handler
  * @param errorHandler The error handler
  */
-function getSubmissionPartsByProjectId(projectId, responseHandler, errorHandler) {
-    let url = "rest/submissions/project/" + projectId;
+function getSubmissionPartsByProjectId(projectName, responseHandler, errorHandler) {
+    let url = "rest/submissions/project/" + projectName;
     $.ajax({
         url: url,
         type: "GET",

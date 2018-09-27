@@ -1,20 +1,9 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
-CREATE DATABASE IF NOT EXISTS `fltrail` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `fltrail`;
 
 CREATE TABLE IF NOT EXISTS `annotations` (
   `id` varchar(120) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `userToken` varchar(120) DEFAULT NULL,
+  `userEmail` varchar(120) DEFAULT NULL,
   `targetId` varchar(120) DEFAULT NULL,
   `targetCategory` varchar(30) NOT NULL,
   `title` varchar(120) DEFAULT NULL,
@@ -25,25 +14,25 @@ CREATE TABLE IF NOT EXISTS `annotations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `answeredquiz` (
-  `projectId` varchar(400) NOT NULL,
-  `studentId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
+  `userName` varchar(400) NOT NULL,
   `question` varchar(400) NOT NULL,
   `correct` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `assessmentmechanismselected` (
-  `projectId` varchar(100) NOT NULL,
+  `projectName` varchar(100) NOT NULL,
   `amSelected` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `categoriesselected` (
-  `projectId` varchar(100) NOT NULL,
+  `projectName` varchar(100) NOT NULL,
   `categorySelected` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `contributionrating` (
-  `projectId` varchar(400) NOT NULL,
-  `studentId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
+  `userName` varchar(400) NOT NULL,
   `fromPeer` varchar(400) NOT NULL,
   `dossier` int(11) NOT NULL,
   `eJournal` int(11) NOT NULL,
@@ -55,24 +44,24 @@ CREATE TABLE IF NOT EXISTS `fullsubmissions` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user` varchar(120) NOT NULL,
   `text` mediumtext NOT NULL,
-  `projectId` varchar(120) NOT NULL,
+  `projectName` varchar(120) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `grades` (
-  `projectId` varchar(400) NOT NULL,
-  `studentId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
+  `userName` varchar(400) NOT NULL,
   `grade` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `groupfindingmechanismselected` (
-  `projectId` varchar(100) NOT NULL,
+  `projectName` varchar(100) NOT NULL,
   `gfmSelected` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `projectId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
   `chatRoomId` varchar(400) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -83,12 +72,12 @@ CREATE TABLE IF NOT EXISTS `groupuser` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `phasesselected` (
-  `projectId` varchar(100) NOT NULL,
+  `projectName` varchar(100) NOT NULL,
   `phaseSelected` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `projects` (
-  `id` varchar(100) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `password` varchar(400) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `timecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -96,19 +85,19 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `adminPassword` varchar(400) NOT NULL,
   `token` varchar(400) NOT NULL,
   `phase` varchar(400) NOT NULL,
-  UNIQUE KEY `id` (`id`)
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `projectuser` (
-  `projectId` varchar(100) NOT NULL,
-  `userId` varchar(100) NOT NULL,
-  UNIQUE KEY `projectId_2` (`projectId`,`userId`),
-  KEY `projectId` (`projectId`,`userId`)
+  `projectName` varchar(100) NOT NULL,
+  `userEmail` varchar(100) NOT NULL,
+  UNIQUE KEY `projectName_2` (`projectName`,`userEmail`),
+  KEY `projectName` (`projectName`,`userEmail`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `quiz` (
   `author` varchar(400) NOT NULL,
-  `projectId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
   `question` varchar(400) NOT NULL,
   `mcType` varchar(400) NOT NULL,
   `answer` varchar(400) NOT NULL,
@@ -125,20 +114,20 @@ CREATE TABLE IF NOT EXISTS `submissionpartbodyelements` (
 
 CREATE TABLE IF NOT EXISTS `submissionparts` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `userId` varchar(120) NOT NULL,
+  `userEmail` varchar(120) NOT NULL,
   `fullSubmissionId` varchar(120) NOT NULL,
   `category` varchar(30) NOT NULL,
   PRIMARY KEY (`fullSubmissionId`,`category`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `tags` (
-  `projectId` varchar(100) NOT NULL,
+  `projectName` varchar(100) NOT NULL,
   `tag` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `tasks` (
-  `userId` varchar(400) NOT NULL,
-  `projectId` varchar(400) NOT NULL,
+  `userEmail` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
   `taskUrl` varchar(400) NOT NULL,
   `speakingName` varchar(400) DEFAULT NULL,
   `technicalName` varchar(400) DEFAULT NULL,
@@ -155,7 +144,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `name` varchar(100) NOT NULL,
   `password` varchar(200) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `token` varchar(800) NOT NULL,
   `rocketChatId` varchar(400) NOT NULL,
   `rocketChatAuthToken` varchar(800) NOT NULL,
   `isStudent` tinyint(1) DEFAULT '1',
@@ -163,8 +151,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `workrating` (
-  `projectId` varchar(400) NOT NULL,
-  `studentId` varchar(400) NOT NULL,
+  `projectName` varchar(400) NOT NULL,
+  `userName` varchar(400) NOT NULL,
   `fromPeer` varchar(400) NOT NULL,
   `responsibility` int(11) NOT NULL,
   `partOfWork` int(11) NOT NULL,
@@ -172,8 +160,9 @@ CREATE TABLE IF NOT EXISTS `workrating` (
   `communication` int(11) NOT NULL,
   `autonomous` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE groupuser ADD projectName varchar(150) NULL;
+
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+

@@ -29,25 +29,25 @@ public class PhasesService {
      * end phase
      *
      * @param projectPhase
-     * @param projectId
+     * @param projectName
      */
-    @Path("/{projectPhase}/projects/{projectId}")
+    @Path("/{projectPhase}/projects/{projectName}")
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectId") String projectId) {
-        phases.endPhase(ProjectPhase.valueOf(projectPhase), projectDAO.getProjectById(projectId));
+    public void endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectName") String projectName) {
+        phases.endPhase(ProjectPhase.valueOf(projectPhase), projectDAO.getProjectById(projectName));
     }
 
     /**
      * get current phase
      *
-     * @param projectId
+     * @param projectName
      * @return
      */
-    @Path("/projects/{projectId}")
+    @Path("/projects/{projectName}")
     @GET
     @Produces({MediaType.TEXT_PLAIN})
-    public String getCurrentPhase(@PathParam("projectId") String projectId) {
-        return projectDAO.getProjectById(projectId).getPhase().toString();
+    public String getCurrentPhase(@PathParam("projectName") String projectName) {
+        return projectDAO.getProjectById(projectName).getPhase().toString();
     }
 }

@@ -99,8 +99,8 @@ public class Assessment {
         connect.issueInsertOrDeleteStatement(mysqlRequest,
                 assessment.isAdressat(),
                 assessment.getDeadline(),
-                assessment.getBewertender().getStudentId(),
-                assessment.getStudent().getStudentId(),
+                assessment.getBewertender().getUserEmail(),
+                assessment.getStudent().getUserEmail(),
                 assessment.getProjektId(),
                 assessment.getBewertung()
         );

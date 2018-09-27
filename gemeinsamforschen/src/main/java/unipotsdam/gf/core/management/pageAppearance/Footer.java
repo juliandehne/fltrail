@@ -18,10 +18,10 @@ public class Footer extends SimpleTagSupport {
     public void doTag() throws IOException {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-        String projectId = request.getParameter("projectId");
+        String projectName = request.getParameter("projectName");
         ProjectPhase projectPhase;
         try {
-            projectPhase = projectDAO.getProjectById(projectId).getPhase();
+            projectPhase = projectDAO.getProjectById(projectName).getPhase();
         } catch (Exception e) {
             projectPhase = null;
         }

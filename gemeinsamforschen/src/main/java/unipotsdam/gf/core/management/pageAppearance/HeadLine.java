@@ -17,11 +17,11 @@ public class HeadLine extends SimpleTagSupport {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
-        String projectId;
+        String projectName;
         try{
-            projectId = request.getSession().getAttribute(GFContexts.PROJECTNAME).toString();
+            projectName = request.getSession().getAttribute(GFContexts.PROJECTNAME).toString();
         }catch ( Exception e){
-            projectId = null;
+            projectName = null;
         }
 
         JspWriter out = getJspContext().getOut();
@@ -32,8 +32,8 @@ public class HeadLine extends SimpleTagSupport {
                 "            <table style=\"width:100%\">\n" +
                 "                <tr>\n" +
                 "                    <td style=\"width:70%\"><h2 id=\"headLineProject\">");
-        if (projectId != null) {
-            out.println(projectId);
+        if (projectName != null) {
+            out.println(projectName);
         } else {
             if (isStudent) {
                 out.println("Studentenübersicht " + user.getName());

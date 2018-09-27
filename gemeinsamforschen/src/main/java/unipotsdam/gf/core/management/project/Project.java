@@ -53,11 +53,11 @@ public class Project {
         this.tags = tags;
     }
 
-    public Project(String projectId) {
-        setId(projectId);
+    public Project(String projectName) {
+        setId(projectName);
     }
 
-    public String getId() {
+    public String getName() {
         return id;
     }
 
@@ -139,7 +139,6 @@ public class Project {
         sb.append(", timecreated=").append(timecreated);
         sb.append(", authorEmail='").append(authorEmail).append('\'');
         sb.append(", adminPassword='").append(adminPassword).append('\'');
-        sb.append(", token='").append(token).append('\'');
         sb.append(", phase='").append(phase).append('\'');
         sb.append('}');
         return sb.toString();

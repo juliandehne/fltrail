@@ -21,9 +21,9 @@ $(document).ready(function () {
 
     $ans = 3;
 
-    let projectId = document.getElementById('projectId').innerText.trim();
+    let projectName = document.getElementById('projectName').innerText.trim();
     $.ajax({
-        url: '../rest/assessments/project/' + projectId + '/quiz/',
+        url: '../rest/assessments/project/' + projectName + '/quiz/',
         type: 'GET',
         success: function (data) {
             let table = document.getElementById('tableQuiz');
@@ -99,10 +99,10 @@ function safeQuizAnswers() {
             dataP[question] = answerList;
         }
     }
-    let projectId = $('#projectId').html().trim();
-    let studentId = $('#user').html().trim();
+    let projectName = $('#projectName').html().trim();
+    let userName = $('#user').html().trim();
     $.ajax({
-        url: '../rest/assessments/quizAnswer/projectId/' + projectId + '/studentId/' + studentId,
+        url: '../rest/assessments/quizAnswer/projectName/' + projectName + '/userName/' + userName,
         type: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -110,7 +110,7 @@ function safeQuizAnswers() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            location.href = "rate-contribution.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
+            location.href = "rate-contribution.jsp";
         },
         error: function (a, b, c) {
 

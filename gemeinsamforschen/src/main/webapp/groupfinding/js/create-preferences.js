@@ -119,10 +119,10 @@ function takesPartInProject(context) {
     };
 
 
-    var userId = context.user.email;
-    var projectId = context.project.id;
+    var userEmail = context.user.email;
+    var projectName = context.project.id;
     var dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
-    var url = compbaseUrl + "/api2/user/" + userId + "/projects/" + projectId + "/preferences";
+    var url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
     $.ajax({
         url: url,
         type: 'PUT',
@@ -133,7 +133,7 @@ function takesPartInProject(context) {
             console.log(response);
             document.getElementById('loader').className = "loader-inactive";
             document.getElementById('wrapper').className = "wrapper";
-            location.href = "../overview-student.jsp?token=" + getUserEmail();
+            location.href = "../overview-student.jsp" + getUserEmail();
         },
         error: function (a, b, c) {
             console.log(a);

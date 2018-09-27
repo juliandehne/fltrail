@@ -11,15 +11,15 @@ public class FullSubmission {
     private long timestamp;
     private String user;
     private String text;
-    private String projectId;
+    private String projectName;
 
     // constructor
-    public FullSubmission(String id, long timestamp, String user, String text, String projectId) {
+    public FullSubmission(String id, long timestamp, String user, String text, String projectName) {
         this.id = id;
         this.timestamp = timestamp;
         this.user = user;
         this.text = text;
-        this.projectId = projectId;
+        this.projectName = projectName;
     }
 
     // methods
@@ -56,11 +56,11 @@ public class FullSubmission {
     }
 
     public String getProjectId() {
-        return projectId;
+        return projectName;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setProjectId(String projectName) {
+        this.projectName = projectName;
     }
 
     @Override
@@ -70,7 +70,7 @@ public class FullSubmission {
                 ", timestamp=" + timestamp +
                 ", user='" + user + '\'' +
                 ", text='" + text + '\'' +
-                ", projectId='" + projectId + '\'' +
+                ", projectName='" + projectName + '\'' +
                 '}';
     }
 

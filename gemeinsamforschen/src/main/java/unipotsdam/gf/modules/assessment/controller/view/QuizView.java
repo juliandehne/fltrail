@@ -30,11 +30,11 @@ public class QuizView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/project/{projectId}/quiz/{quizId}/author/{author}")
-    public Quiz getQuiz(@PathParam("projectId") String projectId, @PathParam("quizId") String quizId, @PathParam("author") String author) {
+    @Path("/project/{projectName}/quiz/{quizId}/author/{author}")
+    public Quiz getQuiz(@PathParam("projectName") String projectName, @PathParam("quizId") String quizId, @PathParam("author") String author) {
         try {
             String question = java.net.URLDecoder.decode(quizId, "UTF-8");
-            return peer.getQuiz(projectId, question, author);
+            return peer.getQuiz(projectName, question, author);
         } catch (UnsupportedEncodingException e) {
             throw new AssertionError("UTF-8 is unknown");
         }
@@ -42,32 +42,32 @@ public class QuizView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/project/{projectId}/quiz/author/{author}")
-    public ArrayList<Quiz> getQuiz(@PathParam("projectId") String projectId, @PathParam("author") String author) {
-        return peer.getQuiz(projectId, author);
+    @Path("/project/{projectName}/quiz/author/{author}")
+    public ArrayList<Quiz> getQuiz(@PathParam("projectName") String projectName, @PathParam("author") String author) {
+        return peer.getQuiz(projectName, author);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/project/{projectId}/quiz")
-    public ArrayList<Quiz> getQuiz(@PathParam("projectId") String projectId) {
-        return peer.getQuiz(projectId);
+    @Path("/project/{projectName}/quiz")
+    public ArrayList<Quiz> getQuiz(@PathParam("projectName") String projectName) {
+        return peer.getQuiz(projectName);
     }
     //////////////////////////////////////////funktioniert///////////////////////////////////////
 
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/peerRating/project/{projectId}")
-    public void postPeerRating(ArrayList<PeerRating> peerRatings, @PathParam("projectId") String projectId) throws IOException {
-        peer.postPeerRating(peerRatings, projectId);
+    @Path("/peerRating/project/{projectName}")
+    public void postPeerRating(ArrayList<PeerRating> peerRatings, @PathParam("projectName") String projectName) throws IOException {
+        peer.postPeerRating(peerRatings, projectName);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/groupRate/project/{projectId}/student/{studentId}")
-    public Integer whichGroupToRate(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
-        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+    @Path("/groupRate/project/{projectName}/student/{userName}")
+    public Integer whichGroupToRate(@PathParam("projectName") String projectName, @PathParam("userName") String userName) {
+        StudentIdentifier student = new StudentIdentifier(projectName, userName);
         return peer.whichGroupToRate(student);
     }
 
@@ -82,9 +82,9 @@ public class QuizView {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/quizAnswer/projectId/{projectId}/studentId/{studentId}/")
-    public void answerQuiz(Map<String, List<String>> questions, @PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
-        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+    @Path("/quizAnswer/projectName/{projectName}/userName/{userName}/")
+    public void answerQuiz(Map<String, List<String>> questions, @PathParam("projectName") String projectName, @PathParam("userName") String userName) {
+        StudentIdentifier student = new StudentIdentifier(projectName, userName);
         peer.answerQuiz(questions, student);
     }
 
@@ -102,9 +102,9 @@ public class QuizView {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
-    @Path("/whatToRate/project/{projectId}/student/{studentId}")
-    public String whatToRate(@PathParam("projectId") String projectId, @PathParam("studentId") String studentId) {
-        StudentIdentifier student = new StudentIdentifier(projectId, studentId);
+    @Path("/whatToRate/project/{projectName}/student/{userName}")
+    public String whatToRate(@PathParam("projectName") String projectName, @PathParam("userName") String userName) {
+        StudentIdentifier student = new StudentIdentifier(projectName, userName);
         return peer.whatToRate(student);
     }
 
@@ -118,16 +118,16 @@ public class QuizView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/get/project/{projectId}")
-    public Map<StudentIdentifier, Double> getAssessmentForProject(@PathParam("projectId") String projectId) {
-        return peer.getAssessmentForProject(projectId);
+    @Path("/get/project/{projectName}")
+    public Map<StudentIdentifier, Double> getAssessmentForProject(@PathParam("projectName") String projectName) {
+        return peer.getAssessmentForProject(projectName);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/get/project/{projectId}/student/{studentEmail}")
-    public Double getAssessmentForStudent(@PathParam("projectId") String projectId, @PathParam("studentEmail") String studentEmail) {
-        StudentIdentifier student = new StudentIdentifier(projectId, studentEmail);
+    @Path("/get/project/{projectName}/student/{studentEmail}")
+    public Double getAssessmentForStudent(@PathParam("projectName") String projectName, @PathParam("studentEmail") String studentEmail) {
+        StudentIdentifier student = new StudentIdentifier(projectName, studentEmail);
         return peer.getAssessmentForStudent(student);
     }
 
@@ -138,8 +138,8 @@ public class QuizView {
     @Path("/quiz")
     public String createQuiz(StudentAndQuiz studentAndQuiz) {
 
-        Project project = management.getProjectById(studentAndQuiz.getStudentIdentifier().getProjectId());
-        User user = management.getUserByName(studentAndQuiz.getStudentIdentifier().getStudentId());
+        Project project = management.getProjectById(studentAndQuiz.getStudentIdentifier().getProjectName());
+        User user = management.getUserByName(studentAndQuiz.getStudentIdentifier().getUserEmail());
         Boolean isStudent = user.getStudent();
         peer.createQuiz(studentAndQuiz);
         if (isStudent) {
@@ -152,29 +152,29 @@ public class QuizView {
 //todo: is unnecessary I guess. finalizing should just happen when phase ends
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/finalize/project/{projectId}")
-    public String calculateAssessment(@PathParam("projectId") String projectId) {
-        peer.finalizeAssessment(projectId);
-        return "successfully finalized "+projectId;
+    @Path("/finalize/project/{projectName}")
+    public String calculateAssessment(@PathParam("projectName") String projectName) {
+        peer.finalizeAssessment(projectName);
+        return "successfully finalized "+projectName;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/mean/project/{projectId}")
-    public int meanOfAssessment(@PathParam("projectId") String ProjectId) {
+    @Path("/mean/project/{projectName}")
+    public int meanOfAssessment(@PathParam("projectName") String ProjectId) {
         return peer.meanOfAssessment(ProjectId);
     }  ///////////////////////////////return 0//////////////////////////////////
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/total/project/{projectId}/student/{student}")
-    public ArrayList<Performance> getTotalAssessment(@PathParam("projectId") String ProjectId, @PathParam("student") String student) {
-        StudentIdentifier studentIdentifier = new StudentIdentifier(ProjectId, student);
-        return getTotalAssessment(studentIdentifier);
+    @Path("/total/project/{projectName}/student/{student}")
+    public ArrayList<Performance> getTotalAssessment(@PathParam("projectName") String ProjectId, @PathParam("student") String student) {
+        StudentIdentifier userNameentifier = new StudentIdentifier(ProjectId, student);
+        return getTotalAssessment(userNameentifier);
     }  //////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
-    private ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
-        return peer.getTotalAssessment(studentIdentifier);
+    private ArrayList<Performance> getTotalAssessment(StudentIdentifier userNameentifier) {
+        return peer.getTotalAssessment(userNameentifier);
     }  /////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
 

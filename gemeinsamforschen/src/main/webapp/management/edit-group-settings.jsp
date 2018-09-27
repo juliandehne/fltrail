@@ -24,10 +24,6 @@
 <label for="bp">Basierend auf Präferenzen</label>
 <button class="btn btn-primary" style="margin-left:129px;" id="selectGFM">wählen</button>
 
-<%--
-<a href="../groupfinding/create-create-groups-learninggoal.jsp?token=<%=request.getParameter("token")+"&projectToken="+request.getParameter("projectToken") %>" > Weiter </a>
---%>
-
 
 </body>
 

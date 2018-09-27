@@ -12,15 +12,15 @@ public class SubmissionPart {
 
     // variables
     private long timestamp;
-    private String userId;
+    private String userEmail;
     private String fullSubmissionId;
     private Category category;
     private ArrayList<SubmissionPartBodyElement> body;
 
     // constructor
-    public SubmissionPart(long timestamp, String userId, String fullSubmissionId, Category category, ArrayList<SubmissionPartBodyElement> body) {
+    public SubmissionPart(long timestamp, String userEmail, String fullSubmissionId, Category category, ArrayList<SubmissionPartBodyElement> body) {
         this.timestamp = timestamp;
-        this.userId = userId;
+        this.userEmail = userEmail;
         this.fullSubmissionId = fullSubmissionId;
         this.category = category;
         this.body = body;
@@ -39,11 +39,11 @@ public class SubmissionPart {
     }
 
     public String getUserId() {
-        return userId;
+        return userEmail;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserId(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     public String getFullSubmissionId() {
@@ -74,7 +74,7 @@ public class SubmissionPart {
     public String toString() {
         return "SubmissionPart{" +
                 "timestamp=" + timestamp +
-                ", userId='" + userId + '\'' +
+                ", userEmail='" + userEmail + '\'' +
                 ", fullSubmissionId='" + fullSubmissionId + '\'' +
                 ", category=" + category +
                 ", body=" + body +

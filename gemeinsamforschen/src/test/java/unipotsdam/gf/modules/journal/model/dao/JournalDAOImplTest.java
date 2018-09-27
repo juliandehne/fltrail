@@ -46,8 +46,8 @@ public class JournalDAOImplTest {
         Journal resultJournal = resultJournals.get(0);
 
         //check if data correct
-        assertEquals(resultJournal.getStudentIdentifier().getStudentId(), testStudent);
-        assertEquals(resultJournal.getStudentIdentifier().getProjectId(), testProject);
+        assertEquals(resultJournal.getStudentIdentifier().getUserEmail(), testStudent);
+        assertEquals(resultJournal.getStudentIdentifier().getProjectName(), testProject);
         assertEquals(resultJournal.getEntryMD(), testEntry);
 
         //Journal should get real id while create
@@ -94,8 +94,8 @@ public class JournalDAOImplTest {
         Journal resultJournal = resultJournals.get(0);
 
         //check if data correct
-        assertEquals(resultJournal.getStudentIdentifier().getStudentId(), testStudent);
-        assertEquals(resultJournal.getStudentIdentifier().getProjectId(), testProject);
+        assertEquals(resultJournal.getStudentIdentifier().getUserEmail(), testStudent);
+        assertEquals(resultJournal.getStudentIdentifier().getProjectName(), testProject);
         assertEquals(resultJournal.getEntryMD(), newEntry);
         assertEquals(resultJournal.getId(), testId);
         assertEquals(resultJournal.getVisibility(), newVisibility);
@@ -150,8 +150,8 @@ public class JournalDAOImplTest {
         Journal resultJournal = journalDAO.getJournal(testId);
 
         //check data
-        assertEquals(resultJournal.getStudentIdentifier().getStudentId(), testStudent);
-        assertEquals(resultJournal.getStudentIdentifier().getProjectId(), testProject);
+        assertEquals(resultJournal.getStudentIdentifier().getUserEmail(), testStudent);
+        assertEquals(resultJournal.getStudentIdentifier().getProjectName(), testProject);
         assertEquals(resultJournal.getEntryMD(), testEntry);
         assertEquals(resultJournal.getId(), testId);
         assertEquals(resultJournal.getVisibility(), testVisibility);
@@ -174,7 +174,7 @@ public class JournalDAOImplTest {
         j1.setId("-2");
         create(j1);
         j1.setId("-3");
-        j1.getStudentIdentifier().setProjectId("otherProject");
+        j1.getStudentIdentifier().setProjectName("otherProject");
         create(j1);
 
         //get for project
@@ -200,7 +200,7 @@ public class JournalDAOImplTest {
         //Create some journals
         Journal j1 = testJournal;
         create(j1);
-        j1.getStudentIdentifier().setStudentId("otherStudent");
+        j1.getStudentIdentifier().setUserEmail("otherStudent");
         j1.setId("-2");
         create(j1);
         j1.setId("-3");
@@ -255,7 +255,7 @@ public class JournalDAOImplTest {
         j1.setId("-2");
         create(j1);
         j1.setId("-3");
-        j1.getStudentIdentifier().setProjectId("otherProject");
+        j1.getStudentIdentifier().setProjectName("otherProject");
         create(j1);
 
         //getOpenJournals
@@ -275,7 +275,7 @@ public class JournalDAOImplTest {
     //utility
 
     private ArrayList<Journal> getJournals() {
-        String request = "SELECT * FROM journals WHERE projectId= ?;";
+        String request = "SELECT * FROM journals WHERE projectName= ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, testProject);
 
         ArrayList<Journal> resultJournals = new ArrayList<>();
@@ -286,9 +286,9 @@ public class JournalDAOImplTest {
     }
 
     private void create(Journal getJournal) {
-        String createRequest = "INSERT INTO journals (`id`, `studentId`, `projectId`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(createRequest, getJournal.getId(), getJournal.getStudentIdentifier().getStudentId(),
-                getJournal.getStudentIdentifier().getProjectId(), getJournal.getEntryMD(), getJournal.getVisibility(), getJournal.getCategory(), getJournal.isOpen());
+        String createRequest = "INSERT INTO journals (`id`, `userName`, `projectName`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
+        connection.issueInsertOrDeleteStatement(createRequest, getJournal.getId(), getJournal.getStudentIdentifier().getUserEmail(),
+                getJournal.getStudentIdentifier().getProjectName(), getJournal.getEntryMD(), getJournal.getVisibility(), getJournal.getCategory(), getJournal.isOpen());
     }
 
     private void cleanup(String... ids) {
@@ -302,8 +302,8 @@ public class JournalDAOImplTest {
 
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
-        String student = rs.getString("studentId");
-        String project = rs.getString("projectId");
+        String student = rs.getString("userName");
+        String project = rs.getString("projectName");
         String text = rs.getString("text");
         String visibility = rs.getString("visibility");
         String category = rs.getString("category");

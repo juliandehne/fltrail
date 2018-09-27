@@ -42,8 +42,8 @@ public class ProjectDescriptionImplDAOTest {
         //check data
         assertFalse(testId.equals(result.getId()));
         assertEquals(testDescription, result.getDescriptionMD());
-        assertEquals(testStudent, result.getStudent().getStudentId());
-        assertEquals(testProjekt, result.getStudent().getProjectId());
+        assertEquals(testStudent, result.getStudent().getUserEmail());
+        assertEquals(testProjekt, result.getStudent().getProjectName());
 
         cleanup(result.getId());
         connection.close();
@@ -88,8 +88,8 @@ public class ProjectDescriptionImplDAOTest {
 
         assertEquals(testId, result.getId());
         assertEquals(testDescription, result.getDescriptionMD());
-        assertEquals(testStudent, result.getStudent().getStudentId());
-        assertEquals(testProjekt, result.getStudent().getProjectId());
+        assertEquals(testStudent, result.getStudent().getUserEmail());
+        assertEquals(testProjekt, result.getStudent().getProjectName());
 
         cleanup(result.getId());
         connection.close();
@@ -105,8 +105,8 @@ public class ProjectDescriptionImplDAOTest {
 
         assertEquals(testId, result.getId());
         assertEquals(testDescription, result.getDescriptionMD());
-        assertEquals(testStudent, result.getStudent().getStudentId());
-        assertEquals(testProjekt, result.getStudent().getProjectId());
+        assertEquals(testStudent, result.getStudent().getUserEmail());
+        assertEquals(testProjekt, result.getStudent().getProjectName());
 
         cleanup(result.getId());
         connection.close();
@@ -181,7 +181,7 @@ public class ProjectDescriptionImplDAOTest {
 
     //Utility
     private ArrayList<ProjectDescription> getProjectDescription() {
-        String request = "SELECT * FROM projectdescription WHERE projectId=?;";
+        String request = "SELECT * FROM projectdescription WHERE projectName=?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, testProjekt);
 
         ArrayList<ProjectDescription> resultDescriptions = new ArrayList<>();
@@ -192,8 +192,8 @@ public class ProjectDescriptionImplDAOTest {
     }
 
     private void create(ProjectDescription projectDescription) {
-        String request = "INSERT INTO projectdescription(`id`, `studentId`, `projectId`, `text`, `open`) VALUES (?,?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, projectDescription.getId(), projectDescription.getStudent().getStudentId(), projectDescription.getStudent().getProjectId(), projectDescription.getDescriptionMD(), projectDescription.isOpen());
+        String request = "INSERT INTO projectdescription(`id`, `userName`, `projectName`, `text`, `open`) VALUES (?,?,?,?,?);";
+        connection.issueInsertOrDeleteStatement(request, projectDescription.getId(), projectDescription.getStudent().getUserEmail(), projectDescription.getStudent().getProjectName(), projectDescription.getDescriptionMD(), projectDescription.isOpen());
     }
 
     private void cleanup(String... ids) {
@@ -206,8 +206,8 @@ public class ProjectDescriptionImplDAOTest {
     private ProjectDescription getDescriptionFromResultSet(VereinfachtesResultSet rs) {
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
-        String author = rs.getString("studentId");
-        String project = rs.getString("projectId");
+        String author = rs.getString("userName");
+        String project = rs.getString("projectName");
         String text = rs.getString("text");
         boolean open = rs.getBoolean("open");
 

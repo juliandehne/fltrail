@@ -17,10 +17,10 @@ public class TaskView {
     @Inject
     private TaskDAO taskDAO;
 
-    @Path("/user/{userToken}/project/{projectToken}")
+    @Path("/user/{userEmail}/project/{projectToken}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Task[] getTasks(@PathParam("userToken") String userToken,@PathParam("projectToken") String projectToken)
+    public Task[] getTasks(@PathParam("userEmail") String userEmail,@PathParam("projectToken") String projectToken)
             throws NotImplemented {
-        return taskDAO.getTasks(userToken, projectToken);
+        return taskDAO.getTasks(userEmail, projectToken);
     }
 }

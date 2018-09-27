@@ -5,7 +5,7 @@ $(document).ready(function () {
 
 
         $.ajax({
-            url: "../rest/assessments4/diagramm1/" + getQueryVariable("projectId"),
+            url: "../rest/assessments4/diagramm1/" + getQueryVariable("projectName"),
             type: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -71,14 +71,14 @@ $(document).ready(function () {
 
             var dataP = JSON.stringify({
                 "adressat": true, "student": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": "fgnxnw"
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": "fgnxnw"
                 }, "deadline": new Date(),
                 "bewertender": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": document.getElementById("user").innerText
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": document.getElementById("user").innerText
                 },
-                "projektId": getQueryVariable("projectId"),
+                "projektId": getQueryVariable("projectName"),
                 "bewertung": alarm
             });
             $.ajax({
@@ -110,14 +110,14 @@ $(document).ready(function () {
 
             var dataP = JSON.stringify({
                 "adressat": true, "student": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": "fgnxnw"
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": "fgnxnw"
                 }, "deadline": new Date(),
                 "bewertender": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": document.getElementById("user").innerText
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": document.getElementById("user").innerText
                 },
-                "projektId": getQueryVariable("projectId"),
+                "projektId": getQueryVariable("projectName"),
                 "bewertung": alarm
             });
             $.ajax({
@@ -148,14 +148,14 @@ $(document).ready(function () {
 
             var dataP = JSON.stringify({
                 "adressat": true, "student": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": "fgnxnw"
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": "fgnxnw"
                 }, "deadline": new Date(),
                 "bewertender": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": document.getElementById("user").innerText
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": document.getElementById("user").innerText
                 },
-                "projektId": getQueryVariable("projectId"),
+                "projektId": getQueryVariable("projectName"),
                 "bewertung": alarm
             });
             $.ajax({
@@ -186,14 +186,14 @@ $(document).ready(function () {
 
             var dataP = JSON.stringify({
                 "adressat": true, "student": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": "fgnxnw"
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": "fgnxnw"
                 }, "deadline": new Date(),
                 "bewertender": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": document.getElementById("user").innerText
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": document.getElementById("user").innerText
                 },
-                "projektId": getQueryVariable("projectId"),
+                "projektId": getQueryVariable("projectName"),
                 "bewertung": alarm
             });
             $.ajax({
@@ -224,14 +224,14 @@ $(document).ready(function () {
 
             var dataP = JSON.stringify({
                 "adressat": true, "student": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": "fgnxnw"
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": "fgnxnw"
                 }, "deadline": new Date(),
                 "bewertender": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": document.getElementById("user").innerText
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": document.getElementById("user").innerText
                 },
-                "projektId": getQueryVariable("projectId"),
+                "projektId": getQueryVariable("projectName"),
                 "bewertung": alarm
             });
             $.ajax({
@@ -262,14 +262,14 @@ $(document).ready(function () {
 
             var dataP = JSON.stringify({
                 "adressat": true, "student": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": "fgnxnw"
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": "fgnxnw"
                 }, "deadline": new Date(),
                 "bewertender": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": document.getElementById("user").innerText
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": document.getElementById("user").innerText
                 },
-                "projektId": getQueryVariable("projectId"),
+                "projektId": getQueryVariable("projectName"),
                 "bewertung": alarm
             });
             $.ajax({
@@ -300,14 +300,14 @@ $(document).ready(function () {
 
             var dataP = JSON.stringify({
                 "adressat": true, "student": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": "fgnxnw"
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": "fgnxnw"
                 }, "deadline": new Date(),
                 "bewertender": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": document.getElementById("user").innerText
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": document.getElementById("user").innerText
                 },
-                "projektId": getQueryVariable("projectId"),
+                "projektId": getQueryVariable("projectName"),
                 "bewertung": alarm
             });
             $.ajax({
@@ -338,14 +338,14 @@ $(document).ready(function () {
 
             var dataP = JSON.stringify({
                 "adressat": true, "student": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": "fgnxnw"
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": "fgnxnw"
                 }, "deadline": new Date(),
                 "bewertender": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": document.getElementById("user").innerText
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": document.getElementById("user").innerText
                 },
-                "projektId": getQueryVariable("projectId"),
+                "projektId": getQueryVariable("projectName"),
                 "bewertung": alarm
             });
             $.ajax({
@@ -376,14 +376,14 @@ $(document).ready(function () {
 
             var dataP = JSON.stringify({
                 "adressat": true, "student": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": "fgnxnw"
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": "fgnxnw"
                 }, "deadline": new Date(),
                 "bewertender": {
-                    "projectId": getQueryVariable("projectId"),
-                    "studentId": document.getElementById("user").innerText
+                    "projectName": getQueryVariable("projectName"),
+                    "userName": document.getElementById("user").innerText
                 },
-                "projektId": getQueryVariable("projectId"),
+                "projektId": getQueryVariable("projectName"),
                 "bewertung": alarm
             });
             $.ajax({

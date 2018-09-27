@@ -20,7 +20,7 @@
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div class="container-fluid">
-            <h1 id="projectId"> PeerFeedback</h1>
+            <h1 id="projectName"> PeerFeedback</h1>
         </div>
         <div align="right" class="dropdown">
             <button style= "position: absolute; right: 50px;" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">

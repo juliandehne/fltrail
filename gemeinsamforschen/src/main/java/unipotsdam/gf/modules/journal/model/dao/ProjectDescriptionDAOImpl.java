@@ -26,9 +26,9 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT INTO projectdescription(`id`, `studentId`, `projectId`, `text`, `open`) VALUES (?,?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, projectDescription.getStudent().getStudentId(),
-                projectDescription.getStudent().getProjectId(), projectDescription.getDescriptionMD(), true);
+        String request = "INSERT INTO projectdescription(`id`, `userName`, `projectName`, `text`, `open`) VALUES (?,?,?,?,?);";
+        connection.issueInsertOrDeleteStatement(request, uuid, projectDescription.getStudent().getUserEmail(),
+                projectDescription.getStudent().getProjectName(), projectDescription.getDescriptionMD(), true);
 
         //close connection
         connection.close();
@@ -50,15 +50,15 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
     }
 
     @Override
-    public ProjectDescription getDescription(StudentIdentifier studentIdentifier) {
+    public ProjectDescription getDescription(StudentIdentifier userNameentifier) {
         // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM projectdescription WHERE studentId = ? AND projectId = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, studentIdentifier.getStudentId(),
-                studentIdentifier.getProjectId());
+        String request = "SELECT * FROM projectdescription WHERE userName = ? AND projectName = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, userNameentifier.getUserEmail(),
+                userNameentifier.getProjectName());
 
         if (rs != null && rs.next()) {
 
@@ -107,14 +107,14 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
     }
 
     @Override
-    public void deleteDescription(StudentIdentifier studentIdentifier) {
+    public void deleteDescription(StudentIdentifier userNameentifier) {
         // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
-        String request = "DELETE FROM projectdescription WHERE studentId = ? AND projectId = ?;";
-        connection.issueInsertOrDeleteStatement(request, studentIdentifier.getStudentId(), studentIdentifier.getProjectId());
+        String request = "DELETE FROM projectdescription WHERE userName = ? AND projectName = ?;";
+        connection.issueInsertOrDeleteStatement(request, userNameentifier.getUserEmail(), userNameentifier.getProjectName());
 
         // close connection
         connection.close();
@@ -138,31 +138,31 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
 
     @Override
     public ArrayList<String> getOpenDescriptions(Project project) {
-        ArrayList<String> userIds = new ArrayList<>();
+        ArrayList<String> userEmails = new ArrayList<>();
 
         // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM projectdescription WHERE projectId = ? AND open = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getId(), true);
+        String request = "SELECT * FROM projectdescription WHERE projectName = ? AND open = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getName(), true);
 
         while (rs.next()) {
-            userIds.add(getDescriptionFromResultSet(rs).getStudent().getStudentId());
+            userEmails.add(getDescriptionFromResultSet(rs).getStudent().getUserEmail());
         }
 
         // close connection
         connection.close();
 
-        return userIds;
+        return userEmails;
     }
 
     private ProjectDescription getDescriptionFromResultSet(VereinfachtesResultSet rs) {
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
-        String author = rs.getString("studentId");
-        String project = rs.getString("projectId");
+        String author = rs.getString("userName");
+        String project = rs.getString("projectName");
         String text = rs.getString("text");
         boolean open = rs.getBoolean("open");
 

@@ -1,45 +1,55 @@
 package unipotsdam.gf.core.management.group;
 
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import unipotsdam.gf.core.database.InMemoryMySqlConnect;
+import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
-import java.util.Arrays;
+import javax.inject.Inject;
 import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class GroupDAOTest {
 
-    private InMemoryMySqlConnect inMemoryMySqlConnect;
+
+    @Inject
     private GroupDAO groupDAO;
+
+    @Inject
     private UserDAO userDAO;
+
     private Group group;
 
     private PodamFactory factory = new PodamFactoryImpl();
 
     @Before
     public void setUp() {
-        inMemoryMySqlConnect = new InMemoryMySqlConnect();
-        groupDAO = new GroupDAO(inMemoryMySqlConnect);
-        userDAO = new UserDAO(inMemoryMySqlConnect);
+        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        locator.inject(this);
 
-        User userStudent = new User("Student", "password", "testStudent@mail.com", "1",
-                "1", "1", true);
-        User userDocent = new User("Docent", "password", "testDocent@mail.com",
-                "1", "1", "1", false);
+
+        User userStudent = factory.manufacturePojo(User.class);
+        userStudent.setStudent(true);
+        User userDocent = factory.manufacturePojo(User.class);
+        userDocent.setStudent(false);
+
         userDAO.persist(userStudent, null);
         userDAO.persist(userDocent, null);
-
-        group = new Group(Arrays.asList(userStudent, userDocent), "1", "1");
+        //group = new Group(Arrays.asList(userStudent, userDocent), "1", "1");
+        group = factory.manufacturePojo(Group.class);
+        assertThat (group.getMembers().isEmpty(), is(false));
     }
 
     @Test
@@ -59,7 +69,7 @@ public class GroupDAOTest {
     public void testUpdate() {
         groupDAO.persist(group);
         assertThat(groupDAO.exists(group), is(true));
-        Group groupWithId = groupDAO.getGroupsByProjectId(group.getProjectId()).get(0);
+        Group groupWithId = groupDAO.getGroupsByProjectName(group.getProjectName()).get(0);
         groupWithId.setChatRoomId("neu");
         groupDAO.update(groupWithId);
         assertThat(groupDAO.exists(groupWithId), is(true));
@@ -68,7 +78,7 @@ public class GroupDAOTest {
     @Test
     public void testGetGroupsByProjectId() {
         groupDAO.persist(group);
-        List<Group> groups = groupDAO.getGroupsByProjectId(group.getProjectId());
+        List<Group> groups = groupDAO.getGroupsByProjectName(group.getProjectName());
         assertThat(groups, hasSize(1));
         assertThat(groups.get(0), equalTo(group));
     }

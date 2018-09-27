@@ -23,10 +23,10 @@ $(document).ready(function () {
 });
 
 function whichGroupToRate() {
-    let projectId = $('#projectId').html().trim();
-    let studentId = $('#user').html().trim();
+    let projectName = $('#projectName').html().trim();
+    let userName = $('#user').html().trim();
     $.ajax({
-        url: '../rest/assessments/groupRate/project/' + projectId + '/student/' + studentId,
+        url: '../rest/assessments/groupRate/project/' + projectName + '/student/' + userName,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -62,7 +62,7 @@ function safeContributionRating() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            location.href = "project-student.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
+            location.href = "project-student.jsp";
         },
         error: function (a, b, c) {
 

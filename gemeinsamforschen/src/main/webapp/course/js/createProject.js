@@ -1,10 +1,10 @@
 $(document).ready(function () {
     $('#submit').on('click', function () {
-        location.href = "specificRequirement.jsp?token=" + getUserEmail();
+        location.href = "specificRequirement.jsp" + getUserEmail();
     });
-    let projectId = $('#projectId').html().trim();
+    let projectName = $('#projectName').html().trim();
     $.ajax({
-        url: '../rest/phases/projects/' + projectId,
+        url: '../rest/phases/projects/' + projectName,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"

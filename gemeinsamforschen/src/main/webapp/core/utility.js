@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('#headLineProject').html($('#projectId').html());
+    $('#headLineProject').html($('#projectName').html());
     $('#logout').click(function () {
         //todo: delete cookies / reset session
         let target = "index.jsp";
@@ -25,10 +25,10 @@ function goBack() {
 }
 
 function checkAssessementPhase() {
-    let studentId = $('#user').html().trim();
-    let projectId = $('#projectId').html().trim();
+    let userName = $('#user').html().trim();
+    let projectName = $('#projectName').html().trim();
     $.ajax({
-        url: 'rest/assessments/whatToRate/project/' + projectId + '/student/' + studentId,
+        url: 'rest/assessments/whatToRate/project/' + projectName + '/student/' + userName,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -37,19 +37,19 @@ function checkAssessementPhase() {
         success: function (phase) {
             switch (phase) {
                 case "workRating": {
-                    changeLocationTo("finalAssessment.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim());
+                    changeLocationTo("finalAssessment.jsp");
                     break;
                 }
                 case "quiz": {
-                    changeLocationTo("take-quiz.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim());
+                    changeLocationTo("take-quiz.jsp");
                     break;
                 }
                 case "contributionRating": {
-                    changeLocationTo("rate-contribution.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim());
+                    changeLocationTo("rate-contribution.jsp");
                     break;
                 }
                 case "done": {
-                    changeLocationTo("project-student.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim());
+                    changeLocationTo("project-student.jsp");
                     break;
                 }
             }

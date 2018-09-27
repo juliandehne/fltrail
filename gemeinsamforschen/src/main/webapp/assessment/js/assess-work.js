@@ -15,10 +15,10 @@ $(document).ready(function () {
 
 
 function buildTablesForPeers() {
-    let studentId = $('#user').html().trim();
-    let projectId = $('#projectId').html().trim();
+    let userName = $('#user').html().trim();
+    let projectName = $('#projectName').html().trim();
     $.ajax({
-            url: '../rest/group/project/' + projectId + '/student/' + studentId,
+            url: '../rest/group/project/' + projectName + '/student/' + userName,
             type: 'GET',
             headers: {
                 "Content-Type": "text/javascript",
@@ -162,9 +162,9 @@ function assessPeer() {
             }
         }
     }
-    let projectId = $('#projectId').html().trim();
+    let projectName = $('#projectName').html().trim();
     $.ajax({
-        url: '../rest/assessments/peerRating/project/' + projectId,
+        url: '../rest/assessments/peerRating/project/' + projectName,
         type: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -172,7 +172,7 @@ function assessPeer() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            location.href = "take-quiz.jsp?token=" + getUserEmail() + "&projectId=" + $('#projectId').html().trim();
+            location.href = "take-quiz.jsp";
         },
         error: function (a, b, c) {
 

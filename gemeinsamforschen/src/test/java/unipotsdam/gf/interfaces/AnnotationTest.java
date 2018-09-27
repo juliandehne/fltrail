@@ -38,7 +38,7 @@ public class AnnotationTest {
         String comment = "comment_testAddAnnotation";
 
         // prepare and execute request
-        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", "1", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userEmail", "1", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
         Annotation response = controller.addAnnotation(annotationPostRequest);
 
         // the new annotation should be found in the database
@@ -59,7 +59,7 @@ public class AnnotationTest {
         String commentNew = "commentNew_testAlterAnnotation";
 
         // save new annotation in database
-        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", "0", Category.TITEL, new AnnotationBody(titleOld, commentOld, 1, 2));
+        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userEmail", "0", Category.TITEL, new AnnotationBody(titleOld, commentOld, 1, 2));
         Annotation response = controller.addAnnotation(annotationPostRequest);
 
         // the new annotation should be found in the database
@@ -97,7 +97,7 @@ public class AnnotationTest {
         String comment = "comment_testDeleteAnnotation";
 
         // prepare and execute request
-        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", "1", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userEmail", "1", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
         Annotation response = controller.addAnnotation(annotationPostRequest);
 
         // the new annotation should be found in the database
@@ -119,7 +119,7 @@ public class AnnotationTest {
         String comment = "comment_testGetAnnotation";
 
         // prepare and execute request
-        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", "1", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userEmail", "1", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
         Annotation response = controller.addAnnotation(annotationPostRequest);
 
         // receive the new annotation
@@ -149,9 +149,9 @@ public class AnnotationTest {
         targetIds.add("-2");
 
         // save new annotations in database
-        AnnotationPostRequest request1 = new AnnotationPostRequest("userToken", targetIds.get(0), Category.TITEL, new AnnotationBody(title, comment, 1, 2));
-        AnnotationPostRequest request2 = new AnnotationPostRequest("userToken", targetIds.get(1), Category.TITEL, new AnnotationBody(title, comment, 1, 2));
-        AnnotationPostRequest request3 = new AnnotationPostRequest("userToken", targetIds.get(1), Category.TITEL, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest request1 = new AnnotationPostRequest("userEmail", targetIds.get(0), Category.TITEL, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest request2 = new AnnotationPostRequest("userEmail", targetIds.get(1), Category.TITEL, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest request3 = new AnnotationPostRequest("userEmail", targetIds.get(1), Category.TITEL, new AnnotationBody(title, comment, 1, 2));
         controller.addAnnotation(request1);
         controller.addAnnotation(request2);
         controller.addAnnotation(request3);
@@ -184,7 +184,7 @@ public class AnnotationTest {
         String badId = "badId";
 
         // save new annotation in database
-        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userToken", "0", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
+        AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userEmail", "0", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
         Annotation response = controller.addAnnotation(annotationPostRequest);
 
         // the annotation shouldn't be found in the database

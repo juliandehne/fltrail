@@ -14,7 +14,7 @@ $(document).ready(function () {
             var fullSubmissionPostRequest = {
                 user: user,
                 text: text,
-                projectId: getQueryVariable("projectId")
+                projectName: getQueryVariable("projectName")
             };
 
             // save request in database
@@ -23,7 +23,7 @@ $(document).ready(function () {
                 $('#upload-textarea').val("");
 
                 // jump to next page
-                location.href = "create-unstructured-annotation.jsp?token=" + getUserEmail() + "&projectId=" + getQueryVariable("projectId") + "&submission=" + response.id;
+                location.href = "create-unstructured-annotation.jsp" + "&submission=" + response.id;
             });
         }
     });
@@ -38,14 +38,14 @@ $(document).ready(function () {
 
                 // jump to previous page
                 //window.history.back();
-                location.href = "../project-student.jsp?token=" + getUserEmail() + "&projectId=" + getQueryVariable("projectId");
+                location.href = "../project-student.jsp";
             }
         }
         // nothing to check
         else {
             // jump to previous page
             //window.history.back();
-            location.href = "../project-student.jsp?token=" + getUserEmail() + "&projectId=" + getQueryVariable("projectId");
+            location.href = "../project-student.jsp";
         }
     });
 

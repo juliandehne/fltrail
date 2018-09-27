@@ -41,7 +41,7 @@ public class IJournalImpl implements IJournal {
 
         for (User user : descUser) {
 
-            log.debug("Send close description message to user {}", user.getId());
+            log.debug("Send close description message to user {}", user.getEmail());
             //TODO send message when implemented
 
         }
@@ -50,7 +50,7 @@ public class IJournalImpl implements IJournal {
 
         for (User user : journalUser) {
 
-            log.debug("Send close journal message to user {}", user.getId());
+            log.debug("Send close journal message to user {}", user.getEmail());
             //TODO send message when implemented
 
         }
@@ -72,10 +72,10 @@ public class IJournalImpl implements IJournal {
     public EPortfolio getFinalPortfolioForAssessment(Project project, User user) {
 
         EPortfolio result = new EPortfolio();
-        StudentIdentifier studentIdentifier = new StudentIdentifier(project.getId(), user.getId());
+        StudentIdentifier userNameentifier = new StudentIdentifier(project.getName(), user.getEmail());
 
-        result.setDescription(descriptionService.getProjectByStudent(studentIdentifier));
-        result.setJournals(journalService.getAllJournals(user.getId(), project.getId()));
+        result.setDescription(descriptionService.getProjectByStudent(userNameentifier));
+        result.setJournals(journalService.getAllJournals(user.getEmail(), project.getName()));
         //TODO result.setReport(...);
 
         return result;

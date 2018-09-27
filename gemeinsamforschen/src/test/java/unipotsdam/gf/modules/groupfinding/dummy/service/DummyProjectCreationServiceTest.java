@@ -42,7 +42,7 @@ public class DummyProjectCreationServiceTest {
         Project project = factory.manufacturePojo(Project.class);
         assertTrue(projectDAO.exists(project));
 
-        List<Group> dummyGroups = dummyProjectCreationService.createDummyGroups(project.getId());
+        List<Group> dummyGroups = dummyProjectCreationService.createDummyGroups(project.getName());
         dummyGroups.forEach(group -> group.setChatRoomId("1"));
         dummyGroups.forEach(group -> {
             assertTrue(groupDAO.exists(group));
