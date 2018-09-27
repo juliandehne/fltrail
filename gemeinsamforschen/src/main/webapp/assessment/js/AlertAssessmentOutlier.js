@@ -1,6 +1,20 @@
 $(document).ready(function () {
+    document.getElementById("gewichtung").style.display="none";
 
+    $('#auswahlGewBew').on('click',function () {
+    var x=document.getElementById("Bewertung");
+    var y=document.getElementById("gewichtung");
 
+    if (x.style.display=="none"){
+        x.style.display="block";
+        y.style.display="none";
+        document.getElementById("auswahlGewBew").innerText="Zur Gewichtung Wechseln";
+    } else {
+        x.style.display="none";
+        y.style.display="block";
+        document.getElementById("auswahlGewBew").innerText="Zur Bewertung Wechseln";
+    }
+    });
     $('#DiaBlende').on('click',function () {
 
 

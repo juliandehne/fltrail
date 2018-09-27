@@ -104,6 +104,26 @@
                         <button id="DiaBlende">Zeitlicher Verlauf</button>
                         <canvas height="480" width="480", id = "Diagramm" ></canvas>
                     </div>
+                    <div class="col-md-4" id="bewertunggewichtung">
+                        <button id="auswahlGewBew" >Zur Gewichtung Wechseln</button>
+                        <div id="Bewertung">
+                            <label>"NoteStudent1" <input type="text" id="Note1"></label>
+                            <label>"NoteStudent2" <input type="text" id="Note2"></label>
+                            <label>"NoteStudent3" <input type="text" id="Note3"></label>
+                            <label>"NoteStudent4" <input type="text" id="Note4"></label>
+                            <label>"NoteStudent5" <input type="text" id="Note5"></label>
+                            <label>"NoteStudent6" <input type="text" id="Note6"></label>
+                            <label><button id="abschickenBewertung">Abschicken</button></label>
+                        </div>
+                        <div id="gewichtung">
+                            <label>"responsibility" <input type="text" id="responsibility"></label>
+                            <label>"partOfWork" <input type="text" id="partOfWork"></label>
+                            <label>"cooperation" <input type="text" id="cooperation"></label>
+                            <label>"autonomous" <input type="text" id="autonomous"></label>
+                            <label>"communication" <input type="text" id="communication"></label>
+                            <label><button id="abschickenGewichtung">Abschicken</button></label>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
