@@ -69,6 +69,14 @@ public class UserDAO {
         return result;
     }
 
+    public boolean existsByRocketChatUsername(String rocketChatUsername) {
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM users where rocketChatUsername = ?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlRequest, rocketChatUsername);
+        connect.close();
+        return resultSet.next();
+    }
+
     public List<User> getUsersByProjectId(String projectId) {
         connect.connect();
         String query =

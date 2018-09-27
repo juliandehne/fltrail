@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.communication.model.rocketChat;
 
 import java.util.Map;
 
-public class RocketChatResponse {
+public class RocketChatLoginResponse {
 
     private String status;
 
@@ -47,7 +47,7 @@ public class RocketChatResponse {
 
     @Override
     public String toString() {
-        return "RocketChatResponse{" +
+        return "RocketChatLoginResponse{" +
                 "status='" + status + '\'' +
                 ", data=" + data +
                 ", error='" + error + '\'' +

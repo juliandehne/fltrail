@@ -22,11 +22,11 @@ public class DummyProjectCreationServiceTest {
 
     @Test
     public void testCreateExampleProject() {
-        ICommunication communication = new CommunicationDummyService(new UnirestService());
         InMemoryMySqlConnect inMemoryMySqlConnect = new InMemoryMySqlConnect();
         Management management = TestHelper.getManagementImpl(inMemoryMySqlConnect);
         GroupDAO groupDAO = new GroupDAO(inMemoryMySqlConnect);
         UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
+        ICommunication communication = new CommunicationDummyService(new UnirestService(), userDAO);
 
         DummyProjectCreationService dummyProjectCreationService = new DummyProjectCreationService(communication, management, groupDAO, userDAO);
 

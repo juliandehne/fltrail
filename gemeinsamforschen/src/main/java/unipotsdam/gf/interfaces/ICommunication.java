@@ -78,8 +78,9 @@ public interface ICommunication {
     boolean loginUser(User user);
 
     /**
-     * api 1: https://rocket.chat/docs/developer-guides/rest-api/users/generatepersonalaccesstoken/
-     * api 2: https://rocket.chat/docs/developer-guides/rest-api/users/getpersonalaccesstokens/
+     * api 1: https://rocket.chat/docs/developer-guides/rest-api/users/register/
+     * api 2: https://rocket.chat/docs/developer-guides/rest-api/users/generatepersonalaccesstoken/
+     * api 3: https://rocket.chat/docs/developer-guides/rest-api/users/getpersonalaccesstokens/
      *
      * registers new user to rocket chat
      *

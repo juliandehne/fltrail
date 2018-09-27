@@ -3,16 +3,17 @@ package unipotsdam.gf.modules.communication.service;
 import io.github.openunirest.http.HttpResponse;
 import unipotsdam.gf.assignments.Assignee;
 import unipotsdam.gf.assignments.NotImplementedLogger;
-import unipotsdam.gf.config.GFRocketChatConfig;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
-import unipotsdam.gf.modules.communication.model.rocketChat.RocketChatResponse;
+import unipotsdam.gf.modules.communication.model.rocketChat.RocketChatLoginResponse;
+import unipotsdam.gf.modules.communication.model.rocketChat.RocketChatRegisterResponse;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -21,10 +22,13 @@ import javax.inject.Singleton;
 import javax.ws.rs.core.Response;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_API_LINK;
 
 @Resource
 @ManagedBean
@@ -32,10 +36,12 @@ import java.util.Objects;
 public class CommunicationDummyService implements ICommunication {
 
     private UnirestService unirestService;
+    private UserDAO userDAO;
 
     @Inject
-    public CommunicationDummyService(UnirestService unirestService) {
+    public CommunicationDummyService(UnirestService unirestService, UserDAO userDAO) {
         this.unirestService = unirestService;
+        this.userDAO = userDAO;
     }
 
     @Override
@@ -90,7 +96,7 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public boolean loginUser(User user) {
-        if (user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
+        if (hasEmptyParameter(user.getEmail(), user.getPassword())) {
             return false;
         }
 
@@ -98,30 +104,61 @@ public class CommunicationDummyService implements ICommunication {
         rocketChatAuth.put("user", user.getEmail());
         rocketChatAuth.put("password", user.getPassword());
 
-        HttpResponse<RocketChatResponse> response =
+        HttpResponse<RocketChatLoginResponse> response =
                 unirestService
-                        .post(GFRocketChatConfig.ROCKET_CHAT_API_LINK + "login")
+                        .post(ROCKET_CHAT_API_LINK + "login")
                         .body(rocketChatAuth)
-                        .asObject(RocketChatResponse.class);
+                        .asObject(RocketChatLoginResponse.class);
+
         int status = response.getStatus();
         if (status == Response.Status.UNAUTHORIZED.getStatusCode() || status == Response.Status.BAD_REQUEST.getStatusCode()) {
             return false;
         }
-        RocketChatResponse rocketChatResponse = response.getBody();
-        user.setRocketChatUserId(rocketChatResponse.getUserId());
-        user.setRocketChatAuthToken(rocketChatResponse.getAuthToken());
+
+        RocketChatLoginResponse rocketChatLoginResponse = response.getBody();
+        user.setRocketChatUserId(rocketChatLoginResponse.getUserId());
+        user.setRocketChatAuthToken(rocketChatLoginResponse.getAuthToken());
         return true;
     }
 
     @Override
     public boolean registerUser(User user) {
-        // register User
 
-        // login User and fill information
+        if (hasEmptyParameter(user.getEmail(), user.getName(), user.getPassword())) {
+            return false;
+        }
 
-        // create custom access token with authToken
-        user.setRocketChatUserId("1");
-        return true;
+        HashMap<String, String> rocketChatRegister = new HashMap<>();
+        String rocketChatUsername = createRocketChatUsername(user);
+        rocketChatRegister.put("username", rocketChatUsername);
+        rocketChatRegister.put("email", user.getEmail());
+        rocketChatRegister.put("pass", user.getPassword());
+        rocketChatRegister.put("name", user.getName());
+
+        HttpResponse<RocketChatRegisterResponse> response =
+                unirestService
+                        .post(ROCKET_CHAT_API_LINK + "users.register")
+                        .body(rocketChatRegister)
+                        .asObject(RocketChatRegisterResponse.class);
+
+        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+            return false;
+        }
+
+        RocketChatRegisterResponse registerResponse = response.getBody();
+        if (!registerResponse.isSuccessful()) {
+            return false;
+        }
+
+        user.setRocketChatUsername(rocketChatUsername);
+        user.setRocketChatUserId(registerResponse.getUserId());
+
+        if (!loginUser(user)) {
+            // TODO: eventually consider roleback because of error or something
+            return false;
+        }
+
+        return createCustomAccessToken(user);
     }
 
     @Override
@@ -139,7 +176,7 @@ public class CommunicationDummyService implements ICommunication {
         // TODO: Implement getProjectbyToken and getGroupByToken
         //Project project = managementService.getProject(projectToken
         String channelName = "general";
-        return GFRocketChatConfig.ROCKET_CHAT_API_LINK + "/channel/" + channelName + "?layout=embedded";
+        return ROCKET_CHAT_API_LINK + "/channel/" + channelName + "?layout=embedded";
     }
 
     @Override
@@ -165,5 +202,50 @@ public class CommunicationDummyService implements ICommunication {
     // just for postman testing
     public User getUser() {
         return new User("Martin Stähr", "test", "test@test.com", true);
+    }
+
+    private boolean hasEmptyParameter(String... parameters) {
+        return Arrays.stream(parameters).anyMatch(String::isEmpty);
+    }
+
+    private String createRocketChatUsername(User user) {
+        // TODO: eventually add username to normal registration
+        String possibleUsername = user.getName().replaceAll(" ", "");
+        int counter = 1;
+        while (userDAO.existsByRocketChatUsername(possibleUsername)) {
+            possibleUsername = user.getName().replaceAll(" ", "") + counter;
+            counter++;
+        }
+        return possibleUsername;
+    }
+
+    private boolean createCustomAccessToken(User user) {
+        if (hasEmptyParameter(user.getRocketChatAuthToken(), user.getRocketChatUserId())) {
+            return false;
+        }
+
+        HashMap<String, String> bodyMap = new HashMap<>();
+        bodyMap.put("tokenName", "fltrailToken");
+        HashMap<String, String> headerMap = new HashMap<>();
+        headerMap.put("X-Auth-Token", user.getRocketChatAuthToken());
+        headerMap.put("X-User-Id", user.getRocketChatUserId());
+
+        HttpResponse<Map> response = unirestService
+                .post(ROCKET_CHAT_API_LINK + "users.generatePersonalAccessToken")
+                .headers(headerMap)
+                .body(bodyMap)
+                .asObject(Map.class);
+
+        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+            return false;
+        }
+
+        Map responseBody = response.getBody();
+        if (responseBody.containsKey("status")) {
+            return false;
+        }
+        user.setRocketChatPersonalAccessToken(responseBody.get("token").toString());
+        return true;
+
     }
 }

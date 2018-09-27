@@ -9,6 +9,6 @@ public class GFRocketChatConfig {
     public static final String ADMIN_USERNAME = "";
     public static final String ADMIN_TOKEN = "";
 
-    public static final User TEST_USER = new User("username", "password", "email",
-            "rocketChatUserName", false);
+    public static final User TEST_USER = new User("Test Nachname", "NRywSvBGZy6kp4448", "test@gmail.com",
+            "TestNachname", false);
 }

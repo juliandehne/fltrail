@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.communication;
 
+import unipotsdam.gf.core.database.mysql.MysqlConnect;
+import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
@@ -22,7 +24,8 @@ public class ChatWindow extends SimpleTagSupport {
         String groupToken = request.getParameter("groupToken");
         String projectToken = request.getParameter("projectToken");
         //get ProjetbyToken
-        ICommunication communicationService = new CommunicationDummyService(new UnirestService());
+        UserDAO userDAO = new UserDAO(new MysqlConnect());
+        ICommunication communicationService = new CommunicationDummyService(new UnirestService(), userDAO);
         String chatRoomLink = communicationService.getChatRoomLink(token, projectToken, groupToken);
 
         JspWriter out = getJspContext().getOut();

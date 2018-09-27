@@ -2,6 +2,7 @@ package unipotsdam.gf.core.states;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.interfaces.Feedback;
@@ -34,7 +35,9 @@ public class PhasesImpl implements IPhases {
 
     private Feedback feedback = new DummyFeedback();
 
-    private ICommunication iCommunication = new CommunicationDummyService(new UnirestService());
+    private UserDAO userDAO = new UserDAO(new MysqlConnect());
+
+    private ICommunication iCommunication = new CommunicationDummyService(new UnirestService(), userDAO);
 
     private IJournal iJournal = new IJournalImpl();
 
