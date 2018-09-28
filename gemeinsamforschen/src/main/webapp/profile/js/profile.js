@@ -20,27 +20,26 @@ $(document).ready(function (e) {
     }));*/
 
 // Function to preview image after validation
-    $(function() {
-        $("#file").change(function() {
+    $(function () {
+        $("#file").change(function () {
             $("#message").empty(); // To remove the previous error message
             let file = this.files[0];
-            let match= ["image/jpeg","image/png","image/jpg"];
-            if(!((file.type===match[0]) || (file.type===match[1]) || (file.type===match[2])))
-            {
-                $('#previewing').attr('src','noimage.png');
-                $("#message").html("<p id='error'>Please Select A valid Image File</p>"+"<h4>Note</h4>"+"<span id='error_message'>Only jpeg, jpg and png Images type allowed</span>");
+            let match = ["image/jpeg", "image/png", "image/jpg"];
+            if (!((file.type === match[0]) || (file.type === match[1]) || (file.type === match[2]))) {
+                $('#previewing').attr('src', 'noimage.png');
+                $("#message").html("<p id='error'>Please Select A valid Image File</p>" + "<h4>Note</h4>" + "<span id='error_message'>Only jpeg, jpg and png Images type allowed</span>");
                 return false;
             }
-            else
-            {
+            else {
                 var reader = new FileReader();
                 reader.onload = imageIsLoaded;
                 reader.readAsDataURL(this.files[0]);
             }
         });
     });
+
     function imageIsLoaded(e) {
-        $("#file").css("color","green");
+        $("#file").css("color", "green");
         $('#image_preview').css("display", "block");
         $('#previewing').attr('src', e.target.result);
         $('#previewing').attr('width', '250px');

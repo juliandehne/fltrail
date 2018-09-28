@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function () {
     // fetch all submission part project representations from database
     getSubmissionPartsByProjectId(getQueryVariable("projectId"), function (response) {
 
@@ -11,7 +11,7 @@ $(document).ready(function(){
         $('.annotationview').click(function () {
             let fullSubmissionId = $(this).closest("li").data("fullSubmissionId");
             let category = $(this).closest("li").data("category");
-            location.href="annotation-document.jsp?token=" + getUserTokenFromUrl() +
+            location.href = "annotation/annotation-document.jsp?token=" + getUserTokenFromUrl() +
                 "&projectId=" + getQueryVariable("projectId") +
                 "&fullSubmissionId=" + fullSubmissionId +
                 "&category=" + category;
@@ -30,22 +30,18 @@ $(document).ready(function(){
     });
     */
     $('.givefeedback').click(function () {
-        location.href="givefeedback.jsp?token="+getUserTokenFromUrl();
+        location.href = "feedback/give-feedback.jsp?token=" + getUserTokenFromUrl();
     });
     $('.viewfeedback').click(function () {
-        location.href="viewfeedback.jsp?token="+getUserTokenFromUrl();
+        location.href = "feedback/view-feedback.jsp?token=" + getUserTokenFromUrl();
     });
 
     $('.annotationview').click(function () {
-        location.href="annotation-document.jsp?token="+getUserTokenFromUrl();
+        location.href = "annotation/annotation-document.jsp?token=" + getUserTokenFromUrl();
     });
 
-    $('#btnUnstructuredUpload').click(function () {
-        location.href="unstructured-upload.jsp?token="+getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
-    })
-
     $('.viewprojectstudent').click(function () {
-        location.href="project-student.jsp?token="+getUserTokenFromUrl();
+        location.href = "project-student.jsp?token=" + getUserTokenFromUrl();
     })
 });
 
@@ -93,7 +89,7 @@ function displayEmptyView() {
  * @param errorHandler The error handler
  */
 function getSubmissionPartsByProjectId(projectId, responseHandler, errorHandler) {
-    var url = "../rest/submissions/project/" + projectId;
+    let url = "rest/submissions/project/" + projectId;
     $.ajax({
         url: url,
         type: "GET",

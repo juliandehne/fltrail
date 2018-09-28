@@ -1,19 +1,21 @@
 var student = getQueryVariable("token");
 var project = getQueryVariable("projectId");
+var journal = getQueryVariable("journal");
 
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('#student').val(student);
     $('#project').val(project);
 
-    $('#backLink').on('click', function(){
+    $('#backLink').on('click', function () {
         location.href = "eportfolio.jsp?token=" + student + "&projectId=" + project;
     });
 
     $.ajax({
-        url: "../rest/projectdescription/" + student + "/" + project
+        url: "../rest/journal/" + journal
     }).then(function (data) {
-        $('#editor').append(data.descriptionMD);
+        $('#editor').append(data.entryMD);
+        $('#journalid').val(journal);
 
         //TODO preselet in select tags
         new InscrybMDE({

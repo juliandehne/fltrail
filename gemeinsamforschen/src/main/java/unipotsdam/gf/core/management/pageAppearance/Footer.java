@@ -1,8 +1,9 @@
 package unipotsdam.gf.core.management.pageAppearance;
 
-import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.management.project.ProjectDAO;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -10,14 +11,17 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
 public class Footer extends SimpleTagSupport {
+
+    @Inject
+    private ProjectDAO projectDAO;
+
     public void doTag() throws IOException {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String projectId = request.getParameter("projectId");
-        ManagementImpl management = new ManagementImpl();
         ProjectPhase projectPhase;
         try {
-            projectPhase = management.getProjectById(projectId).getPhase();
+            projectPhase = projectDAO.getProjectById(projectId).getPhase();
         } catch (Exception e) {
             projectPhase = null;
         }
@@ -30,16 +34,16 @@ public class Footer extends SimpleTagSupport {
                     "                </div>\n" +
                     "                <div>\n";
             if (projectPhase.equals(ProjectPhase.GroupFormation))
-                footerString +="  GroupFormation\n";
+                footerString += "  GroupFormation\n";
             if (projectPhase.equals(ProjectPhase.Execution))
-                footerString +="  Execution\n";
+                footerString += "  Execution\n";
             if (projectPhase.equals(ProjectPhase.Assessment))
-                footerString +="  Assessment\n";
+                footerString += "  Assessment\n";
             if (projectPhase.equals(ProjectPhase.DossierFeedback))
-                footerString +="  DossierFeedback\n";
+                footerString += "  DossierFeedback\n";
             if (projectPhase.equals(ProjectPhase.Projectfinished))
-                footerString +="  Projectfinished\n";
-            footerString +="        </div>\n" +
+                footerString += "  Projectfinished\n";
+            footerString += "        </div>\n" +
                     "                <div class=\"progress-bar pg-rest\" role=\"progressbar\">\n" +
                     "                </div>\n" +
                     "            </div>\n";

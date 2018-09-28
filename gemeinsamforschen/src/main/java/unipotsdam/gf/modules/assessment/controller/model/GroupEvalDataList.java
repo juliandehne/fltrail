@@ -1,20 +1,24 @@
 package unipotsdam.gf.modules.assessment.controller.model;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupEvalDataList {
-    private String[] labels ;
+    private String[] labels;
 
     private List<GroupEvalDataDatasets> datasets = new ArrayList<>();
 
-    public GroupEvalDataList(){}
-    public GroupEvalDataList(String[] labels, List<GroupEvalDataDatasets> datasets){
-        this.datasets=datasets;
-        this.labels=labels;
+    public GroupEvalDataList() {
     }
 
-    public GroupEvalDataList(List<GroupEvalDataDatasets> datasets,String[] labels){
-        this.labels=labels;
-        this.datasets=datasets;
+    public GroupEvalDataList(String[] labels, List<GroupEvalDataDatasets> datasets) {
+        this.datasets = datasets;
+        this.labels = labels;
+    }
+
+    public GroupEvalDataList(List<GroupEvalDataDatasets> datasets, String[] labels) {
+        this.labels = labels;
+        this.datasets = datasets;
     }
 
 

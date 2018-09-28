@@ -3,7 +3,12 @@ package unipotsdam.gf.modules.annotation.websocket;
 import unipotsdam.gf.modules.annotation.model.AnnotationMessage;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
-import javax.websocket.*;
+import javax.websocket.EncodeException;
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package unipotsdam.gf.core.management.project;
 
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.groupfinding.GroupFormationMechanism;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
@@ -13,13 +13,13 @@ public class ProjectConfiguration {
     private HashMap<ProjectPhase, Boolean> phasesSelected;
     private HashMap<Category, Boolean> criteriaSelected;
     private HashMap<AssessmentMechanism, Boolean> assessmentMechanismSelected;
-    private HashMap<GroupFormationMechanism, Boolean> groupMechanismSelected;
+    private GroupFormationMechanism groupMechanismSelected;
 
     public ProjectConfiguration(
             HashMap<ProjectPhase, Boolean> phasesSelected,
             HashMap<Category, Boolean> criteriaSelected,
             HashMap<AssessmentMechanism, Boolean> assessmentMechanismSelected,
-            HashMap<GroupFormationMechanism, Boolean> groupMechanismSelected) {
+            GroupFormationMechanism groupMechanismSelected) {
         this.phasesSelected = phasesSelected;
         this.criteriaSelected = criteriaSelected;
         this.assessmentMechanismSelected = assessmentMechanismSelected;
@@ -53,12 +53,12 @@ public class ProjectConfiguration {
     }
 
 
-    public HashMap<GroupFormationMechanism, Boolean> getGroupMechanismSelected() {
+    public GroupFormationMechanism getGroupMechanismSelected() {
         return groupMechanismSelected;
     }
 
     public void setGroupMechanismSelected(
-            HashMap<GroupFormationMechanism, Boolean> groupMechanismSelected) {
+            GroupFormationMechanism groupMechanismSelected) {
         this.groupMechanismSelected = groupMechanismSelected;
     }
 

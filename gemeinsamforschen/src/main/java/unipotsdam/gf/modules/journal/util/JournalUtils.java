@@ -29,7 +29,6 @@ public class JournalUtils {
             c = Category.valueOf(category);
         } catch (IllegalArgumentException e) {
             c = Category.TITEL;
-            //TODO extra Category for fail?
             JournalUtils.log.debug("Illegal argument for visibility, default to TITLE");
         }
         return c;
@@ -67,8 +66,8 @@ public class JournalUtils {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT COUNT(*) > 0 AS `exists` FROM " + table+ " WHERE id = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request,id);
+        String request = "SELECT COUNT(*) > 0 AS `exists` FROM " + table + " WHERE id = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, id);
         JournalUtils.log.debug("query: " + rs.toString());
         if (rs.next()) {
             // save the response

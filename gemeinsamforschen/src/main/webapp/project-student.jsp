@@ -6,7 +6,6 @@
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
 
 
-
 <!--todo: E-mail an Studenten als Notifikation für Phasenwechsel -->
 
 
@@ -16,8 +15,6 @@
 <head>
     <omniDependencies:omniDependencies hierarchy="0"/>
     <script src="core/project-student.js"></script>
-    <script src="management/js/project-student.js"></script>
-    <link rel="stylesheet" href="../libs/css/Community-ChatComments.css">
 
 </head>
 
@@ -110,8 +107,6 @@
 
                             </tr>
                         </table>
-
-                        <button onclick="goBack()" class="btn btn-secondary">Zur&uuml;ck</button>
                     </td>
                 </tr>
             </table>

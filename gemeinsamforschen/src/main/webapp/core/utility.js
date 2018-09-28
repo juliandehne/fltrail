@@ -1,60 +1,61 @@
-function changeLocationTo(target) {
-    let level = $('#hierarchyLevel').html().trim();
-    let link = calculateHierachy(level) + target;
-    return link;
-}
-
-$(document).ready(function(){
+$(document).ready(function () {
     $('#headLineProject').html($('#projectId').html());
-    $('#logout').click(function(){
+    $('#logout').click(function () {
         //todo: delete cookies / reset session
         let target = "index.jsp";
         let link = changeLocationTo(target);
-        document.location=link;
+        document.location = link;
     });
-    $('#assessment').click(function(){
-       checkAssessementPhase();
+    $('#assessment').click(function () {
+        checkAssessementPhase();
     });
-    $('#footerBack').click(function(){
-       goBack();
+    $('#footerBack').click(function () {
+        goBack();
     });
 });
+
+function changeLocationTo(target) {
+    let level = $('#hierarchyLevel').html().trim();
+    return calculateHierachy(level) + target;
+    ;
+}
+
 
 function goBack() {
     window.history.back();
 }
 
-function checkAssessementPhase(){
+function checkAssessementPhase() {
     let studentId = $('#user').html().trim();
     let projectId = $('#projectId').html().trim();
     $.ajax({
-        url: '../rest/assessments/whatToRate/project/'+projectId+'/student/'+studentId,
+        url: 'rest/assessments/whatToRate/project/' + projectId + '/student/' + studentId,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         success: function (phase) {
-            switch (phase){
-                case "workRating":{
+            switch (phase) {
+                case "workRating": {
                     changeLocationTo("finalAssessment.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
-                case "quiz":{
+                case "quiz": {
                     changeLocationTo("take-quiz.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
-                case "contributionRating":{
+                case "contributionRating": {
                     changeLocationTo("rate-contribution.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
-                case "done":{
+                case "done": {
                     changeLocationTo("project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + $('#projectId').html().trim());
                     break;
                 }
             }
         },
-        error: function(a){
+        error: function (a) {
         }
     });
 }
@@ -70,6 +71,17 @@ function getUserTokenFromUrl() {
 
 }
 
+
+function getProjectTokenFromUrl() {
+    let parts = window.location.search.substr(1).split("&");
+    let $_GET = {};
+    for (let i = 0; i < parts.length; i++) {
+        let temp = parts[i].split("=");
+        $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
+    }
+    return $_GET['projectToken'];
+}
+
 function getQueryVariable(variable) {
     let query = window.location.search.substring(1);
     let vars = query.split("&");
@@ -83,7 +95,6 @@ function getQueryVariable(variable) {
 }
 
 
-
 function calculateHierachy(level) {
 
     if (level == 0) {
@@ -92,8 +103,26 @@ function calculateHierachy(level) {
 
     } else {
 
-        return calculateHierachy(level-1)+"../";
+        return calculateHierachy(level - 1) + "../";
 
     }
+}
+
+function getContextData(callback) {
+    var userToken = getUserTokenFromUrl();
+    var projectToken = getProjectTokenFromUrl();
+
+    var url = "../../gemeinsamforschen/rest/context/full?projectToken=" + getProjectTokenFromUrl() + "&userToken=" + getUserTokenFromUrl();
+    $.ajax({
+        url: url,
+        type: 'GET',
+        Accept: "contentType: application/json",
+        success: function (response) {
+            callback(response);
+        },
+        error: function (a, b, c) {
+            console.log(a+b+c);
+        }
+    });
 
 }

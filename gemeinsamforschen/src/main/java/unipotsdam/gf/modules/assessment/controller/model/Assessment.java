@@ -2,24 +2,13 @@ package unipotsdam.gf.modules.assessment.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-
-import javax.xml.bind.annotation.XmlRootElement;
-import java.security.acl.Group;
-import java.util.ArrayList;
-
-
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Date;
 
 @XmlRootElement
-
+//todo: I guess this can be deleted. Check this first
 public class Assessment {
     private StudentIdentifier student;// gemeint als Ziel der Bewertung, kann auch gruppe sein
     @JsonIgnore
@@ -36,13 +25,13 @@ public class Assessment {
         this.performance = performance;
     }
 
-    public Assessment(boolean adressat,StudentIdentifier student, Date deadline, StudentIdentifier bewertender, String projektId, int bewertung) {
+    public Assessment(boolean adressat, StudentIdentifier student, Date deadline, StudentIdentifier bewertender, String projektId, int bewertung) {
         this.student = student;
         this.deadline = deadline;
         this.bewertender = bewertender;
         this.projektId = projektId;
         this.bewertung = bewertung;
-        this.adressat=adressat;
+        this.adressat = adressat;
     }
 
     public Assessment() {
@@ -72,6 +61,7 @@ public class Assessment {
     public Performance getPerformance() {
         return performance;
     }
+
     @JsonIgnore
     public void setPerformance(Performance performance) {
         this.performance = performance;

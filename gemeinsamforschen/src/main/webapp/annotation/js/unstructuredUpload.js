@@ -1,7 +1,7 @@
 /**
  * This function will fire when the DOM is ready
  */
-$(document).ready(function() {
+$(document).ready(function () {
 
     $('#btnNext').click(function () {
         if ($('#upload-textarea-form').valid()) {
@@ -23,7 +23,7 @@ $(document).ready(function() {
                 $('#upload-textarea').val("");
 
                 // jump to next page
-                location.href="create-unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId") + "&submission=" + response.id;
+                location.href = "create-unstructured-annotation.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId") + "&submission=" + response.id;
             });
         }
     });
@@ -37,15 +37,15 @@ $(document).ready(function() {
                 $('#upload-textarea').val("");
 
                 // jump to previous page
-                window.history.back();
-                //location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl();
+                //window.history.back();
+                location.href = "../project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
             }
         }
         // nothing to check
         else {
             // jump to previous page
-            window.history.back();
-            //location.href="project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getProjectIdFromUrl();
+            //window.history.back();
+            location.href = "../project-student.jsp?token=" + getUserTokenFromUrl() + "&projectId=" + getQueryVariable("projectId");
         }
     });
 

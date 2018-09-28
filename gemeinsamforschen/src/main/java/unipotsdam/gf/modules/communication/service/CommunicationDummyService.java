@@ -1,12 +1,17 @@
 package unipotsdam.gf.modules.communication.service;
 
+import unipotsdam.gf.assignments.Assignee;
+import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.config.Constants;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.assignments.Assignee;
 import unipotsdam.gf.assignments.NotImplementedLogger;
+import unipotsdam.gf.core.states.model.Constraints;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
@@ -18,6 +23,7 @@ import javax.inject.Singleton;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Resource
@@ -46,8 +52,8 @@ public class CommunicationDummyService implements ICommunication {
     }
 
     @Override
-    public String createChatRoom(String name, List<User> users) {
-        if (Objects.isNull(users)) {
+    public String createChatRoom(String name, List<User> userList) {
+        if (Objects.isNull(userList)) {
             return "2";
         }
 
@@ -113,6 +119,11 @@ public class CommunicationDummyService implements ICommunication {
         // TODO implement as email or directed message, popup after login or whatever
         String message2 = "sending email with message: "+ message.getMessage() + " to: "+ user.getEmail();
         NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, message2);
+    }
+
+    @Override
+    public void informAboutMissingTasks(Map<StudentIdentifier, ConstraintsMessages> tasks, Project project) {
+
     }
 
     @Override

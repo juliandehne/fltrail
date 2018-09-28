@@ -1,6 +1,13 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.assessment.controller.model.Assessment;
+import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,41 +17,32 @@ import java.util.Map;
  * Created by dehne on 18.05.2018.
  */
 public interface IPeerAssessment {
-
-    /**
-     * student and performance are written to DB
-     *
-     * @param assessment
-     */
-    void addAssessmentDataToDB(Assessment assessment);
+    void finalizeAssessment(String projectId);
 
     Quiz getQuiz(String projectId, String quizId, String author);
+    ArrayList<Quiz> getQuiz(String projectId, String author);
     /**
      * will return a saved assessment from the DB
      *
-     * @param student
-     * @return Assessement = studentIdentifier , performance
-     */
-    Assessment getAssessmentDataFromDB(StudentIdentifier student);
-
-    /**
-     * writes a quiz-question into the DB so other students can benefit from another's insights.
      *
-     * @param studentAndQuiz
+     * @param projectId @return Assessement = studentIdentifier , performance
      */
+    Map<StudentIdentifier, Double> getAssessmentForProject(String projectId);
+
+    Double getAssessmentForStudent(StudentIdentifier student);
+
+    //todo: obsolete, get rid of the following function
+    Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance);
+
+        /**
+         * writes a quiz-question into the DB so other students can benefit from another's insights.
+         *
+         * @param studentAndQuiz
+         */
     void createQuiz(StudentAndQuiz studentAndQuiz) ;
 
     /**
-     * calculate grades for everyone in a list.
-     * either it will be overwritten by choice of co- or peer-assessment or it gets a parameter which specifies it.
-     *
-     *
-     * @param totalPerformance @return
-     */
-    Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance); // calculates marks for every performance and writes it to an array
 
-
-    /**
      *
      * @param studentIdentifier
      * @return
@@ -87,13 +85,16 @@ public interface IPeerAssessment {
                                 Map<String, Integer> contributionRating);
 
     /**
-     *
      * @param questions
      * @param student
      */
     void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student);
+
     void deleteQuiz(String quizId);
 
     String whatToRate(StudentIdentifier student);
-    Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method);
+
+    Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId);
+
+    void assignMissingAssessmentTasks(Project project);
 }

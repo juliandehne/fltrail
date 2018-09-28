@@ -1,6 +1,6 @@
 <%@ page import="unipotsdam.gf.core.management.ManagementImpl" %>
 <%@ page import="unipotsdam.gf.core.management.user.User" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu"%>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
@@ -11,7 +11,8 @@
 
 <head>
     <omniDependencies:omniDependencies hierarchy="1"/>
-    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed|Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed|Open+Sans+Condensed:300' rel='stylesheet'
+          type='text/css'>
     <script src="js/profile.js"></script>
 </head>
 
@@ -42,12 +43,12 @@
                             <li class="list-group-item">
                                 <p>Sonstiges:</p>
                                 <form id="uploadimage" method="post" action="rest/user/student/wiepke">
-                                    <div id="image_preview"><img id="previewing" src="../libs/img/noImg.png" /></div>
+                                    <div id="image_preview"><img id="previewing" src="../libs/img/noImg.png"/></div>
                                     <hr id="line">
                                     <div id="selectImage">
                                         <label>Select Your Image</label><br/>
-                                        <input type="file" name="image" id="file" required />
-                                        <input type="submit" value="Upload" class="submit" />
+                                        <input type="file" name="image" id="file" required/>
+                                        <input type="submit" value="Upload" class="submit"/>
                                     </div>
                                 </form>
                                 <p id="message"></p>

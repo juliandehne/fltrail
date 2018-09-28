@@ -2,9 +2,7 @@ package unipotsdam.gf.core.session;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.user.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -25,7 +23,7 @@ public class SessionTag extends SimpleTagSupport {
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         // sessionID is created with first call and persisted throughout the user's session<
         JspWriter out = getJspContext().getOut();
-        out.println("<p id=\"sessionId\"> SessionId:"+request.getSession().getId()+"</p>");
+        out.println("<p id=\"sessionId\"> SessionId:" + request.getSession().getId() + "</p>");
 
         // lets add some context to the site
 

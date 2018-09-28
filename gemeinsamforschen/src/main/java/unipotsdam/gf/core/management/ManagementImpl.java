@@ -1,22 +1,25 @@
 package unipotsdam.gf.core.management;
 
-import sun.misc.IOUtils;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.project.ProjectConfiguration;
 import unipotsdam.gf.core.management.project.ProjectConfigurationDAO;
+import unipotsdam.gf.core.management.project.ProjectDAO;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.management.user.UserInterests;
 import unipotsdam.gf.core.management.user.UserProfile;
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.management.util.ResultSetUtil;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Blob;
 import java.sql.Timestamp;
@@ -33,68 +36,43 @@ import java.util.UUID;
 @Resource
 @Singleton
 public class ManagementImpl implements Management {
+
+    private UserDAO userDAO;
+    private GroupDAO groupDAO;
+    private ProjectDAO projectDAO;
+
+    private MysqlConnect connect;
+
+    @Inject
+    public ManagementImpl(UserDAO userDAO, GroupDAO groupDAO, ProjectDAO projectDAO, MysqlConnect connect) {
+        this.userDAO = userDAO;
+        this.groupDAO = groupDAO;
+        this.projectDAO = projectDAO;
+        this.connect = connect;
+    }
+
     @Override
-    public void delete(StudentIdentifier identifier) {
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest = "DELETE FROM users where email = (?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, identifier.getStudentId());
-        connect.close();
+    public void delete(User user) {
+        userDAO.delete(user);
     }
 
     @Override
     public void create(User user, UserProfile profile) {
-        UUID uuid = UUID.randomUUID();
-        String token = uuid.toString();
-
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest =
-                "INSERT INTO users (`name`, `password`, `email`, `token`,`isStudent`," + "`rocketChatId`,`rocketChatAuthToken`) values (?,?,?,?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(), token,
-                user.getStudent(), user.getRocketChatId(), user.getRocketChatAuthToken());
-        connect.close();
-
-        // TODO implmement UserProfile @Mar
+        userDAO.persist(user, profile);
     }
 
     @Override
-    public void create(Project project) {
-        UUID uuid = UUID.randomUUID();
-        String token = uuid.toString();
-
-
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest =
-                "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `author`, " + "`adminPassword`, `token`, `phase`) values (?,?,?,?,?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.isActive(),
-                project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token,
-                project.getPhase() == null ? ProjectPhase.CourseCreation : project.getPhase());
-
-        String mysql2Request = "INSERT INTO tags (`projectId`, `tag`) values (?,?)";
-        String[] tags = project.getTags();
-        for (String tag : tags) {
-            connect.issueInsertOrDeleteStatement(mysql2Request, project.getId(), tag);
-        }
-        connect.close();
+    public String create(Project project) {
+        return projectDAO.persist(project);
     }
 
     @Override
     public void delete(Project project) {
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest = "DELETE FROM projects where id = (?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId());
-
-        // TODO: delete all groups of project?
-
-        connect.close();
+       projectDAO.delete(project);
     }
 
     @Override
     public void register(User user, Project project, UserInterests interests) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "INSERT INTO projectuser (`projectId`, `userId`) values (?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), user.getId());
@@ -103,93 +81,41 @@ public class ManagementImpl implements Management {
 
     @Override
     public void update(User user) {
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest =
-                "UPDATE `users` SET `name`=?,`password`=?,`email`=?,`token`=?,`isStudent`=?," + "`rocketChatId`=?,`rocketChatAuthToken`=? WHERE email=? LIMIT 1";
-        //TODO: maybe add handling if a line is actually updated
-        //TODO: if user is updated, it also must update all other tables which includes some information about the user, for example project user
+        userDAO.update(user);
+    }
 
-        connect.issueUpdateStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(), user.getToken(),
-                user.getStudent(), user.getRocketChatId(), user.getRocketChatAuthToken(), user.getEmail());
-        connect.close();
+    @Override
+    public void update(Group group) {
+
     }
 
     @Override
     public Boolean exists(User user) {
-        Boolean result;
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest = "SELECT * FROM users where email = ? and password = ?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, user.getEmail(), user.getPassword());
-        result = vereinfachtesResultSet.next();
-        connect.close();
-        return result;
+        return userDAO.exists(user);
     }
 
     @Override
     public Boolean exists(Project project) {
-        Boolean result;
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest = "SELECT * FROM projects where id = ? and adminPassword = ?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, project.getId(), project.getAdminPassword());
-        result = vereinfachtesResultSet.next();
-        connect.close();
-        return result;
+        return projectDAO.exists(project);
     }
 
     @Override
-    public List<User> getUsers(Project project) {
-        String query =
-                "SELECT * FROM users u " + " JOIN projectuser pu ON u.email=pu.userId" + " JOIN projects p ON pu.projectId = p.id" + " WHERE pu.projectId = ?";
+    public Boolean exists(Group group) {
+        return null;
+    }
 
-        ArrayList<User> result = new ArrayList<>();
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getId());
-        while (!vereinfachtesResultSet.isLast()) {
-            Boolean next = vereinfachtesResultSet.next();
-            if (next) {
-                User user = getUserFromResultSet(vereinfachtesResultSet);
-                String token = vereinfachtesResultSet.getString("token");
-                user.setToken(token);
-                result.add(user);
-            } else {
-                break;
-            }
-        }
-        connect.close();
-        return result;
+    @Override
+    public User getUserByName(String studentId) {
+        return null;
+    }
+
+
+    public List<User> getUsers(Project project) {
+        return userDAO.getUsersByProjectId(project.getId());
     }
 
     private User getUserFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
-        String name = vereinfachtesResultSet.getString("name");
-        String password = vereinfachtesResultSet.getString("password");
-        String email = vereinfachtesResultSet.getString("email");
-        String token = vereinfachtesResultSet.getString("token");
-        String rocketChatId = vereinfachtesResultSet.getString("rocketChatId");
-        String rocketChatAuthToken = vereinfachtesResultSet.getString("rocketChatAuthToken");
-        Boolean isStudent = vereinfachtesResultSet.getBoolean("isStudent");
-        return new User(name, password, email, token, rocketChatId, rocketChatAuthToken, isStudent);
-    }
-
-    private Project getProjectFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
-        String id = vereinfachtesResultSet.getString("id");
-        String password = vereinfachtesResultSet.getString("password");
-        boolean active = vereinfachtesResultSet.getBoolean("active");
-        Timestamp timestamp = vereinfachtesResultSet.getTimestamp("timecreated");
-        String author = vereinfachtesResultSet.getString("author");
-        String adminPassword = vereinfachtesResultSet.getString("adminpassword");
-        String token = vereinfachtesResultSet.getString("token");
-        String phase = vereinfachtesResultSet.getString("phase");
-        Project project =
-                new Project(id, password, active, timestamp, author, adminPassword, token, ProjectPhase.valueOf(phase));
-        ProjectPhase projectPhase = ProjectPhase.valueOf(phase);
-        project.setPhase(projectPhase);
-        return project;
+        return ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet);
     }
 
     private void fillGroupFromResultSet(
@@ -207,77 +133,28 @@ public class ManagementImpl implements Management {
         }
     }
 
-    @Override
+
     public String getUserToken(User user) {
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest = "SELECT * FROM users where email = ? and password = ?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, user.getEmail(), user.getPassword());
-        boolean next = vereinfachtesResultSet.next();
-        if (!next) {
-            connect.close();
-            return null;
-        }
-        String token = vereinfachtesResultSet.getString("token");
-        connect.close();
-        return token;
+        return userDAO.getUserToken(user);
     }
 
-    @Override
+
     public User getUserByToken(String token) {
-        return getUserByField("token", token);
+        return userDAO.getUserByToken(token);
     }
 
-    @Override
+
     public User getUserByEmail(String email) {
-        return getUserByField("email", email);
+        return userDAO.getUserByEmail(email);
     }
 
-
-    /**
-     * @param value
-     * @return
-     */
-    private User getUserByField(String field, String value) {
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest = "SELECT * FROM users where " + field + " = ?";
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, value);
-        boolean next = vereinfachtesResultSet.next();
-        if (next) {
-            User user = getUserFromResultSet(vereinfachtesResultSet);
-            connect.close();
-            return user;
-        } else {
-            connect.close();
-            return null;
-        }
-    }
-
-    @Override
     public Project getProjectById(String id) {
-        if (id == null) {
-            return null;
-        }
-        MysqlConnect connect = new MysqlConnect();
-        connect.connect();
-        String mysqlRequest = "SELECT * FROM projects where id = ?";
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, id);
-        boolean next = vereinfachtesResultSet.next();
-        if (next) {
-            Project project = getProjectFromResultSet(vereinfachtesResultSet);
-            connect.close();
-            return project;
-        } else {
-            connect.close();
-            return null;
-        }
+        return projectDAO.getProjectById(id);
     }
 
     @Override
     public void create(Group group) {
-        MysqlConnect connect = new MysqlConnect();
+
         connect.connect();
 
         String mysqlRequestGroup = "INSERT INTO groups (`projectId`,`chatRoomId`) values (?,?)";
@@ -290,19 +167,9 @@ public class ManagementImpl implements Management {
         connect.close();
     }
 
-    @Override
-    public void addGroupMember(User groupMember, int groupId) {
-        // TODO: implement
-    }
 
-    @Override
-    public void deleteGroupMember(User groupMember, int groupId) {
-        // TODO: implement
-    }
-
-    @Override
     public List<Group> getGroupsByProjectId(String projectId) {
-        MysqlConnect connect = new MysqlConnect();
+
         connect.connect();
         String mysqlRequest =
                 "SELECT * FROM groups g " + "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu.userEmail=u.email" + "where g.projectId = ?";
@@ -334,25 +201,90 @@ public class ManagementImpl implements Management {
 
     @Override
     public String getProjectToken(String projectName, String password) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String query = "SELECT a.token from projects a where a.password = ? and a.id = ?";
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(projectName, password);
+        if (password != null && !password.trim().equals("")) {
+            String query = "SELECT a.token from projects a where a.password = ? and a.id = ?";
+            VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(projectName, password);
 
-        String result = "";
+            String result = "";
+            while (vereinfachtesResultSet.next()) {
+                result = vereinfachtesResultSet.getString("token");
+            }
+            connect.close();
+            return result;
+        } else {
+            String query = "SELECT a.token from projects a where a.id = ?";
+            VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(projectName);
+
+            String result = "";
+            while (vereinfachtesResultSet.next()) {
+                result = vereinfachtesResultSet.getString("token");
+            }
+            connect.close();
+            return result;
+        }
+
+    }
+
+    @Override
+    public Project getProjectByToken(String projectToken) {
+        return projectDAO.getProjectByToken(projectToken);
+    }
+
+    @Override
+    public List<String> getProjects(String authorToken) {
+        if (authorToken == null) {
+            return null;
+        }
+        connect.connect();
+        String mysqlRequest =
+                "SELECT p.id FROM users u " +
+                        " JOIN projects p ON u.email = p.authorEmail" +
+                        " WHERE u.token = ?";
+
+        //49c6eeda-62d2-465e-8832-dc2db27e760c
+
+        List<String> result = new ArrayList<>();
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, authorToken);
         while (vereinfachtesResultSet.next()) {
-            result = vereinfachtesResultSet.getString("token");
+            String project = vereinfachtesResultSet.getString("id");
+            result.add(project);
+        }
+        connect.close();
+        return result;
+    }
+
+    @Override
+    public List<String> getProjectsStudent(String studentToken) {
+        if (studentToken == null) {
+            return null;
+        }
+        connect.connect();
+        String mysqlRequest =
+                "SELECT projectId FROM projectuser WHERE userId=?";
+
+        //49c6eeda-62d2-465e-8832-dc2db27e760c
+
+        List<String> result = new ArrayList<>();
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, studentToken);
+        while (vereinfachtesResultSet.next()) {
+            String project = vereinfachtesResultSet.getString("projectId");
+            result.add(project);
         }
         connect.close();
         return result;
     }
 
     public String saveProfilePicture(FileInputStream image, String studentId) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         Blob blobbedImage = (Blob) image;
         String mysqlRequest = "INSERT INTO `profilepicture`(`studentId`, `image`) VALUES (?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, studentId, blobbedImage);
-        return "success";
+        connect.close();
+        return "success";    }
+
+    @Override
+    public List<String> getTags(Project project) {
+        return projectDAO.getTags(project);
     }
 }

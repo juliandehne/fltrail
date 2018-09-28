@@ -2,13 +2,11 @@ package unipotsdam.gf.core.management.project;
 
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.states.ProjectPhase;
+import unipotsdam.gf.core.states.model.ProjectPhase;
 import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.groupfinding.GroupFormationMechanism;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ProjectConfigurationDAO {
@@ -43,16 +41,15 @@ public class ProjectConfigurationDAO {
         }
 
         // persist GroupFinding
-        HashMap<GroupFormationMechanism, Boolean> groupFindingMechanism =
+       GroupFormationMechanism groupFindingMechanism =
                 projectConfiguration.getGroupMechanismSelected();
-        for (GroupFormationMechanism gfm : groupFindingMechanism.keySet()) {
-            Boolean groupFindingMechanismSelected = groupFindingMechanism.get(gfm);
-            if (groupFindingMechanismSelected != null && groupFindingMechanismSelected) {
+
+            if (groupFindingMechanism != null) {
                 String mysqlRequest =
                         "insert INTO groupfindingMechanismSelected (`projectId`,`gfmSelected`) VALUES (?,?)";
-                connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), gfm.name());
+                connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), groupFindingMechanism.name());
             }
-        }
+
 
 
         // persist assessmentMechanismSelected
@@ -84,9 +81,18 @@ public class ProjectConfigurationDAO {
                 getSelectionFromTable(connect, AssessmentMechanism.class, project, "assessmentMechanismSelected");
 
 
-        HashMap<GroupFormationMechanism, Boolean> gfmSelected =
+        HashMap<GroupFormationMechanism, Boolean> groupfindingMechanismSelected =
                 getSelectionFromTable(connect, GroupFormationMechanism.class, project, "groupfindingMechanismSelected");
 
+
+
+        GroupFormationMechanism gfmSelected = null;
+
+        for (GroupFormationMechanism groupFormationMechanism : groupfindingMechanismSelected.keySet()) {
+            if (groupfindingMechanismSelected.get(groupFormationMechanism)) {
+                gfmSelected = groupFormationMechanism;
+            }
+        }
         connect.close();
 
         ProjectConfiguration projectConfiguration = new ProjectConfiguration(projectPhasesSelected, categorySelected,

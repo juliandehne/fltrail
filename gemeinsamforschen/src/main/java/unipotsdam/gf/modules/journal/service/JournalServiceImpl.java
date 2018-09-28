@@ -2,9 +2,11 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
+import unipotsdam.gf.core.states.model.Constraints;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
@@ -13,12 +15,18 @@ import unipotsdam.gf.modules.journal.model.dao.JournalDAO;
 import unipotsdam.gf.modules.journal.model.dao.JournalDAOImpl;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JournalServiceImpl implements JournalService {
 
     private final Logger log = LoggerFactory.getLogger(JournalServiceImpl.class);
     private final JournalDAO journalDAO = new JournalDAOImpl();
+
+    @Inject
+    private UserDAO userDAO;
 
     @Override
     public Journal getJournal(String id) {
@@ -72,7 +80,7 @@ public class JournalServiceImpl implements JournalService {
         Journal journal = new Journal(id, new StudentIdentifier(project, student), text, JournalUtils.stringToVisibility(visibility), JournalUtils.stringToCategory(category));
 
         //if id = 0 new Journal else update
-        if (id.equals("0")) {
+        if (id.equals("")) {
 
             log.debug("save journal: create new");
             journalDAO.createJournal(journal);
@@ -99,20 +107,23 @@ public class JournalServiceImpl implements JournalService {
     }
 
     @Override
-    public boolean checkIfAllJournalClosed(Project project) {
-        return (journalDAO.getOpenJournals(project).size() == 0);
+    public Map<StudentIdentifier, ConstraintsMessages> checkIfAllJournalClosed(Project project) {
+        Map<StudentIdentifier, ConstraintsMessages> result = new HashMap<>();
+        for (String studentId: journalDAO.getOpenJournals(project)) {
+            StudentIdentifier student = new StudentIdentifier(project.getId(), studentId);
+            result.put(student, new ConstraintsMessages(Constraints.JournalOpen, student));
+        }
+        return result;
     }
 
     @Override
     public ArrayList<User> getOpenUserByProject(Project project) {
 
-        ManagementImpl management = new ManagementImpl();
-
         ArrayList<String> userId = journalDAO.getOpenJournals(project);
         ArrayList<User> users = new ArrayList<>();
 
-        for(String id : userId){
-            users.add(management.getUserByToken(id));
+        for (String id : userId) {
+            users.add(userDAO.getUserByToken(id));
         }
         return users;
     }

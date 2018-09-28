@@ -7,7 +7,13 @@ import unipotsdam.gf.modules.journal.model.ProjectDescription;
 import unipotsdam.gf.modules.journal.service.ProjectDescriptionImpl;
 import unipotsdam.gf.modules.journal.service.ProjectDescriptionService;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
@@ -16,7 +22,6 @@ import java.net.URISyntaxException;
 /**
  * View for the project description
  *
- * TODO error handling
  */
 
 @Path("/projectdescription")
@@ -29,7 +34,7 @@ public class ProjectDescriptionView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{project}/{student}")
-    public Response getProjectDescription(@PathParam("project") String project, @PathParam("student") String student){
+    public Response getProjectDescription(@PathParam("project") String project, @PathParam("student") String student) {
         log.debug(">>> getProjectDescription: " + project + "/" + student);
 
         ProjectDescription result = descriptionService.getProjectByStudent(new StudentIdentifier(project, student));
@@ -45,9 +50,8 @@ public class ProjectDescriptionView {
     @Path("/saveText")
     public Response saveProjectText(@FormParam("student") String student, @FormParam("project") String project, @FormParam("text") String text) {
         log.debug(">>> saveText: " + text);
-        descriptionService.saveProjectText(new StudentIdentifier(project,student),text);
+        descriptionService.saveProjectText(new StudentIdentifier(project, student), text);
 
-        //TODO token
         try {
             URI location = new URI("../pages/eportfolio.jsp?token=" + student + "&projectId=" + project);
             log.debug("<<< saveText: redirect to "  +location.toString());
@@ -68,15 +72,15 @@ public class ProjectDescriptionView {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Path("/addLink")
-    public Response addLink(@FormParam("link") String link, @FormParam("name") String name, @FormParam("projectdescriptionId") String project){
+    public Response addLink(@FormParam("link") String link, @FormParam("name") String name, @FormParam("projectdescriptionId") String project) {
         log.debug(">>> addLink: " + name + ":" + link);
 
         ProjectDescription desc = descriptionService.getProjectById(project);
-        descriptionService.addLink(project,link, name );
+        descriptionService.addLink(project, link, name);
 
 
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token="+ desc.getStudent().getStudentId()+"&projectId="+desc.getStudent().getProjectId());
+            URI location = new URI("../pages/eportfolio.jsp?token=" + desc.getStudent().getStudentId() + "&projectId=" + desc.getStudent().getProjectId());
             log.debug("<<< addLink: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -99,7 +103,6 @@ public class ProjectDescriptionView {
         log.debug(">>> deleteLink: " + link);
 
         descriptionService.deleteLink(link);
-        //TODO token
         try {
             URI location = new URI("../pages/eportfolio.jsp");
             log.debug("<<< deleteLink: redirect to "  +location.toString());

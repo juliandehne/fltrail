@@ -1,14 +1,34 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.core.management.Management;
+import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.modules.assessment.controller.model.Assessment;
+import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
 
-import java.util.*;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PeerAssessment implements IPeerAssessment {
-    @Override
-    public void addAssessmentDataToDB(Assessment assessment) {
 
+    @Inject
+    private Management management;
+
+    @Override
+    public void finalizeAssessment(String projectId){
+        cheatCheckerMethods method = new AssessmentDBCommunication().getAssessmentMethod(projectId);
+        Map<StudentIdentifier, Double> grading = calculateAssessment(projectId, method);
+        new AssessmentDBCommunication().writeGradesToDB(grading);
     }
 
     @Override//returns one quiz
@@ -21,9 +41,19 @@ public class PeerAssessment implements IPeerAssessment {
         return new QuizDBCommunication().getQuizByProjectId(projectId);
     }
 
+    @Override //returns all quizzes in the course
+    public ArrayList<Quiz> getQuiz(String projectId, String author) {
+        return new QuizDBCommunication().getQuizByProjectIdAuthor(projectId, author);
+    }
+
     @Override
-    public Assessment getAssessmentDataFromDB(StudentIdentifier student) {
+    public Map<StudentIdentifier, Double> getAssessmentForProject(String projectId) {
         return null;
+    }
+
+    @Override
+    public Double getAssessmentForStudent(StudentIdentifier student) {
+        return new AssessmentDBCommunication().getGradesFromDB(student);
     }
 
     @Override
@@ -40,25 +70,36 @@ public class PeerAssessment implements IPeerAssessment {
     public String whatToRate(StudentIdentifier student) {
         Integer groupId = new AssessmentDBCommunication().getGroupByStudent(student);
         ArrayList<String> groupMembers = new AssessmentDBCommunication().getStudentsByGroupAndProject(groupId, student.getProjectId());
-        for (String peer: groupMembers){
-            if (!peer.equals(student.getStudentId())){
+        for (String peer : groupMembers) {
+            if (!peer.equals(student.getStudentId())) {
                 StudentIdentifier groupMember = new StudentIdentifier(student.getProjectId(), peer);
-                if (!new AssessmentDBCommunication().getWorkRating(groupMember, student.getStudentId())){
+                if (!new AssessmentDBCommunication().getWorkRating(groupMember, student.getStudentId())) {
                     return "workRating";
                 }
             }
         }
         ArrayList<Integer> answers = new AssessmentDBCommunication().getAnsweredQuizzes(student);
-        if (answers==null){
+        if (answers == null) {
             return "quiz";
         }
         Integer groupToRate = new AssessmentDBCommunication().getWhichGroupToRate(student);
-        if (!new AssessmentDBCommunication().getContributionRating(groupToRate, student.getStudentId())){
+        if (!new AssessmentDBCommunication().getContributionRating(groupToRate, student.getStudentId())) {
             return "contributionRating";
         }
         return "done";
     }
 
+    @Override
+    public Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectId) {
+        Map<StudentIdentifier, ConstraintsMessages> result;
+        result = new AssessmentDBCommunication().missingAssessments(projectId);
+        return result;
+    }
+
+    @Override
+    public void assignMissingAssessmentTasks(Project project) {
+
+    }
     @Override
     public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         Map<StudentIdentifier, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
@@ -72,14 +113,13 @@ public class PeerAssessment implements IPeerAssessment {
         Map<StudentIdentifier, Double> contributionMean = new HashMap<>(mapToGrade(contributionRating));
         Map<StudentIdentifier, Double> result = new HashMap<>();
         for (StudentIdentifier student : quizMean.keySet()) {
-            double grade = (quizMean.get(student) + workRateMean.get(student) + contributionMean.get(student)) * 100 / 3. ;
+            double grade = (quizMean.get(student) + workRateMean.get(student) + contributionMean.get(student)) * 100 / 3.;
             result.put(student, grade);
         }
         return result;
     }
 
-    @Override
-    public Map<StudentIdentifier, Double> calculateAssessment(String projectId, String method) {
+    private Map<StudentIdentifier, Double> calculateAssessment(String projectId, cheatCheckerMethods method) {
         ArrayList<Performance> totalPerformance = new ArrayList<>();
         //get all students in projectID from DB
         List<String> students = new AssessmentDBCommunication().getStudents(projectId);
@@ -89,14 +129,19 @@ public class PeerAssessment implements IPeerAssessment {
             Performance performance = new Performance();
             StudentIdentifier studentIdentifier = new StudentIdentifier(projectId, student);
             groupId = new AssessmentDBCommunication().getGroupByStudent(studentIdentifier);
+            //todo: answered quizzes vervöllstandigen
+            Integer numberOfQuizzes = new AssessmentDBCommunication().getQuizCount(projectId);
             List<Integer> answeredQuizzes = new AssessmentDBCommunication().getAnsweredQuizzes(studentIdentifier);
+            for (Integer i=answeredQuizzes.size(); i<numberOfQuizzes;i++){
+                answeredQuizzes.add(0);
+            }
             ArrayList<Map<String, Double>> workRating = new AssessmentDBCommunication().getWorkRating(studentIdentifier);
             ArrayList<Map<String, Double>> contributionRating =
                     new AssessmentDBCommunication().getContributionRating(groupId);
             performance.setStudentIdentifier(studentIdentifier);
             performance.setQuizAnswer(answeredQuizzes);
-            performance.setWorkRating(cheatChecker(workRating, cheatCheckerMethods.variance));
-            performance.setContributionRating(cheatChecker(contributionRating, cheatCheckerMethods.variance));
+            performance.setWorkRating(cheatChecker(workRating, method));
+            performance.setContributionRating(cheatChecker(contributionRating, method));
             totalPerformance.add(performance);
         }
         return calculateAssessment(totalPerformance);
@@ -122,12 +167,11 @@ public class PeerAssessment implements IPeerAssessment {
         Double allAssessments;
         Map<StudentIdentifier, Double> grading = new HashMap<>();
         for (StudentIdentifier student : ratings.keySet()) {
-            if (ratings.get(student) != null){
+            if (ratings.get(student) != null) {
                 allAssessments = sumOfDimensions(ratings.get(student));
                 Double countDimensions = (double) ratings.get(student).size();
-                grading.put(student, (allAssessments-1) / (countDimensions * 4));
-            }
-            else {
+                grading.put(student, (allAssessments - 1) / (countDimensions * 4));
+            } else {
                 grading.put(student, 0.);
             }
         }
@@ -171,7 +215,7 @@ public class PeerAssessment implements IPeerAssessment {
                 oneExcludedMeans.add(meanOfWorkRatings(possiblyCheating));
             }
         } else {
-            if (workRatings.size() <1){
+            if (workRatings.size() < 1) {
                 return null;
             }
             oneExcludedMeans.add(meanOfWorkRatings(workRatings));
@@ -204,7 +248,7 @@ public class PeerAssessment implements IPeerAssessment {
                     }
                 }
                 result = oneExcludedMeans.get(key);  //gets set of rates with highest deviation in data
-                                                    //so without the cheater
+                //so without the cheater
             } else {            //without cheatChecking
                 result = meanOfWorkRatings(workRatings);
             }
@@ -225,7 +269,7 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectId) {
-        for (PeerRating peer: peerRatings){
+        for (PeerRating peer : peerRatings) {
             StudentIdentifier student = new StudentIdentifier(projectId, peer.getToPeer());
             new AssessmentDBCommunication().writeWorkRatingToDB(student, peer.getFromPeer(), peer.getWorkRating());
         }
@@ -245,13 +289,13 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student) {
-        for (String question: questions.keySet()){
+        for (String question : questions.keySet()) {
             Map<String, Boolean> whatAreAnswers = new AssessmentDBCommunication().getAnswers(student.getProjectId(), question);
             Map<String, Boolean> wasQuestionAnsweredCorrectly = new HashMap<>();
             Boolean correct = true;
-            for (String studentAnswer: questions.get(question)){
-                if (!whatAreAnswers.get(studentAnswer)){
-                    correct=false;
+            for (String studentAnswer : questions.get(question)) {
+                if (!whatAreAnswers.get(studentAnswer)) {
+                    correct = false;
                 }
             }
             wasQuestionAnsweredCorrectly.put(question, correct);

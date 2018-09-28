@@ -8,7 +8,13 @@ import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.service.JournalService;
 import unipotsdam.gf.modules.journal.service.JournalServiceImpl;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URI;
@@ -18,7 +24,7 @@ import java.util.ArrayList;
 /**
  * View for the learning journal
  *
- * TODO error handling, (maybe) method to change visibility
+ * TODO (maybe) method to change visibility
  */
 
 @Path("/journal")
@@ -60,8 +66,8 @@ public class JournalView {
 
         log.debug(">>> getJournals: student=" + student + " project=" + project +" filter="  + filter  );
 
-        JournalFilter journalFilter = (filter.equals("ALL")) ? JournalFilter.ALL:JournalFilter.OWN;
-        ArrayList<Journal> result = journalService.getAllJournals(student,project,journalFilter);
+        JournalFilter journalFilter = (filter.equals("ALL")) ? JournalFilter.ALL : JournalFilter.OWN;
+        ArrayList<Journal> result = journalService.getAllJournals(student, project, journalFilter);
 
         log.debug(">>> getJournals: size=" + result.size());
 
@@ -92,10 +98,9 @@ public class JournalView {
 
         journalService.saveJournal(id, student, project, text, visibility, category);
 
-        //TODO token
         URI location;
         try {
-            location = new URI("../pages/eportfolio.jsp?token=" + student + "&projectId=" + project);
+            location = new URI("../journal/eportfolio.jsp?token=" + student + "&projectId=" + project);
             log.debug("<<< createJournal: redirect to " + location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -139,9 +144,8 @@ public class JournalView {
 
         StudentIdentifier student = journalService.getJournal(journal).getStudentIdentifier();
         journalService.closeJournal(journal);
-        //TODO token
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());
+            URI location = new URI("../journal/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());
             log.debug("<<< closeJournal: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 

@@ -18,12 +18,12 @@ public class ProjectDescriptionImplDAOTest {
     private final ProjectDescriptionDAO descriptionDAO = new ProjectDescriptionDAOImpl();
     private final MysqlConnect connection = new MysqlConnect();
 
-    private String testId = "-1";
-    private String testStudent = "testStudent";
-    private String testDescription = "testDescription";
-    private String testProjekt = "testProjekt";
+    private final String testId = "-1";
+    private final String testStudent = "testStudent";
+    private final String testDescription = "testDescription";
+    private final String testProjekt = "testProjekt";
 
-    private ProjectDescription testProjectDescription = new ProjectDescription(testId, testStudent, testDescription, testProjekt, null /*Links are added in Service*/);
+    private final ProjectDescription testProjectDescription = new ProjectDescription(testId, testStudent, testDescription, testProjekt, null /*Links are added in Service*/);
 
     @Test
     public void createDescription() {
@@ -82,9 +82,7 @@ public class ProjectDescriptionImplDAOTest {
     public void getDescriptionSI() {
         connection.connect();
 
-        ProjectDescription getDescription = testProjectDescription;
-
-        create(getDescription);
+        create(testProjectDescription);
 
         ProjectDescription result = descriptionDAO.getDescription(new StudentIdentifier(testProjekt, testStudent));
 
@@ -101,9 +99,7 @@ public class ProjectDescriptionImplDAOTest {
     public void getDescriptionID() {
         connection.connect();
 
-        ProjectDescription getDescription = testProjectDescription;
-
-        create(getDescription);
+        create(testProjectDescription);
 
         ProjectDescription result = descriptionDAO.getDescription(testId);
 
@@ -120,9 +116,7 @@ public class ProjectDescriptionImplDAOTest {
     public void deleteDescription() {
         connection.connect();
 
-        ProjectDescription deleteDescription = testProjectDescription;
-
-        create(deleteDescription);
+        create(testProjectDescription);
 
         ArrayList<ProjectDescription> resultDescriptions = getProjectDescription();
 
@@ -143,9 +137,7 @@ public class ProjectDescriptionImplDAOTest {
     public void closeDescription() {
         connection.connect();
 
-        ProjectDescription closeDescription = testProjectDescription;
-
-        create(closeDescription);
+        create(testProjectDescription);
 
         ArrayList<ProjectDescription> resultDescriptions = getProjectDescription();
 
@@ -182,14 +174,14 @@ public class ProjectDescriptionImplDAOTest {
         ArrayList<String> resultDescriptions = descriptionDAO.getOpenDescriptions(project);
         assertEquals(2, resultDescriptions.size());
 
-        cleanup("-1","-2","-3");
+        cleanup("-1", "-2", "-3");
         connection.close();
     }
 
 
     //Utility
     private ArrayList<ProjectDescription> getProjectDescription() {
-        String request = "SELECT * FROM projectdescription WHERE project=?;";
+        String request = "SELECT * FROM projectdescription WHERE projectId=?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, testProjekt);
 
         ArrayList<ProjectDescription> resultDescriptions = new ArrayList<>();
@@ -200,7 +192,7 @@ public class ProjectDescriptionImplDAOTest {
     }
 
     private void create(ProjectDescription projectDescription) {
-        String request = "INSERT INTO projectdescription(`id`, `author`, `project`, `text`, `open`) VALUES (?,?,?,?,?);";
+        String request = "INSERT INTO projectdescription(`id`, `studentId`, `projectId`, `text`, `open`) VALUES (?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, projectDescription.getId(), projectDescription.getStudent().getStudentId(), projectDescription.getStudent().getProjectId(), projectDescription.getDescriptionMD(), projectDescription.isOpen());
     }
 
@@ -214,8 +206,8 @@ public class ProjectDescriptionImplDAOTest {
     private ProjectDescription getDescriptionFromResultSet(VereinfachtesResultSet rs) {
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp(2).getTime();
-        String author = rs.getString("author");
-        String project = rs.getString("project");
+        String author = rs.getString("studentId");
+        String project = rs.getString("projectId");
         String text = rs.getString("text");
         boolean open = rs.getBoolean("open");
 

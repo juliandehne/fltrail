@@ -54,7 +54,7 @@ ol {
     background-color: white;
 }
 .annotation-card:hover {
-    box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2);
 }
 .annotation-header {
     padding: 5px;
@@ -141,7 +141,8 @@ ol {
 .flex {
     display: flex;
 }
-.flex .container-fluid{
+
+.flex .container-fluid {
     flex: 1;
 }
 .full-height {
@@ -151,6 +152,7 @@ ol {
     float: right;
     margin: 20px;
 }
+
 .leftcontent-buttons-back {
     float: left;
     margin: 20px;
@@ -163,10 +165,12 @@ ol {
 .resize-vertical {
     resize: vertical;
 }
+
 .categoryText {
     color: black;
     font-weight: bold;
 }
+
 #annotation-search {
     width: 100%;
     padding: 5px;

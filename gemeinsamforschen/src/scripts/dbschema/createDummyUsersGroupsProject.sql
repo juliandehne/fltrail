@@ -27,7 +27,7 @@ INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rock
 INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
   ('teststudent8', 'egal', 'test8@uni.de', 'test1','1','abc');
 
-INSERT INTO  `projects` (`id`, `password`,`active`,`timecreated`,`author`,`adminpassword`,`token`,`phase`) VALUES
+INSERT INTO  `projects` (`id`, `password`,`active`,`timecreated`,`authorEmail`,`adminpassword`,`token`,`phase`) VALUES
   ('1','123',1,current_timestamp,'Julian','123','abc','CourseCreation');
 
 INSERT INTO `projectuser` (`projectId`,`userId`) VALUES ('1','test1@uni.de');

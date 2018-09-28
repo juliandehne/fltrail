@@ -47,7 +47,7 @@ CREATE TABLE if not exists tasks
 --- achievements
 CREATE TABLE if not exists achievements
 (
-  author varchar(400) NOT NULL,
+  authorEmail varchar(400) NOT NULL,
   projectId varchar(400) NOT NULL,
   question varchar(400) NOT NULL,
   mcType varchar(400) NOT NULL,

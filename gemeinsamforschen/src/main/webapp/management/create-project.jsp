@@ -19,18 +19,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projekterstellung</title>
-    <script src="js/config.js"></script>
+    <script src="../core/config.js"></script>
     <script src="js/create-project.js"></script>
 </head>
 
 <body>
-
-<div class="loader-inactive" id="loader">
-    <div class="sk-cube1 sk-cube"></div>
-    <div class="sk-cube2 sk-cube"></div>
-    <div class="sk-cube4 sk-cube"></div>
-    <div class="sk-cube3 sk-cube"></div>
-</div>
 
 <div id="wrapper">
     <menu:menu hierarchy="1"/>
@@ -75,7 +68,7 @@
         <div class="form-group"><input class="tags" data-role="tags" name="Tags" placeholder="Tags"
                                        id="tagsProject">
         </div>
-        <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>
+       <%-- <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>--%>
 
         <div class="form-group">
             <button class="btn btn-primary" style="margin-left:129px;" id="sendProject">erstellen</button>

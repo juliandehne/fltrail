@@ -1,7 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
 
-
 public class GroupEvalOption {
     private GroupEvalDiagrammLegende legende;
 

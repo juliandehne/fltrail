@@ -1,4 +1,3 @@
-
 var student = getQueryVariable("token");
 var project = getQueryVariable("projectId");
 var name = getQueryVariable("user");
@@ -25,7 +24,7 @@ function getQueryVariable(variable) {
     return (false);
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     $('#student').val(student);
     $('#project').val(project);
     $('#name').val(name);
@@ -85,6 +84,7 @@ $(document).ready(function() {
     }).then(function (data) {
         console.log("checkFeedback:"+data);
     });
+
 
     function loadUsers(data) {
 
