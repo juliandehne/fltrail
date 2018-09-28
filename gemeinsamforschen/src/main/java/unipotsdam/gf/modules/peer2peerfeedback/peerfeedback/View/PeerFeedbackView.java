@@ -87,4 +87,16 @@ public class PeerFeedbackView {
         return Response.ok(name).build();
     }
 
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getfeedbackbysender/{student}/{sender}")
+    public Response getFeedbackBySender(@PathParam("student") String reciever, @PathParam("sender") String sender){
+
+        System.out.print("fb:"+reciever+sender);
+        PeerFeedbackController controller = new PeerFeedbackController();
+        ArrayList<Peer2PeerFeedback> fb = controller.getFeedbacksBySender(reciever, sender);
+        System.out.print("fb:"+fb);
+        return Response.ok(fb).build();
+    }
 }

@@ -88,10 +88,20 @@ $(document).ready(function() {
 
     function loadUsers(data) {
 
+
         for (var user in data) {
+
+            var sender = [];
+            var name = [];
+
+            var pair = data[user].split("+");
+            name.push(pair[0]);
+            sender.push(pair[1]);
+            console.log(name+sender);
+
             var newopt = document.createElement("OPTION");
 
-            newopt.insertAdjacentHTML('beforeend', data[user]);
+            newopt.insertAdjacentHTML('beforeend', name);
             newopt.value = data[user];
 
             // füge das neu erstellte Element und seinen Inhalt ins DOM ein

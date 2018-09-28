@@ -65,6 +65,29 @@ public class PeerFeedbackController {
 
     }
 
+    public ArrayList<Peer2PeerFeedback> getFeedbacksBySender(String reciever, String sender) {
+
+        ArrayList<Peer2PeerFeedback> feedbacks = new ArrayList<>();
+
+        // establish connection
+        MysqlConnect connection = new MysqlConnect();
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * FROM peerfeedback WHERE reciever= ? AND sender= ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, reciever, sender);
+        System.out.print("rsfb:"+rs);
+        while (rs.next()) {
+            feedbacks.add(getPeerfeedbackFromResultSet(rs));
+        }
+
+        // close connection
+        connection.close();
+        System.out.print(feedbacks);
+        return feedbacks;
+
+    }
+
     public ArrayList<String> getSender(String token){
 
         ArrayList<String> username = new ArrayList<>();
@@ -161,8 +184,8 @@ public class PeerFeedbackController {
         for (int i = 0; i < emails.size(); i++) {
             String pair = emails.get(i);
             System.out.print("pair" + pair);
-            String request4 = "SELECT * FROM users WHERE email=?";
-            VereinfachtesResultSet rs4 = connection3.issueSelectStatement(request4, pair);
+            String request4 = "SELECT * FROM users WHERE email=? AND NOT token=?";
+            VereinfachtesResultSet rs4 = connection3.issueSelectStatement(request4, pair, token);
 
             while (rs4.next()) {
                 users.add(getNameFromResultSet(rs4));
@@ -240,7 +263,8 @@ public class PeerFeedbackController {
     private String getNameFromResultSet(VereinfachtesResultSet rs) {
 
         String name = rs.getString("name");
-        return new String(name);
+        String token = rs.getString("token");
+        return new String(name+"+"+token);
     }
 
     private String getMailFromResultSet(VereinfachtesResultSet rs) {
