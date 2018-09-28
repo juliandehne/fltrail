@@ -35,7 +35,7 @@ public class PhasesService {
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectName") String projectName) {
-        phases.endPhase(ProjectPhase.valueOf(projectPhase), projectDAO.getProjectById(projectName));
+        phases.endPhase(ProjectPhase.valueOf(projectPhase), projectDAO.getProjectByName(projectName));
     }
 
     /**
@@ -48,6 +48,6 @@ public class PhasesService {
     @GET
     @Produces({MediaType.TEXT_PLAIN})
     public String getCurrentPhase(@PathParam("projectName") String projectName) {
-        return projectDAO.getProjectById(projectName).getPhase().toString();
+        return projectDAO.getProjectByName(projectName).getPhase().toString();
     }
 }

@@ -24,7 +24,7 @@ public class ContextDataView {
     @Path("/full")
     public ContextDataOutput getContextData(@QueryParam("userEmail") String userEmail, @QueryParam("projectToken")
                                             String projectToken) {
-        Project projectByToken = iManagement.getProjectByToken(projectToken);
+        Project projectByToken = iManagement.getProjectByName(projectToken);
         User user = iManagement.getUserByToken(userEmail);
 
         return new ContextDataOutput(projectByToken, user);

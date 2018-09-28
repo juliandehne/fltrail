@@ -174,7 +174,7 @@ public class ProjectDescriptionImplTest {
         descriptionDAO.createDescription(testProjectDescriptionObj);
 
         Project project = new Project();
-        project.setId(testProject);
+        project.setName(testProject);
         assertEquals(0, projectDescriptionService.checkIfAllDescriptionsClosed(project).size());
 
         ProjectDescription resDescription = descriptionDAO.getDescription(new StudentIdentifier(testProject, testStudent));
@@ -191,7 +191,7 @@ public class ProjectDescriptionImplTest {
         String token = userDAO.getUserToken(user);
 
         Project project = new Project();
-        project.setId(testProject);
+        project.setName(testProject);
 
         testProjectDescriptionObj.getStudent().setUserEmail(token);
         descriptionDAO.createDescription(testProjectDescriptionObj);

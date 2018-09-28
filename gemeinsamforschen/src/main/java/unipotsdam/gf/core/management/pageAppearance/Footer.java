@@ -21,7 +21,7 @@ public class Footer extends SimpleTagSupport {
         String projectName = request.getParameter("projectName");
         ProjectPhase projectPhase;
         try {
-            projectPhase = projectDAO.getProjectById(projectName).getPhase();
+            projectPhase = projectDAO.getProjectByName(projectName).getPhase();
         } catch (Exception e) {
             projectPhase = null;
         }

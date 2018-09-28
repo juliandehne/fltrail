@@ -138,7 +138,7 @@ public class QuizView {
     @Path("/quiz")
     public String createQuiz(StudentAndQuiz studentAndQuiz) {
 
-        Project project = management.getProjectById(studentAndQuiz.getStudentIdentifier().getProjectName());
+        Project project = management.getProjectByName(studentAndQuiz.getStudentIdentifier().getProjectName());
         User user = management.getUserByEmail(studentAndQuiz.getStudentIdentifier().getUserEmail());
         Boolean isStudent = user.getStudent();
         peer.createQuiz(studentAndQuiz);

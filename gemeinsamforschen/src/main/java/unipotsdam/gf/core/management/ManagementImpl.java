@@ -21,8 +21,6 @@ import javax.inject.Singleton;
 import java.io.FileInputStream;
 import java.sql.Blob;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -58,8 +56,8 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public String create(Project project) {
-        return projectDAO.persist(project);
+    public void create(Project project) {
+        projectDAO.persist(project);
     }
 
     @Override
@@ -123,9 +121,6 @@ public class ManagementImpl implements Management {
         return userDAO.getUserByEmail(email);
     }
 
-    public Project getProjectById(String id) {
-        return projectDAO.getProjectById(id);
-    }
 
     @Override
     public void create(Group group) {
@@ -145,46 +140,14 @@ public class ManagementImpl implements Management {
         return projectConfigurationDAO.loadProjectConfiguration(project);
     }
 
-    @Override
-    public String getProjectToken(String projectName, String password) {
-        connect.connect();
-        if (password != null && !password.trim().equals("")) {
-            String query = "SELECT a.token from projects a where a.password = ? and a.id = ?";
-            VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(projectName, password);
-
-            String result = "";
-            while (vereinfachtesResultSet.next()) {
-                result = vereinfachtesResultSet.getString("token");
-            }
-            connect.close();
-            return result;
-        } else {
-            String query = "SELECT a.token from projects a where a.id = ?";
-            VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(projectName);
-
-            String result = "";
-            while (vereinfachtesResultSet.next()) {
-                result = vereinfachtesResultSet.getString("token");
-            }
-            connect.close();
-            return result;
-        }
-
-    }
-
-    @Override
-    public Project getProjectByToken(String projectToken) {
-        return projectDAO.getProjectByToken(projectToken);
-    }
-
-    @Override
+       @Override
     public List<String> getProjects(String authorToken) {
         if (authorToken == null) {
             return null;
         }
         connect.connect();
         String mysqlRequest =
-                "SELECT p.id FROM users u " +
+                "SELECT p.name FROM users u " +
                         " JOIN projects p ON u.email = p.authorEmail" +
                         " WHERE u.token = ?";
 
@@ -193,7 +156,7 @@ public class ManagementImpl implements Management {
         List<String> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, authorToken);
         while (vereinfachtesResultSet.next()) {
-            String project = vereinfachtesResultSet.getString("id");
+            String project = vereinfachtesResultSet.getString("name");
             result.add(project);
         }
         connect.close();
@@ -232,5 +195,10 @@ public class ManagementImpl implements Management {
     @Override
     public List<String> getTags(Project project) {
         return projectDAO.getTags(project);
+    }
+
+    @Override
+    public Project getProjectByName(String projectName) {
+        return projectDAO.getProjectByName(projectName);
     }
 }

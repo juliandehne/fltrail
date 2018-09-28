@@ -246,7 +246,7 @@ public class JournalDAOImplTest {
         connection.connect();
 
         Project openProject = new Project();
-        openProject.setId(testProject);
+        openProject.setName(testProject);
 
         //create some Journals
         Journal j1 = testJournal;

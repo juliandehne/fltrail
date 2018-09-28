@@ -169,7 +169,7 @@ public class ProjectDescriptionImplDAOTest {
         create(openDescription);
 
         Project project = new Project();
-        project.setId(testProjekt);
+        project.setName(testProjekt);
 
         ArrayList<String> resultDescriptions = descriptionDAO.getOpenDescriptions(project);
         assertEquals(2, resultDescriptions.size());

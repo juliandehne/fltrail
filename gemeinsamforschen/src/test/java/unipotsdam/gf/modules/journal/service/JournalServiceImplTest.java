@@ -177,7 +177,7 @@ public class JournalServiceImplTest {
     public void checkIfAllJournalClosed() {
 
         Project project = new Project();
-        project.setId(testProject);
+        project.setName(testProject);
 
         journalDAO.createJournal(testJournal);
         journalDAO.createJournal(testJournal);
@@ -203,7 +203,7 @@ public class JournalServiceImplTest {
         Project project = new Project();
 
         testJournal.getStudentIdentifier().setUserEmail(token);
-        project.setId(testProject);
+        project.setName(testProject);
 
         journalDAO.createJournal(testJournal);
 

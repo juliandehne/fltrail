@@ -36,7 +36,7 @@ public interface Management {
      *
      * @param project
      */
-    String create(Project project);
+    void create(Project project);
 
     /**
      * create a Group in the database
@@ -92,20 +92,16 @@ public interface Management {
 
     ProjectConfiguration getProjectConfiguration(Project project);
 
-    String getProjectToken(String projectName, String password);
-
-    Project getProjectByToken(String projectToken);
-
     List<String> getProjects(String userEmail);
 
     User getUserByToken(String userEmail);
-
-    Project getProjectById(String projectName);
 
     List<String> getProjectsStudent(String studentToken);
 
     String saveProfilePicture(FileInputStream fis, String userName);
 
     List<String> getTags(Project project);
+
+    Project getProjectByName(String projectName);
 }
 

@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @ManagedBean
@@ -24,24 +25,21 @@ public class ProjectDAO {
         this.connect = connect;
     }
 
-    public String persist(Project project) {
-        UUID uuid = UUID.randomUUID();
-        String token = uuid.toString();
+    public void persist(Project project) {
 
         connect.connect();
         String mysqlRequest =
-                "INSERT INTO projects (`id`, `password`, `active`, `timecreated`, `authorEmail`, "
-                        + "`adminPassword`, `token`, `phase`) values (?,?,?,?,?,?,?,?)";
+                "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, "
+                        + "`adminPassword`, `phase`) values (?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(), project.isActive(),
-                project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(), token, project.getPhase()
+                project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(), project.getPhase()
                         == null ? ProjectPhase.CourseCreation : project.getPhase());
         connect.close();
-        return token;
     }
 
     public void delete(Project project) {
         connect.connect();
-        String mysqlRequest = "DELETE FROM projects where id = (?)";
+        String mysqlRequest = "DELETE FROM projects where name = (?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName());
         connect.close();
         // TODO: delete all groups of project?
@@ -51,7 +49,7 @@ public class ProjectDAO {
     public Boolean exists(Project project) {
         Boolean result;
         connect.connect();
-        String mysqlRequest = "SELECT * FROM projects where id = ? and adminPassword = ?";
+        String mysqlRequest = "SELECT * FROM projects where name = ? and adminPassword = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, project.getName(), project.getAdminPassword());
         result = vereinfachtesResultSet.next();
@@ -59,23 +57,18 @@ public class ProjectDAO {
         return result;
     }
 
-    public Project getProjectById(String id) {
+    public Project getProjectByName(String name) {
         connect.connect();
-        String mysqlRequest = "SELECT * FROM projects where id = ?";
+        String mysqlRequest = "SELECT * FROM projects where name = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, id);
+                connect.issueSelectStatement(mysqlRequest, name);
         boolean next = vereinfachtesResultSet.next();
-        return getProject(vereinfachtesResultSet, next);
+        Project result = getProject(vereinfachtesResultSet, next);
+        List<String> tags = getTags(result);
+        result.setTags(tags.toArray(new String[0]));
+        return result;
     }
 
-    public Project getProjectByToken(String token) {
-        connect.connect();
-        String mysqlRequest = "SELECT * FROM projects where token = ?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, token);
-        boolean next = vereinfachtesResultSet.next();
-        return getProject(vereinfachtesResultSet, next);
-    }
 
     private Project getProject(VereinfachtesResultSet vereinfachtesResultSet, boolean next) {
         if (next) {
@@ -89,16 +82,16 @@ public class ProjectDAO {
     }
 
     private Project getProjectFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
-        String id = vereinfachtesResultSet.getString("id");
+        String id = vereinfachtesResultSet.getString("name");
         String password = vereinfachtesResultSet.getString("password");
         boolean active = vereinfachtesResultSet.getBoolean("active");
-        Timestamp timestamp = vereinfachtesResultSet.getTimestamp("timecreated");
-        String author = vereinfachtesResultSet.getString("authorEmail");
+        long timestamp = vereinfachtesResultSet.getLong("timecreated");
+        String author = vereinfachtesResultSet.getString("author");
         String adminPassword = vereinfachtesResultSet.getString("adminpassword");
-        String token = vereinfachtesResultSet.getString("token");
         String phase = vereinfachtesResultSet.getString("phase");
 
-        return new Project(id, password, active, timestamp, author, adminPassword, token, ProjectPhase.valueOf(phase));
+
+        return new Project(id, password, active, timestamp, author, adminPassword, ProjectPhase.valueOf(phase), null);
     }
 
     public java.util.List<String> getTags(Project project) {

@@ -32,7 +32,7 @@ public class Menu extends SimpleTagSupport {
         ProjectPhase projectPhase;
         try {
             ProjectDAO projectDAO = new ProjectDAO(new MysqlConnect());
-            projectPhase = projectDAO.getProjectById(projectName).getPhase();
+            projectPhase = projectDAO.getProjectByName(projectName).getPhase();
         } catch (Exception e) {
             projectPhase = null;
         }

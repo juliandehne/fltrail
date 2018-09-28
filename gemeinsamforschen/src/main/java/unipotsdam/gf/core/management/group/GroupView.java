@@ -3,6 +3,7 @@ package unipotsdam.gf.core.management.group;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.project.ProjectConfiguration;
+import unipotsdam.gf.core.management.project.ProjectDAO;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.groupfinding.GroupFormationMechanism;
@@ -25,6 +26,9 @@ public class GroupView {
     @Inject
     private Management iManagement;
 
+    @Inject
+    ProjectDAO projectDAO;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/project/{projectName}/student/{userName}")
@@ -37,19 +41,19 @@ public class GroupView {
 
     /**
      *
-     * @param projectToken
+     * @param projectName
      * @param groupFindingMechanism
      * @return
      * @throws URISyntaxException
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/settings/projects/{projectToken}")
-    public void createProject(@PathParam("projectToken") String projectToken, String groupFindingMechanism) throws
+    @Path("/settings/projects/{projectName}")
+    public void createProject(@PathParam("projectName") String projectName, String groupFindingMechanism) throws
             URISyntaxException {
 
         try {
-        Project project = iManagement.getProjectByToken(projectToken);
+        Project project = projectDAO.getProjectByName(projectName);
 
          GroupFormationMechanism gfm = GroupFormationMechanism.valueOf(groupFindingMechanism);
             iManagement.create(

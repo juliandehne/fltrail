@@ -105,9 +105,7 @@ public class GroupDAO {
         }
 
         ArrayList<Group> groups = new ArrayList<>();
-
         fillGroupFromResultSet(groups, vereinfachtesResultSet);
-
         ArrayList<Group> uniqueGroups = new ArrayList<>();
         for (Group group : groups) {
             // transmuting the table to a map with group as key and members as value

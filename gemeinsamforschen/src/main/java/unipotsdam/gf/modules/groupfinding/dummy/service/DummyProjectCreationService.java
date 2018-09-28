@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.groupfinding.dummy.service;
 
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.states.model.ProjectPhase;
@@ -19,11 +21,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @ManagedBean
 @Resource
 @Singleton
 public class DummyProjectCreationService {
 
+
+    private PodamFactory factory = new PodamFactoryImpl();
 
     private ICommunication communicationService;
     private Management management;
@@ -40,20 +45,13 @@ public class DummyProjectCreationService {
 
     public boolean createExampleProject() {
 
+        Project project = factory.manufacturePojo(Project.class);
+
         User docentUser = getDocentUser();
         if (!management.exists(docentUser)) {
             management.create(docentUser, null);
         }
-        String[] tags ={"tag1", "tag2", "tag3"};
-        Project project = new Project();
-        project.setPhase(ProjectPhase.DossierFeedback);
-        project.setId("1");
-        project.setTags(tags);
-        project.setAuthorEmail("author");
-        project.setActive(true);
-        project.setPassword("1234");
-        project.setToken("32trgr");
-        project.setAdminPassword("1234");
+
         if (!management.exists(project)) {
             management.create(project);
         }

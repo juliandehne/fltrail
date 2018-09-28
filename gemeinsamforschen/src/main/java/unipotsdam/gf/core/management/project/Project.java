@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Arrays;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -13,57 +14,49 @@ import java.time.ZoneId;
 @XmlRootElement(name = "Project")
 public class Project {
 
-    private String id;
+    private String name;
     private String password;
     private Boolean active;
-    private Timestamp timecreated;
+    private Long timecreated; //timestamp macht zu viele Probleme
     // the id of the authorEmail (not the token)
     private String authorEmail;
     private String adminPassword;
-    private String token;
     private ProjectPhase phase;
     private String[] tags;
 
     public Project() {
     }
 
-    public Project(String id, String password, Boolean active, String author, String adminPassword, String[] tags) {
-        this.id = id;
+    public Project(String name, String password, Boolean active, String author, String adminPassword, String[] tags) {
+        this.name = name;
         this.password = password;
         this.active = active;
         this.authorEmail = author;
         this.adminPassword = adminPassword;
-        this.timecreated = Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC")));
+        this.timecreated = System.currentTimeMillis();
         // default starting at course creation if new
         this.setPhase(ProjectPhase.CourseCreation);
         this.tags = tags;
     }
 
-    public Project(String id, String password, Boolean active,
-                   Timestamp timecreated, String author, String adminPassword,
-                   String token, ProjectPhase phase) {
-        this.id = id;
+    public Project(
+            String name, String password, Boolean active, Long timecreated,  String authorEmail,
+            String adminPassword, ProjectPhase phase, String[] tags) {
+        this.name = name;
         this.password = password;
         this.active = active;
+        this.authorEmail = authorEmail;
         this.timecreated = timecreated;
-        this.authorEmail = author;
         this.adminPassword = adminPassword;
-        this.token = token;
         this.phase = phase;
         this.tags = tags;
     }
 
-    public Project(String projectName) {
-        setId(projectName);
+    public Project(String projectName, String password) {
+        this.name = projectName;
+        this.password = password;
     }
 
-    public String getName() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getPassword() {
         return password;
@@ -97,17 +90,7 @@ public class Project {
         this.adminPassword = adminPassword;
     }
 
-    public String getToken() {
-        return token;
-    }
 
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public Timestamp getTimecreated() {
-        return timecreated;
-    }
 
     public ProjectPhase getPhase() {
         return phase;
@@ -130,16 +113,37 @@ public class Project {
         this.tags = tags;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public Long getTimecreated() {
+        return timecreated;
+    }
+
+    public void setTimecreated(Long timecreated) {
+        this.timecreated = timecreated;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Project{");
-        sb.append("id='").append(id).append('\'');
+        sb.append("name='").append(name).append('\'');
         sb.append(", password='").append(password).append('\'');
         sb.append(", active=").append(active);
         sb.append(", timecreated=").append(timecreated);
         sb.append(", authorEmail='").append(authorEmail).append('\'');
         sb.append(", adminPassword='").append(adminPassword).append('\'');
-        sb.append(", phase='").append(phase).append('\'');
+        sb.append(", phase=").append(phase);
+        sb.append(", tags=").append(Arrays.toString(tags));
         sb.append('}');
         return sb.toString();
     }

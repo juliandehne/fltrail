@@ -49,35 +49,35 @@ public class PhaseTest {
     @Test
     public void phase1() {
         Project project = new Project();
-        project.setId("Gemainsam Forschen");
+        project.setName("Gemainsam Forschen");
         phases.endPhase(ProjectPhase.CourseCreation, project);
     }
 
     @Test
     public void phase2() {
         Project project = new Project();
-        project.setId("Gemainsam Forschen");
+        project.setName("Gemainsam Forschen");
         phases.endPhase(ProjectPhase.GroupFormation, project);
     }
 
     @Test
     public void phase3() {
         Project project = new Project();
-        project.setId("Gemainsam Forschen");
+        project.setName("Gemainsam Forschen");
         phases.endPhase(ProjectPhase.DossierFeedback, project);
     }
 
     @Test
     public void phase4() {
         Project project = new Project();
-        project.setId("Gemainsam Forschen");
+        project.setName("Gemainsam Forschen");
         phases.endPhase(ProjectPhase.Execution, project);
     }
 
     @Test
     public void phase5() {
         Project project = new Project();
-        project.setId("Gemainsam Forschen");
+        project.setName("Gemainsam Forschen");
         phases.endPhase(ProjectPhase.Assessment, project);
     }
 }

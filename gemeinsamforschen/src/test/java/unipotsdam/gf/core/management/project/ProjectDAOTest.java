@@ -1,11 +1,18 @@
 package unipotsdam.gf.core.management.project;
 
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import unipotsdam.gf.core.database.InMemoryMySqlConnect;
+import unipotsdam.gf.core.database.TestGFApplicationBinder;
+import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.core.management.user.UserDAO;
+
+import javax.inject.Inject;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
@@ -13,28 +20,32 @@ import static org.junit.Assert.assertThat;
 
 public class ProjectDAOTest {
 
-    private InMemoryMySqlConnect inMemoryMySqlConnect;
+    @Inject
+    private MysqlConnect inMemoryMySqlConnect;
+
+    @Inject
     private ProjectDAO projectDAO;
+
+    @Inject
+    private UserDAO userDAO;
+
+
     private Project project;
 
-    static PodamFactory factory = new PodamFactoryImpl();
+    PodamFactory factory = new PodamFactoryImpl();
 
     @Before
     public void setUp() {
-        inMemoryMySqlConnect = new InMemoryMySqlConnect();
-        projectDAO = new ProjectDAO(inMemoryMySqlConnect);
-        project = factory.manufacturePojo(Project.class);
-    }
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        locator.inject(this);
 
-    @Test
-    public void testPersist() {
-        projectDAO.persist(project);
-        inMemoryMySqlConnect.connect();
-        String mysqlRequest = "SELECT * FROM projects where id = ? and adminPassword = ?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                inMemoryMySqlConnect.issueSelectStatement(mysqlRequest, project.getName(), project.getAdminPassword());
-        boolean result = vereinfachtesResultSet.next();
-        assertThat(result, is(true));
+        project = factory.manufacturePojo(Project.class);
+        String authorEmail = project.getAuthorEmail();
+        User user = factory.manufacturePojo(User.class);
+        user.setEmail(authorEmail);
+        userDAO.persist(user, null);
+
     }
 
     @Test
@@ -55,7 +66,7 @@ public class ProjectDAOTest {
     @Test
     public void testGetProjectById() {
         projectDAO.persist(project);
-        Project projectActual = projectDAO.getProjectById(project.getName());
+        Project projectActual = projectDAO.getProjectByName(project.getName());
 
         assertEquals(project.getAdminPassword(), projectActual.getAdminPassword());
         assertEquals(project.getAuthorEmail(), projectActual.getAuthorEmail());
