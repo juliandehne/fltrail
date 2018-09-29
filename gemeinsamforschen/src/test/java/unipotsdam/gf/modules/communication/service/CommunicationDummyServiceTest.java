@@ -7,6 +7,7 @@ import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.interfaces.ICommunication;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -47,11 +48,24 @@ public class CommunicationDummyServiceTest {
     @Test
     public void createEmptyChatRoom() {
         String chatRoom = iCommunication.createEmptyChatRoom("Test", false);
-        assertFalse(chatRoom.isEmpty());
         assertNotNull(chatRoom);
+        assertFalse(chatRoom.isEmpty());
+
 
         String chatRoomReadOnly = iCommunication.createEmptyChatRoom("Test2", true);
-        assertFalse(chatRoomReadOnly.isEmpty());
         assertNotNull(chatRoomReadOnly);
+        assertFalse(chatRoomReadOnly.isEmpty());
+
+    }
+
+    @Test
+    public void getChatRoomName() {
+        String expectedChatRoomName = "ChatRoomName";
+        String chatRoomId = iCommunication.createEmptyChatRoom(expectedChatRoomName, false);
+        assertNotNull(chatRoomId);
+        assertFalse(chatRoomId.isEmpty());
+
+        String actualChatRoomName = iCommunication.getChatRoomName(chatRoomId);
+        assertEquals(expectedChatRoomName, actualChatRoomName);
     }
 }

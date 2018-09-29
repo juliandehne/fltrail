@@ -53,6 +53,7 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public List<ChatMessage> getChatHistory(String roomId) {
+        //TODO : not needed at the moment, possibly remove
         ArrayList<ChatMessage> chatMessages = new ArrayList<>();
         int maxValue = 6;
         for (int i = 1; i <= maxValue; i++) {
@@ -139,7 +140,26 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public String getChatRoomName(String roomId) {
-        return Strings.EMPTY;
+        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth().build();
+
+        HttpResponse<Map> response =
+                unirestService
+                        .get(ROCKET_CHAT_API_LINK + "groups.info")
+                        .headers(headerMap)
+                        .queryString("roomId", roomId).asObject(Map.class);
+
+        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
+                || response.getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
+            return Strings.EMPTY;
+        }
+
+        Map responseMap = response.getBody();
+        if (responseMap.containsKey("error")) {
+            return Strings.EMPTY;
+        }
+
+        Map groupMap = (Map) responseMap.get("group");
+        return groupMap.get("name").toString();
     }
 
     @Override
