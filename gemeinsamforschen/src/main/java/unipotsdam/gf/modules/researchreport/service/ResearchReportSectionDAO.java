@@ -20,3 +20,4 @@ public class ResearchReportSectionDAO {
         mysqlConnect.close();
     }
 }
+
