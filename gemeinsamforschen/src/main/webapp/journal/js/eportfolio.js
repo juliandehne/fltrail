@@ -77,7 +77,7 @@ function loadJournals(data) {
     for (var journal in data) {
         var journalString = '<div class="journal-container">' +
             '<div class="journal-avatar">' +
-            'getBild' +
+            'Profilbild' +
             '</div>' +
             '<div class="journal-date"> ' +
             timestampToDateString(data[journal].timestamp) +
