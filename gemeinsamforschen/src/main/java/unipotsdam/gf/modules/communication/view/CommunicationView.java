@@ -7,7 +7,6 @@ import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
-import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
 import javax.annotation.ManagedBean;
@@ -40,13 +39,13 @@ public class CommunicationView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/info/{roomId}")
     public Response getChatRoomInformation(@PathParam("roomId") String roomId) {
-        ChatRoom chatRoom = communicationService.getChatRoomInfo(roomId);
-        if (isNull(chatRoom)) {
+        String chatRoomName = communicationService.getChatRoomName(roomId);
+        if (isNull(chatRoomName)) {
             log.error("chatRoom not found for roomId: {}", roomId);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        log.trace("getChatRoomInformationResponse: {}", chatRoom);
-        return Response.ok(chatRoom).build();
+        log.trace("getChatRoomInformationResponse: {}", chatRoomName);
+        return Response.ok(chatRoomName).build();
     }
 
     @GET

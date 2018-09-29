@@ -15,9 +15,9 @@ import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
-import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 import unipotsdam.gf.modules.communication.model.rocketChat.RocketChatLoginResponse;
 import unipotsdam.gf.modules.communication.model.rocketChat.RocketChatRegisterResponse;
+import unipotsdam.gf.modules.communication.util.RocketChatHeaderMapBuilder;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -64,7 +64,7 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public boolean sendMessageToChat(Message message, String roomId) {
-        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class);
+        // TODO: not needed at the moment, possibly remove
         return false;
     }
 
@@ -75,9 +75,9 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public String createChatRoom(String name, boolean readOnly, List<User> users) {
-        HashMap<String, String> headerMap = new HashMap<>();
-        headerMap.put("X-Auth-Token", ADMIN_USER.getRocketChatPersonalAccessToken());
-        headerMap.put("X-User-Id", ADMIN_USER.getRocketChatUserId());
+        Map<String, String> headerMap = new RocketChatHeaderMapBuilder()
+                .withAuthTokenHeader(ADMIN_USER.getRocketChatPersonalAccessToken())
+                .withRocketChatUserId(ADMIN_USER.getRocketChatUserId()).build();
 
         List<String> usernameList = users.stream().map(User::getRocketChatPersonalAccessToken).collect(Collectors.toList());
         HashMap<String, Object> bodyMap = new HashMap<>();
@@ -138,8 +138,8 @@ public class CommunicationDummyService implements ICommunication {
     }
 
     @Override
-    public ChatRoom getChatRoomInfo(String roomId) {
-        return new ChatRoom("1", "test");
+    public String getChatRoomName(String roomId) {
+        return Strings.EMPTY;
     }
 
     @Override
@@ -274,9 +274,9 @@ public class CommunicationDummyService implements ICommunication {
 
         HashMap<String, String> bodyMap = new HashMap<>();
         bodyMap.put("tokenName", "fltrailToken");
-        HashMap<String, String> headerMap = new HashMap<>();
-        headerMap.put("X-Auth-Token", user.getRocketChatAuthToken());
-        headerMap.put("X-User-Id", user.getRocketChatUserId());
+        Map<String, String> headerMap = new RocketChatHeaderMapBuilder()
+                .withAuthTokenHeader(user.getRocketChatAuthToken())
+                .withRocketChatUserId(user.getRocketChatUserId()).build();
 
         HttpResponse<Map> response = unirestService
                 .post(ROCKET_CHAT_API_LINK + "users.generatePersonalAccessToken")

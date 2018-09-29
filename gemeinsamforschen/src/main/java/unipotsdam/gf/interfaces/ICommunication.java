@@ -7,7 +7,6 @@ import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
-import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 
 import java.util.List;
 import java.util.Map;
@@ -76,7 +75,7 @@ public interface ICommunication {
      * @param roomId chat room id
      * @return chat room information
      */
-    ChatRoom getChatRoomInfo(String roomId);
+    String getChatRoomName(String roomId);
 
     /**
      * api: https://rocket.chat/docs/developer-guides/rest-api/authentication/login/
