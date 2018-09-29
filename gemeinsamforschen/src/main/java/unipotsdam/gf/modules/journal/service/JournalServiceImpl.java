@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
@@ -25,8 +26,8 @@ public class JournalServiceImpl implements JournalService {
     private final Logger log = LoggerFactory.getLogger(JournalServiceImpl.class);
     private final JournalDAO journalDAO = new JournalDAOImpl();
 
-    @Inject
-    private UserDAO userDAO;
+    //@Inject TODO injected userDAO = null
+    private UserDAO userDAO = new UserDAO(new MysqlConnect());
 
     @Override
     public Journal getJournal(String id) {
@@ -41,20 +42,19 @@ public class JournalServiceImpl implements JournalService {
 
         ArrayList<Journal> dbJournals = journalDAO.getAllByProjectAndFilter(project, student, filter);
         for (Journal j : dbJournals) {
-
             //always show own Journals
             if (j.getStudentIdentifier().getStudentId().equals(student)) {
-                result.add(j);
+                addJournal(j, result);
             } else {
 
                 // if Visibility All, show if Filter allows it
                 if (j.getVisibility() == Visibility.ALL && filter == JournalFilter.ALL) {
-                    result.add(j);
+                    addJournal(j, result);
                 }
 
                 //If Visibility Group, show if student is in group and filter allows it
                 if (j.getVisibility() == Visibility.GROUP && j.getStudentIdentifier().getProjectId().equals(project) && filter == JournalFilter.ALL) {
-                    result.add(j);
+                    addJournal(j, result);
                 }
 
             }
@@ -63,6 +63,11 @@ public class JournalServiceImpl implements JournalService {
         log.debug("<< get all journals(" + student, "," + project + ")");
 
         return result;
+    }
+
+    private void addJournal(Journal j, ArrayList<Journal> result) {
+        j.setName(userDAO.getUserByToken(j.getStudentIdentifier().getStudentId()).getName());
+        result.add(j);
     }
 
     @Override

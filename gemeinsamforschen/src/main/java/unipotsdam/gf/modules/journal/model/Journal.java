@@ -15,6 +15,7 @@ public class Journal {
 
     private String id;
     private StudentIdentifier studentIdentifier;
+    private String name;
     private String entryHTML;
     private String entryMD;
     private long timestamp;
@@ -105,6 +106,14 @@ public class Journal {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

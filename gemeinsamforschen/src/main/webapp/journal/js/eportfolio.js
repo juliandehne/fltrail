@@ -83,8 +83,7 @@ function loadJournals(data) {
             timestampToDateString(data[journal].timestamp) +
             '</div>' +
             '<div class="journal-name">' +
-            // TODO id to name
-            data[journal].studentIdentifier.studentId +
+            data[journal].name +
             '</div>' +
             '<div class="journal-category">' +
             data[journal].category +
