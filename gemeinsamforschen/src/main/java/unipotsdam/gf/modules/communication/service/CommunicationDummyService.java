@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
 import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_API_LINK;
@@ -78,16 +79,11 @@ public class CommunicationDummyService implements ICommunication {
         headerMap.put("X-Auth-Token", ADMIN_USER.getRocketChatPersonalAccessToken());
         headerMap.put("X-User-Id", ADMIN_USER.getRocketChatUserId());
 
-        ArrayList<String> usernameList = new ArrayList<>();
-        if (users.isEmpty()) {
-            usernameList.add(ADMIN_USER.getRocketChatUsername());
-        }
+        List<String> usernameList = users.stream().map(User::getRocketChatPersonalAccessToken).collect(Collectors.toList());
         HashMap<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("name", name);
         bodyMap.put("readOnly", readOnly);
-        if (!users.isEmpty()) {
-            bodyMap.put("members", usernameList);
-        }
+        bodyMap.put("members", usernameList);
 
         HttpResponse<Map> response =
                 unirestService
@@ -101,7 +97,8 @@ public class CommunicationDummyService implements ICommunication {
         }
 
         Map responseMap = response.getBody();
-        if (responseMap.get("success").equals("false") || responseMap.containsKey("status")) {
+        log.debug("responseMap: {}", responseMap);
+        if (responseMap.containsKey("error")) {
             return Strings.EMPTY;
         }
 
@@ -115,9 +112,9 @@ public class CommunicationDummyService implements ICommunication {
         String chatRoomName = String.join(" - ", group.getProjectId(), String.valueOf(group.getId()));
         String chatRoomId = createChatRoom(chatRoomName, readOnly, group.getMembers());
         if (chatRoomId.isEmpty()) {
-            group.setChatRoomId(chatRoomId);
+            return false;
         }
-
+        group.setChatRoomId(chatRoomId);
         return true;
     }
 
@@ -136,7 +133,7 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public boolean setChatRoomTopic(String roomId, String topic) {
-        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, "setting chat room topic");
+        // TODO: not needed at the moment, possibly remove
         return false;
     }
 

@@ -43,4 +43,15 @@ public class CommunicationDummyServiceTest {
         assertNotNull(user.getRocketChatPersonalAccessToken());
 
     }
+
+    @Test
+    public void createEmptyChatRoom() {
+        String chatRoom = iCommunication.createEmptyChatRoom("Test", false);
+        assertFalse(chatRoom.isEmpty());
+        assertNotNull(chatRoom);
+
+        String chatRoomReadOnly = iCommunication.createEmptyChatRoom("Test2", true);
+        assertFalse(chatRoomReadOnly.isEmpty());
+        assertNotNull(chatRoomReadOnly);
+    }
 }
