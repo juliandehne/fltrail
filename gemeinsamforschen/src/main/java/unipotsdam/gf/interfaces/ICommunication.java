@@ -1,5 +1,6 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
@@ -32,12 +33,20 @@ public interface ICommunication {
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/create/
      * creates chatroom
      *
-     * @param name     chat room name
-     * @param userList member of chat by id
+     * @param name chat room name
      * @return chat room id
      */
-    String createChatRoom(String name, List<User> userList);
+    String createChatRoom(String name, boolean readOnly, List<User> users);
 
+    /**
+     * creates chatRoom with name group.projectId - group.id and set chatroomId for group
+     *
+     * @param group Object for information
+     * @return true if chatRoom was created, otherwise false
+     */
+    boolean createChatRoom(Group group, boolean readOnly);
+
+    String createEmptyChatRoom(String name, boolean readOnly);
 
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/invite/

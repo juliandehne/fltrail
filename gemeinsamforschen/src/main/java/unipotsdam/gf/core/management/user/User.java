@@ -33,6 +33,10 @@ public class User {
                 "", "", isStudent);
     }
 
+    public User(String name, String password, String email, String rocketChatUsername, String rocketChatPersonalAccessToken, String rocketChatUserId) {
+        this(name, password, email, "", rocketChatUsername, "", rocketChatPersonalAccessToken, rocketChatUserId, false);
+    }
+
     public User(String name, String password, String email, String token, String rocketChatUsername,
                 String rocketChatAuthToken, String rocketChatPersonalAccessToken, String rocketChatUserId,
                 Boolean isStudent) {

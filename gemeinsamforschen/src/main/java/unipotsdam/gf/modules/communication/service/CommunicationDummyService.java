@@ -1,8 +1,12 @@
 package unipotsdam.gf.modules.communication.service;
 
 import io.github.openunirest.http.HttpResponse;
+import org.apache.logging.log4j.util.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.assignments.Assignee;
 import unipotsdam.gf.assignments.NotImplementedLogger;
+import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
@@ -26,14 +30,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
+import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
 import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_API_LINK;
 
 @Resource
 @ManagedBean
 @Singleton
 public class CommunicationDummyService implements ICommunication {
+
+    private Logger log = LoggerFactory.getLogger(CommunicationDummyService.class);
 
     private UnirestService unirestService;
     private UserDAO userDAO;
@@ -62,12 +68,57 @@ public class CommunicationDummyService implements ICommunication {
     }
 
     @Override
-    public String createChatRoom(String name, List<User> userList) {
-        if (Objects.isNull(userList)) {
-            return "2";
+    public String createEmptyChatRoom(String name, boolean readOnly) {
+        return createChatRoom(name, readOnly, new ArrayList<>());
+    }
+
+    @Override
+    public String createChatRoom(String name, boolean readOnly, List<User> users) {
+        HashMap<String, String> headerMap = new HashMap<>();
+        headerMap.put("X-Auth-Token", ADMIN_USER.getRocketChatPersonalAccessToken());
+        headerMap.put("X-User-Id", ADMIN_USER.getRocketChatUserId());
+
+        ArrayList<String> usernameList = new ArrayList<>();
+        if (users.isEmpty()) {
+            usernameList.add(ADMIN_USER.getRocketChatUsername());
+        }
+        HashMap<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put("name", name);
+        bodyMap.put("readOnly", readOnly);
+        if (!users.isEmpty()) {
+            bodyMap.put("members", usernameList);
         }
 
-        return "1";
+        HttpResponse<Map> response =
+                unirestService
+                        .post(ROCKET_CHAT_API_LINK + "groups.create")
+                        .headers(headerMap)
+                        .body(bodyMap)
+                        .asObject(Map.class);
+
+        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+            return Strings.EMPTY;
+        }
+
+        Map responseMap = response.getBody();
+        if (responseMap.get("success").equals("false") || responseMap.containsKey("status")) {
+            return Strings.EMPTY;
+        }
+
+        Map groupMap = (Map) responseMap.get("group");
+        return groupMap.get("_id").toString();
+    }
+
+    @Override
+    public boolean createChatRoom(Group group, boolean readOnly) {
+        // chatRoom name: projectId - GroupId
+        String chatRoomName = String.join(" - ", group.getProjectId(), String.valueOf(group.getId()));
+        String chatRoomId = createChatRoom(chatRoomName, readOnly, group.getMembers());
+        if (chatRoomId.isEmpty()) {
+            group.setChatRoomId(chatRoomId);
+        }
+
+        return true;
     }
 
     @Override
@@ -154,7 +205,7 @@ public class CommunicationDummyService implements ICommunication {
         user.setRocketChatUserId(registerResponse.getUserId());
 
         if (!loginUser(user)) {
-            // TODO: eventually consider roleback because of error or something
+            // TODO: eventually consider rollback because of error or something
             return false;
         }
 

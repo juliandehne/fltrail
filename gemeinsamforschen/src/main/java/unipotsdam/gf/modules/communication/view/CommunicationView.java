@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.communication.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.config.GFRocketChatConfig;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.Message;
@@ -20,6 +21,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -163,7 +166,7 @@ public class CommunicationView {
         if (isNull(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide name as queryParam").build();
         }
-        String chatId = communicationService.createChatRoom(name, users);
+        String chatId = communicationService.createChatRoom(name, false, users);
         if (isNull(chatId)) {
             log.error("error while creating chatRoom for: name: {}, users: {}", name, users);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -182,5 +185,32 @@ public class CommunicationView {
         return Response.ok(user).build();
     }
 
+    @GET
+    @Path("/auth")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAuth() {
+        User user = new User("Test", "password", "email", false);
+        HashMap<String, String> authentificationMap = new HashMap<>();
+        authentificationMap.put("user", user.getEmail());
+        authentificationMap.put("password", user.getPassword());
+        return Response.ok(authentificationMap).build();
+    }
+
+    @GET
+    @Path("/test")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response test() {
+        List<String> usernameList = new ArrayList<>();
+        usernameList.add(GFRocketChatConfig.ADMIN_USER.getRocketChatUsername());
+        usernameList.add(GFRocketChatConfig.TEST_USER.getRocketChatUsername());
+        HashMap<String, Object> bodyMap = new HashMap<>();
+        bodyMap.put("name", "Test");
+        bodyMap.put("readOnly", false);
+        if (!usernameList.isEmpty()) {
+            bodyMap.put("members", usernameList);
+        }
+        return Response.ok(bodyMap).build();
+
+    }
 
 }

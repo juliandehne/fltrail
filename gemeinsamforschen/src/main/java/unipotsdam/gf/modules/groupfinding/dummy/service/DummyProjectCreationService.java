@@ -58,7 +58,7 @@ public class DummyProjectCreationService {
         List<Group> groupsWithId = groupDAO.getGroupsByProjectId(project.getId());
         groupsWithId.forEach(group -> {
             String chatRoomName = String.join(" - ", project.getId(), String.valueOf(group.getId()));
-            group.setChatRoomId(communicationService.createChatRoom(chatRoomName, group.getMembers()));
+            group.setChatRoomId(communicationService.createChatRoom(chatRoomName, false, group.getMembers()));
             management.update(group);
         });
 
