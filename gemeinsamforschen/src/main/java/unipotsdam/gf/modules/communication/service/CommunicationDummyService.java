@@ -201,11 +201,6 @@ public class CommunicationDummyService implements ICommunication {
         user.setRocketChatUsername(rocketChatUsername);
         user.setRocketChatUserId(registerResponse.getUserId());
 
-        if (!loginUser(user)) {
-            // TODO: eventually consider rollback because of error or something
-            return false;
-        }
-
         return createCustomAccessToken(user);
     }
 
@@ -269,6 +264,11 @@ public class CommunicationDummyService implements ICommunication {
 
     private boolean createCustomAccessToken(User user) {
         if (hasEmptyParameter(user.getRocketChatAuthToken(), user.getRocketChatUserId())) {
+            return false;
+        }
+
+        if (!loginUser(user)) {
+            // TODO: eventually consider rollback because of error or something
             return false;
         }
 
