@@ -12,10 +12,11 @@ public class ResearchReportSectionDAO {
     }
 
     public void persist(ResearchReportSection researchReportSection) {
-        String mysql = "INSERT INTO researchreport (content, category, groupId, projectName) values(?,?,?,?)";
+        String mysql = "INSERT INTO researchreport (content, category, groupId, projectId) values(?,?,?,?)";
+        mysqlConnect.connect();
         mysqlConnect.issueInsertOrDeleteStatement(mysql, researchReportSection.getContent(),
                 researchReportSection.getCategory().name(), researchReportSection.getGroupId(),
                 researchReportSection.getProjectName());
-
+        mysqlConnect.close();
     }
 }

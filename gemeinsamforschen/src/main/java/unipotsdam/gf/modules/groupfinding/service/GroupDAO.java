@@ -125,6 +125,7 @@ public class GroupDAO {
 
     private List<Group> getExistingEntriesOfGroups(String projectId) {
         String mysqlExistingGroup = "SELECT * FROM groups WHERE projectId = ?";
+        connect.connect();
         VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlExistingGroup, projectId);
         ArrayList<Group> existingGroups = new ArrayList<>();
         while (resultSet.next()) {
@@ -132,19 +133,21 @@ public class GroupDAO {
             Group existingGroup = new Group(id, projectId);
             existingGroups.add(existingGroup);
         }
+        connect.close();
         return existingGroups;
     }
 
     public int getGroupIdByStudentIdentifier(StudentIdentifier studentIdentifier) {
-        String mysqlQuery = "SELECT id FROM groups where projectId=? AND studentId=?";
-        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlQuery, studentIdentifier.getProjectId()
-                , studentIdentifier.getStudentId());
+        String mysqlQuery = "SELECT id FROM groups where projectId = ?";
+        connect.connect();
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlQuery, studentIdentifier.getProjectId());
         int id;
         if (resultSet.next()) {
             id = resultSet.getInt("id");
         } else {
             id = 0;
         }
+        connect.close();
         return id;
     }
 
