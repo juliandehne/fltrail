@@ -11,7 +11,7 @@ $(document).ready(function() {
     });
 
     $.ajax({
-        url: "../rest/projectdescription/" + student + "/" + project
+        url: "../rest/projectdescription/" + project + "/" + student
     }).then(function (data) {
         $('#editor').append(data.descriptionMD);
 

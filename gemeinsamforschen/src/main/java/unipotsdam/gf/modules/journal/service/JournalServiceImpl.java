@@ -30,7 +30,7 @@ public class JournalServiceImpl implements JournalService {
 
     @Override
     public Journal getJournal(String id) {
-        return journalDAO.getJournal(id);
+            return journalDAO.getJournal(id);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class JournalServiceImpl implements JournalService {
     @Override
     public Map<StudentIdentifier, ConstraintsMessages> checkIfAllJournalClosed(Project project) {
         Map<StudentIdentifier, ConstraintsMessages> result = new HashMap<>();
-        for (String studentId: journalDAO.getOpenJournals(project)) {
+        for (String studentId : journalDAO.getOpenJournals(project)) {
             StudentIdentifier student = new StudentIdentifier(project.getId(), studentId);
             result.put(student, new ConstraintsMessages(Constraints.JournalOpen, student));
         }

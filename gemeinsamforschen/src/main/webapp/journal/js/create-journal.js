@@ -12,12 +12,14 @@ $(document).ready(function () {
     });
 
     $.ajax({
-        url: "../rest/journal/" + journal
-    }).then(function (data) {
-        $('#editor').append(data.entryMD);
-        $('#journalid').val(journal);
-        $('#visibility').val(data.visibility);
-        $('#category').val(data.category);
+        url: "../rest/journal/" + journal,
+        success: function(data) {
+            $('#editor').append(data.entryMD);
+            $('#journalid').val(journal);
+            $('#visibility').val(data.visibility);
+            $('#category').val(data.category);
+        }
+    }).always(function() {
         new InscrybMDE({
             element: document.getElementById("editor"),
             spellChecker: false,
@@ -27,4 +29,6 @@ $(document).ready(function () {
         console.log(data);
 
     });
+
+
 })

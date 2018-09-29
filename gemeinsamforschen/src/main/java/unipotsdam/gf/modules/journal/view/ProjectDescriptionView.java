@@ -53,7 +53,7 @@ public class ProjectDescriptionView {
         descriptionService.saveProjectText(new StudentIdentifier(project, student), text);
 
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=" + student + "&projectId=" + project);
+            URI location = new URI("../journal/eportfolio.jsp?token=" + student + "&projectId=" + project);
             log.debug("<<< saveText: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -80,7 +80,7 @@ public class ProjectDescriptionView {
 
 
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=" + desc.getStudent().getStudentId() + "&projectId=" + desc.getStudent().getProjectId());
+            URI location = new URI("../journal/eportfolio.jsp?token=" + desc.getStudent().getStudentId() + "&projectId=" + desc.getStudent().getProjectId());
             log.debug("<<< addLink: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -104,7 +104,7 @@ public class ProjectDescriptionView {
 
         descriptionService.deleteLink(link);
         try {
-            URI location = new URI("../pages/eportfolio.jsp");
+            URI location = new URI("../journal/eportfolio.jsp");
             log.debug("<<< deleteLink: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
@@ -128,7 +128,7 @@ public class ProjectDescriptionView {
         StudentIdentifier student = descriptionService.getProjectById(desc).getStudent();
         descriptionService.closeDescription(desc);
         try {
-            URI location = new URI("../pages/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());
+            URI location = new URI("../journal/eportfolio.jsp?token=" + student.getStudentId() + "&projectId=" + student.getProjectId());
             log.debug("<<< closeDescription: redirect to "  +location.toString());
             return Response.temporaryRedirect(location).build();
 
