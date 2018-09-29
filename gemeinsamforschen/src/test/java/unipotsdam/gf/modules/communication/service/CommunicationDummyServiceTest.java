@@ -67,5 +67,20 @@ public class CommunicationDummyServiceTest {
 
         String actualChatRoomName = iCommunication.getChatRoomName(chatRoomId);
         assertEquals(expectedChatRoomName, actualChatRoomName);
+
+        String nonExistingChatRoomName = iCommunication.getChatRoomName("1");
+        assertTrue(nonExistingChatRoomName.isEmpty());
+    }
+
+    @Test
+    public void exists() {
+        String expectedChatRoomName = "ChatRoomName";
+        String chatRoomId = iCommunication.createEmptyChatRoom(expectedChatRoomName, false);
+        assertNotNull(chatRoomId);
+        assertFalse(chatRoomId.isEmpty());
+
+        assertTrue(iCommunication.exists(chatRoomId));
+        assertFalse(iCommunication.exists("1"));
+
     }
 }

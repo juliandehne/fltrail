@@ -77,6 +77,8 @@ public interface ICommunication {
      */
     String getChatRoomName(String roomId);
 
+    boolean exists(String roomId);
+
     /**
      * api: https://rocket.chat/docs/developer-guides/rest-api/authentication/login/
      *

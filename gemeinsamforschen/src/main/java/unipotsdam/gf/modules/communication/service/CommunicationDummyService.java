@@ -45,6 +45,8 @@ public class CommunicationDummyService implements ICommunication {
     private UnirestService unirestService;
     private UserDAO userDAO;
 
+    // TODO: refactor error handling and add maybe some descriptions
+
     @Inject
     public CommunicationDummyService(UnirestService unirestService, UserDAO userDAO) {
         this.unirestService = unirestService;
@@ -314,6 +316,10 @@ public class CommunicationDummyService implements ICommunication {
         }
         user.setRocketChatPersonalAccessToken(responseBody.get("token").toString());
         return true;
+    }
 
+    @Override
+    public boolean exists(String roomId) {
+        return !getChatRoomName(roomId).isEmpty();
     }
 }
