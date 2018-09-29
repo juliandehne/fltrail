@@ -48,15 +48,11 @@
                                         <a id="editDescriptionLink" class="btn btn-default btn-sm">
                                             <i class="fa fa-pencil-alt"></i> Bearbeiten</a>
                                         <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeDescriptionModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>
-                                        <!-- TODO: Variabel -->
                                       <div class="exportLink">
                                       </div>
 
                                   </div>
                                     <div class="journal-description-text">
-                                    </div>
-                                    <div class="journal-description-group">
-                                        <h3>Gruppe</h3>
                                     </div>
                                     <div class="journal-description-links">
                                         <h3>Links</h3>
