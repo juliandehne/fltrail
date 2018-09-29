@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.journal.model.dao;
 
+import org.junit.After;
 import org.junit.Test;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
@@ -20,6 +21,22 @@ public class LinkDAOImplTest {
     private final String testName = "testname";
     private final String testLink = "https://www.test.de";
     private final Link testLinkObj = new Link(testId, testProjectDescription, testName, testLink);
+
+    ArrayList<String> deleteList = new ArrayList<>();
+
+    @After
+    public void cleanup() {
+
+        connection.connect();
+        for (String addLink : deleteList) {
+
+            String request = "DELETE FROM links WHERE id = ?;";
+            connection.issueInsertOrDeleteStatement(request, addLink);
+        }
+        deleteList = new ArrayList<>();
+        connection.close();
+    }
+
 
     @Test
     public void addLink() {
@@ -46,7 +63,7 @@ public class LinkDAOImplTest {
         assertFalse(testId.equals(resultLink.getId()));
 
         //cleanup
-        cleanup(resultLink.getId());
+        deleteList.add(resultLink.getId());
 
         connection.close();
     }
@@ -73,9 +90,9 @@ public class LinkDAOImplTest {
         assertEquals(0, reultLinks.size());
 
         //cleanup
-        cleanup(deleteLink.getId());
+        deleteList.add(deleteLink.getId());
 
-        connection.close();
+       connection.close();
     }
 
     @Test
@@ -95,7 +112,7 @@ public class LinkDAOImplTest {
         assertEquals(testProjectDescription, resultLink.getProjectDescription());
 
         //cleanup
-        cleanup(getLink.getId());
+        deleteList.add(getLink.getId());
 
         connection.close();
 
@@ -122,7 +139,9 @@ public class LinkDAOImplTest {
         assertEquals(3, resultLinks.size());
 
         //cleanup
-        cleanup("-1", "-2", "-3");
+        deleteList.add("-1");
+        deleteList.add("-2");
+        deleteList.add("-3");
 
         connection.close();
     }
@@ -133,14 +152,6 @@ public class LinkDAOImplTest {
         connection.issueInsertOrDeleteStatement(request, deleteLink.getId(), deleteLink.getProjectDescription(), deleteLink.getName(), deleteLink.getLink());
     }
 
-    private void cleanup(String... addLinks) {
-
-        for (String addLink : addLinks) {
-
-            String request = "DELETE FROM links WHERE id = ?;";
-            connection.issueInsertOrDeleteStatement(request, addLink);
-        }
-    }
 
     private Link getLinkFromResultSet(VereinfachtesResultSet rs) {
 

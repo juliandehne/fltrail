@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.journal.model.dao;
 
+import org.junit.After;
 import org.junit.Test;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
@@ -9,9 +10,7 @@ import unipotsdam.gf.modules.journal.model.ProjectDescription;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ProjectDescriptionImplDAOTest {
 
@@ -24,6 +23,20 @@ public class ProjectDescriptionImplDAOTest {
     private final String testProjekt = "testProjekt";
 
     private final ProjectDescription testProjectDescription = new ProjectDescription(testId, testStudent, testDescription, testProjekt, null /*Links are added in Service*/);
+
+    ArrayList<String> deleteList = new ArrayList<>();
+
+    @After
+    public void cleanup() {
+        connection.connect();
+        for (String id : deleteList) {
+            String request = "DELETE FROM projectdescription WHERE id = ? ;";
+            connection.issueInsertOrDeleteStatement(request, id);
+        }
+
+        deleteList = new ArrayList<>();
+        connection.close();
+    }
 
     @Test
     public void createDescription() {
@@ -45,7 +58,7 @@ public class ProjectDescriptionImplDAOTest {
         assertEquals(testStudent, result.getStudent().getStudentId());
         assertEquals(testProjekt, result.getStudent().getProjectId());
 
-        cleanup(result.getId());
+        deleteList.add(result.getId());
         connection.close();
     }
 
@@ -73,7 +86,7 @@ public class ProjectDescriptionImplDAOTest {
         assertEquals(testId, result.getId());
         assertEquals(testDescription + testDescription, result.getDescriptionMD());
 
-        cleanup(testId);
+        deleteList.add(testId);
         connection.close();
 
     }
@@ -91,7 +104,7 @@ public class ProjectDescriptionImplDAOTest {
         assertEquals(testStudent, result.getStudent().getStudentId());
         assertEquals(testProjekt, result.getStudent().getProjectId());
 
-        cleanup(result.getId());
+        deleteList.add(result.getId());
         connection.close();
     }
 
@@ -108,7 +121,7 @@ public class ProjectDescriptionImplDAOTest {
         assertEquals(testStudent, result.getStudent().getStudentId());
         assertEquals(testProjekt, result.getStudent().getProjectId());
 
-        cleanup(result.getId());
+        deleteList.add(result.getId());
         connection.close();
     }
 
@@ -153,6 +166,7 @@ public class ProjectDescriptionImplDAOTest {
         assertEquals(1, resultDescriptions.size());
         assertFalse(resultDescriptions.get(0).isOpen());
 
+        deleteList.add(testId);
         connection.close();
     }
 
@@ -174,7 +188,9 @@ public class ProjectDescriptionImplDAOTest {
         ArrayList<String> resultDescriptions = descriptionDAO.getOpenDescriptions(project);
         assertEquals(2, resultDescriptions.size());
 
-        cleanup("-1", "-2", "-3");
+        deleteList.add("-1");
+        deleteList.add("-2");
+        deleteList.add("-3");
         connection.close();
     }
 
@@ -196,12 +212,6 @@ public class ProjectDescriptionImplDAOTest {
         connection.issueInsertOrDeleteStatement(request, projectDescription.getId(), projectDescription.getStudent().getStudentId(), projectDescription.getStudent().getProjectId(), projectDescription.getDescriptionMD(), projectDescription.isOpen());
     }
 
-    private void cleanup(String... ids) {
-        for (String id : ids) {
-            String request = "DELETE FROM projectdescription WHERE id = ? ;";
-            connection.issueInsertOrDeleteStatement(request, id);
-        }
-    }
 
     private ProjectDescription getDescriptionFromResultSet(VereinfachtesResultSet rs) {
         String id = rs.getString("id");

@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.journal.model.dao;
 
+import org.junit.After;
 import org.junit.Test;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
@@ -29,6 +30,24 @@ public class JournalDAOImplTest {
     private final Category testCategory = Category.TITEL;
     private final Journal testJournal = new Journal(testId, new StudentIdentifier(testProject, testStudent), testEntry, testVisibility, testCategory);
 
+    ArrayList<String> deleteList = new ArrayList<>();
+
+
+
+    @After
+    public void cleanup() {
+
+        connection.connect();
+
+        for (String id : deleteList) {
+            String deleteRequest = "DELETE FROM journals WHERE id = ?;";
+            connection.issueInsertOrDeleteStatement(deleteRequest, id);
+        }
+
+        connection.close();
+        deleteList=new ArrayList<>();
+    }
+
     @Test
     public void createJournal() {
 
@@ -57,7 +76,7 @@ public class JournalDAOImplTest {
         assertEquals(resultJournal.getCategory(), testCategory);
 
         //cleanup
-        cleanup(resultJournal.getId());
+        deleteList.add(resultJournal.getId());
 
         connection.close();
     }
@@ -102,7 +121,7 @@ public class JournalDAOImplTest {
         assertEquals(resultJournal.getCategory(), newCategory);
 
         //cleanup
-        cleanup(updateJournal.getId());
+        deleteList.add(updateJournal.getId());
         connection.close();
 
     }
@@ -158,7 +177,7 @@ public class JournalDAOImplTest {
         assertEquals(resultJournal.getCategory(), testCategory);
 
         //cleanup
-        cleanup(resultJournal.getId());
+        deleteList.add(resultJournal.getId());
 
         connection.close();
 
@@ -189,7 +208,9 @@ public class JournalDAOImplTest {
         }
 
         //cleanup
-        cleanup("-1", "-2", "-3");
+        deleteList.add("-1");
+        deleteList.add("-2");
+        deleteList.add("-3");
     }
 
     @Test
@@ -214,7 +235,10 @@ public class JournalDAOImplTest {
         assertEquals(1, journalDAO.getAllByProjectAndFilter(testProject, testStudent, JournalFilter.OWN).size());
 
         //Cleanup
-        cleanup("-1", "-2", "-3");
+        deleteList.add("-1");
+        deleteList.add("-2");
+        deleteList.add("-3");
+
         connection.close();
     }
 
@@ -238,7 +262,7 @@ public class JournalDAOImplTest {
         assertFalse(resultJournal.isOpen());
 
         //cleanup
-        cleanup(resultJournal.getId());
+        deleteList.add(resultJournal.getId());
     }
 
     @Test
@@ -267,9 +291,12 @@ public class JournalDAOImplTest {
         //should be journal -1
         assertEquals(testStudent, resultJournals.get(0));
 
-        cleanup("-1", "-2", "-3");
+        deleteList.add("-1");
+        deleteList.add("-2");
+        deleteList.add("-3");
         connection.close();
     }
+
 
 
     //utility
@@ -291,12 +318,6 @@ public class JournalDAOImplTest {
                 getJournal.getStudentIdentifier().getProjectId(), getJournal.getEntryMD(), getJournal.getVisibility(), getJournal.getCategory(), getJournal.isOpen());
     }
 
-    private void cleanup(String... ids) {
-        for (String id : ids) {
-            String deleteRequest = "DELETE FROM journals WHERE id = ?;";
-            connection.issueInsertOrDeleteStatement(deleteRequest, id);
-        }
-    }
 
     private Journal getJournalFromResultSet(VereinfachtesResultSet rs) {
 
