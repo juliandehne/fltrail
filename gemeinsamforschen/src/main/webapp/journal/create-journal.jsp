@@ -49,13 +49,13 @@
                                         <option value="ALL"> Alle</option>
                                         <option value="GROUP"> Gruppe</option>
                                         <option value="DOZENT"> Dozent</option>
-                                        <option value="NONE"> Nur Ich</option>
+                                        <option value="MINE"> Nur Ich</option>
                                     </select>
                                 </div>
 
                                 <div class="journal-form-category">
                                     Kategorie:
-                                    <select name="category" form="journalform">
+                                    <select id="category" name="category" form="journalform">
                                         <option value="TITEL"> Titel</option>
                                         <option value="RECHERCHE"> Recherche</option>
                                         <option value="LITERATURVERZEICHNIS"> Literaturverzeichnis</option>
