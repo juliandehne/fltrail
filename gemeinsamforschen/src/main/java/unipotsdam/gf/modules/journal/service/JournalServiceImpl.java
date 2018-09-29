@@ -57,7 +57,6 @@ public class JournalServiceImpl implements JournalService {
                     result.add(j);
                 }
 
-                //TODO if Dozent
             }
 
         }

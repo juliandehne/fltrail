@@ -91,7 +91,6 @@ function loadJournals(data) {
             '</div>' +
             '<div class="journal-edit" align="right">';
 
-        //TODO userToken...
         if (data[journal].studentIdentifier.studentId == student && data[journal].open) {
             journalString = journalString +
                 '<a class="btn btn-default btn-sm" href="create-journal.jsp?token=' + student + '&projectId=' + project + '&journal=' + data[journal].id + '"><i class="fa fa-pencil-alt"></i> Bearbeiten</a>' +
@@ -127,7 +126,6 @@ function linkLoeschen(id) {
 }
 
 function closeJournal() {
-    //TODO reload when modal close
     var journalID = $('#journalID-input').val();
     console.log("schließe=" + journalID);
 

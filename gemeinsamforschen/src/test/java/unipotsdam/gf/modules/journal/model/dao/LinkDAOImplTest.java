@@ -22,7 +22,7 @@ public class LinkDAOImplTest {
     private final String testLink = "https://www.test.de";
     private final Link testLinkObj = new Link(testId, testProjectDescription, testName, testLink);
 
-    ArrayList<String> deleteList = new ArrayList<>();
+    private ArrayList<String> deleteList = new ArrayList<>();
 
     @After
     public void cleanup() {

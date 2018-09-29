@@ -24,8 +24,7 @@ import java.util.ArrayList;
 /**
  * View for the learning journal
  *
- * TODO (maybe) method to change visibility
- */
+ **/
 
 @Path("/journal")
 public class JournalView {

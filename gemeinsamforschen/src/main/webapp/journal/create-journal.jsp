@@ -48,7 +48,6 @@
                                     <select id="visibility" name="visibility" form="journalform">
                                         <option value="ALL"> Alle</option>
                                         <option value="GROUP"> Gruppe</option>
-                                        <option value="DOZENT"> Dozent</option>
                                         <option value="MINE"> Nur Ich</option>
                                     </select>
                                 </div>

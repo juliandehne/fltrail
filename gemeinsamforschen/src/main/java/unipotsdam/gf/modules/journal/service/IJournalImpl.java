@@ -115,7 +115,6 @@ public class IJournalImpl implements IJournal {
         return res[0];
     }
 
-    //TODO Formatierung
     private String ePortfolioToString(EPortfolio ePortfolio) {
 
         StringBuilder result = new StringBuilder();
@@ -132,7 +131,6 @@ public class IJournalImpl implements IJournal {
             ArrayList<Journal> journals = ePortfolio.getJournals();
             ResearchReport researchReport = ePortfolio.getReport();
 
-            //TODO zuordnung Absprechen
             result.append(researchReport.getTitle()).append("\n");
             result.append(journalStringByCategory(journals, Category.TITEL));
 
@@ -146,7 +144,6 @@ public class IJournalImpl implements IJournal {
 
             result.append(researchReport.getMethod()).append("\n");
 
-            //TODO zuordnung Absprechen
             result.append(journalStringByCategory(journals, Category.UNTERSUCHUNGSKONZEPT));
             result.append(journalStringByCategory(journals, Category.METHODIK));
 

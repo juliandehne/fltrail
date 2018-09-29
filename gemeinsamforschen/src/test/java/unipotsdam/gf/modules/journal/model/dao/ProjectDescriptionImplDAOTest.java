@@ -24,7 +24,7 @@ public class ProjectDescriptionImplDAOTest {
 
     private final ProjectDescription testProjectDescription = new ProjectDescription(testId, testStudent, testDescription, testProjekt, null /*Links are added in Service*/);
 
-    ArrayList<String> deleteList = new ArrayList<>();
+    private ArrayList<String> deleteList = new ArrayList<>();
 
     @After
     public void cleanup() {

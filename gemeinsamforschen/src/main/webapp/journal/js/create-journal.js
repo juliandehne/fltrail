@@ -18,7 +18,6 @@ $(document).ready(function () {
         $('#journalid').val(journal);
         $('#visibility').val(data.visibility);
         $('#category').val(data.category);
-        //TODO preselet in select tags
         new InscrybMDE({
             element: document.getElementById("editor"),
             spellChecker: false,

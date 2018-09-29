@@ -30,7 +30,7 @@ public class JournalDAOImplTest {
     private final Category testCategory = Category.TITEL;
     private final Journal testJournal = new Journal(testId, new StudentIdentifier(testProject, testStudent), testEntry, testVisibility, testCategory);
 
-    ArrayList<String> deleteList = new ArrayList<>();
+    private ArrayList<String> deleteList = new ArrayList<>();
 
 
 
