@@ -54,13 +54,6 @@
                                                                                   style="font-size:15px;"></i>feedback</label>
                                             </a>
                                         </li>
-                                        <li>
-                                            Peerfeedback
-                                            <a class="givefeedback" role="button">
-                                                <label style="font-size:10px;"><i class="far fa-comments"
-                                                                                  style="font-size:15px;"></i>feedback</label>
-                                            </a>
-                                        </li>
                                     </ul>
                                 </td>
                                 <td></td>

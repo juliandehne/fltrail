@@ -1,21 +1,24 @@
 $(document).ready(function(){
     let studentId = $('#user').html().trim();
+    console.log(studentId);
+    console.log(getQueryVariable("projectId"));
     getProjects(studentId);
     $('#enrollProject').on('click', function(){
         location.href="management/join-project.jsp?token="+getUserTokenFromUrl();
     });
 });
-
-function updateStatus(projectId){
+let id = "gemeinsamForschen"
+console.log(projectId);
+function updateStatus(id){
     $.ajax({
-        url: 'rest/phases/projects/'+projectId,
+        url: 'rest/phases/projects/'+id,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         type: 'GET',
         success: function (response) {
-            let statusField = $('#status'+projectId);
+            let statusField = $('#status'+id);
             switch (response){
                 case "CourseCreation":
                     statusField.html("Der Kurs wurde gerade angelegt. Sie können sich nun anmelden.");
@@ -33,7 +36,7 @@ function updateStatus(projectId){
                     statusField.html("Nehmen Sie die Bewertungen vor.");
                     break;
                 case "Projectfinished":
-                    getGrade(projectId);
+                    getGrade(id);
                     break;
                 default:
                     break;
@@ -73,6 +76,8 @@ function getProjects(studentId){
         type: 'GET',
         success: function (response) {
             let tmplObject = [];
+            let proj = "gemeinsamForschen"
+            console.log(proj);
             for (let project in response){
                 if (response.hasOwnProperty(project))
                     tmplObject.push({projectName: response[project]});
@@ -91,4 +96,8 @@ function getProjects(studentId){
 
         }
     });
+
+    var token= getUserTokenFromUrl();
+    var proid = document.getElementById("project");
+    proid.href = "project-student.jsp?token="+token;
 }

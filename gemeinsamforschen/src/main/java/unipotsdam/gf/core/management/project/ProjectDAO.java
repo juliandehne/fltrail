@@ -91,9 +91,9 @@ public class ProjectDAO {
     private Project getProjectFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
         String id = vereinfachtesResultSet.getString("id");
         String password = vereinfachtesResultSet.getString("password");
-        boolean active = vereinfachtesResultSet.getBoolean("active");
+        boolean active = vereinfachtesResultSet.getBoolean("activ");
         Timestamp timestamp = vereinfachtesResultSet.getTimestamp("timecreated");
-        String author = vereinfachtesResultSet.getString("authorEmail");
+        String author = vereinfachtesResultSet.getString("author");
         String adminPassword = vereinfachtesResultSet.getString("adminpassword");
         String token = vereinfachtesResultSet.getString("token");
         String phase = vereinfachtesResultSet.getString("phase");

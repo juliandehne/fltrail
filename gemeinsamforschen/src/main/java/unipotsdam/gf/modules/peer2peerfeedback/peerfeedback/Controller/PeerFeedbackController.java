@@ -12,13 +12,15 @@ import java.util.UUID;
 public class PeerFeedbackController {
 
     //@Override
-    public void createPeer2PeerFeedback(Peer2PeerFeedback feedback) {
+    public String createPeer2PeerFeedback(Peer2PeerFeedback feedback) {
 
         // create a new id if we found no id.
         String uuid = UUID.randomUUID().toString();
         // while (existsfeedbackId(uuid)) {
         //     uuid = UUID.randomUUID().toString();
         //  }
+
+        System.out.print("FEEDBACK"+feedback);
 
         // establish connection
         MysqlConnect connection = new MysqlConnect();
@@ -30,15 +32,19 @@ public class PeerFeedbackController {
         // build and execute request
         String request = "INSERT INTO peerfeedback (`id`, `reciever`, `sender`, `text`, `category`, `filename`) VALUES (?,?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, uuid, feedback.getFeedbackreceiver(), feedback.getFeedbacksender(), feedback.getText(), feedback.getFeedbackcategory(), feedback.getFilename());
-
-        String req = "UPDATE peerfeedback SET reciever =(SELECT token FROM users WHERE name=?) WHERE reciever=?";
-        connection1.issueUpdateStatement(req, feedback.getFeedbackreceiver(), feedback.getFeedbackreceiver());
+        System.out.print("FEEDBACKCREATE");
+        //String req = "UPDATE peerfeedback SET reciever =(SELECT token FROM users WHERE name=?) WHERE reciever=?";
+        //connection1.issueUpdateStatement(req, feedback.getFeedbackreceiver(), feedback.getFeedbackreceiver());
+        //System.out.print("FEEDBACKUPDATE");
         // close connection
         connection.close();
-        connection1.close();
+        //connection1.close();
 
-        // return Response.ok().build();
-        //return null;
+        String pair = feedback.getFeedbacksender();
+        String[] pp = pair.split("'+'");
+        System.out.print("pair" + pp[0]);
+        String ur = "../give-feedback.jsp?token="+pp[0];
+        return ("wurde gesendet!"+ur);
 
     }
 
@@ -54,13 +60,14 @@ public class PeerFeedbackController {
         String request = "SELECT * FROM peerfeedback WHERE reciever= ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, reciever);
         System.out.print("rs:"+rs);
+        //feedbacks.add(getPeerfeedbackFromResultSet(rs));
         while (rs.next()) {
             feedbacks.add(getPeerfeedbackFromResultSet(rs));
         }
 
         // close connection
         connection.close();
-        System.out.print(feedbacks);
+        System.out.print("FEEDBACKS"+feedbacks);
         return feedbacks;
 
     }

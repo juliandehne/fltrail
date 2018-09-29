@@ -45,12 +45,10 @@ public class Peer2PeerFeedback {
     }
 
     public Timestamp getTimestamp() { return timestamp; }
-        return timestamp;
-    }
+
 
     public void setTimestamp(Timestamp timestamp) { this.timestamp = timestamp; }
-        this.timestamp = timestamp;
-    }
+
 
     public Category getFeedbackcategory() {
         return category;

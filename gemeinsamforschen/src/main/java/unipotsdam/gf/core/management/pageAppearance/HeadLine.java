@@ -38,20 +38,8 @@ public class HeadLine extends SimpleTagSupport {
         out.println("</h2></td>\n" +
                 "                    <td style=\"width:30%\">\n" +
                 "                        <div align=\"right\" class=\"dropdown\">\n" +
-                "                        <button style=\"right: 50px;margin-top:-4px;\" class=\"btn btn-primary dropdown-toggle\" type=\"button\"\n" +
-                "                                data-toggle=\"dropdown\">\n" +
-                "\n" +
-                "                            <i class=\"glyphicon glyphicon-envelope\"></i>\n" +
-                "                        </button>\n" +
-                "\n" +
-                "                        <ul class=\"dropdown-menu\">\n" +
-                "                            <li><a class=\"viewfeedback\" role=\"button\">Feedback A</a></li>\n" +
-                "                            <li><a class=\"viewfeedback\" role=\"button\">Feedback B</a></li>\n" +
-                "                            <li><a class=\"viewfeedback\" role=\"button\">Feedback C</a></li>\n" +
-                "                        </ul>\n" +
-                "\n" +
-                "                        <a href=\"#\">\n" +
-                "                    <span class=\"glyphicon glyphicon-cog\"\n" +
+                "                        <a href=\"../feedback/view-feedback.jsp?token="+token+"\">\n" +
+                "                    <span class=\"glyphicon glyphicon-envelope\"\n" +
                 "                          style=\"font-size:29px;margin-right:30px;\"></span>\n" +
                 "                        </a>\n" +
                 "                    </div>\n" +

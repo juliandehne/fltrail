@@ -49,7 +49,15 @@
                     <div class="content-mainpage">
                         <div class="leftcolumn">
                             <div class="leftcontent">
-                                <div class="leftcontent-text context-menu-one" id="documentText"></div>
+                                <div class="leftcontent-text context-menu-one" id="documentText">
+                                    hier steht etwas
+                                    Lorem
+                                    lipsum
+                                    <script>
+                                       document.getElementById("documentText").innerHTML = Math.random().toString(36);
+                                    </script>
+
+                                </div>
                                 <div class="leftcontent-buttons">
                                     <div class="leftcontent-buttons-back">
                                         <button id="btnBack" type="button" class="btn btn-secondary">Zurück</button>

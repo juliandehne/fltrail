@@ -7,25 +7,25 @@ INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rock
   ('teststudent1', 'egal', 'test1@uni.de', 'test1','1','abc');
 
 INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
-  ('teststudent2', 'egal', 'test2@uni.de', 'test1','1','abc');
+  ('teststudent2', 'egal', 'test2@uni.de', 'test2','1','abc');
 
 INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
-  ('teststudent3', 'egal', 'test3@uni.de', 'test1','1','abc');
+  ('teststudent3', 'egal', 'test3@uni.de', 'test3','1','abc');
 
 INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
-  ('teststudent4', 'egal', 'test4@uni.de', 'test1','1','abc');
+  ('teststudent4', 'egal', 'test4@uni.de', 'test4','1','abc');
 
 INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
-  ('teststudent5', 'egal', 'test5@uni.de', 'test1','1','abc');
+  ('teststudent5', 'egal', 'test5@uni.de', 'test5','1','abc');
 
 INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
-  ('teststudent6', 'egal', 'test6@uni.de', 'test1','1','abc');
+  ('teststudent6', 'egal', 'test6@uni.de', 'test6','1','abc');
 
 INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
-  ('teststudent7', 'egal', 'test7@uni.de', 'test1','1','abc');
+  ('teststudent7', 'egal', 'test7@uni.de', 'test7','1','abc');
 
 INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
-  ('teststudent8', 'egal', 'test8@uni.de', 'test1','1','abc');
+  ('teststudent8', 'egal', 'test8@uni.de', 'test8','1','abc');
 
 INSERT INTO  `projects` (`id`, `password`,`active`,`timecreated`,`authorEmail`,`adminpassword`,`token`,`phase`) VALUES
   ('1','123',1,current_timestamp,'Julian','123','abc','CourseCreation');

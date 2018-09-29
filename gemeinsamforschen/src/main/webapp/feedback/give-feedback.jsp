@@ -11,7 +11,7 @@
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../journal/css/create-journal.css">
-    <script src="feedback/js/givepeerfeedback.js"></script>
+    <script src="js/givepeerfeedback.js"></script>
 
 </head>
 
@@ -23,7 +23,7 @@
         <div>
             <table>
                 <tr>
-                    <h2> Schreibe dein Feedback ein!</h2>
+                    <h2 style="padding-left: 15px"> Schreibe dein Feedback ein!</h2>
                     <div class="line-spacer"></div>
                     <hr />
 
@@ -32,7 +32,7 @@
                             <tr>
                                 <td  id="yourContent">
 
-                                    <form  id= "journalform" method="POST" action="../rest/peerfeedback/save">
+                                    <form style="padding-left: 20px" id= "journalform" method="POST" action="../rest/peerfeedback/save">
 
                                         <input type="hidden" id="student" name="student">
                                         <input type="hidden" id="project" name="project">
@@ -42,6 +42,7 @@
                                         <input type="hidden" id="timestamp" name="timestamp">
                                         <input type="hidden" id="category" name="cat">
                                         <input type="hidden" id="filename" name="filename">
+                                        <input type="hidden" id="zsm" name="zsm">
 
 
                                         <div class="journal-form-category">
@@ -58,6 +59,7 @@
 
                                             </select>
                                         </div>
+                                        <div></div>
 
                                         <div class="journal-form-category">
                                             Feedbackempfänger:
@@ -73,10 +75,9 @@
                                             </div>
 
                                             <div class="journal-form-buttons">
-                                                <input class="btn btn-default btn-sm" type="submit">
-                                                <a id="backLink" class="btn btn-default btn-sm"> Zur&uuml;ck </a>
+                                                <button id="sub" class="btn btn-default btn-sm"> Speichern </button>
+                                                <button id="backLink" class="btn btn-default btn-sm"> Zur&uuml;ck </button>
                                             </div>
-
                                         </div>
                                     </form>
 
@@ -85,14 +86,6 @@
                             </tr>
                         </table>
                     </div>
-
-
-
-                        <script>
-                            function goBack() {
-                                window.history.back();
-                            }
-                        </script>
                 </tr>
                 </td>
 

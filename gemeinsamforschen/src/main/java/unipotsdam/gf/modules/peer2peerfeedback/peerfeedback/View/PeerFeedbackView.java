@@ -25,9 +25,10 @@ public class PeerFeedbackView {
     @POST
     @Path("/save")
     public Response createPeerfeedback(@FormParam("id") String id, @FormParam("timestamp") Timestamp timestamp, @FormParam("category") Category category,
-                                       @FormParam("student") String sender, @FormParam("reciever") String reciever, @FormParam("text") String text, @FormParam("filename") String filename) {
+                                       @FormParam("zsm") String sender, @FormParam("reciever") String reciever, @FormParam("text") String text, @FormParam("filename") String filename) {
 
         //Peer2PeerFeedback feedback = new Peer2PeerFeedback(id, timestamp, Category.TITEL, sender, text, reciever, filename);
+        System.out.print("VIEW:"+sender);
         Peer2PeerFeedback f = new Peer2PeerFeedback();
         f.setID(id);
         f.setTimestamp(timestamp);
@@ -40,17 +41,17 @@ public class PeerFeedbackView {
         //Peer2PeerFeedback fd = new Peer2PeerFeedback(id="1234", timestamp=null, Category.TITEL, sender="sender", text="test1", reciever="reciever", filename="filename");
 
         PeerFeedbackController controller = new PeerFeedbackController();
-        controller.createPeer2PeerFeedback(f);
+        String fp = controller.createPeer2PeerFeedback(f);
 
 
-        return Response.ok().build(); //feedback
+        return Response.ok(fp).build(); //feedback
 
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("{student}")
-    public Response getPeerfeedback(@PathParam("student") String sender){
+    @Path("{zsm}")
+    public Response getPeerfeedback(@PathParam("zsm") String sender){
 
         PeerFeedbackController controller = new PeerFeedbackController();
         ArrayList<Peer2PeerFeedback> fd = controller.getAllFeedbacks(sender);
