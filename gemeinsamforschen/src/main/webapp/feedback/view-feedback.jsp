@@ -30,6 +30,7 @@
                             <div id="recieved" class="recent_heading" style="padding-left: 37px; width:50%; float: left; border-right: 1px solid #cdcdcd;">
                                 <h5>Empfangen</h5>
                             </div>
+                            <input type="hidden" id="list" name="list">
                             <div id="sended" class="recent_heading" style="float: right; padding-left: 37px;">
                                 <h5>Gesendet</h5>
                             </div>

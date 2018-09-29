@@ -48,7 +48,7 @@ public class PeerFeedbackController {
 
     }
 
-    public ArrayList<Peer2PeerFeedback> getAllFeedbacks(String reciever) {
+    public ArrayList<Peer2PeerFeedback> getAllFeedbacks(String sender) {
 
         ArrayList<Peer2PeerFeedback> feedbacks = new ArrayList<>();
 
@@ -56,9 +56,11 @@ public class PeerFeedbackController {
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
+        System.out.print("SENDER"+sender);
+
         // build and execute request
-        String request = "SELECT * FROM peerfeedback WHERE reciever= ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, reciever);
+        String request = "SELECT * FROM peerfeedback WHERE sender= ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, sender);
         System.out.print("rs:"+rs);
         //feedbacks.add(getPeerfeedbackFromResultSet(rs));
         while (rs.next()) {
@@ -69,6 +71,32 @@ public class PeerFeedbackController {
         connection.close();
         System.out.print("FEEDBACKS"+feedbacks);
         return feedbacks;
+
+    }
+
+    public ArrayList<Peer2PeerFeedback> getRecievedPeerfeedback(String reciever) {
+
+        ArrayList<Peer2PeerFeedback> rf = new ArrayList<>();
+
+        // establish connection
+        MysqlConnect connection = new MysqlConnect();
+        connection.connect();
+
+        System.out.print("RECIEVER"+reciever);
+
+        // build and execute request
+        String request = "SELECT * FROM peerfeedback WHERE reciever= ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, reciever);
+        System.out.print("rs:"+rs);
+        //feedbacks.add(getPeerfeedbackFromResultSet(rs));
+        while (rs.next()) {
+            rf.add(getPeerfeedbackFromResultSet(rs));
+        }
+
+        // close connection
+        connection.close();
+        System.out.print("FEEDBACKS"+rf);
+        return rf;
 
     }
 
@@ -104,9 +132,19 @@ public class PeerFeedbackController {
         MysqlConnect connection1 = new MysqlConnect();
         connection1.connect();
 
-        //for (int i = 0; i < token.length(); i++) {
+        //if (token) {
+
             String[] pair = token.split(",");
-            System.out.print("pair" + pair);
+            System.out.print("TOKEN,,"+pair[0]+pair.length);
+            //System.out.print(pair[0].substring(token.indexOf("+")+1,token.indexOf(",")));
+            System.out.print(pair[0].substring(token.indexOf("+")+1));
+            //String[] p= null;
+
+            for(int j=0; j < pair.length; j++){
+                pair[j] = pair[j].substring(token.indexOf("+")+1);
+                System.out.print("PAIR2 "+pair[j]);
+            }
+            System.out.print("pair");
             for(int i = 0; i < pair.length; i++) {
                 String request1 = "SELECT * FROM users WHERE token= ?;";
                 VereinfachtesResultSet rs1 = connection1.issueSelectStatement(request1, pair[i]);

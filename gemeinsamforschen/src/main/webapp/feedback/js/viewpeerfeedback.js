@@ -16,82 +16,62 @@ $(document).ready(function(){
     $('#zsm').val(zsm);
     console.log(zsm);
     //var sender = "sender";
+    //var sended = document.getElementById("sended");
 
     $('#sended').click(function () {
 
+        $("#msg_history").empty();
         $.ajax({
-            url: "../rest/peerfeedback/"+zsm              //peerfeedbackID     {id}
+            url: "../rest/peerfeedback/"+zsm ,             //peerfeedbackID     {id}
 
-        }).then(function (data) {
-            //$('#editor').append(data.descriptionMD);
+            }).then(function (data) {
             console.log(data);
             //loadFeedback(data);
             console.log("function1");
             var list = [];
-            for(var id in data){
-                if(!list.includes(data[id].feedbacksender)){
-                    list.push(data[id].feedbacksender);
-                    console.log(data[id].feedbacksender);
+            for (var id in data) {
+                if (!list.includes(data[id].feedbackreceiver)) {
+                    list.push(data[id].feedbackreceiver);
+                    console.log(data[id].feedbackreceiver);
                 }
             }
+            $('#list').val(list);
+
             console.log(list);
 
+            getsenderFunction(list);
 
-            $.ajax({
+            /**$.ajax({
                 url: "../rest/peerfeedback/getSender/" + list
             }).then(function (data) {
-                console.log("getSender:"+data);
+                console.log("getSender:" + data);
                 console.log(list);
                 var s = data[0];
                 loadFeedbackSender(data);
-                //loadFeedbackReciever(data);
-                //loadUsers(data);
-            });
+            });*/
             console.log("function2");
-
-            /**var listr = [];
-            for(var id in data){
-                if(!listr.includes(data[id].feedbackreceiver)){
-                    listr.push(data[id].feedbackreceiver);
-                    console.log(data[id].feedbackreceiver);
-                }
-            }
-            console.log(listr);
-
-            $.ajax({
-                url: "../rest/peerfeedback/getSender/" + listr
-            }).then(function (data) {
-                console.log("getReciever:"+data);
-                console.log(listr);
-                var s = data[0];
-                //loadFeedbackReciever(data);
-                //loadUsers(data);
-            });
-            console.log("function3");*/
-
-            console.log(data);
+            console.log(list);
         });
-    });
+   });
 
     $('#recieved').click(function () {
-        //location.href="../feedback/view-feedback.jsp?token="+getUserTokenFromUrl();
+
+        $("#msg_history").empty();
         $.ajax({
-            url: "../rest/peerfeedback/"+zsm              //peerfeedbackID     {id}
+            url: "../rest/peerfeedback/recievedfeedback/"+zsm              //peerfeedbackID     {id}
 
         }).then(function (data) {
-            //$('#editor').append(data.descriptionMD);
             console.log(data);
             //loadFeedback(data);
             console.log("function1");
             var list = [];
-            for(var id in data){
-                if(!list.includes(data[id].feedbacksender)){
+            for (var id in data) {
+                if (!list.includes(data[id].feedbackrsender)) {
                     list.push(data[id].feedbacksender);
                     console.log(data[id].feedbacksender);
                 }
             }
             console.log(list);
-
 
             $.ajax({
                 url: "../rest/peerfeedback/getSender/" + list
@@ -102,30 +82,8 @@ $(document).ready(function(){
                 //loadFeedbackSender(data);
                 loadFeedbackReciever(data);
                 //loadUsers(data);
-            });
+            })
             console.log("function2");
-
-           /**var listr = [];
-            for(var id in data){
-                if(!listr.includes(data[id].feedbacksender)){
-                    listr.push(data[id].feedbackreceiver);
-                    console.log(data[id].feedbackreceiver);
-                }
-            }
-            console.log(listr);
-
-            $.ajax({
-                url: "../rest/peerfeedback/getSender/" + listr
-            }).then(function (data) {
-                console.log("getReciever:"+data);
-                console.log(listr);
-                var s = data[0];
-                //loadFeedbackSender(data);
-                loadFeedbackReciever(data);
-                //loadUsers(data);
-            });
-            console.log("function3");*/
-
             console.log(data);
         });
     });
@@ -178,8 +136,10 @@ $(document).ready(function(){
 
             $("#inbox_chat").empty();
 
-            console.log(student);
+            console.log(zsm);
             console.log(data);
+            $('#data').val(data);
+
 
             for (var feedback in data) {
 
@@ -190,12 +150,12 @@ $(document).ready(function(){
                 var pair = data[feedback].split("+");
                 name.push(pair[0]);
                 sender.push(pair[1]);
-                console.log(name+sender);
+                console.log(name);
 
 
                 var newdiv = document.createElement("button");
                 newdiv.className = "chat_list";
-                newdiv.id = sender;
+                newdiv.id = data[feedback];
                 //newdiv.value = sender;
                 //newdiv.onclick = new function(){alert('clicked');};
 
@@ -204,8 +164,8 @@ $(document).ready(function(){
                 newdiv.onclick = function () {
                     var h = this.id;
                     //console.log(document.getElementById(sender.toString()));
-                        console.log(h);
-                        myFunction(student, h);
+                        //console.log(h);
+                        myFunction(h, zsm);
 
                 }
 
@@ -225,7 +185,7 @@ $(document).ready(function(){
                     var newdiv3 = document.createElement("div");
                     newdiv3.className = "chat_ib";
                     var newh = document.createElement("h5");
-                    newh.insertAdjacentHTML('beforeend', name)
+                    newh.insertAdjacentHTML('beforeend', name.toString())
                     var newspan = document.createElement("span");
                     newspan.className = "chat_date";
                     //newspan.insertAdjacentHTML('beforeend',timestampToDateString(data[feedback].timestamp));
@@ -269,7 +229,7 @@ $(document).ready(function(){
 
             var newdiv = document.createElement("button");
             newdiv.className = "chat_list";
-            newdiv.id = sender;
+            newdiv.id = data[feedback];
             //newdiv.value = sender;
             //newdiv.onclick = new function(){alert('clicked');};
 
@@ -279,7 +239,7 @@ $(document).ready(function(){
                 var h = this.id;
                 //console.log(document.getElementById(sender.toString()));
                 console.log(h);
-                myFunction(h, student);
+                myFunction(zsm, h);
 
             }
 
@@ -344,5 +304,21 @@ $(document).ready(function(){
         console.log("pffürsender");
     }
 
+    function getsenderFunction(list) {
+
+        console.log(list);
+        $.ajax({
+            url: "../rest/peerfeedback/getSender/" + list,
+            async: true
+        }).then(function (data) {
+            console.log("getSender:"+data);
+            var s = data[0];
+            //loadFeedbackSender(data);
+            loadFeedbackSender(data);
+            //loadUsers(data);
+        });
+        console.log("getsenderFunction");
+
+    }
 
 })

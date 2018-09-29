@@ -61,6 +61,17 @@ public class PeerFeedbackView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Path("/recievedfeedback/{zsm}")
+    public Response getRecievedPeerfeedback(@PathParam("zsm") String reciever){
+
+        PeerFeedbackController controller = new PeerFeedbackController();
+        ArrayList<Peer2PeerFeedback> rf = controller.getRecievedPeerfeedback(reciever);
+        System.out.print("getallfd:"+rf);
+        return Response.ok(rf).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/getUsers/{token}")
     public Response getUsers(@PathParam("token") String token){
 
