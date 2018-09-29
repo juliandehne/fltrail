@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.journal.service;
 
+import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
@@ -13,18 +14,20 @@ import unipotsdam.gf.modules.journal.model.dao.LinkDAOImpl;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAO;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAOImpl;
 
+import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@ManagedBean
 public class ProjectDescriptionImpl implements ProjectDescriptionService {
 
     private final ProjectDescriptionDAO descriptionDAO = new ProjectDescriptionDAOImpl();
     private final LinkDAO linkDAO = new LinkDAOImpl();
 
-    @Inject
-    private UserDAO userDAO;
+    //@Inject TODO injected userDAO = null
+    private UserDAO userDAO = new UserDAO(new MysqlConnect());
 
     @Override
     public ProjectDescription getProjectByStudent(StudentIdentifier studentIdentifier) {

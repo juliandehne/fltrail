@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class JournalServiceImpl implements JournalService {
 
     private final Logger log = LoggerFactory.getLogger(JournalServiceImpl.class);
