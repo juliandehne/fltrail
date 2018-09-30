@@ -112,7 +112,9 @@ public class CommunicationDummyServiceTest {
         String chatRoomId = iCommunication.createEmptyChatRoom("deleteChatRoom", false);
         assertNotNull(chatRoomId);
         assertFalse(chatRoomId.isEmpty());
+        assertTrue(iCommunication.exists(chatRoomId));
 
         assertTrue(iCommunication.deleteChatRoom(chatRoomId));
+        assertFalse(iCommunication.exists(chatRoomId));
     }
 }
