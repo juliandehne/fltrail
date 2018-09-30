@@ -23,9 +23,10 @@ public interface ICommunication {
      * @param roomId ID of room of user
      * @return List of Chat Messages
      */
+    @Deprecated
     List<ChatMessage> getChatHistory(String roomId);
 
-
+    @Deprecated
     boolean sendMessageToChat(Message message, String roomId);
 
     /**
@@ -38,7 +39,7 @@ public interface ICommunication {
     String createChatRoom(String name, boolean readOnly, List<User> users);
 
     /**
-     * creates chatRoom with name group.projectId - group.id and set chatroomId for group
+     * creates chatRoom with name "group.projectId - group.id" and set chatRoomId for group
      *
      * @param group Object for information
      * @return true if chatRoom was created, otherwise false
@@ -47,6 +48,8 @@ public interface ICommunication {
 
     String createEmptyChatRoom(String name, boolean readOnly);
 
+    boolean deleteChatRoom(String roomId);
+
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/invite/
      *
@@ -54,7 +57,7 @@ public interface ICommunication {
      * @param user   information about user
      * @return if user was added successfully
      */
-    boolean addUserToChatRoom(String roomId, User user);
+    boolean addUserToChatRoom(User user, String roomId);
 
     boolean removeUserFromChatRoom(User user, String roomId);
 
@@ -65,6 +68,7 @@ public interface ICommunication {
      * @param topic  topic of chat room
      * @return true, if topic was set correctly
      */
+    @Deprecated
     boolean setChatRoomTopic(String roomId, String topic);
 
 

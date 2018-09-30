@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.assignments.Assignee;
 import unipotsdam.gf.assignments.NotImplementedLogger;
+import unipotsdam.gf.config.GFRocketChatConfig;
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
@@ -122,16 +123,43 @@ public class CommunicationDummyService implements ICommunication {
     }
 
     @Override
-    public boolean addUserToChatRoom(String roomId, User user) {
-        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, "addUserToChatRoom");
+    public boolean deleteChatRoom(String roomId) {
         return false;
     }
 
     @Override
+    public boolean addUserToChatRoom(User user, String roomId) {
+        return modifyChatRoom(user, roomId, true);
+    }
+
+    @Override
     public boolean removeUserFromChatRoom(User user, String roomId) {
-        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, "removing user from chat " +
-                "room");
-        return false;
+        return modifyChatRoom(user, roomId, false);
+    }
+
+    private boolean modifyChatRoom(User user, String roomId, boolean addUser) {
+        if (hasEmptyParameter(user.getRocketChatUserId(), user.getRocketChatPersonalAccessToken(), roomId)) {
+            return false;
+        }
+        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth().build();
+        Map<String, String> bodyMap = new HashMap<>();
+        bodyMap.put("roomId", roomId);
+        bodyMap.put("userId", user.getRocketChatUserId());
+
+        String groupUrl = addUser ? "groups.invite" : "groups.kick";
+
+        HttpResponse<Map> response = unirestService
+                .post(GFRocketChatConfig.ROCKET_CHAT_API_LINK + groupUrl)
+                .headers(headerMap)
+                .body(bodyMap)
+                .asObject(Map.class);
+
+        if (wasBadRequest(response)) {
+            return false;
+        }
+
+        Map responseMap = response.getBody();
+        return !responseMap.containsKey("error") && !responseMap.get("success").equals("false");
     }
 
     @Override
@@ -150,8 +178,7 @@ public class CommunicationDummyService implements ICommunication {
                         .headers(headerMap)
                         .queryString("roomId", roomId).asObject(Map.class);
 
-        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()
-                || response.getStatus() == Response.Status.UNAUTHORIZED.getStatusCode()) {
+        if (wasBadRequest(response)) {
             return Strings.EMPTY;
         }
 
@@ -180,8 +207,7 @@ public class CommunicationDummyService implements ICommunication {
                         .body(rocketChatAuth)
                         .asObject(RocketChatLoginResponse.class);
 
-        int status = response.getStatus();
-        if (status == Response.Status.UNAUTHORIZED.getStatusCode() || status == Response.Status.BAD_REQUEST.getStatusCode()) {
+        if (wasBadRequest(response)) {
             return false;
         }
 
@@ -211,7 +237,7 @@ public class CommunicationDummyService implements ICommunication {
                         .body(rocketChatRegister)
                         .asObject(RocketChatRegisterResponse.class);
 
-        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+        if (wasBadRequest(response)) {
             return false;
         }
 
@@ -306,7 +332,7 @@ public class CommunicationDummyService implements ICommunication {
                 .body(bodyMap)
                 .asObject(Map.class);
 
-        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+        if (wasBadRequest(response)) {
             return false;
         }
 
@@ -316,6 +342,12 @@ public class CommunicationDummyService implements ICommunication {
         }
         user.setRocketChatPersonalAccessToken(responseBody.get("token").toString());
         return true;
+    }
+
+    private boolean wasBadRequest(HttpResponse response) {
+        int status = response.getStatus();
+        return status == Response.Status.BAD_REQUEST.getStatusCode() ||
+                status == Response.Status.UNAUTHORIZED.getStatusCode();
     }
 
     @Override

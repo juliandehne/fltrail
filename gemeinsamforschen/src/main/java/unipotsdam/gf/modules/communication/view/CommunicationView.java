@@ -91,7 +91,7 @@ public class CommunicationView {
             log.trace("addUser user object was null");
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide user").build();
         }
-        boolean wasAdded = communicationService.addUserToChatRoom(roomId, user);
+        boolean wasAdded = communicationService.addUserToChatRoom(user, roomId);
         if (isNull(wasAdded)) {
             log.error("addUserToChatRoom: chatRoom not found for roomId: {}, user: {}", roomId, user);
             return Response.status(Response.Status.NOT_FOUND).build();
