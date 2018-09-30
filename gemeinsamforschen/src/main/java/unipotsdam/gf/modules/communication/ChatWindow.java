@@ -28,7 +28,7 @@ public class ChatWindow extends SimpleTagSupport {
         UserDAO userDAO = new UserDAO(new MysqlConnect());
         GroupDAO groupDAO = new GroupDAO(new MysqlConnect());
         ICommunication communicationService = new CommunicationDummyService(new UnirestService(), userDAO, groupDAO);
-        String chatRoomLink = communicationService.getChatRoomLink(token, projectToken, groupToken);
+        String chatRoomLink = communicationService.getChatRoomLink(token, projectToken);
 
         JspWriter out = getJspContext().getOut();
         out.println("<iframe width=\"30%\" height=\"100%\" src=\"" + chatRoomLink + "\"/>");

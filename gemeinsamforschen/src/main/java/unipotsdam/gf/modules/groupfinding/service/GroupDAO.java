@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.groupfinding.service;
 
+import org.apache.logging.log4j.util.Strings;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.core.management.group.Group;
@@ -117,6 +118,22 @@ public class GroupDAO {
         groupHashMap.forEach((key, group) -> groups.add(group));
         connect.close();
         return groups;
+    }
+
+    public String getChatRoomIdByStudentIdentifier(StudentIdentifier studentIdentifier) {
+        connect.connect();
+        String mysqlRequest = "SELECT g.chatRoomId FROM groups g join groupuser gu on g.id=gu.groupId where gu.projectId=? and gu.studentId=?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlRequest, studentIdentifier.getProjectId(), studentIdentifier.getStudentId());
+        if (Objects.isNull(resultSet)) {
+            connect.close();
+            return Strings.EMPTY;
+        }
+        String chatRoomId = Strings.EMPTY;
+        if (resultSet.next()) {
+            resultSet.getString("chatRoomId");
+        }
+        connect.close();
+        return chatRoomId;
     }
 
     private void fillGroupFromResultSet(VereinfachtesResultSet vereinfachtesResultSet, HashMap<Integer, Group> existingGroups) {

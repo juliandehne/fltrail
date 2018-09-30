@@ -278,20 +278,26 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public boolean registerAndLoginUser(User user) {
+        // TODO: remove
         // TODO: try to login user first --> if it fails there is no user, register afterwards or add exists function
-        if (!registerUser(user)) {
-            return false;
-        }
-        return loginUser(user);
+        return false;
 
     }
 
-    public String getChatRoomLink(String userToken, String projectToken, String groupToken) {
-        //User user = managementService.getUserByToken(userToken);
-        // TODO: Implement getProjectbyToken and getGroupByToken
-        //Project project = managementService.getProject(projectToken
-        String channelName = "general";
-        return ROCKET_CHAT_API_LINK + "/channel/" + channelName + "?layout=embedded";
+    public String getChatRoomLink(String userToken, String projectId) {
+        User user = userDAO.getUserByToken(userToken);
+        StudentIdentifier studentIdentifier = new StudentIdentifier(projectId, user.getId());
+        String chatRoomId = groupDAO.getChatRoomIdByStudentIdentifier(studentIdentifier);
+        if (chatRoomId.isEmpty()) {
+            return Strings.EMPTY;
+        }
+
+        String chatRoomName = getChatRoomName(chatRoomId);
+        if (chatRoomName.isEmpty()) {
+            return Strings.EMPTY;
+        }
+
+        return ROCKET_CHAT_API_LINK + "/group/" + chatRoomName + "?layout=embedded";
     }
 
     @Override
