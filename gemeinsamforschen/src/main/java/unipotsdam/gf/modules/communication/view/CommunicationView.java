@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFRocketChatConfig;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.communication.model.Message;
+import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
@@ -65,19 +65,19 @@ public class CommunicationView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/send/{roomId}")
-    public Response sendMessage(Message message, @PathParam("roomId") String roomId) {
-        if (isNull(message)) {
-            log.trace("sendMessage message object was null");
-            return Response.status(Response.Status.BAD_REQUEST).entity("must provide message").build();
+    public Response sendMessage(EMailMessage EMailMessage, @PathParam("roomId") String roomId) {
+        if (isNull(EMailMessage)) {
+            log.trace("sendMessage EMailMessage object was null");
+            return Response.status(Response.Status.BAD_REQUEST).entity("must provide EMailMessage").build();
         }
-        boolean wasSend = communicationService.sendMessageToChat(message, roomId);
+        boolean wasSend = communicationService.sendMessageToChat(EMailMessage, roomId);
         Response response;
         if (wasSend) {
             log.trace("response for sendMessage: {}", wasSend);
             response = Response.ok(wasSend).build();
         } else {
-            log.error("error while sending message for message: {}", message);
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while sending message").build();
+            log.error("error while sending EMailMessage for EMailMessage: {}", EMailMessage);
+            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while sending EMailMessage").build();
         }
         return response;
     }

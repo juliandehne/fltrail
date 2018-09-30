@@ -14,7 +14,7 @@ import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.communication.model.Message;
+import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 import unipotsdam.gf.modules.communication.model.rocketChat.RocketChatLoginResponse;
 import unipotsdam.gf.modules.communication.model.rocketChat.RocketChatRegisterResponse;
@@ -25,15 +25,29 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
+import static unipotsdam.gf.config.GFMailConfig.SMTP_HOST;
+import static unipotsdam.gf.config.GFMailConfig.SMTP_PASSWORD;
+import static unipotsdam.gf.config.GFMailConfig.SMTP_PORT;
+import static unipotsdam.gf.config.GFMailConfig.SMTP_USERNAME;
 import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
 import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_API_LINK;
 import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_ROOM_LINK;
@@ -71,7 +85,7 @@ public class CommunicationDummyService implements ICommunication {
     }
 
     @Override
-    public boolean sendMessageToChat(Message message, String roomId) {
+    public boolean sendMessageToChat(EMailMessage EMailMessage, String roomId) {
         // TODO: not needed at the moment, possibly remove
         return false;
     }
@@ -301,11 +315,35 @@ public class CommunicationDummyService implements ICommunication {
         return ROCKET_CHAT_ROOM_LINK + chatRoomName + "?layout=embedded";
     }
 
+    // TODO: Think about splitting email and chat communication into different
     @Override
-    public void sendSingleMessage(Message message, User user) {
-        // TODO implement as email or directed message, popup after login or whatever
-        String message2 = "sending email with message: " + message.getMessage() + " to: " + user.getEmail();
-        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, message2);
+    public void sendSingleMessage(EMailMessage eMailMessage, User user) {
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", true);
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", SMTP_HOST);
+        properties.put("mail.smtp.port", SMTP_PORT);
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(SMTP_USERNAME, SMTP_PASSWORD);
+            }
+        });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(SMTP_USERNAME, "FLTrail Messagebot"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
+            message.setSubject(eMailMessage.getSubject());
+            message.setText(eMailMessage.getBody());
+
+            Transport.send(message);
+
+
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

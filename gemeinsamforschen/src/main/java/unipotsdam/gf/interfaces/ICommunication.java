@@ -5,7 +5,7 @@ import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.communication.model.Message;
+import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public interface ICommunication {
     List<ChatMessage> getChatHistory(String roomId);
 
     @Deprecated
-    boolean sendMessageToChat(Message message, String roomId);
+    boolean sendMessageToChat(EMailMessage EMailMessage, String roomId);
 
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/create/
@@ -108,7 +108,7 @@ public interface ICommunication {
     String getChatRoomLink(String userToken, String projectId);
 
     // TODO implement as Email or whatever
-    void sendSingleMessage(Message message, User user);
+    void sendSingleMessage(EMailMessage EMailMessage, User user);
 
     //added by Axel.
     void informAboutMissingTasks(Map<StudentIdentifier, ConstraintsMessages> tasks, Project project);

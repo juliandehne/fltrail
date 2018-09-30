@@ -8,6 +8,7 @@ import unipotsdam.gf.core.database.InMemoryMySqlConnect;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import java.util.ArrayList;
@@ -152,6 +153,19 @@ public class CommunicationDummyServiceTest {
 
         assertTrue(iCommunication.deleteChatRoom(chatRoomId));
         assertFalse(iCommunication.exists(chatRoomId));
+    }
+
+    @Test
+    @Ignore
+    public void sendSingleMessage() {
+        User user = new User();
+        // Permalink for email-address: http://www.trashmail.de/index.php?search=javatest
+        user.setEmail("javatest@trashmail.de");
+        EMailMessage eMailMessage = new EMailMessage();
+        eMailMessage.setSubject("Test Email");
+        eMailMessage.setBody("Test Body");
+
+        iCommunication.sendSingleMessage(eMailMessage, user);
     }
 
     @Test
