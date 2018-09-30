@@ -61,10 +61,10 @@ public class PeerFeedbackView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/sendedfeedback/{zsm}")
-    public Response getPeerfeedback(@PathParam("zsm") String sender){
+    public Response getSendedPeerfeedback(@PathParam("zsm") String sender){
 
         PeerFeedbackController controller = new PeerFeedbackController();
-        ArrayList<Peer2PeerFeedback> fd = controller.getsendedPeerfedback(sender);
+        ArrayList<Peer2PeerFeedback> fd = controller.getsendedPeerfeedback(sender);
         System.out.print("getallfd:"+fd);
         return Response.ok(fd).build();
     }
@@ -92,9 +92,10 @@ public class PeerFeedbackView {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/getUsers/{token}")
-    public Response getUsers(@PathParam("token") String token){
+    @Path("/getUsers/{student}")
+    public Response getUsers(@PathParam("student") String token){
 
+        System.out.print("usersview:"+token);
         PeerFeedbackController controller = new PeerFeedbackController();
         ArrayList<String> users = controller.getUserforFeedback(token);
         System.out.print("usersview:"+users);

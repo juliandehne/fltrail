@@ -1,4 +1,3 @@
-
 var student = getQueryVariable("token");
 var project = getQueryVariable("projectId");
 var name = getQueryVariable("user");
@@ -9,25 +8,21 @@ $(document).ready(function(){
     $('#project').val(project);
     $('#name').val(name);
 
-
     console.log(student);
     var nme = document.getElementById("user").innerHTML;
     var zsm = nme +"+"+ student;
     $('#zsm').val(zsm);
     console.log(zsm);
-    //var sender = "sender";
-    //var sended = document.getElementById("sended");
 
-    $('#sended').click(function () {
+    $('#recieved').click(function () {
 
-        $("#msg_history").empty();
+        //$("#msg_history").empty();
 
         $.ajax({
-            url: "../rest/peerfeedback/sendedfeedback/"+zsm             //peerfeedbackID     {id}
+            url: "../rest/peerfeedback/sendedfeedback/"+zsm
 
             }).then(function (data) {
             console.log(data);
-            //loadFeedback(data);
             console.log("function1");
             var list = [];
             for (var id in data) {
@@ -46,18 +41,14 @@ $(document).ready(function(){
             }).then(function (data) {
                 console.log("getSender:"+data);
                 var s = data[0];
-                //loadFeedbackSender(data);
                 loadFeedbackSender(data);
-                //loadUsers(data);
             });
-            console.log("getsenderFunction");
-
             console.log("function2");
             console.log(list);
         });
    });
 
-    $('#recieved').click(function () {
+    $('#sended').click(function () {
 
         $("#msg_history").empty();
         $.ajax({
@@ -65,7 +56,6 @@ $(document).ready(function(){
 
         }).then(function (data) {
             console.log(data);
-            //loadFeedback(data);
             console.log("function1");
             var list = [];
             for (var id in data) {
@@ -82,9 +72,7 @@ $(document).ready(function(){
                 console.log("getSender:"+data);
                 console.log(list);
                 var s = data[0];
-                //loadFeedbackSender(data);
                 loadFeedbackReciever(data);
-                //loadUsers(data);
             })
             console.log("function2");
             console.log(data);
@@ -121,13 +109,24 @@ $(document).ready(function(){
             var newspan = document.createElement("span");
             newspan.className = "chat_date";
             newspan.insertAdjacentHTML('beforeend',timestampToDateString(data[feedback].timestamp));
+            var newspan1 = document.createElement("span");
+            newspan1.className = "chat_date";
+            newspan1.insertAdjacentHTML('beforeend',data[feedback].feedbackcategory);
+            var newspan2 = document.createElement("span");
+            newspan2.className = "chat_date";
+            newspan2.insertAdjacentHTML('beforeend',data[feedback].filename);
             var newhr =document.createElement("hr");
 
             newdiv2.insertBefore(newdiv4, newdiv.childNodes[0]);
             newdiv.appendChild(newdiv2);
             newdiv2.appendChild(newdiv3);
+            newdiv2.appendChild(newspan1);
             newdiv3.appendChild(newp);
+
+            newp.insertBefore(newspan1, newp.childNodes[0]);
+            newp.insertBefore(newspan2, newp.childNodes[1]);
             newp.appendChild(newspan);
+
             var currentdiv = document.getElementById("msg_history");
             currentdiv.appendChild(newdiv);
             currentdiv.appendChild(newhr);
@@ -162,7 +161,7 @@ $(document).ready(function(){
 
                 newdiv.onclick = function () {
                     var h = this.id;
-                    myFunction(zsm, h);
+                    myFunction(h, zsm);
 
                 }
 

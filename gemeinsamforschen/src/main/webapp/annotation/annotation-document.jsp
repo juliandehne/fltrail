@@ -50,13 +50,14 @@
                         <div class="leftcolumn">
                             <div class="leftcontent">
                                 <div class="leftcontent-text context-menu-one" id="documentText">
-                                    hier steht etwas
-                                    Lorem
-                                    lipsum
-                                    <script>
-                                       document.getElementById("documentText").innerHTML = Math.random().toString(36);
-                                    </script>
-
+                                    Nunc scelerisque luctus inceptos libero convallis dolor lacus curabitur metus augue auctor
+                                    Gravida phasellus vulputate neque odio sociosqu scelerisque rhoncus fusce, risus aliquam volutpat lacus litora curae
+                                    Posuere diam placerat metus feugiat primis etiam cursus aenean justo hendrerit fringilla auctor
+                                    Eget cursus neque non ornare egestas mattis donec dapibus, platea augue conubia phasellus tempus dolor
+                                    Ullamcorper fermentum sociosqu maecenas habitant in senectus hac
+                                    Fermentum integer aliquet sapien mollis dolor torquent vulputate arcu mollis
+                                    Vulputate erat at augue odio quis, himenaeos luctus nostra eu velit, gravida risus vestibulum accumsan
+                                    Condimentum aptent porttitor volutpat sagittis
                                 </div>
                                 <div class="leftcontent-buttons">
                                     <div class="leftcontent-buttons-back">

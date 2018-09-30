@@ -26,7 +26,22 @@
                     <h2 style="padding-left: 15px"> Schreibe dein Feedback ein!</h2>
                     <div class="line-spacer"></div>
                     <hr />
+                    <div style="padding-left: 17px">
+                        <h3>Vorschläge für ein gutes Feedback:</h3>
+                        <div>1.  Beginne das Feedback mit etwas Positiven</div>
+                        <div>2. 	Äußere dein Feedback</div>
+                        <div>3. 	Beende das Feedback mit etwas Positiven</div>
+                        <div style="height: 10px"></div>
+                        <div>Hilfestellungen für Formulierungen: </div>
+                        <div style="height: 10px"></div>
+                        <div> - das hat mir gut gefallen, weil ...</div>
+                        <div> - das habe ich nicht verstanden, weil ...</div>
+                        <div> - an diesem Punkt kam ich nicht weiter, weil ...</div>
+                        <div> - das könnte man besser machen, z. B. durch ...</div>
+                        <div> - dabei habe ich noch eine Idee, z.B. ...</div>
 
+                    </div>
+                    <hr>
                     <div>
                         <table>
                             <tr>
@@ -59,8 +74,7 @@
 
                                             </select>
                                         </div>
-                                        <div></div>
-
+                                        <div style="height: 10px"></div>
                                         <div class="journal-form-category">
                                             Feedbackempfänger:
                                             <select name="reciever" id="reciever" form="journalform"> <%--form="journalform"--%>
@@ -69,15 +83,8 @@
 
                                         <div class="journal-form-container">
 
-                                            <div class="journal-form-editor" style="width: 80%">
+                                            <div class="journal-form-editor" style="width: 150%">
                                                 <textarea id="editor" name="text" form="journalform"></textarea> <%--form="journalform"--%>
-                                            </div>
-
-                                            <div>
-                                                Vorschläge für ein gutes Feedback
-                                                1 kkllaf
-                                                2 dasfna
-                                                3 jkdavnaol
                                             </div>
 
                                             <div class="journal-form-buttons">

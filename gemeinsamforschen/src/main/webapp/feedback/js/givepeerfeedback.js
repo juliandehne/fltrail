@@ -24,10 +24,6 @@ $(document).ready(function () {
     $('#zsm').val(zsm);
     console.log(zsm);
 
-    console.log(window.parent.document.getElementById("user"));
-
-    var x = localStorage.getItem("user");
-    console.log(x);
 
     $('#viewfeedback').click(function () {
         location.href="../feedback/view-feedback.jsp?token="+getUserTokenFromUrl();
@@ -43,24 +39,21 @@ $(document).ready(function () {
         forceSync: true,
     });
 
-    //var checkFeedback = student;
-    //console.log(checkFeedback);
 
     $('#sub').click(function () {
 
         $.ajax({
-            url: "../rest/peerfeedback/save" //+ student
+            url: "../rest/peerfeedback/save"
         }).then(function (data) {
-            console.log("save:"+data);
-            location.href="../feedback/give-feedback.jsp?="+getUserTokenFromUrl();
-
+            //console.log("save:"+data);
+            return location.href="../feedback/give-feedback.jsp?="+getUserTokenFromUrl();
         });
-        return location.href="../feedback/give-feedback.jsp?="+getUserTokenFromUrl();
+        location.href="../feedback/give-feedback.jsp?="+getUserTokenFromUrl();
     });
 
 
     $.ajax({
-        url: "../rest/peerfeedback/getUsers/" + zsm
+        url: "../rest/peerfeedback/getUsers/" + student
     }).then(function (data) {
         console.log("getUsers:"+data);
         loadUsers(data);

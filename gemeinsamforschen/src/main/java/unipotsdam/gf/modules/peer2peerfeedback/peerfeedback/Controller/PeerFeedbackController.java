@@ -5,13 +5,14 @@ import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class PeerFeedbackController {
 
-    //@Override
     public String createPeer2PeerFeedback(Peer2PeerFeedback feedback) {
 
         String uuid = UUID.randomUUID().toString();
@@ -19,47 +20,52 @@ public class PeerFeedbackController {
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
-        //MysqlConnect connection1 = new MysqlConnect();
-        //connection1.connect();
-
         String request = "INSERT INTO peerfeedback (`id`, `reciever`, `sender`, `text`, `category`, `filename`) VALUES (?,?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, uuid, feedback.getFeedbackreceiver(), feedback.getFeedbacksender(), feedback.getText(), feedback.getFeedbackcategory(), feedback.getFilename());
         System.out.print("FEEDBACKCREATE");
-        //String req = "UPDATE peerfeedback SET reciever =(SELECT token FROM users WHERE name=?) WHERE reciever=?";
-        //connection1.issueUpdateStatement(req, feedback.getFeedbackreceiver(), feedback.getFeedbackreceiver());
-        //System.out.print("FEEDBACKUPDATE");
-        // close connection
+
         connection.close();
-        //connection1.close();
 
         String pair = feedback.getFeedbacksender();
         String[] pp = pair.split("'+'");
         System.out.print("pair" + pp[0]);
         String ur = "../give-feedback.jsp?token="+pp[0];
+        try{
+            URL url = new URL ("http://localhost:8080/feedback/give-feedback.jsp?token=");
+            URLConnection urlcon = url.openConnection();
+            urlcon.connect();
+            System.out.print("connect");
+        }
+            catch (Exception exp){
+            System.out.print("error to connect");
+            }
+
         return ("wurde gesendet!"+ur);
 
     }
 
-    public ArrayList<Peer2PeerFeedback> getsendedPeerfedback(String sender) {
+    public ArrayList<Peer2PeerFeedback> getsendedPeerfeedback(String sender) {
 
-        ArrayList<Peer2PeerFeedback> feedbacksbysender = new ArrayList<>();
+        ArrayList<Peer2PeerFeedback> fe = new ArrayList<>();
 
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
-        System.out.print("SENDER"+sender);
+        System.out.print("SENDER" + sender);
 
         String request = "SELECT * FROM peerfeedback WHERE sender= ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, sender);
-        System.out.print("rs:"+rs);
+        VereinfachtesResultSet rss = connection.issueSelectStatement(request, sender);
+        System.out.print("rs:" + rss);
+        System.out.print("rs:" + rss.next());
 
-        while (rs.next()) {
-            feedbacksbysender.add(getPeerfeedbackFromResultSet(rs));
+        while (rss.next()) {
+            fe.add(getPeerfeedbackFromResultSet(rss));
+            System.out.print("FEEDBACKSSS" + fe);
         }
 
         connection.close();
-        System.out.print("FEEDBACKS"+feedbacksbysender);
-        return feedbacksbysender;
+        System.out.print("FEEDBACKSSS" + fe);
+        return fe;
     }
 
     public ArrayList<Peer2PeerFeedback> getRecievedPeerfeedback(String reciever) {
@@ -80,7 +86,7 @@ public class PeerFeedbackController {
         }
 
         connection.close();
-        System.out.print("FEEDBACKS"+rf);
+        System.out.print("FEEDBACKSRR"+rf);
         return rf;
     }
 
@@ -94,6 +100,7 @@ public class PeerFeedbackController {
         String request = "SELECT * FROM peerfeedback WHERE reciever= ? AND sender= ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, reciever, sender);
         System.out.print("rsfb:"+rs);
+
         while (rs.next()) {
             feedbacks.add(getPeerfeedbackFromResultSet(rs));
         }
