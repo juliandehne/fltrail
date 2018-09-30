@@ -36,6 +36,7 @@ import java.util.stream.Collectors;
 
 import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
 import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_API_LINK;
+import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_ROOM_LINK;
 
 @Resource
 @ManagedBean
@@ -297,7 +298,7 @@ public class CommunicationDummyService implements ICommunication {
             return Strings.EMPTY;
         }
 
-        return ROCKET_CHAT_API_LINK + "/group/" + chatRoomName + "?layout=embedded";
+        return ROCKET_CHAT_ROOM_LINK + chatRoomName + "?layout=embedded";
     }
 
     @Override
