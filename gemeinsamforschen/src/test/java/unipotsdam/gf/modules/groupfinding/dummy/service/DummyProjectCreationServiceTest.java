@@ -26,7 +26,7 @@ public class DummyProjectCreationServiceTest {
         Management management = TestHelper.getManagementImpl(inMemoryMySqlConnect);
         GroupDAO groupDAO = new GroupDAO(inMemoryMySqlConnect);
         UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
-        ICommunication communication = new CommunicationDummyService(new UnirestService(), userDAO);
+        ICommunication communication = new CommunicationDummyService(new UnirestService(), userDAO, groupDAO);
 
         DummyProjectCreationService dummyProjectCreationService = new DummyProjectCreationService(communication, management, groupDAO, userDAO);
 

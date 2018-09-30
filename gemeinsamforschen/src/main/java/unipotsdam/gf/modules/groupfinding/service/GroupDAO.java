@@ -78,6 +78,12 @@ public class GroupDAO {
         // TODO: implement update of groupuser if needed later (if member list need to be updated)
     }
 
+    public void clearChatRoomIdOfGroup(String chatRoomId) {
+        connect.connect();
+        String mysqlRequest = "update groups SET chatRoomId = ? where chatRoomId = ?";
+        connect.issueUpdateStatement(mysqlRequest, "", chatRoomId);
+        connect.close();
+    }
 
     public Boolean exists(Group group) {
         List<Group> existingGroups = getGroupsByProjectId(group.getProjectId());

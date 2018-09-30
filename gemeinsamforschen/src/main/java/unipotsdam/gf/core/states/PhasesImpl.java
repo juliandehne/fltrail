@@ -14,6 +14,7 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
+import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 import unipotsdam.gf.modules.journal.service.IJournalImpl;
 import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
 import unipotsdam.gf.view.Messages;
@@ -37,7 +38,9 @@ public class PhasesImpl implements IPhases {
 
     private UserDAO userDAO = new UserDAO(new MysqlConnect());
 
-    private ICommunication iCommunication = new CommunicationDummyService(new UnirestService(), userDAO);
+    private GroupDAO groupDAO = new GroupDAO(new MysqlConnect());
+
+    private ICommunication iCommunication = new CommunicationDummyService(new UnirestService(), userDAO, groupDAO);
 
     private IJournal iJournal = new IJournalImpl();
 

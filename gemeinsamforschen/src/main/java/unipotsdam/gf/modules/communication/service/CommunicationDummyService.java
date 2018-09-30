@@ -19,6 +19,7 @@ import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 import unipotsdam.gf.modules.communication.model.rocketChat.RocketChatLoginResponse;
 import unipotsdam.gf.modules.communication.model.rocketChat.RocketChatRegisterResponse;
 import unipotsdam.gf.modules.communication.util.RocketChatHeaderMapBuilder;
+import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -41,17 +42,19 @@ import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_API_LINK;
 @Singleton
 public class CommunicationDummyService implements ICommunication {
 
-    private Logger log = LoggerFactory.getLogger(CommunicationDummyService.class);
+    private final static Logger log = LoggerFactory.getLogger(CommunicationDummyService.class);
 
     private UnirestService unirestService;
     private UserDAO userDAO;
+    private GroupDAO groupDAO;
 
     // TODO: refactor error handling and add maybe some descriptions
 
     @Inject
-    public CommunicationDummyService(UnirestService unirestService, UserDAO userDAO) {
+    public CommunicationDummyService(UnirestService unirestService, UserDAO userDAO, GroupDAO groupDAO) {
         this.unirestService = unirestService;
         this.userDAO = userDAO;
+        this.groupDAO = groupDAO;
     }
 
     @Override
@@ -124,7 +127,28 @@ public class CommunicationDummyService implements ICommunication {
 
     @Override
     public boolean deleteChatRoom(String roomId) {
-        return false;
+        // TODO: maybe add lock for getChatRoomName, so synchronized access doesn't create errors while deleting
+        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth().build();
+        HashMap<String, String> bodyMap = new HashMap<>();
+        bodyMap.put("roomId", roomId);
+
+        HttpResponse<Map> response =
+                unirestService
+                        .post(ROCKET_CHAT_API_LINK + "groups.delete")
+                        .headers(headerMap)
+                        .body(bodyMap)
+                        .asObject(Map.class);
+
+        if (isBadRequest(response)) {
+            return false;
+        }
+        Map responseMap = response.getBody();
+        if (responseMap.get("success").equals("false") || responseMap.containsKey("error")) {
+            return false;
+        }
+        groupDAO.clearChatRoomIdOfGroup(roomId);
+
+        return true;
     }
 
     @Override
@@ -154,7 +178,7 @@ public class CommunicationDummyService implements ICommunication {
                 .body(bodyMap)
                 .asObject(Map.class);
 
-        if (wasBadRequest(response)) {
+        if (isBadRequest(response)) {
             return false;
         }
 
@@ -178,7 +202,7 @@ public class CommunicationDummyService implements ICommunication {
                         .headers(headerMap)
                         .queryString("roomId", roomId).asObject(Map.class);
 
-        if (wasBadRequest(response)) {
+        if (isBadRequest(response)) {
             return Strings.EMPTY;
         }
 
@@ -207,7 +231,7 @@ public class CommunicationDummyService implements ICommunication {
                         .body(rocketChatAuth)
                         .asObject(RocketChatLoginResponse.class);
 
-        if (wasBadRequest(response)) {
+        if (isBadRequest(response)) {
             return false;
         }
 
@@ -237,7 +261,7 @@ public class CommunicationDummyService implements ICommunication {
                         .body(rocketChatRegister)
                         .asObject(RocketChatRegisterResponse.class);
 
-        if (wasBadRequest(response)) {
+        if (isBadRequest(response)) {
             return false;
         }
 
@@ -332,7 +356,7 @@ public class CommunicationDummyService implements ICommunication {
                 .body(bodyMap)
                 .asObject(Map.class);
 
-        if (wasBadRequest(response)) {
+        if (isBadRequest(response)) {
             return false;
         }
 
@@ -344,11 +368,12 @@ public class CommunicationDummyService implements ICommunication {
         return true;
     }
 
-    private boolean wasBadRequest(HttpResponse response) {
+    private boolean isBadRequest(HttpResponse response) {
         int status = response.getStatus();
         return status == Response.Status.BAD_REQUEST.getStatusCode() ||
                 status == Response.Status.UNAUTHORIZED.getStatusCode();
     }
+
 
     @Override
     public boolean exists(String roomId) {

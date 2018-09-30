@@ -6,6 +6,7 @@ import unipotsdam.gf.core.database.InMemoryMySqlConnect;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -20,8 +21,10 @@ public class CommunicationDummyServiceTest {
 
     @Before
     public void setUp() {
-        UserDAO userDAO = new UserDAO(new InMemoryMySqlConnect());
-        iCommunication = new CommunicationDummyService(new UnirestService(), userDAO);
+        InMemoryMySqlConnect inMemoryMySqlConnect = new InMemoryMySqlConnect();
+        UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
+        GroupDAO groupDAO = new GroupDAO(inMemoryMySqlConnect);
+        iCommunication = new CommunicationDummyService(new UnirestService(), userDAO, groupDAO);
         user = new User("Vorname Nachname", "password", "email@uni.de", true);
     }
 
@@ -102,5 +105,14 @@ public class CommunicationDummyServiceTest {
         assertTrue(iCommunication.addUserToChatRoom(TEST_USER, chatRoomId));
 
         assertTrue(iCommunication.removeUserFromChatRoom(TEST_USER, chatRoomId));
+    }
+
+    @Test
+    public void deleteChatRoom() {
+        String chatRoomId = iCommunication.createEmptyChatRoom("deleteChatRoom", false);
+        assertNotNull(chatRoomId);
+        assertFalse(chatRoomId.isEmpty());
+
+        assertTrue(iCommunication.deleteChatRoom(chatRoomId));
     }
 }
