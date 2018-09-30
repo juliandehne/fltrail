@@ -34,14 +34,14 @@
                             <tr>
 
                                 <td width="100px" valign="top">
-                                    <h3>student1</h3>
+                                    <h3 id="name-student">teststudent5</h3>
                                     <img src="libs/img/1.jpg">
-                                    <a href="#">student1@uni.de</a>
+                                    <a href="#">test5@uni.de</a>
                                     <hr>
                                     <ul>
 
                                         <li>
-                                            Projektübersicht hochgeladen
+                                            Projektübersicht
                                             <a class="annotationview" role="button">
                                                 <label style="font-size:10px;"><i class="far fa-comments"
                                                                                   style="font-size:15px;"></i>feedback</label>
@@ -59,42 +59,56 @@
                                 <td></td>
 
                                 <td width="100px" valign="top">
-                                    <h3>student2</h3>
+                                    <h3>teststudent2</h3>
                                     <img src="libs/img/2.jpg">
-                                    <a href="#">student2@uni.de</a>
+                                    <a href="#">test2@uni.de</a>
                                     <hr>
                                     <ul>
                                         <li>
                                             Blumen an Vegetarier verfüttert
-                                            <a class="annotationview" role="button">
+                                            <%--<a class="annotationview" role="button">
                                                 <label style="font-size:10px;"><i class="far fa-comments"
                                                                                   style="font-size:15px;"></i>feedback</label>
-                                            </a>
+                                            </a>--%>
                                         </li>
                                         <li>
-                                            Literaturverzeichnis hochgeladen
-                                            <a class="annotationview" role="button">
+                                            "Forschungsfrage: Warum essen Vegetarier Blumen?"
+                                            <%--<a class="annotationview" role="button">
                                                 <label style="font-size:10px;"><i class="far fa-comments"
                                                                                   style="font-size:15px;"></i>feedback</label>
-                                            </a>
+                                            </a>--%>
                                         </li>
                                         <li>
                                             Die armen Vegetarier
-                                            <a class="annotationview" role="button">
+                                            <%--<a class="annotationview" role="button">
                                                 <label style="font-size:10px;"><i class="far fa-comments"
                                                                                   style="font-size:15px;"></i>feedback</label>
-                                            </a>
+                                            </a>--%>
                                         </li>
                                     </ul>
                                 </td>
                                 <td></td>
 
                                 <td width="100px" valign="top">
-                                    <h3>student3</h3>
+                                    <h3>teststudent3</h3>
                                     <img src="libs/img/3.jpg">
-                                    <a href="#">student3@uni.de</a>
+                                    <a href="#">test3@uni.de</a>
                                     <hr>
-                                    <ul id="submissionUpload">
+                                    <ul>
+                                        <li>
+                                            Vielen Dank für die Blumen
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments"
+                                                                                  style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            Durchführung
+                                            <a class="annotationview" role="button">
+                                                <label style="font-size:10px;"><i class="far fa-comments"
+                                                                                  style="font-size:15px;"></i>feedback</label>
+                                            </a>
+                                        </li>
                                     </ul>
                                 </td>
 

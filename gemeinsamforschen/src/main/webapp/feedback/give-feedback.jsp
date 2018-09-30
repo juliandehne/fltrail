@@ -64,19 +64,25 @@
                                         <div class="journal-form-category">
                                             Feedbackempfänger:
                                             <select name="reciever" id="reciever" form="journalform"> <%--form="journalform"--%>
-                                                <%--option value="sandra"> sandra </option>--%>
                                             </select>
                                         </div>
 
                                         <div class="journal-form-container">
 
-                                            <div class="journal-form-editor">
+                                            <div class="journal-form-editor" style="width: 80%">
                                                 <textarea id="editor" name="text" form="journalform"></textarea> <%--form="journalform"--%>
                                             </div>
 
+                                            <div>
+                                                Vorschläge für ein gutes Feedback
+                                                1 kkllaf
+                                                2 dasfna
+                                                3 jkdavnaol
+                                            </div>
+
                                             <div class="journal-form-buttons">
-                                                <button id="sub" class="btn btn-default btn-sm"> Speichern </button>
                                                 <button id="backLink" class="btn btn-default btn-sm"> Zur&uuml;ck </button>
+                                                <button id="sub" class="btn btn-default btn-sm"> Speichern </button>
                                             </div>
                                         </div>
                                     </form>

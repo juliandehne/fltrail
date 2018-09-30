@@ -14,22 +14,14 @@ public class PeerFeedbackController {
     //@Override
     public String createPeer2PeerFeedback(Peer2PeerFeedback feedback) {
 
-        // create a new id if we found no id.
         String uuid = UUID.randomUUID().toString();
-        // while (existsfeedbackId(uuid)) {
-        //     uuid = UUID.randomUUID().toString();
-        //  }
 
-        System.out.print("FEEDBACK"+feedback);
-
-        // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
-        MysqlConnect connection1 = new MysqlConnect();
-        connection1.connect();
+        //MysqlConnect connection1 = new MysqlConnect();
+        //connection1.connect();
 
-        // build and execute request
         String request = "INSERT INTO peerfeedback (`id`, `reciever`, `sender`, `text`, `category`, `filename`) VALUES (?,?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, uuid, feedback.getFeedbackreceiver(), feedback.getFeedbacksender(), feedback.getText(), feedback.getFeedbackcategory(), feedback.getFilename());
         System.out.print("FEEDBACKCREATE");
@@ -48,67 +40,57 @@ public class PeerFeedbackController {
 
     }
 
-    public ArrayList<Peer2PeerFeedback> getAllFeedbacks(String sender) {
+    public ArrayList<Peer2PeerFeedback> getsendedPeerfedback(String sender) {
 
-        ArrayList<Peer2PeerFeedback> feedbacks = new ArrayList<>();
+        ArrayList<Peer2PeerFeedback> feedbacksbysender = new ArrayList<>();
 
-        // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         System.out.print("SENDER"+sender);
 
-        // build and execute request
         String request = "SELECT * FROM peerfeedback WHERE sender= ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, sender);
         System.out.print("rs:"+rs);
-        //feedbacks.add(getPeerfeedbackFromResultSet(rs));
+
         while (rs.next()) {
-            feedbacks.add(getPeerfeedbackFromResultSet(rs));
+            feedbacksbysender.add(getPeerfeedbackFromResultSet(rs));
         }
 
-        // close connection
         connection.close();
-        System.out.print("FEEDBACKS"+feedbacks);
-        return feedbacks;
-
+        System.out.print("FEEDBACKS"+feedbacksbysender);
+        return feedbacksbysender;
     }
 
     public ArrayList<Peer2PeerFeedback> getRecievedPeerfeedback(String reciever) {
 
         ArrayList<Peer2PeerFeedback> rf = new ArrayList<>();
 
-        // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         System.out.print("RECIEVER"+reciever);
 
-        // build and execute request
         String request = "SELECT * FROM peerfeedback WHERE reciever= ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, reciever);
         System.out.print("rs:"+rs);
-        //feedbacks.add(getPeerfeedbackFromResultSet(rs));
+
         while (rs.next()) {
             rf.add(getPeerfeedbackFromResultSet(rs));
         }
 
-        // close connection
         connection.close();
         System.out.print("FEEDBACKS"+rf);
         return rf;
-
     }
 
     public ArrayList<Peer2PeerFeedback> getFeedbacksBySender(String reciever, String sender) {
 
         ArrayList<Peer2PeerFeedback> feedbacks = new ArrayList<>();
 
-        // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
-        // build and execute request
         String request = "SELECT * FROM peerfeedback WHERE reciever= ? AND sender= ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, reciever, sender);
         System.out.print("rsfb:"+rs);
@@ -116,11 +98,9 @@ public class PeerFeedbackController {
             feedbacks.add(getPeerfeedbackFromResultSet(rs));
         }
 
-        // close connection
         connection.close();
         System.out.print(feedbacks);
         return feedbacks;
-
     }
 
     public ArrayList<String> getSender(String token){
@@ -128,17 +108,12 @@ public class PeerFeedbackController {
         ArrayList<String> username = new ArrayList<>();
         ArrayList<String> tok = new ArrayList<>();
 
-        // establish connection
         MysqlConnect connection1 = new MysqlConnect();
         connection1.connect();
 
-        //if (token) {
-
             String[] pair = token.split(",");
             System.out.print("TOKEN,,"+pair[0]+pair.length);
-            //System.out.print(pair[0].substring(token.indexOf("+")+1,token.indexOf(",")));
             System.out.print(pair[0].substring(token.indexOf("+")+1));
-            //String[] p= null;
 
             for(int j=0; j < pair.length; j++){
                 pair[j] = pair[j].substring(token.indexOf("+")+1);
@@ -153,16 +128,6 @@ public class PeerFeedbackController {
                     username.add(getNameFromResultSet(rs1));
                 }
             }
-        //}
-        // build and execute request
-        /**System.out.print("token:"+token);
-        String request1 = "SELECT * FROM users WHERE token= ?;";
-        VereinfachtesResultSet rs1 = connection1.issueSelectStatement(request1, token);
-        System.out.print("getSender:"+rs1);
-
-        while (rs1.next()) {
-            username.add(getNameFromResultSet(rs1));
-        }*/
         System.out.print("getSender:"+username);
         return username;
     }
@@ -178,7 +143,6 @@ public class PeerFeedbackController {
         ArrayList<String> emails = new ArrayList<>();
         ArrayList<String> groupid = new ArrayList<>();
 
-        // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
@@ -191,8 +155,6 @@ public class PeerFeedbackController {
         String el = email.get(0);
         System.out.print("email"+el);
 
-
-        // establish connection
         MysqlConnect connection1 = new MysqlConnect();
         connection1.connect();
 
@@ -205,8 +167,6 @@ public class PeerFeedbackController {
         String us = groupid.get(0);
         System.out.print("groupid"+us);
 
-
-        // establish connection
         MysqlConnect connection2 = new MysqlConnect();
         connection2.connect();
 
@@ -221,8 +181,6 @@ public class PeerFeedbackController {
         String[] e = ems.split(",");
         System.out.print("emails:"+e);
 
-
-        // establish connection
         MysqlConnect connection3 = new MysqlConnect();
         connection3.connect();
 
@@ -239,7 +197,6 @@ public class PeerFeedbackController {
         }
 
         System.out.print("rs4:" + users);
-        // close connection
         connection.close();
         connection1.close();
         connection2.close();
@@ -252,25 +209,21 @@ public class PeerFeedbackController {
 
     public boolean checkFeedback(String checkFeedback) {
 
-        // establish connection
         MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
-        // build and execute request
         String request = "SELECT * FROM peerfeedback WHERE sender = ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, checkFeedback);
         System.out.print(rs);
 
         if (rs!=null) {
             System.out.print("true");
-            // close connection
             connection.close();
 
             return true;
 
         } else {
             System.out.print("false");
-            // close connection
             connection.close();
 
             return false;
@@ -289,7 +242,6 @@ public class PeerFeedbackController {
         String txt = rs.getString("reciever");
         String filename = rs.getString("filename");
 
-        //return new Peer2PeerFeedback("id", 1234, Category.TITEL, "reciever", "sender", "test", "filename");
         return new Peer2PeerFeedback(id,timestamp,Category.valueOf(category),rec, sender, txt, filename);
     }
 

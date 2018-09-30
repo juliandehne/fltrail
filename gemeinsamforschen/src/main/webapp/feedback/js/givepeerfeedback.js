@@ -24,6 +24,11 @@ $(document).ready(function () {
     $('#zsm').val(zsm);
     console.log(zsm);
 
+    console.log(window.parent.document.getElementById("user"));
+
+    var x = localStorage.getItem("user");
+    console.log(x);
+
     $('#viewfeedback').click(function () {
         location.href="../feedback/view-feedback.jsp?token="+getUserTokenFromUrl();
     });
@@ -38,43 +43,24 @@ $(document).ready(function () {
         forceSync: true,
     });
 
-    /**console.log(student);
-    var nme = document.getElementById("user").innerHTML;
-    var zsm = nme +"+"+ student;*/
-
-
-
-    var checkFeedback = student;
-    console.log(checkFeedback);
+    //var checkFeedback = student;
+    //console.log(checkFeedback);
 
     $('#sub').click(function () {
-        //event.preventDefault();
 
         $.ajax({
             url: "../rest/peerfeedback/save" //+ student
         }).then(function (data) {
-            //$('#editor').append(data.descriptionMD);
-            //location.href="../feedback/give-feedback.jsp?="+getUserTokenFromUrl();
             console.log("save:"+data);
             location.href="../feedback/give-feedback.jsp?="+getUserTokenFromUrl();
 
         });
-        //$("#journalform").submit();
-        //event.preventDefault();
         return location.href="../feedback/give-feedback.jsp?="+getUserTokenFromUrl();
     });
 
-    /**$.ajax({
-        url: "../rest/peerfeedback/save", //+ student
-    }).then(function (data) {
-        //$('#editor').append(data.descriptionMD);
-        //location.href="../feedback/give-feedback.jsp?="+getUserTokenFromUrl();
-        console.log("save:"+data);
-
-    });*/
 
     $.ajax({
-        url: "../rest/peerfeedback/getUsers/" + student
+        url: "../rest/peerfeedback/getUsers/" + zsm
     }).then(function (data) {
         console.log("getUsers:"+data);
         loadUsers(data);
@@ -82,7 +68,7 @@ $(document).ready(function () {
 
 
     $.ajax({
-        url: "../rest/peerfeedback/checkFeedback/" +checkFeedback
+        url: "../rest/peerfeedback/checkFeedback/" +student
     }).then(function (data) {
         console.log("checkFeedback:"+data);
     });
@@ -90,26 +76,21 @@ $(document).ready(function () {
 
     function loadUsers(data) {
 
-
         for (var user in data) {
 
             var sender = [];
             var name = [];
-
             var pair = data[user].split("+");
             name.push(pair[0]);
             sender.push(pair[1]);
             console.log(name+sender);
 
             var newopt = document.createElement("OPTION");
-
             newopt.insertAdjacentHTML('beforeend', name);
             newopt.value = data[user];
 
-            // füge das neu erstellte Element und seinen Inhalt ins DOM ein
             var currentdiv = document.getElementById("reciever");
             currentdiv.appendChild(newopt);
-
         }
 
     }

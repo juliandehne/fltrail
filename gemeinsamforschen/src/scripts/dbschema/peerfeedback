@@ -14,3 +14,20 @@ CREATE TABLE if not exists `peerfeedback` (
 )
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+
+
+INSERT INTO `peerfeedback` (`id`, `timestamp`, `reciever`, `sender`, `text`, `category`, `filename`) VALUES
+  ('1234', '2018-09-18 13:35:25', 'teststudent1+test1', 'teststudent3+test3','Ich habe deinen Beitrag gern gelesen
+  und fand ihn gut aber ich habe noch eine Frage und zwar ...','TITEL','Titel: Blumen&Vegetarier');
+
+INSERT INTO `peerfeedback` (`id`, `timestamp`, `reciever`, `sender`, `text`, `category`, `filename`) VALUES
+  ('12345', '2018-09-19 13:35:25', 'teststudent1+test1', 'teststudent5+test5','Was ich gut fand * Schreibstil * klar formuliert',
+   'AUSWERTUNG','Vegetarier essen Blumen');
+
+INSERT INTO `peerfeedback` (`id`, `timestamp`, `reciever`, `sender`, `text`, `category`, `filename`) VALUES
+  ('12346', '2018-09-15 13:35:25', 'teststudent3+test3', 'teststudent1+test1','Ich habe deinen Beitrag gern gelesen
+  und fand ihn gut aber ich habe noch eine Idee und zwar ...','DURCHFÜHRUNG','Durchführung: Blumen&Vegetarier');
+
+INSERT INTO `peerfeedback` (`id`, `timestamp`, `reciever`, `sender`, `text`, `category`, `filename`) VALUES
+  ('12347', '2018-09-13 13:35:25', 'teststudent5+test5', 'teststudent1+test1','Ich habe deinen Beitrag gern gelesen
+  und fand ihn gut aber dass würde ich anders machen und zwar ...','METHODE','Methode: Blumen gießen');
