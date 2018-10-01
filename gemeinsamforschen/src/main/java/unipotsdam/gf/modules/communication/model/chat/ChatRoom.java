@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.communication.model.chat;
 
+// TODO: never used at the moment by ICommunication, just context, maybe remove
 public class ChatRoom {
 
     String id;

@@ -368,12 +368,6 @@ public class CommunicationDummyService implements ICommunication {
         return userEmailProblemList.isEmpty();
     }
 
-    // TODO: remove after done implementing
-    // just for postman testing
-    public User getUser() {
-        return new User("Martin Stähr", "test", "test@test.com", true);
-    }
-
     private boolean hasEmptyParameter(String... parameters) {
         return Arrays.stream(parameters).anyMatch(String::isEmpty);
     }

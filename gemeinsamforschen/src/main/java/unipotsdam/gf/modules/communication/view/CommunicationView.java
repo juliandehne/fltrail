@@ -2,12 +2,8 @@ package unipotsdam.gf.modules.communication.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.config.GFRocketChatConfig;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.communication.model.EMailMessage;
-import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
-import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -17,11 +13,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import static java.util.Objects.isNull;
@@ -40,46 +33,12 @@ public class CommunicationView {
     @Path("/info/{roomId}")
     public Response getChatRoomInformation(@PathParam("roomId") String roomId) {
         String chatRoomName = communicationService.getChatRoomName(roomId);
-        if (isNull(chatRoomName)) {
+        if (chatRoomName.isEmpty()) {
             log.error("chatRoom not found for roomId: {}", roomId);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         log.trace("getChatRoomInformationResponse: {}", chatRoomName);
         return Response.ok(chatRoomName).build();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/history/{roomId}")
-    public Response getChatHistory(@PathParam("roomId") String roomId) {
-        List<ChatMessage> chatMessages = communicationService.getChatHistory(roomId);
-        if (isNull(chatMessages)) {
-            log.error("getChatHistory: chatRoom not found for roomId: {}", roomId);
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        log.trace("response for getChatHistory: {}", chatMessages);
-        return Response.ok(chatMessages).build();
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/send/{roomId}")
-    public Response sendMessage(EMailMessage EMailMessage, @PathParam("roomId") String roomId) {
-        if (isNull(EMailMessage)) {
-            log.trace("sendMessage EMailMessage object was null");
-            return Response.status(Response.Status.BAD_REQUEST).entity("must provide EMailMessage").build();
-        }
-        boolean wasSend = communicationService.sendMessageToChat(EMailMessage, roomId);
-        Response response;
-        if (wasSend) {
-            log.trace("response for sendMessage: {}", wasSend);
-            response = Response.ok(wasSend).build();
-        } else {
-            log.error("error while sending EMailMessage for EMailMessage: {}", EMailMessage);
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while sending EMailMessage").build();
-        }
-        return response;
     }
 
     @POST
@@ -134,82 +93,19 @@ public class CommunicationView {
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/setTopic/{roomId}")
-    public Response setChatRoomTopic(@PathParam("roomId") String roomId, @QueryParam("topic") String topic) {
-        if (isNull(topic)) {
-            log.trace("setTopic param not given");
-            return Response.status(Response.Status.BAD_REQUEST).entity("topic must be not empty").build();
-        }
-        boolean wasSet = communicationService.setChatRoomTopic(roomId, topic);
-        if (isNull(wasSet)) {
-            log.error("addChatRoomTopic: chatRoom not found for roomId: {}, topic: {}", roomId, topic);
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        Response response;
-        if (wasSet) {
-            log.trace("response for setTopic: {}", wasSet);
-            response = Response.ok(wasSet).build();
-        } else {
-            log.error("error while setting topic to chat room");
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while setting topic to chat room").build();
-        }
-        return response;
-    }
-
-    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/create")
-    public Response createChatRoom(@QueryParam("name") String name, List<User> users) {
+    @Path("/room/create")
+    public Response createChatRoom(String name, List<User> users, boolean readOnly) {
         if (isNull(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide name as queryParam").build();
         }
-        String chatId = communicationService.createChatRoom(name, false, users);
-        if (isNull(chatId)) {
+        String chatId = communicationService.createChatRoom(name, readOnly, users);
+        if (chatId.isEmpty()) {
             log.error("error while creating chatRoom for: name: {}, users: {}", name, users);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
         log.trace("response for createChatRoom: {}", chatId);
         return Response.status(Response.Status.CREATED).entity(chatId).build();
     }
-
-    // Temp: just get user as json
-    // TODO: remove after done implementing
-    @GET
-    @Path("/user")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser() {
-        User user = ((CommunicationDummyService) communicationService).getUser();
-        return Response.ok(user).build();
-    }
-
-    @GET
-    @Path("/auth")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAuth() {
-        User user = new User("Test", "password", "email", false);
-        HashMap<String, String> authentificationMap = new HashMap<>();
-        authentificationMap.put("user", user.getEmail());
-        authentificationMap.put("password", user.getPassword());
-        return Response.ok(authentificationMap).build();
-    }
-
-    @GET
-    @Path("/test")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response test() {
-        List<String> usernameList = new ArrayList<>();
-        usernameList.add(GFRocketChatConfig.ADMIN_USER.getRocketChatUsername());
-        usernameList.add(GFRocketChatConfig.TEST_USER.getRocketChatUsername());
-        HashMap<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put("name", "Test");
-        bodyMap.put("readOnly", false);
-        if (!usernameList.isEmpty()) {
-            bodyMap.put("members", usernameList);
-        }
-        return Response.ok(bodyMap).build();
-
-    }
-
 }
