@@ -6,7 +6,7 @@ $(document).ready(function(){
         location.href = "project-docent.jsp" + getUserEmail() + '&projectName=' + 'Kaleo';
     });
     $('#createProject').on('click', function(){
-        location.href="./management/create-project.jsp";
+        location.href="create-project.jsp";
     });
 
 });

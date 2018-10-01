@@ -75,7 +75,7 @@ $(document).ready(function() {
      * back button
      */
     $('#btnBack').click(function () {
-        location.href = "../project-student.jsp" ;
+        location.href = "../../project/project-student.jsp" ;
     });
 
     /**

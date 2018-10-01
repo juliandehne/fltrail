@@ -14,7 +14,7 @@
 
 <head>
     <omniDependencies:omniDependencies hierarchy="0"/>
-    <script src="core/project-student.js"></script>
+    <script src="project-student.js"></script>
 
 </head>
 
@@ -35,7 +35,7 @@
 
                                 <td width="100px" valign="top">
                                     <h3>student1</h3>
-                                    <img src="libs/img/1.jpg">
+                                    <img src="../libs/img/1.jpg">
                                     <a href="#">student1@uni.de</a>
                                     <hr>
                                     <ul>
@@ -60,7 +60,7 @@
 
                                 <td width="100px" valign="top">
                                     <h3>student2</h3>
-                                    <img src="libs/img/2.jpg">
+                                    <img src="../libs/img/2.jpg">
                                     <a href="#">student2@uni.de</a>
                                     <hr>
                                     <ul>
@@ -91,7 +91,7 @@
 
                                 <td width="100px" valign="top">
                                     <h3>student3</h3>
-                                    <img src="libs/img/3.jpg">
+                                    <img src="../libs/img/3.jpg">
                                     <a href="#">student3@uni.de</a>
                                     <hr>
                                     <ul id="submissionUpload">

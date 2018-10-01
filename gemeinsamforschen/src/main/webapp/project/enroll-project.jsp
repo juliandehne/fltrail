@@ -10,9 +10,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gruppenmatcher</title>
-    <script src="core/config.js"></script>
-    <script src="core/utility.js"></script>
-    <script src="management/js/join-project.js"></script>
+    <script src="config.js"></script>
+    <script src="utility.js"></script>
+    <script src="js/join-project.js"></script>
 
 </head>
 

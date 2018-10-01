@@ -38,14 +38,14 @@ $(document).ready(function () {
 
                 // jump to previous page
                 //window.history.back();
-                location.href = "../project-student.jsp";
+                location.href = "../../project/project-student.jsp";
             }
         }
         // nothing to check
         else {
             // jump to previous page
             //window.history.back();
-            location.href = "../project-student.jsp";
+            location.href = "../../project/project-student.jsp";
         }
     });
 

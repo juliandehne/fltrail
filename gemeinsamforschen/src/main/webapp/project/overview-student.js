@@ -2,7 +2,7 @@ $(document).ready(function(){
     let userName = $('#userEmail').html().trim();
     getProjects(userName);
     $('#enrollProject').on('click', function(){
-        location.href="management/join-project.jsp";
+        location.href="join-project.jsp";
     });
 });
 
