@@ -4,8 +4,6 @@ import io.github.openunirest.http.HttpResponse;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.assignments.Assignee;
-import unipotsdam.gf.assignments.NotImplementedLogger;
 import unipotsdam.gf.config.GFRocketChatConfig;
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
@@ -317,7 +315,7 @@ public class CommunicationDummyService implements ICommunication {
 
     // TODO: Think about splitting email and chat communication into different
     @Override
-    public void sendSingleMessage(EMailMessage eMailMessage, User user) {
+    public boolean sendSingleMessage(EMailMessage eMailMessage, User user) {
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
         properties.put("mail.smtp.starttls.enable", "true");
@@ -339,23 +337,35 @@ public class CommunicationDummyService implements ICommunication {
             message.setText(eMailMessage.getBody());
 
             Transport.send(message);
-
-
+            return true;
         } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+            log.error("Exception while sending an email: {}", e);
+            return false;
         }
     }
 
     @Override
-    public void informAboutMissingTasks(Map<StudentIdentifier, ConstraintsMessages> tasks, Project project) {
-
+    public boolean informAboutMissingTasks(Map<StudentIdentifier, ConstraintsMessages> tasks, Project project) {
+        HashMap<StudentIdentifier, ConstraintsMessages> notSentEMailMap = new HashMap<>();
+        tasks.entrySet().stream().filter(entry -> {
+            User user = new User();
+            user.setEmail(entry.getKey().getStudentId());
+            EMailMessage eMailMessage = new EMailMessage();
+            eMailMessage.setSubject("Benachrichtigung über nicht erledigte Aufgaben im Projekt " + project.getId());
+            eMailMessage.setBody(entry.getValue().toString());
+            return !sendSingleMessage(eMailMessage, user);
+        }).forEach(entry -> notSentEMailMap.put(entry.getKey(), entry.getValue()));
+        return notSentEMailMap.isEmpty();
     }
 
     @Override
-    public void sendMessageToUsers(Project project, String message) {
-        // TODO implement as email or directed message, popup after login or whatever
-        String message2 = "sending email with message: " + message + " to: " + project.getId();
-        NotImplementedLogger.logAssignment(Assignee.MARTIN, CommunicationDummyService.class, message2);
+    public boolean sendMessageToUsers(Project project, EMailMessage eMailMessage) {
+        List<User> users = userDAO.getUsersByProjectId(project.getId());
+        List<User> userEmailProblemList = users
+                .stream()
+                .filter(user -> !sendSingleMessage(eMailMessage, user))
+                .collect(Collectors.toList());
+        return userEmailProblemList.isEmpty();
     }
 
     // TODO: remove after done implementing
@@ -385,7 +395,6 @@ public class CommunicationDummyService implements ICommunication {
         }
 
         if (!loginUser(user)) {
-            // TODO: eventually consider rollback because of error or something
             return false;
         }
 

@@ -108,11 +108,10 @@ public interface ICommunication {
     String getChatRoomLink(String userToken, String projectId);
 
     // TODO implement as Email or whatever
-    void sendSingleMessage(EMailMessage EMailMessage, User user);
+    boolean sendSingleMessage(EMailMessage EMailMessage, User user);
 
     //added by Axel.
-    void informAboutMissingTasks(Map<StudentIdentifier, ConstraintsMessages> tasks, Project project);
+    boolean informAboutMissingTasks(Map<StudentIdentifier, ConstraintsMessages> tasks, Project project);
 
-    // TODO implement as Email or whatever
-    void sendMessageToUsers(Project project, String message);
+    boolean sendMessageToUsers(Project project, EMailMessage eMailMessage);
 }
