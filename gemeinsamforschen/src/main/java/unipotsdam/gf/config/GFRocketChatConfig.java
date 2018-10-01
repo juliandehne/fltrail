@@ -10,9 +10,11 @@ public class GFRocketChatConfig {
 
     public static final String ROCKET_CHAT_API_LINK = ROCKET_CHAT_LINK + "api/v1/";
 
-    public static final User ADMIN_USER = new User("Admin Nachname", "adminpassword", "adminmail@adminmail.com",
-            "AdminNachname", "rocketChatPersonalAccessToken", "rocketChatUserId");
+    public static final User ADMIN_USER = new User("admin nachname", "passwort",
+            "email", "token", "rocketChatUsername", "rocketChatAuthToken",
+            "rocketChatPersonalAccessToken", "rocketChatUserId", false);
 
-    public static final User TEST_USER = new User("Test Nachname", "testpassword", "test@gmail.com",
-            "TestNachname", "rocketChatPersonalAccessToken", "rocketChatUserId");
+    public static final User TEST_USER = new User("test nachname", "passwort",
+            "email", "token", "rocketChatUsername", "rocketChatAuthToken",
+            "rocketChatPersonalAccessToken", "rocketChatUserId", false);
 }
