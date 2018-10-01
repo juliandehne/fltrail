@@ -20,7 +20,7 @@ import java.util.Map;
 @ManagedBean
 @Resource
 @Singleton
-class AssessmentDBCommunication {
+public class AssessmentDBCommunication {
 
     @Inject
     MysqlConnect connect;
@@ -30,7 +30,7 @@ class AssessmentDBCommunication {
         cheatCheckerMethods result = cheatCheckerMethods.none;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `assessmentmethod` WHERE `projectName`=?";
+        String mysqlRequest = "SELECT * FROM `assessmentmechanismselected` WHERE `projectName`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
         if (vereinfachtesResultSet.next()) {
             String resultString = vereinfachtesResultSet.getString("cheatCheckerMethod");
