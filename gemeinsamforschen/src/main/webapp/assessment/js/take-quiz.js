@@ -110,7 +110,7 @@ function safeQuizAnswers() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            location.href = "rate-contribution.jsp";
+            location.href = "rate-contribution.jsp?projectName="+projectName;
         },
         error: function (a, b, c) {
 

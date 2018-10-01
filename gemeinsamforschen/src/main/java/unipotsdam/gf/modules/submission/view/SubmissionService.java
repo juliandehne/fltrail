@@ -105,8 +105,8 @@ public class SubmissionService {
     }
 
     @GET
-    @Path("/project/{id}")
-    public Response getSubmissionPartsByProjectId(@PathParam("id") String projectName) {
+    @Path("/project/{projectName}")
+    public Response getSubmissionPartsByProjectId(@PathParam("projectName") String projectName) {
         // get submission project representation from database based by project id
         SubmissionController controller = new SubmissionController();
         ArrayList<SubmissionProjectRepresentation> representations = controller.getSubmissionPartsByProjectId(projectName);

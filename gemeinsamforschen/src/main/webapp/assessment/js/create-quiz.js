@@ -60,10 +60,10 @@ $(document).ready(function () {
             type: 'POST',
             success: function (response) {
                 if (response === "student") {
-                    location.href = "Quiz.jsp";
+                    location.href = "Quiz.jsp?projectName="+projectName;
                 }
                 if (response === "docent") {
-                    location.href = "Quiz-docent.jsp";
+                    location.href = "Quiz-docent.jsp?projectName="+projectName;
                 }
 
             },

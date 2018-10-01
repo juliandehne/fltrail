@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#newQuiz').on('click', function () {
-        location.href = "create-quiz.jsp";
+        location.href = "create-quiz.jsp?projectName="+projectName;
     });
 
     let loading = $('#loadbar').hide();
@@ -78,7 +78,7 @@ $(document).ready(function () {
             url: '../rest/assessments/quiz/' + encodeURIComponent(event.data.quizId),
             type: 'POST',
             success: function () {
-                document.location.href = "quiz-docent.jsp";
+                document.location.href = "quiz-docent.jsp?projectName="+projectName;
             },
             error: function (a) {
                 alert(a)

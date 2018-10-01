@@ -172,7 +172,7 @@ function assessPeer() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            location.href = "take-quiz.jsp";
+            location.href = "take-quiz.jsp?projectName="+projectName;
         },
         error: function (a, b, c) {
 

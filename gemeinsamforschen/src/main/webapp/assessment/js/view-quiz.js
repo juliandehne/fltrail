@@ -51,7 +51,7 @@ $(document).ready(function () {
             for (let i = 0; i < data.correctAnswers.length; i++) {
                 answersTd = answersTd + '<div><label class="element-animation1 btn btn-lg btn-success btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span><input type="checkbox">' + data.correctAnswers[i] + '</label></div>';
             }
-            for (i = 0; i < data.incorrectAnswers.length; i++) {
+            for (let i = 0; i < data.incorrectAnswers.length; i++) {
                 answersTd = answersTd + '<div><label class="element-animation1 btn btn-lg btn-danger btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span><input type="checkbox">' + data.incorrectAnswers[i] + '</label></div>';
             }
             trAnswers.innerHTML = answersTd + '</div></td>';
@@ -67,7 +67,7 @@ $(document).ready(function () {
             url: '../rest/assessments/quiz/' + encodeURIComponent(quizId),
             type: 'POST',
             success: function () {
-                document.location.href = "quiz.jsp";
+                document.location.href = "Quiz.jsp?projectName="+projectName;
             },
             error: function (a) {
                 alert(a)

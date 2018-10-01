@@ -81,7 +81,7 @@ function getProjects(userName){
             for (let projectName in response){
                 if (response.hasOwnProperty(projectName)) {
                     $('#project' + response[projectName]).on('click', function () {
-                        location.href="project-student.jsp?projectName="+projectName;
+                        location.href="project-student.jsp?projectName="+response[projectName];
                     });
                     updateStatus(response[projectName]);
 

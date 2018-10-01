@@ -23,7 +23,7 @@ public class Menu extends SimpleTagSupport {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
-        String projectName="";
+        String projectName=request.getParameter("projectName");
         ProjectPhase projectPhase;
         try {
             ProjectDAO projectDAO = new ProjectDAO(new MysqlConnect());

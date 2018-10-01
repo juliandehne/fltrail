@@ -25,6 +25,6 @@ $(document).ready(function () {
     });
 
     $('#newQuiz').on('click', function () {
-        location.href = "create-quiz.jsp";
+        location.href = "create-quiz.jsp?projectName="+projectName;
     });
 });

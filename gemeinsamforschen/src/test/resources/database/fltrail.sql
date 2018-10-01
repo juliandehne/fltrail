@@ -21,7 +21,7 @@ CREATE TABLE if not exists `annotations` (
 CREATE TABLE if not exists `fullsubmissions` (
   `id` VARCHAR(120) NOT NULL,
   `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `user` VARCHAR(120) NOT NULL,
+  `userEmail` VARCHAR(120) NOT NULL,
   `text` MEDIUMTEXT NOT NULL,
   `projectName` VARCHAR(120) NOT NULL,
   PRIMARY KEY (`id`)

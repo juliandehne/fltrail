@@ -6,7 +6,7 @@ $(document).ready(function () {     //todo: paths should be relative
             success: function (data) {
                 alert("here is the TotalPerformance: " + data);
 
-                location.href="../pages/project-student.jsp";
+                location.href="../pages/project-student.jsp?projectName="+projectName;
             },
             error: function (a, b, c) {
                 alert('some error' + a);
