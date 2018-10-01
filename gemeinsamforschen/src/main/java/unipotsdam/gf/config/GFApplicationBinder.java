@@ -15,7 +15,7 @@ import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessmentDummy;
-import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.groupfinding.DummyGroupfinding;
 import unipotsdam.gf.modules.groupfinding.GroupfindingImpl;
@@ -32,7 +32,7 @@ public class GFApplicationBinder extends AbstractBinder {
      */
     @Override
     protected void configure() {
-        bind(CommunicationDummyService.class).to(ICommunication.class);
+        bind(CommunicationService.class).to(ICommunication.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(DummyFeedback.class).to(Feedback.class);
         bind(PeerAssessmentDummy.class).to(IPeerAssessment.class);

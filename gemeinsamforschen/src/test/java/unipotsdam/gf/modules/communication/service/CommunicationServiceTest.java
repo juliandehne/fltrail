@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
 import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
 import static unipotsdam.gf.config.GFRocketChatConfig.TEST_USER;
 
-public class CommunicationDummyServiceTest {
+public class CommunicationServiceTest {
 
     private ICommunication iCommunication;
     private User user;
@@ -35,7 +35,7 @@ public class CommunicationDummyServiceTest {
         InMemoryMySqlConnect inMemoryMySqlConnect = new InMemoryMySqlConnect();
         UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
         GroupDAO groupDAO = new GroupDAO(inMemoryMySqlConnect);
-        iCommunication = new CommunicationDummyService(new UnirestService(), userDAO, groupDAO);
+        iCommunication = new CommunicationService(new UnirestService(), userDAO, groupDAO);
         user = new User("Vorname Nachname", "password", "email@uni.de", true);
         createdChatRooms = new ArrayList<>();
     }

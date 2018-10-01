@@ -53,9 +53,9 @@ import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_ROOM_LINK;
 @Resource
 @ManagedBean
 @Singleton
-public class CommunicationDummyService implements ICommunication {
+public class CommunicationService implements ICommunication {
 
-    private final static Logger log = LoggerFactory.getLogger(CommunicationDummyService.class);
+    private final static Logger log = LoggerFactory.getLogger(CommunicationService.class);
 
     private UnirestService unirestService;
     private UserDAO userDAO;
@@ -64,7 +64,7 @@ public class CommunicationDummyService implements ICommunication {
     // TODO: refactor error handling and add maybe some descriptions
 
     @Inject
-    public CommunicationDummyService(UnirestService unirestService, UserDAO userDAO, GroupDAO groupDAO) {
+    public CommunicationService(UnirestService unirestService, UserDAO userDAO, GroupDAO groupDAO) {
         this.unirestService = unirestService;
         this.userDAO = userDAO;
         this.groupDAO = groupDAO;

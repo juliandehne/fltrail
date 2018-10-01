@@ -9,7 +9,7 @@ import unipotsdam.gf.core.management.project.ProjectDAO;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 import unipotsdam.gf.util.TestHelper;
@@ -26,7 +26,7 @@ public class DummyProjectCreationServiceTest {
         Management management = TestHelper.getManagementImpl(inMemoryMySqlConnect);
         GroupDAO groupDAO = new GroupDAO(inMemoryMySqlConnect);
         UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
-        ICommunication communication = new CommunicationDummyService(new UnirestService(), userDAO, groupDAO);
+        ICommunication communication = new CommunicationService(new UnirestService(), userDAO, groupDAO);
 
         DummyProjectCreationService dummyProjectCreationService = new DummyProjectCreationService(communication, management, groupDAO, userDAO);
 

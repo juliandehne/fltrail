@@ -12,7 +12,7 @@ import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
-import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 import unipotsdam.gf.modules.journal.service.IJournalImpl;
@@ -40,7 +40,7 @@ public class PhasesImpl implements IPhases {
 
     private GroupDAO groupDAO = new GroupDAO(new MysqlConnect());
 
-    private ICommunication iCommunication = new CommunicationDummyService(new UnirestService(), userDAO, groupDAO);
+    private ICommunication iCommunication = new CommunicationService(new UnirestService(), userDAO, groupDAO);
 
     private IJournal iJournal = new IJournalImpl();
 
