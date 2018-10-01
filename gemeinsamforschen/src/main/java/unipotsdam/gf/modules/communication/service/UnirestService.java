@@ -14,15 +14,15 @@ import javax.inject.Singleton;
 @Singleton
 public class UnirestService {
 
-    private static boolean objectMapperSet = false;
+    private static boolean isInitialized = false;
 
     public UnirestService() {
         // has to be set for application
-        if (!objectMapperSet) {
+        if (!isInitialized) {
             Unirest.setObjectMapper(new JacksonObjectMapper());
-            objectMapperSet = true;
+            Unirest.setDefaultHeader("Content-Type", "application/json");
+            isInitialized = true;
         }
-        Unirest.setDefaultHeader("Content-Type", "application/json");
     }
 
     public GetRequest get(String url) {
