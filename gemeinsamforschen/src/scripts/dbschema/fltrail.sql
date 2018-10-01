@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `name` varchar(100) NOT NULL,
   `password` varchar(400) NOT NULL,
   `active` tinyint(1) NOT NULL,
-  `timecreated` long not null,
+  `timecreated` mediumtext not null,
   `author` varchar(100) NOT NULL,
   `adminPassword` varchar(400) NOT NULL,
   `phase` varchar(400) NOT NULL,
@@ -158,8 +158,41 @@ CREATE TABLE IF NOT EXISTS `workrating` (
   `autonomous` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE if not exists `journals` (
+  `id`         varchar(400) NOT NULL,
+  `timestamp`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
+  `userName`     varchar(400) NOT NULL,
+  `projectName`    varchar(400) NOT NULL,
+  `text`       text,
+  `visibility` varchar(50),
+  `category`   varchar(50),
+  `open`       TINYINT(1)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
 
-CREATE TABLE `projectdescription` ( `id` varchar(400) NOT NULL, `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, `author` varchar(400) NOT NULL, `project` varchar(400) NOT NULL, `text` text, `open` tinyint(1) DEFAULT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+CREATE TABLE if not exists `projectDescription` (
+  `id`         varchar(400) NOT NULL,
+  `timestamp`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
+  `userName`     varchar(400) NOT NULL,
+  `projectName`    varchar(400) NOT NULL,
+  `text`       text,
+  `open`       TINYINT(1)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE if not exists `links` (
+  `id`         varchar(400) NOT NULL,
+  `projecdesription`     varchar(400) NOT NULL,
+  `name`       varchar(50) NOT NULL,
+  `link`       varchar(50) NOT NULL
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
 
 
 Alter Table projectuser add  FOREIGN KEY (`userEmail`) REFERENCES users(`email`);
@@ -167,7 +200,3 @@ Alter Table projectuser add  FOREIGN KEY (`projectName`) REFERENCES projects(`na
 ALTER TABLE groupuser add FOREIGN KEY (`userEmail`) REFERENCES users(`email`);
 ALTER TABLE groupuser add FOREIGN KEY (`groupId`) REFERENCES groups(`id`);
 ALTER TABLE projects add foreign key (`author`) REFERENCES users(`email`);
-
-COMMIT;
-
-

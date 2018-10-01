@@ -10,7 +10,7 @@
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
-<omniDependencies:omniDependencies hierarchy="1"></omniDependencies:omniDependencies>
+<omniDependencies:omniDependencies hierarchy="1"/>
 <script type="text/javascript" src="../libs/jQuery-Tags-Input-master/src/jquery.tagsinput.js"></script>
 
 <html>

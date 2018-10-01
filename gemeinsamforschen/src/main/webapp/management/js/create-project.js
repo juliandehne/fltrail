@@ -1,5 +1,5 @@
-var allTheTags = [];
-var projectToken = "";
+let allTheTags = [];
+let projectToken = "";
 
 /**
  * Created by fides-WHK on 19.02.2018.
@@ -16,13 +16,13 @@ $(document).ready(function () {
 // function that creates the project in the db
 function createNewProject(allTheTags, activ) {
     // again hiding the error messages
-    errorMessages()
+    errorMessages();
     // getting the data from the form fields
-    var project = getProjectValues();
+    let project = getProjectValues();
     // create the project
     if (project) {
         // create the project in local db
-        var localurl = "../../gemeinsamforschen/rest/project/create";
+        let localurl = "../../gemeinsamforschen/rest/project/create";
         $.ajax({                        //check local DB for existence of projectName
             url: localurl,
             contentType: 'application/json',
@@ -75,20 +75,21 @@ function initTagsInput(allTheTags) {
 
 function initSendButton(allTheTags) {
     $('#sendProject').on('click', function () {
-        var activ = "1";
+        let activ = "1";
         createNewProject(allTheTags, activ);
     });
 }
 
 // it returns false and shows errors if input is not valid
 function getProjectValues() {
-    var projectName = $("#nameProject").val().trim();
-    var password = $("#passwordProject").val().trim();
-    var adminPassword = $("#adminPassword").val().trim();
-    if (adminPassword == "") {
+    let projectName = $("#nameProject").val().trim();
+    let password = $("#passwordProject").val().trim();
+    let adminPassword = $("#adminPassword").val().trim();
+    if (adminPassword === "") {
         adminPassword = "1234";
     }
-    var reguexp = /^[a-zA-Z0-9äüöÄÜÖ\ ]+$/;
+    allTheTags = $("#tagsProject").tagsinput('items');
+    let reguexp = /^[a-zA-Z0-9äüöÄÜÖ\ ]+$/;
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
         return false;
@@ -105,8 +106,8 @@ function getProjectValues() {
     }
 
     // TODO find out author
-    var project = {
-        "id": projectName,
+    let project = {
+        "projectName": projectName,
         "password": password,
         "active": true,
         "timecreated": null,
@@ -115,21 +116,21 @@ function getProjectValues() {
         "token": "",
         "phase": "GroupFormation",
         "tags": allTheTags
-    }
+    };
     return project;
 }
 
 // creates project name in compbase where it is needed for learning goal oriented matching
 function createProjectinCompbase(projectName) {
-    var url = compbaseUrl + "/api1/courses/" + $("#nameProject").val();
+    let url = compbaseUrl + "/api1/courses/" + $("#nameProject").val();
 
-    var obj = {
+    let obj = {
         "courseId": projectName,
         "printableName": projectName,
         "competences": allTheTags
     };
-    var dataString = JSON.stringify(obj);
-    var addProjectNeo4j = $.ajax({
+    let dataString = JSON.stringify(obj);
+    let addProjectNeo4j = $.ajax({
         url: url,
         contentType: 'application/json',
         activ: true,

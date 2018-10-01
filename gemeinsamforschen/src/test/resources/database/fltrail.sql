@@ -43,42 +43,42 @@ CREATE TABLE if not exists `submissionpartbodyelements` (
   PRIMARY KEY (`fullSubmissionId`, `category`, `startCharacter`, `endCharacter`)
 ) ENGINE = InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `answeredquiz` (
+Create Table if not exists `answeredquiz` (
   `projectName` varchar(400) NOT NULL,
   `userName` varchar(400) NOT NULL,
   `question` varchar(400) NOT NULL,
   `correct` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-CREATE TABLE `contributionrating` (
+Create Table if not exists `contributionrating` (
   `groupId` int(11) NOT NULL,
   `fromPeer` varchar(400) NOT NULL,
   `dossier` int(11) NOT NULL,
   `research` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-CREATE TABLE `grades` (
+Create Table if not exists `grades` (
   `projectName` varchar(400) NOT NULL,
   `userEmail` varchar(400) NOT NULL,
   `grade` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-CREATE TABLE `groups` (
+Create Table if not exists `groups` (
   `id` int(11) NOT NULL,
   `projectName` varchar(400) NOT NULL,
   `chatRoomId` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-CREATE TABLE `groupuser` (
+Create Table if not exists `groupuser` (
   `userName` varchar(400) NOT NULL,
   `projectName` varchar(400) NOT NULL,
   `groupId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-CREATE TABLE `phasesselected` (
+Create Table if not exists `phasesselected` (
   `projectName` varchar(100) NOT NULL,
   `phaseSelected` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-CREATE TABLE `profilepicture` (
+Create Table if not exists `profilepicture` (
   `userName` varchar(200) NOT NULL,
   `image` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-CREATE TABLE `projects` (
+Create Table if not exists `projects` (
   `id` varchar(400) NOT NULL,
   `password` varchar(400) NOT NULL,
   `active` tinyint(1) NOT NULL,
@@ -89,13 +89,13 @@ CREATE TABLE `projects` (
   `phase` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `projectuser` (
+Create Table if not exists `projectuser` (
   `projectName` varchar(400) NOT NULL,
   `useremail` varchar(400) NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT;
+  `id` int(11) NOT NULL AUTO_INCREMENT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `quiz` (
+Create Table if not exists `quiz` (
   `userName` varchar(400) NOT NULL,
   `projectName` varchar(400) NOT NULL,
   `question` varchar(400) NOT NULL,
@@ -103,17 +103,17 @@ CREATE TABLE `quiz` (
   `answer` varchar(400) NOT NULL,
   `correct` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-CREATE TABLE `tags` (
+Create Table if not exists `tags` (
   `projectName` varchar(400) NOT NULL,
   `tag` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-CREATE TABLE `tasks` (
+Create Table if not exists `tasks` (
   `userEmail` varchar(400) NOT NULL,
   `projectName` varchar(400) NOT NULL,
   `taskUrl` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `users` (
+Create Table if not exists `users` (
   `name` varchar(400) NOT NULL,
   `password` varchar(200) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -125,7 +125,7 @@ CREATE TABLE `users` (
   ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
 
-CREATE TABLE `workrating` (
+Create Table if not exists `workrating` (
   `projectName` varchar(400) NOT NULL,
   `userName` varchar(400) NOT NULL,
   `fromPeer` varchar(400) NOT NULL,
@@ -135,6 +135,51 @@ CREATE TABLE `workrating` (
   `communication` int(11) NOT NULL,
   `autonomous` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `projectdescription` (
+ `id` varchar(400) NOT NULL,
+ `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ `author` varchar(400) NOT NULL,
+ `projectName` varchar(400) NOT NULL,
+ `text` text,
+ `open` tinyint(1) DEFAULT NULL
+)
+
+CREATE TABLE if not exists `journals` (
+  `id`         varchar(400) NOT NULL,
+  `timestamp`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
+  `userName`     varchar(400) NOT NULL,
+  `projectName`    varchar(400) NOT NULL,
+  `text`       text,
+  `visibility` varchar(50),
+  `category`   varchar(50),
+  `open`       TINYINT(1)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE if not exists `projectDescription` (
+  `id`         varchar(400) NOT NULL,
+  `timestamp`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP
+  ON UPDATE CURRENT_TIMESTAMP,
+  `userName`     varchar(400) NOT NULL,
+  `projectName`    varchar(400) NOT NULL,
+  `text`       text,
+  `open`       TINYINT(1)
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
+CREATE TABLE if not exists `links` (
+  `id`         varchar(400) NOT NULL,
+  `projecdesription`     varchar(400) NOT NULL,
+  `name`       varchar(50) NOT NULL,
+  `link`       varchar(50) NOT NULL
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;
+
 
 ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`);
@@ -147,5 +192,5 @@ ALTER TABLE `users`
 
 
 ALTER TABLE `groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT
 COMMIT;
