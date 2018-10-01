@@ -264,7 +264,7 @@ class AssessmentDBCommunication {
     Double getGradesFromDB(StudentIdentifier student) {
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `grades` WHERE `projectName`=? AND `userName`=?";
+        String mysqlRequest = "SELECT * FROM `grades` WHERE `projectName`=? AND `userEmail`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail());
         vereinfachtesResultSet.next();

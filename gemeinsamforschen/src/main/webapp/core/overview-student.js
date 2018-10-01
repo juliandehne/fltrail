@@ -81,7 +81,7 @@ function getProjects(userName){
             for (let projectName in response){
                 if (response.hasOwnProperty(projectName)) {
                     $('#project' + response[projectName]).on('click', function () {
-                        viewProject(response[projectName]);
+                        location.href="project-student.jsp?projectName="+projectName;
                     });
                     updateStatus(response[projectName]);
 
@@ -90,22 +90,6 @@ function getProjects(userName){
         },
         error: function(a){
 
-        }
-    });
-}
-
-function viewProject(projectName){
-    $.ajax({
-        url: 'rest/project/view/project/' + projectName,
-        headers: {
-            "Content-Type": "text/plain",
-            "Cache-Control": "no-cache"
-        },
-        type: 'POST',
-        success: function (response) {
-
-        },
-        error: function(a){
         }
     });
 }

@@ -57,7 +57,7 @@ CREATE TABLE `contributionrating` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 CREATE TABLE `grades` (
   `projectName` varchar(400) NOT NULL,
-  `userName` varchar(400) NOT NULL,
+  `userEmail` varchar(400) NOT NULL,
   `grade` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 CREATE TABLE `groups` (

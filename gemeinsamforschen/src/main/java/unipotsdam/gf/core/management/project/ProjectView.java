@@ -42,27 +42,6 @@ public class ProjectView {
         }
     }
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/view/project/{projectName}")
-    public Response viewProject(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws URISyntaxException {
-        // we assume the token is send not the author id
-        req.getSession().setAttribute(GFContexts.PROJECTNAME, projectName);
-        String userEmail = req.getSession().getAttribute(GFContexts.USEREMAIL).toString();
-        User user = iManagement.getUserByToken(userEmail);
-        if (user.getStudent()){
-            return forwardToLocation("project-student.jsp");
-        }else{
-            return forwardToLocation("project-docent.jsp");
-        }
-
-    }
-
-    private Response forwardToLocation(String existsUrl) throws URISyntaxException {
-        return Response.seeOther(new URI(existsUrl)).build();
-    }
-
-
     @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
