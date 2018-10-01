@@ -101,7 +101,7 @@ public class DummyProjectCreationService {
     }
 
     private void saveUserToDatabase(User user) {
-        communicationService.registerAndLoginUser(user);
+        communicationService.registerUser(user);
         management.create(user, new UserProfile());
     }
 }

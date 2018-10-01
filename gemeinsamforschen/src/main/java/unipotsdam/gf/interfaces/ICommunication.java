@@ -103,8 +103,6 @@ public interface ICommunication {
      */
     boolean registerUser(User user);
 
-    boolean registerAndLoginUser(User user);
-
     String getChatRoomLink(String userToken, String projectId);
 
     // TODO implement as Email or whatever

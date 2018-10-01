@@ -33,7 +33,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -46,7 +45,6 @@ import static unipotsdam.gf.config.GFMailConfig.SMTP_HOST;
 import static unipotsdam.gf.config.GFMailConfig.SMTP_PASSWORD;
 import static unipotsdam.gf.config.GFMailConfig.SMTP_PORT;
 import static unipotsdam.gf.config.GFMailConfig.SMTP_USERNAME;
-import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
 import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_API_LINK;
 import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_ROOM_LINK;
 
@@ -73,13 +71,7 @@ public class CommunicationService implements ICommunication {
     @Override
     public List<ChatMessage> getChatHistory(String roomId) {
         //TODO : not needed at the moment, possibly remove
-        ArrayList<ChatMessage> chatMessages = new ArrayList<>();
-        int maxValue = 6;
-        for (int i = 1; i <= maxValue; i++) {
-            chatMessages.add(new ChatMessage(String.valueOf(i), "Dies ist ein Test " + i + ".",
-                    Instant.now().minusSeconds(maxValue * 10 - i * 10), "testUser" + i));
-        }
-        return chatMessages;
+        return null;
     }
 
     @Override
@@ -94,12 +86,10 @@ public class CommunicationService implements ICommunication {
     }
 
     @Override
-    public String createChatRoom(String name, boolean readOnly, List<User> users) {
-        Map<String, String> headerMap = new RocketChatHeaderMapBuilder()
-                .withAuthTokenHeader(ADMIN_USER.getRocketChatPersonalAccessToken())
-                .withRocketChatUserId(ADMIN_USER.getRocketChatUserId()).build();
+    public String createChatRoom(String name, boolean readOnly, List<User> member) {
+        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth().build();
 
-        List<String> usernameList = users.stream().map(User::getRocketChatPersonalAccessToken).collect(Collectors.toList());
+        List<String> usernameList = member.stream().map(User::getRocketChatUsername).collect(Collectors.toList());
         HashMap<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("name", name);
         bodyMap.put("readOnly", readOnly);
@@ -129,7 +119,7 @@ public class CommunicationService implements ICommunication {
     @Override
     public boolean createChatRoom(Group group, boolean readOnly) {
         // chatRoom name: projectId - GroupId
-        String chatRoomName = String.join(" - ", group.getProjectId(), String.valueOf(group.getId()));
+        String chatRoomName = String.join("-", group.getProjectId(), String.valueOf(group.getId()));
         String chatRoomId = createChatRoom(chatRoomName, readOnly, group.getMembers());
         if (chatRoomId.isEmpty()) {
             return false;
@@ -289,18 +279,10 @@ public class CommunicationService implements ICommunication {
         return createCustomAccessToken(user);
     }
 
-    @Override
-    public boolean registerAndLoginUser(User user) {
-        // TODO: remove
-        // TODO: try to login user first --> if it fails there is no user, register afterwards or add exists function
-        return false;
-
-    }
-
     public String getChatRoomLink(String userToken, String projectId) {
         User user = userDAO.getUserByToken(userToken);
         StudentIdentifier studentIdentifier = new StudentIdentifier(projectId, user.getId());
-        String chatRoomId = groupDAO.getChatRoomIdByStudentIdentifier(studentIdentifier);
+        String chatRoomId = groupDAO.getGroupChatRoomIdByStudentIdentifier(studentIdentifier);
         if (chatRoomId.isEmpty()) {
             return Strings.EMPTY;
         }

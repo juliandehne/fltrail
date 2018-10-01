@@ -56,7 +56,9 @@ public class GroupDAO {
     public void persist(Group group) {
         connect.connect();
         List<Group> existingGroups = getExistingEntriesOfGroups(group.getProjectId());
-
+        if (Objects.isNull(group.getChatRoomId())) {
+            group.setChatRoomId("");
+        }
         String mysqlRequestGroup = "INSERT INTO groups (`projectId`,`chatRoomId`) values (?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequestGroup, group.getProjectId(), group.getChatRoomId());
 
@@ -120,7 +122,7 @@ public class GroupDAO {
         return groups;
     }
 
-    public String getChatRoomIdByStudentIdentifier(StudentIdentifier studentIdentifier) {
+    public String getGroupChatRoomIdByStudentIdentifier(StudentIdentifier studentIdentifier) {
         connect.connect();
         String mysqlRequest = "SELECT g.chatRoomId FROM groups g join groupuser gu on g.id=gu.groupId where gu.projectId=? and gu.studentId=?";
         VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlRequest, studentIdentifier.getProjectId(), studentIdentifier.getStudentId());
@@ -130,7 +132,7 @@ public class GroupDAO {
         }
         String chatRoomId = Strings.EMPTY;
         if (resultSet.next()) {
-            resultSet.getString("chatRoomId");
+            chatRoomId = resultSet.getString("chatRoomId");
         }
         connect.close();
         return chatRoomId;

@@ -5,15 +5,22 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import unipotsdam.gf.core.database.InMemoryMySqlConnect;
+import unipotsdam.gf.core.management.group.Group;
+import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
+import unipotsdam.gf.core.management.user.UserProfile;
+import unipotsdam.gf.core.states.model.Constraints;
+import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -21,20 +28,23 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
+import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_ROOM_LINK;
 import static unipotsdam.gf.config.GFRocketChatConfig.TEST_USER;
 
 public class CommunicationServiceTest {
 
     private ICommunication iCommunication;
     private User user;
+    private GroupDAO groupDAO;
+    private UserDAO userDAO;
 
     private List<String> createdChatRooms;
 
     @Before
     public void setUp() {
         InMemoryMySqlConnect inMemoryMySqlConnect = new InMemoryMySqlConnect();
-        UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
-        GroupDAO groupDAO = new GroupDAO(inMemoryMySqlConnect);
+        userDAO = new UserDAO(inMemoryMySqlConnect);
+        groupDAO = new GroupDAO(inMemoryMySqlConnect);
         iCommunication = new CommunicationService(new UnirestService(), userDAO, groupDAO);
         user = new User("Vorname Nachname", "password", "email@uni.de", true);
         createdChatRooms = new ArrayList<>();
@@ -71,11 +81,13 @@ public class CommunicationServiceTest {
         String chatRoom = iCommunication.createEmptyChatRoom("Test", false);
         assertNotNull(chatRoom);
         assertFalse(chatRoom.isEmpty());
+        assertTrue(iCommunication.exists(chatRoom));
 
 
         String chatRoomReadOnly = iCommunication.createEmptyChatRoom("Test2", true);
         assertNotNull(chatRoomReadOnly);
         assertFalse(chatRoomReadOnly.isEmpty());
+        assertTrue(iCommunication.exists(chatRoomReadOnly));
 
         createdChatRooms.addAll(Arrays.asList(chatRoom, chatRoomReadOnly));
     }
@@ -87,8 +99,21 @@ public class CommunicationServiceTest {
 
         assertNotNull(chatRoom);
         assertFalse(chatRoom.isEmpty());
+        assertTrue(iCommunication.exists(chatRoom));
 
         createdChatRooms.add(chatRoom);
+    }
+
+    @Test
+    public void createChatRoomWithGroup() {
+        Group group = new Group();
+        group.setMembers(Collections.singletonList(ADMIN_USER));
+        group.setProjectId("chatWithGroup");
+        group.setId(1);
+        boolean successful = iCommunication.createChatRoom(group, false);
+        assertTrue(successful);
+
+        createdChatRooms.add(group.getChatRoomId());
     }
 
     @Test
@@ -105,6 +130,28 @@ public class CommunicationServiceTest {
         assertTrue(nonExistingChatRoomName.isEmpty());
 
         createdChatRooms.add(chatRoomId);
+    }
+
+    @Test
+    public void getChatRoomLink() {
+        String projectId = "Projekt";
+        Group group = new Group();
+        userDAO.persist(ADMIN_USER, new UserProfile());
+
+        group.setProjectId(projectId);
+        group.setMembers(Collections.singletonList(ADMIN_USER));
+        groupDAO.persist(group);
+        iCommunication.createChatRoom(group, false);
+        groupDAO.update(group);
+
+        String chatRoomLink = iCommunication.getChatRoomLink(ADMIN_USER.getToken(), projectId);
+        assertNotNull(chatRoomLink);
+        assertFalse(chatRoomLink.isEmpty());
+        String expectedUrl = ROCKET_CHAT_ROOM_LINK + projectId + "-" + group.getId() + "?layout=embedded";
+        assertEquals(expectedUrl, chatRoomLink);
+
+        createdChatRooms.add(group.getChatRoomId());
+
     }
 
     @Test
@@ -166,6 +213,23 @@ public class CommunicationServiceTest {
         eMailMessage.setBody("Test Body");
 
         iCommunication.sendSingleMessage(eMailMessage, user);
+    }
+
+    @Test
+    @Ignore
+    public void informAboutMissingTasks() {
+        HashMap<StudentIdentifier, ConstraintsMessages> tasks = new HashMap<>();
+        Project project = new Project();
+        String projectId = "Projekt";
+        project.setId(projectId);
+        StudentIdentifier studentIdentifier = new StudentIdentifier();
+        studentIdentifier.setProjectId(projectId);
+        // Permalink for email-address: http://www.trashmail.de/index.php?search=javatest
+        studentIdentifier.setStudentId("javatest@trashmail.de");
+        ConstraintsMessages constraintsMessages = new ConstraintsMessages(Constraints.QuizCount, studentIdentifier);
+        tasks.put(studentIdentifier, constraintsMessages);
+        boolean successful = iCommunication.informAboutMissingTasks(tasks, project);
+        assertTrue(successful);
     }
 
     @Test

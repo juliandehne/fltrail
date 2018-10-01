@@ -116,7 +116,7 @@ public class UserService {
             return forwardToLocation(existsUrl);
         } else {
             if (createUser) {
-                boolean isRegisteredAndLoggedIn = communicationService.registerAndLoginUser(user);
+                boolean isRegisteredAndLoggedIn = communicationService.registerUser(user);
                 if (!isRegisteredAndLoggedIn) {
                     return registrationError();
                 }
