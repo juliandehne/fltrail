@@ -366,7 +366,7 @@ public class CommunicationService implements ICommunication {
     }
 
     private boolean createCustomAccessToken(User user) {
-        if (hasEmptyParameter(user.getRocketChatAuthToken(), user.getRocketChatUserId())) {
+        if (hasEmptyParameter(user.getRocketChatUserId())) {
             return false;
         }
 
