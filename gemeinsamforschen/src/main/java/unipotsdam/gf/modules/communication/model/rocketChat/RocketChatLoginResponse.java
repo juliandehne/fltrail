@@ -1,7 +1,10 @@
 package unipotsdam.gf.modules.communication.model.rocketChat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Map;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RocketChatLoginResponse {
 
     private String status;

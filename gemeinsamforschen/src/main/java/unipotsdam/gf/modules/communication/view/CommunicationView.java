@@ -13,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -95,8 +96,8 @@ public class CommunicationView {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/room/create")
-    public Response createChatRoom(String name, List<User> users, boolean readOnly) {
+    @Path("/room/create/{name}")
+    public Response createChatRoom(@PathParam("name") String name, List<User> users, @QueryParam("readOnly") boolean readOnly) {
         if (isNull(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide name as queryParam").build();
         }

@@ -1,10 +1,12 @@
 package unipotsdam.gf.modules.communication.model.rocketChat;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.logging.log4j.util.Strings;
 
 import java.util.Map;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RocketChatRegisterResponse {
 
     private Map user;
