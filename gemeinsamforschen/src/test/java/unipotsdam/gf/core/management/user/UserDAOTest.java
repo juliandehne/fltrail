@@ -1,15 +1,21 @@
 package unipotsdam.gf.core.management.user;
 
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.InMemoryMySqlConnect;
+import unipotsdam.gf.core.database.TestGFApplicationBinder;
+import unipotsdam.gf.core.database.mysql.MysqlConnect;
+import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
 import unipotsdam.gf.util.TestHelper;
 
+import javax.inject.Inject;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -19,30 +25,40 @@ import static org.junit.Assert.assertTrue;
 
 public class UserDAOTest {
 
-    private InMemoryMySqlConnect inMemoryMySqlConnect;
+    @Inject
+    private MysqlConnect inMemoryMySqlConnect;
+
+    @Inject
+    private Management management;
+
+
+    @Inject
+    private UserDAO userDAO;
 
     static PodamFactory factory = new PodamFactoryImpl();
 
     @Before
     public void setUp() {
-        inMemoryMySqlConnect = new InMemoryMySqlConnect();
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        locator.inject(this);
     }
 
     @After
     public void tearDown() {
-        inMemoryMySqlConnect.tearDown();
+        //        ((InMemoryMySqlConnect)inMemoryMySqlConnect).tearDown();
     }
 
     @Test
     public void testGetUsersByProjectId() {
-        ManagementImpl management = TestHelper.getManagementImpl(inMemoryMySqlConnect);
 
-        User user = new User("julian", "1234", "from@stuff.com", false);
+        User user = factory.manufacturePojo(User.class);
         management.create(user, new UserProfile());
         assert management.exists(user);
 
 
         Project project = factory.manufacturePojo(Project.class);
+        project.setAuthorEmail(user.getEmail());
         management.create(project);
         management.register(user, project, null);
 
@@ -53,7 +69,7 @@ public class UserDAOTest {
         management.register(user2, project, null);
         assert management.exists(user2);
 
-        UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
+
         List<User> users = userDAO.getUsersByProjectId(project.getName());
         assert users != null;
         assert !users.isEmpty();
@@ -62,14 +78,12 @@ public class UserDAOTest {
 
     @Test
     public void testExists() {
-        UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
         User user = new User("julian", "1234", "from1123123123@stuff.com", true);
         assert !userDAO.exists(user);
     }
 
     @Test
     public void testPersist() {
-        UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
         User user = new User("julian", "1234", "from@stuff.com", false);
         userDAO.persist(user, new UserProfile());
         assert userDAO.exists(user);
@@ -77,7 +91,6 @@ public class UserDAOTest {
 
     @Test
     public void testUpdateUser() {
-        UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
         User user = new User("julian", "1234", "testUpdateUser@stuff.com", true);
         userDAO.persist(user, new UserProfile());
         assertTrue(userDAO.exists(user));

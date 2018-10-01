@@ -69,7 +69,7 @@ public class UserDAO {
         String query =
                 "SELECT * FROM users u "
                         + " JOIN projectuser pu ON u.email=pu.userEmail"
-                        + " JOIN projects p ON pu.projectName = p.id"
+                        + " JOIN projects p ON pu.projectName = p.name"
                         + " WHERE pu.projectName = ?";
 
         ArrayList<User> result = new ArrayList<>();
