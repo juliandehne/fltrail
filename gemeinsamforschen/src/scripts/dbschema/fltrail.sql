@@ -159,6 +159,9 @@ CREATE TABLE IF NOT EXISTS `workrating` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE `projectdescription` ( `id` varchar(400) NOT NULL, `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, `author` varchar(400) NOT NULL, `project` varchar(400) NOT NULL, `text` text, `open` tinyint(1) DEFAULT NULL ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
 Alter Table projectuser add  FOREIGN KEY (`userEmail`) REFERENCES users(`email`);
 Alter Table projectuser add  FOREIGN KEY (`projectName`) REFERENCES projects(`name`);
 ALTER TABLE groupuser add FOREIGN KEY (`userEmail`) REFERENCES users(`email`);

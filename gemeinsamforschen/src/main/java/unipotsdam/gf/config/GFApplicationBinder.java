@@ -10,17 +10,14 @@ import unipotsdam.gf.core.states.PhasesImpl;
 import unipotsdam.gf.core.tasks.TaskDAO;
 import unipotsdam.gf.core.testsandbox.TestList;
 import unipotsdam.gf.core.testsandbox.TestListInterface;
-import unipotsdam.gf.interfaces.Feedback;
-import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.interfaces.IGroupFinding;
-import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.interfaces.*;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 import unipotsdam.gf.modules.groupfinding.DummyGroupfinding;
 import unipotsdam.gf.modules.groupfinding.GroupfindingImpl;
 import unipotsdam.gf.modules.groupfinding.dummy.service.DummyProjectCreationService;
 import unipotsdam.gf.core.management.group.GroupDAO;
+import unipotsdam.gf.modules.journal.service.IJournalImpl;
 import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
 import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
@@ -48,5 +45,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(MysqlConnect.class).to(MysqlConnect.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(TaskDAO.class).to(TaskDAO.class);
+        bind(IJournalImpl.class).to(IJournal.class);
     }
 }

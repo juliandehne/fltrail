@@ -18,6 +18,7 @@ import unipotsdam.gf.view.Messages;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.Map;
 
 /**
@@ -27,33 +28,22 @@ import java.util.Map;
  * when changing between phases
  */
 @ManagedBean
+@Singleton
 public class PhasesImpl implements IPhases {
 
-    private IPeerAssessment iPeerAssessment = new PeerAssessment();
+    @Inject
+    private IPeerAssessment iPeerAssessment;
 
-    private Feedback feedback = new DummyFeedback();
+    @Inject
+    private Feedback feedback;
 
-    private ICommunication iCommunication = new CommunicationDummyService();
+    @Inject
+    private ICommunication iCommunication;
 
-    private IJournal iJournal = new IJournalImpl();
+    @Inject
+    private IJournal iJournal;
 
     public PhasesImpl() {
-    }
-
-    /**
-     * use this if you don't know how dependency injection works
-     *
-     * @param iPeerAssessment
-     * @param feedback
-     * @param iCommunication
-     * @param iJournal
-     */
-    @Inject
-    public PhasesImpl(IPeerAssessment iPeerAssessment, Feedback feedback, ICommunication iCommunication, IJournal iJournal) {
-        this.iPeerAssessment = iPeerAssessment;
-        this.feedback = feedback;
-        this.iCommunication = iCommunication;
-        this.iJournal = iJournal;
     }
 
     /*Optionen für die Constraints:
@@ -157,7 +147,7 @@ public class PhasesImpl implements IPhases {
         assert project.getName() != null;
         MysqlConnect connect = new MysqlConnect();
         connect.connect();
-        String mysqlRequest = "UPDATE `projects` SET `phase`=? WHERE id=? LIMIT 1";
+        String mysqlRequest = "UPDATE `projects` SET `phase`=? WHERE name=? LIMIT 1";
         connect.issueUpdateStatement(mysqlRequest, phase.name(), project.getName());
         connect.close();
     }

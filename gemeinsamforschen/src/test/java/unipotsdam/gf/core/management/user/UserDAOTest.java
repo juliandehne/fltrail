@@ -13,7 +13,6 @@ import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.util.TestHelper;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -30,7 +29,6 @@ public class UserDAOTest {
 
     @Inject
     private Management management;
-
 
     @Inject
     private UserDAO userDAO;
@@ -64,7 +62,7 @@ public class UserDAOTest {
 
         assertTrue(management.exists(project));
 
-        User user2 = new User("julian2", "12345", "from2@stuff.com", true);
+        User user2 = factory.manufacturePojo(User.class);
         management.create(user2, new UserProfile());
         management.register(user2, project, null);
         assert management.exists(user2);
@@ -77,21 +75,16 @@ public class UserDAOTest {
     }
 
     @Test
-    public void testExists() {
-        User user = new User("julian", "1234", "from1123123123@stuff.com", true);
-        assert !userDAO.exists(user);
-    }
-
-    @Test
-    public void testPersist() {
-        User user = new User("julian", "1234", "from@stuff.com", false);
+    public void testPersistExist() {
+        User user = factory.manufacturePojo(User.class);
+        user.setStudent(true);
         userDAO.persist(user, new UserProfile());
         assert userDAO.exists(user);
     }
 
     @Test
     public void testUpdateUser() {
-        User user = new User("julian", "1234", "testUpdateUser@stuff.com", true);
+        User user = factory.manufacturePojo(User.class);
         userDAO.persist(user, new UserProfile());
         assertTrue(userDAO.exists(user));
 

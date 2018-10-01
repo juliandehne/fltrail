@@ -9,13 +9,16 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.core.management.Management;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
+import unipotsdam.gf.core.management.user.UserProfile;
 
 import javax.inject.Inject;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class ProjectDAOTest {
@@ -29,6 +32,9 @@ public class ProjectDAOTest {
     @Inject
     private UserDAO userDAO;
 
+
+    @Inject
+    private Management management;
 
     private Project project;
 
@@ -74,5 +80,31 @@ public class ProjectDAOTest {
         assertEquals(project.getPassword(), projectActual.getPassword());
         assertEquals(project.getPhase(), projectActual.getPhase());
         assertEquals(project.isActive(), projectActual.isActive());
+    }
+
+    @Test
+    public void testRegister() {
+        User user = factory.manufacturePojo(User.class);
+        management.create(user, new UserProfile());
+        assert management.exists(user);
+
+        Project project = factory.manufacturePojo(Project.class);
+        management.create(project);
+        management.register(user, project, null);
+    }
+
+    @Test
+    public void testProjectConfiguration() {
+        ProjectConfiguration projectConfiguration = factory.manufacturePojo(ProjectConfiguration.class);
+        Project project = factory.manufacturePojo(Project.class);
+
+        management.create(projectConfiguration, project);
+
+        ProjectConfiguration projectConfiguration1 = management.getProjectConfiguration(project);
+        assertNotNull(projectConfiguration1.getCriteriaSelected());
+        assertNotNull(projectConfiguration1.getAssessmentMechanismSelected());
+        assertNotNull(projectConfiguration1.getGroupMechanismSelected());
+        assertNotNull(projectConfiguration1.getPhasesSelected());
+
     }
 }

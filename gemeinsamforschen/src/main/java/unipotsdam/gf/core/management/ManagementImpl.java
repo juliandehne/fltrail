@@ -31,19 +31,18 @@ import java.util.List;
 @Singleton
 public class ManagementImpl implements Management {
 
+    @Inject
     private UserDAO userDAO;
-    private GroupDAO groupDAO;
-    private ProjectDAO projectDAO;
-
-    private MysqlConnect connect;
 
     @Inject
-    public ManagementImpl(UserDAO userDAO, GroupDAO groupDAO, ProjectDAO projectDAO, MysqlConnect connect) {
-        this.userDAO = userDAO;
-        this.groupDAO = groupDAO;
-        this.projectDAO = projectDAO;
-        this.connect = connect;
-    }
+    private GroupDAO groupDAO;
+
+    @Inject
+    private ProjectDAO projectDAO;
+
+    @Inject
+    private MysqlConnect connect;
+
 
     @Override
     public void delete(User user) {
