@@ -22,6 +22,10 @@ public class Menu extends SimpleTagSupport {
         hierarchyLevel = getHierarchy();
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
+        if (request.getSession().getAttribute(GFContexts.USEREMAIL) == null) {
+            throw new IOException("No User Session");
+        }
+
         String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
         String projectName=request.getParameter(GFContexts.PROJECTNAME);
         ProjectPhase projectPhase;

@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,8 +10,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gruppenmatcher</title>
-    <script src="js/config.js"></script>
-    <script src="js/utility.js"></script>
+    <script src="../groupfinding/js/config.js"></script>
+    <script src="../taglibs/js/utility.js"></script>
     <script src="js/join-project.js"></script>
 
 </head>

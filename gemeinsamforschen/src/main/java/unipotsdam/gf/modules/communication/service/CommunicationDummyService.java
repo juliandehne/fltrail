@@ -106,7 +106,7 @@ public class CommunicationDummyService implements ICommunication {
     public String getChatRoomLink(String userEmail, String projectToken, String groupToken) {
         //User user = managementService.getUserByEmail(userEmail);
         // TODO: Implement getProjectbyToken and getGroupByToken
-        //Project project = managementService.getProject(projectToken
+        //Project project = managementService.getProject(projectName
         String channelName = "general";
         return Constants.ROCKET_CHAT_URL + "/channel/" + channelName + "?layout=embedded";
     }

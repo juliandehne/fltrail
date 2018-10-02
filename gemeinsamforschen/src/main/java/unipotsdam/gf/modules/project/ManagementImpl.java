@@ -107,15 +107,9 @@ public class ManagementImpl implements Management {
     }
 
 
-    public User getUserByToken(String email) {
-        return userDAO.getUserByEmail(email);
-    }
-
-
     public User getUserByEmail(String email) {
         return userDAO.getUserByEmail(email);
     }
-
 
     @Override
     public void create(Group group) {

@@ -19,7 +19,7 @@ public class ChatWindow extends SimpleTagSupport {
         String token = request.getParameter("token");
         //User user = management.getUserByEmail(token);
         String groupToken = request.getParameter("groupToken");
-        String projectToken = request.getParameter("projectToken");
+        String projectToken = request.getParameter("projectName");
         //get ProjetbyToken
         ICommunication communicationService = new CommunicationDummyService();
         String chatRoomLink = communicationService.getChatRoomLink(token, projectToken, groupToken);

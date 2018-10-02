@@ -1,13 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <!DOCTYPE html>
 <html>
 
 <head>
     <omniDependencies:omniDependencies hierarchy="1"></omniDependencies:omniDependencies>
-    <script src="../project/js/config.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/create-preferences.js"></script>
 </head>
 <body>

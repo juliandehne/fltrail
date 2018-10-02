@@ -1,9 +1,9 @@
 <%@ page import="unipotsdam.gf.modules.project.ManagementImpl" %>
 <%@ page import="unipotsdam.gf.modules.user.User" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 
 
 <!DOCTYPE html>
@@ -21,7 +21,7 @@
     // Retrieve user to be used here
     String token = request.getParameter("token");
     ManagementImpl management = new ManagementImpl();
-    User user =  management.getUserByToken(token);
+    User user =  management.getUserByEmail(token);
 %>
 
 <body>

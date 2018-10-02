@@ -161,15 +161,13 @@ public class UserView {
     private Response redirectToProjectPage(HttpServletRequest req, User user) throws URISyntaxException {
         String successUrl;
 
-
         if (user.getStudent() != null && user.getStudent()) {
-            successUrl = "./project/overview-student.jsp";
+            successUrl = "../project/overview-student.jsp";
         } else {
-            successUrl = "./project/overview-docent.jsp";
+            successUrl = "../project/overview-docent.jsp";
         }
-        Response result = forwardToLocation(successUrl);
-
         req.getSession().setAttribute(GFContexts.USEREMAIL, user.getEmail());
+        Response result = forwardToLocation(successUrl);
         return result;
     }
 

@@ -15,16 +15,16 @@ public class OmniDependencies extends SimpleTagSupport {
                 "    <title>fltrail</title>\n" +
                 "    <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">\n" +
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/css/styles.css\">\n" +
-                "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "core/footer.css\">\n" +
+                "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "taglibs/css/footer.css\">\n" +
                 "    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>\n" +
                 "    <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js\"></script>\n" +
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/fonts/font-awesome.min.css\">\n" +
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/css/Sidebar-Menu-1.css\">\n" +
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/css/Sidebar-Menu.css\">\n" +
-                "    <script src=\"" + hierarchyToString(hierarchyLevel) + "core/utility.js\"></script>\n" +
-                "    <script src=\"" + hierarchyToString(hierarchyLevel) + "libs/jQuery-Tags-Input-master/src/jquery.tagsinput.js\"></script>\n" +
-                "    <script src=\"" + hierarchyToString(hierarchyLevel) + "core/footer.js\"></script>\n" +
-                "    <link rel=\"" + hierarchyToString(hierarchyLevel) + "libs/jQuery-Tags-Input-master/src/jquery.tagsinput.css\">\n" +
+                "    <script src=\"" + hierarchyToString(hierarchyLevel) + "taglibs/js/utility.js\"></script>\n" +
+                "    <script src=\"" + hierarchyToString(hierarchyLevel) + "taglibs/js/footer.js\"></script>\n" +
+                "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/tagsinput/jquery.tagsinput.min.css\">\n" +
+                "    <script src=\"" + hierarchyToString(hierarchyLevel) + "libs/tagsinput/jquery.tagsinput.min.js\"></script>\n" +
                 "    <script type=\"text/javascript\" src=\"http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js\"></script>"+
                 "    <link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.1.0/css/all.css\"\n" +
                 "      integrity=\"sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt\" crossorigin=\"anonymous\">");

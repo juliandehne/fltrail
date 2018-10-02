@@ -23,13 +23,13 @@ $(document).ready(function () {
             data: gfm,
             success: function (a,b,c) {
                 if (gfm == "Manual") {
-                    document.location.href = "../groupfinding/create-groups-manual.jsp"+"&projectToken="+projectToken;
+                    document.location.href = "../groupfinding/create-groups-manual.jsp"+"&projectName="+projectToken;
                 }
                 if (gfm == "UserProfilStrategy"){
-                    document.location.href = "../groupfinding/create-groups-preferences.jsp"+"&projectToken="+projectToken;
+                    document.location.href = "../groupfinding/create-groups-preferences.jsp"+"&projectName="+projectToken;
                 }
                 else {
-                    document.location.href = "../groupfinding/create-groups-learninggoal.jsp"+"&projectToken="+projectToken;
+                    document.location.href = "../groupfinding/create-groups-learninggoal.jsp"+"&projectName="+projectToken;
                 }
                 return true;
             },

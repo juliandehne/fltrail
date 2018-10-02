@@ -1,14 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 <!DOCTYPE html>
 <html>
 
 <head>
     <omniDependencies:omniDependencies hierarchy="1"/>
-    <script src="js/config.js"></script>
+    <script src="../groupfinding/js/config.js"></script>
     <script src="js/join-project.js"></script>
 
 

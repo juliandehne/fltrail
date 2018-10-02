@@ -34,8 +34,8 @@ function seeProject(projectName) {
                 if (response === "project missing") {
                     $("#projectIsMissing").show();
                 } else {
-                    if (response !== "wrong password") {            //if response !== project missing and not wrong password, its the projectToken
-                        location.href = "enter-preferences.jsp" + getUserEmail() + "&projectToken=" + response;
+                    if (response !== "wrong password") {            //if response !== project missing and not wrong password, its the projectName
+                        location.href = "enter-preferences.jsp" + getUserEmail() + "&projectName=" + response;
                     } else {
                         $("#projectIsMissing").hide();
                         $('#projectWrongPassword').show();

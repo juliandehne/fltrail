@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <!DOCTYPE html>
 <html>
 
@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="css/Sidebar-Menu.css">
     <link rel="stylesheet" href="css/Sidebar-Menu1.css">
 
-    <script src="../project/js/config.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/myGroupsInit.js"></script>
     <script src="js/Sidebar-Menu.js"></script>
 

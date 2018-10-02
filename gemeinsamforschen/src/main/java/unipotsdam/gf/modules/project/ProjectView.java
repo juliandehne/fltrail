@@ -1,11 +1,15 @@
 package unipotsdam.gf.modules.project;
 
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 
@@ -13,6 +17,9 @@ import java.net.URISyntaxException;
 @Path("/project")
 public class ProjectView {
 
+
+    @Inject
+    private GFContexts gfContexts;
 
     @Inject
     private ProjectDAO projectDAO;
@@ -24,11 +31,15 @@ public class ProjectView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/create")
-    public void createProject(Project project) throws URISyntaxException {
+    public void createProject(@Context HttpServletRequest req, Project project) throws URISyntaxException, IOException {
         // we assume the token is send not the author id
-        String authorToken = project.getAuthorEmail();
-        User userByToken = iManagement.getUserByToken(authorToken);
-        project.setAuthorEmail(userByToken.getEmail());
+        String userEmail = gfContexts.getUserEmail(req);
+        User user = iManagement.getUserByEmail(userEmail);
+        assert user != null;
+        if (user == null) {
+            throw new IOException("NO user with this email exists in db");
+        }
+        project.setAuthorEmail(user.getEmail());
         try {
             iManagement.create(project);
         } catch (Exception e) {

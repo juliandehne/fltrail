@@ -35,9 +35,9 @@ function loginProject(projectName) {
                 if (response === "project missing") {
                     $("#projectIsMissing").show();
                 } else {
-                    if (response !== "wrong password") {            //if response !== project missing and not wrong password, its the projectToken
+                    if (response !== "wrong password") {            //if response !== project missing and not wrong password, its the projectName
                         var projectToken = response;
-                        document.location.href = "../groupfinding/enter-preferences.jsp"+"&projectToken="+projectToken;
+                        document.location.href = "../groupfinding/enter-preferences.jsp"+"&projectName="+projectToken;
                     } else {
                         $("#projectIsMissing").hide();
                         $('#projectWrongPassword').show();

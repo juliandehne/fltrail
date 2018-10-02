@@ -25,7 +25,7 @@ function deleteProject(projectName) {
                 if (response === "project missing") {
                     $("#projectIsMissing").show();
                 } else {
-                    if (response !== "wrong password") {            //if response !== project missing and not wrong password, its the projectToken
+                    if (response !== "wrong password") {            //if response !== project missing and not wrong password, its the projectName
                         $.ajax({
                             url: compbaseUrl + "/api1/courses/" + projectName,
                             Accept: "text/plain; charset=utf-8",

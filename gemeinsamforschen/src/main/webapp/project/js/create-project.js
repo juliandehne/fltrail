@@ -1,5 +1,5 @@
 let allTheTags = [];
-let projectToken = "";
+let projectName = "";
 
 /**
  * Created by fides-WHK on 19.02.2018.
@@ -36,9 +36,7 @@ function createNewProject(allTheTags, activ) {
                     if (allTheTags.length !== 5) {
                         $('#exactNumberOfTags').show();
                     } else {
-                        // it actually worked
-                        projectToken = response;
-                        createProjectinCompbase(project.id);
+                        createProjectinCompbase();
                     }
                 }
             },
@@ -82,13 +80,14 @@ function initSendButton(allTheTags) {
 
 // it returns false and shows errors if input is not valid
 function getProjectValues() {
-    let projectName = $("#nameProject").val().trim();
+    projectName = $("#nameProject").val().trim();
     let password = $("#passwordProject").val().trim();
     let adminPassword = $("#adminPassword").val().trim();
     if (adminPassword === "") {
         adminPassword = "1234";
     }
-    allTheTags = $("#tagsProject").tagsinput('items');
+    //allTheTags = $("#tagsProject").tagsInput('items');
+    //allTheTags = $("#tagsProject").val();
     let reguexp = /^[a-zA-Z0-9äüöÄÜÖ\ ]+$/;
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
@@ -107,21 +106,32 @@ function getProjectValues() {
 
     // TODO find out author
     let project = {
-        "projectName": projectName,
-        "password": password,
-        "active": true,
-        "timecreated": null,
-        "authorEmail": getUserEmail(),
+        "name" : projectName,
+        "password" : password,
+        "active" : true,
+        "timecreated" : 356122661234038,
+        "authorEmail": "vodka",
         "adminPassword": adminPassword,
-        "token": "",
-        "phase": "GroupFormation",
+        "phase" : "CourseCreation",
         "tags": allTheTags
     };
+
+   /* let project = {
+        "name" : "AJ2c83Lb2x",
+        "password" : "vTvaih3mK9",
+        "active" : true,
+        "timecreated" : 356122661234038,
+        "authorEmail" : "7DoIYf4tWV",
+        "adminPassword" : "bJFmgTGMdY",
+        "phase" : "Execution",
+        "tags" : [ "JjwWui3r2a", "J23BLwqlXa", "NOVk1tcaN0", "RTXTACSHLx", "BbMtdrXPi2" ]
+    };
+*/
     return project;
 }
 
 // creates project name in compbase where it is needed for learning goal oriented matching
-function createProjectinCompbase(projectName) {
+function createProjectinCompbase() {
     let url = compbaseUrl + "/api1/courses/" + $("#nameProject").val();
 
     let obj = {
@@ -139,7 +149,7 @@ function createProjectinCompbase(projectName) {
         success: function (response) {
             console.log(response);
             // it actually worked, too
-            document.location.href = "edit-project.jsp"+"&projectToken="+projectToken;
+            document.location.href = "project-docent.jsp?projectName="+projectName;
         },
         error: function (a, b, c) {
             console.log(a);

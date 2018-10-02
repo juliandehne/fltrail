@@ -7,11 +7,10 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
-<omniDependencies:omniDependencies hierarchy="1"/>
-<script type="text/javascript" src="../libs/jQuery-Tags-Input-master/src/jquery.tagsinput.js"></script>
+
 
 <html>
 
@@ -19,7 +18,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projekterstellung</title>
-    <script src="js/config.js"></script>
+    <omniDependencies:omniDependencies hierarchy="1"/>
+    <script src="../groupfinding/js/config.js"></script>
     <script src="js/create-project.js"></script>
 </head>
 
