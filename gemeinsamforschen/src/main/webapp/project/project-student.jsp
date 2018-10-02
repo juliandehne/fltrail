@@ -1,26 +1,20 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%--suppress XmlDuplicatedId --%>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
-
-
-<!--todo: E-mail an Studenten als Notifikation für Phasenwechsel -->
 
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <omniDependencies:omniDependencies hierarchy="0"/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
     <script src="js/project-student.js"></script>
-
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu hierarchy="0"/>
+    <menu:menu hierarchy="1"/>
 
     <div class="page-content-wrapper">
         <headLine:headLine/>

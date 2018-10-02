@@ -2,14 +2,11 @@
  * Created by fides-WHK on 15.03.2018.
  */
 
-
-
 $(document).ready(function () {
-
     printTags();
     $("#competencies0").focus();
     $("#studentFormSubmit").on("click", function () {
-        getContextData(takesPartInProject);
+        takesPartInProject();
     });
     $("#addCompetenceButton").on("click", function () {
         addInput("competencies");       //creates a new input-Field with the ID 'competenciesX' where X is number of elements with 'competencies' as ID
@@ -29,13 +26,13 @@ $(document).ready(function () {
 
 function addInput(name) {        //creates a new input-Field with the ID 'nameX' where X is number of elements with 'name' as ID
     var i = document.getElementsByName(name).length;
+    let div = document.getElementById(name);
     var newInput = document.createElement("span");
     newInput.innerHTML = "<input class='form-control' " +
         "type='text' " +
         "name='" + name + "' " +
         "id='" + name + i + "' " +
         "style='max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;'>";
-    var div = document.getElementById(name);
     div.appendChild(newInput);
 }
 
@@ -119,8 +116,8 @@ function takesPartInProject(context) {
     };
 
 
-    var userEmail = context.user.email;
-    var projectName = context.project.id;
+    var userEmail = getUserEmail();
+    var projectName = getProjectName();
     var dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
     var url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
     $.ajax({
@@ -133,7 +130,7 @@ function takesPartInProject(context) {
             console.log(response);
             document.getElementById('loader').className = "loader-inactive";
             document.getElementById('wrapper').className = "wrapper";
-            location.href = "../overview-student.jsp" + getUserEmail();
+            location.href = "../project/overview-student.jsp";
         },
         error: function (a, b, c) {
             console.log(a);

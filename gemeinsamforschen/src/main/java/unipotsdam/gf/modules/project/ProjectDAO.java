@@ -27,12 +27,23 @@ public class ProjectDAO {
 
         connect.connect();
         String mysqlRequest =
-                "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, "
-                        + "`adminPassword`, `phase`) values (?,?,?,?,?,?,?)";
+                "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, " + "`adminPassword`, `phase`) values (?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(), project.isActive(),
-                project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(), project.getPhase()
-                        == null ? ProjectPhase.CourseCreation : project.getPhase());
+                project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(),
+                project.getPhase() == null ? ProjectPhase.CourseCreation : project.getPhase());
+
         connect.close();
+
+        connect.connect();
+        String[] tags = project.getTags();
+        for (String tag : tags) {
+            connect.issueInsertOrDeleteStatement(
+                    "INSERT INTO tags (`projectName`, `tag`) values (?,?)", project.getName(), tag);
+        }
+
+        connect.close();
+
+
     }
 
     public void delete(Project project) {
@@ -58,8 +69,7 @@ public class ProjectDAO {
     public Project getProjectByName(String name) {
         connect.connect();
         String mysqlRequest = "SELECT * FROM projects where name = ?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, name);
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, name);
         boolean next = vereinfachtesResultSet.next();
         Project result = getProject(vereinfachtesResultSet, next);
         List<String> tags = getTags(result);
@@ -94,8 +104,7 @@ public class ProjectDAO {
 
     public java.util.List<String> getTags(Project project) {
         connect.connect();
-        String mysqlRequest =
-                "SELECT t.tag from tags t where t.projectName = ?";
+        String mysqlRequest = "SELECT t.tag from tags t where t.projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getName());
 
         java.util.List<String> result = new ArrayList<>();
@@ -104,6 +113,6 @@ public class ProjectDAO {
             result.add(vereinfachtesResultSet.getString("tag"));
         }
         connect.close();
-        return  result;
+        return result;
     }
 }

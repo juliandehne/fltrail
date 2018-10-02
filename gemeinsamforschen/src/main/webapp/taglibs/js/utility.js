@@ -65,7 +65,7 @@ function getUserEmail() {
 
 
 function getProjectName() {
-    return $('#projectName').html().trim();
+    return getQueryVariable("projectName");
 }
 
 function getQueryVariable(variable) {

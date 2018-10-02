@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 function updateStatus(projectName){
     $.ajax({
-        url: 'rest/phases/projects/'+projectName,
+        url: '../rest/phases/projects/'+projectName,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
@@ -49,7 +49,7 @@ function updateStatus(projectName){
 function getGrade(projectName){
     let userName = $('#userEmail').html().trim();
     $.ajax({
-        url: 'rest/assessments/get/project/'+projectName+'/student/'+userName,
+        url: '../rest/assessments/get/project/'+projectName+'/student/'+userName,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
@@ -65,7 +65,7 @@ function getGrade(projectName){
 
 function getProjects(userName){
     $.ajax({
-        url: 'rest/project/all/student/' + userName,
+        url: '../rest/project/all/student/' + userName,
         headers: {
             "Content-Type": "text/plain",
             "Cache-Control": "no-cache"

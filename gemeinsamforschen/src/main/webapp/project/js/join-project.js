@@ -1,6 +1,9 @@
 /**
  * Created by fides-WHK on 09.01.2018.
  */
+
+var projectName = "";
+
 $(document).ready(function () {
     $("#projectWrongPassword").hide();
     $("#projectIsMissing").hide();
@@ -16,11 +19,12 @@ $(document).ready(function () {
         }
     });
     $("#loginProject").on('click', function () {
-        loginProject($('#projectName').val());
+        projectName = $('#projectName').val();
+        loginProject();
     });
 });
 
-function loginProject(projectName) {
+function loginProject() {
     var password = $('#projectPassword').val();
     var url = "../../gemeinsamforschen/rest/project/login/"+projectName+"?password="+password;
     if (projectName === "") {
@@ -37,7 +41,7 @@ function loginProject(projectName) {
                 } else {
                     if (response !== "wrong password") {            //if response !== project missing and not wrong password, its the projectName
                         var projectToken = response;
-                        document.location.href = "../groupfinding/enter-preferences.jsp"+"&projectName="+projectToken;
+                        document.location.href = "../groupfinding/enter-preferences.jsp?projectName="+projectName;
                     } else {
                         $("#projectIsMissing").hide();
                         $('#projectWrongPassword').show();

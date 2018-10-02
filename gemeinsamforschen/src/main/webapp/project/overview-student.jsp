@@ -7,13 +7,13 @@
 <html>
 
 <head>
-    <omniDependencies:omniDependencies hierarchy="0"/>
+    <omniDependencies:omniDependencies hierarchy="1"/>
     <script src="js/overview-student.js"></script>
 </head>
 
 <body>
 <div id="wrapper">
-    <menu:menu hierarchy="0"/>
+    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div>

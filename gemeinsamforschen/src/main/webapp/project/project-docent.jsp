@@ -18,8 +18,7 @@
     <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
-        <button
-                class="btn btn-default" type="button">Exportiere Zwischenstand
+        <button class="btn btn-default" type="button">Exportiere Zwischenstand
         </button>
         <button class="btn btn-default" type="button">Quizfrage erstellen</button>
         <div>

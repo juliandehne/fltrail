@@ -19,6 +19,7 @@
     <div class="sk-cube3 sk-cube"></div>
 </div>
 <div id="wrapper" class="wrapper">
+    <menu:menu hierarchy="1"></menu:menu>
     <div class="page-content-wrapper">
         <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
             <div class="row">
