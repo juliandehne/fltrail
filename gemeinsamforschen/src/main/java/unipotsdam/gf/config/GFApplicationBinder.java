@@ -19,6 +19,7 @@ import unipotsdam.gf.modules.journal.service.IJournalImpl;
 import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
 import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
+import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
 
 public class GFApplicationBinder extends AbstractBinder {
 
@@ -43,5 +44,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(TaskDAO.class).to(TaskDAO.class);
         bind(IJournalImpl.class).to(IJournal.class);
+        bind(AssessmentDBCommunication.class).to(AssessmentDBCommunication.class);
     }
 }

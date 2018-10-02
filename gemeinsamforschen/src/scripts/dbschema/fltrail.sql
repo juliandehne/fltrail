@@ -31,11 +31,9 @@ CREATE TABLE IF NOT EXISTS `categoriesselected` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `contributionrating` (
-  `projectName` varchar(400) NOT NULL,
-  `userName` varchar(400) NOT NULL,
+  `groupId` int(11) NOT NULL,
   `fromPeer` varchar(400) NOT NULL,
   `dossier` int(11) NOT NULL,
-  `eJournal` int(11) NOT NULL,
   `research` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -68,6 +66,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
 
 CREATE TABLE IF NOT EXISTS `groupuser` (
   `userEmail` varchar(255) NOT NULL,
+  `projectName` varchar(255) NOT NULL,
   `groupId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
