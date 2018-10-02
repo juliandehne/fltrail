@@ -14,7 +14,7 @@
 
 <head>
     <omniDependencies:omniDependencies hierarchy="0"/>
-    <script src="project-student.js"></script>
+    <script src="js/project-student.js"></script>
 
 </head>
 

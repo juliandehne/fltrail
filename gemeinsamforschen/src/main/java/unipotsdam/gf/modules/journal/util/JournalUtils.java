@@ -2,8 +2,8 @@ package unipotsdam.gf.modules.journal.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.journal.model.Visibility;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 

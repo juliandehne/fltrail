@@ -4,7 +4,7 @@ import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
 import org.apache.commons.dbutils.DbUtils;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.MysqlConnect;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -8,7 +8,7 @@
 
 <head>
     <omniDependencies:omniDependencies hierarchy="0"/>
-    <script src="overview-docent.js"></script>
+    <script src="js/overview-docent.js"></script>
 </head>
 
 <body>

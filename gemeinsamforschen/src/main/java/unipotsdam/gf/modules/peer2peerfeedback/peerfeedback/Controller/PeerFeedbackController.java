@@ -1,7 +1,7 @@
 package unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Controller;
 
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 

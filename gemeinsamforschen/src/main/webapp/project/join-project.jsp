@@ -8,7 +8,7 @@
 
 <head>
     <omniDependencies:omniDependencies hierarchy="1"/>
-    <script src="config.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/join-project.js"></script>
 
 

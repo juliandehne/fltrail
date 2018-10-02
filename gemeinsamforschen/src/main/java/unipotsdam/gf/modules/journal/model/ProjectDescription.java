@@ -5,7 +5,7 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
+import static unipotsdam.gf.util.MarkdownUtils.convertMarkdownToHtml;
 
 /**
  * Model class for the project descriptionHTML of the e portfolio

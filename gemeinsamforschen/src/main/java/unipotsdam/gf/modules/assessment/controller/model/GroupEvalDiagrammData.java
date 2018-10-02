@@ -1,7 +1,7 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

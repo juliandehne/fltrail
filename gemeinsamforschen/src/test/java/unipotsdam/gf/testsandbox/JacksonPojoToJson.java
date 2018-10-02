@@ -1,14 +1,12 @@
 package unipotsdam.gf.testsandbox;
 
 
-import java.io.FileOutputStream;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.modules.project.Project;
 
 public class JacksonPojoToJson {
 

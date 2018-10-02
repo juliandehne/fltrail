@@ -2,9 +2,9 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.states.ConstraintsMessages;
 import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.EPortfolio;

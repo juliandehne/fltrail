@@ -1,10 +1,10 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.core.management.group.Group;
+import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.modules.groupfinding.GroupFormationMechanism;
-import unipotsdam.gf.modules.groupfinding.GroupfindingCriteria;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.group.GroupfindingCriteria;
 
 import java.util.ArrayList;
 

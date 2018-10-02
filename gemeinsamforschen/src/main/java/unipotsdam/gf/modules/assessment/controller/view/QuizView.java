@@ -1,8 +1,8 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
-import unipotsdam.gf.core.management.Management;
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.modules.project.Management;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;

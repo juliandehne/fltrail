@@ -1,5 +1,5 @@
-<%@ page import="unipotsdam.gf.core.management.ManagementImpl" %>
-<%@ page import="unipotsdam.gf.core.management.user.User" %>
+<%@ page import="unipotsdam.gf.modules.project.ManagementImpl" %>
+<%@ page import="unipotsdam.gf.modules.user.User" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>

@@ -1,8 +1,7 @@
 package unipotsdam.gf.modules.researchreport;
 
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.assignments.NotImplementedLogger;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.Feedback;
 
 import java.io.File;

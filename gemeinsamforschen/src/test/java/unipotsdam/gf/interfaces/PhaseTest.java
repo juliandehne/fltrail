@@ -3,17 +3,15 @@ package unipotsdam.gf.interfaces;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
-import unipotsdam.gf.core.management.Management;
-import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.management.user.UserProfile;
-import unipotsdam.gf.core.states.model.ProjectPhase;
+import unipotsdam.gf.modules.project.Management;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserProfile;
+import unipotsdam.gf.modules.states.ProjectPhase;
 
 import javax.inject.Inject;
 

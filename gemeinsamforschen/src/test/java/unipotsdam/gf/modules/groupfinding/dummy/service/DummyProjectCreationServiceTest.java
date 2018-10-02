@@ -8,15 +8,16 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.InMemoryMySqlConnect;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
-import unipotsdam.gf.core.management.Management;
-import unipotsdam.gf.core.management.group.Group;
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.project.ProjectDAO;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.management.user.UserDAO;
+import unipotsdam.gf.modules.group.DummyProjectCreationService;
+import unipotsdam.gf.modules.project.Management;
+import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
-import unipotsdam.gf.core.management.group.GroupDAO;
+import unipotsdam.gf.modules.group.GroupDAO;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -47,7 +48,8 @@ public class DummyProjectCreationServiceTest {
         GroupDAO groupDAO = new GroupDAO(inMemoryMySqlConnect);
         UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
 
-        DummyProjectCreationService dummyProjectCreationService = new DummyProjectCreationService(communication, management, groupDAO, userDAO);
+        DummyProjectCreationService
+                dummyProjectCreationService = new DummyProjectCreationService(communication, management, groupDAO, userDAO);
 
         dummyProjectCreationService.createExampleProject();
 

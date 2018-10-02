@@ -1,7 +1,7 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.MysqlConnect;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.journal.model.dao;
 
-import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
 

@@ -6,7 +6,7 @@ import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
 import java.util.Date;
 
-import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
+import static unipotsdam.gf.util.MarkdownUtils.convertMarkdownToHtml;
 
 /**
  * Model Class for the learning journal of the e-portfolio

@@ -19,7 +19,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projekterstellung</title>
-    <script src="config.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/create-project.js"></script>
 </head>
 

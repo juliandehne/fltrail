@@ -2,10 +2,10 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.junit.After;
 import org.junit.Test;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.management.user.UserDAO;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Link;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;

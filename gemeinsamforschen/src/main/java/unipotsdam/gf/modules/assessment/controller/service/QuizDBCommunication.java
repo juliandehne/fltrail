@@ -1,7 +1,7 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 
 import javax.annotation.ManagedBean;

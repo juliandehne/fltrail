@@ -5,13 +5,13 @@
 
     <tag>
         <name>hiddenUserTag</name>
-        <tag-class>unipotsdam.gf.core.management.user.HiddenUserTag</tag-class>
+        <tag-class>unipotsdam.gf.modules.user.HiddenUserTag</tag-class>
         <body-content>empty</body-content>
     </tag>
 
     <tag>
         <name>menu</name>
-        <tag-class>unipotsdam.gf.core.management.pageAppearance.Menu</tag-class>
+        <tag-class>unipotsdam.gf.taglibs.Menu</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>hierarchy</name>
@@ -21,14 +21,8 @@
     </tag>
 
     <tag>
-        <name>session</name>
-        <tag-class>unipotsdam.gf.core.session.SessionTag</tag-class>
-        <body-content>empty</body-content>
-    </tag>
-
-    <tag>
         <name>omniDependencies</name>
-        <tag-class>unipotsdam.gf.core.management.pageAppearance.OmniDependencies</tag-class>
+        <tag-class>unipotsdam.gf.taglibs.OmniDependencies</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>hierarchy</name>
@@ -39,20 +33,26 @@
 
     <tag>
         <name>headLine</name>
-        <tag-class>unipotsdam.gf.core.management.pageAppearance.HeadLine</tag-class>
+        <tag-class>unipotsdam.gf.taglibs.HeadLine</tag-class>
         <body-content>empty</body-content>
     </tag>
 
     <tag>
         <name>footer</name>
-        <tag-class>unipotsdam.gf.core.management.pageAppearance.Footer</tag-class>
+        <tag-class>unipotsdam.gf.taglibs.Footer</tag-class>
         <body-content>empty</body-content>
     </tag>
 
     <tag>
-        <name>context</name>
-        <tag-class>unipotsdam.gf.core.session.ContextTag</tag-class>
-        <body-content>empty</body-content>
+        <name>roleValidator</name>
+        <tag-class>unipotsdam.gf.session.RoleValidator</tag-class>
+        <attribute>
+            <name>role</name>
+            <required>yes</required>
+            <rtexprvalue>no</rtexprvalue>
+        </attribute>
     </tag>
+
+
 
 </taglib>

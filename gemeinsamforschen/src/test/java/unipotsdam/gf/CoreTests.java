@@ -2,10 +2,9 @@ package unipotsdam.gf;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import unipotsdam.gf.core.management.group.GroupDAOTest;
-import unipotsdam.gf.core.management.project.ProjectDAOTest;
-import unipotsdam.gf.core.management.user.UserDAO;
-import unipotsdam.gf.core.management.user.UserDAOTest;
+import unipotsdam.gf.core.context.group.GroupDAOTest;
+import unipotsdam.gf.core.context.project.ProjectDAOTest;
+import unipotsdam.gf.core.context.user.UserDAOTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({GroupDAOTest.class, ProjectDAOTest.class, UserDAOTest.class})

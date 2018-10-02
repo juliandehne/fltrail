@@ -42,15 +42,15 @@
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
-    <!-- loginFilter -->
+
     <filter>
-        <filter-name>RequestLoggingFilter</filter-name> <!-- mandatory -->
-        <filter-class>unipotsdam.gf.core.management.user.SessionValidator</filter-class> <!-- mandatory -->
+        <filter-name>SessionValidatorFilter</filter-name> <!-- mandatory -->
+        <filter-class>unipotsdam.gf.session.SessionExistsFilter</filter-class> <!-- mandatory -->
     </filter>
 
     <filter-mapping>
-        <filter-name>RequestLoggingFilter</filter-name> <!-- mandatory -->
-        <url-pattern>/core/pages/*</url-pattern> <!-- either url-pattern or servlet-name is mandatory -->
+        <filter-name>SessionValidatorFilter</filter-name> <!-- mandatory -->
+        <url-pattern>/*/*</url-pattern> <!-- either url-pattern or servlet-name is mandatory -->
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 

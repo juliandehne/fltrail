@@ -1,8 +1,8 @@
 package unipotsdam.gf.modules.submission.controller;
 
 import com.google.common.base.Strings;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.ISubmission;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.submission.model.FullSubmission;

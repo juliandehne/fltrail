@@ -1,10 +1,8 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.assignments.NotImplementedLogger;
-import unipotsdam.gf.core.states.model.Constraints;
-import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.states.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;

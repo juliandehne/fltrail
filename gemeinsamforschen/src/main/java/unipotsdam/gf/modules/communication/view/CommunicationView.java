@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.communication.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.Message;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;

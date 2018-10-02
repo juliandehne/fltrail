@@ -1,9 +1,9 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.core.states.model.Constraints;
-import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.modules.states.Constraints;
+import unipotsdam.gf.modules.states.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;

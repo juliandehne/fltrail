@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model;
 
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
-import static unipotsdam.gf.view.MarkdownUtils.convertMarkdownToHtml;
+import static unipotsdam.gf.util.MarkdownUtils.convertMarkdownToHtml;
 
 /**
  * Peer2PeerFeedback Object

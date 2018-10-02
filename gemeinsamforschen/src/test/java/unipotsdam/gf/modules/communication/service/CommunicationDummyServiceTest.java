@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.communication.service;
 
 import org.junit.Before;
 import org.junit.Test;
-import unipotsdam.gf.core.management.user.User;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
 
 import static org.junit.Assert.assertNotNull;

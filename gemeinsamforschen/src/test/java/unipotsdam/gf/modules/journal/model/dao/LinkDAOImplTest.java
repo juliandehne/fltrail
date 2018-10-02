@@ -1,8 +1,8 @@
 package unipotsdam.gf.modules.journal.model.dao;
 
 import org.junit.Test;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.journal.model.Link;
 
 import java.util.ArrayList;

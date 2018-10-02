@@ -1,8 +1,8 @@
 package unipotsdam.gf.modules.assessment;
 
 import org.junit.Test;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.GroupEvalDataDatasets;
 import unipotsdam.gf.modules.assessment.controller.model.GroupEvalDataList;
