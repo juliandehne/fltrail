@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @ManagedBean
@@ -25,20 +26,23 @@ public class ProjectDAO {
 
     public void persist(Project project) {
 
-        connect.connect();
-        String mysqlRequest =
-                "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, " + "`adminPassword`, `phase`) values (?,?,?,?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(), project.isActive(),
-                project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(),
-                project.getPhase() == null ? ProjectPhase.CourseCreation : project.getPhase());
+        if (!exists(project)) {
 
-        connect.close();
+            connect.connect();
+            String mysqlRequest = "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, " + "`adminPassword`, `phase`) values (?,?,?,?,?,?,?)";
+            connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(), project.isActive(),
+                    project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(), project.getPhase() == null ? ProjectPhase.CourseCreation : project.getPhase());
 
-        connect.connect();
-        String[] tags = project.getTags();
-        for (String tag : tags) {
-            connect.issueInsertOrDeleteStatement(
-                    "INSERT INTO tags (`projectName`, `tag`) values (?,?)", project.getName(), tag);
+            connect.close();
+
+            connect.connect();
+            String[] tags = project.getTags();
+            if (tags.length > 5) {
+                tags = Arrays.copyOfRange(tags, 0, 4);
+            }
+            for (String tag : tags) {
+                connect.issueInsertOrDeleteStatement("INSERT INTO tags (`projectName`, `tag`) values (?,?)", project.getName(), tag);
+            }
         }
 
         connect.close();

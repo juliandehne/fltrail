@@ -285,11 +285,11 @@ function saveButtonHandler() {
 
         $.when.apply($, promises).then(function () {
             // redirect user to project page after saving
-            location.href = "../../project/project-student.jsp"
+            location.href = "../../project/projects-student.jsp"
         });
 
         // redirect user to project page after saving
-        // location.href="project-student.jsp" + getUserEmail() + "&projectName=" + getProjectIdFromUrl();
+        // location.href="projects-student.jsp" + getUserEmail() + "&projectName=" + getProjectIdFromUrl();
     }
 }
 

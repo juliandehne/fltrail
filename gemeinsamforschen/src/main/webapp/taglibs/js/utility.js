@@ -49,7 +49,7 @@ function checkAssessementPhase() {
                     break;
                 }
                 case "done": {
-                    changeLocationTo("project-student.jsp");
+                    changeLocationTo("projects-student.jsp");
                     break;
                 }
             }

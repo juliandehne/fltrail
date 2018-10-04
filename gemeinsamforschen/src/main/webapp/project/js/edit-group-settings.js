@@ -29,7 +29,7 @@ $(document).ready(function () {
                     document.location.href = "../groupfinding/create-groups-preferences.jsp"+"&projectName="+projectToken;
                 }
                 else {
-                    document.location.href = "../groupfinding/create-groups-learninggoal.jsp"+"&projectName="+projectToken;
+                    document.location.href = "../groupfinding/create-groups-learninggoal.js.jsp"+"&projectName="+projectToken;
                 }
                 return true;
             },

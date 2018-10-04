@@ -149,7 +149,7 @@ function createProjectinCompbase() {
         success: function (response) {
             console.log(response);
             // it actually worked, too
-            document.location.href = "project-docent.jsp?projectName="+projectName;
+            document.location.href = "projects-docent.jsp?projectName="+projectName;
         },
         error: function (a, b, c) {
             console.log(a);

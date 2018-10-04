@@ -1,5 +1,5 @@
 $(document).ready(function(){
     $('#submit').on('click', function(){
-        location.href="project-docent.jsp";
+        location.href="projects-docent.jsp";
     });
 });

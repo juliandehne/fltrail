@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="css/Sidebar-Menu1.css">
 
     <script src="js/config.js"></script>
-    <script src="js/myGroupsInit.js"></script>
+    <script src="js/create-groups-learninggoal.js"></script>
     <script src="js/Sidebar-Menu.js"></script>
 
 

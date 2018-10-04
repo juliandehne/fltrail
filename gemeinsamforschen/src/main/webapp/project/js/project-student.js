@@ -41,7 +41,7 @@ $(document).ready(function () {
     });
 
     $('.viewprojectstudent').click(function () {
-        location.href = "project-student.jsp" + getUserEmail();
+        location.href = "projects-student.jsp" + getUserEmail();
     })
 });
 
