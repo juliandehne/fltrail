@@ -11,14 +11,16 @@
 </head>
 
 <body>
-
+<menu:menu hierarchy="1"/>
+<div id="wrapper">
 <h1> Projektbeschreibung bearbeiten </h1>
 
                         <form id="descriptionform" class="form-journal" method="POST"
                               action="rest/projectdescription/saveText">
 
                                     <textarea id="editor" name="text" form="descriptionform"></textarea>
-
+                        </form>
+</div>
 </body>
 
 </html>

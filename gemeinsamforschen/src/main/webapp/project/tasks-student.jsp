@@ -21,22 +21,8 @@
     <title>Projecttitle | Gemeinsam Forschen</title>
 </head>
 <body>
-<header>
-    <div class="row ">
-        <div class="nav-group-left">
-            <a>Home</a>
-            <a>Meine Projekte</a>
-        </div>
-        <div class="nav-group-right">
-            <a>Wiki</a>
-            <a>Einstellungen</a>
-            <a>Logout</a>
-
-        </div>
-    </div>
-
-
-</header>
+<menu:menu hierarchy="1"/>
+<div id="wrapper">
 
 <main>
     <div class="row group">
@@ -116,7 +102,7 @@
                     </div>
                     <ul class="list">
                         <li><a href="#">Feedback 1</a></li>
-                        <li><a href="#"></a>Feedback 2</a></li>
+                        <li><a href="#">Feedback 2</a></li>
 
                     </ul>
                 </div>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="css/researchReport.css">
 </head>
 <body>
-
+<menu:menu hierarchy="1"/>
 
 <form id="researchReportform" class="researchReportForm" method="POST" action="../rest/researchReport/save">
 

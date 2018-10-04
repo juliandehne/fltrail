@@ -11,6 +11,7 @@
     <title>Title</title>
 </head>
 <body>
+<menu:menu hierarchy="1"/>
 
 </body>
 </html>

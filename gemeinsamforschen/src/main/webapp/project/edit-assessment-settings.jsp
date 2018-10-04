@@ -9,14 +9,15 @@
 </head>
 
 <body>
-
+<menu:menu hierarchy="1"/>
+<div id="wrapper">
 <h1> Bewertungsverfahren einstellen </h1>
 
 <a
         href="edit-group-settings.jsp">
     Weiter </a>
 
-
+</div>
 </body>
 
 </html>

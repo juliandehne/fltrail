@@ -17,6 +17,7 @@
 </head>
 
 <body>
+<menu:menu hierarchy="1"/>
 <div class="loader-inactive" id="loader"></div>
 <div id="wrapper" class="wrapper">
     <div class="page-content-wrapper">
