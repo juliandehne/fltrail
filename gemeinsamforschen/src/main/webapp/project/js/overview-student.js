@@ -56,7 +56,7 @@ function getGrade(projectName){
         },
         type: 'GET',
         success: function (response) {
-            $('#status'+projectName).html("Sie erreichten "+response+"%");
+            $('#status_'+projectName).html("Sie erreichten "+response+"%");
         },
         error: function(a){
         }
@@ -80,7 +80,7 @@ function getProjects(userName){
             $('#projectTRTemplate').tmpl(tmplObject).appendTo('#projects');
             for (let projectName in response){
                 if (response.hasOwnProperty(projectName)) {
-                    $('#project' + response[projectName]).on('click', function () {
+                    $('#project_' + response[projectName]).on('click', function () {
                         location.href="tasks-student.jsp?projectName="+response[projectName];
                     });
                     updateStatus(response[projectName]);

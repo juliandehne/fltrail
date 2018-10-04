@@ -1,0 +1,382 @@
+/* overall layout with breakpoints*/
+
+/*fixed header */
+
+header {
+    width:100%;
+    position:sticky;
+    height:40px;
+    background:#075F8B;
+    top:0;
+    z-index:100;
+}
+
+header .row {
+    height: 40px;
+    line-height:40px;
+  
+    padding:0 .5em 0 .5em;
+    box-sizing: border-box;
+}
+
+header .nav-group-left {
+    float:left;
+}
+
+header .nav-group-right {
+    float:right;
+}
+
+/*  SECTIONS  */
+main {
+    min-height:600px;
+    position:relative;
+    z-index:1;
+   
+}
+
+footer {
+    text-align:center;
+    height:80px;
+    background:#ededed;
+    padding:.5em;
+}
+
+.row {
+	clear: both;
+	padding: 0px;
+	margin: 0 auto;
+    max-width:1280px;
+  
+    box-shadow: border-box;
+   
+    
+}
+
+.nav {
+    padding:.5em;
+    box-sizing: border-box;
+}
+
+/*  COLUMN SETUP  */
+.col {
+	display: block;
+	float:left;
+    margin: 1% 0 1% 1.6%;
+   
+}
+
+.titlerow {
+    margin-top:40px;
+    height:60px;
+   
+}
+
+
+.col:first-child { margin-left: 0; }
+
+/*  GROUPING  */
+.group:before,
+.group:after { content:""; display:table; }
+.group:after { clear:both;}
+.group { zoom:1; /* For IE 6/7 */ }
+
+/*  GRID OF TWO  */
+.span_2_of_2 {
+    width: 100%;
+    margin:0;
+    padding:.5em;
+    box-sizing: border-box;
+}
+.span_s_of_2 {
+    width: 25%;
+    padding:.5em;
+    box-sizing: border-box;
+}
+
+.span_l_of_2 {
+    width:73.4%;
+    padding:.5em;
+    box-sizing: border-box;
+}
+
+/*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
+
+@media only screen and (max-width: 480px) {
+	.col { 
+		margin: 1% 0 1% 0%;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.span_2_of_2, .span_1_of_2 { width: 100%; }
+}
+
+/* end overall layout */
+
+/*timeline*/
+
+.icon:before, .icon:after {
+    font-family: 'Font Awesome 5 Free' !important;
+    font-style: normal;
+    font-weight: 900;
+    
+}
+
+.closed:after {
+    content:" \f00c";
+}
+
+.timeline li {
+    line-height:1em;
+    font-weight:900;
+}
+
+
+/*tasklist */
+
+.infotext {
+    max-width:400px;
+
+}
+
+.infotext p:before {
+    content:"\f05a";
+    font-size:1.3em;
+   
+    
+   
+}
+
+.card {
+    max-width:400px;
+  
+    position:relative;
+    background:#fff;
+    padding:1em;
+    margin-bottom:1em;
+    box-sizing:border-box;
+    border-left:10px solid #075F8B;
+    -webkit-box-shadow: 10px 10px 5px -8px rgba(140,138,140,0.62);
+    -moz-box-shadow: 10px 10px 5px -8px rgba(140,138,140,0.62);
+    box-shadow: 10px 10px 5px -8px rgba(140,138,140,0.62);
+}
+
+
+
+.grouptask:before {
+    content:"\f0c0";
+    font-size:2em;
+}
+
+.usertask:before {
+    font-size:2em;
+    content:"\f007";
+}
+
+.infotask:before {
+    font-size:2em;
+    content:"\f0f3";
+}
+
+.status:before {
+    content:"\f017";
+    text-align: center;
+    display:block;
+    line-height: 1.7em;
+    font-size:1.5em;
+    color:#fff;
+}
+
+
+.status {
+    position:absolute;
+   
+    width:3em;
+    height:3em;
+    background:#075F8B;
+    border-radius:50%;
+    right:-2em;
+    top:.2em;
+}
+
+.status.alert {
+    background-color:#E0071C;
+}
+
+.status.alert:before {
+    content:"\f0f3";
+}
+
+.status p {
+   display:none;
+}
+
+.status:hover p:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 12px 12px 12px 0;
+    border-color: transparent #000;
+    display: block;
+    width: 0;
+    z-index: 1;
+    left: -12px;
+    top: 20px;
+}
+
+.status:hover p{
+    display:block;
+    position:absolute;
+    background:#000;
+    top: -2em;
+    min-height:3em;
+    left: 4em;
+    color:#fff;
+    width:100px;
+    padding:1em;
+}
+
+button + a {
+    margin-top:1em;
+    display:block;
+}
+
+.shoulds .fa-check-circle {
+    color:#075F8B;
+}
+.shoulds {
+    margin-top:.5em;
+    margin-bottom:1em;
+    font-size:1.3em;
+}
+
+/*type*/
+
+body, p {
+    font-family:nunito, helvetica, arial, sans-serif;
+    font-size:13px;
+    line-height:1.2em;
+}
+
+@font-face {
+    font-family: 'Font Awesome 5 Free';
+    font-style: normal;
+    font-weight: 400;
+    src: url("webfonts/fa-regular-400.eot");
+    src: url("webfonts/fa-regular-400.eot?#iefix") format("embedded-opentype"), url("/webfonts/fa-regular-400.woff2") format("woff2"), url("/webfonts/fa-regular-400.woff") format("woff"), url("/webfonts/fa-regular-400.ttf") format("truetype"), url("/webfonts/fa-regular-400.svg#fontawesome") format("svg"); 
+}
+  
+
+@font-face {
+    font-family: 'Font Awesome 5 Free';
+    font-style: normal;
+    font-weight: 900;
+    src: url("webfonts/fa-solid-900.eot");
+    src: url("webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/webfonts/fa-solid-900.woff2") format("woff2"), url("/webfonts/fa-solid-900.woff") format("woff"), url("/webfonts/fa-solid-900.ttf") format("truetype"), url("/webfonts/fa-solid-900.svg#fontawesome") format("svg"); 
+}
+  
+
+h1 {
+    font-family:spectral, georgia, serif;
+    color:#075F8B;
+    text-align:center;
+    max-width:400px;
+}
+
+h4 {
+    margin-top:0;
+    margin-bottom:.5em;
+    color:#075F8B;
+    line-height:1;
+}
+
+a:link {
+    text-decoration:underline;
+    color:#075F8B;
+    font-weight:700;
+}
+
+/*colors*/
+
+body {
+    color:#5F6366;
+}
+
+.neutral {color:#075F8B;}
+
+.draft {
+    color:#6576B8;
+}
+
+.feedback {
+    color:#009ACC;
+}
+
+.reflection {
+    color#F1D16A;
+}
+
+.presentation {
+    color:#CCCBCB;
+}
+
+.assessment {
+    color:#9B667B;
+}
+
+.grades {
+
+}
+
+.card-draft {
+    border-left-color:#6576B8;
+}
+
+.card-feedback {
+    border-left-color:#009ACC;
+}
+
+.card-reflection {
+    border-left-color:#F1D16A;
+}
+
+.card-presentation {
+    border-left-color:#CCCBCB;
+}
+
+.card-assessment{
+    border-left-color:#9B667B;
+}
+
+.card-grades {
+    border-left-color:#F3A184;
+}
+
+.inactive {
+    color:#dedede;
+}
+
+header a {
+    color:#fff;
+    text-decoration:none;
+}
+
+/*links and buttons */
+button {
+    border:none;
+    backrgound-color:#dedede;
+    display:block;
+    padding:.8em;
+    color:#075F8B;
+}
+
+.primary {
+    background-color:#075F8B;
+    color:#fff;
+}
+
+.inline-btn {
+    display:inline;
+}
+

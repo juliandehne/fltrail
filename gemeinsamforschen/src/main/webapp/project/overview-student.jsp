@@ -21,7 +21,7 @@
                 <script id="projectTRTemplate" type="text/x-jQuery-tmpl">
                     <tr class="pageChanger">
                     <td>
-                        <a id="project${projectName}">
+                        <a id="project_${projectName}">
                             <h1>${projectName}</h1>
                         </a>
                     </td>
@@ -31,7 +31,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Newsfeed </h3>
-                                Status: <p id="status${projectName}"></p>
+                                Status: <p id="status_${projectName}"></p>
                             </div>
                             <div class="panel-body">
                                 <ul class="list-group">
