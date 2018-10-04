@@ -1,10 +1,7 @@
 $(document).ready(function(){
-    $('#project1Link').on('click', function(){
-        location.href = "projects-docent.jsp" + getUserEmail() + '&projectName=' + 'gemeinsamForschen';
-    });
-    $('#project2Link').on('click', function(){
-        location.href = "projects-docent.jsp" + getUserEmail() + '&projectName=' + 'Kaleo';
-    });
+
+    getProjects(getUserEmail());
+
     $('#createProject').on('click', function(){
         location.href="create-project.jsp";
     });
@@ -47,6 +44,37 @@ function getGroups(projectName) {
 
         },
         error: function (a, b, c) {
+
+        }
+    });
+}
+
+function getProjects(userName) {
+    $.ajax({
+        url: '../rest/project/all/author/' + userName,
+        headers: {
+            "Content-Type": "text/plain",
+            "Cache-Control": "no-cache"
+        },
+        type: 'GET',
+        success: function (response) {
+            let tmplObject = [];
+            for (let project in response) {
+                if (response.hasOwnProperty(project))
+                    tmplObject.push({projectName: response[project]});
+            }
+            $('#projectTRTemplate').tmpl(tmplObject).appendTo('#projects');
+            for (let projectName in response) {
+                if (response.hasOwnProperty(projectName)) {
+                    $('#project' + response[projectName]).on('click', function () {
+                        location.href = "tasks-docent.jsp?projectName=" + response[projectName];
+                    });
+                    //updateStatus(response[projectName]);
+
+                }
+            }
+        },
+        error: function (a) {
 
         }
     });

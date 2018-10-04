@@ -69,14 +69,20 @@ public class ProjectView {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/login/{projectName}")
-    public String logInProject(@PathParam("projectName") String projectName, @QueryParam("password") String password) {
+    public String logInProject(@Context HttpServletRequest req, @PathParam("projectName") String projectName,
+                               @QueryParam("password") String
+            password) throws IOException {
+        User user = gfContexts.getUserFromSession(req);
         Project project = projectDAO.getProjectByName(projectName);
+        iManagement.register(user, project, null);
         if (project == null){
             return "project missing";
         }
         if (!project.getPassword().equals(password) ) {
             return "wrong password";
         }
+
+
 
         return "ok";
     }

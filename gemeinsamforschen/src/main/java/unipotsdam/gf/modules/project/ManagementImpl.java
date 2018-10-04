@@ -130,20 +130,18 @@ public class ManagementImpl implements Management {
     }
 
        @Override
-    public List<String> getProjects(String authorToken) {
-        if (authorToken == null) {
+    public List<String> getProjects(String authorEmail) {
+        if (authorEmail == null) {
             return null;
         }
         connect.connect();
         String mysqlRequest =
-                "SELECT p.name FROM users u " +
-                        " JOIN projects p ON u.email = p.authorEmail" +
-                        " WHERE u.token = ?";
+                "SELECT * FROM projects where author = ?";
 
         //49c6eeda-62d2-465e-8832-dc2db27e760c
 
         List<String> result = new ArrayList<>();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, authorToken);
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, authorEmail);
         while (vereinfachtesResultSet.next()) {
             String project = vereinfachtesResultSet.getString("name");
             result.add(project);
