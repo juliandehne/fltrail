@@ -7,7 +7,9 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.session.GFContexts;
 import unipotsdam.gf.modules.states.ProjectPhase;
 
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;

@@ -1,7 +1,10 @@
 package unipotsdam.gf.session;
 
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 
@@ -31,7 +34,7 @@ public class SessionExistsFilter implements Filter {
 
     private void redirectToLogin(ServletRequest request, ServletResponse response) {
         log.debug("redirecting user to login because user does not exist");
-        String loginJSP = "../../index.jsp";
+        String loginJSP = "../index.jsp?session=false";
         ((HttpServletResponse) response).setHeader("Location", loginJSP);
         response.setContentType("text/html");
         ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_FOUND); // SC_FOUND = 302
@@ -51,11 +54,12 @@ public class SessionExistsFilter implements Filter {
         if (attribute == null) {
             redirectToLogin(request, response);
         } else {
+            final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+            locator.inject(this);
             User user = userDAO.getUserByEmail(attribute.toString());
             if (user == null) {
                 redirectToLogin(request, response);
             }
-
             chain.doFilter(request, response);
         }
     }
