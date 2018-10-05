@@ -21,7 +21,7 @@
     <title>Projecttitle | Gemeinsam Forschen</title>
 </head>
 <body>
-<header>
+<%--<header>
     <div class="row ">
         <div class="nav-group-left">
             <a>Home</a>
@@ -36,7 +36,7 @@
     </div>
 
 
-</header>
+</header>--%>
 
 <main>
     <div class="row group">

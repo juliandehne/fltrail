@@ -125,7 +125,6 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `userEmail` varchar(400) NOT NULL,
   `projectName` varchar(400) NOT NULL,
   `taskUrl` varchar(400) NOT NULL,
-  `speakingName` varchar(400) DEFAULT NULL,
   `technicalName` varchar(400) DEFAULT NULL,
   `linkedMode` varchar(400) DEFAULT NULL,
   `groupTask` tinyint(4) DEFAULT NULL,
