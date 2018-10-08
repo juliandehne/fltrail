@@ -16,14 +16,6 @@
     <script src="js/profile.js"></script>
 </head>
 
-
-<%
-    // Retrieve user to be used here
-    String token = request.getParameter("token");
-    ManagementImpl management = new ManagementImpl();
-    User user =  management.getUserByEmail(token);
-%>
-
 <body>
 <menu:menu hierarchy="1"/>
 <div id="wrapper">
@@ -38,7 +30,7 @@
                         <%-- TODO: retrieve profile data --%>
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <p>Name: <%=user.getName()%></p>
+
                             </li>
                             <li class="list-group-item">
                                 <p>Sonstiges:</p>

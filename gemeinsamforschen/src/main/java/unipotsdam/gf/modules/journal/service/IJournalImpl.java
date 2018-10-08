@@ -81,5 +81,15 @@ public class IJournalImpl implements IJournal {
         return result;
     }
 
+    @Override
+    public EPortfolio getPortfolio(String project, String user) {
+        return null;
+    }
+
+    @Override
+    public byte[] exportPortfolioToPdf(EPortfolio ePortfolio) {
+        return new byte[0];
+    }
+
 
 }
