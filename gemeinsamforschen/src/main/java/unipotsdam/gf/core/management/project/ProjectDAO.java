@@ -34,6 +34,7 @@ public class ProjectDAO {
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getId(), project.getPassword(), project.isActive(),
                 project.getTimecreated(), project.getAuthor(), project.getAdminPassword(), token, project.getPhase()
                         == null ? ProjectPhase.CourseCreation : project.getPhase());
+        project.setToken(token);
         connect.close();
     }
 

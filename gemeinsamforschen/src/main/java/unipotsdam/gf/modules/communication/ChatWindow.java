@@ -21,10 +21,7 @@ public class ChatWindow extends SimpleTagSupport {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String token = request.getParameter("token");
-        //User user = management.getUserByToken(token);
-        String groupToken = request.getParameter("groupToken");
         String projectToken = request.getParameter("projectToken");
-        //get ProjetbyToken
         UserDAO userDAO = new UserDAO(new MysqlConnect());
         GroupDAO groupDAO = new GroupDAO(new MysqlConnect());
         ICommunication communicationService = new CommunicationService(new UnirestService(), userDAO, groupDAO);

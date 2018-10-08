@@ -125,6 +125,7 @@ public class CommunicationService implements ICommunication {
             return false;
         }
         group.setChatRoomId(chatRoomId);
+        groupDAO.update(group);
         return true;
     }
 

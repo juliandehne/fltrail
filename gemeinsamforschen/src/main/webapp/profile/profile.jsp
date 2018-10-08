@@ -1,5 +1,6 @@
-<%@ page import="unipotsdam.gf.core.management.ManagementImpl" %>
+<%@ page import="unipotsdam.gf.core.database.mysql.MysqlConnect" %>
 <%@ page import="unipotsdam.gf.core.management.user.User" %>
+<%@ page import="unipotsdam.gf.core.management.user.UserDAO" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
@@ -20,8 +21,8 @@
 <%
     // Retrieve user to be used here
     String token = request.getParameter("token");
-    ManagementImpl management = new ManagementImpl();
-    User user =  management.getUserByToken(token);
+    UserDAO userDAO = new UserDAO(new MysqlConnect());
+    User user = userDAO.getUserByToken(token);
 %>
 
 <body>

@@ -1,15 +1,22 @@
 package unipotsdam.gf.modules.communication.service;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.InMemoryMySqlConnect;
+import unipotsdam.gf.core.database.mysql.MysqlConnect;
+import unipotsdam.gf.core.management.ManagementImpl;
 import unipotsdam.gf.core.management.group.Group;
 import unipotsdam.gf.core.management.project.Project;
+import unipotsdam.gf.core.management.project.ProjectDAO;
 import unipotsdam.gf.core.management.user.User;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.core.management.user.UserProfile;
+import unipotsdam.gf.core.management.user.UserService;
 import unipotsdam.gf.core.states.model.Constraints;
 import unipotsdam.gf.core.states.model.ConstraintsMessages;
 import unipotsdam.gf.interfaces.ICommunication;
@@ -17,6 +24,7 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -235,7 +243,41 @@ public class CommunicationServiceTest {
     @Test
     @Ignore
     public void createTestData() {
-        String chatRoomId = iCommunication.createChatRoom("Testchat", false, Collections.singletonList(ADMIN_USER));
+        User user = new User();
+        user.setName("Martin Nachname");
+        user.setPassword("test1234");
+        user.setEmail("martin@test.com");
+        user.setStudent(true);
+        MysqlConnect mysqlConnect = new MysqlConnect();
+        UserDAO userDAO = new UserDAO(mysqlConnect);
+        GroupDAO groupDAO = new GroupDAO(mysqlConnect);
+        ProjectDAO projectDAO = new ProjectDAO(mysqlConnect);
+        UnirestService unirestService = new UnirestService();
+        CommunicationService communicationService = new CommunicationService(unirestService, userDAO, groupDAO);
+        ManagementImpl management = new ManagementImpl(userDAO, groupDAO, projectDAO, mysqlConnect);
+        UserService userService = new UserService(communicationService, userDAO, management);
+        try {
+            userService.login(true, user);
+        } catch (URISyntaxException e) {
+            Assert.fail();
+        }
+        assertTrue(userDAO.exists(user));
 
+        PodamFactory podamFactory = new PodamFactoryImpl();
+        Project project = podamFactory.manufacturePojo(Project.class);
+        // for the dummy data on website
+        String projectId = "gemeinsamForschen";
+        project.setId(projectId);
+        projectDAO.persist(project);
+        assertTrue(projectDAO.exists(project));
+
+        Group group = new Group();
+        group.setProjectId(projectId);
+        group.setMembers(Collections.singletonList(user));
+        groupDAO.persist(group);
+        assertTrue(groupDAO.exists(group));
+
+        boolean success = communicationService.createChatRoom(group, false);
+        assertTrue(success);
     }
 }

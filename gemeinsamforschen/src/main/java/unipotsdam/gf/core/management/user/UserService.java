@@ -105,7 +105,7 @@ public class UserService {
      * @return
      * @throws URISyntaxException
      */
-    protected Response login(boolean createUser, User user) throws URISyntaxException {
+    public Response login(boolean createUser, User user) throws URISyntaxException {
 
         if (management.exists(user)) {
             if (!createUser) {
