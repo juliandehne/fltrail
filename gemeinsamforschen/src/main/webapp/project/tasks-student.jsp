@@ -27,23 +27,25 @@
             ea rebum.
         </p>
     </div>
+    <div id="listOfTasks">
 
+    </div>
     <script id="taskTemplate" type="text/x-jQuery-tmpl">
-        <div class="card">
+        <div class="card ${phase}">
             <div class="col span_s_of_2 icon ${taskType}">
-
             </div>
-
-            <div class="col span_l_of_2">
-                <h4>Du wurdest einer Forschungsgruppe hinzugefügt</h4>
-            </div>
-            <div style="clear:left"></div>
+                <div class="col span_l_of_2">
+                    ${infoText}
+                    ${solveTaskWith}
+                    ${helpLink}
+                </div>
+                ${timeFrame}
+                <div style="clear:left"></div>
             </div>
             <a id="project_${projectName}">
                 <h1>${projectName}</h1>
             </a>
         </div>
-
     </script>
 
     <!-- Aufgabe -->
@@ -78,7 +80,6 @@
                 <i class="fas fa-check-circle"></i>&nbsp;
                 <i class="fas fa-check-circle"></i>&nbsp;
                 <i class="far fa-circle"></i>
-
             </div>
             <ul class="list">
                 <li><a href="#">Feedback 1</a></li>
@@ -92,7 +93,7 @@
     </div>
 
     <!-- Aufgabe -->
-    <div class="card card-reflection">
+    <div class="card card-grouping">
         <div class="col span_s_of_2 icon usertask">
         </div>
 
@@ -107,7 +108,7 @@
 
 
     <!-- Aufgabe -->
-    <div class="card card-presentation ">
+    <div class="card card-execution">
         <div class="col span_s_of_2 icon grouptask ">
 
         </div>
@@ -124,7 +125,7 @@
     </div>
 
     <!-- Aufgabe -->
-    <div class="card card-assessment ">
+    <div class="card card-assessment">
         <div class="col span_s_of_2 icon grouptask ">
 
         </div>
@@ -141,7 +142,7 @@
     </div>
 
     <!-- Aufgabe -->
-    <div class="card card-grades ">
+    <div class="card card-grades">
         <div class="col span_s_of_2 icon grouptask ">
 
         </div>
