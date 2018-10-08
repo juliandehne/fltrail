@@ -6,19 +6,26 @@ import java.sql.Timestamp;
 
 public class Task {
     // as in "Feedback"
-    private String technicalName;
-    // as in "Feedback geben"
-    private String title;
 
-    private Enum taskType;
+    private TaskType[] taskType;
 
     // optional: only relevant if the task is show on the side
     private Object taskData;
-    private Enum renderModel;
+
+    public TaskName getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(TaskName taskName) {
+        this.taskName = taskName;
+    }
+
+    private TaskName taskName;
+    private Boolean hasRenderModell;
 
     // relevant for time based warnings
-    private Timestamp eventCreated;
-    private Timestamp deadline;
+    private Long eventCreated;
+    private Long deadline;
 
     private Boolean groupTask;
     private Importance importance;
@@ -26,50 +33,36 @@ public class Task {
 
     private String link;
 
-    public String getUserToken() {
+    public String getUserEmail() {
         return userEmail;
     }
 
-    public void setUserToken(String userEmail) {
+    public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
 
     private String userEmail;
 
-    public String getProjectToken() {
-        return projectToken;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setProjectToken(String projectToken) {
-        this.projectToken = projectToken;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
-    private String projectToken;
+    private String projectName;
+
+    private String progress;
 
     public Task() {
     }
 
-    public String getTechnicalName() {
-        return technicalName;
-    }
-
-    public void setTechnicalName(String technicalName) {
-        this.technicalName = technicalName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Enum getTaskType() {
+    public TaskType[] getTaskType() {
         return taskType;
     }
 
-    public void setTaskType(Enum taskType) {
+    public void setTaskType(TaskType ... taskType) {
         this.taskType = taskType;
     }
 
@@ -81,27 +74,27 @@ public class Task {
         this.taskData = taskData;
     }
 
-    public Enum getRenderModel() {
-        return renderModel;
+    public TaskName getRenderModel() {
+        return taskName;
     }
 
-    public void setRenderModel(Enum renderModel) {
-        this.renderModel = renderModel;
+    public void setRenderModel(TaskName renderModel) {
+        this.taskName = renderModel;
     }
 
-    public Timestamp getEventCreated() {
+    public Long getEventCreated() {
         return eventCreated;
     }
 
-    public void setEventCreated(Timestamp eventCreated) {
+    public void setEventCreated(Long eventCreated) {
         this.eventCreated = eventCreated;
     }
 
-    public Timestamp getDeadline() {
+    public Long getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Timestamp deadline) {
+    public void setDeadline(Long deadline) {
         this.deadline = deadline;
     }
 
@@ -135,5 +128,22 @@ public class Task {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getProgress() {
+        return progress;
+    }
+
+    public void setProgress(String progress) {
+        this.progress = progress;
+    }
+
+
+    public Boolean getHasRenderModell() {
+        return hasRenderModell;
+    }
+
+    public void setHasRenderModell(Boolean hasRenderModell) {
+        this.hasRenderModell = hasRenderModell;
     }
 }

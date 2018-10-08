@@ -80,7 +80,7 @@ public class JournalServiceImpl implements JournalService {
         Journal journal = new Journal(id, new StudentIdentifier(project, student), text, JournalUtils.stringToVisibility(visibility), JournalUtils.stringToCategory(category));
 
         //if id = 0 new Journal else update
-        if (id.equals("0")) {
+        if (id.equals("")) {
 
             log.debug("save journal: create new");
             journalDAO.createJournal(journal);

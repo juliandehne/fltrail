@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.project;
 
+import unipotsdam.gf.modules.tasks.ParticipantsCount;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.states.ProjectPhase;
@@ -118,5 +119,19 @@ public class ProjectDAO {
         }
         connect.close();
         return result;
+    }
+
+    public ParticipantsCount getParticipantCount(Project project) {
+        connect.connect();
+        String mysqlRequest = "SELECT COUNT(userEmail) FROM projectuser where projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getName());
+
+        int count = 0;
+
+        while (vereinfachtesResultSet.next()) {
+            count = vereinfachtesResultSet.getInt(0);
+        }
+        connect.close();
+        return new ParticipantsCount(count);
     }
 }

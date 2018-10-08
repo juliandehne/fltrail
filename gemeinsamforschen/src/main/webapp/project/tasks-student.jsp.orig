@@ -21,9 +21,27 @@
     <title>Projecttitle | Gemeinsam Forschen</title>
 </head>
 <body>
-<%--<header>
+<<<<<<< HEAD
+<menu:menu hierarchy="1"/>
 <div id="wrapper">
+=======
+<%--<header>
+    <div class="row ">
+        <div class="nav-group-left">
+            <a>Home</a>
+            <a>Meine Projekte</a>
+        </div>
+        <div class="nav-group-right">
+            <a>Wiki</a>
+            <a>Einstellungen</a>
+            <a>Logout</a>
+
+        </div>
+    </div>
+
+
 </header>--%>
+>>>>>>> origin/development_master
 
 <main>
     <div class="row group">

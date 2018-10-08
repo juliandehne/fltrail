@@ -29,7 +29,6 @@ public class JournalUtils {
             c = Category.valueOf(category);
         } catch (IllegalArgumentException e) {
             c = Category.TITEL;
-            //TODO extra Category for fail?
             JournalUtils.log.debug("Illegal argument for visibility, default to TITLE");
         }
         return c;

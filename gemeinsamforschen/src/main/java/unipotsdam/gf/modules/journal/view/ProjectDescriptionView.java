@@ -22,7 +22,6 @@ import java.net.URISyntaxException;
 /**
  * View for the project description
  *
- * TODO error handling
  */
 
 @Path("/projectdescription")
@@ -53,7 +52,6 @@ public class ProjectDescriptionView {
         log.debug(">>> saveText: " + text);
         descriptionService.saveProjectText(new StudentIdentifier(project, student), text);
 
-        //TODO token
         try {
             URI location = new URI("../pages/eportfolio.jsp");
             log.debug("<<< saveText: redirect to "  +location.toString());
@@ -105,7 +103,6 @@ public class ProjectDescriptionView {
         log.debug(">>> deleteLink: " + link);
 
         descriptionService.deleteLink(link);
-        //TODO token
         try {
             URI location = new URI("../pages/eportfolio.jsp");
             log.debug("<<< deleteLink: redirect to "  +location.toString());

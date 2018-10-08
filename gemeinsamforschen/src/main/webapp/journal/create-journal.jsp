@@ -34,7 +34,7 @@
                     <td id="yourContent">
                         <h1> Tagebucheintrag erstellen </h1>
 
-                        <form id="journalform" class="form-journal" method="POST" action="rest/journal/save">
+                        <form id="journalform" class="form-journal" method="POST" action="../rest/journal/save">
 
                             <input type="hidden" id="student" name="student">
                             <input type="hidden" id="project" name="project">
