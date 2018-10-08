@@ -27,23 +27,28 @@
             ea rebum.
         </p>
     </div>
+
     <script id="taskTemplate" type="text/x-jQuery-tmpl">
-        <a id="project_${projectName}">
-            <h1>${projectName}</h1>
-        </a>
+        <div class="card">
+            <div class="col span_s_of_2 icon ${taskType}">
+
+            </div>
+
+            <div class="col span_l_of_2">
+                <h4>Du wurdest einer Forschungsgruppe hinzugefügt</h4>
+            </div>
+            <div style="clear:left"></div>
+            </div>
+            <a id="project_${projectName}">
+                <h1>${projectName}</h1>
+            </a>
+        </div>
+
     </script>
+
     <!-- Aufgabe -->
     <div class="card ">
-        <div class="col span_s_of_2 icon infotask">
 
-        </div>
-
-        <div class="col span_l_of_2">
-            <h4>Du wurdest einer Forschungsgruppe hinzugefügt</h4>
-        </div>
-
-
-        <div style="clear:left"></div>
 
     </div>
 

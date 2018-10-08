@@ -14,7 +14,10 @@ function fillTasks(projectName, userEmail){
         type: 'GET',
         success: function (response) {
             let tmplObject = fillObjectWithTasks(response);
-            $('#taskTemplate').tmpl(tmplObject).appendTo('#projects');
+            for (let task in tmplObject){
+                $('#taskTemplate').tmpl(tmplObject[task]).appendTo('#projects');
+            }
+
             for (let projectName in response){
                 if (response.hasOwnProperty(projectName)) {
                     $('#project_' + response[projectName]).on('click', function () {
@@ -30,11 +33,25 @@ function fillTasks(projectName, userEmail){
         }
     });
 }
-function fillObjectwithTasks(){
+function fillObjectWithTasks(response){
     let tempObject=[];
     for (let task in response){
-        if (response.hasOwnProperty(project))
-            tmplObject.push({projectName: response[project]});
+        if (response.hasOwnProperty(task))
+            tmplObject.push({
+                taskType: response[task].taskType,
+                taskData: response[task].taskData,
+                taskName: response[task].taskName,
+                hasRenderModel: response[task].hasRenderModel,
+                eventCreated: response[task].eventCreated,
+                deadline: response[task].deadline,
+                groupTask: response[task].groupTask,
+                importance: response[task].importance,
+                phase: response[task].phase,
+                link: response[task].link,
+                userEmail: response[task].userEmail,
+                projectName: response[task].projectName,
+                progress: response[task].progress
+            });
     }
     return tempObject;
 }

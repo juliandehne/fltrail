@@ -2,8 +2,6 @@ package unipotsdam.gf.modules.tasks;
 
 import unipotsdam.gf.modules.states.ProjectPhase;
 
-import java.sql.Timestamp;
-
 public class Task {
     // as in "Feedback"
 
@@ -21,7 +19,7 @@ public class Task {
     }
 
     private TaskName taskName;
-    private Boolean hasRenderModell;
+    private Boolean hasRenderModel;
 
     // relevant for time based warnings
     private Long eventCreated;
@@ -33,6 +31,10 @@ public class Task {
 
     private String link;
 
+    private String userEmail;
+    private String projectName;
+    private Progress progress;
+
     public String getUserEmail() {
         return userEmail;
     }
@@ -40,8 +42,6 @@ public class Task {
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
-
-    private String userEmail;
 
     public String getProjectName() {
         return projectName;
@@ -51,9 +51,6 @@ public class Task {
         this.projectName = projectName;
     }
 
-    private String projectName;
-
-    private String progress;
 
     public Task() {
     }
@@ -130,20 +127,20 @@ public class Task {
         this.link = link;
     }
 
-    public String getProgress() {
+    public Progress getProgress() {
         return progress;
     }
 
-    public void setProgress(String progress) {
+    public void setProgress(Progress progress) {
         this.progress = progress;
     }
 
 
-    public Boolean getHasRenderModell() {
-        return hasRenderModell;
+    public Boolean getHasRenderModel() {
+        return hasRenderModel;
     }
 
-    public void setHasRenderModell(Boolean hasRenderModell) {
-        this.hasRenderModell = hasRenderModell;
+    public void setHasRenderModel(Boolean hasRenderModel) {
+        this.hasRenderModel = hasRenderModel;
     }
 }
