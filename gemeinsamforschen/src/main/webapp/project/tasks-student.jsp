@@ -27,7 +27,11 @@
             ea rebum.
         </p>
     </div>
-
+    <script id="taskTemplate" type="text/x-jQuery-tmpl">
+        <a id="project_${projectName}">
+            <h1>${projectName}</h1>
+        </a>
+    </script>
     <!-- Aufgabe -->
     <div class="card ">
         <div class="col span_s_of_2 icon infotask">
