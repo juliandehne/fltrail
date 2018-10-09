@@ -4,13 +4,10 @@ import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
-import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
-import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.modules.group.GroupfindingCriteria;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
@@ -65,7 +62,7 @@ public class GroupPhaseTaskTest {
         groupFinding.selectGroupfindingCriteria(groupfindingCriteria, project);
 
         taskDAO.createTaskWaitForParticipants(project, teacher);
-        Task[] tasks = taskDAO.getTasks(teacher, project);
+        Task[] tasks = taskDAO.getTaskType(teacher, project);
         assertTrue(tasks != null && tasks.length > 0);
 
 

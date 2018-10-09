@@ -1,8 +1,8 @@
 $(document).ready(function(){
     let userEmail = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
-    //fillTasks(projectName, userEmail);
-    let object = [{
+    fillTasks(projectName, userEmail);
+    /*let object = [{
         taskType: "ONSITE",  //
         taskData: "",
         taskName: "WAIT_FOR_PARTICPANTS",  //
@@ -35,7 +35,7 @@ $(document).ready(function(){
     for (let task in object){
         let tmplObject = fitObjectInTmpl(object[task]);
         $('#taskTemplate').tmpl(tmplObject).appendTo('#listOfTasks');
-    }
+    }*/
 });
 
 function fillTasks(projectName, userEmail){
@@ -121,7 +121,7 @@ function fitObjectInTmpl(object){
         default:
             result.infoText="";
     }
-    if (object.taskType!=="INFO"){
+    if (object.taskType.includes("LINKED")){
         //todo: implement rest
         switch (object.taskName) {
             case "UPLOAD_DOSSIER":
@@ -164,7 +164,7 @@ function fillObjectWithTasks(response){
     let tempObject=[];
     for (let task in response){
         if (response.hasOwnProperty(task))
-            tmplObject.push({
+            tempObject.push({
                 taskType: response[task].taskType,  //
                 taskData: response[task].taskData,
                 taskName: response[task].taskName,  //

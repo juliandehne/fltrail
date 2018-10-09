@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.tasks;
 
-import com.mysql.jdbc.NotImplemented;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.states.ProjectPhase;
@@ -25,7 +24,7 @@ public class TaskDAO {
     MysqlConnect connect;
 
     // get all the tasks a user has in a specific project
-    public ArrayList<Task> getTasks(String userEmail, String projectName)  {
+    public ArrayList<Task> getTaskType(String userEmail, String projectName)  {
         connect.connect();
         String query = "Select * from tasks where userEmail = ? AND projectName = ?";
         ArrayList<Task> result = new ArrayList<>();
@@ -34,12 +33,14 @@ public class TaskDAO {
             String taskName = vereinfachtesResultSet.getString("taskName");
 
             TaskName taskName1 = TaskName.valueOf(taskName);
+            Task task = getGeneralTask(vereinfachtesResultSet);
             switch (taskName1) {
                 case WAIT_FOR_PARTICPANTS: {
-                    result.add(getTaskWaitForParticipants(vereinfachtesResultSet));
+                    result.add(getTaskWaitForParticipants(task, vereinfachtesResultSet));
+                    break;
                 }
                 default: {
-                    result.add(getGeneralTask(vereinfachtesResultSet));
+                    result.add(task);
                 }
             }
         }
@@ -62,14 +63,13 @@ public class TaskDAO {
         task.setEventCreated(vereinfachtesResultSet.getLong("created"));
         task.setDeadline(vereinfachtesResultSet.getLong("due"));
         task.setPhase(ProjectPhase.valueOf(vereinfachtesResultSet.getString("phase")));
-        getTasks(vereinfachtesResultSet);
+        getTaskType(task, vereinfachtesResultSet);
 
         return task;
     }
 
     // bundle the taskModes
-    private void getTasks(VereinfachtesResultSet vereinfachtesResultSet) {
-        Task task = new Task();
+    private void getTaskType(Task task, VereinfachtesResultSet vereinfachtesResultSet) {
         ArrayList<TaskType> taskTypes = new ArrayList<>();
         String taskMode = vereinfachtesResultSet.getString("taskMode");
         String taskMode2 = vereinfachtesResultSet.getString("taskMode2");
@@ -89,8 +89,8 @@ public class TaskDAO {
     }
 
 
-    private Task getTaskWaitForParticipants(VereinfachtesResultSet vereinfachtesResultSet) {
-        Task task = getGeneralTask(vereinfachtesResultSet);
+    private Task getTaskWaitForParticipants(Task task, VereinfachtesResultSet vereinfachtesResultSet) {
+        task.setTaskName(TaskName.WAIT_FOR_PARTICPANTS);
         Project project = new Project();
         project.setName(vereinfachtesResultSet.getString("projectName"));
         ParticipantsCount participantsCount = projectDAO.getParticipantCount(project);
@@ -167,7 +167,7 @@ public class TaskDAO {
         connect.close();
     }
 
-    public Task[] getTasks(User teacher, Project project) {
-        return getTasks(teacher.getEmail(), project.getName()).toArray(new Task[0]);
+    public Task[] getTaskType(User teacher, Project project) {
+        return getTaskType(teacher.getEmail(), project.getName()).toArray(new Task[0]);
     }
 }
