@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.project;
 
+import unipotsdam.gf.modules.tasks.TaskDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.session.GFContexts;
 
@@ -27,6 +28,9 @@ public class ProjectView {
     @Inject
     private Management iManagement;
 
+    @Inject
+    private TaskDAO taskDao;
+
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
@@ -45,6 +49,7 @@ public class ProjectView {
         } catch (Exception e) {
             throw new WebApplicationException("Project already exists");
         }
+        taskDao.createTaskWaitForParticipants(project,user);
     }
 
     @GET
@@ -69,19 +74,22 @@ public class ProjectView {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/login/{projectName}")
-    public String logInProject(@Context HttpServletRequest req, @PathParam("projectName") String projectName,
-                               @QueryParam("password") String
+    public String register(@Context HttpServletRequest req, @PathParam("projectName") String projectName,
+                           @QueryParam("password") String
             password) throws IOException {
         User user = gfContexts.getUserFromSession(req);
         Project project = projectDAO.getProjectByName(projectName);
-        iManagement.register(user, project, null);
         if (project == null){
             return "project missing";
         }
         if (!project.getPassword().equals(password) ) {
             return "wrong password";
         }
+        // student enters project
+        iManagement.register(user, project, null);
 
+        // create info for student
+        taskDao.createWaitingForGroupFormationTask(project, user);
 
 
         return "ok";

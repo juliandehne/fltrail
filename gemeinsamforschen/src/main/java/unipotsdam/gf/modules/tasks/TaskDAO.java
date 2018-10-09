@@ -98,23 +98,42 @@ public class TaskDAO {
         return task;
     }
 
-
-    public void createTaskWaitForParticipants(Project project, User target)  {
+    private Task createGeneralTask(Project project, User target) {
         Task task = new Task();
         task.setEventCreated(System.currentTimeMillis());
+        task.setProjectName(project.getName());
+        task.setUserEmail(project.getAuthorEmail());
+        task.setImportance(Importance.MEDIUM);
+        task.setProgress(Progress.JUSTSTARTED);
+
+        return task;
+    }
+
+
+    public void createTaskWaitForParticipants(Project project, User target)  {
+        Task task = createGeneralTask(project, target);
         task.setGroupTask(false);
         task.setLink("../groupfinding/create-groups-manual.jsp");
         task.setPhase(ProjectPhase.GroupFormation);
         task.setRenderModel(WAIT_FOR_PARTICPANTS);
         task.setTaskType(TaskType.LINKED, TaskType.INFO);
-        task.setProjectName(project.getName());
-        task.setUserEmail(project.getAuthorEmail());
         task.setImportance(Importance.MEDIUM);
         task.setProgress(Progress.JUSTSTARTED);
         persist(task);
     }
 
-    public void persist(Task task) {
+    public void createWaitingForGroupFormationTask(Project project, User target) {
+        Task task = createGeneralTask(project, target);
+        task.setGroupTask(false);
+        task.setPhase(ProjectPhase.GroupFormation);
+        task.setRenderModel(TaskName.WAITING_FOR_GROUP);
+        task.setTaskType(TaskType.INFO);
+        task.setImportance(Importance.MEDIUM);
+        task.setProgress(Progress.JUSTSTARTED);
+        persist(task);
+    }
+
+    private void persist(Task task) {
 
         String taskMode2 = "";
         if (task.getTaskType() != null && task.getTaskType().length > 1) {
