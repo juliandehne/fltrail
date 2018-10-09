@@ -18,10 +18,8 @@ den Zustand ändert
     <link rel="stylesheet" type="text/css" href="css/researchReport.css">
 </head>
 <body>
-
-
+<menu:menu hierarchy="1"/>
 <div id="wrapper">
-    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div style="margin-left:50px;">

@@ -15,8 +15,8 @@
 </head>
 
 <body>
-<div id="wrapper" class="wrapper">
-    <menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/>
+<div id="wrapper">
     <div class="page-content-wrapper">
         <headLine:headLine/>
     <fieldset>

@@ -14,7 +14,7 @@ header {
 header .row {
     height: 40px;
     line-height:40px;
-  
+
     padding:0 .5em 0 .5em;
     box-sizing: border-box;
 }
@@ -32,7 +32,7 @@ main {
     min-height:600px;
     position:relative;
     z-index:1;
-   
+
 }
 
 footer {
@@ -43,14 +43,14 @@ footer {
 }
 
 .row {
-	clear: both;
-	padding: 0px;
-	margin: 0 auto;
+    clear: both;
+    padding: 0px;
+    margin: 0 auto;
     max-width:1280px;
-  
-    box-shadow: border-box;
-   
     
+    box-sizing: border-box;
+
+
 }
 
 .nav {
@@ -60,16 +60,16 @@ footer {
 
 /*  COLUMN SETUP  */
 .col {
-	display: block;
-	float:left;
+    display: block;
+    float:left;
     margin: 1% 0 1% 1.6%;
-   
+
 }
 
 .titlerow {
     margin-top:40px;
     height:60px;
-   
+
 }
 
 
@@ -103,13 +103,13 @@ footer {
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
 
 @media only screen and (max-width: 480px) {
-	.col { 
-		margin: 1% 0 1% 0%;
-	}
+    .col {
+        margin: 1% 0 1% 0%;
+    }
 }
 
 @media only screen and (max-width: 480px) {
-	.span_2_of_2, .span_1_of_2 { width: 100%; }
+    .span_2_of_2, .span_1_of_2 { width: 100%; }
 }
 
 /* end overall layout */
@@ -120,7 +120,7 @@ footer {
     font-family: 'Font Awesome 5 Free' !important;
     font-style: normal;
     font-weight: 900;
-    
+
 }
 
 .closed:after {
@@ -143,14 +143,14 @@ footer {
 .infotext p:before {
     content:"\f05a";
     font-size:1.3em;
-   
-    
-   
+
+
+
 }
 
 .card {
     max-width:400px;
-  
+
     position:relative;
     background:#fff;
     padding:1em;
@@ -191,7 +191,7 @@ footer {
 
 .status {
     position:absolute;
-   
+
     width:3em;
     height:3em;
     background:#075F8B;
@@ -209,7 +209,7 @@ footer {
 }
 
 .status p {
-   display:none;
+    display:none;
 }
 
 .status:hover p:after {
@@ -263,19 +263,19 @@ body, p {
     font-family: 'Font Awesome 5 Free';
     font-style: normal;
     font-weight: 400;
-    src: url("webfonts/fa-regular-400.eot");
-    src: url("webfonts/fa-regular-400.eot?#iefix") format("embedded-opentype"), url("/webfonts/fa-regular-400.woff2") format("woff2"), url("/webfonts/fa-regular-400.woff") format("woff"), url("/webfonts/fa-regular-400.ttf") format("truetype"), url("/webfonts/fa-regular-400.svg#fontawesome") format("svg"); 
+    src: url("../webfonts/fa-regular-400.eot");
+    src: url("../webfonts/fa-regular-400.eot?#iefix") format("embedded-opentype"), url("../webfonts/fa-regular-400.woff2") format("woff2"), url("../webfonts/fa-regular-400.woff") format("woff"), url("../webfonts/fa-regular-400.ttf") format("truetype"), url("../webfonts/fa-regular-400.svg#fontawesome") format("svg");
 }
-  
+
 
 @font-face {
     font-family: 'Font Awesome 5 Free';
     font-style: normal;
     font-weight: 900;
-    src: url("webfonts/fa-solid-900.eot");
-    src: url("webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("/webfonts/fa-solid-900.woff2") format("woff2"), url("/webfonts/fa-solid-900.woff") format("woff"), url("/webfonts/fa-solid-900.ttf") format("truetype"), url("/webfonts/fa-solid-900.svg#fontawesome") format("svg"); 
+    src: url("../webfonts/fa-solid-900.eot");
+    src: url("../webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../webfonts/fa-solid-900.woff2") format("woff2"), url("../webfonts/fa-solid-900.woff") format("woff"), url("../webfonts/fa-solid-900.ttf") format("truetype"), url("../webfonts/fa-solid-900.svg#fontawesome") format("svg");
 }
-  
+
 
 h1 {
     font-family:spectral, georgia, serif;
@@ -314,7 +314,7 @@ body {
 }
 
 .reflection {
-    color#F1D16A;
+    color:#F1D16A;
 }
 
 .presentation {

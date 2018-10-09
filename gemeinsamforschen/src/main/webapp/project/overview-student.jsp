@@ -12,8 +12,8 @@
 </head>
 
 <body>
+<menu:menu hierarchy="1"/>
 <div id="wrapper">
-    <menu:menu hierarchy="1"/>
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div>

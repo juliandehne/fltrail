@@ -6,7 +6,7 @@
 <html>
 
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"></omniDependencies:omniDependencies>
+    <omniDependencies:omniDependencies hierarchy="1"/>
     <script src="js/config.js"></script>
     <script src="js/create-preferences.js"></script>
 </head>
@@ -18,8 +18,8 @@
     <div class="sk-cube4 sk-cube"></div>
     <div class="sk-cube3 sk-cube"></div>
 </div>
-<div id="wrapper" class="wrapper">
-    <menu:menu hierarchy="1"></menu:menu>
+<menu:menu hierarchy="1"/>
+<div id="wrapper">
     <div class="page-content-wrapper">
         <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
             <div class="row">

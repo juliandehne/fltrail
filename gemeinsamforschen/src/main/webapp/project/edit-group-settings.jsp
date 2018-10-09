@@ -11,7 +11,8 @@
 </head>
 
 <body>
-
+<menu:menu hierarchy="1"/>
+<div id="wrapper">
 <h1> Gruppenverfahren festlegen </h1>
 
 
@@ -24,7 +25,7 @@
 <label for="bp">Basierend auf Präferenzen</label>
 <button class="btn btn-primary" style="margin-left:129px;" id="selectGFM">wählen</button>
 
-
+</div>
 </body>
 
 </html>
