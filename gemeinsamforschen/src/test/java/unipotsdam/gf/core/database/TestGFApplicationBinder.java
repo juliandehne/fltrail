@@ -44,7 +44,7 @@ public class TestGFApplicationBinder extends GFApplicationBinder {
         bind(IJournalImpl.class).to(IJournal.class);
         bind(AssessmentDBCommunication.class).to(AssessmentDBCommunication.class);
         bind(GFContexts.class).to(GFContexts.class);
-        bind(InMemoryMySqlConnect.class).to(MysqlConnect.class);
+        bind(MysqlTestConnect.class).to(MysqlConnect.class);
 
     }
 }
