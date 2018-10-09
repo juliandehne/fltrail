@@ -27,8 +27,15 @@ public class TaskDAO {
     @Inject
     MysqlConnect connect;
 
-    // get all the tasks a user has in a specific project
-    public Task[] getTasks(String userEmail, String projectName) throws NotImplemented {
+    /**
+     * deprecated methods are used in order to not break existing code
+     * remove this method if not needed anymore
+     * @param userEmail
+     * @param projectName
+     * @return
+     */
+    @Deprecated
+    public Task[] getTasks(String userEmail, String projectName) {
         connect.connect();
         String query = "Select * from tasks where userEmail = ? & projectName = ?";
         ArrayList<Task> result = new ArrayList<>();
@@ -49,7 +56,10 @@ public class TaskDAO {
 
         connect.close();
 
-        return null;
+        return result.toArray(new Task[0]);
+    }
+    public Task[] getTasks(User user, Project project) {
+        return getTasks(user.getEmail(), project.getName());
     }
 
     // fill the task with the general data
@@ -102,7 +112,7 @@ public class TaskDAO {
     }
 
 
-    public void createTaskWaitForParticipants(Project project, User target) throws NotImplemented {
+    public void createTaskWaitForParticipants(Project project, User target) {
         Task task = new Task();
         task.setEventCreated(System.currentTimeMillis());
         task.setGroupTask(false);
@@ -117,7 +127,7 @@ public class TaskDAO {
 
     }
 
-    public void persist(Task task) throws NotImplemented {
+    public void persist(Task task) {
 
         String taskMode2 = "";
         if (task.getTaskType() != null && task.getTaskType().length > 1) {

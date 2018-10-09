@@ -13,9 +13,12 @@ import org.mockito.junit.MockitoRule;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectConfiguration;
+import unipotsdam.gf.modules.tasks.Task;
+import unipotsdam.gf.modules.tasks.TaskDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.states.ProjectPhase;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
@@ -67,6 +70,9 @@ public class ActivityFlowTest {
     IJournal iJournal;
 
     @Inject
+    TaskDAO taskDAO;
+
+    @Inject
     IPeerAssessment iPeerAssessment;
 
 
@@ -81,7 +87,7 @@ public class ActivityFlowTest {
 
     @Before
     public void setUp() {
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
         locator.inject(this);
 
         feedback = Mockito.spy(feedback);
@@ -251,6 +257,11 @@ public class ActivityFlowTest {
         GroupfindingCriteria groupfindingCriteria = factory.manufacturePojo(GroupfindingCriteria.class);
         groupFinding.selectGroupfindingCriteria(groupfindingCriteria);
 
+        taskDAO.createTaskWaitForParticipants(project, teacher);
+        Task[] tasks = taskDAO.getTasks(teacher, project);
+        assertTrue(tasks != null && tasks.length > 0);
+
+        
     }
 
 }

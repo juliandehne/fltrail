@@ -9,5 +9,6 @@ public class TestGFApplicationBinder extends GFApplicationBinder {
     protected void configure() {
         super.configure();
         bind(InMemoryMySqlConnect.class).to(MysqlConnect.class);
+
     }
 }
