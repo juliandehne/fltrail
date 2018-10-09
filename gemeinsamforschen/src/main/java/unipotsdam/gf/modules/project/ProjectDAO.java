@@ -129,7 +129,7 @@ public class ProjectDAO {
         int count = 0;
 
         while (vereinfachtesResultSet.next()) {
-            count = vereinfachtesResultSet.getInt(0);
+            count = vereinfachtesResultSet.getInt(1);
         }
         connect.close();
         return new ParticipantsCount(count);

@@ -11,7 +11,8 @@ import java.util.List;
 
 public class DummyGroupfinding implements IGroupFinding {
     @Override
-    public void selectGroupfindingCriteria(GroupfindingCriteria groupfindingCriteria)  {
+    public void selectGroupfindingCriteria(
+            GroupfindingCriteria groupfindingCriteria, Project project)  {
         NotImplementedLogger.logAssignment(Assignee.MIRJAM, IGroupFinding.class);
     }
 

@@ -18,24 +18,28 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
     @Override
-    public void selectGroupfindingCriteria(GroupfindingCriteria groupfindingCriteria) {
-
+    public void selectGroupfindingCriteria(
+            GroupfindingCriteria groupfindingCriteria, Project project) {
+        //
     }
 
     @Override
     public void persistGroups(List<Group> groupComposition, Project project) {
-
+        for (Group group : groupComposition) {
+            group.setProjectName(project.getName());
+            groupDAO.persist(group);
+        }
     }
 
 
     @Override
     public List<Group> getGroups(Project project) {
-        return null;
+        return groupDAO.getGroupsByProjectName(project.getName());
     }
 
     @Override
     public void formGroups(GroupFormationMechanism groupFindingMechanism) {
-
+        // TODO implement for othermechanisms
     }
 
     public ArrayList<String> getStudentsInSameGroup(StudentIdentifier student) {

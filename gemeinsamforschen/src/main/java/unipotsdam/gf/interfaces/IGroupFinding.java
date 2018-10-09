@@ -13,8 +13,10 @@ public interface IGroupFinding {
     /**
      * Select the groupfinding criteria used
      * @param groupfindingCriteria
+     * @param project
      */
-    void selectGroupfindingCriteria(GroupfindingCriteria groupfindingCriteria);
+    void selectGroupfindingCriteria(
+            GroupfindingCriteria groupfindingCriteria, Project project);
 
     /**
      * Persist the selected manual groups

@@ -12,7 +12,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.MockitoRule;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
@@ -255,13 +254,13 @@ public class ActivityFlowTest {
         management.create(projectConfiguration, project);
 
         GroupfindingCriteria groupfindingCriteria = factory.manufacturePojo(GroupfindingCriteria.class);
-        groupFinding.selectGroupfindingCriteria(groupfindingCriteria);
+        groupFinding.selectGroupfindingCriteria(groupfindingCriteria, project);
 
         taskDAO.createTaskWaitForParticipants(project, teacher);
         Task[] tasks = taskDAO.getTasks(teacher, project);
         assertTrue(tasks != null && tasks.length > 0);
 
-        
+
     }
 
 }

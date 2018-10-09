@@ -19,16 +19,13 @@ public class TaskDAO {
 
 
     @Inject
-    TaskDAO taskDAO;
-
-    @Inject
     ProjectDAO projectDAO;
 
     @Inject
     MysqlConnect connect;
 
     // get all the tasks a user has in a specific project
-    public ArrayList<Task> getTasks(String userEmail, String projectName) throws NotImplemented {
+    public ArrayList<Task> getTasks(String userEmail, String projectName)  {
         connect.connect();
         String query = "Select * from tasks where userEmail = ? AND projectName = ?";
         ArrayList<Task> result = new ArrayList<>();
@@ -77,14 +74,14 @@ public class TaskDAO {
         String taskMode = vereinfachtesResultSet.getString("taskMode");
         String taskMode2 = vereinfachtesResultSet.getString("taskMode2");
         String taskMode3 = vereinfachtesResultSet.getString("taskMode3");
-        if (!taskMode.equals("")) {
+        if (taskMode != null && !taskMode.equals("") ) {
             taskTypes.add(TaskType.valueOf(vereinfachtesResultSet.getString("taskMode")));
         }
-        if (!taskMode.equals("")) {
+        if (taskMode2 != null && !taskMode2.equals("")) {
             taskTypes.add(TaskType.valueOf(vereinfachtesResultSet.getString("taskMode2")));
         }
 
-        if (!taskMode.equals("")) {
+        if (taskMode3 != null && !taskMode3.equals("")) {
             taskTypes.add(TaskType.valueOf(vereinfachtesResultSet.getString("taskMode3")));
 
         }
@@ -102,7 +99,7 @@ public class TaskDAO {
     }
 
 
-    public void createTaskWaitForParticipants(Project project, User target) throws NotImplemented {
+    public void createTaskWaitForParticipants(Project project, User target)  {
         Task task = new Task();
         task.setEventCreated(System.currentTimeMillis());
         task.setGroupTask(false);
@@ -113,11 +110,11 @@ public class TaskDAO {
         task.setProjectName(project.getName());
         task.setUserEmail(project.getAuthorEmail());
         task.setImportance(Importance.MEDIUM);
-        taskDAO.persist(task);
-
+        task.setProgress(Progress.JUSTSTARTED);
+        persist(task);
     }
 
-    public void persist(Task task) throws NotImplemented {
+    public void persist(Task task) {
 
         String taskMode2 = "";
         if (task.getTaskType() != null && task.getTaskType().length > 1) {
@@ -131,20 +128,27 @@ public class TaskDAO {
 
         connect.connect();
         String query =
-                "INSERT INTO fltrail.tasks (userEmail, projectName, taskUrl, taskName, " + "linkedMode, groupTask, importance, progress, phase, created, due, taskMode, taskMode2, taskMode3) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "INSERT INTO fltrail.tasks (userEmail, projectName, taskUrl, taskName, " +
+                        "groupTask, importance, progress, phase, created, due, taskMode, taskMode2, taskMode3) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         connect.issueInsertOrDeleteStatement(query, task.getUserEmail(), task.getProjectName(), task.getLink(),
-                task.getTaskName(), task.getGroupTask(), task.getImportance(), task.getProgress(), task.getPhase(),
+                task.getTaskName(), task.getGroupTask(), task.getImportance(), task.getProgress(), task
+                        .getPhase(),
                 null, task.getDeadline(), task.getTaskType()[0].toString(), taskMode2, taskMode3);
         connect.close();
     }
 
-    public void update(Task task, Progress progress) throws NotImplemented {
+    public void update(Task task, Progress progress)  {
         connect.connect();
         String query =
                 "UPDATE tasks set progress = ? where task.userEmail = ? & task.projectName = ? & task.taskName" + " = ?";
         connect.issueUpdateStatement(
                 query, progress.name(), task.getUserEmail(), task.getProjectName(), task.getTaskName());
         connect.close();
+    }
+
+    public Task[] getTasks(User teacher, Project project) {
+        return getTasks(teacher.getEmail(), project.getName()).toArray(new Task[0]);
     }
 }
