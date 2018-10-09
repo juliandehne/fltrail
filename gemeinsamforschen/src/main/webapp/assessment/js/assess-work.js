@@ -15,7 +15,7 @@ $(document).ready(function () {
 
 
 function buildTablesForPeers() {
-    let userName = $('#user').html().trim();
+    let userName = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
     $.ajax({
             url: '../rest/group/project/' + projectName + '/student/' + userName,

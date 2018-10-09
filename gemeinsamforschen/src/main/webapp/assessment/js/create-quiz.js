@@ -42,12 +42,12 @@ $(document).ready(function () {
             correctAnswers: correctAnswers,
             incorrectAnswers: incorrectAnswers
         };
-        let userNameentifier = {
-            userName: $('#user').html().trim(),
+        let userIdentifier = {
+            userEmail: $('#userEmail').html().trim(),
             projectName: $('#projectName').html().trim()
         };
         let data = JSON.stringify({
-            userNameentifier: userNameentifier,
+            studentIdentifier: userIdentifier,
             quiz: quiz
         });
         $.ajax({
@@ -60,10 +60,10 @@ $(document).ready(function () {
             type: 'POST',
             success: function (response) {
                 if (response === "student") {
-                    location.href = "Quiz.jsp?projectName="+projectName;
+                    location.href = "Quiz.jsp?projectName="+$('#projectName').html().trim();
                 }
                 if (response === "docent") {
-                    location.href = "Quiz-docent.jsp?projectName="+projectName;
+                    location.href = "Quiz-docent.jsp?projectName="+$('#projectName').html().trim();
                 }
 
             },

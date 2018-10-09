@@ -40,14 +40,14 @@
                     <h4>${infoText}</h4>
                 {{/if}}
                 {{if solveTaskWith}}
-                    <button class='primary'>${solveTaskWith}</button>
+                    <a href="${solveTaskWithLink}"><button class='primary'>${solveTaskWith}</button></a>
                 {{/if}}
                 {{if helpLink}}
                     <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
                 {{/if}}
             </div>
             {{if timeFrame}}
-                <div class="status icon"><p>${timeFrame}</p></div>
+                {{html timeFrame}}
             {{/if}}
                 <div style="clear:left"></div>
             </div>

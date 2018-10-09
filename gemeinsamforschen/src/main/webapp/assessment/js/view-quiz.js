@@ -34,8 +34,8 @@ $(document).ready(function () {
         $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
     }
     let quizId = encodeURIComponent($_GET['quizId']);
-    let author = $('#user').html().trim();
-    let projectName = document.getElementById('projectName').innerText.trim();
+    let author = $('#userEmail').html().trim();
+    let projectName = $('#projectName').html().trim();
     $.ajax({
         url: '../rest/assessments/project/' + projectName + '/quiz/' + quizId + '/author/' + author,
         type: 'GET',

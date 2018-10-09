@@ -1,7 +1,7 @@
 $(document).ready(function(){
     let userEmail = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
-    fillTasks(projectName, userEmail);
+    //fillTasks(projectName, userEmail);
     let object = [{
         taskType: "ONSITE",  //
         taskData: "",
@@ -17,15 +17,15 @@ $(document).ready(function(){
         projectName: projectName,
         progress: "JUSTSTARTED"
     }, {
-        taskType: "INFO",  //
+        taskType: "LINKED",  //
         taskData: "",
-        taskName: "BUILD_GROUPS",  //
+        taskName: "ASSESSMENT",  //
         hasRenderModel: false,
         eventCreated: Date.now()-410,
         deadline: Date.now() + 17223613, //
         groupTask: false,//
         importance: "",
-        phase: "CourseCreation",  //
+        phase: "Assessment",  //
         link: "www.youtube.de",  //
         userEmail: userEmail,
         projectName: projectName,
@@ -102,8 +102,11 @@ function fitObjectInTmpl(object){
     if (object.link !=="")
         result.helpLink = object.link;
     if (object.deadline != null){
-        let daysLeft = (object.deadline - Date.now())/1000/60/60/24;
-        result.timeFrame="Noch "+daysLeft+" Tage Zeit";
+        let daysLeft = Math.round((object.deadline - Date.now())/1000/60/60/24);
+        if (daysLeft>=1)
+            result.timeFrame="<div class='status icon'><p>Noch "+daysLeft+" Tage Zeit</p></div>";
+        else
+            result.timeFrame="<div class='status alert icon'><p>Du bist zu spät.</p></div>";
     }else {result.timeFrame="";}
     switch (object.taskName){
         case "WAIT_FOR_PARTICPANTS":
@@ -120,7 +123,39 @@ function fitObjectInTmpl(object){
     }
     if (object.taskType!=="INFO"){
         //todo: implement rest
-        result.solveTaskWith="Lege ein Dossier an"
+        switch (object.taskName) {
+            case "UPLOAD_DOSSIER":
+                result.solveTaskWith="Lege ein Dossier an";
+                result.solveTaskWithLink="../annotation/annotation-document.jsp?projectName="+object.projectName;
+                break;
+            case "GIVE_FEEDBACK":
+                result.solveTaskWith="Erteile Feedback";
+                result.solveTaskWithLink="../feedback/give-feedback.jsp?projectName="+object.projectName;
+                break;
+            case "CREATE_QUIZ":
+                result.solveTaskWith="Erstelle ein Quiz";
+                result.solveTaskWithLink="../assessment/create-quiz.jsp?projectName="+object.projectName;
+                break;
+            case "WRITE_EJOURNAL":
+                result.solveTaskWith="Lege ein EJournal an";
+                result.solveTaskWithLink="../journal/create-journal.jsp?projectName="+object.projectName;
+                break;
+            case "FINALIZE_DOSSIER":
+                result.solveTaskWith="Finalisiere das Dossier";
+                result.solveTaskWithLink="../annotation/annotation-document.jsp?projectName="+object.projectName;
+                break;
+            case "FINALIZE_EJOURNAL":
+                result.solveTaskWith="Finalisiere dein EJournal";
+                result.solveTaskWithLink="../journal/edit-description.jsp?projectName="+object.projectName;
+                break;
+            case "ASSESSMENT":
+                result.solveTaskWith="Starte Bewertung";
+                result.solveTaskWithLink="../assessment/assess-work.jsp?projectName="+object.projectName;
+                break;
+            default:
+                result.solveTaskWith=null;
+
+        }
     }
     return result;
 }
