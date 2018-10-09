@@ -9,10 +9,15 @@ import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class AnnotationController implements IAnnotation {
+
+    @Inject
+    MysqlConnect connection;
+
     @Override
     public Annotation addAnnotation(AnnotationPostRequest annotationPostRequest) {
 
@@ -23,7 +28,6 @@ public class AnnotationController implements IAnnotation {
         }
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
@@ -44,7 +48,6 @@ public class AnnotationController implements IAnnotation {
     public void alterAnnotation(String annotationId, AnnotationPatchRequest annotationPatchRequest) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
@@ -60,7 +63,7 @@ public class AnnotationController implements IAnnotation {
     public void deleteAnnotation(String annotationId) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -76,7 +79,7 @@ public class AnnotationController implements IAnnotation {
     public Annotation getAnnotation(String annotationId) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -110,7 +113,7 @@ public class AnnotationController implements IAnnotation {
         ArrayList<Annotation> annotations = new ArrayList<>();
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -132,7 +135,7 @@ public class AnnotationController implements IAnnotation {
     public boolean existsAnnotationId(String annotationId) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request

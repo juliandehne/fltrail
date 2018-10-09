@@ -1,7 +1,11 @@
 package unipotsdam.gf.taglibs;
 
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
+import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.states.ProjectPhase;
+import unipotsdam.gf.modules.tasks.TaskDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -17,13 +21,26 @@ import java.io.IOException;
 
 public class Menu extends SimpleTagSupport {
 
+
+    @Inject
+    private TaskDAO taskDAO;
+
+    @Inject
+    private UserDAO userDAO;
+
+    @Inject
+    private ProjectDAO projectDAO;
+
     //@Inject
     //private ProjectDAO projectDAO;
 
     private Integer hierarchyLevel = 0;
 
     public void doTag() throws IOException {
-        ProjectDAO projectDAO = new ProjectDAO(new MysqlConnect());
+
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        locator.inject(this);
+
         hierarchyLevel = getHierarchy();
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
@@ -34,7 +51,7 @@ public class Menu extends SimpleTagSupport {
         String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
         String projectName=request.getParameter(GFContexts.PROJECTNAME);
         JspWriter out = getJspContext().getOut();
-        UserDAO userDAO = new UserDAO(new MysqlConnect());
+
         if (userEmail != null) {
             User user = userDAO.getUserByEmail(userEmail);
             Boolean isStudent = user.getStudent();

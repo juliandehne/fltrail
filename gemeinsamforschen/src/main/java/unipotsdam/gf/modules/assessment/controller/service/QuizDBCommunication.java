@@ -6,6 +6,7 @@ import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 
@@ -13,8 +14,10 @@ import java.util.ArrayList;
 @Resource
 @Singleton
 public class QuizDBCommunication {
+    @Inject
+    MysqlConnect connect;
+
     Quiz getQuizByProjectQuizId(String projectName, String quizId, String author) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectName`=? AND `question`=? AND `author`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
@@ -55,7 +58,6 @@ public class QuizDBCommunication {
     }
 
     private ArrayList<Quiz> RequestToQuizList(String sqlRequest, Object ... params) {
-        MysqlConnect connect = new MysqlConnect();
 
         connect.connect();
         VereinfachtesResultSet vereinfachtesResultSet =
@@ -102,7 +104,6 @@ public class QuizDBCommunication {
     }
 
     public void deleteQuiz(String quizId) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "DELETE FROM quiz where question = (?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, quizId);
@@ -110,7 +111,6 @@ public class QuizDBCommunication {
     }
 
     public void createQuiz(Quiz quiz, String author, String projectName) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mcType;
         String question;

@@ -1,10 +1,14 @@
 package unipotsdam.gf.taglibs;
 
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
+import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.session.GFContexts;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -13,7 +17,15 @@ import java.io.IOException;
 
 public class HeadLine extends SimpleTagSupport {
 
+    @Inject
+    UserDAO userDAO;
+
     public void doTag() throws IOException {
+
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        locator.inject(this);
+
+
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
@@ -25,7 +37,7 @@ public class HeadLine extends SimpleTagSupport {
         }
 
         JspWriter out = getJspContext().getOut();
-        UserDAO userDAO = new UserDAO(new MysqlConnect());
+
         User user = userDAO.getUserByEmail(userEmail);
         Boolean isStudent = user.getStudent();
         out.println("<h1 id=\"headLineProject\">");

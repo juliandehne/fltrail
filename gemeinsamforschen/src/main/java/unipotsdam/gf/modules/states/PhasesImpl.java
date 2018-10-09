@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.states;
 
-import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.ICommunication;
@@ -9,6 +8,8 @@ import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.Messages;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.MysqlConnectImpl;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -24,6 +25,9 @@ import java.util.Map;
 @ManagedBean
 @Singleton
 public class PhasesImpl implements IPhases {
+
+    @Inject
+    MysqlConnect connect;
 
     @Inject
     private IPeerAssessment iPeerAssessment;
@@ -57,8 +61,6 @@ public class PhasesImpl implements IPhases {
         + Wenn Map keine Elemente trägt, ist alles erfüllt.
         + zurück zu geben vom Interface wäre die Kennung (StudentIdentifier) und was fehlt (Constraint)
         - Keine Default Werte
-
-
     */
 
     @Override
@@ -139,7 +141,6 @@ public class PhasesImpl implements IPhases {
 
     private void saveState(Project project, ProjectPhase phase) {
         assert project.getName() != null;
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "UPDATE `projects` SET `phase`=? WHERE name=? LIMIT 1";
         connect.issueUpdateStatement(mysqlRequest, phase.name(), project.getName());

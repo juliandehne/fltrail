@@ -28,7 +28,6 @@ public class AssessmentDBCommunication {
 
     cheatCheckerMethods getAssessmentMethod(String projectName) {
         cheatCheckerMethods result = cheatCheckerMethods.none;
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM `assessmentmechanismselected` WHERE `projectName`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
@@ -70,7 +69,6 @@ public class AssessmentDBCommunication {
 
     List<String> getStudents(String projectID) {
         List<String> result = new ArrayList<>();
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
         String mysqlRequest = "SELECT * FROM `projectuser` WHERE `projectName`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectID);
@@ -135,7 +133,7 @@ public class AssessmentDBCommunication {
 
     Integer getQuizCount(String projectName) {
         Integer result = 0;
-        MysqlConnect connect = new MysqlConnect();
+
         connect.connect();
         String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectName`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);

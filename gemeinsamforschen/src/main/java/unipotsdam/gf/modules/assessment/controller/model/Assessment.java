@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.assessment.controller.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import unipotsdam.gf.mysql.MysqlConnect;
 
+import javax.inject.Inject;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,11 @@ import java.util.Date;
 @XmlRootElement
 //todo: I guess this can be deleted. Check this first
 public class Assessment {
+
+    @Inject
+    MysqlConnect connect;
+
+
     private StudentIdentifier student;// gemeint als Ziel der Bewertung, kann auch gruppe sein
     @JsonIgnore
     private Performance performance;
@@ -93,7 +99,7 @@ public class Assessment {
 
 
     public void setAssessment(Assessment assessment) {
-        MysqlConnect connect = new MysqlConnect();
+
         connect.connect();
         String mysqlRequest = "INSERT INTO assessments ( `adressat`, `deadline`, `erstellerId`,`empfaengerId`, `projektId`, `bewertung`) values (?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest,

@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.tasks;
 
-import com.mysql.jdbc.NotImplemented;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.states.ProjectPhase;

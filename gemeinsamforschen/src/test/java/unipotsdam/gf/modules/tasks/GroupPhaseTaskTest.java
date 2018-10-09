@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
@@ -40,6 +41,7 @@ public class GroupPhaseTaskTest {
 
     @Before
     public void setUp() {
+        /*final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());*/
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
         locator.inject(this);
 
@@ -58,11 +60,11 @@ public class GroupPhaseTaskTest {
         management.create(project);
         management.register(teacher, project, null);
 
-        ProjectConfiguration projectConfiguration = factory.manufacturePojo(ProjectConfiguration.class);
+        /*ProjectConfiguration projectConfiguration = factory.manufacturePojo(ProjectConfiguration.class);
         management.create(projectConfiguration, project);
 
         GroupfindingCriteria groupfindingCriteria = factory.manufacturePojo(GroupfindingCriteria.class);
-        groupFinding.selectGroupfindingCriteria(groupfindingCriteria, project);
+        groupFinding.selectGroupfindingCriteria(groupfindingCriteria, project);*/
 
         taskDAO.createTaskWaitForParticipants(project, teacher);
         Task[] tasks = taskDAO.getTasks(teacher, project);

@@ -13,6 +13,7 @@ import unipotsdam.gf.modules.journal.model.dao.JournalDAO;
 import unipotsdam.gf.modules.journal.model.dao.JournalDAOImpl;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -31,7 +32,9 @@ public class JournalServiceImplTest {
     private final Journal testJournal = new Journal(testId, new StudentIdentifier(testProject, testStudent), testEntry, testVisibility, testCategory);
     private JournalService journalService = new JournalServiceImpl();
     private JournalDAO journalDAO = new JournalDAOImpl();
-    private UserDAO userDAO = new UserDAO(new MysqlConnect());
+
+    @Inject
+    private UserDAO userDAO;
 
     @After
     public void cleanUp() {

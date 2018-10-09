@@ -1,4 +1,6 @@
 
+create database fltrail;
+use fltrail;
 
 CREATE TABLE IF NOT EXISTS `annotations` (
   `id` varchar(120) NOT NULL,
@@ -122,10 +124,10 @@ CREATE TABLE IF NOT EXISTS `tags` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `tasks` (
+  `taskName` varchar (400) not NULL,
   `userEmail` varchar(400) NOT NULL,
   `projectName` varchar(400) NOT NULL,
   `taskUrl` varchar(400) NOT NULL,
-  `technicalName` varchar(400) DEFAULT NULL,
   `groupTask` tinyint(4) DEFAULT NULL,
   `importance` varchar(100) DEFAULT NULL,
   `progress` varchar(100) DEFAULT NULL,

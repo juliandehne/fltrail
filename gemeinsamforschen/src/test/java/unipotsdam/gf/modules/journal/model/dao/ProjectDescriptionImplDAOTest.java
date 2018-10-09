@@ -7,6 +7,7 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 public class ProjectDescriptionImplDAOTest {
 
     private final ProjectDescriptionDAO descriptionDAO = new ProjectDescriptionDAOImpl();
-    private final MysqlConnect connection = new MysqlConnect();
+
 
     private final String testId = "-1";
     private final String testStudent = "testStudent";
@@ -24,6 +25,9 @@ public class ProjectDescriptionImplDAOTest {
     private final String testProjekt = "testProjekt";
 
     private final ProjectDescription testProjectDescription = new ProjectDescription(testId, testStudent, testDescription, testProjekt, null /*Links are added in Service*/);
+
+    @Inject
+    private MysqlConnect connection;
 
     @Test
     public void createDescription() {

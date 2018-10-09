@@ -7,10 +7,16 @@ import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.journal.model.Visibility;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
+import javax.inject.Inject;
+
 /**
  * Utility class for Journal and Project description
  */
 public class JournalUtils {
+
+    @Inject
+    MysqlConnect connection;
+
 
     public static final Logger log = LoggerFactory.getLogger(JournalUtils.class);
 
@@ -20,7 +26,7 @@ public class JournalUtils {
      * @param category string
      * @return category, TITLE if string does not match
      */
-    public static Category stringToCategory(String category) {
+    public Category stringToCategory(String category) {
 
         Category c;
 
@@ -40,7 +46,7 @@ public class JournalUtils {
      * @param visibility string
      * @return visibility, NONE if string does not match
      */
-    public static Visibility stringToVisibility(String visibility) {
+    public Visibility stringToVisibility(String visibility) {
         Visibility v;
 
         // If String does not match enum IllegalArgumentException
@@ -59,10 +65,10 @@ public class JournalUtils {
      * @param id uuid
      * @return true if free
      */
-    public static boolean existsId(String id, String table) {
+    public  boolean existsId(String id, String table) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
