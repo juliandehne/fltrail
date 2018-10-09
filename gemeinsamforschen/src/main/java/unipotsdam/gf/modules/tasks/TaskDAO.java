@@ -28,9 +28,9 @@ public class TaskDAO {
     MysqlConnect connect;
 
     // get all the tasks a user has in a specific project
-    public Task[] getTasks(String userEmail, String projectName) throws NotImplemented {
+    public ArrayList<Task> getTasks(String userEmail, String projectName) throws NotImplemented {
         connect.connect();
-        String query = "Select * from tasks where userEmail = ? & projectName = ?";
+        String query = "Select * from tasks where userEmail = ? AND projectName = ?";
         ArrayList<Task> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, userEmail, projectName);
         while (vereinfachtesResultSet.next()) {
@@ -49,7 +49,7 @@ public class TaskDAO {
 
         connect.close();
 
-        return null;
+        return result;
     }
 
     // fill the task with the general data
@@ -98,7 +98,7 @@ public class TaskDAO {
         project.setName(vereinfachtesResultSet.getString("projectName"));
         ParticipantsCount participantsCount = projectDAO.getParticipantCount(project);
         task.setTaskData(participantsCount);
-        return new Task();
+        return task;
     }
 
 

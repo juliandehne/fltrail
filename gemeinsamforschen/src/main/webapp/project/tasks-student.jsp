@@ -14,6 +14,7 @@
 <html lang="de">
 <head>
     <omniDependencies:omniDependencies hierarchy="1"/>
+    <script src="js/tasks-student.js"></script>
 
     <title>Projecttitle | Gemeinsam Forschen</title>
 </head>
@@ -34,26 +35,24 @@
         <div class="card ${phase}">
             <div class="col span_s_of_2 icon ${taskType}">
             </div>
-                <div class="col span_l_of_2">
-                    ${infoText}
-                    ${solveTaskWith}
-                    ${helpLink}
-                </div>
-                ${timeFrame}
+            <div class="col span_l_of_2" id="${taskName}">
+                {{if infoText}}
+                    <h4>${infoText}</h4>
+                {{/if}}
+                {{if solveTaskWith}}
+                    <button class='primary'>${solveTaskWith}</button>
+                {{/if}}
+                {{if helpLink}}
+                    <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
+                {{/if}}
+            </div>
+            {{if timeFrame}}
+                <div class="status icon"><p>${timeFrame}</p></div>
+            {{/if}}
                 <div style="clear:left"></div>
             </div>
-            <a id="project_${projectName}">
-                <h1>${projectName}</h1>
-            </a>
         </div>
     </script>
-
-    <!-- Aufgabe -->
-    <div class="card ">
-
-
-    </div>
-
     <!-- Aufgabe -->
     <div class="card card-draft">
         <div class="col span_s_of_2 icon grouptask">
