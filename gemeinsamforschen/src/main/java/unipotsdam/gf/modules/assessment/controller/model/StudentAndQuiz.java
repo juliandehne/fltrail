@@ -6,12 +6,12 @@ package unipotsdam.gf.modules.assessment.controller.model;
  */
 public class StudentAndQuiz {
     private Quiz quiz;
-    private StudentIdentifier userNameentifier;
+    private StudentIdentifier userIdentifier;
 
     @Override
     public String toString() {
         return "StudentAndQuiz{" +
-                "userNameentifier=" + userNameentifier +
+                "userIdentifier=" + userIdentifier +
                 ", quiz=" + quiz +
                 '}';
     }
@@ -19,11 +19,11 @@ public class StudentAndQuiz {
     public StudentAndQuiz(){}
 
     public StudentIdentifier getStudentIdentifier() {
-        return userNameentifier;
+        return userIdentifier;
     }
 
     public void setStudentIdentifier(StudentIdentifier userNameentifier) {
-        this.userNameentifier = userNameentifier;
+        this.userIdentifier = userNameentifier;
     }
 
     public Quiz getQuiz() {
@@ -35,7 +35,7 @@ public class StudentAndQuiz {
     }
 
     public StudentAndQuiz(StudentIdentifier userNameentifier, Quiz quiz) {
-        this.userNameentifier = userNameentifier;
+        this.userIdentifier = userNameentifier;
         this.quiz = quiz;
     }
 }

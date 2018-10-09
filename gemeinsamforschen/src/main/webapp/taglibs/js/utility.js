@@ -25,10 +25,10 @@ function goBack() {
 }
 
 function checkAssessementPhase() {
-    let userName = $('#user').html().trim();
+    let userName = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
     $.ajax({
-        url: 'rest/assessments/whatToRate/project/' + projectName + '/student/' + userName,
+        url: '../rest/assessments/whatToRate/project/' + projectName + '/student/' + userName,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",

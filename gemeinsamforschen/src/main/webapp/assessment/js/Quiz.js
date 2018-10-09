@@ -1,6 +1,6 @@
 $(document).ready(function () {
     let projectName = document.getElementById('projectName').innerText.trim();
-    let userName = document.getElementById('user').innerText.trim();
+    let userName = document.getElementById('userEmail').innerText.trim();
     $.ajax({
         url: '../rest/assessments/project/'+projectName+'/quiz/author/'+userName,
         projectName: projectName,
@@ -14,6 +14,7 @@ $(document).ready(function () {
                 trQuestion.className = "pageChanger";
                 trQuestion.innerHTML = '<td colspan="' + colspan + '"><h3>' +
                     '<a href="view-quiz.jsp' +
+                    '?projectName=' + projectName+
                     '&quizId=' + encodeURIComponent(data[quiz].question) + '"</a>' +
                     data[quiz].question + '</h3></td>';
                 table.appendChild(trQuestion);
