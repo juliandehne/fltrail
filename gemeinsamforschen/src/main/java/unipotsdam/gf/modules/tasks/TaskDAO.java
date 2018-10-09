@@ -27,17 +27,10 @@ public class TaskDAO {
     @Inject
     MysqlConnect connect;
 
-    /**
-     * deprecated methods are used in order to not break existing code
-     * remove this method if not needed anymore
-     * @param userEmail
-     * @param projectName
-     * @return
-     */
-    @Deprecated
-    public Task[] getTasks(String userEmail, String projectName) {
+    // get all the tasks a user has in a specific project
+    public ArrayList<Task> getTasks(String userEmail, String projectName) throws NotImplemented {
         connect.connect();
-        String query = "Select * from tasks where userEmail = ? & projectName = ?";
+        String query = "Select * from tasks where userEmail = ? AND projectName = ?";
         ArrayList<Task> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, userEmail, projectName);
         while (vereinfachtesResultSet.next()) {
@@ -56,10 +49,7 @@ public class TaskDAO {
 
         connect.close();
 
-        return result.toArray(new Task[0]);
-    }
-    public Task[] getTasks(User user, Project project) {
-        return getTasks(user.getEmail(), project.getName());
+        return result;
     }
 
     // fill the task with the general data
@@ -108,11 +98,11 @@ public class TaskDAO {
         project.setName(vereinfachtesResultSet.getString("projectName"));
         ParticipantsCount participantsCount = projectDAO.getParticipantCount(project);
         task.setTaskData(participantsCount);
-        return new Task();
+        return task;
     }
 
 
-    public void createTaskWaitForParticipants(Project project, User target) {
+    public void createTaskWaitForParticipants(Project project, User target) throws NotImplemented {
         Task task = new Task();
         task.setEventCreated(System.currentTimeMillis());
         task.setGroupTask(false);
@@ -127,7 +117,7 @@ public class TaskDAO {
 
     }
 
-    public void persist(Task task) {
+    public void persist(Task task) throws NotImplemented {
 
         String taskMode2 = "";
         if (task.getTaskType() != null && task.getTaskType().length > 1) {
