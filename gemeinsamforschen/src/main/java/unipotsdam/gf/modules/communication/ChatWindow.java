@@ -28,7 +28,7 @@ public class ChatWindow extends SimpleTagSupport {
         String chatRoomLink = communicationService.getChatRoomLink(token, projectId);
         System.out.println(chatRoomLink);
         JspWriter out = getJspContext().getOut();
-        out.println("<iframe width=\"30%\" height=\"100%\" src=\"" + chatRoomLink + "\"/>");
+        out.println("<iframe height=\"400px\" src=\"" + chatRoomLink + "\"/>");
     }
 
     public void setOrientation(String orientation) {
