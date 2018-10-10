@@ -1,9 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="communication" uri="/communication/chatWindow.tld" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="communication" %>
 
 
 <!DOCTYPE html>

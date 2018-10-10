@@ -21,12 +21,12 @@ public class ChatWindow extends SimpleTagSupport {
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String token = request.getParameter("token");
-        String projectToken = request.getParameter("projectToken");
+        String projectId = request.getParameter("projectId");
         UserDAO userDAO = new UserDAO(new MysqlConnect());
         GroupDAO groupDAO = new GroupDAO(new MysqlConnect());
         ICommunication communicationService = new CommunicationService(new UnirestService(), userDAO, groupDAO);
-        String chatRoomLink = communicationService.getChatRoomLink(token, projectToken);
-
+        String chatRoomLink = communicationService.getChatRoomLink(token, projectId);
+        System.out.println(chatRoomLink);
         JspWriter out = getJspContext().getOut();
         out.println("<iframe width=\"30%\" height=\"100%\" src=\"" + chatRoomLink + "\"/>");
     }

@@ -4,6 +4,7 @@
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="chatWindow" %>
 
 
 <!--todo: E-mail an Studenten als Notifikation für Phasenwechsel -->
@@ -98,13 +99,23 @@
                                     <ul id="submissionUpload">
                                     </ul>
                                 </td>
-
                             </tr>
                         </table>
                     </td>
                 </tr>
             </table>
         </div>
+    </div>
+    <div>
+        <table>
+            <tbody>
+            <tr>
+                <td>
+                    <chatWindow:chatWindow orientation="right"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
     <footer:footer/>
 
