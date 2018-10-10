@@ -5,26 +5,34 @@ import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.journal.model.Link;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class LinkDAOImpl implements LinkDAO {
 
+    @Inject
+    MysqlConnect connection;
+
+    @Inject
+    JournalUtils utils;
+
     @Override
     public void addLink(Link link) {
         // create a new id
         String uuid = UUID.randomUUID().toString();
-        while (JournalUtils.existsId(uuid, "links")) {
+        while (utils.existsId(uuid, "links")) {
             uuid = UUID.randomUUID().toString();
         }
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
         String request = "INSERT INTO links (`id`, `projecdesription`, `name`, `link`) VALUES (?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, link.getProjectDescription(), link.getName(), link.getLink());
+        connection.issueInsertOrDeleteStatement(request, uuid, link.getProjectDescription(), link.getName(),
+                link.getLink());
 
         //close connection
         connection.close();
@@ -33,7 +41,7 @@ public class LinkDAOImpl implements LinkDAO {
     @Override
     public void deleteLink(String linkId) {
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request stream
@@ -48,7 +56,7 @@ public class LinkDAOImpl implements LinkDAO {
     @Override
     public Link getLink(String linkId) {
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -79,7 +87,7 @@ public class LinkDAOImpl implements LinkDAO {
         ArrayList<Link> links = new ArrayList<>();
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request

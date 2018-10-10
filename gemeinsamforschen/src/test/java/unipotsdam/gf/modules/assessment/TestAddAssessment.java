@@ -11,6 +11,7 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,9 @@ public class TestAddAssessment {
     private String userName = "Kevin";
     private String projectName = "test a la test";
     private String quizId = "Whats a good Test?";
+
+    @Inject
+    MysqlConnect connect;
 
     @Test
     public void createQuiz() {
@@ -97,7 +101,7 @@ public class TestAddAssessment {
         double zwischenErgebnis = 0.0;
         double counter = 0.0;
         List<Double> results = new ArrayList<>();
-        MysqlConnect connect = new MysqlConnect();
+
 
         connect.connect();
         String mysqlRequest = "SELECT * FROM `assessments` WHERE `empfaengerId`=? AND `projektId`=?";
@@ -117,7 +121,7 @@ public class TestAddAssessment {
 
     @Test
     public void groupDatafromDB() {
-        MysqlConnect connect = new MysqlConnect();
+
         List<String> userNamen = new ArrayList<>();
         GroupEvalDataDatasets datenSaetze = new GroupEvalDataDatasets();
         GroupEvalDataList datenDia = new GroupEvalDataList();

@@ -17,11 +17,13 @@ import java.util.List;
 public class UserDAO {
 
 
-    private MysqlConnect connect;
 
     @Inject
-    public UserDAO(MysqlConnect connect) {
-        this.connect = connect;
+    private MysqlConnect connect;
+
+
+    public UserDAO() {
+
     }
 
     public void persist(User user, UserProfile profile) {

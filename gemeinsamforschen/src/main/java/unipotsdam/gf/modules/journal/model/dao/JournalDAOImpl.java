@@ -8,21 +8,27 @@ import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class JournalDAOImpl implements JournalDAO {
 
+    @Inject
+    MysqlConnect connection;
+
+
+    JournalUtils utils;
+
     @Override
     public void createJournal(Journal journal) {
         // create a new id if we found no id.
         String uuid = UUID.randomUUID().toString();
-        while (JournalUtils.existsId(uuid, "journals")) {
+        while (utils.existsId(uuid, "journals")) {
             uuid = UUID.randomUUID().toString();
         }
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
         connection.connect();
 
         // build and execute request
@@ -39,7 +45,7 @@ public class JournalDAOImpl implements JournalDAO {
     public void updateJournal(Journal journal) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -55,7 +61,7 @@ public class JournalDAOImpl implements JournalDAO {
     public void deleteJournal(String id) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -70,7 +76,7 @@ public class JournalDAOImpl implements JournalDAO {
     @Override
     public Journal getJournal(String id) {
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -101,7 +107,7 @@ public class JournalDAOImpl implements JournalDAO {
         ArrayList<Journal> journals = new ArrayList<>();
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -124,7 +130,7 @@ public class JournalDAOImpl implements JournalDAO {
         ArrayList<Journal> journals = new ArrayList<>();
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -155,7 +161,7 @@ public class JournalDAOImpl implements JournalDAO {
     @Override
     public void closeJournal(String id) {
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -171,7 +177,7 @@ public class JournalDAOImpl implements JournalDAO {
         ArrayList<String> userEmails = new ArrayList<>();
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -206,7 +212,8 @@ public class JournalDAOImpl implements JournalDAO {
         String category = rs.getString("category");
         boolean open = rs.getBoolean("open");
 
-        return new Journal(id, new StudentIdentifier(project, student), text, timestamp, JournalUtils.stringToVisibility(visibility), JournalUtils.stringToCategory(category), open);
+        return new Journal(id, new StudentIdentifier(project, student), text, timestamp, utils.stringToVisibility
+                (visibility), utils.stringToCategory(category), open);
 
     }
 }

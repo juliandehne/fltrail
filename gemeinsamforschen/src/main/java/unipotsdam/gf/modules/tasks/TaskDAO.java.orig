@@ -1,7 +1,9 @@
 package unipotsdam.gf.modules.tasks;
 
+<<<<<<< HEAD
 import org.glassfish.grizzly.http.util.TimeStamp;
-import com.mysql.jdbc.NotImplemented;
+=======
+>>>>>>> origin/development_master
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.states.ProjectPhase;

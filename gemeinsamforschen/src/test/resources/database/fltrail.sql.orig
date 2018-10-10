@@ -128,7 +128,10 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `userEmail` varchar(400) NOT NULL,
   `projectName` varchar(400) NOT NULL,
   `taskUrl` varchar(400) NOT NULL,
-  `technicalName` varchar(400) DEFAULT NULL,
+<<<<<<< HEAD
+  `taskName` varchar (400) NOT NULL,
+=======
+>>>>>>> origin/development_master
   `groupTask` tinyint(4) DEFAULT NULL,
   `importance` varchar(100) DEFAULT NULL,
   `progress` varchar(100) DEFAULT NULL,

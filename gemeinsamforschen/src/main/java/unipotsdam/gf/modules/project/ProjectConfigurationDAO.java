@@ -7,15 +7,20 @@ import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 
 public class ProjectConfigurationDAO {
+
+
+    @Inject
+    MysqlConnect connect;
 
     /**
      * @param projectConfiguration
      */
     public void persistProjectConfiguration(ProjectConfiguration projectConfiguration, Project project) {
-        MysqlConnect connect = new MysqlConnect();
+
         connect.connect();
 
         // persist Criteria
@@ -67,7 +72,6 @@ public class ProjectConfigurationDAO {
     }
 
     public ProjectConfiguration loadProjectConfiguration(Project project) {
-        MysqlConnect connect = new MysqlConnect();
         connect.connect();
 
 

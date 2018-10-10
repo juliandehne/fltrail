@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.assessment.controller.model;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 
+import javax.inject.Inject;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -14,6 +15,12 @@ import java.util.List;
 @Path("/assessments4")
 
 public class GroupEvalDiagrammData {
+
+
+    @Inject
+    MysqlConnect connect;
+
+
     private String type;
     private GroupEvalDataList data;
     private GroupEvalOption option;
@@ -66,8 +73,6 @@ public class GroupEvalDiagrammData {
         legende.setDisplay(false);
         option.setLegende(legende);
 
-
-        MysqlConnect connect = new MysqlConnect();
         List<String> userNamen = new ArrayList<>();
 
         GroupEvalDataDatasets datenSaetze = new GroupEvalDataDatasets();

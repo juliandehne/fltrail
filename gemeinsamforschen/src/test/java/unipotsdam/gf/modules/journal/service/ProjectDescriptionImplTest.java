@@ -14,6 +14,7 @@ import unipotsdam.gf.modules.journal.model.dao.LinkDAOImpl;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAO;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAOImpl;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -23,11 +24,15 @@ import static org.junit.Assert.assertTrue;
 
 public class ProjectDescriptionImplTest {
 
+    @Inject
+    private UserDAO userDAO;
+
+
     private ProjectDescriptionService projectDescriptionService = new ProjectDescriptionImpl();
 
     private ProjectDescriptionDAO descriptionDAO = new ProjectDescriptionDAOImpl();
     private LinkDAO linkDAO = new LinkDAOImpl();
-    private UserDAO userDAO = new UserDAO(new MysqlConnect());
+
 
     private String testId = "-1";
     private String testStudent = "testStudent";

@@ -5,6 +5,7 @@ import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.journal.model.Link;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 
 public class LinkDAOImplTest {
 
-    private final MysqlConnect connection = new MysqlConnect();
+
     private final LinkDAO linkDAO = new LinkDAOImpl();
 
     private final String testId = "-1";
@@ -20,6 +21,10 @@ public class LinkDAOImplTest {
     private final String testName = "testname";
     private final String testLink = "https://www.test.de";
     private final Link testLinkObj = new Link(testId, testProjectDescription, testName, testLink);
+
+
+    @Inject
+    MysqlConnect connection;
 
     @Test
     public void addLink() {

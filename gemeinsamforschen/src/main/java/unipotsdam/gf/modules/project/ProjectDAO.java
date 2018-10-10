@@ -66,6 +66,9 @@ public class ProjectDAO {
         String mysqlRequest = "SELECT * FROM projects where name = ? and adminPassword = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, project.getName(), project.getAdminPassword());
+        if (vereinfachtesResultSet == null) {
+            return false;
+        }
         result = vereinfachtesResultSet.next();
         connect.close();
         return result;

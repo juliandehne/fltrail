@@ -28,6 +28,9 @@ public class JournalServiceImpl implements JournalService {
     @Inject
     private UserDAO userDAO;
 
+    @Inject
+    private JournalUtils utils;
+
     @Override
     public Journal getJournal(String id) {
         return journalDAO.getJournal(id);
@@ -77,7 +80,8 @@ public class JournalServiceImpl implements JournalService {
     public void saveJournal(String id, String student, String project, String text, String visibility, String category) {
         log.debug(">> save journal(" + id + "," + student + "," + project + "," + text + "," + visibility + "," + category + ")");
 
-        Journal journal = new Journal(id, new StudentIdentifier(project, student), text, JournalUtils.stringToVisibility(visibility), JournalUtils.stringToCategory(category));
+        Journal journal = new Journal(id, new StudentIdentifier(project, student), text, utils.stringToVisibility
+                (visibility), utils.stringToCategory(category));
 
         //if id = 0 new Journal else update
         if (id.equals("")) {

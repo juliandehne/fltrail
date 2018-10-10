@@ -30,6 +30,9 @@ public class DummyProjectCreationServiceTest {
 
 
     @Inject
+    private UserDAO userDAO;
+
+    @Inject
     private Management management;
 
     @Before
@@ -46,7 +49,6 @@ public class DummyProjectCreationServiceTest {
         ICommunication communication = new CommunicationDummyService();
         InMemoryMySqlConnect inMemoryMySqlConnect = new InMemoryMySqlConnect();
         GroupDAO groupDAO = new GroupDAO(inMemoryMySqlConnect);
-        UserDAO userDAO = new UserDAO(inMemoryMySqlConnect);
 
         DummyProjectCreationService
                 dummyProjectCreationService = new DummyProjectCreationService(communication, management, groupDAO, userDAO);

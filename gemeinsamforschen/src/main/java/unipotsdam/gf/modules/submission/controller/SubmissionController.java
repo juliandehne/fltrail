@@ -12,6 +12,7 @@ import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
 import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
 import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -20,6 +21,11 @@ import java.util.UUID;
  * skaestle@uni-potsdam.de
  */
 public class SubmissionController implements ISubmission {
+
+    @Inject
+    MysqlConnect connection;
+
+
     @Override
     public FullSubmission addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest) {
 
@@ -30,7 +36,7 @@ public class SubmissionController implements ISubmission {
         }
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -51,7 +57,7 @@ public class SubmissionController implements ISubmission {
     public FullSubmission getFullSubmission(String fullSubmissionId) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -80,7 +86,7 @@ public class SubmissionController implements ISubmission {
     public boolean existsFullSubmissionId(String id) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -111,7 +117,7 @@ public class SubmissionController implements ISubmission {
     public SubmissionPart addSubmissionPart(SubmissionPartPostRequest submissionPartPostRequest) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -180,7 +186,7 @@ public class SubmissionController implements ISubmission {
     public SubmissionPart getSubmissionPart(String fullSubmissionId, Category category) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // declare text
@@ -229,7 +235,7 @@ public class SubmissionController implements ISubmission {
     public ArrayList<SubmissionPart> getAllSubmissionParts(String fullSubmissionId) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // declare text
@@ -279,7 +285,7 @@ public class SubmissionController implements ISubmission {
     public ArrayList<SubmissionProjectRepresentation> getSubmissionPartsByProjectId(String projectName) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -306,7 +312,7 @@ public class SubmissionController implements ISubmission {
     public boolean existsSubmissionPart(String fullSubmissionId, Category category) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -474,7 +480,7 @@ public class SubmissionController implements ISubmission {
      */
     private int numOfSimilarBodyElements(String fullSubmissionId, Category category, int startCharacter, int endCharacter) {
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -529,7 +535,7 @@ public class SubmissionController implements ISubmission {
     private boolean hasOverlappingBoundaries(String fullSubmissionId, Category category, SubmissionPartBodyElement element) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // initialize start and end character

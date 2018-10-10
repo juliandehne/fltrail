@@ -5,10 +5,16 @@ import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class PeerFeedbackController {
+
+    @Inject
+    MysqlConnect connection;
+
+
 
     //@Override
     public void createPeer2PeerFeedback(Peer2PeerFeedback feedback) {
@@ -20,7 +26,7 @@ public class PeerFeedbackController {
         //  }
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -42,7 +48,7 @@ public class PeerFeedbackController {
     public Peer2PeerFeedback getPeer2PeerFeedback(String id) {
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -75,7 +81,7 @@ public class PeerFeedbackController {
         ArrayList<Peer2PeerFeedback> feedbacks = new ArrayList<>();
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request

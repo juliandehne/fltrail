@@ -11,6 +11,7 @@ import unipotsdam.gf.modules.journal.model.Visibility;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 public class JournalDAOImplTest {
 
     private final JournalDAO journalDAO = new JournalDAOImpl();
-    private final MysqlConnect connection = new MysqlConnect();
+
     private final String testId = "-1";
     private final String testStudent = "testStudent";
     private final String testProject = "testProject";
@@ -28,6 +29,13 @@ public class JournalDAOImplTest {
     private final Visibility testVisibility = Visibility.ALL;
     private final Category testCategory = Category.TITEL;
     private final Journal testJournal = new Journal(testId, new StudentIdentifier(testProject, testStudent), testEntry, testVisibility, testCategory);
+
+
+    @Inject
+    private MysqlConnect connection;
+
+    @Inject
+    JournalUtils utils;
 
     @Test
     public void createJournal() {
@@ -309,7 +317,8 @@ public class JournalDAOImplTest {
         String category = rs.getString("category");
         boolean open = rs.getBoolean("open");
 
-        return new Journal(id, new StudentIdentifier(project, student), text, timestamp, JournalUtils.stringToVisibility(visibility), JournalUtils.stringToCategory(category), open);
+        return new Journal(id, new StudentIdentifier(project, student), text, timestamp, utils.stringToVisibility
+                (visibility), utils.stringToCategory(category), open);
 
     }
 }

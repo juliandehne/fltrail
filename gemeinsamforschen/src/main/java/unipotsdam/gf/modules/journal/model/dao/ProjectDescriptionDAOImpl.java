@@ -7,22 +7,32 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
 
 
+    @Inject
+    MysqlConnect connection;
+
+
+    @Inject
+    JournalUtils utils;
+
+
+
     @Override
     public void createDescription(ProjectDescription projectDescription) {
         // create a new id
         String uuid = UUID.randomUUID().toString();
-        while (JournalUtils.existsId(uuid, "projectdescription")) {
+        while (utils.existsId(uuid, "projectdescription")) {
             uuid = UUID.randomUUID().toString();
         }
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -38,7 +48,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
     @Override
     public void updateDescription(ProjectDescription projectDescription) {
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -52,7 +62,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
     @Override
     public ProjectDescription getDescription(StudentIdentifier userNameentifier) {
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -81,7 +91,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
     @Override
     public ProjectDescription getDescription(String id) {
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -109,7 +119,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
     @Override
     public void deleteDescription(StudentIdentifier userNameentifier) {
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -125,7 +135,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
     @Override
     public void closeDescription(String id) {
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
@@ -141,7 +151,7 @@ public class ProjectDescriptionDAOImpl implements ProjectDescriptionDAO {
         ArrayList<String> userEmails = new ArrayList<>();
 
         // establish connection
-        MysqlConnect connection = new MysqlConnect();
+
         connection.connect();
 
         // build and execute request
