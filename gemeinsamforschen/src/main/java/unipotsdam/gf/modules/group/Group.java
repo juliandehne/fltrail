@@ -13,6 +13,7 @@ public class Group {
     private String chatRoomId;
 
     public Group() {
+        members = new ArrayList<>();
     }
 
 

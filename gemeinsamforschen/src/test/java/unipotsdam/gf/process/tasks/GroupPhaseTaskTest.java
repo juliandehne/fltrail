@@ -11,11 +11,13 @@ import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectConfiguration;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
 
 import javax.inject.Inject;
@@ -39,6 +41,9 @@ public class GroupPhaseTaskTest {
 
     @Inject
     private ProjectCreationProcess projectCreationProcess;
+
+    @Inject
+    private GroupFormationProcess groupFormationProcess;
 
 
     private PodamFactory factory = new PodamFactoryImpl();
@@ -85,6 +90,17 @@ public class GroupPhaseTaskTest {
             management.create(user, null);
             projectCreationProcess.studentEntersProject(project, user);
         }
+
+
+
+        groupFormationProcess.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
+        Group group = new Group();
+        for (User student : students) {
+            group.addMember(student);
+        }
+        groupFormationProcess.finalizeGroups(project, group);
+
+        groupFormationProcess.finish(project);
 
     }
 

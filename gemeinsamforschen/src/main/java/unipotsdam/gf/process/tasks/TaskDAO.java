@@ -115,6 +115,7 @@ public class TaskDAO {
         task.setGroupTask(false);
         task.setTaskName(taskName);
         task.setPhase(phase);
+        task.setTaskType(TaskType.INFO);
 
         return task;
     }
@@ -160,9 +161,17 @@ public class TaskDAO {
 
         connect.connect();
         String query =
-                "INSERT INTO fltrail.tasks (userEmail, projectName, taskUrl, taskName, " +
+                "INSERT INTO fltrail.tasks (userEmail, projectName, taskName, " +
                         "groupTask, importance, progress, phase, created, due, taskMode, taskMode2, taskMode3) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?)";
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
+
+        if (task.getTaskType() == null || task.getTaskType().length < 0) {
+            try {
+                throw new Exception("set a task type");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         connect.issueInsertOrDeleteStatement(query, task.getUserEmail(), task.getProjectName(),
                 task.getTaskName(), task.getGroupTask(), task.getImportance(), task.getProgress(), task

@@ -16,6 +16,8 @@ import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
+import unipotsdam.gf.process.GroupFormationProcess;
+import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -24,26 +26,10 @@ import unipotsdam.gf.session.GFContexts;
 
 public class TestGFApplicationBinder extends GFApplicationBinder {
 
-    @Override
-    protected void configure() {
-        bind(CommunicationDummyService.class).to(ICommunication.class);
-        bind(ManagementImpl.class).to(Management.class);
-        bind(DummyFeedback.class).to(Feedback.class);
-        bind(PeerAssessment.class).to(IPeerAssessment.class);
-        bind(PhasesImpl.class).to(IPhases.class);
-        bind(ManagementImpl.class).to(Management.class);
-        bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
-        bind(DummyGroupfinding.class).to(IGroupFinding.class);
-        bind(DummyProjectCreationService.class).to(DummyProjectCreationService.class);
-        bind(UserDAO.class).to(UserDAO.class);
-        bind(ProjectDAO.class).to(ProjectDAO.class);
-        bind(GroupDAO.class).to(GroupDAO.class);
-        bind(GroupfindingImpl.class).to(IGroupFinding.class);
-        bind(TaskDAO.class).to(TaskDAO.class);
-        bind(IJournalImpl.class).to(IJournal.class);
-        bind(AssessmentDBCommunication.class).to(AssessmentDBCommunication.class);
-        bind(GFContexts.class).to(GFContexts.class);
-        bind(MysqlTestConnect.class).to(MysqlConnect.class);
 
+
+    @Override
+    protected void bindMore() {
+        bind(MysqlTestConnect.class).to(MysqlConnect.class);
     }
 }

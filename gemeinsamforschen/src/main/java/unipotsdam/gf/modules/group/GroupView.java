@@ -69,7 +69,7 @@ public class GroupView {
     @Path("/projects/{projectName}")
     public void saveGroups(@PathParam("projectName") String projectName, Group[] groups) {
         Project project = new Project(projectName);
-        groupFormationProcess.finalizeGroups(groups, project);
+        groupFormationProcess.finalizeGroups(project, groups);
     }
 
 }

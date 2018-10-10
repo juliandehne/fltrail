@@ -1,11 +1,13 @@
 package unipotsdam.gf.process;
 
 import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.process.tasks.TaskName;
 
@@ -21,6 +23,9 @@ public class GroupFormationProcess {
     TaskDAO taskDAO;
 
     @Inject
+    IPhases phases;
+
+    @Inject
     private IGroupFinding groupfinding;
 
     public void changeGroupFormationMechanism(GroupFormationMechanism groupFormationMechanism, Project project) {
@@ -28,9 +33,13 @@ public class GroupFormationProcess {
         taskDAO.persistTeacherTask(project, TaskName.FORM_GROUPS_MANUALLY, Phase.GroupFormation);
     }
 
-    public void finalizeGroups(Group[] groups, Project project) {
+    public void finalizeGroups( Project project, Group ... groups) {
         groupfinding.persistGroups(Arrays.asList(groups), project);
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
         taskDAO.persistMemberTask(project,  TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);
+    }
+
+    public void finish(Project project) {
+        phases.endPhase(Phase.GroupFormation, project);
     }
 }
