@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `name` varchar(100) NOT NULL,
   `password` varchar(400) NOT NULL,
   `active` tinyint(1) NOT NULL,
-  `timecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `timecreated` mediumtext not null,
   `author` varchar(100) NOT NULL,
   `adminPassword` varchar(400) NOT NULL,
   `phase` varchar(400) NOT NULL,
@@ -128,7 +128,10 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `userEmail` varchar(400) NOT NULL,
   `projectName` varchar(400) NOT NULL,
   `taskUrl` varchar(400) NOT NULL,
-  `technicalName` varchar(400) DEFAULT NULL,
+<<<<<<< HEAD
+  `taskName` varchar (400) NOT NULL,
+=======
+>>>>>>> origin/development_master
   `groupTask` tinyint(4) DEFAULT NULL,
   `importance` varchar(100) DEFAULT NULL,
   `progress` varchar(100) DEFAULT NULL,

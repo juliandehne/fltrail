@@ -4,9 +4,12 @@ import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
+import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Management;
@@ -51,7 +54,7 @@ public class GroupPhaseTaskTest {
     }
 
     @Test
-    public void createCourseWithLearningGoalStrategy() throws IOException {
+    public void createCourse() {
 
         this.teacher = factory.manufacturePojo(User.class);
         teacher.setStudent(false);
@@ -61,11 +64,15 @@ public class GroupPhaseTaskTest {
         Project project = factory.manufacturePojo(Project.class);
         project.setAuthorEmail(teacher.getEmail());
         management.create(project);
+        management.register(teacher, project, null);
 
-        ProjectConfiguration projectConfiguration = factory.manufacturePojo(ProjectConfiguration.class);
-        projectConfiguration.setGroupMechanismSelected(GroupFormationMechanism.LearningGoalStrategy);
-        projectCreationProcess.createProject(project, teacher);
+        /*ProjectConfiguration projectConfiguration = factory.manufacturePojo(ProjectConfiguration.class);
+        management.create(projectConfiguration, project);
 
+        GroupfindingCriteria groupfindingCriteria = factory.manufacturePojo(GroupfindingCriteria.class);
+        groupFinding.selectGroupfindingCriteria(groupfindingCriteria, project);*/
+
+        taskDAO.createTaskWaitForParticipants(project, teacher);
         Task[] tasks = taskDAO.getTasks(teacher, project);
         assertTrue(tasks != null && tasks.length > 0);
 

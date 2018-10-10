@@ -34,7 +34,7 @@ function fitObjectInTmpl(object){
         helpLink: "",
         timeFrame: ""
     };
-    if (object.taskType.includes("INFO")){
+    if (object.taskType!=="INFO"){
         if (object.groupTask===true){
             result.taskType="grouptask"
         }else{
@@ -66,7 +66,7 @@ function fitObjectInTmpl(object){
             result.phase="";
     }
     if (object.link !=="")
-        result.helpLink = object.link+"?projectName="+object.projectName;
+        result.helpLink = object.link;
     if (object.deadline != null){
         let daysLeft = Math.round((object.deadline - Date.now())/1000/60/60/24);
         if (daysLeft>=1)
@@ -83,30 +83,6 @@ function fitObjectInTmpl(object){
             break;
         case "CLOSE_GROUP_FINDING_PHASE":
             result.infoText="Gehen Sie zur nächsten Phase über.";
-            break;
-        case "WAITING_FOR_GROUP":
-            result.infoText="Warten auf Gruppen.";
-            break;
-        case "UPLOAD_DOSSIER":
-            result.infoText="Warten auf Gruppen.";
-            break;
-        case "GIVE_FEEDBACK":
-            result.infoText="Warten auf Gruppen.";
-            break;
-        case "CREATE_QUIZ":
-            result.infoText="Warten auf Gruppen.";
-            break;
-        case "WRITE_EJOURNAL":
-            result.infoText="Warten auf Gruppen.";
-            break;
-        case "FINALIZE_DOSSIER":
-            result.infoText="Warten auf Gruppen.";
-            break;
-        case "FINALIZE_EJOURNAL":
-            result.infoText="Warten auf Gruppen.";
-            break;
-        case "ASSESSMENT":
-            result.infoText="Ihre Bewertung";
             break;
         default:
             result.infoText="";
@@ -139,11 +115,8 @@ function fitObjectInTmpl(object){
                 result.solveTaskWithLink="../journal/edit-description.jsp?projectName="+object.projectName;
                 break;
             case "ASSESSMENT":
-                if (object.progress != "FINISHED"){
-                    result.solveTaskWith="Starte Bewertung";
-                    result.solveTaskWithLink="../assessment/assess-work.jsp?projectName="+object.projectName;
-                }
-
+                result.solveTaskWith="Starte Bewertung";
+                result.solveTaskWithLink="../assessment/assess-work.jsp?projectName="+object.projectName;
                 break;
             default:
                 result.solveTaskWith=null;

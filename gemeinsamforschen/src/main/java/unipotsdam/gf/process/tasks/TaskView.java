@@ -24,6 +24,6 @@ public class TaskView {
     public ArrayList<Task> getTasks(@PathParam("userEmail") String userEmail, @PathParam("projectToken") String projectToken)
             throws NotImplemented, UnsupportedEncodingException {
         String user = java.net.URLDecoder.decode(userEmail, "UTF-8");
-        return taskDAO.getTasks(user, projectToken);
+        return taskDAO.getTaskType(user, projectToken);
     }
 }

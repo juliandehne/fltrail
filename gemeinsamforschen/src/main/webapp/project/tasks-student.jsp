@@ -15,8 +15,6 @@
 <head>
     <omniDependencies:omniDependencies hierarchy="1"/>
     <script src="js/tasks-student.js"></script>
-
-    <title>Projecttitle | Gemeinsam Forschen</title>
 </head>
 <body>
 <menu:menu hierarchy="1"/>
