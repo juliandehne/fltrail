@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `name` varchar(100) NOT NULL,
   `password` varchar(400) NOT NULL,
   `active` tinyint(1) NOT NULL,
-  `timecreated` mediumtext not null,
+  `timecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `author` varchar(100) NOT NULL,
   `adminPassword` varchar(400) NOT NULL,
   `phase` varchar(400) NOT NULL,

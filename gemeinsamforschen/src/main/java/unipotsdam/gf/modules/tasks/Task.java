@@ -24,7 +24,7 @@ public class Task {
 
     // relevant for time based warnings
     private Long eventCreated;
-    private Timestamp deadline;
+    private Long deadline;
 
     private Boolean groupTask;
     private Importance importance;
@@ -88,11 +88,11 @@ public class Task {
         this.eventCreated = eventCreated;
     }
 
-    public Timestamp getDeadline() {
+    public Long getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Timestamp deadline) {
+    public void setDeadline(Long deadline) {
         this.deadline = deadline;
     }
 

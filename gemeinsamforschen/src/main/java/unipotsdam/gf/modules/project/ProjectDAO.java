@@ -9,6 +9,8 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,8 +33,9 @@ public class ProjectDAO {
 
             connect.connect();
             String mysqlRequest = "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, " + "`adminPassword`, `phase`) values (?,?,?,?,?,?,?)";
+            Timestamp timestamp = new Timestamp(project.getTimecreated());
             connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(), project.isActive(),
-                    project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(), project.getPhase() == null ? ProjectPhase.CourseCreation : project.getPhase());
+                    timestamp, project.getAuthorEmail(), project.getAdminPassword(), project.getPhase() == null ? ProjectPhase.CourseCreation : project.getPhase());
 
             connect.close();
 
@@ -101,7 +104,7 @@ public class ProjectDAO {
         String id = vereinfachtesResultSet.getString("name");
         String password = vereinfachtesResultSet.getString("password");
         boolean active = vereinfachtesResultSet.getBoolean("active");
-        long timestamp = vereinfachtesResultSet.getLong("timecreated");
+        long timestamp = vereinfachtesResultSet.getTimestamp("timecreated").getTime();
         String author = vereinfachtesResultSet.getString("author");
         String adminPassword = vereinfachtesResultSet.getString("adminpassword");
         String phase = vereinfachtesResultSet.getString("phase");
