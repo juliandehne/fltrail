@@ -1,7 +1,7 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.states.ConstraintsMessages;
+import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
 import unipotsdam.gf.modules.assessment.controller.model.Quiz;

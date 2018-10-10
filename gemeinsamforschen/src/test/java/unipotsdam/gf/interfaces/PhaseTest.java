@@ -11,7 +11,7 @@ import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserProfile;
-import unipotsdam.gf.modules.states.ProjectPhase;
+import unipotsdam.gf.process.phases.Phase;
 
 import javax.inject.Inject;
 
@@ -52,34 +52,34 @@ public class PhaseTest {
     public void phase1() {
         Project project = new Project();
         project.setName(projectName);
-        phases.endPhase(ProjectPhase.CourseCreation, project);
+        phases.endPhase(Phase.CourseCreation, project);
     }
 
     @Test
     public void phase2() {
         Project project = new Project();
         project.setName(projectName);
-        phases.endPhase(ProjectPhase.GroupFormation, project);
+        phases.endPhase(Phase.GroupFormation, project);
     }
 
     @Test
     public void phase3() {
         Project project = new Project();
         project.setName(projectName);
-        phases.endPhase(ProjectPhase.DossierFeedback, project);
+        phases.endPhase(Phase.DossierFeedback, project);
     }
 
     @Test
     public void phase4() {
         Project project = new Project();
         project.setName(projectName);
-        phases.endPhase(ProjectPhase.Execution, project);
+        phases.endPhase(Phase.Execution, project);
     }
 
     @Test
     public void phase5() {
         Project project = new Project();
         project.setName(projectName);
-        phases.endPhase(ProjectPhase.Assessment, project);
+        phases.endPhase(Phase.Assessment, project);
     }
 }

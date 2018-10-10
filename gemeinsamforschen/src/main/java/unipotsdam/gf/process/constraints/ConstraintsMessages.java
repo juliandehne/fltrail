@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.states;
+package unipotsdam.gf.process.constraints;
 
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 

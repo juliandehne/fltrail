@@ -1,8 +1,10 @@
-package unipotsdam.gf.modules.tasks;
+package unipotsdam.gf.process.tasks;
 
+import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.states.ProjectPhase;
+import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
@@ -11,7 +13,7 @@ import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.util.ArrayList;
 
-import static unipotsdam.gf.modules.tasks.TaskName.*;
+import static unipotsdam.gf.process.tasks.TaskName.*;
 
 @ManagedBean
 public class TaskDAO {
@@ -21,7 +23,13 @@ public class TaskDAO {
     ProjectDAO projectDAO;
 
     @Inject
+    UserDAO userDAO;
+
+    @Inject
     MysqlConnect connect;
+
+    @Inject
+    Management management;
 
     // get all the tasks a user has in a specific project
     public ArrayList<Task> getTasks(String userEmail, String projectName)  {
@@ -54,13 +62,12 @@ public class TaskDAO {
 
         task.setImportance(Importance.valueOf(vereinfachtesResultSet.getString("importance")));
         task.setUserEmail(vereinfachtesResultSet.getString("userEmail"));
-        task.setLink(vereinfachtesResultSet.getString("taskUrl"));
         task.setProjectName(vereinfachtesResultSet.getString("projectName"));
         task.setGroupTask(vereinfachtesResultSet.getBoolean("groupTask"));
         task.setProgress(Progress.valueOf(vereinfachtesResultSet.getString("progress")));
         task.setEventCreated(vereinfachtesResultSet.getLong("created"));
         task.setDeadline(vereinfachtesResultSet.getLong("due"));
-        task.setPhase(ProjectPhase.valueOf(vereinfachtesResultSet.getString("phase")));
+        task.setPhase(Phase.valueOf(vereinfachtesResultSet.getString("phase")));
         getTasks(vereinfachtesResultSet);
 
         return task;
@@ -97,35 +104,42 @@ public class TaskDAO {
         return task;
     }
 
-    private Task createGeneralTask(Project project, User target) {
+    private Task createDefault(Project project, User target, TaskName taskName, Phase phase) {
         Task task = new Task();
+        task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
         task.setProjectName(project.getName());
         task.setUserEmail(project.getAuthorEmail());
         task.setImportance(Importance.MEDIUM);
         task.setProgress(Progress.JUSTSTARTED);
+        task.setGroupTask(false);
+        task.setTaskName(taskName);
+        task.setPhase(phase);
 
         return task;
     }
 
+    public void persist(Project project, User target, TaskName taskName, Phase phase) {
+        Task aDefault = createDefault(project, target, taskName, phase);
+        persist(aDefault);
+    }
+
+    public void persistTeacherTask(Project project, TaskName taskName, Phase phase) {
+        User user = new User(projectDAO.getProjectByName(project.getName()).getAuthorEmail());
+        Task aDefault = createDefault(project, user, taskName, phase);
+        persist(aDefault);
+    }
+
 
     public void createTaskWaitForParticipants(Project project, User target)  {
-        Task task = createGeneralTask(project, target);
-        task.setGroupTask(false);
-        task.setLink("../groupfinding/create-groups-manual.jsp");
-        task.setPhase(ProjectPhase.GroupFormation);
+        Task task = createDefault(project, target, TaskName.WAIT_FOR_PARTICPANTS, Phase.GroupFormation);
         task.setRenderModel(WAIT_FOR_PARTICPANTS);
         task.setTaskType(TaskType.LINKED, TaskType.INFO);
-        task.setImportance(Importance.MEDIUM);
-        task.setProgress(Progress.JUSTSTARTED);
         persist(task);
     }
 
     public void createWaitingForGroupFormationTask(Project project, User target) {
-        Task task = createGeneralTask(project, target);
-        task.setGroupTask(false);
-        task.setPhase(ProjectPhase.GroupFormation);
-        task.setRenderModel(TaskName.WAITING_FOR_GROUP);
+        Task task = createDefault(project, target, WAITING_FOR_GROUP, Phase.GroupFormation);
         task.setTaskType(TaskType.INFO);
         task.setImportance(Importance.MEDIUM);
         task.setProgress(Progress.JUSTSTARTED);
@@ -148,9 +162,9 @@ public class TaskDAO {
         String query =
                 "INSERT INTO fltrail.tasks (userEmail, projectName, taskUrl, taskName, " +
                         "groupTask, importance, progress, phase, created, due, taskMode, taskMode2, taskMode3) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?, ?)";
 
-        connect.issueInsertOrDeleteStatement(query, task.getUserEmail(), task.getProjectName(), task.getLink(),
+        connect.issueInsertOrDeleteStatement(query, task.getUserEmail(), task.getProjectName(),
                 task.getTaskName(), task.getGroupTask(), task.getImportance(), task.getProgress(), task
                         .getPhase(),
                 null, task.getDeadline(), task.getTaskType()[0].toString(), taskMode2, taskMode3);
@@ -168,5 +182,12 @@ public class TaskDAO {
 
     public Task[] getTasks(User teacher, Project project) {
         return getTasks(teacher.getEmail(), project.getName()).toArray(new Task[0]);
+    }
+
+    public void persistMemberTask(Project project, TaskName taskName, Phase phase) {
+        java.util.List<User> members = userDAO.getUsersByProjectName(project.getName());
+        for (User member : members) {
+            persist(project, member, taskName, phase );
+        }
     }
 }

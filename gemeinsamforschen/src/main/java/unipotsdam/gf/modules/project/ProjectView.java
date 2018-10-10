@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.project;
 
-import unipotsdam.gf.modules.tasks.TaskDAO;
+import unipotsdam.gf.process.ProjectCreationProcess;
+import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.session.GFContexts;
 
@@ -31,25 +32,21 @@ public class ProjectView {
     @Inject
     private TaskDAO taskDao;
 
+    @Inject
+    private ProjectCreationProcess projectCreationProcess;
+
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/create")
     public void createProject(@Context HttpServletRequest req, Project project) throws URISyntaxException, IOException {
-        // we assume the token is send not the author id
         String userEmail = gfContexts.getUserEmail(req);
         User user = iManagement.getUserByEmail(userEmail);
         assert user != null;
         if (user == null) {
             throw new IOException("NO user with this email exists in db");
         }
-        project.setAuthorEmail(user.getEmail());
-        try {
-            iManagement.create(project);
-        } catch (Exception e) {
-            throw new WebApplicationException("Project already exists");
-        }
-        taskDao.createTaskWaitForParticipants(project,user);
+        projectCreationProcess.createProject(project, user);
     }
 
     @GET
@@ -85,12 +82,7 @@ public class ProjectView {
         if (!project.getPassword().equals(password) ) {
             return "wrong password";
         }
-        // student enters project
-        iManagement.register(user, project, null);
-
-        // create info for student
-        taskDao.createWaitingForGroupFormationTask(project, user);
-
+        projectCreationProcess.studentEntersProject(project, user);
 
         return "ok";
     }

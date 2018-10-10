@@ -1,8 +1,7 @@
-package unipotsdam.gf.modules.tasks;
+package unipotsdam.gf.process.tasks;
 
 public enum TaskName {
     WAIT_FOR_PARTICPANTS,
-    BUILD_GROUPS,
     CLOSE_GROUP_FINDING_PHASE,
     WAITING_FOR_GROUP,
 
@@ -12,6 +11,5 @@ public enum TaskName {
     CREATE_QUIZ,
     WRITE_EJOURNAL,
     FINALIZE_DOSSIER,
-    FINALIZE_EJOURNAL,
-    ASSESSMENT
+    FINALIZE_EJOURNAL, FORM_GROUPS_MANUALLY, EDIT_FORMED_GROUPS, CONTACT_GROUP_MEMBERS, ASSESSMENT
 }

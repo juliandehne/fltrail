@@ -3,7 +3,7 @@ package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.states.ConstraintsMessages;
+import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.EPortfolio;
 import unipotsdam.gf.modules.journal.model.Journal;

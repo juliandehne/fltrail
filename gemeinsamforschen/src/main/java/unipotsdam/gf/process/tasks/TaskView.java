@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.tasks;
+package unipotsdam.gf.process.tasks;
 
 import com.mysql.jdbc.NotImplemented;
 

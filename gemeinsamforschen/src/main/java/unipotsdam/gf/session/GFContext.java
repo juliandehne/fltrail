@@ -2,23 +2,23 @@ package unipotsdam.gf.session;
 
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.states.ProjectPhase;
+import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 
 public class GFContext {
     Project project;
     User user;
-    ProjectPhase projectPhase;
+    Phase phase;
     ChatRoom chatRoom;
     // could be quizState ....
     Quiz quiz;
 
     public GFContext(
-            Project project, User user, ProjectPhase projectPhase, ChatRoom chatRoom, Quiz quiz) {
+            Project project, User user, Phase phase, ChatRoom chatRoom, Quiz quiz) {
         this.project = project;
         this.user = user;
-        this.projectPhase = projectPhase;
+        this.phase = phase;
         this.chatRoom = chatRoom;
         this.quiz = quiz;
     }
@@ -39,12 +39,12 @@ public class GFContext {
         this.user = user;
     }
 
-    public ProjectPhase getProjectPhase() {
-        return projectPhase;
+    public Phase getPhase() {
+        return phase;
     }
 
-    public void setProjectPhase(ProjectPhase projectPhase) {
-        this.projectPhase = projectPhase;
+    public void setPhase(Phase phase) {
+        this.phase = phase;
     }
 
     public ChatRoom getChatRoom() {
@@ -68,7 +68,7 @@ public class GFContext {
         final StringBuilder sb = new StringBuilder("GFContext{");
         sb.append("project=").append(project);
         sb.append(", user=").append(user);
-        sb.append(", projectPhase=").append(projectPhase);
+        sb.append(", phase=").append(phase);
         sb.append(", chatRoom=").append(chatRoom);
         sb.append(", quiz=").append(quiz);
         sb.append('}');

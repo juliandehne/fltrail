@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.tasks;
+package unipotsdam.gf.process.tasks;
 
 public enum TaskType {
     // the task can be completed directly on the overview page

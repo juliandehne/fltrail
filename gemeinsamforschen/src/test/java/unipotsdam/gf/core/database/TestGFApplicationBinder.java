@@ -16,11 +16,10 @@ import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
-import unipotsdam.gf.modules.states.PhasesImpl;
-import unipotsdam.gf.modules.tasks.TaskDAO;
+import unipotsdam.gf.process.phases.PhasesImpl;
+import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.mysql.MysqlConnectImpl;
 import unipotsdam.gf.session.GFContexts;
 
 public class TestGFApplicationBinder extends GFApplicationBinder {

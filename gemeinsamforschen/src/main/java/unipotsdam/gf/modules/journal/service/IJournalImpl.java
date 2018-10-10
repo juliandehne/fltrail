@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.states.ConstraintsMessages;
+import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.EPortfolio;

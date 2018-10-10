@@ -1,11 +1,10 @@
-package unipotsdam.gf.modules.tasks;
+package unipotsdam.gf.process.tasks;
 
 public class ParticipantsCount {
     private int participants;
     private String dataName;
 
-    public static String PARTICIPANT_COUNT_NAME="PARTICIPANT_COUNT_NAME";
-
+    private static String PARTICIPANT_COUNT_NAME="PARTICIPANT_COUNT_NAME";
 
     public ParticipantsCount() {
         this.dataName = PARTICIPANT_COUNT_NAME;

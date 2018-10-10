@@ -33,6 +33,10 @@ public class User {
         this.isStudent = isStudent;
     }
 
+    public User(String authorEmail) {
+        this.email = authorEmail;
+    }
+
     public String getName() {
         return name;
     }

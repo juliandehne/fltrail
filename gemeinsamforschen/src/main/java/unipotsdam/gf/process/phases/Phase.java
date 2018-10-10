@@ -1,6 +1,6 @@
-package unipotsdam.gf.modules.states;
+package unipotsdam.gf.process.phases;
 
-public enum ProjectPhase {
+public enum Phase {
     CourseCreation, GroupFormation, DossierFeedback, Execution, Assessment,
     Projectfinished
 }

@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.project;
 
-import unipotsdam.gf.modules.states.ProjectPhase;
+import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
@@ -10,13 +10,13 @@ import java.util.HashMap;
 // TODO implement
 public class ProjectConfiguration {
 
-    private HashMap<ProjectPhase, Boolean> phasesSelected;
+    private HashMap<Phase, Boolean> phasesSelected;
     private HashMap<Category, Boolean> criteriaSelected;
     private HashMap<AssessmentMechanism, Boolean> assessmentMechanismSelected;
     private GroupFormationMechanism groupMechanismSelected;
 
     public ProjectConfiguration(
-            HashMap<ProjectPhase, Boolean> phasesSelected,
+            HashMap<Phase, Boolean> phasesSelected,
             HashMap<Category, Boolean> criteriaSelected,
             HashMap<AssessmentMechanism, Boolean> assessmentMechanismSelected,
             GroupFormationMechanism groupMechanismSelected) {
@@ -26,11 +26,11 @@ public class ProjectConfiguration {
         this.groupMechanismSelected = groupMechanismSelected;
     }
 
-    public HashMap<ProjectPhase, Boolean> getPhasesSelected() {
+    public HashMap<Phase, Boolean> getPhasesSelected() {
         return phasesSelected;
     }
 
-    public void setPhasesSelected(HashMap<ProjectPhase, Boolean> phasesSelected) {
+    public void setPhasesSelected(HashMap<Phase, Boolean> phasesSelected) {
         this.phasesSelected = phasesSelected;
     }
 

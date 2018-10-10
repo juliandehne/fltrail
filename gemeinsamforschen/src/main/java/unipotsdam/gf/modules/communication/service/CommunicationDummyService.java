@@ -6,7 +6,7 @@ import unipotsdam.gf.config.Constants;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.states.ConstraintsMessages;
+import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.Message;

@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.states;
+package unipotsdam.gf.process.phases;
 
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.interfaces.IPhases;
@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 
 /**
  * REST API for switching phases
- * In order to look up the possible phases @see unipotsdam.gf.core.states.model.ProjectPhase
+ * In order to look up the possible phases @see unipotsdam.gf.core.states.model.Phase
  */
 @Path("/phases")
 public class PhasesService {
@@ -34,7 +34,7 @@ public class PhasesService {
     @POST
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectName") String projectName) {
-        phases.endPhase(ProjectPhase.valueOf(projectPhase), projectDAO.getProjectByName(projectName));
+        phases.endPhase(Phase.valueOf(projectPhase), projectDAO.getProjectByName(projectName));
     }
 
     /**

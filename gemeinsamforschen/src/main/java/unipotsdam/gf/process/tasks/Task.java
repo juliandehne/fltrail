@@ -1,6 +1,6 @@
-package unipotsdam.gf.modules.tasks;
+package unipotsdam.gf.process.tasks;
 
-import unipotsdam.gf.modules.states.ProjectPhase;
+import unipotsdam.gf.process.phases.Phase;
 
 public class Task {
     // as in "Feedback"
@@ -10,11 +10,11 @@ public class Task {
     // optional: only relevant if the task is show on the side
     private Object taskData;
 
-    public TaskName getTaskName() {
+    TaskName getTaskName() {
         return taskName;
     }
 
-    public void setTaskName(TaskName taskName) {
+    void setTaskName(TaskName taskName) {
         this.taskName = taskName;
     }
 
@@ -27,9 +27,8 @@ public class Task {
 
     private Boolean groupTask;
     private Importance importance;
-    private ProjectPhase phase;
+    private Phase phase;
 
-    private String link;
 
     private String userEmail;
     private String projectName;
@@ -111,21 +110,14 @@ public class Task {
         this.importance = importance;
     }
 
-    public ProjectPhase getPhase() {
+    public Phase getPhase() {
         return phase;
     }
 
-    public void setPhase(ProjectPhase phase) {
+    public void setPhase(Phase phase) {
         this.phase = phase;
     }
 
-    public String getLink() {
-        return link;
-    }
-
-    public void setLink(String link) {
-        this.link = link;
-    }
 
     public Progress getProgress() {
         return progress;

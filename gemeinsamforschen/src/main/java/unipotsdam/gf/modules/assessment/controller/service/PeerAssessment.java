@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.states.ConstraintsMessages;
+import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;

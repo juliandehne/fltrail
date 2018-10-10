@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.project;
 
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.modules.states.ProjectPhase;
+import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
@@ -36,8 +36,8 @@ public class ProjectConfigurationDAO {
         }
 
         // persist Phases
-        HashMap<ProjectPhase, Boolean> phasesSelected = projectConfiguration.getPhasesSelected();
-        for (ProjectPhase phase : phasesSelected.keySet()) {
+        HashMap<Phase, Boolean> phasesSelected = projectConfiguration.getPhasesSelected();
+        for (Phase phase : phasesSelected.keySet()) {
             Boolean projectPhaseSelected = phasesSelected.get(phase);
             if (projectPhaseSelected != null && projectPhaseSelected) {
                 String mysqlRequest = "insert INTO phasesSelected (`projectName`,`phaseSelected`) VALUES (?,?)";
@@ -75,8 +75,8 @@ public class ProjectConfigurationDAO {
         connect.connect();
 
 
-        HashMap<ProjectPhase, Boolean> projectPhasesSelected =
-                getSelectionFromTable(connect, ProjectPhase.class, project, "phasesSelected");
+        HashMap<Phase, Boolean> projectPhasesSelected =
+                getSelectionFromTable(connect, Phase.class, project, "phasesSelected");
 
         HashMap<Category, Boolean> categorySelected =
                 getSelectionFromTable(connect, Category.class, project, "categoriesSelected");

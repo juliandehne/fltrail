@@ -94,7 +94,7 @@ public class ManagementImpl implements Management {
     }
 
     public List<User> getUsers(Project project) {
-        return userDAO.getUsersByProjectId(project.getName());
+        return userDAO.getUsersByProjectName(project.getName());
     }
 
     private User getUserFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {

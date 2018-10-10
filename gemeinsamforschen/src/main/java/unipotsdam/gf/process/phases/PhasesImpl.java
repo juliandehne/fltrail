@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.states;
+package unipotsdam.gf.process.phases;
 
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.interfaces.Feedback;
@@ -9,7 +9,7 @@ import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.Messages;
 import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.mysql.MysqlConnectImpl;
+import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -64,8 +64,8 @@ public class PhasesImpl implements IPhases {
     */
 
     @Override
-    public void endPhase(ProjectPhase currentPhase, Project project) {
-        ProjectPhase changeToPhase = getNextPhase(currentPhase);
+    public void endPhase(Phase currentPhase, Project project) {
+        Phase changeToPhase = getNextPhase(currentPhase);
         Map<StudentIdentifier, ConstraintsMessages> tasks;
         switch (currentPhase) {
             case CourseCreation:
@@ -122,24 +122,24 @@ public class PhasesImpl implements IPhases {
         // TODO implement
     }
 
-    private ProjectPhase getNextPhase(ProjectPhase projectPhase) {
-        switch (projectPhase) {
+    private Phase getNextPhase(Phase phase) {
+        switch (phase) {
             case CourseCreation:
-                return ProjectPhase.GroupFormation;
+                return Phase.GroupFormation;
             case GroupFormation:
-                return ProjectPhase.DossierFeedback;
+                return Phase.DossierFeedback;
             case DossierFeedback:
-                return ProjectPhase.Execution;
+                return Phase.Execution;
             case Execution:
-                return ProjectPhase.Assessment;
+                return Phase.Assessment;
             case Assessment:
-                return ProjectPhase.Projectfinished;
+                return Phase.Projectfinished;
             default:
-                return ProjectPhase.Projectfinished;
+                return Phase.Projectfinished;
         }
     }
 
-    private void saveState(Project project, ProjectPhase phase) {
+    private void saveState(Project project, Phase phase) {
         assert project.getName() != null;
         connect.connect();
         String mysqlRequest = "UPDATE `projects` SET `phase`=? WHERE name=? LIMIT 1";

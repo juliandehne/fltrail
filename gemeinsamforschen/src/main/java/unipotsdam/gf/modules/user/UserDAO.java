@@ -65,7 +65,7 @@ public class UserDAO {
         return result;
     }
 
-    public List<User> getUsersByProjectId(String projectName) {
+    public List<User> getUsersByProjectName(String projectName) {
         connect.connect();
         String query =
                 "SELECT * FROM users u "

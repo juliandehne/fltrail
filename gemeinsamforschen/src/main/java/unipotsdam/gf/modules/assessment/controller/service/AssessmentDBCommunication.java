@@ -2,8 +2,8 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.modules.states.Constraints;
-import unipotsdam.gf.modules.states.ConstraintsMessages;
+import unipotsdam.gf.process.constraints.Constraints;
+import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
@@ -23,7 +23,7 @@ import java.util.Map;
 public class AssessmentDBCommunication {
 
     @Inject
-    MysqlConnect connect;
+    private MysqlConnect connect;
 
 
     cheatCheckerMethods getAssessmentMethod(String projectName) {

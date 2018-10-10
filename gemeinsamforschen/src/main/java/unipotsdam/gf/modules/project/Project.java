@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.project;
 
-import unipotsdam.gf.modules.states.ProjectPhase;
+import unipotsdam.gf.process.phases.Phase;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ public class Project {
     // the id of the authorEmail (not the token)
     private String authorEmail;
     private String adminPassword;
-    private ProjectPhase phase;
+    private Phase phase;
     private String[] tags;
 
     public Project() {
@@ -32,13 +32,13 @@ public class Project {
         this.adminPassword = adminPassword;
         this.timecreated = System.currentTimeMillis();
         // default starting at course creation if new
-        this.setPhase(ProjectPhase.CourseCreation);
+        this.setPhase(Phase.CourseCreation);
         this.tags = tags;
     }
 
     public Project(
-            String name, String password, Boolean active, Long timecreated,  String authorEmail,
-            String adminPassword, ProjectPhase phase, String[] tags) {
+            String name, String password, Boolean active, Long timecreated, String authorEmail,
+            String adminPassword, Phase phase, String[] tags) {
         this.name = name;
         this.password = password;
         this.active = active;
@@ -52,6 +52,10 @@ public class Project {
     public Project(String projectName, String password) {
         this.name = projectName;
         this.password = password;
+    }
+
+    public Project(String projectName) {
+        this.name = projectName;
     }
 
 
@@ -89,7 +93,7 @@ public class Project {
 
 
 
-    public ProjectPhase getPhase() {
+    public Phase getPhase() {
         return phase;
     }
 
@@ -98,7 +102,7 @@ public class Project {
      *
      * @param phase
      */
-    public void setPhase(ProjectPhase phase) {
+    public void setPhase(Phase phase) {
         this.phase = phase;
     }
 

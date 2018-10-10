@@ -1,9 +1,10 @@
 package unipotsdam.gf.modules.project;
 
-import unipotsdam.gf.modules.tasks.ParticipantsCount;
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.process.tasks.ParticipantsCount;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.modules.states.ProjectPhase;
+import unipotsdam.gf.process.phases.Phase;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -30,9 +31,11 @@ public class ProjectDAO {
         if (!exists(project)) {
 
             connect.connect();
-            String mysqlRequest = "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, " + "`adminPassword`, `phase`) values (?,?,?,?,?,?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(), project.isActive(),
-                    project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(), project.getPhase() == null ? ProjectPhase.CourseCreation : project.getPhase());
+            String mysqlRequest =
+                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, " + "`adminPassword`, `phase`) values (?,?,?,?,?,?,?)";
+            connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(),
+                    project.isActive(), project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(),
+                    project.getPhase() == null ? Phase.CourseCreation : project.getPhase());
 
             connect.close();
 
@@ -42,7 +45,8 @@ public class ProjectDAO {
                 tags = Arrays.copyOfRange(tags, 0, 4);
             }
             for (String tag : tags) {
-                connect.issueInsertOrDeleteStatement("INSERT INTO tags (`projectName`, `tag`) values (?,?)", project.getName(), tag);
+                connect.issueInsertOrDeleteStatement(
+                        "INSERT INTO tags (`projectName`, `tag`) values (?,?)", project.getName(), tag);
             }
         }
 
@@ -107,7 +111,7 @@ public class ProjectDAO {
         String phase = vereinfachtesResultSet.getString("phase");
 
 
-        return new Project(id, password, active, timestamp, author, adminPassword, ProjectPhase.valueOf(phase), null);
+        return new Project(id, password, active, timestamp, author, adminPassword, Phase.valueOf(phase), null);
     }
 
     public java.util.List<String> getTags(Project project) {
@@ -136,5 +140,13 @@ public class ProjectDAO {
         }
         connect.close();
         return new ParticipantsCount(count);
+    }
+
+    public void changeGroupFormationMechanism(
+            GroupFormationMechanism groupFormationMechanism, Project project) {
+        connect.connect();
+        String mysql = "UPDATE groupfindingmechanismselected set gfmSelected = ? where projectName = ? ";
+        connect.issueUpdateStatement(mysql, groupFormationMechanism.name(), project.getName());
+        connect.close();
     }
 }

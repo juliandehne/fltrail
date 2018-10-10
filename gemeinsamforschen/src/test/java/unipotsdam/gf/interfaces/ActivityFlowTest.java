@@ -16,10 +16,10 @@ import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectConfiguration;
-import unipotsdam.gf.modules.tasks.Task;
-import unipotsdam.gf.modules.tasks.TaskDAO;
+import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.states.ProjectPhase;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.GroupfindingCriteria;
 import unipotsdam.gf.modules.journal.model.Journal;
@@ -115,19 +115,19 @@ public class ActivityFlowTest {
         formGroups();
 
         // end first phase
-        phases.endPhase(ProjectPhase.CourseCreation, project);
+        phases.endPhase(Phase.CourseCreation, project);
 
         // upload dossiers
         uploadDossiers();
 
         // end first phase
-        phases.endPhase(ProjectPhase.DossierFeedback, project);
+        phases.endPhase(Phase.DossierFeedback, project);
 
         // update reflections
         uploadReflections();
 
         // end execution phase
-        phases.endPhase(ProjectPhase.Execution, project);
+        phases.endPhase(Phase.Execution, project);
     }
 
 
@@ -230,7 +230,7 @@ public class ActivityFlowTest {
         }
 
         // docent finishes phase
-        phases.endPhase(ProjectPhase.DossierFeedback, project);
+        phases.endPhase(Phase.DossierFeedback, project);
 
         // student misses mockfeedback -> reassignment
         // assert that while reports are still missing mockfeedback tasks are reassigned
@@ -240,7 +240,7 @@ public class ActivityFlowTest {
         assertEquals(0, feedback.checkFeedbackConstraints(project).size());
 
         // docent finishes phase
-        phases.endPhase(ProjectPhase.DossierFeedback, project);
+        phases.endPhase(Phase.DossierFeedback, project);
 
     }
 

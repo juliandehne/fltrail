@@ -4,9 +4,8 @@ import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.states.ProjectPhase;
-import unipotsdam.gf.modules.tasks.TaskDAO;
-import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.session.GFContexts;
@@ -74,11 +73,11 @@ public class Menu extends SimpleTagSupport {
                 out.println("<p id=\"userRole\" hidden>isDocent</p>");
             }
         }
-        ProjectPhase projectPhase;
+        Phase phase;
         try {
-            projectPhase = projectDAO.getProjectByName(projectName).getPhase();
+            phase = projectDAO.getProjectByName(projectName).getPhase();
         } catch (Exception e) {
-            projectPhase = null;
+            phase = null;
         }
         String phaseViewString = "" +
                 "<main>\n" +
@@ -95,8 +94,8 @@ public class Menu extends SimpleTagSupport {
                 "    <div class=\"row group\">" +
                 "<div class=\"col span_s_of_2 .timeline\">\n" +
                 "        <ul>\n";
-        if (projectPhase != null)
-            switch (projectPhase) {
+        if (phase != null)
+            switch (phase) {
                 case CourseCreation: {
                     phaseViewString += "  <li class=\"neutral icon\">Projektinitialisierung</li>\n" +
                             "          <li class=\"icon inactive\">Entwurfsphase</li>\n" +

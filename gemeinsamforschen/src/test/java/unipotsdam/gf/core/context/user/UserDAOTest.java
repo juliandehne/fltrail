@@ -69,7 +69,7 @@ public class UserDAOTest {
         assert management.exists(user2);
 
 
-        List<User> users = userDAO.getUsersByProjectId(project.getName());
+        List<User> users = userDAO.getUsersByProjectName(project.getName());
         assert users != null;
         assert !users.isEmpty();
         assertThat(users, hasSize(2));
