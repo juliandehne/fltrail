@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.communication;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.core.database.mysql.MysqlConnect;
 import unipotsdam.gf.core.management.user.UserDAO;
 import unipotsdam.gf.interfaces.ICommunication;
@@ -15,6 +17,8 @@ import java.io.IOException;
 
 public class ChatWindow extends SimpleTagSupport {
 
+    private static final Logger log = LoggerFactory.getLogger(ChatWindow.class);
+
     private String orientation;
 
     public void doTag() throws IOException {
@@ -26,7 +30,7 @@ public class ChatWindow extends SimpleTagSupport {
         GroupDAO groupDAO = new GroupDAO(new MysqlConnect());
         ICommunication communicationService = new CommunicationService(new UnirestService(), userDAO, groupDAO);
         String chatRoomLink = communicationService.getChatRoomLink(token, projectId);
-        System.out.println(chatRoomLink);
+        log.debug("ChatRoomLink for ChatWindow: {}", chatRoomLink);
         JspWriter out = getJspContext().getOut();
         out.println("<iframe height=\"400px\" src=\"" + chatRoomLink + "\"/>");
     }
