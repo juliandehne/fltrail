@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.tasks;
 
+import org.glassfish.grizzly.http.util.TimeStamp;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.states.ProjectPhase;
@@ -34,6 +35,7 @@ public class TaskDAO {
 
             TaskName taskName1 = TaskName.valueOf(taskName);
             Task task = getGeneralTask(vereinfachtesResultSet);
+            task.setTaskName(taskName1);
             switch (taskName1) {
                 case WAIT_FOR_PARTICPANTS: {
                     result.add(getTaskWaitForParticipants(task, vereinfachtesResultSet));
@@ -61,7 +63,7 @@ public class TaskDAO {
         task.setGroupTask(vereinfachtesResultSet.getBoolean("groupTask"));
         task.setProgress(Progress.valueOf(vereinfachtesResultSet.getString("progress")));
         task.setEventCreated(vereinfachtesResultSet.getLong("created"));
-        task.setDeadline(vereinfachtesResultSet.getLong("due"));
+        task.setDeadline(vereinfachtesResultSet.getTimestamp("due"));
         task.setPhase(ProjectPhase.valueOf(vereinfachtesResultSet.getString("phase")));
         getTaskType(task, vereinfachtesResultSet);
 

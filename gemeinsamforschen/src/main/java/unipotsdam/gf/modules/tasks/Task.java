@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.tasks;
 
 import unipotsdam.gf.modules.states.ProjectPhase;
+import java.sql.Timestamp;
 
 public class Task {
     // as in "Feedback"
@@ -23,7 +24,7 @@ public class Task {
 
     // relevant for time based warnings
     private Long eventCreated;
-    private Long deadline;
+    private Timestamp deadline;
 
     private Boolean groupTask;
     private Importance importance;
@@ -87,11 +88,11 @@ public class Task {
         this.eventCreated = eventCreated;
     }
 
-    public Long getDeadline() {
+    public Timestamp getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Long deadline) {
+    public void setDeadline(Timestamp deadline) {
         this.deadline = deadline;
     }
 
