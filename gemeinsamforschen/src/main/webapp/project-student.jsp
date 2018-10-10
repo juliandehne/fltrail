@@ -107,15 +107,7 @@
         </div>
     </div>
     <div>
-        <table>
-            <tbody>
-            <tr>
-                <td>
-                    <chatWindow:chatWindow orientation="right"/>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <chatWindow:chatWindow orientation="right"/>
     </div>
     <footer:footer/>
 
