@@ -1,9 +1,11 @@
 package unipotsdam.gf.process.tasks;
 
+import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -20,19 +22,87 @@ public class TaskDAO {
 
 
     @Inject
-    ProjectDAO projectDAO;
+    private ProjectDAO projectDAO;
 
     @Inject
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
     @Inject
-    MysqlConnect connect;
+    private MysqlConnect connect;
 
     @Inject
-    Management management;
+    private IGroupFinding groupFinding;
+
+
+    // fill the task with the general data
+    private Task getGeneralTask(VereinfachtesResultSet vereinfachtesResultSet) {
+        Task task = new Task();
+
+        task.setImportance(Importance.valueOf(vereinfachtesResultSet.getString("importance")));
+        task.setUserEmail(vereinfachtesResultSet.getString("userEmail"));
+        task.setProjectName(vereinfachtesResultSet.getString("projectName"));
+        task.setGroupTask(vereinfachtesResultSet.getBoolean("groupTask"));
+        task.setProgress(Progress.valueOf(vereinfachtesResultSet.getString("progress")));
+        task.setEventCreated(vereinfachtesResultSet.getLong("created"));
+        task.setDeadline(vereinfachtesResultSet.getLong("due"));
+        task.setPhase(Phase.valueOf(vereinfachtesResultSet.getString("phase")));
+        task.setTaskName(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
+        task.setHasRenderModel(false);
+        getTaskModes(vereinfachtesResultSet, task);
+
+        return task;
+    }
+
+    // bundle the taskModes
+    private void getTaskModes(VereinfachtesResultSet vereinfachtesResultSet, Task task) {
+        ArrayList<TaskType> taskTypes = new ArrayList<>();
+        String taskMode = vereinfachtesResultSet.getString("taskMode");
+        String taskMode2 = vereinfachtesResultSet.getString("taskMode2");
+        String taskMode3 = vereinfachtesResultSet.getString("taskMode3");
+        if (taskMode != null && !taskMode.equals("")) {
+            taskTypes.add(TaskType.valueOf(vereinfachtesResultSet.getString("taskMode")));
+        }
+        if (taskMode2 != null && !taskMode2.equals("")) {
+            taskTypes.add(TaskType.valueOf(vereinfachtesResultSet.getString("taskMode2")));
+        }
+
+        if (taskMode3 != null && !taskMode3.equals("")) {
+            taskTypes.add(TaskType.valueOf(vereinfachtesResultSet.getString("taskMode3")));
+
+        }
+        task.setTaskType(taskTypes.toArray(new TaskType[0]));
+    }
+
+
+    private Task getTaskWaitForParticipants(VereinfachtesResultSet vereinfachtesResultSet) {
+        Task task = getGeneralTask(vereinfachtesResultSet);
+        Project project = new Project();
+        project.setName(vereinfachtesResultSet.getString("projectName"));
+        ParticipantsCount participantsCount = projectDAO.getParticipantCount(project);
+        participantsCount.setParticipantsNeeded(groupFinding.getMinNumberOfStudentsNeeded(project));
+        task.setTaskData(participantsCount);
+        task.setHasRenderModel(true);
+        return task;
+    }
+
+    private Task createDefault(Project project, User target, TaskName taskName, Phase phase) {
+        Task task = new Task();
+        task.setTaskName(taskName);
+        task.setEventCreated(System.currentTimeMillis());
+        task.setProjectName(project.getName());
+        task.setUserEmail(project.getAuthorEmail());
+        task.setImportance(Importance.MEDIUM);
+        task.setProgress(Progress.JUSTSTARTED);
+        task.setGroupTask(false);
+        task.setTaskName(taskName);
+        task.setPhase(phase);
+        task.setTaskType(TaskType.INFO);
+
+        return task;
+    }
 
     // get all the tasks a user has in a specific project
-    public ArrayList<Task> getTasks(String userEmail, String projectName)  {
+    public ArrayList<Task> getTaskModes(String userEmail, String projectName) {
         connect.connect();
         String query = "Select * from tasks where userEmail = ? AND projectName = ?";
         ArrayList<Task> result = new ArrayList<>();
@@ -56,69 +126,7 @@ public class TaskDAO {
         return result;
     }
 
-    // fill the task with the general data
-    private Task getGeneralTask(VereinfachtesResultSet vereinfachtesResultSet) {
-        Task task = new Task();
 
-        task.setImportance(Importance.valueOf(vereinfachtesResultSet.getString("importance")));
-        task.setUserEmail(vereinfachtesResultSet.getString("userEmail"));
-        task.setProjectName(vereinfachtesResultSet.getString("projectName"));
-        task.setGroupTask(vereinfachtesResultSet.getBoolean("groupTask"));
-        task.setProgress(Progress.valueOf(vereinfachtesResultSet.getString("progress")));
-        task.setEventCreated(vereinfachtesResultSet.getLong("created"));
-        task.setDeadline(vereinfachtesResultSet.getLong("due"));
-        task.setPhase(Phase.valueOf(vereinfachtesResultSet.getString("phase")));
-        getTasks(vereinfachtesResultSet);
-
-        return task;
-    }
-
-    // bundle the taskModes
-    private void getTasks(VereinfachtesResultSet vereinfachtesResultSet) {
-        Task task = new Task();
-        ArrayList<TaskType> taskTypes = new ArrayList<>();
-        String taskMode = vereinfachtesResultSet.getString("taskMode");
-        String taskMode2 = vereinfachtesResultSet.getString("taskMode2");
-        String taskMode3 = vereinfachtesResultSet.getString("taskMode3");
-        if (taskMode != null && !taskMode.equals("") ) {
-            taskTypes.add(TaskType.valueOf(vereinfachtesResultSet.getString("taskMode")));
-        }
-        if (taskMode2 != null && !taskMode2.equals("")) {
-            taskTypes.add(TaskType.valueOf(vereinfachtesResultSet.getString("taskMode2")));
-        }
-
-        if (taskMode3 != null && !taskMode3.equals("")) {
-            taskTypes.add(TaskType.valueOf(vereinfachtesResultSet.getString("taskMode3")));
-
-        }
-        task.setTaskType(taskTypes.toArray(new TaskType[0]));
-    }
-
-
-    private Task getTaskWaitForParticipants(VereinfachtesResultSet vereinfachtesResultSet) {
-        Task task = getGeneralTask(vereinfachtesResultSet);
-        Project project = new Project();
-        project.setName(vereinfachtesResultSet.getString("projectName"));
-        ParticipantsCount participantsCount = projectDAO.getParticipantCount(project);
-        task.setTaskData(participantsCount);
-        return task;
-    }
-
-    private Task createDefault(Project project, User target, TaskName taskName, Phase phase) {
-        Task task = new Task();
-        task.setTaskName(taskName);
-        task.setEventCreated(System.currentTimeMillis());
-        task.setProjectName(project.getName());
-        task.setUserEmail(project.getAuthorEmail());
-        task.setImportance(Importance.MEDIUM);
-        task.setProgress(Progress.JUSTSTARTED);
-        task.setGroupTask(false);
-        task.setTaskName(taskName);
-        task.setPhase(phase);
-        task.setTaskType(TaskType.INFO);
-
-        return task;
-    }
 
     public void persist(Project project, User target, TaskName taskName, Phase phase) {
         Task aDefault = createDefault(project, target, taskName, phase);
@@ -132,9 +140,9 @@ public class TaskDAO {
     }
 
 
-    public void createTaskWaitForParticipants(Project project, User target)  {
+    public void createTaskWaitForParticipants(Project project, User target) {
         Task task = createDefault(project, target, TaskName.WAIT_FOR_PARTICPANTS, Phase.GroupFormation);
-        task.setRenderModel(WAIT_FOR_PARTICPANTS);
+        task.setTaskName(WAIT_FOR_PARTICPANTS);
         task.setTaskType(TaskType.LINKED, TaskType.INFO);
         persist(task);
     }
@@ -147,7 +155,12 @@ public class TaskDAO {
         persist(task);
     }
 
-    private void persist(Task task) {
+    private void persist(Task task)  {
+
+        if (task.getTaskName() == null) {
+            throw new Error("no taskName given");
+        }
+
 
         String taskMode2 = "";
         if (task.getTaskType() != null && task.getTaskType().length > 1) {
@@ -161,11 +174,9 @@ public class TaskDAO {
 
         connect.connect();
         String query =
-                "INSERT INTO fltrail.tasks (userEmail, projectName, taskName, " +
-                        "groupTask, importance, progress, phase, created, due, taskMode, taskMode2, taskMode3) "
-                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
+                "INSERT INTO fltrail.tasks (userEmail, projectName, taskName, " + "groupTask, importance, progress, phase, created, due, taskMode, taskMode2, taskMode3) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
 
-        if (task.getTaskType() == null || task.getTaskType().length < 0) {
+        if (task.getTaskType() == null || task.getTaskType().length == 0) {
             try {
                 throw new Exception("set a task type");
             } catch (Exception e) {
@@ -173,14 +184,13 @@ public class TaskDAO {
             }
         }
 
-        connect.issueInsertOrDeleteStatement(query, task.getUserEmail(), task.getProjectName(),
-                task.getTaskName(), task.getGroupTask(), task.getImportance(), task.getProgress(), task
-                        .getPhase(),
-                null, task.getDeadline(), task.getTaskType()[0].toString(), taskMode2, taskMode3);
+        connect.issueInsertOrDeleteStatement(query, task.getUserEmail(), task.getProjectName(), task.getTaskName(),
+                task.getGroupTask(), task.getImportance(), task.getProgress(), task.getPhase(), null,
+                task.getDeadline(), task.getTaskType()[0].toString(), taskMode2, taskMode3);
         connect.close();
     }
 
-    public void update(Task task, Progress progress)  {
+    public void update(Task task, Progress progress) {
         connect.connect();
         String query =
                 "UPDATE tasks set progress = ? where task.userEmail = ? & task.projectName = ? & task.taskName" + " = ?";
@@ -189,14 +199,14 @@ public class TaskDAO {
         connect.close();
     }
 
-    public Task[] getTasks(User teacher, Project project) {
-        return getTasks(teacher.getEmail(), project.getName()).toArray(new Task[0]);
+    public Task[] getTaskModes(User teacher, Project project) {
+        return getTaskModes(teacher.getEmail(), project.getName()).toArray(new Task[0]);
     }
 
     public void persistMemberTask(Project project, TaskName taskName, Phase phase) {
         java.util.List<User> members = userDAO.getUsersByProjectName(project.getName());
         for (User member : members) {
-            persist(project, member, taskName, phase );
+            persist(project, member, taskName, phase);
         }
     }
 }

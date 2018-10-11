@@ -37,6 +37,7 @@ function createNewProject(allTheTags, activ) {
                         $('#exactNumberOfTags').show();
                     } else {
                         createProjectinCompbase();
+
                     }
                 }
             },
@@ -149,7 +150,7 @@ function createProjectinCompbase() {
         success: function (response) {
             console.log(response);
             // it actually worked, too
-            document.location.href = "tasks-docent.jsp?projectName="+projectName;
+            sendGroupPreferences();
         },
         error: function (a, b, c) {
             console.log(a);

@@ -1,7 +1,5 @@
 package unipotsdam.gf.process.tasks;
 
-import com.mysql.jdbc.NotImplemented;
-
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -22,8 +20,8 @@ public class TaskView {
     @Path("/user/{userEmail}/project/{projectToken}")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Task> getTasks(@PathParam("userEmail") String userEmail, @PathParam("projectToken") String projectToken)
-            throws NotImplemented, UnsupportedEncodingException {
+            throws UnsupportedEncodingException {
         String user = java.net.URLDecoder.decode(userEmail, "UTF-8");
-        return taskDAO.getTasks(user, projectToken);
+        return taskDAO.getTaskModes(user, projectToken);
     }
 }

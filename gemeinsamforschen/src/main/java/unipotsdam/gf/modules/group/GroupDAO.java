@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.group;
 
+import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.user.User;
@@ -94,8 +95,7 @@ public class GroupDAO {
     public List<Group> getGroupsByProjectName(String projectName) {
         connect.connect();
         String mysqlRequest =
-                "SELECT * FROM groups g " + "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu" +
-                        ".userEmail=u.email " + "where g.projectName = ?";
+                "SELECT * FROM groups g " + "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu" + ".userEmail=u.email " + "where g.projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
         if (Objects.isNull(vereinfachtesResultSet)) {
             connect.close();
@@ -132,6 +132,18 @@ public class GroupDAO {
             groups.add(group);
             next = vereinfachtesResultSet.next();
         }
+    }
+
+    public GroupFormationMechanism getGroupFormationMechanism(Project project) {
+        GroupFormationMechanism groupFormationMechanism = null;
+        connect.connect();
+        String query = "Select gfmSelected from groupfindingmechanismselected where projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
+        vereinfachtesResultSet.next();
+        String gfmSelected = vereinfachtesResultSet.getString("gfmSelected");
+        groupFormationMechanism = GroupFormationMechanism.valueOf(gfmSelected);
+        connect.close();
+        return groupFormationMechanism;
     }
 }
 

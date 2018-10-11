@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.project;
 
+import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.process.tasks.ParticipantsCount;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -20,6 +22,12 @@ import java.util.List;
 public class ProjectDAO {
 
     private MysqlConnect connect;
+
+    @Inject
+    private GroupDAO groupDAO;
+
+    @Inject
+    private IGroupFinding groupFinding;
 
     @Inject
     public ProjectDAO(MysqlConnect connect) {
@@ -138,7 +146,9 @@ public class ProjectDAO {
         while (vereinfachtesResultSet.next()) {
             count = vereinfachtesResultSet.getInt(1);
         }
+
         connect.close();
+
         return new ParticipantsCount(count);
     }
 
@@ -147,6 +157,13 @@ public class ProjectDAO {
         connect.connect();
         String mysql = "UPDATE groupfindingmechanismselected set gfmSelected = ? where projectName = ? ";
         connect.issueUpdateStatement(mysql, groupFormationMechanism.name(), project.getName());
+        connect.close();
+    }
+
+    public void setGroupFormationMechanism(GroupFormationMechanism groupFormationMechanism, Project project) {
+        connect.connect();
+        String mysql = "INSERT INTO groupfindingmechanismselected (`projectName`, `gfmSelected`) values (?,?)";
+        connect.issueUpdateStatement(mysql, project.getName(), groupFormationMechanism.name());
         connect.close();
     }
 }

@@ -257,7 +257,7 @@ public class ActivityFlowTest {
         groupFinding.selectGroupfindingCriteria(groupfindingCriteria, project);
 
         taskDAO.createTaskWaitForParticipants(project, teacher);
-        Task[] tasks = taskDAO.getTasks(teacher, project);
+        Task[] tasks = taskDAO.getTaskModes(teacher, project);
         assertTrue(tasks != null && tasks.length > 0);
 
 

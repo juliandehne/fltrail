@@ -43,4 +43,6 @@ public interface IGroupFinding {
      * @return
      */
     ArrayList<String> getStudentsInSameGroup(StudentIdentifier student);
+
+    int getMinNumberOfStudentsNeeded(Project project);
 }

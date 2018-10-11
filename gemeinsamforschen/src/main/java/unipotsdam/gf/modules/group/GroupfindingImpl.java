@@ -10,6 +10,7 @@ import java.util.List;
 
 public class GroupfindingImpl implements IGroupFinding {
 
+    @Inject
     private GroupDAO groupDAO;
 
     @Inject
@@ -44,5 +45,19 @@ public class GroupfindingImpl implements IGroupFinding {
 
     public ArrayList<String> getStudentsInSameGroup(StudentIdentifier student) {
         return groupDAO.getStudentsInSameGroupAs(student);
+    }
+
+    @Override
+    public int getMinNumberOfStudentsNeeded(Project project) {
+        // TODO this algorithm logic should be somewhere different
+        int participantsNeeded = 0;
+        GroupFormationMechanism selectedGFM = groupDAO.getGroupFormationMechanism(project);
+        switch (selectedGFM){
+            case UserProfilStrategy: participantsNeeded = 6;
+            case LearningGoalStrategy: participantsNeeded = 5;
+            default: participantsNeeded = 2;
+        }
+
+        return participantsNeeded;
     }
 }

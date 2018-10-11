@@ -50,8 +50,8 @@ public class GroupView {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/settings/projects/{projectName}")
-    public void createProject(@PathParam("projectName") String name, String groupFindingMechanism)
+    @Path("/gfm/update/projects/{projectName}")
+    public void updateGFM(@PathParam("projectName") String name, String groupFindingMechanism)
             throws URISyntaxException {
 
         try {
@@ -63,6 +63,33 @@ public class GroupView {
         }
 
     }
+
+    /**
+     * @param name
+     * @param groupFindingMechanism
+     * @return
+     * @throws URISyntaxException
+     */
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/gfm/create/projects/{projectName}")
+    public void createGFM(@PathParam("projectName") String name, String groupFindingMechanism)
+            throws URISyntaxException {
+
+        try {
+            GroupFormationMechanism gfm = GroupFormationMechanism.valueOf(groupFindingMechanism);
+            groupFormationProcess.setGroupFormationMechanism(gfm, new Project(name));
+        } catch (Exception e) {
+            throw new WebApplicationException(
+                    "the groupfindingmechanism needs to be one of " + GroupFormationMechanism.values().toString());
+        }
+
+    }
+
+
+
+
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

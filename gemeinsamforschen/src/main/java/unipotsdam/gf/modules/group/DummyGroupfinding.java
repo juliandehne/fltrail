@@ -38,4 +38,9 @@ public class DummyGroupfinding implements IGroupFinding {
             StudentIdentifier student) {
         return null;
     }
+
+    @Override
+    public int getMinNumberOfStudentsNeeded(Project project) {
+        return 2;
+    }
 }

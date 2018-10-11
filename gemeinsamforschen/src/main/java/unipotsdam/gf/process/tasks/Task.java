@@ -9,15 +9,6 @@ public class Task {
 
     // optional: only relevant if the task is show on the side
     private Object taskData;
-
-    TaskName getTaskName() {
-        return taskName;
-    }
-
-    void setTaskName(TaskName taskName) {
-        this.taskName = taskName;
-    }
-
     private TaskName taskName;
     private Boolean hasRenderModel;
 
@@ -54,6 +45,14 @@ public class Task {
     public Task() {
     }
 
+    public TaskName getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(TaskName taskName) {
+        this.taskName = taskName;
+    }
+
     public TaskType[] getTaskType() {
         return taskType;
     }
@@ -70,13 +69,6 @@ public class Task {
         this.taskData = taskData;
     }
 
-    public TaskName getRenderModel() {
-        return taskName;
-    }
-
-    public void setRenderModel(TaskName renderModel) {
-        this.taskName = renderModel;
-    }
 
     public Long getEventCreated() {
         return eventCreated;

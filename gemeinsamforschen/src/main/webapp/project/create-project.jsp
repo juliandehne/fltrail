@@ -11,7 +11,6 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 
 
-
 <html>
 
 <head>
@@ -20,6 +19,7 @@
     <title>Projekterstellung</title>
     <omniDependencies:omniDependencies hierarchy="1"/>
     <script src="../groupfinding/js/config.js"></script>
+    <script src="js/edit-group-settings.js"></script>
     <script src="js/create-project.js"></script>
 </head>
 
@@ -60,6 +60,16 @@
         <p> Passwort zum Löschen (sonst: 1234) </p>
         <div class="form-group"><input class="form-control" name="adminpassword" placeholder="Passwort"
                                        style="width:287px;margin-left:51px;" id="adminPassword"></div>
+        <p>Gruppenarbeitseinstellungen</p>
+        <input type="radio" id="lg" name="gfm" value="Basierend auf Lernzielen">
+            <label for="lg">Basierend auf Lernzielen</label>
+        <input type="radio" id="ml" name="gfm" value="per Hand">
+            <label for="ml">per Hand</label>
+        <input type="radio" id="bp" name="gfm" value="Basierend auf Präferenzen">
+            <label for="bp">Basierend auf Präferenzen</label>
+        <input type="radio" id="single" name="gfm" value="Keine Gruppen">
+            <label for="single">Einzelarbeit</label>
+
         <p>Tags </p>
         <div id="tagHelper" class="alert alert-warning" style="width:475px;">
             Fügen sie zudem 5 Tags zu ihrem Projekt hinzu, welche ihr Projekt inhaltlich umreißen.
@@ -67,7 +77,7 @@
         <div class="form-group"><input class="tags" data-role="tags" name="Tags" placeholder="Tags"
                                        id="tagsProject">
         </div>
-       <%-- <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>--%>
+        <%-- <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>--%>
 
         <div class="form-group">
             <button class="btn btn-primary" style="margin-left:129px;" id="sendProject">erstellen</button>

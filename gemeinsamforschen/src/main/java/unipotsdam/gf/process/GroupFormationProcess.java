@@ -28,6 +28,10 @@ public class GroupFormationProcess {
     @Inject
     private IGroupFinding groupfinding;
 
+    public void setGroupFormationMechanism(GroupFormationMechanism groupFormationMechanism, Project project) {
+        projectDAO.setGroupFormationMechanism(groupFormationMechanism, project);
+    }
+
     public void changeGroupFormationMechanism(GroupFormationMechanism groupFormationMechanism, Project project) {
         projectDAO.changeGroupFormationMechanism(groupFormationMechanism, project);
         taskDAO.persistTeacherTask(project, TaskName.FORM_GROUPS_MANUALLY, Phase.GroupFormation);
