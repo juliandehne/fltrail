@@ -28,11 +28,11 @@ public class SubmissionPartPostRequest {
     }
 
     // methods
-    public String getUserId() {
+    public String getUserEmail() {
         return userEmail;
     }
 
-    public void setUserId(String userEmail) {
+    public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
 

@@ -1,3 +1,4 @@
+/*
 $(document).ready(function(){
     let userEmail = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
@@ -116,7 +117,7 @@ function fitObjectInTmpl(object){
         switch (object.taskName) {
             case "UPLOAD_DOSSIER":
                 result.solveTaskWith="Lege ein Dossier an";
-                result.solveTaskWithLink="../annotation/annotation-document.jsp?projectName="+object.projectName;
+                result.solveTaskWithLink="../annotation/upload-unstructured-dossier.jsp?projectName="+object.projectName;
                 break;
             case "GIVE_FEEDBACK":
                 result.solveTaskWith="Erteile Feedback";
@@ -174,4 +175,4 @@ function fillObjectWithTasks(response){
             });
     }
     return tempObject;
-}
+}*/

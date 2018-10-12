@@ -26,7 +26,7 @@ $(document).ready(function () {
 
     }, function () {
         // jump to upload page on error
-        location.href = "upload-unstructured-annotation.jsp"
+        // location.href = "upload-unstructured-dossier.jsp"
     });
 
     // set click listener to save button
@@ -78,7 +78,7 @@ function getSubmissionIdFromUrl() {
         var temp = parts[i].split("=");
         $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
     }
-    return $_GET['submission'];
+    return $_GET['submissionId'];
 
 }
 
@@ -247,7 +247,7 @@ function saveButtonHandler() {
     // show alert message
     if (window.confirm("Möchten Sie wirklich ihre Annotationen speichern?")) {
         // declare array of promises
-        let promises = []
+        let promises = [];
         $('#annotations').find('.category-card').each(function () {
             let array = $(this).data('array');
             if (array != null) {
@@ -285,7 +285,7 @@ function saveButtonHandler() {
 
         $.when.apply($, promises).then(function () {
             // redirect user to project page after saving
-            location.href = "../../project/projects-student.jsp"
+            location.href = "../project/tasks-student.jsp?projectName=" + getQueryVariable('projectName');
         });
 
         // redirect user to project page after saving

@@ -1,6 +1,10 @@
 package unipotsdam.gf.modules.submission.controller;
 
 import com.google.common.base.Strings;
+import org.slf4j.LoggerFactory;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.ISubmission;
@@ -15,6 +19,7 @@ import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 /**
  * @author Sven Kästle
@@ -25,6 +30,7 @@ public class SubmissionController implements ISubmission {
     @Inject
     MysqlConnect connection;
 
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SubmissionController.class);
 
     @Override
     public FullSubmission addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest) {
@@ -41,13 +47,14 @@ public class SubmissionController implements ISubmission {
 
         // build and execute request
         String request = "INSERT INTO fullsubmissions (`id`, `user`, `text`, `projectName`) VALUES (?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, fullSubmissionPostRequest.getUser(), fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectId());
-
-        // get the new submission from database
-        FullSubmission fullSubmission = getFullSubmission(uuid);
+        connection.issueInsertOrDeleteStatement(request, uuid, fullSubmissionPostRequest.getUser(),
+                fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectName());
 
         // close connection
         connection.close();
+
+        // get the new submission from database
+        FullSubmission fullSubmission = getFullSubmission(uuid);
 
         return fullSubmission;
 
@@ -57,8 +64,9 @@ public class SubmissionController implements ISubmission {
     public FullSubmission getFullSubmission(String fullSubmissionId) {
 
         // establish connection
-
         connection.connect();
+
+        FullSubmission fullSubmission = null;
 
         // build and execute request
         String request = "SELECT * FROM fullsubmissions WHERE id = ?;";
@@ -66,50 +74,23 @@ public class SubmissionController implements ISubmission {
 
         if (rs.next()) {
             // save submission
-            FullSubmission fullSubmission = getFullSubmissionFromResultSet(rs);
+            fullSubmission = getFullSubmissionFromResultSet(rs);
 
-            // close connection
-            connection.close();
-
-            return fullSubmission;
-        } else {
-
-            // close connection
-            connection.close();
-
-            return null;
         }
+
+        connection.close();
+
+        return fullSubmission;
 
     }
 
-    @Override
-    public boolean existsFullSubmissionId(String id) {
-
-        // establish connection
-
-        connection.connect();
+    private boolean existsFullSubmissionId(String id) {
 
         // build and execute request
         String request = "SELECT COUNT(*) > 0 AS `exists` FROM fullsubmissions WHERE id = ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, id);
 
-        if (rs.next()) {
-            // save the response
-            int count = rs.getInt("exists");
-
-            // close connection
-            connection.close();
-
-            // return true if we found the id
-            if (count < 1) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-        // something happened
-        return true;
+        return hasRow(rs);
 
     }
 
@@ -117,66 +98,104 @@ public class SubmissionController implements ISubmission {
     public SubmissionPart addSubmissionPart(SubmissionPartPostRequest submissionPartPostRequest) {
 
         // establish connection
-
         connection.connect();
 
         // build and execute request
-        String request = "INSERT IGNORE INTO submissionparts (`userEmail`, `fullSubmissionId`, `category`) VALUES (?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, submissionPartPostRequest.getUserId(), submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory().toString().toUpperCase());
+        String request =
+                "INSERT IGNORE INTO submissionparts (`userEmail`, `fullSubmissionId`, `category`) VALUES (?,?,?);";
 
-        // declare request string
-        String requestElement;
+        connection.issueInsertOrDeleteStatement(request, submissionPartPostRequest.getUserEmail(),
+                submissionPartPostRequest.getFullSubmissionId(),
+                submissionPartPostRequest.getCategory().toString().toUpperCase());
+
+
+
         for (SubmissionPartBodyElement element : submissionPartPostRequest.getBody()) {
 
             // calculate how many similar elements are next to the new element
-            int similarElements = numOfSimilarBodyElements(submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory(), element.getStartCharacter(), element.getEndCharacter());
 
+            int similarElements = numOfSimilarBodyElements(submissionPartPostRequest.getFullSubmissionId(),
+                    submissionPartPostRequest.getCategory(), element.getStartCharacter(), element.getEndCharacter());
+
+
+            // hotfix
+            //int similarElements = 0;
             switch (similarElements) {
                 // similar element on the left side
                 case -1:
-                    requestElement = "UPDATE submissionpartbodyelements SET endCharacter = ? WHERE fullSubmissionId = ? AND category = ? AND endCharacter = ?;";
-                    connection.issueUpdateStatement(requestElement, element.getEndCharacter(), submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory(), element.getStartCharacter());
+                    log.info("case -1");
+
+                    String requestElement =
+                            "UPDATE submissionpartbodyelements SET endCharacter = ? WHERE fullSubmissionId = ? AND category = ? AND endCharacter = ?;";
+                    connection.issueUpdateStatement(requestElement, element.getEndCharacter(),
+                            submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory(),
+                            element.getStartCharacter());
+
                     break;
                 // no similar element
                 case 0:
-                    if (!hasOverlappingBoundaries(submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory(), element)) {
-                        requestElement = "INSERT IGNORE INTO submissionpartbodyelements (`fullSubmissionId`, `category`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?);";
-                        connection.issueInsertOrDeleteStatement(requestElement, submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory().toString().toUpperCase(), element.getStartCharacter(), element.getEndCharacter());
+                    log.info("case 0");
+
+                    if (!hasOverlappingBoundaries(submissionPartPostRequest.getFullSubmissionId(),
+                            submissionPartPostRequest.getCategory(), element)) {
+                        String requestElement0 =
+                                "INSERT IGNORE INTO submissionpartbodyelements (`fullSubmissionId`, `category`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?);";
+                        connection.issueInsertOrDeleteStatement(requestElement0,
+                                submissionPartPostRequest.getFullSubmissionId(),
+                                submissionPartPostRequest.getCategory().toString().toUpperCase(),
+                                element.getStartCharacter(), element.getEndCharacter());
                     }
+
                     break;
                 // similar element on the right side
                 case 1:
-                    requestElement = "UPDATE submissionpartbodyelements SET startCharacter = ? WHERE fullSubmissionId = ? AND category = ? AND startCharacter = ?;";
-                    connection.issueUpdateStatement(requestElement, element.getStartCharacter(), submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory(), element.getEndCharacter());
+                    log.info("case 1");
+
+                    String requestElement1 =
+                            "UPDATE submissionpartbodyelements SET startCharacter = ? WHERE fullSubmissionId = ? AND category = ? AND startCharacter = ?;";
+
+                    int startCharacter = element.getStartCharacter();
+                    String fullSubmissionId = submissionPartPostRequest.getFullSubmissionId();
+                    Category category = submissionPartPostRequest.getCategory();
+                    int endCharacter = element.getEndCharacter();
+                    connection.issueUpdateStatement(requestElement1, startCharacter, fullSubmissionId, category,
+                            endCharacter);
+
                     break;
                 // similar elements on both sides
                 case 2:
+                    log.info("case 2");
+
                     // fetch end character from right element
-                    requestElement = "SELECT endCharacter FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND startCharacter = ?;";
-                    VereinfachtesResultSet rs = connection.issueSelectStatement(requestElement, submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory(), element.getEndCharacter());
+                    String requestElement2 =
+                            "SELECT endCharacter FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND startCharacter = ?;";
+                    VereinfachtesResultSet rs = connection
+                            .issueSelectStatement(requestElement2, submissionPartPostRequest.getFullSubmissionId(),
+                                    submissionPartPostRequest.getCategory(), element.getEndCharacter());
+                    rs.next();
+                    Integer end = rs.getInt("endCharacter");
 
                     // delete right element
-                    String deleteElement = "DELETE FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND startCharacter = ?;";
-                    connection.issueInsertOrDeleteStatement(deleteElement, submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory(), element.getEndCharacter());
+                    String deleteElement =
+                            "DELETE FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND startCharacter = ?;";
+                    connection.issueInsertOrDeleteStatement(deleteElement,
+                            submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory(),
+                            element.getEndCharacter());
 
-                    if (rs.next()) {
-                        int end = rs.getInt("endCharacter");
-
-                        // update left element
-                        String updateElement = "UPDATE submissionpartbodyelements SET endCharacter = ? WHERE fullSubmissionId = ? AND category = ? AND endCharacter = ?;";
-                        connection.issueUpdateStatement(updateElement, end, submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory(), element.getStartCharacter());
-
-                    }
+                    // update left element
+                    String updateElement =
+                            "UPDATE submissionpartbodyelements SET endCharacter = ? WHERE fullSubmissionId = ? AND category = ? AND endCharacter = ?;";
+                    connection.issueUpdateStatement(updateElement, end, submissionPartPostRequest.getFullSubmissionId(),
+                            submissionPartPostRequest.getCategory(), element.getStartCharacter());
 
             }
-
         }
 
-        // get the new submission from database
-        SubmissionPart submissionPart = getSubmissionPart(submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory());
-
-        // close connection
         connection.close();
+
+        // get the new submission from database
+        SubmissionPart submissionPart = getSubmissionPart(submissionPartPostRequest.getFullSubmissionId(),
+                submissionPartPostRequest.getCategory());
 
         return submissionPart;
 
@@ -185,17 +204,16 @@ public class SubmissionController implements ISubmission {
     @Override
     public SubmissionPart getSubmissionPart(String fullSubmissionId, Category category) {
 
-        // establish connection
-
         connection.connect();
+
+        // result
+        SubmissionPart submissionPart = null;
 
         // declare text
         String text;
 
         // build and execute request to receive text
-        String requestText = "SELECT text " +
-                "FROM fullsubmissions " +
-                "WHERE id = ?";
+        String requestText = "SELECT text " + "FROM fullsubmissions " + "WHERE id = ?";
         VereinfachtesResultSet rsText = connection.issueSelectStatement(requestText, fullSubmissionId);
 
         if (rsText.next()) {
@@ -203,31 +221,19 @@ public class SubmissionController implements ISubmission {
             text = rsText.getString("text");
 
             // build and execute request
-            String request = "SELECT * FROM submissionparts s " +
-                    "LEFT JOIN submissionpartbodyelements b " +
-                    "ON s.fullSubmissionId = b.fullSubmissionId " +
-                    "AND s.category = b.category " +
-                    "WHERE s.fullSubmissionId = ? " +
-                    "AND s.category = ?;";
+            String request =
+                    "SELECT * FROM submissionparts s " + "LEFT JOIN submissionpartbodyelements b " + "ON s.fullSubmissionId = b.fullSubmissionId " + "AND s.category = b.category " + "WHERE s.fullSubmissionId = ? " + "AND s.category = ?;";
             VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId, category);
 
             if (rs.next()) {
                 // save submission
-                SubmissionPart submissionPart = getSubmissionPartFromResultSet(rs, text);
+                submissionPart = getSubmissionPartFromResultSet(rs, text);
 
-                // close connection
-                connection.close();
-
-                return submissionPart;
-            } else {
-                // close connection
-                connection.close();
-
-                return null;
             }
         }
+        connection.close();
 
-        return null;
+        return submissionPart;
 
     }
 
@@ -238,13 +244,14 @@ public class SubmissionController implements ISubmission {
 
         connection.connect();
 
+        // result
+        ArrayList<SubmissionPart> submissionParts = new ArrayList<>();
+
         // declare text
         String text;
 
         // build and execute request to receive text
-        String requestText = "SELECT text " +
-                "FROM fullsubmissions " +
-                "WHERE id = ?";
+        String requestText = "SELECT text " + "FROM fullsubmissions " + "WHERE id = ?";
         VereinfachtesResultSet rsText = connection.issueSelectStatement(requestText, fullSubmissionId);
 
         if (rsText.next()) {
@@ -252,32 +259,20 @@ public class SubmissionController implements ISubmission {
             text = rsText.getString("text");
 
             // build and execute request
-            String request = "SELECT * " +
-                    "FROM submissionparts sp " +
-                    "LEFT JOIN submissionpartbodyelements  spbe " +
-                    "ON sp.fullSubmissionId = spbe.fullSubmissionId " +
-                    "AND sp.category = spbe.category " +
-                    "WHERE sp.fullSubmissionId = ? " +
-                    "ORDER BY sp.timestamp;";
+            String request =
+                    "SELECT * " + "FROM submissionparts sp " + "LEFT JOIN submissionpartbodyelements  spbe " + "ON sp.fullSubmissionId = spbe.fullSubmissionId " + "AND sp.category = spbe.category " + "WHERE sp.fullSubmissionId = ? " + "ORDER BY sp.timestamp;";
             VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId);
-
-            ArrayList<SubmissionPart> submissionParts = new ArrayList<>();
 
             if (rs.next()) {
                 // save submission
                 submissionParts = getAllSubmissionPartsFromResultSet(rs, text);
             }
-
-            // close connection
-            connection.close();
-
-            return submissionParts;
         }
 
         // close connection
         connection.close();
 
-        return null;
+        return submissionParts;
 
     }
 
@@ -289,11 +284,8 @@ public class SubmissionController implements ISubmission {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT s.userEmail, s.category, s.fullSubmissionId " +
-                "FROM fullsubmissions f " +
-                "LEFT JOIN submissionparts s " +
-                "ON f.id = s.fullSubmissionId " +
-                "WHERE f.projectName = ?";
+        String request =
+                "SELECT s.userEmail, s.category, s.fullSubmissionId " + "FROM fullsubmissions f " + "LEFT JOIN submissionparts s " + "ON f.id = s.fullSubmissionId " + "WHERE f.projectName = ?";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, projectName);
 
         ArrayList<SubmissionProjectRepresentation> representations;
@@ -316,15 +308,18 @@ public class SubmissionController implements ISubmission {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT COUNT(*) > 0 AS `exists` FROM submissionparts WHERE fullSubmissionId = ? AND category = ?;";
+        String request =
+                "SELECT COUNT(*) > 0 AS `exists` FROM submissionparts WHERE fullSubmissionId = ? AND category = ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId, category);
 
+        return hasRow(rs);
+
+    }
+
+    private Boolean hasRow(VereinfachtesResultSet rs) {
         if (rs.next()) {
             // save the response
             int count = rs.getInt("exists");
-
-            // close connection
-            connection.close();
 
             // return true if we found the id
             if (count < 1) {
@@ -333,10 +328,7 @@ public class SubmissionController implements ISubmission {
                 return true;
             }
         }
-
-        // something happened
-        return true;
-
+        return null;
     }
 
     /**
@@ -424,13 +416,9 @@ public class SubmissionController implements ISubmission {
                 }
 
                 // build submission part with empty body
-                tmpPart = new SubmissionPart(
-                        rs.getTimestamp("timestamp").getTime(),
-                        rs.getString("userEmail"),
-                        rs.getString("fullSubmissionId"),
-                        Category.valueOf(tmpCategory),
-                        new ArrayList<SubmissionPartBodyElement>()
-                );
+                tmpPart = new SubmissionPart(rs.getTimestamp("timestamp").getTime(), rs.getString("userEmail"),
+                        rs.getString("fullSubmissionId"), Category.valueOf(tmpCategory),
+                        new ArrayList<SubmissionPartBodyElement>());
             }
 
             // initialize body variables
@@ -450,17 +438,15 @@ public class SubmissionController implements ISubmission {
         return submissionParts;
     }
 
-    private ArrayList<SubmissionProjectRepresentation> getAllSubmissionProjectRepresentationsFromResultSet(VereinfachtesResultSet rs) {
+    private ArrayList<SubmissionProjectRepresentation> getAllSubmissionProjectRepresentationsFromResultSet(
+            VereinfachtesResultSet rs) {
 
         ArrayList<SubmissionProjectRepresentation> representations = new ArrayList<>();
 
         while (rs.next()) {
             if (!Strings.isNullOrEmpty(rs.getString("category"))) {
-                representations.add(new SubmissionProjectRepresentation(
-                        rs.getString("userEmail"),
-                        Category.valueOf(rs.getString("category").toUpperCase()),
-                        rs.getString("fullSubmissionId")
-                ));
+                representations.add(new SubmissionProjectRepresentation(rs.getString("userEmail"),
+                        Category.valueOf(rs.getString("category").toUpperCase()), rs.getString("fullSubmissionId")));
             }
         }
 
@@ -478,14 +464,15 @@ public class SubmissionController implements ISubmission {
      * @return Return 0 if there are no similar elements, 2 if we found two similar elements (right and left side),
      * 1 if we found a similar element on the right side and -1 if we found a similar element on the left side.
      */
-    private int numOfSimilarBodyElements(String fullSubmissionId, Category category, int startCharacter, int endCharacter) {
-        // establish connection
-
-        connection.connect();
+    private int numOfSimilarBodyElements(
+            String fullSubmissionId, Category category, int startCharacter, int endCharacter) {
 
         // build and execute request
-        String request = "SELECT COUNT(*) AS `count` FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND (endCharacter = ? OR startCharacter = ?);";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId, category.toString().toUpperCase(), startCharacter, endCharacter);
+        String request =
+                "SELECT COUNT(*) AS `count` FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND (endCharacter = ? OR startCharacter = ?);";
+        VereinfachtesResultSet rs = connection
+                .issueSelectStatement(request, fullSubmissionId, category.toString().toUpperCase(), startCharacter,
+                        endCharacter);
 
         if (rs.next()) {
             // save the response
@@ -495,15 +482,15 @@ public class SubmissionController implements ISubmission {
             if (count == 1) {
 
                 // build and execute request to find out on which side we found a similar body element
-                String requestSide = "SELECT COUNT(*) AS `side` FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND endCharacter = ?;";
-                VereinfachtesResultSet rsSide = connection.issueSelectStatement(requestSide, fullSubmissionId, category.toString().toUpperCase(), startCharacter);
+                String requestSide =
+                        "SELECT COUNT(*) AS `side` FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND endCharacter = ?;";
+                VereinfachtesResultSet rsSide = connection
+                        .issueSelectStatement(requestSide, fullSubmissionId, category.toString().toUpperCase(),
+                                startCharacter);
 
                 if (rsSide.next()) {
                     // save the response
                     int side = rsSide.getInt("side");
-
-                    // close connection
-                    connection.close();
 
                     if (side == 1) {
                         return -1;
@@ -513,8 +500,6 @@ public class SubmissionController implements ISubmission {
 
                 }
             } else {
-                // close connection
-                connection.close();
 
                 return count;
             }
@@ -532,40 +517,41 @@ public class SubmissionController implements ISubmission {
      * @param element          The new element
      * @return Returns true if overlapping boundaries have been found
      */
-    private boolean hasOverlappingBoundaries(String fullSubmissionId, Category category, SubmissionPartBodyElement element) {
-
-        // establish connection
-
-        connection.connect();
+    private boolean hasOverlappingBoundaries(
+            String fullSubmissionId, Category category, SubmissionPartBodyElement element) {
 
         // initialize start and end character
         int start = element.getStartCharacter();
         int end = element.getEndCharacter();
 
         // build and execute request
-        String request = "SELECT COUNT(*) > 0 AS `exists` FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND (" +
-                "(startCharacter <= ? AND ? <= endCharacter) OR " + // start character overlapping
-                "(startCharacter <= ? AND ? <= endCharacter));"; // end character overlapping
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId, category.toString(), start, start, end, end);
+        String request =
+                "SELECT COUNT(*) > 0 AS `exists` FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND (" + "(startCharacter <= ? AND ? <= endCharacter) OR " + // start character overlapping
+                        "(startCharacter <= ? AND ? <= endCharacter));"; // end character overlapping
+        VereinfachtesResultSet rs =
+                connection.issueSelectStatement(request, fullSubmissionId, category.toString(), start, start, end, end);
+
+        return hasRow(rs);
+    }
+
+    public SubmissionRenderData getSubmissionData(User user, Project project) {
+        String query = "SELECT id FROM fullsubmissions WHERE user = ? AND projectName = ?";
+        SubmissionRenderData data = new SubmissionRenderData();
+
+        connection.connect();
+
+        VereinfachtesResultSet rs = connection.issueSelectStatement(query, user.getEmail(), project.getName());
 
         if (rs.next()) {
-            // save the response
-            int count = rs.getInt("exists");
-
-            // close connection
-            connection.close();
-
-            // return true if we found the id
-            if (count < 1) {
-                return false;
-            } else {
-                return true;
-            }
+            String id = rs.getString("id");
+            data.setFullSubmissionId(id);
+        } else {
+            // TODO handle "error"
         }
 
-        // something happened
-        return true;
+        connection.close();
 
+        return data;
     }
 
 }

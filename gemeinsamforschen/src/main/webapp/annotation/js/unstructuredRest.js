@@ -5,7 +5,7 @@
  * @param responseHandler The response handler
  */
 function createFullSubmission(fullSubmissionPostRequest, responseHandler) {
-    var url = "../rest/submissions/full/";
+    var url = "../rest/submissions/full";
     var json = JSON.stringify(fullSubmissionPostRequest);
     $.ajax({
         url: url,

@@ -38,11 +38,11 @@ public class SubmissionPart {
         this.timestamp = timestamp;
     }
 
-    public String getUserId() {
+    public String getUserEmail() {
         return userEmail;
     }
 
-    public void setUserId(String userEmail) {
+    public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
 

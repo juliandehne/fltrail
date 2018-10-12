@@ -35,7 +35,9 @@ function fitObjectInTmpl(object){
         phase: "",
         solveTaskWith: "",
         helpLink: "",
-        timeFrame: ""
+        timeFrame: "",
+        taskData: object.taskData
+
     };
     if (object.taskType!=="INFO"){
         if (object.groupTask===true){
@@ -104,7 +106,7 @@ function fitObjectInTmpl(object){
                 break;*/
             case "UPLOAD_DOSSIER":
                 result.solveTaskWith="Lege ein Dossier an";
-                result.solveTaskWithLink="../annotation/annotation-document.jsp?projectName="+object.projectName;
+                result.solveTaskWithLink="../annotation/upload-unstructured-dossier.jsp?projectName="+object.projectName;
                 break;
             case "GIVE_FEEDBACK":
                 result.solveTaskWith="Erteile Feedback";
@@ -120,7 +122,7 @@ function fitObjectInTmpl(object){
                 break;
             case "FINALIZE_DOSSIER":
                 result.solveTaskWith="Finalisiere das Dossier";
-                result.solveTaskWithLink="../annotation/annotation-document.jsp?projectName="+object.projectName;
+                result.solveTaskWithLink="../annotation/create-unstructured-annotation.jsp?projectName="+object.projectName+"&submissionId=" + object.taskData.fullSubmissionId;
                 break;
             case "FINALIZE_EJOURNAL":
                 result.solveTaskWith="Finalisiere dein EJournal";

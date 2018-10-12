@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.submission.view;
 
 import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
@@ -8,7 +9,10 @@ import unipotsdam.gf.modules.submission.model.SubmissionPart;
 import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
 import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 import unipotsdam.gf.modules.submission.model.SubmissionResponse;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.process.DossierCreationProcess;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -29,13 +33,18 @@ import java.util.ArrayList;
 @Produces(MediaType.APPLICATION_JSON)
 public class SubmissionService {
 
+    @Inject
+    private DossierCreationProcess dossierCreationProcess;
+
+    @Inject
+    private SubmissionController submissionController;
+
     @POST
     @Path("/full")
     public Response addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest) {
         // save full submission request in database and return the new full submission
-        SubmissionController controller = new SubmissionController();
-        FullSubmission fullSubmission = controller.addFullSubmission(fullSubmissionPostRequest);
-
+        final FullSubmission fullSubmission = dossierCreationProcess.addSubmission(fullSubmissionPostRequest, new
+                User(fullSubmissionPostRequest.getUser()), new Project(fullSubmissionPostRequest.getProjectName()));
         return Response.ok(fullSubmission).build();
     }
 
@@ -44,8 +53,8 @@ public class SubmissionService {
     public Response getFullSubmission(@PathParam("id") String fullSubmissionId) {
 
         // get full submission from database based by id
-        SubmissionController controller = new SubmissionController();
-        FullSubmission fullSubmission = controller.getFullSubmission(fullSubmissionId);
+
+        FullSubmission fullSubmission = submissionController.getFullSubmission(fullSubmissionId);
 
         if (fullSubmission != null) {
             return Response.ok(fullSubmission).build();
@@ -63,8 +72,7 @@ public class SubmissionService {
     @Path("/part")
     public Response addSubmissionPart(SubmissionPartPostRequest submissionPartPostRequest) {
         // save submission part request in the database and return the new submission part
-        SubmissionController controller = new SubmissionController();
-        SubmissionPart submissionPart = controller.addSubmissionPart(submissionPartPostRequest);
+        SubmissionPart submissionPart = submissionController.addSubmissionPart(submissionPartPostRequest);
 
         return Response.ok(submissionPart).build();
     }
@@ -73,8 +81,8 @@ public class SubmissionService {
     @Path("/full/{id}/category/{category}")
     public Response getSubmissionPart(@PathParam("id") String fullSubmissionId, @PathParam("category") String category) {
         // get submission part from database based by id
-        SubmissionController controller = new SubmissionController();
-        SubmissionPart submissionPart = controller.getSubmissionPart(fullSubmissionId, Category.valueOf(category.toUpperCase()));
+        SubmissionPart submissionPart = submissionController.getSubmissionPart(fullSubmissionId, Category.valueOf(category.toUpperCase
+                ()));
 
         if (submissionPart != null) {
             return Response.ok(submissionPart).build();
@@ -91,8 +99,8 @@ public class SubmissionService {
     @Path("/full/{id}/parts")
     public Response getAllSubmissionParts(@PathParam("id") String fullSubmissionId) {
         // get submission parts from database based by id
-        SubmissionController controller = new SubmissionController();
-        ArrayList<SubmissionPart> parts = controller.getAllSubmissionParts(fullSubmissionId);
+
+        ArrayList<SubmissionPart> parts = submissionController.getAllSubmissionParts(fullSubmissionId);
 
         if (parts.size() > 0) {
             return Response.ok(parts).build();
@@ -108,8 +116,7 @@ public class SubmissionService {
     @Path("/project/{projectName}")
     public Response getSubmissionPartsByProjectId(@PathParam("projectName") String projectName) {
         // get submission project representation from database based by project id
-        SubmissionController controller = new SubmissionController();
-        ArrayList<SubmissionProjectRepresentation> representations = controller.getSubmissionPartsByProjectId(projectName);
+        ArrayList<SubmissionProjectRepresentation> representations = submissionController.getSubmissionPartsByProjectId(projectName);
 
         if (representations.size() > 0) {
             return Response.ok(representations).build();

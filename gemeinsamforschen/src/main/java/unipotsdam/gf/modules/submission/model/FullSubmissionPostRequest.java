@@ -38,11 +38,11 @@ public class FullSubmissionPostRequest {
         this.text = text;
     }
 
-    public String getProjectId() {
+    public String getProjectName() {
         return projectName;
     }
 
-    public void setProjectId(String projectName) {
+    public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
 

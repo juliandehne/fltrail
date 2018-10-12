@@ -3,6 +3,8 @@ package unipotsdam.gf.process.tasks;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.submission.controller.SubmissionController;
+import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.user.User;
@@ -31,6 +33,9 @@ public class TaskDAO {
     @Inject
     private IGroupFinding groupFinding;
 
+    @Inject
+    private SubmissionController submissionController;
+
 
     // fill the task with the general data
     private Task getGeneralTask(VereinfachtesResultSet vereinfachtesResultSet) {
@@ -46,13 +51,13 @@ public class TaskDAO {
         task.setPhase(Phase.valueOf(vereinfachtesResultSet.getString("phase")));
         task.setTaskName(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
         task.setHasRenderModel(false);
-        getTaskModes(vereinfachtesResultSet, task);
-
+        TaskType[] taskTypes = getTaskModes(vereinfachtesResultSet).toArray(new TaskType[0]);
+        task.setTaskType(taskTypes);
         return task;
     }
 
     // bundle the taskModes
-    private void getTaskModes(VereinfachtesResultSet vereinfachtesResultSet, Task task) {
+    private ArrayList<TaskType> getTaskModes(VereinfachtesResultSet vereinfachtesResultSet) {
         ArrayList<TaskType> taskTypes = new ArrayList<>();
         String taskMode = vereinfachtesResultSet.getString("taskMode");
         String taskMode2 = vereinfachtesResultSet.getString("taskMode2");
@@ -68,7 +73,8 @@ public class TaskDAO {
             taskTypes.add(TaskType.valueOf(vereinfachtesResultSet.getString("taskMode3")));
 
         }
-        task.setTaskType(taskTypes.toArray(new TaskType[0]));
+
+        return taskTypes;
     }
 
 
@@ -114,9 +120,17 @@ public class TaskDAO {
                     result.add(getTaskWaitForParticipants(vereinfachtesResultSet));
                     break;
                 }
+                case FINALIZE_DOSSIER: {
+                    Task finalizeDossierTask = getFinalizeDossierTask(vereinfachtesResultSet);
+                    //finalizeDossierTask.setTaskType(TaskType.LINKED);
+                    result.add(finalizeDossierTask);
+                    break;
+                }
                 case UPLOAD_DOSSIER: {
                     Task generalTask = getGeneralTask(vereinfachtesResultSet);
-                    generalTask.setTaskType(TaskType.LINKED);
+                    //generalTask.setTaskType(TaskType.LINKED);
+                    result.add(generalTask);
+                    break;
                 }
                 default: {
                     result.add(getGeneralTask(vereinfachtesResultSet));
@@ -129,6 +143,11 @@ public class TaskDAO {
         return result;
     }
 
+    private Task getFinalizeDossierTask(VereinfachtesResultSet vereinfachtesResultSet) {
+        Task task = getGeneralTask(vereinfachtesResultSet);
+        task.setTaskData(submissionController.getSubmissionData(new User(task.getUserEmail()), new Project(task.getProjectName())));
+        return task;
+    }
 
 
     public void persist(Project project, User target, TaskName taskName, Phase phase) {
@@ -209,5 +228,10 @@ public class TaskDAO {
         for (User member : members) {
             persist(project, member, taskName, phase);
         }
+    }
+
+    public void persist(Project project, User user, TaskName finalizeDossier, Phase dossierFeedback, TaskType linked) {
+        Task task = createDefault(project, user, finalizeDossier, dossierFeedback);
+        task.setTaskType(linked);
     }
 }

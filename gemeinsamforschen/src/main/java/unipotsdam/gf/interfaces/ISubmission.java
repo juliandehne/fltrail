@@ -36,8 +36,8 @@ public interface ISubmission {
      *
      * @param fullSubmissionId The id of the full submission
      * @return Returns true if the id exists
-     */
-    boolean existsFullSubmissionId(String fullSubmissionId);
+     *//*
+    boolean existsFullSubmissionId(String fullSubmissionId);*/
 
     /**
      * Store the submission part text in the database

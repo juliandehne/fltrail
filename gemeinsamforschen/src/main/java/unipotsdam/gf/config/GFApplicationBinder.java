@@ -4,6 +4,7 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
@@ -55,6 +56,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(GroupFormationProcess.class).to(GroupFormationProcess.class);
         bind(ConstraintsImpl.class).to(ConstraintsImpl.class);
         bind(DossierCreationProcess.class).to(DossierCreationProcess.class);
+        bind(SubmissionController.class).to(SubmissionController.class);
         bindMore();
     }
     protected void bindMore() {
