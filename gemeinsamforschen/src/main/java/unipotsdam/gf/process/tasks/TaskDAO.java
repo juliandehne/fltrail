@@ -1,11 +1,9 @@
 package unipotsdam.gf.process.tasks;
 
 import unipotsdam.gf.interfaces.IGroupFinding;
-import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -90,7 +88,7 @@ public class TaskDAO {
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
         task.setProjectName(project.getName());
-        task.setUserEmail(project.getAuthorEmail());
+        task.setUserEmail(target.getEmail());
         task.setImportance(Importance.MEDIUM);
         task.setProgress(Progress.JUSTSTARTED);
         task.setGroupTask(false);
@@ -102,11 +100,11 @@ public class TaskDAO {
     }
 
     // get all the tasks a user has in a specific project
-    public ArrayList<Task> getTaskModes(String userEmail, String projectName) {
+    public ArrayList<Task> getTasks(User user, Project project) {
         connect.connect();
         String query = "Select * from tasks where userEmail = ? AND projectName = ?";
         ArrayList<Task> result = new ArrayList<>();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, userEmail, projectName);
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, user.getEmail(),project.getName());
         while (vereinfachtesResultSet.next()) {
             String taskName = vereinfachtesResultSet.getString("taskName");
 
@@ -114,6 +112,11 @@ public class TaskDAO {
             switch (taskName1) {
                 case WAIT_FOR_PARTICPANTS: {
                     result.add(getTaskWaitForParticipants(vereinfachtesResultSet));
+                    break;
+                }
+                case UPLOAD_DOSSIER: {
+                    Task generalTask = getGeneralTask(vereinfachtesResultSet);
+                    generalTask.setTaskType(TaskType.LINKED);
                 }
                 default: {
                     result.add(getGeneralTask(vereinfachtesResultSet));
@@ -140,8 +143,8 @@ public class TaskDAO {
     }
 
 
-    public void createTaskWaitForParticipants(Project project, User target) {
-        Task task = createDefault(project, target, TaskName.WAIT_FOR_PARTICPANTS, Phase.GroupFormation);
+    public void createTaskWaitForParticipants(Project project, User author) {
+        Task task = createDefault(project, author, TaskName.WAIT_FOR_PARTICPANTS, Phase.GroupFormation);
         task.setTaskName(WAIT_FOR_PARTICPANTS);
         task.setTaskType(TaskType.LINKED, TaskType.INFO);
         persist(task);
@@ -152,6 +155,7 @@ public class TaskDAO {
         task.setTaskType(TaskType.INFO);
         task.setImportance(Importance.MEDIUM);
         task.setProgress(Progress.JUSTSTARTED);
+
         persist(task);
     }
 
@@ -199,9 +203,6 @@ public class TaskDAO {
         connect.close();
     }
 
-    public Task[] getTaskModes(User teacher, Project project) {
-        return getTaskModes(teacher.getEmail(), project.getName()).toArray(new Task[0]);
-    }
 
     public void persistMemberTask(Project project, TaskName taskName, Phase phase) {
         java.util.List<User> members = userDAO.getUsersByProjectName(project.getName());

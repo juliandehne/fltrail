@@ -5,6 +5,7 @@ import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
@@ -53,6 +54,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(ProjectCreationProcess.class).to(ProjectCreationProcess.class);
         bind(GroupFormationProcess.class).to(GroupFormationProcess.class);
         bind(ConstraintsImpl.class).to(ConstraintsImpl.class);
+        bind(DossierCreationProcess.class).to(DossierCreationProcess.class);
         bindMore();
     }
     protected void bindMore() {

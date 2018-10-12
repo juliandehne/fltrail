@@ -73,8 +73,8 @@ public class GroupPhaseTaskTest {
         groupFinding.selectGroupfindingCriteria(groupfindingCriteria, project);*/
 
         taskDAO.createTaskWaitForParticipants(project, teacher);
-        Task[] tasks = taskDAO.getTaskModes(teacher, project);
-        assertTrue(tasks != null && tasks.length > 0);
+        ArrayList<Task> tasks = taskDAO.getTasks(teacher, project);
+        assertTrue(tasks != null && tasks.size() > 0);
 
         ArrayList<User> students = new ArrayList<>();
         for (int i = 0; i<5;i++) {
@@ -95,7 +95,6 @@ public class GroupPhaseTaskTest {
         }
         groupFormationProcess.finalizeGroups(project, group);
 
-        groupFormationProcess.finish(project);
 
     }
 

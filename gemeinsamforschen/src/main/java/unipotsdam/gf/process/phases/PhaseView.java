@@ -1,7 +1,9 @@
 package unipotsdam.gf.process.phases;
 
+import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.process.GroupFormationProcess;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -11,15 +13,21 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * REST API for switching phases
  * In order to look up the possible phases @see unipotsdam.gf.core.states.model.Phase
  */
 @Path("/phases")
-public class PhasesService {
+public class PhaseView {
 
-    private IPhases phases = new PhasesImpl();
+
+
+    @Inject
+    IPhases phases;
 
     @Inject
     private ProjectDAO projectDAO;
@@ -30,11 +38,15 @@ public class PhasesService {
      * @param projectPhase
      * @param projectName
      */
-    @Path("/{projectPhase}/projects/{projectName}")
-    @POST
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public void endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectName") String projectName) {
-        phases.endPhase(Phase.valueOf(projectPhase), projectDAO.getProjectByName(projectName));
+    @Path("/{projectPhase}/projects/{projectName}/end")
+    @GET
+    public Response endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectName") String
+            projectName) throws URISyntaxException {
+        Phase phase = Phase.valueOf(projectPhase);
+        Project project = projectDAO.getProjectByName(projectName);
+        phases.endPhase(phase, project);
+        // just hacked this for
+        return Response.temporaryRedirect(new URI(".")).build();
     }
 
     /**

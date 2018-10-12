@@ -72,6 +72,8 @@ function printTags() {
     });
 }
 
+
+// he is added in compbase to the project
 function takesPartInProject(context) {
 
     document.getElementById('loader').className = "loader";

@@ -82,6 +82,8 @@ public class ProjectView {
         if (!project.getPassword().equals(password) ) {
             return "wrong password";
         }
+
+        // TODO, this should not be called here
         projectCreationProcess.studentEntersProject(project, user);
 
         return "ok";

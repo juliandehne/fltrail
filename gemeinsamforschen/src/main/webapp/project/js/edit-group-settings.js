@@ -13,7 +13,7 @@ function sendGroupPreferences() {
     } else if(gfm == "Keine Gruppen") {
         gfm = "SingleUser";
     }
-    
+
     var localurl = "../../gemeinsamforschen/rest/group/gfm/create/projects/" + projectName;
     $.ajax({
         gfm: gfm,

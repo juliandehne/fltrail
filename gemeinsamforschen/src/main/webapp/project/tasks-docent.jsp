@@ -1,5 +1,5 @@
 <%--
-  todo: probably this page is not needed at all. as well as tasks-docent.js
+  todo: probably this page is not needed at all. as well as tasks.js
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
@@ -10,7 +10,7 @@
 <html lang="de">
 <head>
     <omniDependencies:omniDependencies hierarchy="1"/>
-    <script src="js/tasks-docent.js"></script>
+    <script src="js/tasks.js"></script>
 </head>
 <body>
 <menu:menu hierarchy="1"/>

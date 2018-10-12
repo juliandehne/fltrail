@@ -68,8 +68,6 @@ function fitObjectInTmpl(object){
         default:
             result.phase="";
     }
-    if (object.link !=="")
-        result.helpLink = object.link;
     if (object.deadline != null){
         let daysLeft = Math.round((object.deadline - Date.now())/1000/60/60/24);
         if (daysLeft>=1)
@@ -87,12 +85,23 @@ function fitObjectInTmpl(object){
         case "CLOSE_GROUP_FINDING_PHASE":
             result.infoText="Gehen Sie zur nächsten Phase über.";
             break;
+        case "WAITING_FOR_GROUP":
+            result.infoText="[STUDENT] Die Arbeitsgruppen werden gebildet. Sie werden informiert, wenn es so weit" +
+                " ist.";
+            break;
+        case "EDIT_FORMED_GROUPS":
+            result.infoText = "[TEACHER] Die Gruppen wurden vom Algorithmus gebildet. Sie können noch manuell" +
+                " editiert werden." // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
+            break;
         default:
             result.infoText="";
     }
     if (object.taskType.includes("LINKED")){
-        //todo: implement rest
         switch (object.taskName) {
+           /* case "CLOSE_GROUP_FINDING_PHASE":
+                result.solveTaskWith="Entwurfsphase starten";
+                result.solveTaskWithLink="../../rest/phases/GroupFormation/project/"+object.projectName+"/end";
+                break;*/
             case "UPLOAD_DOSSIER":
                 result.solveTaskWith="Lege ein Dossier an";
                 result.solveTaskWithLink="../annotation/annotation-document.jsp?projectName="+object.projectName;
@@ -151,3 +160,4 @@ function fillObjectWithTasks(response){
     }
     return tempObject;
 }
+

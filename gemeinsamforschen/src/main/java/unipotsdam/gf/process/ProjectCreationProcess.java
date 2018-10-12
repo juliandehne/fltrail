@@ -1,5 +1,8 @@
 package unipotsdam.gf.process;
 
+import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.modules.group.GroupDAO;
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -31,8 +34,15 @@ public class ProjectCreationProcess {
     @Inject
     private TaskDAO taskDao;
 
+    @Inject
+    private GroupDAO groupDAO;
+
+    @Inject
+    private IPhases phases;
+
     /**
      * STEP 1
+     *
      * @param project
      * @param author
      * @throws IOException
@@ -44,11 +54,12 @@ public class ProjectCreationProcess {
         } catch (Exception e) {
             throw new WebApplicationException("Project already exists");
         }
-        taskDao.createTaskWaitForParticipants(project,author);
+        taskDao.createTaskWaitForParticipants(project, author);
     }
 
     /**
      * STEP 2
+     *
      * @param project
      * @param user
      */
@@ -61,9 +72,18 @@ public class ProjectCreationProcess {
 
         // ev. notifity teacher for new student
         // ev. send email that he is now part of project and will be notified if something happens
+
         Boolean groupsCanBeFormed = constraintsImpl.checkIfGroupsCanBeFormed(project);
         if (groupsCanBeFormed) {
-            taskDao.persistTeacherTask(project, TaskName.EDIT_FORMED_GROUPS, Phase.GroupFormation);
+            GroupFormationMechanism groupFormationMechanism = groupDAO.getGroupFormationMechanism(project);
+            if (!groupFormationMechanism.equals(GroupFormationMechanism.SingleUser) && !groupFormationMechanism
+                    .equals(GroupFormationMechanism.Manual)) {
+                taskDao.persistTeacherTask(project, TaskName.EDIT_FORMED_GROUPS, Phase.GroupFormation);
+            } else {
+                //taskDao.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
+                // TODO have teacher do this
+                phases.endPhase(Phase.GroupFormation, project);
+            }
         }
     }
 }

@@ -9,6 +9,8 @@ import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.Messages;
 import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.process.DossierCreationProcess;
+import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import javax.annotation.ManagedBean;
@@ -40,6 +42,10 @@ public class PhasesImpl implements IPhases {
 
     @Inject
     private IJournal iJournal;
+
+    @Inject
+    private DossierCreationProcess dossierCreationProcess;
+
 
     public PhasesImpl() {
     }
@@ -76,6 +82,7 @@ public class PhasesImpl implements IPhases {
                 // inform users about the formed groups, optionally giving them a hint on what happens next
                 iCommunication.sendMessageToUsers(project, Messages.GroupFormation(project));
                 saveState(project, changeToPhase);
+                dossierCreationProcess.startDossierPhase(project);
                 break;
             case DossierFeedback:
                 // check if everybody has uploaded a dossier
