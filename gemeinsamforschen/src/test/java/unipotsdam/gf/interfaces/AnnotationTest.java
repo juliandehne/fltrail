@@ -71,7 +71,7 @@ public class AnnotationTest {
         // the annotation's comment should be "commentOld_testAlterAnnotation"
         assertEquals("The comment of the annotation should be " + commentOld + " but was " + response.getBody().getComment(), commentOld, response.getBody().getComment());
 
-        // alter the annotation and update the database
+        // alter the annotation and updateForUser the database
         AnnotationPatchRequest annotationPatchRequest = new AnnotationPatchRequest(titleNew, commentNew);
         controller.alterAnnotation(response.getId(), annotationPatchRequest);
 

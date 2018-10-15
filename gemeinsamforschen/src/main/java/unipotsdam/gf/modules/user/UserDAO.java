@@ -47,7 +47,7 @@ public class UserDAO {
         String mysqlRequest = "UPDATE `users` SET `name`=?,`password`=?,`email`=?,`isStudent`=?," +
                 "`rocketChatId`=?,`rocketChatAuthToken`=? WHERE email=? LIMIT 1";
         //TODO: maybe add handling if a line is actually updated
-        //TODO: if user is updated, it also must update all other tables which includes some information about the user, for example project user
+        //TODO: if user is updated, it also must updateForUser all other tables which includes some information about the user, for example project user
         connect.connect();
         connect.issueUpdateStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(), user
                 .getStudent(), user.getRocketChatId(), user.getRocketChatAuthToken(), user.getEmail());

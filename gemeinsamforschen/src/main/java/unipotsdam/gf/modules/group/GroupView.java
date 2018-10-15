@@ -50,7 +50,7 @@ public class GroupView {
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/gfm/update/projects/{projectName}")
+    @Path("/gfm/updateForUser/projects/{projectName}")
     public void updateGFM(@PathParam("projectName") String name, String groupFindingMechanism)
             throws URISyntaxException {
 

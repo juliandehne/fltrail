@@ -75,7 +75,7 @@ public class GroupDAO {
         String mysqlRequest = "UPDATE groups SET projectName = ?, chatRoomId = ? where id = ?";
         connect.issueUpdateStatement(mysqlRequest, group.getProjectName(), group.getChatRoomId(), group.getId());
         connect.close();
-        // TODO: implement update of groupuser if needed later (if member list need to be updated)
+        // TODO: implement updateForUser of groupuser if needed later (if member list need to be updated)
     }
 
 

@@ -179,7 +179,7 @@ public class SubmissionController implements ISubmission {
                             submissionPartPostRequest.getFullSubmissionId(), submissionPartPostRequest.getCategory(),
                             element.getEndCharacter());
 
-                    // update left element
+                    // updateForUser left element
                     String updateElement =
                             "UPDATE submissionpartbodyelements SET endCharacter = ? WHERE fullSubmissionId = ? AND category = ? AND endCharacter = ?;";
                     connection.issueUpdateStatement(updateElement, end, submissionPartPostRequest.getFullSubmissionId(),

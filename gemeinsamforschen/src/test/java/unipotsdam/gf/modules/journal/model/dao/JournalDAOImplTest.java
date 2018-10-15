@@ -90,10 +90,10 @@ public class JournalDAOImplTest {
         updateJournal.setCategory(newCategory);
         updateJournal.setEntry(newEntry);
 
-        //update that Journal
+        //updateForUser that Journal
         journalDAO.updateJournal(updateJournal);
 
-        //check if update successful
+        //check if updateForUser successful
         ArrayList<Journal> resultJournals = getJournals();
 
         //Only one Journal should exist
