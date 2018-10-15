@@ -228,5 +228,6 @@ public class TaskDAO {
     public void persist(Project project, User user, TaskName finalizeDossier, Phase dossierFeedback, TaskType linked) {
         Task task = createDefault(project, user, finalizeDossier, dossierFeedback);
         task.setTaskType(linked);
+        persist(task);
     }
 }

@@ -210,6 +210,8 @@ ALTER TABLE `projectuser`
   ADD CONSTRAINT `projectuser_ibfk_2` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`);
 COMMIT;
 
+CREATE UNIQUE INDEX fullsubmissions_user_projectName_uindex ON fullsubmissions (user, projectName);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
