@@ -40,13 +40,14 @@ public class PhaseView {
      */
     @Path("/{projectPhase}/projects/{projectName}/end")
     @GET
-    public Response endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectName") String
+    public String endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectName") String
             projectName) throws URISyntaxException {
         Phase phase = Phase.valueOf(projectPhase);
         Project project = projectDAO.getProjectByName(projectName);
         phases.endPhase(phase, project);
         // just hacked this for
-        return Response.temporaryRedirect(new URI(".")).build();
+        return "ok";
+        //return Response.temporaryRedirect(new URI(".")).build();
     }
 
     /**

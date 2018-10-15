@@ -29,7 +29,7 @@
                     <h4>${infoText}</h4>
                 {{/if}}
                 {{if solveTaskWith}}
-                    <a href="${solveTaskWithLink}"><button class='primary'>${solveTaskWith}</button></a>
+                    <button class='primary' onClick="${solveTaskWithLink}">${solveTaskWith}</button>
                 {{/if}}
                 {{if helpLink}}
                     <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
