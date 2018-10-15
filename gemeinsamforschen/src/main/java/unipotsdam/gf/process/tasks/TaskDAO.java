@@ -36,7 +36,6 @@ public class TaskDAO {
     @Inject
     private SubmissionController submissionController;
 
-
     // fill the task with the general data
     private Task getGeneralTask(VereinfachtesResultSet vereinfachtesResultSet) {
         Task task = new Task();
@@ -76,7 +75,6 @@ public class TaskDAO {
 
         return taskTypes;
     }
-
 
     private Task getTaskWaitForParticipants(VereinfachtesResultSet vereinfachtesResultSet) {
         Task task = getGeneralTask(vereinfachtesResultSet);
@@ -120,7 +118,7 @@ public class TaskDAO {
                     result.add(getTaskWaitForParticipants(vereinfachtesResultSet));
                     break;
                 }
-                case FINALIZE_DOSSIER: {
+                case ANNOTATE_DOSSIER: {
                     Task finalizeDossierTask = getFinalizeDossierTask(vereinfachtesResultSet);
                     //finalizeDossierTask.setTaskType(TaskType.LINKED);
                     result.add(finalizeDossierTask);
@@ -149,7 +147,6 @@ public class TaskDAO {
         return task;
     }
 
-
     public void persist(Project project, User target, TaskName taskName, Phase phase) {
         Task aDefault = createDefault(project, target, taskName, phase);
         persist(aDefault);
@@ -160,7 +157,6 @@ public class TaskDAO {
         Task aDefault = createDefault(project, user, taskName, phase);
         persist(aDefault);
     }
-
 
     public void createTaskWaitForParticipants(Project project, User author) {
         Task task = createDefault(project, author, TaskName.WAIT_FOR_PARTICPANTS, Phase.GroupFormation);
@@ -221,7 +217,6 @@ public class TaskDAO {
                 query, progress.name(), task.getUserEmail(), task.getProjectName(), task.getTaskName());
         connect.close();
     }
-
 
     public void persistMemberTask(Project project, TaskName taskName, Phase phase) {
         java.util.List<User> members = userDAO.getUsersByProjectName(project.getName());
