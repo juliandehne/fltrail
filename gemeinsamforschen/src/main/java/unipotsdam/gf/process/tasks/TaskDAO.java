@@ -197,7 +197,10 @@ public class TaskDAO {
 
         connect.connect();
         String query =
-                "INSERT INTO fltrail.tasks (userEmail, projectName, taskName, " + "groupTask, importance, progress, phase, created, due, taskMode, taskMode2, taskMode3) " + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
+                "INSERT IGNORE INTO fltrail.tasks (userEmail, projectName, taskName, " +
+                        "groupTask, importance, progress, phase, created, due, " +
+                        "taskMode, taskMode2, taskMode3)" +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
 
         if (task.getTaskType() == null || task.getTaskType().length == 0) {
             try {

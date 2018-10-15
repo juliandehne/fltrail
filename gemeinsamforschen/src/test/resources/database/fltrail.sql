@@ -128,9 +128,9 @@ CREATE TABLE `tags` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tasks` (
-  `userEmail` varchar(400) NOT NULL,
-  `projectName` varchar(400) NOT NULL,
-  `taskName` varchar(400) DEFAULT NULL,
+  `userEmail` varchar(100) NOT NULL,
+  `projectName` varchar(200) NOT NULL,
+  `taskName` varchar(100) DEFAULT NULL,
   `groupTask` tinyint(4) DEFAULT NULL,
   `importance` varchar(100) DEFAULT NULL,
   `progress` varchar(100) DEFAULT NULL,
@@ -170,6 +170,9 @@ ALTER TABLE `fullsubmissions`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `groups`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tasks`
   ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `groupuser`
