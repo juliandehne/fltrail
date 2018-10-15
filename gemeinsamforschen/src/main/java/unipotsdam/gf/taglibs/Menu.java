@@ -114,7 +114,7 @@ public class Menu extends SimpleTagSupport {
                             "          <li class=\"icon inactive\">Noten</li>\n";
                     break;
                 }
-                case Execution:{
+                case DossierFeedback:{
                     phaseViewString += "  <li class=\"neutral icon closed\">Projektinitialisierung</li>\n" +
                             "          <li class=\"draft icon closed\">Entwurfsphase</li>\n" +
                             "          <li class=\"feedback icon\">Feedbackphase</li>\n" +
@@ -123,7 +123,7 @@ public class Menu extends SimpleTagSupport {
                             "          <li class=\"icon inactive\">Noten</li>\n";
                     break;
                 }
-                case DossierFeedback:{
+                case Execution:{
                     phaseViewString += "  <li class=\"neutral icon closed\">Projektinitialisierung</li>\n" +
                             "          <li class=\"draft icon closed\">Entwurfsphase</li>\n" +
                             "          <li class=\"feedback icon closed\">Feedbackphase</li>\n" +

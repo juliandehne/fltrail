@@ -120,6 +120,10 @@ function fitObjectInTmpl(object){
                 result.solveTaskWith="Lege ein EJournal an";
                 result.solveTaskWithLink="../journal/create-journal.jsp?projectName="+object.projectName;
                 break;
+            case "ANNOTATE_DOSSIER":
+                result.solveTaskWith="Annotiere das Dossier";
+                result.solveTaskWithLink="../annotation/create-unstructured-annotation.jsp?projectName="+object.projectName+"&submissionId=" + object.taskData.fullSubmissionId;
+                break;
             case "FINALIZE_DOSSIER":
                 result.solveTaskWith="Finalisiere das Dossier";
                 result.solveTaskWithLink="../annotation/create-unstructured-annotation.jsp?projectName="+object.projectName+"&submissionId=" + object.taskData.fullSubmissionId;
