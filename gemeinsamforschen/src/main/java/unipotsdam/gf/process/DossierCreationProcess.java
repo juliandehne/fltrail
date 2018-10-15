@@ -41,7 +41,7 @@ public class DossierCreationProcess {
             FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) {
         FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
 
-        taskDAO.persist(project, user, TaskName.FINALIZE_DOSSIER, Phase.DossierFeedback, TaskType.LINKED);
+        taskDAO.persist(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback, TaskType.LINKED);
 
         return fullSubmission;
     }
