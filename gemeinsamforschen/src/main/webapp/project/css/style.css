@@ -353,6 +353,17 @@ body {
     border-left-color:#F3A184;
 }
 
+.card-finished{
+    max-width:400px;
+    text-align: center;
+    position:relative;
+    background:#fff;
+    padding:1em;
+    box-sizing:border-box;
+    margin-bottom:1em;
+
+}
+
 .inactive {
     color:#dedede;
 }

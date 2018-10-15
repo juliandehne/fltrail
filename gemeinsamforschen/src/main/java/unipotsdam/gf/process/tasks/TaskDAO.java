@@ -45,8 +45,12 @@ public class TaskDAO {
         task.setProjectName(vereinfachtesResultSet.getString("projectName"));
         task.setGroupTask(vereinfachtesResultSet.getBoolean("groupTask"));
         task.setProgress(Progress.valueOf(vereinfachtesResultSet.getString("progress")));
-        task.setEventCreated(vereinfachtesResultSet.getLong("created"));
-        task.setDeadline(vereinfachtesResultSet.getLong("due"));
+        try{
+            task.setEventCreated(vereinfachtesResultSet.getTimestamp("created").getTime());
+        }catch(Exception e){ }
+        try{
+            task.setDeadline(vereinfachtesResultSet.getTimestamp("due").getTime());
+        }catch(Exception e){ }
         task.setPhase(Phase.valueOf(vereinfachtesResultSet.getString("phase")));
         task.setTaskName(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
         task.setHasRenderModel(false);

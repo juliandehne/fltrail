@@ -21,7 +21,13 @@
 
 </div>
 <script id="taskTemplate" type="text/x-jQuery-tmpl">
+    {{if taskProgress === "FINISHED"}}
+        <div class="card-finished"><h4 class="icon closed">${infoText}</h4>
+        {{html timeFrame}}
+        </div>
+    {{else}}
         <div class="card ${phase}">
+
             <div class="col span_s_of_2 icon ${taskType}">
             </div>
             <div class="col span_l_of_2" id="${taskName}">
@@ -29,7 +35,7 @@
                     <h4>${infoText}</h4>
                 {{/if}}
                 {{if solveTaskWith}}
-                    <button class='primary' onClick="${solveTaskWithLink}">${solveTaskWith}</button>
+                    <button class='primary' onClick='${solveTaskWithLink}'>${solveTaskWith}</button>
                 {{/if}}
                 {{if helpLink}}
                     <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
@@ -41,7 +47,8 @@
                 <div style="clear:left"></div>
             </div>
         </div>
-    </script>
+    {{/if}}
+</script>
 </div>
 <footer:footer/>
 </body>
