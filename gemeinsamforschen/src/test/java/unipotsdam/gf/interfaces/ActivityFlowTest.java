@@ -123,7 +123,7 @@ public class ActivityFlowTest {
         // end first phase
         phases.endPhase(Phase.DossierFeedback, project);
 
-        // update reflections
+        // updateForUser reflections
         uploadReflections();
 
         // end execution phase
@@ -137,7 +137,7 @@ public class ActivityFlowTest {
         // form groups based on user profil
         groupFinding.formGroups(GroupFormationMechanism.UserProfilStrategy);
 
-        // update groups manually
+        // updateForUser groups manually
         groupFinding.formGroups(GroupFormationMechanism.Manual);
 
     }
@@ -159,7 +159,7 @@ public class ActivityFlowTest {
     }
 
     public void uploadReflections() {
-        // update single reflection
+        // updateForUser single reflection
         Journal journalEntry = factory.manufacturePojo(Journal.class);
 
         for (User student : students) {

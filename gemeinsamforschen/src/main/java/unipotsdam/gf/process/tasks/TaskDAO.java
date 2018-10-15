@@ -155,6 +155,9 @@ public class TaskDAO {
     public void persistTeacherTask(Project project, TaskName taskName, Phase phase) {
         User user = new User(projectDAO.getProjectByName(project.getName()).getAuthorEmail());
         Task aDefault = createDefault(project, user, taskName, phase);
+        ////////don't know yet if it should happen here//////////
+        aDefault.setTaskType(TaskType.LINKED);
+        ////////could also be a default                //////////
         persist(aDefault);
     }
 
@@ -165,13 +168,14 @@ public class TaskDAO {
         persist(task);
     }
 
-    public void createWaitingForGroupFormationTask(Project project, User target) {
+    public Task createWaitingForGroupFormationTask(Project project, User target) {
         Task task = createDefault(project, target, WAITING_FOR_GROUP, Phase.GroupFormation);
         task.setTaskType(TaskType.INFO);
         task.setImportance(Importance.MEDIUM);
         task.setProgress(Progress.JUSTSTARTED);
 
         persist(task);
+        return task;
     }
 
     private void persist(Task task)  {
@@ -209,12 +213,21 @@ public class TaskDAO {
         connect.close();
     }
 
-    public void update(Task task, Progress progress) {
+    public void updateForUser(Task task, Progress progress) {
         connect.connect();
         String query =
-                "UPDATE tasks set progress = ? where task.userEmail = ? & task.projectName = ? & task.taskName" + " = ?";
+                "UPDATE tasks set progress = ? where userEmail = ? AND projectName = ? AND taskName = ?";
         connect.issueUpdateStatement(
                 query, progress.name(), task.getUserEmail(), task.getProjectName(), task.getTaskName());
+        connect.close();
+    }
+
+    public void updateForAll(Task task, Progress progress) {
+        connect.connect();
+        String query =
+                "UPDATE tasks set progress = ? where projectName = ? AND taskName = ?";
+        connect.issueUpdateStatement(
+                query, progress.name(), task.getProjectName(), task.getTaskName());
         connect.close();
     }
 

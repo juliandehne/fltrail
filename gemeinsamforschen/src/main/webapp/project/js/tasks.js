@@ -93,17 +93,17 @@ function fitObjectInTmpl(object){
             break;
         case "EDIT_FORMED_GROUPS":
             result.infoText = "[TEACHER] Die Gruppen wurden vom Algorithmus gebildet. Sie können noch manuell" +
-                " editiert werden." // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
+                " editiert werden."; // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
             break;
         default:
             result.infoText="";
     }
     if (object.taskType.includes("LINKED")){
         switch (object.taskName) {
-           /* case "CLOSE_GROUP_FINDING_PHASE":
+            case "CLOSE_GROUP_FINDING_PHASE":
                 result.solveTaskWith="Entwurfsphase starten";
-                result.solveTaskWithLink="../../rest/phases/GroupFormation/project/"+object.projectName+"/end";
-                break;*/
+                result.solveTaskWithLink="../rest/phases/GroupFormation/project/"+object.projectName+"/end";
+                break;
             case "UPLOAD_DOSSIER":
                 result.solveTaskWith="Lege ein Dossier an";
                 result.solveTaskWithLink="../annotation/upload-unstructured-dossier.jsp?projectName="+object.projectName;
