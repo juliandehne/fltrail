@@ -11,6 +11,7 @@ import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.process.tasks.TaskType;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;

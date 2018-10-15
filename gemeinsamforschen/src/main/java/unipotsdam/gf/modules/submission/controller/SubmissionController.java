@@ -35,15 +35,12 @@ public class SubmissionController implements ISubmission {
     @Override
     public FullSubmission addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest) {
 
+        connection.connect();
         // create a new id if we found no id.
         String uuid = UUID.randomUUID().toString();
         while (existsFullSubmissionId(uuid)) {
             uuid = UUID.randomUUID().toString();
         }
-
-        // establish connection
-
-        connection.connect();
 
         // build and execute request
         String request = "INSERT INTO fullsubmissions (`id`, `user`, `text`, `projectName`) VALUES (?,?,?,?);";

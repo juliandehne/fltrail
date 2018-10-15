@@ -98,7 +98,7 @@ public class TaskDAO {
         task.setGroupTask(false);
         task.setTaskName(taskName);
         task.setPhase(phase);
-        task.setTaskType(TaskType.INFO);
+        task.setTaskType(TaskType.INFO, TaskType.LINKED);
 
         return task;
     }

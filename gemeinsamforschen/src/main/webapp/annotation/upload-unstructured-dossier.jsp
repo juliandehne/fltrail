@@ -48,8 +48,8 @@
                         <input type="file" id="file" name="file">
                     </div>
                     <div class="document-text-buttons">
-                        <button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
-                        </button>
+                        <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
+                        </button>--%>
                         <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
                         </button>
                     </div>
