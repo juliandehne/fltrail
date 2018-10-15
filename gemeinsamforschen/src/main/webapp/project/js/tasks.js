@@ -102,39 +102,39 @@ function fitObjectInTmpl(object){
         switch (object.taskName) {
             case "CLOSE_GROUP_FINDING_PHASE":
                 result.solveTaskWith="Entwurfsphase starten";
-                result.solveTaskWithLink="../rest/phases/GroupFormation/project/"+object.projectName+"/end";
+                result.solveTaskWithLink="closePhase(\'"+object.phase+"\', \'"+object.projectName+"\');";
                 break;
             case "UPLOAD_DOSSIER":
                 result.solveTaskWith="Lege ein Dossier an";
-                result.solveTaskWithLink="../annotation/upload-unstructured-dossier.jsp?projectName="+object.projectName;
+                result.solveTaskWithLink="redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName="+object.projectName+"\')";
                 break;
             case "GIVE_FEEDBACK":
                 result.solveTaskWith="Erteile Feedback";
-                result.solveTaskWithLink="../feedback/give-feedback.jsp?projectName="+object.projectName;
+                result.solveTaskWithLink="redirect(\'../feedback/give-feedback.jsp?projectName="+object.projectName+"\')";
                 break;
             case "CREATE_QUIZ":
                 result.solveTaskWith="Erstelle ein Quiz";
-                result.solveTaskWithLink="../assessment/create-quiz.jsp?projectName="+object.projectName;
+                result.solveTaskWithLink="redirect(\'../assessment/create-quiz.jsp?projectName="+object.projectName+"\')";
                 break;
             case "WRITE_EJOURNAL":
                 result.solveTaskWith="Lege ein EJournal an";
-                result.solveTaskWithLink="../journal/create-journal.jsp?projectName="+object.projectName;
+                result.solveTaskWithLink="redirect(\'../journal/create-journal.jsp?projectName="+object.projectName+"\')";
                 break;
             case "ANNOTATE_DOSSIER":
                 result.solveTaskWith="Annotiere das Dossier";
-                result.solveTaskWithLink="../annotation/create-unstructured-annotation.jsp?projectName="+object.projectName+"&submissionId=" + object.taskData.fullSubmissionId;
+                result.solveTaskWithLink="redirect(\'../annotation/create-unstructured-annotation.jsp?projectName="+object.projectName+"&submissionId=" + object.taskData.fullSubmissionId+"\')";
                 break;
             case "FINALIZE_DOSSIER":
                 result.solveTaskWith="Finalisiere das Dossier";
-                result.solveTaskWithLink="../annotation/create-unstructured-annotation.jsp?projectName="+object.projectName+"&submissionId=" + object.taskData.fullSubmissionId;
+                result.solveTaskWithLink="redirect(\'../annotation/create-unstructured-annotation.jsp?projectName="+object.projectName+"&submissionId=" + object.taskData.fullSubmissionId+"\')";
                 break;
             case "FINALIZE_EJOURNAL":
                 result.solveTaskWith="Finalisiere dein EJournal";
-                result.solveTaskWithLink="../journal/edit-description.jsp?projectName="+object.projectName;
+                result.solveTaskWithLink="redirect(\'../journal/edit-description.jsp?projectName="+object.projectName+"\')";
                 break;
             case "ASSESSMENT":
                 result.solveTaskWith="Starte Bewertung";
-                result.solveTaskWithLink="../assessment/assess-work.jsp?projectName="+object.projectName;
+                result.solveTaskWithLink="redirect(\'../assessment/assess-work.jsp?projectName="+object.projectName+"\')";
                 break;
             default:
                 result.solveTaskWith=null;
@@ -167,3 +167,24 @@ function fillObjectWithTasks(response){
     return tempObject;
 }
 
+function redirect(url){
+    location.href=url;
+}
+
+function closePhase(phase, projectName){
+    let innerurl =  '../rest/phases/'+phase+'/projects/'+projectName+'/end';
+    $.ajax({
+        url: innerurl,
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        type: 'GET',
+        success: function (response) {
+        },
+        error: function(a){
+        }
+
+
+    })
+}
