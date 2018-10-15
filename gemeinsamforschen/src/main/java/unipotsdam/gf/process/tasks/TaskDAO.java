@@ -103,6 +103,44 @@ public class TaskDAO {
         return task;
     }
 
+    private void persist(Task task)  {
+
+        if (task.getTaskName() == null) {
+            throw new Error("no taskName given");
+        }
+
+
+        String taskMode2 = "";
+        if (task.getTaskType() != null && task.getTaskType().length > 1) {
+            taskMode2 = task.getTaskType()[1].toString();
+        }
+
+        String taskMode3 = "";
+        if (task.getTaskType() != null && task.getTaskType().length > 2) {
+            taskMode3 = task.getTaskType()[2].toString();
+        }
+
+        connect.connect();
+        String query =
+                "INSERT IGNORE INTO fltrail.tasks (userEmail, projectName, taskName, " +
+                        "groupTask, importance, progress, phase, created, due, " +
+                        "taskMode, taskMode2, taskMode3)" +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
+
+        if (task.getTaskType() == null || task.getTaskType().length == 0) {
+            try {
+                throw new Exception("set a task type");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        connect.issueInsertOrDeleteStatement(query, task.getUserEmail(), task.getProjectName(), task.getTaskName(),
+                task.getGroupTask(), task.getImportance(), task.getProgress(), task.getPhase(), null,
+                task.getDeadline(), task.getTaskType()[0].toString(), taskMode2, taskMode3);
+        connect.close();
+    }
+
     // get all the tasks a user has in a specific project
     public ArrayList<Task> getTasks(User user, Project project) {
         connect.connect();
@@ -178,59 +216,21 @@ public class TaskDAO {
         return task;
     }
 
-    private void persist(Task task)  {
-
-        if (task.getTaskName() == null) {
-            throw new Error("no taskName given");
-        }
-
-
-        String taskMode2 = "";
-        if (task.getTaskType() != null && task.getTaskType().length > 1) {
-            taskMode2 = task.getTaskType()[1].toString();
-        }
-
-        String taskMode3 = "";
-        if (task.getTaskType() != null && task.getTaskType().length > 2) {
-            taskMode3 = task.getTaskType()[2].toString();
-        }
-
-        connect.connect();
-        String query =
-                "INSERT IGNORE INTO fltrail.tasks (userEmail, projectName, taskName, " +
-                        "groupTask, importance, progress, phase, created, due, " +
-                        "taskMode, taskMode2, taskMode3)" +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
-
-        if (task.getTaskType() == null || task.getTaskType().length == 0) {
-            try {
-                throw new Exception("set a task type");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        connect.issueInsertOrDeleteStatement(query, task.getUserEmail(), task.getProjectName(), task.getTaskName(),
-                task.getGroupTask(), task.getImportance(), task.getProgress(), task.getPhase(), null,
-                task.getDeadline(), task.getTaskType()[0].toString(), taskMode2, taskMode3);
-        connect.close();
-    }
-
-    public void updateForUser(Task task, Progress progress) {
+    public void updateForUser(Task task) {
         connect.connect();
         String query =
                 "UPDATE tasks set progress = ? where userEmail = ? AND projectName = ? AND taskName = ?";
         connect.issueUpdateStatement(
-                query, progress.name(), task.getUserEmail(), task.getProjectName(), task.getTaskName());
+                query, task.getProgress().name(), task.getUserEmail(), task.getProjectName(), task.getTaskName());
         connect.close();
     }
 
-    public void updateForAll(Task task, Progress progress) {
+    public void updateForAll(Task task) {
         connect.connect();
         String query =
                 "UPDATE tasks set progress = ? where projectName = ? AND taskName = ?";
         connect.issueUpdateStatement(
-                query, progress.name(), task.getProjectName(), task.getTaskName());
+                query, task.getProgress().name(), task.getProjectName(), task.getTaskName());
         connect.close();
     }
 

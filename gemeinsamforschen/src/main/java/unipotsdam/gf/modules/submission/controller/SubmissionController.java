@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 public class SubmissionController implements ISubmission {
 
     @Inject
-    MysqlConnect connection;
+    private MysqlConnect connection;
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(SubmissionController.class);
 
@@ -104,7 +104,6 @@ public class SubmissionController implements ISubmission {
         connection.issueInsertOrDeleteStatement(request, submissionPartPostRequest.getUserEmail(),
                 submissionPartPostRequest.getFullSubmissionId(),
                 submissionPartPostRequest.getCategory().toString().toUpperCase());
-
 
 
         for (SubmissionPartBodyElement element : submissionPartPostRequest.getBody()) {
@@ -549,6 +548,18 @@ public class SubmissionController implements ISubmission {
         connection.close();
 
         return data;
+    }
+
+    /**
+     * if the submission is marked as final, the annotations cannot be updated anymore
+     *
+     * @param fullSubmission
+     */
+    public void markAsFinal(FullSubmission fullSubmission) {
+        connection.connect();
+        String query = "update fullsubmission set finalized = ? where id = ?";
+        connection.issueUpdateStatement(query, true, fullSubmission.getId());
+        connection.close();
     }
 
 }

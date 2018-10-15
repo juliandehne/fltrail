@@ -79,7 +79,7 @@ public class ProjectCreationProcess {
                 taskDao.persistTeacherTask(project, TaskName.EDIT_FORMED_GROUPS, Phase.GroupFormation);
             } else {
                 taskDao.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
-                taskDao.updateForAll(task, Progress.FINISHED);
+                taskDao.updateForAll(task);
                 //phases.endPhase(Phase.GroupFormation, project);
             }
         }

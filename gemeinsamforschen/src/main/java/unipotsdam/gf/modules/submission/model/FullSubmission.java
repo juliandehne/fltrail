@@ -22,6 +22,10 @@ public class FullSubmission {
         this.projectName = projectName;
     }
 
+    public FullSubmission(String submissionId) {
+        this.id = submissionId;
+    }
+
     // methods
     public String getId() {
         return id;

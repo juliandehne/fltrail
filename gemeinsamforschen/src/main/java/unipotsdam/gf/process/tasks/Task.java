@@ -45,6 +45,19 @@ public class Task {
     public Task() {
     }
 
+    public Task(TaskName taskName, String userEmail, String projectName, Progress progress) {
+        this.taskName = taskName;
+        this.userEmail = userEmail;
+        this.projectName = projectName;
+        this.progress = progress;
+    }
+
+    public Task(TaskName taskName, String projectName, Progress progress) {
+        this.taskName = taskName;
+        this.projectName = projectName;
+        this.progress = progress;
+    }
+
     public TaskName getTaskName() {
         return taskName;
     }

@@ -9,9 +9,7 @@ import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskName;
-import unipotsdam.gf.process.tasks.TaskType;
+import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -41,8 +39,33 @@ public class DossierCreationProcess {
             FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) {
         FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
 
+        // this completes the upload task
+        Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.FINISHED);
+        taskDAO.updateForUser(task);
+
+        // this triggers the annotate task
         taskDAO.persist(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback, TaskType.LINKED);
 
         return fullSubmission;
     }
+
+    /**
+     *
+     * @param fullSubmission
+     * @param user
+     */
+    public void finalizeDossier(FullSubmission fullSubmission, User user) {
+        // mark as final in db
+        submissionController.markAsFinal(fullSubmission);
+
+        // mark annotate task as finished in db
+        Task task = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), fullSubmission.getProjectId(), Progress.FINISHED);
+        taskDAO.updateForUser(task);
+    }
+
+/*    public void finalizeDossier(FullSubmission fullSubmission, User user) {
+        TODO
+    }
+
+    public*/
 }

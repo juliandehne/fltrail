@@ -30,6 +30,7 @@ public class UpdateDB {
         UpdateDB updateDB = new UpdateDB(connection, true, false);
         System.out.println(new java.io.File( "." ).getCanonicalPath());
         updateDB.runScript(new FileReader("src/test/resources/database/fltrail.sql"));
+        updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
     }
 
     public UpdateDB(Connection connection, boolean stopOnError, boolean autoCommit) {

@@ -11,14 +11,18 @@ import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 import unipotsdam.gf.modules.submission.model.SubmissionResponse;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.DossierCreationProcess;
+import unipotsdam.gf.session.GFContexts;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -126,5 +130,15 @@ public class SubmissionService {
 
             return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }
+    }
+
+    @POST
+    @Path("/id/{submissionId}/finalize")
+    public void finalize (@PathParam("submissionId") String submissionId, @Context HttpServletRequest req) {
+        // TODO implement
+
+        String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
+
+        dossierCreationProcess.finalizeDossier(new FullSubmission(submissionId), new User(userEmail));
     }
 }
