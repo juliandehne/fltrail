@@ -180,7 +180,8 @@ function closePhase(phase, projectName){
             "Cache-Control": "no-cache"
         },
         type: 'GET',
-        success: function (response) {
+        success: function () {
+            location.reload();
         },
         error: function(a){
         }

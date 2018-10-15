@@ -76,6 +76,7 @@ public class PhasesImpl implements IPhases {
         switch (currentPhase) {
             case CourseCreation:
                 // saving the state
+
                 saveState(project, changeToPhase);
                 break;
             case GroupFormation:
