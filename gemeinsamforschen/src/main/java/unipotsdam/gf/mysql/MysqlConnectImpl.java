@@ -20,7 +20,7 @@ import java.util.Date;
 @Resource
 public class MysqlConnectImpl implements MysqlConnect {
 
-    public MysqlConnectImpl() {
+    public  MysqlConnectImpl() {
         //System.out.println("test");
     }
 
