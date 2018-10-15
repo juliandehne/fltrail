@@ -212,4 +212,6 @@ COMMIT;
 
 CREATE UNIQUE INDEX fullsubmissions_user_projectName_uindex ON fullsubmissions (user, projectName);
 
+CREATE UNIQUE INDEX tasks_userEmail_projectName_taskName_uindex ON tasks (userEmail, projectName, taskName);
+
 
