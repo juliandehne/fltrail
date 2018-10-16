@@ -42,7 +42,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(PhasesImpl.class).to(IPhases.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
-        bind(DummyGroupfinding.class).to(IGroupFinding.class);
         bind(DummyProjectCreationService.class).to(DummyProjectCreationService.class);
         bind(UserDAO.class).to(UserDAO.class);
         bind(ProjectDAO.class).to(ProjectDAO.class);

@@ -21,6 +21,7 @@ import java.util.Objects;
 @Singleton
 public class GroupDAO {
 
+    @Inject
     private MysqlConnect connect;
 
     @Inject
@@ -28,28 +29,33 @@ public class GroupDAO {
         this.connect = connect;
     }
 
-    public ArrayList<String> getStudentsInSameGroupAs(StudentIdentifier student) {
+    ArrayList<String> getStudentsInSameGroupAs(StudentIdentifier student) {
         connect.connect();
         ArrayList<String> result = new ArrayList<>();
-        Integer groupId;
-        String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `projectName`=? AND `userEmail`=?";
-        VereinfachtesResultSet vereinfachtesResultSet1 =
-                connect.issueSelectStatement(mysqlRequest1, student.getProjectName(), student.getUserEmail());
-        vereinfachtesResultSet1.next();
-        groupId = vereinfachtesResultSet1.getInt("groupId");
-        String mysqlRequest2 = "SELECT * FROM `groupuser` WHERE `groupId`=?";
-        VereinfachtesResultSet vereinfachtesResultSet2 = connect.issueSelectStatement(mysqlRequest2, groupId);
-        boolean next2 = vereinfachtesResultSet2.next();
+        int groupId= getGroupByStudent(student);
+        String mysqlRequest = "SELECT * FROM `groupuser` WHERE `groupId`=?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, groupId);
+        boolean next2 = vereinfachtesResultSet.next();
         while (next2) {
-            String peer = vereinfachtesResultSet2.getString("userName");
+            String peer = vereinfachtesResultSet.getString("userEmail");
             if (!peer.equals(student.getUserEmail()))
                 result.add(peer);
-            next2 = vereinfachtesResultSet2.next();
+            next2 = vereinfachtesResultSet.next();
         }
         connect.close();
         return result;
     }
 
+    public Integer getGroupByStudent(StudentIdentifier student) {
+        Integer result;
+        connect.connect();
+        String mysqlRequest = "SELECT groupId FROM `groupuser` gu JOIN groups g WHERE g.`projectName`=? AND gu.groupid=g.id AND gu.userEmail=? ";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail());
+        vereinfachtesResultSet.next();
+        result = vereinfachtesResultSet.getInt("groupId");
+        return result;
+    }
 
     // refactor (you get the id as a return value when inserting into the db)
     public void persist(Group group) {
