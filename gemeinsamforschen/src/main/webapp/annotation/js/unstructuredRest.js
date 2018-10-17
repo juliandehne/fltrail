@@ -108,6 +108,9 @@ function getAllSubmissionParts(id, responseHandler) {
         success: function (response) {
             // handle the response
             responseHandler(response);
+        },
+        error: function () {
+          console.log("no parts");
         }
     })
 }

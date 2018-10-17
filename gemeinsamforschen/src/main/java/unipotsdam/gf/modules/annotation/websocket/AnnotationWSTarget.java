@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.annotation.websocket;
 
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 
 /**
  * @author Sven Kästle

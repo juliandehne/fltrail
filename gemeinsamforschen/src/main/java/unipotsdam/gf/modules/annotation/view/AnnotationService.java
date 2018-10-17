@@ -6,8 +6,9 @@ import unipotsdam.gf.modules.annotation.model.Annotation;
 import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationResponse;
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -28,11 +29,15 @@ import java.util.ArrayList;
 @Produces(MediaType.APPLICATION_JSON)
 public class AnnotationService {
 
+
+    @Inject
+    AnnotationController controller;
+
     @POST
     public Response createAnnotation(AnnotationPostRequest request) {
 
         // save annotation request in database and receive the new annotation object
-        AnnotationController controller = new AnnotationController();
+
         Annotation annotation = controller.addAnnotation(request);
 
         return Response.ok(annotation).build();
@@ -47,7 +52,6 @@ public class AnnotationService {
         AnnotationResponse response = new AnnotationResponse();
 
         // check if annotation exists
-        AnnotationController controller = new AnnotationController();
         boolean exists = controller.existsAnnotationId(annotationId);
 
         if (exists) {
@@ -74,7 +78,6 @@ public class AnnotationService {
         AnnotationResponse response = new AnnotationResponse();
 
         // check if annotation exists
-        AnnotationController controller = new AnnotationController();
         boolean exists = controller.existsAnnotationId(annotationId);
 
         if (exists) {
@@ -98,7 +101,6 @@ public class AnnotationService {
     public Response getAnnotation(@PathParam("id") String annotationId) {
 
         // receive the annotation
-        AnnotationController controller = new AnnotationController();
         Annotation annotation = controller.getAnnotation(annotationId);
 
         if (annotation != null) {
@@ -119,7 +121,6 @@ public class AnnotationService {
     public Response getAnnotations(@PathParam("id") String targetId, @PathParam("category") String category) {
 
         // receive the annotation
-        AnnotationController controller = new AnnotationController();
         ArrayList<Annotation> annotations = controller.getAnnotations(targetId, Category.valueOf(category.toUpperCase()));
 
         if (!annotations.isEmpty()) {

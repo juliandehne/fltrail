@@ -81,6 +81,95 @@ function getQueryVariable(variable) {
 }
 
 
+/**
+ *
+ * @param hierachyLevel the level the hierachy has
+ * @param modulePath i.e. project or annotatoin
+ * @param methodPath i.e. /create/{id} in this case /create/?/another/?
+ * @param pathParams what is filling in for the ?
+ * @param queryParams i.e. &projectName=something&submissionId=anotherthing
+ * @param requestEntity the json obj to send in put
+ * @param callback the callback to call after success
+ * @constructor
+ */
+function RequestObj(hierachyLevel, modulePath, methodPath, pathParams, queryParams, entity) {
+    this.hierarchyLevel = hierachyLevel;
+    this.modulePath = modulePath;
+    this.methodPath = methodPath;
+    this.pathParams = pathParams;
+    this.queryParams = queryParams;
+    this.entity = entity;
+}
+
+
+/**
+ * send a request to the server
+ * @param requestObj the data specific to the reqeuest
+ * @param method GET, POST, DELETE or PUT
+ * @param callback
+ */
+function serverSide(requestObj, method, callback) {
+    let relativPath = calculateHierachy(requestObj.hierarchyLevel)
+    let methodPath = requestObj.methodPath
+    requestObj.pathParams.forEach(function (e) {
+        methodPath = methodPath.replace("?", e);
+    });
+
+    let localurl = relativPath + "gemeinsamforschen/rest" + requestObj.modulePath + methodPath ;
+
+    if (requestObj.queryParams) {
+        localurl = localurl + requestObj.queryParams;
+    }
+
+    if (method == "PUT") {
+        $.ajax({
+            url: localurl,
+            contentType: 'application/json',
+            type: 'PUT',
+            data: JSON.stringify(requestObj.entity),
+            success: function (response) {
+                if (callback) {
+                    callback(response);
+                }
+            },
+            error: function (a, b, c) {
+                console.log(a);
+            }
+        });
+    }
+    if (method == "POST" ||  method == "DELETE") {
+        $.ajax({
+            url: localurl,
+            contentType: 'application/json',
+            type: method,
+            data: requestObj.entity == null ? {} : JSON.stringify(requestObj.entity),
+            success: function (response) {
+                if (callback) {
+                    callback(response);
+                }
+            },
+            error: function (a, b, c) {
+                console.log(a);
+            }
+        });
+    }
+    if (method == "GET") {
+        $.ajax({
+            url: localurl,
+            type: 'GET',
+            success: function (response) {
+                if (callback) {
+                    callback(response);
+                }
+            },
+            error: function (a, b, c) {
+                console.log(a);
+            }
+        });
+    }
+}
+
+
 function calculateHierachy(level) {
 
     if (level == 0) {

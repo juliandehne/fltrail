@@ -16,6 +16,7 @@ import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectConfiguration;
+import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.Task;
 import unipotsdam.gf.process.tasks.TaskDAO;
@@ -23,8 +24,8 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.GroupfindingCriteria;
 import unipotsdam.gf.modules.journal.model.Journal;
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
-import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
+import unipotsdam.gf.modules.feedback.Category;
+import unipotsdam.gf.modules.feedback.Model.Peer2PeerFeedback;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 
@@ -70,6 +71,9 @@ public class ActivityFlowTest {
 
     @Inject
     TaskDAO taskDAO;
+
+    @Inject
+    private ConstraintsImpl constraints;
 
     @Inject
     IPeerAssessment iPeerAssessment;
@@ -199,7 +203,7 @@ public class ActivityFlowTest {
 
 
         // assert that after the last report has been submitted, the feedback tasks were assigned automatically
-        verify(feedback).assignFeedbackTasks();
+        verify(feedback).assignFeedbackTasks(project);
 
         // students give feedback
         for (User student : students) {
@@ -210,7 +214,8 @@ public class ActivityFlowTest {
                 if (criteriaSelected.get(category)) {
                     Peer2PeerFeedback peer2PeerFeedback = factory.manufacturePojo(Peer2PeerFeedback.class);
                     peer2PeerFeedback.setFeedbackcategory(category);
-                    feedback.giveFeedback(peer2PeerFeedback, feedbackTask);
+                    //feedback.giveFeedback(peer2PeerFeedback, feedbackTask);
+                    // TODO implement giving feedback
                 }
             }
         }
@@ -237,7 +242,7 @@ public class ActivityFlowTest {
         verify(feedback).assigningMissingFeedbackTasks(project);
 
         // assert that everybody has given and received mockfeedback
-        assertEquals(0, feedback.checkFeedbackConstraints(project).size());
+        assertTrue(constraints.checkIfFeedbackCanBeDistributed(project));
 
         // docent finishes phase
         phases.endPhase(Phase.DossierFeedback, project);

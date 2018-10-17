@@ -1,8 +1,8 @@
-package unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.View;
+package unipotsdam.gf.modules.feedback.View;
 
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
-import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Controller.PeerFeedbackController;
-import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
+import unipotsdam.gf.modules.feedback.Category;
+import unipotsdam.gf.modules.feedback.Controller.PeerFeedbackController;
+import unipotsdam.gf.modules.feedback.Model.Peer2PeerFeedback;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;

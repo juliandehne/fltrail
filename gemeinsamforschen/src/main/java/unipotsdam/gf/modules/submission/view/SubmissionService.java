@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.submission.view;
 
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
@@ -13,7 +13,6 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.session.GFContexts;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -133,12 +132,13 @@ public class SubmissionService {
     }
 
     @POST
-    @Path("/id/{submissionId}/finalize")
-    public void finalize (@PathParam("submissionId") String submissionId, @Context HttpServletRequest req) {
+    @Path("/id/{submissionId}/projects/{projectId}/finalize")
+    public void finalize (@PathParam("submissionId") String submissionId, @PathParam("projectId") String projectId,
+                          @Context HttpServletRequest req) {
         // TODO implement
 
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
-
-        dossierCreationProcess.finalizeDossier(new FullSubmission(submissionId), new User(userEmail));
+        dossierCreationProcess.finalizeDossier(new FullSubmission(submissionId), new User(userEmail),
+                new Project(projectId));
     }
 }

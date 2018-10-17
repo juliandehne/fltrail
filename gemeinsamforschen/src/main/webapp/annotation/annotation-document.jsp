@@ -8,7 +8,17 @@
 
 
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <%--<omniDependencies:omniDependencies hierarchy="1"/>--%>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../libs/css/styles.css">
+    <link rel="stylesheet" href="../taglibs/css/footer.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="../taglibs/js/utility.js"></script>
+    <script src="../taglibs/js/footer.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
     <!-- css - annotationStyle -->
     <link rel="stylesheet" type="text/css" href="css/annotationStyle.css">
@@ -38,6 +48,7 @@
     <script src="js/unstructuredRest.js"></script>
     <!-- js - annotationScript -->
     <script src="js/annotationScript.js"></script>
+
 </head>
 
 <body>

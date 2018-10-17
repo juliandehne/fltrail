@@ -11,6 +11,15 @@ public class FullSubmission {
     private long timestamp;
     private String user;
     private String text;
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
     private String projectName;
 
     // constructor
@@ -59,13 +68,6 @@ public class FullSubmission {
         this.text = text;
     }
 
-    public String getProjectId() {
-        return projectName;
-    }
-
-    public void setProjectId(String projectName) {
-        this.projectName = projectName;
-    }
 
     @Override
     public String toString() {

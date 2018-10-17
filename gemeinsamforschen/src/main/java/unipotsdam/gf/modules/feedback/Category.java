@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.peer2peerfeedback;
+package unipotsdam.gf.modules.feedback;
 
 /**
  Categories for feedback and documents

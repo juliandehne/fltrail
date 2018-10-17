@@ -1,6 +1,6 @@
-package unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model;
+package unipotsdam.gf.modules.feedback.Model;
 
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 
 import static unipotsdam.gf.util.MarkdownUtils.convertMarkdownToHtml;
 

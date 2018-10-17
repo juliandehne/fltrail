@@ -8,18 +8,18 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.ISubmission;
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.submission.model.SubmissionPart;
 import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
 import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
 import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.process.tasks.FeedbackTaskData;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 /**
  * @author Sven Kästle
@@ -562,4 +562,52 @@ public class SubmissionController implements ISubmission {
         connection.close();
     }
 
+    /**
+     * link the full submission with a user who is supposed to give feedback to it.
+     * this creates a 1:1 relationship between user and submissions
+     * in case gorup work is selected the relationship should be with a group instead
+     * @param submissionOwner
+     * @param feedbackGiver
+     */
+    public void updateFullSubmission(User submissionOwner, User feedbackGiver) {
+        connection.connect();
+        String query = "update fullsubmissions set feedbackUser = ? where user = ?";
+        connection.issueUpdateStatement(query, feedbackGiver.getEmail(),
+                submissionOwner.getEmail());
+        connection.close();
+        // TODO implement linking submission with group
+    }
+
+    /**
+     * @param target
+     * @return
+     */
+    public FeedbackTaskData getFeedbackTaskData(User target) {
+        connection.connect();
+
+        String query = "SELECT * from fullsubmissions where feedbackUser = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, target.getEmail());
+        vereinfachtesResultSet.next();
+        String submissionId = vereinfachtesResultSet.getString("id");
+        String projectName = vereinfachtesResultSet.getString("projectName");
+        Category category = Category.RECHERCHE;
+        FullSubmission fullSubmission = new FullSubmission(submissionId);
+        fullSubmission.setProjectName(projectName);
+        connection.close();
+
+        return new FeedbackTaskData(target, fullSubmission, category);
+    }
+
+    public int getFinalizedDossiersCount(Project project) {
+        connection.connect();
+
+        Integer count = null;
+        String query = "SELECT COUNT(*) from fullsubmissions where projectName = ? and finalized = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query);
+        vereinfachtesResultSet.next();
+        count = vereinfachtesResultSet.getInt(1);
+        connection.close();
+        return count;
+
+    }
 }

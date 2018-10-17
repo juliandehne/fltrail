@@ -2,7 +2,6 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.junit.After;
 import org.junit.Test;
-import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -11,7 +10,7 @@ import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.Visibility;
 import unipotsdam.gf.modules.journal.model.dao.JournalDAO;
 import unipotsdam.gf.modules.journal.model.dao.JournalDAOImpl;
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

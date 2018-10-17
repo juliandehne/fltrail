@@ -68,7 +68,22 @@ $(document).ready(function() {
      * continue button
      */
     $('#btnContinue').click(function () {
-        location.href = "../feedback/give-feedback.jsp";
+
+        var submissionId = getQueryVariable("fullSubmissionId");
+
+        switch (getQueryVariable("category")) {
+            case "RECHERCE" : {
+                var nextCategory = "LITERATURVERZEICHNIS";
+                location.href = "../annotation/annotation-document.jsp?fullSubmissionId="+submissionId + "&category="+nextCategory;
+            }
+            case "LITERATURVERZEICHNIS" : {
+                location.href = "../project/give-feedback.jsp?projectName=" + getProjectName();
+
+                //location.href = "../annotation/annotation-document.jsp?fullSubmissionId="+submissionId +
+                // "&category="+nextCategory;
+            }
+        }
+
     });
 
     /**
@@ -636,7 +651,7 @@ function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
 
     // initialize target
     var targetId = getQueryVariable("fullSubmissionId");
-    var targetCategory = getQueryVariable("category");
+    var targetCategory = getQueryVariable("category").toUpperCase();
     var userEmail = getUserEmail();
 
     // build annotationPostRequest

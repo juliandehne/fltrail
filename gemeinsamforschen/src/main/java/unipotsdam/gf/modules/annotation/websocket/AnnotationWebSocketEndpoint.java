@@ -1,7 +1,7 @@
 package unipotsdam.gf.modules.annotation.websocket;
 
 import unipotsdam.gf.modules.annotation.model.AnnotationMessage;
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;

@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.peer2peerfeedback;
+package unipotsdam.gf.modules.feedback;
 
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -10,7 +10,7 @@ import unipotsdam.gf.process.constraints.Constraints;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
+import unipotsdam.gf.modules.feedback.Model.Peer2PeerFeedback;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 
 import java.io.File;
@@ -33,39 +33,6 @@ public class DummyFeedback implements Feedback {
 
     }
 
-    @Override
-    public Peer2PeerFeedback createPeer2PeerFeedbackmask(
-            User feedbackuser, User selectedstudent, File document) {
-        return null;
-    }
-
-    public Peer2PeerFeedback createPeer2PeerFeedback(Peer2PeerFeedback feedback) {
-        return null;
-    }
-
-    @Override
-    public Boolean giveFeedback(Peer2PeerFeedback feedback, ResearchReport document) {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Peer2PeerFeedback> showFeedback(User student) {
-        return null;
-    }
-
-    @Override
-    public int countFeedback(User student) {
-        return 0;
-    }
-
-    @Override
-    public Map<StudentIdentifier, ConstraintsMessages> checkFeedbackConstraints(Project project) {
-        // TODO implement constraints
-        NotImplementedLogger.logAssignment(Assignee.KATHARINA, Feedback.class, "check Feedback constraints",
-                "checking feedback constraints ");
-        Map<StudentIdentifier, ConstraintsMessages> result = new HashMap<>();
-        return result;
-    }
 
     @Override
     public void assigningMissingFeedbackTasks(Project project) {
@@ -75,9 +42,10 @@ public class DummyFeedback implements Feedback {
     }
 
     @Override
-    public void assignFeedbackTasks() {
+    public void assignFeedbackTasks(Project project) {
 
     }
+
 
     @Override
     public ResearchReport getFeedbackTask(User student) {

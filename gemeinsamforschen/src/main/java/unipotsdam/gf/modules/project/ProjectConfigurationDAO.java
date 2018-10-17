@@ -5,7 +5,7 @@ import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 
 import javax.inject.Inject;
 import java.util.HashMap;

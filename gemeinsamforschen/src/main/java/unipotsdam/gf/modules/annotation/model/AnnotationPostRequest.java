@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.annotation.model;
 
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 
 /**
  * @author Sven Kästle
@@ -26,11 +26,11 @@ public class AnnotationPostRequest {
     }
 
     // methods
-    public String getUserToken() {
+    public String getUserEmail() {
         return userEmail;
     }
 
-    public void setUserToken(String userEmail) {
+    public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
 

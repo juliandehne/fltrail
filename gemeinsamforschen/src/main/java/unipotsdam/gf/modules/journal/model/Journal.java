@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.journal.model;
 
 
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 
 import java.util.Date;
 

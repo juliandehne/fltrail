@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.submission.model;
 
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 
 import java.util.ArrayList;
 

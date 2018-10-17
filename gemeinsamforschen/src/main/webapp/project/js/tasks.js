@@ -91,6 +91,10 @@ function fitObjectInTmpl(object){
             result.infoText="[STUDENT] Die Arbeitsgruppen werden gebildet. Sie werden informiert, wenn es so weit" +
                 " ist.";
             break;
+
+        case "GIVE_FEEDBACK":
+            result.infoText="[STUDENT] Geben Sie ein Feedback .....";
+            break;
         case "EDIT_FORMED_GROUPS":
             result.infoText = "[TEACHER] Die Gruppen wurden vom Algorithmus gebildet. Sie können noch manuell" +
                 " editiert werden."; // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
@@ -108,10 +112,10 @@ function fitObjectInTmpl(object){
                 result.solveTaskWith="Lege ein Dossier an";
                 result.solveTaskWithLink="redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName="+object.projectName+"\')";
                 break;
-            case "GIVE_FEEDBACK":
+         /*   case "GIVE_FEEDBACK":
                 result.solveTaskWith="Erteile Feedback";
                 result.solveTaskWithLink="redirect(\'../feedback/give-feedback.jsp?projectName="+object.projectName+"\')";
-                break;
+                break;*/
             case "CREATE_QUIZ":
                 result.solveTaskWith="Erstelle ein Quiz";
                 result.solveTaskWithLink="redirect(\'../assessment/create-quiz.jsp?projectName="+object.projectName+"\')";
@@ -135,6 +139,10 @@ function fitObjectInTmpl(object){
             case "ASSESSMENT":
                 result.solveTaskWith="Starte Bewertung";
                 result.solveTaskWithLink="redirect(\'../assessment/assess-work.jsp?projectName="+object.projectName+"\')";
+                break;
+            case "GIVE_FEEDBACK":
+                result.solveTaskWith="Geben Sie ein Feedback";
+                result.solveTaskWithLink="redirect(\'../annotation/annotation-document.jsp?fullSubmissionId="+object.taskData.fullSubmission.id+"&category="+object.taskData.category+"\')";
                 break;
             default:
                 result.solveTaskWith=null;

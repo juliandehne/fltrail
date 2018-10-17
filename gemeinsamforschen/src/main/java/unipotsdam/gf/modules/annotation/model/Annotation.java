@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.annotation.model;
 
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 
 /**
  * @author Sven Kästle
@@ -43,14 +43,6 @@ public class Annotation {
         this.timestamp = timestamp;
     }
 
-    public String getUserToken() {
-        return userEmail;
-    }
-
-    public void setUserToken(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
     public String getTargetId() {
         return targetId;
     }
@@ -73,6 +65,14 @@ public class Annotation {
 
     public void setBody(AnnotationBody body) {
         this.body = body;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
     @Override

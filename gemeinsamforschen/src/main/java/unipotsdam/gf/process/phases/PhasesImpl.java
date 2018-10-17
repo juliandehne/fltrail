@@ -11,6 +11,7 @@ import unipotsdam.gf.modules.communication.Messages;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
+import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import javax.annotation.ManagedBean;
@@ -45,6 +46,9 @@ public class PhasesImpl implements IPhases {
 
     @Inject
     private DossierCreationProcess dossierCreationProcess;
+
+    @Inject
+    private ConstraintsImpl constraints;
 
 
     public PhasesImpl() {
@@ -87,14 +91,15 @@ public class PhasesImpl implements IPhases {
             case DossierFeedback:
                 // check if everybody has uploaded a dossier
 
-                tasks = feedback.checkFeedbackConstraints(project);
-                if (tasks.size() > 0) {
+                dossierCreationProcess.finishPhase(project);
+                /** TODO: Move this to the dossierCreationProcess
+             /*   if (tasks.size() > 0) {
                     iCommunication.informAboutMissingTasks(tasks, project);
                 } else {
                     // send a message to the users informing them about the start of the new phase
                     iCommunication.sendMessageToUsers(project, Messages.NewFeedbackTask(project));
                     saveState(project, changeToPhase);
-                }
+                }*/
                 break;
             case Execution:
                 // check if the portfolios have been prepared for evaluation (relevant entries selected)

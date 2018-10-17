@@ -1,6 +1,7 @@
 package unipotsdam.gf.config;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -20,7 +21,7 @@ import unipotsdam.gf.modules.group.GroupfindingImpl;
 import unipotsdam.gf.modules.group.DummyProjectCreationService;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.journal.service.IJournalImpl;
-import unipotsdam.gf.modules.peer2peerfeedback.DummyFeedback;
+import unipotsdam.gf.modules.feedback.DummyFeedback;
 import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
@@ -57,6 +58,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(ConstraintsImpl.class).to(ConstraintsImpl.class);
         bind(DossierCreationProcess.class).to(DossierCreationProcess.class);
         bind(SubmissionController.class).to(SubmissionController.class);
+        bind(AnnotationController.class).to(AnnotationController.class);
         bindMore();
     }
     protected void bindMore() {

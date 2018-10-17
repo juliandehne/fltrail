@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.annotation.model;
 
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
+import unipotsdam.gf.modules.feedback.Category;
 
 public class AnnotationMessage {
     // variables

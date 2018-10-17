@@ -1,9 +1,9 @@
-package unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Controller;
+package unipotsdam.gf.modules.feedback.Controller;
 
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.modules.peer2peerfeedback.Category;
-import unipotsdam.gf.modules.peer2peerfeedback.peerfeedback.Model.Peer2PeerFeedback;
+import unipotsdam.gf.modules.feedback.Category;
+import unipotsdam.gf.modules.feedback.Model.Peer2PeerFeedback;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

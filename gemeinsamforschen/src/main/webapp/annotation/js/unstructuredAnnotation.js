@@ -6,7 +6,7 @@ $(document).ready(function () {
     // fetch the document text of the given id
     getFullSubmission(getSubmissionIdFromUrl(), function (response) {
         // set text in div
-        $('#documentText').html(response.text);
+        $('#documentText').text(response.text);
 
         // get submissions parts from database
         getAllSubmissionParts(getSubmissionIdFromUrl(), function (response) {
@@ -25,6 +25,7 @@ $(document).ready(function () {
         });
 
     }, function () {
+        console.log("error occured at getting full submission");
         // jump to upload page on error
         // location.href = "upload-unstructured-dossier.jsp"
     });
@@ -285,12 +286,23 @@ function saveButtonHandler() {
 
         $.when.apply($, promises).then(function () {
             // redirect user to project page after saving
-            location.href = "../project/tasks-student.jsp?projectName=" + getQueryVariable('projectName');
+            finalizeDossier(getSubmissionIdFromUrl());
         });
 
         // redirect user to project page after saving
         // location.href="projects-student.jsp" + getUserEmail() + "&projectName=" + getProjectIdFromUrl();
     }
+}
+
+
+/**
+ *
+ */
+function finalizeDossier(submissionId) {
+    let requestObj = new RequestObj(1,"/submissions","/id/?/finalize", [submissionId])
+    serverSide(requestObj, "POST", function (response) {
+        location.href = "../project/tasks-student.jsp?projectName=" + getQueryVariable('projectName');
+    })
 }
 
 /**
