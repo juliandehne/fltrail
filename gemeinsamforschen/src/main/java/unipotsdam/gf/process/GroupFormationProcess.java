@@ -8,6 +8,8 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.phases.PhasesImpl;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.process.tasks.TaskName;
 
@@ -58,6 +60,8 @@ public class GroupFormationProcess {
     public void finalizeGroups( Project project, Group ... groups) {
         groupfinding.persistGroups(Arrays.asList(groups), project);
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
+        Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, project.getAuthorEmail(), project.getName(), Progress.FINISHED);
+        taskDAO.updateForUser(task);
         taskDAO.persistMemberTask(project,  TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);
     }
 

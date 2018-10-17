@@ -36,9 +36,24 @@ function fitObjectInTmpl(object){
         solveTaskWith: "",
         helpLink: "",
         timeFrame: "",
-        taskData: object.taskData
+        taskData: object.taskData,
+        taskProgress: ""
 
     };
+
+    if (object.progress==="FINISHED"){
+        if(object.taskName.includes("CLOSE")){
+            result.taskProgress="FINISHED";
+            result.infoText=object.phase;
+            let created = new Date(object.eventCreated);
+            let deadline=new Date(object.deadline);
+            result.timeFrame="<p>"+created.getDate()+"."+(created.getMonth()+1)+"."+created.getFullYear() +
+                " bis "+deadline.getDate()+"."+(deadline.getMonth()+1)+"."+deadline.getFullYear()+"</p>";
+            return result;
+        }
+    }
+
+
     if (object.taskType!=="INFO"){
         if (object.groupTask===true){
             result.taskType="grouptask"
@@ -188,7 +203,8 @@ function closePhase(phase, projectName){
             "Cache-Control": "no-cache"
         },
         type: 'GET',
-        success: function (response) {
+        success: function () {
+            location.reload();
         },
         error: function(a){
         }

@@ -31,6 +31,7 @@
     </div>
     <script id="taskTemplate" type="text/x-jQuery-tmpl">
         <div class="card ${phase}">
+
             <div class="col span_s_of_2 icon ${taskType}">
             </div>
             <div class="col span_l_of_2" id="${taskName}">
