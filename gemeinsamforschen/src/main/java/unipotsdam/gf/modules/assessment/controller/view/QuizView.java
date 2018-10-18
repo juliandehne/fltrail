@@ -23,7 +23,8 @@ import java.util.Map;
 
 @Path("/assessments")
 public class QuizView {
-    private static IPeerAssessment peer = new PeerAssessment();      //correct DB-conn and stuff
+    @Inject
+    private IPeerAssessment peer;      //correct DB-conn and stuff
 
     @Inject
     Management management;

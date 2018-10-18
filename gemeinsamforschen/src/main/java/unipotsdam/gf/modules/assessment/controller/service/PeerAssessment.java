@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
@@ -25,6 +26,9 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Inject
     private AssessmentDBCommunication assessmentDBCommunication;
+
+    @Inject
+    private GroupDAO groupDAO;
 
     @Override
     public void finalizeAssessment(String projectName){
@@ -70,8 +74,8 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public String whatToRate(StudentIdentifier student) {
-        Integer groupId = assessmentDBCommunication.getGroupByStudent(student);
-        ArrayList<String> groupMembers = assessmentDBCommunication.getStudentsByGroupAndProject(groupId, student.getProjectName());
+        Integer groupId = groupDAO.getGroupByStudent(student);
+        ArrayList<String> groupMembers = assessmentDBCommunication.getStudentsByGroupAndProject(groupId);
         for (String peer : groupMembers) {
             if (!peer.equals(student.getUserEmail())) {
                 StudentIdentifier groupMember = new StudentIdentifier(student.getProjectName(), peer);
@@ -130,7 +134,7 @@ public class PeerAssessment implements IPeerAssessment {
             Integer groupId;
             Performance performance = new Performance();
             StudentIdentifier userNameentifier = new StudentIdentifier(projectName, student);
-            groupId = assessmentDBCommunication.getGroupByStudent(userNameentifier);
+            groupId = groupDAO.getGroupByStudent(userNameentifier);
             //todo: answered quizzes vervöllstandigen
             Integer numberOfQuizzes = assessmentDBCommunication.getQuizCount(projectName);
             List<Integer> answeredQuizzes = assessmentDBCommunication.getAnsweredQuizzes(userNameentifier);
