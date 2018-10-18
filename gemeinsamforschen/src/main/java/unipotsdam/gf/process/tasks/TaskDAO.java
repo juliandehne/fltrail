@@ -178,6 +178,12 @@ public class TaskDAO {
                     result.add(feedbackTask);
                     break;
                 }
+                case WAITING_FOR_STUDENT_DOSSIERS: {
+                    Task task = getGeneralTask(vereinfachtesResultSet);
+                    task.setHasRenderModel(true);
+                    task.setTaskData(submissionController.getProgressData(project));
+                    break;
+                }
                 default: {
                     result.add(getGeneralTask(vereinfachtesResultSet));
                 }

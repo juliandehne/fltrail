@@ -3,8 +3,10 @@ package unipotsdam.gf.modules.submission.controller;
 import com.google.common.base.Strings;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.ISubmission;
@@ -15,20 +17,31 @@ import unipotsdam.gf.modules.submission.model.SubmissionPart;
 import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
 import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
 import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.process.constraints.ConstraintsImpl;
+import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.progress.HasProgress;
+import unipotsdam.gf.process.progress.ProgressData;
 import unipotsdam.gf.process.tasks.FeedbackTaskData;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
  */
-public class SubmissionController implements ISubmission {
+public class SubmissionController implements ISubmission, HasProgress {
 
     @Inject
     private MysqlConnect connection;
+
+    @Inject
+    private UserDAO userDAO;
+
+    @Inject
+    private ConstraintsImpl constraints;
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(SubmissionController.class);
 
@@ -609,5 +622,33 @@ public class SubmissionController implements ISubmission {
         connection.close();
         return count;
 
+    }
+
+
+    @Override
+    public ProgressData getProgressData(Project project) {
+
+        ProgressData progressData = new ProgressData();
+        // the number of completed dossiers
+        progressData.setNumberOfCompletion(getFinalizedDossiersCount(project));
+
+        // the number of dossiers needed relativ to the group or user count
+        progressData.setNumberNeeded(constraints.dossiersNeeded(project));
+        List<User> strugglersWithSubmission = constraints.getStrugglersWithSubmission(project);
+        progressData.setUsersMissing(strugglersWithSubmission);
+        progressData.setAlmostComplete((progressData.getNumberNeeded()/progressData.getNumberOfCompletion()) <= (1/10));
+        return progressData;
+    }
+
+    public List<User> getAllUsersWithFeedbackGiven(Project project) {
+        List<User> result = new ArrayList<>();
+        connection.connect();
+        String query = "select * feedbackUser from fullsubmissions where projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, project.getName());
+        while (vereinfachtesResultSet.next()) {
+            result.add(userDAO.getUserByEmail(vereinfachtesResultSet.getString("feedbackUser")));
+        }
+        connection.close();
+        return result;
     }
 }
