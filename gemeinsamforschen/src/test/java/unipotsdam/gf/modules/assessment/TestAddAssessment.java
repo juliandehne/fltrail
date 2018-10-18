@@ -1,6 +1,10 @@
 package unipotsdam.gf.modules.assessment;
 
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
+import org.junit.Before;
 import org.junit.Test;
+import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.IPeerAssessment;
@@ -19,13 +23,21 @@ import java.util.Map;
 
 public class TestAddAssessment {
 
-    private IPeerAssessment peer = new PeerAssessment();
+    @Inject
+    private IPeerAssessment peer;
     private String userName = "Kevin";
     private String projectName = "test a la test";
     private String quizId = "Whats a good Test?";
 
     @Inject
     MysqlConnect connect;
+
+    @Before
+    public void setUp() {
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        locator.inject(this);
+
+    }
 
     @Test
     public void createQuiz() {

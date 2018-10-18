@@ -9,8 +9,6 @@ import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 import unipotsdam.gf.modules.group.DummyGroupfinding;
 import unipotsdam.gf.modules.group.DummyProjectCreationService;
 import unipotsdam.gf.modules.group.GroupDAO;
-import unipotsdam.gf.modules.group.GroupfindingImpl;
-import unipotsdam.gf.modules.journal.service.IJournalImpl;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
@@ -31,20 +29,17 @@ import unipotsdam.gf.session.GFContexts;
 
 public class GFApplicationBinder extends AbstractBinder {
 
-    /**
-     * TODO replace DummyImplementation
-     */
+
     @Override
     protected void configure() {
         bind(CommunicationDummyService.class).to(ICommunication.class);
         bind(ManagementImpl.class).to(Management.class);
+
         bind(PeerAssessment.class).to(IPeerAssessment.class);
         bind(PhasesImpl.class).to(IPhases.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
         bind(DummyGroupfinding.class).to(IGroupFinding.class);
-        bind(IJournalImpl.class).to(IJournal.class);
-        bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(AssessmentDBCommunication.class).to(AssessmentDBCommunication.class);
         bind(GFContexts.class).to(GFContexts.class);
         bind(ProjectCreationProcess.class).to(ProjectCreationProcess.class);

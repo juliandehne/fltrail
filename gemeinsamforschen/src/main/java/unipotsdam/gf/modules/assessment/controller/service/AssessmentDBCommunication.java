@@ -42,7 +42,7 @@ public class AssessmentDBCommunication {
         ArrayList<Map<String, Double>> result = new ArrayList<>();
 
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectName`=? AND `userName`=?";
+        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectName`=? AND `userEmail`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail());
         boolean next = vereinfachtesResultSet.next();
@@ -60,7 +60,7 @@ public class AssessmentDBCommunication {
     Boolean getWorkRating(StudentIdentifier student, String fromStudent) {
 
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectName`=? AND `userName`=? AND `fromPeer`=?";
+        String mysqlRequest = "SELECT * FROM `workrating` WHERE `projectName`=? AND `userEmail`=? AND `fromPeer`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail(),
                         fromStudent);
@@ -74,32 +74,21 @@ public class AssessmentDBCommunication {
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectID);
         boolean next = vereinfachtesResultSet.next();
         while (next) {
-            result.add(vereinfachtesResultSet.getString("userID"));
+            result.add(vereinfachtesResultSet.getString("userEmail"));
             next = vereinfachtesResultSet.next();
         }
         return result;
     }
 
-    Integer getGroupByStudent(StudentIdentifier student) {
-        Integer result;
-        connect.connect();
-        String mysqlRequest = "SELECT groupId FROM `groupuser` WHERE `projectName`=? AND `userName`=?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail());
-        vereinfachtesResultSet.next();
-        result = vereinfachtesResultSet.getInt("groupId");
-        return result;
-    }
-
-    ArrayList<String> getStudentsByGroupAndProject(Integer groupId, String projectName) {
+    ArrayList<String> getStudentsByGroupAndProject(Integer groupId) {
         ArrayList<String> result = new ArrayList<>();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `groupuser` WHERE `groupId`=? AND `projectName`=?";
+        String mysqlRequest = "SELECT * FROM `groupuser` WHERE `groupId`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, groupId, projectName);
+                connect.issueSelectStatement(mysqlRequest, groupId);
         Boolean next = vereinfachtesResultSet.next();
         while (next) {
-            result.add(vereinfachtesResultSet.getString("userName"));
+            result.add(vereinfachtesResultSet.getString("userEmail"));
             next = vereinfachtesResultSet.next();
         }
         return result;
@@ -148,7 +137,7 @@ public class AssessmentDBCommunication {
     ArrayList<Integer> getAnsweredQuizzes(StudentIdentifier student) {
         ArrayList<Integer> result = new ArrayList<>();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `answeredquiz` WHERE `projectName`=? AND `userName`=?";
+        String mysqlRequest = "SELECT * FROM `answeredquiz` WHERE `projectName`=? AND `userEmail`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail());
         boolean next = vereinfachtesResultSet.next();
@@ -164,7 +153,7 @@ public class AssessmentDBCommunication {
         connect.connect();
         for (String question : questions.keySet()) {
             String mysqlRequest =
-                    "INSERT INTO `answeredquiz`(`projectName`, `userName`, `question`, `correct`) VALUES (?,?,?,?)";
+                    "INSERT INTO `answeredquiz`(`projectName`, `userEmail`, `question`, `correct`) VALUES (?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest, student.getProjectName(), student.getUserEmail(),
                     question, questions.get(question));
         }
@@ -174,7 +163,7 @@ public class AssessmentDBCommunication {
     void writeWorkRatingToDB(StudentIdentifier student, String fromStudent, Map<String, Integer> workRating) {
         connect.connect();
         String mysqlRequest =
-                "INSERT INTO `workrating`(`projectName`, `userName`, `fromPeer`, " + "`responsibility`, " + "`partOfWork`, " + "`cooperation`, " + "`communication`, " + "`autonomous`" + ") VALUES (?,?,?,?,?,?,?,?)";
+                "INSERT INTO `workrating`(`projectName`, `userEmail`, `fromPeer`, " + "`responsibility`, " + "`partOfWork`, " + "`cooperation`, " + "`communication`, " + "`autonomous`" + ") VALUES (?,?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, student.getProjectName(), student.getUserEmail(),
                 fromStudent, workRating.get("responsibility"), workRating.get("partOfWork"),
                 workRating.get("cooperation"), workRating.get("communication"), workRating.get("autonomous"));
@@ -184,7 +173,7 @@ public class AssessmentDBCommunication {
     Integer getWhichGroupToRate(StudentIdentifier student) {
         Integer result;
         connect.connect();
-        String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `projectName`=? AND `userName`=? ";
+        String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `projectName`=? AND `userEmail`=? ";
         VereinfachtesResultSet vereinfachtesResultSet1 =
                 connect.issueSelectStatement(mysqlRequest1, student.getProjectName(), student.getUserEmail());
         vereinfachtesResultSet1.next();
@@ -213,7 +202,7 @@ public class AssessmentDBCommunication {
     void writeContributionRatingToDB(String groupId, String fromStudent, Map<String, Integer> contributionRating) {
         connect.connect();
         String mysqlRequest =
-                "INSERT INTO `contributionrating`(" + "`groupId`, " + "`fromPeer`, " + "`dossier`, " + "`research`) " + "VALUES (?,?,?,?)";
+                "INSERT INTO `contributionrating`(`groupId`, `fromPeer`, `dossier`, `research`) VALUES (?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, groupId, fromStudent, contributionRating.get("dossier"),
                 contributionRating.get("research"));
         connect.close();
@@ -221,7 +210,7 @@ public class AssessmentDBCommunication {
 
     void writeGradesToDB(Map<StudentIdentifier, Double> grade) {
         connect.connect();
-        String mysqlRequest = "INSERT INTO `grades`(`projectName`, `userName`, `grade`) VALUES (?,?,?)";
+        String mysqlRequest = "INSERT INTO `grades`(`projectName`, `userEmail`, `grade`) VALUES (?,?,?)";
         for (StudentIdentifier student : grade.keySet()) {
             connect.issueInsertOrDeleteStatement(mysqlRequest, student.getProjectName(), student.getUserEmail(),
                     grade.get(student));

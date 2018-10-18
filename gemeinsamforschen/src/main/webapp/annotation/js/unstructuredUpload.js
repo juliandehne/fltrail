@@ -11,10 +11,10 @@ $(document).ready(function () {
             let text = $('#upload-textarea').val();
 
             // build request
-            var fullSubmissionPostRequest = {
+            let fullSubmissionPostRequest = {
                 user: user,
                 text: text,
-                projectName: getQueryVariable("projectName")
+                projectName: $('#projectName').text().trim()
             };
 
             // save request in database
@@ -23,7 +23,7 @@ $(document).ready(function () {
                 $('#upload-textarea').val("");
 
                 // jump to next page
-                location.href = "create-unstructured-annotation.jsp?projectName=" + getQueryVariable("projectName") + "&submissionId=" + response.id;
+                location.href = "create-unstructured-annotation.jsp?projectName=" + $('#projectName').text().trim() + "&submissionId=" + response.id;
             });
         }
     });
