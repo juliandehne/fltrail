@@ -51,7 +51,9 @@ CREATE TABLE `fullsubmissions` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user` varchar(120) NOT NULL,
   `text` mediumtext NOT NULL,
-  `projectName` varchar(120) NOT NULL
+  `projectName` varchar(120) NOT NULL,
+  `feedbackUser` varchar (255),
+  `finalized` tinyint(4)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `grades` (
@@ -158,6 +160,12 @@ CREATE TABLE `workrating` (
   `communication` int(11) NOT NULL,
   `autonomous` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE submissionuser
+(
+    submissionId varchar(400),
+    userEmail varchar(255)
+);
 
 
 ALTER TABLE `annotations`

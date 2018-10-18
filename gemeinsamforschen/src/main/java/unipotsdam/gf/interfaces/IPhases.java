@@ -11,9 +11,5 @@ public interface IPhases {
      */
     void endPhase(Phase phase, Project project);
 
-    /**
-     * the dependency to feedback should be settable externally for test reasons
-     * @param feedback the feedback that is send
-     */
-    void setFeedback(Feedback feedback);
+
 }

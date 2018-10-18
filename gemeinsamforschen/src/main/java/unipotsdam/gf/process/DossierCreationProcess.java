@@ -27,7 +27,7 @@ public class DossierCreationProcess {
 
     @Inject
     private Management management;
-    
+
     @Inject
     private UserDAO userDAO;
 
@@ -42,17 +42,24 @@ public class DossierCreationProcess {
 
     /**
      * start the Dossier Phase
+     *
      * @param project
      */
     public void startDossierPhase(Project project) {
         Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, project.getAuthorEmail(), project.getName(),
                 Progress.FINISHED);
         taskDAO.updateForUser(task);
+
+        // create a task, telling the docent to wait for students upload of dossiers
+        taskDAO.persist(project, new User(project.getAuthorEmail()), TaskName.WAITING_FOR_STUDENT_DOSSIERS, Phase
+                .DossierFeedback, TaskType.INFO);
+
+        // TODO create waiting for feedback to complete task
+
         taskDAO.persistMemberTask(project, TaskName.UPLOAD_DOSSIER, Phase.DossierFeedback);
     }
 
     /**
-     *
      * @param fullSubmissionPostRequest
      * @param user
      * @param project
@@ -73,7 +80,6 @@ public class DossierCreationProcess {
     }
 
     /**
-     *
      * @param fullSubmission
      * @param user
      */
@@ -82,7 +88,8 @@ public class DossierCreationProcess {
         submissionController.markAsFinal(fullSubmission);
 
         // mark annotate task as finished in db
-        Task task = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), fullSubmission.getProjectName(), Progress.FINISHED);
+        Task task = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), fullSubmission.getProjectName(),
+                Progress.FINISHED);
         taskDAO.updateForUser(task);
 
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
@@ -90,7 +97,8 @@ public class DossierCreationProcess {
             feedback.assignFeedbackTasks(project);
 
             // persist tasks for feedback
-            taskDAO.persistMemberTask(new Project(fullSubmission.getProjectName()), TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
+            taskDAO.persistMemberTask(
+                    new Project(fullSubmission.getProjectName()), TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
         }
     }
 
@@ -99,5 +107,13 @@ public class DossierCreationProcess {
         /*
         TODO implement
          */
+        /** TODO: Move this to the dossierCreationProcess
+         /*   if (tasks.size() > 0) {
+         iCommunication.informAboutMissingTasks(tasks, project);
+         } else {
+         // send a message to the users informing them about the start of the new phase
+         iCommunication.sendMessageToUsers(project, Messages.NewFeedbackTask(project));
+         saveState(project, changeToPhase);
+         }*/
     }
 }

@@ -36,9 +36,6 @@ public class PhasesImpl implements IPhases {
     private IPeerAssessment iPeerAssessment;
 
     @Inject
-    private Feedback feedback;
-
-    @Inject
     private ICommunication iCommunication;
 
     @Inject
@@ -47,8 +44,7 @@ public class PhasesImpl implements IPhases {
     @Inject
     private DossierCreationProcess dossierCreationProcess;
 
-    @Inject
-    private ConstraintsImpl constraints;
+
 
 
     public PhasesImpl() {
@@ -91,16 +87,7 @@ public class PhasesImpl implements IPhases {
                 break;
             case DossierFeedback:
                 // check if everybody has uploaded a dossier
-
                 dossierCreationProcess.finishPhase(project);
-                /** TODO: Move this to the dossierCreationProcess
-             /*   if (tasks.size() > 0) {
-                    iCommunication.informAboutMissingTasks(tasks, project);
-                } else {
-                    // send a message to the users informing them about the start of the new phase
-                    iCommunication.sendMessageToUsers(project, Messages.NewFeedbackTask(project));
-                    saveState(project, changeToPhase);
-                }*/
                 break;
             case Execution:
                 // check if the portfolios have been prepared for evaluation (relevant entries selected)
@@ -161,7 +148,5 @@ public class PhasesImpl implements IPhases {
     }
 
 
-    public void setFeedback(Feedback feedback) {
-        this.feedback = feedback;
-    }
+
 }
