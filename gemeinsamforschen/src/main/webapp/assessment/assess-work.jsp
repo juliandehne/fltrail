@@ -22,7 +22,7 @@
             <table>
                 <tr>
                     <td id="yourContent">
-                        <h1>Assessment for project1 </h1>
+                        <h1>Assessment</h1>
 
                         <!-- Vorschläge für Bewertungen:
                             ++Verantwortungsbewusstsein
@@ -50,299 +50,99 @@
                                 </div>
 
                                 <div class="carousel-inner" id="peerTable">
-                                    <!--<div class="item active">
-                                        <table class="table-striped peerStudent"
-                                               style="width:70%;border:1px solid; margin:auto;" id="Student1">
-                                            <tr>
-                                                <td align="center">
-                                                    <img src="../assets/img/1.jpg" alt="student1"
-                                                         style="width:20%;">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Verantwortungsbewusstsein</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>stark ausgeprägt<input type="radio" value="5"
-                                                                     name="responsibilityStudent1"></label>
-                                                    <input type="radio" value="4" name="responsibilityStudent1">
-                                                    <input type="radio" value="3" name="responsibilityStudent1">
-                                                    <input type="radio" value="2" name="responsibilityStudent1">
-                                                    <label><input type="radio" value="1" name="responsibilityStudent1">
-                                                        ungenügend</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Anteil am Produkt</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>großer Anteil<input type="radio" value="5"
-                                                                     name="partOfWorkStudent1"></label>
-                                                    <input type="radio" value="4" name="partOfWorkStudent1">
-                                                    <input type="radio" value="3" name="partOfWorkStudent1">
-                                                    <input type="radio" value="2" name="partOfWorkStudent1">
-                                                    <label><input type="radio" value="1" name="partOfWorkStudent1">
-                                                        geringer Anteil</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Kooperationsbereitschaft</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>sehr kooperativ<input type="radio" value="5" name="cooperationStudent1">
-                                                    </label>
-                                                    <input type="radio" value="4" name="cooperationStudent1">
-                                                    <input type="radio" value="3" name="cooperationStudent1">
-                                                    <input type="radio" value="2" name="cooperationStudent1">
-                                                    <label><input type="radio" value="1" name="cooperationStudent1">
-                                                        nicht kooperativ</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Disskusionsfähigkeit</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>gut kommuniziert und Meinung vertreten<input type="radio" value="5" name="communicationStudent1">
-                                                    </label>
-                                                    <input type="radio" value="4" name="communicationStudent1">
-                                                    <input type="radio" value="3" name="communicationStudent1">
-                                                    <input type="radio" value="2" name="communicationStudent1">
-                                                    <label><input type="radio" value="1" name="communicationStudent1">
-                                                        keine Meinung und schlecht kommuniziert</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Selbstständigkeit</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>selbstständig<input type="radio" value="5" name="autonomousStudent1">
-                                                    </label>
-                                                    <input type="radio" value="4" name="autonomousStudent1">
-                                                    <input type="radio" value="3" name="autonomousStudent1">
-                                                    <input type="radio" value="2" name="autonomousStudent1">
-                                                    <label><input type="radio" value="1" name="autonomousStudent1">
-                                                        abhängig</label>
-                                                </td>
-                                            </tr>
+                                    <script id="peerTemplate" type="text/x-jQuery-tmpl">
+                                        {{if first}}
+                                        <div class="item active">
+                                        {{else}}
+                                        <div class="item">
+                                        {{/if}}
+                                        <table class="table-striped peerStudent" id="${peerId}">
+                                        <tr>
+                                        <td align="center">
+                                        <img src="../libs/img/noImg.png" alt="${peerId}" style="width:20%;">
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td align="center">
+                                        <h3>Verantwortungsbewusstsein</h3>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td align="center">
+                                        <label>stark ausgeprägt<input type="radio" value="5" name="responsibility${peerId}"></label>
+                                        <input type="radio" value="4" name="responsibility${peerId}">
+                                        <input type="radio" value="3" name="responsibility${peerId}">
+                                        <input type="radio" value="2" name="responsibility${peerId}">
+                                        <label><input type="radio" value="1" name="responsibility${peerId}">ungenügend</label>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td align="center">
+                                        <h3>Anteil am Produkt</h3>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td align="center">
+                                        <label>großer Anteil<input type="radio" value="5" name="partOfWork${peerId}"></label>
+                                        <input type="radio" value="4" name="partOfWork${peerId}">
+                                        <input type="radio" value="3" name="partOfWork${peerId}">
+                                        <input type="radio" value="2" name="partOfWork${peerId}">
+                                        <label><input type="radio" value="1" name="partOfWork${peerId}">geringer Anteil</label>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td align="center">
+                                        <h3>Kooperationsbereitschaft</h3>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td align="center">
+                                        <label>sehr kooperativ<input type="radio" value="5" name="cooperation${peerId}">
+                                        </label>
+                                        <input type="radio" value="4" name="cooperation${peerId}">
+                                        <input type="radio" value="3" name="cooperation${peerId}">
+                                        <input type="radio" value="2" name="cooperation${peerId}">
+                                        <label><input type="radio" value="1" name="cooperation${peerId}">nicht kooperativ</label>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td align="center">
+                                        <h3>Disskusionsfähigkeit</h3>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td align="center">
+                                        <label>gut kommuniziert und Meinung vertreten<input type="radio" value="5" name="communication${peerId}">
+                                        </label>
+                                        <input type="radio" value="4" name="communication${peerId}">
+                                        <input type="radio" value="3" name="communication${peerId}">
+                                        <input type="radio" value="2" name="communication${peerId}">
+                                        <label><input type="radio" value="1" name="communication${peerId}">keine Meinung und schlecht kommuniziert</label>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td align="center">
+                                        <h3>Selbstständigkeit</h3>
+                                        </td>
+                                        </tr>
+                                        <tr>
+                                        <td align="center">
+                                        <label>selbstständig<input type="radio" value="5" name="autonomous${peerId}">
+                                        </label>
+                                        <input type="radio" value="4" name="autonomous${peerId}">
+                                        <input type="radio" value="3" name="autonomous${peerId}">
+                                        <input type="radio" value="2" name="autonomous${peerId}">
+                                        <label><input type="radio" value="1" name="autonomous${peerId}">abhängig</label>
+                                        </td>
+                                        </tr>
                                         </table>
                                         <div align="center">
-                                            <button class="btn btn-primary" id="btnJournalStudent1" >zeige Lernzieltagebuch</button>
-                                            <div id="eJournalStudent1">
-                                                Fasel Blubba Bla
-                                            </div>
+                                        <button class="btn btn-primary" id="btnJournal${peerId}">
+                                        zeige Lernzieltagebuch</button>
+                                        <div id="eJournal${peerId}">Fasel Blubba Bla</div>
                                         </div>
-                                    </div>
-
-                                    <div class="item">
-                                        <table class="table-striped peerStudent"
-                                               style="width:70%;border:1px solid; margin:auto;" id="Student2">
-                                            <tr>
-                                                <td align="center">
-                                                    <img src="../assets/img/2.jpg" alt="Student2"
-                                                         style="width:20%;">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Verantwortungsbewusstsein</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>stark ausgeprägt<input type="radio" value="5"
-                                                                                  name="responsibilityStudent2"></label>
-                                                    <input type="radio" value="4" name="responsibilityStudent2">
-                                                    <input type="radio" value="3" name="responsibilityStudent2">
-                                                    <input type="radio" value="2" name="responsibilityStudent2">
-                                                    <label><input type="radio" value="1" name="responsibilityStudent2">
-                                                        ungenügend</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Anteil am Produkt</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>großer Anteil<input type="radio" value="5"
-                                                                               name="partOfWorkStudent2"></label>
-                                                    <input type="radio" value="4" name="partOfWorkStudent2">
-                                                    <input type="radio" value="3" name="partOfWorkStudent2">
-                                                    <input type="radio" value="2" name="partOfWorkStudent2">
-                                                    <label><input type="radio" value="1" name="partOfWorkStudent2">
-                                                        geringer Anteil</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Kooperationsbereitschaft</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>sehr kooperativ<input type="radio" value="5" name="cooperationStudent2">
-                                                    </label>
-                                                    <input type="radio" value="4" name="cooperationStudent2">
-                                                    <input type="radio" value="3" name="cooperationStudent2">
-                                                    <input type="radio" value="2" name="cooperationStudent2">
-                                                    <label><input type="radio" value="1" name="cooperationStudent2">
-                                                        nicht kooperativ</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Disskusionsfähigkeit</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>gut kommuniziert und Meinung vertreten<input type="radio" value="5" name="communicationStudent2">
-                                                    </label>
-                                                    <input type="radio" value="4" name="communicationStudent2">
-                                                    <input type="radio" value="3" name="communicationStudent2">
-                                                    <input type="radio" value="2" name="communicationStudent2">
-                                                    <label><input type="radio" value="1" name="communicationStudent2">
-                                                        keine Meinung und schlecht kommuniziert</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Selbstständigkeit</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>selbstständig<input type="radio" value="5" name="autonomousStudent2">
-                                                    </label>
-                                                    <input type="radio" value="4" name="autonomousStudent2">
-                                                    <input type="radio" value="3" name="autonomousStudent2">
-                                                    <input type="radio" value="2" name="autonomousStudent2">
-                                                    <label><input type="radio" value="1" name="autonomousStudent2">
-                                                        abhängig</label>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <div align="center">
-                                            <button class="btn btn-primary" id="btnJournalStudent2">zeige Lernzieltagebuch</button>
-                                            <div id="eJournalStudent2">
-                                                Fasel Blubba Bla
-                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="item">
-                                        <table class="table-striped peerStudent"
-                                               style="width:70%;border:1px solid; margin:auto;" id="Student3">
-                                            <tr>
-                                                <td align="center">
-                                                    <img src="../assets/img/3.jpg" alt="Student3"
-                                                         style="width:20%;">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Verantwortungsbewusstsein</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>stark ausgeprägt<input type="radio" value="5"
-                                                                                  name="responsibilityStudent3"></label>
-                                                    <input type="radio" value="4" name="responsibilityStudent3">
-                                                    <input type="radio" value="3" name="responsibilityStudent3">
-                                                    <input type="radio" value="2" name="responsibilityStudent3">
-                                                    <label><input type="radio" value="1" name="responsibilityStudent3">
-                                                        ungenügend</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Anteil am Produkt</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>großer Anteil<input type="radio" value="5"
-                                                                               name="partOfWorkStudent3"></label>
-                                                    <input type="radio" value="4" name="partOfWorkStudent3">
-                                                    <input type="radio" value="3" name="partOfWorkStudent3">
-                                                    <input type="radio" value="2" name="partOfWorkStudent3">
-                                                    <label><input type="radio" value="1" name="partOfWorkStudent3">
-                                                        geringer Anteil</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Kooperationsbereitschaft</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>sehr kooperativ<input type="radio" value="5" name="cooperationStudent3">
-                                                    </label>
-                                                    <input type="radio" value="4" name="cooperationStudent3">
-                                                    <input type="radio" value="3" name="cooperationStudent3">
-                                                    <input type="radio" value="2" name="cooperationStudent3">
-                                                    <label><input type="radio" value="1" name="cooperationStudent3">
-                                                        nicht kooperativ</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Disskusionsfähigkeit</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>gut kommuniziert und Meinung vertreten<input type="radio" value="5" name="communicationStudent3">
-                                                    </label>
-                                                    <input type="radio" value="4" name="communicationStudent3">
-                                                    <input type="radio" value="3" name="communicationStudent3">
-                                                    <input type="radio" value="2" name="communicationStudent3">
-                                                    <label><input type="radio" value="1" name="communicationStudent3">
-                                                        keine Meinung und schlecht kommuniziert</label>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <h3>Selbstständigkeit</h3>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td align="center">
-                                                    <label>selbstständig<input type="radio" value="5" name="autonomousStudent3">
-                                                    </label>
-                                                    <input type="radio" value="4" name="autonomousStudent3">
-                                                    <input type="radio" value="3" name="autonomousStudent3">
-                                                    <input type="radio" value="2" name="autonomousStudent3">
-                                                    <label><input type="radio" value="1" name="autonomousStudent3">
-                                                        abhängig</label>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <div align="center">
-                                            <button class="btn btn-primary" id="btnJournalStudent3">zeige Lernzieltagebuch</button>
-                                            <div id="eJournalStudent3" align="center">
-                                                Fasel Blubba Bla
-                                            </div>
-                                        </div>
-                                    </div>-->
+                                    </script>
                                 </div>
 
                                 <!-- Left and right controls -->
