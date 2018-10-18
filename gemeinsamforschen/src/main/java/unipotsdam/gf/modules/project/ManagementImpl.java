@@ -39,6 +39,9 @@ public class ManagementImpl implements Management {
     @Inject
     private MysqlConnect connect;
 
+    @Inject
+    private ProjectConfigurationDAO projectConfigurationDAO;
+
 
     @Override
     public void delete(User user) {
@@ -119,13 +122,12 @@ public class ManagementImpl implements Management {
 
     @Override
     public void create(ProjectConfiguration projectConfiguration, Project project) {
-        ProjectConfigurationDAO projectConfigurationDAO = new ProjectConfigurationDAO();
+
         projectConfigurationDAO.persistProjectConfiguration(projectConfiguration, project);
     }
 
     @Override
     public ProjectConfiguration getProjectConfiguration(Project project) {
-        ProjectConfigurationDAO projectConfigurationDAO = new ProjectConfigurationDAO();
         return projectConfigurationDAO.loadProjectConfiguration(project);
     }
 

@@ -1,14 +1,8 @@
 package unipotsdam.gf.interfaces;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.process.constraints.ConstraintsMessages;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.feedback.Model.Peer2PeerFeedback;
+import unipotsdam.gf.process.progress.HasProgress;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Map;
 
 
 /**
