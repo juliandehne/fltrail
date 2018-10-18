@@ -174,7 +174,9 @@ public class TaskDAO {
                 }
 
                 case GIVE_FEEDBACK: {
-                    Task feedbackTask = getFeedbackTask(user, vereinfachtesResultSet);
+                    Task feedbackTask = getGeneralTask(vereinfachtesResultSet);
+                    feedbackTask.setTaskData(submissionController.getFeedbackTaskData(user, project));
+                    feedbackTask.setHasRenderModel(true);
                     result.add(feedbackTask);
                     break;
                 }
@@ -268,10 +270,4 @@ public class TaskDAO {
         persist(project, feedbackTaskData.getTarget(), TaskName.GIVE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);
     }
 
-    public  Task getFeedbackTask(User target, VereinfachtesResultSet vereinfachtesResultSet) {
-        Task task = getGeneralTask(vereinfachtesResultSet);
-        FeedbackTaskData feedbackTaskData = submissionController.getFeedbackTaskData(target);
-        task.setTaskData(feedbackTaskData);
-        return task;
-    }
 }

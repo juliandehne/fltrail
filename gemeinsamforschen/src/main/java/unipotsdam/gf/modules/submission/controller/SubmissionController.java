@@ -585,14 +585,14 @@ public class SubmissionController implements ISubmission, HasProgress {
      * link the full submission with a user who is supposed to give feedback to it.
      * this creates a 1:1 relationship between user and submissions
      * in case gorup work is selected the relationship should be with a group instead
+     *
      * @param submissionOwner
      * @param feedbackGiver
      */
     public void updateFullSubmission(User submissionOwner, User feedbackGiver) {
         connection.connect();
         String query = "update fullsubmissions set feedbackUser = ? where user = ?";
-        connection.issueUpdateStatement(query, feedbackGiver.getEmail(),
-                submissionOwner.getEmail());
+        connection.issueUpdateStatement(query, feedbackGiver.getEmail(), submissionOwner.getEmail());
         connection.close();
         // TODO implement linking submission with group
     }
@@ -601,20 +601,22 @@ public class SubmissionController implements ISubmission, HasProgress {
      * @param target
      * @return
      */
-    public FeedbackTaskData getFeedbackTaskData(User target) {
+    public FeedbackTaskData getFeedbackTaskData(User target, Project project) {
         connection.connect();
 
-        String query = "SELECT * from fullsubmissions where feedbackUser = ?";
-        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, target.getEmail());
-        vereinfachtesResultSet.next();
-        String submissionId = vereinfachtesResultSet.getString("id");
-        String projectName = vereinfachtesResultSet.getString("projectName");
-        Category category = Category.RECHERCHE;
-        FullSubmission fullSubmission = new FullSubmission(submissionId);
-        fullSubmission.setProjectName(projectName);
-        connection.close();
-
-        return new FeedbackTaskData(target, fullSubmission, category);
+        String query = "SELECT * from fullsubmissions where feedbackUser = ? and projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, target.getEmail(),
+                project.getName());
+        if (vereinfachtesResultSet.next()) {
+            String submissionId = vereinfachtesResultSet.getString("id");
+            String projectName = vereinfachtesResultSet.getString("projectName");
+            Category category = Category.RECHERCHE;
+            FullSubmission fullSubmission = new FullSubmission(submissionId);
+            fullSubmission.setProjectName(projectName);
+            connection.close();
+            return new FeedbackTaskData(target, fullSubmission, category);
+        } else
+            return null;
     }
 
     public int getFinalizedDossiersCount(Project project) {
@@ -642,7 +644,8 @@ public class SubmissionController implements ISubmission, HasProgress {
         progressData.setNumberNeeded(dossiersNeeded(project));
         List<User> strugglersWithSubmission = getStrugglersWithSubmission(project);
         progressData.setUsersMissing(strugglersWithSubmission);
-        progressData.setAlmostComplete((progressData.getNumberNeeded()/progressData.getNumberOfCompletion()) <= (1/10));
+        progressData
+                .setAlmostComplete((progressData.getNumberOfCompletion() / progressData.getNumberNeeded()) <= (1 / 10));
         return progressData;
     }
 
@@ -694,8 +697,9 @@ public class SubmissionController implements ISubmission, HasProgress {
     public List<User> getAllUsersWithFeedbackGiven(Project project) {
         List<User> result = new ArrayList<>();
         connection.connect();
-        String query = "select * feedbackUser from fullsubmissions where projectName = ?";
+        String query = "select * from fullsubmissions where projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, project.getName());
+
         while (vereinfachtesResultSet.next()) {
             result.add(userDAO.getUserByEmail(vereinfachtesResultSet.getString("feedbackUser")));
         }

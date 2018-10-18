@@ -43,11 +43,11 @@ public class FeedbackImpl implements Feedback {
             case SingleUser:
                 List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
                 User firstUser = usersByProjectName.get(0);
-                User lastUser = usersByProjectName.get(usersByProjectName.size());
+                User lastUser = usersByProjectName.get(usersByProjectName.size()-1);
                 submissionController.updateFullSubmission(firstUser, lastUser);
-                for (int i = 0; i<usersByProjectName.size()-1;i++) {
-                    User submissionOwner = usersByProjectName.get(i+1);
+                for (int i = 0; i <= usersByProjectName.size()-2;i++) {
                     User feedbackGiver =usersByProjectName.get(i);
+                    User submissionOwner = usersByProjectName.get(i+1);
                     submissionController.updateFullSubmission(submissionOwner, feedbackGiver);
                 }
                 break;

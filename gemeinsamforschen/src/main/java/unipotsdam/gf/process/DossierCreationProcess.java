@@ -26,12 +26,6 @@ public class DossierCreationProcess {
     private SubmissionController submissionController;
 
     @Inject
-    private Management management;
-
-    @Inject
-    private UserDAO userDAO;
-
-    @Inject
     private TaskDAO taskDAO;
 
     @Inject
@@ -98,7 +92,7 @@ public class DossierCreationProcess {
 
             // persist tasks for feedback
             taskDAO.persistMemberTask(
-                    new Project(fullSubmission.getProjectName()), TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
+                    project, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
         }
     }
 

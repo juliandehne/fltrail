@@ -6,6 +6,7 @@ import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.modules.feedback.FeedbackImpl;
 import unipotsdam.gf.modules.group.DummyProjectCreationService;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupfindingImpl;
@@ -55,6 +56,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(ProjectDAO.class).to(ProjectDAO.class);
         bind(GroupDAO.class).to(GroupDAO.class);
         bind(TaskDAO.class).to(TaskDAO.class);
+        bind(FeedbackImpl.class).to(Feedback.class);
 
         bindMore();
     }
