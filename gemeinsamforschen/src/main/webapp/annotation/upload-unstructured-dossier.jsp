@@ -2,6 +2,7 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 
 
 <!DOCTYPE html>
@@ -27,37 +28,28 @@
 
 <body>
 <menu:menu hierarchy="1"/>
-<div id="wrapper">
-    <div class="page-content-wrapper full-height">
-        <div class="container-fluid full-height">
-            <div class="container-fluid-content">
-                <div class="flex">
-                    <headLine:headLine/>
-                </div>
-                <div class="content-mainpage">
-                    <form id="upload-textarea-form">
-                        <div class="form-group upload-text" id="documentText">
-                            <label for="upload-textarea">Texteingabe</label>
-                            <textarea class="upload-text-textarea form-control" placeholder="Text einfügen..."
-                                      id="upload-textarea" name="uploadtextarea"></textarea>
-                        </div>
-                    </form>
-
-                    <div>
-                        <label for="file">Alternativ bitte Datei wählen</label>
-                        <input type="file" id="file" name="file">
-                    </div>
-                    <div class="document-text-buttons">
-                        <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
-                        </button>--%>
-                        <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
-                        </button>
-                    </div>
-                </div>
-            </div>
+<div class="col span_l_of_2"> <!-- col right-->
+    <headLine:headLine/>
+    <form id="upload-textarea-form">
+        <div class="form-group upload-text" id="documentText">
+            <label for="upload-textarea">Texteingabe</label>
+            <textarea class="upload-text-textarea form-control" placeholder="Text einfügen..."
+                      id="upload-textarea" name="uploadtextarea"></textarea>
         </div>
+    </form>
+
+    <div>
+        <label for="file">Alternativ bitte Datei wählen</label>
+        <input type="file" id="file" name="file">
+    </div>
+    <div class="document-text-buttons">
+        <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
+        </button>--%>
+        <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
+        </button>
     </div>
 </div>
+<footer:footer/>
 </body>
 
 </html>
