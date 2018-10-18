@@ -2,14 +2,15 @@
  * This function will fire when the DOM is ready
  */
 $(document).ready(function () {
-
+    $('#missingAnnotation').hide();
+    buildAnnotationList();
     // fetch the document text of the given id
-    getFullSubmission(getSubmissionIdFromUrl(), function (response) {
+    getFullSubmission(getQueryVariable("submissionId"), function (response) {
         // set text in div
         $('#documentText').text(response.text);
 
         // get submissions parts from database
-        getAllSubmissionParts(getSubmissionIdFromUrl(), function (response) {
+        getAllSubmissionParts(getQueryVariable("submissionId"), function (response) {
 
             // iterate over response
             for (let i = 0; i < response.length; i++) {
@@ -66,22 +67,6 @@ $(document).ready(function () {
     });
 
 });
-
-/**
- * Get the id of a full submission from url
- *
- * @returns The id of the full submission
- */
-function getSubmissionIdFromUrl() {
-    var parts = window.location.search.substr(1).split("&");
-    var $_GET = {};
-    for (var i = 0; i < parts.length; i++) {
-        var temp = parts[i].split("=");
-        $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
-    }
-    return $_GET['submissionId'];
-
-}
 
 /**
  * Handel the category selection
@@ -141,17 +126,17 @@ function getSelectedText() {
  */
 function addHighlightedText(startCharacter, endCharacter, category, offset) {
 
-    var documentText = $('#documentText').text();
-    var documentHtml = $('#documentText').html();
+    let documentText = $('#documentText').text();
+    let documentHtml = $('#documentText').html();
 
     // create <span> tag with the annotated text
-    var replacement = $('<span></span>').attr('class', category).html(documentText.slice(startCharacter, endCharacter));
+    let replacement = $('<span></span>').attr('class', category).html(documentText.slice(startCharacter, endCharacter));
 
     // wrap an <p> tag around the replacement, get its parent (the <p>) and ask for the html
-    var replacementHtml = replacement.wrap('<p/>').parent().html();
+    let replacementHtml = replacement.wrap('<p/>').parent().html();
 
     // insert the replacementHtml
-    var newDocument = documentHtml.slice(0, startCharacter + offset) + replacementHtml + documentHtml.slice(endCharacter + offset);
+    let newDocument = documentHtml.slice(0, startCharacter + offset) + replacementHtml + documentHtml.slice(endCharacter + offset);
 
     // set new document text
     $('#documentText').html(newDocument);
@@ -249,6 +234,7 @@ function saveButtonHandler() {
     if (window.confirm("Möchten Sie wirklich ihre Annotationen speichern?")) {
         // declare array of promises
         let promises = [];
+        let categoriesSent = [];
         $('#annotations').find('.category-card').each(function () {
             let array = $(this).data('array');
             if (array != null) {
@@ -257,7 +243,7 @@ function saveButtonHandler() {
                 let category = $(this).attr('id').toUpperCase();
                 let submissionPartPostRequest = {
                     userEmail: getUserEmail(),
-                    fullSubmissionId: getSubmissionIdFromUrl(),
+                    fullSubmissionId: getQueryVariable("submissionId"),
                     category: category,
                     body: []
                 };
@@ -280,13 +266,20 @@ function saveButtonHandler() {
                 promises.push(createSubmissionPart(submissionPartPostRequest, function (response) {
                     console.log("send " + response.category + "'s post request to back-end")
                 }));
-
+                categoriesSent.push(category);
             }
         });
 
         $.when.apply($, promises).then(function () {
-            // redirect user to project page after saving
-            finalizeDossier(getSubmissionIdFromUrl());
+            let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT",
+            "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
+            if (categoriesSent.length === categories.length){
+                finalizeDossier(getQueryVariable("submissionId"));
+            }else{
+                let missingAnnotation = $('#missingAnnotation');
+                missingAnnotation.show();
+                missingAnnotation.text("Sie haben noch nicht alle Kategorien markiert");
+            }
         });
 
         // redirect user to project page after saving
@@ -299,7 +292,7 @@ function saveButtonHandler() {
  *
  */
 function finalizeDossier(submissionId) {
-    let requestObj = new RequestObj(1,"/submissions","/id/?/finalize", [submissionId])
+    let requestObj = new RequestObj(1,"/submissions","/id/?/projects/?/finalize", [submissionId, $('#projectName').text().trim()]);
     serverSide(requestObj, "POST", function (response) {
         location.href = "../project/tasks-student.jsp?projectName=" + getQueryVariable('projectName');
     })
@@ -328,5 +321,13 @@ function handleCategoryClick(key) {
             handleCategorySelection(key, startCharacter, endCharacter);
         }
     }
+}
 
+function buildAnnotationList(){
+    let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT",
+        "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
+    for (let i in categories){
+        let tmplObject = {annotationType: categories[i].toLowerCase()};
+        $('#annotationTemplate').tmpl(tmplObject).appendTo('#annotations');
+    }
 }

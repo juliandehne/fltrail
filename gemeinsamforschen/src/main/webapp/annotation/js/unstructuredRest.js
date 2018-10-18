@@ -27,7 +27,7 @@ function createFullSubmission(fullSubmissionPostRequest, responseHandler) {
  * @param errorHandler The error handler
  */
 function getFullSubmission(id, responseHandler, errorHandler) {
-    var url = "../rest/submissions/full/" + id;
+    let url = "../rest/submissions/full/" + id;
     $.ajax({
         url: url,
         type: "GET",
@@ -51,8 +51,8 @@ function getFullSubmission(id, responseHandler, errorHandler) {
  * @returns A promise object
  */
 function createSubmissionPart(submissionPartPostRequest, responseHandler) {
-    var url = "../rest/submissions/part/";
-    var json = JSON.stringify(submissionPartPostRequest);
+    let url = "../rest/submissions/part/";
+    let json = JSON.stringify(submissionPartPostRequest);
     return $.ajax({
         url: url,
         type: "POST",
@@ -77,7 +77,7 @@ function createSubmissionPart(submissionPartPostRequest, responseHandler) {
  * @param errorHandler The error handler
  */
 function getSubmissionPart(id, category, responseHandler, errorHandler) {
-    var url = "../rest/submissions/full/" + id + "/category/" + category;
+    let url = "../rest/submissions/full/" + id + "/category/" + category;
     $.ajax({
         url: url,
         type: "GET",
@@ -100,7 +100,7 @@ function getSubmissionPart(id, category, responseHandler, errorHandler) {
  * @param responseHandler The response handler
  */
 function getAllSubmissionParts(id, responseHandler) {
-    var url = "../rest/submissions/full/" + id + "/parts";
+    let url = "../rest/submissions/full/" + id + "/parts";
     $.ajax({
         url: url,
         type: "GET",

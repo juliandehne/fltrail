@@ -36,9 +36,6 @@ public class PhasesImpl implements IPhases {
     private IPeerAssessment iPeerAssessment;
 
     @Inject
-    private Feedback feedback;
-
-    @Inject
     private ICommunication iCommunication;
 
     @Inject
@@ -47,8 +44,7 @@ public class PhasesImpl implements IPhases {
     @Inject
     private DossierCreationProcess dossierCreationProcess;
 
-    @Inject
-    private ConstraintsImpl constraints;
+
 
 
     public PhasesImpl() {
@@ -152,7 +148,5 @@ public class PhasesImpl implements IPhases {
     }
 
 
-    public void setFeedback(Feedback feedback) {
-        this.feedback = feedback;
-    }
+
 }

@@ -73,50 +73,7 @@ public class ConstraintsImpl {
         return result;
     }
 
-    /**
-     * get how many dossiers are needed
-     *
-     * @param project
-     * @return
-     */
-    public int dossiersNeeded(Project project) {
-        GroupFormationMechanism groupFormationMechanism = groupDAO.getGroupFormationMechanism(project);
-        Integer result = 0;
-        switch (groupFormationMechanism) {
-            case SingleUser:
-                ParticipantsCount participantCount = projectDAO.getParticipantCount(project);
-                result = participantCount.getParticipants();
-                break;
-            case LearningGoalStrategy:
-            case UserProfilStrategy:
-            case Manual:
-                int groupCount = groupDAO.getGroupsByProjectName(project.getName()).size();
-                result = groupCount;
-                break;
-        }
-        return result;
-    }
 
-
-    public List<User> getStrugglersWithSubmission(Project project) {
-        ArrayList<User> struggles = new ArrayList<>();
-        GroupFormationMechanism groupFormationMechanism = groupDAO.getGroupFormationMechanism(project);
-        switch (groupFormationMechanism) {
-            case SingleUser:
-                List<User> usersInProject = userDAO.getUsersByProjectName(project.getName());
-                List<User> usersHavingGivenFeedback = submissionController.getAllUsersWithFeedbackGiven(project);
-                for (User user : usersInProject) {
-                    if (!usersHavingGivenFeedback.contains(user)) {
-                        struggles.add(user);
-                    }
-                }
-                break;
-            case LearningGoalStrategy:
-            case Manual:
-            case UserProfilStrategy:
-        }
-        return struggles;
-    }
 
 
 }

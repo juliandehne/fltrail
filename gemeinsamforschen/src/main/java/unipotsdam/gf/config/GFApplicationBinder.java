@@ -6,9 +6,10 @@ import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
-import unipotsdam.gf.modules.group.DummyGroupfinding;
 import unipotsdam.gf.modules.group.DummyProjectCreationService;
 import unipotsdam.gf.modules.group.GroupDAO;
+import unipotsdam.gf.modules.group.GroupfindingImpl;
+import unipotsdam.gf.modules.journal.service.IJournalImpl;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
@@ -34,12 +35,12 @@ public class GFApplicationBinder extends AbstractBinder {
     protected void configure() {
         bind(CommunicationDummyService.class).to(ICommunication.class);
         bind(ManagementImpl.class).to(Management.class);
-
         bind(PeerAssessment.class).to(IPeerAssessment.class);
         bind(PhasesImpl.class).to(IPhases.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
-        bind(DummyGroupfinding.class).to(IGroupFinding.class);
+        bind(IJournalImpl.class).to(IJournal.class);
+        bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(AssessmentDBCommunication.class).to(AssessmentDBCommunication.class);
         bind(GFContexts.class).to(GFContexts.class);
         bind(ProjectCreationProcess.class).to(ProjectCreationProcess.class);

@@ -35,8 +35,6 @@ public class ProjectCreationProcess {
     @Inject
     private GroupDAO groupDAO;
 
-    @Inject
-    private IPhases phases;
 
     /**
      * STEP 1

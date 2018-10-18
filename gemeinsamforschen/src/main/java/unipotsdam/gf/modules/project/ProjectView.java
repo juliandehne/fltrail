@@ -30,9 +30,6 @@ public class ProjectView {
     private Management iManagement;
 
     @Inject
-    private TaskDAO taskDao;
-
-    @Inject
     private ProjectCreationProcess projectCreationProcess;
 
     @PUT

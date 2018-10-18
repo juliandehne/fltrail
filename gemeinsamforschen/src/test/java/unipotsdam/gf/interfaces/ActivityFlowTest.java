@@ -100,7 +100,7 @@ public class ActivityFlowTest {
 
         // TODO @Julian: Find out more elegant way of doing this
         researchReportManagement.setFeedback(feedback);
-        phases.setFeedback(feedback);
+//        phases.setFeedback(feedback);
 
     }
 
