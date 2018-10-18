@@ -557,8 +557,8 @@ public class SubmissionController implements ISubmission {
      */
     public void markAsFinal(FullSubmission fullSubmission) {
         connection.connect();
-        String query = "update fullsubmission set finalized = ? where id = ?";
-        connection.issueUpdateStatement(query, true, fullSubmission.getId());
+        String query = "update fullsubmissions set finalized = ? where id = ?";
+        connection.issueUpdateStatement(query, 1, fullSubmission.getId());
         connection.close();
     }
 
@@ -603,7 +603,7 @@ public class SubmissionController implements ISubmission {
 
         Integer count = null;
         String query = "SELECT COUNT(*) from fullsubmissions where projectName = ? and finalized = ?";
-        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query);
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, project.getName(), true);
         vereinfachtesResultSet.next();
         count = vereinfachtesResultSet.getInt(1);
         connection.close();

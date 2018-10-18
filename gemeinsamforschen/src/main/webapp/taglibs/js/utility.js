@@ -88,8 +88,7 @@ function getQueryVariable(variable) {
  * @param methodPath i.e. /create/{id} in this case /create/?/another/?
  * @param pathParams what is filling in for the ?
  * @param queryParams i.e. &projectName=something&submissionId=anotherthing
- * @param requestEntity the json obj to send in put
- * @param callback the callback to call after success
+ * @param entity the json obj to send in put
  * @constructor
  */
 function RequestObj(hierachyLevel, modulePath, methodPath, pathParams, queryParams, entity) {
@@ -115,7 +114,7 @@ function serverSide(requestObj, method, callback) {
         methodPath = methodPath.replace("?", e);
     });
 
-    let localurl = relativPath + "gemeinsamforschen/rest" + requestObj.modulePath + methodPath ;
+    let localurl = relativPath + "rest" + requestObj.modulePath + methodPath ;
 
     if (requestObj.queryParams) {
         localurl = localurl + requestObj.queryParams;
