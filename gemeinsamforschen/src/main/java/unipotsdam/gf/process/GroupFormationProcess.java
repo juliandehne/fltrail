@@ -57,11 +57,19 @@ public class GroupFormationProcess {
      * @param project
      * @param groups
      */
-    public void finalizeGroups( Project project, Group ... groups) {
-        groupfinding.persistGroups(Arrays.asList(groups), project);
+    public void finish(Project project, Group ... groups) {
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
+        /**
+         * Gruppenphase wird beendet
+         */
         Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, project.getAuthorEmail(), project.getName(), Progress.FINISHED);
         taskDAO.updateForUser(task);
+        // Der Dozent muss nicht mehr auf weitere Studierende warten
+        Task task2 = new Task(TaskName.WAIT_FOR_PARTICPANTS, project.getAuthorEmail(), project.getName(), Progress
+                .FINISHED);
+        taskDAO.updateForUser(task2);
+        // Die Studierenden müssen nicht mehr auf die Gruppenfindung warten
+        taskDAO.finishMemberTask(project, TaskName.WAITING_FOR_GROUP);
         taskDAO.persistMemberTask(project,  TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);
     }
 

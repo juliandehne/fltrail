@@ -39,7 +39,7 @@ public class DossierCreationProcess {
      *
      * @param project
      */
-    public void startDossierPhase(Project project) {
+    public void start(Project project) {
         Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, project.getAuthorEmail(), project.getName(),
                 Progress.FINISHED);
         taskDAO.updateForUser(task);

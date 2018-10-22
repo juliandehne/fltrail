@@ -93,7 +93,7 @@ public class GroupPhaseTaskTest {
         for (User student : students) {
             group.addMember(student);
         }
-        groupFormationProcess.finalizeGroups(project, group);
+        groupFormationProcess.finish(project, group);
 
 
     }

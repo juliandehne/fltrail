@@ -45,12 +45,14 @@ public class TaskDAO {
         task.setProjectName(vereinfachtesResultSet.getString("projectName"));
         task.setGroupTask(vereinfachtesResultSet.getBoolean("groupTask"));
         task.setProgress(Progress.valueOf(vereinfachtesResultSet.getString("progress")));
-        try{
+        try {
             task.setEventCreated(vereinfachtesResultSet.getTimestamp("created").getTime());
-        }catch(Exception e){ }
-        try{
+        } catch (Exception e) {
+        }
+        try {
             task.setDeadline(vereinfachtesResultSet.getTimestamp("due").getTime());
-        }catch(Exception e){ }
+        } catch (Exception e) {
+        }
         task.setPhase(Phase.valueOf(vereinfachtesResultSet.getString("phase")));
         task.setTaskName(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
         task.setHasRenderModel(false);
@@ -107,7 +109,7 @@ public class TaskDAO {
         return task;
     }
 
-    private void persist(Task task)  {
+    private void persist(Task task) {
 
         if (task.getTaskName() == null) {
             throw new Error("no taskName given");
@@ -126,10 +128,7 @@ public class TaskDAO {
 
         connect.connect();
         String query =
-                "INSERT IGNORE INTO fltrail.tasks (userEmail, projectName, taskName, " +
-                        "groupTask, importance, progress, phase, created, due, " +
-                        "taskMode, taskMode2, taskMode3)" +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
+                "INSERT IGNORE INTO fltrail.tasks (userEmail, projectName, taskName, " + "groupTask, importance, progress, phase, created, due, " + "taskMode, taskMode2, taskMode3)" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
 
         if (task.getTaskType() == null || task.getTaskType().length == 0) {
             try {
@@ -150,7 +149,8 @@ public class TaskDAO {
         connect.connect();
         String query = "Select * from tasks where userEmail = ? AND projectName = ?";
         ArrayList<Task> result = new ArrayList<>();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, user.getEmail(),project.getName());
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(query, user.getEmail(), project.getName());
         while (vereinfachtesResultSet.next()) {
             String taskName = vereinfachtesResultSet.getString("taskName");
 
@@ -199,12 +199,19 @@ public class TaskDAO {
 
     private Task getFinalizeDossierTask(VereinfachtesResultSet vereinfachtesResultSet) {
         Task task = getGeneralTask(vereinfachtesResultSet);
-        task.setTaskData(submissionController.getSubmissionData(new User(task.getUserEmail()), new Project(task.getProjectName())));
+        task.setTaskData(submissionController
+                .getSubmissionData(new User(task.getUserEmail()), new Project(task.getProjectName())));
         return task;
     }
 
     public void persist(Project project, User target, TaskName taskName, Phase phase) {
         Task aDefault = createDefault(project, target, taskName, phase);
+        persist(aDefault);
+    }
+
+    public void persist(Project project, User target, TaskName taskName, Phase phase, Progress progress) {
+        Task aDefault = createDefault(project, target, taskName, phase);
+        aDefault.setProgress(progress);
         persist(aDefault);
     }
 
@@ -236,8 +243,7 @@ public class TaskDAO {
 
     public void updateForUser(Task task) {
         connect.connect();
-        String query =
-                "UPDATE tasks set progress = ? where userEmail = ? AND projectName = ? AND taskName = ?";
+        String query = "UPDATE tasks set progress = ? where userEmail = ? AND projectName = ? AND taskName = ?";
         connect.issueUpdateStatement(
                 query, task.getProgress().name(), task.getUserEmail(), task.getProjectName(), task.getTaskName());
         connect.close();
@@ -245,10 +251,8 @@ public class TaskDAO {
 
     public void updateForAll(Task task) {
         connect.connect();
-        String query =
-                "UPDATE tasks set progress = ? where projectName = ? AND taskName = ?";
-        connect.issueUpdateStatement(
-                query, task.getProgress().name(), task.getProjectName(), task.getTaskName());
+        String query = "UPDATE tasks set progress = ? where projectName = ? AND taskName = ?";
+        connect.issueUpdateStatement(query, task.getProgress().name(), task.getProjectName(), task.getTaskName());
         connect.close();
     }
 
@@ -270,4 +274,14 @@ public class TaskDAO {
         persist(project, feedbackTaskData.getTarget(), TaskName.GIVE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);
     }
 
+    /*
+     * if this takes long rewrite it as batch update
+     */
+    public void finishMemberTask(Project project, TaskName taskName) {
+        java.util.List<User> members = userDAO.getUsersByProjectName(project.getName());
+        for (User member : members) {
+            Task task = new Task(taskName, member.getEmail(), project.getName(), Progress.FINISHED);
+            updateForUser(task);
+        }
+    }
 }
