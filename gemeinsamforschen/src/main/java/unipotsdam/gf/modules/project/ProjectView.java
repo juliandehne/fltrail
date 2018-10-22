@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.project;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.annotation.ManagedBean;
@@ -32,6 +33,9 @@ public class ProjectView {
     @Inject
     private ProjectCreationProcess projectCreationProcess;
 
+    @Inject
+    private GFContext gfContext;
+
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
@@ -44,6 +48,27 @@ public class ProjectView {
             throw new IOException("NO user with this email exists in db");
         }
         projectCreationProcess.createProject(project, user);
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/delete/project/{projectName}")
+    public void deleteProject(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws URISyntaxException, IOException {
+        Boolean isStudent = gfContext.getUser().getStudent();
+        String userEmail = gfContexts.getUserEmail(req);
+        Project project = projectDAO.getProjectByName(projectName);
+        if (!isStudent){
+            if (project.getAuthorEmail().equals(userEmail)){
+                User user = iManagement.getUserByEmail(userEmail);
+                assert user != null;
+                if (user == null) {
+                    throw new IOException("NO user with this email exists in db");
+                }
+                projectCreationProcess.deleteProject(project);
+            }
+        }
+
     }
 
     @GET

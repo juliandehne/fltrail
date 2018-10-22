@@ -153,7 +153,8 @@ public class Menu extends SimpleTagSupport {
             }
         phaseViewString += "" +
                 "        </ul>\n" +
-                "    </div>";
+                "    </div>" +
+                "<div class=\"col span_l_of_2\"> <!-- col right-->\n";
         out.println(phaseViewString);
 
         if (projectName != null)

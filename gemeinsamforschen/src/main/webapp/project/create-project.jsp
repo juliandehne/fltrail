@@ -9,6 +9,8 @@
 <!DOCTYPE html>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+
 
 
 <html>
@@ -25,7 +27,6 @@
 
 <body>
 <menu:menu hierarchy="1"/>
-<div id="wrapper">
     <div class="page-content-wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -83,7 +84,7 @@
             <button class="btn btn-primary" style="margin-left:129px;" id="sendProject">erstellen</button>
         </div>
     </div>
-</div>
+<footer:footer/>
 
 </body>
 

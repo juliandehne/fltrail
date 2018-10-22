@@ -8,16 +8,16 @@ public class Footer extends SimpleTagSupport {
 
     public void doTag() throws IOException {
         JspWriter out = getJspContext().getOut();
-        String footerString = "    </div>\n" +
+        String footerString = "</div>    </div>\n" +
                 "\n" +
                 "    <div style=\"clear:left\"></div>\n" +
                 "\n" +
                 "</main>\n" +
                 "<footer>\n" +
                 "    <p>\n" +
-                "        Impressum </br>\n" +
-                "        Ansprechpartner</br>\n" +
-                "        Fides</br>\n" +
+                "    <a href=\"#\">    Impressum </a> </br>\n" +
+                "    <a href=\"#\">    Ansprechpartner</a></br>\n" +
+                "    <a href=\"#\">    Fides</a></br>\n" +
                 "    </p>\n" +
                 "</footer>\n";
         footerString += "" +

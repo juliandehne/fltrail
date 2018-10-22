@@ -22,7 +22,7 @@
 <body>
 <div class="loader-inactive" id="loader"></div>
 <menu:menu hierarchy="1"/>
-<div id="wrapper">
+
     <div class="page-content-wrapper">
         <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
             <div class="row">
@@ -54,7 +54,6 @@
     </fieldset>
     <button id="deleteProject" class="btn btn-danger">löschen</button>
     <footer:footer/>
-</div>
 </body>
 
 </html>

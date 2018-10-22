@@ -18,7 +18,6 @@
 </head>
 <body>
 <menu:menu hierarchy="1"/>
-<div class="col span_l_of_2"> <!-- col right-->
     <headLine:headLine/>
     <%--    <div class="infotext ">
         <p class="icon">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
@@ -54,7 +53,6 @@
 
 
     </script>
-</div>
 <footer:footer/>
 
 </body>

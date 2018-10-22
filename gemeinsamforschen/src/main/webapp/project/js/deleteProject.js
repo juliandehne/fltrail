@@ -11,13 +11,13 @@ $(document).ready(function () {
 });
 
 function deleteProject(projectName) {
-    var token = getUserEmail();
-    var url = "../database/delete-project.jsp?project=" + projectName + "&password=" + document.getElementById('projectPassword').value.trim();
+
+    let localurl = "../rest/project/delete/project/";
     if (projectName === "") {
         return false;
     } else {
         $.ajax({
-            url: url,
+            url: localurl,
             projectName: projectName,
             Accept: "text/plain; charset=utf-8",
             contentType: "text/plain",

@@ -22,7 +22,7 @@ function createNewProject(allTheTags, activ) {
     // create the project
     if (project) {
         // create the project in local db
-        let localurl = "../../gemeinsamforschen/rest/project/create";
+        let localurl = "../rest/project/create";
         $.ajax({                        //check local DB for existence of projectName
             url: localurl,
             contentType: 'application/json',
@@ -104,14 +104,13 @@ function getProjectValues() {
     } else {
         document.getElementById('tagHelper').className = "";
     }
-
-    // TODO find out author
+    let time = new Date().getTime();
     let project = {
         "name" : projectName,
         "password" : password,
         "active" : true,
-        "timecreated" : 356122661234038,
-        "authorEmail": "vodka",
+        "timecreated" : time,
+        "authorEmail": $('#userEmail').text().trim(),
         "adminPassword": adminPassword,
         "phase" : "CourseCreation",
         "tags": allTheTags

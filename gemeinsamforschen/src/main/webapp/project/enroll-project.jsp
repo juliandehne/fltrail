@@ -2,6 +2,7 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 
 <!DOCTYPE html>
 <html>
@@ -19,7 +20,7 @@
 <body>
 <menu:menu hierarchy="1"/>
 <div class="loader-inactive" id="loader"></div>
-<div id="wrapper" class="wrapper">
+
     <div class="page-content-wrapper">
         <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
             <div class="row">
@@ -50,7 +51,7 @@
             </div>
         </fieldset>
         <button id="seeProject" class="btn btn-primary">Einsehen</button>
-</div>
+<footer:footer/>
 </body>
 
 </html>

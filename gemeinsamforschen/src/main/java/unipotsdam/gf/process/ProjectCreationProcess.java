@@ -82,4 +82,19 @@ public class ProjectCreationProcess {
             }
         }
     }
+
+    /**
+     * STEP N
+     *
+     * @param project
+     * @throws IOException
+     */
+    public void deleteProject(Project project) throws IOException {
+        try {
+            iManagement.delete(project);
+        } catch (Exception e) {
+            throw new WebApplicationException("Project already exists");
+        }
+        //taskDao.createTaskWaitForParticipants(project, author);
+    }
 }

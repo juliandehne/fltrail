@@ -16,8 +16,6 @@
 
 <body>
 <menu:menu hierarchy="1"/>
-<div id="wrapper">
-    <div class="page-content-wrapper">
         <headLine:headLine/>
     <fieldset>
         <legend style="margin-left:13px;">Projektnamen</legend>
@@ -39,8 +37,7 @@
         </div>
     </fieldset>
     <button id="loginProject" class="btn btn-primary">Einsehen</button>
-    </div>
-</div>
+<footer:footer/>
 </body>
 
 </html>
