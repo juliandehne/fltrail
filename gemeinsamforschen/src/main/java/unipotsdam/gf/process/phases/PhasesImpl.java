@@ -1,7 +1,6 @@
 package unipotsdam.gf.process.phases;
 
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.interfaces.IPeerAssessment;
@@ -11,7 +10,6 @@ import unipotsdam.gf.modules.communication.Messages;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
-import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import javax.annotation.ManagedBean;
@@ -43,6 +41,9 @@ public class PhasesImpl implements IPhases {
 
     @Inject
     private DossierCreationProcess dossierCreationProcess;
+
+    @Inject
+    private GroupFormationProcess groupFormationProcess;
 
 
 
@@ -83,7 +84,8 @@ public class PhasesImpl implements IPhases {
                 // inform users about the formed groups, optionally giving them a hint on what happens next
                 iCommunication.sendMessageToUsers(project, Messages.GroupFormation(project));
                 saveState(project, changeToPhase);
-                dossierCreationProcess.startDossierPhase(project);
+                groupFormationProcess.finish(project);
+                dossierCreationProcess.start(project);
                 break;
             case DossierFeedback:
                 // check if everybody has uploaded a dossier

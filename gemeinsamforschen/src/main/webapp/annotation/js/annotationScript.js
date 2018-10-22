@@ -12,6 +12,10 @@ $(document).ready(function() {
     var fullSubmissionId = getQueryVariable("fullSubmissionId");
     var category = getQueryVariable("category");
 
+    if(category == "TITEL" || category == "titel" ) {
+        $('#btnBack').hide();
+    }
+
     // fetch full submission from database
     getFullSubmission(getQueryVariable("fullSubmissionId"), function (response) {
 
@@ -70,28 +74,62 @@ $(document).ready(function() {
     $('#btnContinue').click(function () {
 
         var submissionId = getQueryVariable("fullSubmissionId");
+        var category = getQueryVariable("category");
+        var nextCategory = calculateNextCategory(category);
 
-        switch (getQueryVariable("category")) {
-            case "RECHERCE" : {
-                var nextCategory = "LITERATURVERZEICHNIS";
-                location.href = "../annotation/annotation-document.jsp?fullSubmissionId="+submissionId + "&category="+nextCategory;
-            }
-            case "LITERATURVERZEICHNIS" : {
-                location.href = "../project/give-feedback.jsp?projectName=" + getProjectName();
-
-                //location.href = "../annotation/annotation-document.jsp?fullSubmissionId="+submissionId +
-                // "&category="+nextCategory;
-            }
+        if (!nextCategory) {
+            // TODO go to feedback page
+            location.href = "../project/give-feedback.jsp?projectName=" + getProjectName();
         }
-
+         else {
+            location.href = "../annotation/annotation-document.jsp?fullSubmissionId="+submissionId + "&category="+nextCategory;
+        }
     });
 
     /**
      * back button
      */
     $('#btnBack').click(function () {
-        location.href = "../../project/projects-student.jsp" ;
+
+        var submissionId = getQueryVariable("fullSubmissionId");
+        var category = getQueryVariable("category");
+        var nextCategory = calculateLastCategory(category);
+
+        if (!nextCategory) {
+
+        }
+        else {
+            location.href = "../annotation/annotation-document.jsp?fullSubmissionId="+submissionId + "&category="+nextCategory;
+        }
+
     });
+
+    function calculateNextCategory(current) {
+        var categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT", "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
+        var result = false;
+        for (var i = 0; i< categories.length -1; i++) {
+            if (categories[i] == current) {
+                result = categories[i + 1];
+            }
+        }
+        return result
+
+    }
+
+    function calculateLastCategory(current) {
+        var categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT", "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
+        var result = false;
+        for (var i = 1; i< categories.length; i++) {
+            if (categories[i] == current) {
+                result = categories[i - 1];
+            }
+        }
+        return result
+
+    }
+
+
+
 
     /**
      * validation of annotation create form inside the modal

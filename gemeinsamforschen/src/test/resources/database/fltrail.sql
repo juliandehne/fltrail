@@ -177,9 +177,6 @@ ALTER TABLE `fullsubmissions`
 ALTER TABLE `groups`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `tasks`
-  ADD PRIMARY KEY (`id`);
-
 ALTER TABLE `groupuser`
   ADD KEY `userEmail` (`userEmail`),
   ADD KEY `groupId` (`groupId`);

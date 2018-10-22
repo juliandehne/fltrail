@@ -2,7 +2,6 @@ package unipotsdam.gf.modules.group;
 
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.project.ProjectConfiguration;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
@@ -15,7 +14,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 @Path("/group")
 public class GroupView {
@@ -96,7 +94,7 @@ public class GroupView {
     @Path("/projects/{projectName}")
     public void saveGroups(@PathParam("projectName") String projectName, Group[] groups) {
         Project project = new Project(projectName);
-        groupFormationProcess.finalizeGroups(project, groups);
+        groupfinding.persistGroups(Arrays.asList(groups), project);
     }
 
 }
