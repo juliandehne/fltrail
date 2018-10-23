@@ -1,83 +1,91 @@
 var student = getQueryVariable("token");
 var project = getQueryVariable("projectName");
 
+
+/**function getQueryVariable(variable) {
+    let query = window.location.search.substring(1);
+    let vars = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split("=");
+        if (pair[0] === variable) {
+            return pair[1];
+        }
+    }
+    return (false);
+}*/
+
 $(document).ready(function () {
     $('#student').val(student);
     $('#project').val(project);
+    //$('#name').val(name);
+    var name = document.getElementById("user").innerHTML;
+    var zsm = name+"+"+student;
+    console.log(name)
+    $('#zsm').val(zsm);
+    console.log(zsm);
 
 
-    var peerfeedbackID = getQueryVariable("Peerfeedback");
-    console.log(peerfeedbackID);
-    var peerfeedbackID = "a3cef66d-e1b7-4030-8fcd-1413d6e77ba0";
-    var sender = "sender";
-    console.log(peerfeedbackID);
-    //if(peerfeedbackID) {
-    $.ajax({
-        url: "../rest/peerfeedback/" + sender              //peerfeedbackID     {id}
-
-    }).then(function (data) {
-        //$('#editor').append(data.descriptionMD);
-        console.log("function1");
-        loadFeedback(data);
-        console.log("function2");
-
-        //document.getElementById("Peerfeedback").innerHTML = data.text +"text";
-        //document.write(data);
-        //console.log(data);
-        /**
-         var newDiv = document.createElement("div");
-         var newContent = document.createTextNode(data.text);
-         newDiv.appendChild(newContent); // füge den Textknoten zum neu erstellten div hinzu.
-
-         // füge das neu erstellte Element und seinen Inhalt ins DOM ein
-         var currentDiv = document.getElementById("div1");
-         currentDiv.appendChild(newDiv);
-         //document.body.insertBefore(newDiv, currentDiv);
-         */
-        //$('#peerfeedbackID').val(peerfeedbackID);
-        console.log(data);
+    $('#viewfeedback').click(function () {
+        location.href="../feedback/view-feedback.jsp?token="+getUserTokenFromUrl();
     });
 
-    // }
-    function loadFeedback(data) {
-        for (var feedback in data) {
-            /**var feedbackString = '<div class="pf-container">' +
-             '<div class="journal-date"> ' +
-             data[feedback].timestamp +
-             '</div>' +
-             '<div class="journal-name">' +
-             // TODO id to name
-             data[feedback].text +
-             '</div>' +
-             '<div class="journal-category">' +
-             data[feedback].id +
-             '</div>' +
-             '<div class="journal-edit" align="right">';
+    $('#backlink').click(function () {
+        window.history.back();
+    });
 
-             feedbackString = feedbackString + '</div>' +
-             '<div class="journal-text">' +
-             data[feedback].entryHTML +
-             '</div>' +
-             '</div><br><br>';*/
-
-            var newdiv = document.createElement("div");
+    new InscrybMDE({
+        element: document.getElementById("editor"),
+        spellChecker: false,
+        forceSync: true,
+    });
 
 
-            //newdiv.innerHTML = data[feedback].text;
-            //newdiv.append(data[feedback].text);
-            newdiv.insertAdjacentHTML('beforeend', data[feedback].text);
-            newdiv.className = "feedback-container";
-            //var text = convertMarkdownToHtml(data[feedback].text);
-            //var newcontent = document.createTextNode(data[feedback].text);
-            //newdiv.appendChild(newcontent); // füge den Textknoten zum neu erstellten div hinzu.
+    $('#sub').click(function () {
 
-            // füge das neu erstellte Element und seinen Inhalt ins DOM ein
-            var currentdiv = document.getElementById("div1");
-            currentdiv.appendChild(newdiv);
-            //document.body.insertBefore(newDiv, currentDiv);
-            //document.getElementById("div").innerHTML = data[feedback].text;
+        $.ajax({
+            url: "../rest/peerfeedback/save"
+        }).then(function (data) {
+            //console.log("save:"+data);
+            return location.href="../feedback/give-feedback.jsp?="+getUserTokenFromUrl();
+        });
+        location.href="../feedback/give-feedback.jsp?="+getUserTokenFromUrl();
+    });
 
-            //$('.Peerfeedback').append(feedbackString)
+
+    $.ajax({
+        url: "../rest/peerfeedback/getUsers/" + student
+    }).then(function (data) {
+        console.log("getUsers:"+data);
+        loadUsers(data);
+    });
+
+
+    $.ajax({
+        url: "../rest/peerfeedback/checkFeedback/" +student
+    }).then(function (data) {
+        console.log("checkFeedback:"+data);
+    });
+
+
+    function loadUsers(data) {
+
+        for (var user in data) {
+
+            var sender = [];
+            var name = [];
+            var pair = data[user].split("+");
+            name.push(pair[0]);
+            sender.push(pair[1]);
+            console.log(name+sender);
+
+            var newopt = document.createElement("OPTION");
+            newopt.insertAdjacentHTML('beforeend', name);
+            newopt.value = data[user];
+
+            var currentdiv = document.getElementById("reciever");
+            currentdiv.appendChild(newopt);
         }
-    };
+
+    }
+
 })

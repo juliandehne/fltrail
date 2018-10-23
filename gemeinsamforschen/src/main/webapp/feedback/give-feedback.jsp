@@ -8,93 +8,89 @@
 <html>
 
 <head>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="js/Sidebar-Menu.js"></script>
-    <script  src="js/create-journal.js"></script>
-        --%>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
+    <omniDependencies:omniDependencies hierarchy="1"/>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../journal/css/create-journal.css">
-    <script src="js/peerfeedback.js"></script>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <script src="js/givepeerfeedback.js"></script>
+
 </head>
 
 <body>
 <menu:menu hierarchy="1"/>
-<div id="wrapper">
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div>
             <table>
                 <tr>
-                    <h2> Gib dein Feedback ein!</h2>
+                    <h2 style="padding-left: 15px"> Schreibe dein Feedback ein!</h2>
                     <div class="line-spacer"></div>
-                    <p><span> Datei zum Feedback: SelectedFile.pdf </span></p>
-                    <p class="text-primary"><span> Kategorie: Untersuchungskonzept </span></p>
-                    <hr/>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Das fand ich gut
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Ich habe noch eine Frage
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck3">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Das wuerde ich anders machen
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck4">
-                        <label class="form-check-label" for="defaultCheck1">
-                            Ich habe eine Idee
-                        </label>
-                    </div>
-                    <hr/>
+                    <hr />
+                    <div style="padding-left: 17px">
+                        <h3>Vorschläge für ein gutes Feedback:</h3>
+                        <div>1.  Beginne das Feedback mit etwas Positiven</div>
+                        <div>2. 	Äußere dein Feedback</div>
+                        <div>3. 	Beende das Feedback mit etwas Positiven</div>
+                        <div style="height: 10px"></div>
+                        <div>Hilfestellungen für Formulierungen: </div>
+                        <div style="height: 10px"></div>
+                        <div> - das hat mir gut gefallen, weil ...</div>
+                        <div> - das habe ich nicht verstanden, weil ...</div>
+                        <div> - an diesem Punkt kam ich nicht weiter, weil ...</div>
+                        <div> - das könnte man besser machen, z. B. durch ...</div>
+                        <div> - dabei habe ich noch eine Idee, z.B. ...</div>
 
+                    </div>
+                    <hr>
                     <div>
                         <table>
                             <tr>
-                                <td id="yourContent">
-                                    <h2> Schreibe dein Feedback! </h2>
+                                <td  id="yourContent">
 
-                                    <form id="form" method="POST" action="../rest/peerfeedback/save">
-                                        <%--id="journalform" class="form-journal"--%>
+                                    <form style="padding-left: 20px" id= "journalform" method="POST" action="../rest/peerfeedback/save">
+
                                         <input type="hidden" id="student" name="student">
                                         <input type="hidden" id="project" name="project">
                                         <input type="hidden" id="feedbackid" name="id">
-                                        <input type="hidden" id="reciever" name="reciever">
+                                        <input type="hidden" id="rec" name="rec">
                                         <input type="hidden" id="sender" name="sender">
+                                        <input type="hidden" id="timestamp" name="timestamp">
+                                        <input type="hidden" id="category" name="cat">
                                         <input type="hidden" id="filename" name="filename">
-                                        <input type="hidden" id="category" name="category">
-                                        <input type="hidden" id="filename" name="filename">
+                                        <input type="hidden" id="zsm" name="zsm">
 
+
+                                        <div class="journal-form-category">
+                                            Kategorie:
+                                            <select name="category" form="journalform">
+                                                <option value="TITEL"> Titel</option>
+                                                <option value="RECHERCHE"> Recherche</option>
+                                                <option value="LITERATURVERZEICHNIS"> Literaturverzeichnis</option>
+                                                <option value="FORSCHUNGSFRAGE"> Forschungsfrage</option>
+                                                <option value="UNTERSUCHUNGSKONZEPT"> Untersuchungskonzept</option>
+                                                <option value="METHODIK"> Methodik</option>
+                                                <option value="DURCHFUEHRUNG"> Durchführung</option>
+                                                <option value="AUSWERTUNG"> Auswertung</option>
+
+                                            </select>
+                                        </div>
+                                        <div style="height: 10px"></div>
+                                        <div class="journal-form-category">
+                                            Feedbackempfänger:
+                                            <select name="reciever" id="reciever" form="journalform"> <%--form="journalform"--%>
+                                            </select>
+                                        </div>
 
                                         <div class="journal-form-container">
 
-                                            <div class="journal-form-editor">
-                                                <textarea id="editor" name="text"></textarea> <%--form="journalform"--%>
+                                            <div class="journal-form-editor" style="width: 150%">
+                                                <textarea id="editor" name="text" form="journalform"></textarea> <%--form="journalform"--%>
                                             </div>
 
                                             <div class="journal-form-buttons">
-                                                <input class="btn btn-default btn-sm" type="submit">
-                                                <a id="backLink" class="btn btn-default btn-sm"> Zur&uuml;ck </a>
+                                                <button id="backLink" class="btn btn-default btn-sm"> Zur&uuml;ck </button>
+                                                <button id="sub" class="btn btn-default btn-sm"> Speichern </button>
                                             </div>
-
-                                            <div>
-                                                <p id="as">Now what</p>
-                                                <input type="button" value="get txt" onclick="go()"/>
-                                            </div>
-
                                         </div>
                                     </form>
 
@@ -103,22 +99,14 @@
                             </tr>
                         </table>
                     </div>
-
-
-                    <script>
-                        function goBack() {
-                            window.history.back();
-                        }
-                    </script>
                 </tr>
                 </td>
 
 
-                </tr>
-            </table>
-        </div>
-    </div>
-    <footer:footer/>
+</tr>
+</table>
+</div>
+</div>
 </div>
 </body>
 

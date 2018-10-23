@@ -10,13 +10,11 @@
 <head>
     <link rel="stylesheet" href="css/viewfeedback.css">
     <omniDependencies:omniDependencies hierarchy="1"/>
-    <script src="js/givepeerfeedback.js"></script>
-
+    <script src="js/viewpeerfeedback.js"></script>
 </head>
 
 <body>
 <menu:menu hierarchy="1"/>
-<div id="wrapper">
     <div class="page-content-wrapper">
         <headLine:headLine/>
         <div class="container-fluid">
@@ -72,99 +70,41 @@
                         <div class="feedback-container">
                             <p>Hello. How are you today?</p>
                             <span class="time-right">11:00</span>
+        <div class="container">
+            <h3 class=" text-center">Feedback Nachrichten</h3>
+            <div class="messaging">
+                <div class="inbox_msg">
+                    <div class="inbox_people">
+                        <div class="headind_srch">
+                            <div class="recent_heading" style="padding-left: 152px;">
+                                <h4>Übersicht</h4>
+                            </div>
+                            <hr>
+                            <div id="recieved" class="recent_heading" style="padding-left: 37px; width:50%; float: left; border-right: 1px solid #cdcdcd;">
+                                <h5>Empfangen</h5>
+                            </div>
+                            <input type="hidden" id="list" name="list">
+                            <div id="sended" class="recent_heading" style="float: right; padding-left: 37px;">
+                                <h5>Gesendet</h5>
+                            </div>
                         </div>
-
-                        <div class="feedback-container">
-                            <p>Hey! I'm fine. Thanks for asking!</p>
-                            <span class="time-left">11:01</span>
+                        <div class="inbox_chat" id="inbox_chat">
                         </div>
-
-                        <div class="feedback-container">
-                            <p>Sweet! So, what do you wanna do today?</p>
-                            <span class="time-right">11:02</span>
-                        </div>
-
-                        <div id="div1"></div>
-
                     </div>
-                </td>
-
-
-                <button class="btn btn-secondary" onclick="goBack()">Zur&uuml;ck</button>
-
-                <script>
-                    function goBack() {
-                        window.history.back();
-                    }
-                </script>
-
-                    </td>
-
-
-                <td id="chat">
-                        <div class="card">
-                            <div class="card-header">
-                                <h6 class="mb-0">Gruppen+Projekt Chat</h6>
-                            </div>
-                            <div class="card-body">
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <div class="media">
-                                            <div></div>
-                                            <div class="media-body">
-                                                <div class="media" style="overflow:visible;">
-                                                    <div><img src="../libs/img/1.jpg" class="mr-3"
-                                                              style="width: 25px; height:25px;"></div>
-                                                    <div class="media-body" style="overflow:visible;">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <p><a href="#">Sara Doe:</a> This guy has been going
-                                                                    100+ MPH on side streets. <br>
-                                                                    <small class="text-muted">August 6, 2016 @ 10:35am
-                                                                    </small>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="media">
-                                            <div></div>
-                                            <div class="media-body">
-                                                <div class="media" style="overflow:visible;">
-                                                    <div><img src="../libs/img/2.jpg" class="mr-3"
-                                                              style="width: 25px; height:25px;"></div>
-                                                    <div class="media-body" style="overflow:visible;">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
-                                                                <p><a href="#">Brennan Prill:</a> This guy has been
-                                                                    going 100+ MPH on side streets. <br>
-                                                                    <small class="text-muted">August 6, 2016 @ 10:35am
-                                                                    </small>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <button class="btn btn-light">
-                                    Add Comment
-                                </button>
-                            </div>
+                    <div class="mesgs">
+                        <div class="msg_history" id="msg_history">
                         </div>
+                    </div>
+                </div>
+            </div></div>
+        <button class="btn btn-secondary" onclick="goBack()">Zur&uuml;ck</button>
+
                     </td>
                 </tr>
             </table>
         </div>
     </div>
     <footer:footer/>
-</div>
 </body>
 
 </html>

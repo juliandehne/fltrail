@@ -8,9 +8,9 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/create-journal.css">
+    <link rel="stylesheet" type="text/css" href="journal/css/create-journal.css">
     <omniDependencies:omniDependencies hierarchy="1"/>
-    <script src="js/create-journal.js"></script>
+    <script src="journal/js/create-journal.js"></script>
 </head>
 
 <body>
