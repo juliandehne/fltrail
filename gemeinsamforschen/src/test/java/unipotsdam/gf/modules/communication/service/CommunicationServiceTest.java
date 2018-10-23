@@ -1,59 +1,66 @@
 package unipotsdam.gf.modules.communication.service;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
+import org.junit.*;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.database.InMemoryMySqlConnect;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.management.ManagementImpl;
-import unipotsdam.gf.core.management.group.Group;
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.project.ProjectDAO;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.management.user.UserDAO;
-import unipotsdam.gf.core.management.user.UserProfile;
-import unipotsdam.gf.core.management.user.UserService;
-import unipotsdam.gf.core.states.model.Constraints;
-import unipotsdam.gf.core.states.model.ConstraintsMessages;
+import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
-import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
+import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupDAO;
+import unipotsdam.gf.modules.project.Management;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.modules.user.UserProfile;
+import unipotsdam.gf.modules.user.UserView;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.process.constraints.Constraints;
+import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
+import javax.inject.Inject;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
-import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_ROOM_LINK;
-import static unipotsdam.gf.config.GFRocketChatConfig.TEST_USER;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.*;
+import static unipotsdam.gf.config.GFRocketChatConfig.*;
 
 public class CommunicationServiceTest {
 
+    @Inject
     private ICommunication iCommunication;
+
     private User user;
+
+    @Inject
     private GroupDAO groupDAO;
+
+    @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private ProjectDAO projectDAO;
 
     private List<String> createdChatRooms;
 
+    @Inject
+    Management management;
+
+
     @Before
     public void setUp() {
-        InMemoryMySqlConnect inMemoryMySqlConnect = new InMemoryMySqlConnect();
-        userDAO = new UserDAO(inMemoryMySqlConnect);
-        groupDAO = new GroupDAO(inMemoryMySqlConnect);
-        iCommunication = new CommunicationService(new UnirestService(), userDAO, groupDAO);
+
+        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        locator.inject(this);
+
         user = new User("Vorname Nachname", "password", "email@uni.de", true);
         createdChatRooms = new ArrayList<>();
     }
@@ -116,7 +123,7 @@ public class CommunicationServiceTest {
     public void createChatRoomWithGroup() {
         Group group = new Group();
         group.setMembers(Collections.singletonList(ADMIN_USER));
-        group.setProjectId("chatWithGroup");
+        group.setProjectName("chatWithGroup");
         group.setId(1);
         boolean successful = iCommunication.createChatRoom(group, false);
         assertTrue(successful);
@@ -146,13 +153,13 @@ public class CommunicationServiceTest {
         Group group = new Group();
         userDAO.persist(ADMIN_USER, new UserProfile());
 
-        group.setProjectId(projectId);
+        group.setProjectName(projectId);
         group.setMembers(Collections.singletonList(ADMIN_USER));
         groupDAO.persist(group);
         iCommunication.createChatRoom(group, false);
         groupDAO.update(group);
 
-        String chatRoomLink = iCommunication.getChatRoomLink(ADMIN_USER.getToken(), projectId);
+        String chatRoomLink = iCommunication.getChatRoomLink(ADMIN_USER.getEmail(), projectId);
         assertNotNull(chatRoomLink);
         assertFalse(chatRoomLink.isEmpty());
         String expectedUrl = ROCKET_CHAT_ROOM_LINK + projectId + "-" + group.getId() + "?layout=embedded";
@@ -229,11 +236,11 @@ public class CommunicationServiceTest {
         HashMap<StudentIdentifier, ConstraintsMessages> tasks = new HashMap<>();
         Project project = new Project();
         String projectId = "Projekt";
-        project.setId(projectId);
+        project.setName(projectId);
         StudentIdentifier studentIdentifier = new StudentIdentifier();
-        studentIdentifier.setProjectId(projectId);
+        studentIdentifier.setProjectName(projectId);
         // Permalink for email-address: http://www.trashmail.de/index.php?search=javatest
-        studentIdentifier.setStudentId("javatest@trashmail.de");
+        studentIdentifier.setUserEmail("javatest@trashmail.de");
         ConstraintsMessages constraintsMessages = new ConstraintsMessages(Constraints.QuizCount, studentIdentifier);
         tasks.put(studentIdentifier, constraintsMessages);
         boolean successful = iCommunication.informAboutMissingTasks(tasks, project);
@@ -248,36 +255,34 @@ public class CommunicationServiceTest {
         user.setPassword("test1234");
         user.setEmail("martin@test.com");
         user.setStudent(true);
-        MysqlConnect mysqlConnect = new MysqlConnect();
-        UserDAO userDAO = new UserDAO(mysqlConnect);
-        GroupDAO groupDAO = new GroupDAO(mysqlConnect);
-        ProjectDAO projectDAO = new ProjectDAO(mysqlConnect);
-        UnirestService unirestService = new UnirestService();
-        CommunicationService communicationService = new CommunicationService(unirestService, userDAO, groupDAO);
-        ManagementImpl management = new ManagementImpl(userDAO, groupDAO, projectDAO, mysqlConnect);
-        UserService userService = new UserService(communicationService, userDAO, management);
-        try {
+
+        userDAO.persist(user, null);
+
+
+       /* try {
             userService.login(true, user);
         } catch (URISyntaxException e) {
             Assert.fail();
-        }
+        }*/
         assertTrue(userDAO.exists(user));
 
         PodamFactory podamFactory = new PodamFactoryImpl();
         Project project = podamFactory.manufacturePojo(Project.class);
         // for the dummy data on website
         String projectId = "gemeinsamForschen";
-        project.setId(projectId);
+        project.setName(projectId);
         projectDAO.persist(project);
         assertTrue(projectDAO.exists(project));
 
+        management.register(user, project, null);
+
         Group group = new Group();
-        group.setProjectId(projectId);
+        group.setProjectName(projectId);
         group.setMembers(Collections.singletonList(user));
         groupDAO.persist(group);
         assertTrue(groupDAO.exists(group));
 
-        boolean success = communicationService.createChatRoom(group, false);
+        boolean success = iCommunication.createChatRoom(group, false);
         assertTrue(success);
     }
 }

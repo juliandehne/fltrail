@@ -13,7 +13,6 @@ public class User {
     private String name;
     private String password;
     private String email;
-    private String token;
     private String rocketChatUsername;
     private String rocketChatAuthToken;
     private String rocketChatPersonalAccessToken;
@@ -23,19 +22,16 @@ public class User {
     public User() {
     }
 
-    public User(String name, String password, String email, Boolean isStudent) {
-        this(name, password, email, "", "", "",
-                "", "", isStudent);
-    }
 
-    public User(String name, String password, String email, String rocketChatUsername, Boolean isStudent) {
-        this(name, password, email, "", rocketChatUsername, "",
-                "", "", isStudent);
-    }
 
-    public User(String name, String password, String email,  String rocketChatAuthToken, String rocketChatId, Boolean isStudent) {
     public User(String name, String password, String email, String rocketChatUsername, String rocketChatPersonalAccessToken, String rocketChatUserId) {
-        this(name, password, email, "", rocketChatUsername, "", rocketChatPersonalAccessToken, rocketChatUserId, false);
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.rocketChatUsername = rocketChatUsername;
+        this.rocketChatPersonalAccessToken = rocketChatPersonalAccessToken;
+        this.rocketChatUserId = rocketChatUserId;
+
     }
 
     public User(String name, String password, String email, String rocketChatUsername,
@@ -55,12 +51,20 @@ public class User {
         this.email = authorEmail;
     }
 
-    public String getName() {
-        return name;
+    public User(String name, String password, String email, Boolean isStudent) {
+        this.name = name;
+        this.password= password;
+        this.email = email;
+        this.isStudent = isStudent;
     }
+
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getPassword() {
@@ -138,11 +142,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(name, user.name) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(rocketChatAuthToken, user.rocketChatAuthToken) &&
-                Objects.equals(rocketChatUserId, user.rocketChatUserId) &&
-                Objects.equals(isStudent, user.isStudent);
+        return Objects.equals(email, user.email) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return getEmail().hashCode();
     }
 }

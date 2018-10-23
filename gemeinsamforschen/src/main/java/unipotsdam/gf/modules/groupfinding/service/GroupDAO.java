@@ -1,22 +1,18 @@
+/*
 package unipotsdam.gf.modules.groupfinding.service;
 
 import org.apache.logging.log4j.util.Strings;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.database.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.core.management.group.Group;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.management.util.ResultSetUtil;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.util.ResultSetUtil;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @ManagedBean
 @Resource
@@ -36,7 +32,7 @@ public class GroupDAO {
         Integer groupId;
         String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `projectId`=? AND `studentId`=?";
         VereinfachtesResultSet vereinfachtesResultSet1 =
-                connect.issueSelectStatement(mysqlRequest1, student.getProjectId(), student.getStudentId());
+                connect.issueSelectStatement(mysqlRequest1, student.getProjectName(), student.getUserEmail());
         vereinfachtesResultSet1.next();
         groupId = vereinfachtesResultSet1.getInt("groupId");
         String mysqlRequest2 = "SELECT * FROM `groupuser` WHERE `groupId`=?";
@@ -45,7 +41,7 @@ public class GroupDAO {
         boolean next2 = vereinfachtesResultSet2.next();
         while (next2) {
             String peer = vereinfachtesResultSet2.getString("studentId");
-            if (!peer.equals(student.getStudentId()))
+            if (!peer.equals(student.getUserEmail()))
                 result.add(peer);
             next2 = vereinfachtesResultSet2.next();
         }
@@ -55,7 +51,7 @@ public class GroupDAO {
 
     public void persist(Group group) {
         connect.connect();
-        List<Group> existingGroups = getExistingEntriesOfGroups(group.getProjectId());
+        List<Group> existingGroups = getExistingEntriesOfGroups(group.get());
         if (Objects.isNull(group.getChatRoomId())) {
             group.setChatRoomId("");
         }
@@ -122,21 +118,7 @@ public class GroupDAO {
         return groups;
     }
 
-    public String getGroupChatRoomIdByStudentIdentifier(StudentIdentifier studentIdentifier) {
-        connect.connect();
-        String mysqlRequest = "SELECT g.chatRoomId FROM groups g join groupuser gu on g.id=gu.groupId where gu.projectId=? and gu.studentId=?";
-        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlRequest, studentIdentifier.getProjectId(), studentIdentifier.getStudentId());
-        if (Objects.isNull(resultSet)) {
-            connect.close();
-            return Strings.EMPTY;
-        }
-        String chatRoomId = Strings.EMPTY;
-        if (resultSet.next()) {
-            chatRoomId = resultSet.getString("chatRoomId");
-        }
-        connect.close();
-        return chatRoomId;
-    }
+
 
     private void fillGroupFromResultSet(VereinfachtesResultSet vereinfachtesResultSet, HashMap<Integer, Group> existingGroups) {
         int id = vereinfachtesResultSet.getInt("id");
@@ -165,3 +147,4 @@ public class GroupDAO {
     }
 
 }
+*/

@@ -1,12 +1,13 @@
 package unipotsdam.gf.interfaces;
 
-import unipotsdam.gf.core.management.group.Group;
-import unipotsdam.gf.core.management.project.Project;
-import unipotsdam.gf.core.management.user.User;
-import unipotsdam.gf.core.states.model.ConstraintsMessages;
+
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
+import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import java.util.List;
 import java.util.Map;

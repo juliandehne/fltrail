@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.group;
 
+import org.apache.logging.log4j.util.Strings;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
@@ -150,6 +151,31 @@ public class GroupDAO {
         groupFormationMechanism = GroupFormationMechanism.valueOf(gfmSelected);
         connect.close();
         return groupFormationMechanism;
+    }
+
+    public String getGroupChatRoomIdByStudentIdentifier(StudentIdentifier studentIdentifier) {
+        connect.connect();
+        String mysqlRequest = "SELECT g.chatRoomId FROM groups g join groupuser gu on g.id=gu.groupId where g" +
+                ".projectName=? and gu.studentId=?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlRequest, studentIdentifier.getProjectName(),
+                studentIdentifier.getUserEmail());
+        if (Objects.isNull(resultSet)) {
+            connect.close();
+            return Strings.EMPTY;
+        }
+        String chatRoomId = Strings.EMPTY;
+        if (resultSet.next()) {
+            chatRoomId = resultSet.getString("chatRoomId");
+        }
+        connect.close();
+        return chatRoomId;
+    }
+
+    public void clearChatRoomIdOfGroup(String chatRoomId) {
+        connect.connect();
+        String mysqlRequest = "update groups SET chatRoomId = ? where chatRoomId = ?";
+        connect.issueUpdateStatement(mysqlRequest, "", chatRoomId);
+        connect.close();
     }
 }
 

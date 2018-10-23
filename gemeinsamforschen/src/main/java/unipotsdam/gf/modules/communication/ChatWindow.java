@@ -1,13 +1,12 @@
 package unipotsdam.gf.modules.communication;
 
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.core.database.mysql.MysqlConnect;
-import unipotsdam.gf.core.management.user.UserDAO;
+import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
-import unipotsdam.gf.modules.communication.service.UnirestService;
-import unipotsdam.gf.modules.groupfinding.service.GroupDAO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -23,14 +22,15 @@ public class ChatWindow extends SimpleTagSupport {
 
     public void doTag() throws IOException {
 
-        // TODO refactor
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        locator.inject(this);
+
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         String token = request.getParameter("token");
         String projectId = request.getParameter("projectId");
-        UserDAO userDAO = new UserDAO(new MysqlConnect());
-        GroupDAO groupDAO = new GroupDAO(new MysqlConnect());
-        ICommunication communicationService = new CommunicationService(new UnirestService(), userDAO, groupDAO);
+
+        ICommunication communicationService = new CommunicationService();
         String chatRoomLink = communicationService.getChatRoomLink(token, projectId);
         log.debug("ChatRoomLink for ChatWindow: {}", chatRoomLink);
         JspWriter out = getJspContext().getOut();

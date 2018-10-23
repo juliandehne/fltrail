@@ -14,7 +14,7 @@ public class ResultSetUtil {
         String rocketChatPersonalAccessToken = vereinfachtesResultSet.getString("rocketChatPersonalAccessToken");
         String rocketChatUserId = vereinfachtesResultSet.getString("rocketChatUserId");
         Boolean isStudent = vereinfachtesResultSet.getBoolean("isStudent");
-        return new User(name, password, email, rocketChatUsername, rocketChatAuthToken,
+        return new User(name, password, email, rocketChatId, rocketChatAuthToken,
                 rocketChatPersonalAccessToken, rocketChatUserId, isStudent);
     }
 }

@@ -146,6 +146,8 @@ CREATE TABLE `users` (
   `password` varchar(200) NOT NULL,
   `email` varchar(255) NOT NULL,
   `rocketChatId` varchar(400) NOT NULL,
+  `rocketChatPersonalAccessToken` varchar(400) NOT NULL,
+  `rocketChatUserId` varchar(400) NOT NULL,
   `rocketChatAuthToken` varchar(800) NOT NULL,
   `isStudent` tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
