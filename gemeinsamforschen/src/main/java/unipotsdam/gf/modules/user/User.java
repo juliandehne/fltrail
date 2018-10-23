@@ -13,23 +13,41 @@ public class User {
     private String name;
     private String password;
     private String email;
+    private String token;
+    private String rocketChatUsername;
     private String rocketChatAuthToken;
-    private String rocketChatId;
+    private String rocketChatPersonalAccessToken;
+    private String rocketChatUserId;
     private Boolean isStudent;
 
     public User() {
     }
 
     public User(String name, String password, String email, Boolean isStudent) {
-        this(name, password, email, "", "", isStudent);
+        this(name, password, email, "", "", "",
+                "", "", isStudent);
+    }
+
+    public User(String name, String password, String email, String rocketChatUsername, Boolean isStudent) {
+        this(name, password, email, "", rocketChatUsername, "",
+                "", "", isStudent);
     }
 
     public User(String name, String password, String email,  String rocketChatAuthToken, String rocketChatId, Boolean isStudent) {
+    public User(String name, String password, String email, String rocketChatUsername, String rocketChatPersonalAccessToken, String rocketChatUserId) {
+        this(name, password, email, "", rocketChatUsername, "", rocketChatPersonalAccessToken, rocketChatUserId, false);
+    }
+
+    public User(String name, String password, String email, String rocketChatUsername,
+                String rocketChatAuthToken, String rocketChatPersonalAccessToken, String rocketChatUserId,
+                Boolean isStudent) {
         this.name = name;
         this.password = password;
         this.email = email;
+        this.rocketChatUsername = rocketChatUsername;
         this.rocketChatAuthToken = rocketChatAuthToken;
-        this.rocketChatId = rocketChatId;
+        this.rocketChatPersonalAccessToken = rocketChatPersonalAccessToken;
+        this.rocketChatUserId = rocketChatUserId;
         this.isStudent = isStudent;
     }
 
@@ -69,12 +87,12 @@ public class User {
         isStudent = student;
     }
 
-    public String getRocketChatId() {
-        return rocketChatId;
+    public String getRocketChatUserId() {
+        return rocketChatUserId;
     }
 
-    public void setRocketChatId(String rocketChatId) {
-        this.rocketChatId = rocketChatId;
+    public void setRocketChatUserId(String rocketChatUserId) {
+        this.rocketChatUserId = rocketChatUserId;
     }
 
     public String getRocketChatAuthToken() {
@@ -85,14 +103,32 @@ public class User {
         this.rocketChatAuthToken = rocketChatAuthToken;
     }
 
+    public String getRocketChatUsername() {
+        return rocketChatUsername;
+    }
+
+    public void setRocketChatUsername(String rocketChatUsername) {
+        this.rocketChatUsername = rocketChatUsername;
+    }
+
+    public String getRocketChatPersonalAccessToken() {
+        return rocketChatPersonalAccessToken;
+    }
+
+    public void setRocketChatPersonalAccessToken(String rocketChatPersonalAccessToken) {
+        this.rocketChatPersonalAccessToken = rocketChatPersonalAccessToken;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", rocketChatUsername='" + rocketChatUsername + '\'' +
                 ", rocketChatAuthToken='" + rocketChatAuthToken + '\'' +
-                ", rocketChatId='" + rocketChatId + '\'' +
+                ", rocketChatPersonalAccessToken='" + rocketChatPersonalAccessToken + '\'' +
+                ", rocketChatUserId='" + rocketChatUserId + '\'' +
                 ", isStudent=" + isStudent +
                 '}';
     }
@@ -106,7 +142,7 @@ public class User {
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(rocketChatAuthToken, user.rocketChatAuthToken) &&
-                Objects.equals(rocketChatId, user.rocketChatId) &&
+                Objects.equals(rocketChatUserId, user.rocketChatUserId) &&
                 Objects.equals(isStudent, user.isStudent);
     }
 }

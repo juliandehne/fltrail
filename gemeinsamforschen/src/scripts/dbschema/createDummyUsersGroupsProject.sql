@@ -3,28 +3,28 @@
   Functions with empty grouptable only (because of autoincrement id of group)
  */
 
-INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
+INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatUserId`, `rocketChatAuthToken`) VALUES
   ('teststudent1', 'egal', 'test1@uni.de', 'test1','1','abc');
 
-INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
+INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatUserId`, `rocketChatAuthToken`) VALUES
   ('teststudent2', 'egal', 'test2@uni.de', 'test1','1','abc');
 
-INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
+INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatUserId`, `rocketChatAuthToken`) VALUES
   ('teststudent3', 'egal', 'test3@uni.de', 'test1','1','abc');
 
-INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
+INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatUserId`, `rocketChatAuthToken`) VALUES
   ('teststudent4', 'egal', 'test4@uni.de', 'test1','1','abc');
 
-INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
+INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatUserId`, `rocketChatAuthToken`) VALUES
   ('teststudent5', 'egal', 'test5@uni.de', 'test1','1','abc');
 
-INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
+INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatUserId`, `rocketChatAuthToken`) VALUES
   ('teststudent6', 'egal', 'test6@uni.de', 'test1','1','abc');
 
-INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
+INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatUserId`, `rocketChatAuthToken`) VALUES
   ('teststudent7', 'egal', 'test7@uni.de', 'test1','1','abc');
 
-INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatId`, `rocketChatAuthToken`) VALUES
+INSERT INTO `users` (`name`, `password`, `email`, `token`, `rocketChatUserId`, `rocketChatAuthToken`) VALUES
   ('teststudent8', 'egal', 'test8@uni.de', 'test1','1','abc');
 
 INSERT INTO  `projects` (`id`, `password`,`active`,`timecreated`,`authorEmail`,`adminpassword`,`token`,`phase`) VALUES

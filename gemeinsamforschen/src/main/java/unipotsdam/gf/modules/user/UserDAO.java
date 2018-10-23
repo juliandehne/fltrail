@@ -29,9 +29,11 @@ public class UserDAO {
     public void persist(User user, UserProfile profile) {
         connect.connect();
         String mysqlRequest = "INSERT INTO users (`name`, `password`, `email`, `isStudent`," +
-                "`rocketChatId`,`rocketChatAuthToken`) values (?,?,?,?,?,?)";
+                "`rocketChatUserId`,`rocketChatUsername`,`rocketChatAuthToken`,`rocketChatPersonalAccessToken`) " +
+                "values (?,?,?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
-                 user.getStudent(), user.getRocketChatId(), user.getRocketChatAuthToken());
+                user.getStudent(), user.getRocketChatUserId(), user.getRocketChatUsername(), user.getRocketChatAuthToken(),
+                user.getRocketChatPersonalAccessToken());
         connect.close();
         // TODO implmement UserProfile @Mar
     }
@@ -47,10 +49,10 @@ public class UserDAO {
         String mysqlRequest = "UPDATE `users` SET `name`=?,`password`=?,`email`=?,`isStudent`=?," +
                 "`rocketChatId`=?,`rocketChatAuthToken`=? WHERE email=? LIMIT 1";
         //TODO: maybe add handling if a line is actually updated
-        //TODO: if user is updated, it also must updateForUser all other tables which includes some information about the user, for example project user
+        //TODO: if user is updated, it also must update all other tables which includes some information about the user, for example project user
         connect.connect();
-        connect.issueUpdateStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(), user
-                .getStudent(), user.getRocketChatId(), user.getRocketChatAuthToken(), user.getEmail());
+        connect.issueUpdateStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
+                user.getStudent(), user.getRocketChatUserId(), user.getRocketChatAuthToken(), user.getEmail());
         connect.close();
     }
 
@@ -61,6 +63,15 @@ public class UserDAO {
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, user.getEmail(), user.getPassword());
         result = vereinfachtesResultSet.next();
+        connect.close();
+        return result;
+    }
+
+    public boolean existsByRocketChatUsername(String rocketChatUsername) {
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM users where rocketChatUsername = ?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlRequest, rocketChatUsername);
+        boolean result = resultSet.next();
         connect.close();
         return result;
     }
@@ -107,9 +118,6 @@ public class UserDAO {
         return getUserByField("email", email);
     }
 
-    public User getUserByToken(String token) {
-        return getUserByField("token", token);
-    }
 
     private User getUserByField(String field, String value) {
         connect.connect();

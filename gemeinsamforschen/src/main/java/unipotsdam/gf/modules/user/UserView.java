@@ -3,7 +3,6 @@ package unipotsdam.gf.modules.user;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.session.GFContexts;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -28,7 +27,6 @@ public class UserView {
     private ICommunication communicationService;
     private UserDAO userDAO;
 
-    @Inject
     private Management management;
 
     @Inject
@@ -79,8 +77,7 @@ public class UserView {
             @FormParam("email") String email) throws URISyntaxException {
 
         User user = new User(name, password, email, null);
-        ICommunication iCommunication = new CommunicationDummyService();
-        boolean isLoggedIn = iCommunication.loginUser(user);
+        boolean isLoggedIn = communicationService.loginUser(user);
         if (isLoggedIn) {
             return login(req, false, user);
         } else {
@@ -110,7 +107,7 @@ public class UserView {
      * @return
      * @throws URISyntaxException
      */
-    protected Response login(HttpServletRequest req, boolean createUser, User user) throws URISyntaxException {
+    public Response login(HttpServletRequest req, boolean createUser, User user) throws URISyntaxException {
 
         if (management.exists(user)) {
             if (!createUser) {
@@ -121,7 +118,7 @@ public class UserView {
             return forwardToLocation(existsUrl);
         } else {
             if (createUser) {
-                boolean isRegisteredAndLoggedIn = communicationService.registerAndLoginUser(user);
+                boolean isRegisteredAndLoggedIn = communicationService.registerUser(user);
                 if (!isRegisteredAndLoggedIn) {
                     return registrationError();
                 }

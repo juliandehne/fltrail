@@ -31,10 +31,12 @@ import unipotsdam.gf.session.GFContexts;
 
 public class GFApplicationBinder extends AbstractBinder {
 
-
+    /**
+     * TODO replace DummyImplementation
+     */
     @Override
     protected void configure() {
-        bind(CommunicationDummyService.class).to(ICommunication.class);
+        bind(CommunicationService.class).to(ICommunication.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(PeerAssessment.class).to(IPeerAssessment.class);
         bind(PhasesImpl.class).to(IPhases.class);
@@ -57,11 +59,15 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(GroupDAO.class).to(GroupDAO.class);
         bind(TaskDAO.class).to(TaskDAO.class);
         bind(FeedbackImpl.class).to(Feedback.class);
+        bind(UnirestService.class).to(UnirestService.class);
 
         bindMore();
     }
 
     protected void bindMore() {
         bind(MysqlConnectImpl.class).to(MysqlConnect.class);
+        bind(MysqlConnect.class).to(MysqlConnect.class);
+        bind(GroupfindingImpl.class).to(IGroupFinding.class);
+        bind(UnirestService.class).to(UnirestService.class);
     }
 }

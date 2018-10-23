@@ -4,6 +4,13 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+<%@ page import="unipotsdam.gf.core.database.mysql.MysqlConnect" %>
+<%@ page import="unipotsdam.gf.core.management.user.User" %>
+<%@ page import="unipotsdam.gf.core.management.user.UserDAO" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
 
 
 <!DOCTYPE html>
@@ -16,9 +23,17 @@
     <script src="js/profile.js"></script>
 </head>
 
+
+<%
+    // Retrieve user to be used here
+    String token = request.getParameter("token");
+    UserDAO userDAO = new UserDAO(new MysqlConnect());
+    User user = userDAO.getUserByToken(token);
+%>
+
 <body>
-<menu:menu hierarchy="1"/>
 <div id="wrapper">
+    <menu:menu hierarchy="1"/>
 
     <div class="page-content-wrapper">
         <headLine:headLine/>
@@ -30,7 +45,7 @@
                         <%-- TODO: retrieve profile data --%>
                         <ul class="list-group">
                             <li class="list-group-item">
-
+                                <p>Name: <%=user.getName()%></p>
                             </li>
                             <li class="list-group-item">
                                 <p>Sonstiges:</p>

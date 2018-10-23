@@ -4,10 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.communication.model.Message;
-import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
-import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
-import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -37,47 +33,13 @@ public class CommunicationView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/info/{roomId}")
     public Response getChatRoomInformation(@PathParam("roomId") String roomId) {
-        ChatRoom chatRoom = communicationService.getChatRoomInfo(roomId);
-        if (isNull(chatRoom)) {
+        String chatRoomName = communicationService.getChatRoomName(roomId);
+        if (chatRoomName.isEmpty()) {
             log.error("chatRoom not found for roomId: {}", roomId);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        log.trace("getChatRoomInformationResponse: {}", chatRoom);
-        return Response.ok(chatRoom).build();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/history/{roomId}")
-    public Response getChatHistory(@PathParam("roomId") String roomId) {
-        List<ChatMessage> chatMessages = communicationService.getChatHistory(roomId);
-        if (isNull(chatMessages)) {
-            log.error("getChatHistory: chatRoom not found for roomId: {}", roomId);
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        log.trace("response for getChatHistory: {}", chatMessages);
-        return Response.ok(chatMessages).build();
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/send/{roomId}")
-    public Response sendMessage(Message message, @PathParam("roomId") String roomId) {
-        if (isNull(message)) {
-            log.trace("sendMessage message object was null");
-            return Response.status(Response.Status.BAD_REQUEST).entity("must provide message").build();
-        }
-        boolean wasSend = communicationService.sendMessageToChat(message, roomId);
-        Response response;
-        if (wasSend) {
-            log.trace("response for sendMessage: {}", wasSend);
-            response = Response.ok(wasSend).build();
-        } else {
-            log.error("error while sending message for message: {}", message);
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while sending message").build();
-        }
-        return response;
+        log.trace("getChatRoomInformationResponse: {}", chatRoomName);
+        return Response.ok(chatRoomName).build();
     }
 
     @POST
@@ -89,7 +51,7 @@ public class CommunicationView {
             log.trace("addUser user object was null");
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide user").build();
         }
-        boolean wasAdded = communicationService.addUserToChatRoom(roomId, user);
+        boolean wasAdded = communicationService.addUserToChatRoom(user, roomId);
         if (isNull(wasAdded)) {
             log.error("addUserToChatRoom: chatRoom not found for roomId: {}, user: {}", roomId, user);
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -132,55 +94,19 @@ public class CommunicationView {
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/setTopic/{roomId}")
-    public Response setChatRoomTopic(@PathParam("roomId") String roomId, @QueryParam("topic") String topic) {
-        if (isNull(topic)) {
-            log.trace("setTopic param not given");
-            return Response.status(Response.Status.BAD_REQUEST).entity("topic must be not empty").build();
-        }
-        boolean wasSet = communicationService.setChatRoomTopic(roomId, topic);
-        if (isNull(wasSet)) {
-            log.error("addChatRoomTopic: chatRoom not found for roomId: {}, topic: {}", roomId, topic);
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        Response response;
-        if (wasSet) {
-            log.trace("response for setTopic: {}", wasSet);
-            response = Response.ok(wasSet).build();
-        } else {
-            log.error("error while setting topic to chat room");
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while setting topic to chat room").build();
-        }
-        return response;
-    }
-
-    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/create")
-    public Response createChatRoom(@QueryParam("name") String name, List<User> users) {
+    @Path("/room/create/{name}")
+    public Response createChatRoom(@PathParam("name") String name, List<User> users, @QueryParam("readOnly") boolean readOnly) {
         if (isNull(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide name as queryParam").build();
         }
-        String chatId = communicationService.createChatRoom(name, users);
-        if (isNull(chatId)) {
+        String chatId = communicationService.createChatRoom(name, readOnly, users);
+        if (chatId.isEmpty()) {
             log.error("error while creating chatRoom for: name: {}, users: {}", name, users);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
         log.trace("response for createChatRoom: {}", chatId);
         return Response.status(Response.Status.CREATED).entity(chatId).build();
     }
-
-    // Temp: just get user as json
-    // TODO: remove after done implementing
-    @GET
-    @Path("/user")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser() {
-        User user = ((CommunicationDummyService) communicationService).getUser();
-        return Response.ok(user).build();
-    }
-
-
 }
