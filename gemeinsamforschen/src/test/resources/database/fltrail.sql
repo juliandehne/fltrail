@@ -68,9 +68,9 @@ CREATE TABLE `groupfindingmechanismselected` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `groups` (
-  `id` int(11) NOT NULL,
+  `id`          int(11) NOT NULL,
   `projectName` varchar(400) NOT NULL,
-  `chatRoomId` varchar(400) NOT NULL
+  `chatRoomId`  varchar(400)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `groupuser` (
@@ -142,14 +142,14 @@ CREATE TABLE `tasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `users` (
-  `name` varchar(100) NOT NULL,
-  `password` varchar(200) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `rocketChatId` varchar(400) NOT NULL,
+  `name`                          varchar(100) NOT NULL,
+  `password`                      varchar(200) NOT NULL,
+  `email`                         varchar(255) NOT NULL,
+  `rocketChatUserId`              varchar(400) NOT NULL,
   `rocketChatPersonalAccessToken` varchar(400) NOT NULL,
-  `rocketChatUserId` varchar(400) NOT NULL,
-  `rocketChatAuthToken` varchar(800) NOT NULL,
-  `isStudent` tinyint(1) DEFAULT '1'
+  `rocketChatUsername`            varchar(400) NOT NULL,
+  `rocketChatAuthToken`           varchar(800) NOT NULL,
+  `isStudent`                     tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `workrating` (

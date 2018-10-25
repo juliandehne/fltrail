@@ -30,7 +30,7 @@ public class UserDAO {
         connect.connect();
         String mysqlRequest = "INSERT INTO users (`name`, `password`, `email`, `isStudent`," +
                 "`rocketChatUserId`,`rocketChatUsername`,`rocketChatAuthToken`,`rocketChatPersonalAccessToken`) " +
-                "values (?,?,?,?,?,?,?,?,?)";
+                "values (?,?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
                 user.getStudent(), user.getRocketChatUserId(), user.getRocketChatUsername(), user.getRocketChatAuthToken(),
                 user.getRocketChatPersonalAccessToken());
