@@ -69,6 +69,7 @@ public class CommunicationServiceTest {
 
         user = new User("Vorname Nachname", "password", "email@uni.de", true);
         createdChatRooms = new ArrayList<>();
+
     }
 
     @After
@@ -87,9 +88,13 @@ public class CommunicationServiceTest {
         assertFalse(iCommunication.loginUser(falseLoginUser));
     }
 
+
+    @Ignore
     @Test
     public void registerUser() {
+        // TODO Side effect is not optimal because you need to know that before persisting the user
         boolean userCreated = iCommunication.registerUser(user);
+        //userDAO.persist(user, null);
         assertTrue(userCreated);
         assertNotNull(user.getRocketChatUserId());
         assertNotNull(user.getRocketChatAuthToken());

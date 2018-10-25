@@ -24,7 +24,8 @@ public class RocketChatHeaderMapBuilder {
     }
 
     public RocketChatHeaderMapBuilder withRocketChatAdminAuth() {
-        RocketChatHeaderMapBuilder rocketChatHeaderMapBuilder = withAuthTokenHeader(ADMIN_USER.getRocketChatPersonalAccessToken());
+        // with new version of rocketChat: RocketChatHeaderMapBuilder rocketChatHeaderMapBuilder = withAuthTokenHeader(ADMIN_USER.getRocketChatPersonalAccessToken());
+        RocketChatHeaderMapBuilder rocketChatHeaderMapBuilder = withAuthTokenHeader(ADMIN_USER.getRocketChatAuthToken());
         return rocketChatHeaderMapBuilder.withRocketChatUserId(ADMIN_USER.getRocketChatUserId());
     }
 

@@ -1,7 +1,8 @@
 # Rocket Chat Configuration
 
 ## Admin Account
-In `GFRocketChatConfig.java` add admin user account data.
+In `GFRocketChatConfig.java` add admin and test user account data.
+Username, password, email and rocketChatUserId is necessary. 
 
 ## Personal Access Token for API
 ### Create non expiring access token

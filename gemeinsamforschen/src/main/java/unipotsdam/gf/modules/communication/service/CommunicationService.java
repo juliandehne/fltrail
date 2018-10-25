@@ -125,7 +125,7 @@ public class CommunicationService implements ICommunication {
         HttpResponse<Map> response =
                 body.asObject(Map.class);
 
-        if (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+        if (isBadRequest(response)) {
             return Strings.EMPTY;
         }
 
@@ -315,6 +315,7 @@ public class CommunicationService implements ICommunication {
         user.setRocketChatUsername(rocketChatUsername);
         user.setRocketChatUserId(registerResponse.getUserId());
 
+
         /**
          * TODO with higher rocket chat version a personal access tokens exist and this function can be used
          */
@@ -322,13 +323,12 @@ public class CommunicationService implements ICommunication {
         return true;
     }
 
-    public String getChatRoomLink(String userEmail, String projectId) {
+    public String getChatRoomLink(String userEmail, String projectName) {
 
         loginUser(ADMIN_USER);
 
         User user = userDAO.getUserByEmail(userEmail);
-        StudentIdentifier studentIdentifier = new StudentIdentifier(projectId, user.getEmail());
-        String chatRoomId = groupDAO.getGroupChatRoomIdByStudentIdentifier(studentIdentifier);
+        String chatRoomId = groupDAO.getGroupChatRoomId(new User(userEmail), new Project(projectName));
         if (chatRoomId.isEmpty()) {
             return Strings.EMPTY;
         }

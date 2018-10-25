@@ -71,6 +71,9 @@ public class UserDAO {
         connect.connect();
         String mysqlRequest = "SELECT * FROM users where rocketChatUsername = ?";
         VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlRequest, rocketChatUsername);
+        if (resultSet == null) {
+            return false;
+        }
         boolean result = resultSet.next();
         connect.close();
         return result;
