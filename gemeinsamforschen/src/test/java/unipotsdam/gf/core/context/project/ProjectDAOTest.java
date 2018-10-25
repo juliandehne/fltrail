@@ -76,7 +76,6 @@ public class ProjectDAOTest {
         projectDAO.persist(project);
         Project projectActual = projectDAO.getProjectByName(project.getName());
 
-        assertEquals(project.getAdminPassword(), projectActual.getAdminPassword());
         assertEquals(project.getAuthorEmail(), projectActual.getAuthorEmail());
         assertEquals(project.getName(), projectActual.getName());
         assertEquals(project.getPassword(), projectActual.getPassword());

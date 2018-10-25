@@ -24,8 +24,7 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.GroupfindingCriteria;
 import unipotsdam.gf.modules.journal.model.Journal;
-import unipotsdam.gf.modules.feedback.Category;
-import unipotsdam.gf.modules.feedback.Model.Peer2PeerFeedback;
+import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 
@@ -52,10 +51,6 @@ public class ActivityFlowTest {
 
     @Inject
     ResearchReportManagement researchReportManagement;
-
-
-    @Inject
-    Feedback feedback;
 
     @Inject
     IPhases phases;
@@ -92,14 +87,11 @@ public class ActivityFlowTest {
     public void setUp() {
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
         locator.inject(this);
-
-        feedback = Mockito.spy(feedback);
         researchReportManagement = Mockito.spy(researchReportManagement);
         phases = Mockito.spy(phases);
         iCommunication = Mockito.spy(iCommunication);
 
         // TODO @Julian: Find out more elegant way of doing this
-        researchReportManagement.setFeedback(feedback);
 //        phases.setFeedback(feedback);
 
     }
@@ -201,24 +193,8 @@ public class ActivityFlowTest {
             researchReportManagement.createResearchReport(researchReport, project, student);
         }
 
-
-        // assert that after the last report has been submitted, the feedback tasks were assigned automatically
-        verify(feedback).assignFeedbackTasks(project);
-
         // students give feedback
-        for (User student : students) {
-            ResearchReport feedbackTask = feedback.getFeedbackTask(student);
-            ProjectConfiguration projectConfiguration = management.getProjectConfiguration(project);
-            HashMap<Category, Boolean> criteriaSelected = projectConfiguration.getCriteriaSelected();
-            for (Category category : criteriaSelected.keySet()) {
-                if (criteriaSelected.get(category)) {
-                    Peer2PeerFeedback peer2PeerFeedback = factory.manufacturePojo(Peer2PeerFeedback.class);
-                    peer2PeerFeedback.setFeedbackcategory(category);
-                    //feedback.giveFeedback(peer2PeerFeedback, feedbackTask);
-                    // TODO implement giving feedback
-                }
-            }
-        }
+
 
         // students upload updated dossier
         ArrayList<User> students2 = students;
@@ -239,7 +215,6 @@ public class ActivityFlowTest {
 
         // student misses mockfeedback -> reassignment
         // assert that while reports are still missing mockfeedback tasks are reassigned
-        verify(feedback).assigningMissingFeedbackTasks(project);
 
         // assert that everybody has given and received mockfeedback
         assertTrue(constraints.checkIfFeedbackCanBeDistributed(project));

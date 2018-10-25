@@ -9,7 +9,7 @@ import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.model.Visibility;
 import unipotsdam.gf.modules.journal.util.JournalUtils;
-import unipotsdam.gf.modules.feedback.Category;
+import unipotsdam.gf.modules.annotation.model.Category;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

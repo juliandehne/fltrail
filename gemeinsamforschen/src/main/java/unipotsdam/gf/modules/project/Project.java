@@ -17,19 +17,17 @@ public class Project {
     private Long timecreated; //timestamp macht zu viele Probleme
     // the id of the authorEmail (not the token)
     private String authorEmail;
-    private String adminPassword;
     private Phase phase;
     private String[] tags;
 
     public Project() {
     }
 
-    public Project(String name, String password, Boolean active, String author, String adminPassword, String[] tags) {
+    public Project(String name, String password, Boolean active, String author, String[] tags) {
         this.name = name;
         this.password = password;
         this.active = active;
         this.authorEmail = author;
-        this.adminPassword = adminPassword;
         this.timecreated = System.currentTimeMillis();
         // default starting at course creation if new
         this.setPhase(Phase.CourseCreation);
@@ -37,14 +35,12 @@ public class Project {
     }
 
     public Project(
-            String name, String password, Boolean active, Long timecreated, String authorEmail,
-            String adminPassword, Phase phase, String[] tags) {
+            String name, String password, Boolean active, Long timecreated, String authorEmail, Phase phase, String[] tags) {
         this.name = name;
         this.password = password;
         this.active = active;
         this.authorEmail = authorEmail;
         this.timecreated = timecreated;
-        this.adminPassword = adminPassword;
         this.phase = phase;
         this.tags = tags;
     }
@@ -82,16 +78,6 @@ public class Project {
     public void setAuthorEmail(String authorEmail) {
         this.authorEmail = authorEmail;
     }
-
-    public String getAdminPassword() {
-        return adminPassword;
-    }
-
-    public void setAdminPassword(String adminPassword) {
-        this.adminPassword = adminPassword;
-    }
-
-
 
     public Phase getPhase() {
         return phase;
@@ -142,7 +128,6 @@ public class Project {
         sb.append(", active=").append(active);
         sb.append(", timecreated=").append(timecreated);
         sb.append(", authorEmail='").append(authorEmail).append('\'');
-        sb.append(", adminPassword='").append(adminPassword).append('\'');
         sb.append(", phase=").append(phase);
         sb.append(", tags=").append(Arrays.toString(tags));
         sb.append('}');

@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.project;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.modules.user.User;
@@ -33,14 +34,11 @@ public class ProjectView {
     @Inject
     private ProjectCreationProcess projectCreationProcess;
 
-    @Inject
-    private GFContext gfContext;
-
-    @PUT
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/create")
-    public void createProject(@Context HttpServletRequest req, Project project) throws URISyntaxException, IOException {
+    public String createProject(@Context HttpServletRequest req, Project project) throws URISyntaxException, IOException {
         String userEmail = gfContexts.getUserEmail(req);
         User user = iManagement.getUserByEmail(userEmail);
         assert user != null;
@@ -48,23 +46,21 @@ public class ProjectView {
             throw new IOException("NO user with this email exists in db");
         }
         projectCreationProcess.createProject(project, user);
+        return "success";
     }
 
-    @PUT
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/delete/project/{projectName}")
     public void deleteProject(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws URISyntaxException, IOException {
-        Boolean isStudent = gfContext.getUser().getStudent();
+        String userEmail1 = gfContexts.getUserEmail(req);
+        User user = iManagement.getUserByEmail(userEmail1);
+        Boolean isStudent= user.getStudent();
         String userEmail = gfContexts.getUserEmail(req);
         Project project = projectDAO.getProjectByName(projectName);
         if (!isStudent){
             if (project.getAuthorEmail().equals(userEmail)){
-                User user = iManagement.getUserByEmail(userEmail);
-                assert user != null;
-                if (user == null) {
-                    throw new IOException("NO user with this email exists in db");
-                }
                 projectCreationProcess.deleteProject(project);
             }
         }

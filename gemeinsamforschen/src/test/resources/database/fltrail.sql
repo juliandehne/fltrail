@@ -3,10 +3,11 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-DROP DATABASE `fltrail`;
-CREATE DATABASE IF NOT EXISTS `fltrail` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
-USE `fltrail`;
 
 CREATE TABLE `annotations` (
   `id` varchar(120) NOT NULL,
@@ -21,9 +22,9 @@ CREATE TABLE `annotations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `answeredquiz` (
-  `projectName` varchar(400) NOT NULL,
-  `userName` varchar(400) NOT NULL,
-  `question` varchar(400) NOT NULL,
+  `projectName` varchar(200) NOT NULL,
+  `userName` varchar(100) NOT NULL,
+  `question` varchar(200) NOT NULL,
   `correct` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -38,9 +39,9 @@ CREATE TABLE `categoriesselected` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `contributionrating` (
-  `projectName` varchar(400) NOT NULL,
-  `userName` varchar(400) NOT NULL,
-  `fromPeer` varchar(400) NOT NULL,
+  `projectName` varchar(200) NOT NULL,
+  `userName` varchar(100) NOT NULL,
+  `fromPeer` varchar(100) NOT NULL,
   `dossier` int(11) NOT NULL,
   `eJournal` int(11) NOT NULL,
   `research` int(11) NOT NULL
@@ -49,16 +50,16 @@ CREATE TABLE `contributionrating` (
 CREATE TABLE `fullsubmissions` (
   `id` varchar(120) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user` varchar(120) NOT NULL,
+  `user` varchar(100) NOT NULL,
   `text` mediumtext NOT NULL,
-  `projectName` varchar(120) NOT NULL,
-  `feedbackUser` varchar (255),
-  `finalized` tinyint(4)
+  `projectName` varchar(200) NOT NULL,
+  `feedbackUser` varchar(255) DEFAULT NULL,
+  `finalized` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `grades` (
-  `projectName` varchar(400) NOT NULL,
-  `userName` varchar(400) NOT NULL,
+  `projectName` varchar(200) NOT NULL,
+  `userName` varchar(100) NOT NULL,
   `grade` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -69,7 +70,7 @@ CREATE TABLE `groupfindingmechanismselected` (
 
 CREATE TABLE `groups` (
   `id` int(11) NOT NULL,
-  `projectName` varchar(400) NOT NULL,
+  `projectName` varchar(200) NOT NULL,
   `chatRoomId` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -77,6 +78,16 @@ CREATE TABLE `groupuser` (
   `userEmail` varchar(255) NOT NULL,
   `groupId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `journals` (
+  `id` varchar(100) NOT NULL,
+  `userEmail` varchar(100) NOT NULL,
+  `projectName` varchar(200) NOT NULL,
+  `text` text NOT NULL,
+  `visibility` varchar(100) NOT NULL,
+  `category` varchar(100) NOT NULL,
+  `open` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `phasesselected` (
   `projectName` varchar(100) NOT NULL,
@@ -87,9 +98,8 @@ CREATE TABLE `projects` (
   `name` varchar(100) NOT NULL,
   `password` varchar(400) NOT NULL,
   `active` tinyint(1) NOT NULL,
-  `timecreated` mediumtext NOT NULL,
+  `timecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `author` varchar(100) NOT NULL,
-  `adminPassword` varchar(400) NOT NULL,
   `phase` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -99,9 +109,9 @@ CREATE TABLE `projectuser` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `quiz` (
-  `author` varchar(400) NOT NULL,
-  `projectName` varchar(400) NOT NULL,
-  `question` varchar(400) NOT NULL,
+  `author` varchar(100) NOT NULL,
+  `projectName` varchar(200) NOT NULL,
+  `question` varchar(200) NOT NULL,
   `mcType` varchar(400) NOT NULL,
   `answer` varchar(400) NOT NULL,
   `correct` tinyint(1) NOT NULL
@@ -122,7 +132,7 @@ CREATE TABLE `submissionparts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tags` (
-  `projectName` varchar(100) NOT NULL,
+  `projectName` varchar(200) NOT NULL,
   `tag` varchar(400) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -134,8 +144,8 @@ CREATE TABLE `tasks` (
   `importance` varchar(100) DEFAULT NULL,
   `progress` varchar(100) DEFAULT NULL,
   `phase` varchar(100) DEFAULT NULL,
-  `created` timestamp ,
-  `due` timestamp ,
+  `created` timestamp NULL DEFAULT NULL,
+  `due` timestamp NULL DEFAULT NULL,
   `taskMode2` varchar(100) DEFAULT NULL,
   `taskMode3` varchar(100) DEFAULT NULL,
   `taskMode` varchar(100) DEFAULT NULL
@@ -151,9 +161,9 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `workrating` (
-  `projectName` varchar(400) NOT NULL,
-  `userName` varchar(400) NOT NULL,
-  `fromPeer` varchar(400) NOT NULL,
+  `projectName` varchar(200) NOT NULL,
+  `userEmail` varchar(100) NOT NULL,
+  `fromPeer` varchar(100) NOT NULL,
   `responsibility` int(11) NOT NULL,
   `partOfWork` int(11) NOT NULL,
   `cooperation` int(11) NOT NULL,
@@ -161,25 +171,46 @@ CREATE TABLE `workrating` (
   `autonomous` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE submissionuser
-(
-    submissionId varchar(400),
-    userEmail varchar(255)
-);
-
 
 ALTER TABLE `annotations`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `annotations_fullsubmissions_id_fk` (`targetId`);
+
+ALTER TABLE `answeredquiz`
+  ADD KEY `answeredquiz_projects_name_fk` (`projectName`);
+
+ALTER TABLE `assessmentmechanismselected`
+  ADD KEY `assessmentmechanismselected_projects_name_fk` (`projectName`);
+
+ALTER TABLE `categoriesselected`
+  ADD KEY `categoriesselected_projects_name_fk` (`projectName`);
+
+ALTER TABLE `contributionrating`
+  ADD UNIQUE KEY `contributionrating_projectName_userName_fromPeer_uindex` (`projectName`,`userName`,`fromPeer`);
 
 ALTER TABLE `fullsubmissions`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fullsubmissions_projects_name_fk` (`projectName`);
+
+ALTER TABLE `grades`
+  ADD UNIQUE KEY `grades_projectName_userName_uindex` (`projectName`,`userName`);
+
+ALTER TABLE `groupfindingmechanismselected`
+  ADD KEY `groupfindingmechanismselected_projects_name_fk` (`projectName`);
 
 ALTER TABLE `groups`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `groups_projects_name_fk` (`projectName`);
 
 ALTER TABLE `groupuser`
   ADD KEY `userEmail` (`userEmail`),
   ADD KEY `groupId` (`groupId`);
+
+ALTER TABLE `journals`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `phasesselected`
+  ADD KEY `phasesselected_projectName_index` (`projectName`);
 
 ALTER TABLE `projects`
   ADD UNIQUE KEY `name` (`name`),
@@ -189,23 +220,67 @@ ALTER TABLE `projectuser`
   ADD KEY `userEmail` (`userEmail`),
   ADD KEY `projectName` (`projectName`);
 
+ALTER TABLE `quiz`
+  ADD KEY `quiz_question_projectName_author_index` (`question`,`projectName`,`author`),
+  ADD KEY `quiz_projects_name_fk` (`projectName`);
+
 ALTER TABLE `submissionpartbodyelements`
   ADD PRIMARY KEY (`fullSubmissionId`,`category`,`startCharacter`,`endCharacter`);
 
 ALTER TABLE `submissionparts`
   ADD PRIMARY KEY (`fullSubmissionId`,`category`);
 
+ALTER TABLE `tags`
+  ADD KEY `tags_projectName_index` (`projectName`);
+
+ALTER TABLE `tasks`
+  ADD UNIQUE KEY `tasks_userEmail_projectName_taskName_uindex` (`userEmail`,`projectName`,`taskName`),
+  ADD KEY `tasks_projects_name_fk` (`projectName`);
+
 ALTER TABLE `users`
   ADD UNIQUE KEY `email` (`email`);
 
+ALTER TABLE `workrating`
+  ADD UNIQUE KEY `workrating_projectName_userEmail_fromPeer_uindex` (`projectName`,`userEmail`,`fromPeer`);
+
 
 ALTER TABLE `groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+
+ALTER TABLE `annotations`
+  ADD CONSTRAINT `annotations_fullsubmissions_id_fk` FOREIGN KEY (`targetId`) REFERENCES `fullsubmissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `answeredquiz`
+  ADD CONSTRAINT `answeredquiz_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `assessmentmechanismselected`
+  ADD CONSTRAINT `assessmentmechanismselected_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `categoriesselected`
+  ADD CONSTRAINT `categoriesselected_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `contributionrating`
+  ADD CONSTRAINT `contributionrating_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `fullsubmissions`
+  ADD CONSTRAINT `fullsubmissions_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `grades`
+  ADD CONSTRAINT `grades_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `groupfindingmechanismselected`
+  ADD CONSTRAINT `groupfindingmechanismselected_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `groups`
+  ADD CONSTRAINT `groups_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `groupuser`
   ADD CONSTRAINT `groupuser_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`),
   ADD CONSTRAINT `groupuser_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`);
+
+ALTER TABLE `phasesselected`
+  ADD CONSTRAINT `phasesselected_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `projects`
   ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`author`) REFERENCES `users` (`email`);
@@ -213,10 +288,17 @@ ALTER TABLE `projects`
 ALTER TABLE `projectuser`
   ADD CONSTRAINT `projectuser_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`),
   ADD CONSTRAINT `projectuser_ibfk_2` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`);
+
+ALTER TABLE `quiz`
+  ADD CONSTRAINT `quiz_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `tasks`
+  ADD CONSTRAINT `tasks_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `workrating`
+  ADD CONSTRAINT `workrating_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
-CREATE UNIQUE INDEX fullsubmissions_user_projectName_uindex ON fullsubmissions (user, projectName);
-
-CREATE UNIQUE INDEX tasks_userEmail_projectName_taskName_uindex ON tasks (userEmail, projectName, taskName);
-
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

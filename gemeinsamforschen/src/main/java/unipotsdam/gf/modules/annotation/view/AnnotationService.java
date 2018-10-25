@@ -6,7 +6,7 @@ import unipotsdam.gf.modules.annotation.model.Annotation;
 import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationResponse;
-import unipotsdam.gf.modules.feedback.Category;
+import unipotsdam.gf.modules.annotation.model.Category;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;

@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.feedback;
+package unipotsdam.gf.modules.annotation.model;
 
 /**
  Categories for feedback and documents

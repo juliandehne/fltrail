@@ -3,7 +3,7 @@ package unipotsdam.gf.modules.project;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
-import unipotsdam.gf.modules.feedback.Category;
+import unipotsdam.gf.modules.annotation.model.Category;
 
 import java.util.HashMap;
 

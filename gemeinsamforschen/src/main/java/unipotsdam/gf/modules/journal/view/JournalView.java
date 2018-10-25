@@ -7,7 +7,12 @@ import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.JournalFilter;
 import unipotsdam.gf.modules.journal.service.JournalService;
 import unipotsdam.gf.modules.journal.service.JournalServiceImpl;
+import unipotsdam.gf.modules.project.Management;
+import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.process.ProjectCreationProcess;
+import unipotsdam.gf.session.GFContexts;
 
+import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -30,8 +35,10 @@ import java.util.ArrayList;
 @Path("/journal")
 public class JournalView {
 
+    @Inject
+    private JournalService journalService;
+
     private final Logger log = LoggerFactory.getLogger(JournalView.class);
-    private final JournalService journalService = new JournalServiceImpl();
 
     /**
      * Returns a specific Journal

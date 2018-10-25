@@ -1,5 +1,7 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 
 <!DOCTYPE html>
 <html>
@@ -12,7 +14,6 @@
 
 <body>
 <menu:menu hierarchy="1"/>
-<div id="wrapper">
 <h1> Projektbeschreibung bearbeiten </h1>
 
                         <form id="descriptionform" class="form-journal" method="POST"
@@ -20,7 +21,7 @@
 
                                     <textarea id="editor" name="text" form="descriptionform"></textarea>
                         </form>
-</div>
+<footer:footer/>
 </body>
 
 </html>

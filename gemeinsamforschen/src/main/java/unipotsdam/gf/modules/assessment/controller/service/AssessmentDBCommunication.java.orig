@@ -342,8 +342,8 @@ class AssessmentDBCommunication {
         while (next) {
             String fromPeer = selectWorkRatingResultSet.getString("fromPeer");
             if (!studentsInProject.contains(fromPeer)) {
-                StudentIdentifier userNameentifier = new StudentIdentifier(projectName, fromPeer);
-                result.add(userNameentifier);
+                StudentIdentifier studentIdentifier = new StudentIdentifier(projectName, fromPeer);
+                result.add(studentIdentifier);
             }
             next = selectWorkRatingResultSet.next();
         }

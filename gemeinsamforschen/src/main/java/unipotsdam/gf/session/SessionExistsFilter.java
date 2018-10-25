@@ -53,7 +53,7 @@ public class SessionExistsFilter implements Filter {
 
         if (attribute == null) {
             //redirectToLogin(request, response);
-            request1.getSession().setAttribute(GFContexts.USEREMAIL, "vodkas@yolo.com");
+            request1.getSession().setAttribute(GFContexts.USEREMAIL, attribute);
             chain.doFilter(request,response);
         } else {
             final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());

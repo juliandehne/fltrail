@@ -179,12 +179,12 @@ public class QuizView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/total/project/{projectName}/student/{student}")
     public ArrayList<Performance> getTotalAssessment(@PathParam("projectName") String ProjectId, @PathParam("student") String student) {
-        StudentIdentifier userNameentifier = new StudentIdentifier(ProjectId, student);
-        return getTotalAssessment(userNameentifier);
+        StudentIdentifier studentIdentifier = new StudentIdentifier(ProjectId, student);
+        return getTotalAssessment(studentIdentifier);
     }  //////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
-    private ArrayList<Performance> getTotalAssessment(StudentIdentifier userNameentifier) {
-        return peer.getTotalAssessment(userNameentifier);
+    private ArrayList<Performance> getTotalAssessment(StudentIdentifier studentIdentifier) {
+        return peer.getTotalAssessment(studentIdentifier);
     }  /////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
 

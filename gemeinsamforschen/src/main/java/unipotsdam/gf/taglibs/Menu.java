@@ -57,9 +57,13 @@ public class Menu extends SimpleTagSupport {
             String menuString = "" +
                     "    <header>\n" +
                     "        <div class=\"row\">\n" +
-                    "            <div class=\"nav-group-left\">" +
-                    "                <a class=\"nav-link\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/overview-student.jsp?projectName=" + projectName + "\">meine Projekte</a>\n" +
-                    "                <a class=\"nav-link\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "profile/profile.jsp?projectName=" + projectName + "\">Profil</a>\n"+
+                    "            <div class=\"nav-group-left\">";
+            if (isStudent){
+                menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/overview-student.jsp\">meine Projekte</a>\n";
+            }else{
+                menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/overview-docent.jsp\">meine Projekte</a>\n";
+            }
+            menuString+="                <a class=\"nav-link\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "profile/profile.jsp?projectName=" + projectName + "\">Profil</a>\n"+
                     "        </div>" +
                     "        <div class=\"nav-group-right\">" +
                     "            <a class=\"nav-link\" id=\"logout\" style=\"cursor:pointer\">Logout</a>\n" +

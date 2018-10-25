@@ -1,7 +1,5 @@
 package unipotsdam.gf.modules.annotation.model;
 
-import unipotsdam.gf.modules.feedback.Category;
-
 public class AnnotationMessage {
     // variables
     private String from;

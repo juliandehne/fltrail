@@ -19,25 +19,27 @@ function createNewProject(allTheTags, activ) {
     errorMessages();
     // getting the data from the form fields
     let project = getProjectValues();
+    let projectName = $("#nameProject").val().trim();
     // create the project
     if (project) {
         // create the project in local db
         let localurl = "../rest/project/create";
         $.ajax({                        //check local DB for existence of projectName
             url: localurl,
+            projectName: projectName,
             contentType: 'application/json',
             activ: activ,
-            type: 'PUT',
+            type: 'POST',
             data: JSON.stringify(project),
             success: function (response) {
-                if (response === "project exists") {
+                if (response === "Project already exists") {
                     $('#projectNameExists').show();
                 } else {
                     if (allTheTags.length !== 5) {
                         $('#exactNumberOfTags').show();
                     } else {
                         createProjectinCompbase();
-
+                        location.href="tasks-student.jsp?projectName="+projectName;
                     }
                 }
             },

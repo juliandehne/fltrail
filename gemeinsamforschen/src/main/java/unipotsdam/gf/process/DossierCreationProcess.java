@@ -29,9 +29,6 @@ public class DossierCreationProcess {
     private TaskDAO taskDAO;
 
     @Inject
-    private Feedback feedback;
-
-    @Inject
     private ConstraintsImpl constraints;
 
     /**
@@ -88,7 +85,7 @@ public class DossierCreationProcess {
 
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
             // distributefeedbacks
-            feedback.assignFeedbackTasks(project);
+            //assignFeedbackTasks(project);
 
             // persist tasks for feedback
             taskDAO.persistMemberTask(

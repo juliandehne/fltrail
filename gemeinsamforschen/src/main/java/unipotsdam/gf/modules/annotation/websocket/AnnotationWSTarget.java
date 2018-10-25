@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.annotation.websocket;
 
-import unipotsdam.gf.modules.feedback.Category;
+import unipotsdam.gf.modules.annotation.model.Category;
 
 /**
  * @author Sven Kästle

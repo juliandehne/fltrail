@@ -12,15 +12,22 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.security.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.TimeZone;
+
+import static java.util.TimeZone.getDefault;
 
 @ManagedBean
 @Resource
 @Singleton
 public class ProjectDAO {
 
+    @Inject
     private MysqlConnect connect;
 
     @Inject
@@ -37,12 +44,12 @@ public class ProjectDAO {
     public void persist(Project project) {
 
         if (!exists(project)) {
-
+            java.sql.Timestamp timestamp = new java.sql.Timestamp(project.getTimecreated());
             connect.connect();
             String mysqlRequest =
-                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, " + "`adminPassword`, `phase`) values (?,?,?,?,?,?,?)";
+                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, `phase`) values (?,?,?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(),
-                    project.isActive(), project.getTimecreated(), project.getAuthorEmail(), project.getAdminPassword(),
+                    project.isActive(), timestamp, project.getAuthorEmail(),
                     project.getPhase() == null ? Phase.CourseCreation : project.getPhase());
 
             connect.close();
@@ -73,9 +80,9 @@ public class ProjectDAO {
     public Boolean exists(Project project) {
         Boolean result;
         connect.connect();
-        String mysqlRequest = "SELECT * FROM projects where name = ? and adminPassword = ?";
+        String mysqlRequest = "SELECT * FROM projects where name = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, project.getName(), project.getAdminPassword());
+                connect.issueSelectStatement(mysqlRequest, project.getName());
         if (vereinfachtesResultSet == null) {
             return false;
         }
@@ -113,11 +120,10 @@ public class ProjectDAO {
         boolean active = vereinfachtesResultSet.getBoolean("active");
         long timestamp = vereinfachtesResultSet.getLong("timecreated");
         String author = vereinfachtesResultSet.getString("author");
-        String adminPassword = vereinfachtesResultSet.getString("adminpassword");
         String phase = vereinfachtesResultSet.getString("phase");
 
 
-        return new Project(id, password, active, timestamp, author, adminPassword, Phase.valueOf(phase), null);
+        return new Project(id, password, active, timestamp, author, Phase.valueOf(phase), null);
     }
 
     public java.util.List<String> getTags(Project project) {

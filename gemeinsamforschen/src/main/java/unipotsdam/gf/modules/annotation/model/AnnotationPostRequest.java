@@ -1,7 +1,5 @@
 package unipotsdam.gf.modules.annotation.model;
 
-import unipotsdam.gf.modules.feedback.Category;
-
 /**
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
