@@ -10,6 +10,8 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat"%>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -51,9 +53,10 @@
                 <div style="clear:left"></div>
             </div>
         </div>
-
-
     </script>
+
+    <chat:chatWindow orientation="right"></chat:chatWindow>
+
 </div>
 <footer:footer/>
 

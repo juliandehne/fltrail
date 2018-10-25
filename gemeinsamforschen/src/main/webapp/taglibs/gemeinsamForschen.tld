@@ -55,7 +55,7 @@
 
     <tag>
         <name>chatWindow</name>
-        <tag-class>unipotsdam.gf.modules.communication.ChatWindow</tag-class>
+        <tag-class>unipotsdam.gf.taglibs.ChatWindow</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>orientation</name>

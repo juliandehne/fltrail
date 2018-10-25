@@ -1,13 +1,3 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-DROP DATABASE `fltrail`;
-CREATE DATABASE IF NOT EXISTS `fltrail` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-
-USE `fltrail`;
-
 CREATE TABLE `annotations` (
   `id` varchar(120) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -85,12 +75,12 @@ CREATE TABLE `phasesselected` (
 
 CREATE TABLE `projects` (
   `name` varchar(100) NOT NULL,
-  `password` varchar(400) NOT NULL,
-  `active` tinyint(1) NOT NULL,
-  `timecreated` mediumtext NOT NULL,
+  `password` varchar(400) DEFAULT '',
+  `active` tinyint(1) NOT NULL DEFAULT true,
+  `timecreated` mediumtext,
   `author` varchar(100) NOT NULL,
-  `adminPassword` varchar(400) NOT NULL,
-  `phase` varchar(400) NOT NULL
+  `adminPassword` varchar(400),
+  `phase` varchar(400) NOT NULL DEFAULT 'GroupFormation'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `projectuser` (
@@ -145,10 +135,10 @@ CREATE TABLE `users` (
   `name`                          varchar(100) NOT NULL,
   `password`                      varchar(200) NOT NULL,
   `email`                         varchar(255) NOT NULL,
-  `rocketChatUserId`              varchar(400) NOT NULL,
-  `rocketChatPersonalAccessToken` varchar(400) NOT NULL,
-  `rocketChatUsername`            varchar(400) NOT NULL,
-  `rocketChatAuthToken`           varchar(800) NOT NULL,
+  `rocketChatUserId`              varchar(400),
+  `rocketChatPersonalAccessToken` varchar(400),
+  `rocketChatUsername`            varchar(400),
+  `rocketChatAuthToken`           varchar(800),
   `isStudent`                     tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

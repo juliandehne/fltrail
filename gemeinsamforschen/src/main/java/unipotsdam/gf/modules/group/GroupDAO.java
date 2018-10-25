@@ -155,9 +155,12 @@ public class GroupDAO {
 
     public String getGroupChatRoomId(User user, Project project) {
         connect.connect();
-        String mysqlRequest = "SELECT g.chatRoomId FROM groups g join groupuser gu on g.id=gu.groupId where g" +
-                ".projectName=? and gu.studentId=?";
-        VereinfachtesResultSet resultSet = connect.issueSelectStatement(mysqlRequest, project.getName(),
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("SELECT g.chatRoomId FROM groups g ");
+        stringBuilder.append("join groupuser gu on g.id=gu.groupId ");
+        stringBuilder.append("where g.projectName=? and gu.userEmail=?");
+
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(stringBuilder.toString(), project.getName(),
                 user.getEmail());
         if (Objects.isNull(resultSet)) {
             connect.close();

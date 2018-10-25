@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.communication;
+package unipotsdam.gf.taglibs;
 
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
@@ -27,11 +28,12 @@ public class ChatWindow extends SimpleTagSupport {
 
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
-        String token = request.getParameter("token");
-        String projectId = request.getParameter("projectId");
+        /*String token = request.getParameter("token"); */
+        String projectId = request.getParameter("projectName");
 
         ICommunication communicationService = new CommunicationService();
-        String chatRoomLink = communicationService.getChatRoomLink(token, projectId);
+        String chatRoomLink = communicationService.getChatRoomLink(request.getSession().getAttribute(GFContexts
+                        .USEREMAIL).toString(), projectId);
         log.debug("ChatRoomLink for ChatWindow: {}", chatRoomLink);
         JspWriter out = getJspContext().getOut();
         out.println("<iframe height=\"400px\" src=\"" + chatRoomLink + "\"/>");

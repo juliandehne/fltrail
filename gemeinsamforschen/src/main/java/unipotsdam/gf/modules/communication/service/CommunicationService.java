@@ -76,7 +76,8 @@ public class CommunicationService implements ICommunication {
             isUpdated = true;
         } else {
             return isUpdated;
-        } return null;
+        }
+        return null;
     }
 
 
@@ -84,7 +85,8 @@ public class CommunicationService implements ICommunication {
         if (isUpdated == null) {
         } else {
             isUpdated = false;
-        } return null;
+        }
+        return null;
     }
 
     @Override
@@ -122,8 +124,7 @@ public class CommunicationService implements ICommunication {
 
         HttpEntity entity = body.getEntity();
 
-        HttpResponse<Map> response =
-                body.asObject(Map.class);
+        HttpResponse<Map> response = body.asObject(Map.class);
 
         if (isBadRequest(response)) {
             return Strings.EMPTY;
@@ -145,6 +146,9 @@ public class CommunicationService implements ICommunication {
 
         // chatRoom name: projectId - GroupId
         String chatRoomName = String.join("-", group.getProjectName(), String.valueOf(group.getId()));
+        if (exists(chatRoomName)) {
+            return true;
+        }
         String chatRoomId = createChatRoom(chatRoomName, readOnly, group.getMembers());
         if (chatRoomId.isEmpty()) {
             return false;
@@ -164,10 +168,7 @@ public class CommunicationService implements ICommunication {
         bodyMap.put("roomId", roomId);
 
         HttpResponse<Map> response =
-                unirestService
-                        .post(ROCKET_CHAT_API_LINK + "groups.delete")
-                        .headers(headerMap)
-                        .body(bodyMap)
+                unirestService.post(ROCKET_CHAT_API_LINK + "groups.delete").headers(headerMap).body(bodyMap)
                         .asObject(Map.class);
 
         if (isBadRequest(response)) {
@@ -205,11 +206,9 @@ public class CommunicationService implements ICommunication {
 
         String groupUrl = addUser ? "groups.invite" : "groups.kick";
 
-        HttpResponse<Map> response = unirestService
-                .post(GFRocketChatConfig.ROCKET_CHAT_API_LINK + groupUrl)
-                .headers(headerMap)
-                .body(bodyMap)
-                .asObject(Map.class);
+        HttpResponse<Map> response =
+                unirestService.post(GFRocketChatConfig.ROCKET_CHAT_API_LINK + groupUrl).headers(headerMap).body(bodyMap)
+                        .asObject(Map.class);
 
         if (isBadRequest(response)) {
             return false;
@@ -232,11 +231,8 @@ public class CommunicationService implements ICommunication {
 
         Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth().build();
 
-        HttpResponse<Map> response =
-                unirestService
-                        .get(ROCKET_CHAT_API_LINK + "groups.info")
-                        .headers(headerMap)
-                        .queryString("roomId", roomId).asObject(Map.class);
+        HttpResponse<Map> response = unirestService.get(ROCKET_CHAT_API_LINK + "groups.info").headers(headerMap)
+                .queryString("roomId", roomId).asObject(Map.class);
 
         if (isBadRequest(response)) {
             return Strings.EMPTY;
@@ -263,9 +259,7 @@ public class CommunicationService implements ICommunication {
         rocketChatAuth.put("password", user.getPassword());
 
         HttpResponse<RocketChatLoginResponse> response =
-                unirestService
-                        .post(ROCKET_CHAT_API_LINK + "login")
-                        .body(rocketChatAuth)
+                unirestService.post(ROCKET_CHAT_API_LINK + "login").body(rocketChatAuth)
                         .asObject(RocketChatLoginResponse.class);
 
         if (isBadRequest(response)) {
@@ -298,9 +292,7 @@ public class CommunicationService implements ICommunication {
         rocketChatRegister.put("name", user.getName());
 
         HttpResponse<RocketChatRegisterResponse> response =
-                unirestService
-                        .post(ROCKET_CHAT_API_LINK + "users.register")
-                        .body(rocketChatRegister)
+                unirestService.post(ROCKET_CHAT_API_LINK + "users.register").body(rocketChatRegister)
                         .asObject(RocketChatRegisterResponse.class);
 
         if (isBadRequest(response)) {
@@ -327,7 +319,6 @@ public class CommunicationService implements ICommunication {
 
         loginUser(ADMIN_USER);
 
-        User user = userDAO.getUserByEmail(userEmail);
         String chatRoomId = groupDAO.getGroupChatRoomId(new User(userEmail), new Project(projectName));
         if (chatRoomId.isEmpty()) {
             return Strings.EMPTY;
@@ -392,10 +383,8 @@ public class CommunicationService implements ICommunication {
     @Override
     public boolean sendMessageToUsers(Project project, EMailMessage eMailMessage) {
         List<User> users = userDAO.getUsersByProjectName(project.getName());
-        List<User> userEmailProblemList = users
-                .stream()
-                .filter(user -> !sendSingleMessage(eMailMessage, user))
-                .collect(Collectors.toList());
+        List<User> userEmailProblemList =
+                users.stream().filter(user -> !sendSingleMessage(eMailMessage, user)).collect(Collectors.toList());
         return userEmailProblemList.isEmpty();
     }
 
@@ -450,14 +439,13 @@ public class CommunicationService implements ICommunication {
         user.setRocketChatPersonalAccessToken(responseBody.get("token").toString());
         return true;
     }*/
-
     private boolean isBadRequest(HttpResponse response) {
         int status = response.getStatus();
         if (Response.Status.UNAUTHORIZED.getStatusCode() == status) {
             unsetAdminToken();
         }
-        return status == Response.Status.BAD_REQUEST.getStatusCode() ||
-                status == Response.Status.UNAUTHORIZED.getStatusCode();
+        return status == Response.Status.BAD_REQUEST.getStatusCode() || status == Response.Status.UNAUTHORIZED
+                .getStatusCode();
     }
 
 

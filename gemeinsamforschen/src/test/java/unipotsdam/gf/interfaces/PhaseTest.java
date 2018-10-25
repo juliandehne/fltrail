@@ -48,12 +48,7 @@ public class PhaseTest {
         management.register(user, project, null);
     }
 
-    @Test
-    public void phase1() {
-        Project project = new Project();
-        project.setName(projectName);
-        phases.endPhase(Phase.CourseCreation, project);
-    }
+
 
     @Test
     public void phase2() {

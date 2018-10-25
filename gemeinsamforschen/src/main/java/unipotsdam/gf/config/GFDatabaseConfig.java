@@ -10,4 +10,5 @@ public class GFDatabaseConfig {
     public static final String USER = "root";
     public static final String PASS = "";
     public static final String DB_NAME = "fltrail";
+    public static final String TEST_DB_NAME = "fltrail_test";
 }

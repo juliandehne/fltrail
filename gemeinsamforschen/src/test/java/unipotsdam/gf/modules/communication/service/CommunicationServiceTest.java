@@ -1,14 +1,14 @@
 package unipotsdam.gf.modules.communication.service;
 
+import ch.vorburger.exec.ManagedProcessException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.core.database.TestGFApplicationBinder;
+import unipotsdam.gf.core.database.UpdateDB;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
@@ -24,6 +24,8 @@ import unipotsdam.gf.process.constraints.Constraints;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -60,14 +62,21 @@ public class CommunicationServiceTest {
     Management management;
 
 
+    @BeforeClass
+    public static void init() throws IOException, SQLException, ManagedProcessException {
+        UpdateDB.updateTestDB();
+    }
+
     @Before
     public void setUp() {
 
-        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
 
         user = new User("Vorname Nachname", "password", "email@uni.de", true);
+        userDAO.persist(user, null);
+
         createdChatRooms = new ArrayList<>();
 
     }
@@ -76,6 +85,8 @@ public class CommunicationServiceTest {
     public void tearDown() {
         createdChatRooms.forEach(createdChatRoom -> iCommunication.deleteChatRoom(createdChatRoom));
         createdChatRooms.clear();
+
+
     }
 
     @Test
@@ -135,10 +146,8 @@ public class CommunicationServiceTest {
         Group group = new Group();
         group.setMembers(Collections.singletonList(ADMIN_USER));
         group.setProjectName("chatWithGroup");
-        group.setId(1);
         boolean successful = iCommunication.createChatRoom(group, false);
         assertTrue(successful);
-
         createdChatRooms.add(group.getChatRoomId());
     }
 
@@ -161,9 +170,11 @@ public class CommunicationServiceTest {
     @Test
     public void getChatRoomLink() {
         String projectId = "Projekt";
+        Project project = new Project(projectId, user.getEmail());
+        projectDAO.persist(project);
+
         Group group = new Group();
         userDAO.persist(ADMIN_USER, new UserProfile());
-
         group.setProjectName(projectId);
         group.setMembers(Collections.singletonList(ADMIN_USER));
         groupDAO.persist(group);

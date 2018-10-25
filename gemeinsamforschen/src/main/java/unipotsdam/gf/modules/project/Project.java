@@ -22,19 +22,9 @@ public class Project {
     private String[] tags;
 
     public Project() {
+        tags = new String[0];
     }
 
-    public Project(String name, String password, Boolean active, String author, String adminPassword, String[] tags) {
-        this.name = name;
-        this.password = password;
-        this.active = active;
-        this.authorEmail = author;
-        this.adminPassword = adminPassword;
-        this.timecreated = System.currentTimeMillis();
-        // default starting at course creation if new
-        this.setPhase(Phase.CourseCreation);
-        this.tags = tags;
-    }
 
     public Project(
             String name, String password, Boolean active, Long timecreated, String authorEmail,
@@ -49,13 +39,17 @@ public class Project {
         this.tags = tags;
     }
 
-    public Project(String projectName, String password) {
+    public Project(String projectName, String authorEmail) {
         this.name = projectName;
-        this.password = password;
+        this.authorEmail = authorEmail;
+        this.active = true;
+        this.timecreated = System.currentTimeMillis();
+        tags = new String[0];
     }
 
     public Project(String projectName) {
         this.name = projectName;
+        this.active = true;
     }
 
 

@@ -75,11 +75,6 @@ public class PhasesImpl implements IPhases {
         Phase changeToPhase = getNextPhase(currentPhase);
         Map<StudentIdentifier, ConstraintsMessages> tasks;
         switch (currentPhase) {
-            case CourseCreation:
-                // saving the state
-
-                saveState(project, changeToPhase);
-                break;
             case GroupFormation:
                 // inform users about the formed groups, optionally giving them a hint on what happens next
                 iCommunication.sendMessageToUsers(project, Messages.GroupFormation(project));
@@ -126,8 +121,6 @@ public class PhasesImpl implements IPhases {
 
     private Phase getNextPhase(Phase phase) {
         switch (phase) {
-            case CourseCreation:
-                return Phase.GroupFormation;
             case GroupFormation:
                 return Phase.DossierFeedback;
             case DossierFeedback:

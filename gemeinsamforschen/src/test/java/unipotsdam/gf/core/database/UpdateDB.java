@@ -16,7 +16,8 @@ public class UpdateDB {
     private boolean stopOnError;
     private boolean autoCommit;
 
-    private PrintWriter logWriter = new PrintWriter(System.out);
+    //private PrintWriter logWriter = new PrintWriter(System.out);
+    private PrintWriter logWriter = null;
     private PrintWriter errorLogWriter = new PrintWriter(System.err);
 
     private String delimiter = DEFAULT_DELIMITER;
@@ -29,8 +30,20 @@ public class UpdateDB {
 
         UpdateDB updateDB = new UpdateDB(connection, true, false);
         System.out.println(new java.io.File( "." ).getCanonicalPath());
+        updateDB.runScript(new FileReader("src/test/resources/database/db.sql"));
         updateDB.runScript(new FileReader("src/test/resources/database/fltrail.sql"));
         updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
+    }
+
+    public static void updateTestDB() throws SQLException, ManagedProcessException, IOException {
+        MysqlConnect  mysqlConnect = new MysqlTestConnect();
+        Connection connection = mysqlConnect.getConnection();
+
+        UpdateDB updateDB = new UpdateDB(connection, true, false);
+        System.out.println(new java.io.File( "." ).getCanonicalPath());
+        updateDB.runScript(new FileReader("src/test/resources/database/test_db.sql"));
+        updateDB.runScript(new FileReader("src/test/resources/database/fltrail.sql"));
+        //updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
     }
 
     public UpdateDB(Connection connection, boolean stopOnError, boolean autoCommit) {
