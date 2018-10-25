@@ -25,15 +25,28 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.mail.*;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
-import static unipotsdam.gf.config.GFMailConfig.*;
+import static unipotsdam.gf.config.GFMailConfig.SMTP_HOST;
+import static unipotsdam.gf.config.GFMailConfig.SMTP_PASSWORD;
+import static unipotsdam.gf.config.GFMailConfig.SMTP_PORT;
+import static unipotsdam.gf.config.GFMailConfig.SMTP_USERNAME;
 import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
 import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_API_LINK;
 import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_ROOM_LINK;
@@ -249,14 +262,6 @@ public class CommunicationService implements ICommunication {
         rocketChatAuth.put("user", user.getEmail());
         rocketChatAuth.put("password", user.getPassword());
 
-        HttpResponse<String> response2 =
-                unirestService
-                        .post(ROCKET_CHAT_API_LINK + "login")
-                        .body(rocketChatAuth)
-                        .asObject(String.class);
-
-        System.out.println(response2.getBody());
-
         HttpResponse<RocketChatLoginResponse> response =
                 unirestService
                         .post(ROCKET_CHAT_API_LINK + "login")
@@ -274,6 +279,7 @@ public class CommunicationService implements ICommunication {
         RocketChatLoginResponse rocketChatLoginResponse = response.getBody();
         user.setRocketChatUserId(rocketChatLoginResponse.getUserId());
         user.setRocketChatAuthToken(rocketChatLoginResponse.getAuthToken());
+
         return true;
     }
 

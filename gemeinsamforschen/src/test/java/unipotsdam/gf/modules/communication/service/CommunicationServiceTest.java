@@ -2,12 +2,13 @@ package unipotsdam.gf.modules.communication.service;
 
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
-import unipotsdam.gf.core.database.InMemoryMySqlConnect;
-import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
@@ -19,18 +20,23 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.user.UserProfile;
-import unipotsdam.gf.modules.user.UserView;
-import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.process.constraints.Constraints;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import javax.inject.Inject;
-import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
-import static unipotsdam.gf.config.GFRocketChatConfig.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
+import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_ROOM_LINK;
+import static unipotsdam.gf.config.GFRocketChatConfig.TEST_USER;
 
 public class CommunicationServiceTest {
 
@@ -75,7 +81,7 @@ public class CommunicationServiceTest {
     public void loginUser() {
         assertTrue(iCommunication.loginUser(TEST_USER));
         assertTrue(!TEST_USER.getRocketChatAuthToken().isEmpty());
-        assertTrue(TEST_USER.getRocketChatUserId().isEmpty());
+        assertTrue(!TEST_USER.getRocketChatUserId().isEmpty());
 
         User falseLoginUser = new User("name", "password", "email", true);
         assertFalse(iCommunication.loginUser(falseLoginUser));
