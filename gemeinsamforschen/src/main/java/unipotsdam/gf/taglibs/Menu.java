@@ -86,12 +86,17 @@ public class Menu extends SimpleTagSupport {
         String phaseViewString = "" +
                 "<main>\n" +
                 "    <div class=\"row group\">\n" +
-                "        <div class=\"titlerow\">\n" +
-                "\n" +
-                "        </div>\n" +
+                "        <div class=\"titlerow\">\n <h1 id=\"projectHeadline\">";
+        if (projectName != null){
+            phaseViewString += "\n" +projectName;
+        }else{
+            phaseViewString += "\n Übersicht für "+userEmail;
+        }
+        phaseViewString += "" +
+                "  </h1>      </div>\n" +
                 "    </div>\n" +
                 "\n" +
-                "    <div class=\"row group nav\">\n" +
+                "    <div class=\"row nav\">\n" +
                 "        <a href=\"\" >[<i class=\"fas fa-chevron-left\"> zurueck ]</i></a>\n" +
                 "    </div>\n" +
                 "\n" +
@@ -158,7 +163,7 @@ public class Menu extends SimpleTagSupport {
         phaseViewString += "" +
                 "        </ul>\n" +
                 "    </div>" +
-                "<div class=\"col span_l_of_2\"> <!-- col right-->\n";
+                "<div class=\"col span_l_of_2\" style=\"\"> <!-- col right-->\n";
         out.println(phaseViewString);
 
         if (projectName != null)

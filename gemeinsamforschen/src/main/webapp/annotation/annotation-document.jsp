@@ -2,6 +2,7 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,17 +11,8 @@
 <head>
     <%--<omniDependencies:omniDependencies hierarchy="1"/>--%>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../libs/css/styles.css">
-    <link rel="stylesheet" href="../taglibs/css/footer.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="../taglibs/js/utility.js"></script>
-    <script src="../taglibs/js/footer.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-          integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-
-    <!-- css - annotationStyle -->
+    <omniDependencies:omniDependencies hierarchy="1"/>
+        <!-- css - annotationStyle -->
     <link rel="stylesheet" type="text/css" href="css/annotationStyle.css">
     <!-- css - contextMenu -->
     <link href="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.css" rel="stylesheet"
@@ -53,12 +45,10 @@
 
 <body>
 <menu:menu hierarchy="1"/>
-<div id="wrapper">
     <div class="page-content-wrapper full-height">
         <div class="container-fluid full-height">
             <div class="container-fluid-content">
                 <div class="flex">
-                    <headLine:headLine/>
                 </div>
                 <div class="content-mainpage">
                     <div class="leftcolumn">
@@ -152,7 +142,7 @@
             </div>
         </div>
     </div>
-</div>
+<footer:footer/>
 </body>
 
 </html>

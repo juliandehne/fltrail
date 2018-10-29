@@ -28,8 +28,6 @@
 
 <body>
 <menu:menu hierarchy="1"/>
-<div class="col span_l_of_2"> <!-- col right-->
-    <headLine:headLine/>
     <form id="upload-textarea-form">
         <div class="form-group upload-text" id="documentText">
             <label for="upload-textarea">Texteingabe</label>
@@ -48,7 +46,6 @@
         <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
         </button>
     </div>
-</div>
 <footer:footer/>
 </body>
 
