@@ -9,6 +9,7 @@ import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.session.GFContexts;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
@@ -21,6 +22,9 @@ public class ChatWindow extends SimpleTagSupport {
 
     private String orientation;
 
+    @Inject
+    private ICommunication communicationService;
+
     public void doTag() throws IOException {
 
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
@@ -31,7 +35,7 @@ public class ChatWindow extends SimpleTagSupport {
         /*String token = request.getParameter("token"); */
         String projectId = request.getParameter("projectName");
 
-        ICommunication communicationService = new CommunicationService();
+
         String chatRoomLink = communicationService.getChatRoomLink(request.getSession().getAttribute(GFContexts
                         .USEREMAIL).toString(), projectId);
         log.debug("ChatRoomLink for ChatWindow: {}", chatRoomLink);
