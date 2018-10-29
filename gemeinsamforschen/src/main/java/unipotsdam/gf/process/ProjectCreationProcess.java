@@ -1,10 +1,14 @@
 package unipotsdam.gf.process;
 
 import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.modules.annotation.model.Category;
+import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.group.GroupfindingCriteria;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectConfiguration;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
@@ -17,6 +21,11 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.WebApplicationException;
 import java.io.IOException;
+import java.util.HashMap;
+
+import static unipotsdam.gf.modules.assessment.AssessmentMechanism.PEER_ASSESSMENT;
+import static unipotsdam.gf.modules.group.GroupFormationMechanism.SingleUser;
+import static unipotsdam.gf.process.phases.Phase.CourseCreation;
 
 
 @Singleton
@@ -51,6 +60,16 @@ public class ProjectCreationProcess {
             throw new WebApplicationException("Project already exists");
         }
         taskDao.createTaskWaitForParticipants(project, author);
+        HashMap<Phase, Boolean> phase = new HashMap<>();
+        phase.put(project.getPhase(), true);
+        HashMap<Category, Boolean> category = new HashMap<>();
+        category.put(Category.TITEL, true);
+        ProjectConfiguration projectConfiguration = new ProjectConfiguration(
+                phase,
+                category,
+                AssessmentMechanism.PEER_ASSESSMENT,   //todo: its just a default by now. correct this
+                GroupFormationMechanism.SingleUser);   //todo: its just a default by now. fix it
+        iManagement.create(projectConfiguration, project);
     }
 
     /**
@@ -72,7 +91,7 @@ public class ProjectCreationProcess {
         Boolean groupsCanBeFormed = constraintsImpl.checkIfGroupsCanBeFormed(project);
         if (groupsCanBeFormed) {
             GroupFormationMechanism groupFormationMechanism = groupDAO.getGroupFormationMechanism(project);
-            if (!groupFormationMechanism.equals(GroupFormationMechanism.SingleUser) && !groupFormationMechanism
+            if (!groupFormationMechanism.equals(SingleUser) && !groupFormationMechanism
                     .equals(GroupFormationMechanism.Manual)) {
                 taskDao.persistTeacherTask(project, TaskName.EDIT_FORMED_GROUPS, Phase.GroupFormation);
             } else {

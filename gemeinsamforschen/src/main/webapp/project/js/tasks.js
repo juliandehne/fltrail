@@ -19,7 +19,11 @@ function fillTasks(projectName, userEmail){
             let object = fillObjectWithTasks(response);
             for (let task in object){
                 let tmplObject = fitObjectInTmpl(object[task]);
-                $('#taskTemplate').tmpl(tmplObject).appendTo('#listOfTasks');
+                if (tmplObject.taskProgress === "FINISHED"){
+                    $('#finishedTaskTemplate').tmpl(tmplObject).appendTo('#listOfTasks');
+                }else{
+                    $('#taskTemplate').tmpl(tmplObject).appendTo('#listOfTasks');
+                }
             }
         },
         error: function(a){}

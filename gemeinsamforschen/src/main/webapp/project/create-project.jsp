@@ -58,9 +58,6 @@
         <p> Passwort zum Teilnehmen (optional) </p>
         <div class="form-group"><input class="form-control" name="password" placeholder="Passwort"
                                        style="width:287px;margin-left:51px;" id="passwordProject"></div>
-        <p> Passwort zum Löschen (sonst: 1234) </p>
-        <div class="form-group"><input class="form-control" name="adminpassword" placeholder="Passwort"
-                                       style="width:287px;margin-left:51px;" id="adminPassword"></div>
         <p>Gruppenarbeitseinstellungen</p>
         <input type="radio" id="lg" name="gfm" value="Basierend auf Lernzielen">
             <label for="lg">Basierend auf Lernzielen</label>

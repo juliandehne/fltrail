@@ -85,10 +85,6 @@ function initSendButton(allTheTags) {
 function getProjectValues() {
     projectName = $("#nameProject").val().trim();
     let password = $("#passwordProject").val().trim();
-    let adminPassword = $("#adminPassword").val().trim();
-    if (adminPassword === "") {
-        adminPassword = "1234";
-    }
     //allTheTags = $("#tagsProject").tagsInput('items');
     //allTheTags = $("#tagsProject").val();
     let reguexp = /^[a-zA-Z0-9äüöÄÜÖ\ ]+$/;
@@ -113,7 +109,6 @@ function getProjectValues() {
         "active" : true,
         "timecreated" : time,
         "authorEmail": $('#userEmail').text().trim(),
-        "adminPassword": adminPassword,
         "phase" : "CourseCreation",
         "tags": allTheTags
     };
@@ -124,7 +119,6 @@ function getProjectValues() {
         "active" : true,
         "timecreated" : 356122661234038,
         "authorEmail" : "7DoIYf4tWV",
-        "adminPassword" : "bJFmgTGMdY",
         "phase" : "Execution",
         "tags" : [ "JjwWui3r2a", "J23BLwqlXa", "NOVk1tcaN0", "RTXTACSHLx", "BbMtdrXPi2" ]
     };

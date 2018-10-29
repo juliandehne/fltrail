@@ -50,8 +50,6 @@ public class ProjectView {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.TEXT_PLAIN)
     @Path("/delete/project/{projectName}")
     public void deleteProject(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws URISyntaxException, IOException {
         String userEmail1 = gfContexts.getUserEmail(req);

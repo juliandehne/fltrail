@@ -14,39 +14,37 @@
 </head>
 <body>
 <menu:menu hierarchy="1"/>
-    <headLine:headLine/>
+<headLine:headLine/>
 
 <div id="listOfTasks">
 
 </div>
 <script id="taskTemplate" type="text/x-jQuery-tmpl">
-    {{if taskProgress === "FINISHED"}}
-        <div class="card-finished"><h4 class="icon closed">${infoText}</h4>
-        {{html timeFrame}}
-        </div>
-    {{else}}
-        <div class="card ${phase}">
-
-            <div class="col span_s_of_2 icon ${taskType}">
-            </div>
-            <div class="col span_l_of_2" id="${taskName}">
-                {{if infoText}}
-                    <h4>${infoText}</h4>
-                {{/if}}
-                {{if solveTaskWith}}
-                    <button class='primary' onClick='${solveTaskWithLink}'>${solveTaskWith}</button>
-                {{/if}}
-                {{if helpLink}}
-                    <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
-                {{/if}}
-            </div>
-            {{if timeFrame}}
-                {{html timeFrame}}
-            {{/if}}
-                <div style="clear:left"></div>
-            </div>
-        </div>
-    {{/if}}
+   <div class="card ${phase}">
+       <div class="col span_s_of_2 icon ${taskType}">
+       </div>
+       <div class="col span_l_of_2" id="${taskName}">
+           {{if infoText}}
+               <h4>${infoText}</h4>
+           {{/if}}
+           {{if solveTaskWith}}
+               <button class='primary' onClick='${solveTaskWithLink}'>${solveTaskWith}</button>
+           {{/if}}
+           {{if helpLink}}
+               <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
+           {{/if}}
+       </div>
+       {{if timeFrame}}
+           {{html timeFrame}}
+       {{/if}}
+           <div style="clear:left"></div>
+       </div>
+   </div>
+</script>
+<script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
+   <div class="card-finished"><h4 class="icon closed">${infoText}</h4>
+   {{html timeFrame}}
+   </div>
 </script>
 <footer:footer/>
 </body>
