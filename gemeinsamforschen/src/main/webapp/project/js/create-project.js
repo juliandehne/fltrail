@@ -1,5 +1,6 @@
 let allTheTags = [];
 let projectName = "";
+var gfm = "";
 
 /**
  * Created by fides-WHK on 19.02.2018.
@@ -36,7 +37,7 @@ function createNewProject(allTheTags, activ) {
                     if (allTheTags.length !== 5) {
                         $('#exactNumberOfTags').show();
                     } else {
-                        createProjectinCompbase();
+                        sendGroupPreferences();
 
                     }
                 }
@@ -113,7 +114,7 @@ function getProjectValues() {
         "timecreated" : 356122661234038,
         "authorEmail": "vodka",
         "adminPassword": adminPassword,
-        "phase" : "CourseCreation",
+        "phase" : "GroupFormation",
         "tags": allTheTags
     };
 
@@ -150,11 +151,45 @@ function createProjectinCompbase() {
         success: function (response) {
             console.log(response);
             // it actually worked, too
-            sendGroupPreferences();
+            document.location.href = "tasks-docent.jsp?projectName="+projectName;
         },
         error: function (a, b, c) {
             console.log(a);
             // and also in this case
+            return false;
+        }
+    });
+}
+
+
+function sendGroupPreferences() {
+    gfm = $('input[name=gfm]:checked').val();
+    if (gfm == "Basierend auf Präferenzen") {
+        // TODO implement preference based group selection
+        gfm = "UserProfilStrategy";
+    } else if (gfm == "per Hand") {
+        gfm = "Manual";
+    } else if (gfm == "Basierend auf Lernzielen") {
+        gfm = "LearningGoalStrategy";
+    } else if(gfm == "Keine Gruppen") {
+        gfm = "SingleUser";
+    }
+
+    var localurl = "../../gemeinsamforschen/rest/group/gfm/create/projects/" + projectName;
+    $.ajax({
+        gfm: gfm,
+        url: localurl,
+        contentType: 'application/json',
+        type: 'POST',
+        data: gfm,
+        success: function (a, b, c) {
+            if (gfm == "LearningGoalStrategy") {
+                createProjectinCompbase();
+            }
+            document.location.href = "tasks-docent.jsp?projectName="+projectName;
+            return true;
+        },
+        error: function (a, b, c) {
             return false;
         }
     });

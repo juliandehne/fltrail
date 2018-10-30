@@ -1,0 +1,32 @@
+<!--<iframe height="400px" src="https://rocket.farm-test.rz.uni-potsdam.de/group/Pokemon?layout=embedded">
+    <script> window.parent.postMessage({
+        event: 'login-with-token',
+        loginToken: 'tGbAU84td1Qnk_MHWsNS8M7rxAb7uCq4ldfdF3aj2Kq'
+    }, 'http://localhost:8080/gemeinsamforschen')
+    </script>
+</iframe>-->
+
+
+
+<!--
+
+ tGbAU84td1Qnk_MHWsNS8M7rxAb7uCq4ldfdF3aj2Kq
+ 6ofqfp8J9ynfvspBJ
+
+ -->
+
+<iframe height="400px" src="https://rocket.farm-test.rz.uni-potsdam.de/group/Pokemon?layout=embedded"></iframe>
+
+<script type="application/javascript">
+    document.querySelector('iframe').contentWindow.postMessage({
+        event: 'login-with-token',
+        loginToken: 'tGbAU84td1Qnk_MHWsNS8M7rxAb7uCq4ldfdF3aj2Kq'
+    }, 'http://localhost:8080/gemeinsamforschen')
+</script>
+
+<!--{
+event: 'login-with-token',
+loginToken: 'lWeN5gDSSC-9dulY4Os-wWBwwS88gfw15G6arRuwlV2'
+}, 'http://localhost:8080')-->
+
+

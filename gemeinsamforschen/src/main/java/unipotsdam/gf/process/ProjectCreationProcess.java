@@ -1,5 +1,6 @@
 package unipotsdam.gf.process;
 
+import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
@@ -35,6 +36,8 @@ public class ProjectCreationProcess {
     @Inject
     private GroupDAO groupDAO;
 
+    @Inject
+    private ICommunication iCommunication;
 
     /**
      * STEP 1
@@ -51,6 +54,10 @@ public class ProjectCreationProcess {
             throw new WebApplicationException("Project already exists");
         }
         taskDao.createTaskWaitForParticipants(project, author);
+
+        // create chatromm
+        iCommunication.createEmptyChatRoom(project.getName(), false);
+
     }
 
     /**
@@ -81,5 +88,6 @@ public class ProjectCreationProcess {
                 //phases.endPhase(Phase.GroupFormation, project);
             }
         }
+        iCommunication.addUserToChatRoom(user, project.getName());
     }
 }

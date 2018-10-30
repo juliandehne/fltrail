@@ -90,7 +90,7 @@ public interface ICommunication {
      * @param user username and password
      * @return information about user, especially authtoken for later use of endpoints
      */
-    boolean loginUser(User user);
+    User loginUser(User user);
 
     /**
      * api 1: https://rocket.chat/docs/developer-guides/rest-api/users/register/
@@ -105,6 +105,8 @@ public interface ICommunication {
     boolean registerUser(User user);
 
     String getChatRoomLink(String userToken, String projectId);
+
+    String getProjectChatRoomLink(String projectName);
 
     // TODO implement as Email or whatever
     boolean sendSingleMessage(EMailMessage EMailMessage, User user);

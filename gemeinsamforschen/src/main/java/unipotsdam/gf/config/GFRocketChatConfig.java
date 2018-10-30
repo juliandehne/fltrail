@@ -7,7 +7,8 @@ public class GFRocketChatConfig {
 
     //private static final String ROCKET_CHAT_LINK = "http://rocketchat.westeurope.cloudapp.azure.com/";
 
-    private static final String ROCKET_CHAT_LINK = "https://rocket.farm-test.rz.uni-potsdam.de/";
+    public static final String ROCKET_CHAT_LINK_0 = "https://rocket.farm-test.rz.uni-potsdam.de";
+    public static final String ROCKET_CHAT_LINK = "https://rocket.farm-test.rz.uni-potsdam.de/";
 
     // or https://rocket.farm.uni-potsdam.de/
     // https://rocket.farm-test.rz.uni-potsdam.de/home
