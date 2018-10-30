@@ -55,7 +55,7 @@
         </div>
     </script>
 
-    <chat:chatWindow orientation="right"></chat:chatWindow>
+    <chat:chatWindow orientation="right" scope="project"></chat:chatWindow>
 
 </div>
 <footer:footer/>

@@ -196,7 +196,7 @@ public class CommunicationService implements ICommunication {
     private boolean modifyChatRoom(User user, String roomId, boolean addUser) {
         loginUser(ADMIN_USER);
 
-        if (hasEmptyParameter(user.getRocketChatUserId(), user.getRocketChatPersonalAccessToken(), roomId)) {
+        if (hasEmptyParameter(user.getRocketChatUserId(), roomId)) {
             return false;
         }
         Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth().build();
@@ -248,22 +248,23 @@ public class CommunicationService implements ICommunication {
     }
 
     @Override
-    public boolean loginUser(User user) {
+    public User loginUser(User user) {
 
         if (hasEmptyParameter(user.getEmail(), user.getPassword())) {
-            return false;
+            return null;
         }
 
+        //
         HashMap<String, String> rocketChatAuth = new HashMap<>();
         rocketChatAuth.put("user", user.getEmail());
         rocketChatAuth.put("password", user.getPassword());
 
         HttpResponse<RocketChatLoginResponse> response =
-                unirestService.post(ROCKET_CHAT_API_LINK + "login").body(rocketChatAuth)
+                unirestService.post(ROCKET_CHAT_API_LINK + "register").body(rocketChatAuth)
                         .asObject(RocketChatLoginResponse.class);
 
         if (isBadRequest(response)) {
-            return false;
+            return null;
         } else {
             if (ADMIN_USER.equals(user)) {
                 setAdminToken();
@@ -274,7 +275,7 @@ public class CommunicationService implements ICommunication {
         user.setRocketChatUserId(rocketChatLoginResponse.getUserId());
         user.setRocketChatAuthToken(rocketChatLoginResponse.getAuthToken());
 
-        return true;
+        return user;
     }
 
     @Override
@@ -330,6 +331,11 @@ public class CommunicationService implements ICommunication {
         }
 
         return ROCKET_CHAT_ROOM_LINK + chatRoomName + "?layout=embedded";
+    }
+
+    @Override
+    public String getProjectChatRoomLink(String projectName) {
+        return ROCKET_CHAT_ROOM_LINK + projectName + "?layout=embedded";
     }
 
     // TODO: Think about splitting email and chat communication into different

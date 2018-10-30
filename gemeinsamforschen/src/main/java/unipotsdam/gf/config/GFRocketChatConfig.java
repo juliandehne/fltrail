@@ -7,7 +7,7 @@ public class GFRocketChatConfig {
 
     //private static final String ROCKET_CHAT_LINK = "http://rocketchat.westeurope.cloudapp.azure.com/";
 
-    private static final String ROCKET_CHAT_LINK = "https://rocket.farm-test.rz.uni-potsdam.de/";
+    public static final String ROCKET_CHAT_LINK = "https://rocket.farm-test.rz.uni-potsdam.de";
 
     // or https://rocket.farm.uni-potsdam.de/
     // https://rocket.farm-test.rz.uni-potsdam.de/home
@@ -16,9 +16,9 @@ public class GFRocketChatConfig {
      * username: fltrailadmin pw: GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F
      */
 
-    public static final String ROCKET_CHAT_ROOM_LINK = ROCKET_CHAT_LINK + "group/";
+    public static final String ROCKET_CHAT_ROOM_LINK = ROCKET_CHAT_LINK + "/group/";
 
-    public static final String ROCKET_CHAT_API_LINK = ROCKET_CHAT_LINK + "api/v1/";
+    public static final String ROCKET_CHAT_API_LINK = ROCKET_CHAT_LINK + "/api/v1/";
 
    public static final User TEST_USER = new User("test", "passwort",
             "test@stuff.com", "test", "rocketChatAuthToken",

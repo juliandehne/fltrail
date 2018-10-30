@@ -91,12 +91,12 @@ public class CommunicationServiceTest {
 
     @Test
     public void loginUser() {
-        assertTrue(iCommunication.loginUser(TEST_USER));
+        assertNotNull(iCommunication.loginUser(TEST_USER));
         assertTrue(!TEST_USER.getRocketChatAuthToken().isEmpty());
         assertTrue(!TEST_USER.getRocketChatUserId().isEmpty());
 
         User falseLoginUser = new User("name", "password", "email", true);
-        assertFalse(iCommunication.loginUser(falseLoginUser));
+        assertNotNull(iCommunication.loginUser(falseLoginUser));
     }
 
 
@@ -282,7 +282,7 @@ public class CommunicationServiceTest {
 
 
        /* try {
-            userService.login(true, user);
+            userService.register(true, user);
         } catch (URISyntaxException e) {
             Assert.fail();
         }*/

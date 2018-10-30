@@ -24,9 +24,13 @@ import java.net.URISyntaxException;
 @ManagedBean
 public class UserView {
 
+    @Inject
     private ICommunication communicationService;
+
+    @Inject
     private UserDAO userDAO;
 
+    @Inject
     private Management management;
 
     @Inject
@@ -55,7 +59,7 @@ public class UserView {
             @FormParam("email") String email, @FormParam("isStudent") String isStudent) throws URISyntaxException {
 
         User user = new User(name, password, email, isStudent == null);
-        return login(req, true, user);
+        return register(req, true, user);
 
     }
 
@@ -72,14 +76,17 @@ public class UserView {
     @POST
     @Produces(MediaType.TEXT_HTML)
     @Path("/exists")
-    public Response existsUser(
+    public Response loginUser(
             @Context HttpServletRequest req, @FormParam("name") String name, @FormParam("password") String password,
             @FormParam("email") String email) throws URISyntaxException {
 
         User user = new User(name, password, email, null);
-        boolean isLoggedIn = communicationService.loginUser(user);
-        if (isLoggedIn) {
-            return login(req, false, user);
+        // TODO fix this
+        User isLoggedIn = communicationService.loginUser(user);
+        if (isLoggedIn != null) {
+            req.getSession().setAttribute(GFContexts.ROCKETCHATAUTHTOKEN, isLoggedIn.getRocketChatAuthToken());
+            req.getSession().setAttribute(GFContexts.ROCKETCHATID, isLoggedIn.getRocketChatUserId());
+            return register(req, false, user);
         } else {
             return loginError();
         }
@@ -107,7 +114,7 @@ public class UserView {
      * @return
      * @throws URISyntaxException
      */
-    public Response login(HttpServletRequest req, boolean createUser, User user) throws URISyntaxException {
+    public Response register(HttpServletRequest req, boolean createUser, User user) throws URISyntaxException {
 
         if (management.exists(user)) {
             if (!createUser) {

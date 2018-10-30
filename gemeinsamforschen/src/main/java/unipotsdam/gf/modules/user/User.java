@@ -15,6 +15,7 @@ public class User {
     private String email;
     private String rocketChatUsername;
     private String rocketChatAuthToken;
+    // not in this version
     private String rocketChatPersonalAccessToken;
     private String rocketChatUserId;
     private Boolean isStudent;

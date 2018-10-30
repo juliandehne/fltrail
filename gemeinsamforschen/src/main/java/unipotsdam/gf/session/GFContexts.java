@@ -14,6 +14,10 @@ public class GFContexts {
 
     public static final String USEREMAIL = "userEmail";
     public static final String PROJECTNAME = "projectName";
+    public static final String ROCKETCHATAUTHTOKEN = "rocketchatauthtoken";
+    public static final String ROCKETCHATID = "rocketchatid";
+
+
     public String getUserEmail(HttpServletRequest req) throws IOException {
         Object userEmail = req.getSession().getAttribute(GFContexts.USEREMAIL);
         if (userEmail == null) {
