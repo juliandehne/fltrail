@@ -14,8 +14,6 @@
 </head>
 <body>
 <menu:menu hierarchy="1"/>
-<headLine:headLine/>
-
 <div id="listOfTasks">
 
 </div>

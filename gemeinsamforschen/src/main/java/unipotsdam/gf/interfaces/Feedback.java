@@ -1,8 +1,10 @@
 package unipotsdam.gf.interfaces;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.process.progress.HasProgress;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
+import unipotsdam.gf.process.tasks.Task;
+
+import java.util.List;
 
 
 /**
@@ -19,8 +21,9 @@ public interface Feedback {
 
     /**
      * TODO implement: Assigns each student in a project a feedback target
+     * @param tasks
      */
-    void assignFeedbackTasks(Project project);
+    void specifyFeedbackTasks(List<Task> tasks);
 
     /**
      * TODO implement: Get the research report you have to give feedback to

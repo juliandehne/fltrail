@@ -3,6 +3,7 @@ package unipotsdam.gf.config;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import unipotsdam.gf.interfaces.*;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
+import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
@@ -45,6 +46,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(JournalUtils.class).to(JournalUtils.class);
         bind(JournalServiceImpl.class).to(JournalService.class);
         bind(ManagementImpl.class).to(Management.class);
+        bind(FeedbackImpl.class).to(Feedback.class);
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
         bind(IJournalImpl.class).to(IJournal.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);

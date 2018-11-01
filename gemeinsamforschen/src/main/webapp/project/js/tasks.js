@@ -118,6 +118,9 @@ function fitObjectInTmpl(object){
             result.infoText = "[TEACHER] Die Gruppen wurden vom Algorithmus gebildet. Sie können noch manuell" +
                 " editiert werden."; // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
             break;
+        case "CONTACT_GROUP_MEMBERS":
+            result.infoText = "Sagen sie hallo zu ihren Gruppenmitgliedern über den Chat.";
+            break;
         default:
             result.infoText="";
     }

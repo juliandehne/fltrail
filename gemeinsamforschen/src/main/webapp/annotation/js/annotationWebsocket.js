@@ -1,13 +1,12 @@
-var ws;
+let ws;
 
 function connect(targetId, targetCategory) {
-    var host = document.location.host;
-    var pathname = document.location.pathname;
+    let host = document.location.host;
 
     ws = new WebSocket("ws://" + host +  "/gemeinsamforschen/ws/annotation/" + targetId + "/" + targetCategory);
 
     ws.onmessage = function (e) {
-        var message = JSON.parse(e.data);
+        let message = JSON.parse(e.data);
 
         if (message.type === "CREATE") {
             // get annotation from server
@@ -29,10 +28,10 @@ function connect(targetId, targetCategory) {
 }
 
 function send(type, annotationId) {
-    var json = JSON.stringify({
+    let json = JSON.stringify({
         "type":type,
         "annotationId":annotationId
-    })
+    });
 
     ws.send(json);
 }

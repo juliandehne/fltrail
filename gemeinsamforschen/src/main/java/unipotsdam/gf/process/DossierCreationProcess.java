@@ -1,21 +1,19 @@
 package unipotsdam.gf.process;
 
 import unipotsdam.gf.interfaces.Feedback;
-import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.constraints.Constraints;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
@@ -29,7 +27,13 @@ public class DossierCreationProcess {
     private TaskDAO taskDAO;
 
     @Inject
+    private UserDAO userDAO;
+
+    @Inject
     private ConstraintsImpl constraints;
+
+    @Inject
+    private Feedback feedback;
 
     /**
      * start the Dossier Phase
@@ -85,11 +89,13 @@ public class DossierCreationProcess {
 
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
             // distributefeedbacks
-            //assignFeedbackTasks(project);
-
+            List<User> projectParticipants = userDAO.getUsersByProjectName(project.getName());
+            for (User participant : projectParticipants) {
+                taskDAO.createDefault(project, participant, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
+            }
             // persist tasks for feedback
-            taskDAO.persistMemberTask(
-                    project, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
+            //taskDAO.persistMemberTask(
+            //        project, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
         }
     }
 

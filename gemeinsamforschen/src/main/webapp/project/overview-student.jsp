@@ -14,7 +14,6 @@
 
 <body>
 <menu:menu hierarchy="1"/>
-        <headLine:headLine/>
         <div>
             <table id="projects">  <!-- getElementById('projects').append um neue Projekte anzufügen -->
                 <script id="projectTRTemplate" type="text/x-jQuery-tmpl">

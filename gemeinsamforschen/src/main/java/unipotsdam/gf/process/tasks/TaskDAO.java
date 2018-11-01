@@ -1,5 +1,6 @@
 package unipotsdam.gf.process.tasks;
 
+import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -26,6 +27,9 @@ public class TaskDAO {
 
     @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private Feedback feedback;
 
     @Inject
     private MysqlConnect connect;
@@ -93,7 +97,7 @@ public class TaskDAO {
         return task;
     }
 
-    private Task createDefault(Project project, User target, TaskName taskName, Phase phase) {
+    public Task createDefault(Project project, User target, TaskName taskName, Phase phase) {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
@@ -109,7 +113,7 @@ public class TaskDAO {
         return task;
     }
 
-    private void persist(Task task) {
+    public void persist(Task task) {
 
         if (task.getTaskName() == null) {
             throw new Error("no taskName given");
@@ -128,7 +132,10 @@ public class TaskDAO {
 
         connect.connect();
         String query =
-                "INSERT IGNORE INTO fltrail.tasks (userEmail, projectName, taskName, " + "groupTask, importance, progress, phase, created, due, " + "taskMode, taskMode2, taskMode3)" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
+                "INSERT IGNORE INTO fltrail.tasks (userEmail, projectName, taskName, " +
+                        "groupTask, importance, progress, phase, created, due, " +
+                        "taskMode, taskMode2, taskMode3)" +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
 
         if (task.getTaskType() == null || task.getTaskType().length == 0) {
             try {
@@ -175,9 +182,11 @@ public class TaskDAO {
 
                 case GIVE_FEEDBACK: {
                     Task feedbackTask = getGeneralTask(vereinfachtesResultSet);
+                    //feedback.assigningMissingFeedbackTasks();
                     feedbackTask.setTaskData(submissionController.getFeedbackTaskData(user, project));
                     feedbackTask.setHasRenderModel(true);
                     result.add(feedbackTask);
+                    //todo: bring in feedbackUser here @axel
                     break;
                 }
                 case WAITING_FOR_STUDENT_DOSSIERS: {

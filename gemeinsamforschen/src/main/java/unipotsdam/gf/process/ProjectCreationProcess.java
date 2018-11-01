@@ -23,9 +23,7 @@ import javax.ws.rs.WebApplicationException;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static unipotsdam.gf.modules.assessment.AssessmentMechanism.PEER_ASSESSMENT;
 import static unipotsdam.gf.modules.group.GroupFormationMechanism.SingleUser;
-import static unipotsdam.gf.process.phases.Phase.CourseCreation;
 
 
 @Singleton
