@@ -260,7 +260,7 @@ public class CommunicationService implements ICommunication {
         rocketChatAuth.put("password", user.getPassword());
 
         HttpResponse<RocketChatLoginResponse> response =
-                unirestService.post(ROCKET_CHAT_API_LINK + "login").body(rocketChatAuth)
+                unirestService.post(ROCKET_CHAT_API_LINK + "register").body(rocketChatAuth)
                         .asObject(RocketChatLoginResponse.class);
 
         if (isBadRequest(response)) {
