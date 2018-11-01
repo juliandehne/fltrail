@@ -21,9 +21,9 @@ public class GFRocketChatConfig {
 
     public static final String ROCKET_CHAT_API_LINK = ROCKET_CHAT_LINK + "api/v1/";
 
-   public static final User TEST_USER = new User("test", "passwort",
-            "test@stuff.com", "test", "rocketChatAuthToken",
-            "rocketChatPersonalAccessToken", "LExqp3P3t6oQHhauH", false);
+   public static final User TEST_USER = new User("student1", "egal",
+            "student1@yolo.com", "student1", "",
+            "", "6ofqfp8J9ynfvspBJ", false);
 
     /* public static final User ADMIN_USER = new User("admin nachname", "passwort",
               "email", "rocketChatUsername", "rocketChatAuthToken",

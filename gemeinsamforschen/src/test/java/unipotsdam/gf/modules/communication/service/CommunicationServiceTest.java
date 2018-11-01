@@ -64,14 +64,14 @@ public class CommunicationServiceTest {
 
     @BeforeClass
     public static void init() throws IOException, SQLException, ManagedProcessException {
-        UpdateDB.updateTestDB();
+        //UpdateDB.updateTestDB();
     }
 
     @Before
     public void setUp() {
 
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
-        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
 
         user = new User("Vorname Nachname", "password", "email@uni.de", true);
