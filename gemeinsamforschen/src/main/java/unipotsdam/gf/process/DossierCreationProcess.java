@@ -83,16 +83,21 @@ public class DossierCreationProcess {
         submissionController.markAsFinal(fullSubmission);
 
         // mark annotate task as finished in db
-        Task task = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), fullSubmission.getProjectName(),
+        Task task = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), project.getName(),
                 Progress.FINISHED);
         taskDAO.updateForUser(task);
 
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
             // distributefeedbacks
             List<User> projectParticipants = userDAO.getUsersByProjectName(project.getName());
+            List<Task> allFeedbackTasks = new ArrayList<>();
             for (User participant : projectParticipants) {
-                taskDAO.createDefault(project, participant, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
+                Task giveFeedbackTask = taskDAO.createDefault(
+                        project, participant, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
+                taskDAO.persist(giveFeedbackTask);
+                allFeedbackTasks.add(giveFeedbackTask);
             }
+            feedback.specifyFeedbackTasks(allFeedbackTasks);
             // persist tasks for feedback
             //taskDAO.persistMemberTask(
             //        project, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);

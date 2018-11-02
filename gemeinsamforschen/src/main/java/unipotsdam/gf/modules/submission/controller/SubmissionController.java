@@ -608,7 +608,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         if (vereinfachtesResultSet.next()) {
             String submissionId = vereinfachtesResultSet.getString("id");
             String projectName = vereinfachtesResultSet.getString("projectName");
-            Category category = Category.RECHERCHE;
+            Category category = Category.TITEL; //todo: instead hard coding, look up which category is next to annotate
             FullSubmission fullSubmission = new FullSubmission(submissionId);
             fullSubmission.setProjectName(projectName);
             connection.close();

@@ -19,7 +19,7 @@ ol {
     width: 25%;
     display: flex;
     flex-flow: column;
-    overflow: scroll;
+    overflow: hidden;
     /* background-color: blue; */
 }
 .leftcolumn {
@@ -32,12 +32,18 @@ ol {
 .rightcontent {
     padding: 10px;
     flex: 1;
-    overflow: scroll;
+    overflow: hidden;
 }
+
+#documentText{
+    overflow: hidden;
+}
+
 .leftcontent {
     max-height: 100%;
     display: flex;
     flex-flow: column;
+    overflow: hidden;
     /* background-color: white; */
 }
 .spacing {

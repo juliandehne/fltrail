@@ -1,6 +1,7 @@
 package unipotsdam.gf.process.tasks;
 
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 
 import javax.inject.Inject;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 @Path("/tasks")
 public class TaskView {
 
+    @Inject
+    private ProjectDAO projectDAO;
 
     @Inject
     private TaskDAO taskDAO;
@@ -26,5 +29,20 @@ public class TaskView {
             throws UnsupportedEncodingException {
         String user = java.net.URLDecoder.decode(userEmail, "UTF-8");
         return taskDAO.getTasks(new User(user), new Project(projectToken));
+    }
+
+    @GET
+    @Path("/finalize/projectName/{projectName}/user/{userEmail}/taskName/{taskName}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String finalizeTasks(@PathParam("projectName") String projectName,@PathParam("userEmail") String userEmail
+            ,@PathParam("taskName") String taskName)
+            throws UnsupportedEncodingException {
+        Task task= new Task();
+        task.setProjectName(projectName);
+        task.setUserEmail(userEmail);
+        task.setTaskName(TaskName.valueOf(taskName));
+        task.setProgress(Progress.FINISHED);
+        taskDAO.updateForUser(task);
+        return "ok";
     }
 }

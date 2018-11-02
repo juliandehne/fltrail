@@ -164,7 +164,9 @@ function fitObjectInTmpl(object){
                 break;
             case "GIVE_FEEDBACK":
                 result.solveTaskWith="Geben Sie ein Feedback";
-                result.solveTaskWithLink="redirect(\'../annotation/annotation-document.jsp?fullSubmissionId="+object.taskData.fullSubmission.id+"&category="+object.taskData.category+"\')";
+                result.solveTaskWithLink="redirect(\'../annotation/annotation-document.jsp?" +
+                    "projectName="+object.projectName +
+                    "&fullSubmissionId=" +object.taskData.fullSubmission.id+"&category="+object.taskData.category+"\')";
                 break;
             default:
                 result.solveTaskWith=null;

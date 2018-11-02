@@ -38,8 +38,6 @@
 
 <body>
 <menu:menu hierarchy="1"/>
-<div class="col span_l_of_2"> <!-- col right-->
-    <headLine:headLine/>
     <div class="content-mainpage">
         <div class="leftcolumn">
             <div class="leftcontent">
@@ -67,7 +65,6 @@
             </div>
         </div>
     </div>
-</div>
 <footer:footer/>
 </body>
 

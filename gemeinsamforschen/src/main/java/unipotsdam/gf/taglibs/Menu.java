@@ -20,10 +20,6 @@ import java.io.IOException;
 
 public class Menu extends SimpleTagSupport {
 
-
-    @Inject
-    private TaskDAO taskDAO;
-
     @Inject
     private UserDAO userDAO;
 

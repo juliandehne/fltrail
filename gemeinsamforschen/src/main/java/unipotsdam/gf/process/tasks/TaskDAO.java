@@ -29,9 +29,6 @@ public class TaskDAO {
     private UserDAO userDAO;
 
     @Inject
-    private Feedback feedback;
-
-    @Inject
     private MysqlConnect connect;
 
     @Inject
@@ -186,7 +183,6 @@ public class TaskDAO {
                     feedbackTask.setTaskData(submissionController.getFeedbackTaskData(user, project));
                     feedbackTask.setHasRenderModel(true);
                     result.add(feedbackTask);
-                    //todo: bring in feedbackUser here @axel
                     break;
                 }
                 case WAITING_FOR_STUDENT_DOSSIERS: {

@@ -2,27 +2,16 @@ package unipotsdam.gf.modules.annotation.controller;
 
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.process.tasks.*;
+import unipotsdam.gf.process.tasks.Task;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FeedbackImpl implements Feedback {
-
-    @Inject
-    private ProjectDAO projectDao;
-
-    @Inject
-    private UserDAO userDao;
-
-    @Inject
-    private TaskDAO taskDAO;
 
     @Inject
     MysqlConnect connection;
@@ -34,24 +23,22 @@ public class FeedbackImpl implements Feedback {
 
     @Override
     public void specifyFeedbackTasks(List<Task> tasks) {
-        List<Task> result= new ArrayList<>();
-        for (Task task: tasks){
+        for (Task task : tasks) {
             List<String> studentsToFeedback = studentsToFeedback(tasks, task, 1);
-            for (String userEmail:studentsToFeedback) {
+            for (String userEmail : studentsToFeedback) {
                 connection.connect();
                 String request = "UPDATE `fullsubmissions` SET `feedbackUser`=? WHERE user=? AND projectName=?";
                 connection.issueInsertOrDeleteStatement(request, userEmail, task.getUserEmail(), task.getProjectName());
                 connection.close();
             }
-            result.add(task);
         }
     }
 
-    private List<String> studentsToFeedback(List<Task> tasks, Task task, int howMany){
+    private List<String> studentsToFeedback(List<Task> tasks, Task task, int howMany) {
         List<String> result = new ArrayList<>();
         int position = tasks.indexOf(task);
-        for (int i=1; i<=howMany; i++){
-            result.add(tasks.get((i+position) % tasks.size()).getUserEmail());  //modulo builds a circle in users
+        for (int i = 1; i <= howMany; i++) {
+            result.add(tasks.get((i + position) % tasks.size()).getUserEmail());  //modulo builds a circle in users
         }
         return result;
     }
