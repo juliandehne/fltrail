@@ -58,10 +58,6 @@ public class ChatWindow extends SimpleTagSupport {
         log.debug("ChatRoomLink for ChatWindow: {}", chatRoomLink);
         JspWriter out = getJspContext().getOut();
         out.println("<iframe height=\"400px\" src=\"" + chatRoomLink + "\">");
-        String rocketChatIntegration = "<script> window.parent.postMessage({event: 'login-with-token',loginToken:" +
-                " '"+getAuthToken+"'}, '"+GFRocketChatConfig.ROCKET_CHAT_LINK_0 +"');</script>";
-        out.println(rocketChatIntegration);
-
         out.println("</iframe>");
 
     }

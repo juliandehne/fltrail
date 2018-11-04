@@ -57,6 +57,8 @@
         </div>
         <button class="btn btn-default" type="button" style="margin-left:250px;" id="enrollProject">Projekt beitreten
         </button>
+    <%--    <iframe height="600px" id="rocketChat" src="http://fleckenroller.cs.uni-potsdam.de:3000">
+        </iframe>--%>
     </div>
 </div>
 
