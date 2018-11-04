@@ -50,6 +50,8 @@
     {{/if}}
 </script>
 </div>
+<%--<chat:chatWindow orientation="right" scope="project"></chat:chatWindow>--%>
+
 <footer:footer/>
 </body>
 </html>

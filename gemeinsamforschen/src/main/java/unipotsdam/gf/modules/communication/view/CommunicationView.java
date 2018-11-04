@@ -2,11 +2,15 @@ package unipotsdam.gf.modules.communication.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.config.GFRocketChatConfig;
+import unipotsdam.gf.modules.communication.model.LoginToken;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -14,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -62,7 +67,9 @@ public class CommunicationView {
             response = Response.ok(wasAdded).build();
         } else {
             log.error("error while adding user to chat room");
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while adding user to chatRoom").build();
+            response =
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while adding user to chatRoom")
+                            .build();
         }
         return response;
     }
@@ -88,7 +95,9 @@ public class CommunicationView {
             response = Response.ok(wasRemoved).build();
         } else {
             log.error("error while adding user to chat room");
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while adding user to chatRoom").build();
+            response =
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while adding user to chatRoom")
+                            .build();
         }
         return response;
     }
@@ -97,7 +106,8 @@ public class CommunicationView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/room/create/{name}")
-    public Response createChatRoom(@PathParam("name") String name, List<User> users, @QueryParam("readOnly") boolean readOnly) {
+    public Response createChatRoom(
+            @PathParam("name") String name, List<User> users, @QueryParam("readOnly") boolean readOnly) {
         if (isNull(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide name as queryParam").build();
         }
@@ -108,5 +118,31 @@ public class CommunicationView {
         }
         log.trace("response for createChatRoom: {}", chatId);
         return Response.status(Response.Status.CREATED).entity(chatId).build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/sso")
+    public LoginToken provideLoginToken(@Context HttpServletRequest req, Object payload) {
+        if (req.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) != null) {
+            String token = getAuthToken(req);
+            return new LoginToken(token);
+        } else {
+            User user = communicationService.loginUser(GFRocketChatConfig.ADMIN_USER);
+            return new LoginToken(user.getRocketChatAuthToken());
+        }
+    }
+
+    private String getAuthToken(@Context HttpServletRequest req) {
+        return req.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN).toString();
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/login")
+    public String provideLoginHTML(@Context HttpServletRequest req) {
+        String rocketChatIntegration = "<script> window.parent.postMessage({event: 'login-with-token',loginToken:" +
+                " '"+getAuthToken(req)+"'}, '"+GFRocketChatConfig.ROCKET_CHAT_LINK_0 +"');</script>";
+        return rocketChatIntegration;
     }
 }

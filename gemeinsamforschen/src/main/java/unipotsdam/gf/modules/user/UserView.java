@@ -131,7 +131,11 @@ public class UserView {
                 }
                 management.create(user, null);
                 user = fillUserFields(user);
-                return redirectToProjectPage(req, user);
+                // TODO den quatsch hier schön aufschreiben
+                User isLoggedIn = communicationService.loginUser(user);
+                req.getSession().setAttribute(GFContexts.ROCKETCHATAUTHTOKEN, isLoggedIn.getRocketChatAuthToken());
+                req.getSession().setAttribute(GFContexts.ROCKETCHATID, isLoggedIn.getRocketChatUserId());
+                return redirectToProjectPage(req, isLoggedIn);
             } else {
                 String existsUrl = "../index.jsp?userExists=false";
                 return forwardToLocation(existsUrl);
