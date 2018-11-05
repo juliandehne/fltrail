@@ -1,8 +1,9 @@
 package unipotsdam.gf.modules.project;
 
-import unipotsdam.gf.process.ProjectCreationProcess;
-import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.annotation.ManagedBean;
@@ -36,7 +37,8 @@ public class ProjectView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/create")
-    public void createProject(@Context HttpServletRequest req, Project project) throws URISyntaxException, IOException {
+    public void createProject(@Context HttpServletRequest req, Project project)
+            throws IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         String userEmail = gfContexts.getUserEmail(req);
         User user = iManagement.getUserByEmail(userEmail);
         assert user != null;
@@ -68,15 +70,16 @@ public class ProjectView {
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/login/{projectName}")
-    public String register(@Context HttpServletRequest req, @PathParam("projectName") String projectName,
-                           @QueryParam("password") String
-            password) throws IOException {
+    public String register(
+            @Context HttpServletRequest req, @PathParam("projectName") String projectName,
+            @QueryParam("password") String password)
+            throws IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         User user = gfContexts.getUserFromSession(req);
         Project project = projectDAO.getProjectByName(projectName);
-        if (project == null){
+        if (project == null) {
             return "project missing";
         }
-        if (!project.getPassword().equals(password) ) {
+        if (!project.getPassword().equals(password)) {
             return "wrong password";
         }
 
@@ -95,7 +98,6 @@ public class ProjectView {
         Project project = iManagement.getProjectByName(projectToken);
         return iManagement.getTags(project).toArray(new String[0]);
     }
-
 
 
 }

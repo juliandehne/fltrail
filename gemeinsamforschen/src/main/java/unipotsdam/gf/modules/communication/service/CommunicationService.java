@@ -7,6 +7,9 @@ import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFRocketChatConfig;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
@@ -102,12 +105,14 @@ public class CommunicationService implements ICommunication {
     }
 
     @Override
-    public String createEmptyChatRoom(String name, boolean readOnly) {
+    public String createEmptyChatRoom(String name, boolean readOnly)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         return createChatRoom(name, readOnly, new ArrayList<>());
     }
 
     @Override
-    public String createChatRoom(String name, boolean readOnly, List<User> member) {
+    public String createChatRoom(String name, boolean readOnly, List<User> member)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         loginUser(ADMIN_USER);
 
         Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth().build();
@@ -141,7 +146,8 @@ public class CommunicationService implements ICommunication {
     }
 
     @Override
-    public boolean createChatRoom(Group group, boolean readOnly) {
+    public boolean createChatRoom(Group group, boolean readOnly)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         loginUser(ADMIN_USER);
 
         // chatRoom name: projectId - GroupId
@@ -159,7 +165,7 @@ public class CommunicationService implements ICommunication {
     }
 
     @Override
-    public boolean deleteChatRoom(String roomId) {
+    public boolean deleteChatRoom(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         // TODO: maybe add lock for getChatRoomName, so synchronized access doesn't create errors while deleting
         loginUser(ADMIN_USER);
 
@@ -184,16 +190,19 @@ public class CommunicationService implements ICommunication {
     }
 
     @Override
-    public boolean addUserToChatRoom(User user, String roomId) {
+    public boolean addUserToChatRoom(User user, String roomId)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         return modifyChatRoom(user, roomId, true);
     }
 
     @Override
-    public boolean removeUserFromChatRoom(User user, String roomId) {
+    public boolean removeUserFromChatRoom(User user, String roomId)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         return modifyChatRoom(user, roomId, false);
     }
 
-    private boolean modifyChatRoom(User user, String roomId, boolean addUser) {
+    private boolean modifyChatRoom(User user, String roomId, boolean addUser)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         loginUser(ADMIN_USER);
 
         if (hasEmptyParameter(user.getRocketChatUserId(), roomId)) {
@@ -225,7 +234,7 @@ public class CommunicationService implements ICommunication {
     }
 
     @Override
-    public String getChatRoomName(String roomId) {
+    public String getChatRoomName(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 
         loginUser(ADMIN_USER);
 
@@ -248,7 +257,7 @@ public class CommunicationService implements ICommunication {
     }
 
     @Override
-    public User loginUser(User user) {
+    public User loginUser(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 
         if (hasEmptyParameter(user.getEmail(), user.getPassword())) {
             return null;
@@ -264,7 +273,7 @@ public class CommunicationService implements ICommunication {
                         .asObject(RocketChatLoginResponse.class);
 
         if (isBadRequest(response)) {
-            return null;
+            throw new UserDoesNotExistInRocketChatException();
         } else {
             if (ADMIN_USER.equals(user)) {
                 setAdminToken();
@@ -279,7 +288,8 @@ public class CommunicationService implements ICommunication {
     }
 
     @Override
-    public boolean registerUser(User user) {
+    public boolean registerUser(User user)
+            throws RocketChatDownException, UserExistsInRocketChatException {
 
         if (hasEmptyParameter(user.getEmail(), user.getName(), user.getPassword())) {
             return false;
@@ -296,15 +306,19 @@ public class CommunicationService implements ICommunication {
                 unirestService.post(ROCKET_CHAT_API_LINK + "users.register").body(rocketChatRegister)
                         .asObject(RocketChatRegisterResponse.class);
 
-        if (isBadRequest(response)) {
-            return false;
+        Boolean badRequest = isBadRequest(response);
+        if (badRequest) {
+            throw new UserExistsInRocketChatException();
         }
 
         RocketChatRegisterResponse registerResponse = response.getBody();
+
+        // not sure we need this test
         if (!registerResponse.isSuccessful()) {
             return false;
         }
 
+        // update user with rocket chat data
         user.setRocketChatUsername(rocketChatUsername);
         user.setRocketChatUserId(registerResponse.getUserId());
 
@@ -316,7 +330,8 @@ public class CommunicationService implements ICommunication {
         return true;
     }
 
-    public String getChatRoomLink(String userEmail, String projectName) {
+    public String getChatRoomLink(String userEmail, String projectName)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 
         loginUser(ADMIN_USER);
 
@@ -445,18 +460,27 @@ public class CommunicationService implements ICommunication {
         user.setRocketChatPersonalAccessToken(responseBody.get("token").toString());
         return true;
     }*/
-    private boolean isBadRequest(HttpResponse response) {
+    private Boolean isBadRequest(HttpResponse response)
+            throws RocketChatDownException{
         int status = response.getStatus();
+        if (Response.Status.OK.getStatusCode() == status) {
+            return false;
+        }
         if (Response.Status.UNAUTHORIZED.getStatusCode() == status) {
             unsetAdminToken();
+            return true;
         }
-        return status == Response.Status.BAD_REQUEST.getStatusCode() || status == Response.Status.UNAUTHORIZED
-                .getStatusCode();
+        if (Response.Status.NOT_FOUND.getStatusCode() == status) {
+            unsetAdminToken();
+            throw new RocketChatDownException();
+        } else {
+            return true;
+        }
     }
 
 
     @Override
-    public boolean exists(String roomId) {
+    public boolean exists(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         return !getChatRoomName(roomId).isEmpty();
     }
 }

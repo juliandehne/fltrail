@@ -1,6 +1,9 @@
 package unipotsdam.gf.interfaces;
 
 
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
@@ -37,7 +40,8 @@ public interface ICommunication {
      * @param name chat room name
      * @return chat room id
      */
-    String createChatRoom(String name, boolean readOnly, List<User> users);
+    String createChatRoom(String name, boolean readOnly, List<User> users)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     /**
      * creates chatRoom with name "group.projectId - group.id" and set chatRoomId for group
@@ -45,11 +49,13 @@ public interface ICommunication {
      * @param group Object for information
      * @return true if chatRoom was created, otherwise false
      */
-    boolean createChatRoom(Group group, boolean readOnly);
+    boolean createChatRoom(Group group, boolean readOnly)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
-    String createEmptyChatRoom(String name, boolean readOnly);
+    String createEmptyChatRoom(String name, boolean readOnly)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
-    boolean deleteChatRoom(String roomId);
+    boolean deleteChatRoom(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/invite/
@@ -58,9 +64,11 @@ public interface ICommunication {
      * @param user   information about user
      * @return if user was added successfully
      */
-    boolean addUserToChatRoom(User user, String roomId);
+    boolean addUserToChatRoom(User user, String roomId)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
-    boolean removeUserFromChatRoom(User user, String roomId);
+    boolean removeUserFromChatRoom(User user, String roomId)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/settopic/
@@ -80,9 +88,9 @@ public interface ICommunication {
      * @param roomId chat room id
      * @return chat room information
      */
-    String getChatRoomName(String roomId);
+    String getChatRoomName(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
-    boolean exists(String roomId);
+    boolean exists(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     /**
      * api: https://rocket.chat/docs/developer-guides/rest-api/authentication/login/
@@ -90,7 +98,8 @@ public interface ICommunication {
      * @param user username and password
      * @return information about user, especially authtoken for later use of endpoints
      */
-    User loginUser(User user);
+    User loginUser(User user)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     /**
      * api 1: https://rocket.chat/docs/developer-guides/rest-api/users/register/
@@ -102,9 +111,11 @@ public interface ICommunication {
      * @param user registers user to rocket.chat
      * @return user id
      */
-    boolean registerUser(User user);
+    boolean registerUser(User user)
+            throws RocketChatDownException, UserExistsInRocketChatException;
 
-    String getChatRoomLink(String userToken, String projectId);
+    String getChatRoomLink(String userToken, String projectId)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     String getProjectChatRoomLink(String projectName);
 

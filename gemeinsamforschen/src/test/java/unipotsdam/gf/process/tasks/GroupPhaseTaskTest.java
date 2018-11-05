@@ -7,6 +7,8 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
@@ -54,7 +56,7 @@ public class GroupPhaseTaskTest {
     }
 
     @Test
-    public void createCourse() {
+    public void createCourse() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 
         this.teacher = factory.manufacturePojo(User.class);
         teacher.setStudent(false);

@@ -3,6 +3,8 @@ package unipotsdam.gf.modules.communication.view;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFRocketChatConfig;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.communication.model.LoginToken;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
@@ -37,7 +39,8 @@ public class CommunicationView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/info/{roomId}")
-    public Response getChatRoomInformation(@PathParam("roomId") String roomId) {
+    public Response getChatRoomInformation(@PathParam("roomId") String roomId)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         String chatRoomName = communicationService.getChatRoomName(roomId);
         if (chatRoomName.isEmpty()) {
             log.error("chatRoom not found for roomId: {}", roomId);
@@ -51,7 +54,8 @@ public class CommunicationView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/addUser/{roomId}")
-    public Response addUserToChatRoom(@PathParam("roomId") String roomId, User user) {
+    public Response addUserToChatRoom(@PathParam("roomId") String roomId, User user)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         if (isNull(user)) {
             log.trace("addUser user object was null");
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide user").build();
@@ -79,7 +83,8 @@ public class CommunicationView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/removeUser/{roomId}")
-    public Response removeUserFromChatRoom(User user, @PathParam("roomId") String roomId) {
+    public Response removeUserFromChatRoom(User user, @PathParam("roomId") String roomId)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         if (isNull(user)) {
             log.trace("removeUser user object was null");
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide user").build();
@@ -107,7 +112,8 @@ public class CommunicationView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/room/create/{name}")
     public Response createChatRoom(
-            @PathParam("name") String name, List<User> users, @QueryParam("readOnly") boolean readOnly) {
+            @PathParam("name") String name, List<User> users, @QueryParam("readOnly") boolean readOnly)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         if (isNull(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide name as queryParam").build();
         }
@@ -123,7 +129,8 @@ public class CommunicationView {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/sso")
-    public LoginToken provideLoginToken(@Context HttpServletRequest req, Object payload) {
+    public LoginToken provideLoginToken(@Context HttpServletRequest req, Object payload)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         if (req.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) != null) {
             String token = getAuthToken(req);
             return new LoginToken(token);

@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.config.GFRocketChatConfig;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.session.GFContext;
@@ -44,8 +46,15 @@ public class ChatWindow extends SimpleTagSupport {
             writeIframe(request, chatRoomLink);
         } else {
             // scope is group
-            String chatRoomLink = communicationService
-                    .getChatRoomLink(request.getSession().getAttribute(GFContexts.USEREMAIL).toString(), projectName);
+            String chatRoomLink = null;
+            try {
+                chatRoomLink = communicationService
+                        .getChatRoomLink(request.getSession().getAttribute(GFContexts.USEREMAIL).toString(), projectName);
+            } catch (RocketChatDownException e) {
+                e.printStackTrace();
+            } catch (UserDoesNotExistInRocketChatException e) {
+                e.printStackTrace();
+            }
             writeIframe(request, chatRoomLink);
         }
 

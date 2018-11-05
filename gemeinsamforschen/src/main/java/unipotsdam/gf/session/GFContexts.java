@@ -31,4 +31,13 @@ public class GFContexts {
         String userEmail = getUserEmail(req);
         return userDAO.getUserByEmail(userEmail);
     }
+
+    public void updateUserSessionWithRocketChat(HttpServletRequest req, User user) {
+        req.getSession().setAttribute(GFContexts.ROCKETCHATAUTHTOKEN, user.getRocketChatAuthToken());
+        req.getSession().setAttribute(GFContexts.ROCKETCHATID, user.getRocketChatUserId());
+    }
+
+    public void updateUserWithEmail(HttpServletRequest req, User user) {
+        req.getSession().setAttribute(GFContexts.USEREMAIL, user.getEmail());
+    }
 }

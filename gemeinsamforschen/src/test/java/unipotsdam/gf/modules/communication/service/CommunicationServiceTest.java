@@ -9,6 +9,9 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.core.database.UpdateDB;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
@@ -83,14 +86,22 @@ public class CommunicationServiceTest {
 
     @After
     public void tearDown() {
-        createdChatRooms.forEach(createdChatRoom -> iCommunication.deleteChatRoom(createdChatRoom));
+        createdChatRooms.forEach(createdChatRoom -> {
+            try {
+                iCommunication.deleteChatRoom(createdChatRoom);
+            } catch (RocketChatDownException e) {
+                e.printStackTrace();
+            } catch (UserDoesNotExistInRocketChatException e) {
+                e.printStackTrace();
+            }
+        });
         createdChatRooms.clear();
 
 
     }
 
     @Test
-    public void loginUser() {
+    public void loginUser() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         assertNotNull(iCommunication.loginUser(TEST_USER));
         assertTrue(!TEST_USER.getRocketChatAuthToken().isEmpty());
         assertTrue(!TEST_USER.getRocketChatUserId().isEmpty());
@@ -102,7 +113,7 @@ public class CommunicationServiceTest {
 
     @Ignore
     @Test
-    public void registerUser() {
+    public void registerUser() throws RocketChatDownException, UserExistsInRocketChatException {
         // TODO Side effect is not optimal because you need to know that before persisting the user
         boolean userCreated = iCommunication.registerUser(user);
         //userDAO.persist(user, null);
@@ -114,7 +125,7 @@ public class CommunicationServiceTest {
     }
 
     @Test
-    public void createEmptyChatRoom() {
+    public void createEmptyChatRoom() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         String chatRoom = iCommunication.createEmptyChatRoom("Test", false);
         assertNotNull(chatRoom);
         assertFalse(chatRoom.isEmpty());
@@ -130,7 +141,7 @@ public class CommunicationServiceTest {
     }
 
     @Test
-    public void createChatRoomWithUser() {
+    public void createChatRoomWithUser() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         List<User> userList = Arrays.asList(ADMIN_USER, TEST_USER);
         String chatRoom = iCommunication.createChatRoom("ChatWithUser", false, userList);
 
@@ -142,7 +153,7 @@ public class CommunicationServiceTest {
     }
 
     @Test
-    public void createChatRoomWithGroup() {
+    public void createChatRoomWithGroup() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         Group group = new Group();
         group.setMembers(Collections.singletonList(ADMIN_USER));
         group.setProjectName("chatWithGroup");
@@ -152,7 +163,7 @@ public class CommunicationServiceTest {
     }
 
     @Test
-    public void getChatRoomName() {
+    public void getChatRoomName() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         String expectedChatRoomName = "ChatRoomName";
         String chatRoomId = iCommunication.createEmptyChatRoom(expectedChatRoomName, false);
         assertNotNull(chatRoomId);
@@ -168,7 +179,7 @@ public class CommunicationServiceTest {
     }
 
     @Test
-    public void getChatRoomLink() {
+    public void getChatRoomLink() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         String projectId = "Projekt";
         Project project = new Project(projectId, user.getEmail());
         projectDAO.persist(project);
@@ -192,7 +203,7 @@ public class CommunicationServiceTest {
     }
 
     @Test
-    public void exists() {
+    public void exists() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         String expectedChatRoomName = "ChatRoomName";
         String chatRoomId = iCommunication.createEmptyChatRoom(expectedChatRoomName, false);
         assertNotNull(chatRoomId);
@@ -205,7 +216,7 @@ public class CommunicationServiceTest {
     }
 
     @Test
-    public void addUserToChatRoom() {
+    public void addUserToChatRoom() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         String chatRoomId = iCommunication.createEmptyChatRoom("addUser", false);
         assertNotNull(chatRoomId);
         assertFalse(chatRoomId.isEmpty());
@@ -216,7 +227,7 @@ public class CommunicationServiceTest {
     }
 
     @Test
-    public void removeUserFromChatRoom() {
+    public void removeUserFromChatRoom() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         String chatRoomId = iCommunication.createEmptyChatRoom("removeUser", false);
         assertNotNull(chatRoomId);
         assertFalse(chatRoomId.isEmpty());
@@ -229,7 +240,7 @@ public class CommunicationServiceTest {
     }
 
     @Test
-    public void deleteChatRoom() {
+    public void deleteChatRoom() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         String chatRoomId = iCommunication.createEmptyChatRoom("deleteChatRoom", false);
         assertNotNull(chatRoomId);
         assertFalse(chatRoomId.isEmpty());
@@ -271,7 +282,7 @@ public class CommunicationServiceTest {
 
     @Test
     @Ignore
-    public void createTestData() {
+    public void createTestData() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         User user = new User();
         user.setName("Martin Nachname");
         user.setPassword("test1234");
