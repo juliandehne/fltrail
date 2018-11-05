@@ -88,7 +88,7 @@ public class DossierCreationProcess {
         taskDAO.updateForUser(task);
 
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
-            // distributefeedbacks
+            // create Task to give Feedback
             List<User> projectParticipants = userDAO.getUsersByProjectName(project.getName());
             List<Task> allFeedbackTasks = new ArrayList<>();
             for (User participant : projectParticipants) {
@@ -97,20 +97,27 @@ public class DossierCreationProcess {
                 taskDAO.persist(giveFeedbackTask);
                 allFeedbackTasks.add(giveFeedbackTask);
             }
+            //specifies user, who needs to give a feedback in DB
             feedback.specifyFeedbackTasks(allFeedbackTasks);
-            // persist tasks for feedback
-            //taskDAO.persistMemberTask(
-            //        project, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
         }
     }
 
+    public void createCloseFeedBackPhaseTask(Project project) {
+        taskDAO.persistTeacherTask(project, TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE, Phase.DossierFeedback);
+    }
 
     public void finishPhase(Project project) {
-        /*
-        TODO implement
-         */
-        /** TODO: Move this to the dossierCreationProcess
-         /*   if (tasks.size() > 0) {
+
+        User user = userDAO.getUserByEmail(project.getAuthorEmail());
+        Task task = new Task();
+        task.setUserEmail(user.getEmail());
+        task.setProjectName(project.getName());
+        task.setProgress(Progress.FINISHED);
+        task.setTaskName(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
+        taskDAO.updateForUser(task);
+        taskDAO.persist(taskDAO.createDefault(project, user, TaskName.WAIT_FOR_REFLECTION, Phase.Execution));
+        //todo: implement communication stuff
+        /*   if (tasks.size() > 0) {
          iCommunication.informAboutMissingTasks(tasks, project);
          } else {
          // send a message to the users informing them about the start of the new phase

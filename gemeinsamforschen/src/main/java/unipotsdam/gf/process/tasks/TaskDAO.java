@@ -7,6 +7,8 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.process.constraints.Constraints;
+import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -15,6 +17,7 @@ import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.List;
 
 import static unipotsdam.gf.process.tasks.TaskName.*;
 
@@ -36,6 +39,9 @@ public class TaskDAO {
 
     @Inject
     private SubmissionController submissionController;
+
+    @Inject
+    private ConstraintsImpl constraints;
 
     // fill the task with the general data
     private Task getGeneralTask(VereinfachtesResultSet vereinfachtesResultSet) {
@@ -189,6 +195,21 @@ public class TaskDAO {
                     Task task = getGeneralTask(vereinfachtesResultSet);
                     task.setHasRenderModel(true);
                     task.setTaskData(submissionController.getProgressData(project));
+                    result.add(task);
+                    break;
+                }
+                case CLOSE_DOSSIER_FEEDBACK_PHASE:{
+                    Task task = getGeneralTask(vereinfachtesResultSet);
+                    task.setHasRenderModel(true);
+                    List<String> missingFeedbacks = constraints.checkWhichFeedbacksAreMissing(project);
+                    task.setTaskData(missingFeedbacks);  //frontendCheck if missingFeedbacks.size ==0
+                    result.add(task);
+                    Task waitingForDossiers = new Task();
+                    waitingForDossiers.setUserEmail(user.getEmail());
+                    waitingForDossiers.setProjectName(project.getName());
+                    waitingForDossiers.setProgress(Progress.FINISHED);
+                    waitingForDossiers.setTaskName(TaskName.WAITING_FOR_STUDENT_DOSSIERS);
+                    updateForUser(waitingForDossiers);
                     break;
                 }
                 default: {

@@ -100,3 +100,18 @@ function getAnnotations(targetId, targetCategory, responseHandler) {
         }
     });
 }
+
+function finalize(){
+    $.ajax({
+        url: "../rest/annotations/finalize/projectName/" +
+            ""+getProjectName()+"/taskName/GIVE_FEEDBACK",
+        type: "GET",
+        dataType: "application/json",
+        contentType: "application/json",
+        success:function(response){
+            location.href = "../project/tasks-student.jsp?projectName=" + getProjectName()
+        },
+        error: function(a){
+        }
+    });
+}

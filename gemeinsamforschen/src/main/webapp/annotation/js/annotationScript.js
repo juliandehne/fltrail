@@ -8,19 +8,21 @@ let startCharacter, endCharacter;
 /**
  * This function will fire when the DOM is ready
  */
-$(document).ready(function() {
+$(document).ready(function () {
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
     let category = getQueryVariable("category");
-    $('#finalize').hide();
-
-    if(category === "TITEL" || category === "titel" ) {
-        $('#btnBack').hide();
+    let btnFinalize = $('#finalize');
+    btnFinalize.hide();
+    let btnBack = $('#btnBack');
+    if (category === "TITEL" || category === "titel") {
+        btnBack.hide();
     }
-    if (category ==="AUSWERTUNG"){
-        $('#finalize').show();
-        $('#btnContinue').hide();
+    let btnContinue = $('#btnContinue');
+    if (category === "AUSWERTUNG") {
+        btnFinalize.show();
+        btnContinue.hide();
     }
-    $('.close').on("click", function(){
+    $('.close').on("click", function () {
         $('#annotation-edit-modal').hide();
         $('#annotation-create-modal').hide();
     });
@@ -35,7 +37,8 @@ $(document).ready(function() {
 
             let body = response.body;
             // save body
-            $('#documentText').data("body", body);
+            let documentText = $('#documentText');
+            documentText.data("body", body);
             let offset = 0;
             for (let i = 0; i < body.length; i++) {
                 addHighlightedSubmissionPart(body[i].startCharacter, body[i].endCharacter, offset);
@@ -43,7 +46,7 @@ $(document).ready(function() {
                 offset += 34;
             }
             // scroll document text to first span element
-            let documentText = $('#documentText');
+
             let span = $('#documentText span').first();
             documentText.scrollTo(span);
         }, function () {
@@ -62,7 +65,7 @@ $(document).ready(function() {
      */
     $.contextMenu({
         selector: '.context-menu-one',
-        callback: function(key, options) {
+        callback: function () {
             // handle annotation context click
             handleAnnotationClick()
         },
@@ -74,7 +77,7 @@ $(document).ready(function() {
     /**
      * continue button
      */
-    $('#btnContinue').click(function () {
+    btnContinue.click(function () {
 
         let submissionId = getQueryVariable("fullSubmissionId");
         let category = getQueryVariable("category");
@@ -82,31 +85,21 @@ $(document).ready(function() {
 
         if (nextCategory) {
             location.href = "../annotation/annotation-document.jsp?" +
-                "projectName="+ getProjectName()+
-                "&fullSubmissionId="+submissionId +
-                "&category="+nextCategory;
+                "projectName=" + getProjectName() +
+                "&fullSubmissionId=" + submissionId +
+                "&category=" + nextCategory;
         }
     });
 
-    $('#finalize').on("click", function(){
-        $.ajax({
-            url: "../rest/tasks/finalize/projectName/" +
-                ""+getProjectName()+"/user/"+getUserEmail()+"/taskName/GIVE_FEEDBACK",
-            type: "GET",
-            contentType:"text/plain",
-            success:function(response){
-                location.href = "../project/tasks-student.jsp?projectName=" + getProjectName()
-            },
-            error: function(a){
-            }
-        });
+    btnFinalize.on("click", function () {
+        finalize();
     });
 
 
     /**
      * back button
      */
-    $('#btnBack').click(function () {
+    btnBack.click(function () {
 
         let submissionId = getQueryVariable("fullSubmissionId");
         let category = getQueryVariable("category");
@@ -116,7 +109,7 @@ $(document).ready(function() {
 
         }
         else {
-            location.href = "../annotation/annotation-document.jsp?fullSubmissionId="+submissionId + "&category="+nextCategory;
+            location.href = "../annotation/annotation-document.jsp?fullSubmissionId=" + submissionId + "&category=" + nextCategory;
         }
 
     });
@@ -124,7 +117,7 @@ $(document).ready(function() {
     function calculateNextCategory(current) {
         let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT", "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
         let result = false;
-        for (let i = 0; i< categories.length -1; i++) {
+        for (let i = 0; i < categories.length - 1; i++) {
             if (categories[i] === current) {
                 result = categories[i + 1];
             }
@@ -136,7 +129,7 @@ $(document).ready(function() {
     function calculateLastCategory(current) {
         let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT", "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
         let result = false;
-        for (let i = 1; i< categories.length; i++) {
+        for (let i = 1; i < categories.length; i++) {
             if (categories[i] === current) {
                 result = categories[i - 1];
             }
@@ -144,8 +137,6 @@ $(document).ready(function() {
         return result
 
     }
-
-
 
 
     /**
@@ -218,6 +209,14 @@ $(document).ready(function() {
         }
     });
 
+    $('#btnWholeCategory').click(function () {
+        getSubmissionPart(fullSubmissionId, category, function () {
+            selectText();
+            handleAnnotationClick();
+
+        });
+    });
+
     /**
      * Edit button of the annotation edit modal
      * hide modal and alter the annotation
@@ -243,7 +242,7 @@ $(document).ready(function() {
                     comment: newComment
                 };
                 // send alter request to server
-                alterAnnotation(id, annotationPatchRequest, function (response) {
+                alterAnnotation(id, annotationPatchRequest, function () {
                     // send altered annotation to websocket
                     send("EDIT", id);
 
@@ -285,7 +284,7 @@ $(document).ready(function() {
     /**
      * Clear the title and comment input field of the create modal
      */
-    $('#annotation-create-modal').on('hidden.bs.modal', function(){
+    $('#annotation-create-modal').on('hidden.bs.modal', function () {
         // clear title
         $('#annotation-form-title').val('');
         // clear comment
@@ -295,7 +294,7 @@ $(document).ready(function() {
     /**
      * Clear the title and comment input field of the edit modal
      */
-    $('#annotation-edit-modal').on('hidden.bs.modal', function(e){
+    $('#annotation-edit-modal').on('hidden.bs.modal', function () {
         // clear title
         $('#annotation-edit-form-title').val('');
         // clear comment
@@ -317,7 +316,7 @@ $(document).ready(function() {
 /**
  * This will be called on page resize
  */
-$( window ).resize(function() {
+$(window).resize(function () {
     // handle drop down button for every annotation
     showAndHideToggleButton();
 });
@@ -442,11 +441,9 @@ function displayAnnotation(annotation) {
                                         $('<i>').attr('class', dateIcon)
                                     )
                                     .append(
-                                        $('<span>').append(timestampToReadabvarime(annotation.timestamp))
+                                        $('<span>').append(timestampToReadableTime(annotation.timestamp))
                                     )
                             )
-
-
                     )
             )
             .data('annotation', annotation)
@@ -478,8 +475,9 @@ function addHighlightedAnnotation(startCharacter, endCharacter, userEmail) {
     let offset = calculateExtraOffset(startCharacter);
 
     //initialize variables
-    let documentText = $('#documentText').text();
-    let documentHtml = $('#documentText').html();
+    let docText = $('#documentText');
+    let documentText = docText.text();
+    let documentHtml = docText.html();
 
     //create <span> tag with the annotated text
     let replacement = $('<span></span>').attr('id', 'anchor').css('background-color', getUserColor(userEmail)).html(documentText.slice(startCharacter, endCharacter));
@@ -491,7 +489,7 @@ function addHighlightedAnnotation(startCharacter, endCharacter, userEmail) {
     let newDocument = documentHtml.slice(0, startCharacter + offset) + replacementHtml + documentHtml.slice(endCharacter + offset);
 
     // set new document text
-    $('#documentText').html(newDocument);
+    docText.html(newDocument);
 }
 
 /**
@@ -503,8 +501,9 @@ function addHighlightedAnnotation(startCharacter, endCharacter, userEmail) {
  */
 function addHighlightedSubmissionPart(startCharacter, endCharacter, offset) {
 
-    let documentText = $('#documentText').text();
-    let documentHtml = $('#documentText').html();
+    let docText = $('#documentText');
+    let documentText = docText.text();
+    let documentHtml = docText.html();
 
     // create <span> tag with the annotated text
     let replacement = $('<span></span>').attr('class', 'categoryText').html(documentText.slice(startCharacter, endCharacter));
@@ -516,7 +515,7 @@ function addHighlightedSubmissionPart(startCharacter, endCharacter, offset) {
     let newDocument = documentHtml.slice(0, startCharacter + offset) + replacementHtml + documentHtml.slice(endCharacter + offset);
 
     // set new document text
-    $('#documentText').html(newDocument);
+    docText.html(newDocument);
 }
 
 /**
@@ -560,13 +559,13 @@ function deleteHighlightedText() {
  * @returns {string} The text
  */
 function getSelectedText() {
-    if(window.getSelection){
+    if (window.getSelection) {
         return window.getSelection().toString();
     }
-    else if(document.getSelection){
+    else if (document.getSelection) {
         return document.getSelection();
     }
-    else if(document.selection){
+    else if (document.selection) {
         return document.selection.createRange().text;
     }
 }
@@ -607,9 +606,9 @@ function getDarkUserColor(userEmail) {
  * @param userEmail The given user token
  */
 function generateRandomColor(userEmail) {
-    let r = Math.floor(Math.random()*56)+170;
-    let g = Math.floor(Math.random()*56)+170;
-    let b = Math.floor(Math.random()*56)+170;
+    let r = Math.floor(Math.random() * 56) + 170;
+    let g = Math.floor(Math.random() * 56) + 170;
+    let b = Math.floor(Math.random() * 56) + 170;
     let r_d = r - 50;
     let g_d = g - 50;
     let b_d = b - 50;
@@ -627,7 +626,7 @@ function generateRandomColor(userEmail) {
  * @param timestamp A unix timestamp
  * @returns {string} A readable timestamp
  */
-function timestampToReadabvarime(timestamp) {
+function timestampToReadableTime(timestamp) {
     // build Date object from timestamp
     let annotationDate = new Date(timestamp);
     // declare response
@@ -718,7 +717,7 @@ function saveNewAnnotation(title, comment, startCharacter, endCharacter) {
     };
 
     // send new annotation to back-end and display it in list
-    createAnnotation(annotationPostRequest, function(response) {
+    createAnnotation(annotationPostRequest, function (response) {
         // send new annotation to websocket
         send("CREATE", response.id);
         // display the new annotation
@@ -754,7 +753,7 @@ function editAnnotationHandler(id) {
  */
 function editAnnotationValues(annotation) {
     // find annotation
-    let annotationElement =  $('#' + annotation.id);
+    let annotationElement = $('#' + annotation.id);
 
     // set title and comment
     annotationElement.find('.annotation-header-data-title').text(annotation.body.title);
@@ -783,7 +782,7 @@ function showAndHideToggleButton() {
         clone.remove();
 
         // show drop down button only if text was truncated
-        if(cloneWidth > comment.width()) {
+        if (cloneWidth > comment.width()) {
             $(this).find('.annotation-header-toggle').show();
             $(this).find('.annotation-header-data').css('width', 'calc(100% - 40px)');
         }
@@ -802,7 +801,7 @@ function showAndHideToggleButton() {
  */
 function showAndHideToggleButtonById(id) {
     // find annotation
-    let annotationElement =  $('#' + id);
+    let annotationElement = $('#' + id);
     // find the comment element, clone and hide it
     let comment = annotationElement.find('.annotation-body').children('p');
     let clone = comment.clone()
@@ -814,7 +813,7 @@ function showAndHideToggleButtonById(id) {
     clone.remove();
 
     // show drop down button only if text was truncated
-    if(cloneWidth > comment.width()) {
+    if (cloneWidth > comment.width()) {
         annotationElement.find('.annotation-header-toggle').show();
         annotationElement.find('.annotation-header-data').css('width', 'calc(100% - 40px)');
     }
@@ -851,12 +850,14 @@ function handleAnnotationClick() {
             else {
                 window.alert("Annotationen sind nur in vorgehobenen Bereichen möglich")
             }
-
-
+        } else {
+            $('#annotation-create-modal').show();
         }
+    } else {
+        $('#annotation-create-modal').show();
     }
-
 }
+
 
 /**
  * Checks if user selected area is inside submission part range
@@ -901,5 +902,15 @@ function searchAnnotation() {
             $(this).css('display', 'none')
         }
     });
+}
 
+function selectText() {
+    let text = document.getElementsByClassName('categoryText')[0];
+    if (window.getSelection()){
+        let selection = window.getSelection();
+        let range = document.createRange();
+        range.selectNodeContents(text);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
 }

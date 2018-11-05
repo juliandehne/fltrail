@@ -59,6 +59,7 @@
                                 <button id="btnBack" type="button" class="btn btn-secondary">Zurück</button>
                             </div>
                             <div class="leftcontent-buttons-next">
+                                <button id="btnWholeCategory" type="button" class="btn btn-primary">kompletten Teil kommentieren</button>
                                 <button id="btnContinue" type="button" class="btn btn-primary">Weiter</button>
                                 <button id="finalize" type="button" class="btn btn-success">finalisieren</button>
                             </div>

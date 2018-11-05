@@ -23,6 +23,8 @@ import unipotsdam.gf.process.progress.HasProgress;
 import unipotsdam.gf.process.progress.ProgressData;
 import unipotsdam.gf.process.tasks.FeedbackTaskData;
 import unipotsdam.gf.process.tasks.ParticipantsCount;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -638,7 +640,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         // the number of completed dossiers
         progressData.setNumberOfCompletion(getFinalizedDossiersCount(project));
 
-        // the number of dossiers needed relativ to the group or user count
+        // the number of dossiers needed relative to the group or user count
         progressData.setNumberNeeded(dossiersNeeded(project));
         List<User> strugglersWithSubmission = getStrugglersWithSubmission(project);
         progressData.setUsersMissing(strugglersWithSubmission);
@@ -678,9 +680,9 @@ public class SubmissionController implements ISubmission, HasProgress {
         switch (groupFormationMechanism) {
             case SingleUser:
                 List<User> usersInProject = userDAO.getUsersByProjectName(project.getName());
-                List<User> usersHavingGivenFeedback = getAllUsersWithFeedbackGiven(project);
+                List<User> usersHaveGivenFeedback = getAllUsersWithDossierUploaded(project);
                 for (User user : usersInProject) {
-                    if (!usersHavingGivenFeedback.contains(user)) {
+                    if (!usersHaveGivenFeedback.contains(user)) {
                         struggles.add(user);
                     }
                 }
@@ -692,7 +694,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         return struggles;
     }
 
-    public List<User> getAllUsersWithFeedbackGiven(Project project) {
+    public List<User> getAllUsersWithDossierUploaded(Project project) {
         List<User> result = new ArrayList<>();
         connection.connect();
         String query = "select * from fullsubmissions where projectName = ?";
@@ -700,6 +702,20 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         while (vereinfachtesResultSet.next()) {
             result.add(userDAO.getUserByEmail(vereinfachtesResultSet.getString("feedbackUser")));
+        }
+        connection.close();
+        return result;
+    }
+
+    public List<User> getAllUsersWithFinalizedFeedback(Project project){
+        List<User> result = new ArrayList<>();
+        connection.connect();
+        String query = "select * from tasks where projectName = ? and taskName = ? and progress=?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query,
+                project.getName(), TaskName.GIVE_FEEDBACK, Progress.FINISHED);
+
+        while (vereinfachtesResultSet.next()) {
+            result.add(userDAO.getUserByEmail(vereinfachtesResultSet.getString("userEmail")));
         }
         connection.close();
         return result;

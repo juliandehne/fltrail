@@ -7,8 +7,16 @@ import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
 import unipotsdam.gf.modules.annotation.model.AnnotationResponse;
 import unipotsdam.gf.modules.annotation.model.Category;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.process.DossierCreationProcess;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -16,8 +24,11 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
@@ -32,6 +43,15 @@ public class AnnotationService {
 
     @Inject
     AnnotationController controller;
+
+    @Inject
+    private GFContexts gfContexts;
+
+    @Inject
+    private ProjectDAO projectDAO;
+
+    @Inject
+    private DossierCreationProcess dossierCreationProcess;
 
     @POST
     public Response createAnnotation(AnnotationPostRequest request) {
@@ -136,4 +156,21 @@ public class AnnotationService {
     }
 
 
+    @GET
+    @Path("/finalize/projectName/{projectName}/taskName/{taskName}")
+    @Produces("application/json")
+    public String finalizeFeedback(@Context HttpServletRequest req, @PathParam("projectName") String projectName,
+                                @PathParam("taskName") String taskName)
+            throws UnsupportedEncodingException, IOException {
+        Task task= new Task();
+        String userEmail = gfContexts.getUserEmail(req);
+        task.setProjectName(projectName);
+        task.setUserEmail(userEmail);
+        task.setTaskName(TaskName.valueOf(taskName));
+        task.setProgress(Progress.FINISHED);
+        controller.endFeedback(task);
+        Project project = projectDAO.getProjectByName(projectName);
+        dossierCreationProcess.createCloseFeedBackPhaseTask(project);
+        return null;
+    }
 }
