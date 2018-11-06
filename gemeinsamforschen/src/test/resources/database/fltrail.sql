@@ -196,8 +196,8 @@ ALTER TABLE `groups`
 
 
 ALTER TABLE `groupuser`
-  ADD CONSTRAINT `groupuser_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`),
-  ADD CONSTRAINT `groupuser_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`);
+  ADD CONSTRAINT `groupuser_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE,
+  ADD CONSTRAINT `groupuser_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `projects`
   ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`author`) REFERENCES `users` (`email`);
@@ -210,5 +210,7 @@ COMMIT;
 CREATE UNIQUE INDEX fullsubmissions_user_projectName_uindex ON fullsubmissions (user, projectName);
 
 CREATE UNIQUE INDEX tasks_userEmail_projectName_taskName_uindex ON tasks (userEmail, projectName, taskName);
+
+
 
 

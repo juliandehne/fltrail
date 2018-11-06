@@ -7,6 +7,7 @@ import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.GroupfindingCriteria;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IGroupFinding {
 
@@ -45,4 +46,6 @@ public interface IGroupFinding {
     ArrayList<String> getStudentsInSameGroup(StudentIdentifier student);
 
     int getMinNumberOfStudentsNeeded(Project project);
+
+    List<Group> createRandomGroups(Project project);
 }

@@ -180,6 +180,13 @@ public class GroupDAO {
         connect.issueUpdateStatement(mysqlRequest, "", chatRoomId);
         connect.close();
     }
+
+    public void deleteGroups(Project project) {
+        String query = "DELETE * from groups where projectName= ?";
+        connect.connect();
+        connect.issueInsertOrDeleteStatement(query, project.getName());
+        connect.close();
+    }
 }
 
 

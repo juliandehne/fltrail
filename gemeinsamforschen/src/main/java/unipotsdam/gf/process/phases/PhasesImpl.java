@@ -79,7 +79,7 @@ public class PhasesImpl implements IPhases {
                 // inform users about the formed groups, optionally giving them a hint on what happens next
                 iCommunication.sendMessageToUsers(project, Messages.GroupFormation(project));
                 saveState(project, changeToPhase);
-                groupFormationProcess.finish(project);
+                groupFormationProcess.finalize(project);
                 dossierCreationProcess.start(project);
                 break;
             case DossierFeedback:

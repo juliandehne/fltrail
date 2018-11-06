@@ -3,6 +3,7 @@ package unipotsdam.gf.process;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupData;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -16,6 +17,7 @@ import unipotsdam.gf.process.tasks.TaskName;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Arrays;
+import java.util.List;
 
 @Singleton
 public class GroupFormationProcess {
@@ -55,9 +57,8 @@ public class GroupFormationProcess {
      * and if there groups are not handled manually
      * this method finalizes the groups
      * @param project
-     * @param groups
      */
-    public void finish(Project project, Group ... groups) {
+    public void finalize(Project project) {
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
         /**
          * Gruppenphase wird beendet
@@ -74,4 +75,12 @@ public class GroupFormationProcess {
     }
 
 
+    public GroupData getOrInitializeGroups(Project project) {
+        List<Group> groups = groupfinding.getGroups(project);
+        if (groups.isEmpty()) {
+            groups = groupfinding.createRandomGroups(project);
+        }
+        return new GroupData(groups);
+
+    }
 }
