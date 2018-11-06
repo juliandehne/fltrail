@@ -14,9 +14,7 @@
 <menu:menu hierarchy="1"/>
 <h1> Bewertungsverfahren einstellen </h1>
 
-<a
-        href="edit-group-settings.jsp">
-    Weiter </a>
+<a href="edit-group-settings.jsp">Weiter </a>
 
 <footer:footer/>
 </body>

@@ -162,7 +162,7 @@ public class UserView {
         String successUrl;
 
         if (user.getStudent() != null && user.getStudent()) {
-            successUrl = "../project/overview-student.jsp";
+            successUrl = "../project/myCourses-student.jsp";
         } else {
             successUrl = "../project/overview-docent.jsp";
         }

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
@@ -19,19 +19,18 @@
           type="text/css"/>
 
     <!-- js - jQuery validation plugin -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>
+    <script src="../libs/jquery/jqueryValidate.js"></script>
     <!-- js - jQuery ui position -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
-            type="text/javascript"></script>
+    <script src="../libs/jquery/jqueryUI.js" type="text/javascript"></script>
     <!-- js - contextMenu script -->
-    <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js"
+    <script src="../libs/jquery/jqueryContextMenu.js"
             type="text/javascript"></script>
     <!-- js - scrollTo -->
-    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+    <script src="../libs/jquery/jqueryScrollTo.js"></script>
     <!-- js - rangy Core -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-core.js" type="text/javascript"></script>
+    <script src="../libs/jquery/jqueryRangy.js" type="text/javascript"></script>
     <!-- js - rangy TextRange Module -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rangy/1.3.0/rangy-textrange.js" type="text/javascript"></script>
+    <script src="../libs/jquery/jqueryRangyTextRange.js" type="text/javascript"></script>
     <!-- js - annotation websocket script -->
     <script src="js/annotationWebsocket.js"></script>
     <!-- js - annotation REST script -->
@@ -126,13 +125,15 @@
             <div class="modal-body">
                 <form id="annotation-edit-form">
                     <div class="form-group">
-                        <label for="annotation-form-title" class="col-form-label">Titel:</label>
+                        <label for="annotation-form-title" class="col-form-label">Titel:
                         <input type="text" class="form-control" id="annotation-edit-form-title" name="title">
+                        </label>
                     </div>
                     <div class="form-group">
-                        <label for="annotation-form-comment" class="col-form-label">Kommentar:</label>
+                        <label for="annotation-form-comment" class="col-form-label">Kommentar:
                         <textarea class="form-control resize-vertical" id="annotation-edit-form-comment"
                                   name="comment"></textarea>
+                        </label>
                     </div>
                 </form>
                 <!-- modal footer -->

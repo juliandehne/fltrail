@@ -5,7 +5,6 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.session.GFContexts;
@@ -55,7 +54,8 @@ public class Menu extends SimpleTagSupport {
                     "        <div class=\"row\">\n" +
                     "            <div class=\"nav-group-left\">";
             if (isStudent){
-                menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/overview-student.jsp\">meine Projekte</a>\n";
+                menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/myCourses-student.jsp\">Home</a>\n"+
+                        "                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/search-project.jsp\">suche Kurs</a>\n";
             }else{
                 menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/overview-docent.jsp\">meine Projekte</a>\n";
             }

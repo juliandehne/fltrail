@@ -43,7 +43,7 @@ function createNewProject(allTheTags, activ) {
                     }
                 }
             },
-            error: function (a, b, c) {
+            error: function (a) {
                 console.log(a);
                 return true;
             }
@@ -67,7 +67,7 @@ function initTagsInput(allTheTags) {
             onAddTag: function (tag) {
                 allTheTags.push(tag);
             },
-            onRemoveTag: function (tag) {
+            onRemoveTag: function () {
                 allTheTags.pop();           //todo: löscht noch nicht den gewählten tag sondern den letzten
             }
         });
@@ -87,7 +87,7 @@ function getProjectValues() {
     let password = $("#passwordProject").val().trim();
     //allTheTags = $("#tagsProject").tagsInput('items');
     //allTheTags = $("#tagsProject").val();
-    let reguexp = /^[a-zA-Z0-9äüöÄÜÖ\ ]+$/;
+    let reguexp = /^[a-zA-Z0-9äüöÄÜÖ]+$/;
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
         return false;
@@ -103,7 +103,8 @@ function getProjectValues() {
         document.getElementById('tagHelper').className = "";
     }
     let time = new Date().getTime();
-    let project = {
+
+    return {
         "name" : projectName,
         "password" : password,
         "active" : true,
@@ -112,18 +113,6 @@ function getProjectValues() {
         "phase" : "CourseCreation",
         "tags": allTheTags
     };
-
-   /* let project = {
-        "name" : "AJ2c83Lb2x",
-        "password" : "vTvaih3mK9",
-        "active" : true,
-        "timecreated" : 356122661234038,
-        "authorEmail" : "7DoIYf4tWV",
-        "phase" : "Execution",
-        "tags" : [ "JjwWui3r2a", "J23BLwqlXa", "NOVk1tcaN0", "RTXTACSHLx", "BbMtdrXPi2" ]
-    };
-*/
-    return project;
 }
 
 // creates project name in compbase where it is needed for learning goal oriented matching
@@ -136,7 +125,7 @@ function createProjectinCompbase() {
         "competences": allTheTags
     };
     let dataString = JSON.stringify(obj);
-    let addProjectNeo4j = $.ajax({
+    $.ajax({
         url: url,
         contentType: 'application/json',
         activ: true,
@@ -147,7 +136,7 @@ function createProjectinCompbase() {
             // it actually worked, too
             sendGroupPreferences();
         },
-        error: function (a, b, c) {
+        error: function (a) {
             console.log(a);
             // and also in this case
             return false;

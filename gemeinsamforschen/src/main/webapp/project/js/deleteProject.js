@@ -35,14 +35,14 @@ function deleteProject(projectName) {
                         success: function (response) {
 
                         },
-                        error: function (a, b, c) {
+                        error: function (a) {
                             console.log(a);
                         }
                     });
                     window.location.href = " ../projects/overview-docent.jsp";
                 }
             },
-            error: function (a, b, c) {
+            error: function (a) {
                 console.log(a);
             }
         });

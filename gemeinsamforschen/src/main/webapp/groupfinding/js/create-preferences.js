@@ -111,17 +111,17 @@ function takesPartInProject(context) {
         document.getElementById('wrapper').className = "wrapper";
         return false;
     }
-    var data = {                                            //JSON object 'data' collects everything to send
+    let data = {                                            //JSON object 'data' collects everything to send
         "competences": allTheCompetencies,
         "researchQuestions": allTheResearchQuestions,
         "tagsSelected": allTheTags
     };
 
 
-    var userEmail = getUserEmail();
-    var projectName = getProjectName();
-    var dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
-    var url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
+    let userEmail = getUserEmail();
+    let projectName = getProjectName();
+    let dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
+    let url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
     $.ajax({
         url: url,
         type: 'PUT',
@@ -132,7 +132,7 @@ function takesPartInProject(context) {
             console.log(response);
             document.getElementById('loader').className = "loader-inactive";
             document.getElementById('wrapper').className = "wrapper";
-            location.href = "../project/overview-student.jsp";
+            location.href = "../../project/myCourses-student.jsp";
         },
         error: function (a, b, c) {
             console.log(a);

@@ -15,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 
 @ManagedBean
@@ -78,9 +79,16 @@ public class ProjectView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all/student/{studentEmail}")
-    public String[] getProjectsStudent(
+    public List<Project> getProjectsStudent(
             @PathParam("studentEmail") String studentEmail) {
-        return iManagement.getProjectsStudent(studentEmail).toArray(new String[0]);
+        return iManagement.getProjectsStudent(studentEmail);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/all")
+    public List<Project> getAllProjects() {
+        return iManagement.getAllProjects();
     }
 
     @GET

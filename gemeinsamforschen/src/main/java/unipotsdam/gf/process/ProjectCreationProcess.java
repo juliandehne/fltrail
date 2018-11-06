@@ -1,18 +1,15 @@
 package unipotsdam.gf.process;
 
-import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
-import unipotsdam.gf.modules.group.GroupfindingCriteria;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectConfiguration;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.Task;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.process.tasks.TaskName;
@@ -20,7 +17,6 @@ import unipotsdam.gf.process.tasks.TaskName;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.WebApplicationException;
-import java.io.IOException;
 import java.util.HashMap;
 
 import static unipotsdam.gf.modules.group.GroupFormationMechanism.SingleUser;
@@ -46,11 +42,10 @@ public class ProjectCreationProcess {
     /**
      * STEP 1
      *
-     * @param project
-     * @param author
-     * @throws IOException
+     * @param project which project is created
+     * @param author who creates the project
      */
-    public void createProject(Project project, User author) throws IOException {
+    public void createProject(Project project, User author) {
         project.setAuthorEmail(author.getEmail());
         try {
             iManagement.create(project);
@@ -73,8 +68,8 @@ public class ProjectCreationProcess {
     /**
      * STEP 2
      *
-     * @param project
-     * @param user
+     * @param project which project is entered
+     * @param user who is participates the project
      */
     public void studentEntersProject(Project project, User user) {
         // student enters project
@@ -103,10 +98,9 @@ public class ProjectCreationProcess {
     /**
      * STEP N
      *
-     * @param project
-     * @throws IOException
+     * @param project the project to delete
      */
-    public void deleteProject(Project project) throws IOException {
+    public void deleteProject(Project project) {
         try {
             iManagement.delete(project);
         } catch (Exception e) {

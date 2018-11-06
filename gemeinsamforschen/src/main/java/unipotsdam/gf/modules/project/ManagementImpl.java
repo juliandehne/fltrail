@@ -7,6 +7,7 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.user.UserInterests;
 import unipotsdam.gf.modules.user.UserProfile;
+import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.util.ResultSetUtil;
 import unipotsdam.gf.modules.group.GroupDAO;
 
@@ -153,21 +154,33 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public List<String> getProjectsStudent(String studentEmail) {
+    public List<Project> getProjectsStudent(String studentEmail) {
         if (studentEmail == null) {
             return null;
         }
         connect.connect();
         String mysqlRequest =
-                "SELECT projectName FROM projectuser WHERE useremail=?";
-
-        //49c6eeda-62d2-465e-8832-dc2db27e760c
-
-        List<String> result = new ArrayList<>();
+                "SELECT projectName FROM projectuser WHERE userEmail=?";
+        List<Project> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, studentEmail);
         while (vereinfachtesResultSet.next()) {
             String project = vereinfachtesResultSet.getString("projectName");
-            result.add(project);
+            result.add(projectDAO.getProjectByName(project));
+        }
+        connect.close();
+        return result;
+    }
+
+    @Override
+    public List<Project> getAllProjects() {
+        connect.connect();
+        String mysqlRequest =
+                "SELECT name FROM projects WHERE phase=?";
+        List<Project> result = new ArrayList<>();
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Phase.GroupFormation);
+        while (vereinfachtesResultSet.next()) {
+            String project = vereinfachtesResultSet.getString("name");
+            result.add(projectDAO.getProjectByName(project));
         }
         connect.close();
         return result;

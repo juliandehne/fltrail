@@ -346,8 +346,8 @@ template {
 /*lists*/
 
 ul, ul li {
-    list-style-type:none;
-    padding:0;
-    margin: 0;
+  list-style-type:none;
+  padding:0;
+  margin: 0;
 }
 
