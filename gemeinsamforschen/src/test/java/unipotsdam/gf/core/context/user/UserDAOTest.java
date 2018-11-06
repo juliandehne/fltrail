@@ -90,7 +90,7 @@ public class UserDAOTest {
         assertTrue(userDAO.exists(user));
 
         user.setStudent(false);
-        userDAO.update(user);
+        userDAO.updateRocketChatUserName(user);
         assertTrue(userDAO.exists(user));
         User managementUser = userDAO.getUserByEmail(user.getEmail());
         assertEquals(user.getStudent(), managementUser.getStudent());

@@ -6,6 +6,7 @@ import unipotsdam.gf.config.GFRocketChatConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.communication.model.LoginToken;
+import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.session.GFContexts;
@@ -135,7 +136,7 @@ public class CommunicationView {
             String token = getAuthToken(req);
             return new LoginToken(token);
         } else {
-            User user = communicationService.loginUser(GFRocketChatConfig.ADMIN_USER);
+            RocketChatUser user = communicationService.loginUser(GFRocketChatConfig.ADMIN_USER);
             return new LoginToken(user.getRocketChatAuthToken());
         }
     }

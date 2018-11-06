@@ -1,5 +1,6 @@
 package unipotsdam.gf.session;
 
+import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 
@@ -32,7 +33,7 @@ public class GFContexts {
         return userDAO.getUserByEmail(userEmail);
     }
 
-    public void updateUserSessionWithRocketChat(HttpServletRequest req, User user) {
+    public void updateUserSessionWithRocketChat(HttpServletRequest req, RocketChatUser user) {
         req.getSession().setAttribute(GFContexts.ROCKETCHATAUTHTOKEN, user.getRocketChatAuthToken());
         req.getSession().setAttribute(GFContexts.ROCKETCHATID, user.getRocketChatUserId());
     }

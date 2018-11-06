@@ -118,10 +118,6 @@ public class CommunicationServiceTest {
         boolean userCreated = iCommunication.registerUser(user);
         //userDAO.persist(user, null);
         assertTrue(userCreated);
-        assertNotNull(user.getRocketChatUserId());
-        assertNotNull(user.getRocketChatAuthToken());
-        assertNotNull(user.getRocketChatPersonalAccessToken());
-
     }
 
     @Test

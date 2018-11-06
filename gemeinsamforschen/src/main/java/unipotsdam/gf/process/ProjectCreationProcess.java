@@ -3,6 +3,7 @@ package unipotsdam.gf.process;
 import unipotsdam.gf.exceptions.*;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Management;
@@ -101,7 +102,6 @@ public class ProjectCreationProcess {
 
     public void createUser(User user)
             throws UserExistsInMysqlException, RocketChatDownException, UserExistsInRocketChatException {
-        // todo implement
         if(iManagement.exists(user)) {
             throw new UserExistsInMysqlException();
         }
@@ -116,10 +116,20 @@ public class ProjectCreationProcess {
             throws UserDoesNotExistInRocketChatException, RocketChatDownException {
         // todo implement
 
-        User isLoggedIn = iCommunication.loginUser(user);
+        RocketChatUser isLoggedIn = iCommunication.loginUser(user);
         gfContexts.updateUserSessionWithRocketChat(req, isLoggedIn);
         gfContexts.updateUserWithEmail(req, isLoggedIn);
         return iManagement.exists(user);
     }
 
+    public void deleteUser(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        iManagement.delete(user);
+        iCommunication.delete(user);
+    }
+
+    public void deleteProject(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        // TODO implement
+        iManagement.delete(project);
+        iCommunication.deleteChatRoom(project);
+    }
 }

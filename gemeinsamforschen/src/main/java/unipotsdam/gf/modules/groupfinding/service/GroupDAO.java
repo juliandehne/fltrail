@@ -69,17 +69,17 @@ public class GroupDAO {
 
     }
 
-    public void update(Group group) {
+    public void updateRocketChatUserName(Group group) {
         connect.connect();
         String mysqlRequest = "UPDATE groups SET projectId = ?, chatRoomId = ? where id = ?";
         connect.issueUpdateStatement(mysqlRequest, group.getProjectId(), group.getChatRoomId(), group.getId());
         connect.close();
-        // TODO: implement update of groupuser if needed later (if member list need to be updated)
+        // TODO: implement updateRocketChatUserName of groupuser if needed later (if member list need to be updated)
     }
 
     public void clearChatRoomIdOfGroup(String chatRoomId) {
         connect.connect();
-        String mysqlRequest = "update groups SET chatRoomId = ? where chatRoomId = ?";
+        String mysqlRequest = "updateRocketChatUserName groups SET chatRoomId = ? where chatRoomId = ?";
         connect.issueUpdateStatement(mysqlRequest, "", chatRoomId);
         connect.close();
     }

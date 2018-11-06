@@ -1,6 +1,7 @@
 package unipotsdam.gf.config;
 
 
+import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.user.User;
 
 /**
@@ -29,14 +30,14 @@ public class GFRocketChatConfig {
 
     public static final String ROCKET_CHAT_API_LINK = ROCKET_CHAT_LINK + "api/v1/";
 
-   public static final User TEST_USER = new User("student1", "egal",
+   public static final RocketChatUser TEST_USER = new RocketChatUser("student1", "egal",
             "student1@yolo.com", "student1", "",
             "", "6ofqfp8J9ynfvspBJ", false);
 
     /* public static final User ADMIN_USER = new User("admin nachname", "passwort",
               "email", "rocketChatUsername", "rocketChatAuthToken",
               "rocketChatPersonalAccessToken", "rocketChatUserId", false);*/
-    public static final User ADMIN_USER = new User("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
+    public static final RocketChatUser ADMIN_USER = new RocketChatUser("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
             "julian.dehne@uni-potsdam.de",  "rocketChatUsername", "rocketChatAuthToken",
             "rocketChatPersonalAccessToken", "SuFbpF3P9aYEo634W", false);
 

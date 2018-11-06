@@ -6,6 +6,7 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
+import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
@@ -55,6 +56,10 @@ public interface ICommunication {
     String createEmptyChatRoom(String name, boolean readOnly)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
+    void deleteChatRoom(Group group) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
+
+    void deleteChatRoom(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
+
     boolean deleteChatRoom(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     /**
@@ -98,7 +103,7 @@ public interface ICommunication {
      * @param user username and password
      * @return information about user, especially authtoken for later use of endpoints
      */
-    User loginUser(User user)
+    RocketChatUser loginUser(User user)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     /**
@@ -126,4 +131,6 @@ public interface ICommunication {
     boolean informAboutMissingTasks(Map<StudentIdentifier, ConstraintsMessages> tasks, Project project);
 
     boolean sendMessageToUsers(Project project, EMailMessage eMailMessage);
+
+    public void delete(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 }
