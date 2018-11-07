@@ -84,7 +84,7 @@ public class UserView {
             e.printStackTrace();
             return registrationError();
         }
-        return redirectToProjectPage(req, user);
+        return redirectToProjectPage(user);
 
     }
 
@@ -114,17 +114,17 @@ public class UserView {
         try {
             Boolean exists = projectCreationProcess.authenticateUser(user, req);
             if (exists) {
-                redirectToUserExists();
+                user = fillUserFields(user);
+                return redirectToProjectPage(user);
             } else {
                 return loginError();
             }
         } catch (UserDoesNotExistInRocketChatException e) {
-            loginError();
+            return loginError();
         } catch (RocketChatDownException e) {
             return loginError();
         }
-        user = fillUserFields(user);
-        return redirectToProjectPage(req, user);
+
     }
 
     @POST
@@ -163,7 +163,7 @@ public class UserView {
      * @return
      * @throws URISyntaxException
      */
-    private Response redirectToProjectPage(HttpServletRequest req, User user) throws URISyntaxException {
+    private Response redirectToProjectPage(User user) throws URISyntaxException {
         String successUrl;
 
         if (user.getStudent() != null && user.getStudent()) {

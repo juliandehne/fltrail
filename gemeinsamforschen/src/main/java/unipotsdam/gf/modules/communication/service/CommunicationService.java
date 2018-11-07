@@ -208,7 +208,7 @@ public class CommunicationService implements ICommunication {
     @Override
     public boolean addUserToChatRoom(User user, String roomId)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
-        return modifyChatRoom(user, roomId, false);
+        return modifyChatRoom(user, roomId, true);
     }
 
     @Override

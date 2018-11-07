@@ -25,15 +25,15 @@ public class GroupView {
     private Management iManagement;
 
     @Inject
-    ProjectDAO projectDAO;
+    private ProjectDAO projectDAO;
 
     @Inject
-    GroupFormationProcess groupFormationProcess;
+    private GroupFormationProcess groupFormationProcess;
 
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/all/project/{projectName}")
+    @Path("/all/projects/{projectName}")
     public GroupData getGroups(@PathParam("projectName") String projectName) {
         GroupData data = groupFormationProcess.getOrInitializeGroups(new Project(projectName));
         return  data;

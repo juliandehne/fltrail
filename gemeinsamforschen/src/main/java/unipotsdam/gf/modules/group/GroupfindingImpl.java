@@ -82,6 +82,8 @@ public class GroupfindingImpl implements IGroupFinding {
             //int numberOf4Groups = getNumberOf4Groups(numberOfUsers);
 
             Group group = new Group();
+            int i = 1;
+            group.setName(i + "");
             for (User user : usersByProjectName) {
                 if (numberOf3Groups > 0) {
                     numberOf3Groups--;
@@ -89,11 +91,15 @@ public class GroupfindingImpl implements IGroupFinding {
                     if (group.getMembers().size() == 3) {
                         result.add(group);
                         group = new Group();
+                        i++;
+                        group.setName(i + "");
                     }
                 } else {
                     if (group.getMembers().size() == 4) {
                         result.add(group);
                         group = new Group();
+                        i++;
+                        group.setName(i + "");
                     }
                 }
                 group.addMember(user);

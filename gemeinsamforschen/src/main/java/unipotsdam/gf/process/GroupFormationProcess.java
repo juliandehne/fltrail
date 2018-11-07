@@ -28,8 +28,6 @@ public class GroupFormationProcess {
     @Inject
     TaskDAO taskDAO;
 
-
-
     @Inject
     private DossierCreationProcess dossierCreationProcess;
 
@@ -40,9 +38,7 @@ public class GroupFormationProcess {
             projectDAO.setGroupFormationMechanism(groupFormationMechanism, project);
     }
 
-
     // taskDAO.persistTeacherTask(project, TaskName.FORM_GROUPS_MANUALLY, Phase.GroupFormation);
-
     /**
      * this method can only be called to change the group formation to manual groups or single
      * @param groupFormationMechanism
