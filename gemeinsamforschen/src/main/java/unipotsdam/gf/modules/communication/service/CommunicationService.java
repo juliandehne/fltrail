@@ -258,7 +258,7 @@ public class CommunicationService implements ICommunication {
         HashMap<String, String> rocketChatAuth = new HashMap<>();
         rocketChatAuth.put("user", user.getEmail());
         rocketChatAuth.put("password", user.getPassword());
-
+/*
         HttpResponse<RocketChatLoginResponse> response =
                 unirestService.post(ROCKET_CHAT_API_LINK + "login").body(rocketChatAuth)
                         .asObject(RocketChatLoginResponse.class);
@@ -274,7 +274,7 @@ public class CommunicationService implements ICommunication {
         RocketChatLoginResponse rocketChatLoginResponse = response.getBody();
         user.setRocketChatUserId(rocketChatLoginResponse.getUserId());
         user.setRocketChatAuthToken(rocketChatLoginResponse.getAuthToken());
-
+*/
         return user;
     }
 

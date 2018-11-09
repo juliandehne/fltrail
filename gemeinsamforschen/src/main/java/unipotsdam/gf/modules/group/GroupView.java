@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.group;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Path("/group")
 public class GroupView {
@@ -85,7 +87,13 @@ public class GroupView {
     }
 
 
-
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/get/projects/{projectName}")
+    public List<Group> getGroups(@PathParam("projectName") String projectName) {
+        List<Group> result = groupfinding.getGroups(projectDAO.getProjectByName(projectName));
+        return result;
+    }
 
 
 
@@ -94,6 +102,8 @@ public class GroupView {
     @Path("/projects/{projectName}")
     public void saveGroups(@PathParam("projectName") String projectName, Group[] groups) {
         Project project = new Project(projectName);
+        //groupformationprocess.saveGroups(groups)
+        //delete:
         groupfinding.persistGroups(Arrays.asList(groups), project);
     }
 
