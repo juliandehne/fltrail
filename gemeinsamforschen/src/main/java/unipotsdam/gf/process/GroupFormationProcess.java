@@ -77,6 +77,10 @@ public class GroupFormationProcess {
             groups = groupfinding.createRandomGroups(project);
         }
         return new GroupData(groups);
+    }
 
+    public void saveGroups(List<Group> groups,Project project){
+        groupfinding.deleteGroups(project);
+        groupfinding.persistGroups(groups, project);
     }
 }

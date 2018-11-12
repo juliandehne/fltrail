@@ -182,9 +182,11 @@ public class GroupDAO {
     }
 
     public void deleteGroups(Project project) {
-        String query = "DELETE from groups where projectName = ?";
+        String query ="DELETE gu FROM groupuser gu INNER JOIN groups g ON gu.groupId=g.id WHERE g.projectName = ?;";
+        String query2="DELETE FROM groups WHERE projectName=?;";
         connect.connect();
         connect.issueInsertOrDeleteStatement(query, project.getName());
+        connect.issueInsertOrDeleteStatement(query2, project.getName());
         connect.close();
     }
 }
