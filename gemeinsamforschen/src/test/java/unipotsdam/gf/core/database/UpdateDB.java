@@ -32,7 +32,7 @@ public class UpdateDB {
         System.out.println(new java.io.File( "." ).getCanonicalPath());
         updateDB.runScript(new FileReader("src/test/resources/database/db.sql"));
         updateDB.runScript(new FileReader("src/test/resources/database/fltrail.sql"));
-        updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
+        //updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
     }
 
     public static void updateTestDB() throws SQLException, ManagedProcessException, IOException {

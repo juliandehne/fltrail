@@ -23,14 +23,14 @@ $(document).ready(function () {
 
 function getAllGroups(callback) {
     $.ajax({
-        url: "../rest/group/get/projects/" + $('#projectName').html().trim(),
+        url: "../rest/group/all/projects/" + $('#projectName').html().trim(),
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         type: 'GET',
         success: function (response) {
-            callback(response);
+            callback(response.groups);
         },
         error: function (a) {
         }

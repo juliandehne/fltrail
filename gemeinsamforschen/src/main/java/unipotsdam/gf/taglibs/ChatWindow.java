@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.config.GFRocketChatConfig;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.session.GFContext;
@@ -44,8 +46,15 @@ public class ChatWindow extends SimpleTagSupport {
             writeIframe(request, chatRoomLink);
         } else {
             // scope is group
-            String chatRoomLink = communicationService
-                    .getChatRoomLink(request.getSession().getAttribute(GFContexts.USEREMAIL).toString(), projectName);
+            String chatRoomLink = null;
+            try {
+                chatRoomLink = communicationService
+                        .getChatRoomLink(request.getSession().getAttribute(GFContexts.USEREMAIL).toString(), projectName);
+            } catch (RocketChatDownException e) {
+                e.printStackTrace();
+            } catch (UserDoesNotExistInRocketChatException e) {
+                e.printStackTrace();
+            }
             writeIframe(request, chatRoomLink);
         }
 
@@ -58,10 +67,6 @@ public class ChatWindow extends SimpleTagSupport {
         log.debug("ChatRoomLink for ChatWindow: {}", chatRoomLink);
         JspWriter out = getJspContext().getOut();
         out.println("<iframe height=\"400px\" src=\"" + chatRoomLink + "\">");
-        String rocketChatIntegration = "<script> window.parent.postMessage({event: 'login-with-token',loginToken:" +
-                " '"+getAuthToken+"'}, '"+GFRocketChatConfig.ROCKET_CHAT_LINK_0 +"');</script>";
-        out.println(rocketChatIntegration);
-
         out.println("</iframe>");
 
     }

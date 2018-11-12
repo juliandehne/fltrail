@@ -576,7 +576,7 @@ public class SubmissionController implements ISubmission, HasProgress {
      */
     public void markAsFinal(FullSubmission fullSubmission) {
         connection.connect();
-        String query = "update fullsubmissions set finalized = ? where id = ?";
+        String query = "updateRocketChatUserName fullsubmissions set finalized = ? where id = ?";
         connection.issueUpdateStatement(query, 1, fullSubmission.getId());
         connection.close();
     }
@@ -591,7 +591,7 @@ public class SubmissionController implements ISubmission, HasProgress {
      */
     public void updateFullSubmission(User submissionOwner, User feedbackGiver) {
         connection.connect();
-        String query = "update fullsubmissions set feedbackUser = ? where user = ?";
+        String query = "updateRocketChatUserName fullsubmissions set feedbackUser = ? where user = ?";
         connection.issueUpdateStatement(query, feedbackGiver.getEmail(), submissionOwner.getEmail());
         connection.close();
         // TODO implement linking submission with group

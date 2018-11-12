@@ -27,10 +27,20 @@ public class GroupView {
     private Management iManagement;
 
     @Inject
-    ProjectDAO projectDAO;
+    private ProjectDAO projectDAO;
 
     @Inject
-    GroupFormationProcess groupFormationProcess;
+    private GroupFormationProcess groupFormationProcess;
+
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/all/projects/{projectName}")
+    public GroupData getOrInitializeGroups(@PathParam("projectName") String projectName) {
+        GroupData data = groupFormationProcess.getOrInitializeGroups(new Project(projectName));
+        return  data;
+    }
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -83,7 +93,6 @@ public class GroupView {
             throw new WebApplicationException(
                     "the groupfindingmechanism needs to be one of " + GroupFormationMechanism.values().toString());
         }
-
     }
 
 
@@ -97,6 +106,12 @@ public class GroupView {
 
 
 
+    /**
+     * find out if this is used by learning goal
+     * @param projectName
+     * @param groups
+     */
+    @Deprecated
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}")
@@ -105,6 +120,23 @@ public class GroupView {
         //groupformationprocess.saveGroups(groups)
         //delete:
         groupfinding.persistGroups(Arrays.asList(groups), project);
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/projects/{projectName}/groups")
+    public void persistGroups(@PathParam("projectName") String  projectName, GroupData data) {
+        Project project = new Project(projectName);
+
+        groupfinding.persistGroups(data.getGroups(), project);
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/projects/{projectName}/groups/finalize")
+    public void finalizeGroups(@PathParam("projectName") String  projectName) {
+        Project project = new Project(projectName);
+        groupFormationProcess.finalize(project);
     }
 
 }

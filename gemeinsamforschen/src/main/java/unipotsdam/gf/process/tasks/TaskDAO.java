@@ -275,7 +275,7 @@ public class TaskDAO {
     }
 
     /*
-     * if this takes long rewrite it as batch update
+     * if this takes long rewrite it as batch updateRocketChatUserName
      */
     public void finishMemberTask(Project project, TaskName taskName) {
         java.util.List<User> members = userDAO.getUsersByProjectName(project.getName());

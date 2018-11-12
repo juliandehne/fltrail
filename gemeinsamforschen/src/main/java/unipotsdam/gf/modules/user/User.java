@@ -14,11 +14,9 @@ public class User {
     private String name;
     private String password;
     private String email;
+    // the speaking name must unique in rocket chat
     private String rocketChatUsername;
-    private String rocketChatAuthToken;
-    // not in this version
-    private String rocketChatPersonalAccessToken;
-    private String rocketChatUserId;
+
     private Boolean isStudent;
 
     public User() {
@@ -26,28 +24,15 @@ public class User {
 
 
 
-    public User(String name, String password, String email, String rocketChatUsername, String rocketChatPersonalAccessToken, String rocketChatUserId) {
+    public User(String name, String password, String email, String rocketChatUsername, Boolean isStudent) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.rocketChatUsername = rocketChatUsername;
-        this.rocketChatPersonalAccessToken = rocketChatPersonalAccessToken;
-        this.rocketChatUserId = rocketChatUserId;
-
+        this.setStudent(isStudent);
     }
 
-    public User(String name, String password, String email, String rocketChatUsername,
-                String rocketChatAuthToken, String rocketChatPersonalAccessToken, String rocketChatUserId,
-                Boolean isStudent) {
-        this.name = name;
-        this.password = password;
-        this.email = email;
-        this.rocketChatUsername = rocketChatUsername;
-        this.rocketChatAuthToken = rocketChatAuthToken;
-        this.rocketChatPersonalAccessToken = rocketChatPersonalAccessToken;
-        this.rocketChatUserId = rocketChatUserId;
-        this.isStudent = isStudent;
-    }
+
 
     public User(String authorEmail) {
         this.email = authorEmail;
@@ -94,22 +79,7 @@ public class User {
         isStudent = student;
     }
 
-    public String getRocketChatUserId() {
-        return rocketChatUserId;
-    }
 
-    public void setRocketChatUserId(String rocketChatUserId) {
-        this.rocketChatUserId = rocketChatUserId;
-    }
-
-    @JsonIgnore
-    public String getRocketChatAuthToken() {
-        return rocketChatAuthToken;
-    }
-
-    public void setRocketChatAuthToken(String rocketChatAuthToken) {
-        this.rocketChatAuthToken = rocketChatAuthToken;
-    }
 
     public String getRocketChatUsername() {
         return rocketChatUsername;
@@ -119,13 +89,7 @@ public class User {
         this.rocketChatUsername = rocketChatUsername;
     }
 
-    public String getRocketChatPersonalAccessToken() {
-        return rocketChatPersonalAccessToken;
-    }
 
-    public void setRocketChatPersonalAccessToken(String rocketChatPersonalAccessToken) {
-        this.rocketChatPersonalAccessToken = rocketChatPersonalAccessToken;
-    }
 
     @Override
     public String toString() {
@@ -134,9 +98,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", rocketChatUsername='" + rocketChatUsername + '\'' +
-                ", rocketChatAuthToken='" + rocketChatAuthToken + '\'' +
-                ", rocketChatPersonalAccessToken='" + rocketChatPersonalAccessToken + '\'' +
-                ", rocketChatUserId='" + rocketChatUserId + '\'' +
                 ", isStudent=" + isStudent +
                 '}';
     }

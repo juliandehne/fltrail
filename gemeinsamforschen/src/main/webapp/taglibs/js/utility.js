@@ -101,13 +101,18 @@ function RequestObj(hierachyLevel, modulePath, methodPath, pathParams, queryPara
 }
 
 
+function serverSide(requestObj, method, callback) {
+    serverSideWithType(requestObj, method, callback, 'application/json');
+}
+
 /**
  * send a request to the server
  * @param requestObj the data specific to the reqeuest
  * @param method GET, POST, DELETE or PUT
  * @param callback
+ * @param contentType typically 'application/json'
  */
-function serverSide(requestObj, method, callback) {
+function serverSideWithType(requestObj, method, callback, contentType) {
     let relativPath = calculateHierachy(requestObj.hierarchyLevel)
     let methodPath = requestObj.methodPath
     requestObj.pathParams.forEach(function (e) {
@@ -120,10 +125,11 @@ function serverSide(requestObj, method, callback) {
         localurl = localurl + requestObj.queryParams;
     }
 
+
     if (method == "PUT") {
         $.ajax({
             url: localurl,
-            contentType: 'application/json',
+            contentType: contentType,
             type: 'PUT',
             data: JSON.stringify(requestObj.entity),
             success: function (response) {
@@ -139,7 +145,7 @@ function serverSide(requestObj, method, callback) {
     if (method == "POST" ||  method == "DELETE") {
         $.ajax({
             url: localurl,
-            contentType: 'application/json',
+            contentType: contentType,
             type: method,
             data: requestObj.entity == null ? {} : JSON.stringify(requestObj.entity),
             success: function (response) {

@@ -73,7 +73,7 @@ public class ManagementImpl implements Management {
 
     @Override
     public void update(User user) {
-        userDAO.update(user);
+        userDAO.updateRocketChatUserName(user);
     }
 
     @Override

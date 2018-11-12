@@ -1,7 +1,9 @@
 package unipotsdam.gf.process;
 
+import unipotsdam.gf.exceptions.*;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Management;
@@ -13,9 +15,11 @@ import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.Task;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
 import java.io.IOException;
 
@@ -39,6 +43,9 @@ public class ProjectCreationProcess {
     @Inject
     private ICommunication iCommunication;
 
+    @Inject
+    private GFContexts gfContexts;
+
     /**
      * STEP 1
      *
@@ -46,7 +53,8 @@ public class ProjectCreationProcess {
      * @param author
      * @throws IOException
      */
-    public void createProject(Project project, User author) throws IOException {
+    public void createProject(Project project, User author)
+            throws IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         project.setAuthorEmail(author.getEmail());
         try {
             iManagement.create(project);
@@ -66,7 +74,8 @@ public class ProjectCreationProcess {
      * @param project
      * @param user
      */
-    public void studentEntersProject(Project project, User user) {
+    public void studentEntersProject(Project project, User user)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         // student enters project
         iManagement.register(user, project, null);
 
@@ -89,5 +98,38 @@ public class ProjectCreationProcess {
             }
         }
         iCommunication.addUserToChatRoom(user, project.getName());
+    }
+
+    public void createUser(User user)
+            throws UserExistsInMysqlException, RocketChatDownException, UserExistsInRocketChatException {
+        if(iManagement.exists(user)) {
+            throw new UserExistsInMysqlException();
+        }
+        // create user in rocket chat
+        iCommunication.registerUser(user);
+        // create user in mysql
+        iManagement.create(user, null);
+
+    }
+
+    public Boolean authenticateUser(User user, HttpServletRequest req)
+            throws UserDoesNotExistInRocketChatException, RocketChatDownException {
+        // todo implement
+
+        RocketChatUser isLoggedIn = iCommunication.loginUser(user);
+        gfContexts.updateUserSessionWithRocketChat(req, isLoggedIn);
+        gfContexts.updateUserWithEmail(req, isLoggedIn);
+        return iManagement.exists(user);
+    }
+
+    public void deleteUser(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        iManagement.delete(user);
+        iCommunication.delete(user);
+    }
+
+    public void deleteProject(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        // TODO implement
+        iManagement.delete(project);
+        iCommunication.deleteChatRoom(project);
     }
 }

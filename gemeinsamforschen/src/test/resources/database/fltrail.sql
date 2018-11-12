@@ -1,7 +1,7 @@
 CREATE TABLE `annotations` (
   `id` varchar(120) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `userEmail` varchar(120) DEFAULT NULL,
+  `userEmail` varchar(255) DEFAULT NULL,
   `targetId` varchar(120) DEFAULT NULL,
   `targetCategory` varchar(30) NOT NULL,
   `title` varchar(120) DEFAULT NULL,
@@ -60,7 +60,8 @@ CREATE TABLE `groupfindingmechanismselected` (
 CREATE TABLE `groups` (
   `id`          int(11) NOT NULL,
   `projectName` varchar(400) NOT NULL,
-  `chatRoomId`  varchar(400)
+  `chatRoomId`  varchar(400),
+  `name`        varchar(255) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `groupuser` (
@@ -85,7 +86,7 @@ CREATE TABLE `projects` (
 
 CREATE TABLE `projectuser` (
   `projectName` varchar(100) NOT NULL,
-  `userEmail` varchar(100) NOT NULL
+  `userEmail` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `quiz` (
@@ -106,7 +107,7 @@ CREATE TABLE `submissionpartbodyelements` (
 
 CREATE TABLE `submissionparts` (
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `userEmail` varchar(120) NOT NULL,
+  `userEmail` varchar(255) NOT NULL,
   `fullSubmissionId` varchar(120) NOT NULL,
   `category` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -117,7 +118,7 @@ CREATE TABLE `tags` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tasks` (
-  `userEmail` varchar(100) NOT NULL,
+  `userEmail` varchar(255) NOT NULL,
   `projectName` varchar(200) NOT NULL,
   `taskName` varchar(100) DEFAULT NULL,
   `groupTask` tinyint(4) DEFAULT NULL,
@@ -135,10 +136,7 @@ CREATE TABLE `users` (
   `name`                          varchar(100) NOT NULL,
   `password`                      varchar(200) NOT NULL,
   `email`                         varchar(255) NOT NULL,
-  `rocketChatUserId`              varchar(400),
-  `rocketChatPersonalAccessToken` varchar(400),
-  `rocketChatUsername`            varchar(400),
-  `rocketChatAuthToken`           varchar(800),
+  `rocketChatUserName`            varchar(400),
   `isStudent`                     tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -196,19 +194,23 @@ ALTER TABLE `groups`
 
 
 ALTER TABLE `groupuser`
-  ADD CONSTRAINT `groupuser_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`),
-  ADD CONSTRAINT `groupuser_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`);
+  ADD CONSTRAINT `groupuser_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE,
+  ADD CONSTRAINT `groupuser_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `projects`
   ADD CONSTRAINT `projects_ibfk_1` FOREIGN KEY (`author`) REFERENCES `users` (`email`);
 
 ALTER TABLE `projectuser`
-  ADD CONSTRAINT `projectuser_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`),
-  ADD CONSTRAINT `projectuser_ibfk_2` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`);
+  ADD CONSTRAINT `projectuser_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE,
+  ADD CONSTRAINT `projectuser_ibfk_2` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE;
 COMMIT;
 
 CREATE UNIQUE INDEX fullsubmissions_user_projectName_uindex ON fullsubmissions (user, projectName);
 
 CREATE UNIQUE INDEX tasks_userEmail_projectName_taskName_uindex ON tasks (userEmail, projectName, taskName);
+
+
+
+
 
 
