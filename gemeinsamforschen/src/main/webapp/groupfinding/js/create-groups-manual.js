@@ -1,6 +1,5 @@
 $(document).ready(function () {
-    let userEmail = $('#userEmail').html().trim();
-    let projectName = $('#projectName').html().trim();
+    $('#studentsWithoutGroup').hide();
     getAllGroups(function (allGroups) {
         groupsToTemplate(allGroups, function (done) {
             selectableButtons(done);
@@ -11,13 +10,19 @@ $(document).ready(function () {
             selectableButtons(done);
         });
         relocateMember(function (done) {
-            selectableButtons(done);
+            selectableButtons(done);    //i have no clue why this needs to be called twice, but it seems necessary
         });
     });
     $('#btnSave').click(function () {
         viewToGroup(function (groups) {
-
+            saveNewGroups(groups);
         })
+    });
+    $('#openNewGroup').click(function () {
+        openNewGroup(function(done){
+            selectableButtons(done);
+        });
+        selectableButtons(true);  //i have no clue why this needs to be called twice, but it seems necessary
     });
 });
 
@@ -38,17 +43,12 @@ function getAllGroups(callback) {
 }
 
 function groupsToTemplate(allGroups, callback) {
-    let studentTmplObject = [];
     let groupTmplObject = [];
     for (let group = 0; group < allGroups.length; group++) {
-        /*for (let groupMember = 0; groupMember < allGroups[group].members.length; groupMember++) {
-            studentTmplObject.push({
-                studentName: allGroups[group].members[groupMember].name
-            });
-        }*/
         groupTmplObject.push({
             groupName: "group" + group,
             groupMember: allGroups[group].members,
+            chatRoomId: allGroups[group].chatRoomId,
         });
     }
     $('#groupTemplate').tmpl(groupTmplObject).appendTo('#groupsInProject');
@@ -84,46 +84,72 @@ function relocateMember(callback) {
 
 function viewToGroup(callback) {
     if ($('#gruppenlos').children().length > 1) {
+        $('#studentsWithoutGroup').show();
         return null;
     }
     let groups = [];
     $('#groupsInProject').children().each(function () {
         if ($(this).attr("id").trim() !== "gruppenlos") {
             let members = [];
+            let chatRoomId = 0;
             $(this).children().each(function () {
-                if ($(this).attr("name") === "student")
+                if ($(this).attr("name") === "student") {
+                    let entries = $(this).children();
+                    let email = entries[1].innerText;
+                    let name = entries[0].innerText;
                     members.push({
-                        email: "", //todo:
-                        name: $(this).html().trim(),
-                        rocketChatPersonalAccessToken: "", //todo:
-                        rocketChatUserId: "", //todo:
-                        rocketChatUsername: "", //todo:
+                        email: email,
+                        name: name,
+                        rocketChatPersonalAccessToken: "",
+                        rocketChatUserId: "",
+                        rocketChatUsername: "",
                         student: true
                     });
+                }
+                if ($(this).attr("name") === "chatRoomId") {
+                    chatRoomId = $(this).html().trim();
+                }
             });
-            groups.push({
-                chatRoomId: "1", //todo:
-                id: "1",        //todo:
-                members: members,
-            })
+            if (members.length !== 0){
+                groups.push({
+                    chatRoomId: chatRoomId,
+                    id: "",
+                    members: members,
+                })
+            }
         }
     });
     callback(groups);
 }
 
 function saveNewGroups(groups) {
+    let data = JSON.stringify(groups);
     $.ajax({
-        url: "group/projects/" + $('#projectName').html().trim(),
+        url: "../rest/group/projects/" + $('#projectName').html().trim(),
+        data: data,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         type: 'POST',
         success: function (response) {
-
+            alert("done");
         },
         error: function (a) {
             alert(a);
         }
     });
+}
+
+function openNewGroup(callback) {
+    let groupTmplObject = [];
+    let nextGroup = $('#groupsInProject').children().length;
+    groupTmplObject.push({
+        groupName: "group" + nextGroup,
+        groupMember: [],
+        chatRoomId: "",
+    });
+    $('#groupTemplate').tmpl(groupTmplObject).appendTo('#groupsInProject');
+    let done = true;
+    callback(done);
 }

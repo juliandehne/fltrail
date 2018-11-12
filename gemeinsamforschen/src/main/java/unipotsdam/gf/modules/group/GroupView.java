@@ -117,9 +117,7 @@ public class GroupView {
     @Path("/projects/{projectName}")
     public void saveGroups(@PathParam("projectName") String projectName, Group[] groups) {
         Project project = new Project(projectName);
-        //groupformationprocess.saveGroups(groups)
-        //delete:
-        groupfinding.persistGroups(Arrays.asList(groups), project);
+        groupFormationProcess.saveGroups(Arrays.asList(groups), project);
     }
 
     @PUT
@@ -127,8 +125,7 @@ public class GroupView {
     @Path("/projects/{projectName}/groups")
     public void persistGroups(@PathParam("projectName") String  projectName, GroupData data) {
         Project project = new Project(projectName);
-
-        groupfinding.persistGroups(data.getGroups(), project);
+        groupFormationProcess.saveGroups(data.getGroups(), project);
     }
 
     @POST

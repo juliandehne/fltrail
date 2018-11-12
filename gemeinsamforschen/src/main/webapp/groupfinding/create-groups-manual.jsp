@@ -16,29 +16,36 @@
     <script src="js/create-groups-manual.js"></script>
     <link rel="stylesheet" href="css/create-groups-manual.css">
 </head>
+
+<script id="groupTemplate" type="text/x-jQuery-tmpl">
+        <div style="display: block; margin-top: 5px; margin-left: 5px;" id="${groupName}">
+        <button type="button" class="group-button list-group-item list-group-item-action">${groupName}</button>
+        {{each groupMember}}
+            <button type="button" name="student" class="student-button list-group-item list-group-item-action">
+            <span>${name}</span>
+            <p name="userEmail" hidden>${email}</p></button>
+        {{/each}}
+        <p name="chatRoomId" hidden>${chatRoomId}</p>
+        </div>
+</script>
+
 <body>
 <menu:menu hierarchy="1"/>
 <div style="display: block">
     <div style="display: flex">
         <div style="display:block">
+            <div id="studentsWithoutGroup" class="alert alert-warning">
+                Es sind noch Studenten "gruppenlos".
+            </div>
             Gruppen:
-            <div class="list-group" style="display: flex" id="groupsInProject">
+            <div class="list-group" style="display: flex; flex-wrap: wrap;" id="groupsInProject">
                 <div style="display:block;" id="gruppenlos">
                     <button type="button" class="group-button list-group-item list-group-item-action active">
                         gruppenlos
                     </button>
                 </div>
-                <script id="groupTemplate" type="text/x-jQuery-tmpl">
-        <div style="display: block" id="${groupName}">
-        <button type="button" class="group-button list-group-item list-group-item-action">${groupName}</button>
-        {{each groupMember}}
-            <button type="button" name="student" class="student-button list-group-item list-group-item-action">${name}</button>
-        {{/each}}
-        </div>
-
-
-                </script>
             </div>
+            <button id="openNewGroup">neue Gruppe öffnen</button>
         </div>
 
     </div>

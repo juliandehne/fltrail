@@ -68,6 +68,11 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
     @Override
+    public void deleteGroups(Project project){
+        groupDAO.deleteGroups(project);
+    }
+
+    @Override
     public List<Group> createRandomGroups(Project project) {
         ArrayList<Group> result = new ArrayList<>();
         groupDAO.deleteGroups(project);

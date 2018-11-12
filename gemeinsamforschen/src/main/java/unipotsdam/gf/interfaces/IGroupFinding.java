@@ -47,5 +47,7 @@ public interface IGroupFinding {
 
     int getMinNumberOfStudentsNeeded(Project project);
 
+    void deleteGroups(Project project);
+
     List<Group> createRandomGroups(Project project);
 }
