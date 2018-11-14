@@ -66,7 +66,9 @@ CREATE TABLE `groups` (
 
 CREATE TABLE `groupuser` (
   `userEmail` varchar(255) NOT NULL,
-  `groupId` int(11) NOT NULL
+  `groupId` int(11) NOT NULL,
+  CONSTRAINT `groupuser_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE,
+  CONSTRAINT `groupuser_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`) ON DELETE CASCADE;
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `phasesselected` (
@@ -157,7 +159,6 @@ CREATE TABLE submissionuser
     userEmail varchar(255)
 );
 
-
 ALTER TABLE `annotations`
   ADD PRIMARY KEY (`id`);
 
@@ -192,7 +193,6 @@ ALTER TABLE `users`
 ALTER TABLE `groups`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
-
 ALTER TABLE `groupuser`
   ADD CONSTRAINT `groupuser_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE,
   ADD CONSTRAINT `groupuser_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`) ON DELETE CASCADE;
@@ -208,6 +208,72 @@ COMMIT;
 CREATE UNIQUE INDEX fullsubmissions_user_projectName_uindex ON fullsubmissions (user, projectName);
 
 CREATE UNIQUE INDEX tasks_userEmail_projectName_taskName_uindex ON tasks (userEmail, projectName, taskName);
+
+CREATE TABLE profilequestions
+(
+  id int PRIMARY KEY AUTO_INCREMENT,
+  scaleSize int,
+  question varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE profilequestionoptions
+(
+  id int PRIMARY KEY AUTO_INCREMENT,
+  profileQuestionId int,
+  name varchar (255)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE profilequestionanswer
+(
+    profileQuestionId int,
+    answerIndex int,
+    selectedAnswer varchar(255) not null,
+    userEmail varchar(255) not null,
+    CONSTRAINT profilequestionanswer_profilequestions_id_fk FOREIGN KEY (profileQuestionId)
+    REFERENCES profilequestions(id),
+    CONSTRAINT profilequestionanswer_user_email_fk FOREIGN KEY (userEmail)
+    REFERENCES users(email)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE profilequestionrelations
+(
+    firstQuestionId int,
+    secondQuestionId int,
+    relation varchar(200),
+    CONSTRAINT profilequestionrelations_profilequestions_id_fk FOREIGN KEY (firstQuestionId) REFERENCES profilequestions (id),
+    CONSTRAINT profilequestionrelations_profilequestions2_id_fk FOREIGN KEY (secondQuestionId) REFERENCES profilequestions (id)
+);
+
+ALTER TABLE profilequestionrelations COMMENT = 'This indicates if a profile question leads to homogenity in groups';
+ALTER TABLE annotations COMMENT = 'Stores comments to a part of the dossier for a category such as RESEARCH';
+ALTER TABLE answeredquiz COMMENT = 'The answered quiz table holds the interpreted result of the quiz answer';
+ALTER TABLE assessmentmechanismselected COMMENT = 'Holds the peer assessement mechanism selected, defaults to Axels
+algorithm';
+ALTER TABLE categoriesselected COMMENT = 'NOT IMPLEMENTED';
+ALTER TABLE contributionrating COMMENT = 'TODO @Axel plz comment';
+ALTER TABLE fullsubmissions COMMENT = 'This holds the aggregated text of the dossier students should upload';
+ALTER TABLE grades COMMENT = 'Shows the grades that are calculated for a given student';
+ALTER TABLE groupfindingmechanismselected COMMENT = 'Groupfinding is done either automatically or manual'
+
+ALTER TABLE groups COMMENT = 'the groups that are created';
+ALTER TABLE groupuser COMMENT = 'n x m table for group and user';
+ALTER TABLE phase selected COMMENT = 'the phase that is selected out of PHASE.enum';
+ALTER TABLE profilequestionanswer COMMENT = 'the answer to a profile question needed for group finding algorithm';
+ALTER TABLE profilequestionoptions COMMENT = 'the options for a profile question for thegroup finding algorithm';
+
+ALTER TABLE profilequestions COMMENT = 'stores the questions needed for group finding';
+ALTER TABLE projects COMMENT = 'just a list of all the projects';
+ALTER TABLE projectuser COMMENT = 'n x m for projects and user';
+ALTER TABLE quiz COMMENT = 'lists the quizzes for the app';
+ALTER TABLE submissionpartbodyelements COMMENT = 'holds the parts of a dossier that are annoated with category';
+ALTER TABLE submissionparts COMMENT = 'no idea what that it does but it is important';
+ALTER TABLE submissionuser COMMENT = 'no idea if that is needed. seems not be used';
+ALTER TABLE tags COMMENT = 'lists some tags for the project in order to make it more searchable and for groupfinding';
+ALTER TABLE tasks COMMENT = 'The task table is important. It lists the actual state of the system associated to tasks';
+ALTER TABLE users COMMENT = 'Just lists the users';
+ALTER TABLE workrating COMMENT = '@Axel plz comment';
+
+
 
 
 
