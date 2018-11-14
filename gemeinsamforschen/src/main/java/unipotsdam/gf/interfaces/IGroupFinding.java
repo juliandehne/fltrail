@@ -19,6 +19,8 @@ public interface IGroupFinding {
     void selectGroupfindingCriteria(
             GroupfindingCriteria groupfindingCriteria, Project project);
 
+    GroupFormationMechanism getGFM(Project project);
+
     /**
      * Persist the selected manual groups
      * @param groupComposition
@@ -46,6 +48,8 @@ public interface IGroupFinding {
     ArrayList<String> getStudentsInSameGroup(StudentIdentifier student);
 
     int getMinNumberOfStudentsNeeded(Project project);
+
+    void deleteGroups(Project project);
 
     List<Group> createRandomGroups(Project project);
 }

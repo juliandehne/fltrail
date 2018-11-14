@@ -66,9 +66,7 @@ CREATE TABLE `groups` (
 
 CREATE TABLE `groupuser` (
   `userEmail` varchar(255) NOT NULL,
-  `groupId` int(11) NOT NULL,
-  CONSTRAINT `groupuser_ibfk_1` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE,
-  CONSTRAINT `groupuser_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`) ON DELETE CASCADE;
+  `groupId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `phasesselected` (
@@ -247,20 +245,17 @@ CREATE TABLE profilequestionrelations
 ALTER TABLE profilequestionrelations COMMENT = 'This indicates if a profile question leads to homogenity in groups';
 ALTER TABLE annotations COMMENT = 'Stores comments to a part of the dossier for a category such as RESEARCH';
 ALTER TABLE answeredquiz COMMENT = 'The answered quiz table holds the interpreted result of the quiz answer';
-ALTER TABLE assessmentmechanismselected COMMENT = 'Holds the peer assessement mechanism selected, defaults to Axels
-algorithm';
+ALTER TABLE assessmentmechanismselected COMMENT = 'Holds the peer assessement mechanism selected';
 ALTER TABLE categoriesselected COMMENT = 'NOT IMPLEMENTED';
 ALTER TABLE contributionrating COMMENT = 'TODO @Axel plz comment';
 ALTER TABLE fullsubmissions COMMENT = 'This holds the aggregated text of the dossier students should upload';
 ALTER TABLE grades COMMENT = 'Shows the grades that are calculated for a given student';
-ALTER TABLE groupfindingmechanismselected COMMENT = 'Groupfinding is done either automatically or manual'
-
+ALTER TABLE groupfindingmechanismselected COMMENT = 'Groupfinding is done either automatically or manual';
 ALTER TABLE groups COMMENT = 'the groups that are created';
 ALTER TABLE groupuser COMMENT = 'n x m table for group and user';
-ALTER TABLE phase selected COMMENT = 'the phase that is selected out of PHASE.enum';
+ALTER TABLE phasesselected COMMENT = 'the phase that is selected out of Phase enum';
 ALTER TABLE profilequestionanswer COMMENT = 'the answer to a profile question needed for group finding algorithm';
 ALTER TABLE profilequestionoptions COMMENT = 'the options for a profile question for thegroup finding algorithm';
-
 ALTER TABLE profilequestions COMMENT = 'stores the questions needed for group finding';
 ALTER TABLE projects COMMENT = 'just a list of all the projects';
 ALTER TABLE projectuser COMMENT = 'n x m for projects and user';

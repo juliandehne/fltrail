@@ -31,6 +31,11 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
     @Override
+    public GroupFormationMechanism getGFM(Project project){
+        return groupDAO.getGroupFormationMechanism(project);
+    }
+
+    @Override
     public void persistGroups(List<Group> groupComposition, Project project) {
         for (Group group : groupComposition) {
             group.setProjectName(project.getName());
@@ -65,6 +70,11 @@ public class GroupfindingImpl implements IGroupFinding {
         }
 
         return participantsNeeded;
+    }
+
+    @Override
+    public void deleteGroups(Project project){
+        groupDAO.deleteGroups(project);
     }
 
     @Override

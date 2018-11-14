@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Objects;
@@ -53,6 +54,7 @@ public class User {
         return name;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
