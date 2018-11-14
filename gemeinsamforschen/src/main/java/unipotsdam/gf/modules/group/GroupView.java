@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.group;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -14,6 +15,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Path("/group")
 public class GroupView {
@@ -34,7 +36,7 @@ public class GroupView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all/projects/{projectName}")
-    public GroupData getGroups(@PathParam("projectName") String projectName) {
+    public GroupData getOrInitializeGroups(@PathParam("projectName") String projectName) {
         GroupData data = groupFormationProcess.getOrInitializeGroups(new Project(projectName));
         return  data;
     }
@@ -94,6 +96,16 @@ public class GroupView {
     }
 
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/get/projects/{projectName}")
+    public List<Group> getGroups(@PathParam("projectName") String projectName) {
+        List<Group> result = groupfinding.getGroups(projectDAO.getProjectByName(projectName));
+        return result;
+    }
+
+
+
     /**
      * find out if this is used by learning goal
      * @param projectName
@@ -105,7 +117,7 @@ public class GroupView {
     @Path("/projects/{projectName}")
     public void saveGroups(@PathParam("projectName") String projectName, Group[] groups) {
         Project project = new Project(projectName);
-        groupfinding.persistGroups(Arrays.asList(groups), project);
+        groupFormationProcess.saveGroups(Arrays.asList(groups), project);
     }
 
     @PUT
@@ -113,8 +125,7 @@ public class GroupView {
     @Path("/projects/{projectName}/groups")
     public void persistGroups(@PathParam("projectName") String  projectName, GroupData data) {
         Project project = new Project(projectName);
-
-        groupfinding.persistGroups(data.getGroups(), project);
+        groupFormationProcess.saveGroups(data.getGroups(), project);
     }
 
     @POST

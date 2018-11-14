@@ -1,6 +1,7 @@
 package unipotsdam.gf.process.tasks;
 
 import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
@@ -14,6 +15,8 @@ import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static unipotsdam.gf.process.tasks.TaskName.*;
 
@@ -88,7 +91,14 @@ public class TaskDAO {
         project.setName(vereinfachtesResultSet.getString("projectName"));
         ParticipantsCount participantsCount = projectDAO.getParticipantCount(project);
         participantsCount.setParticipantsNeeded(groupFinding.getMinNumberOfStudentsNeeded(project));
-        task.setTaskData(participantsCount);
+        Map<String, Object> taskData = new HashMap<>();
+        taskData.put("participantCount", participantsCount);
+        GroupFormationMechanism gfm =groupFinding.getGFM(project);
+        taskData.put("gfm", gfm);
+        task.setTaskData(taskData);
+        if (gfm.equals(GroupFormationMechanism.Manual)){
+            task.setTaskType(TaskType.LINKED);
+        }
         task.setHasRenderModel(true);
         return task;
     }
