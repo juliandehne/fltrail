@@ -3,6 +3,7 @@
  */
 
 $(document).ready(function () {
+    $('#projectWrongPassword').hide();
     printTags();
     $("#competencies0").focus();
     $("#studentFormSubmit").on("click", function () {
@@ -25,9 +26,9 @@ $(document).ready(function () {
 
 
 function addInput(name) {        //creates a new input-Field with the ID 'nameX' where X is number of elements with 'name' as ID
-    var i = document.getElementsByName(name).length;
+    let i = document.getElementsByName(name).length;
     let div = document.getElementById(name);
-    var newInput = document.createElement("span");
+    let newInput = document.createElement("span");
     newInput.innerHTML = "<input class='form-control' " +
         "type='text' " +
         "name='" + name + "' " +
@@ -37,9 +38,9 @@ function addInput(name) {        //creates a new input-Field with the ID 'nameX'
 }
 
 function deletInput(name) {        //deletes latest input-Field with the ID 'nameX' where X is number of elements with 'name' as ID
-    var i = document.getElementsByName(name).length;
+    let i = document.getElementsByName(name).length;
     if (i > 1) {
-        var lastEntry = document.getElementById(name + "" + (i - 1));
+        let lastEntry = document.getElementById(name + "" + (i - 1));
         lastEntry.parentNode.removeChild(lastEntry);
     }
 }
@@ -48,21 +49,21 @@ function deletInput(name) {        //deletes latest input-Field with the ID 'nam
  * selects the tags from the db and prints the seleciton
  */
 function printTags() {
-    var url = "../../gemeinsamforschen/rest/project/tags/" + getProjectName();
+    let url = "../../gemeinsamforschen/rest/project/tags/" + getProjectName();
     $.ajax({
         url: url,
         Accept: "application/json",
         contentType: "text/plain",
         success: function (response) {
-            var tagList = response;
+            let tagList = response;
             for (i = 0; i < tagList.length; i++) {
-                var newInput = document.createElement("label");
+                let newInput = document.createElement("label");
                 newInput.innerHTML =
                     "<div class='checkbox checkbox-primary' >"
                     + "<input id='tag" + i + "' " + " class='styled' " + "name='tag'" + "type='checkbox' " + ">"
                     + "<label for='tag" + i + "' " + ">" + tagList[i] + "</label>"
                     + "</div>";
-                var div = document.getElementById('tags');
+                let div = document.getElementById('tags');
                 div.appendChild(newInput);
             }
         },
@@ -77,18 +78,17 @@ function printTags() {
 function takesPartInProject(context) {
 
     document.getElementById('loader').className = "loader";
-    document.getElementById('wrapper').className = "wrapper-inactive";
 
-    var allTheTags = [];
-    var allTheCompetencies = [];
-    var allTheResearchQuestions = [];
-    for (i = 0; i < document.getElementsByName("competencies").length; i++) {        //goes through all competencies and adds them to allTheCompetencies
+    let allTheTags = [];
+    let allTheCompetencies = [];
+    let allTheResearchQuestions = [];
+    for (let i = 0; i < document.getElementsByName("competencies").length; i++) {        //goes through all competencies and adds them to allTheCompetencies
         allTheCompetencies.push(document.getElementsByName("competencies")[i].value);
     }
-    for (i = 0; i < document.getElementsByName("researchQuestions").length; i++) {        //goes through all competencies and adds them to allTheResearchQuestions
+    for (let i = 0; i < document.getElementsByName("researchQuestions").length; i++) {        //goes through all competencies and adds them to allTheResearchQuestions
         allTheResearchQuestions.push(document.getElementsByName("researchQuestions")[i].value);
     }
-    for (i = 0; i < document.getElementsByName("tag").length; i++) {   //goes through all tags and adds them to allTheTags
+    for (let i = 0; i < document.getElementsByName("tag").length; i++) {   //goes through all tags and adds them to allTheTags
         if (document.getElementById("tag" + i).checked) {
             allTheTags.push(document.getElementById("tag" + i).value);
         }
@@ -100,7 +100,6 @@ function takesPartInProject(context) {
         $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
         document.getElementById('loader').className = "loader-inactive";
-        document.getElementById('wrapper').className = "wrapper";
         return false;
     }
     if (allTheTags.length < 2) {
@@ -108,7 +107,6 @@ function takesPartInProject(context) {
         $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
         document.getElementById('loader').className = "loader-inactive";
-        document.getElementById('wrapper').className = "wrapper";
         return false;
     }
     let data = {                                            //JSON object 'data' collects everything to send
@@ -120,6 +118,7 @@ function takesPartInProject(context) {
 
     let userEmail = getUserEmail();
     let projectName = getProjectName();
+    loginProject(projectName);
     let dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
     let url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
     $.ajax({
@@ -131,11 +130,33 @@ function takesPartInProject(context) {
         success: function (response) {
             console.log(response);
             document.getElementById('loader').className = "loader-inactive";
-            document.getElementById('wrapper').className = "wrapper";
-            location.href = "../../project/myCourses-student.jsp";
+            location.href = "../project/myCourses-student.jsp";
         },
         error: function (a, b, c) {
             console.log(a);
         }
     });
+}
+
+function loginProject(projectName) {
+    let password = $('#projectPassword').val();
+    let url = "../../gemeinsamforschen/rest/project/login/"+projectName+"?password="+password;
+    if (projectName === "") {
+        return false;
+    } else {
+        $.ajax({
+            url: url,
+            projectName: projectName,
+            Accept: "text/plain; charset=utf-8",
+            contentType: "text/plain",
+            success: function (response) {
+                if (response === "wrong password") {            //if response !== project missing and not wrong password, its the projectName
+                    $('#projectWrongPassword').show();
+                }
+            },
+            error: function (a) {
+                console.log(a);
+            }
+        });
+    }
 }

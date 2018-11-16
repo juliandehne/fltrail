@@ -47,10 +47,10 @@ public class ProjectDAO {
             java.sql.Timestamp timestamp = new java.sql.Timestamp(project.getTimecreated());
             connect.connect();
             String mysqlRequest =
-                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, `phase`) values (?,?,?,?,?,?)";
+                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, `phase`, `description`) values (?,?,?,?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(),
                     project.isActive(), timestamp, project.getAuthorEmail(),
-                    project.getPhase() == null ? Phase.CourseCreation : project.getPhase());
+                    project.getPhase() == null ? Phase.CourseCreation : project.getPhase(), project.getDescription());
 
             connect.close();
 
@@ -121,9 +121,9 @@ public class ProjectDAO {
         long timestamp = vereinfachtesResultSet.getLong("timecreated");
         String author = vereinfachtesResultSet.getString("author");
         String phase = vereinfachtesResultSet.getString("phase");
+        String description = vereinfachtesResultSet.getString("description");
 
-
-        return new Project(id, password, active, timestamp, author, Phase.valueOf(phase), null);
+        return new Project(id, password, active, timestamp, author, Phase.valueOf(phase), null, description);
     }
 
     public java.util.List<String> getTags(Project project) {

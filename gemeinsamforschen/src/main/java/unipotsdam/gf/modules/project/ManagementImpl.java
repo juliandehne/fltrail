@@ -177,7 +177,7 @@ public class ManagementImpl implements Management {
         String mysqlRequest =
                 "SELECT name FROM projects WHERE phase=?";
         List<Project> result = new ArrayList<>();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Phase.GroupFormation);
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Phase.CourseCreation);
         while (vereinfachtesResultSet.next()) {
             String project = vereinfachtesResultSet.getString("name");
             result.add(projectDAO.getProjectByName(project));

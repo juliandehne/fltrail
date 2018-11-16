@@ -76,16 +76,10 @@ function getProjects() {
             for (let project in response) {
                 if (response.hasOwnProperty(project))
                     if (response[project].active) {
-                        let projectDescription = "Der Kurs wurde beschrieben mit \""+
-                            response[project].tags[0] + "\", \"" +
-                            response[project].tags[1] + "\", \" " +
-                            response[project].tags[2] + "\", \" " +
-                            response[project].tags[3] + "\" und \" " +
-                            response[project].tags[4]+ "\"";
                         tmplObject.push({
                             projectName: response[project].name,
                             projectAuthor: response[project].authorEmail,
-                            projectDescription: projectDescription
+                            projectDescription: response[project].description
                         });
                     }
             }

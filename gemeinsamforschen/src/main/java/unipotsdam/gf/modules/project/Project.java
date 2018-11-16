@@ -19,6 +19,7 @@ public class Project {
     private String authorEmail;
     private Phase phase;
     private String[] tags;
+    private String description;
 
     public Project() {
     }
@@ -35,7 +36,9 @@ public class Project {
     }
 
     public Project(
-            String name, String password, Boolean active, Long timecreated, String authorEmail, Phase phase, String[] tags) {
+            String name, String password, Boolean active,
+            Long timecreated, String authorEmail,
+            Phase phase, String[] tags, String description) {
         this.name = name;
         this.password = password;
         this.active = active;
@@ -43,6 +46,7 @@ public class Project {
         this.timecreated = timecreated;
         this.phase = phase;
         this.tags = tags;
+        this.description = description;
     }
 
     public Project(String projectName, String password) {
@@ -132,5 +136,13 @@ public class Project {
         sb.append(", tags=").append(Arrays.toString(tags));
         sb.append('}');
         return sb.toString();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
