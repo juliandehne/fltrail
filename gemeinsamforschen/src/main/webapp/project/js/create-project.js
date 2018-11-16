@@ -57,6 +57,7 @@ function errorMessages() {
     $('#projectIsMissing').hide();
     $('#exactNumberOfTags').hide();
     $('#specialChars').hide();
+    $('#projectDescriptionMissing').hide();
     document.getElementById('tagHelper').className = "";
 }
 
@@ -96,7 +97,11 @@ function getProjectValues() {
         $('#projectIsMissing').show();
         return false;
     }
-
+    let description = $('#projectDescription').val();
+    if (description === ""){
+        $('#projectDescriptionMissing').show();
+        return false;
+    }
     if (allTheTags.length !== 5) {
         document.getElementById('tagHelper').className = "alert alert-warning";
     } else {
@@ -107,6 +112,7 @@ function getProjectValues() {
     return {
         "name" : projectName,
         "password" : password,
+        "description": description,
         "active" : true,
         "timecreated" : time,
         "authorEmail": $('#userEmail').text().trim(),

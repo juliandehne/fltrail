@@ -23,6 +23,11 @@
 <menu:menu hierarchy="1"/>
 <h3>Geben Sie hier ihre Präferenzen ein!</h3>
 <fieldset>
+    <legend>Passwort</legend>
+    <input placeholder="******" id="projectPassword">
+    <div class="alert alert-danger" id="projectWrongPassword">Das Passwort ist falsch.</div>
+</fieldset>
+<fieldset>
     <legend style="margin-left:13px;">Lernziele</legend>
     <div id="competencies">
         <input class="form-control" type="text" id="competencies0" name="competencies" required=""

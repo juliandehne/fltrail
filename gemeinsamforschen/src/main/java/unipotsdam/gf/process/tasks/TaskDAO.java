@@ -1,25 +1,25 @@
 package unipotsdam.gf.process.tasks;
 
-import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
-import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.constraints.Constraints;
-import unipotsdam.gf.process.constraints.ConstraintsImpl;
-import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.process.constraints.ConstraintsImpl;
+import unipotsdam.gf.process.phases.Phase;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-import static unipotsdam.gf.process.tasks.TaskName.*;
+import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
 
 @ManagedBean
 public class TaskDAO {
@@ -104,6 +104,7 @@ public class TaskDAO {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
+        task.setDeadline(System.currentTimeMillis()+3000*60*60*24);
         task.setProjectName(project.getName());
         task.setUserEmail(target.getEmail());
         task.setImportance(Importance.MEDIUM);
@@ -147,17 +148,18 @@ public class TaskDAO {
                 e.printStackTrace();
             }
         }
-
+        Timestamp creationTime = new Timestamp(task.getEventCreated());
+        Timestamp deadline = new Timestamp(task.getDeadline());
         connect.issueInsertOrDeleteStatement(query, task.getUserEmail(), task.getProjectName(), task.getTaskName(),
-                task.getGroupTask(), task.getImportance(), task.getProgress(), task.getPhase(), null,
-                task.getDeadline(), task.getTaskType()[0].toString(), taskMode2, taskMode3);
+                task.getGroupTask(), task.getImportance(), task.getProgress(), task.getPhase(), creationTime,
+                deadline, task.getTaskType()[0].toString(), taskMode2, taskMode3);
         connect.close();
     }
 
     // get all the tasks a user has in a specific project
     public ArrayList<Task> getTasks(User user, Project project) {
         connect.connect();
-        String query = "Select * from tasks where userEmail = ? AND projectName = ?";
+        String query = "Select * from tasks where userEmail = ? AND projectName = ? ORDER BY created DESC";
         ArrayList<Task> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, user.getEmail(), project.getName());
@@ -198,7 +200,7 @@ public class TaskDAO {
                     result.add(task);
                     break;
                 }
-                case CLOSE_DOSSIER_FEEDBACK_PHASE:{
+                case CLOSE_DOSSIER_FEEDBACK_PHASE: {
                     Task task = getGeneralTask(vereinfachtesResultSet);
                     task.setHasRenderModel(true);
                     List<String> missingFeedbacks = constraints.checkWhichFeedbacksAreMissing(project);
@@ -219,7 +221,6 @@ public class TaskDAO {
         }
 
         connect.close();
-
         return result;
     }
 

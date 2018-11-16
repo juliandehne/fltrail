@@ -50,6 +50,9 @@
         <div class="alert alert-danger" role="alert" style="width:475px" id="specialChars">
             Der Projektname darf keine Sonderzeichen enthalten.
         </div>
+        <div class="alert alert-danger" role="alert" style="width:475px" id="projectDescriptionMissing">
+            Geben Sie eine Beschreibung für Ihr Projekt an.
+        </div>
         <div class="alert alert-danger" role="alert" style="width:475px" id="projectIsMissing">
             Tragen sie einen Projektnamen ein.
         </div>
@@ -68,7 +71,11 @@
         <input type="radio" id="single" name="gfm" value="Keine Gruppen">
             <label for="single">Einzelarbeit</label>
 
-        <p>Tags </p>
+        <h4>Projektbeschreibung</h4>
+        <div>
+            <textarea class="" rows="4" cols="60" id="projectDescription" placeholder="meine Projektbeschreibung"></textarea>
+        </div>
+        <h4>Tags </h4>
         <div id="tagHelper" class="alert alert-warning" style="width:475px;">
             Fügen sie zudem 5 Tags zu ihrem Projekt hinzu, welche ihr Projekt inhaltlich umreißen.
         </div>
