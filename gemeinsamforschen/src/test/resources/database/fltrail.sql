@@ -91,7 +91,8 @@ CREATE TABLE `projects` (
   `timecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `author` varchar(100) NOT NULL,
   `adminPassword` varchar(400),
-  `phase` varchar(400) NOT NULL DEFAULT 'GroupFormation'
+  `phase` varchar(400) NOT NULL DEFAULT 'GroupFormation',
+  `description` varchar(400)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `projectuser` (

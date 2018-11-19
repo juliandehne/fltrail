@@ -114,7 +114,7 @@ public class TaskDAO {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
-        task.setDeadline(System.currentTimeMillis()+3000*60*60*24);
+        task.setDeadline(System.currentTimeMillis()+7000*60*60*24);
         task.setProjectName(project.getName());
         task.setUserEmail(target.getEmail());
         task.setImportance(Importance.MEDIUM);

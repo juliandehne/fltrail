@@ -89,6 +89,13 @@ public class ProjectView {
         return iManagement.getProjectsStudent(studentEmail);
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/all")
+    public java.util.List<Project> getProjects() {
+        return iManagement.getAllProjects();
+    }
+
 
     @GET
     @Consumes(MediaType.TEXT_PLAIN)

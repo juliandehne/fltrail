@@ -47,11 +47,11 @@ public class ProjectDAO {
             java.sql.Timestamp timestamp = new java.sql.Timestamp(project.getTimecreated());
             connect.connect();
             String mysqlRequest =
-                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, " + "`phase`) " +
+                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, `phase`, `description`) " +
                             "values (?,?,?,?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(),
                     project.isActive(), project.getTimecreated(), project.getAuthorEmail(),
-                    project.getPhase() == null ? Phase.GroupFormation : project.getPhase());
+                    project.getPhase() == null ? Phase.GroupFormation : project.getPhase(), project.getDescription());
 
             connect.close();
 
