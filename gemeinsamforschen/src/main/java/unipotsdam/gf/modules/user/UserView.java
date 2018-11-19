@@ -1,9 +1,10 @@
 package unipotsdam.gf.modules.user;
 
+import unipotsdam.gf.exceptions.*;
 import unipotsdam.gf.modules.project.Management;
+import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.session.GFContexts;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -25,11 +26,17 @@ import java.net.URISyntaxException;
 @ManagedBean
 public class UserView {
 
+    @Inject
     private ICommunication communicationService;
+
+    @Inject
     private UserDAO userDAO;
 
     @Inject
     private Management management;
+
+    @Inject
+    private ProjectCreationProcess projectCreationProcess;
 
     @Inject
     public UserView(ICommunication communicationService, UserDAO userDAO, Management management) {
@@ -57,8 +64,33 @@ public class UserView {
             @FormParam("email") String email, @FormParam("isStudent") String isStudent) throws URISyntaxException {
 
         User user = new User(name, password, email, isStudent == null);
-        return login(req, true, user);
+        try {
+            projectCreationProcess.createUser(user);
+        } catch (UserExistsInRocketChatException e) {
+            return registrationError();
+        } catch (UserExistsInMysqlException e) {
+            String existsUrl = "../register.jsp?userExists=true";
+            return forwardToLocation(existsUrl);
+        } catch (RocketChatDownException e) {
+            e.printStackTrace();
+            return registrationError();
+        }
 
+        try {
+            projectCreationProcess.authenticateUser(user, req);
+        } catch (UserDoesNotExistInRocketChatException e) {
+            loginError();
+        } catch (RocketChatDownException e) {
+            e.printStackTrace();
+            return registrationError();
+        }
+        return redirectToProjectPage(user);
+
+    }
+
+    private Response redirectToUserExists() throws URISyntaxException {
+        String existsUrl = "../index.jsp?userExists=false";
+        return forwardToLocation(existsUrl);
     }
 
     /**
@@ -74,18 +106,25 @@ public class UserView {
     @POST
     @Produces(MediaType.TEXT_HTML)
     @Path("/exists")
-    public Response existsUser(
+    public Response authenticate(
             @Context HttpServletRequest req, @FormParam("name") String name, @FormParam("password") String password,
             @FormParam("email") String email) throws URISyntaxException {
 
         User user = new User(name, password, email, null);
-        ICommunication iCommunication = new CommunicationDummyService();
-        boolean isLoggedIn = iCommunication.loginUser(user);
-        if (isLoggedIn) {
-            return login(req, false, user);
-        } else {
+        try {
+            Boolean exists = projectCreationProcess.authenticateUser(user, req);
+            if (exists) {
+                user = fillUserFields(user);
+                return redirectToProjectPage(user);
+            } else {
+                return loginError();
+            }
+        } catch (UserDoesNotExistInRocketChatException e) {
+            return loginError();
+        } catch (RocketChatDownException e) {
             return loginError();
         }
+
     }
 
     @POST
@@ -100,40 +139,6 @@ public class UserView {
             return e.toString();
         }
 
-    }
-
-    /**
-     * if create User is true, the user is created and logged in if he does not exist
-     *
-     * @param createUser
-     * @param user
-     * @return
-     * @throws URISyntaxException
-     */
-    protected Response login(HttpServletRequest req, boolean createUser, User user) throws URISyntaxException {
-
-        if (management.exists(user)) {
-            if (!createUser) {
-                user = fillUserFields(user);
-                return redirectToProjectPage(req, user);
-            }
-            String existsUrl = "../register.jsp?userExists=true";
-            return forwardToLocation(existsUrl);
-        } else {
-            if (createUser) {
-                boolean isRegisteredAndLoggedIn = communicationService.registerAndLoginUser(user);
-                if (!isRegisteredAndLoggedIn) {
-                    return registrationError();
-                }
-                management.create(user, null);
-                user = fillUserFields(user);
-                return redirectToProjectPage(req, user);
-            } else {
-                String existsUrl = "../index.jsp?userExists=false";
-                return forwardToLocation(existsUrl);
-            }
-
-        }
     }
 
     private User fillUserFields(User user) {
@@ -158,7 +163,7 @@ public class UserView {
      * @return
      * @throws URISyntaxException
      */
-    private Response redirectToProjectPage(HttpServletRequest req, User user) throws URISyntaxException {
+    private Response redirectToProjectPage(User user) throws URISyntaxException {
         String successUrl;
 
         if (user.getStudent() != null && user.getStudent()) {
@@ -166,7 +171,6 @@ public class UserView {
         } else {
             successUrl = "../project/overview-docent.jsp";
         }
-        req.getSession().setAttribute(GFContexts.USEREMAIL, user.getEmail());
         Response result = forwardToLocation(successUrl);
         return result;
     }

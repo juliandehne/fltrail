@@ -1,7 +1,7 @@
 package unipotsdam.gf.util;
 
-import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 
 public class ResultSetUtil {
 
@@ -9,9 +9,8 @@ public class ResultSetUtil {
         String name = vereinfachtesResultSet.getString("name");
         String password = vereinfachtesResultSet.getString("password");
         String email = vereinfachtesResultSet.getString("email");
-        String rocketChatId = "";//vereinfachtesResultSet.getString("rocketChatId");
-        String rocketChatAuthToken = "";//vereinfachtesResultSet.getString("rocketChatAuthToken");
+        String rocketChatUserName = vereinfachtesResultSet.getString("rocketChatUserName");
         Boolean isStudent = vereinfachtesResultSet.getBoolean("isStudent");
-        return new User(name, password, email, rocketChatId, rocketChatAuthToken, isStudent);
+        return new User(name, password, email, rocketChatUserName, isStudent);
     }
 }

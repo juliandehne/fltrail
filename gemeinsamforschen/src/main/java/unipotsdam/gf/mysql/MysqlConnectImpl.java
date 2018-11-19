@@ -137,6 +137,7 @@ public class MysqlConnectImpl implements MysqlConnect {
     }
 
     private void printErrorMessage(String statement, SQLException ex) {
+        ex.printStackTrace();
         String message = ex.toString() + " for statement \n" + statement;
         log.error(message);
         System.out.println(message);

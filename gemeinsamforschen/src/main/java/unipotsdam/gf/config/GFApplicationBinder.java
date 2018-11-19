@@ -6,14 +6,11 @@ import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
-import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
-import unipotsdam.gf.modules.group.DummyProjectCreationService;
+import unipotsdam.gf.modules.communication.service.CommunicationService;
+import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupfindingImpl;
 import unipotsdam.gf.modules.journal.service.IJournalImpl;
-import unipotsdam.gf.modules.journal.service.JournalService;
-import unipotsdam.gf.modules.journal.service.JournalServiceImpl;
-import unipotsdam.gf.modules.journal.util.JournalUtils;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
@@ -35,18 +32,17 @@ import unipotsdam.gf.session.GFContexts;
 
 public class GFApplicationBinder extends AbstractBinder {
 
-
+    /**
+     * TODO replace DummyImplementation
+     */
     @Override
     protected void configure() {
-        bind(CommunicationDummyService.class).to(ICommunication.class);
+        bind(CommunicationService.class).to(ICommunication.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(PeerAssessment.class).to(IPeerAssessment.class);
         bind(PhasesImpl.class).to(IPhases.class);
         bind(GFContext.class).to(GFContext.class);
-        bind(JournalUtils.class).to(JournalUtils.class);
-        bind(JournalServiceImpl.class).to(JournalService.class);
         bind(ManagementImpl.class).to(Management.class);
-        bind(FeedbackImpl.class).to(Feedback.class);
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
         bind(IJournalImpl.class).to(IJournal.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
@@ -59,16 +55,20 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(SubmissionController.class).to(SubmissionController.class);
         bind(AnnotationController.class).to(AnnotationController.class);
         bind(ProjectConfigurationDAO.class).to(ProjectConfigurationDAO.class);
-        bind(DummyProjectCreationService.class).to(DummyProjectCreationService.class);
         bind(UserDAO.class).to(UserDAO.class);
         bind(ProjectDAO.class).to(ProjectDAO.class);
         bind(GroupDAO.class).to(GroupDAO.class);
         bind(TaskDAO.class).to(TaskDAO.class);
+        bind(FeedbackImpl.class).to(Feedback.class);
+        bind(UnirestService.class).to(UnirestService.class);
 
         bindMore();
     }
 
     protected void bindMore() {
         bind(MysqlConnectImpl.class).to(MysqlConnect.class);
+        bind(MysqlConnect.class).to(MysqlConnect.class);
+        bind(GroupfindingImpl.class).to(IGroupFinding.class);
+        bind(UnirestService.class).to(UnirestService.class);
     }
 }

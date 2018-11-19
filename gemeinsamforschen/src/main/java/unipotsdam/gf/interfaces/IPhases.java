@@ -1,5 +1,7 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.process.phases.Phase;
 
@@ -9,7 +11,7 @@ public interface IPhases {
      * @param phase the phase to end
      * @param project the project to end the phase in
      */
-    void endPhase(Phase phase, Project project);
+    void endPhase(Phase phase, Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
 
 }

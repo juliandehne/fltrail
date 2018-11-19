@@ -4,6 +4,7 @@ $(document).ready(function () {
     $('#enrollProject').on('click', function () {
         location.href = "join-project.jsp";
     });
+    
 });
 
 function updateStatus(projectName) {

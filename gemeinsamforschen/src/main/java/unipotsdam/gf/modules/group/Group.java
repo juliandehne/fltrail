@@ -11,6 +11,7 @@ public class Group {
     private List<User> members;
     private String projectName;
     private String chatRoomId;
+    private String name;
 
     public Group() {
         members = new ArrayList<>();
@@ -68,8 +69,6 @@ public class Group {
         members.add(user);
     }
 
-
-
     public int getId() {
         return id;
     }
@@ -87,5 +86,13 @@ public class Group {
     @Override
     public int hashCode() {
         return getId();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

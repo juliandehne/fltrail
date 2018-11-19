@@ -13,6 +13,8 @@ import org.mockito.junit.MockitoRule;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectConfiguration;
@@ -97,7 +99,7 @@ public class ActivityFlowTest {
     }
 
     @Test
-    public void activityPlayer() {
+    public void activityPlayer() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         // register teacher
         loginTeacher();
 
@@ -111,7 +113,7 @@ public class ActivityFlowTest {
         formGroups();
 
         // end first phase
-        phases.endPhase(Phase.CourseCreation, project);
+        phases.endPhase(Phase.GroupFormation, project);
 
         // upload dossiers
         uploadDossiers();
@@ -184,7 +186,7 @@ public class ActivityFlowTest {
 
     }
 
-    public void uploadDossiers() {
+    public void uploadDossiers() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 
 
         for (User student : students) {

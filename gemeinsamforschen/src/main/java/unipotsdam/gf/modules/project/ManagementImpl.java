@@ -74,7 +74,7 @@ public class ManagementImpl implements Management {
 
     @Override
     public void update(User user) {
-        userDAO.update(user);
+        userDAO.updateRocketChatUserName(user);
     }
 
     @Override
@@ -177,7 +177,7 @@ public class ManagementImpl implements Management {
         String mysqlRequest =
                 "SELECT name FROM projects WHERE phase=?";
         List<Project> result = new ArrayList<>();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Phase.CourseCreation);
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Phase.GroupFormation);
         while (vereinfachtesResultSet.next()) {
             String project = vereinfachtesResultSet.getString("name");
             result.add(projectDAO.getProjectByName(project));

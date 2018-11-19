@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.group;
 
+import org.apache.logging.log4j.util.Strings;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
@@ -150,6 +151,43 @@ public class GroupDAO {
         groupFormationMechanism = GroupFormationMechanism.valueOf(gfmSelected);
         connect.close();
         return groupFormationMechanism;
+    }
+
+    public String getGroupChatRoomId(User user, Project project) {
+        connect.connect();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("SELECT g.chatRoomId FROM groups g ");
+        stringBuilder.append("join groupuser gu on g.id=gu.groupId ");
+        stringBuilder.append("where g.projectName=? and gu.userEmail=?");
+
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(stringBuilder.toString(), project.getName(),
+                user.getEmail());
+        if (Objects.isNull(resultSet)) {
+            connect.close();
+            return Strings.EMPTY;
+        }
+        String chatRoomId = Strings.EMPTY;
+        if (resultSet.next()) {
+            chatRoomId = resultSet.getString("chatRoomId");
+        }
+        connect.close();
+        return chatRoomId;
+    }
+
+    public void clearChatRoomIdOfGroup(String chatRoomId) {
+        connect.connect();
+        String mysqlRequest = "updateRocketChatUserName groups SET chatRoomId = ? where chatRoomId = ?";
+        connect.issueUpdateStatement(mysqlRequest, "", chatRoomId);
+        connect.close();
+    }
+
+    public void deleteGroups(Project project) {
+        String query ="DELETE gu FROM groupuser gu INNER JOIN groups g ON gu.groupId=g.id WHERE g.projectName = ?;";
+        String query2="DELETE FROM groups WHERE projectName=?;";
+        connect.connect();
+        connect.issueInsertOrDeleteStatement(query, project.getName());
+        connect.issueInsertOrDeleteStatement(query2, project.getName());
+        connect.close();
     }
 }
 
