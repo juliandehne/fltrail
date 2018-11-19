@@ -17,7 +17,11 @@ body, html {
     height: 100%;
     padding: 10px;
     display: inline-block;
-    overflow: scroll;
+    overflow: hidden;
+}
+
+#documentText{
+    overflow:hidden;
 }
 
 .leftcolumn {
@@ -92,6 +96,9 @@ body, html {
     font-weight: bold;
     font-size: large;
     overflow: hidden;
+}
+.category-card p{
+    margin-top: 7px;
 }
 
 .category-card p {

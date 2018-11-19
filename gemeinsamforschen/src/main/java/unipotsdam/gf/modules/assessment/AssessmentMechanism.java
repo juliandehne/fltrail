@@ -1,7 +1,7 @@
 package unipotsdam.gf.modules.assessment;
 
 public enum AssessmentMechanism {
-    AXEL_MECHANISM,
-    CHRISTIAN_MECHANISM,
-    COMBINATIONXY
+    PEER_ASSESSMENT,
+    CO_ASSESSMENT,
+    COMBINATION
 }

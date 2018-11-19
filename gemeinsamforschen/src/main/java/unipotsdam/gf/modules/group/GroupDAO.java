@@ -30,7 +30,7 @@ public class GroupDAO {
         this.connect = connect;
     }
 
-    ArrayList<String> getStudentsInSameGroupAs(StudentIdentifier student) {
+    public ArrayList<String> getStudentsInSameGroupAs(StudentIdentifier student) {
         connect.connect();
         ArrayList<String> result = new ArrayList<>();
         int groupId= getGroupByStudent(student);

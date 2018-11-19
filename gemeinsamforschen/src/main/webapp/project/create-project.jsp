@@ -9,6 +9,8 @@
 <!DOCTYPE html>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+
 
 
 <html>
@@ -25,7 +27,6 @@
 
 <body>
 <menu:menu hierarchy="1"/>
-<div id="wrapper">
     <div class="page-content-wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -49,6 +50,9 @@
         <div class="alert alert-danger" role="alert" style="width:475px" id="specialChars">
             Der Projektname darf keine Sonderzeichen enthalten.
         </div>
+        <div class="alert alert-danger" role="alert" style="width:475px" id="projectDescriptionMissing">
+            Geben Sie eine Beschreibung für Ihr Projekt an.
+        </div>
         <div class="alert alert-danger" role="alert" style="width:475px" id="projectIsMissing">
             Tragen sie einen Projektnamen ein.
         </div>
@@ -57,9 +61,6 @@
         <p> Passwort zum Teilnehmen (optional) </p>
         <div class="form-group"><input class="form-control" name="password" placeholder="Passwort"
                                        style="width:287px;margin-left:51px;" id="passwordProject"></div>
-        <p> Passwort zum Löschen (sonst: 1234) </p>
-        <div class="form-group"><input class="form-control" name="adminpassword" placeholder="Passwort"
-                                       style="width:287px;margin-left:51px;" id="adminPassword"></div>
         <p>Gruppenarbeitseinstellungen</p>
         <input type="radio" id="lg" name="gfm" value="Basierend auf Lernzielen">
             <label for="lg">Basierend auf Lernzielen</label>
@@ -70,7 +71,11 @@
         <input type="radio" id="single" name="gfm" value="Keine Gruppen">
             <label for="single">Einzelarbeit</label>
 
-        <p>Tags </p>
+        <h4>Projektbeschreibung</h4>
+        <div>
+            <textarea class="" rows="4" cols="60" id="projectDescription" placeholder="meine Projektbeschreibung"></textarea>
+        </div>
+        <h4>Tags </h4>
         <div id="tagHelper" class="alert alert-warning" style="width:475px;">
             Fügen sie zudem 5 Tags zu ihrem Projekt hinzu, welche ihr Projekt inhaltlich umreißen.
         </div>
@@ -83,7 +88,7 @@
             <button class="btn btn-primary" style="margin-left:129px;" id="sendProject">erstellen</button>
         </div>
     </div>
-</div>
+<footer:footer/>
 
 </body>
 

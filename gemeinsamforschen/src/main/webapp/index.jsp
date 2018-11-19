@@ -19,7 +19,7 @@
 
 <body>
 <div class="login-clean">
-    <form method="post" action="./rest/user/exists">
+    <form method="post" action="rest/user/exists">
         <h2 class="sr-only">Login Formular</h2>
         <div class="illustration"><img src="libs/img/fides-logo.svg"></div>
         <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" autofocus>

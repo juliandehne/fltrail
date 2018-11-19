@@ -1,22 +1,22 @@
-$(document).ready(function(){
+$(document).ready(function () {
     let userName = $('#userEmail').html().trim();
     getProjects(userName);
-    $('#enrollProject').on('click', function(){
-        location.href="join-project.jsp";
+    $('#enrollProject').on('click', function () {
+        location.href = "join-project.jsp";
     });
 });
 
-function updateStatus(projectName){
+function updateStatus(projectName) {
     $.ajax({
-        url: '../rest/phases/projects/'+projectName,
+        url: '../rest/phases/projects/' + projectName,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         type: 'GET',
         success: function (response) {
-            let statusField = $('#status'+projectName);
-            switch (response){
+            let statusField = $('#status' + projectName);
+            switch (response) {
                 case "CourseCreation":
                     statusField.html("Der Kurs wurde gerade angelegt. Sie können sich nun anmelden.");
                     break;
@@ -46,49 +46,55 @@ function updateStatus(projectName){
     });
 }
 
-function getGrade(projectName){
+function getGrade(projectName) {
     let userName = $('#userEmail').html().trim();
     $.ajax({
-        url: '../rest/assessments/get/project/'+projectName+'/student/'+userName,
+        url: '../rest/assessments/get/project/' + projectName + '/student/' + userName,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         type: 'GET',
         success: function (response) {
-            $('#status_'+projectName).html("Sie erreichten "+response+"%");
+            $('#status_' + projectName).html("Sie erreichten " + response + "%");
         },
-        error: function(a){
+        error: function (a) {
         }
     });
 }
 
-function getProjects(userName){
+function getProjects() {
     $.ajax({
-        url: '../rest/project/all/student/' + userName,
+        url: '../rest/project/all',
         headers: {
-            "Content-Type": "text/plain",
+            "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         type: 'GET',
         success: function (response) {
             let tmplObject = [];
-            for (let project in response){
+            for (let project in response) {
                 if (response.hasOwnProperty(project))
-                    tmplObject.push({projectName: response[project]});
+                    if (response[project].active) {
+                        tmplObject.push({
+                            projectName: response[project].name,
+                            projectAuthor: response[project].authorEmail,
+                            projectDescription: response[project].description
+                        });
+                    }
             }
-            $('#projectTRTemplate').tmpl(tmplObject).appendTo('#projects');
-            for (let projectName in response){
-                if (response.hasOwnProperty(projectName)) {
-                    $('#project_' + response[projectName]).on('click', function () {
-                        location.href="tasks-student.jsp?projectName="+response[projectName];
-                    });
-                    updateStatus(response[projectName]);
 
+            $('#projectTemplate').tmpl(tmplObject).appendTo('#projects');
+            for (let project in response) {
+                if (response.hasOwnProperty(project)) {
+                    $('#project_' + response[project].name).on('click', function () {
+                        location.href = "../groupfinding/enter-preferences.jsp?projectName=" + response[project].name;
+                    });
+                    updateStatus(response[project].name);
                 }
             }
         },
-        error: function(a){
+        error: function (a) {
 
         }
     });

@@ -3,11 +3,11 @@ package unipotsdam.gf.config;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import unipotsdam.gf.interfaces.*;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
+import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
-import unipotsdam.gf.modules.feedback.FeedbackImpl;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupfindingImpl;
 import unipotsdam.gf.modules.journal.service.IJournalImpl;
@@ -27,6 +27,7 @@ import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 
 public class GFApplicationBinder extends AbstractBinder {
@@ -40,6 +41,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(ManagementImpl.class).to(Management.class);
         bind(PeerAssessment.class).to(IPeerAssessment.class);
         bind(PhasesImpl.class).to(IPhases.class);
+        bind(GFContext.class).to(GFContext.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
         bind(IJournalImpl.class).to(IJournal.class);

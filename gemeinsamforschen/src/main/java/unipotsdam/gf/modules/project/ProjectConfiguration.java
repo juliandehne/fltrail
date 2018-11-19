@@ -3,7 +3,7 @@ package unipotsdam.gf.modules.project;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
-import unipotsdam.gf.modules.feedback.Category;
+import unipotsdam.gf.modules.annotation.model.Category;
 
 import java.util.HashMap;
 
@@ -12,13 +12,13 @@ public class ProjectConfiguration {
 
     private HashMap<Phase, Boolean> phasesSelected;
     private HashMap<Category, Boolean> criteriaSelected;
-    private HashMap<AssessmentMechanism, Boolean> assessmentMechanismSelected;
+    private AssessmentMechanism assessmentMechanismSelected;
     private GroupFormationMechanism groupMechanismSelected;
 
     public ProjectConfiguration(
             HashMap<Phase, Boolean> phasesSelected,
             HashMap<Category, Boolean> criteriaSelected,
-            HashMap<AssessmentMechanism, Boolean> assessmentMechanismSelected,
+            AssessmentMechanism assessmentMechanismSelected,
             GroupFormationMechanism groupMechanismSelected) {
         this.phasesSelected = phasesSelected;
         this.criteriaSelected = criteriaSelected;
@@ -43,12 +43,12 @@ public class ProjectConfiguration {
         this.criteriaSelected = criteriaSelected;
     }
 
-    public HashMap<AssessmentMechanism, Boolean> getAssessmentMechanismSelected() {
+    public AssessmentMechanism getAssessmentMechanismSelected() {
         return assessmentMechanismSelected;
     }
 
     public void setAssessmentMechanismSelected(
-            HashMap<AssessmentMechanism, Boolean> assessmentMechanismSelected) {
+            AssessmentMechanism assessmentMechanismSelected) {
         this.assessmentMechanismSelected = assessmentMechanismSelected;
     }
 

@@ -8,7 +8,7 @@ $(document).ready(function() {
         location.href = "eportfolio.jsp";
     });
 
-    var journalID = getQueryVariable("journal");
+    let journalID = getQueryVariable("journal");
     console.log(journalID);
     if(journalID){
 
@@ -39,4 +39,4 @@ $(document).ready(function() {
     }
 
 
-})
+});

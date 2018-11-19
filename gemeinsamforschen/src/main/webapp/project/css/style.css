@@ -44,13 +44,8 @@ footer {
 
 .row {
     clear: both;
-    padding: 0px;
     margin: 0 auto;
     max-width:1280px;
-    
-    box-sizing: border-box;
-
-
 }
 
 .nav {
@@ -314,7 +309,7 @@ body {
 }
 
 .reflection {
-    color:#F1D16A;
+    color: #F1D16A;
 }
 
 .presentation {
@@ -337,11 +332,11 @@ body {
     border-left-color:#009ACC;
 }
 
-.card-grouping {
+.card-reflection {
     border-left-color:#F1D16A;
 }
 
-.card-execution {
+.card-presentation {
     border-left-color:#CCCBCB;
 }
 
@@ -351,17 +346,6 @@ body {
 
 .card-grades {
     border-left-color:#F3A184;
-}
-
-.card-finished{
-    max-width:400px;
-    text-align: center;
-    position:relative;
-    background:#fff;
-    padding:1em;
-    box-sizing:border-box;
-    margin-bottom:1em;
-
 }
 
 .inactive {
@@ -376,7 +360,6 @@ header a {
 /*links and buttons */
 button {
     border:none;
-    backrgound-color:#dedede;
     display:block;
     padding:.8em;
     color:#075F8B;
@@ -391,3 +374,176 @@ button {
     display:inline;
 }
 
+/* positions and text flow */
+
+.centered {
+    text-align:center;
+
+}
+
+.centered * {
+
+}
+
+/*forms*/
+
+.filter {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 15px;
+
+}
+
+.filter  select, select{
+    cursor: pointer;
+    padding: 10px 5px;
+    outline: 0;
+    border: 2px solid #065f8b;
+    border-width:0 0 2px 0;
+    border-radius: 0px;
+    background: #ffffff;
+    color: #065f8b;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    min-width:400px;
+    font-size:1.5em;
+    line-height: 1.5em;
+    display:inline-block;
+
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select:hover,
+select:focus {
+    color: #009acc;
+    background: #ffffff;
+    border-color:#009acc;
+}
+select:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.select_arrow {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    width: 10px;
+    height: 10px;
+    border: solid #065f8b;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+select:hover ~ .select_arrow,
+select:focus ~ .select_arrow {
+    border-color: #009acc;
+}
+select:disabled ~ .select_arrow {
+    border-top-color: #cccccc;
+}
+.search {
+    display:inline-block;
+    position:relative;
+}
+
+.search input {
+    cursor:text;
+    padding: 10px 5px;
+    outline: 0;
+    border: 2px solid #065f8b;
+    border-width:0 0 2px 0;
+    border-radius: 0px;
+    background: #ffffff;
+    color: #065f8b;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    min-width:400px;
+    font-size:1.5em;
+    box-sizing: border-box;
+    line-height: 1.5em;
+}
+
+.search input:hover {
+    color: #009acc;
+    background: #ffffff;
+    border-color:#009acc;
+}
+
+.search input:hover .fa-search {
+    color: #009acc;
+}
+
+.search .fa-search {
+    position: absolute;
+    bottom:5px;
+    right:10px;
+    font-size:1.5em;
+    line-height: 1.5em;
+    padding: 8px 0px 2px 0px;
+    color:#065f8b;
+
+}
+
+
+/* pages */
+
+.projects .introduction {
+    max-width:400px;
+    margin: 0 auto;
+
+    margin-bottom: 0px;
+
+    margin-bottom: 4em;
+}
+
+.projects h1 {
+    text-align:center;
+    max-width:100%;
+}
+
+
+.projects-grid {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+
+}
+.projects .card {
+    /*width:200px;
+    height:200px;*/
+
+    margin-bottom:0;
+    flex:1 1 200px;
+    border-left:0;
+    height: 200px;
+    width:200px;
+    padding: 0;
+
+    -webkit-box-shadow: 0px 0px 0px -8px rgba(140,138,140,0.62);
+    -moz-box-shadow: 0px 0px 0px -8px rgba(140,138,140,0.62);
+    box-shadow: 0px 0px 0px -8px rgba(140,138,140,0.62);
+
+}
+
+.projects .card div {
+
+    margin:0px 5px 0px 5px;
+
+    /* border-top:10px solid #065f8b;*/
+    border-top:10px solid #065f8b;
+    padding:5px;
+    position:relative;
+    -webkit-box-shadow: 0px 3px 5px 0px rgba(140,138,140,0.62);
+    -moz-box-shadow: 0px 3px 5px 0px rgba(140,138,140,0.62);
+    box-shadow: 0px 3px 5px 0px rgba(140,138,140,0.62);
+}

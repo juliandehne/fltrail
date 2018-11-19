@@ -5,7 +5,6 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.session.GFContexts;
@@ -19,10 +18,6 @@ import java.io.IOException;
 
 
 public class Menu extends SimpleTagSupport {
-
-
-    @Inject
-    private TaskDAO taskDAO;
 
     @Inject
     private UserDAO userDAO;
@@ -57,9 +52,14 @@ public class Menu extends SimpleTagSupport {
             String menuString = "" +
                     "    <header>\n" +
                     "        <div class=\"row\">\n" +
-                    "            <div class=\"nav-group-left\">" +
-                    "                <a class=\"nav-link\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/overview-student.jsp?projectName=" + projectName + "\">meine Projekte</a>\n" +
-                    "                <a class=\"nav-link\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "profile/profile.jsp?projectName=" + projectName + "\">Profil</a>\n"+
+                    "            <div class=\"nav-group-left\">";
+            if (isStudent){
+                menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/myCourses-student.jsp\">Home</a>\n"+
+                        "                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/search-project.jsp\">suche Kurs</a>\n";
+            }else{
+                menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/overview-docent.jsp\">meine Projekte</a>\n";
+            }
+            menuString+="                <a class=\"nav-link\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "profile/profile.jsp?projectName=" + projectName + "\">Profil</a>\n"+
                     "        </div>" +
                     "        <div class=\"nav-group-right\">" +
                     "            <a class=\"nav-link\" id=\"logout\" style=\"cursor:pointer\">Logout</a>\n" +
@@ -82,12 +82,17 @@ public class Menu extends SimpleTagSupport {
         String phaseViewString = "" +
                 "<main>\n" +
                 "    <div class=\"row group\">\n" +
-                "        <div class=\"titlerow\">\n" +
-                "\n" +
-                "        </div>\n" +
+                "        <div class=\"titlerow\">\n <h1 id=\"projectHeadline\">";
+        if (projectName != null){
+            phaseViewString += "\n" +projectName;
+        }else{
+            phaseViewString += "\n Übersicht für "+userEmail;
+        }
+        phaseViewString += "" +
+                "  </h1>      </div>\n" +
                 "    </div>\n" +
                 "\n" +
-                "    <div class=\"row group nav\">\n" +
+                "    <div class=\"row nav\">\n" +
                 "        <a href=\"\" >[<i class=\"fas fa-chevron-left\"> zurueck ]</i></a>\n" +
                 "    </div>\n" +
                 "\n" +
@@ -144,7 +149,8 @@ public class Menu extends SimpleTagSupport {
             }
         phaseViewString += "" +
                 "        </ul>\n" +
-                "    </div>";
+                "    </div>" +
+                "<div class=\"col span_l_of_2\" style=\"\"> <!-- col right-->\n";
         out.println(phaseViewString);
 
         if (projectName != null)

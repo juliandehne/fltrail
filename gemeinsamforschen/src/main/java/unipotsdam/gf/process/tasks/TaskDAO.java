@@ -5,20 +5,24 @@ import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
-import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.process.constraints.ConstraintsImpl;
+import unipotsdam.gf.process.phases.Phase;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Comparator;
+import java.util.List;
 
-import static unipotsdam.gf.process.tasks.TaskName.*;
+import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
 
 @ManagedBean
 public class TaskDAO {
@@ -38,6 +42,9 @@ public class TaskDAO {
 
     @Inject
     private SubmissionController submissionController;
+
+    @Inject
+    private ConstraintsImpl constraints;
 
     // fill the task with the general data
     private Task getGeneralTask(VereinfachtesResultSet vereinfachtesResultSet) {
@@ -103,10 +110,11 @@ public class TaskDAO {
         return task;
     }
 
-    private Task createDefault(Project project, User target, TaskName taskName, Phase phase) {
+    public Task createDefault(Project project, User target, TaskName taskName, Phase phase) {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
+        task.setDeadline(System.currentTimeMillis()+3000*60*60*24);
         task.setProjectName(project.getName());
         task.setUserEmail(target.getEmail());
         task.setImportance(Importance.MEDIUM);
@@ -119,7 +127,7 @@ public class TaskDAO {
         return task;
     }
 
-    private void persist(Task task) {
+    public void persist(Task task) {
 
         if (task.getTaskName() == null) {
             throw new Error("no taskName given");
@@ -138,7 +146,10 @@ public class TaskDAO {
 
         connect.connect();
         String query =
-                "INSERT IGNORE INTO fltrail.tasks (userEmail, projectName, taskName, " + "groupTask, importance, progress, phase, created, due, " + "taskMode, taskMode2, taskMode3)" + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
+                "INSERT IGNORE INTO fltrail.tasks (userEmail, projectName, taskName, " +
+                        "groupTask, importance, progress, phase, created, due, " +
+                        "taskMode, taskMode2, taskMode3)" +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
 
         if (task.getTaskType() == null || task.getTaskType().length == 0) {
             try {
@@ -147,17 +158,18 @@ public class TaskDAO {
                 e.printStackTrace();
             }
         }
-
+        Timestamp creationTime = new Timestamp(task.getEventCreated());
+        Timestamp deadline = new Timestamp(task.getDeadline());
         connect.issueInsertOrDeleteStatement(query, task.getUserEmail(), task.getProjectName(), task.getTaskName(),
-                task.getGroupTask(), task.getImportance(), task.getProgress(), task.getPhase(), null,
-                task.getDeadline(), task.getTaskType()[0].toString(), taskMode2, taskMode3);
+                task.getGroupTask(), task.getImportance(), task.getProgress(), task.getPhase(), creationTime,
+                deadline, task.getTaskType()[0].toString(), taskMode2, taskMode3);
         connect.close();
     }
 
     // get all the tasks a user has in a specific project
     public ArrayList<Task> getTasks(User user, Project project) {
         connect.connect();
-        String query = "Select * from tasks where userEmail = ? AND projectName = ?";
+        String query = "Select * from tasks where userEmail = ? AND projectName = ? ORDER BY created DESC";
         ArrayList<Task> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, user.getEmail(), project.getName());
@@ -185,6 +197,7 @@ public class TaskDAO {
 
                 case GIVE_FEEDBACK: {
                     Task feedbackTask = getGeneralTask(vereinfachtesResultSet);
+                    //feedback.assigningMissingFeedbackTasks();
                     feedbackTask.setTaskData(submissionController.getFeedbackTaskData(user, project));
                     feedbackTask.setHasRenderModel(true);
                     result.add(feedbackTask);
@@ -194,6 +207,21 @@ public class TaskDAO {
                     Task task = getGeneralTask(vereinfachtesResultSet);
                     task.setHasRenderModel(true);
                     task.setTaskData(submissionController.getProgressData(project));
+                    result.add(task);
+                    break;
+                }
+                case CLOSE_DOSSIER_FEEDBACK_PHASE: {
+                    Task task = getGeneralTask(vereinfachtesResultSet);
+                    task.setHasRenderModel(true);
+                    List<String> missingFeedbacks = constraints.checkWhichFeedbacksAreMissing(project);
+                    task.setTaskData(missingFeedbacks);  //frontendCheck if missingFeedbacks.size ==0
+                    result.add(task);
+                    Task waitingForDossiers = new Task();
+                    waitingForDossiers.setUserEmail(user.getEmail());
+                    waitingForDossiers.setProjectName(project.getName());
+                    waitingForDossiers.setProgress(Progress.FINISHED);
+                    waitingForDossiers.setTaskName(TaskName.WAITING_FOR_STUDENT_DOSSIERS);
+                    updateForUser(waitingForDossiers);
                     break;
                 }
                 default: {
@@ -203,7 +231,6 @@ public class TaskDAO {
         }
 
         connect.close();
-
         return result;
     }
 

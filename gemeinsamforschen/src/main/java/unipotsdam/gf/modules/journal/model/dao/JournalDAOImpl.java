@@ -15,10 +15,10 @@ import java.util.UUID;
 public class JournalDAOImpl implements JournalDAO {
 
     @Inject
-    MysqlConnect connection;
+    private MysqlConnect connection;
 
-
-    JournalUtils utils;
+    @Inject
+    private JournalUtils utils;
 
     @Override
     public void createJournal(Journal journal) {
@@ -32,7 +32,7 @@ public class JournalDAOImpl implements JournalDAO {
         connection.connect();
 
         // build and execute request
-        String request = "INSERT INTO journals (`id`, `userName`, `projectName`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
+        String request = "INSERT INTO journals (`id`, `userEmail`, `projectName`, `text`, `visibility`,`category`, `open` ) VALUES (?,?,?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, uuid, journal.getStudentIdentifier().getUserEmail(),
                 journal.getStudentIdentifier().getProjectName(), journal.getEntryMD(), journal.getVisibility(), journal.getCategory(), true);
 

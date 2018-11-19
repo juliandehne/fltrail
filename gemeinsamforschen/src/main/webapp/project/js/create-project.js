@@ -20,25 +20,26 @@ function createNewProject(allTheTags, activ) {
     errorMessages();
     // getting the data from the form fields
     let project = getProjectValues();
+    let projectName = $("#nameProject").val().trim();
     // create the project
     if (project) {
         // create the project in local db
-        let localurl = "../../gemeinsamforschen/rest/project/create";
+        let localurl = "../rest/project/create";
         $.ajax({                        //check local DB for existence of projectName
             url: localurl,
+            projectName: projectName,
             contentType: 'application/json',
             activ: activ,
-            type: 'PUT',
+            type: 'POST',
             data: JSON.stringify(project),
             success: function (response) {
-                if (response === "project exists") {
+                if (response === "Project already exists") {
                     $('#projectNameExists').show();
                 } else {
                     if (allTheTags.length !== 5) {
                         $('#exactNumberOfTags').show();
                     } else {
                         sendGroupPreferences();
-
                     }
                 }
             },
@@ -56,6 +57,7 @@ function errorMessages() {
     $('#projectIsMissing').hide();
     $('#exactNumberOfTags').hide();
     $('#specialChars').hide();
+    $('#projectDescriptionMissing').hide();
     document.getElementById('tagHelper').className = "";
 }
 
@@ -90,7 +92,7 @@ function getProjectValues() {
     }
     //allTheTags = $("#tagsProject").tagsInput('items');
     //allTheTags = $("#tagsProject").val();
-    let reguexp = /^[a-zA-Z0-9äüöÄÜÖ\ ]+$/;
+    let reguexp = /^[a-zA-Z0-9äüöÄÜÖ]+$/;
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
         return false;
@@ -99,37 +101,30 @@ function getProjectValues() {
         $('#projectIsMissing').show();
         return false;
     }
-
+    let description = $('#projectDescription').val();
+    if (description === ""){
+        $('#projectDescriptionMissing').show();
+        return false;
+    }
     if (allTheTags.length !== 5) {
         document.getElementById('tagHelper').className = "alert alert-warning";
     } else {
         document.getElementById('tagHelper').className = "";
     }
+    let time = new Date().getTime();
 
-    // TODO find out author
-    let project = {
+    return {
         "name" : projectName,
         "password" : password,
+        "description": description,
         "active" : true,
-        "timecreated" : 356122661234038,
-        "authorEmail": "vodka",
         "adminPassword": adminPassword,
         "phase" : "GroupFormation",
+        "timecreated" : time,
+        "authorEmail": $('#userEmail').text().trim(),
+        "phase" : "CourseCreation",
         "tags": allTheTags
     };
-
-   /* let project = {
-        "name" : "AJ2c83Lb2x",
-        "password" : "vTvaih3mK9",
-        "active" : true,
-        "timecreated" : 356122661234038,
-        "authorEmail" : "7DoIYf4tWV",
-        "adminPassword" : "bJFmgTGMdY",
-        "phase" : "Execution",
-        "tags" : [ "JjwWui3r2a", "J23BLwqlXa", "NOVk1tcaN0", "RTXTACSHLx", "BbMtdrXPi2" ]
-    };
-*/
-    return project;
 }
 
 // creates project name in compbase where it is needed for learning goal oriented matching
@@ -142,7 +137,7 @@ function createProjectinCompbase() {
         "competences": allTheTags
     };
     let dataString = JSON.stringify(obj);
-    let addProjectNeo4j = $.ajax({
+    $.ajax({
         url: url,
         contentType: 'application/json',
         activ: true,
@@ -153,7 +148,7 @@ function createProjectinCompbase() {
             // it actually worked, too
             document.location.href = "tasks-docent.jsp?projectName="+projectName;
         },
-        error: function (a, b, c) {
+        error: function (a) {
             console.log(a);
             // and also in this case
             return false;

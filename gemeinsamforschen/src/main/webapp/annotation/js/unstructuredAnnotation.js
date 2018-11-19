@@ -81,7 +81,7 @@ function handleCategorySelection(category, startCharacter, endCharacter) {
     if (!isAlreadyHighlighted(startCharacter, endCharacter)) {
 
         // check if element has 'not-added' class
-        var elem = $('#' + category);
+        let elem = $('#' + category);
         if (elem.hasClass("not-added")) {
             elem.toggleClass("not-added added-" + category);
         }
