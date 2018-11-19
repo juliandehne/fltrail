@@ -1,6 +1,6 @@
 package unipotsdam.gf.process.tasks;
 
-import unipotsdam.gf.modules.feedback.Category;
+import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
 

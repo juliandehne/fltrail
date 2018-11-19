@@ -62,6 +62,12 @@
             <required>yes</required>
             <rtexprvalue>no</rtexprvalue>
         </attribute>
+
+        <attribute>
+            <name>scope</name>
+            <required>yes</required>
+            <rtexprvalue>no</rtexprvalue>
+        </attribute>
     </tag>
 
 </taglib>

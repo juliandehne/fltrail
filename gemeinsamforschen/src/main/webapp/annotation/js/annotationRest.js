@@ -5,8 +5,8 @@
  * @param responseHandler The response handler
  */
 function createAnnotation(annotationPostRequest, responseHandler) {
-    var url = "../rest/annotations/";
-    var json = JSON.stringify(annotationPostRequest);
+    let url = "../rest/annotations/";
+    let json = JSON.stringify(annotationPostRequest);
     $.ajax({
         url: url,
         type: "POST",
@@ -27,8 +27,8 @@ function createAnnotation(annotationPostRequest, responseHandler) {
  * @param responseHandler The response handler
  */
 function alterAnnotation(id, annotationPatchRequest, responseHandler) {
-    var url = "../rest/annotations/" + id;
-    var json = JSON.stringify(annotationPatchRequest);
+    let url = "../rest/annotations/" + id;
+    let json = JSON.stringify(annotationPatchRequest);
     $.ajax({
         url: url,
         type: "PATCH",
@@ -47,7 +47,7 @@ function alterAnnotation(id, annotationPatchRequest, responseHandler) {
  * @param id The annotation id
  */
 function deleteAnnotation(id, responseHandler) {
-    var url = "../rest/annotations/" + id;
+    let url = "../rest/annotations/" + id;
     $.ajax({
         url: url,
         type: "DELETE",
@@ -65,7 +65,7 @@ function deleteAnnotation(id, responseHandler) {
  * @param responseHandler The response handler
  */
 function getAnnotation(id, responseHandler) {
-    var url = "../rest/annotations/" + id;
+    let url = "../rest/annotations/" + id;
     $.ajax({
         url: url,
         type: "GET",
@@ -85,7 +85,7 @@ function getAnnotation(id, responseHandler) {
  * @param responseHandler The response handler
  */
 function getAnnotations(targetId, targetCategory, responseHandler) {
-    var url = "../rest/annotations/targetid/" + targetId + "/targetcategory/" + targetCategory;
+    let url = "../rest/annotations/targetid/" + targetId + "/targetcategory/" + targetCategory;
     $.ajax({
         url: url,
         type: "GET",
@@ -97,6 +97,21 @@ function getAnnotations(targetId, targetCategory, responseHandler) {
             });
             // handle the response
             responseHandler(response);
+        }
+    });
+}
+
+function finalize(){
+    $.ajax({
+        url: "../rest/annotations/finalize/projectName/" +
+            ""+getProjectName()+"/taskName/GIVE_FEEDBACK",
+        type: "GET",
+        dataType: "application/json",
+        contentType: "application/json",
+        success:function(response){
+            location.href = "../project/tasks-student.jsp?projectName=" + getProjectName()
+        },
+        error: function(a){
         }
     });
 }

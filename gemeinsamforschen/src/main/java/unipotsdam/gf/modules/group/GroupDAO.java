@@ -30,7 +30,7 @@ public class GroupDAO {
         this.connect = connect;
     }
 
-    ArrayList<String> getStudentsInSameGroupAs(StudentIdentifier student) {
+    public ArrayList<String> getStudentsInSameGroupAs(StudentIdentifier student) {
         connect.connect();
         ArrayList<String> result = new ArrayList<>();
         int groupId= getGroupByStudent(student);
@@ -176,8 +176,17 @@ public class GroupDAO {
 
     public void clearChatRoomIdOfGroup(String chatRoomId) {
         connect.connect();
-        String mysqlRequest = "update groups SET chatRoomId = ? where chatRoomId = ?";
+        String mysqlRequest = "updateRocketChatUserName groups SET chatRoomId = ? where chatRoomId = ?";
         connect.issueUpdateStatement(mysqlRequest, "", chatRoomId);
+        connect.close();
+    }
+
+    public void deleteGroups(Project project) {
+        String query ="DELETE gu FROM groupuser gu INNER JOIN groups g ON gu.groupId=g.id WHERE g.projectName = ?;";
+        String query2="DELETE FROM groups WHERE projectName=?;";
+        connect.connect();
+        connect.issueInsertOrDeleteStatement(query, project.getName());
+        connect.issueInsertOrDeleteStatement(query2, project.getName());
         connect.close();
     }
 }

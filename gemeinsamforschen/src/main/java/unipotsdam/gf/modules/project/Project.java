@@ -17,26 +17,37 @@ public class Project {
     private Long timecreated; //timestamp macht zu viele Probleme
     // the id of the authorEmail (not the token)
     private String authorEmail;
-    private String adminPassword;
     private Phase phase;
     private String[] tags;
+    private String description;
 
     public Project() {
         tags = new String[0];
     }
 
+    public Project(String name, String password, Boolean active, String author, String[] tags) {
+        this.name = name;
+        this.password = password;
+        this.active = active;
+        this.authorEmail = author;
+        this.timecreated = System.currentTimeMillis();
+        // default starting at course creation if new
+        this.setPhase(Phase.GroupFormation);
+        this.tags = tags;
+    }
 
     public Project(
-            String name, String password, Boolean active, Long timecreated, String authorEmail,
-            String adminPassword, Phase phase, String[] tags) {
+            String name, String password, Boolean active,
+            Long timecreated, String authorEmail,
+            Phase phase, String[] tags, String description) {
         this.name = name;
         this.password = password;
         this.active = active;
         this.authorEmail = authorEmail;
         this.timecreated = timecreated;
-        this.adminPassword = adminPassword;
         this.phase = phase;
         this.tags = tags;
+        this.description = description;
     }
 
     public Project(String projectName, String authorEmail) {
@@ -76,16 +87,6 @@ public class Project {
     public void setAuthorEmail(String authorEmail) {
         this.authorEmail = authorEmail;
     }
-
-    public String getAdminPassword() {
-        return adminPassword;
-    }
-
-    public void setAdminPassword(String adminPassword) {
-        this.adminPassword = adminPassword;
-    }
-
-
 
     public Phase getPhase() {
         return phase;
@@ -136,10 +137,17 @@ public class Project {
         sb.append(", active=").append(active);
         sb.append(", timecreated=").append(timecreated);
         sb.append(", authorEmail='").append(authorEmail).append('\'');
-        sb.append(", adminPassword='").append(adminPassword).append('\'');
         sb.append(", phase=").append(phase);
         sb.append(", tags=").append(Arrays.toString(tags));
         sb.append('}');
         return sb.toString();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

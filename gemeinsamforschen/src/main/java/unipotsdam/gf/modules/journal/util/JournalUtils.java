@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.journal.model.Visibility;
-import unipotsdam.gf.modules.feedback.Category;
+import unipotsdam.gf.modules.annotation.model.Category;
 
 import javax.inject.Inject;
 

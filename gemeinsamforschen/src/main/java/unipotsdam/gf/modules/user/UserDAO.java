@@ -29,11 +29,10 @@ public class UserDAO {
     public void persist(User user, UserProfile profile) {
         connect.connect();
         String mysqlRequest = "INSERT INTO users (`name`, `password`, `email`, `isStudent`," +
-                "`rocketChatUserId`,`rocketChatUsername`,`rocketChatAuthToken`,`rocketChatPersonalAccessToken`) " +
-                "values (?,?,?,?,?,?,?,?)";
+                "`rocketChatUsername`) " +
+                "values (?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
-                user.getStudent(), user.getRocketChatUserId(), user.getRocketChatUsername(), user.getRocketChatAuthToken(),
-                user.getRocketChatPersonalAccessToken());
+                user.getStudent(),user.getRocketChatUsername());
         connect.close();
         // TODO implmement UserProfile @Mar
     }
@@ -45,14 +44,11 @@ public class UserDAO {
         connect.close();
     }
 
-    public void update(User user) {
-        String mysqlRequest = "UPDATE `users` SET `name`=?,`password`=?,`email`=?,`isStudent`=?," +
-                "`rocketChatId`=?,`rocketChatAuthToken`=? WHERE email=? LIMIT 1";
-        //TODO: maybe add handling if a line is actually updated
-        //TODO: if user is updated, it also must update all other tables which includes some information about the user, for example project user
+    public void updateRocketChatUserName(User user) {
+        String mysqlRequest = "UPDATE `users` SET" +
+                "`rocketChatUsername`=? WHERE email=? LIMIT 1";
         connect.connect();
-        connect.issueUpdateStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
-                user.getStudent(), user.getRocketChatUserId(), user.getRocketChatAuthToken(), user.getEmail());
+        connect.issueUpdateStatement(mysqlRequest, user.getRocketChatUsername(), user.getEmail());
         connect.close();
     }
 

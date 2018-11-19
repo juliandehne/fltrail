@@ -6,52 +6,45 @@ $(document).ready(function () {
     $("#projectIsMissing").hide();
 
     $("#deleteProject").on('click', function () {
-        deleteProject($('#projectName').val().trim());
+        let projectName = $('#projectName').text().trim();
+        deleteProject(projectName);
     });
 });
 
 function deleteProject(projectName) {
-    var token = getUserEmail();
-    var url = "../database/delete-project.jsp?project=" + projectName + "&password=" + document.getElementById('projectPassword').value.trim();
+    let localurl = "../rest/project/delete/project/" + projectName;
     if (projectName === "") {
         return false;
     } else {
         $.ajax({
-            url: url,
+            url: localurl,
+            data: "",
             projectName: projectName,
-            Accept: "text/plain; charset=utf-8",
             contentType: "text/plain",
+            type: 'POST',
             success: function (response) {
                 if (response === "project missing") {
                     $("#projectIsMissing").show();
                 } else {
-                    if (response !== "wrong password") {            //if response !== project missing and not wrong password, its the projectName
-                        $.ajax({
-                            url: compbaseUrl + "/api1/courses/" + projectName,
-                            Accept: "text/plain; charset=utf-8",
-                            type: 'DELETE',
-                            contentType: "text/plain",
-                            async: false,
-                            success: function (response) {
+                    $.ajax({
+                        url: compbaseUrl + "/api1/courses/" + projectName,
+                        Accept: "text/plain; charset=utf-8",
+                        type: 'DELETE',
+                        contentType: "text/plain",
+                        async: false,
+                        success: function (response) {
 
-                            },
-                            error: function (a, b, c) {
-                                console.log(a);
-                            }
-                        });
-                        window.location.href = " ../pages/projects.php" + getUserEmail();
-                    } else {
-                        $("#projectIsMissing").hide();
-                        $('#projectWrongPassword').show();
-                    }
+                        },
+                        error: function (a) {
+                            console.log(a);
+                        }
+                    });
+                    window.location.href = " ../projects/overview-docent.jsp";
                 }
             },
-            error: function (a, b, c) {
+            error: function (a) {
                 console.log(a);
             }
         });
-
-
     }
-
 }

@@ -1,5 +1,6 @@
 let allTheTags = [];
 let projectName = "";
+var gfm = "";
 
 /**
  * Created by fides-WHK on 19.02.2018.
@@ -19,25 +20,26 @@ function createNewProject(allTheTags, activ) {
     errorMessages();
     // getting the data from the form fields
     let project = getProjectValues();
+    let projectName = $("#nameProject").val().trim();
     // create the project
     if (project) {
         // create the project in local db
-        let localurl = "../../gemeinsamforschen/rest/project/create";
+        let localurl = "../rest/project/create";
         $.ajax({                        //check local DB for existence of projectName
             url: localurl,
+            projectName: projectName,
             contentType: 'application/json',
             activ: activ,
-            type: 'PUT',
+            type: 'POST',
             data: JSON.stringify(project),
             success: function (response) {
-                if (response === "project exists") {
+                if (response === "Project already exists") {
                     $('#projectNameExists').show();
                 } else {
                     if (allTheTags.length !== 5) {
                         $('#exactNumberOfTags').show();
                     } else {
-                        createProjectinCompbase();
-
+                        sendGroupPreferences();
                     }
                 }
             },
@@ -55,6 +57,7 @@ function errorMessages() {
     $('#projectIsMissing').hide();
     $('#exactNumberOfTags').hide();
     $('#specialChars').hide();
+    $('#projectDescriptionMissing').hide();
     document.getElementById('tagHelper').className = "";
 }
 
@@ -83,13 +86,9 @@ function initSendButton(allTheTags) {
 function getProjectValues() {
     projectName = $("#nameProject").val().trim();
     let password = $("#passwordProject").val().trim();
-    let adminPassword = $("#adminPassword").val().trim();
-    if (adminPassword === "") {
-        adminPassword = "1234";
-    }
     //allTheTags = $("#tagsProject").tagsInput('items');
     //allTheTags = $("#tagsProject").val();
-    let reguexp = /^[a-zA-Z0-9äüöÄÜÖ\ ]+$/;
+    let reguexp = /^[a-zA-Z0-9äüöÄÜÖ]+$/;
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
         return false;
@@ -98,37 +97,28 @@ function getProjectValues() {
         $('#projectIsMissing').show();
         return false;
     }
-
+    let description = $('#projectDescription').val();
+    if (description === ""){
+        $('#projectDescriptionMissing').show();
+        return false;
+    }
     if (allTheTags.length !== 5) {
         document.getElementById('tagHelper').className = "alert alert-warning";
     } else {
         document.getElementById('tagHelper').className = "";
     }
+    let time = new Date().getTime();
 
-    // TODO find out author
-    let project = {
+    return {
         "name" : projectName,
         "password" : password,
+        "description": description,
         "active" : true,
-        "timecreated" : 356122661234038,
-        "authorEmail": "vodka",
-        "adminPassword": adminPassword,
-        "phase" : "CourseCreation",
+        "phase" : "GroupFormation",
+        "timecreated" : time,
+        "authorEmail": $('#userEmail').text().trim(),
         "tags": allTheTags
     };
-
-   /* let project = {
-        "name" : "AJ2c83Lb2x",
-        "password" : "vTvaih3mK9",
-        "active" : true,
-        "timecreated" : 356122661234038,
-        "authorEmail" : "7DoIYf4tWV",
-        "adminPassword" : "bJFmgTGMdY",
-        "phase" : "Execution",
-        "tags" : [ "JjwWui3r2a", "J23BLwqlXa", "NOVk1tcaN0", "RTXTACSHLx", "BbMtdrXPi2" ]
-    };
-*/
-    return project;
 }
 
 // creates project name in compbase where it is needed for learning goal oriented matching
@@ -141,7 +131,7 @@ function createProjectinCompbase() {
         "competences": allTheTags
     };
     let dataString = JSON.stringify(obj);
-    let addProjectNeo4j = $.ajax({
+    $.ajax({
         url: url,
         contentType: 'application/json',
         activ: true,
@@ -150,11 +140,45 @@ function createProjectinCompbase() {
         success: function (response) {
             console.log(response);
             // it actually worked, too
-            sendGroupPreferences();
+            document.location.href = "tasks-docent.jsp?projectName="+projectName;
         },
-        error: function (a, b, c) {
+        error: function (a) {
             console.log(a);
             // and also in this case
+            return false;
+        }
+    });
+}
+
+
+function sendGroupPreferences() {
+    gfm = $('input[name=gfm]:checked').val();
+    if (gfm == "Basierend auf Präferenzen") {
+        // TODO implement preference based group selection
+        gfm = "UserProfilStrategy";
+    } else if (gfm == "per Hand") {
+        gfm = "Manual";
+    } else if (gfm == "Basierend auf Lernzielen") {
+        gfm = "LearningGoalStrategy";
+    } else if(gfm == "Keine Gruppen") {
+        gfm = "SingleUser";
+    }
+
+    var localurl = "../../gemeinsamforschen/rest/group/gfm/create/projects/" + projectName;
+    $.ajax({
+        gfm: gfm,
+        url: localurl,
+        contentType: 'application/json',
+        type: 'POST',
+        data: gfm,
+        success: function (a, b, c) {
+            if (gfm == "LearningGoalStrategy") {
+                createProjectinCompbase();
+            }
+            document.location.href = "tasks-docent.jsp?projectName="+projectName;
+            return true;
+        },
+        error: function (a, b, c) {
             return false;
         }
     });

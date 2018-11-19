@@ -1,5 +1,7 @@
 package unipotsdam.gf.process.phases;
 
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.interfaces.IPhases;
@@ -41,7 +43,7 @@ public class PhaseView {
     @Path("/{projectPhase}/projects/{projectName}/end")
     @GET
     public String endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectName") String
-            projectName) throws URISyntaxException {
+            projectName) throws URISyntaxException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         Phase phase = Phase.valueOf(projectPhase);
         Project project = projectDAO.getProjectByName(projectName);
         phases.endPhase(phase, project);

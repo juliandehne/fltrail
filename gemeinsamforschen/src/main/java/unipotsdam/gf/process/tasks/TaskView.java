@@ -1,6 +1,7 @@
 package unipotsdam.gf.process.tasks;
 
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 
 import javax.inject.Inject;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 @Path("/tasks")
 public class TaskView {
 
+    @Inject
+    private ProjectDAO projectDAO;
 
     @Inject
     private TaskDAO taskDAO;

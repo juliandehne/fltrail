@@ -1,21 +1,19 @@
 package unipotsdam.gf.process;
 
 import unipotsdam.gf.interfaces.Feedback;
-import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.constraints.Constraints;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
@@ -29,10 +27,13 @@ public class DossierCreationProcess {
     private TaskDAO taskDAO;
 
     @Inject
-    private Feedback feedback;
+    private UserDAO userDAO;
 
     @Inject
     private ConstraintsImpl constraints;
+
+    @Inject
+    private Feedback feedback;
 
     /**
      * start the Dossier Phase
@@ -82,27 +83,41 @@ public class DossierCreationProcess {
         submissionController.markAsFinal(fullSubmission);
 
         // mark annotate task as finished in db
-        Task task = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), fullSubmission.getProjectName(),
+        Task task = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), project.getName(),
                 Progress.FINISHED);
         taskDAO.updateForUser(task);
 
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
-            // distributefeedbacks
-            feedback.assignFeedbackTasks(project);
-
-            // persist tasks for feedback
-            taskDAO.persistMemberTask(
-                    project, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
+            // create Task to give Feedback
+            List<User> projectParticipants = userDAO.getUsersByProjectName(project.getName());
+            List<Task> allFeedbackTasks = new ArrayList<>();
+            for (User participant : projectParticipants) {
+                Task giveFeedbackTask = taskDAO.createDefault(
+                        project, participant, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
+                taskDAO.persist(giveFeedbackTask);
+                allFeedbackTasks.add(giveFeedbackTask);
+            }
+            //specifies user, who needs to give a feedback in DB
+            feedback.specifyFeedbackTasks(allFeedbackTasks);
         }
     }
 
+    public void createCloseFeedBackPhaseTask(Project project) {
+        taskDAO.persistTeacherTask(project, TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE, Phase.DossierFeedback);
+    }
 
     public void finishPhase(Project project) {
-        /*
-        TODO implement
-         */
-        /** TODO: Move this to the dossierCreationProcess
-         /*   if (tasks.size() > 0) {
+
+        User user = userDAO.getUserByEmail(project.getAuthorEmail());
+        Task task = new Task();
+        task.setUserEmail(user.getEmail());
+        task.setProjectName(project.getName());
+        task.setProgress(Progress.FINISHED);
+        task.setTaskName(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
+        taskDAO.updateForUser(task);
+        taskDAO.persist(taskDAO.createDefault(project, user, TaskName.WAIT_FOR_REFLECTION, Phase.Execution));
+        //todo: implement communication stuff
+        /*   if (tasks.size() > 0) {
          iCommunication.informAboutMissingTasks(tasks, project);
          } else {
          // send a message to the users informing them about the start of the new phase

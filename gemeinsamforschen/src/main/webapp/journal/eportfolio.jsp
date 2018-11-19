@@ -1,5 +1,7 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 
 <!DOCTYPE html>
 <html>
@@ -14,76 +16,68 @@
 
 <body>
 <menu:menu hierarchy="1"/>
-<div id="wrapper">
-    <div class="page-content-wrapper">
-        <div class="container-fluid">
-            <h1 id="projectName">project1
-                <a href="#">
-                <span class="glyphicon glyphicon-envelope"
-                      style="font-size:27px;margin-top:-17px;margin-left:600px;"></span>
-                </a>
-                <a href="#">
-                    <span class="glyphicon glyphicon-cog" style="font-size:29px;margin-left:5px;margin-top:-25px;"></span>
-                </a></h1>
-        </div>
-        <div>
-            <table>
-                <tr>
-                    <td  id="yourContent">
+<div class="page-content-wrapper">
+    <headLine:headLine/>
+    <div>
+        <table>
+            <tr>
+                <td id="yourContent">
 
-                        <h1>E-Portfolio</h1>
+                    <h1>E-Portfolio</h1>
 
-                        <ul class="nav nav-tabs">
-                            <li class="active"><a data-toggle="tab" href="#description">Beschreibung</a></li>
-                            <li><a data-toggle="tab" href="#journal-container">Lerntagebuch</a></li>
-                         </ul>
-                        <div class="tab-content">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#description">Beschreibung</a></li>
+                        <li><a data-toggle="tab" href="#journal-container">Lerntagebuch</a></li>
+                    </ul>
+                    <div class="tab-content">
 
-                            <div id = "description" class="tab-pane fade in active ">
-                              <div class="journal-description-container">
-                                    <div class="journal-description-title">
-                                    </div>
-                                  <div class="journal-description-edit" id="description-edit" align="right">
-                                        <a id="editDescriptionLink" class="btn btn-default btn-sm">
-                                            <i class="fa fa-pencil-alt"></i> Bearbeiten</a>
-                                        <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#closeDescriptionModal"><i class="fa fa-check-square" aria-hidden="true"></i>Abschlie&szlig;en</a>
-                                        <!-- TODO: Variabel -->
-                                      <div class="exportLink">
-                                      </div>
-
-                                  </div>
-                                    <div class="journal-description-text">
-                                    </div>
-                                    <div class="journal-description-group">
-                                        <h3>Gruppe</h3>
-                                    </div>
-                                    <div class="journal-description-links">
-                                        <h3>Links</h3>
-
+                        <div id="description" class="tab-pane fade in active ">
+                            <div class="journal-description-container">
+                                <div class="journal-description-title">
+                                </div>
+                                <div class="journal-description-edit" id="description-edit" align="right">
+                                    <a id="editDescriptionLink" class="btn btn-default btn-sm">
+                                        <i class="fa fa-pencil-alt"></i> Bearbeiten</a>
+                                    <a class="btn btn-default btn-sm" data-toggle="modal"
+                                       data-target="#closeDescriptionModal"><i class="fa fa-check-square"
+                                                                               aria-hidden="true"></i>Abschlie&szlig;en</a>
+                                    <!-- TODO: Variabel -->
+                                    <div class="exportLink">
                                     </div>
 
+                                </div>
+                                <div class="journal-description-text">
+                                </div>
+                                <div class="journal-description-group">
+                                    <h3>Gruppe</h3>
+                                </div>
+                                <div class="journal-description-links">
+                                    <h3>Links</h3>
 
-                              </div>
+                                </div>
+
+
                             </div>
-
-                            <div id="journal-container" class="tab-pane fade">
-                                    <h2>Lerntagebuch</h2>
-                                    <div class="input-group">
-                                    <select id="journalfilter" class="form-control" style="width:auto;" onchange="filterJournals()">
-                                        <option value="ALL">Alle</option>
-                                        <option value="OWN">Eigene</option>
-                                    </select>
-
-                                    <a id="createJournalLink"class="btn btn-default btn-sm" >Neu</a>
-                                </div>
-                                <div class="journal">
-                                </div>
                         </div>
+
+                        <div id="journal-container" class="tab-pane fade">
+                            <h2>Lerntagebuch</h2>
+                            <div class="input-group">
+                                <select id="journalfilter" class="form-control" style="width:auto;"
+                                        onchange="filterJournals()">
+                                    <option value="ALL">Alle</option>
+                                    <option value="OWN">Eigene</option>
+                                </select>
+
+                                <a id="createJournalLink" class="btn btn-default btn-sm">Neu</a>
+                            </div>
+                            <div class="journal">
+                            </div>
                         </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
 
@@ -95,7 +89,7 @@
                 <h4 class="modal-title">Link hinzuf&uuml;gen</h4>
             </div>
             <div class="modal-body">
-                <form id="linkform" method="POST" action="../rest/projectdescription/addLink" >
+                <form id="linkform" method="POST" action="../rest/projectdescription/addLink">
                     <input type="hidden" name="projectdescriptionId" id="projectdescriptionId" value=""/>
                     Name:<br>
                     <input type="text" name="name" form="linkform">
@@ -103,7 +97,7 @@
                     URL:<br>
                     <input type="url" name="link" form="linkform">
                     <br><br>
-                    <input class="btn btn-default" type="submit"  >
+                    <input class="btn btn-default" type="submit">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
                 </form>
             </div>
@@ -158,6 +152,7 @@
         </div>
     </div>
 </div>
+<footer:footer/>
 </body>
 
 </html>

@@ -1,16 +1,7 @@
-<%@ page import="unipotsdam.gf.modules.project.ManagementImpl" %>
-<%@ page import="unipotsdam.gf.modules.user.User" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
-<%@ page import="unipotsdam.gf.core.database.mysql.MysqlConnect" %>
-<%@ page import="unipotsdam.gf.core.management.user.User" %>
-<%@ page import="unipotsdam.gf.core.management.user.UserDAO" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="headLine" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="omniDependencies" %>
-<%@ taglib uri="../core/gemeinsamForschen.tld" prefix="footer" %>
 
 
 <!DOCTYPE html>
@@ -23,107 +14,97 @@
     <script src="js/profile.js"></script>
 </head>
 
-
-<%
-    // Retrieve user to be used here
-    String token = request.getParameter("token");
-    UserDAO userDAO = new UserDAO(new MysqlConnect());
-    User user = userDAO.getUserByToken(token);
-%>
-
 <body>
-<div id="wrapper">
-    <menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/>
 
-    <div class="page-content-wrapper">
-        <headLine:headLine/>
-            <div class="container">
-                <div class="row">
-                    <%-- about --%>
-                    <div class="col-sm-4">
-                        <h3>&Uuml;ber mich</h3>
-                        <%-- TODO: retrieve profile data --%>
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <p>Name: <%=user.getName()%></p>
-                            </li>
-                            <li class="list-group-item">
-                                <p>Sonstiges:</p>
-                                <form id="uploadimage" method="post" action="rest/user/student/wiepke">
-                                    <div id="image_preview"><img id="previewing" src="../libs/img/noImg.png"/></div>
-                                    <hr id="line">
-                                    <div id="selectImage">
-                                        <label>Select Your Image</label><br/>
-                                        <input type="file" name="image" id="file" required/>
-                                        <input type="submit" value="Upload" class="submit"/>
-                                    </div>
-                                </form>
-                                <p id="message"></p>
-                            </li>
-                        </ul>
+<div class="page-content-wrapper">
+    <headLine:headLine/>
+    <div class="container">
+        <div class="row">
+            <%-- about --%>
+            <div class="col-sm-4">
+                <h3>&Uuml;ber mich</h3>
+                <%-- TODO: retrieve profile data --%>
+                <ul class="list-group">
+                    <li class="list-group-item">
 
-                    </div>
+                    </li>
+                    <li class="list-group-item">
+                        <p>Sonstiges:</p>
+                        <form id="uploadimage" method="post" action="rest/user/student/wiepke">
+                            <div id="image_preview"><img id="previewing" src="../libs/img/noImg.png"/></div>
+                            <hr id="line">
+                            <div id="selectImage">
+                                <label>Select Your Image</label><br/>
+                                <input type="file" name="image" id="file" required/>
+                                <input type="submit" value="Upload" class="submit"/>
+                            </div>
+                        </form>
+                        <p id="message"></p>
+                    </li>
+                </ul>
 
-                    <%-- activites --%>
-                    <div class="col-sm-4">
-                        <h3>Aktivit&auml;t</h3>
-                        <%-- TODO: Retrieve achievements from database--%>
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <p>
-                                    Forschungsfrage erstellt
-                                    <a href="#">
-                                        <span class="glyphicon glyphicon-link"></span>
-                                    </a>
-                                </p>
-                            </li>
-                            <li class="list-group-item">
-                                <p>
-                                    Quiz "Goethe" erstellt
-                                    <a href="#">
-                                        <span class="glyphicon glyphicon-link"></span>
-                                    </a>
-                                </p>
-                            </li>
-                            <li class="list-group-item">
-                                <p>
-                                    Quiz "Schiller-Test" bearbeitet (3/5)
-                                    <a href="#">
-                                        <span class="glyphicon glyphicon-link"></span>
-                                    </a>
-                                </p>
-                            </li>
-                            <li class="list-group-item">
-                                <p>
-                                    Günther reviewed
-                                    <a href="#">
-                                        <span class="glyphicon glyphicon-link"></span>
-                                    </a>
-                                </p>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <%-- achievements --%>
-                    <div class="col-sm-4">
-                        <h3>Erfolge</h3>
-                        <%-- TODO: get achievements --%>
-
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                Quiz "Thermodynamik" ohne Fehler absolviert
-                            </li>
-                            <li class="list-group-item">
-                                Dossier vollständig hochgeladen
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </div>
 
+            <%-- activites --%>
+            <div class="col-sm-4">
+                <h3>Aktivit&auml;t</h3>
+                <%-- TODO: Retrieve achievements from database--%>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <p>
+                            Forschungsfrage erstellt
+                            <a href="#">
+                                <span class="glyphicon glyphicon-link"></span>
+                            </a>
+                        </p>
+                    </li>
+                    <li class="list-group-item">
+                        <p>
+                            Quiz "Goethe" erstellt
+                            <a href="#">
+                                <span class="glyphicon glyphicon-link"></span>
+                            </a>
+                        </p>
+                    </li>
+                    <li class="list-group-item">
+                        <p>
+                            Quiz "Schiller-Test" bearbeitet (3/5)
+                            <a href="#">
+                                <span class="glyphicon glyphicon-link"></span>
+                            </a>
+                        </p>
+                    </li>
+                    <li class="list-group-item">
+                        <p>
+                            Günther reviewed
+                            <a href="#">
+                                <span class="glyphicon glyphicon-link"></span>
+                            </a>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+
+            <%-- achievements --%>
+            <div class="col-sm-4">
+                <h3>Erfolge</h3>
+                <%-- TODO: get achievements --%>
+
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        Quiz "Thermodynamik" ohne Fehler absolviert
+                    </li>
+                    <li class="list-group-item">
+                        Dossier vollständig hochgeladen
+                    </li>
+                </ul>
+            </div>
         </div>
-    <footer:footer/>
     </div>
+
+</div>
+<footer:footer/>
 </body>
 
 </html>

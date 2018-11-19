@@ -9,7 +9,7 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import java.io.IOException;
 
 /**
- * implemented while porting the login page. It might be useful to have a hidden user field on the page in order to
+ * implemented while porting the register page. It might be useful to have a hidden user field on the page in order to
  * manipulate the user data with jquery
  */
 @ManagedBean

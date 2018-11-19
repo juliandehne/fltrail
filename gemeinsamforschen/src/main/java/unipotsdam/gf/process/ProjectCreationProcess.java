@@ -1,22 +1,30 @@
 package unipotsdam.gf.process;
 
-import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.exceptions.*;
+import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.modules.annotation.model.Category;
+import unipotsdam.gf.modules.assessment.AssessmentMechanism;
+import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectConfiguration;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.Task;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
-import java.io.IOException;
+import java.util.HashMap;
+
+import static unipotsdam.gf.modules.group.GroupFormationMechanism.SingleUser;
 
 
 @Singleton
@@ -35,15 +43,20 @@ public class ProjectCreationProcess {
     @Inject
     private GroupDAO groupDAO;
 
+    @Inject
+    private ICommunication iCommunication;
+
+    @Inject
+    private GFContexts gfContexts;
 
     /**
      * STEP 1
      *
-     * @param project
-     * @param author
-     * @throws IOException
+     * @param project which project is created
+     * @param author who creates the project
      */
-    public void createProject(Project project, User author) throws IOException {
+    public void createProject(Project project, User author)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         project.setAuthorEmail(author.getEmail());
         try {
             iManagement.create(project);
@@ -51,15 +64,20 @@ public class ProjectCreationProcess {
             throw new WebApplicationException("Project already exists");
         }
         taskDao.createTaskWaitForParticipants(project, author);
+
+        // create chatromm
+        iCommunication.createEmptyChatRoom(project.getName(), false);
+
     }
 
     /**
      * STEP 2
      *
-     * @param project
-     * @param user
+     * @param project which project is entered
+     * @param user who is participates the project
      */
-    public void studentEntersProject(Project project, User user) {
+    public void studentEntersProject(Project project, User user)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         // student enters project
         iManagement.register(user, project, null);
 
@@ -72,7 +90,7 @@ public class ProjectCreationProcess {
         Boolean groupsCanBeFormed = constraintsImpl.checkIfGroupsCanBeFormed(project);
         if (groupsCanBeFormed) {
             GroupFormationMechanism groupFormationMechanism = groupDAO.getGroupFormationMechanism(project);
-            if (!groupFormationMechanism.equals(GroupFormationMechanism.SingleUser) && !groupFormationMechanism
+            if (!groupFormationMechanism.equals(SingleUser) && !groupFormationMechanism
                     .equals(GroupFormationMechanism.Manual)) {
                 taskDao.persistTeacherTask(project, TaskName.EDIT_FORMED_GROUPS, Phase.GroupFormation);
             } else {
@@ -81,5 +99,53 @@ public class ProjectCreationProcess {
                 //phases.endPhase(Phase.GroupFormation, project);
             }
         }
+        iCommunication.addUserToChatRoom(user, project.getName());
     }
+
+    public void createUser(User user)
+            throws UserExistsInMysqlException, RocketChatDownException, UserExistsInRocketChatException {
+        if(iManagement.exists(user)) {
+            throw new UserExistsInMysqlException();
+        }
+        // create user in rocket chat
+        iCommunication.registerUser(user);
+        // create user in mysql
+        iManagement.create(user, null);
+
+    }
+
+    public Boolean authenticateUser(User user, HttpServletRequest req)
+            throws UserDoesNotExistInRocketChatException, RocketChatDownException {
+        // todo implement
+
+        RocketChatUser isLoggedIn = iCommunication.loginUser(user);
+        gfContexts.updateUserSessionWithRocketChat(req, isLoggedIn);
+        gfContexts.updateUserWithEmail(req, isLoggedIn);
+        return iManagement.exists(user);
+    }
+
+    public void deleteUser(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        iManagement.delete(user);
+        iCommunication.delete(user);
+    }
+
+    public void deleteProject(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        // TODO implement
+        iManagement.delete(project);
+        iCommunication.deleteChatRoom(project);
+    }
+
+  /*  *//**
+     * STEP N
+     *
+     * @param project the project to delete
+     *//*
+    public void deleteProject(Project project) {
+        try {
+            iManagement.delete(project);
+        } catch (Exception e) {
+            throw new WebApplicationException("Project already exists");
+        }
+        //taskDao.createTaskWaitForParticipants(project, author);
+    }*/
 }

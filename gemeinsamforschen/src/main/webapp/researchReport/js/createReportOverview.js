@@ -9,7 +9,7 @@ $(document).ready(function () {
         //boolean uploaded=true;
     });
     $('#backLink').on('click', function () {
-        location.href = "overview-student.jsp";
+        location.href = "search-project.jsp";
         return false;
     });
 

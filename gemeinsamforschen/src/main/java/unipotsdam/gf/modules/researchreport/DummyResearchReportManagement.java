@@ -33,7 +33,7 @@ public class DummyResearchReportManagement implements ResearchReportManagement {
         // uploading dossiers to feedback
         if (DummyResearchReportCounter.feedbackTasksNotAssigned) {
             DummyResearchReportCounter.feedbackTasksNotAssigned = false;
-            feedback.assignFeedbackTasks(project);
+            //feedback.specifyFeedbackTasks(project);
         }
         return factory.manufacturePojo(ResearchReport.class).getId();
     }

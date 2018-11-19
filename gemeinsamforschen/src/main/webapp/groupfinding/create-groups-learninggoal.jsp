@@ -1,7 +1,7 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 <!DOCTYPE html>
 <html>
 
@@ -25,62 +25,61 @@
 
 <body>
 <menu:menu hierarchy="1"/>
-<div id="wrapper">
-    <div class="page-content-wrapper">
-        <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
-            <div class="row">
-                <div class="col-md-12">
+<div class="page-content-wrapper">
+    <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
+        <div class="row">
+            <div class="col-md-12">
 
-                    <div class="page-header"></div>
-                </div>
+                <div class="page-header"></div>
             </div>
-        </div>
-    </div>
-
-    <div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-offset-3 col-sm-8 col-xs-1">
-                    <h3>Projekt</h3>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
-                                id="projectDropdown">Projekt auswählen
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu" id="dropdownOptions">
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div id="tablesHolder"></div>
-            <!-- <table class="table table-striped table-bordered table-list" style="width: 40%;margin-top: 10px;">
-                 <thead id="tableHead">
-                 <tr>
-                     <th class="hidden-xs">Student</th>
-                     <th>E-Mail</th>
-                 </tr>
-                 </thead>
-                 <tbody>
-                 <tr id="student2">
-
-                 </tr>
-                 <tr id="student3">
-
-                 </tr>
-                 <tr id="student4">
-
-                 </tr>
-                 <tr id="student5">
-
-                 </tr>
-
-                 </tbody>
-
-             </table>-->
-            <!--<p>Hier können sie ihre Gruppen zu allen Projekten einsehen. Klicken sie dafür auf das Dropdownmenü
-                um ihren Kurs auszuwählen.</p>-->
         </div>
     </div>
 </div>
+
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-3 col-sm-8 col-xs-1">
+                <h3>Projekt</h3>
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+                            id="projectDropdown">Projekt auswählen
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu" id="dropdownOptions">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="tablesHolder"></div>
+        <!-- <table class="table table-striped table-bordered table-list" style="width: 40%;margin-top: 10px;">
+             <thead id="tableHead">
+             <tr>
+                 <th class="hidden-xs">Student</th>
+                 <th>E-Mail</th>
+             </tr>
+             </thead>
+             <tbody>
+             <tr id="student2">
+
+             </tr>
+             <tr id="student3">
+
+             </tr>
+             <tr id="student4">
+
+             </tr>
+             <tr id="student5">
+
+             </tr>
+
+             </tbody>
+
+         </table>-->
+        <!--<p>Hier können sie ihre Gruppen zu allen Projekten einsehen. Klicken sie dafür auf das Dropdownmenü
+            um ihren Kurs auszuwählen.</p>-->
+    </div>
+</div>
+<footer:footer/>
 </body>
 
 </html>

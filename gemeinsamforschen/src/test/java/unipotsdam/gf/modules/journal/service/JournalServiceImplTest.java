@@ -10,7 +10,7 @@ import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.Visibility;
 import unipotsdam.gf.modules.journal.model.dao.JournalDAO;
 import unipotsdam.gf.modules.journal.model.dao.JournalDAOImpl;
-import unipotsdam.gf.modules.feedback.Category;
+import unipotsdam.gf.modules.annotation.model.Category;
 
 import javax.inject.Inject;
 import java.util.ArrayList;

@@ -49,7 +49,6 @@ public class HeadLine extends SimpleTagSupport {
             } else {
                 out.println("Dozentenübersicht " + user.getName());
             }
-
         }
         out.println("</h1>\n");
     }

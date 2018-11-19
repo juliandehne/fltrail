@@ -93,7 +93,9 @@ public interface Management {
 
     List<String> getProjects(String userEmail);
 
-    List<String> getProjectsStudent(String studentToken);
+    List<Project> getProjectsStudent(String studentToken);
+
+    List<Project> getAllProjects();
 
     String saveProfilePicture(FileInputStream fis, String userName);
 

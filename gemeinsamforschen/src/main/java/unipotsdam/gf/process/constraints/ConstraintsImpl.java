@@ -73,7 +73,16 @@ public class ConstraintsImpl {
         return result;
     }
 
-
-
+    public List<String> checkWhichFeedbacksAreMissing(Project project){
+        List<User> participants = userDAO.getUsersByProjectName(project.getName());
+        List<User> doneParticipants = submissionController.getAllUsersWithFinalizedFeedback(project);
+        List<String> missingFeedbacksFrom = new ArrayList<>();
+        for(User participant: participants){
+            if (!doneParticipants.contains(participant)){
+                missingFeedbacksFrom.add(participant.getName());
+            }
+        }
+        return missingFeedbacksFrom;
+    }
 
 }

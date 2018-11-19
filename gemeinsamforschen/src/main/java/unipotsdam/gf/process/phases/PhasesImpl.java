@@ -1,5 +1,7 @@
 package unipotsdam.gf.process.phases;
 
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IJournal;
@@ -71,7 +73,7 @@ public class PhasesImpl implements IPhases {
     */
 
     @Override
-    public void endPhase(Phase currentPhase, Project project) {
+    public void endPhase(Phase currentPhase, Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         Phase changeToPhase = getNextPhase(currentPhase);
         Map<StudentIdentifier, ConstraintsMessages> tasks;
         switch (currentPhase) {
@@ -79,7 +81,7 @@ public class PhasesImpl implements IPhases {
                 // inform users about the formed groups, optionally giving them a hint on what happens next
                 iCommunication.sendMessageToUsers(project, Messages.GroupFormation(project));
                 saveState(project, changeToPhase);
-                groupFormationProcess.finish(project);
+                groupFormationProcess.finalize(project);
                 dossierCreationProcess.start(project);
                 break;
             case DossierFeedback:

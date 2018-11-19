@@ -10,7 +10,7 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat"%>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
 
 <!DOCTYPE html>
 <html lang="de">
@@ -20,18 +20,16 @@
 </head>
 <body>
 <menu:menu hierarchy="1"/>
-<div class="col span_l_of_2"> <!-- col right-->
-    <headLine:headLine/>
-    <%--    <div class="infotext ">
-        <p class="icon">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-            ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et
-            ea rebum.
-        </p>
-    </div>--%>
-    <div id="listOfTasks">
+<%--    <div class="infotext ">
+    <p class="icon">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+        ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et
+        ea rebum.
+    </p>
+</div>--%>
+<div id="listOfTasks">
 
-    </div>
-    <script id="taskTemplate" type="text/x-jQuery-tmpl">
+</div>
+<script id="taskTemplate" type="text/x-jQuery-tmpl">
         <div class="card ${phase}">
 
             <div class="col span_s_of_2 icon ${taskType}">
@@ -53,11 +51,20 @@
                 <div style="clear:left"></div>
             </div>
         </div>
-    </script>
 
-    <chat:chatWindow orientation="right"></chat:chatWindow>
+</script>
 
+<script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
+<div class="card ${phase}">
+   <div class="card-finished"><h4 class="icon closed">${infoText}</h4>
+   {{html timeFrame}}
+   </div>
 </div>
+</script>
+
+<chat:chatWindow orientation="right" scope="project"></chat:chatWindow>
+<chat:chatWindow orientation="right" scope="group"></chat:chatWindow>
+
 <footer:footer/>
 
 </body>
