@@ -1,5 +1,6 @@
 let allTheTags = [];
 let projectName = "";
+var gfm = "";
 
 /**
  * Created by fides-WHK on 19.02.2018.
@@ -38,12 +39,11 @@ function createNewProject(allTheTags, activ) {
                     if (allTheTags.length !== 5) {
                         $('#exactNumberOfTags').show();
                     } else {
-                        createProjectinCompbase();
-                        location.href="tasks-student.jsp?projectName="+projectName;
+                        sendGroupPreferences();
                     }
                 }
             },
-            error: function (a) {
+            error: function (a, b, c) {
                 console.log(a);
                 return true;
             }
@@ -68,7 +68,7 @@ function initTagsInput(allTheTags) {
             onAddTag: function (tag) {
                 allTheTags.push(tag);
             },
-            onRemoveTag: function () {
+            onRemoveTag: function (tag) {
                 allTheTags.pop();           //todo: löscht noch nicht den gewählten tag sondern den letzten
             }
         });
@@ -86,6 +86,10 @@ function initSendButton(allTheTags) {
 function getProjectValues() {
     projectName = $("#nameProject").val().trim();
     let password = $("#passwordProject").val().trim();
+    let adminPassword = $("#adminPassword").val().trim();
+    if (adminPassword === "") {
+        adminPassword = "1234";
+    }
     //allTheTags = $("#tagsProject").tagsInput('items');
     //allTheTags = $("#tagsProject").val();
     let reguexp = /^[a-zA-Z0-9äüöÄÜÖ]+$/;
@@ -114,6 +118,8 @@ function getProjectValues() {
         "password" : password,
         "description": description,
         "active" : true,
+        "adminPassword": adminPassword,
+        "phase" : "GroupFormation",
         "timecreated" : time,
         "authorEmail": $('#userEmail').text().trim(),
         "phase" : "CourseCreation",
@@ -140,11 +146,45 @@ function createProjectinCompbase() {
         success: function (response) {
             console.log(response);
             // it actually worked, too
-            sendGroupPreferences();
+            document.location.href = "tasks-docent.jsp?projectName="+projectName;
         },
         error: function (a) {
             console.log(a);
             // and also in this case
+            return false;
+        }
+    });
+}
+
+
+function sendGroupPreferences() {
+    gfm = $('input[name=gfm]:checked').val();
+    if (gfm == "Basierend auf Präferenzen") {
+        // TODO implement preference based group selection
+        gfm = "UserProfilStrategy";
+    } else if (gfm == "per Hand") {
+        gfm = "Manual";
+    } else if (gfm == "Basierend auf Lernzielen") {
+        gfm = "LearningGoalStrategy";
+    } else if(gfm == "Keine Gruppen") {
+        gfm = "SingleUser";
+    }
+
+    var localurl = "../../gemeinsamforschen/rest/group/gfm/create/projects/" + projectName;
+    $.ajax({
+        gfm: gfm,
+        url: localurl,
+        contentType: 'application/json',
+        type: 'POST',
+        data: gfm,
+        success: function (a, b, c) {
+            if (gfm == "LearningGoalStrategy") {
+                createProjectinCompbase();
+            }
+            document.location.href = "tasks-docent.jsp?projectName="+projectName;
+            return true;
+        },
+        error: function (a, b, c) {
             return false;
         }
     });

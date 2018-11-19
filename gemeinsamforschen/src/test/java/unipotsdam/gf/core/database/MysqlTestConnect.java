@@ -13,7 +13,8 @@ public class MysqlTestConnect extends MysqlConnectImpl {
     private static String createConnectionString() {
 
         String connString =
-                "jdbc:mysql://" + "localhost" + "/" + GFDatabaseConfig.DB_NAME + "?user=" + GFDatabaseConfig.USER + "&password=" + GFDatabaseConfig.PASS;
+                "jdbc:mysql://" + "localhost" + "/" + GFDatabaseConfig.TEST_DB_NAME + "?user=" + GFDatabaseConfig.USER +
+                        "&password=" + GFDatabaseConfig.PASS;
         return String.format(connString, "fltrail_test");
     }
 

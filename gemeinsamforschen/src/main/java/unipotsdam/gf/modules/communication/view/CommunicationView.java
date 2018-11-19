@@ -2,15 +2,18 @@ package unipotsdam.gf.modules.communication.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.config.GFRocketChatConfig;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.modules.communication.model.LoginToken;
+import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.communication.model.Message;
-import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
-import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
-import unipotsdam.gf.modules.communication.service.CommunicationDummyService;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -36,60 +40,28 @@ public class CommunicationView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/info/{roomId}")
-    public Response getChatRoomInformation(@PathParam("roomId") String roomId) {
-        ChatRoom chatRoom = communicationService.getChatRoomInfo(roomId);
-        if (isNull(chatRoom)) {
+    public Response getChatRoomInformation(@PathParam("roomId") String roomId)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        String chatRoomName = communicationService.getChatRoomName(roomId);
+        if (chatRoomName.isEmpty()) {
             log.error("chatRoom not found for roomId: {}", roomId);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        log.trace("getChatRoomInformationResponse: {}", chatRoom);
-        return Response.ok(chatRoom).build();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/history/{roomId}")
-    public Response getChatHistory(@PathParam("roomId") String roomId) {
-        List<ChatMessage> chatMessages = communicationService.getChatHistory(roomId);
-        if (isNull(chatMessages)) {
-            log.error("getChatHistory: chatRoom not found for roomId: {}", roomId);
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        log.trace("response for getChatHistory: {}", chatMessages);
-        return Response.ok(chatMessages).build();
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/send/{roomId}")
-    public Response sendMessage(Message message, @PathParam("roomId") String roomId) {
-        if (isNull(message)) {
-            log.trace("sendMessage message object was null");
-            return Response.status(Response.Status.BAD_REQUEST).entity("must provide message").build();
-        }
-        boolean wasSend = communicationService.sendMessageToChat(message, roomId);
-        Response response;
-        if (wasSend) {
-            log.trace("response for sendMessage: {}", wasSend);
-            response = Response.ok(wasSend).build();
-        } else {
-            log.error("error while sending message for message: {}", message);
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while sending message").build();
-        }
-        return response;
+        log.trace("getChatRoomInformationResponse: {}", chatRoomName);
+        return Response.ok(chatRoomName).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/addUser/{roomId}")
-    public Response addUserToChatRoom(@PathParam("roomId") String roomId, User user) {
+    public Response addUserToChatRoom(@PathParam("roomId") String roomId, User user)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         if (isNull(user)) {
             log.trace("addUser user object was null");
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide user").build();
         }
-        boolean wasAdded = communicationService.addUserToChatRoom(roomId, user);
+        boolean wasAdded = communicationService.addUserToChatRoom(user, roomId);
         if (isNull(wasAdded)) {
             log.error("addUserToChatRoom: chatRoom not found for roomId: {}, user: {}", roomId, user);
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -100,7 +72,9 @@ public class CommunicationView {
             response = Response.ok(wasAdded).build();
         } else {
             log.error("error while adding user to chat room");
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while adding user to chatRoom").build();
+            response =
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while adding user to chatRoom")
+                            .build();
         }
         return response;
     }
@@ -110,7 +84,8 @@ public class CommunicationView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/removeUser/{roomId}")
-    public Response removeUserFromChatRoom(User user, @PathParam("roomId") String roomId) {
+    public Response removeUserFromChatRoom(User user, @PathParam("roomId") String roomId)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         if (isNull(user)) {
             log.trace("removeUser user object was null");
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide user").build();
@@ -126,31 +101,9 @@ public class CommunicationView {
             response = Response.ok(wasRemoved).build();
         } else {
             log.error("error while adding user to chat room");
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while adding user to chatRoom").build();
-        }
-        return response;
-    }
-
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/setTopic/{roomId}")
-    public Response setChatRoomTopic(@PathParam("roomId") String roomId, @QueryParam("topic") String topic) {
-        if (isNull(topic)) {
-            log.trace("setTopic param not given");
-            return Response.status(Response.Status.BAD_REQUEST).entity("topic must be not empty").build();
-        }
-        boolean wasSet = communicationService.setChatRoomTopic(roomId, topic);
-        if (isNull(wasSet)) {
-            log.error("addChatRoomTopic: chatRoom not found for roomId: {}, topic: {}", roomId, topic);
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
-        Response response;
-        if (wasSet) {
-            log.trace("response for setTopic: {}", wasSet);
-            response = Response.ok(wasSet).build();
-        } else {
-            log.error("error while setting topic to chat room");
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while setting topic to chat room").build();
+            response =
+                    Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while adding user to chatRoom")
+                            .build();
         }
         return response;
     }
@@ -158,13 +111,15 @@ public class CommunicationView {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/create")
-    public Response createChatRoom(@QueryParam("name") String name, List<User> users) {
+    @Path("/room/create/{name}")
+    public Response createChatRoom(
+            @PathParam("name") String name, List<User> users, @QueryParam("readOnly") boolean readOnly)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         if (isNull(name)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("must provide name as queryParam").build();
         }
-        String chatId = communicationService.createChatRoom(name, users);
-        if (isNull(chatId)) {
+        String chatId = communicationService.createChatRoom(name, readOnly, users);
+        if (chatId.isEmpty()) {
             log.error("error while creating chatRoom for: name: {}, users: {}", name, users);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
@@ -172,15 +127,30 @@ public class CommunicationView {
         return Response.status(Response.Status.CREATED).entity(chatId).build();
     }
 
-    // Temp: just get user as json
-    // TODO: remove after done implementing
-    @GET
-    @Path("/user")
+    @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser() {
-        User user = ((CommunicationDummyService) communicationService).getUser();
-        return Response.ok(user).build();
+    @Path("/sso")
+    public LoginToken provideLoginToken(@Context HttpServletRequest req, Object payload)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        if (req.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) != null) {
+            String token = getAuthToken(req);
+            return new LoginToken(token);
+        } else {
+            RocketChatUser user = communicationService.loginUser(GFRocketChatConfig.ADMIN_USER);
+            return new LoginToken(user.getRocketChatAuthToken());
+        }
     }
 
+    private String getAuthToken(@Context HttpServletRequest req) {
+        return req.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN).toString();
+    }
 
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/login")
+    public String provideLoginHTML(@Context HttpServletRequest req) {
+        String rocketChatIntegration = "<script> window.parent.postMessage({event: 'login-with-token',loginToken:" +
+                " '"+getAuthToken(req)+"'}, '"+GFRocketChatConfig.ROCKET_CHAT_LINK_0 +"');</script>";
+        return rocketChatIntegration;
+    }
 }

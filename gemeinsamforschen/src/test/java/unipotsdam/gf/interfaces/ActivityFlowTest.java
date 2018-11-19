@@ -111,7 +111,7 @@ public class ActivityFlowTest {
         formGroups();
 
         // end first phase
-        phases.endPhase(Phase.CourseCreation, project);
+        phases.endPhase(Phase.GroupFormation, project);
 
         // upload dossiers
         uploadDossiers();

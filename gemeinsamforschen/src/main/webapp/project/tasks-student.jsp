@@ -10,6 +10,8 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -50,9 +52,8 @@
             </div>
         </div>
 
-
-
 </script>
+
 <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
 <div class="card ${phase}">
    <div class="card-finished"><h4 class="icon closed">${infoText}</h4>
@@ -60,6 +61,10 @@
    </div>
 </div>
 </script>
+
+<chat:chatWindow orientation="right" scope="project"></chat:chatWindow>
+<chat:chatWindow orientation="right" scope="group"></chat:chatWindow>
+
 <footer:footer/>
 
 </body>

@@ -47,10 +47,11 @@ public class ProjectDAO {
             java.sql.Timestamp timestamp = new java.sql.Timestamp(project.getTimecreated());
             connect.connect();
             String mysqlRequest =
-                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, `phase`, `description`) values (?,?,?,?,?,?,?)";
+                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, " + "`phase`) " +
+                            "values (?,?,?,?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(),
-                    project.isActive(), timestamp, project.getAuthorEmail(),
-                    project.getPhase() == null ? Phase.CourseCreation : project.getPhase(), project.getDescription());
+                    project.isActive(), project.getTimecreated(), project.getAuthorEmail(),
+                    project.getPhase() == null ? Phase.GroupFormation : project.getPhase());
 
             connect.close();
 
@@ -75,6 +76,8 @@ public class ProjectDAO {
         String mysqlRequest = "DELETE FROM projects where name = (?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName());
         connect.close();
+        // TODO: delete all groups of project?
+
     }
 
     public Boolean exists(Project project) {

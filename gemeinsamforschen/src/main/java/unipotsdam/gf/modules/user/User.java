@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Objects;
@@ -13,38 +14,47 @@ public class User {
     private String name;
     private String password;
     private String email;
-    private String rocketChatAuthToken;
-    private String rocketChatId;
+    // the speaking name must unique in rocket chat
+    private String rocketChatUsername;
+
     private Boolean isStudent;
 
     public User() {
     }
 
-    public User(String name, String password, String email, Boolean isStudent) {
-        this(name, password, email, "", "", isStudent);
-    }
 
-    public User(String name, String password, String email,  String rocketChatAuthToken, String rocketChatId, Boolean isStudent) {
+
+    public User(String name, String password, String email, String rocketChatUsername, Boolean isStudent) {
         this.name = name;
         this.password = password;
         this.email = email;
-        this.rocketChatAuthToken = rocketChatAuthToken;
-        this.rocketChatId = rocketChatId;
-        this.isStudent = isStudent;
+        this.rocketChatUsername = rocketChatUsername;
+        this.setStudent(isStudent);
     }
+
+
 
     public User(String authorEmail) {
         this.email = authorEmail;
+    }
+
+    public User(String name, String password, String email, Boolean isStudent) {
+        this.name = name;
+        this.password= password;
+        this.email = email;
+        this.isStudent = isStudent;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -69,21 +79,17 @@ public class User {
         isStudent = student;
     }
 
-    public String getRocketChatId() {
-        return rocketChatId;
+
+
+    public String getRocketChatUsername() {
+        return rocketChatUsername;
     }
 
-    public void setRocketChatId(String rocketChatId) {
-        this.rocketChatId = rocketChatId;
+    public void setRocketChatUsername(String rocketChatUsername) {
+        this.rocketChatUsername = rocketChatUsername;
     }
 
-    public String getRocketChatAuthToken() {
-        return rocketChatAuthToken;
-    }
 
-    public void setRocketChatAuthToken(String rocketChatAuthToken) {
-        this.rocketChatAuthToken = rocketChatAuthToken;
-    }
 
     @Override
     public String toString() {
@@ -91,8 +97,7 @@ public class User {
                 "name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", rocketChatAuthToken='" + rocketChatAuthToken + '\'' +
-                ", rocketChatId='" + rocketChatId + '\'' +
+                ", rocketChatUsername='" + rocketChatUsername + '\'' +
                 ", isStudent=" + isStudent +
                 '}';
     }
@@ -102,11 +107,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(name, user.name) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(rocketChatAuthToken, user.rocketChatAuthToken) &&
-                Objects.equals(rocketChatId, user.rocketChatId) &&
-                Objects.equals(isStudent, user.isStudent);
+        return Objects.equals(email, user.email) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return getEmail().hashCode();
     }
 }

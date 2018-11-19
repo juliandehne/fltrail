@@ -22,6 +22,7 @@ public class Project {
     private String description;
 
     public Project() {
+        tags = new String[0];
     }
 
     public Project(String name, String password, Boolean active, String author, String[] tags) {
@@ -49,13 +50,17 @@ public class Project {
         this.description = description;
     }
 
-    public Project(String projectName, String password) {
+    public Project(String projectName, String authorEmail) {
         this.name = projectName;
-        this.password = password;
+        this.authorEmail = authorEmail;
+        this.active = true;
+        this.timecreated = System.currentTimeMillis();
+        tags = new String[0];
     }
 
     public Project(String projectName) {
         this.name = projectName;
+        this.active = true;
     }
 
 
