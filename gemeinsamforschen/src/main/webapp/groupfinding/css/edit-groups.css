@@ -1,0 +1,23 @@
+.sortableGroup {
+    list-style-type: none;
+    margin: 0;
+    float: left;
+    margin-right: 10px;
+    background: #eee;
+    padding: 5px;
+    min-width: 143px;
+    max-width: 243px;
+    margin-bottom: 20px;
+}
+
+.sortableGroup li {
+    margin: 5px;
+    padding: 5px;
+    font-size: 1.2em;
+    min-width: 120px;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+}

@@ -53,6 +53,21 @@
         </attribute>
     </tag>
 
+    <tag>
+        <name>chatWindow</name>
+        <tag-class>unipotsdam.gf.taglibs.ChatWindow</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>orientation</name>
+            <required>yes</required>
+            <rtexprvalue>no</rtexprvalue>
+        </attribute>
 
+        <attribute>
+            <name>scope</name>
+            <required>yes</required>
+            <rtexprvalue>no</rtexprvalue>
+        </attribute>
+    </tag>
 
 </taglib>

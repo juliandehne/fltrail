@@ -88,7 +88,8 @@ function fitObjectInTmpl(object) {
     }
     switch (object.taskName) {
         case "WAIT_FOR_PARTICPANTS":
-            result.infoText = "Warten Sie auf die Anmeldungen der Studenten.";
+            result.infoText = "Warten Sie auf die Anmeldungen der Studenten.\n" +
+                "Es sind bereits "+object.taskData.participantCount.participants+" Studenten eingetragen.";
             break;
         case "BUILD_GROUPS":
             result.infoText = "Erstellen Sie die Gruppen.";
@@ -139,6 +140,12 @@ function fitObjectInTmpl(object) {
     }
     if (object.taskType.includes("LINKED")) {
         switch (object.taskName) {
+            case "WAIT_FOR_PARTICPANTS":
+                if (object.taskData.gfm==="Manual"){
+                    result.solveTaskWith="Gruppen erstellen";
+                    result.solveTaskWithLink="redirect(\'../groupfinding/create-groups-manual.jsp?projectName="+object.projectName+"\')";
+                }
+                break;
             case "CLOSE_GROUP_FINDING_PHASE":
                 result.solveTaskWith = "Entwurfsphase starten";
                 result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";

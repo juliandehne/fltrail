@@ -101,15 +101,6 @@ public class Menu extends SimpleTagSupport {
                 "        <ul>\n";
         if (phase != null)
             switch (phase) {
-                case CourseCreation: {
-                    phaseViewString += "  <li class=\"neutral icon\">Projektinitialisierung</li>\n" +
-                            "          <li class=\"icon inactive\">Entwurfsphase</li>\n" +
-                            "          <li class=\"icon inactive\">Feedbackphase</li>\n" +
-                            "          <li class=\"icon inactive\">Reflextionsphase</li>\n" +
-                            "          <li class=\"icon inactive\" >Assessment</li>\n" +
-                            "          <li class=\"icon inactive\">Noten</li>\n";
-                    break;
-                }
                 case GroupFormation:{
                     phaseViewString += "  <li class=\"neutral icon closed\">Projektinitialisierung</li>\n" +
                             "          <li class=\"draft icon \">Entwurfsphase</li>\n" +
