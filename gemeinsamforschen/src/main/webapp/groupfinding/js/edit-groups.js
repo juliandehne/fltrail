@@ -1,11 +1,12 @@
-var projectName = getProjectName();
 
 $(function () {
+
+    var projectName = getProjectName();
 
     serverSide({
         hierarchyLevel:1,
         modulePath:"/group",
-        methodPath: "/projects/?/groups",
+        methodPath: "/all/projects/?",
         pathParams: [projectName],
         queryParams: []
     },"GET", printGroups);
@@ -35,24 +36,11 @@ $(function () {
     }
 
     function printGroups(a,b,c) {
-        var firstgroup =
-            groups = {
-                bla: [
-                    {
-                        id: "1",
-                        members: [{name:"me", email:"egal@stuff.com"}, {name:"him", email:"egal@stuff.com"}, {name:"her", email:"egal@stuff.com"}]
-                    },
-                    {
-                        id: "2",
-                        members: [{name:"me2", email:"egal@stuff.com"}, {name:"him2", email:"egal@stuff.com"}, {name:"her2", email:"egal@stuff.com"}]
-                    }
-                ],
-                lastGroupId: "44"
-            };
+        var data = a;
 
         // create a group
         $("#groupTemplate")
-            .tmpl(firstgroup)
+            .tmpl(data)
             .appendTo("#editable_groups");
 
         $("ul.droptrue").sortable({

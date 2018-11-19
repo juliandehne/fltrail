@@ -1,5 +1,8 @@
 package unipotsdam.gf.modules.group;
 
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
@@ -18,6 +21,9 @@ public class GroupfindingImpl implements IGroupFinding {
 
     @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private ICommunication iCommunication;
 
     @Inject
     public GroupfindingImpl(GroupDAO groupDAO) {
@@ -119,6 +125,20 @@ public class GroupfindingImpl implements IGroupFinding {
         }
         return result;
     }
+
+    /**
+     * after this groups should not be touched by the system
+     * @param project
+     */
+    @Override
+    public void finalizeGroups(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        // create group chat rooms
+        List<Group> groups = getGroups(project);
+        for (Group group : groups) {
+            iCommunication.createChatRoom(group, false);
+        }
+    }
+
     // (number % 3) + (Math.floor(number/3)-(number%3)) = n für alle Zahlen größer als 5
     public int getNumberOf4Groups(Integer number) {
         return  (number % 3);

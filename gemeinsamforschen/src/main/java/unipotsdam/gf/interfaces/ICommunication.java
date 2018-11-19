@@ -119,7 +119,7 @@ public interface ICommunication {
     boolean registerUser(User user)
             throws RocketChatDownException, UserExistsInRocketChatException;
 
-    String getChatRoomLink(String userToken, String projectId)
+    String getChatRoomLink(String userEmail, String projectId)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     String getProjectChatRoomLink(String projectName);
@@ -133,4 +133,6 @@ public interface ICommunication {
     boolean sendMessageToUsers(Project project, EMailMessage eMailMessage);
 
     public void delete(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
+
+
 }

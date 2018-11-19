@@ -40,32 +40,42 @@ public class ChatWindow extends SimpleTagSupport {
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         /*String token = request.getParameter("token"); */
         String projectName = request.getParameter("projectName");
+        String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
 
+        /**
+         * create project chatroom
+         */
         if (getScope() == "project") {
             String chatRoomLink = communicationService.getProjectChatRoomLink(projectName);
             writeIframe(request, chatRoomLink);
+            /**
+             * create group chatroom
+             */
         } else {
             // scope is group
-            String chatRoomLink = null;
+            String projectChatRoomLink = null;
             try {
-                chatRoomLink = communicationService
-                        .getChatRoomLink(request.getSession().getAttribute(GFContexts.USEREMAIL).toString(), projectName);
+                projectChatRoomLink = communicationService.getChatRoomLink(userEmail, projectName);
             } catch (RocketChatDownException e) {
                 e.printStackTrace();
             } catch (UserDoesNotExistInRocketChatException e) {
                 e.printStackTrace();
             }
-            writeIframe(request, chatRoomLink);
+            if (projectChatRoomLink != null) {
+                writeIframe(request, projectChatRoomLink);
+            }
         }
 
     }
 
-    private void writeIframe(HttpServletRequest request, String chatRoomLink) throws IOException {
+    private void writeIframe(HttpServletRequest request, String chatRoomLink) throws
+            IOException {
         String getAuthToken = request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN).toString();
         String getId = request.getSession().getAttribute(GFContexts.ROCKETCHATID).toString();
-
-        log.debug("ChatRoomLink for ChatWindow: {}", chatRoomLink);
         JspWriter out = getJspContext().getOut();
+
+        log.debug("chatroom links for ChatWindow: {}", chatRoomLink);
+
         out.println("<iframe height=\"400px\" src=\"" + chatRoomLink + "\">");
         out.println("</iframe>");
 

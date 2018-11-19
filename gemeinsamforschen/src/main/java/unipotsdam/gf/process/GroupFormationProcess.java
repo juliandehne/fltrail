@@ -1,5 +1,8 @@
 package unipotsdam.gf.process;
 
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.group.Group;
@@ -54,7 +57,7 @@ public class GroupFormationProcess {
      * this method finalizes the groups
      * @param project
      */
-    public void finalize(Project project) {
+    public void finalize(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
         /**
          * Gruppenphase wird beendet
@@ -68,6 +71,9 @@ public class GroupFormationProcess {
         // Die Studierenden müssen nicht mehr auf die Gruppenfindung warten
         taskDAO.finishMemberTask(project, TaskName.WAITING_FOR_GROUP);
         taskDAO.persistMemberTask(project,  TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);
+
+        //if the project is finalized create group chat room
+        groupfinding.finalizeGroups(project);
     }
 
 

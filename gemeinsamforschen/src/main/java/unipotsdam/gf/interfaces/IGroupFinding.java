@@ -1,5 +1,7 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.project.Project;
@@ -52,4 +54,9 @@ public interface IGroupFinding {
     void deleteGroups(Project project);
 
     List<Group> createRandomGroups(Project project);
+
+    /**
+     * finish the groups in the db
+     */
+    void finalizeGroups(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 }

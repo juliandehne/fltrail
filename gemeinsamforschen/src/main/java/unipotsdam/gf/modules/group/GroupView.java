@@ -1,6 +1,8 @@
 package unipotsdam.gf.modules.group;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -131,7 +133,8 @@ public class GroupView {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}/groups/finalize")
-    public void finalizeGroups(@PathParam("projectName") String  projectName) {
+    public void finalizeGroups(@PathParam("projectName") String  projectName)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         Project project = new Project(projectName);
         groupFormationProcess.finalize(project);
     }

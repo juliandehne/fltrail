@@ -350,6 +350,14 @@ public class CommunicationService implements ICommunication {
         return true;
     }
 
+    /**
+     *
+     * @param userEmail
+     * @param projectName
+     * @return
+     * @throws RocketChatDownException
+     * @throws UserDoesNotExistInRocketChatException
+     */
     public String getChatRoomLink(String userEmail, String projectName)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 

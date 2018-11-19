@@ -22,10 +22,10 @@
 
 <%--TODO das mit %3 oder %4 auf mehrere Zeilen verteilen--%>
 <script id="groupTemplate" type="text/x-jQuery-tmpl">
-        {{each(prop,group) bla}}
+        {{each(prop,group) groups}}
             <div class="container-fluid">
-                <h3>Gruppe ${group.id}</h3>
-                <ul id="group_${group.id}" class="droptrue sortableGroup">
+                <h3>Gruppe ${group.name}</h3>
+                <ul id="group_${group.name}" class="droptrue sortableGroup">
                 {{each(prop2, val) group.members }}
                     <li class="ui-state-default">
                     <table>
