@@ -45,21 +45,20 @@ public class Menu extends SimpleTagSupport {
         String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
         String projectName=request.getParameter(GFContexts.PROJECTNAME);
         JspWriter out = getJspContext().getOut();
-
+        User user = userDAO.getUserByEmail(userEmail);
         if (userEmail != null) {
-            User user = userDAO.getUserByEmail(userEmail);
             Boolean isStudent = user.getStudent();
             String menuString = "" +
                     "    <header>\n" +
                     "        <div class=\"row\">\n" +
                     "            <div class=\"nav-group-left\">";
             if (isStudent){
-                menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/myCourses-student.jsp\">Home</a>\n"+
-                        "                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/search-project.jsp\">suche Kurs</a>\n";
+                menuString+="<a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/myCourses-student.jsp\">Home</a>\n"+
+                        "<a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/search-project.jsp\">suche Kurs</a>\n";
             }else{
                 menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/overview-docent.jsp\">meine Projekte</a>\n";
             }
-            menuString+="                <a class=\"nav-link\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "profile/profile.jsp?projectName=" + projectName + "\">Profil</a>\n"+
+            menuString+="                <a class=\"nav-link\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "profile/profile.jsp?projectName=" + projectName + "\">"+user.getName()+"</a>\n"+
                     "        </div>" +
                     "        <div class=\"nav-group-right\">" +
                     "            <a class=\"nav-link\" id=\"logout\" style=\"cursor:pointer\">Logout</a>\n" +
@@ -81,23 +80,19 @@ public class Menu extends SimpleTagSupport {
         }
         String phaseViewString = "" +
                 "<main>\n" +
-                "    <div class=\"row group\">\n" +
-                "        <div class=\"titlerow\">\n <h1 id=\"projectHeadline\">";
+                "    <div class=\"row group\">\n";
         if (projectName != null){
-            phaseViewString += "\n" +projectName;
-        }else{
-            phaseViewString += "\n Übersicht für "+userEmail;
+            phaseViewString += "<div class=\"titlerow\">\n <h1 id=\"projectHeadline\">\n"
+                    +projectName+ "  </h1>      </div>\n";
         }
         phaseViewString += "" +
-                "  </h1>      </div>\n" +
                 "    </div>\n" +
                 "\n" +
                 "    <div class=\"row nav\">\n" +
-                "        <a href=\"\" >[<i class=\"fas fa-chevron-left\"> zurueck ]</i></a>\n" +
                 "    </div>\n" +
                 "\n" +
                 "    <div class=\"row group\">" +
-                "<div class=\"col span_s_of_2 .timeline\">\n" +
+                "<div class=\"col span_timeline .timeline\">\n" +
                 "        <ul>\n";
         if (phase != null)
             switch (phase) {
@@ -149,13 +144,11 @@ public class Menu extends SimpleTagSupport {
             }
         phaseViewString += "" +
                 "        </ul>\n" +
-                "    </div>" +
-                "<div class=\"col span_l_of_2\" style=\"\"> <!-- col right-->\n";
+                "    </div>";
         out.println(phaseViewString);
 
         if (projectName != null)
             out.println("<p id=\"projectName\" hidden>" + projectName + "</p>");
-        User user = userDAO.getUserByEmail(userEmail);
         if (user != null)
             out.println("<p id=\"userEmail\" hidden>" + user.getEmail() + "</p>");
         out.println("<p id=\"hierarchyLevel\" hidden>" + hierarchyLevel.toString() + "</p>");

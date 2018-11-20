@@ -13,49 +13,27 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
-<table id="projects">  <!-- getElementById('projects').append um neue Projekte anzufügen -->
-    <script id="projectTRTemplate" type="text/x-jQuery-tmpl">
-                    <tr class="pageChanger">
-                    <td>
-                        <a id="project${projectName}">
-                            <h1>${projectName}</h1>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Newsfeed </h3>
-                                Status: <p id="status${projectName}"></p>
-                            </div>
-                            <div class="panel-body">
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <span>dummy</span>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <span>dummy</span>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <span>dummy</span></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-
-
+<menu:menu hierarchy="1"/><div class="col span_content">
+    <div class="row group projects-grid" id="projects">
+        <script id="projectTRTemplate" type="text/x-jQuery-tmpl">
+    <div class="card">
+        <div>
+            <h3>${projectName}</h3>
+            <p>
+               ${projectDescription}
+            </p>
+            <button class="primary" id="project_${projectName}">Einsehen </button>
+        </div>
+    </div>
     </script>
-</table>
+</div>
 
-<button class="btn btn-default" type="button" id="createProject" style="margin-left:250px;">Projekt
+<button class="btn btn-default" type="button" id="createProject" style="margin-top:15px;">Projekt
     erstellen
 </button>
+</div><div class="col span_chat">
+
+</div>
 <footer:footer/>
 </body>
 

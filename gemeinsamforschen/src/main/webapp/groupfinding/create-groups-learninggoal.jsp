@@ -24,7 +24,7 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
 <div class="page-content-wrapper">
     <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
         <div class="row">
@@ -79,7 +79,7 @@
             um ihren Kurs auszuwählen.</p>-->
     </div>
 </div>
-<footer:footer/>
+</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
 </body>
 
 </html>

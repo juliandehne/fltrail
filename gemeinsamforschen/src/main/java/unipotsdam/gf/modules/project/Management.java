@@ -1,8 +1,6 @@
 package unipotsdam.gf.modules.project;
 
 import unipotsdam.gf.modules.group.Group;
-import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.project.ProjectConfiguration;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserInterests;
 import unipotsdam.gf.modules.user.UserProfile;
@@ -91,7 +89,7 @@ public interface Management {
 
     ProjectConfiguration getProjectConfiguration(Project project);
 
-    List<String> getProjects(String userEmail);
+    List<Project> getProjects(String userEmail);
 
     List<Project> getProjectsStudent(String studentToken);
 

@@ -26,7 +26,7 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
     <form id="upload-textarea-form">
         <div class="form-group upload-text" id="documentText">
             <label for="upload-textarea">Texteingabe</label>
@@ -45,7 +45,7 @@
         <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
         </button>
     </div>
-<footer:footer/>
+</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
 </body>
 
 </html>

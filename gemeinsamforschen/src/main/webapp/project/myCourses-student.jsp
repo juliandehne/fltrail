@@ -20,9 +20,9 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
 <div>
-    <div class="col span_2_of_2 centered">
+    <div class="col centered">
         <h1>Meine Kurse</h1>
         <p class="introduction"> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
 
@@ -57,11 +57,21 @@
         </script>
     </div>
 </div>
-<button class="btn btn-default" type="button" style="margin-left:250px;" id="enrollProject">Projekt suchen
-</button>
+
+</div><div class="col span_chat">
+
+</div>
 <footer:footer/>
 
 
 </body>
-
+<!--
+<footer>
+    <p>
+        <a href="#">    Impressum </a> </br>
+        <a href="#">    Ansprechpartner</a></br>
+        <a href="#">    Fides</a></br>
+    </p>
+</footer>
+-->
 </html>

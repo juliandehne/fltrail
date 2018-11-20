@@ -20,7 +20,7 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
 <div>
     <div class="col span_2_of_2 centered">
         <h1>Projektsuche</h1>
@@ -56,6 +56,10 @@
         </div>
         </script>
     </div>
+</div>
+</div><div class="col span_chat">
+    <chat:chatWindow orientation="right" scope="project" />
+    <chat:chatWindow orientation="right" scope="group" />
 </div>
 <footer:footer/>
 

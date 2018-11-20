@@ -61,13 +61,16 @@ function getProjects(userName) {
             let tmplObject = [];
             for (let project in response) {
                 if (response.hasOwnProperty(project))
-                    tmplObject.push({projectName: response[project]});
+                    tmplObject.push({
+                        projectName: response[project].name,
+                        projectDescription: response[project].description
+                    });
             }
             $('#projectTRTemplate').tmpl(tmplObject).appendTo('#projects');
             for (let projectName in response) {
                 if (response.hasOwnProperty(projectName)) {
-                    $('#project' + response[projectName]).on('click', function () {
-                        location.href = "tasks-docent.jsp?projectName=" + response[projectName];
+                    $('#project_' + response[projectName].name).on('click', function () {
+                        location.href = "tasks-docent.jsp?projectName=" + response[projectName].name;
                     });
                     //updateStatus(response[projectName]);
 

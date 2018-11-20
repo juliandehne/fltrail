@@ -14,10 +14,11 @@
 </head>
 <body>
 <menu:menu hierarchy="1"/>
-<div id="listOfTasks">
+<div class="col span_content">
+    <div id="listOfTasks">
 
-</div>
-<script id="taskTemplate" type="text/x-jQuery-tmpl">
+    </div>
+    <script id="taskTemplate" type="text/x-jQuery-tmpl">
    <div class="card ${phase}">
        <div class="col span_s_of_2 icon ${taskType}">
        </div>
@@ -38,12 +39,19 @@
            <div style="clear:left"></div>
        </div>
    </div>
-</script>
-<script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
+
+    </script>
+    <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
    <div class="card-finished"><h4 class="icon closed">${infoText}</h4>
    {{html timeFrame}}
    </div>
-</script>
+
+    </script>
+</div>
+<div class="col span_chat">
+    <chat:chatWindow orientation="right" scope="project"/>
+    <chat:chatWindow orientation="right" scope="group"/>
+</div>
 <footer:footer/>
 </body>
 </html>

@@ -21,7 +21,7 @@
 
 <body>
 <div class="loader-inactive" id="loader"></div>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
 <headLine:headLine/>
 <legend style="margin-left:13px;">Projektnamen</legend>
 <input class="form-control" type="text" id="projectName" name="Project" required
@@ -31,6 +31,9 @@
     Dieser Projektname existiert nicht
 </div>
 <button id="deleteProject" class="btn btn-danger">löschen</button>
+</div><div class="col span_chat">
+
+</div>
 <footer:footer/>
 </body>
 

@@ -8,7 +8,7 @@ public class Footer extends SimpleTagSupport {
 
     public void doTag() throws IOException {
         JspWriter out = getJspContext().getOut();
-        String footerString = "</div>    </div>\n" +
+        String footerString = "    </div>\n" +
                 "\n" +
                 "    <div style=\"clear:left\"></div>\n" +
                 "\n" +
