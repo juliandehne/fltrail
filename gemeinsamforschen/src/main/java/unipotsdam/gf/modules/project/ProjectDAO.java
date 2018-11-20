@@ -50,7 +50,7 @@ public class ProjectDAO {
                     "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, `phase`, `description`) " +
                             "values (?,?,?,?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(),
-                    project.isActive(), project.getTimecreated(), project.getAuthorEmail(),
+                    project.isActive(), timestamp, project.getAuthorEmail(),
                     project.getPhase() == null ? Phase.GroupFormation : project.getPhase(), project.getDescription());
 
             connect.close();
