@@ -133,7 +133,7 @@ public class ManagementImpl implements Management {
     }
 
        @Override
-    public List<String> getProjects(String authorEmail) {
+    public List<Project> getProjects(String authorEmail) {
         if (authorEmail == null) {
             return null;
         }
@@ -143,10 +143,10 @@ public class ManagementImpl implements Management {
 
         //49c6eeda-62d2-465e-8832-dc2db27e760c
 
-        List<String> result = new ArrayList<>();
+        List<Project> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, authorEmail);
         while (vereinfachtesResultSet.next()) {
-            String project = vereinfachtesResultSet.getString("name");
+            Project project = projectDAO.getProjectByName(vereinfachtesResultSet.getString("name"));
             result.add(project);
         }
         connect.close();

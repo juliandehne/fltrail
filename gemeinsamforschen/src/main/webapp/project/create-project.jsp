@@ -26,7 +26,7 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
     <div class="page-content-wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -88,6 +88,9 @@
             <button class="btn btn-primary" style="margin-left:129px;" id="sendProject">erstellen</button>
         </div>
     </div>
+</div><div class="col span_chat">
+
+</div>
 <footer:footer/>
 
 </body>

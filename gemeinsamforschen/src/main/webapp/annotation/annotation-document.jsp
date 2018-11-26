@@ -43,7 +43,7 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
 <div class="page-content-wrapper full-height">
     <div class="container-fluid full-height">
         <div class="container-fluid-content">
@@ -145,7 +145,7 @@
         </div>
     </div>
 </div>
-<footer:footer/>
+</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
 </body>
 
 </html>

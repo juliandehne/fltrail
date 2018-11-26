@@ -576,7 +576,7 @@ public class SubmissionController implements ISubmission, HasProgress {
      */
     public void markAsFinal(FullSubmission fullSubmission) {
         connection.connect();
-        String query = "updateRocketChatUserName fullsubmissions set finalized = ? where id = ?";
+        String query = "update fullsubmissions set finalized = ? where id = ?";
         connection.issueUpdateStatement(query, 1, fullSubmission.getId());
         connection.close();
     }

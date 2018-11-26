@@ -211,6 +211,8 @@ function fitObjectInTmpl(object) {
             result.timeFrame = "<p>" + created.getDate() + "." + (created.getMonth() + 1) + "." + created.getFullYear() +
                 " bis " + deadline.getDate() + "." + (deadline.getMonth() + 1) + "." + deadline.getFullYear() + "</p>";
             return result;
+        }else{
+            result.timeFrame = "";
         }
         result.taskProgress = "FINISHED";
         return result;

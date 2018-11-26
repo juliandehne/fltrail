@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
 <div id="wrapper">
     <p id="groupId" hidden>Hier steht jetzt das richtige</p>
     <div class="page-content-wrapper">
@@ -72,7 +72,7 @@
             </table>
         </div>
     </div>
-    <footer:footer/>
+    </div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
 </div>
 </body>
 

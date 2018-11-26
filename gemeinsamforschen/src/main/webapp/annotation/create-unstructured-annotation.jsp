@@ -37,7 +37,7 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
     <div class="content-mainpage">
         <div class="leftcolumn">
             <div class="leftcontent">
@@ -65,7 +65,7 @@
             </div>
         </div>
     </div>
-<footer:footer/>
+</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
 </body>
 
 </html>

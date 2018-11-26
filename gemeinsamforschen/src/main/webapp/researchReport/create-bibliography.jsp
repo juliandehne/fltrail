@@ -18,7 +18,7 @@ den Zustand ändert
     <link rel="stylesheet" type="text/css" href="css/researchReport.css">
 </head>
 <body>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
 <div id="wrapper">
     <div class="page-content-wrapper">
         <headLine:headLine/>

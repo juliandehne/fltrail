@@ -74,11 +74,9 @@ public class ProjectView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all/author/{userEmail}")
-    public String[] getProjects(
+    public List<Project> getProjects(
             @PathParam("userEmail") String authorToken) {
-
-        java.util.List<String> projects = iManagement.getProjects(authorToken);
-        return projects.toArray(new String[0]);
+        return iManagement.getProjects(authorToken);
     }
 
     @GET
@@ -87,6 +85,13 @@ public class ProjectView {
     public java.util.List<Project> getProjectsStudent(
             @PathParam("studentEmail") String studentEmail) {
         return iManagement.getProjectsStudent(studentEmail);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/all")
+    public java.util.List<Project> getProjects() {
+        return iManagement.getAllProjects();
     }
 
 

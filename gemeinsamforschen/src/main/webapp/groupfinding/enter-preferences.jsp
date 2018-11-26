@@ -20,7 +20,7 @@
     <div class="sk-cube4 sk-cube"></div>
     <div class="sk-cube3 sk-cube"></div>
 </div>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
 <h3>Geben Sie hier ihre Präferenzen ein!</h3>
 <fieldset>
     <legend>Passwort</legend>
@@ -77,7 +77,7 @@
 <div class="alert alert-warning" style="width:520px" role="alert">
     Das Verarbeiten der Lernziele und das Gruppenmatching kann einen Moment dauern!
 </div>
-<footer:footer/>
+</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
 </body>
 
 

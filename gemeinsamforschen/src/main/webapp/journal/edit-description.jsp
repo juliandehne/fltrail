@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<menu:menu hierarchy="1"/><div class="col span_content">
 <h1> Projektbeschreibung bearbeiten </h1>
 
                         <form id="descriptionform" class="form-journal" method="POST"
@@ -21,7 +21,7 @@
 
                                     <textarea id="editor" name="text" form="descriptionform"></textarea>
                         </form>
-<footer:footer/>
+</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
 </body>
 
 </html>
