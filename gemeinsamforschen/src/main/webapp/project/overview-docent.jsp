@@ -13,7 +13,9 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<menu:menu hierarchy="1"/>
+<div class="col span_content">
+    <h1>Meine Projekte</h1>
     <div class="row group projects-grid" id="projects">
         <script id="projectTRTemplate" type="text/x-jQuery-tmpl">
     <div class="card">
