@@ -1,11 +1,17 @@
 package unipotsdam.gf.config;
 
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import unipotsdam.gf.healthchecks.HealthChecks;
 import unipotsdam.gf.interfaces.*;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
+import unipotsdam.gf.modules.communication.DummyCommunicationService;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -32,12 +38,23 @@ import unipotsdam.gf.session.GFContexts;
 
 public class GFApplicationBinder extends AbstractBinder {
 
+    private final static Logger log = LoggerFactory.getLogger(GFApplicationBinder.class);
+
     /**
      * TODO replace DummyImplementation
      */
     @Override
     protected void configure() {
-        bind(CommunicationService.class).to(ICommunication.class);
+
+        // check if rocket chat is online
+        Boolean rocketOnline = HealthChecks.isRocketOnline();
+        if (rocketOnline) {
+            bind(CommunicationService.class).to(ICommunication.class);
+        } else  {
+            bind(DummyCommunicationService.class).to(ICommunication.class);
+            log.warn("Rocket Chat is not online. Removing chat capabilities");
+        }
+
         bind(ManagementImpl.class).to(Management.class);
         bind(PeerAssessment.class).to(IPeerAssessment.class);
         bind(PhasesImpl.class).to(IPhases.class);

@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.group;
+package unipotsdam.gf.modules.group.preferences.database;
 
 public class ProfileQuestionRelation {
     private ProfileQuestion profileQuestion1;

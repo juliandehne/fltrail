@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.project;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.tasks.ParticipantsCount;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
@@ -12,6 +13,7 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.lang.reflect.Array;
 import java.security.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -172,5 +174,46 @@ public class ProjectDAO {
         String mysql = "INSERT INTO groupfindingmechanismselected (`projectName`, `gfmSelected`) values (?,?)";
         connect.issueUpdateStatement(mysql, project.getName(), groupFormationMechanism.name());
         connect.close();
+    }
+
+    public List<Project> getProjectsLike(String searchString) {
+        ArrayList<Project> projects = new ArrayList<>();
+        connect.connect();
+        String mysqlRequest = "SELECT * from `projects` where name like ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, searchString);
+        while (vereinfachtesResultSet.next()) {
+            Project projectFromResultSet = getProjectFromResultSet(vereinfachtesResultSet);
+            projects.add(projectFromResultSet);
+        }
+        connect.close();
+        return projects;
+    }
+
+    public List<Project> getAllProjectsExceptStudents(User user) {
+        ArrayList<Project> projects = new ArrayList<>();
+        ArrayList<String> allProjectsName = new ArrayList<>();
+        connect.connect();
+        //get all projectNames with the Student in GroupFormation Phase
+        String allStudentsRequest = "SELECT name FROM projects p left join projectuser pu on pu.projectName=p.name " +
+                "WHERE phase='GroupFormation' and pu.userEmail=?";
+        VereinfachtesResultSet resultSetAllStudents = connect.issueSelectStatement(allStudentsRequest, user.getEmail());
+        while (resultSetAllStudents.next()) {
+            allProjectsName.add(resultSetAllStudents.getString("name"));
+        }
+        //get all projects in groupFormation Phase
+        String mysqlRequest = "SELECT * from projects WHERE phase='GroupFormation'";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest);
+        while (vereinfachtesResultSet.next()) {
+            //discard all projects the student is participated in
+            if (!allProjectsName.contains(vereinfachtesResultSet.getString("name"))){
+                Project projectFromResultSet = getProjectFromResultSet(vereinfachtesResultSet);
+                List<String> tagsList = getTags(projectFromResultSet);
+                String[] tags = new String[tagsList.size()];
+                projectFromResultSet.setTags(tagsList.toArray(tags));
+                projects.add(projectFromResultSet);
+            }
+        }
+        connect.close();
+        return projects;
     }
 }

@@ -130,7 +130,7 @@ function takesPartInProject(context) {
         success: function (response) {
             console.log(response);
             document.getElementById('loader').className = "loader-inactive";
-            location.href = "../project/myCourses-student.jsp";
+            location.href = "../../project/courses-student.jsp";
         },
         error: function (a, b, c) {
             console.log(a);
