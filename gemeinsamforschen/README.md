@@ -20,9 +20,9 @@ Accounts/Konten->IFRAME:
 
 1. click on enable
 
-1. FOR API URL: http://141.89.53.195:8080/gemeinsamforschen/rest/chat/sso
+1. FOR API URL: http://localhost:8080/gemeinsamforschen/rest/chat/sso
 localhost:8080/gemeinsamforschen/rest/chat/sso
 
-1. FOR IFRAME URL: http://141.89.53.195:8080/gemeinsamforschen/rest/chat/login
+1. FOR IFRAME URL: http://localhost:8080/gemeinsamforschen/rest/chat/login
 localhost:8080/gemeinsamforschen/rest/chat/login
 

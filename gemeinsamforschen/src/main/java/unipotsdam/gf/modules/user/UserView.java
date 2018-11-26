@@ -1,6 +1,9 @@
 package unipotsdam.gf.modules.user;
 
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.exceptions.*;
+import unipotsdam.gf.healthchecks.HealthChecks;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.session.GFContexts;
@@ -25,6 +28,8 @@ import java.net.URISyntaxException;
 @Path("/user")
 @ManagedBean
 public class UserView {
+
+
 
     @Inject
     private ICommunication communicationService;
@@ -167,7 +172,7 @@ public class UserView {
         String successUrl;
 
         if (user.getStudent() != null && user.getStudent()) {
-            successUrl = "../project/myCourses-student.jsp";
+            successUrl = "../project/courses-student.jsp";
         } else {
             successUrl = "../project/overview-docent.jsp";
         }

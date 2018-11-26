@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.group;
+package unipotsdam.gf.modules.group.preferences.database;
 
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;

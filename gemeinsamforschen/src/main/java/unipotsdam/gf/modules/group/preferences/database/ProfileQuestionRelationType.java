@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.group;
+package unipotsdam.gf.modules.group.preferences.database;
 
 /**
  * This type indicates how groups are affected by the underlying variable of the item

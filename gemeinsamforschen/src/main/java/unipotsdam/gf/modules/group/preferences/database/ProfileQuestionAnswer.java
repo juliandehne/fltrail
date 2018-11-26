@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.group;
+package unipotsdam.gf.modules.group.preferences.database;
 
 import unipotsdam.gf.modules.user.User;
 

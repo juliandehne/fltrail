@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.group;
+package unipotsdam.gf.modules.group.preferences.database;
 
 import java.util.ArrayList;
 import java.util.List;

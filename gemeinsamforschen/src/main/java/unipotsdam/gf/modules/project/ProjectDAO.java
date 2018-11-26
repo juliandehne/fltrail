@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.project;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.tasks.ParticipantsCount;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
@@ -47,8 +48,8 @@ public class ProjectDAO {
             java.sql.Timestamp timestamp = new java.sql.Timestamp(project.getTimecreated());
             connect.connect();
             String mysqlRequest =
-                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, " + "`phase`) " +
-                            "values (?,?,?,?,?,?,?)";
+                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, `phase`) " +
+                            "values (?,?,?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(),
                     project.isActive(), project.getTimecreated(), project.getAuthorEmail(),
                     project.getPhase() == null ? Phase.GroupFormation : project.getPhase());
@@ -172,5 +173,34 @@ public class ProjectDAO {
         String mysql = "INSERT INTO groupfindingmechanismselected (`projectName`, `gfmSelected`) values (?,?)";
         connect.issueUpdateStatement(mysql, project.getName(), groupFormationMechanism.name());
         connect.close();
+    }
+
+    public List<Project> getProjectsLike(String searchString) {
+        ArrayList<Project> projects = new ArrayList<>();
+        connect.connect();
+        String mysqlRequest = "SELECT * from `projects` where name like ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, searchString);
+        while (vereinfachtesResultSet.next()) {
+            Project projectFromResultSet = getProjectFromResultSet(vereinfachtesResultSet);
+            projects.add(projectFromResultSet);
+        }
+        connect.close();
+
+        return projects;
+    }
+
+    public List<Project> getAllProjectsExceptStudents(User user) {
+        ArrayList<Project> projects = new ArrayList<>();
+        connect.connect();
+        String mysqlRequest = "SELECT * from projects p left join projectuser pu on pu.projectName = p.name and pu" +
+                ".userEmail != ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, user.getEmail());
+        while (vereinfachtesResultSet.next()) {
+            Project projectFromResultSet = getProjectFromResultSet(vereinfachtesResultSet);
+            projects.add(projectFromResultSet);
+        }
+        connect.close();
+
+        return projects;
     }
 }

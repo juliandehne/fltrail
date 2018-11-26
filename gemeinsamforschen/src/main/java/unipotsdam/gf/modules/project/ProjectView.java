@@ -91,6 +91,24 @@ public class ProjectView {
 
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/not/student/{studentEmail}")
+    public java.util.List<Project> getProjectsStudentIsNotPartOf(
+            @PathParam("studentEmail") String studentEmail) {
+        return projectDAO.getAllProjectsExceptStudents(new User(studentEmail));
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/all/like/{searchString}")
+    public java.util.List<Project> getProjectsBySearchstring(
+            @PathParam("searchString") String searchString) {
+        return projectDAO.getProjectsLike(searchString);
+    }
+
+
+
+    @GET
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/login/{projectName}")

@@ -54,8 +54,9 @@ public class Menu extends SimpleTagSupport {
                     "        <div class=\"row\">\n" +
                     "            <div class=\"nav-group-left\">";
             if (isStudent){
-                menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/myCourses-student.jsp\">Home</a>\n"+
-                        "                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/search-project.jsp\">suche Kurs</a>\n";
+                menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/courses-student.jsp\">Home</a>\n"+
+                        "                " +
+                        "<a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/courses-student.jsp?all=true\">Kurssuche</a>\n";
             }else{
                 menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/overview-docent.jsp\">meine Projekte</a>\n";
             }

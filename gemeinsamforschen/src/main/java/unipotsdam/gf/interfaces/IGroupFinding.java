@@ -4,6 +4,7 @@ import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.group.GroupFormationAlgorithm;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.GroupfindingCriteria;
@@ -59,4 +60,6 @@ public interface IGroupFinding {
      * finish the groups in the db
      */
     void finalizeGroups(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
+
+    GroupFormationAlgorithm getGroupFormationAlgorithm(Project project);
 }
