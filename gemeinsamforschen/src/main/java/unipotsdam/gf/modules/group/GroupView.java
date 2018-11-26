@@ -3,6 +3,8 @@ package unipotsdam.gf.modules.group;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.modules.group.learninggoals.LearningGoalAlgorithm;
+import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -13,6 +15,7 @@ import unipotsdam.gf.process.GroupFormationProcess;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -137,6 +140,26 @@ public class GroupView {
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         Project project = new Project(projectName);
         groupFormationProcess.finalize(project);
+    }
+
+    /**
+     * needed for the learning goal algorithm
+     * @param projectId
+     * @param userId
+     * @param preferenceData
+     * @return
+     * @throws Exception
+     */
+    @Path("/user/{userId}/projects/{projectId}/preferences")
+    @PUT
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response createPreferences(
+            @PathParam("projectId") String projectId, @PathParam("userId") String userId, PreferenceData preferenceData)
+            throws Exception {
+
+        new LearningGoalAlgorithm().sendPreferenceData(projectId, userId, preferenceData);
+        return Response.ok().entity("Lernziele werden verarbeitet").build();
     }
 
 }

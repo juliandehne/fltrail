@@ -90,6 +90,7 @@ CREATE TABLE `projects` (
   `active` tinyint(1) NOT NULL,
   `timecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `author` varchar(100) NOT NULL,
+  `description` varchar (600),
   `adminPassword` varchar(400),
   `phase` varchar(400) NOT NULL DEFAULT 'GroupFormation',
   `description` varchar(400)

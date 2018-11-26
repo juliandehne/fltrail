@@ -11,14 +11,28 @@ tr .pageChanger{
 
 .loader {
     display: block;
-    margin-left: 470px;
-    margin-top: 200px;
-    width: 80px;
-    height: 80px;
+    margin-left: 42%;
+    margin-top:15%;
+    width: 200px;
+    height: 200px;
     position: fixed;
+    z-index: 10;
     -webkit-transform: rotateZ(45deg);
     transform: rotateZ(45deg);
     opacity: 1;
+}
+
+.cover {
+    min-height: 122%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.80;
+    background: #aaa;
+    z-index: 9;
+    display: none;
 }
 
 .loader .sk-cube {
@@ -411,5 +425,13 @@ input[type="checkbox"] .styled:checked + label::after,
 input[type="radio"] .styled:checked + label::after {
     color: #fff; }
 
+fieldset{
+    margin-bottom: 10px;
+    max-width: 800px;
+}
 
-
+fieldset .form-control{
+    width: 50%;
+    min-width: 400px;
+    margin-bottom: 5px;
+}
