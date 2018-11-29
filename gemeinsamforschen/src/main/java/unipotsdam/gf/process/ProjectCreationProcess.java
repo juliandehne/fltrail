@@ -118,10 +118,21 @@ public class ProjectCreationProcess {
             throws UserDoesNotExistInRocketChatException, RocketChatDownException {
         // todo implement
 
-        RocketChatUser isLoggedIn = iCommunication.loginUser(user);
+        RocketChatUser isLoggedIn = null;
+        try  {
+        isLoggedIn = iCommunication.loginUser(user);
         gfContexts.updateUserSessionWithRocketChat(req, isLoggedIn);
-        gfContexts.updateUserWithEmail(req, isLoggedIn);
-        return iManagement.exists(user);
+        } catch(Exception e) {
+            System.out.println("rocketchat funktioniert nicht ... mache trotzdem weiter");
+        } finally {
+            if (isLoggedIn != null) {
+            gfContexts.updateUserWithEmail(req, isLoggedIn);
+            return iManagement.exists(user);
+            } else {
+                gfContexts.updateUserWithEmail(req, user);
+                return iManagement.exists(user);
+            }
+        }
     }
 
     public void deleteUser(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
