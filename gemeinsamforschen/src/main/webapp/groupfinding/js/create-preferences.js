@@ -3,6 +3,8 @@
  */
 
 $(document).ready(function () {
+
+
     $('#projectWrongPassword').hide();
     printTags();
     $("#competencies0").focus();
@@ -32,8 +34,7 @@ function addInput(name) {        //creates a new input-Field with the ID 'nameX'
     newInput.innerHTML = "<input class='form-control' " +
         "type='text' " +
         "name='" + name + "' " +
-        "id='" + name + i + "' " +
-        "style='max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;'>";
+        "id='" + name + i + "'>";
     div.appendChild(newInput);
 }
 
@@ -60,7 +61,7 @@ function printTags() {
                 let newInput = document.createElement("label");
                 newInput.innerHTML =
                     "<div class='checkbox checkbox-primary' >"
-                    + "<input id='tag" + i + "' " + " class='styled' " + "name='tag'" + "type='checkbox' " + ">"
+                    + "<input id='tag" + i + "' " + " class='styled' " + "name='tag'" + " type='checkbox' " + ">"
                     + "<label for='tag" + i + "' " + ">" + tagList[i] + "</label>"
                     + "</div>";
                 let div = document.getElementById('tags');
@@ -76,7 +77,9 @@ function printTags() {
 
 // he is added in compbase to the project
 function takesPartInProject(context) {
-
+    $('.cover').each(function(){
+        $(this).fadeIn(100);
+    });
     document.getElementById('loader').className = "loader";
 
     let allTheTags = [];
@@ -130,7 +133,7 @@ function takesPartInProject(context) {
         success: function (response) {
             console.log(response);
             document.getElementById('loader').className = "loader-inactive";
-            location.href = "../../project/courses-student.jsp";
+            location.href = "../project/courses-student.jsp";
         },
         error: function (a, b, c) {
             console.log(a);

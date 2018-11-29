@@ -23,7 +23,7 @@ $(document).ready(function () {
         });
 
         /*
-             var ctx = document.getElementById("Diagramm").getContext('2d');
+             var ctx = document.getElementById("Diagramm").isSearching('2d');
              var myChart = new Chart(ctx, {
                  type: 'line',
                  data: {

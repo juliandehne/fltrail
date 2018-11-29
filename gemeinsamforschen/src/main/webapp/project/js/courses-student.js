@@ -1,5 +1,6 @@
 // projects from db
-var projects = [];
+let projects = [];
+let projectResponse;
 
 let projectCollectorF = getMyProjects;
 
@@ -10,9 +11,11 @@ let response = {};
 
 // in the search project view the get variable should be set to "all=true"
 $(document).ready(function () {
-
     if (getQueryVariable("all")) {
+        $('#headLine').html("Kurssuche");
         projectCollectorF = getAllProjects;
+    } else {
+        $('#headLine').html("Meine Kurse");
     }
 
     userName = $('#userEmail').html().trim();
@@ -26,18 +29,21 @@ $(document).ready(function () {
     // fill search fields
     $('#searchField').keyup(function () {
         let data = {projects: projects};
-        if ($('#searchField').val().trim() == "") {
-            repaintDropDown(data);
+        if ($('#searchField').val().trim() === "") {
+            repaintProjectList(function () {
+                buttonHandler()
+            });
         } else {
             data.projects = data.projects.filter(filterF);
-            repaintDropDown(data)
+            repaintProjectList(function () {
+                buttonHandler()
+            }, data.projects)
         }
     });
 
 });
 
 function repaintDropDown(data) {
-    $('#projectDropdownDynamic').remove();
     $('#searchingTemplate').tmpl(data).appendTo('#projectDropdown');
 }
 
@@ -109,50 +115,45 @@ function getGrade(projectName) {
 
 function printProjectCard(response, project, tmplObject) {
     if (response[project].active) {
-        let projectDescription = "Der Kurs wurde beschrieben mit \"" +
-            response[project].tags[0] + "\", \"" +
-            response[project].tags[1] + "\", \" " +
-            response[project].tags[2] + "\", \" " +
-            response[project].tags[3] + "\" und \" " +
-            response[project].tags[4] + "\"";
+        let projectAction = "Einsehen";
+        if (isSearching()){
+            projectAction = "Beitreten";
+        }
         tmplObject.push({
             projectName: response[project].name,
             projectAuthor: response[project].authorEmail,
-            projectDescription: projectDescription
+            projectTags: response[project].tags,
+            projectDescription: response[project].description,
+            projectAction: projectAction
         });
     }
 }
 
-function repaintProjectList(response, linkUrl, filterList) {
-    let tmplObject = [];
-    for (let project in response) {
-        if (response.hasOwnProperty(project))
-            if (filterList != "undefined") {
-                if (!filterList.contains(response[project].name)) {
-                    printProjectCard(response, project, tmplObject);
-                }
-            } else {
-                printProjectCard(response, project, tmplObject);
-            }
-    }
+function repaintProjectList(callback, filterList) {
+    $('.projectDynamic').remove();
 
-    $('#projectTemplate').tmpl(tmplObject).appendTo('#projects');
-    for (let project in response) {
-        if (response.hasOwnProperty(project)) {
-            let projectName = response[project].name;
-            if (filterList != "undefined") {
-                if (!filterList.contains(projectName)) {
-                    $('#project_' + projectName).on('click', function () {
-                        location.href = linkUrl + response[project].name;
-                    });
-                    updateStatus(response[project].name);
+    let tmplObject = [];
+    let linkUrl;
+    if (isSearching()) {
+        linkUrl = "../groupfinding/enter-preferences.jsp?projectName="; //tasks oder enter preferences
+    } else {
+        linkUrl = "tasks-student.jsp?projectName=";
+    }
+    // filter project cards
+    for (let project in projectResponse) {
+        if (projectResponse.hasOwnProperty(project))
+            if (filterList !== undefined) {
+                if (filterList.includes(projectResponse[project].name)) {
+                    printProjectCard([projectResponse[project]], 0, tmplObject);
                 }
             } else {
-                projects.push(projectName);
+                printProjectCard(projectResponse, project, tmplObject);
             }
-        }
     }
+    // print projectcards
+    $('#projectTemplate').tmpl(tmplObject).appendTo('#projects');
     repaintDropDown({projects: projects});
+    callback(filterList);
 }
 
 function getMyProjects(userName) {
@@ -164,8 +165,17 @@ function getMyProjects(userName) {
         },
         type: 'GET',
         success: function (response) {
-            var linkUrl = "tasks-student.jsp?projectName=";
-            repaintProjectList(response, linkUrl);
+            // iniate project and response arrays TODO maybe only store project objects and have one function for it
+            projectResponse = response;
+            for (let project in projectResponse) {
+                if (projectResponse.hasOwnProperty(project)) {
+                    let projectName = projectResponse[project].name;
+                    projects.push(projectName);
+                }
+            }
+            repaintProjectList(function () {
+                buttonHandler()
+            });
         },
         error: function (a) {
             console.log(a);
@@ -182,11 +192,40 @@ function getAllProjects() {
         },
         type: 'GET',
         success: function (response) {
-            let linkUrl = "../groupfinding/enter-preferences.jsp?projectName=";
-            repaintProjectList(response, linkUrl);
+            // iniate project and response arrays
+            projectResponse = response;
+            for (let project in projectResponse) {
+                if (projectResponse.hasOwnProperty(project)) {
+                    let projectName = projectResponse[project].name;
+                    projects.push(projectName);
+                }
+            }
+            repaintProjectList(function () {
+                buttonHandler()
+            });
         },
         error: function (a) {
             console.log(a);
         }
     });
+}
+
+function isSearching() {
+    return !!getQueryVariable("all");
+}
+
+function buttonHandler() {
+    // append buttons for project cards
+    let linkUrl = "";
+    if (isSearching()) {
+        linkUrl = "../groupfinding/enter-preferences.jsp?projectName=";
+    } else {
+        linkUrl = "tasks-student.jsp?projectName=";
+    }
+    $('.project_Button').each(function () {
+        $(this).on('click', function () {
+            location.href = linkUrl + $(this).attr('name');
+        });
+    });
+    updateStatus(projectName);
 }

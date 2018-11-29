@@ -79,8 +79,8 @@
         <div id="tagHelper" class="alert alert-warning" style="width:475px;">
             Fügen sie zudem 5 Tags zu ihrem Projekt hinzu, welche ihr Projekt inhaltlich umreißen.
         </div>
-        <div class="form-group"><input class="tags" data-role="tags" name="Tags" placeholder="Tags"
-                                       id="tagsProject">
+        <div class="form-group">
+            <input class="tags" data-role="tags" name="Tags" placeholder="Tags" id="tagsProject">
         </div>
         <%-- <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>--%>
 
