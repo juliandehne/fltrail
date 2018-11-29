@@ -20,9 +20,22 @@ Accounts/Konten->IFRAME:
 
 1. click on enable
 
-1. FOR API URL: http://localhost:8080/gemeinsamforschen/rest/chat/sso
-localhost:8080/gemeinsamforschen/rest/chat/sso
-
 1. FOR IFRAME URL: http://localhost:8080/gemeinsamforschen/rest/chat/login
 localhost:8080/gemeinsamforschen/rest/chat/login
 
+1. FOR API URL: http://localhost:8080/gemeinsamforschen/rest/chat/sso
+localhost:8080/gemeinsamforschen/rest/chat/sso
+
+
+
+after this only login on rocketchat will be:
+
+fleckenroller.cs.uni-potsdam.de:3000
+1. open console
+1. Meteor.loginWithPassword('fltrailadmin', 'GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10');
+
+### Enable cors and personal access
+
+1. navigate to "http://fleckenroller.cs.uni-potsdam.de:3000/admin/General --> rest api"
+2. DONT activate CORS
+3. activate personal rest access

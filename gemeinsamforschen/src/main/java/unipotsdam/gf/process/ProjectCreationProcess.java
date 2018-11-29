@@ -67,6 +67,7 @@ public class ProjectCreationProcess {
 
         // create chatromm
         iCommunication.createEmptyChatRoom(project.getName(), false);
+        iCommunication.addUserToChatRoom(author, project.getName());
 
     }
 
