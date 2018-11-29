@@ -165,18 +165,30 @@ function getMyProjects(userName) {
         },
         type: 'GET',
         success: function (response) {
-            // iniate project and response arrays TODO maybe only store project objects and have one function for it
-            projectResponse = response;
-            for (let project in projectResponse) {
-                if (projectResponse.hasOwnProperty(project)) {
-                    let projectName = projectResponse[project].name;
-                    projects.push(projectName);
+            // initiate project and response arrays TODO maybe only store project objects and have one function for it
+            if (response.length !== 0){
+                projectResponse = response;
+                for (let project in projectResponse) {
+                    if (projectResponse.hasOwnProperty(project)) {
+                        let projectName = projectResponse[project].name;
+                        projects.push(projectName);
+                    }
                 }
+                repaintProjectList(function () {
+                    buttonHandler()
+                });
+            }else{
+                $('#headLine').html("Sie sind in keinem Kurs eingetragen.");
+                $('.select_arrow').each(function(){
+                    $(this).hide();
+                });
+                $('.search').each(function(){
+                    $(this).hide();
+                });
+                $('#introduction').html("Um sich in einen Kurs einzutragen wählen sie oben links \"suche Kurs\".")
             }
-            repaintProjectList(function () {
-                buttonHandler()
-            });
-        },
+            },
+
         error: function (a) {
             console.log(a);
         }

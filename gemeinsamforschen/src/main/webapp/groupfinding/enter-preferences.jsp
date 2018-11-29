@@ -28,7 +28,7 @@
         <input class="form-control" type="text" placeholder="******" id="projectPassword">
         <div class="alert alert-danger" id="projectWrongPassword">Das Passwort ist falsch.</div>
     </fieldset>
-    <fieldset>
+    <fieldset id="competenciesFieldSet">
         <legend>Lernziele</legend>
         <div id="competencies">
             <input class="form-control" type="text" id="competencies0" name="competencies" required=""
@@ -46,7 +46,7 @@
         </button>
 
     </fieldset>
-    <fieldset>
+    <fieldset id="researchQuestionFieldSet">
         <legend>Forschungsfrage</legend>
         <div id="researchQuestion">
             <input class="form-control" id="researchQuestion0" type="text" name="researchQuestion" required=""

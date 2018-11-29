@@ -42,34 +42,36 @@ public class ChatWindow extends SimpleTagSupport {
         String projectName = request.getParameter("projectName");
         String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
 
-        /**
-         * create project chatroom
-         */
-        if (getScope() == "project") {
-            String chatRoomLink = communicationService.getProjectChatRoomLink(projectName);
-            writeIframe(request, chatRoomLink);
+        if (!(request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) == null)) {
             /**
-             * create group chatroom
+             * create project chatroom
              */
-        } else {
-            // scope is group
-            String projectChatRoomLink = null;
-            try {
-                projectChatRoomLink = communicationService.getChatRoomLink(userEmail, projectName);
-            } catch (RocketChatDownException e) {
-                e.printStackTrace();
-            } catch (UserDoesNotExistInRocketChatException e) {
-                e.printStackTrace();
-            }
-            if (projectChatRoomLink != null) {
-                writeIframe(request, projectChatRoomLink);
+            if (getScope() == "project") {
+                String chatRoomLink = communicationService.getProjectChatRoomLink(projectName);
+                writeIframe(request, chatRoomLink);
+                /**
+                 * create group chatroom
+                 */
+            } else {
+                // scope is group
+                String projectChatRoomLink = null;
+                try {
+                    projectChatRoomLink = communicationService.getChatRoomLink(userEmail, projectName);
+                } catch (RocketChatDownException e) {
+                    e.printStackTrace();
+                } catch (UserDoesNotExistInRocketChatException e) {
+                    e.printStackTrace();
+                }
+                if (projectChatRoomLink != null) {
+                    writeIframe(request, projectChatRoomLink);
+                }
             }
         }
 
+
     }
 
-    private void writeIframe(HttpServletRequest request, String chatRoomLink) throws
-            IOException {
+    private void writeIframe(HttpServletRequest request, String chatRoomLink) throws IOException {
         String getAuthToken = request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN).toString();
         String getId = request.getSession().getAttribute(GFContexts.ROCKETCHATID).toString();
         JspWriter out = getJspContext().getOut();

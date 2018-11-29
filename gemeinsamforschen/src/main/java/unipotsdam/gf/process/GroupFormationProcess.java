@@ -88,5 +88,10 @@ public class GroupFormationProcess {
     public void saveGroups(List<Group> groups,Project project){
         groupfinding.deleteGroups(project);
         groupfinding.persistGroups(groups, project);
+        try {
+            finalize(project);
+        }catch (Exception e){
+            //todo: eine exception nicht handeln kann ja nicht die Lösung sein.
+        }
     }
 }

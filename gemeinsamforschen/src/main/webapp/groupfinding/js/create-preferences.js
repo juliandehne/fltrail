@@ -3,7 +3,12 @@
  */
 
 $(document).ready(function () {
-
+    checkCompBase(function(isCompBaseOnline){
+        if (!isCompBaseOnline){
+            $('#competenciesFieldSet').hide();
+            $('#researchQuestionFieldSet').hide();
+        }
+    });
 
     $('#projectWrongPassword').hide();
     printTags();
@@ -76,67 +81,73 @@ function printTags() {
 
 
 // he is added in compbase to the project
-function takesPartInProject(context) {
+function takesPartInProject() {
     $('.cover').each(function(){
         $(this).fadeIn(100);
     });
     document.getElementById('loader').className = "loader";
 
-    let allTheTags = [];
-    let allTheCompetencies = [];
-    let allTheResearchQuestions = [];
-    for (let i = 0; i < document.getElementsByName("competencies").length; i++) {        //goes through all competencies and adds them to allTheCompetencies
-        allTheCompetencies.push(document.getElementsByName("competencies")[i].value);
-    }
-    for (let i = 0; i < document.getElementsByName("researchQuestions").length; i++) {        //goes through all competencies and adds them to allTheResearchQuestions
-        allTheResearchQuestions.push(document.getElementsByName("researchQuestions")[i].value);
-    }
-    for (let i = 0; i < document.getElementsByName("tag").length; i++) {   //goes through all tags and adds them to allTheTags
-        if (document.getElementById("tag" + i).checked) {
-            allTheTags.push(document.getElementById("tag" + i).value);
-        }
-        if ($("#tag" + i).prop("checked"))
-            allTheCompetencies.push("Die Studierenden interessieren sich für " + $("#tag" + i).val());     //todo: Die Tags werden hinter der Schnittstelle noch nicht verwertet, daher diese schnelle Lösung
-    }
-    if (allTheTags.length > 2) {
-        //alert('Sie haben zu viele Tags ausgewählt');
-        $(".alert").css('background-color', 'lightcoral');
-        allTheTags = [];
-        document.getElementById('loader').className = "loader-inactive";
-        return false;
-    }
-    if (allTheTags.length < 2) {
-        //alert('Sie haben zu wenig Tags ausgewählt');
-        $(".alert").css('background-color', 'lightcoral');
-        allTheTags = [];
-        document.getElementById('loader').className = "loader-inactive";
-        return false;
-    }
-    let data = {                                            //JSON object 'data' collects everything to send
-        "competences": allTheCompetencies,
-        "researchQuestions": allTheResearchQuestions,
-        "tagsSelected": allTheTags
-    };
-
-
     let userEmail = getUserEmail();
     let projectName = getProjectName();
     loginProject(projectName);
-    let dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
-    let url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
-    $.ajax({
-        url: url,
-        type: 'PUT',
-        Accept: "text/plain; charset=utf-8",
-        contentType: "application/json",
-        data: dataString,
-        success: function (response) {
-            console.log(response);
+    checkCompBase(function(isCompBaseOnline){
+        if(isCompBaseOnline){
+
+            let allTheTags = [];
+            let allTheCompetencies = [];
+            let allTheResearchQuestions = [];
+            for (let i = 0; i < document.getElementsByName("competencies").length; i++) {        //goes through all competencies and adds them to allTheCompetencies
+                allTheCompetencies.push(document.getElementsByName("competencies")[i].value);
+            }
+            for (let i = 0; i < document.getElementsByName("researchQuestions").length; i++) {        //goes through all competencies and adds them to allTheResearchQuestions
+                allTheResearchQuestions.push(document.getElementsByName("researchQuestions")[i].value);
+            }
+            for (let i = 0; i < document.getElementsByName("tag").length; i++) {   //goes through all tags and adds them to allTheTags
+                if (document.getElementById("tag" + i).checked) {
+                    allTheTags.push(document.getElementById("tag" + i).value);
+                }
+                if ($("#tag" + i).prop("checked"))
+                    allTheCompetencies.push("Die Studierenden interessieren sich für " + $("#tag" + i).val());     //todo: Die Tags werden hinter der Schnittstelle noch nicht verwertet, daher diese schnelle Lösung
+            }
+            if (allTheTags.length > 2) {
+                //alert('Sie haben zu viele Tags ausgewählt');
+                $(".alert").css('background-color', 'lightcoral');
+                allTheTags = [];
+                document.getElementById('loader').className = "loader-inactive";
+                return false;
+            }
+            if (allTheTags.length < 2) {
+                //alert('Sie haben zu wenig Tags ausgewählt');
+                $(".alert").css('background-color', 'lightcoral');
+                allTheTags = [];
+                document.getElementById('loader').className = "loader-inactive";
+                return false;
+            }
+            let data = {                                            //JSON object 'data' collects everything to send
+                "competences": allTheCompetencies,
+                "researchQuestions": allTheResearchQuestions,
+                "tagsSelected": allTheTags
+            };
+            let dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
+            let url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
+            $.ajax({
+                url: url,
+                type: 'PUT',
+                Accept: "text/plain; charset=utf-8",
+                contentType: "application/json",
+                data: dataString,
+                success: function (response) {
+                    console.log(response);
+                    document.getElementById('loader').className = "loader-inactive";
+                    location.href = "../project/courses-student.jsp";
+                },
+                error: function (a, b, c) {
+                    console.log(a);
+                }
+            });
+        }else{
             document.getElementById('loader').className = "loader-inactive";
             location.href = "../project/courses-student.jsp";
-        },
-        error: function (a, b, c) {
-            console.log(a);
         }
     });
 }
@@ -162,4 +173,18 @@ function loginProject(projectName) {
             }
         });
     }
+}
+
+function checkCompBase(callback){
+    $.ajax({
+        url: '../rest/system/health',
+        Accept: "application/json",
+        contentType: "application/json",
+        success: function (response) {
+            callback(response.compBaseOnline);
+        },
+        error: function (a) {
+            console.log(a);
+        }
+    });
 }
