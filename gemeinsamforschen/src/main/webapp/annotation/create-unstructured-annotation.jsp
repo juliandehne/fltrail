@@ -1,8 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -37,7 +39,8 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<menu:menu hierarchy="1"/>
+<div class="col span_content">
     <div class="content-mainpage">
         <div class="leftcolumn">
             <div class="leftcontent">
@@ -65,7 +68,12 @@
             </div>
         </div>
     </div>
-</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
+</div>
+<div class="col span_chat">
+    <chat:chatWindow orientation="right" scope="project" />
+    <chat:chatWindow orientation="right" scope="group" />
+</div>
+<footer:footer/>
 </body>
 
 </html>

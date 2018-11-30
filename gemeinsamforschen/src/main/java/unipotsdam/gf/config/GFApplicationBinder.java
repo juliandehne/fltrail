@@ -52,7 +52,7 @@ public class GFApplicationBinder extends AbstractBinder {
             bind(CommunicationService.class).to(ICommunication.class);
         } else  {
             bind(DummyCommunicationService.class).to(ICommunication.class);
-            log.warn("Rocket Chat is not online. Removing chat capabilities");
+            log.debug("Rocket Chat is not online. Removing chat capabilities");
         }
 
         bind(ManagementImpl.class).to(Management.class);

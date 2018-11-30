@@ -89,7 +89,8 @@ function fitObjectInTmpl(object) {
     switch (object.taskName) {
         case "WAIT_FOR_PARTICPANTS":
             result.infoText = "Warten Sie auf die Anmeldungen der Studenten.\n" +
-                "Es sind bereits "+object.taskData.participantCount.participants+" Studenten eingetragen.";
+                "Es sind bereits "+object.taskData.participantCount.participants+" Studenten eingetragen."+
+            " Es fehlen noch "+ (object.taskData.participantCount.participantsNeeded-object.taskData.participantCount.participants);
             break;
         case "BUILD_GROUPS":
             result.infoText = "Erstellen Sie die Gruppen.";
@@ -109,6 +110,9 @@ function fitObjectInTmpl(object) {
             break;
         case "GIVE_FEEDBACK":
             result.infoText = "[STUDENT] Geben Sie ein Feedback .....";
+            if (object.taskData===null){
+                result.infoText += "nachdem ein weiterer Teilnehmer ein Dossier abgegeben hat."
+            }
             break;
         case "WAITING_FOR_STUDENT_DOSSIERS":
             result.infoText = "[TEACHER] Warten Sie darauf, dass jeder Student ein Dossier" +
@@ -141,7 +145,11 @@ function fitObjectInTmpl(object) {
     if (object.taskType.includes("LINKED")) {
         switch (object.taskName) {
             case "WAIT_FOR_PARTICPANTS":
-                if (object.taskData.gfm==="Manual"){
+                if (
+                    (object.taskData.gfm==="Manual")
+                    ||
+                    (object.taskData.participantCount.participants >= object.taskData.participantCount.participantsNeeded)
+                ){
                     result.solveTaskWith="Gruppen erstellen";
                     result.solveTaskWithLink="redirect(\'../groupfinding/create-groups-manual.jsp?projectName="+object.projectName+"\')";
                 }
@@ -191,10 +199,13 @@ function fitObjectInTmpl(object) {
                 result.solveTaskWithLink = "redirect(\'../assessment/assess-work.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "GIVE_FEEDBACK":
-                result.solveTaskWith = "Geben Sie ein Feedback";
-                result.solveTaskWithLink = "redirect(\'../annotation/annotation-document.jsp?" +
-                    "projectName=" + object.projectName +
-                    "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
+                if (object.taskData !== null){
+                    result.solveTaskWith = "Geben Sie ein Feedback";
+                    result.solveTaskWithLink = "redirect(\'../annotation/annotation-document.jsp?" +
+                        "projectName=" + object.projectName +
+                        "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
+                }
+
                 break;
             default:
                 result.solveTaskWith = null;

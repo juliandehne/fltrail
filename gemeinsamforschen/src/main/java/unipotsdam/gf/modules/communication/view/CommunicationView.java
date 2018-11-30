@@ -5,22 +5,17 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFRocketChatConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.healthchecks.HealthChecks;
+import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.LoginToken;
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -33,6 +28,9 @@ import static java.util.Objects.isNull;
 public class CommunicationView {
 
     private static final Logger log = LoggerFactory.getLogger(CommunicationView.class);
+
+
+
 
     @Inject
     private ICommunication communicationService;
@@ -150,7 +148,7 @@ public class CommunicationView {
     @Path("/login")
     public String provideLoginHTML(@Context HttpServletRequest req) {
         String rocketChatIntegration = "<script> window.parent.postMessage({event: 'login-with-token',loginToken:" +
-                " '"+getAuthToken(req)+"'}, '"+GFRocketChatConfig.ROCKET_CHAT_LINK_0 +"');</script>";
+                " '" + getAuthToken(req) + "'}, '" + GFRocketChatConfig.ROCKET_CHAT_LINK_0 + "');</script>";
         return rocketChatIntegration;
     }
 }
