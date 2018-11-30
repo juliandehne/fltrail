@@ -18,6 +18,9 @@ public class OmniDependencies extends SimpleTagSupport {
                 "    <link rel=\"stylesheet\" href=\""+hierarchyToString(hierarchyLevel)+"libs/bootstrap/css/bootstrap3.3.7.min.css\">\n" +
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/css/styles.css\">\n" +
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "taglibs/css/footer.css\">\n" +
+                "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "taglibs/css/global.css\">\n" +
+                "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "taglibs/css/normalize.css\">\n" +
+                "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "taglibs/css/css-fa/all.css\" integrity=\"sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU\" crossorigin=\"anonymous\">\n" +
                 "    <script src=\"" + hierarchyToString(hierarchyLevel) + "libs/jquery/jquery.3.3.1.min.js\"></script>\n" +
                 "    <script src=\"" + hierarchyToString(hierarchyLevel) + "libs/jquery/jquery.3.3.7.min.js\"></script>\n" +
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/fonts/font-awesome.min.css\">\n" +
