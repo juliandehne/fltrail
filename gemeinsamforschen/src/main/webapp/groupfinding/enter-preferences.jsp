@@ -3,6 +3,8 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
+
 
 <!DOCTYPE html>
 <html>

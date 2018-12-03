@@ -45,6 +45,7 @@ function alterAnnotation(id, annotationPatchRequest, responseHandler) {
  * DELETE: Delete an annotation from database
  *
  * @param id The annotation id
+ * @param responseHandler
  */
 function deleteAnnotation(id, responseHandler) {
     let url = "../rest/annotations/" + id;
@@ -108,7 +109,7 @@ function finalize(){
         type: "GET",
         dataType: "application/json",
         contentType: "application/json",
-        success:function(response){
+        success:function(){
             location.href = "../project/tasks-student.jsp?projectName=" + getProjectName()
         },
         error: function(a){

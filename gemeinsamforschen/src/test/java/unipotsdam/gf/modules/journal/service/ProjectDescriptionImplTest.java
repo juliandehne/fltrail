@@ -2,10 +2,8 @@ package unipotsdam.gf.modules.journal.service;
 
 import org.junit.After;
 import org.junit.Test;
-import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Link;
 import unipotsdam.gf.modules.journal.model.ProjectDescription;
@@ -14,7 +12,6 @@ import unipotsdam.gf.modules.journal.model.dao.LinkDAOImpl;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAO;
 import unipotsdam.gf.modules.journal.model.dao.ProjectDescriptionDAOImpl;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -23,9 +20,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ProjectDescriptionImplTest {
-
-    @Inject
-    private UserDAO userDAO;
 
 
     private ProjectDescriptionService projectDescriptionService = new ProjectDescriptionImpl();
@@ -193,12 +187,11 @@ public class ProjectDescriptionImplTest {
     @Test
     public void getOpenUserByProject() {
         User user = new User("Test", "Test", "test@test.de", true);
-        String token = userDAO.getUserToken(user);
 
         Project project = new Project();
         project.setName(testProject);
 
-        testProjectDescriptionObj.getStudent().setUserEmail(token);
+        testProjectDescriptionObj.getStudent().setUserEmail(user.getEmail());
         descriptionDAO.createDescription(testProjectDescriptionObj);
 
         ArrayList<User> resultUser = projectDescriptionService.getOpenUserByProject(project);
@@ -206,7 +199,7 @@ public class ProjectDescriptionImplTest {
         assertEquals(1, resultUser.size());
         assertEquals(user.getEmail(), resultUser.get(0).getEmail());
 
-        StudentIdentifier delUser = new StudentIdentifier(testProject, token);
+        StudentIdentifier delUser = new StudentIdentifier(testProject, user.getName());
         descriptionDAO.deleteDescription(delUser);
     }
 }

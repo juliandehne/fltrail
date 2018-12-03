@@ -20,7 +20,6 @@
     <title>Projekterstellung</title>
     <omniDependencies:omniDependencies hierarchy="1"/>
     <script src="../groupfinding/js/config.js"></script>
-    <script src="js/edit-group-settings.js"></script>
     <script src="js/create-project.js"></script>
 </head>
 

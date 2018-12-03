@@ -1,11 +1,9 @@
 package unipotsdam.gf.modules.group;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.group.learninggoals.LearningGoalAlgorithm;
 import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
-import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.interfaces.IGroupFinding;
@@ -16,8 +14,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,10 +23,6 @@ public class GroupView {
 
     @Inject
     private IGroupFinding groupfinding;
-
-    @Inject
-    private Management iManagement;
-
     @Inject
     private ProjectDAO projectDAO;
 
@@ -42,8 +34,7 @@ public class GroupView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all/projects/{projectName}")
     public GroupData getOrInitializeGroups(@PathParam("projectName") String projectName) {
-        GroupData data = groupFormationProcess.getOrInitializeGroups(new Project(projectName));
-        return  data;
+        return  groupFormationProcess.getOrInitializeGroups(new Project(projectName));
     }
 
 
@@ -51,52 +42,46 @@ public class GroupView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/project/{projectName}/student/{userName}")
     public ArrayList<String> getStudentsInSameGroup(
-            @PathParam("projectName") String projectName, @PathParam("userName") String userName) throws IOException {
+            @PathParam("projectName") String projectName, @PathParam("userName") String userName){
         StudentIdentifier student = new StudentIdentifier(projectName, userName);
         return groupfinding.getStudentsInSameGroup(student);
     }
 
 
     /**
-     * @param name
-     * @param groupFindingMechanism
-     * @return
-     * @throws URISyntaxException
+     * @param name projectName
+     * @param groupFindingMechanism Manual or similarity of learning goals. others will be implemented
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/gfm/updateForUser/projects/{projectName}")
-    public void updateGFM(@PathParam("projectName") String name, String groupFindingMechanism)
-            throws URISyntaxException {
+    public void updateGFM(@PathParam("projectName") String name, String groupFindingMechanism) {
 
         try {
             GroupFormationMechanism gfm = GroupFormationMechanism.valueOf(groupFindingMechanism);
             groupFormationProcess.changeGroupFormationMechanism(gfm, new Project(name));
         } catch (Exception e) {
             throw new WebApplicationException(
-                    "the groupfindingmechanism needs to be one of " + GroupFormationMechanism.values().toString());
+                    "the groupfindingmechanism needs to be one of " + Arrays.toString(GroupFormationMechanism.values()));
         }
 
     }
 
     /**
-     * @param name
-     * @param groupFindingMechanism
-     * @return
-     * @throws URISyntaxException
+     * @param name projectName
+     * @param groupFindingMechanism Manual, similarity of learning goals or others that are going to be implemented
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/gfm/create/projects/{projectName}")
-    public void createGFM(@PathParam("projectName") String name, String groupFindingMechanism)
-            throws URISyntaxException {
+    public void createGFM(@PathParam("projectName") String name, String groupFindingMechanism) {
 
         try {
             GroupFormationMechanism gfm = GroupFormationMechanism.valueOf(groupFindingMechanism);
             groupFormationProcess.setGroupFormationMechanism(gfm, new Project(name));
         } catch (Exception e) {
             throw new WebApplicationException(
-                    "the groupfindingmechanism needs to be one of " + GroupFormationMechanism.values().toString());
+                    "the groupfindingmechanism needs to be one of " + Arrays.toString(GroupFormationMechanism.values()));
         }
     }
 
@@ -105,22 +90,19 @@ public class GroupView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/projects/{projectName}")
     public List<Group> getGroups(@PathParam("projectName") String projectName) {
-        List<Group> result = groupfinding.getGroups(projectDAO.getProjectByName(projectName));
-        return result;
+        return groupfinding.getGroups(projectDAO.getProjectByName(projectName));
     }
 
 
 
     /**
      * find out if this is used by learning goal
-     * @param projectName
-     * @param groups
      */
     @Deprecated
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}")
-    public void saveGroups(@PathParam("projectName") String projectName, Group[] groups) {
+    public void saveGroups(@PathParam("projectName") String projectName, Group[] groups) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         Project project = new Project(projectName);
         groupFormationProcess.saveGroups(Arrays.asList(groups), project);
     }
@@ -128,7 +110,7 @@ public class GroupView {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}/groups")
-    public void persistGroups(@PathParam("projectName") String  projectName, GroupData data) {
+    public void persistGroups(@PathParam("projectName") String  projectName, GroupData data) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         Project project = new Project(projectName);
         groupFormationProcess.saveGroups(data.getGroups(), project);
     }
@@ -144,11 +126,10 @@ public class GroupView {
 
     /**
      * needed for the learning goal algorithm
-     * @param projectId
-     * @param userId
-     * @param preferenceData
-     * @return
-     * @throws Exception
+     * @param projectId this is actually the project name
+     * @param userId this is actually the userEmail
+     * @param preferenceData  learning goals, research question and tags selected
+     * @return plain text response
      */
     @Path("/user/{userId}/projects/{projectId}/preferences")
     @PUT

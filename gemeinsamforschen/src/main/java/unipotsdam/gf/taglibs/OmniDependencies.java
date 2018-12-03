@@ -14,7 +14,7 @@ public class OmniDependencies extends SimpleTagSupport {
                 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n" +
                 "    <title>fltrail</title>\n" +
                 "    <link href=\"" + hierarchyToString(hierarchyLevel) + "libs/css/googleAPIS400-700.css\" rel=\"stylesheet\"> \n" +
-                "    <link href=\""+hierarchyToString(hierarchyLevel) +"libs/css/googleAPIS300-400-700\" rel=\"stylesheet\">" +
+                "    <link href=\""+hierarchyToString(hierarchyLevel) +"libs/css/googleAPIS300-400-700.css\" rel=\"stylesheet\">" +
                 "    <link rel=\"stylesheet\" href=\""+hierarchyToString(hierarchyLevel)+"libs/bootstrap/css/bootstrap3.3.7.min.css\">\n" +
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/css/styles.css\">\n" +
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "taglibs/css/footer.css\">\n" +
@@ -30,11 +30,11 @@ public class OmniDependencies extends SimpleTagSupport {
                 "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/tagsinput/jquery.tagsinput.min.css\">\n" +
                 "    <script src=\"" + hierarchyToString(hierarchyLevel) + "libs/tagsinput/jquery.tagsinput.min.js\"></script>\n" +
                 "    <script type=\"text/javascript\" src=\"" + hierarchyToString(hierarchyLevel) + "libs/jquery/jqueryTemplate.js\"></script>"+
-                "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/fonts/fontawesome.5.1.0.css/\"\n" +
-                "      integrity=\"sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt\" crossorigin=\"anonymous\">");
+                "    <link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/fonts/fontawesome.5.1.0.css\"\n" +
+                "      crossorigin=\"anonymous\">");
     }
 
-    static public String hierarchyToString(Integer hierarchyLevel) {
+    static String hierarchyToString(Integer hierarchyLevel) {
         StringBuilder resultBuilder = new StringBuilder();
         String result;
         for (Integer count = 0; count < hierarchyLevel; count++) {

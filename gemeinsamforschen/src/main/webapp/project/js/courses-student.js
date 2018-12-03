@@ -47,7 +47,7 @@ function repaintDropDown(data) {
     $('#searchingTemplate').tmpl(data).appendTo('#projectDropdown');
 }
 
-function filterF(string, index, strings) {
+function filterF(string) {
     let searchString = $('#searchField').val().trim();
     return filterString(string, searchString);
 }
@@ -133,12 +133,6 @@ function repaintProjectList(callback, filterList) {
     $('.projectDynamic').remove();
 
     let tmplObject = [];
-    let linkUrl;
-    if (isSearching()) {
-        linkUrl = "../groupfinding/enter-preferences.jsp?projectName="; //tasks oder enter preferences
-    } else {
-        linkUrl = "tasks-student.jsp?projectName=";
-    }
     // filter project cards
     for (let project in projectResponse) {
         if (projectResponse.hasOwnProperty(project))
@@ -165,7 +159,7 @@ function getMyProjects(userName) {
         },
         type: 'GET',
         success: function (response) {
-            // initiate project and response arrays TODO maybe only store project objects and have one function for it
+            // initiate project and response arrays
             if (response.length !== 0){
                 projectResponse = response;
                 for (let project in projectResponse) {
@@ -236,8 +230,9 @@ function buttonHandler() {
     }
     $('.project_Button').each(function () {
         $(this).on('click', function () {
-            location.href = linkUrl + $(this).attr('name');
+            let projectName=$(this).attr('name');
+            location.href = linkUrl + projectName;
+            updateStatus(projectName);
         });
     });
-    updateStatus(projectName);
 }

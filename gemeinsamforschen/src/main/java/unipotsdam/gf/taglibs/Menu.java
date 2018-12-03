@@ -4,9 +4,9 @@ import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
@@ -43,7 +43,7 @@ public class Menu extends SimpleTagSupport {
         }
 
         String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
-        String projectName=request.getParameter(GFContexts.PROJECTNAME);
+        String projectName = request.getParameter(GFContexts.PROJECTNAME);
         JspWriter out = getJspContext().getOut();
         User user = userDAO.getUserByEmail(userEmail);
         if (userEmail != null) {
@@ -52,13 +52,13 @@ public class Menu extends SimpleTagSupport {
                     "    <header>\n" +
                     "        <div class=\"row\">\n" +
                     "            <div class=\"nav-group-left\">";
-            if (isStudent){
-                menuString+="<a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/courses-student.jsp\">Home</a>\n"+
+            if (isStudent) {
+                menuString += "<a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/courses-student.jsp\">Home</a>\n" +
                         "<a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/courses-student.jsp?all=true\">suche Kurs</a>\n";
-            }else{
-                menuString+="                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/overview-docent.jsp\">meine Projekte</a>\n";
+            } else {
+                menuString += "                <a class=\"nav-link\" style=\"color:white;\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "project/overview-docent.jsp\">meine Projekte</a>\n";
             }
-            menuString+="                <a class=\"nav-link\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "profile/profile.jsp?projectName=" + projectName + "\">"+user.getName()+"</a>\n"+
+            menuString += "                <a class=\"nav-link\" href=\"" + OmniDependencies.hierarchyToString(hierarchyLevel) + "profile/profile.jsp?projectName=" + projectName + "\">" + user.getName() + "</a>\n" +
                     "        </div>" +
                     "        <div class=\"nav-group-right\">" +
                     "            <a class=\"nav-link\" id=\"logout\" style=\"cursor:pointer\">Logout</a>\n" +
@@ -81,9 +81,9 @@ public class Menu extends SimpleTagSupport {
         String phaseViewString = "" +
                 "<main>\n" +
                 "    <div class=\"row group\">\n";
-        if (projectName != null){
+        if (projectName != null) {
             phaseViewString += "<div class=\"titlerow\">\n <h1 id=\"projectHeadline\">\n"
-                    +projectName+ "  </h1>      </div>\n";
+                    + projectName + "  </h1>      </div>\n";
         }
         phaseViewString += "" +
                 "    </div>\n" +
@@ -96,7 +96,7 @@ public class Menu extends SimpleTagSupport {
                 "        <ul>\n";
         if (phase != null)
             switch (phase) {
-                case GroupFormation:{
+                case GroupFormation: {
                     phaseViewString += "  <li class=\"neutral icon closed\">Projektinitialisierung</li>\n" +
                             "          <li class=\"draft icon \">Entwurfsphase</li>\n" +
                             "          <li class=\"icon inactive\">Feedbackphase</li>\n" +
@@ -105,7 +105,7 @@ public class Menu extends SimpleTagSupport {
                             "          <li class=\"icon inactive\">Noten</li>\n";
                     break;
                 }
-                case DossierFeedback:{
+                case DossierFeedback: {
                     phaseViewString += "  <li class=\"neutral icon closed\">Projektinitialisierung</li>\n" +
                             "          <li class=\"draft icon closed\">Entwurfsphase</li>\n" +
                             "          <li class=\"feedback icon\">Feedbackphase</li>\n" +
@@ -114,7 +114,7 @@ public class Menu extends SimpleTagSupport {
                             "          <li class=\"icon inactive\">Noten</li>\n";
                     break;
                 }
-                case Execution:{
+                case Execution: {
                     phaseViewString += "  <li class=\"neutral icon closed\">Projektinitialisierung</li>\n" +
                             "          <li class=\"draft icon closed\">Entwurfsphase</li>\n" +
                             "          <li class=\"feedback icon closed\">Feedbackphase</li>\n" +
@@ -123,7 +123,7 @@ public class Menu extends SimpleTagSupport {
                             "          <li class=\"icon inactive\">Noten</li>\n";
                     break;
                 }
-                case Assessment:{
+                case Assessment: {
                     phaseViewString += "  <li class=\"neutral icon closed\">Projektinitialisierung</li>\n" +
                             "          <li class=\"draft icon closed\">Entwurfsphase</li>\n" +
                             "          <li class=\"feedback icon closed\">Feedbackphase</li>\n" +
@@ -132,7 +132,7 @@ public class Menu extends SimpleTagSupport {
                             "          <li class=\"icon inactive\">Noten</li>\n";
                     break;
                 }
-                case Projectfinished:{
+                case Projectfinished: {
                     phaseViewString += "  <li class=\"neutral icon closed\">Projektinitialisierung</li>\n" +
                             "          <li class=\"draft icon closed\">Entwurfsphase</li>\n" +
                             "          <li class=\"feedback icon closed\">Feedbackphase</li>\n" +
@@ -147,13 +147,12 @@ public class Menu extends SimpleTagSupport {
                 "    </div>";
         out.println(phaseViewString);
 
-        if (projectName != null)
+        if (projectName != null) {
             out.println("<p id=\"projectName\" hidden>" + projectName + "</p>");
+        }
         if (user != null)
             out.println("<p id=\"userEmail\" hidden>" + user.getEmail() + "</p>");
         out.println("<p id=\"hierarchyLevel\" hidden>" + hierarchyLevel.toString() + "</p>");
-
-
     }
 
     public Integer getHierarchy() {

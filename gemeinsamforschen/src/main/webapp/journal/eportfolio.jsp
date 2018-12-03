@@ -2,6 +2,7 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
 
 <!DOCTYPE html>
 <html>
@@ -15,9 +16,9 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<menu:menu hierarchy="1"/>
+<div class="col span_content">
 <div class="page-content-wrapper">
-    <headLine:headLine/>
     <div>
         <table>
             <tr>
@@ -63,12 +64,13 @@
                         <div id="journal-container" class="tab-pane fade">
                             <h2>Lerntagebuch</h2>
                             <div class="input-group">
+                                <label>
                                 <select id="journalfilter" class="form-control" style="width:auto;"
                                         onchange="filterJournals()">
                                     <option value="ALL">Alle</option>
                                     <option value="OWN">Eigene</option>
                                 </select>
-
+                                </label>
                                 <a id="createJournalLink" class="btn btn-default btn-sm">Neu</a>
                             </div>
                             <div class="journal">
@@ -89,13 +91,15 @@
                 <h4 class="modal-title">Link hinzuf&uuml;gen</h4>
             </div>
             <div class="modal-body">
-                <form id="linkform" method="POST" action="../rest/projectdescription/addLink">
+                <form id="linkform" method="POST" action="rest/projectdescription/addLink">
                     <input type="hidden" name="projectdescriptionId" id="projectdescriptionId" value=""/>
-                    Name:<br>
+                    <label>Name:<br>
                     <input type="text" name="name" form="linkform">
+                    </label>
                     <br>
-                    URL:<br>
+                    <label>URL:<br>
                     <input type="url" name="link" form="linkform">
+                    </label>
                     <br><br>
                     <input class="btn btn-default" type="submit">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
@@ -152,7 +156,11 @@
         </div>
     </div>
 </div>
-</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
+</div><div class="col span_chat">
+    <chat:chatWindow orientation="right" scope="project" />
+    <chat:chatWindow orientation="right" scope="group" />
+</div>
+<footer:footer/>
 </body>
 
 </html>

@@ -1,6 +1,8 @@
 package unipotsdam.gf.modules.project;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.apache.logging.log4j.core.config.plugins.util.TypeConverters;
+import org.yaml.snakeyaml.util.UriEncoder;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.exceptions.RocketChatDownException;
@@ -50,6 +52,7 @@ public class ProjectView {
         if (user == null) {
             throw new IOException("NO user with this email exists in db");
         }
+        project.setName(UriEncoder.decode(project.getName()));
         projectCreationProcess.createProject(project, user);
         return "success";
     }

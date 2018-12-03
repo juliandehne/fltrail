@@ -109,7 +109,10 @@ $(document).ready(function () {
 
         }
         else {
-            location.href = "../annotation/annotation-document.jsp?fullSubmissionId=" + submissionId + "&category=" + nextCategory;
+            location.href = "../annotation/annotation-document.jsp?" +
+                "projectName=" + getProjectName() +
+                "&fullSubmissionId=" + submissionId +
+                "&category=" + nextCategory;
         }
 
     });

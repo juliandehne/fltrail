@@ -8,7 +8,6 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.user.UserInterests;
 import unipotsdam.gf.modules.user.UserProfile;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.util.ResultSetUtil;
 import unipotsdam.gf.modules.group.GroupDAO;
 
 import javax.annotation.ManagedBean;
@@ -96,20 +95,6 @@ public class ManagementImpl implements Management {
     public Boolean exists(Group group) {
         return groupDAO.exists(group);
     }
-
-    public List<User> getUsers(Project project) {
-        return userDAO.getUsersByProjectName(project.getName());
-    }
-
-    private User getUserFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
-        return ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet);
-    }
-
-
-    public String getUserToken(User user) {
-        return userDAO.getUserToken(user);
-    }
-
 
     public User getUserByEmail(String email) {
         return userDAO.getUserByEmail(email);

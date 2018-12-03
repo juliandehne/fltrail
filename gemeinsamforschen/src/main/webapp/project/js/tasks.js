@@ -114,6 +114,9 @@ function fitObjectInTmpl(object) {
                 result.infoText += "nachdem ein weiterer Teilnehmer ein Dossier abgegeben hat."
             }
             break;
+        case "SEE_FEEDBACK":
+            result.infoText = "Sie erhielten Feedback zu Ihrem Dossier.";
+            break;
         case "WAITING_FOR_STUDENT_DOSSIERS":
             result.infoText = "[TEACHER] Warten Sie darauf, dass jeder Student ein Dossier" +
                 "hochlädt und ein Feedback für jemanden gab.";
@@ -206,6 +209,15 @@ function fitObjectInTmpl(object) {
                         "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
                 }
 
+                break;
+            case "SEE_FEEDBACK":
+                if (object.taskData !== null){
+                    result.solveTaskWith = "zum Feedback";
+                    result.solveTaskWithLink = "redirect(\'../annotation/annotation-document.jsp?" +
+                        "projectName=" + object.projectName +
+                        "&fullSubmissionId=" + object.taskData.fullSubmission.id +
+                        "&category=" + object.taskData.category + "\')";
+                }
                 break;
             default:
                 result.solveTaskWith = null;
