@@ -26,35 +26,56 @@ $(document).ready(function () {
         $('#annotation-edit-modal').hide();
         $('#annotation-create-modal').hide();
     });
+
+    if (!category) {
+        btnFinalize.hide();
+        btnContinue.hide();
+        btnBack.hide();
+        $('#btnWholeCategory').hide();
+    }
+    let documentText = $('#documentText');
     // fetch full submission from database
     getFullSubmission(getQueryVariable("fullSubmissionId"), function (response) {
 
         // set text
-        $('#documentText').html(response.text);
+        let documentText = $('#documentText');
+        documentText.html(response.text);
 
         // fetch submission parts
         getSubmissionPart(fullSubmissionId, category, function (response) {
-
-            let body = response.body;
-            // save body
             let documentText = $('#documentText');
-            documentText.data("body", body);
-            let offset = 0;
-            for (let i = 0; i < body.length; i++) {
-                addHighlightedSubmissionPart(body[i].startCharacter, body[i].endCharacter, offset);
-                // add char count of '<span class="categoryText"></span>'
-                offset += 34;
+            let body;
+            if (response===false){
+                body = [{
+                    startCharacter: 0,
+                    endCharacter: documentText.html().length,
+                    text: documentText.html()
+                }];
+                addHighlightedSubmissionPart(body[0].startCharacter, body[0].endCharacter, 0);
+            }else{
+                body = response.body;
+                let offset = 0;
+                for (let i = 0; i < body.length; i++) {
+                    addHighlightedSubmissionPart(body[i].startCharacter, body[i].endCharacter, offset);
+                    // add char count of '<span class="categoryText"></span>'
+                    offset += 34;
+                }
             }
-            // scroll document text to first span element
+            documentText.data("body", body);
+            // save body
+            documentText.data("body", body);
 
+
+
+            // scroll document text to first span element
             let span = $('#documentText span').first();
             documentText.scrollTo(span);
         }, function () {
-            // error
+            //error
         })
 
     }, function () {
-        // error
+        //error
     });
 
     // connect to websocket on page ready
@@ -305,19 +326,25 @@ $(document).ready(function () {
     });
 
     // fetch annotations from server on page start
-    if (getQueryVariable("seeFeedback")==="true"){
+    if (getQueryVariable("seeFeedback") === "true") {
         let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT", "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
-        for (let i=0; i<categories.length; i++){
+        for (let i = 0; i < categories.length; i++) {
             getAnnotations(fullSubmissionId, categories[i], function (response) {
                 // iterate over annotations and display each
                 $.each(response, function (i, annotation) {
                     displayAnnotation(annotation);
                 });
+                let list = $('#annotations');
+                list.prepend(
+                    // list element
+                    $('<h5>')
+                        .attr('class', 'listelement')
+                        .html(categories[i]));
                 // handle drop down button
                 showAndHideToggleButton();
             });
         }
-    }else{
+    } else {
         getAnnotations(fullSubmissionId, category, function (response) {
             // iterate over annotations and display each
             $.each(response, function (i, annotation) {
@@ -549,7 +576,7 @@ function calculateExtraOffset(startCharacter) {
     let body = $('#documentText').data("body");
     let extraOffset = 0;
 
-    for (var i = 0; i < body.length; i++) {
+    for (let i = 0; i < body.length; i++) {
         if (body[i].startCharacter <= startCharacter) {
             extraOffset += 27;
         }
@@ -599,7 +626,7 @@ function getSelectedText() {
  */
 function getUserColor(userEmail, category) {
     // insert new color if there is no userEmail key
-    if (getQueryVariable("seeFeedback")){
+    if (getQueryVariable("seeFeedback")) {
         generateCategoryBasedColor(userEmail, category);
     }
     if (userColors.get(userEmail) == null) {
@@ -618,7 +645,7 @@ function getUserColor(userEmail, category) {
  */
 function getDarkUserColor(userEmail, category) {
     // insert new color if there is no userEmail key
-    if (getQueryVariable("seeFeedback")){
+    if (getQueryVariable("seeFeedback")) {
         generateCategoryBasedColor(userEmail, category);
     }
     if (userColorsDark.get(userEmail) == null) {
@@ -648,17 +675,17 @@ function generateRandomColor(userEmail) {
     userColorsDark.set(userEmail, colorDark);
 }
 
-function generateCategoryBasedColor(userEmail, category){
-    let category_r, category_g, category_b=0;
+function generateCategoryBasedColor(userEmail, category) {
+    let category_r, category_g, category_b = 0;
     let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT", "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
-    for (let i=0; i<categories.length; i++){
-        if (category===categories[i]){
-            category_r= i * 203 % 255;
-            category_g= i * 101 % 255;
-            category_b= i * 181 % 255;
+    for (let i = 0; i < categories.length; i++) {
+        if (category === categories[i]) {
+            category_r = i * 203 % 255;
+            category_g = i * 101 % 255;
+            category_b = i * 181 % 255;
         }
     }
-    let r = category_r +(userEmail.hashCode()*userEmail.hashCode()*userEmail.hashCode())%71;
+    let r = category_r + (userEmail.hashCode() * userEmail.hashCode() * userEmail.hashCode()) % 71;
     let g = category_g + (userEmail.hashCode() * userEmail.hashCode()) % 71;
     let b = category_b + userEmail.hashCode() % 71;
     let r_d = r - 50;
@@ -672,6 +699,7 @@ function generateCategoryBasedColor(userEmail, category){
     userColorsDark.set(userEmail, colorDark);
 
 }
+
 /**
  * Calculate and build a readable timestamp from an unix timestamp
  *
@@ -958,7 +986,7 @@ function searchAnnotation() {
 
 function selectText() {
     let text = document.getElementsByClassName('categoryText')[0];
-    if (window.getSelection()){
+    if (window.getSelection()) {
         let selection = window.getSelection();
         let range = document.createRange();
         range.selectNodeContents(text);
@@ -967,12 +995,12 @@ function selectText() {
     }
 }
 
-String.prototype.hashCode = function() {
+String.prototype.hashCode = function () {
     let hash = 0, i, chr;
     if (this.length === 0) return hash;
     for (i = 0; i < this.length; i++) {
-        chr   = this.charCodeAt(i);
-        hash  = ((hash << 5) - hash) + chr;
+        chr = this.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
         hash |= 0; // Convert to 32bit integer
     }
     return hash;
