@@ -201,7 +201,7 @@ public class ProjectDAO {
                             "projectuser pu on p.name = pu.projectName WHERE userEmail=?" +
                         ") as j1 " +
                     "on name=studentParticipatesIn " +
-                "WHERE studentParticipatesIn IS NULL;";
+                "WHERE studentParticipatesIn IS NULL AND phase='GroupFormation';";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, user.getEmail());
         while (vereinfachtesResultSet.next()) {
             Project projectFromResultSet = getProjectFromResultSet(vereinfachtesResultSet);

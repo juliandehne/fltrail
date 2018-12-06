@@ -216,7 +216,8 @@ function fitObjectInTmpl(object) {
                     result.solveTaskWithLink = "redirect(\'../annotation/annotation-document.jsp?" +
                         "projectName=" + object.projectName +
                         "&fullSubmissionId=" + object.taskData.fullSubmission.id +
-                        "&category=" + object.taskData.category + "\')";
+                        "&category=" + object.taskData.category +
+                        "&seeFeedback=true\')";
                 }
                 break;
             default:

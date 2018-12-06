@@ -75,7 +75,7 @@ public class GroupFormationProcess {
     public GroupData getOrInitializeGroups(Project project) {
         List<Group> groups = groupfinding.getGroups(project);
         if (groups.isEmpty()) {
-            if (groupfinding.getGFM(project).equals(GroupFormationMechanism.Manual)) {
+            if (groupfinding.getGFM(project).equals(GroupFormationMechanism.SingleUser)) {
                 List<User> users = userDAO.getUsersByProjectName(project.getName());
                 Group group = new Group(users, project.getName());
                 groups.add(group);

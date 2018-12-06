@@ -41,9 +41,7 @@ public class AnnotationController implements IAnnotation {
         connection.close();
 
         // build response annotation
-        Annotation annotationResponse = getAnnotation(uuid);
-
-        return annotationResponse;
+        return getAnnotation(uuid);
 
     }
 

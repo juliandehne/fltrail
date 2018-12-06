@@ -203,6 +203,13 @@ public class TaskDAO {
                     result.add(feedbackTask);
                     break;
                 }
+                case SEE_FEEDBACK:{
+                    Task feedbackTask = getGeneralTask(vereinfachtesResultSet);
+                    feedbackTask.setTaskData(submissionController.getMyFeedback(user, project));
+                    feedbackTask.setHasRenderModel(true);
+                    result.add(feedbackTask);
+                    break;
+                }
                 case WAITING_FOR_STUDENT_DOSSIERS: {
                     Task task = getGeneralTask(vereinfachtesResultSet);
                     task.setHasRenderModel(true);
