@@ -31,38 +31,12 @@
         <div class="alert alert-danger" id="projectWrongPassword">Das Passwort ist falsch.</div>
     </fieldset>
     <fieldset id="competenciesFieldSet">
-        <legend>Lernziele</legend>
+        <legend>Interessen</legend>
+        <p>Umreißen Sie Ihre Interessen in diesem Kurs mit einigen Tags (Substantiven)</p>
         <div id="competencies">
             <input class="form-control" type="text" id="competencies0" name="competencies" required=""
-                   placeholder="Ich möchte folgendes lernen:">
+                   placeholder="Tag">
         </div>
-        <button
-                class="btn btn-default" type="button"
-                style="height:36px;width:33px;"
-                id="addCompetenceButton">+
-        </button>
-        <button
-                class="btn btn-default" type="button"
-                style="height:36px;width:33px;"
-                id="subtractCompetenceButton">-
-        </button>
-
-    </fieldset>
-    <fieldset id="researchQuestionFieldSet">
-        <legend>Forschungsfrage</legend>
-        <div id="researchQuestion">
-            <input class="form-control" id="researchQuestion0" type="text" name="researchQuestion" required=""
-                   placeholder="Meine Forschungsfrage(n): ">
-        </div>
-        <button class="btn btn-default" type="button"
-                style="height:36px;width:33px;"
-                id="addResearchQuestionButton">+
-        </button>
-        <button
-                class="btn btn-default" type="button"
-                style="height:36px;width:33px;"
-                id="subtractCResearchQuestionButton">-
-        </button>
     </fieldset>
     <fieldset>
         <legend>Tags</legend>
