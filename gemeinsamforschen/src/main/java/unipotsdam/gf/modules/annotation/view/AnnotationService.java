@@ -9,6 +9,8 @@ import unipotsdam.gf.modules.annotation.model.AnnotationResponse;
 import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.Task;
@@ -49,6 +51,9 @@ public class AnnotationService {
 
     @Inject
     private ProjectDAO projectDAO;
+
+    @Inject
+    private UserDAO userDAO;
 
     @Inject
     private DossierCreationProcess dossierCreationProcess;
@@ -157,19 +162,20 @@ public class AnnotationService {
 
 
     @GET
-    @Path("/finalize/projectName/{projectName}/taskName/{taskName}")
+    @Path("/finalize/projectName/{projectName}")
     @Produces("application/json")
-    public String finalizeFeedback(@Context HttpServletRequest req, @PathParam("projectName") String projectName,
-                                @PathParam("taskName") String taskName)
-            throws UnsupportedEncodingException, IOException {
+    public String finalizeFeedback(@Context HttpServletRequest req, @PathParam("projectName") String projectName)
+            throws IOException {
         Task task= new Task();
         String userEmail = gfContexts.getUserEmail(req);
         task.setProjectName(projectName);
         task.setUserEmail(userEmail);
-        task.setTaskName(TaskName.valueOf(taskName));
+        task.setTaskName(TaskName.GIVE_FEEDBACK);
         task.setProgress(Progress.FINISHED);
+        User distributer = userDAO.getUserByEmail(userEmail);
         controller.endFeedback(task);
         Project project = projectDAO.getProjectByName(projectName);
+        dossierCreationProcess.createSeeFeedBackTask(project, distributer);
         dossierCreationProcess.createCloseFeedBackPhaseTask(project);
         return null;
     }

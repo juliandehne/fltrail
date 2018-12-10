@@ -1,6 +1,7 @@
 package unipotsdam.gf.config;
 
 
+import unipotsdam.gf.healthchecks.HealthChecks;
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.user.User;
 
@@ -49,4 +50,6 @@ public class GFRocketChatConfig {
      *       -d '{ "user": "test@stuff.com", "password": "passwort" }'
      *       um
      */
+
+
 }

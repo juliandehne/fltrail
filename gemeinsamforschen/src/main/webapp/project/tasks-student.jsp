@@ -15,11 +15,14 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">
+        <jsp:param name="hierarchy" value="1"/>
+    </jsp:include>
     <script src="js/tasks.js"></script>
 </head>
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<menu:menu hierarchy="1"/>
+<div class="col span_content">
 
 <%--    <div class="infotext ">
     <p class="icon">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt

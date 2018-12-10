@@ -216,6 +216,8 @@ footer {
 .card {
     max-width: 500px;
     page-break-inside: avoid;
+    break-inside: avoid;
+    word-break-inside: avoid;
     position: relative;
     background: #fff;
     padding: 1em;
@@ -646,4 +648,11 @@ select:disabled ~ .select_arrow {
 
 .tags .spacing{
     width: 80px;
+}
+
+.form-group input{
+    max-width: 500px;
+}
+.form-group .tags{
+    max-width: 500px;
 }

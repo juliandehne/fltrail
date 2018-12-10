@@ -98,21 +98,6 @@ public class UserDAO {
         return result;
     }
 
-    public String getUserToken(User user) {
-        connect.connect();
-        String mysqlRequest = "SELECT * FROM users where email = ? and password = ?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, user.getEmail(), user.getPassword());
-        boolean next = vereinfachtesResultSet.next();
-        if (!next) {
-            connect.close();
-            return null;
-        }
-        String token = vereinfachtesResultSet.getString("token");
-        connect.close();
-        return token;
-    }
-
     public User getUserByEmail(String email) {
         return getUserByField("email", email);
     }

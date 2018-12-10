@@ -18,4 +18,10 @@ public class HealthcheckTest {
         Boolean result2 = HealthChecks.isCompBaseOnline();
         assertTrue(result2);
     }
+
+    @Test
+    public void checkIfMySQLAvailable() {
+        Boolean result3 = HealthChecks.isMysqlOnline();
+        assertTrue(result3);
+    }
 }

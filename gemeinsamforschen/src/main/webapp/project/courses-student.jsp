@@ -17,7 +17,7 @@
 <div class="col span_content">
     <div>
             <h1 id="headLine"></h1>
-            <p class="introduction"> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+            <p class="introduction" id="introduction"> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
                 tempor
                 invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
                 dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
@@ -38,7 +38,8 @@
                 <div class="select_arrow"></div>
             </div>
         <div class="search">
-            <input id="searchField" type="text" name="suche" placeholder="Suche"><i class="fas fa-search"></i>
+            <input id="searchField" type="text" name="suche" placeholder="Suche">
+            <i class="fas fa-search"></i>
         </div>
     </div>
 

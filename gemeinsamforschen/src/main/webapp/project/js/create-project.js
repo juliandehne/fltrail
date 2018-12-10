@@ -1,6 +1,6 @@
 let allTheTags = [];
 let projectName = "";
-var gfm = "";
+let gfm = "";
 
 /**
  * Created by fides-WHK on 19.02.2018.
@@ -12,24 +12,22 @@ $(document).ready(function () {
     initTagsInput(allTheTags);
     // add handle to the submit button
     initSendButton(allTheTags);
+    $('#tagsProject').importTags('');
 });
 
 // function that creates the project in the db
-function createNewProject(allTheTags, activ) {
+function createNewProject(allTheTags) {
     // again hiding the error messages
     errorMessages();
     // getting the data from the form fields
     let project = getProjectValues();
-    let projectName = $("#nameProject").val().trim();
     // create the project
     if (project) {
         // create the project in local db
         let localurl = "../rest/project/create";
         $.ajax({                        //check local DB for existence of projectName
             url: localurl,
-            projectName: projectName,
             contentType: 'application/json',
-            activ: activ,
             type: 'POST',
             data: JSON.stringify(project),
             success: function (response) {
@@ -43,7 +41,7 @@ function createNewProject(allTheTags, activ) {
                     }
                 }
             },
-            error: function (a, b, c) {
+            error: function (a) {
                 console.log(a);
                 return true;
             }
@@ -68,8 +66,8 @@ function initTagsInput(allTheTags) {
             onAddTag: function (tag) {
                 allTheTags.push(tag);
             },
-            onRemoveTag: function (tag) {
-                allTheTags.pop();           //todo: löscht noch nicht den gewählten tag sondern den letzten
+            onRemoveTag: function () {
+                allTheTags = $(this).val().split(",");
             }
         });
     });
@@ -77,8 +75,7 @@ function initTagsInput(allTheTags) {
 
 function initSendButton(allTheTags) {
     $('#sendProject').on('click', function () {
-        let activ = "1";
-        createNewProject(allTheTags, activ);
+        createNewProject(allTheTags);
     });
 }
 
@@ -88,7 +85,7 @@ function getProjectValues() {
     let password = $("#passwordProject").val().trim();
     //allTheTags = $("#tagsProject").tagsInput('items');
     //allTheTags = $("#tagsProject").val();
-    let reguexp = /^[a-zA-Z0-9äüöÄÜÖ]+$/;
+    let reguexp = /^[a-zA-Z0-9äüöÄÜÖ ]+$/;
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
         return false;
@@ -153,32 +150,32 @@ function createProjectinCompbase() {
 
 function sendGroupPreferences() {
     gfm = $('input[name=gfm]:checked').val();
-    if (gfm == "Basierend auf Präferenzen") {
+    if (gfm === "Basierend auf Präferenzen") {
         // TODO implement preference based group selection
         gfm = "UserProfilStrategy";
-    } else if (gfm == "per Hand") {
+    } else if (gfm === "per Hand") {
         gfm = "Manual";
-    } else if (gfm == "Basierend auf Lernzielen") {
+    } else if (gfm === "Basierend auf Lernzielen") {
         gfm = "LearningGoalStrategy";
-    } else if(gfm == "Keine Gruppen") {
+    } else if(gfm === "Keine Gruppen") {
         gfm = "SingleUser";
     }
 
-    var localurl = "../../gemeinsamforschen/rest/group/gfm/create/projects/" + projectName;
+    let localurl = "../../gemeinsamforschen/rest/group/gfm/create/projects/" + projectName;
     $.ajax({
         gfm: gfm,
         url: localurl,
         contentType: 'application/json',
         type: 'POST',
         data: gfm,
-        success: function (a, b, c) {
-            if (gfm == "LearningGoalStrategy") {
+        success: function () {
+            if (gfm === "LearningGoalStrategy") {
                 createProjectinCompbase();
             }
             document.location.href = "tasks-docent.jsp?projectName="+projectName;
             return true;
         },
-        error: function (a, b, c) {
+        error: function () {
             return false;
         }
     });

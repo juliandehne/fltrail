@@ -5,12 +5,9 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFApplicationBinder;
-import unipotsdam.gf.config.GFRocketChatConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.communication.service.CommunicationService;
-import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
@@ -43,13 +40,13 @@ public class ChatWindow extends SimpleTagSupport {
         String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
 
         if (!(request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) == null)) {
-            /**
+            /*
              * create project chatroom
              */
-            if (getScope() == "project") {
+            if (getScope().equals("project")) {
                 String chatRoomLink = communicationService.getProjectChatRoomLink(projectName);
                 writeIframe(request, chatRoomLink);
-                /**
+                /*
                  * create group chatroom
                  */
             } else {
@@ -57,9 +54,7 @@ public class ChatWindow extends SimpleTagSupport {
                 String projectChatRoomLink = null;
                 try {
                     projectChatRoomLink = communicationService.getChatRoomLink(userEmail, projectName);
-                } catch (RocketChatDownException e) {
-                    e.printStackTrace();
-                } catch (UserDoesNotExistInRocketChatException e) {
+                } catch (RocketChatDownException | UserDoesNotExistInRocketChatException e) {
                     e.printStackTrace();
                 }
                 if (projectChatRoomLink != null) {

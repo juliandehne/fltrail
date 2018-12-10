@@ -10,6 +10,7 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 
+
 <html>
 <head>
     <omniDependencies:omniDependencies hierarchy="1"/>
@@ -57,6 +58,9 @@
     </div>
 </div>
 <button type="button" class="btn-success" id="btnSave"> speichern</button>
-</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
+</div>
+<div class="col span_chat">
+</div>
+<footer:footer/>
 </body>
 </html>

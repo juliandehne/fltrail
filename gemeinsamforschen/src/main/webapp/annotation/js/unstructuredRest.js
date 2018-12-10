@@ -77,6 +77,10 @@ function createSubmissionPart(submissionPartPostRequest, responseHandler) {
  * @param errorHandler The error handler
  */
 function getSubmissionPart(id, category, responseHandler, errorHandler) {
+    if (!category){
+        responseHandler(false);
+        return false;
+    }
     let url = "../rest/submissions/full/" + id + "/category/" + category;
     $.ajax({
         url: url,

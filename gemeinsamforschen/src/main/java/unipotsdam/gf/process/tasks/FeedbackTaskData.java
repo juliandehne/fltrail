@@ -5,15 +5,10 @@ import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
 
 public class FeedbackTaskData {
-
-
-
     private User target;
-
     private String submissionId;
-
-
     private Category category;
+
 
     public FeedbackTaskData() {
     }

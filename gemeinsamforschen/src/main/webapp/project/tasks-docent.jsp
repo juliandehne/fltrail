@@ -1,6 +1,3 @@
-<%--
-  todo: probably this page is not needed at all. as well as tasks.js
---%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
