@@ -1,6 +1,7 @@
 package unipotsdam.gf.healthchecks;
 
 import ch.vorburger.exec.ManagedProcessException;
+import unipotsdam.gf.config.GroupAlConfig;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
 
 import javax.ws.rs.client.Client;
@@ -48,5 +49,10 @@ public class HealthChecks {
         } catch (SQLException e) {
             return false;
         }
+    }
+
+    public static Boolean isGroupAlOnline() {
+        boolean result = hostAvailabilityCheck(GroupAlConfig.GROUPAl_BASE_URL, 12345);
+        return result;
     }
 }
