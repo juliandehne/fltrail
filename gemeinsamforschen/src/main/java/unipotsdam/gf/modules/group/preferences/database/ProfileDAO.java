@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.group.preferences.database;
 
+import unipotsdam.gf.modules.group.preferences.excel.ItemSet;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 
@@ -141,6 +142,19 @@ public class ProfileDAO {
         connect.connect();
 
         connect.close();
+    }
+
+    /**
+     * persist a variable for group formation
+     * @param itemSet
+     */
+    public void persistProfileVariable(ItemSet itemSet) {
+        String variable = itemSet.getVariable();
+        String subvariable = itemSet.getSubVariable();
+        String context = itemSet.getContext();
+        String variableDefinition = itemSet.getVariableDefinition();
+
+
     }
 
 }

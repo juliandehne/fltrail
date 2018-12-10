@@ -264,7 +264,12 @@
             <version>1.8.0</version>
         </dependency>
 
-
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+        <dependency>
+            <groupId>com.github.ozlerhakan</groupId>
+            <artifactId>poiji</artifactId>
+            <version>1.19.1</version>
+        </dependency>
 
     </dependencies>
 
