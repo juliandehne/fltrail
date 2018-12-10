@@ -17,7 +17,7 @@ $(document).ready(function() {
         }).then(function(data) {
             $('#editor').append(data.entryMD);
 
-            //TODO preselet in select tags
+            //TODO preselect in select tags
 
             new InscrybMDE({
                 element: document.getElementById("editor"),

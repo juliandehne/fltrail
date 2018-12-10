@@ -12,7 +12,6 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 
 
-
 <html>
 
 <head>
@@ -21,12 +20,12 @@
     <title>Projekterstellung</title>
     <omniDependencies:omniDependencies hierarchy="1"/>
     <script src="../groupfinding/js/config.js"></script>
-    <script src="js/edit-group-settings.js"></script>
     <script src="js/create-project.js"></script>
 </head>
 
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<menu:menu hierarchy="1"/>
+<div class="col span_content">
     <div class="page-content-wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -56,24 +55,36 @@
         <div class="alert alert-danger" role="alert" style="width:475px" id="projectIsMissing">
             Tragen sie einen Projektnamen ein.
         </div>
-        <div class="form-group"><input class="form-control" name="name" placeholder="Name"
-                                       style="width:286px;margin-left:50px;" id="nameProject"></div>
+        <div class="form-group">
+            <input class="form-control" name="name" placeholder="Name" id="nameProject">
+        </div>
         <p> Passwort zum Teilnehmen (optional) </p>
-        <div class="form-group"><input class="form-control" name="password" placeholder="Passwort"
-                                       style="width:287px;margin-left:51px;" id="passwordProject"></div>
+        <div class="form-group">
+            <input class="form-control" name="password" placeholder="Passwort" id="passwordProject">
+        </div>
         <p>Gruppenarbeitseinstellungen</p>
-        <input type="radio" id="lg" name="gfm" value="Basierend auf Lernzielen">
-            <label for="lg">Basierend auf Lernzielen</label>
-        <input type="radio" id="ml" name="gfm" value="per Hand">
-            <label for="ml">per Hand</label>
-        <input type="radio" id="bp" name="gfm" value="Basierend auf Präferenzen">
-            <label for="bp">Basierend auf Präferenzen</label>
-        <input type="radio" id="single" name="gfm" value="Keine Gruppen">
-            <label for="single">Einzelarbeit</label>
-
+        <ul>
+            <li>
+                <input type="radio" id="lg" name="gfm" value="Basierend auf Lernzielen">
+                <label for="lg">Basierend auf Lernzielen</label>
+            </li>
+            <li>
+                <input type="radio" id="ml" name="gfm" value="per Hand">
+                <label for="ml">per Hand</label>
+            </li>
+            <li>
+                <input type="radio" id="bp" name="gfm" value="Basierend auf Präferenzen">
+                <label for="bp">Basierend auf Präferenzen</label>
+            </li>
+            <li>
+                <input type="radio" id="single" name="gfm" value="Keine Gruppen">
+                <label for="single">Einzelarbeit</label>
+            </li>
+        </ul>
         <h4>Projektbeschreibung</h4>
         <div>
-            <textarea class="" rows="4" cols="60" id="projectDescription" placeholder="meine Projektbeschreibung"></textarea>
+            <textarea class="" rows="4" cols="60" id="projectDescription"
+                      placeholder="meine Projektbeschreibung"></textarea>
         </div>
         <h4>Tags </h4>
         <div id="tagHelper" class="alert alert-warning" style="width:475px;">
@@ -88,7 +99,8 @@
             <button class="btn btn-primary" style="margin-left:129px;" id="sendProject">erstellen</button>
         </div>
     </div>
-</div><div class="col span_chat">
+</div>
+<div class="col span_chat">
 
 </div>
 <footer:footer/>

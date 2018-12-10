@@ -24,7 +24,7 @@
             <p>
                ${projectDescription}
             </p>
-            <button class="primary" id="project_${projectName}">Einsehen </button>
+            <button class="primary" id="project_${projectId}">Einsehen </button>
         </div>
     </div>
     </script>

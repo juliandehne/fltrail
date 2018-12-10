@@ -76,7 +76,8 @@ public class GroupAlTest {
             value.setName("a1");
             value.setValue(rn.nextInt(10));
             Value value2 = new Value();
-            value2.setName("a2");
+            // es ist aus absurden Gründen wichtig, dass der Name genau so gesetzt ist
+            value2.setName("value0");
             value2.setValue(rn.nextInt(10));
             ArrayList<Value> values = new ArrayList<>();
             values.add(value);
@@ -86,7 +87,7 @@ public class GroupAlTest {
             firstCriterion.setIsHomogeneous("true");
             firstCriterion.setMaxValue(10f);
             firstCriterion.setMinValue(0f);
-            firstCriterion.setName("xzzz" +i);
+            firstCriterion.setName("value1");
             firstCriterion.setWeight(1);
             firstCriterion.getValues().add(value);
             firstCriterion.getValues().add(value2);

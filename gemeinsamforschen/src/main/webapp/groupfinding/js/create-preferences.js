@@ -3,48 +3,22 @@
  */
 
 $(document).ready(function () {
-
+    checkCompBase(function(isCompBaseOnline){
+        if (!isCompBaseOnline){
+            $('#competenciesFieldSet').hide();
+            $('#researchQuestionFieldSet').hide();
+        }
+    });
 
     $('#projectWrongPassword').hide();
     printTags();
-    $("#competencies0").focus();
+    let competencies = $("#competencies0");
+    competencies.tagsInput();
+    competencies.focus();
     $("#studentFormSubmit").on("click", function () {
         takesPartInProject();
     });
-    $("#addCompetenceButton").on("click", function () {
-        addInput("competencies");       //creates a new input-Field with the ID 'competenciesX' where X is number of elements with 'competencies' as ID
-    });
-    $("#subtractCompetenceButton").on("click", function () {
-        deletInput("competencies");     //deletes latest input-Field with the ID 'competenciesX' where X is number of elements with 'competencies' as ID
-    });
-    $("#addResearchQuestionButton").on("click", function () {
-        addInput("researchQuestion");   //creates a new input-Field with the ID 'researchQuestionX' where X is number of elements with 'researchQuestion' as ID
-    });
-    $("#subtractCResearchQuestionButton").on("click", function () {
-        deletInput("researchQuestion");    //deletes the latest input-Field with ID 'researchQuestionX' where X is number of elements with 'researchQuestion' as ID
-    });
-
 });
-
-
-function addInput(name) {        //creates a new input-Field with the ID 'nameX' where X is number of elements with 'name' as ID
-    let i = document.getElementsByName(name).length;
-    let div = document.getElementById(name);
-    let newInput = document.createElement("span");
-    newInput.innerHTML = "<input class='form-control' " +
-        "type='text' " +
-        "name='" + name + "' " +
-        "id='" + name + i + "'>";
-    div.appendChild(newInput);
-}
-
-function deletInput(name) {        //deletes latest input-Field with the ID 'nameX' where X is number of elements with 'name' as ID
-    let i = document.getElementsByName(name).length;
-    if (i > 1) {
-        let lastEntry = document.getElementById(name + "" + (i - 1));
-        lastEntry.parentNode.removeChild(lastEntry);
-    }
-}
 
 /**
  * selects the tags from the db and prints the seleciton
@@ -57,18 +31,18 @@ function printTags() {
         contentType: "text/plain",
         success: function (response) {
             let tagList = response;
-            for (i = 0; i < tagList.length; i++) {
-                let newInput = document.createElement("label");
+            for (let i = 0; i < tagList.length; i++) {
+                let newInput = document.createElement("DIV");
                 newInput.innerHTML =
                     "<div class='checkbox checkbox-primary' >"
-                    + "<input id='tag" + i + "' " + " class='styled' " + "name='tag'" + " type='checkbox' " + ">"
+                    + "<input id='tag" + i + "' " + " class='styled' " + "name='tag'" + " type='checkbox' value='" + tagList[i] + "'>"
                     + "<label for='tag" + i + "' " + ">" + tagList[i] + "</label>"
                     + "</div>";
                 let div = document.getElementById('tags');
                 div.appendChild(newInput);
             }
         },
-        error: function (a, b, c) {
+        error: function (a) {
             console.log(a);
         }
     });
@@ -76,67 +50,60 @@ function printTags() {
 
 
 // he is added in compbase to the project
-function takesPartInProject(context) {
+function takesPartInProject() {
     $('.cover').each(function(){
         $(this).fadeIn(100);
     });
     document.getElementById('loader').className = "loader";
 
-    let allTheTags = [];
-    let allTheCompetencies = [];
-    let allTheResearchQuestions = [];
-    for (let i = 0; i < document.getElementsByName("competencies").length; i++) {        //goes through all competencies and adds them to allTheCompetencies
-        allTheCompetencies.push(document.getElementsByName("competencies")[i].value);
-    }
-    for (let i = 0; i < document.getElementsByName("researchQuestions").length; i++) {        //goes through all competencies and adds them to allTheResearchQuestions
-        allTheResearchQuestions.push(document.getElementsByName("researchQuestions")[i].value);
-    }
-    for (let i = 0; i < document.getElementsByName("tag").length; i++) {   //goes through all tags and adds them to allTheTags
-        if (document.getElementById("tag" + i).checked) {
-            allTheTags.push(document.getElementById("tag" + i).value);
-        }
-        if ($("#tag" + i).prop("checked"))
-            allTheCompetencies.push("Die Studierenden interessieren sich für " + $("#tag" + i).val());     //todo: Die Tags werden hinter der Schnittstelle noch nicht verwertet, daher diese schnelle Lösung
-    }
-    if (allTheTags.length > 2) {
-        //alert('Sie haben zu viele Tags ausgewählt');
-        $(".alert").css('background-color', 'lightcoral');
-        allTheTags = [];
-        document.getElementById('loader').className = "loader-inactive";
-        return false;
-    }
-    if (allTheTags.length < 2) {
-        //alert('Sie haben zu wenig Tags ausgewählt');
-        $(".alert").css('background-color', 'lightcoral');
-        allTheTags = [];
-        document.getElementById('loader').className = "loader-inactive";
-        return false;
-    }
-    let data = {                                            //JSON object 'data' collects everything to send
-        "competences": allTheCompetencies,
-        "researchQuestions": allTheResearchQuestions,
-        "tagsSelected": allTheTags
-    };
-
-
     let userEmail = getUserEmail();
     let projectName = getProjectName();
     loginProject(projectName);
-    let dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
-    let url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
-    $.ajax({
-        url: url,
-        type: 'PUT',
-        Accept: "text/plain; charset=utf-8",
-        contentType: "application/json",
-        data: dataString,
-        success: function (response) {
-            console.log(response);
+    checkCompBase(function(isCompBaseOnline){
+        if(isCompBaseOnline){
+            let allTheTags = [];
+            let allTheCompetencies;
+            allTheCompetencies = $('#competencies0').val().split(",");
+            for (let i = 0; i < document.getElementsByName("tag").length; i++) {   //goes through all tags and adds them to allTheTags
+                if (document.getElementById("tag" + i).checked) {
+                    allTheTags.push(document.getElementById("tag" + i).value);
+                }
+            }
+            if (allTheTags.length > 2) {
+                $(".alert").css('background-color', 'lightcoral');
+                allTheTags = [];
+                document.getElementById('loader').className = "loader-inactive";
+                return false;
+            }
+            if (allTheTags.length < 2) {
+                $(".alert").css('background-color', 'lightcoral');
+                allTheTags = [];
+                document.getElementById('loader').className = "loader-inactive";
+                return false;
+            }
+            let data = {                                            //JSON object 'data' collects everything to send
+                "tags": allTheCompetencies.concat(allTheTags)       //todo: this differs from the backend interface atm
+            };                                                      //todo: Julian needs to fix the backend =)
+            let dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
+            let url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
+            $.ajax({
+                url: url,
+                type: 'PUT',
+                Accept: "text/plain; charset=utf-8",
+                contentType: "application/json",
+                data: dataString,
+                success: function (response) {
+                    console.log(response);
+                    document.getElementById('loader').className = "loader-inactive";
+                    location.href = "../project/courses-student.jsp";
+                },
+                error: function (a) {
+                    console.log(a);
+                }
+            });
+        }else{
             document.getElementById('loader').className = "loader-inactive";
             location.href = "../project/courses-student.jsp";
-        },
-        error: function (a, b, c) {
-            console.log(a);
         }
     });
 }
@@ -162,4 +129,18 @@ function loginProject(projectName) {
             }
         });
     }
+}
+
+function checkCompBase(callback){
+    $.ajax({
+        url: '../rest/system/health',
+        Accept: "application/json",
+        contentType: "application/json",
+        success: function (response) {
+            callback(response.compBaseOnline);
+        },
+        error: function (a) {
+            console.log(a);
+        }
+    });
 }

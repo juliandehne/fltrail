@@ -79,8 +79,12 @@ public class Group {
 
     @Override
     public boolean equals(Object o) {
-        Group group = (Group) o;
-        return this.getId() == group.getId();
+        if (Object.class.equals(Group.class)){
+            Group group = (Group) o;
+            return this.getId() == group.getId();
+        }else{
+            return false;
+        }
     }
 
     @Override

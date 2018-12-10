@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Test;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.journal.model.Journal;
 import unipotsdam.gf.modules.journal.model.Visibility;
@@ -12,7 +11,6 @@ import unipotsdam.gf.modules.journal.model.dao.JournalDAO;
 import unipotsdam.gf.modules.journal.model.dao.JournalDAOImpl;
 import unipotsdam.gf.modules.annotation.model.Category;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -31,9 +29,6 @@ public class JournalServiceImplTest {
     private final Journal testJournal = new Journal(testId, new StudentIdentifier(testProject, testStudent), testEntry, testVisibility, testCategory);
     private JournalService journalService = new JournalServiceImpl();
     private JournalDAO journalDAO = new JournalDAOImpl();
-
-    @Inject
-    private UserDAO userDAO;
 
     @After
     public void cleanUp() {
@@ -200,11 +195,9 @@ public class JournalServiceImplTest {
     public void getOpenUserByProject() {
 
         User user = new User("Test", "Test", "test@test.de", true);
-        String token = userDAO.getUserToken(user);
-
         Project project = new Project();
 
-        testJournal.getStudentIdentifier().setUserEmail(token);
+        testJournal.getStudentIdentifier().setUserEmail(user.getEmail());
         project.setName(testProject);
 
         journalDAO.createJournal(testJournal);

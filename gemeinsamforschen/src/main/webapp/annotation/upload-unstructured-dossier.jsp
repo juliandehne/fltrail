@@ -3,6 +3,8 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
+
 
 
 <!DOCTYPE html>
@@ -45,7 +47,12 @@
         <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
         </button>
     </div>
-</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
+</div>
+<div class="col span_chat">
+    <chat:chatWindow orientation="right" scope="project" />
+    <chat:chatWindow orientation="right" scope="group" />
+</div>
+<footer:footer/>
 </body>
 
 </html>

@@ -11,9 +11,9 @@ import java.util.List;
 
 @XmlRootElement(name = "PreferenceData")
 public class PreferenceData {
-    java.util.List<String> competences;
-    java.util.List<String> researchQuestions;
-    java.util.List<String> tagsSelected;
+    private java.util.List<String> competences;
+    private java.util.List<String> researchQuestions;
+    private java.util.List<String> tagsSelected;
 
 
     public PreferenceData() {

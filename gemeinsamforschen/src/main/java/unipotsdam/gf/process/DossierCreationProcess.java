@@ -125,4 +125,9 @@ public class DossierCreationProcess {
          saveState(project, changeToPhase);
          }*/
     }
+
+    public void createSeeFeedBackTask(Project project, User distributer){
+        User user = submissionController.getFeedbackedUser(project, distributer);
+        taskDAO.persist(project, user, TaskName.SEE_FEEDBACK, Phase.DossierFeedback);
+    }
 }

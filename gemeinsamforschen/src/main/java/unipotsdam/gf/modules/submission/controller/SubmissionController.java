@@ -2,23 +2,18 @@ package unipotsdam.gf.modules.submission.controller;
 
 import com.google.common.base.Strings;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.interfaces.ISubmission;
+import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.interfaces.ISubmission;
-import unipotsdam.gf.modules.annotation.model.Category;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 import unipotsdam.gf.process.progress.HasProgress;
 import unipotsdam.gf.process.progress.ProgressData;
 import unipotsdam.gf.process.tasks.FeedbackTaskData;
@@ -591,7 +586,7 @@ public class SubmissionController implements ISubmission, HasProgress {
      */
     public void updateFullSubmission(User submissionOwner, User feedbackGiver) {
         connection.connect();
-        String query = "updateRocketChatUserName fullsubmissions set feedbackUser = ? where user = ?";
+        String query = "update RocketChatUserName fullsubmissions set feedbackUser = ? where user = ?";
         connection.issueUpdateStatement(query, feedbackGiver.getEmail(), submissionOwner.getEmail());
         connection.close();
         // TODO implement linking submission with group
@@ -607,6 +602,19 @@ public class SubmissionController implements ISubmission, HasProgress {
         String query = "SELECT * from fullsubmissions where feedbackUser = ? and projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, target.getEmail(),
                 project.getName());
+        return resultSetToFeedback(target, vereinfachtesResultSet);
+    }
+
+    public FeedbackTaskData getMyFeedback(User user, Project project) {
+        connection.connect();
+
+        String query = "SELECT * from fullsubmissions where user = ? and projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, user.getEmail(),
+                project.getName());
+        return resultSetToFeedback(user, vereinfachtesResultSet);
+    }
+
+    private FeedbackTaskData resultSetToFeedback(User user, VereinfachtesResultSet vereinfachtesResultSet) {
         if (vereinfachtesResultSet.next()) {
             String submissionId = vereinfachtesResultSet.getString("id");
             String projectName = vereinfachtesResultSet.getString("projectName");
@@ -614,7 +622,7 @@ public class SubmissionController implements ISubmission, HasProgress {
             FullSubmission fullSubmission = new FullSubmission(submissionId);
             fullSubmission.setProjectName(projectName);
             connection.close();
-            return new FeedbackTaskData(target, fullSubmission, category);
+            return new FeedbackTaskData(user, fullSubmission, category);
         } else
             return null;
     }
@@ -707,7 +715,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         return result;
     }
 
-    public List<User> getAllUsersWithFinalizedFeedback(Project project){
+    public List<User> getAllUsersWithFinalizedFeedback(Project project) {
         List<User> result = new ArrayList<>();
         connection.connect();
         String query = "select * from tasks where projectName = ? and taskName = ? and progress=?";
@@ -719,5 +727,17 @@ public class SubmissionController implements ISubmission, HasProgress {
         }
         connection.close();
         return result;
+    }
+
+    public User getFeedbackedUser(Project project, User distributer) {
+        User feedbackedUser;
+        connection.connect();
+        String query = "select user from fullsubmissions where projectName = ? AND feedbackUser=?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query,
+                project.getName(), distributer.getEmail());
+        vereinfachtesResultSet.next();
+        feedbackedUser = userDAO.getUserByEmail(vereinfachtesResultSet.getString("user"));
+        connection.close();
+        return feedbackedUser;
     }
 }
