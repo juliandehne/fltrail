@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class ItemsImporter {
-    public static void main(String[] args) throws FileNotFoundException{
+    public static void main(String[] args) throws Exception {
         ItemWriter itemWriter = new ItemWriter();
         itemWriter.writeItems();
     }

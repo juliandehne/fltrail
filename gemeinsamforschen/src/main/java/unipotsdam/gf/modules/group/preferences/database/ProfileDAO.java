@@ -23,9 +23,10 @@ public class ProfileDAO {
         int result = -1;
         connect.connect();
 
-        String query = "INSERT INTO profilequestions (`scaleSize`, `question`) values(?,?)";
+        String query = "INSERT INTO profilequestions (`scaleSize`, `question`, `question_en`, `subvariable`) values(?," +
+                "?,?,?)";
         result = connect.issueInsertStatementWithAutoincrement(query, profileQuestion.getScaleSize(),
-                profileQuestion.getQuestion());
+                profileQuestion.getQuestion(), profileQuestion.getQuestion_en(), profileQuestion.getSubvariable());
 
         connect.close();
 
@@ -77,7 +78,9 @@ public class ProfileDAO {
         connect.connect();
 
         String query =
-                "SELECT (q.id,q.scaleSize, q.question, o.name) from profilequestions q LEFT JOIN " + "profilequestionoptions o where q.id = o" + ".profileQuestionId group by q.id";
+                "SELECT (q.id,q.scaleSize, q.subvariable, q.question, q.question_en, o.name) from profilequestions q " +
+                        "LEFT JOIN " +
+                        "profilequestionoptions o where q.id = o" + ".profileQuestionId group by q.id";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
         HashMap<Integer, ArrayList<String>> optionMap = new HashMap<>();
         List<ProfileQuestion> tmpList = new ArrayList<>();
@@ -86,6 +89,8 @@ public class ProfileDAO {
             int questionId = vereinfachtesResultSet.getInt("id");
             int scaleSize = vereinfachtesResultSet.getInt("scaleSize");
             String question = vereinfachtesResultSet.getString("question");
+            String subvariable = vereinfachtesResultSet.getString("subvariable");
+            String question_en = vereinfachtesResultSet.getString("question_en");
             if (optionName != null) {
                 if (optionMap.containsKey(optionName)) {
                     ArrayList<String> optionList = optionMap.get(optionName);
@@ -97,7 +102,9 @@ public class ProfileDAO {
                     optionMap.put(questionId, optionList);
                 }
             }
-            tmpList.add(new ProfileQuestion(questionId, scaleSize, question));
+            ProfileQuestion profileQuestion = new ProfileQuestion(scaleSize, question, question_en, subvariable);
+            profileQuestion.setId(questionId);
+            tmpList.add(profileQuestion);
         }
 
         for (ProfileQuestion question : tmpList) {
@@ -153,6 +160,15 @@ public class ProfileDAO {
         String subvariable = itemSet.getSubVariable();
         String context = itemSet.getContext();
         String variableDefinition = itemSet.getVariableDefinition();
+        String subvariableweight = "1";
+        String variableweight = "1";
+
+        connect.connect();
+        String query = "INSERT INTO profilevariables (`variable`, `subvariable`, `variableDefinition`, `context`, " +
+                "`variableweight`, `subvariableweight`) values (?,?,?,?,?,?)";
+        connect.issueInsertOrDeleteStatement(query, variable, subvariable,  variableDefinition, context,
+                variableweight, subvariableweight);
+        connect.close();
 
 
     }
