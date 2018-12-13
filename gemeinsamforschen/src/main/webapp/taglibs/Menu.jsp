@@ -15,7 +15,8 @@
         result = resultBuilder.toString();
         return result;
     }
-    private String printMe(String text){
+
+    private String printMe(String text) {
         return text;
     }
 %>
@@ -23,12 +24,12 @@
     <div class="row">
         <div class="nav-group-left">
             <% if (isStudent.equals("isStudent")) {%>
-            <a class="nav-link" style="color:white;"
+            <a class="nav-link"
                href="<%=hierarchyToString(hierarchyLevel)%>project/courses-student.jsp">Home</a>
-            <a class="nav-link" style="color:white;"
+            <a class="nav-link"
                href="<%=hierarchyToString(hierarchyLevel)%>project/courses-student.jsp?all=true">suche Kurs</a>
             <% } else {%>
-            <a class="nav-link" style="color:white;"
+            <a class="nav-link"
                href="<%=hierarchyToString(hierarchyLevel)%>project/overview-docent.jsp">meine Projekte</a>
             <% } %>
             <a class="nav-link" href="<%=hierarchyToString(hierarchyLevel)%>profile/profile.jsp?">Profil</a>
@@ -38,9 +39,17 @@
         </div>
     </div>
 </header>
-<p id="hierarchyLevel" hidden><%=printMe(hierarchyLevel)%></p>
-<p id="userEmail" hidden><%=printMe(userEmail)%></p>
-<p id="projectName" hidden><%=printMe(projectName)%></p>
+<p id="hierarchyLevel" hidden><%=printMe(hierarchyLevel)%>
+</p>
+<p id="userEmail" hidden><%=printMe(userEmail)%>
+</p>
+<p id="projectName" hidden><%=printMe(projectName)%>
+</p>
 <div class="titlerow">
-    <h1 id="projectHeadline"><%=printMe(projectName)%></h1>
+    <% if (projectName != null) {%>
+    <h1 id="projectHeadline"><%=printMe(projectName)%>
+    </h1>
+    <% } else {%>
+    <h1 id="projectHeadline"></h1>
+    <%}%>
 </div>

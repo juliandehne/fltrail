@@ -3,12 +3,12 @@ var projectName = getProjectName();
 $(function () {
 
     serverSide({
-        hierarchyLevel:1,
-        modulePath:"/group",
+        hierarchyLevel: 1,
+        modulePath: "/group",
         methodPath: "/projects/?/groups",
         pathParams: [projectName],
         queryParams: []
-    },"GET", printGroups);
+    }, "GET", printGroups);
 
     $(".sortableGroup").disableSelection();
 
@@ -21,7 +21,7 @@ $(function () {
             pathParams: [projectName],
             queryParams: [],
             entity: getGroupDataFromHtml()
-        }, "PUT", function (a,b,c) {
+        }, "PUT", function (a, b, c) {
             console.log(a);
         })
     });
@@ -34,17 +34,23 @@ $(function () {
         //$("#group_1 > li > table > tbody > tr > td:nth-child(2)")
     }
 
-    function printGroups(a,b,c) {
+    function printGroups(a, b, c) {
         var firstgroup =
             groups = {
                 bla: [
                     {
                         id: "1",
-                        members: [{name:"me", email:"egal@stuff.com"}, {name:"him", email:"egal@stuff.com"}, {name:"her", email:"egal@stuff.com"}]
+                        members: [{name: "me", email: "egal@stuff.com"}, {
+                            name: "him",
+                            email: "egal@stuff.com"
+                        }, {name: "her", email: "egal@stuff.com"}]
                     },
                     {
                         id: "2",
-                        members: [{name:"me2", email:"egal@stuff.com"}, {name:"him2", email:"egal@stuff.com"}, {name:"her2", email:"egal@stuff.com"}]
+                        members: [{name: "me2", email: "egal@stuff.com"}, {
+                            name: "him2",
+                            email: "egal@stuff.com"
+                        }, {name: "her2", email: "egal@stuff.com"}]
                     }
                 ],
                 lastGroupId: "44"

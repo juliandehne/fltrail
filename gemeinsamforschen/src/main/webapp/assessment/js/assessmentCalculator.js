@@ -6,7 +6,7 @@ $(document).ready(function () {     //todo: paths should be relative
             success: function (data) {
                 alert("here is the TotalPerformance: " + data);
 
-                location.href="../pages/projects-student.jsp?projectName="+projectName;
+                location.href = "../pages/projects-student.jsp?projectName=" + projectName;
             },
             error: function (a, b, c) {
                 alert('some error' + a);
@@ -70,8 +70,8 @@ $(document).ready(function () {     //todo: paths should be relative
             },
             data: JSON.stringify(dataP),
             success: function (response) {
-                alert(response[0].userNameentifier.userName + " got " +response[0].grade*100+"% /n"+
-                    response[1].userNameentifier.userName + " got " +response[1].grade*100+"% /n");
+                alert(response[0].userNameentifier.userName + " got " + response[0].grade * 100 + "% /n" +
+                    response[1].userNameentifier.userName + " got " + response[1].grade * 100 + "% /n");
             },
             error: function (a) {
                 alert('some error' + a);

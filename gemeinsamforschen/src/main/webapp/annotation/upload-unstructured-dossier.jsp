@@ -6,12 +6,13 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
 
 
-
 <!DOCTYPE html>
 <html>
 
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
+    <jsp:include page="../taglibs/omniDependencies.jsp">
+        <jsp:param name="hierarchy" value="1"/>
+    </jsp:include>
 
     <!-- js - jQuery validation plugin -->
     <script src="../libs/jquery/jqueryValidate.js"></script>
@@ -28,31 +29,37 @@
 </head>
 
 <body>
-<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" /><div class="col span_content">
-    <form id="upload-textarea-form">
-        <div class="form-group upload-text" id="documentText">
-            <label for="upload-textarea">Texteingabe</label>
-            <textarea class="upload-text-textarea form-control" placeholder="Text einfügen..."
-                      id="upload-textarea" name="uploadtextarea"></textarea>
-        </div>
-    </form>
+<jsp:include page="../taglibs/Menu.jsp">
+    <jsp:param name="hierarchy" value="1"/>
+</jsp:include>
+<main>
+    <jsp:include page="../taglibs/timeLine.jsp"/>
+    <div class="col span_content">
+        <form id="upload-textarea-form">
+            <div class="form-group upload-text" id="documentText">
+                <label for="upload-textarea">Texteingabe</label>
+                <textarea class="upload-text-textarea form-control" placeholder="Text einfügen..."
+                          id="upload-textarea" name="uploadtextarea"></textarea>
+            </div>
+        </form>
 
-    <div>
-        <label for="file">Alternativ bitte Datei wählen</label>
-        <input type="file" id="file" name="file">
+        <div>
+            <label for="file">Alternativ bitte Datei wählen</label>
+            <input type="file" id="file" name="file">
+        </div>
+        <div class="document-text-buttons">
+            <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
+            </button>--%>
+            <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
+            </button>
+        </div>
     </div>
-    <div class="document-text-buttons">
-        <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
-        </button>--%>
-        <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
-        </button>
+    <div class="col span_chat">
+        <chat:chatWindow orientation="right" scope="project"/>
+        <chat:chatWindow orientation="right" scope="group"/>
     </div>
-</div>
-<div class="col span_chat">
-    <chat:chatWindow orientation="right" scope="project" />
-    <chat:chatWindow orientation="right" scope="group" />
-</div>
-</main><jsp:include page="../taglibs/footer.jsp"/>
+</main>
+<jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

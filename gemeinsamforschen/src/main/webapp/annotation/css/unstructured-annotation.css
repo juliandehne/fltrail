@@ -20,8 +20,8 @@ body, html {
     overflow: hidden;
 }
 
-#documentText{
-    overflow:hidden;
+#documentText {
+    overflow: hidden;
 }
 
 .leftcolumn {
@@ -97,7 +97,8 @@ body, html {
     font-size: large;
     overflow: hidden;
 }
-.category-card p{
+
+.category-card p {
     margin-top: 7px;
 }
 

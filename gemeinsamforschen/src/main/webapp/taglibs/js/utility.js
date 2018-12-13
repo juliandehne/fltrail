@@ -119,7 +119,7 @@ function serverSideWithType(requestObj, method, callback, contentType) {
         methodPath = methodPath.replace("?", e);
     });
 
-    let localurl = relativPath + "rest" + requestObj.modulePath + methodPath ;
+    let localurl = relativPath + "rest" + requestObj.modulePath + methodPath;
 
     if (requestObj.queryParams) {
         localurl = localurl + requestObj.queryParams;
@@ -142,7 +142,7 @@ function serverSideWithType(requestObj, method, callback, contentType) {
             }
         });
     }
-    if (method == "POST" ||  method == "DELETE") {
+    if (method == "POST" || method == "DELETE") {
         $.ajax({
             url: localurl,
             contentType: contentType,

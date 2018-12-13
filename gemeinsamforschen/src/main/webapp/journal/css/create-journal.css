@@ -1,27 +1,23 @@
 .journal-form-container {
-	display: grid;
-	grid-gap:  10px;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-areas:
-	"visibility category ..."
-	"editor editor editor"
-	"buttons ... ...."
-	;
-} 
-
-.journal-form-visibility{
-	grid-area: visibility;
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: "visibility category ..." "editor editor editor" "buttons ... ....";
 }
 
-.journal-form-category{
-	grid-area: category;
+.journal-form-visibility {
+    grid-area: visibility;
 }
 
-.journal-form-editor{
-	grid-area: editor;
+.journal-form-category {
+    grid-area: category;
 }
 
-.journal-form-buttons{
-	grid-area: buttons;
+.journal-form-editor {
+    grid-area: editor;
+}
+
+.journal-form-buttons {
+    grid-area: buttons;
 }
 

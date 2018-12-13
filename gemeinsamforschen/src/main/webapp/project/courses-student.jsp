@@ -15,11 +15,15 @@
 </head>
 
 <body>
-<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" />
-<div class="col span_content">
-    <div>
+<jsp:include page="../taglibs/Menu.jsp">
+    <jsp:param name="hierarchy" value="1"/>
+</jsp:include>
+<main>
+    <div class="col span_content">
+        <div>
             <h1 id="headLine"></h1>
-            <p class="introduction" id="introduction"> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+            <p class="introduction" id="introduction"> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
+                nonumy eirmod
                 tempor
                 invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
                 dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
@@ -36,20 +40,23 @@
                 </select>
 
 
+
+
                 </script>
                 <div class="select_arrow"></div>
             </div>
-        <div class="search">
-            <input id="searchField" type="text" name="suche" placeholder="Suche">
-            <i class="fas fa-search"></i>
+            <div class="search">
+                <input id="searchField" type="text" name="suche" placeholder="Suche">
+                <i class="fas fa-search"></i>
+            </div>
+        </div>
+
+        <div class="row group projects-grid" id="projects">
+
         </div>
     </div>
-
-    <div class="row group projects-grid" id="projects">
-
-    </div>
-</div>
-</main><jsp:include page="../taglibs/footer.jsp"/>
+</main>
+<jsp:include page="../taglibs/footer.jsp"/>
 </body>
 <script id="projectTemplate" type="text/x-jQuery-tmpl">
             <div class="card card-project projectDynamic">
@@ -69,5 +76,7 @@
                     style="margin-top:10px;">${projectAction} </button>
                 </div>
             </div>
-        </script>
+
+
+</script>
 </html>

@@ -8,48 +8,55 @@
 <html>
 
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
+    <jsp:include page="../taglibs/omniDependencies.jsp">
+        <jsp:param name="hierarchy" value="1"/>
+    </jsp:include>
     <script src="js/assess-work.js"></script>
 
 </head>
 
 <body>
-<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" /><div class="col span_content">
-<div id="wrapper">
-    <div class="page-content-wrapper">
-        <div>
-            <table>
-                <tr>
-                    <td id="yourContent">
-                        <h1>Assessment</h1>
+<jsp:include page="../taglibs/Menu.jsp">
+    <jsp:param name="hierarchy" value="1"/>
+</jsp:include>
+<main> <jsp:include page="../taglibs/timeLine.jsp"/>
+    <div class="col span_content">
+        <div id="wrapper">
+            <div class="page-content-wrapper">
+                <div>
+                    <table>
+                        <tr>
+                            <td id="yourContent">
+                                <h1>Assessment</h1>
 
-                        <!-- Vorschläge für Bewertungen:
-                            ++Verantwortungsbewusstsein
-                            ++Disskusionsfähigkeit
-                            ++Anteil am Produkt
-                            ++Kooperationsbereitschaft
-                            ++Selbstständigkeit
-                            -+Führungsqualität
-                            -+Pünktlichkeit
-                            -+Motivation
-                            -+Gewissenhaftigkeit
-                            -+respektvoller Umgang mit anderen
-                            -+Wert der Beiträge
-                            --kann sich an Vereinbarungen halten
-                            --emotionale Stabilität
-                            --Hilfsbereitschaft
-                        -->
+                                <!-- Vorschläge für Bewertungen:
+                                    ++Verantwortungsbewusstsein
+                                    ++Disskusionsfähigkeit
+                                    ++Anteil am Produkt
+                                    ++Kooperationsbereitschaft
+                                    ++Selbstständigkeit
+                                    -+Führungsqualität
+                                    -+Pünktlichkeit
+                                    -+Motivation
+                                    -+Gewissenhaftigkeit
+                                    -+respektvoller Umgang mit anderen
+                                    -+Wert der Beiträge
+                                    --kann sich an Vereinbarungen halten
+                                    --emotionale Stabilität
+                                    --Hilfsbereitschaft
+                                -->
 
-                        <!-- here will be all the content -->
-                        <div class="container">
-                            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
-                                <!-- Wrapper for slides -->
-                                <div class="alert alert-info" id="notAllRated">
-                                    Es wurden noch nicht alle Studenten vollständig bewertet
-                                </div>
+                                <!-- here will be all the content -->
+                                <div class="container">
+                                    <div id="myCarousel" class="carousel slide" data-ride="carousel"
+                                         data-interval="false">
+                                        <!-- Wrapper for slides -->
+                                        <div class="alert alert-info" id="notAllRated">
+                                            Es wurden noch nicht alle Studenten vollständig bewertet
+                                        </div>
 
-                                <div class="carousel-inner" id="peerTable">
-                                    <script id="peerTemplate" type="text/x-jQuery-tmpl">
+                                        <div class="carousel-inner" id="peerTable">
+                                            <script id="peerTemplate" type="text/x-jQuery-tmpl">
                                         {{if first}}
                                         <div class="item active">
                                         {{else}}
@@ -141,39 +148,41 @@
                                         <div id="eJournal${peerId}">Fasel Blubba Bla</div>
                                         </div>
                                         </div>
-                                    </script>
-                                </div>
 
-                                <!-- Left and right controls -->
-                                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                                    <span class="glyphicon glyphicon-chevron-left"></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                                    <span class="glyphicon glyphicon-chevron-right"></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </div>
-                            <button class="btn btn-success" id="assessThePeer">Gruppe bewerten</button>
-                        </div>
-                    </td>
-                    <td id="chat">
-                        <div class="card">
-                            <div class="card-header">
-                                <h6 class="mb-0">Gruppen+Projekt Chat</h6>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+                                            </script>
+                                        </div>
+
+                                        <!-- Left and right controls -->
+                                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                            <span class="glyphicon glyphicon-chevron-left"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                    <button class="btn btn-success" id="assessThePeer">Gruppe bewerten</button>
+                                </div>
+                            </td>
+                            <td id="chat">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Gruppen+Projekt Chat</h6>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
+        <div class="col span_chat">
+            <chat:chatWindow orientation="right" scope="project"/>
+            <chat:chatWindow orientation="right" scope="group"/>
+        </div>
+        <jsp:include page="../taglibs/footer.jsp"/>
     </div>
-    </div><div class="col span_chat">
-    <chat:chatWindow orientation="right" scope="project" />
-    <chat:chatWindow orientation="right" scope="group" />
-</div>
-<jsp:include page="../taglibs/footer.jsp"/>
-</div>
 
 </body>
 

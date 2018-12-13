@@ -4,14 +4,17 @@ public class ProfileQuestion {
     private int id;
     private int scaleSize;
     private String question;
+    private String question_en;
+    private String subvariable;
 
     public ProfileQuestion() {
     }
 
-    public ProfileQuestion(int id, int scaleSize, String question) {
-        this.id = id;
+    public ProfileQuestion(int scaleSize, String question, String question_en, String subvariable) {
         this.scaleSize = scaleSize;
         this.question = question;
+        this.question_en = question_en;
+        this.subvariable = subvariable;
     }
 
     public ProfileQuestion(int firstQuestionId) {
@@ -42,5 +45,21 @@ public class ProfileQuestion {
         this.question = question;
     }
 
-    //pr
+    public String getQuestion_en() {
+        return question_en;
+    }
+
+    public void setQuestion_en(String question_en) {
+        this.question_en = question_en;
+    }
+
+
+    public String getSubvariable() {
+        return subvariable;
+    }
+
+    public void setSubvariable(String subvariable) {
+        this.subvariable = subvariable;
+    }
+
 }

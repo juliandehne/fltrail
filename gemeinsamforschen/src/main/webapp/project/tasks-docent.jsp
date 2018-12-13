@@ -3,20 +3,26 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat"%>
+<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
+    <jsp:include page="../taglibs/omniDependencies.jsp">
+        <jsp:param name="hierarchy" value="1"/>
+    </jsp:include>
     <script src="js/tasks.js"></script>
 </head>
 <body>
-<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" />
-<div class="col span_content">
-    <div id="listOfTasks">
+<jsp:include page="../taglibs/Menu.jsp">
+    <jsp:param name="hierarchy" value="1"/>
+</jsp:include>
+<main>
+    <jsp:include page="../taglibs/timeLine.jsp"/>
+    <div class="col span_content">
+        <div id="listOfTasks">
 
-    </div>
-    <script id="taskTemplate" type="text/x-jQuery-tmpl">
+        </div>
+        <script id="taskTemplate" type="text/x-jQuery-tmpl">
    <div class="card ${phase}">
        <div class="col span_s_of_2 icon ${taskType}">
        </div>
@@ -38,18 +44,20 @@
        </div>
    </div>
 
-    </script>
-    <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
+
+        </script>
+        <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
    <div class="card-finished"><h4 class="icon closed">${infoText}</h4>
    {{html timeFrame}}
    </div>
 
-    </script>
-</div>
-<div class="col span_chat">
-    <chat:chatWindow orientation="right" scope="project"/>
-    <%--<chat:chatWindow orientation="right" scope="group"/>--%>
-</div>
+
+        </script>
+    </div>
+    <div class="col span_chat">
+        <chat:chatWindow orientation="right" scope="project"/>
+        <%--<chat:chatWindow orientation="right" scope="group"/>--%>
+    </div>
 </main>
 <jsp:include page="../taglibs/footer.jsp"/>
 </body>

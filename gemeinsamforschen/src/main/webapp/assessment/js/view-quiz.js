@@ -67,7 +67,7 @@ $(document).ready(function () {
             url: '../rest/assessments/quiz/' + encodeURIComponent(quizId),
             type: 'POST',
             success: function () {
-                document.location.href = "Quiz.jsp?projectName="+projectName;
+                document.location.href = "Quiz.jsp?projectName=" + projectName;
             },
             error: function (a) {
                 alert(a)

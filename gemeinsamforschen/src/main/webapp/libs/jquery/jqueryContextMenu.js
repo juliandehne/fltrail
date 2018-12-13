@@ -176,7 +176,7 @@
                 } else {
                     // x and y are given (by mouse event)
                     var offsetParentOffset = opt.$menu.offsetParent().offset();
-                    offset = {top: y - offsetParentOffset.top, left: x -offsetParentOffset.left};
+                    offset = {top: y - offsetParentOffset.top, left: x - offsetParentOffset.left};
                 }
 
                 // correct offset if viewport demands it
@@ -438,8 +438,8 @@
 
                 setTimeout(function () {
                     // If the click is not real, things break: https://github.com/swisnl/jQuery-contextMenu/issues/132
-                    if(fakeClick){
-                        if (root !== null && typeof root !== 'undefined' && root.$menu !== null  && typeof root.$menu !== 'undefined') {
+                    if (fakeClick) {
+                        if (root !== null && typeof root !== 'undefined' && root.$menu !== null && typeof root.$menu !== 'undefined') {
                             root.$menu.trigger('contextmenu:hide');
                         }
                         return;
@@ -507,7 +507,7 @@
                         });
                     }
 
-                    if (root !== null && typeof root !== 'undefined' && root.$menu !== null  && typeof root.$menu !== 'undefined') {
+                    if (root !== null && typeof root !== 'undefined' && root.$menu !== null && typeof root.$menu !== 'undefined') {
                         root.$menu.trigger('contextmenu:hide');
                     }
                 }, 50);
@@ -549,7 +549,7 @@
                 // If targetZIndex is heigher then opt.zIndex dont progress any futher.
                 // This is used to make sure that if you are using a dialog with a input / textarea / contenteditable div
                 // and its above the contextmenu it wont steal keys events
-                if (opt.$menu && parseInt(targetZIndex,10) > parseInt(opt.$menu.css("zIndex"),10)) {
+                if (opt.$menu && parseInt(targetZIndex, 10) > parseInt(opt.$menu.css("zIndex"), 10)) {
                     return;
                 }
                 switch (e.keyCode) {
@@ -856,7 +856,7 @@
                     return;
                 }
 
-                if(opt && opt.$menu && opt.$menu.hasClass('context-menu-visible')){
+                if (opt && opt.$menu && opt.$menu.hasClass('context-menu-visible')) {
                     return;
                 }
 
@@ -872,7 +872,7 @@
                     callback;
 
                 // abort if the key is unknown or disabled or is a menu
-                if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-separator, .' + root.classNames.notSelectable) || ($this.is('.context-menu-submenu') && root.selectableSubMenu === false )) {
+                if (!opt.items[key] || $this.is('.' + root.classNames.disabled + ', .context-menu-separator, .' + root.classNames.notSelectable) || ($this.is('.context-menu-submenu') && root.selectableSubMenu === false)) {
                     return;
                 }
 
@@ -930,7 +930,7 @@
                 opt.$selected = root.$selected = $this;
 
 
-                if(opt && opt.$node && opt.$node.hasClass('context-menu-submenu')){
+                if (opt && opt.$node && opt.$node.hasClass('context-menu-submenu')) {
                     opt.$node.addClass(root.classNames.hover);
                 }
 
@@ -1344,7 +1344,7 @@
                                 }
                             }
 
-                            if(typeof(item._icon) === "string"){
+                            if (typeof(item._icon) === "string") {
                                 $t.addClass(item._icon);
                             } else {
                                 $t.prepend(item._icon);
@@ -1445,7 +1445,7 @@
                     if ($.isFunction(item.icon)) {
                         $item.removeClass(item._icon);
                         var iconResult = item.icon.call(this, $trigger, $item, key, item);
-                        if(typeof(iconResult) === "string"){
+                        if (typeof(iconResult) === "string") {
                             $item.addClass(iconResult);
                         } else {
                             $item.prepend(iconResult);
@@ -1563,20 +1563,20 @@
                 promise.then(completedPromise.bind(this, opt, root), errorPromise.bind(this, opt, root));
             },
             // operation that will run after contextMenu showed on screen
-            activated: function(opt){
+            activated: function (opt) {
                 var $menu = opt.$menu;
                 var $menuOffset = $menu.offset();
                 var winHeight = $(window).height();
                 var winScrollTop = $(window).scrollTop();
                 var menuHeight = $menu.height();
-                if(menuHeight > winHeight){
+                if (menuHeight > winHeight) {
                     $menu.css({
-                        'height' : winHeight + 'px',
+                        'height': winHeight + 'px',
                         'overflow-x': 'hidden',
                         'overflow-y': 'auto',
                         'top': winScrollTop + 'px'
                     });
-                } else if(($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)){
+                } else if (($menuOffset.top < winScrollTop) || ($menuOffset.top + menuHeight > winScrollTop + winHeight)) {
                     $menu.css({
                         'top': winScrollTop + 'px'
                     });
@@ -1673,11 +1673,11 @@
 
             case 'update':
                 // Updates visibility and such
-                if(_hasContext){
+                if (_hasContext) {
                     op.update($context);
                 } else {
-                    for(var menu in menus){
-                        if(menus.hasOwnProperty(menu)){
+                    for (var menu in menus) {
+                        if (menus.hasOwnProperty(menu)) {
                             op.update(menus[menu]);
                         }
                     }

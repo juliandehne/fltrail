@@ -27,16 +27,16 @@ function buildTablesForPeers() {
             success: function (peers) {
                 let div = document.getElementById('peerTable');
                 for (let peer = 0; peer < peers.length; peer++) {
-                    let peerId = peers[peer].replace("@","").replace(".","");
-                    let tmplObject={
+                    let peerId = peers[peer].replace("@", "").replace(".", "");
+                    let tmplObject = {
                         peerId: peerId,
                         first: null
                     };
-                    if (peer===0)
-                        tmplObject.first=1;
+                    if (peer === 0)
+                        tmplObject.first = 1;
                     $('#peerTemplate').tmpl(tmplObject).appendTo(div);
-                    $('#btnJournal' +peerId).on("click", function () {
-                        $('#eJournal' +peerId).toggle();
+                    $('#btnJournal' + peerId).on("click", function () {
+                        $('#eJournal' + peerId).toggle();
                     });
                 }
             },
@@ -87,7 +87,7 @@ function assessPeer() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            location.href = "take-quiz.jsp?projectName="+projectName;
+            location.href = "take-quiz.jsp?projectName=" + projectName;
         },
         error: function (a, b, c) {
 

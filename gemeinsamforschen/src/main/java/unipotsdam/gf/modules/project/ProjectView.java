@@ -1,15 +1,11 @@
 package unipotsdam.gf.modules.project;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.apache.logging.log4j.core.config.plugins.util.TypeConverters;
+
 import org.yaml.snakeyaml.util.UriEncoder;
 import unipotsdam.gf.process.ProjectCreationProcess;
-import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.session.GFContext;
-import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.annotation.ManagedBean;

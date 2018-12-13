@@ -9,7 +9,7 @@ $(document).ready(function () {
         type: 'GET',
         success: function (response) {
             let arrow = $('#changePhase');
-            arrow.toggleClass('arrow'+response);
+            arrow.toggleClass('arrow' + response);
             let phaseDiv = $('#' + response);
             if (phaseDiv !== null) {
                 phaseDiv.toggleClass('alert-info');
@@ -24,14 +24,14 @@ $(document).ready(function () {
     $('#changePhase').on('click', function () {
         let projectName = $('#projectName').html().trim();
         $.ajax({
-            url: '../rest/phases/projects/'+projectName,
+            url: '../rest/phases/projects/' + projectName,
             headers: {
                 "Content-Type": "application/json",
                 "Cache-Control": "no-cache"
             },
             type: 'GET',
             success: function (response) {
-        changePhase(response);
+                changePhase(response);
             },
             error: function (a) {
 

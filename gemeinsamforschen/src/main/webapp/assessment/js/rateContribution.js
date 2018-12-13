@@ -62,7 +62,7 @@ function safeContributionRating() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            location.href = "projects-student.jsp?projectName="+projectName;
+            location.href = "projects-student.jsp?projectName=" + projectName;
         },
         error: function (a, b, c) {
 

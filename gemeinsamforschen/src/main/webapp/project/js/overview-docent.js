@@ -1,11 +1,10 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
     getProjects(getUserEmail());
 
-    $('#createProject').on('click', function(){
-        location.href="create-project.jsp";
+    $('#createProject').on('click', function () {
+        location.href = "create-project.jsp";
     });
-
 
 
 });

@@ -272,10 +272,10 @@ function saveButtonHandler() {
 
         $.when.apply($, promises).then(function () {
             let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT",
-            "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
-            if (categoriesSent.length === categories.length){
+                "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
+            if (categoriesSent.length === categories.length) {
                 finalizeDossier(getQueryVariable("submissionId"));
-            }else{
+            } else {
                 let missingAnnotation = $('#missingAnnotation');
                 missingAnnotation.show();
                 missingAnnotation.text("Sie haben noch nicht alle Kategorien markiert");
@@ -292,7 +292,7 @@ function saveButtonHandler() {
  *
  */
 function finalizeDossier(submissionId) {
-    let requestObj = new RequestObj(1,"/submissions","/id/?/projects/?/finalize", [submissionId, $('#projectName').text().trim()]);
+    let requestObj = new RequestObj(1, "/submissions", "/id/?/projects/?/finalize", [submissionId, $('#projectName').text().trim()]);
     serverSide(requestObj, "POST", function (response) {
         location.href = "../project/tasks-student.jsp?projectName=" + getQueryVariable('projectName');
     })
@@ -323,10 +323,10 @@ function handleCategoryClick(key) {
     }
 }
 
-function buildAnnotationList(){
+function buildAnnotationList() {
     let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT",
         "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
-    for (let i in categories){
+    for (let i in categories) {
         let tmplObject = {annotationType: categories[i].toLowerCase()};
         $('#annotationTemplate').tmpl(tmplObject).appendTo('#annotations');
     }

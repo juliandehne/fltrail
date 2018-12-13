@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Participants version="1">
+    <UsedCriteria>
+        <Criterion valueCount="4" isHomogeneous="false" maxValue="10" minValue="1" name="x3zzb" weight="1"/>
+        <Criterion valueCount="4" isHomogeneous="false" maxValue="10" minValue="1" name="x3zzb2" weight="1"/>
+    </UsedCriteria>
+    <participant id="1">
+        <Criterion isHomogeneous="false" maxValue="10" minValue="1" name="x3zzb" weight="1">
+            <Value name="a1" value="2"/>
+            <Value name="a2" value="3"/>
+            <Value name="a3" value="4"/>
+            <Value name="a4" value="4"/>
+        </Criterion>
+    </participant>
+    <participant id="2">
+        <Criterion isHomogeneous="false" maxValue="10" minValue="1" name="x3zzb" weight="1">
+            <Value name="x1" value="2"/>
+            <Value name="x2" value="3"/>
+            <Value name="x3" value="4"/>
+            <Value name="x3" value="4"/>
+        </Criterion>
+    </participant>
+    <participant id="3">
+        <Criterion isHomogeneous="false" maxValue="10" minValue="1" name="x3zzb" weight="1">
+            <Value name="b1" value="2"/>
+            <Value name="b2" value="3"/>
+            <Value name="b3" value="4"/>
+            <Value name="b4" value="4"/>
+        </Criterion>
+    </participant>
+    <participant id="4">
+        <Criterion isHomogeneous="false" maxValue="10" minValue="1" name="x3zzb" weight="1">
+            <Value name="c1" value="2"/>
+            <Value name="c2" value="3"/>
+            <Value name="c3" value="4"/>
+            <Value name="c3" value="4"/>
+        </Criterion>
+    </participant>
+    <participant id="5">
+        <Criterion isHomogeneous="false" maxValue="10" minValue="1" name="x3zzb" weight="1">
+            <Value name="d1" value="2"/>
+            <Value name="d2" value="3"/>
+            <Value name="d3" value="4"/>
+            <Value name="d4" value="4"/>
+        </Criterion>
+    </participant>
+    <participant id="6">
+        <Criterion isHomogeneous="false" maxValue="10" minValue="1" name="x3zzb" weight="1">
+            <Value name="e1" value="2"/>
+            <Value name="e2" value="3"/>
+            <Value name="e3" value="4"/>
+            <Value name="e3" value="4"/>
+        </Criterion>
+    </participant>
+
+</Participants>

@@ -1,20 +1,18 @@
-
-
-$(document).ready(function() {
+$(document).ready(function () {
     $('#student').val(student);
     $('#project').val(project);
 
-    $('#backLink').on('click', function(){
+    $('#backLink').on('click', function () {
         location.href = "eportfolio.jsp";
     });
 
     let journalID = getQueryVariable("journal");
     console.log(journalID);
-    if(journalID){
+    if (journalID) {
 
         $.ajax({
-            url: "../rest/journal/"+journalID
-        }).then(function(data) {
+            url: "../rest/journal/" + journalID
+        }).then(function (data) {
             $('#editor').append(data.entryMD);
 
             //TODO preselect in select tags
