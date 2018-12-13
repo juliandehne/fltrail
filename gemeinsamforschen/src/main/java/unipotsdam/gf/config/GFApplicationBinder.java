@@ -16,6 +16,7 @@ import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupfindingImpl;
+import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.journal.service.IJournalImpl;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
@@ -50,7 +51,7 @@ public class GFApplicationBinder extends AbstractBinder {
         Boolean rocketOnline = HealthChecks.isRocketOnline();
         if (rocketOnline) {
             bind(CommunicationService.class).to(ICommunication.class);
-        } else  {
+        } else {
             bind(DummyCommunicationService.class).to(ICommunication.class);
             log.debug("Rocket Chat is not online. Removing chat capabilities");
         }
@@ -78,7 +79,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(TaskDAO.class).to(TaskDAO.class);
         bind(FeedbackImpl.class).to(Feedback.class);
         bind(UnirestService.class).to(UnirestService.class);
-
+        bind(ProfileDAO.class).to(ProfileDAO.class);
         bindMore();
     }
 

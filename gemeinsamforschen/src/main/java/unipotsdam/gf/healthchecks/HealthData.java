@@ -8,14 +8,27 @@ public class HealthData {
     private Boolean RocketChatOnline;
     private Boolean MysqlOnline;
 
+
+    private Boolean GroupAlOnline;
+
     public HealthData() {
     }
 
-    public HealthData(Boolean compBaseOnline, Boolean rocketChatOnline, Boolean mysqlOnline) {
+    public HealthData(Boolean compBaseOnline, Boolean rocketChatOnline, Boolean mysqlOnline, Boolean groupAlOnline) {
         CompBaseOnline = compBaseOnline;
         RocketChatOnline = rocketChatOnline;
         MysqlOnline = mysqlOnline;
+        GroupAlOnline = groupAlOnline;
     }
+
+    public Boolean getGroupAlOnline() {
+        return GroupAlOnline;
+    }
+
+    public void setGroupAlOnline(Boolean groupAlOnline) {
+        GroupAlOnline = groupAlOnline;
+    }
+
 
     public Boolean getCompBaseOnline() {
         return CompBaseOnline;

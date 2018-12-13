@@ -303,7 +303,8 @@ CREATE TABLE profilequestions
 (
   id int PRIMARY KEY AUTO_INCREMENT,
   scaleSize int,
-  question varchar(500) NOT NULL
+  question varchar(500) NOT NULL,
+  subvariable varchar(100) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE profilequestionoptions
@@ -333,6 +334,18 @@ CREATE TABLE profilequestionrelations
     CONSTRAINT profilequestionrelations_profilequestions_id_fk FOREIGN KEY (firstQuestionId) REFERENCES profilequestions (id),
     CONSTRAINT profilequestionrelations_profilequestions2_id_fk FOREIGN KEY (secondQuestionId) REFERENCES profilequestions (id)
 );
+
+CREATE TABLE profilevariables
+(
+    variable varchar(100),
+    subvariable varchar(100),
+    subvariabledefinition varchar(300),
+    variabledefinition varchar(300),
+    context varchar(300),
+    variableweight FLOAT,
+    subvariableweight FLOAT
+);
+
 
 ALTER TABLE profilequestionrelations COMMENT = 'This indicates if a profile question leads to homogenity in groups';
 ALTER TABLE annotations COMMENT = 'Stores comments to a part of the dossier for a category such as RESEARCH';
