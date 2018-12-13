@@ -1,13 +1,11 @@
-<%@ page import="unipotsdam.gf.modules.project.ProjectDAO" %>
-<%@ page import="unipotsdam.gf.mysql.MysqlConnect" %>
-<%@ page import="unipotsdam.gf.mysql.MysqlConnectImpl" %>
 <%@ page import="unipotsdam.gf.process.phases.Phase" %>
+<%@ page import="unipotsdam.gf.taglibs.TagUtilities" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
-    String projectName = request.getParameter("projectName");
-    MysqlConnect mysqlConnect = new MysqlConnectImpl();
-    ProjectDAO projectDAO = new ProjectDAO(mysqlConnect);
-    Phase phase = projectDAO.getProjectByName(projectName).getPhase();
+    request.setCharacterEncoding("UTF-8");
+    TagUtilities tu = new TagUtilities();
+    String projectName = tu.getParamterFromQuery("projectName", request);
+    Phase phase = tu.getPhase(projectName);
 %>
 <div class="col span_timeline .timeline">
     <ul>
@@ -51,3 +49,6 @@
         <%}%>
     </ul>
 </div>
+<%!
+
+%>

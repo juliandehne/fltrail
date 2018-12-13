@@ -75,7 +75,6 @@
         <chat:chatWindow orientation="right" scope="group"/>
     </div>
 </main>
-</main>
 <jsp:include page="../taglibs/footer.jsp"/>
 
 </body>

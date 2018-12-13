@@ -67,6 +67,7 @@ public class GroupFormationProcess {
         taskDAO.finishMemberTask(project, TaskName.WAITING_FOR_GROUP);
         taskDAO.persistMemberTask(project,  TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);
 
+        //saveGroups(groupfinding.getGroups(project), project);
         //if the project is finalized create group chat room
         groupfinding.finalizeGroups(project);
     }
