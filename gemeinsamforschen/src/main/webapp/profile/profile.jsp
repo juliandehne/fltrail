@@ -8,17 +8,16 @@
 <html>
 
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed|Open+Sans+Condensed:300' rel='stylesheet'
           type='text/css'>
     <script src="js/profile.js"></script>
 </head>
 
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" /><div class="col span_content">
 
 <div class="page-content-wrapper">
-    <headLine:headLine/>
     <div class="container">
         <div class="row">
             <%-- about --%>
@@ -104,7 +103,7 @@
     </div>
 
 </div>
-</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
+</div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div></main><jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

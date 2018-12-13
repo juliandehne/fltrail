@@ -8,7 +8,7 @@
 
 
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
     <script src="js/AlertAssessmentOutlier.js"></script>
     <script src="js/grading.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
@@ -16,12 +16,11 @@
 
 
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" /><div class="col span_content">
 <div id="wrapper">
 
     <div class="page-content-wrapper">
         <div class="container-fluid">
-            <headLine:headLine/>
             <button class="btn btn-default" type="button">Gruppen erstellen</button>
             <button class="btn btn-default" type="button" id="ProjektFinalisieren">Projekt finalisieren</button>
             <button class="btn btn-default" type="button">Exportiere Projektergebnisse</button>

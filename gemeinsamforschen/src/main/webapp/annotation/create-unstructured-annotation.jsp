@@ -10,7 +10,7 @@
 <html>
 
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
 
     <!-- css - unstructured-annotation -->
     <link rel="stylesheet" type="text/css" href="css/unstructured-annotation.css">
@@ -39,7 +39,7 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" />
 <div class="col span_content">
     <div class="content-mainpage">
         <div class="leftcolumn">
@@ -73,7 +73,7 @@
     <chat:chatWindow orientation="right" scope="project" />
     <chat:chatWindow orientation="right" scope="group" />
 </div>
-<footer:footer/>
+</main><jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

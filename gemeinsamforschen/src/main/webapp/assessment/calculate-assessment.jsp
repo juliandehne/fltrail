@@ -9,13 +9,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
     <script src="js/assessmentCalculator.js"></script>
 </head>
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" /><div class="col span_content">
 <button id="calculateNow">Post Performance</button>
 <button id="giveItBack">Get TotalPerformance</button>
-<headLine:headLine/>
-</body>
+</div></body>
 </html>

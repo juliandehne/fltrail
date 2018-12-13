@@ -21,7 +21,12 @@
     <script src="js/tasks.js"></script>
 </head>
 <body>
-<menu:menu hierarchy="1"/>
+<jsp:include page="../taglibs/Menu.jsp">
+    <jsp:param name="hierarchy" value="1"/>
+</jsp:include>
+<main>
+<jsp:include page="../taglibs/timeLine.jsp" />
+
 <div class="col span_content">
 
 <%--    <div class="infotext ">
@@ -67,7 +72,8 @@
     <chat:chatWindow orientation="right" scope="project" />
     <chat:chatWindow orientation="right" scope="group" />
 </div>
-<footer:footer/>
+</main>
+</main><jsp:include page="../taglibs/footer.jsp"/>
 
 </body>
 </html>

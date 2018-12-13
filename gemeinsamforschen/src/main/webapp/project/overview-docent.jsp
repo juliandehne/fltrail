@@ -8,12 +8,12 @@
 <html>
 
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
     <script src="js/overview-docent.js"></script>
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" />
 <div class="col span_content">
     <h1>Meine Projekte</h1>
     <div class="row group projects-grid" id="projects">
@@ -36,7 +36,7 @@
 </div><div class="col span_chat">
 
 </div>
-<footer:footer/>
+</main><jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

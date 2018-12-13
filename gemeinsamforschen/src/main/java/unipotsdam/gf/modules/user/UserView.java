@@ -29,7 +29,8 @@ import java.net.URISyntaxException;
 @ManagedBean
 public class UserView {
 
-
+    @Inject
+    private GFContexts gfContexts;
 
     @Inject
     private ICommunication communicationService;
@@ -120,13 +121,12 @@ public class UserView {
             Boolean exists = projectCreationProcess.authenticateUser(user, req);
             if (exists) {
                 user = fillUserFields(user);
+                gfContexts.updateUserSessionWithStatus(req, user);
                 return redirectToProjectPage(user);
             } else {
                 return loginError();
             }
-        } catch (UserDoesNotExistInRocketChatException e) {
-            return loginError();
-        } catch (RocketChatDownException e) {
+        } catch (UserDoesNotExistInRocketChatException | RocketChatDownException e) {
             return loginError();
         }
 

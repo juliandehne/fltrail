@@ -7,16 +7,15 @@
 <html>
 
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
     <script src="js/take-quiz.js"></script>
 
 </head>
 
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" /><div class="col span_content">
 <div id="wrapper">
     <div class="page-content-wrapper">
-        <headLine:headLine/>
         <div>
             <table>
                 <tr>
@@ -36,7 +35,11 @@
             </table>
         </div>
     </div>
-    </div><div class="col span_chat">     <chat:chatWindow orientation="right" scope="project" />     <chat:chatWindow orientation="right" scope="group" /> </div><footer:footer/>
+    </div><div class="col span_chat">
+    <chat:chatWindow orientation="right" scope="project" />
+    <chat:chatWindow orientation="right" scope="group" />
+</div>
+    <jsp:include page="../taglibs/footer.jsp"/>
 </div>
 </body>
 

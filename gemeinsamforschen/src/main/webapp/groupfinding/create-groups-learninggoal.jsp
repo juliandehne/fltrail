@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>student-form-design</title>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700">
     <link rel="stylesheet" href="css/Login-Form-Clean.css">
     <link rel="stylesheet" href="css/Navigation-with-Button1.css">
@@ -26,7 +26,7 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" /><div class="col span_content">
 <div class="page-content-wrapper">
     <div class="container-fluid"><a class="btn btn-link" role="button" href="#menu-toggle" id="menu-toggle"></a>
         <div class="row">
@@ -60,7 +60,7 @@
     <chat:chatWindow orientation="right" scope="project" />
     <chat:chatWindow orientation="right" scope="group" />
 </div>
-<footer:footer/>
+</main><jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

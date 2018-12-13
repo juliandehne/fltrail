@@ -8,12 +8,14 @@
 <html>
 
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">
+        <jsp:param name="hierarchy" value="1"/>
+    </jsp:include>
     <script src="js/courses-student.js"></script>
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" />
 <div class="col span_content">
     <div>
             <h1 id="headLine"></h1>
@@ -47,7 +49,7 @@
 
     </div>
 </div>
-<footer:footer/>
+</main><jsp:include page="../taglibs/footer.jsp"/>
 </body>
 <script id="projectTemplate" type="text/x-jQuery-tmpl">
             <div class="card card-project projectDynamic">

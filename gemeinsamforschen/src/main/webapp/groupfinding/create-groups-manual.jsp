@@ -13,7 +13,7 @@
 
 <html>
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
     <script src="js/create-groups-manual.js"></script>
     <link rel="stylesheet" href="css/create-groups-manual.css">
 </head>
@@ -31,7 +31,7 @@
 </script>
 
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" /><div class="col span_content">
 <div style="display: block">
     <div style="display: flex">
         <div style="display:block">
@@ -61,6 +61,6 @@
 </div>
 <div class="col span_chat">
 </div>
-<footer:footer/>
+</main><jsp:include page="../taglibs/footer.jsp"/>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" , charset="utf-8">
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"> <!--FilePond -->
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
           rel="stylesheet"> <!--FilePond -->
@@ -20,10 +20,9 @@
 </head>
 
 <body>
-<menu:menu hierarchy="1"/><div class="col span_content">
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" /><div class="col span_content">
 <div id="wrapper">
     <div class="page-content-wrapper">
-        <headLine:headLine/>
         <div style="margin-left:50px;">
             <table>
                 <tr>
@@ -121,5 +120,5 @@
 <script>FilePond.parse(document.body);</script> <!--FilePond -->
 
 
-</body>
+</div></body>
 </html>

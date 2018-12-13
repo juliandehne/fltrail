@@ -13,7 +13,7 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 <html>
 <head>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
     <script src="../groupfinding/js/config.js"></script>
     <script src="js/deleteProject.js"></script>
 
@@ -21,8 +21,7 @@
 
 <body>
 <div class="loader-inactive" id="loader"></div>
-<menu:menu hierarchy="1"/><div class="col span_content">
-<headLine:headLine/>
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" /><div class="col span_content">
 <legend style="margin-left:13px;">Projektnamen</legend>
 <input class="form-control" type="text" id="projectName" name="Project" required
        placeholder="Projekt1" autofocus
@@ -34,7 +33,7 @@
 </div><div class="col span_chat">
 
 </div>
-<footer:footer/>
+</main><jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

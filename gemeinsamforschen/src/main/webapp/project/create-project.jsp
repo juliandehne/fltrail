@@ -18,13 +18,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projekterstellung</title>
-    <omniDependencies:omniDependencies hierarchy="1"/>
+    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
     <script src="../groupfinding/js/config.js"></script>
     <script src="js/create-project.js"></script>
 </head>
 
 <body>
-<menu:menu hierarchy="1"/>
+<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" />
 <div class="col span_content">
     <div class="page-content-wrapper">
         <div class="container-fluid">
@@ -103,7 +103,7 @@
 <div class="col span_chat">
 
 </div>
-<footer:footer/>
+</main><jsp:include page="../taglibs/footer.jsp"/>
 
 </body>
 

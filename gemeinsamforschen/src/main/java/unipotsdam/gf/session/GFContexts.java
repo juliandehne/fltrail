@@ -1,6 +1,7 @@
 package unipotsdam.gf.session;
 
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
+import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 
@@ -14,6 +15,7 @@ public class GFContexts {
     UserDAO userDAO;
 
     public static final String USEREMAIL = "userEmail";
+    public static final String ISSTUDENT = "isStudent";
     public static final String PROJECTNAME = "projectName";
     public static final String ROCKETCHATAUTHTOKEN = "rocketchatauthtoken";
     public static final String ROCKETCHATID = "rocketchatid";
@@ -40,5 +42,13 @@ public class GFContexts {
 
     public void updateUserWithEmail(HttpServletRequest req, User user) {
         req.getSession().setAttribute(GFContexts.USEREMAIL, user.getEmail());
+    }
+
+    public void updateUserSessionWithStatus(HttpServletRequest req, User user) {
+        if (user.getStudent()){
+            req.getSession().setAttribute(GFContexts.ISSTUDENT, "isStudent");
+        }else{
+            req.getSession().setAttribute(GFContexts.ISSTUDENT, "isDocent");
+        }
     }
 }
