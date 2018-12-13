@@ -13,18 +13,20 @@ import java.util.ArrayList;
 
 public class ItemWriter {
 
+    private final String excelFileName;
+
     @Inject
     ProfileDAO profileDAO;
 
-    public ItemWriter() {
-
+    public ItemWriter(String excelFileName) {
+        this.excelFileName = excelFileName;
     }
 
     public void writeItems() throws Exception {
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
 
-        String path = System.getProperty("user.dir") + "/src/main/resources/groupfindingitems.xls";
+        String path = System.getProperty("user.dir") + "/src/main/resources/"+excelFileName;
         java.util.List<ItemSet> itemSets = Poiji.fromExcel(new File(path), ItemSet.class);
 
         for (ItemSet itemSet : itemSets) {
@@ -33,17 +35,33 @@ public class ItemWriter {
             profileDAO.persistProfileVariable(itemSet);
 
             // write items
-            String[] englishItems = itemSet.getItemEnglish().split(".");
-            String[] germanItems = itemSet.getItemEnglish().split(".");
+            String[] englishItems = itemSet.getItemEnglish().replaceAll("\n", "").trim().split("\\.");
+            String[] germanItems = itemSet.getItemGerman().replaceAll("\n", "").trim().split("\\.");
+
+
 
             if (englishItems.length != germanItems.length) {
                 throw new Exception("Übersetzung ist wohl nicht korrekt");
             }
 
+
             for (int i = 0; i < englishItems.length; i++) {
+
                 ScaledProfileQuestion scaledProfileQuestion = new ScaledProfileQuestion();
-                scaledProfileQuestion.setQuestion(germanItems[i]);
-                scaledProfileQuestion.setQuestion_en(englishItems[i]);
+                String germanItem = germanItems[i];
+                String englishItem = englishItems[i];
+                String polarityMarker = "(-)";
+                if (germanItem.contains(polarityMarker)) {
+                    String polarityMarkerRegex = "\\(-\\)";
+                    germanItem = germanItem.replaceAll(polarityMarkerRegex, "");
+                    englishItem = englishItem.replaceAll(polarityMarkerRegex, "");
+                    scaledProfileQuestion.setPolarity(false);
+                } else {
+                    scaledProfileQuestion.setPolarity(true);
+                }
+
+                scaledProfileQuestion.setQuestion(germanItem);
+                scaledProfileQuestion.setQuestion_en(englishItem);
                 scaledProfileQuestion.setScaleSize(5);
                 scaledProfileQuestion.setSubvariable(itemSet.getSubVariable());
                 profileDAO.persist(scaledProfileQuestion);

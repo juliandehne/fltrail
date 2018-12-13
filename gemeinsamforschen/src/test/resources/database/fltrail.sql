@@ -92,8 +92,7 @@ CREATE TABLE `projects` (
   `author` varchar(100) NOT NULL,
   `description` varchar (600),
   `adminPassword` varchar(400),
-  `phase` varchar(400) NOT NULL DEFAULT 'GroupFormation',
-  `description` varchar(400)
+  `phase` varchar(400) NOT NULL DEFAULT 'GroupFormation'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `projectuser` (
@@ -304,8 +303,11 @@ CREATE TABLE profilequestions
   id int PRIMARY KEY AUTO_INCREMENT,
   scaleSize int,
   question varchar(500) NOT NULL,
+  question_en varchar(500) NOT NULL,
   subvariable varchar(100) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE profilequestions ADD polarity boolean NULL;
 
 CREATE TABLE profilequestionoptions
 (

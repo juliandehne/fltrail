@@ -23,10 +23,18 @@ public class ProfileDAO {
         int result = -1;
         connect.connect();
 
-        String query = "INSERT INTO profilequestions (`scaleSize`, `question`, `question_en`, `subvariable`) values(?," +
-                "?,?,?)";
-        result = connect.issueInsertStatementWithAutoincrement(query, profileQuestion.getScaleSize(),
-                profileQuestion.getQuestion(), profileQuestion.getQuestion_en(), profileQuestion.getSubvariable());
+        String germanQuestion = profileQuestion.getQuestion();
+        String englishQuestion = profileQuestion.getQuestion_en();
+        String subvariable =  profileQuestion.getSubvariable();
+        int scaleSize = profileQuestion.getScaleSize();
+        Boolean polarity = true;
+        if (profileQuestion instanceof ScaledProfileQuestion) {
+            polarity = ((ScaledProfileQuestion)profileQuestion).getPolarity();
+        }
+        String query = "INSERT INTO profilequestions (`scaleSize`, `question`, `question_en`, `subvariable`, " +
+                "`polarity`) values (?,?,?,?,?)";
+        result = connect.issueInsertStatementWithAutoincrement(query, scaleSize, germanQuestion, englishQuestion,
+                subvariable, polarity);
 
         connect.close();
 
@@ -63,10 +71,12 @@ public class ProfileDAO {
     public void persist(ProfileQuestionAnswer profileQuestionAnswer) {
         connect.connect();
         String query =
-                "INSERT INTO profilequestionanswer (`profileQuestionId`,`answerIndex`, `selectedAnswer`, " + "`userEmail` values (?,?,?,?)";
+                "INSERT INTO profilequestionanswer (`profileQuestionId`,`answerIndex`, `selectedAnswer`, " +
+                        "`userEmail`) values (?,?,?,?)";
         connect.issueInsertOrDeleteStatement(query, profileQuestionAnswer.getQuestion().getId(),
                 profileQuestionAnswer.getAnswerIndex(), profileQuestionAnswer.getSelectedAnswer(),
                 profileQuestionAnswer.getUser().getEmail());
+        connect.close();
     }
 
     /**

@@ -13,7 +13,8 @@ import java.io.InputStream;
 
 public class ItemsImporter {
     public static void main(String[] args) throws Exception {
-        ItemWriter itemWriter = new ItemWriter();
+        String itemExamle = "groupfindingitems_beispiel.xls";
+        ItemWriter itemWriter = new ItemWriter(itemExamle);
         itemWriter.writeItems();
     }
 }
