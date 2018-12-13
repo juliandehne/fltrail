@@ -1,15 +1,15 @@
-.pg-rest{
-    background:#DDDDDD;
+.pg-rest {
+    background: #DDDDDD;
 }
 
 .pg-CourseCreation {
     background: #777777;
-    width:5%;
+    width: 5%;
 }
 
 .pg-GroupFormation {
     background: #AAAA77;
-    width:15%;
+    width: 15%;
 }
 
 .pg-test {
@@ -19,7 +19,7 @@
 
 .pg-DossierFeedback {
     background: #AA77AA;
-    width:30%;
+    width: 30%;
 }
 
 .pg-Execution {
@@ -34,5 +34,5 @@
 
 .pg-Projectfinished {
     background: #34DD44;
-    width:100%;
+    width: 100%;
 }

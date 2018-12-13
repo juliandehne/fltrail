@@ -88,9 +88,13 @@ function fitObjectInTmpl(object) {
     }
     switch (object.taskName) {
         case "WAIT_FOR_PARTICPANTS":
+            let countMissing = object.taskData.participantCount.participantsNeeded - object.taskData.participantCount.participants;
             result.infoText = "Warten Sie auf die Anmeldungen der Studenten.\n" +
-                "Es sind bereits "+object.taskData.participantCount.participants+" Studenten eingetragen."+
-            " Es fehlen noch "+ (object.taskData.participantCount.participantsNeeded-object.taskData.participantCount.participants);
+                "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
+            if (countMissing>0){
+                result.infoText += " Es fehlen noch " + countMissing;
+            }
+
             break;
         case "BUILD_GROUPS":
             result.infoText = "Erstellen Sie die Gruppen.";
@@ -110,7 +114,7 @@ function fitObjectInTmpl(object) {
             break;
         case "GIVE_FEEDBACK":
             result.infoText = "[STUDENT] Geben Sie ein Feedback .....";
-            if (object.taskData===null){
+            if (object.taskData === null) {
                 result.infoText += "nachdem ein weiterer Teilnehmer ein Dossier abgegeben hat."
             }
             break;
@@ -123,13 +127,13 @@ function fitObjectInTmpl(object) {
             break;
         case "CLOSE_DOSSIER_FEEDBACK_PHASE":
             let count = object.taskData.length;
-            if (count<=3){
-                result.infoText="Warten sie noch auf die Studenten ";
-                for (let i=0; i<object.taskData.length; i++){
-                    result.infoText += object.taskData[i]+" ";
+            if (count <= 3) {
+                result.infoText = "Warten sie noch auf die Studenten ";
+                for (let i = 0; i < object.taskData.length; i++) {
+                    result.infoText += object.taskData[i] + " ";
                 }
-            }else{
-                result.infoText="Noch haben nicht alle Studenten ihren Peers ein Feedback gegeben.";
+            } else {
+                result.infoText = "Noch haben nicht alle Studenten ihren Peers ein Feedback gegeben.";
             }
             break;
         case "WAIT_FOR_REFLECTION":
@@ -149,12 +153,12 @@ function fitObjectInTmpl(object) {
         switch (object.taskName) {
             case "WAIT_FOR_PARTICPANTS":
                 if (
-                    (object.taskData.gfm==="Manual")
+                    (object.taskData.gfm === "Manual")
                     ||
                     (object.taskData.participantCount.participants >= object.taskData.participantCount.participantsNeeded)
-                ){
-                    result.solveTaskWith="Gruppen erstellen";
-                    result.solveTaskWithLink="redirect(\'../groupfinding/create-groups-manual.jsp?projectName="+object.projectName+"\')";
+                ) {
+                    result.solveTaskWith = "Gruppen erstellen";
+                    result.solveTaskWithLink = "redirect(\'../groupfinding/create-groups-manual.jsp?projectName=" + object.projectName + "\')";
                 }
                 break;
             case "CLOSE_GROUP_FINDING_PHASE":
@@ -202,7 +206,7 @@ function fitObjectInTmpl(object) {
                 result.solveTaskWithLink = "redirect(\'../assessment/assess-work.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "GIVE_FEEDBACK":
-                if (object.taskData !== null){
+                if (object.taskData !== null) {
                     result.solveTaskWith = "Geben Sie ein Feedback";
                     result.solveTaskWithLink = "redirect(\'../annotation/annotation-document.jsp?" +
                         "projectName=" + object.projectName +
@@ -211,7 +215,7 @@ function fitObjectInTmpl(object) {
 
                 break;
             case "SEE_FEEDBACK":
-                if (object.taskData !== null){
+                if (object.taskData !== null) {
                     result.solveTaskWith = "zum Feedback";
                     result.solveTaskWithLink = "redirect(\'../annotation/annotation-document.jsp?" +
                         "projectName=" + object.projectName +
@@ -235,7 +239,7 @@ function fitObjectInTmpl(object) {
             result.timeFrame = "<p>" + created.getDate() + "." + (created.getMonth() + 1) + "." + created.getFullYear() +
                 " bis " + deadline.getDate() + "." + (deadline.getMonth() + 1) + "." + deadline.getFullYear() + "</p>";
             return result;
-        }else{
+        } else {
             result.timeFrame = "";
         }
         result.taskProgress = "FINISHED";

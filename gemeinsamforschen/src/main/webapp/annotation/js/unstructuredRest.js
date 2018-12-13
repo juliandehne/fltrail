@@ -77,7 +77,7 @@ function createSubmissionPart(submissionPartPostRequest, responseHandler) {
  * @param errorHandler The error handler
  */
 function getSubmissionPart(id, category, responseHandler, errorHandler) {
-    if (!category){
+    if (!category) {
         responseHandler(false);
         return false;
     }
@@ -114,7 +114,7 @@ function getAllSubmissionParts(id, responseHandler) {
             responseHandler(response);
         },
         error: function () {
-          console.log("no parts");
+            console.log("no parts");
         }
     })
 }

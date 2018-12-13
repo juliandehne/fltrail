@@ -131,7 +131,7 @@ function showProject(project, user) {           //will display the chosen option
  */
 
 function getProjectsOfAuthor(author, printedProjects, handleProjects) {
-    var url = "../../gemeinsamforschen/rest/project/all/author/"+getUserEmail();
+    var url = "../../gemeinsamforschen/rest/project/all/author/" + getUserEmail();
     $.ajax({
         url: url,
         Accept: "application/json",

@@ -43,7 +43,7 @@ public class PhaseView {
     @Path("/{projectPhase}/projects/{projectName}/end")
     @GET
     public String endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectName") String
-            projectName) throws URISyntaxException, RocketChatDownException, UserDoesNotExistInRocketChatException {
+            projectName) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         Phase phase = Phase.valueOf(projectPhase);
         Project project = projectDAO.getProjectByName(projectName);
         phases.endPhase(phase, project);

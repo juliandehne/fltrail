@@ -10,7 +10,9 @@
 <html>
 
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
+    <jsp:include page="../taglibs/omniDependencies.jsp">
+        <jsp:param name="hierarchy" value="1"/>
+    </jsp:include>
 
     <!-- css - unstructured-annotation -->
     <link rel="stylesheet" type="text/css" href="css/unstructured-annotation.css">
@@ -39,41 +41,47 @@
 </head>
 
 <body>
-<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" />
-<div class="col span_content">
-    <div class="content-mainpage">
-        <div class="leftcolumn">
-            <div class="leftcontent">
-                <div class="leftcontent-text context-menu-one" id="documentText"></div>
-                <div class="leftcontent-buttons">
-                    <div class="leftcontent-buttons-save">
-                        <button id="btnSave" type="button" class="btn btn-secondary">Speichern</button>
+<jsp:include page="../taglibs/Menu.jsp">
+    <jsp:param name="hierarchy" value="1"/>
+</jsp:include>
+<main>
+    <jsp:include page="../taglibs/timeLine.jsp"/>
+    <div class="col span_content">
+        <div class="content-mainpage">
+            <div class="leftcolumn">
+                <div class="leftcontent">
+                    <div class="leftcontent-text context-menu-one" id="documentText"></div>
+                    <div class="leftcontent-buttons">
+                        <div class="leftcontent-buttons-save">
+                            <button id="btnSave" type="button" class="btn btn-secondary">Speichern</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="rightcolumn">
-            <div id="missingAnnotation" class="alert alert-warning"></div>
-            <div class="rightcontent">
-                <ol id="annotations">
+            <div class="rightcolumn">
+                <div id="missingAnnotation" class="alert alert-warning"></div>
+                <div class="rightcontent">
+                    <ol id="annotations">
 
-                </ol>
-                <script id="annotationTemplate" type="text/x-jQuery-tmpl">
+                    </ol>
+                    <script id="annotationTemplate" type="text/x-jQuery-tmpl">
                     <li class="spacing">
                     <div id="${annotationType}" class="category-card not-added">
                         <p>${annotationType}</p>
                     </div>
                 </li>
-                </script>
+
+                    </script>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="col span_chat">
-    <chat:chatWindow orientation="right" scope="project" />
-    <chat:chatWindow orientation="right" scope="group" />
-</div>
-</main><jsp:include page="../taglibs/footer.jsp"/>
+    <div class="col span_chat">
+        <chat:chatWindow orientation="right" scope="project"/>
+        <chat:chatWindow orientation="right" scope="group"/>
+    </div>
+</main>
+<jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

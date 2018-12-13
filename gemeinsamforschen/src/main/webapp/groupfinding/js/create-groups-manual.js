@@ -20,7 +20,7 @@ $(document).ready(function () {
         })
     });
     $('#openNewGroup').click(function () {
-        openNewGroup(function(done){
+        openNewGroup(function (done) {
             selectableButtons(done);
         });
         selectableButtons(true);  //i have no clue why this needs to be called twice, but it seems necessary
@@ -111,7 +111,7 @@ function viewToGroup(callback) {
                     chatRoomId = $(this).html().trim();
                 }
             });
-            if (members.length !== 0){
+            if (members.length !== 0) {
                 groups.push({
                     chatRoomId: chatRoomId,
                     id: "",
@@ -135,8 +135,8 @@ function saveNewGroups(groups) {
         type: 'POST',
         success: function (response) {
             $('#done').show();
-            setTimeout(function(){
-                document.location.href="../project/tasks-docent.jsp?projectName="+$('#projectName').html().trim();
+            setTimeout(function () {
+                document.location.href = "../project/tasks-docent.jsp?projectName=" + $('#projectName').html().trim();
             }, 1000);
         },
         error: function (a) {

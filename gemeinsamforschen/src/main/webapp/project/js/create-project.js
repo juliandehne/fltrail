@@ -95,7 +95,7 @@ function getProjectValues() {
         return false;
     }
     let description = $('#projectDescription').val();
-    if (description === ""){
+    if (description === "") {
         $('#projectDescriptionMissing').show();
         return false;
     }
@@ -107,12 +107,12 @@ function getProjectValues() {
     let time = new Date().getTime();
 
     return {
-        "name" : projectName,
-        "password" : password,
+        "name": projectName,
+        "password": password,
         "description": description,
-        "active" : true,
-        "phase" : "GroupFormation",
-        "timecreated" : time,
+        "active": true,
+        "phase": "GroupFormation",
+        "timecreated": time,
         "authorEmail": $('#userEmail').text().trim(),
         "tags": allTheTags
     };
@@ -137,7 +137,7 @@ function createProjectinCompbase() {
         success: function (response) {
             console.log(response);
             // it actually worked, too
-            document.location.href = "tasks-docent.jsp?projectName="+projectName;
+            document.location.href = "tasks-docent.jsp?projectName=" + projectName;
         },
         error: function (a) {
             console.log(a);
@@ -157,7 +157,7 @@ function sendGroupPreferences() {
         gfm = "Manual";
     } else if (gfm === "Basierend auf Lernzielen") {
         gfm = "LearningGoalStrategy";
-    } else if(gfm === "Keine Gruppen") {
+    } else if (gfm === "Keine Gruppen") {
         gfm = "SingleUser";
     }
 
@@ -172,7 +172,7 @@ function sendGroupPreferences() {
             if (gfm === "LearningGoalStrategy") {
                 createProjectinCompbase();
             }
-            document.location.href = "tasks-docent.jsp?projectName="+projectName;
+            document.location.href = "tasks-docent.jsp?projectName=" + projectName;
             return true;
         },
         error: function () {

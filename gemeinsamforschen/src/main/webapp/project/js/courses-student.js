@@ -116,7 +116,7 @@ function getGrade(projectName) {
 function printProjectCard(response, project, tmplObject) {
     if (response[project].active) {
         let projectAction = "Einsehen";
-        if (isSearching()){
+        if (isSearching()) {
             projectAction = "Beitreten";
         }
         tmplObject.push({
@@ -160,7 +160,7 @@ function getMyProjects(userName) {
         type: 'GET',
         success: function (response) {
             // initiate project and response arrays
-            if (response.length !== 0){
+            if (response.length !== 0) {
                 projectResponse = response;
                 for (let project in projectResponse) {
                     if (projectResponse.hasOwnProperty(project)) {
@@ -171,17 +171,17 @@ function getMyProjects(userName) {
                 repaintProjectList(function () {
                     buttonHandler()
                 });
-            }else{
+            } else {
                 $('#headLine').html("Sie sind in keinem Kurs eingetragen.");
-                $('.select_arrow').each(function(){
+                $('.select_arrow').each(function () {
                     $(this).hide();
                 });
-                $('.search').each(function(){
+                $('.search').each(function () {
                     $(this).hide();
                 });
                 $('#introduction').html("Um sich in einen Kurs einzutragen wählen sie oben links \"suche Kurs\".")
             }
-            },
+        },
 
         error: function (a) {
             console.log(a);
@@ -230,7 +230,7 @@ function buttonHandler() {
     }
     $('.project_Button').each(function () {
         $(this).on('click', function () {
-            let projectName=$(this).attr('name');
+            let projectName = $(this).attr('name');
             location.href = linkUrl + projectName;
             updateStatus(projectName);
         });

@@ -3,8 +3,8 @@
  */
 
 $(document).ready(function () {
-    checkCompBase(function(isCompBaseOnline){
-        if (!isCompBaseOnline){
+    checkCompBase(function (isCompBaseOnline) {
+        if (!isCompBaseOnline) {
             $('#competenciesFieldSet').hide();
             $('#researchQuestionFieldSet').hide();
         }
@@ -51,7 +51,7 @@ function printTags() {
 
 // he is added in compbase to the project
 function takesPartInProject() {
-    $('.cover').each(function(){
+    $('.cover').each(function () {
         $(this).fadeIn(100);
     });
     document.getElementById('loader').className = "loader";
@@ -59,8 +59,8 @@ function takesPartInProject() {
     let userEmail = getUserEmail();
     let projectName = getProjectName();
     loginProject(projectName);
-    checkCompBase(function(isCompBaseOnline){
-        if(isCompBaseOnline){
+    checkCompBase(function (isCompBaseOnline) {
+        if (isCompBaseOnline) {
             let allTheTags = [];
             let allTheCompetencies;
             allTheCompetencies = $('#competencies0').val().split(",");
@@ -101,7 +101,7 @@ function takesPartInProject() {
                     console.log(a);
                 }
             });
-        }else{
+        } else {
             document.getElementById('loader').className = "loader-inactive";
             location.href = "../project/courses-student.jsp";
         }
@@ -110,7 +110,7 @@ function takesPartInProject() {
 
 function loginProject(projectName) {
     let password = $('#projectPassword').val();
-    let url = "../../gemeinsamforschen/rest/project/login/"+projectName+"?password="+password;
+    let url = "../../gemeinsamforschen/rest/project/login/" + projectName + "?password=" + password;
     if (projectName === "") {
         return false;
     } else {
@@ -131,7 +131,7 @@ function loginProject(projectName) {
     }
 }
 
-function checkCompBase(callback){
+function checkCompBase(callback) {
     $.ajax({
         url: '../rest/system/health',
         Accept: "application/json",

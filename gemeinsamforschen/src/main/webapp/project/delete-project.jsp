@@ -13,7 +13,9 @@
 <%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
 <html>
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
+    <jsp:include page="../taglibs/omniDependencies.jsp">
+        <jsp:param name="hierarchy" value="1"/>
+    </jsp:include>
     <script src="../groupfinding/js/config.js"></script>
     <script src="js/deleteProject.js"></script>
 
@@ -21,19 +23,25 @@
 
 <body>
 <div class="loader-inactive" id="loader"></div>
-<jsp:include page="../taglibs/Menu.jsp">     <jsp:param name="hierarchy" value="1"/> </jsp:include> <main> <jsp:include page="../taglibs/timeLine.jsp" /><div class="col span_content">
-<legend style="margin-left:13px;">Projektnamen</legend>
-<input class="form-control" type="text" id="projectName" name="Project" required
-       placeholder="Projekt1" autofocus
-       style="max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
-<div class="alert alert-warning" role="alert" id="projectIsMissing">
-    Dieser Projektname existiert nicht
-</div>
-<button id="deleteProject" class="btn btn-danger">löschen</button>
-</div><div class="col span_chat">
+<jsp:include page="../taglibs/Menu.jsp">
+    <jsp:param name="hierarchy" value="1"/>
+</jsp:include>
+<main>
+    <div class="col span_content">
+        <legend style="margin-left:13px;">Projektnamen</legend>
+        <input class="form-control" type="text" id="projectName" name="Project" required
+               placeholder="Projekt1" autofocus
+               style="max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
+        <div class="alert alert-warning" role="alert" id="projectIsMissing">
+            Dieser Projektname existiert nicht
+        </div>
+        <button id="deleteProject" class="btn btn-danger">löschen</button>
+    </div>
+    <div class="col span_chat">
 
-</div>
-</main><jsp:include page="../taglibs/footer.jsp"/>
+    </div>
+</main>
+<jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

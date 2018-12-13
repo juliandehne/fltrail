@@ -6,11 +6,13 @@
   Time: 13:23
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Title</title>
-    <jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>
+    <jsp:include page="../taglibs/omniDependencies.jsp">
+        <jsp:param name="hierarchy" value="1"/>
+    </jsp:include>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <%--<link rel="stylesheet" href="/resources/demos/style.css">--%>
@@ -43,6 +45,7 @@
         <h3>Gruppe ${lastGroupId}</h3>
         <ul id="group_${lastGroupId}" class="droptrue sortableGroup"></ul>
         </div>
+
 
 
 </script>

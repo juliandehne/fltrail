@@ -63,19 +63,19 @@
  * Problem is whether Rangy should ever acknowledge the space and if so, when. Another problem is whether this can be
  * feature-tested
  */
-(function(factory, root) {
+(function (factory, root) {
     if (typeof define == "function" && define.amd) {
         // AMD. Register as an anonymous module with a dependency on Rangy.
         define(["./rangy-core"], factory);
     } else if (typeof module != "undefined" && typeof exports == "object") {
         // Node/CommonJS style
-        module.exports = factory( require("rangy") );
+        module.exports = factory(require("rangy"));
     } else {
         // No AMD or CommonJS support so we use the rangy property of root (probably the global variable)
         factory(root.rangy);
     }
-})(function(rangy) {
-    rangy.createModule("TextRange", ["WrappedSelection"], function(api, module) {
+})(function (rangy) {
+    rangy.createModule("TextRange", ["WrappedSelection"], function (api, module) {
         var UNDEF = "undefined";
         var CHARACTER = "character", WORD = "word";
         var dom = api.dom, util = api.util;
@@ -101,7 +101,7 @@
         var trailingSpaceBeforeBlockCollapses = false;
         var trailingSpaceBeforeLineBreakInPreLineCollapses = true;
 
-        (function() {
+        (function () {
             var el = dom.createTestElement(document, "<p>1 </p><p></p>", true);
             var p = el.firstChild;
             var sel = api.getSelection();
@@ -130,12 +130,12 @@
             var word = chars.join(""), result, tokenRanges = [];
 
             function createTokenRange(start, end, isWord) {
-                tokenRanges.push( { start: start, end: end, isWord: isWord } );
+                tokenRanges.push({start: start, end: end, isWord: isWord});
             }
 
             // Match words and mark characters
             var lastWordEnd = 0, wordStart, wordEnd;
-            while ( (result = wordOptions.wordRegex.exec(word)) ) {
+            while ((result = wordOptions.wordRegex.exec(word))) {
                 wordStart = result.index;
                 wordEnd = wordStart + result[0].length;
 
@@ -146,7 +146,7 @@
 
                 // Get trailing space characters for word
                 if (wordOptions.includeTrailingSpace) {
-                    while ( nonLineBreakWhiteSpaceRegex.test(chars[wordEnd]) ) {
+                    while (nonLineBreakWhiteSpaceRegex.test(chars[wordEnd])) {
                         ++wordEnd;
                     }
                 }
@@ -167,7 +167,7 @@
             var token = {
                 isWord: tokenRange.isWord,
                 chars: tokenChars,
-                toString: function() {
+                toString: function () {
                     return tokenChars.join("");
                 }
             };
@@ -180,8 +180,8 @@
         function tokenize(chars, wordOptions, tokenizer) {
             var tokenRanges = tokenizer(chars, wordOptions);
             var tokens = [];
-            for (var i = 0, tokenRange; tokenRange = tokenRanges[i++]; ) {
-                tokens.push( convertCharRangeToToken(chars, tokenRange) );
+            for (var i = 0, tokenRange; tokenRange = tokenRanges[i++];) {
+                tokens.push(convertCharRangeToToken(chars, tokenRange));
             }
             return tokens;
         }
@@ -200,7 +200,7 @@
 
             // Normalize ignored characters into a string consisting of characters in ascending order of character code
             var ignoredCharsArray = (typeof ignoredChars == "string") ? ignoredChars.split("") : ignoredChars;
-            ignoredCharsArray.sort(function(char1, char2) {
+            ignoredCharsArray.sort(function (char1, char2) {
                 return char1.charCodeAt(0) - char2.charCodeAt(0);
             });
 
@@ -285,7 +285,7 @@
 
         // Test for old IE's incorrect display properties
         var tableCssDisplayBlock;
-        (function() {
+        (function () {
             var table = document.createElement("table");
             var body = getBody(document);
             body.appendChild(table);
@@ -484,11 +484,11 @@
         }
 
         Cache.prototype = {
-            get: function(key) {
+            get: function (key) {
                 return this.store.hasOwnProperty(key) ? this.store[key] : null;
             },
 
-            set: function(key, value) {
+            set: function (key, value) {
                 return this.store[key] = value;
             }
         };
@@ -496,7 +496,7 @@
         var cachedCount = 0, uncachedCount = 0;
 
         function createCachingGetter(methodName, func, objProperty) {
-            return function(args) {
+            return function (args) {
                 var cache = this.cache;
                 if (cache.hasOwnProperty(methodName)) {
                     cachedCount++;
@@ -520,12 +520,12 @@
         }
 
         var nodeProto = {
-            getPosition: function(offset) {
+            getPosition: function (offset) {
                 var positions = this.positions;
                 return positions.get(offset) || positions.set(offset, new Position(this, offset));
             },
 
-            toString: function() {
+            toString: function () {
                 return "[NodeWrapper(" + dom.inspectNode(this.node) + ")]";
             }
         };
@@ -556,7 +556,7 @@
             next: createCachingGetter("nextPos", nextNode, "node"),
             previous: createCachingGetter("previous", previousNode, "node"),
 
-            getTextNodeInfo: createCachingGetter("textNodeInfo", function(textNode) {
+            getTextNodeInfo: createCachingGetter("textNodeInfo", function (textNode) {
                 var spaceRegex = null, collapseSpaces = false;
                 var cssWhitespace = getComputedStyleProperty(textNode.parentNode, "whiteSpace");
                 var preLine = (cssWhitespace == "pre-line");
@@ -577,7 +577,7 @@
                 };
             }, "node"),
 
-            hasInnerText: createCachingGetter("hasInnerText", function(el, backward) {
+            hasInnerText: createCachingGetter("hasInnerText", function (el, backward) {
                 var session = this.session;
                 var posAfterEl = session.getPosition(el.parentNode, this.getNodeIndex() + 1);
                 var firstPosInEl = session.getPosition(el, 0);
@@ -629,7 +629,7 @@
                 return false;
             }, "node"),
 
-            isRenderedBlock: createCachingGetter("isRenderedBlock", function(el) {
+            isRenderedBlock: createCachingGetter("isRenderedBlock", function (el) {
                 // Ensure that a block element containing a <br> is considered to have inner text
                 var brs = el.getElementsByTagName("br");
                 for (var i = 0, len = brs.length; i < len; ++i) {
@@ -640,7 +640,7 @@
                 return this.hasInnerText();
             }, "node"),
 
-            getTrailingSpace: createCachingGetter("trailingSpace", function(el) {
+            getTrailingSpace: createCachingGetter("trailingSpace", function (el) {
                 if (el.tagName.toLowerCase() == "br") {
                     return "";
                 } else {
@@ -669,7 +669,7 @@
                 return "";
             }, "node"),
 
-            getLeadingSpace: createCachingGetter("leadingSpace", function(el) {
+            getLeadingSpace: createCachingGetter("leadingSpace", function (el) {
                 switch (this.getComputedDisplay()) {
                     case "inline":
                     case "inline-block":
@@ -710,7 +710,7 @@
             - Fully populates positions that have characters that can be determined independently of any other characters.
             - Populates most types of space positions with a provisional character. The character is finalized later.
              */
-            prepopulateChar: function() {
+            prepopulateChar: function () {
                 var pos = this;
                 if (!pos.prepopulatedChar) {
                     var node = pos.node, offset = pos.offset;
@@ -780,13 +780,13 @@
                 }
             },
 
-            isDefinitelyNonEmpty: function() {
+            isDefinitelyNonEmpty: function () {
                 var charType = this.characterType;
                 return charType == NON_SPACE || charType == UNCOLLAPSIBLE_SPACE;
             },
 
             // Resolve leading and trailing spaces, which may involve prepopulating other positions
-            resolveLeadingAndTrailingSpaces: function() {
+            resolveLeadingAndTrailingSpaces: function () {
                 if (!this.prepopulatedChar) {
                     this.prepopulateChar();
                 }
@@ -810,9 +810,9 @@
                 }
             },
 
-            getPrecedingUncollapsedPosition: function(characterOptions) {
+            getPrecedingUncollapsedPosition: function (characterOptions) {
                 var pos = this, character;
-                while ( (pos = pos.previousVisible()) ) {
+                while ((pos = pos.previousVisible())) {
                     character = pos.getCharacter(characterOptions);
                     if (character !== "") {
                         return pos;
@@ -822,7 +822,7 @@
                 return null;
             },
 
-            getCharacter: function(characterOptions) {
+            getCharacter: function (characterOptions) {
                 this.resolveLeadingAndTrailingSpaces();
 
                 var thisChar = this.character, returnChar;
@@ -930,13 +930,13 @@
                 return character;
             },
 
-            equals: function(pos) {
+            equals: function (pos) {
                 return !!pos && this.node === pos.node && this.offset === pos.offset;
             },
 
             inspect: inspectPosition,
 
-            toString: function() {
+            toString: function () {
                 return this.character;
             }
         };
@@ -944,7 +944,7 @@
         Position.prototype = positionProto;
 
         extend(positionProto, {
-            next: createCachingGetter("nextPos", function(pos) {
+            next: createCachingGetter("nextPos", function (pos) {
                 var nodeWrapper = pos.nodeWrapper, node = pos.node, offset = pos.offset, session = nodeWrapper.session;
                 if (!node) {
                     return null;
@@ -974,7 +974,7 @@
                 return nextNode ? session.getPosition(nextNode, nextOffset) : null;
             }),
 
-            previous: createCachingGetter("previous", function(pos) {
+            previous: createCachingGetter("previous", function (pos) {
                 var nodeWrapper = pos.nodeWrapper, node = pos.node, offset = pos.offset, session = nodeWrapper.session;
                 var previousNode, previousOffset, child;
                 if (offset == 0) {
@@ -1005,7 +1005,7 @@
              - Hidden (CSS visibility/display) elements
              - Script and style elements
              */
-            nextVisible: createCachingGetter("nextVisible", function(pos) {
+            nextVisible: createCachingGetter("nextVisible", function (pos) {
                 var next = pos.next();
                 if (!next) {
                     return null;
@@ -1019,9 +1019,9 @@
                 return newPos;
             }),
 
-            nextUncollapsed: createCachingGetter("nextUncollapsed", function(pos) {
+            nextUncollapsed: createCachingGetter("nextUncollapsed", function (pos) {
                 var nextPos = pos;
-                while ( (nextPos = nextPos.nextVisible()) ) {
+                while ((nextPos = nextPos.nextVisible())) {
                     nextPos.resolveLeadingAndTrailingSpaces();
                     if (nextPos.character !== "") {
                         return nextPos;
@@ -1030,7 +1030,7 @@
                 return null;
             }),
 
-            previousVisible: createCachingGetter("previousVisible", function(pos) {
+            previousVisible: createCachingGetter("previousVisible", function (pos) {
                 var previous = pos.previous();
                 if (!previous) {
                     return null;
@@ -1049,15 +1049,15 @@
 
         var currentSession = null;
 
-        var Session = (function() {
+        var Session = (function () {
             function createWrapperCache(nodeProperty) {
                 var cache = new Cache();
 
                 return {
-                    get: function(node) {
+                    get: function (node) {
                         var wrappersByProperty = cache.get(node[nodeProperty]);
                         if (wrappersByProperty) {
-                            for (var i = 0, wrapper; wrapper = wrappersByProperty[i++]; ) {
+                            for (var i = 0, wrapper; wrapper = wrappersByProperty[i++];) {
                                 if (wrapper.node === node) {
                                     return wrapper;
                                 }
@@ -1066,7 +1066,7 @@
                         return null;
                     },
 
-                    set: function(nodeWrapper) {
+                    set: function (nodeWrapper) {
                         var property = nodeWrapper.node[nodeProperty];
                         var wrappersByProperty = cache.get(property) || cache.set(property, []);
                         wrappersByProperty.push(nodeWrapper);
@@ -1081,16 +1081,16 @@
             }
 
             Session.prototype = {
-                initCaches: function() {
-                    this.elementCache = uniqueIDSupported ? (function() {
+                initCaches: function () {
+                    this.elementCache = uniqueIDSupported ? (function () {
                         var elementsCache = new Cache();
 
                         return {
-                            get: function(el) {
+                            get: function (el) {
                                 return elementsCache.get(el.uniqueID);
                             },
 
-                            set: function(elWrapper) {
+                            set: function (elWrapper) {
                                 elementsCache.set(elWrapper.node.uniqueID, elWrapper);
                             }
                         };
@@ -1101,7 +1101,7 @@
                     this.otherNodeCache = createWrapperCache("nodeName");
                 },
 
-                getNodeWrapper: function(node) {
+                getNodeWrapper: function (node) {
                     var wrapperCache;
                     switch (node.nodeType) {
                         case 1:
@@ -1123,16 +1123,16 @@
                     return wrapper;
                 },
 
-                getPosition: function(node, offset) {
+                getPosition: function (node, offset) {
                     return this.getNodeWrapper(node).getPosition(offset);
                 },
 
-                getRangeBoundaryPosition: function(range, isStart) {
+                getRangeBoundaryPosition: function (range, isStart) {
                     var prefix = isStart ? "start" : "end";
                     return this.getPosition(range[prefix + "Container"], range[prefix + "Offset"]);
                 },
 
-                detach: function() {
+                detach: function () {
                     this.elementCache = this.textNodeCache = this.otherNodeCache = null;
                 }
             };
@@ -1209,13 +1209,13 @@
             var previousTextPos, returnPreviousTextPos = false;
 
             return {
-                next: function() {
+                next: function () {
                     if (returnPreviousTextPos) {
                         returnPreviousTextPos = false;
                         return previousTextPos;
                     } else {
                         var pos, character;
-                        while ( (pos = next()) ) {
+                        while ((pos = next())) {
                             character = pos.getCharacter(characterOptions);
                             if (character) {
                                 previousTextPos = pos;
@@ -1226,7 +1226,7 @@
                     }
                 },
 
-                rewind: function() {
+                rewind: function () {
                     if (previousTextPos) {
                         returnPreviousTextPos = true;
                     } else {
@@ -1234,17 +1234,17 @@
                     }
                 },
 
-                dispose: function() {
+                dispose: function () {
                     startPos = endPos = null;
                 }
             };
         }
 
         var arrayIndexOf = Array.prototype.indexOf ?
-            function(arr, val) {
+            function (arr, val) {
                 return arr.indexOf(val);
             } :
-            function(arr, val) {
+            function (arr, val) {
                 for (var i = 0, len = arr.length; i < len; ++i) {
                     if (arr[i] === val) {
                         return i;
@@ -1267,7 +1267,7 @@
 
                 var passedWordBoundary = false, insideWord = false;
 
-                while ( (pos = it.next()) ) {
+                while ((pos = it.next())) {
                     textChar = pos.character;
 
 
@@ -1313,12 +1313,12 @@
 
 
             return {
-                nextEndToken: function() {
+                nextEndToken: function () {
                     var lastToken, forwardChars;
 
                     // If we're down to the last token, consume character chunks until we have a word or run out of
                     // characters to consume
-                    while ( forwardTokensBuffer.length == 1 &&
+                    while (forwardTokensBuffer.length == 1 &&
                     !(lastToken = forwardTokensBuffer[0]).isWord &&
                     (forwardChars = consumeWord(true)).length > 0) {
 
@@ -1329,12 +1329,12 @@
                     return forwardTokensBuffer.shift();
                 },
 
-                previousStartToken: function() {
+                previousStartToken: function () {
                     var lastToken, backwardChars;
 
                     // If we're down to the last token, consume character chunks until we have a word or run out of
                     // characters to consume
-                    while ( backwardTokensBuffer.length == 1 &&
+                    while (backwardTokensBuffer.length == 1 &&
                     !(lastToken = backwardTokensBuffer[0]).isWord &&
                     (backwardChars = consumeWord(false)).length > 0) {
 
@@ -1345,7 +1345,7 @@
                     return backwardTokensBuffer.pop();
                 },
 
-                dispose: function() {
+                dispose: function () {
                     forwardIterator.dispose();
                     backwardIterator.dispose();
                     forwardTokensBuffer = backwardTokensBuffer = null;
@@ -1361,7 +1361,7 @@
                 switch (unit) {
                     case CHARACTER:
                         charIterator = createCharacterIterator(pos, backward, null, characterOptions);
-                        while ( (currentPos = charIterator.next()) && unitsMoved < absCount ) {
+                        while ((currentPos = charIterator.next()) && unitsMoved < absCount) {
                             ++unitsMoved;
                             newPos = currentPos;
                         }
@@ -1372,7 +1372,7 @@
                         var tokenizedTextProvider = createTokenizedTextProvider(pos, characterOptions, wordOptions);
                         var next = backward ? tokenizedTextProvider.previousStartToken : tokenizedTextProvider.nextEndToken;
 
-                        while ( (token = next()) && unitsMoved < absCount ) {
+                        while ((token = next()) && unitsMoved < absCount) {
                             if (token.isWord) {
                                 ++unitsMoved;
                                 newPos = backward ? token.chars[0] : token.chars[token.chars.length - 1];
@@ -1424,7 +1424,7 @@
         function getRangeCharacters(session, range, characterOptions) {
 
             var chars = [], it = createRangeCharacterIterator(session, range, characterOptions), pos;
-            while ( (pos = it.next()) ) {
+            while ((pos = it.next())) {
                 chars.push(pos);
             }
 
@@ -1435,7 +1435,7 @@
         function isWholeWord(startPos, endPos, wordOptions) {
             var range = api.createRange(startPos.node);
             range.setStartAndEnd(startPos.node, startPos.offset, endPos.node, endPos.offset);
-            return !range.expand("word", { wordOptions: wordOptions });
+            return !range.expand("word", {wordOptions: wordOptions});
         }
 
         function findTextFromPosition(initialPos, searchTerm, isRegex, searchScopeRange, findOptions) {
@@ -1462,7 +1462,7 @@
                 };
             }
 
-            while ( (pos = it.next()) ) {
+            while ((pos = it.next())) {
                 currentChar = pos.character;
                 if (!isRegex && !findOptions.caseSensitive) {
                     currentChar = currentChar.toLowerCase();
@@ -1491,7 +1491,7 @@
                             insideRegexMatch = true;
                         }
                     }
-                } else if ( (matchStartIndex = text.indexOf(searchTerm)) != -1 ) {
+                } else if ((matchStartIndex = text.indexOf(searchTerm)) != -1) {
                     returnValue = handleMatch(matchStartIndex, matchStartIndex + searchTerm.length);
                     break;
                 }
@@ -1507,10 +1507,10 @@
         }
 
         function createEntryPointFunction(func) {
-            return function() {
+            return function () {
                 var sessionRunning = !!currentSession;
                 var session = getSession();
-                var args = [session].concat( util.toArray(arguments) );
+                var args = [session].concat(util.toArray(arguments));
                 var returnValue = func.apply(this, args);
                 if (!sessionRunning) {
                     endSession();
@@ -1534,7 +1534,7 @@
              - collapseSpaceBeforeLineBreak
              */
             return createEntryPointFunction(
-                function(session, unit, count, moveOptions) {
+                function (session, unit, count, moveOptions) {
                     if (typeof count == UNDEF) {
                         count = unit;
                         unit = CHARACTER;
@@ -1556,12 +1556,12 @@
 
         function createRangeTrimmer(isStart) {
             return createEntryPointFunction(
-                function(session, characterOptions) {
+                function (session, characterOptions) {
                     characterOptions = createOptions(characterOptions, defaultCharacterOptions);
                     var pos;
                     var it = createRangeCharacterIterator(session, this, characterOptions, !isStart);
                     var trimCharCount = 0;
-                    while ( (pos = it.next()) && allWhiteSpaceRegex.test(pos.character) ) {
+                    while ((pos = it.next()) && allWhiteSpaceRegex.test(pos.character)) {
                         ++trimCharCount;
                     }
                     it.dispose();
@@ -1570,7 +1570,7 @@
                         this[isStart ? "moveStart" : "moveEnd"](
                             "character",
                             isStart ? trimCharCount : -trimCharCount,
-                            { characterOptions: characterOptions }
+                            {characterOptions: characterOptions}
                         );
                     }
                     return trimmed;
@@ -1590,14 +1590,14 @@
             trimEnd: createRangeTrimmer(false),
 
             trim: createEntryPointFunction(
-                function(session, characterOptions) {
+                function (session, characterOptions) {
                     var startTrimmed = this.trimStart(characterOptions), endTrimmed = this.trimEnd(characterOptions);
                     return startTrimmed || endTrimmed;
                 }
             ),
 
             expand: createEntryPointFunction(
-                function(session, unit, expandOptions) {
+                function (session, unit, expandOptions) {
                     var moved = false;
                     expandOptions = createNestedOptions(expandOptions, defaultExpandOptions);
                     var characterOptions = expandOptions.characterOptions;
@@ -1648,17 +1648,17 @@
             ),
 
             text: createEntryPointFunction(
-                function(session, characterOptions) {
+                function (session, characterOptions) {
                     return this.collapsed ?
                         "" : getRangeCharacters(session, this, createOptions(characterOptions, defaultCharacterOptions)).join("");
                 }
             ),
 
             selectCharacters: createEntryPointFunction(
-                function(session, containerNode, startIndex, endIndex, characterOptions) {
-                    var moveOptions = { characterOptions: characterOptions };
+                function (session, containerNode, startIndex, endIndex, characterOptions) {
+                    var moveOptions = {characterOptions: characterOptions};
                     if (!containerNode) {
-                        containerNode = getBody( this.getDocument() );
+                        containerNode = getBody(this.getDocument());
                     }
                     this.selectNodeContents(containerNode);
                     this.collapse(true);
@@ -1670,9 +1670,9 @@
 
             // Character indexes are relative to the start of node
             toCharacterRange: createEntryPointFunction(
-                function(session, containerNode, characterOptions) {
+                function (session, containerNode, characterOptions) {
                     if (!containerNode) {
-                        containerNode = getBody( this.getDocument() );
+                        containerNode = getBody(this.getDocument());
                     }
                     var parent = containerNode.parentNode, nodeIndex = dom.getNodeIndex(containerNode);
                     var rangeStartsBeforeNode = (dom.comparePoints(this.startContainer, this.endContainer, parent, nodeIndex) == -1);
@@ -1695,7 +1695,7 @@
             ),
 
             findText: createEntryPointFunction(
-                function(session, searchTermParam, findOptions) {
+                function (session, searchTermParam, findOptions) {
                     // Set up options
                     findOptions = createNestedOptions(findOptions, defaultFindOptions);
 
@@ -1766,7 +1766,7 @@
                 }
             ),
 
-            pasteHtml: function(html) {
+            pasteHtml: function (html) {
                 this.deleteContents();
                 if (html) {
                     var frag = this.createContextualFragment(html);
@@ -1783,9 +1783,9 @@
 
         function createSelectionTrimmer(methodName) {
             return createEntryPointFunction(
-                function(session, characterOptions) {
+                function (session, characterOptions) {
                     var trimmed = false;
-                    this.changeEachRange(function(range) {
+                    this.changeEachRange(function (range) {
                         trimmed = range[methodName](characterOptions) || trimmed;
                     });
                     return trimmed;
@@ -1795,15 +1795,15 @@
 
         extend(api.selectionPrototype, {
             expand: createEntryPointFunction(
-                function(session, unit, expandOptions) {
-                    this.changeEachRange(function(range) {
+                function (session, unit, expandOptions) {
+                    this.changeEachRange(function (range) {
                         range.expand(unit, expandOptions);
                     });
                 }
             ),
 
             move: createEntryPointFunction(
-                function(session, unit, count, options) {
+                function (session, unit, count, options) {
                     var unitsMoved = 0;
                     if (this.focusNode) {
                         this.collapse(this.focusNode, this.focusOffset);
@@ -1824,7 +1824,7 @@
             trim: createSelectionTrimmer("trim"),
 
             selectCharacters: createEntryPointFunction(
-                function(session, containerNode, startIndex, endIndex, direction, characterOptions) {
+                function (session, containerNode, startIndex, endIndex, direction, characterOptions) {
                     var range = api.createRange(containerNode);
                     range.selectCharacters(containerNode, startIndex, endIndex, characterOptions);
                     this.setSingleRange(range, direction);
@@ -1832,7 +1832,7 @@
             ),
 
             saveCharacterRanges: createEntryPointFunction(
-                function(session, containerNode, characterOptions) {
+                function (session, containerNode, characterOptions) {
                     var ranges = this.getAllRanges(), rangeCount = ranges.length;
                     var rangeInfos = [];
 
@@ -1851,7 +1851,7 @@
             ),
 
             restoreCharacterRanges: createEntryPointFunction(
-                function(session, containerNode, saved) {
+                function (session, containerNode, saved) {
                     this.removeAllRanges();
                     for (var i = 0, len = saved.length, range, rangeInfo, characterRange; i < len; ++i) {
                         rangeInfo = saved[i];
@@ -1864,7 +1864,7 @@
             ),
 
             text: createEntryPointFunction(
-                function(session, characterOptions) {
+                function (session, characterOptions) {
                     var rangeTexts = [];
                     for (var i = 0, len = this.rangeCount; i < len; ++i) {
                         rangeTexts[i] = this.getRangeAt(i).text(characterOptions);
@@ -1878,14 +1878,14 @@
 
         // Extensions to the core rangy object
 
-        api.innerText = function(el, characterOptions) {
+        api.innerText = function (el, characterOptions) {
             var range = api.createRange(el);
             range.selectNodeContents(el);
             var text = range.text(characterOptions);
             return text;
         };
 
-        api.createWordIterator = function(startNode, startOffset, iteratorOptions) {
+        api.createWordIterator = function (startNode, startOffset, iteratorOptions) {
             var session = getSession();
             iteratorOptions = createNestedOptions(iteratorOptions, defaultWordIteratorOptions);
             var startPos = session.getPosition(startNode, startOffset);
@@ -1893,20 +1893,21 @@
             var backward = isDirectionBackward(iteratorOptions.direction);
 
             return {
-                next: function() {
+                next: function () {
                     return backward ? tokenizedTextProvider.previousStartToken() : tokenizedTextProvider.nextEndToken();
                 },
 
-                dispose: function() {
+                dispose: function () {
                     tokenizedTextProvider.dispose();
-                    this.next = function() {};
+                    this.next = function () {
+                    };
                 }
             };
         };
 
         /*----------------------------------------------------------------------------------------------------------------*/
 
-        api.noMutation = function(func) {
+        api.noMutation = function (func) {
             var session = getSession();
             func(session);
             endSession();
@@ -1919,7 +1920,7 @@
             isCollapsedWhitespaceNode: isCollapsedWhitespaceNode,
 
             createPosition: createEntryPointFunction(
-                function(session, node, offset) {
+                function (session, node, offset) {
                     return session.getPosition(node, offset);
                 }
             )

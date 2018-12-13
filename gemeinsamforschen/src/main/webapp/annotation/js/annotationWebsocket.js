@@ -3,7 +3,7 @@ let ws;
 function connect(targetId, targetCategory) {
     let host = document.location.host;
 
-    ws = new WebSocket("ws://" + host +  "/gemeinsamforschen/ws/annotation/" + targetId + "/" + targetCategory);
+    ws = new WebSocket("ws://" + host + "/gemeinsamforschen/ws/annotation/" + targetId + "/" + targetCategory);
 
     ws.onmessage = function (e) {
         let message = JSON.parse(e.data);
@@ -29,8 +29,8 @@ function connect(targetId, targetCategory) {
 
 function send(type, annotationId) {
     let json = JSON.stringify({
-        "type":type,
-        "annotationId":annotationId
+        "type": type,
+        "annotationId": annotationId
     });
 
     ws.send(json);

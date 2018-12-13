@@ -45,14 +45,14 @@ $(document).ready(function () {
         getSubmissionPart(fullSubmissionId, category, function (response) {
             let documentText = $('#documentText');
             let body;
-            if (response===false){
+            if (response === false) {
                 body = [{
                     startCharacter: 0,
                     endCharacter: documentText.html().length,
                     text: documentText.html()
                 }];
                 addHighlightedSubmissionPart(body[0].startCharacter, body[0].endCharacter, 0);
-            }else{
+            } else {
                 body = response.body;
                 let offset = 0;
                 for (let i = 0; i < body.length; i++) {
@@ -64,7 +64,6 @@ $(document).ready(function () {
             documentText.data("body", body);
             // save body
             documentText.data("body", body);
-
 
 
             // scroll document text to first span element
