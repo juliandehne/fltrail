@@ -20,9 +20,11 @@ public class Project {
     private Phase phase;
     private String[] tags;
     private String description;
+    private Boolean isSurvey;
 
     public Project() {
         tags = new String[0];
+        this.timecreated = System.currentTimeMillis();
     }
 
     public Project(String name, String password, Boolean active, String author, String[] tags) {
@@ -34,6 +36,7 @@ public class Project {
         // default starting at course creation if new
         this.setPhase(Phase.GroupFormation);
         this.tags = tags;
+        this.isSurvey = false;
     }
 
     public Project(
@@ -48,6 +51,7 @@ public class Project {
         this.phase = phase;
         this.tags = tags;
         this.description = description;
+        this.isSurvey = false;
     }
 
     public Project(String projectName, String authorEmail) {
@@ -56,11 +60,15 @@ public class Project {
         this.active = true;
         this.timecreated = System.currentTimeMillis();
         tags = new String[0];
+        this.isSurvey = false;
     }
 
     public Project(String projectName) {
         this.name = projectName;
         this.active = true;
+        this.isSurvey = false;
+        this.timecreated = System.currentTimeMillis();
+        tags = new String[0];
     }
 
 
@@ -149,5 +157,13 @@ public class Project {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getSurvey() {
+        return isSurvey;
+    }
+
+    public void setSurvey(Boolean survey) {
+        isSurvey = survey;
     }
 }

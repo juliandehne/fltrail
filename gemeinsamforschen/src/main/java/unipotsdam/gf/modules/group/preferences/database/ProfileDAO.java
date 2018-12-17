@@ -1,6 +1,9 @@
 package unipotsdam.gf.modules.group.preferences.database;
 
 import unipotsdam.gf.modules.group.preferences.excel.ItemSet;
+import unipotsdam.gf.modules.group.preferences.survey.SurveyData;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 
@@ -13,8 +16,12 @@ public class ProfileDAO {
     @Inject
     private MysqlConnect connect;
 
+    @Inject
+    private ProjectDAO projectDAO;
+
     /**
      * helper function for persisting questions
+     *
      * @param profileQuestion
      * @return the id of the created question
      */
@@ -25,14 +32,14 @@ public class ProfileDAO {
 
         String germanQuestion = profileQuestion.getQuestion();
         String englishQuestion = profileQuestion.getQuestion_en();
-        String subvariable =  profileQuestion.getSubvariable();
+        String subvariable = profileQuestion.getSubvariable();
         int scaleSize = profileQuestion.getScaleSize();
         Boolean polarity = true;
         if (profileQuestion instanceof ScaledProfileQuestion) {
-            polarity = ((ScaledProfileQuestion)profileQuestion).getPolarity();
+            polarity = ((ScaledProfileQuestion) profileQuestion).getPolarity();
         }
-        String query = "INSERT INTO profilequestions (`scaleSize`, `question`, `question_en`, `subvariable`, " +
-                "`polarity`) values (?,?,?,?,?)";
+        String query =
+                "INSERT INTO profilequestions (`scaleSize`, `question`, `question_en`, `subvariable`, " + "`polarity`) values (?,?,?,?,?)";
         result = connect.issueInsertStatementWithAutoincrement(query, scaleSize, germanQuestion, englishQuestion,
                 subvariable, polarity);
 
@@ -43,6 +50,7 @@ public class ProfileDAO {
 
     /**
      * persist questions with enumeration
+     *
      * @param enumeratedProfileQuestion
      */
     public void persist(EnumeratedProfileQuestion enumeratedProfileQuestion) {
@@ -58,6 +66,7 @@ public class ProfileDAO {
 
     /**
      * persist questions with scale i.e. 1 to 5
+     *
      * @param scaledProfileQuestion
      */
     public void persist(ScaledProfileQuestion scaledProfileQuestion) {
@@ -66,13 +75,13 @@ public class ProfileDAO {
 
     /**
      * persist an answer
+     *
      * @param profileQuestionAnswer
      */
     public void persist(ProfileQuestionAnswer profileQuestionAnswer) {
         connect.connect();
         String query =
-                "INSERT INTO profilequestionanswer (`profileQuestionId`,`answerIndex`, `selectedAnswer`, " +
-                        "`userEmail`) values (?,?,?,?)";
+                "INSERT INTO profilequestionanswer (`profileQuestionId`,`answerIndex`, `selectedAnswer`, " + "`userEmail`) values (?,?,?,?)";
         connect.issueInsertOrDeleteStatement(query, profileQuestionAnswer.getQuestion().getId(),
                 profileQuestionAnswer.getAnswerIndex(), profileQuestionAnswer.getSelectedAnswer(),
                 profileQuestionAnswer.getUser().getEmail());
@@ -81,16 +90,15 @@ public class ProfileDAO {
 
     /**
      * get all the questions
+     *
      * @return
      */
     public java.util.List<ProfileQuestion> getQuestions() {
         ArrayList<ProfileQuestion> profileQuestions = new ArrayList<>();
         connect.connect();
 
-        String query =
-                "SELECT (q.id,q.scaleSize, q.subvariable, q.question, q.question_en, o.name) from profilequestions q " +
-                        "LEFT JOIN " +
-                        "profilequestionoptions o where q.id = o" + ".profileQuestionId group by q.id";
+        String query = "SELECT q.id,scaleSize, subvariable, question, question_en, name from profilequestions q" +
+                    " LEFT JOIN profilequestionoptions o on q.id = o.profileQuestionId";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
         HashMap<Integer, ArrayList<String>> optionMap = new HashMap<>();
         List<ProfileQuestion> tmpList = new ArrayList<>();
@@ -124,7 +132,7 @@ public class ProfileDAO {
                 enumeratedProfileQuestion.setOptions(optionMap.get(question.getId()));
                 enumeratedProfileQuestion.setQuestion(question.getQuestion());
                 profileQuestions.add(enumeratedProfileQuestion);
-            }else {
+            } else {
                 profileQuestions.add(question);
             }
         }
@@ -134,7 +142,7 @@ public class ProfileDAO {
     }
 
     public List<ProfileQuestionRelation> getProfileRelations() {
-        ArrayList<ProfileQuestionRelation>questionRelations = new ArrayList<>();
+        ArrayList<ProfileQuestionRelation> questionRelations = new ArrayList<>();
         connect.connect();
         String query = "SELCT * from profilequestionrelations";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
@@ -146,8 +154,8 @@ public class ProfileDAO {
             ProfileQuestion profileQuestion1 = new ProfileQuestion(firstQuestionId);
             ProfileQuestion profileQuestion2 = new ProfileQuestion(secondQuestionId);
             ProfileQuestionRelationType profileQuestionRelationType = ProfileQuestionRelationType.valueOf(relation);
-            questionRelations.add(new ProfileQuestionRelation(profileQuestion1, profileQuestion2,
-                    profileQuestionRelationType));
+            questionRelations
+                    .add(new ProfileQuestionRelation(profileQuestion1, profileQuestion2, profileQuestionRelationType));
         }
 
         connect.close();
@@ -163,6 +171,7 @@ public class ProfileDAO {
 
     /**
      * persist a variable for group formation
+     *
      * @param itemSet
      */
     public void persistProfileVariable(ItemSet itemSet) {
@@ -174,13 +183,56 @@ public class ProfileDAO {
         String variableweight = "1";
 
         connect.connect();
-        String query = "INSERT INTO profilevariables (`variable`, `subvariable`, `variableDefinition`, `context`, " +
-                "`variableweight`, `subvariableweight`) values (?,?,?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(query, variable, subvariable,  variableDefinition, context,
-                variableweight, subvariableweight);
+        String query =
+                "INSERT INTO profilevariables (`variable`, `subvariable`, `variableDefinition`, `context`, " + "`variableweight`, `subvariableweight`) values (?,?,?,?,?,?)";
+        connect.issueInsertOrDeleteStatement(query, variable, subvariable, variableDefinition, context, variableweight,
+                subvariableweight);
         connect.close();
-
 
     }
 
+    public HashMap<Project, List<ProfileQuestion>> getSelectedQuestions() {
+        HashMap<Project,List<ProfileQuestion>> profileQuestions = new HashMap<>();
+        connect.connect();
+        String query =
+                "Select p.name, pq.question, pq.question_en, pq.subvariable from projects p " +
+                        "join surveyitemsselected sis on p.name = sis.projectname " +
+                        "join profilequestions pq on pq.id = sis.profilequestionid";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
+        while (vereinfachtesResultSet.next()) {
+            Project project = new Project(vereinfachtesResultSet.getString("name"));
+            ProfileQuestion profileQuestion = new ProfileQuestion(5, vereinfachtesResultSet.getString("question_en"),
+                    vereinfachtesResultSet.getString("question"), vereinfachtesResultSet.getString("subvariable"));
+            if (profileQuestions.keySet().contains(project)) {
+                List<ProfileQuestion> profileQuestions1 = profileQuestions.get(project);
+                profileQuestions1.add(profileQuestion);
+                // this will overwrite the other questions
+                profileQuestions.put(project, profileQuestions1);
+            } else {
+                ArrayList<ProfileQuestion> profileQuestions2 = new ArrayList<>();
+                profileQuestions2.add(profileQuestion);
+                profileQuestions.put(project, profileQuestions2);
+            }
+        }
+        connect.close();
+        return profileQuestions;
+    }
+
+    public void addItemsToProject(Project project, List<ProfileQuestion> questions) {
+
+        ArrayList<Integer> questionids = new ArrayList<>();
+
+        // persist the questions
+        for (ProfileQuestion question : questions) {
+            int i = persistHelper(question);
+            questionids.add(i);
+        }
+
+        connect.connect();
+        String query = "INSERT INTO surveyitemsselected (`projectname`, `profilequestionid`) values (?,?)";
+        for (Integer questionid : questionids) {
+            connect.issueInsertOrDeleteStatement(query, project.getName(), questionid);
+        }
+        connect.close();
+    }
 }

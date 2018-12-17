@@ -377,8 +377,16 @@ ALTER TABLE workrating COMMENT = '@Axel plz comment';
 
 
 
+ALTER TABLE projects ADD issurvey BOOLEAN NULL;
+
+CREATE TABLE surveyitemsselected
+(
+  projectname varchar(100),
+  profilequestionid int(11)
+);
 
 
-
-
+ALTER TABLE `surveyitemsselected`
+  ADD CONSTRAINT surveyitemsselected_profilequestions_id_fk FOREIGN KEY (profilequestionid) REFERENCES
+  profilequestions (id);
 
