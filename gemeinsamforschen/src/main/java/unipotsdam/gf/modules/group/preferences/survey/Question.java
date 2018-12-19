@@ -39,10 +39,12 @@ public class Question {
     }
 
     @JsonProperty("isRequired")
-    public Boolean getRequired() {
+    public Boolean getIsRequired() {
         return isRequired;
     }
 
-
-
+    @JsonProperty("isRequired")
+    public void setIsRequired(Boolean required) {
+        isRequired = required;
+    }
 }

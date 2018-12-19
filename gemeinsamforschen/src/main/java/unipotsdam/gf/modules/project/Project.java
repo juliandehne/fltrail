@@ -4,6 +4,7 @@ import unipotsdam.gf.process.phases.Phase;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -137,20 +138,6 @@ public class Project {
         this.timecreated = timecreated;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Project{");
-        sb.append("name='").append(name).append('\'');
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", active=").append(active);
-        sb.append(", timecreated=").append(timecreated);
-        sb.append(", authorEmail='").append(authorEmail).append('\'');
-        sb.append(", phase=").append(phase);
-        sb.append(", tags=").append(Arrays.toString(tags));
-        sb.append('}');
-        return sb.toString();
-    }
-
     public String getDescription() {
         return description;
     }
@@ -165,5 +152,28 @@ public class Project {
 
     public void setSurvey(Boolean survey) {
         isSurvey = survey;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Project{");
+        sb.append("name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Project project = (Project) o;
+        return Objects.equals(getName(), project.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName());
     }
 }

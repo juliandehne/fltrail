@@ -5,7 +5,7 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
-import unipotsdam.gf.modules.group.preferences.excel.ItemsImporter;
+import unipotsdam.gf.modules.group.preferences.excel.ItemWriter;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
@@ -42,10 +42,13 @@ public class SurveyPreparationHelper {
             dehne.setStudent(false);
             dehne.setName("Julian Dehne");
             userDAO.persist(dehne, null);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         // importing items
-        ItemsImporter.main(new String[0]);
+        String itemExamle = "groupfindingitems_beispiel.xls";
+        ItemWriter itemWriter = new ItemWriter(itemExamle);
+        itemWriter.writeItems();
 
         // creating survey projects
         ArrayList<Project> surveyProjects = new ArrayList<Project>();
@@ -75,12 +78,10 @@ public class SurveyPreparationHelper {
 
     }
 
-    private void persistselectedItems(Project d1_test, List<ProfileQuestion> questions) {
-        Collections.shuffle(questions);
-        if (questions.size() > 30) {
-            int toRemove = questions.size() - 30;
-            List<ProfileQuestion> q2 = questions.subList(questions.size() - toRemove, questions.size());
-            profileDAO.addItemsToProject(d1_test, q2);
-        }
+    private void persistselectedItems(Project someTest, List<ProfileQuestion> questions) {
+        //Collections.shuffle(questions);
+        //int toRemove = questions.size() - 30;
+        //List<ProfileQuestion> q2 = questions.subList(questions.size() - toRemove, questions.size());
+        profileDAO.addItemsToProject(someTest, questions);
     }
 }

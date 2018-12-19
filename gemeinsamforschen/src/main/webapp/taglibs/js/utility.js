@@ -159,8 +159,9 @@ function serverSideWithType(requestObj, method, callback, contentType) {
         });
     }
     if (method == "GET") {
-        $.ajax({
+        $.getJSON({
             url: localurl,
+            contentType: contentType,
             type: 'GET',
             success: function (response) {
                 if (callback) {

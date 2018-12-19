@@ -219,4 +219,18 @@ public class ProjectDAO {
         connect.close();
         return projects;
     }
+
+    public List<Project> getSurveyProjects() {
+        connect.connect();
+        String query = "Select * from projects where issurvey = ?";
+
+        ArrayList<Project> projects = new ArrayList<>();
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, true);
+        while(vereinfachtesResultSet.next()) {
+            Project projectFromResultSet = getProjectFromResultSet(vereinfachtesResultSet);
+            projects.add(projectFromResultSet);
+        }
+        connect.close();
+        return projects;
+    }
 }

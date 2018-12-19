@@ -97,8 +97,8 @@ public class ProfileDAO {
         ArrayList<ProfileQuestion> profileQuestions = new ArrayList<>();
         connect.connect();
 
-        String query = "SELECT q.id,scaleSize, subvariable, question, question_en, name from profilequestions q" +
-                    " LEFT JOIN profilequestionoptions o on q.id = o.profileQuestionId";
+        String query =
+                "SELECT q.id,scaleSize, subvariable, question, question_en, name from profilequestions q" + " LEFT JOIN profilequestionoptions o on q.id = o.profileQuestionId";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
         HashMap<Integer, ArrayList<String>> optionMap = new HashMap<>();
         List<ProfileQuestion> tmpList = new ArrayList<>();
@@ -192,17 +192,17 @@ public class ProfileDAO {
     }
 
     public HashMap<Project, List<ProfileQuestion>> getSelectedQuestions() {
-        HashMap<Project,List<ProfileQuestion>> profileQuestions = new HashMap<>();
+        HashMap<Project, List<ProfileQuestion>> profileQuestions = new HashMap<>();
         connect.connect();
         String query =
-                "Select p.name, pq.question, pq.question_en, pq.subvariable from projects p " +
-                        "join surveyitemsselected sis on p.name = sis.projectname " +
-                        "join profilequestions pq on pq.id = sis.profilequestionid";
+                "Select pq.id,p.name, pq.question, pq.question_en, pq.subvariable from projects p " + "join " +
+                        "surveyitemsselected sis on p.name = sis.projectname " + "join profilequestions pq on pq.id = sis.profilequestionid";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
         while (vereinfachtesResultSet.next()) {
             Project project = new Project(vereinfachtesResultSet.getString("name"));
-            ProfileQuestion profileQuestion = new ProfileQuestion(5, vereinfachtesResultSet.getString("question_en"),
-                    vereinfachtesResultSet.getString("question"), vereinfachtesResultSet.getString("subvariable"));
+            ProfileQuestion profileQuestion = new ProfileQuestion(5, vereinfachtesResultSet.getString("question"),
+                    vereinfachtesResultSet.getString("question_en"), vereinfachtesResultSet.getString("subvariable"));
+            profileQuestion.setId(vereinfachtesResultSet.getInt("id"));
             if (profileQuestions.keySet().contains(project)) {
                 List<ProfileQuestion> profileQuestions1 = profileQuestions.get(project);
                 profileQuestions1.add(profileQuestion);

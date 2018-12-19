@@ -48,8 +48,8 @@ public class ItemWriter {
             for (int i = 0; i < englishItems.length; i++) {
 
                 ScaledProfileQuestion scaledProfileQuestion = new ScaledProfileQuestion();
-                String germanItem = germanItems[i];
-                String englishItem = englishItems[i];
+                String germanItem = germanItems[i].trim().replaceAll("  ", " ");
+                String englishItem = englishItems[i].trim().replaceAll("  ", " ");
                 String polarityMarker = "(-)";
                 if (germanItem.contains(polarityMarker)) {
                     String polarityMarkerRegex = "\\(-\\)";
