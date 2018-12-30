@@ -1,5 +1,8 @@
 package unipotsdam.gf.modules.group.preferences.survey;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import unipotsdam.gf.modules.communication.view.CommunicationView;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
 import unipotsdam.gf.modules.project.Project;
@@ -13,7 +16,9 @@ import java.util.List;
 public class SurveyMapper {
 
     @Inject
-    ProfileDAO profileDAO;
+    private ProfileDAO profileDAO;
+
+    private static final Logger log = LoggerFactory.getLogger(CommunicationView.class);
 
     /**
      * generate the backing data for the survey
@@ -32,10 +37,7 @@ public class SurveyMapper {
         if (questions == null) {
             throw new Exception("items are not available in DB");
         }
-
-
         if (standalone) {
-
             // the general questions to create a profile (given that we are not running the survey as part of the normal
             // FL-Trail Mode
             List<LocalizedText> generalTextQuestions = new ArrayList<>();
@@ -103,5 +105,9 @@ public class SurveyMapper {
         scaledQuestion.setName(question.getSubvariable() + question.getId());
         scaledQuestion.setTitle(new LocalizedText(question.getQuestion_en(), question.getQuestion()));
         return scaledQuestion;
+    }
+
+    public void saveData(HashMap<String,String> data) {
+        log.trace("persisting survey data");
     }
 }

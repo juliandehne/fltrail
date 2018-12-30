@@ -5,9 +5,10 @@ $(document).ready(function () {
         .applyTheme("default");
 
     let language = getQueryVariable("language");
+    let project = getQueryVariable("project");
 
     // getting the survey items from the server
-    let requ= new RequestObj(1, "/survey", "/data/project/?", ["d1_test"], []);
+    let requ= new RequestObj(1, "/survey", "/data/project/?", [project], []);
     serverSide(requ, "GET", function (surveyJSON) {
         var survey = new Survey.Model(surveyJSON);
         survey.locale = "en";
@@ -22,8 +23,14 @@ $(document).ready(function () {
     });
 
     function sendDataToServer(survey) {
-        var resultAsString = JSON.stringify(survey.data);
-        alert(resultAsString); //send Ajax request to your web server.
+        //var resultAsString = JSON.stringify(survey.data);
+        //alert(resultAsString); //send Ajax request to your web server.
+
+        let dataReq = new RequestObj(1, "/survey", "/save", [], [], survey.data);
+
+        serverSide(dataReq, "POST", function (a) {
+            log.warn(a);
+        })
     }
 
 });

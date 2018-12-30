@@ -29,9 +29,6 @@ public class CommunicationView {
 
     private static final Logger log = LoggerFactory.getLogger(CommunicationView.class);
 
-
-
-
     @Inject
     private ICommunication communicationService;
 
