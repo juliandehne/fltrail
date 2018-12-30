@@ -41,7 +41,7 @@ public class SurveyPreparationHelper {
             dehne.setRocketChatUsername("fltrailadmin");
             dehne.setStudent(false);
             dehne.setName("Julian Dehne");
-            userDAO.persist(dehne, null);
+            userDAO.persist(dehne);
         } catch (Exception e) {
         }
 

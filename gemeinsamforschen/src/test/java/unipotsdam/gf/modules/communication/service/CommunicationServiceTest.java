@@ -78,7 +78,7 @@ public class CommunicationServiceTest {
         locator.inject(this);
 
         user = new User("Vorname Nachname", "password", "email@uni.de", true);
-        userDAO.persist(user, null);
+        userDAO.persist(user);
 
         createdChatRooms = new ArrayList<>();
 
@@ -181,7 +181,7 @@ public class CommunicationServiceTest {
         projectDAO.persist(project);
 
         Group group = new Group();
-        userDAO.persist(ADMIN_USER, new UserProfile());
+        userDAO.persist(ADMIN_USER);
         group.setProjectName(projectId);
         group.setMembers(Collections.singletonList(ADMIN_USER));
         groupDAO.persist(group);
@@ -285,7 +285,7 @@ public class CommunicationServiceTest {
         user.setEmail("martin@test.com");
         user.setStudent(true);
 
-        userDAO.persist(user, null);
+        userDAO.persist(user);
 
 
        /* try {

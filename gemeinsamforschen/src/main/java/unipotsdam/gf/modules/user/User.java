@@ -19,6 +19,9 @@ public class User {
 
     private Boolean isStudent;
 
+    private String discordid;
+
+
     public User() {
     }
 
@@ -79,14 +82,21 @@ public class User {
         isStudent = student;
     }
 
-
-
     public String getRocketChatUsername() {
         return rocketChatUsername;
     }
 
     public void setRocketChatUsername(String rocketChatUsername) {
         this.rocketChatUsername = rocketChatUsername;
+    }
+
+    public void setDiscordid(String discordid) {
+        this.discordid = discordid;
+    }
+
+
+    public String getDiscordid() {
+        return discordid;
     }
 
 

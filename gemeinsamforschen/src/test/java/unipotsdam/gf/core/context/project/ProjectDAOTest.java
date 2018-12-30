@@ -52,7 +52,7 @@ public class ProjectDAOTest {
         String authorEmail = project.getAuthorEmail();
         User user = factory.manufacturePojo(User.class);
         user.setEmail(authorEmail);
-        userDAO.persist(user, null);
+        userDAO.persist(user);
 
     }
 
@@ -86,7 +86,7 @@ public class ProjectDAOTest {
     @Test
     public void testRegister() {
         User user = factory.manufacturePojo(User.class);
-        management.create(user, new UserProfile());
+        management.create(user);
         assert management.exists(user);
 
         Project project = factory.manufacturePojo(Project.class);

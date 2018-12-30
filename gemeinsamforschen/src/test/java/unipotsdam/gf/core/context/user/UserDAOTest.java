@@ -52,7 +52,7 @@ public class UserDAOTest {
     public void testGetUsersByProjectId() {
 
         User user = factory.manufacturePojo(User.class);
-        management.create(user, new UserProfile());
+        management.create(user);
         assert management.exists(user);
 
 
@@ -64,7 +64,7 @@ public class UserDAOTest {
         assertTrue(management.exists(project));
 
         User user2 = factory.manufacturePojo(User.class);
-        management.create(user2, new UserProfile());
+        management.create(user2);
         management.register(user2, project, null);
         assert management.exists(user2);
 
@@ -79,14 +79,14 @@ public class UserDAOTest {
     public void testPersistExist() {
         User user = factory.manufacturePojo(User.class);
         user.setStudent(true);
-        userDAO.persist(user, new UserProfile());
+        userDAO.persist(user);
         assert userDAO.exists(user);
     }
 
     @Test
     public void testUpdateUser() {
         User user = factory.manufacturePojo(User.class);
-        userDAO.persist(user, new UserProfile());
+        userDAO.persist(user);
         assertTrue(userDAO.exists(user));
 
         user.setStudent(false);

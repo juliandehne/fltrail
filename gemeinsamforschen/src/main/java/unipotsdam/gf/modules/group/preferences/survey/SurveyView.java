@@ -1,15 +1,23 @@
 package unipotsdam.gf.modules.group.preferences.survey;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
+import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 @Path("/survey")
 public class SurveyView {
+
+    private final static Logger log = LoggerFactory.getLogger(SurveyView.class);
+
     @Inject
     private SurveyMapper surveyMapper;
 
@@ -30,7 +38,9 @@ public class SurveyView {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/projects")
     public java.util.List<Project> getCurrentSurveyProjects() {
-        return projectDAO.getSurveyProjects();
+        List<Project> surveyProjects = projectDAO.getSurveyProjects();
+        return surveyProjects;
+
     }
 
     @GET
@@ -40,6 +50,15 @@ public class SurveyView {
 
         // TODO implement
         return new ProjectStatus();
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("/save/projects/{projectName}")
+    public void saveSurvey(
+            HashMap<String, String> data, @PathParam("projectName") String projectName)
+            throws IOException {
+        surveyMapper.saveData(data, projectName);
     }
 
 

@@ -148,7 +148,8 @@ CREATE TABLE `users` (
   `password`                      varchar(200) NOT NULL,
   `email`                         varchar(255) NOT NULL,
   `rocketChatUserName`            varchar(400),
-  `isStudent`                     tinyint(1) DEFAULT '1'
+  `isStudent`                     tinyint(1) DEFAULT '1',
+  `discordid`                     varchar(100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `workrating` (
@@ -320,7 +321,7 @@ CREATE TABLE profilequestionanswer
 (
     profileQuestionId int,
     answerIndex int,
-    selectedAnswer varchar(255) not null,
+    selectedAnswer varchar(255),
     userEmail varchar(255) not null,
     CONSTRAINT profilequestionanswer_profilequestions_id_fk FOREIGN KEY (profileQuestionId)
     REFERENCES profilequestions(id),

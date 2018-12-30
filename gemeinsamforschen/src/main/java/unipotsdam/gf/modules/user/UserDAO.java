@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.user;
 
+import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.util.ResultSetUtil;
@@ -17,24 +18,21 @@ import java.util.List;
 public class UserDAO {
 
 
-
     @Inject
     private MysqlConnect connect;
-
 
     public UserDAO() {
 
     }
-
-    public void persist(User user, UserProfile profile) {
+    public void persist(User user) {
         connect.connect();
-        String mysqlRequest = "INSERT INTO users (`name`, `password`, `email`, `isStudent`," +
-                "`rocketChatUsername`) " +
-                "values (?,?,?,?,?)";
+        String mysqlRequest =
+                "INSERT INTO users (`name`, `password`, `email`, `isStudent`,`rocketChatUsername`, `discordid`) values (?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, user.getName(), user.getPassword(), user.getEmail(),
-                user.getStudent(),user.getRocketChatUsername());
+                user.getStudent(), user.getRocketChatUsername(), user.getDiscordid());
         connect.close();
-        // TODO implmement UserProfile @Mar
+
+
     }
 
     public void delete(User user) {
@@ -45,8 +43,7 @@ public class UserDAO {
     }
 
     public void updateRocketChatUserName(User user) {
-        String mysqlRequest = "UPDATE `users` SET" +
-                "`rocketChatUsername`=? WHERE email=? LIMIT 1";
+        String mysqlRequest = "UPDATE `users` SET" + "`rocketChatUsername`=? WHERE email=? LIMIT 1";
         connect.connect();
         connect.issueUpdateStatement(mysqlRequest, user.getRocketChatUsername(), user.getEmail());
         connect.close();
@@ -78,10 +75,7 @@ public class UserDAO {
     public List<User> getUsersByProjectName(String projectName) {
         connect.connect();
         String query =
-                "SELECT * FROM users u "
-                        + " JOIN projectuser pu ON u.email=pu.userEmail"
-                        + " JOIN projects p ON pu.projectName = p.name"
-                        + " WHERE pu.projectName = ?";
+                "SELECT * FROM users u " + " JOIN projectuser pu ON u.email=pu.userEmail" + " JOIN projects p ON pu.projectName = p.name" + " WHERE pu.projectName = ?";
 
         ArrayList<User> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, projectName);
@@ -106,8 +100,7 @@ public class UserDAO {
     private User getUserByField(String field, String value) {
         connect.connect();
         String mysqlRequest = "SELECT * FROM users where " + field + " = ?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, value);
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, value);
         boolean next = vereinfachtesResultSet.next();
         if (next) {
             User user = ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet);

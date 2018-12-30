@@ -45,13 +45,13 @@ public class GroupDAOTest {
         User userDocent = factory.manufacturePojo(User.class);
         userDocent.setStudent(false);
 
-        userDAO.persist(userStudent, null);
-        userDAO.persist(userDocent, null);
+        userDAO.persist(userStudent);
+        userDAO.persist(userDocent);
         //group = new Group(Arrays.asList(userStudent, userDocent), "1", "1");
         group = factory.manufacturePojo(Group.class);
         List<User> members = group.getMembers();
         for (User member : members) {
-            userDAO.persist(member, null);
+            userDAO.persist(member);
         }
         assertThat (group.getMembers().isEmpty(), is(false));
     }

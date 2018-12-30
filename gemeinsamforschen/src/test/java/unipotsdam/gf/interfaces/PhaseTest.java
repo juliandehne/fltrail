@@ -41,7 +41,7 @@ public class PhaseTest {
 
         User user = factory.manufacturePojo(User.class);
         user.setStudent(true);
-        management.create(user, new UserProfile());
+        management.create(user);
         assert management.exists(user);
 
         Project project = factory.manufacturePojo(Project.class);

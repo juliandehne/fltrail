@@ -111,7 +111,7 @@ public class ProjectCreationProcess {
         // create user in rocket chat
         iCommunication.registerUser(user);
         // create user in mysql
-        iManagement.create(user, null);
+        iManagement.create(user);
 
     }
 

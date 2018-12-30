@@ -49,8 +49,8 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public void create(User user, UserProfile profile) {
-        userDAO.persist(user, profile);
+    public void create(User user) {
+        userDAO.persist(user);
     }
 
     @Override

@@ -4,6 +4,7 @@ import unipotsdam.gf.modules.group.preferences.excel.ItemSet;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyData;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.user.UserProfile;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 
@@ -234,5 +235,19 @@ public class ProfileDAO {
             connect.issueInsertOrDeleteStatement(query, project.getName(), questionid);
         }
         connect.close();
+    }
+
+    public void save(UserProfile profile) {
+        HashMap<String, String> data = profile.getData();
+        for (String key : data.keySet()) {
+            String value = data.get(key);
+            int questionId = Integer.parseInt(key.trim());
+            ProfileQuestionAnswer profileQuestionAnswer = new ProfileQuestionAnswer();
+            profileQuestionAnswer.setQuestion(new ProfileQuestion(questionId));
+            profileQuestionAnswer.setAnswerIndex(Integer.parseInt(value));
+            profileQuestionAnswer.setUser(profile.getUser());
+            persist(profileQuestionAnswer);
+        }
+
     }
 }

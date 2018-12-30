@@ -24,9 +24,8 @@ public interface Management {
      * create a User in the database
      *
      * @param user
-     * @param profile
      */
-    void create(User user, UserProfile profile);
+    void create(User user);
 
     /**
      * create a Project in the database

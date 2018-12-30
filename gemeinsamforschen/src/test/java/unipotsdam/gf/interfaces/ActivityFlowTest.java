@@ -143,7 +143,7 @@ public class ActivityFlowTest {
 
     public void loginTeacher() {
         teacher.setStudent(false);
-        management.create(teacher, null);
+        management.create(teacher);
     }
 
 
@@ -152,7 +152,7 @@ public class ActivityFlowTest {
             User student = factory.manufacturePojo(User.class);
             student.setStudent(true);
             students.add(student);
-            management.create(student, null);
+            management.create(student);
         }
     }
 
