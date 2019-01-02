@@ -35,11 +35,13 @@
 </p>
 <p id="projectName" hidden><%= tu.printMe(projectName)%>
 </p>
-<div class="titlerow">
-    <% if (projectName != null) {%>
-    <h1 id="projectHeadline"><%= tu.printMe(projectName)%>
-    </h1>
-    <% } else {%>
-    <h1 id="projectHeadline"></h1>
-    <%}%>
+<div class="row group">
+    <div class="titlerow">
+      <% if (projectName != null) {%>
+     <h1 id="projectHeadline"><%= tu.printMe(projectName)%>
+     </h1>
+      <% } else {%>
+      <h1 id="projectHeadline">Meine Projekte ,,,zum beispiel</h1>
+     <%}%>
+    </div>
 </div>

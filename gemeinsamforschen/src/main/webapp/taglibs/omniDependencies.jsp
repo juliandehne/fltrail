@@ -12,11 +12,14 @@
 <title>fltrail</title>
 <link href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/css/googleAPIS400-700.css" rel="stylesheet">
 <link href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/css/googleAPIS300-400-700.css" rel="stylesheet">
-<link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/css/normalize.css">
-<link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/css/global.css">
 <link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/bootstrap/css/bootstrap3.3.7.min.css">
+<link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/css/normalize.css">
+
+<link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/css/global.css">
+
 <link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/css/styles.css">
 <link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/css/footer.css">
+
 <!--<link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "libs/fonts/fa5-all.css\">-->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 <!--integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">-->

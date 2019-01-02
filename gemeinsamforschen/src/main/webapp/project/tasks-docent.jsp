@@ -16,9 +16,9 @@
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
-<main>
+<main class="project-overview">
     <jsp:include page="../taglibs/timeLine.jsp"/>
-    <div class="col span_content">
+    <div class="col span_content span_l_of_2">
         <div id="listOfTasks">
 
         </div>
