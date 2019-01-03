@@ -24,10 +24,10 @@
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
-<main>
+<main class="project-overview">
     <jsp:include page="../taglibs/timeLine.jsp"/>
 
-    <div class="col span_content">
+    <div class="col span_content span_l_of_2">
 
         <%--    <div class="infotext ">
             <p class="icon">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
@@ -39,8 +39,8 @@
 
         </div>
         <script id="taskTemplate" type="text/x-jQuery-tmpl">
-   <div class="card ${phase}">
-       <div class="col span_s_of_2 icon ${taskType}">
+        <div class="card ${phase}">
+            <div class="col span_s_of_2 icon ${taskType}">
        </div>
        <div class="col span_l_of_2" id="${taskName}">
            {{if infoText}}

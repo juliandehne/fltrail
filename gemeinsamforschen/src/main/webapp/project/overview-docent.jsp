@@ -42,7 +42,7 @@
             <div class="select_arrow"></div>
         </div>
         <div class="search">
-            <input  type="text" name="suche" placeholder="Suche"><i class="fas fa-search"></i></div>
+            <input  type="text" name="suche" placeholder="Suche"><i class="fas fa-search"></i>
         </div>
 
     </div>
@@ -51,11 +51,17 @@
 
         <script id="projectTRTemplate" type="text/x-jQuery-tmpl">
         <div class="card">
-            <div>
+            <div class="card-inner">
                 <h3>${projectName}</h3>
                 <p>
                    ${projectDescription}
                 </p>
+                 <label>Tags:</label>
+                        <div class='tags'>
+                        {{each(i) projectTags}}
+                            <span class='tag'>${projectTags[i]}</span><div class="spacing"></div>
+                        {{/each}}
+                        </div>
                 <button class="primary" id="project_${projectId}">Einsehen </button>
             </div>
         </div>

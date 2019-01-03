@@ -41,7 +41,7 @@
      <h1 id="projectHeadline"><%= tu.printMe(projectName)%>
      </h1>
       <% } else {%>
-      <h1 id="projectHeadline">Meine Projekte ,,,zum beispiel</h1>
+      <h1 id="projectHeadline">Ueberschrift muesste angepasst werden</h1>
      <%}%>
     </div>
 </div>
