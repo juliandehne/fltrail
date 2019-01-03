@@ -607,7 +607,9 @@ select:disabled ~ .select_arrow {
 
 /* pages */
 main.projects,
-main.create-project{
+main.create-project,
+main.project-overview,
+main.groups-manual{
     padding:2em;
 }
 
