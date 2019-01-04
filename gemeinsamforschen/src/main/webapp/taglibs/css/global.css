@@ -1,6 +1,14 @@
 /* overall layout with breakpoints*/
 
 /*fixed header */
+html {
+    height:100%;
+}
+
+body {
+    height:120%;
+    position:relative;
+}
 
 header {
     width: 100%;
@@ -14,7 +22,6 @@ header {
 header .row {
     height: 40px;
     line-height: 40px;
-
     padding: 0 .5em 0 .5em;
     box-sizing: border-box;
 }
@@ -45,15 +52,15 @@ footer {
     height: 80px;
     background: #ededed;
     padding: .5em;
-    /*  position: absolute; */
+    position: absolute;
     width: 100%;
-    /*bottom: 0;*/
+    bottom: 0;
 }
 
 .row {
     clear: both;
     padding: 0px;
-    margin: 0 auto;
+    margin: 0 auto !important;
     max-width: 1280px;
 
     box-shadow: border-box;
@@ -149,9 +156,13 @@ footer {
 
 .timeline li {
     line-height: 1em;
-    font-weight: 900;
+    margin-bottom: 1em;
 }
 
+.timeline {
+    padding:2em;
+    box-sizing: border-box;
+}
 /*tasklist */
 
 .infotext {
@@ -201,7 +212,7 @@ footer {
     content: "\f017";
     text-align: center;
     display: block;
-    line-height: 1.7em;
+    line-height: 1.8em;
     font-size: 1.5em;
     color: #fff;
 }
@@ -219,6 +230,8 @@ footer {
 
 .status.alert {
     background-color: #E0071C;
+    padding:0;
+    margin-bottom:0;
 }
 
 .status.alert:before {
@@ -271,6 +284,10 @@ button + a {
 
 /*type*/
 
+h3,h4 {
+    color:#075f8b;
+}
+
 body, p {
     font-family: nunito, helvetica, arial, sans-serif;
     font-size: 13px;
@@ -297,7 +314,7 @@ h1 {
     font-family: spectral, georgia, serif;
     color: #075F8B;
     text-align: center;
-    max-width: 400px;
+   /* max-width: 400px;*/
 }
 
 h4 {
@@ -305,6 +322,8 @@ h4 {
     margin-bottom: .5em;
     color: #075F8B;
     line-height: 1;
+    font-size: 1.00em;
+    font-weight: bold;
 }
 
 a:link {
@@ -402,11 +421,25 @@ body {
     color: #dedede;
 }
 
-header a {
-    color: #fff;
+header a:link,
+header a#logout,
+header a:visited{
+    color: #fff !important;
     text-decoration: none;
+    font-weight:normal;
+}
+header a:hover {
+    text-decoration:none;
 }
 
+header a:active {
+    text-decoration:none;
+}
+
+header .nav-group-left a {
+    display:inline-block;
+    margin-right:2em;
+}
 /*links and buttons */
 button {
     border: none;
@@ -573,6 +606,14 @@ select:disabled ~ .select_arrow {
 }
 
 /* pages */
+main.projects,
+main.create-project,
+main.project-overview,
+main.groups-manual{
+    padding:2em;
+}
+
+
 
 .projects .introduction {
     max-width: 400px;
@@ -588,10 +629,20 @@ select:disabled ~ .select_arrow {
     max-width: 100%;
 }
 
+.projects h2 {
+    margin-top:2em;
+}
+
+#createProject {
+    text-align:center;
+
+}
+
 .projects-grid {
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
+    padding-top:2em;
 
 }
 
@@ -599,10 +650,10 @@ select:disabled ~ .select_arrow {
     /*width:200px;
     height:200px;*/
 
-    margin-bottom: 0;
+    margin-bottom: 10px;
     flex: 1 1 200px;
     border-left: 0;
-    height: 200px;
+    min-height: 200px;
     width: 200px;
     padding: 0;
 
@@ -612,7 +663,7 @@ select:disabled ~ .select_arrow {
 
 }
 
-.projects .card div {
+.projects .card div.card-inner {
 
     margin: 0px 5px 0px 5px;
 
@@ -623,6 +674,14 @@ select:disabled ~ .select_arrow {
     -webkit-box-shadow: 0px 3px 5px 0px rgba(140, 138, 140, 0.62);
     -moz-box-shadow: 0px 3px 5px 0px rgba(140, 138, 140, 0.62);
     box-shadow: 0px 3px 5px 0px rgba(140, 138, 140, 0.62);
+}
+
+.projects .card h3 {
+    font-size: 1.17em;
+    font-weight: bold;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    font-family: nunito, helvetica, arial, sans-serif;
 }
 
 /*dossier*/
@@ -776,5 +835,79 @@ select:disabled ~ .select_arrow {
     margin-bottom: .5em;
 }
 
+/***custom checkmark ****/
+/* The container */
+.container {
+    display: inline-block;
+    position: relative;
+    padding-left: 45px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 1.5em;
+    line-height: 2em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: left;
+    font-weight:normal;
+    width: 200px;
+    color: #065f8b;
+    vertical-align: -2px;
+}
+
+/* Hide the browser's default checkbox */
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 40px;
+    width: 40px;
+    background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+    background-color: #075f8b;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+    left: 14px;
+    top: 8px;
+    width: 10px;
+    height: 20px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
 
 

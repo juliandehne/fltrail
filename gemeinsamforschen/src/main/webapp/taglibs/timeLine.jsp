@@ -7,7 +7,7 @@
     String projectName = tu.getParamterFromQuery("projectName", request);
     Phase phase = tu.getPhase(projectName);
 %>
-<div class="col span_timeline .timeline">
+<div class="col span_timeline timeline span_s_of_2">
     <ul>
         <% if (phase != null) {%>
         <% if (phase == Phase.GroupFormation) {%>
