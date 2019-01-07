@@ -1,0 +1,400 @@
+{
+    "groups": [
+    {
+        "groupID": 33,
+        "results": {
+            "matcher": null,
+            "averageVarianz": 0,
+            "varianz": 0,
+            "n": 3,
+            "avg": 0.6666667,
+            "stDev": 0.144337565,
+            "normStDev": 0.873868048,
+            "performanceIndex": 0.5825787
+        },
+        "participants": [
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            1,
+                            1,
+                            0,
+                            0
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 185
+            },
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            0,
+                            1,
+                            0
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 193
+            },
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            1,
+                            1,
+                            1,
+                            1
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 187
+            }
+        ],
+        "groupPerformanceIndex": 0.5825787
+    },
+    {
+        "groupID": 34,
+        "results": {
+            "matcher": null,
+            "averageVarianz": 0,
+            "varianz": 0,
+            "n": 3,
+            "avg": 0.6666667,
+            "stDev": 0.144337565,
+            "normStDev": 0.873868048,
+            "performanceIndex": 0.5825787
+        },
+        "participants": [
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            1,
+                            1,
+                            0,
+                            0
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 186
+            },
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            0,
+                            1,
+                            0
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 194
+            },
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            1,
+                            1,
+                            1,
+                            1
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 188
+            }
+        ],
+        "groupPerformanceIndex": 0.5825787
+    },
+    {
+        "groupID": 35,
+        "results": {
+            "matcher": null,
+            "averageVarianz": 0,
+            "varianz": 0,
+            "n": 3,
+            "avg": 0.5,
+            "stDev": 0,
+            "normStDev": 1,
+            "performanceIndex": 0.5
+        },
+        "participants": [
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            1,
+                            0,
+                            0
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 189
+            },
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            0,
+                            1,
+                            0
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 195
+            },
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            0,
+                            0,
+                            1
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 197
+            }
+        ],
+        "groupPerformanceIndex": 0.5
+    },
+    {
+        "groupID": 36,
+        "results": {
+            "matcher": null,
+            "averageVarianz": 0,
+            "varianz": 0,
+            "n": 3,
+            "avg": 0.5,
+            "stDev": 0,
+            "normStDev": 1,
+            "performanceIndex": 0.5
+        },
+        "participants": [
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            1,
+                            0,
+                            0
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 190
+            },
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            0,
+                            1,
+                            0
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 196
+            },
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            0,
+                            0,
+                            1
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 198
+            }
+        ],
+        "groupPerformanceIndex": 0.5
+    },
+    {
+        "groupID": 37,
+        "results": {
+            "matcher": null,
+            "averageVarianz": 0,
+            "varianz": 0,
+            "n": 3,
+            "avg": 0.333333343,
+            "stDev": 0.288675129,
+            "normStDev": 0.7759908,
+            "performanceIndex": 0.2586636
+        },
+        "participants": [
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            1,
+                            0,
+                            0
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 191
+            },
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            0,
+                            0,
+                            1
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 199
+            },
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            1,
+                            0,
+                            0
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 192
+            }
+        ],
+        "groupPerformanceIndex": 0.2586636
+    },
+    {
+        "groupID": 38,
+        "results": {
+            "matcher": null,
+            "averageVarianz": 0,
+            "varianz": 0,
+            "n": 0,
+            "avg": 0,
+            "stDev": 0,
+            "normStDev": 0,
+            "performanceIndex": 0
+        },
+        "participants": [
+            {
+                "criteria": [
+                    {
+                        "name": "hetCrit4DimDemo",
+                        "value": [
+                            0,
+                            0,
+                            0,
+                            1
+                        ],
+                        "maxValue": 1,
+                        "minValue": 0,
+                        "isHomogeneous": false,
+                        "weight": 1
+                    }
+                ],
+                "iD": 200
+            }
+        ],
+        "groupPerformanceIndex": 0
+    }
+],
+    "results": {
+    "matcher": null,
+        "averageVarianz": 0,
+        "varianz": 0,
+        "n": 6,
+        "avg": 0.403970182,
+        "stDev": 0.230890185,
+        "normStDev": 0.8124202,
+        "performanceIndex": 0.328193545
+},
+    "whichMatcherUsed": "GroupALGroupCentricMatcher",
+    "countOfGroups": 6
+}

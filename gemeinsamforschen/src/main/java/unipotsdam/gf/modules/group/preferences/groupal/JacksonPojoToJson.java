@@ -1,4 +1,4 @@
-package unipotsdam.gf.testsandbox;
+package unipotsdam.gf.modules.group.preferences.groupal;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,6 +31,16 @@ public class JacksonPojoToJson {
 
         // Convert object to JSON string
         String json = mapper.writeValueAsString(mappable);
+        System.out.println(json);
+    }
+
+    public static void writeObject(Object object) throws JsonProcessingException {
+        // Create ObjectMapper
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        // Convert object to JSON string
+        String json = mapper.writeValueAsString(object);
         System.out.println(json);
     }
 }

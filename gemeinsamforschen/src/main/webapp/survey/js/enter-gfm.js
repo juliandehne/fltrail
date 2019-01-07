@@ -36,7 +36,7 @@ $(document).ready(function () {
         let dataReq = new RequestObj(1, "/survey", "/save/projects/?", [project], [], survey.data);
 
         serverSide(dataReq, "POST", function (a) {
-            log.warn(a);
+            //log.warn(a);
         })
     }
 

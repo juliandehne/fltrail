@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.group.preferences.groupal;
+package unipotsdam.gf.modules.group.preferences.groupal.request;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
@@ -8,11 +8,11 @@ import java.util.List;
 public class ParticipantsHolder {
 
     private UsedCriteria usedCriteria;
-    private java.util.List<Participant> participants;
+    private java.util.List<Participants> participants;
     private int version;
 
     public ParticipantsHolder(
-            UsedCriteria usedCriteria, List<Participant> participants) {
+            UsedCriteria usedCriteria, List<Participants> participants) {
         this.usedCriteria = usedCriteria;
         this.participants = participants;
         setVersion(1);
@@ -33,11 +33,11 @@ public class ParticipantsHolder {
     }
 
     @XmlElement(name = "participant")
-    public List<Participant> getParticipants() {
+    public List<Participants> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<Participant> participants) {
+    public void setParticipants(List<Participants> participants) {
         this.participants = participants;
     }
 

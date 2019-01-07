@@ -144,6 +144,7 @@ CREATE TABLE `tasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `users` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
   `name`                          varchar(100) NOT NULL,
   `password`                      varchar(200) NOT NULL,
   `email`                         varchar(255) NOT NULL,

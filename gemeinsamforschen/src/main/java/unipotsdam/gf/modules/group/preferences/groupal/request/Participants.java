@@ -1,17 +1,16 @@
-package unipotsdam.gf.modules.group.preferences.groupal;
+package unipotsdam.gf.modules.group.preferences.groupal.request;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class Participant {
+public class Participants {
 
     private int id;
     private java.util.List<Criterion> criterion;
 
-    public Participant() {
+    public Participants() {
         criterion = new ArrayList<>();
 
     }

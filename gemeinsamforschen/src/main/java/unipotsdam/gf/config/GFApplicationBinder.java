@@ -17,6 +17,7 @@ import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupfindingImpl;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
+import unipotsdam.gf.modules.group.preferences.groupal.GroupAlMatcher;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
 import unipotsdam.gf.modules.journal.service.IJournalImpl;
 import unipotsdam.gf.modules.project.Management;
@@ -82,6 +83,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(UnirestService.class).to(UnirestService.class);
         bind(ProfileDAO.class).to(ProfileDAO.class);
         bind(SurveyMapper.class).to(SurveyMapper.class);
+        bind(GroupAlMatcher.class).to(GroupAlMatcher.class);
         bindMore();
     }
 

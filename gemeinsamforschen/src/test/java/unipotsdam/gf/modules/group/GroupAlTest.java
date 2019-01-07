@@ -1,16 +1,21 @@
 package unipotsdam.gf.modules.group;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import unipotsdam.gf.core.database.TestGFApplicationBinder;
+import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.modules.group.preferences.groupal.*;
 
-import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.group.preferences.groupal.request.*;
+import unipotsdam.gf.modules.group.preferences.groupal.response.ResponseHolder;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.group.preferences.groupal.JacksonPojoToJson;
 
+import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -23,17 +28,18 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
-import org.apache.commons.beanutils.*;
-
 public class GroupAlTest {
 
     private PodamFactory factory = new PodamFactoryImpl();
     private Marshaller jaxbMarshaller;
 
+    @Inject
+    private GroupAlMatcher groupAlMatcher;
+
     @Before
     public void setUp() throws Exception{
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
-        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
         //
         JAXBContext jaxbContext = JAXBContext.newInstance(ParticipantsHolder.class);
@@ -43,9 +49,6 @@ public class GroupAlTest {
 
     @Test
     public void testMarshalling() throws JAXBException {
-      
-
-        //
         ParticipantsHolder participantsHolder = factory.manufacturePojo(ParticipantsHolder.class);
         assertNotNull(participantsHolder);
         //jaxbMarshaller.marshal(participantsHolder, System.out);
@@ -70,7 +73,7 @@ public class GroupAlTest {
         for (int i = 0; i< 30; i++){
             Random rn = new Random();
             // the participants
-            Participant participant = new Participant();
+            Participants participant = new Participants();
             participant.setId(i);
             Value value = new Value();
             value.setName("a1");
@@ -100,6 +103,22 @@ public class GroupAlTest {
         }
         assertNotNull(participantsHolder);
         jaxbMarshaller.marshal(participantsHolder, System.out);
-
     }
+
+    @Test
+    public void testGroupAl() throws JsonProcessingException {
+        groupAlMatcher.createGroups(new Project("d1_test"), 3);
+    }
+
+    @Test
+    public void serializeResponse() throws JAXBException, JsonProcessingException {
+
+        ResponseHolder responseHolder = factory.manufacturePojo(ResponseHolder.class);
+
+        JacksonPojoToJson.writeExample(responseHolder.getClass());
+    }
+
+
+
+
 }

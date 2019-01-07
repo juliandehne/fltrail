@@ -1,9 +1,10 @@
-package unipotsdam.gf.modules.group.preferences.groupal;
+package unipotsdam.gf.modules.group.preferences.groupal.request;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Criterion {
@@ -25,6 +26,10 @@ public class Criterion {
 
     public Criterion() {
         values = new ArrayList<>();
+        minValue = 1f;
+        maxValue = 5f;
+        weight = 1f;
+
     }
 
     @XmlAttribute
@@ -81,4 +86,23 @@ public class Criterion {
         this.values = values;
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Criterion criterion = (Criterion) o;
+        return Objects.equals(getName(), criterion.getName());
+    }
 }
