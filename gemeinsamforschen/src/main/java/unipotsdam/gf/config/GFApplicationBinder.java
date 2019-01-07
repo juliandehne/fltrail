@@ -1,7 +1,5 @@
 package unipotsdam.gf.config;
 
-import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

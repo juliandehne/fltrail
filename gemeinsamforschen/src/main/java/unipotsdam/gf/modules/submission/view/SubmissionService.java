@@ -135,8 +135,6 @@ public class SubmissionService {
     @Path("/id/{submissionId}/projects/{projectId}/finalize")
     public void finalize (@PathParam("submissionId") String submissionId, @PathParam("projectId") String projectId,
                           @Context HttpServletRequest req) {
-        // TODO implement
-
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         dossierCreationProcess.finalizeDossier(new FullSubmission(submissionId), new User(userEmail),
                 new Project(projectId));

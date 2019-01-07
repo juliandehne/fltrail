@@ -102,11 +102,10 @@ public class UserView {
     /**
      * checks if a user exists in order to log him in
      *
-     * @param name
-     * @param password
-     * @param email
-     * @return
-     * @throws URISyntaxException
+     * @param name of the user
+     * @param password of the user
+     * @param email of the user
+     * @throws URISyntaxException when user doesn't exist
      */
     // This method is called if HTML is request
     @POST
@@ -183,9 +182,9 @@ public class UserView {
     /**
      * * helper function for redirecting to a new page
      *
-     * @param existsUrl
-     * @return
-     * @throws URISyntaxException
+     * @param existsUrl where to locate to
+     * @return to page "existsUrl"
+     * @throws URISyntaxException in case page doesn't exist
      */
     private Response forwardToLocation(String existsUrl) throws URISyntaxException {
         return Response.seeOther(new URI(existsUrl)).build();

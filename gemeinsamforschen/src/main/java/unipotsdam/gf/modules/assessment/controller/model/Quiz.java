@@ -4,7 +4,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
 @XmlRootElement
-
 public class Quiz {
     private String type;
     private String question;

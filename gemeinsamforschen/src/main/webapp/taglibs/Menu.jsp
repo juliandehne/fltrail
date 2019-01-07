@@ -8,6 +8,9 @@
     String isStudent = (String) request.getSession().getAttribute(GFContexts.ISSTUDENT);
     String projectName = tu.getParamterFromQuery("projectName", request);
     String userEmail = (String) request.getSession().getAttribute(GFContexts.USEREMAIL);
+    if (isStudent == null || userEmail == null) {
+        return;
+    }
 %>
 
 <header>
@@ -36,12 +39,11 @@
 <p id="projectName" hidden><%= tu.printMe(projectName)%>
 </p>
 <div class="row group">
-    <div class="titlerow">
-      <% if (projectName != null) {%>
-     <h1 id="projectHeadline"><%= tu.printMe(projectName)%>
-     </h1>
-      <% } else {%>
-      <h1 id="projectHeadline">Ueberschrift muesste angepasst werden</h1>
-     <%}%>
+    <div class="titlerow"><% if (projectName != null) {%>
+        <h1 id="projectHeadline"><%= tu.printMe(projectName)%>
+        </h1>
+        <% } else {%>
+        <h1 id="projectHeadline">Ueberschrift muesste angepasst werden</h1>
+        <%}%>
     </div>
 </div>

@@ -5,19 +5,13 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.interfaces.IPhases;
-import unipotsdam.gf.process.GroupFormationProcess;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * REST API for switching phases
@@ -37,8 +31,8 @@ public class PhaseView {
     /**
      * end phase
      *
-     * @param projectPhase
-     * @param projectName
+     * @param projectPhase which phase are you in
+     * @param projectName which project is about to leave a phase
      */
     @Path("/{projectPhase}/projects/{projectName}/end")
     @GET
@@ -55,8 +49,8 @@ public class PhaseView {
     /**
      * get current phase
      *
-     * @param projectName
-     * @return
+     * @param projectName which project is selected
+     * @return get the name of the current phase of the project
      */
     @Path("/projects/{projectName}")
     @GET

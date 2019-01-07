@@ -132,7 +132,7 @@ public interface ICommunication {
 
     boolean sendMessageToUsers(Project project, EMailMessage eMailMessage);
 
-    public void delete(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
+    void delete(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
 
 }

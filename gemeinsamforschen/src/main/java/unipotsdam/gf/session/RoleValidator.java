@@ -4,13 +4,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 import javax.xml.ws.WebServiceException;
-import java.io.IOException;
 
 public class RoleValidator extends SimpleTagSupport {
 
     private String role = "public";
 
-    public void doTag() throws IOException {
+    public void doTag(){
 
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();

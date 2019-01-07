@@ -42,7 +42,7 @@
             <div class="select_arrow"></div>
         </div>
 
-        <div class="search">
+        <div class="search" id="searchingTemplate" type="text/x-jQuery-tmpl">
             <input  type="text" name="suche" placeholder="Suche"><i class="fas fa-search"></i>
         </div>
 
@@ -67,9 +67,8 @@
                     style="margin-top:10px;">${projectAction} </button>
                 </div>
             </div>
-
-
-    </script>
+            </script>
+        </div>
 
 
 </main>

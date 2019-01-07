@@ -135,7 +135,6 @@ public class PeerAssessment implements IPeerAssessment {
             Performance performance = new Performance();
             StudentIdentifier userNameentifier = new StudentIdentifier(projectName, student);
             groupId = groupDAO.getGroupByStudent(userNameentifier);
-            //todo: answered quizzes vervöllstandigen
             Integer numberOfQuizzes = assessmentDBCommunication.getQuizCount(projectName);
             List<Integer> answeredQuizzes = assessmentDBCommunication.getAnsweredQuizzes(userNameentifier);
             for (Integer i=answeredQuizzes.size(); i<numberOfQuizzes;i++){

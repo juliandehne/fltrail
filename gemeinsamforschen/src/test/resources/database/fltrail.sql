@@ -91,9 +91,9 @@ CREATE TABLE `projects` (
   `timecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `author` varchar(100) NOT NULL,
   `description` varchar (600),
-  `adminPassword` varchar(400),
   `phase` varchar(400) NOT NULL DEFAULT 'GroupFormation'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE projects ADD issurvey BOOLEAN NULL;
 
 CREATE TABLE `projectuser` (
   `projectName` varchar(100) NOT NULL,
@@ -377,9 +377,6 @@ ALTER TABLE tasks COMMENT = 'The task table is important. It lists the actual st
 ALTER TABLE users COMMENT = 'Just lists the users';
 ALTER TABLE workrating COMMENT = '@Axel plz comment';
 
-
-
-ALTER TABLE projects ADD issurvey BOOLEAN NULL;
 
 CREATE TABLE surveyitemsselected
 (

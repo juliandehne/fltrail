@@ -556,7 +556,7 @@ public class SubmissionController implements ISubmission, HasProgress {
             String id = rs.getString("id");
             data.setFullSubmissionId(id);
         } else {
-            // TODO handle "error"
+            log.debug("fullSubmissionID not found");
         }
 
         connection.close();
@@ -618,7 +618,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         if (vereinfachtesResultSet.next()) {
             String submissionId = vereinfachtesResultSet.getString("id");
             String projectName = vereinfachtesResultSet.getString("projectName");
-            Category category = Category.TITEL; //todo: instead hard coding, look up which category is next to annotate
+            Category category = Category.TITEL;
             FullSubmission fullSubmission = new FullSubmission(submissionId);
             fullSubmission.setProjectName(projectName);
             connection.close();

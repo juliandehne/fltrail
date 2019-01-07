@@ -15,20 +15,20 @@ public interface Feedback {
 
     /**
      * TODO implement a routine that assigns missing feedback tasks if someone drops out of a course
-     * @param project
+     * @param project which project needs feedbacks to be assigned
      */
     void assigningMissingFeedbackTasks(Project project);
 
     /**
-     * TODO implement: Assigns each student in a project a feedback target
-     * @param tasks
+     * assigns a user to feedback every other user
+     * @param tasks all feedbackTasks in a project
      */
     void specifyFeedbackTasks(List<Task> tasks);
 
     /**
      * TODO implement: Get the research report you have to give feedback to
-     * @param student
-     * @return
+     * @param student which student to give feedback to
+     * @return The research Report that was written by the student
      */
     ResearchReport getFeedbackTask(User student);
 }

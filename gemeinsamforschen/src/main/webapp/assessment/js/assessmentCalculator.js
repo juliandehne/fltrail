@@ -1,4 +1,4 @@
-$(document).ready(function () {     //todo: paths should be relative
+$(document).ready(function () {
     $("#giveItBack").on("click", function () {
         $.ajax({
             url: "../rest/assessments/total/project/" + "gemeinsamForschen" + "/student/" + "Bela",
@@ -14,7 +14,7 @@ $(document).ready(function () {     //todo: paths should be relative
         })
     });
     $("#calculateNow").on("click", function () {
-        var dataP = [
+        let dataP = [
             {
                 "userNameentifier": {
                     "projectName": "projekt",
