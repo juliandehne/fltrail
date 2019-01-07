@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * Created by dehne on 31.05.2018.
- * TODO in DAOs refaktorisieren, sobald es mehr wird
  */
 public interface Management {
     /**

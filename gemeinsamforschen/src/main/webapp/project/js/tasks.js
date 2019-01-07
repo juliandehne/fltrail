@@ -1,6 +1,3 @@
-/**
- * TODO @Axel use rendertemplate for participantcount and link manual groups creation as option
- */
 $(document).ready(function () {
     let userEmail = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();

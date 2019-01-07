@@ -48,9 +48,6 @@ public class DossierCreationProcess {
         // create a task, telling the docent to wait for students upload of dossiers
         taskDAO.persist(project, new User(project.getAuthorEmail()), TaskName.WAITING_FOR_STUDENT_DOSSIERS, Phase
                 .DossierFeedback, TaskType.INFO);
-
-        // TODO create waiting for feedback to complete task
-
         taskDAO.persistMemberTask(project, TaskName.UPLOAD_DOSSIER, Phase.DossierFeedback);
     }
 
@@ -126,8 +123,8 @@ public class DossierCreationProcess {
          }*/
     }
 
-    public void createSeeFeedBackTask(Project project, User distributer){
-        User user = submissionController.getFeedbackedUser(project, distributer);
+    public void createSeeFeedBackTask(Project project, User distributeur){
+        User user = submissionController.getFeedbackedUser(project, distributeur);
         taskDAO.persist(project, user, TaskName.SEE_FEEDBACK, Phase.DossierFeedback);
     }
 }

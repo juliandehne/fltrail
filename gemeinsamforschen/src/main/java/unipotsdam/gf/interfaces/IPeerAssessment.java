@@ -30,7 +30,6 @@ public interface IPeerAssessment {
 
     Double getAssessmentForStudent(StudentIdentifier student);
 
-    //todo: obsolete, get rid of the following function
     Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance);
 
         /**

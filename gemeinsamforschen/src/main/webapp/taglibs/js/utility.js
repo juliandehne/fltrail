@@ -1,11 +1,23 @@
 $(document).ready(function () {
     $('#headLineProject').html($('#projectName').html());
     $('#logout').click(function () {
-        //todo: delete cookies / reset session
-        let target = "index.jsp";
-        let link = changeLocationTo(target);
-        document.location = link;
+        $.ajax({
+            url: '../rest/logout/user',
+            type: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache"
+            },
+            success:function(){
+                let target = "index.jsp";
+                document.location = changeLocationTo(target);
+            },
+            error: function(a){
+                console.log(a);
+            }
+        });
     });
+
     $('#assessment').click(function () {
         checkAssessementPhase();
     });

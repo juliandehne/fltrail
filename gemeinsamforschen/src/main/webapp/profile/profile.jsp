@@ -29,7 +29,6 @@
                     <%-- about --%>
                     <div class="col-sm-4">
                         <h3>&Uuml;ber mich</h3>
-                        <%-- TODO: retrieve profile data --%>
                         <ul class="list-group">
                             <li class="list-group-item">
 
@@ -54,7 +53,6 @@
                     <%-- activites --%>
                     <div class="col-sm-4">
                         <h3>Aktivit&auml;t</h3>
-                        <%-- TODO: Retrieve achievements from database--%>
                         <ul class="list-group">
                             <li class="list-group-item">
                                 <p>
@@ -94,7 +92,6 @@
                     <%-- achievements --%>
                     <div class="col-sm-4">
                         <h3>Erfolge</h3>
-                        <%-- TODO: get achievements --%>
 
                         <ul class="list-group">
                             <li class="list-group-item">

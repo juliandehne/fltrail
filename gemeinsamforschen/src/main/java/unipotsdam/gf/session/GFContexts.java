@@ -7,6 +7,7 @@ import unipotsdam.gf.modules.user.UserDAO;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Path;
 import java.io.IOException;
 
 public class GFContexts {

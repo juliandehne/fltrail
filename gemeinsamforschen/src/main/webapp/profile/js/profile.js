@@ -31,7 +31,7 @@ $(document).ready(function (e) {
                 return false;
             }
             else {
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.onload = imageIsLoaded;
                 reader.readAsDataURL(this.files[0]);
             }
@@ -41,8 +41,6 @@ $(document).ready(function (e) {
     function imageIsLoaded(e) {
         $("#file").css("color", "green");
         $('#image_preview').css("display", "block");
-        $('#previewing').attr('src', e.target.result);
-        $('#previewing').attr('width', '250px');
-        $('#previewing').attr('height', '230px');
-    };
+        $('#previewing').attr('src', e.target.result).attr('width', '250px').attr('height', '230px');
+    }
 });

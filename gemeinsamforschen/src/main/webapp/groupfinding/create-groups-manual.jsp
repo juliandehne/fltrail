@@ -58,7 +58,7 @@
         <h2>Gruppeneinteilung</h2>
 
         <div class="info-message">
-            <p>Tun sie dieses und jendes</p>
+            <p>Tun sie dieses und jenes</p>
         </div>
 
             <button id="btnRelocate" class="spacer-horizontal primary">Personen verschieben</button>

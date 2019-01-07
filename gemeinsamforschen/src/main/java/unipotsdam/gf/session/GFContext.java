@@ -7,12 +7,12 @@ import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 
 public class GFContext {
-    Project project;
-    User user;
-    Phase phase;
-    ChatRoom chatRoom;
+    private Project project;
+    private User user;
+    private Phase phase;
+    private ChatRoom chatRoom;
     // could be quizState ....
-    Quiz quiz;
+    private Quiz quiz;
 
     public GFContext(
             Project project, User user, Phase phase, ChatRoom chatRoom, Quiz quiz) {
