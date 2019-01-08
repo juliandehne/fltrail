@@ -326,6 +326,9 @@ $(document).ready(function () {
 
     // fetch annotations from server on page start
     if (getQueryVariable("seeFeedback") === "true") {
+        $('#btnWholeCategory').hide();
+        $('#btnContinue').hide();
+        $('#documentText').toggleClass('leftcontent-text').toggleClass('feedbackText');
         let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT", "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
         for (let i = 0; i < categories.length; i++) {
             getAnnotations(fullSubmissionId, categories[i], function (response) {
@@ -562,6 +565,10 @@ function addHighlightedSubmissionPart(startCharacter, endCharacter, offset) {
 
     // set new document text
     docText.html(newDocument);
+    if (getQueryVariable("seeFeedback") === "true"){
+        let deleteMe=document.getElementsByClassName('categoryText');
+        deleteMe[0].className='feedbackText';
+    }
 }
 
 /**
@@ -679,8 +686,8 @@ function generateCategoryBasedColor(userEmail, category) {
     let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT", "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
     for (let i = 0; i < categories.length; i++) {
         if (category === categories[i]) {
-            category_r = i * 203 % 255;
-            category_g = i * 101 % 255;
+            category_r = i * 203 % 255; //mod 255 ensures to create valid colors. times any big
+            category_g = i * 101 % 255; //number enlarges variation of usually pretty close numbers
             category_b = i * 181 % 255;
         }
     }

@@ -7,9 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+
 
 
 <html>
