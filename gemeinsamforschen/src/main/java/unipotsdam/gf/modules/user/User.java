@@ -35,6 +35,15 @@ public class User {
         this.setStudent(isStudent);
     }
 
+    public User(String name, String password, String email, String rocketChatUsername, Boolean isStudent, String discordId) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.rocketChatUsername = rocketChatUsername;
+        this.setStudent(isStudent);
+        this.discordid=discordId;
+    }
+
 
 
     public User(String authorEmail) {

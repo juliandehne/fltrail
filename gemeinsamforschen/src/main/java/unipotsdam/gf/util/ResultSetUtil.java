@@ -9,8 +9,9 @@ public class ResultSetUtil {
         String name = vereinfachtesResultSet.getString("name");
         String password = vereinfachtesResultSet.getString("password");
         String email = vereinfachtesResultSet.getString("email");
+        String discordId = vereinfachtesResultSet.getString("discordid");
         String rocketChatUserName = vereinfachtesResultSet.getString("rocketChatUserName");
         Boolean isStudent = vereinfachtesResultSet.getBoolean("isStudent");
-        return new User(name, password, email, rocketChatUserName, isStudent);
+        return new User(name, password, email, rocketChatUserName, isStudent, discordId);
     }
 }
