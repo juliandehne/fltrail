@@ -8,6 +8,7 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.group.preferences.groupal.*;
 
 import unipotsdam.gf.modules.group.preferences.groupal.request.*;
@@ -56,7 +57,7 @@ public class GroupAlTest {
 
     @Test
     public void testCreateRealExample()
-            throws JAXBException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+            throws JAXBException {
         ParticipantsHolder participantsHolder = new ParticipantsHolder();
         List<UsedCriterion> criterions2 = new ArrayList<>();
         UsedCriterion firstCriterion2 = new UsedCriterion();
@@ -106,7 +107,7 @@ public class GroupAlTest {
     }
 
     @Test
-    public void testGroupAl() throws JsonProcessingException {
+    public void testGroupAl() throws JsonProcessingException, JAXBException, WrongNumberOfParticipantsException {
         groupAlMatcher.createGroups(new Project("d1_test"), 3);
     }
 

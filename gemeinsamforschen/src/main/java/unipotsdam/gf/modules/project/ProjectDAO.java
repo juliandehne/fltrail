@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.project;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
@@ -13,16 +14,9 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.lang.reflect.Array;
-import java.security.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.TimeZone;
-
-import static java.util.TimeZone.getDefault;
 
 @ManagedBean
 @Resource
@@ -230,5 +224,10 @@ public class ProjectDAO {
         }
         connect.close();
         return projects;
+    }
+
+    public String getActiveProject(String projectContext) {
+        // TODO implement
+        throw new NotImplementedException();
     }
 }

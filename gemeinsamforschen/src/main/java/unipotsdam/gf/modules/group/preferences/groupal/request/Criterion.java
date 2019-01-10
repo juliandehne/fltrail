@@ -100,7 +100,7 @@ public class Criterion {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null)
             return false;
         Criterion criterion = (Criterion) o;
         return Objects.equals(getName(), criterion.getName());

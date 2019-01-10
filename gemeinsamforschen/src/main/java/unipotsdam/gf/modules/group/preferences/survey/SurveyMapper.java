@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.group.preferences.survey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import unipotsdam.gf.modules.communication.view.CommunicationView;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
@@ -13,8 +14,6 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.user.UserProfile;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,7 +24,8 @@ public class SurveyMapper {
     private static final String EMAIL1 = "EMAIL1";
     private static final String EMAIL2 = "EMAIL2";
     private static final String DISCORDID = "DISCORDID";
-    Boolean isdebug = true;
+
+    private Boolean isdebug = true;
 
     @Inject
     private ProfileDAO profileDAO;
@@ -159,5 +159,12 @@ public class SurveyMapper {
         UserProfile userProfile =  new UserProfile(data, user, projectId);
         profileDAO.save(userProfile);
 
+        //TODO if participant count is 30 change projectphase to != GroupFormation
+
+    }
+
+    public String createNewProject(String projectContext) {
+        // TODO implement
+        throw new NotImplementedException();
     }
 }

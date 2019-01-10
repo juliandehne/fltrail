@@ -182,12 +182,13 @@ public class ProfileDAO {
         String variableDefinition = itemSet.getVariableDefinition();
         String subvariableweight = "1";
         String variableweight = "1";
-
+        Boolean homogeneity = itemSet.getIsHomogenous().trim().equals("true");
         connect.connect();
         String query =
-                "INSERT INTO profilevariables (`variable`, `subvariable`, `variableDefinition`, `context`, " + "`variableweight`, `subvariableweight`) values (?,?,?,?,?,?)";
+                "INSERT INTO profilevariables (`variable`, `subvariable`, `variableDefinition`, `context`, " +
+                        "`variableweight`, `subvariableweight`, `homogeneity`) values (?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(query, variable, subvariable, variableDefinition, context, variableweight,
-                subvariableweight);
+                subvariableweight, homogeneity);
         connect.close();
 
     }
@@ -250,6 +251,11 @@ public class ProfileDAO {
         }
     }
 
+    /**
+     * get participant answers from the db
+     * @param project
+     * @return
+     */
     public ParticipantsHolder getResponses(Project project) {
         ArrayList<UsedCriterion> usedCriterions = new ArrayList<>();
         ParticipantsHolder participantsHolder = new ParticipantsHolder();
@@ -257,22 +263,26 @@ public class ProfileDAO {
         HashMap<String, Integer> ids = new HashMap<>();
 
         connect.connect();
-        String query = "SELECT pqa.answerIndex, pqa.userEmail, pq.subvariable, pq.polarity, u.id " +
+        String query = "SELECT pv.homogeneity, pqa.answerIndex, pqa.userEmail, pq.subvariable, pq.polarity, u.id " +
                 "from profilequestionanswer pqa " +
                 " join profilequestions pq on pq.id = pqa.profileQuestionId" +
                 " join surveyitemsselected sis on sis.profilequestionid = pq.id" +
                 " join users u on u.email = pqa.userEmail" +
+                " join profilevariables pv on pv.subvariable = pq.subvariable " +
                 " where sis.projectname = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
         int i = 0;
         while (vereinfachtesResultSet.next()){
             String subvariable = vereinfachtesResultSet.getString("subvariable");
-            String isHomogenous = vereinfachtesResultSet.getInt("polarity") == 1 ? "true" : "false";
+            String isHomogenous = vereinfachtesResultSet.getInt("homogeneity") == 1 ? "true" : "false";
+            Boolean polarity = vereinfachtesResultSet.getBoolean("polarity");
+            int answerIndex = vereinfachtesResultSet.getInt("answerIndex");
+            String email = vereinfachtesResultSet.getString("userEmail");
+            int userId = vereinfachtesResultSet.getInt("id");
 
             UsedCriterion usedCriterionMain = fillUsedCriterion(usedCriterions, subvariable, isHomogenous);
-            // TODO make sure the value count is correct
-
-            fillParticipantMap(participantsMap, ids, vereinfachtesResultSet, i, subvariable, isHomogenous, usedCriterionMain);
+            fillParticipantMap(participantsMap, ids, email, answerIndex, userId, subvariable, isHomogenous, polarity,
+                    usedCriterionMain);
 
         }
         connect.close();
@@ -281,6 +291,47 @@ public class ProfileDAO {
 
         return participantsHolder;
     }
+
+
+    private void fillParticipantMap(
+            HashMap<String, ArrayList<Criterion>> participantsMap, HashMap<String, Integer> ids,
+            String userEmail, int answerIndex, int userId, String subvariable, String isHomogenous, Boolean polarity,
+            UsedCriterion usedCriterionMain) {
+
+        Value value = new Value();
+        if (!polarity) {
+            answerIndex = Math.abs(6 - answerIndex);
+        }
+        value.setValue(answerIndex);
+
+        ids.put(userEmail, userId);
+        if (participantsMap.containsKey(userEmail)) {
+            ArrayList<Criterion> criteria = participantsMap.get(userEmail);
+            if (criteria.contains(usedCriterionMain)) {
+                int i1 = criteria.indexOf(usedCriterionMain);
+                Criterion criterion1 = criteria.get(i1);
+                int size = criterion1.getValues().size();
+                value.setName("value"+(size));
+                criterion1.getValues().add(value);
+                criteria.remove(criterion1);
+                criteria.add(criterion1);
+            } else {
+                value.setName("value"+0);
+                usedCriterionMain.getValues().add(value);
+                criteria.add(usedCriterionMain);
+            }
+        } else {
+            Criterion criterion1 = new Criterion();
+            criterion1.setName(subvariable);
+            criterion1.setIsHomogeneous(isHomogenous);
+            value.setName("value"+0);
+            criterion1.getValues().add(value);
+            ArrayList<Criterion> criteria = new ArrayList<>();
+            criteria.add(criterion1);
+            participantsMap.put(userEmail, criteria);
+        }
+    }
+
 
     private void fillPojo(
             ArrayList<UsedCriterion> usedCriterions, ParticipantsHolder participantsHolder,
@@ -300,37 +351,7 @@ public class ProfileDAO {
         }
     }
 
-    private void fillParticipantMap(
-            HashMap<String, ArrayList<Criterion>> participantsMap, HashMap<String, Integer> ids,
-            VereinfachtesResultSet vereinfachtesResultSet, int i, String subvariable, String isHomogenous,
-            UsedCriterion usedCriterionMain) {
-        Value value = new Value();
-        value.setName("value"+i);
-        value.setValue(vereinfachtesResultSet.getInt("answerIndex"));
-        String userEmail = vereinfachtesResultSet.getString("userEmail");
-        int id = vereinfachtesResultSet.getInt("id");
-        ids.put(userEmail, id);
-        if (participantsMap.containsKey(userEmail)) {
-            ArrayList<Criterion> criteria = participantsMap.get(userEmail);
-            if (criteria.contains(usedCriterionMain)) {
-                int i1 = criteria.indexOf(usedCriterionMain);
-                Criterion criterion1 = criteria.get(i1);
-                criterion1.getValues().add(value);
-                criteria.remove(criterion1);
-            } else {
-                usedCriterionMain.getValues().add(value);
-                criteria.add(usedCriterionMain);
-            }
-        } else {
-            Criterion criterion1 = new Criterion();
-            criterion1.setName(subvariable);
-            criterion1.setIsHomogeneous(isHomogenous);
-            criterion1.getValues().add(value);
-            ArrayList<Criterion> criteria = new ArrayList<>();
-            criteria.add(criterion1);
-            participantsMap.put(userEmail, criteria);
-        }
-    }
+
 
     private UsedCriterion fillUsedCriterion(
             ArrayList<UsedCriterion> usedCriterions, String subvariable, String isHomogenous) {
