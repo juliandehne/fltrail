@@ -372,4 +372,13 @@ public class ProfileDAO {
         }
         return usedCriterionMain;
     }
+
+    public void createNewSurveyProject(Project project) {
+        connect.connect();
+        String query = "Insert into surveyitemsselected (projectname, profilequestionid) " +
+                        " SELECT ?, id FROM profilequestions";
+
+        connect.issueInsertOrDeleteStatement(query, project.getName());
+        connect.close();
+    }
 }

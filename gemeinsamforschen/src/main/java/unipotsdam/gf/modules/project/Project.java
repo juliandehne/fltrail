@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.project;
 
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.process.phases.Phase;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -22,6 +23,10 @@ public class Project {
     private String[] tags;
     private String description;
     private Boolean isSurvey;
+
+
+
+    private GroupWorkContext groupWorkContext;
 
     public Project() {
         tags = new String[0];
@@ -152,6 +157,14 @@ public class Project {
 
     public void setSurvey(Boolean survey) {
         isSurvey = survey;
+    }
+
+    public GroupWorkContext getGroupWorkContext() {
+        return groupWorkContext;
+    }
+
+    public void setGroupWorkContext(GroupWorkContext groupWorkContext) {
+        this.groupWorkContext = groupWorkContext;
     }
 
     @Override

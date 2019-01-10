@@ -4,6 +4,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.tasks.ParticipantsCount;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -47,14 +48,17 @@ public class ProjectDAO {
             if(project.getAuthorEmail() == null) {
                 project.setAuthorEmail("julian.dehne@uni-potsdam.de");
             }
+            if (project.getGroupWorkContext() == null) {
+                project.setGroupWorkContext(GroupWorkContext.FL);
+            }
             connect.connect();
             String mysqlRequest =
                     "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, `phase`, " +
-                            "`description`, `isSurvey`) values (?,?,?,?,?,?,?,?)";
+                            "`description`, `isSurvey`, `context`) values (?,?,?,?,?,?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(),
                     project.isActive(), timestamp, project.getAuthorEmail(),
                     project.getPhase() == null ? Phase.GroupFormation : project.getPhase(), project.getDescription(),
-                    project.getSurvey());
+                    project.getSurvey(), project.getGroupWorkContext().toString());
             connect.close();
 
             connect.connect();
@@ -226,8 +230,18 @@ public class ProjectDAO {
         return projects;
     }
 
-    public String getActiveProject(String projectContext) {
-        // TODO implement
-        throw new NotImplementedException();
+    public String getActiveSurveyProject(String projectContext) {
+        connect.connect();
+
+        String query = "select * from projects where context = ? and phase = ?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(query, projectContext, Phase.GroupFormation);
+
+        boolean next = vereinfachtesResultSet.next();
+        String result = vereinfachtesResultSet.getString("name");
+
+        connect.close();
+
+        return result;
     }
 }

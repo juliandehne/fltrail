@@ -2,8 +2,9 @@ package unipotsdam.gf.modules.group.preferences.survey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
-import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import javax.inject.Inject;
@@ -33,11 +34,11 @@ public class SurveyView {
     @Path("/project/name/{projectContext}")
     public String getProjectName(@PathParam("projectContext") String projectContext) {
         // get project where name like projectContext and is active
-        String projectName = projectDAO.getActiveProject(projectContext);
+        String projectName = projectDAO.getActiveSurveyProject(projectContext);
 
         if (projectName == null) {
             // if result is empty create new project, add all the questions to it and return this
-            return surveyMapper.createNewProject(projectContext);
+            return surveyMapper.createNewProject(GroupWorkContext.valueOf(projectContext));
         } else {
             return projectName;
         }
@@ -73,7 +74,7 @@ public class SurveyView {
     @Path("/save/projects/{projectName}")
     public void saveSurvey(
             HashMap<String, String> data, @PathParam("projectName") String projectName)
-            throws IOException {
+            throws IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         surveyMapper.saveData(data, projectName);
     }
 

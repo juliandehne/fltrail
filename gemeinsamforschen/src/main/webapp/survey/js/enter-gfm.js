@@ -8,26 +8,33 @@ $(document).ready(function () {
         .applyTheme("default");
 
     let language = getQueryVariable("language");
-    let project = getQueryVariable("project");
+    let context = getQueryVariable("context");
 
     if (!language || !project){
         $("#messageHolder").show();
     }
 
-    // getting the survey items from the server
-    let requ= new RequestObj(1, "/survey", "/data/project/?", [project], []);
-    serverSide(requ, "GET", function (surveyJSON) {
-        var survey = new Survey.Model(surveyJSON);
-        survey.locale = "en";
-        if (language) {
-            survey.locale = language;
-        }
+    // TODO get projectname from backend based on context
 
-        $("#surveyContainer").Survey({
-            model: survey,
-            onComplete: sendDataToServer
+    let projq = new RequestObj(1, "/survey", "/project/name/?", [context],[]);
+    serverSide(projq, "GET", function (project) {
+        // getting the survey items from the server
+        let requ= new RequestObj(1, "/survey", "/data/project/?", [project], []);
+        serverSide(requ, "GET", function (surveyJSON) {
+            var survey = new Survey.Model(surveyJSON);
+            survey.locale = "en";
+            if (language) {
+                survey.locale = language;
+            }
+
+            $("#surveyContainer").Survey({
+                model: survey,
+                onComplete: sendDataToServer
+            });
         });
     });
+
+
 
     function sendDataToServer(survey) {
         //var resultAsString = JSON.stringify(survey.data);
@@ -37,6 +44,7 @@ $(document).ready(function () {
 
         serverSide(dataReq, "POST", function (a) {
             //log.warn(a);
+            // TODO display link for the groups that were created
         })
     }
 

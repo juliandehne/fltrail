@@ -3,6 +3,10 @@ package unipotsdam.gf.modules.group.preferences.survey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import unipotsdam.gf.config.GroupAlConfig;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.communication.view.CommunicationView;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
@@ -12,10 +16,12 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.user.UserProfile;
+import unipotsdam.gf.process.phases.Phase;
 
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class SurveyMapper {
 
@@ -32,6 +38,9 @@ public class SurveyMapper {
 
     @Inject
     private ProjectDAO projectDAO;
+
+    @Inject
+    private IPhases phases;
 
     @Inject
     private UserDAO userDAO;
@@ -134,7 +143,8 @@ public class SurveyMapper {
         return scaledQuestion;
     }
 
-    public void saveData(HashMap<String, String> data, String projectId) {
+    public void saveData(HashMap<String, String> data, String projectId)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         log.trace("persisting survey data");
 
         String nickname = data.get(NICKNAME1);
@@ -160,11 +170,20 @@ public class SurveyMapper {
         profileDAO.save(userProfile);
 
         //TODO if participant count is 30 change projectphase to != GroupFormation
+        Project project = new Project(projectId);
+        List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
+        if (usersByProjectName.size() == GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
+            phases.endPhase(Phase.GroupFormation, project);
+        }
 
     }
 
-    public String createNewProject(String projectContext) {
-        // TODO implement
-        throw new NotImplementedException();
+    public String createNewProject(GroupWorkContext projectContext) {
+        String randomId = UUID.randomUUID().toString();
+        Project project = new Project(randomId);
+        project.setGroupWorkContext(projectContext);
+        projectDAO.persist(project);
+        profileDAO.createNewSurveyProject(new Project(randomId));
+        return randomId;
     }
 }
