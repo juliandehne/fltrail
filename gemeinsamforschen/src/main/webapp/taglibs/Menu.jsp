@@ -43,7 +43,7 @@
         <h1 id="projectHeadline"><%= tu.printMe(projectName)%>
         </h1>
         <% } else {%>
-        <h1 id="projectHeadline">Ueberschrift muesste angepasst werden</h1>
+        <h1 id="projectHeadline">Brauchen wir hier überhaupt eine Überschrift?</h1>
         <%}%>
     </div>
 </div>

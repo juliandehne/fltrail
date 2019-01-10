@@ -6,9 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+
 
 
 <html>

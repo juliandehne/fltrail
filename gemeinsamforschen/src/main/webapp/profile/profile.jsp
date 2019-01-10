@@ -1,7 +1,4 @@
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="menu" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="headLine" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="omniDependencies" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="footer" %>
+
 
 
 <!DOCTYPE html>

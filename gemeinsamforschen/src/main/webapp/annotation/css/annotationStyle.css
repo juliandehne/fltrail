@@ -207,6 +207,12 @@ ol {
     font-weight: bold;
 }
 
+.feedbackText{
+    overflow: scroll;
+    white-space: pre-line;
+    color: black;
+}
+
 #annotation-search {
     width: 100%;
     padding: 5px;

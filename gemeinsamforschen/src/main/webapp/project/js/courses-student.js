@@ -1,18 +1,15 @@
 // projects from db
 let projects = [];
 let projectResponse;
-
 let projectCollectorF = getMyProjects;
-
 let userName = "";
-
 let response = {};
-
 
 // in the search project view the get variable should be set to "all=true"
 $(document).ready(function () {
+    $('introduction').hide();
     if (getQueryVariable("all")) {
-        $('#headLine').html("Kurssuche");
+        $('#headLine').html("Projekt finden");
         projectCollectorF = getAllProjects;
     } else {
         $('#headLine').html("Meine Kurse");
@@ -145,7 +142,7 @@ function repaintProjectList(callback, filterList) {
             }
     }
     // print projectcards
-    $('#projectTemplate').tmpl(tmplObject).appendTo('#projects');
+    $('#projectTRTemplate').tmpl(tmplObject).appendTo('#projects');
     repaintDropDown({projects: projects});
     callback(filterList);
 }
@@ -179,7 +176,8 @@ function getMyProjects(userName) {
                 $('.search').each(function () {
                     $(this).hide();
                 });
-                $('#introduction').html("Um sich in einen Kurs einzutragen wählen sie oben links \"suche Kurs\".")
+
+                $('#introduction').show().html("Um sich in einen Kurs einzutragen wählen sie oben links \"suche Kurs\".")
             }
         },
 
