@@ -7,7 +7,6 @@ public class ItemSet {
 
     @ExcelRow
     private int rowIndex;
-
     @ExcelCell(0)
     private String literature;
     @ExcelCell(1)
@@ -28,6 +27,8 @@ public class ItemSet {
     private String itemEnglish;
     @ExcelCell(10)
     private String ownTranslationEnglish;
+    @ExcelCell(11)
+    private String isHomogenous;
 
     public int getRowIndex() {
         return rowIndex;
@@ -116,4 +117,13 @@ public class ItemSet {
     public void setOwnTranslationEnglish(String ownTranslationEnglish) {
         this.ownTranslationEnglish = ownTranslationEnglish;
     }
+
+    public String getIsHomogenous() {
+        return isHomogenous;
+    }
+
+    public void setIsHomogenous(String isHomogenous) {
+        this.isHomogenous = isHomogenous;
+    }
+
 }

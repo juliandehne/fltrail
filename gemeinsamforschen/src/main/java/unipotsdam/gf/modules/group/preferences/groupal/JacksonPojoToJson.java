@@ -6,7 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import unipotsdam.gf.modules.group.preferences.groupal.request.ParticipantsHolder;
 import unipotsdam.gf.modules.project.Project;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 public class JacksonPojoToJson {
 
@@ -42,6 +47,12 @@ public class JacksonPojoToJson {
         // Convert object to JSON string
         String json = mapper.writeValueAsString(object);
         System.out.println(json);
+    }
+
+    public static void writeObjectAsXML(Object object) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(object.getClass());
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.marshal(object, System.out);
     }
 }
 

@@ -7,7 +7,6 @@ public class ScaledProfileQuestion extends ProfileQuestion {
 
     private Boolean polarity;
 
-
     public Boolean getPolarity() {
         return polarity;
     }

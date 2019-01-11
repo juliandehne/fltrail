@@ -27,6 +27,22 @@ public class SurveyView {
     @Inject
     private ProfileDAO profileDAO;
 
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("/project/name/{projectContext}")
+    public String getProjectName(@PathParam("projectContext") String projectContext) {
+        // get project where name like projectContext and is active
+        String projectName = projectDAO.getActiveProject(projectContext);
+
+        if (projectName == null) {
+            // if result is empty create new project, add all the questions to it and return this
+            return surveyMapper.createNewProject(projectContext);
+        } else {
+            return projectName;
+        }
+    }
+
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/data/project/{projectId}")

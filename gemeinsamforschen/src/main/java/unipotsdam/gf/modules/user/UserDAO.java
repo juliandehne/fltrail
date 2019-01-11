@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.user;
 
-import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.util.ResultSetUtil;
@@ -110,5 +109,9 @@ public class UserDAO {
             connect.close();
             return null;
         }
+    }
+
+    public User getUserById(String id) {
+        return getUserByField("id", id);
     }
 }

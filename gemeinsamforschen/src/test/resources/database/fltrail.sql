@@ -91,7 +91,9 @@ CREATE TABLE `projects` (
   `timecreated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `author` varchar(100) NOT NULL,
   `description` varchar (600),
-  `phase` varchar(400) NOT NULL DEFAULT 'GroupFormation'
+  `phase` varchar(400) NOT NULL DEFAULT 'GroupFormation',
+  `isSurvey` tinyint(1),
+  `context` varchar(100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ALTER TABLE projects ADD issurvey BOOLEAN NULL;
 
@@ -347,7 +349,8 @@ CREATE TABLE profilevariables
     variabledefinition varchar(300),
     context varchar(300),
     variableweight FLOAT,
-    subvariableweight FLOAT
+    subvariableweight FLOAT,
+    homogeneity tinyint(1)
 );
 
 
