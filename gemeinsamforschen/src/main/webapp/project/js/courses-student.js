@@ -1,5 +1,7 @@
 // projects from db
-let projects = [];
+let projectTitels = [];
+let projectTags=[];
+let projectDescription=[];
 let projectResponse;
 let projectCollectorF = getMyProjects;
 let userName = "";
@@ -25,16 +27,26 @@ $(document).ready(function () {
 
     // fill search fields
     $('#searchField').keyup(function () {
-        let data = {projects: projects};
+        let data = {
+            projectTitels: projectTitels,
+            projectDescription: projectDescription,
+            projectTags: projectTags
+        };
         if ($('#searchField').val().trim() === "") {
             repaintProjectList(function () {
                 buttonHandler()
             });
         } else {
-            data.projects = data.projects.filter(filterF);
-            repaintProjectList(function () {
+            data.projectTitels = data.projectTitels.filter(filterF);
+            let searchResult = repaintProjectList(function () {
                 buttonHandler()
-            }, data.projects)
+            }, data.projectTitels) === undefined;
+            if (!searchResult){
+                data.projectDescription = data.projectDescription.filter(filterF);
+                repaintProjectList(function () {
+                    buttonHandler()
+                }, data.projectTitels);
+            }
         }
     });
 
@@ -45,12 +57,12 @@ function repaintDropDown(data) {
 }
 
 function filterF(string) {
-    let searchString = $('#searchField').val().trim();
+    let searchString = $('#searchField').val().trim().toLowerCase();
     return filterString(string, searchString);
 }
 
 function filterString(name, filterString) {
-    return name.indexOf(filterString) !== -1;
+    return name.toLowerCase().indexOf(filterString) !== -1;
 }
 
 function updateStatus(projectName) {
@@ -141,9 +153,12 @@ function repaintProjectList(callback, filterList) {
                 printProjectCard(projectResponse, project, tmplObject);
             }
     }
+    if (tmplObject.length===0){
+        return false;
+    }
     // print projectcards
     $('#projectTRTemplate').tmpl(tmplObject).appendTo('#projects');
-    repaintDropDown({projects: projects});
+    repaintDropDown({projects: projectTitels});
     callback(filterList);
 }
 
@@ -161,8 +176,9 @@ function getMyProjects(userName) {
                 projectResponse = response;
                 for (let project in projectResponse) {
                     if (projectResponse.hasOwnProperty(project)) {
-                        let projectName = projectResponse[project].name;
-                        projects.push(projectName);
+                        projectTitels.push(projectResponse[project].name);
+                        projectTags.push(projectResponse[project].tags);
+                        projectDescription.push(projectResponse[project].description);
                     }
                 }
                 repaintProjectList(function () {
@@ -177,7 +193,8 @@ function getMyProjects(userName) {
                     $(this).hide();
                 });
 
-                $('#introduction').show().html("Um sich in einen Kurs einzutragen wählen sie oben links \"suche Kurs\".")
+                $('#introduction').show().html("Um sich in einen Kurs einzutragen wählen sie oben links" +
+                    "<a href=\"courses-student.jsp?all=true\"> \"suche Kurs\"</a>.")
             }
         },
 
@@ -200,8 +217,9 @@ function getAllProjects() {
             projectResponse = response;
             for (let project in projectResponse) {
                 if (projectResponse.hasOwnProperty(project)) {
-                    let projectName = projectResponse[project].name;
-                    projects.push(projectName);
+                    projectTitels.push(projectResponse[project].name);
+                    projectTags.push(projectResponse[project].tags);
+                    projectDescription.push(projectResponse[project].description);
                 }
             }
             repaintProjectList(function () {

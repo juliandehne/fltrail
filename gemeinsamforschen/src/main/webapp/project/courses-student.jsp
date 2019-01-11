@@ -50,7 +50,7 @@
                     <p>
                         ${projectDescription}
                     </p>
-                    <label>Tags:</label>
+                    <label>Stichworte:</label>
                         <div class='tags'>
                         {{each(i) projectTags}}
                             <span class='tag'>${projectTags[i]}</span><div class="spacing"></div>

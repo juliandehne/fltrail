@@ -91,11 +91,12 @@ function takesPartInProject() {
                 type: 'PUT',
                 Accept: "text/plain; charset=utf-8",
                 contentType: "application/json",
+                projectName: projectName,
                 data: dataString,
                 success: function (response) {
                     console.log(response);
                     document.getElementById('loader').className = "loader-inactive";
-                    location.href = "../project/courses-student.jsp";
+                    location.href = "../project/tasks-student.jsp?projectName="+projectName;
                 },
                 error: function (a) {
                     console.log(a);
@@ -103,7 +104,7 @@ function takesPartInProject() {
             });
         } else {
             document.getElementById('loader').className = "loader-inactive";
-            location.href = "../project/courses-student.jsp";
+            location.href = "../project/tasks-student.jsp?projectName="+projectName;
         }
     });
 }
