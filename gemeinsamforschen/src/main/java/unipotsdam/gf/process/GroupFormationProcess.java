@@ -93,4 +93,8 @@ public class GroupFormationProcess {
         groupfinding.persistGroups(groups, project);
         finalize(project);
     }
+
+    public GroupFormationMechanism getGFMByProject(Project project){
+        return groupfinding.getGroupFormationMechanism(project);
+    }
 }

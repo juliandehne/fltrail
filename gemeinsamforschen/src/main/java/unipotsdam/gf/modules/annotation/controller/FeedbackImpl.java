@@ -5,6 +5,7 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.tasks.Task;
 
 import javax.inject.Inject;
@@ -46,5 +47,17 @@ public class FeedbackImpl implements Feedback {
     @Override
     public ResearchReport getFeedbackTask(User student) {
         return null;
+    }
+
+    public String getFeedBackTarget(Project project,User user){
+        connection.connect();
+        String feedbackTarget="";
+        String request = "SELECT * FROM `fullsubmissions` WHERE feedbackUser=? AND projectName=?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(request, user.getEmail(), project.getName());
+        if (vereinfachtesResultSet.next()){
+            feedbackTarget = vereinfachtesResultSet.getString("user");
+        }
+        connection.close();
+        return feedbackTarget;
     }
 }

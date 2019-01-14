@@ -51,6 +51,8 @@
     <jsp:include page="../taglibs/timeLine.jsp"/>
     <div class="col span_content">
         <div class="page-content-wrapper full-height">
+            <h3 id="feedBackTarget"></h3>
+            <h4 id="categoryHeadline"></h4>
             <div class="container-fluid full-height">
                 <div class="container-fluid-content">
                     <div class="flex">

@@ -20,24 +20,24 @@
 
 <script id="groupTemplate" type="text/x-jQuery-tmpl">
 
-        <div style="" class="grouplists" id="${groupName}">
-         <ul class="complex-list">
-            <li class="label">
-                <button type="button" class="group-button list-group-item list-group-item-action">${groupName}</button>
-             </li>
-
-             {{each groupMember}}
-                <li>
-                 <button type="button" name="student" class="student-button list-group-item list-group-item-action">
-                 <span>${name}</span>
-                <p name="userEmail" hidden>${email}</p></button>
-                </li>
-             {{/each}}
-               <li>
-                 <p name="chatRoomId" hidden>${chatRoomId}</p>
-                </li>
-            </ul>
-        </div>
+<div class="grouplists" id="${groupName}">
+    <ul class="complex-list">
+        <li class="label">
+            <button type="button" class="group-button list-group-item list-group-item-action">${groupName}</button>
+        </li>
+    {{each groupMember}}
+        <li>
+            <button type="button" name="student" class="student-button list-group-item list-group-item-action">
+                <span>${name}</span>
+                <p name="userEmail" hidden>${email}</p>
+            </button>
+        </li>
+    {{/each}}
+        <li>
+            <p name="chatRoomId" hidden>${chatRoomId}</p>
+        </li>
+    </ul>
+</div>
 
 </script>
 
@@ -76,14 +76,13 @@
 
                         <div class="list-group" style="display: flex; flex-wrap: wrap;" id="groupsInProject">
                             <div style="..." id="gruppenlos" class="grouplists">
-                                 <ul class="complex-list">
-                                    <li class="label">
-
-                                        <button type="button" class="group-button list-group-item list-group-item-action active">
-                                            Nicht zu geordnet
-                                        </button>
-                                    </li>
-                                 </ul>
+                                <ul class="complex-list">
+                                   <li class="label">
+                                       <button type="button" class="group-button list-group-item list-group-item-action active">
+                                           Nicht zu geordnet
+                                       </button>
+                                   </li>
+                                </ul>
                             </div>
                         </div>
 

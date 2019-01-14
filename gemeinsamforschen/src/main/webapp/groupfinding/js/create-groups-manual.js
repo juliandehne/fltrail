@@ -74,9 +74,21 @@ function relocateMember(callback) {
     let newGroupBtn = $('.group-button.active');
     newGroupBtn.each(function () {
         let newGroup = $('#' + $(this).html().trim());
+        let complexList = $(this).parent().parent();
         memberBtns.each(function () {
+            let newLI = $('<li></li>');
             $(this).toggleClass('active');
-            $(newGroup).append($(this));
+            $(newLI).append(this);
+            $(complexList).append(newLI);
+            $(newGroup).append(complexList);
+        });
+    });
+    let allGroups = $('.complex-list');
+    allGroups.each(function(){
+        $(this).children().each(function(){
+            if (this.innerText===""){
+                this.remove();
+            }
         });
     });
     let done = true;
@@ -89,27 +101,31 @@ function viewToGroup(callback) {
         return null;
     }
     let groups = [];
-    $('#groupsInProject').children().each(function () {
+    $('#groupsInProject').children().each(function () {     //the DIVs
         if ($(this).attr("id").trim() !== "gruppenlos") {
             let members = [];
             let chatRoomId = 0;
-            $(this).children().each(function () {
-                if ($(this).attr("name") === "student") {
-                    let entries = $(this).children();
-                    let email = entries[1].innerText;
-                    let name = entries[0].innerText;
-                    members.push({
-                        email: email,
-                        name: name,
-                        rocketChatPersonalAccessToken: "",
-                        rocketChatUserId: "",
-                        rocketChatUsername: "",
-                        student: true
+            $(this).children().each(function () {           //the ULs
+                $(this).children().each(function () {       //the LIs
+                    $(this).children().each(function () {   //the buttons
+                        if ($(this).attr("name") === "student") {
+                            let entries = $(this).children();
+                            let email = entries[1].innerText;
+                            let name = entries[0].innerText;
+                            members.push({
+                                email: email,
+                                name: name,
+                                rocketChatPersonalAccessToken: "",
+                                rocketChatUserId: "",
+                                rocketChatUsername: "",
+                                student: true
+                            });
+                        }
+                        if ($(this).attr("name") === "chatRoomId") {
+                            chatRoomId = $(this).html().trim();
+                        }
                     });
-                }
-                if ($(this).attr("name") === "chatRoomId") {
-                    chatRoomId = $(this).html().trim();
-                }
+                });
             });
             if (members.length !== 0) {
                 groups.push({

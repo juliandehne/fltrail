@@ -127,4 +127,8 @@ public class DossierCreationProcess {
         User user = submissionController.getFeedbackedUser(project, distributeur);
         taskDAO.persist(project, user, TaskName.SEE_FEEDBACK, Phase.DossierFeedback);
     }
+
+    public String getFeedBackTarget(Project project, User user){
+        return feedback.getFeedBackTarget(project,user);
+    }
 }

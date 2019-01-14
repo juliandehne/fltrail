@@ -56,6 +56,18 @@
                             <span class='tag'>${projectTags[i]}</span><div class="spacing"></div>
                         {{/each}}
                         </div>
+                    {{if isSearching}}
+                    <a data-toggle="collapse" data-target="#passwordDiv">Zeige Passwort </a>
+                        <div id="passwordDiv" class="collapse">
+                            <label>
+                                Passwort
+                                <input class="form-control" id="projectPassword" placeholder="********">
+                            </label>
+                            <div id="projectWrongPassword" class="alert alert-alert" style="display:none;">
+                                Falsches Passwort
+                            </div>
+                        </div>
+                    {{/if}}
                     <button class="primary project_Button" name="${projectName}" id="project_${projectName}"
                     style="margin-top:10px;">${projectAction} </button>
                 </div>

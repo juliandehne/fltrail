@@ -9,6 +9,7 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.GroupfindingCriteria;
 
+import javax.ws.rs.Produces;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,4 +63,7 @@ public interface IGroupFinding {
     void finalizeGroups(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     GroupFormationAlgorithm getGroupFormationAlgorithm(Project project);
+
+    GroupFormationMechanism getGroupFormationMechanism(Project project);
+
 }
