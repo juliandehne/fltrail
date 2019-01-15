@@ -2,6 +2,47 @@ let projectId = "";
 
 $(document).ready(function () {
     // creating the survey element
+    $('#navTextPage').on('click', function(){
+        preparePageToggle();
+        $('#theTextPage').toggleClass("in");
+        $('#navLiTextPage').toggleClass("active");
+        document.getElementById('navBtnPrev').className="page-item disabled";
+    });
+    $('#navGroupView').on('click',function(){
+        preparePageToggle();
+        $('#theGroupView').toggleClass("in");
+        $('#navLiGroupView').toggleClass("active");
+        document.getElementById("navBtnNext").className="page-item disabled";
+    });
+    $('#navSurvey').on('click',function(){
+        preparePageToggle();
+        $('#theSurvey').toggleClass("in");
+        $('#navLiSurvey').toggleClass("active");
+    });
+    $('#btnPrev').on('click', function(){
+        let activeDiv = $('.collapse.in')[0];
+        preparePageToggle();
+        if ($(activeDiv).attr("id")==="theGroupView"){
+            $('#theSurvey').toggleClass("in");
+            $('#navLiSurvey').toggleClass("active");
+        }else{
+            $('#theTextPage').toggleClass("in");
+            $('#navLiTextPage').toggleClass("active");
+            document.getElementById('navBtnPrev').className="page-item disabled";
+        }
+    });
+    $('#btnNext').on('click',function(){
+        let activeDiv = $('.collapse.in')[0];
+        preparePageToggle();
+        if ($(activeDiv).attr("id")==="theTextPage"){
+            $('#theSurvey').toggleClass("in");
+            $('#navLiSurvey').toggleClass("active");
+        }else{
+            $('#theGroupView').toggleClass("in");
+            $('#navLiGroupView').toggleClass("active");
+            document.getElementById("navBtnNext").className="page-item disabled";
+        }
+    });
 
     $("#messageHolder").hide();
 
@@ -54,3 +95,15 @@ $(document).ready(function () {
     }
 
 });
+
+
+function preparePageToggle(){
+    let collapsable = $('.collapse');
+    let navi = $('.page-item');
+    collapsable.each(function(){
+        this.className="collapse";
+    });
+    navi.each(function(){
+        this.className="page-item";
+    });
+}
