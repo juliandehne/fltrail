@@ -49,7 +49,7 @@ public class ProjectDAO {
                 project.setAuthorEmail("julian.dehne@uni-potsdam.de");
             }
             if (project.getGroupWorkContext() == null) {
-                project.setGroupWorkContext(GroupWorkContext.FL);
+                project.setGroupWorkContext(GroupWorkContext.fl);
             }
             connect.connect();
             String mysqlRequest =
@@ -238,7 +238,10 @@ public class ProjectDAO {
                 connect.issueSelectStatement(query, projectContext, Phase.GroupFormation);
 
         boolean next = vereinfachtesResultSet.next();
-        String result = vereinfachtesResultSet.getString("name");
+        String result = null;
+        if (next) {
+            result = vereinfachtesResultSet.getString("name");
+        }
 
         connect.close();
 
