@@ -3,18 +3,16 @@ package unipotsdam.gf.modules.group;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.group.learninggoals.LearningGoalAlgorithm;
+import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.preferences.UserPreferenceAlgorithm;
 import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.interfaces.IGroupFinding;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GroupfindingImpl implements IGroupFinding {
@@ -101,7 +99,7 @@ public class GroupfindingImpl implements IGroupFinding {
         GroupFormationMechanism selectedGFM = groupDAO.getGroupFormationMechanism(project);
         switch (selectedGFM){
             case UserProfilStrategy: return new UserPreferenceAlgorithm();
-            case LearningGoalStrategy: return new LearningGoalAlgorithm();
+            case LearningGoalStrategy: return new CompBaseMatcher();
             default: return new RandomGroupAlgorithm(userDAO);
         }
     }

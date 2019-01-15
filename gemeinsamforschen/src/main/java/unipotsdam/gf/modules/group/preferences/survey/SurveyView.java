@@ -32,15 +32,14 @@ public class SurveyView {
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/project/name/{projectContext}")
-    public String getProjectName(@PathParam("projectContext") String projectContext) {
+    public Project getProjectName(@PathParam("projectContext") String projectContext) {
         // get project where name like projectContext and is active
         String projectName = projectDAO.getActiveSurveyProject(projectContext);
-
         if (projectName == null) {
             // if result is empty create new project, add all the questions to it and return this
-            return surveyMapper.createNewProject(GroupWorkContext.valueOf(projectContext));
+            return new Project(surveyMapper.createNewProject(GroupWorkContext.valueOf(projectContext)));
         } else {
-            return projectName;
+            return new Project(projectName);
         }
     }
 

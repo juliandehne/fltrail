@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.group;
 
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
-import unipotsdam.gf.modules.group.learninggoals.LearningGoalAlgorithm;
+import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -139,7 +139,7 @@ public class GroupView {
             @PathParam("projectId") String projectId, @PathParam("userId") String userId, PreferenceData preferenceData)
             throws Exception {
 
-        new LearningGoalAlgorithm().sendPreferenceData(projectId, userId, preferenceData);
+        new CompBaseMatcher().sendPreferenceData(projectId, userId, preferenceData);
         return Response.ok().entity("Lernziele werden verarbeitet").build();
     }
 

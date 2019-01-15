@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LearningGoalAlgorithm implements GroupFormationAlgorithm {
+public class CompBaseMatcher implements GroupFormationAlgorithm {
 
     @Override
     public List<Group> calculateGroups(Project project) {

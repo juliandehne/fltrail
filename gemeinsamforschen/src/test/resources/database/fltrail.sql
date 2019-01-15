@@ -60,7 +60,7 @@ CREATE TABLE `groupfindingmechanismselected` (
 CREATE TABLE `groups` (
   `id` int(11) NOT NULL,
   `projectName` varchar(200) NOT NULL,
-  `chatRoomId` varchar(400) NOT NULL,
+  `chatRoomId` varchar(400)  NULL,
   `name`        varchar(255) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

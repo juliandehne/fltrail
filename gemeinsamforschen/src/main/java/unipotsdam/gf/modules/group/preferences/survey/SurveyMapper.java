@@ -166,6 +166,8 @@ public class SurveyMapper {
         user.setPassword("egal");
         userDAO.persist(user);
 
+        management.register(user, new Project(projectId), null);
+
         UserProfile userProfile =  new UserProfile(data, user, projectId);
         profileDAO.save(userProfile);
 

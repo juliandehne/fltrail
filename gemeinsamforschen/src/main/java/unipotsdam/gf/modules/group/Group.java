@@ -28,6 +28,7 @@ public class Group {
 
     public Group(String projectName) {
         this(new ArrayList<>(), projectName);
+        this.chatRoomId = projectName;
     }
 
     public Group(List<User> members, String projectName) {

@@ -28,6 +28,7 @@ import java.util.Random;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class GroupAlTest {
 
@@ -55,6 +56,10 @@ public class GroupAlTest {
         //jaxbMarshaller.marshal(participantsHolder, System.out);
     }
 
+    /**
+     * testing the groupal mono interface
+     * @throws JAXBException
+     */
     @Test
     public void testCreateRealExample()
             throws JAXBException {
@@ -108,7 +113,8 @@ public class GroupAlTest {
 
     @Test
     public void testGroupAl() throws JsonProcessingException, JAXBException, WrongNumberOfParticipantsException {
-        groupAlMatcher.createGroups(new Project("d1_test"), 3);
+        List<Group> d1_test = groupAlMatcher.createGroups(new Project("d1_test"), 3);
+        assertTrue(!d1_test.isEmpty());
     }
 
     @Test

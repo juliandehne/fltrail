@@ -1,3 +1,5 @@
+let projectId = "";
+
 $(document).ready(function () {
     // creating the survey element
 
@@ -10,16 +12,18 @@ $(document).ready(function () {
     let language = getQueryVariable("language");
     let context = getQueryVariable("context");
 
-    if (!language || !project){
+    if (!language || !context){
         $("#messageHolder").show();
     }
 
     // TODO get projectname from backend based on context
 
     let projq = new RequestObj(1, "/survey", "/project/name/?", [context],[]);
-    serverSide(projq, "GET", function (project) {
+    serverSide(projq, "GET", function (response) {
+
+        projectId = response.name;
         // getting the survey items from the server
-        let requ= new RequestObj(1, "/survey", "/data/project/?", [project], []);
+        let requ= new RequestObj(1, "/survey", "/data/project/?", [projectId], []);
         serverSide(requ, "GET", function (surveyJSON) {
             var survey = new Survey.Model(surveyJSON);
             survey.locale = "en";
@@ -45,6 +49,7 @@ $(document).ready(function () {
         serverSide(dataReq, "POST", function (a) {
             //log.warn(a);
             // TODO display link for the groups that were created
+            $("#resultLink").append("the groups can be viewed with group id " +  projectId);
         })
     }
 
