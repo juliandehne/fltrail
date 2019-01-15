@@ -179,4 +179,14 @@ public class AnnotationService {
         dossierCreationProcess.createCloseFeedBackPhaseTask(project);
         return null;
     }
+
+    @GET
+    @Path("/feedbackTarget/projectName/{projectName}")
+    @Produces("application/json")
+    public User getFeedBackTarget(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
+        String userEmail = gfContexts.getUserEmail(req);
+        User user = userDAO.getUserByEmail(userEmail);
+        Project project = projectDAO.getProjectByName(projectName);
+        return userDAO.getUserByEmail(dossierCreationProcess.getFeedBackTarget(project, user));
+    }
 }

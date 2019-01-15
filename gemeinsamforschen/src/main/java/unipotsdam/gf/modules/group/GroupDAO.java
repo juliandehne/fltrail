@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.group;
 
 import org.apache.logging.log4j.util.Strings;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.user.User;
@@ -24,6 +25,9 @@ public class GroupDAO {
 
     @Inject
     private MysqlConnect connect;
+
+    @Inject
+    private UserDAO userDAO;
 
     @Inject
     public GroupDAO(MysqlConnect connect) {
@@ -112,14 +116,14 @@ public class GroupDAO {
         ArrayList<Group> groups = new ArrayList<>();
         fillGroupFromResultSet(groups, vereinfachtesResultSet);
         ArrayList<Group> uniqueGroups = new ArrayList<>();
+        ArrayList<Integer> groupIds = new ArrayList<>();
         for (Group group : groups) {
             // transmuting the table to a map with group as key and members as value
-            if (uniqueGroups.contains(group)) {
-                Group toComplete = uniqueGroups.get(uniqueGroups.indexOf(group));
+            if (groupIds.contains(group.getId())) {
+                Group toComplete = uniqueGroups.get(groupIds.indexOf(group.getId()));
                 toComplete.addMember(group.getMembers().iterator().next());
-                uniqueGroups.remove(group);
-                uniqueGroups.add(toComplete);
             } else {
+                groupIds.add(group.getId());
                 uniqueGroups.add(group);
             }
         }
@@ -129,10 +133,10 @@ public class GroupDAO {
     }
 
     private void fillGroupFromResultSet(ArrayList<Group> groups, VereinfachtesResultSet vereinfachtesResultSet) {
-        Boolean next = vereinfachtesResultSet.next();
+        boolean next = vereinfachtesResultSet.next();
         while (next) {
             String projectName = vereinfachtesResultSet.getString("projectName");
-            User user = ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet);
+            User user = userDAO.getUserByEmail(vereinfachtesResultSet.getString("userEmail"));
             String chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
             ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
             Group group = new Group(vereinfachtesResultSet.getInt("groupId"), userList, projectName, chatRoomId);

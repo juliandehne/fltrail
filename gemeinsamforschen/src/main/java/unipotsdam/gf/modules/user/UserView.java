@@ -90,6 +90,8 @@ public class UserView {
             e.printStackTrace();
             return registrationError();
         }
+        user = fillUserFields(user);
+        gfContexts.updateUserSessionWithStatus(req, user);
         return redirectToProjectPage(user);
 
     }

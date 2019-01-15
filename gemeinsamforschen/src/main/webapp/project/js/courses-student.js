@@ -1,5 +1,7 @@
 // projects from db
-let projects = [];
+let projectTitels = [];
+let projectTags=[];
+let projectDescription=[];
 let projectResponse;
 let projectCollectorF = getMyProjects;
 let userName = "";
@@ -14,7 +16,6 @@ $(document).ready(function () {
     } else {
         $('#headLine').html("Meine Kurse");
     }
-
     userName = $('#userEmail').html().trim();
 
     projectCollectorF(userName);
@@ -25,16 +26,22 @@ $(document).ready(function () {
 
     // fill search fields
     $('#searchField').keyup(function () {
-        let data = {projects: projects};
+        let data = {
+            projectTitels: projectTitels,
+            projectDescription: projectDescription,
+            projectTags: projectTags
+        };
         if ($('#searchField').val().trim() === "") {
             repaintProjectList(function () {
                 buttonHandler()
             });
         } else {
-            data.projects = data.projects.filter(filterF);
+            data.projectTitels = data.projectTitels.filter(filterF);
+            data.projectDescription = data.projectDescription.filter(filterF);
+            data.projectTags = data.projectTags.filter(filterF);
             repaintProjectList(function () {
-                buttonHandler()
-            }, data.projects)
+                    buttonHandler()
+                }, data.projectDescription.concat(data.projectTitels).concat(data.projectTags));
         }
     });
 
@@ -44,13 +51,22 @@ function repaintDropDown(data) {
     $('#searchingTemplate').tmpl(data).appendTo('#projectDropdown');
 }
 
-function filterF(string) {
-    let searchString = $('#searchField').val().trim();
-    return filterString(string, searchString);
+function filterF(searchObj) {
+    let searchString = $('#searchField').val().trim().toLowerCase();
+    return filterString(searchObj, searchString);
 }
 
-function filterString(name, filterString) {
-    return name.indexOf(filterString) !== -1;
+function filterString(searchObj, filterString) {
+    if (Array.isArray(searchObj)){
+        for (let i =0; i<searchObj.length; i++){
+            if (searchObj[i].toLowerCase().indexOf(filterString)!==-1){
+                return true;
+            }
+        }
+        return false;
+    }else{
+        return searchObj.toLowerCase().indexOf(filterString) !== -1;
+    }
 }
 
 function updateStatus(projectName) {
@@ -121,7 +137,8 @@ function printProjectCard(response, project, tmplObject) {
             projectAuthor: response[project].authorEmail,
             projectTags: response[project].tags,
             projectDescription: response[project].description,
-            projectAction: projectAction
+            projectAction: projectAction,
+            isSearching: isSearching()
         });
     }
 }
@@ -134,16 +151,23 @@ function repaintProjectList(callback, filterList) {
     for (let project in projectResponse) {
         if (projectResponse.hasOwnProperty(project))
             if (filterList !== undefined) {
-                if (filterList.includes(projectResponse[project].name)) {
+                if (filterList.includes(projectResponse[project].name) ||
+                    filterList.includes(projectResponse[project].description)||
+                    filterList.includes(projectResponse[project].tags)) {
                     printProjectCard([projectResponse[project]], 0, tmplObject);
                 }
             } else {
                 printProjectCard(projectResponse, project, tmplObject);
             }
     }
+    if (tmplObject.length===0){
+        $('#projectDropdown').hide();
+    }else{
+        $('#projectDropdown').show();
+    }
     // print projectcards
     $('#projectTRTemplate').tmpl(tmplObject).appendTo('#projects');
-    repaintDropDown({projects: projects});
+    repaintDropDown({projects: projectTitels});
     callback(filterList);
 }
 
@@ -161,8 +185,9 @@ function getMyProjects(userName) {
                 projectResponse = response;
                 for (let project in projectResponse) {
                     if (projectResponse.hasOwnProperty(project)) {
-                        let projectName = projectResponse[project].name;
-                        projects.push(projectName);
+                        projectTitels.push(projectResponse[project].name);
+                        projectTags.push(projectResponse[project].tags);
+                        projectDescription.push(projectResponse[project].description);
                     }
                 }
                 repaintProjectList(function () {
@@ -177,7 +202,8 @@ function getMyProjects(userName) {
                     $(this).hide();
                 });
 
-                $('#introduction').show().html("Um sich in einen Kurs einzutragen wählen sie oben links \"suche Kurs\".")
+                $('#introduction').show().html("Um sich in einen Kurs einzutragen wählen sie oben links" +
+                    "<a href=\"courses-student.jsp?all=true\"> \"suche Kurs\"</a>.")
             }
         },
 
@@ -200,8 +226,9 @@ function getAllProjects() {
             projectResponse = response;
             for (let project in projectResponse) {
                 if (projectResponse.hasOwnProperty(project)) {
-                    let projectName = projectResponse[project].name;
-                    projects.push(projectName);
+                    projectTitels.push(projectResponse[project].name);
+                    projectTags.push(projectResponse[project].tags);
+                    projectDescription.push(projectResponse[project].description);
                 }
             }
             repaintProjectList(function () {
@@ -229,8 +256,53 @@ function buttonHandler() {
     $('.project_Button').each(function () {
         $(this).on('click', function () {
             let projectName = $(this).attr('name');
-            location.href = linkUrl + projectName;
+            linkToRegister(projectName, linkUrl);
             updateStatus(projectName);
         });
     });
+}
+
+function linkToRegister(projectName, linkUrl){
+    $.ajax({
+        url: '../rest/group/get/gfm/projects/' + projectName,
+        projectName: projectName,
+        linkUrl: linkUrl,
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        type: 'GET',
+        success: function (response) {
+            if (response.gfm==="Manual"){
+                loginProject(projectName);
+            }else{
+                location.href = linkUrl + projectName;
+            }
+        }
+    });
+}
+
+function loginProject(projectName) {
+    let password = $('#projectPassword').val();
+    let url = "../../gemeinsamforschen/rest/project/login/" + projectName + "?password=" + password;
+    if (projectName === "") {
+        return false;
+    } else {
+        $.ajax({
+            url: url,
+            projectName: projectName,
+            Accept: "text/plain; charset=utf-8",
+            contentType: "text/plain",
+            success: function (response) {
+                if (response === "wrong password") {   //if response !== project missing and not wrong password, its the projectName
+                    document.getElementById('projectWrongPassword').style.display="block";
+                }else{
+                    location.href = "tasks-student.jsp?projectName="+projectName;
+                }
+            },
+            error: function (a) {
+                console.log(a);
+            }
+        });
+    }
 }

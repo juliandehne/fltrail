@@ -18,7 +18,6 @@
 
 <body>
 <div class="login-clean">
-    <%--<form method="post" action="./servlet/createUser">--%>
     <form method="post" action="rest/user/create">
         <h2 class="sr-only">Login Formular</h2>
         <div class="illustration"><img src="libs/img/fides-logo.svg"></div>
@@ -27,8 +26,6 @@
         <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password">
         </div>
         <div class="form-group"><label>Bitte kein sensibeles Passwort verwenden!</label></div>
-        <!--<div class="form-group"><input class="form-control" type="password" name="password"
-                                       placeholder="Password wiederholen"></div>-->
         <div class="form-group">
             <label>
                 <input id="is_Student" class="form-control" type="checkbox" value="false" name="isStudent">Dozierender
@@ -38,17 +35,6 @@
             <button class="btn btn-primary btn-block" type="submit">registrieren</button>
         </div>
         <div class="form-group">
-            <!-- scriptlets are terrible. Just tmp for porting the php -->
-            <%--     <%
-                     String userExists = request.getParameter("userExists");
-                     if (userExists != null) {
-                         try (PrintWriter p = response.getWriter()) {
-                             p.println(
-                                     "<div class=\"alert alert-danger\" role=\"alert\"> Es existiert ein Nutzer mit dieser Email oder diesem Benutzernamen! </div>");
-                         }
-                     }
-                 %>--%>
-
             <%
                 String message = "";
 

@@ -11,6 +11,8 @@ let startCharacter, endCharacter;
 $(document).ready(function () {
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
     let category = getQueryVariable("category");
+    getFeedbackName();
+    $('#categoryHeadline').html(category);
     let btnFinalize = $('#finalize');
     btnFinalize.hide();
     let btnBack = $('#btnBack');
@@ -1011,3 +1013,17 @@ String.prototype.hashCode = function () {
     }
     return hash;
 };
+
+function getFeedbackName(){
+    $.ajax({
+        url: "../rest/annotations/feedbackTarget/projectName/" + $('#projectName').html().trim(),
+        headers: {
+            "Content-Type":"application/json",
+            "Cache-Control": "no-cache"
+        },
+        type: 'GET',
+        success: function (response) {
+            $('#feedBackTarget').html(response.name + " schrieb folgendes");
+        }
+    });
+}

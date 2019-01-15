@@ -31,4 +31,6 @@ public interface Feedback {
      * @return The research Report that was written by the student
      */
     ResearchReport getFeedbackTask(User student);
+
+    String getFeedBackTarget(Project project,User user);
 }

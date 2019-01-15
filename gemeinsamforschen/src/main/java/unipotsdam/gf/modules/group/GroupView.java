@@ -14,9 +14,7 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Path("/group")
 public class GroupView {
@@ -85,6 +83,16 @@ public class GroupView {
         }
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/get/gfm/projects/{projectName}")
+    public Map<String, String> getGFM(@PathParam("projectName") String projectName) {
+        Project project = projectDAO.getProjectByName(projectName);
+        GroupFormationMechanism gfm = groupFormationProcess.getGFMByProject(project);
+        Map<String,String> result = new HashMap<>();
+        result.put("gfm", gfm.toString());
+        return result;
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

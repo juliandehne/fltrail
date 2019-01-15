@@ -104,4 +104,7 @@ public class GroupfindingImpl implements IGroupFinding {
         }
     }
 
+    public GroupFormationMechanism getGroupFormationMechanism(Project project){
+        return groupDAO.getGroupFormationMechanism(project);
+    }
 }
