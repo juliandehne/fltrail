@@ -93,10 +93,10 @@ public class SurveyMapper {
 
             String discordIdString = "(optional) Enter your discord ID!";
             switch (groupWorkContext) {
-                case FL:
+                case fl:
                     break;
-                case DOTA:
-                case OVERWATCH:
+                case dota:
+                case overwatch:
                     LocalizedText discordQuestion =
                             new LocalizedText("" + discordIdString, "(optional) Geben Sie ihre Discord ID ein!");
                     addGeneralQuestion(DISCORDID, discordQuestion, generalDetails);

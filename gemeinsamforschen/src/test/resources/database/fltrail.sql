@@ -95,7 +95,6 @@ CREATE TABLE `projects` (
   `isSurvey` tinyint(1),
   `context` varchar(100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-ALTER TABLE projects ADD issurvey BOOLEAN NULL;
 
 CREATE TABLE `projectuser` (
   `projectName` varchar(100) NOT NULL,

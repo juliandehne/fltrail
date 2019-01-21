@@ -47,7 +47,8 @@ public class SurveyView {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/data/project/{projectId}")
     public SurveyData getSurveyData(@PathParam("projectId") String projectId) throws Exception {
-        return surveyMapper.getItemsFromDB(GroupWorkContext.DOTA, true, new Project(projectId));
+        // TODO change context to dynamic
+        return surveyMapper.getItemsFromDB(GroupWorkContext.dota, true, new Project(projectId));
     }
 
     @GET
