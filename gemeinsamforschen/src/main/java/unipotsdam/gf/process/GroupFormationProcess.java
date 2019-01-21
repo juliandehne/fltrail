@@ -1,7 +1,9 @@
 package unipotsdam.gf.process;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupData;
@@ -18,6 +20,7 @@ import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.xml.bind.JAXBException;
 import java.util.List;
 
 @Singleton
@@ -28,9 +31,6 @@ public class GroupFormationProcess {
 
     @Inject
     TaskDAO taskDAO;
-
-    @Inject
-    UserDAO userDAO;
 
     @Inject
     private IGroupFinding groupfinding;
@@ -73,19 +73,16 @@ public class GroupFormationProcess {
     }
 
 
-    public GroupData getOrInitializeGroups(Project project) {
-        List<Group> groups = groupfinding.getGroups(project);
-        if (groups.isEmpty()) {
-            if (groupfinding.getGFM(project).equals(GroupFormationMechanism.SingleUser)) {
-                List<User> users = userDAO.getUsersByProjectName(project.getName());
-                Group group = new Group(users, project.getName());
-                groups.add(group);
-            }else{
-                groups = groupfinding.createRandomGroups(project);
-            }
-
+    public GroupData getOrInitializeGroups(Project project)
+            throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+        List<Group> groups1 = groupfinding.getGroups(project);
+        if (groups1 == null || groups1.isEmpty()) {
+            List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
+            groupfinding.persistGroups(groups, project);
+            return new GroupData(groups);
+        } else {
+            return new GroupData(groups1);
         }
-        return new GroupData(groups);
     }
 
     public void saveGroups(List<Group> groups,Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {

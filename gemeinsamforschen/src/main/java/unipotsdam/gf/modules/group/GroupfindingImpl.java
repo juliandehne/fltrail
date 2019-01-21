@@ -6,7 +6,6 @@ import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
-import unipotsdam.gf.modules.group.preferences.UserPreferenceAlgorithm;
 import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -26,10 +25,16 @@ public class GroupfindingImpl implements IGroupFinding {
     @Inject
     private ICommunication iCommunication;
 
+
+    @Inject
+    private GroupFormationFactory groupFormationFactory;
+
+
     @Inject
     public GroupfindingImpl(GroupDAO groupDAO) {
         this.groupDAO = groupDAO;
     }
+
 
     @Override
     public void selectGroupfindingCriteria(
@@ -97,11 +102,7 @@ public class GroupfindingImpl implements IGroupFinding {
     @Override
     public GroupFormationAlgorithm getGroupFormationAlgorithm(Project project) {
         GroupFormationMechanism selectedGFM = groupDAO.getGroupFormationMechanism(project);
-        switch (selectedGFM){
-            case UserProfilStrategy: return new UserPreferenceAlgorithm();
-            case LearningGoalStrategy: return new CompBaseMatcher();
-            default: return new RandomGroupAlgorithm(userDAO);
-        }
+        return groupFormationFactory.instance(selectedGFM);
     }
 
     public GroupFormationMechanism getGroupFormationMechanism(Project project){
