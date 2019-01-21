@@ -268,8 +268,8 @@ public class ProfileDAO {
                 " join profilequestions pq on pq.id = pqa.profileQuestionId" +
                 " join surveyitemsselected sis on sis.profilequestionid = pq.id" +
                 " join users u on u.email = pqa.userEmail" +
-                " join profilevariables pv on pv.subvariable = pq.subvariable " +
-                " where sis.projectname = ?";
+                " join projectuser pu on u.email=pu.userEmail and pu.projectname = ?"+
+                " join profilevariables pv on pv.subvariable = pq.subvariable ";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
         int i = 0;
         while (vereinfachtesResultSet.next()){

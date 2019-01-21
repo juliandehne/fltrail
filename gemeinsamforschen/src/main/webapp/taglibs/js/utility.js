@@ -125,8 +125,8 @@ function serverSide(requestObj, method, callback) {
  * @param contentType typically 'application/json'
  */
 function serverSideWithType(requestObj, method, callback, contentType) {
-    let relativPath = calculateHierachy(requestObj.hierarchyLevel)
-    let methodPath = requestObj.methodPath
+    let relativPath = calculateHierachy(requestObj.hierarchyLevel);
+    let methodPath = requestObj.methodPath;
     requestObj.pathParams.forEach(function (e) {
         methodPath = methodPath.replace("?", e);
     });
@@ -138,7 +138,7 @@ function serverSideWithType(requestObj, method, callback, contentType) {
     }
 
 
-    if (method == "PUT") {
+    if (method === "PUT") {
         $.ajax({
             url: localurl,
             contentType: contentType,
@@ -149,12 +149,12 @@ function serverSideWithType(requestObj, method, callback, contentType) {
                     callback(response);
                 }
             },
-            error: function (a, b, c) {
+            error: function (a) {
                 console.log(a);
             }
         });
     }
-    if (method == "POST" || method == "DELETE") {
+    if (method === "POST" || method === "DELETE") {
         $.ajax({
             url: localurl,
             contentType: contentType,
@@ -165,12 +165,12 @@ function serverSideWithType(requestObj, method, callback, contentType) {
                     callback(response);
                 }
             },
-            error: function (a, b, c) {
+            error: function (a) {
                 console.log(a);
             }
         });
     }
-    if (method == "GET") {
+    if (method === "GET") {
         $.getJSON({
             url: localurl,
             contentType: contentType,
@@ -180,7 +180,7 @@ function serverSideWithType(requestObj, method, callback, contentType) {
                     callback(response);
                 }
             },
-            error: function (a, b, c) {
+            error: function (a) {
                 console.log(a);
             }
         });
@@ -190,7 +190,7 @@ function serverSideWithType(requestObj, method, callback, contentType) {
 
 function calculateHierachy(level) {
 
-    if (level == 0) {
+    if (level === 0) {
 
         return "";
 

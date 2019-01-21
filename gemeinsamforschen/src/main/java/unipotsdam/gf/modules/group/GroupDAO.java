@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.group;
 
 import org.apache.logging.log4j.util.Strings;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -105,32 +106,29 @@ public class GroupDAO {
 
     public List<Group> getGroupsByProjectName(String projectName) {
         connect.connect();
-        String mysqlRequest =
-                "SELECT * FROM groups g " + "JOIN groupuser gu ON g.id=gu.groupId " + "JOIN users u ON gu" + ".userEmail=u.email " + "where g.projectName = ?";
+        String mysqlRequest = "SELECT * FROM groups g " +
+                "JOIN groupuser gu ON g.id=gu.groupId " +
+                "JOIN users u ON " +
+                "gu.userEmail=u.email " +
+                "where g.projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
-        if (Objects.isNull(vereinfachtesResultSet)) {
-            connect.close();
-            return Collections.emptyList();
-        }
-
-        ArrayList<Group> groups = new ArrayList<>();
-        fillGroupFromResultSet(groups, vereinfachtesResultSet);
-        ArrayList<Group> uniqueGroups = new ArrayList<>();
-        ArrayList<Integer> groupIds = new ArrayList<>();
-        for (Group group : groups) {
-            // transmuting the table to a map with group as key and members as value
-            if (groupIds.contains(group.getId())) {
-                Group toComplete = uniqueGroups.get(groupIds.indexOf(group.getId()));
-                toComplete.addMember(group.getMembers().iterator().next());
-            } else {
-                groupIds.add(group.getId());
-                uniqueGroups.add(group);
-            }
-        }
-        // the groups now contain their members, too
+        List<Group> uniqueGroups = resultSetToGroupList(vereinfachtesResultSet);
         connect.close();
         return uniqueGroups;
     }
+    public List<Group> getGroupsByContextUser(User user, GroupWorkContext context){
+        connect.connect();
+        String mysqlRequest = "SELECT p.name as projectName, gu.userEmail, gu.groupId, g.chatroomId  " +
+                "FROM `projects` p JOIN " +
+                "projectuser pu on pu.projectName=p.name and p.context=? and pu.userEmail=? JOIN " +
+                "groups g on pu.projectName=g.projectName JOIN " +
+                "groupuser gu on g.id=gu.groupId ";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, context.toString(), user.getEmail());
+        List<Group> uniqueGroups = resultSetToGroupList(vereinfachtesResultSet);
+        connect.close();
+        return uniqueGroups;
+    }
+
 
     private void fillGroupFromResultSet(ArrayList<Group> groups, VereinfachtesResultSet vereinfachtesResultSet) {
         boolean next = vereinfachtesResultSet.next();
@@ -192,6 +190,29 @@ public class GroupDAO {
         connect.issueInsertOrDeleteStatement(query, project.getName());
         connect.issueInsertOrDeleteStatement(query2, project.getName());
         connect.close();
+    }
+
+    private List<Group> resultSetToGroupList(VereinfachtesResultSet vereinfachtesResultSet){
+        if (Objects.isNull(vereinfachtesResultSet)) {
+            connect.close();
+            return Collections.emptyList();
+        }
+
+        ArrayList<Group> groups = new ArrayList<>();
+        fillGroupFromResultSet(groups, vereinfachtesResultSet);
+        ArrayList<Group> uniqueGroups = new ArrayList<>();
+        ArrayList<Integer> groupIds = new ArrayList<>();
+        for (Group group : groups) {
+            // transmuting the table to a map with group as key and members as value
+            if (groupIds.contains(group.getId())) {
+                Group toComplete = uniqueGroups.get(groupIds.indexOf(group.getId()));
+                toComplete.addMember(group.getMembers().iterator().next());
+            } else {
+                groupIds.add(group.getId());
+                uniqueGroups.add(group);
+            }
+        }
+        return uniqueGroups;
     }
 }
 

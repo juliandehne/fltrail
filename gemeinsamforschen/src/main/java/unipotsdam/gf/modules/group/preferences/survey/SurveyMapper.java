@@ -1,15 +1,20 @@
 package unipotsdam.gf.modules.group.preferences.survey;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import unipotsdam.gf.config.GroupAlConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.communication.view.CommunicationView;
+import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
+import unipotsdam.gf.modules.group.preferences.groupal.GroupAlMatcher;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -19,6 +24,8 @@ import unipotsdam.gf.modules.user.UserProfile;
 import unipotsdam.gf.process.phases.Phase;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXBException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -47,6 +54,12 @@ public class SurveyMapper {
 
     @Inject
     private Management management;
+
+    @Inject
+    private GroupAlMatcher groupAlMatcher;
+
+    @Inject
+    private GroupDAO groupDAO;
 
     private static final Logger log = LoggerFactory.getLogger(CommunicationView.class);
 
@@ -143,28 +156,33 @@ public class SurveyMapper {
         return scaledQuestion;
     }
 
-    public void saveData(HashMap<String, String> data, String projectId)
-            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public void saveData(HashMap<String, String> data, String projectId, HttpServletRequest req)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         log.trace("persisting survey data");
+        User user;
+        if ((data.get(EMAIL1) != null) && (req.getAttribute("userEmail")==null)){
+            req.getSession().setAttribute("userEmail",data.get(EMAIL1));
+            String nickname = data.get(NICKNAME1);
+            data.remove(NICKNAME1);
+            String nickname2 = data.get(NICKNAME2);
+            data.remove(NICKNAME2);
 
-        String nickname = data.get(NICKNAME1);
-        data.remove(NICKNAME1);
-        String nickname2 = data.get(NICKNAME2);
-        data.remove(NICKNAME2);
+            String email = data.get(EMAIL1);
+            data.remove(EMAIL1);
+            String email2 = data.get(EMAIL2);
+            data.remove(EMAIL2);
 
-        String email = data.get(EMAIL1);
-        data.remove(EMAIL1);
-        String email2 = data.get(EMAIL2);
-        data.remove(EMAIL2);
+            String discord = data.get(DISCORDID);
+            data.remove(DISCORDID);
 
-        String discord = data.get(DISCORDID);
-        data.remove(DISCORDID);
-
-        User user = new User(email);
-        user.setName(nickname);
-        user.setDiscordid(discord);
-        user.setPassword("egal");
-        userDAO.persist(user);
+            user = new User(email);
+            user.setName(nickname);
+            user.setDiscordid(discord);
+            user.setPassword("egal");
+            userDAO.persist(user);
+        }else{
+            user= userDAO.getUserByEmail(req.getAttribute("userEmail").toString());
+        }
 
         management.register(user, new Project(projectId), null);
 
@@ -176,6 +194,10 @@ public class SurveyMapper {
         List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
         if (usersByProjectName.size() == GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
             phases.endPhase(Phase.GroupFormation, project);
+            List<Group> alGroups = groupAlMatcher.calculateGroups(project);
+            for (Group group: alGroups) {
+                groupDAO.persist(group);
+            }
         }
 
     }

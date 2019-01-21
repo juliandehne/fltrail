@@ -7,8 +7,10 @@ import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.preferences.UserPreferenceAlgorithm;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 
 import javax.inject.Inject;
@@ -54,6 +56,11 @@ public class GroupfindingImpl implements IGroupFinding {
     @Override
     public List<Group> getGroups(Project project) {
         return groupDAO.getGroupsByProjectName(project.getName());
+    }
+
+    @Override
+    public List<Group> getGroups(User user, GroupWorkContext context){
+        return groupDAO.getGroupsByContextUser(user, context);
     }
 
     @Override
