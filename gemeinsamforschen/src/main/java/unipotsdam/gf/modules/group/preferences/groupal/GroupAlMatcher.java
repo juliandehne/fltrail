@@ -84,6 +84,16 @@ public class GroupAlMatcher implements GroupFormationAlgorithm {
     }
 
     @Override
+    public void addGroupRelevantData(Project project, User user, Object data) throws Exception {
+        
+    }
+
+    @Override
+    public void addGroupRelevantData(Project project, Object data) {
+
+    }
+
+    @Override
     public int getMinNumberOfStudentsNeeded() {
         return 6;
     }

@@ -119,9 +119,7 @@ public class GroupAlTest {
 
     @Test
     public void serializeResponse() throws JAXBException, JsonProcessingException {
-
         ResponseHolder responseHolder = factory.manufacturePojo(ResponseHolder.class);
-
         JacksonPojoToJson.writeExample(responseHolder.getClass());
     }
 

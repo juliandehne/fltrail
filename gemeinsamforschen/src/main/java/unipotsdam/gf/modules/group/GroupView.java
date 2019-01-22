@@ -1,8 +1,10 @@
 package unipotsdam.gf.modules.group;
 
 import org.apache.catalina.startup.ContextConfig;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
@@ -19,6 +21,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBException;
 import java.util.*;
 
 @Path("/group")
@@ -36,8 +39,9 @@ public class GroupView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all/projects/{projectName}")
-    public GroupData getOrInitializeGroups(@PathParam("projectName") String projectName) {
-        return  groupFormationProcess.getOrInitializeGroups(new Project(projectName));
+    public GroupData getOrInitializeGroups(@PathParam("projectName") String projectName)
+            throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+        return groupFormationProcess.getOrInitializeGroups(new Project(projectName));
     }
 
 

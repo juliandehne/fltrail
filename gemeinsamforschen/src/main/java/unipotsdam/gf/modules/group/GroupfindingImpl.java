@@ -28,10 +28,16 @@ public class GroupfindingImpl implements IGroupFinding {
     @Inject
     private ICommunication iCommunication;
 
+
+    @Inject
+    private GroupFormationFactory groupFormationFactory;
+
+
     @Inject
     public GroupfindingImpl(GroupDAO groupDAO) {
         this.groupDAO = groupDAO;
     }
+
 
     @Override
     public void selectGroupfindingCriteria(
@@ -104,11 +110,7 @@ public class GroupfindingImpl implements IGroupFinding {
     @Override
     public GroupFormationAlgorithm getGroupFormationAlgorithm(Project project) {
         GroupFormationMechanism selectedGFM = groupDAO.getGroupFormationMechanism(project);
-        switch (selectedGFM){
-            case UserProfilStrategy: return new UserPreferenceAlgorithm();
-            case LearningGoalStrategy: return new CompBaseMatcher();
-            default: return new RandomGroupAlgorithm(userDAO);
-        }
+        return groupFormationFactory.instance(selectedGFM);
     }
 
     public GroupFormationMechanism getGroupFormationMechanism(Project project){

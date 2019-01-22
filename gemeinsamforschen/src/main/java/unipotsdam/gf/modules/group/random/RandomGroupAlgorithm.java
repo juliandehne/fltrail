@@ -64,10 +64,19 @@ public class RandomGroupAlgorithm implements GroupFormationAlgorithm {
     }
 
     @Override
+    public void addGroupRelevantData(Project project, User user, Object data) throws Exception {
+
+    }
+
+    @Override
+    public void addGroupRelevantData(Project project, Object data) {
+
+    }
+
+    @Override
     public int getMinNumberOfStudentsNeeded() {
         return 6;
     }
-
 
     // (number % 3) + (Math.floor(number/3)-(number%3)) = n für alle Zahlen größer als 5
     public int getNumberOf4Groups(Integer number) {

@@ -11,10 +11,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.core.database.UpdateDB;
-import unipotsdam.gf.exceptions.RocketChatDownException;
-import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
-import unipotsdam.gf.exceptions.UserExistsInMysqlException;
-import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
+import unipotsdam.gf.exceptions.*;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.Group;
@@ -27,6 +24,7 @@ import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
 
 import javax.inject.Inject;
+import javax.xml.bind.JAXBException;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -87,7 +85,7 @@ public class GroupPhaseTaskTest {
 
     @Test
     public void createCourse()
-            throws RocketChatDownException, UserDoesNotExistInRocketChatException, UserExistsInMysqlException, UserExistsInRocketChatException, IOException {
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException, UserExistsInMysqlException, UserExistsInRocketChatException, IOException, JAXBException, WrongNumberOfParticipantsException {
 
         // create teacher
         User teacher = factory.manufacturePojo(User.class);
