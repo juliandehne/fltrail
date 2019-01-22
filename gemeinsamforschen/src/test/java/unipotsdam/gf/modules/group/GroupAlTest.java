@@ -9,21 +9,26 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
+import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
+import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
+import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
 import unipotsdam.gf.modules.group.preferences.groupal.*;
 
 import unipotsdam.gf.modules.group.preferences.groupal.request.*;
 import unipotsdam.gf.modules.group.preferences.groupal.response.ResponseHolder;
+import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
+import unipotsdam.gf.modules.group.preferences.survey.SurveyPreparation;
+import unipotsdam.gf.modules.group.preferences.survey.SurveyView;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.group.preferences.groupal.JacksonPojoToJson;
+import unipotsdam.gf.modules.user.User;
 
 import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertNotNull;
@@ -38,8 +43,14 @@ public class GroupAlTest {
     @Inject
     private GroupAlMatcher groupAlMatcher;
 
+    @Inject
+    private ProfileDAO profileDAO;
+
+    @Inject
+    private SurveyMapper surveyMapper;
+
     @Before
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
@@ -47,7 +58,7 @@ public class GroupAlTest {
         JAXBContext jaxbContext = JAXBContext.newInstance(ParticipantsHolder.class);
         jaxbMarshaller = jaxbContext.createMarshaller();
     }
-    
+
 
     @Test
     public void testMarshalling() throws JAXBException {
@@ -58,11 +69,11 @@ public class GroupAlTest {
 
     /**
      * testing the groupal mono interface
+     *
      * @throws JAXBException
      */
     @Test
-    public void testCreateRealExample()
-            throws JAXBException {
+    public void testCreateRealExample() throws JAXBException {
         ParticipantsHolder participantsHolder = new ParticipantsHolder();
         List<UsedCriterion> criterions2 = new ArrayList<>();
         UsedCriterion firstCriterion2 = new UsedCriterion();
@@ -76,7 +87,7 @@ public class GroupAlTest {
         UsedCriteria usedCriteria = new UsedCriteria(criterions2);
         participantsHolder.setUsedCriteria(usedCriteria);
 
-        for (int i = 0; i< 30; i++){
+        for (int i = 0; i < 30; i++) {
             Random rn = new Random();
             // the participants
             Participants participant = new Participants();
@@ -112,9 +123,36 @@ public class GroupAlTest {
     }
 
     @Test
-    public void testGroupAl() throws JsonProcessingException, JAXBException, WrongNumberOfParticipantsException {
-        List<Group> d1_test = groupAlMatcher.createGroups(new Project("d1_test"), 3);
+    public void testGroupAl() throws Exception {
+
+        Project project = new Project("d1_test");
+
+        // utility
+        Random random = new Random();
+
+        // add questions
+        SurveyPreparation.main(new String[0]);
+        
+        // get variables
+        List<ProfileQuestion> questions = profileDAO.getQuestions();
+
+        // add answers
+        for (int i = 0; i < 30; i++) {
+            User user = factory.manufacturePojo(User.class);
+            HashMap<String, String> data = new HashMap<>();
+            for (ProfileQuestion question : questions) {
+                int id = question.getId();
+                int rateAnswer = random.nextInt(5);
+                data.put(id + "", rateAnswer+"");
+            }
+            data.put(SurveyMapper.EMAIL1, user.getEmail());
+            surveyMapper.saveData(data, project.getName());
+        }
+
+        // calculate groups
+        List<Group> d1_test = groupAlMatcher.createGroups(project, 3);
         assertTrue(!d1_test.isEmpty());
+        assertTrue(d1_test.size() == 10);
     }
 
     @Test
@@ -122,8 +160,6 @@ public class GroupAlTest {
         ResponseHolder responseHolder = factory.manufacturePojo(ResponseHolder.class);
         JacksonPojoToJson.writeExample(responseHolder.getClass());
     }
-
-
 
 
 }

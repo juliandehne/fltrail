@@ -27,7 +27,7 @@ public class SurveyMapper {
 
     private static final String NICKNAME1 = "NICKNAME1";
     private static final String NICKNAME2 = "NICKNAME2";
-    private static final String EMAIL1 = "EMAIL1";
+    public static final String EMAIL1 = "EMAIL1";
     private static final String EMAIL2 = "EMAIL2";
     private static final String DISCORDID = "DISCORDID";
 
@@ -143,6 +143,13 @@ public class SurveyMapper {
         return scaledQuestion;
     }
 
+    /**
+     * save the answers of the participants
+     * @param data
+     * @param projectId
+     * @throws RocketChatDownException
+     * @throws UserDoesNotExistInRocketChatException
+     */
     public void saveData(HashMap<String, String> data, String projectId)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         log.trace("persisting survey data");
@@ -170,13 +177,6 @@ public class SurveyMapper {
 
         UserProfile userProfile =  new UserProfile(data, user, projectId);
         profileDAO.save(userProfile);
-
-        //TODO if participant count is 30 change projectphase to != GroupFormation
-        Project project = new Project(projectId);
-        List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
-        if (usersByProjectName.size() == GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
-            phases.endPhase(Phase.GroupFormation, project);
-        }
 
     }
 

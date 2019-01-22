@@ -2,11 +2,16 @@ package unipotsdam.gf.modules.group.preferences.survey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.config.GroupAlConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.process.SurveyProcess;
+import unipotsdam.gf.process.phases.Phase;
+
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,13 +25,15 @@ public class SurveyView {
     private final static Logger log = LoggerFactory.getLogger(SurveyView.class);
 
     @Inject
-    private SurveyMapper surveyMapper;
+    private SurveyProcess surveyProcess;
+
 
     @Inject
     private ProjectDAO projectDAO;
 
     @Inject
-    private ProfileDAO profileDAO;
+    private SurveyMapper surveyMapper;
+
 
 
     @GET
@@ -34,14 +41,10 @@ public class SurveyView {
     @Path("/project/name/{projectContext}")
     public Project getProjectName(@PathParam("projectContext") String projectContext) {
         // get project where name like projectContext and is active
-        String projectName = projectDAO.getActiveSurveyProject(projectContext);
-        if (projectName == null) {
-            // if result is empty create new project, add all the questions to it and return this
-            return new Project(surveyMapper.createNewProject(GroupWorkContext.valueOf(projectContext)));
-        } else {
-            return new Project(projectName);
-        }
+        return surveyProcess.getSurveyProjectName(projectContext);
     }
+
+
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -75,7 +78,7 @@ public class SurveyView {
     public void saveSurvey(
             HashMap<String, String> data, @PathParam("projectName") String projectName)
             throws IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
-        surveyMapper.saveData(data, projectName);
+            surveyProcess.saveSurveyData(new Project(projectName), data);
     }
 
 

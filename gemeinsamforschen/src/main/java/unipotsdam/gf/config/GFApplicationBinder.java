@@ -20,6 +20,7 @@ import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.groupal.GroupAlMatcher;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
+import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
 import unipotsdam.gf.modules.journal.service.IJournalImpl;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
@@ -34,6 +35,7 @@ import unipotsdam.gf.mysql.MysqlConnectImpl;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
+import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.TaskDAO;
@@ -88,6 +90,8 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(CompBaseMatcher.class).to(CompBaseMatcher.class);
         bind(BigGroupMatcher.class).to(BigGroupMatcher.class);
         bind(GroupFormationFactory.class).to(GroupFormationFactory.class);
+        bind(RandomGroupAlgorithm.class).to(RandomGroupAlgorithm.class);
+        bind(SurveyProcess.class).to(SurveyProcess.class);
         bindMore();
     }
 
