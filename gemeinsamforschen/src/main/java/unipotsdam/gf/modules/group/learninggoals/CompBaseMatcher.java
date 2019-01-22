@@ -1,9 +1,7 @@
 package unipotsdam.gf.modules.group.learninggoals;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.config.CompbaseConfig;
 import unipotsdam.gf.exceptions.CompbaseDownException;
-import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationAlgorithm;
 import unipotsdam.gf.modules.project.Project;
@@ -14,7 +12,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.List;
 

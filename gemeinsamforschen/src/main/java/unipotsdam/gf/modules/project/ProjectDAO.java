@@ -27,17 +27,6 @@ public class ProjectDAO {
     @Inject
     private MysqlConnect connect;
 
-    @Inject
-    private GroupDAO groupDAO;
-
-    @Inject
-    private IGroupFinding groupFinding;
-
-    @Inject
-    public ProjectDAO(MysqlConnect connect) {
-        this.connect = connect;
-    }
-
     public void persist(Project project) {
 
         if (!exists(project)) {
@@ -203,7 +192,8 @@ public class ProjectDAO {
                             "projectuser pu on p.name = pu.projectName WHERE userEmail=?" +
                         ") as j1 " +
                     "on name=studentParticipatesIn " +
-                "WHERE studentParticipatesIn IS NULL AND phase='GroupFormation';";
+                "WHERE studentParticipatesIn IS NULL AND phase='GroupFormation' " +
+                "AND context='FL';";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, user.getEmail());
         while (vereinfachtesResultSet.next()) {
             Project projectFromResultSet = getProjectFromResultSet(vereinfachtesResultSet);

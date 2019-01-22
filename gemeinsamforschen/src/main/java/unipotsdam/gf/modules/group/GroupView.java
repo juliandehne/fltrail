@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.group;
 
-import org.apache.catalina.startup.ContextConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;

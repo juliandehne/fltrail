@@ -31,9 +31,6 @@ public class GroupAlMatcher implements GroupFormationAlgorithm {
     private ProfileDAO profileDAO;
 
     @Inject
-    private GroupDAO groupDAO;
-
-    @Inject
     private UserDAO userDAO;
 
     public List<Group> createGroups(Project project, int groupsize)

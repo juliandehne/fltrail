@@ -5,8 +5,6 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
-import unipotsdam.gf.modules.group.preferences.UserPreferenceAlgorithm;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
 import unipotsdam.gf.modules.project.Project;
@@ -28,15 +26,11 @@ public class GroupfindingImpl implements IGroupFinding {
     @Inject
     private ICommunication iCommunication;
 
+    @Inject
+    private RandomGroupAlgorithm randomGroupAlgorithm;
 
     @Inject
     private GroupFormationFactory groupFormationFactory;
-
-
-    @Inject
-    public GroupfindingImpl(GroupDAO groupDAO) {
-        this.groupDAO = groupDAO;
-    }
 
 
     @Override
@@ -90,7 +84,7 @@ public class GroupfindingImpl implements IGroupFinding {
 
     @Override
     public List<Group> createRandomGroups(Project project) {
-        return new RandomGroupAlgorithm(userDAO).calculateGroups(project);
+        return randomGroupAlgorithm.calculateGroups(project);
     }
 
 
