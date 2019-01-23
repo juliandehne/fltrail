@@ -5,6 +5,8 @@ $(document).ready(function () {
     messageHolder.hide();
     $('#ifNoUserIsSet').hide();
     $('#ifUserIsSet').hide();
+    $('#noGroupsYet').hide();
+    $('#bisherKeineGruppen').hide();
 
 
     // creating the survey element
@@ -26,9 +28,17 @@ $(document).ready(function () {
                 $('#ifNoUserIsSet').hide();
                 $('#ifUserIsSet').show();
                 getAllGroups(function (allGroups) {
-                    groupsToTemplate(allGroups, function (done) {
-                        selectableButtons(done);
-                    });
+                    if(allGroups.length === 0){
+                        if (language==="en"){
+                            $('#noGroupsYet').show();
+                        }else{
+                            $('#bisherKeineGruppen').show();
+                        }
+                    }else{
+                        groupsToTemplate(allGroups, function (done) {
+                            selectableButtons(done);
+                        });
+                    }
                 });
             }
         });
@@ -68,9 +78,17 @@ $(document).ready(function () {
                     $('#ifNoUserIsSet').hide();
                     $('#ifUserIsSet').show();
                     getAllGroups(function (allGroups) {
-                        groupsToTemplate(allGroups, function (done) {
-                            selectableButtons(done);
-                        });
+                        if(allGroups.length === 0){
+                            if (language==="en"){
+                                $('#noGroupsYet').show();
+                            }else{
+                                $('#bisherKeineGruppen').show();
+                            }
+                        }else{
+                            groupsToTemplate(allGroups, function (done) {
+                                selectableButtons(done);
+                            });
+                        }
                     });
                 }
             });
@@ -84,9 +102,17 @@ $(document).ready(function () {
             $('#ifNoUserIsSet').hide();
             $('#ifUserIsSet').show();
             getAllGroups(function (allGroups) {
-                groupsToTemplate(allGroups, function (done) {
-                    selectableButtons(done);
-                });
+                if(allGroups.length === 0){
+                    if (language==="en"){
+                        $('#noGroupsYet').show();
+                    }else{
+                        $('#bisherKeineGruppen').show();
+                    }
+                }else{
+                    groupsToTemplate(allGroups, function (done) {
+                        selectableButtons(done);
+                    });
+                }
             });
         });
     });

@@ -30,6 +30,8 @@
     <div class="row group">
         <h2>Gruppeneinteilung</h2>
         <div class="col span_content span_2_of_2">
+            <div class="alert alert-warning" id="noGroupsYet">There are no groups built yet.</div>
+            <div class="alert alert-warning" id="bisherKeineGruppen">Die Gruppen wurden noch nicht gebildet.</div>
                 <div style="display: flex">
                     <div style="display:block">
                         <div class="list-group" style="display: flex; flex-wrap: wrap;" id="groupsInProject">

@@ -13,13 +13,8 @@ import java.util.List;
 
 public class RandomGroupAlgorithm implements GroupFormationAlgorithm {
 
-
-    private UserDAO userDAO;
-
     @Inject
-    public RandomGroupAlgorithm(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
+    private UserDAO userDAO;
 
     @Override
     public List<Group> calculateGroups(Project project) {

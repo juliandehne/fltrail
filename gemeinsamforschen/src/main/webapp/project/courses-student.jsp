@@ -57,8 +57,8 @@
                         {{/each}}
                         </div>
                     {{if isSearching}}
-                    <a data-toggle="collapse" data-target="#passwordDiv">Zeige Passwort </a>
-                        <div id="passwordDiv" class="collapse">
+                    <a data-toggle="collapse" data-target="#passwordDiv_${projectName}">Zeige Passwort </a>
+                        <div id="passwordDiv_${projectName}" class="collapse">
                             <label>
                                 Passwort
                                 <input class="form-control" id="projectPassword" placeholder="********">

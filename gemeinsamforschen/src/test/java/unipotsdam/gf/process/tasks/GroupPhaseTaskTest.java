@@ -35,25 +35,11 @@ import static org.junit.Assert.assertTrue;
 
 public class GroupPhaseTaskTest {
 
-
-    @Inject
-    Management management;
-
-    @Inject
-    IGroupFinding groupFinding;
-
-    @Inject
-    TaskDAO taskDAO;
-
     @Inject
     private ProjectCreationProcess projectCreationProcess;
 
     @Inject
     private GroupFormationProcess groupFormationProcess;
-
-    @Inject
-    private ICommunication communication;
-
 
     private PodamFactory factory = new PodamFactoryImpl();
 

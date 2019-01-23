@@ -1,8 +1,16 @@
 $(document).ready(function () {
     getAllGroups(function (allGroups) {
-        groupsToTemplate(allGroups, function (done) {
-            selectableButtons(done);
-        });
+        if(allGroups.length === 0){
+            if (language==="en"){
+                $('#noGroupsYet').show();
+            }else{
+                $('#bisherKeineGruppen').show();
+            }
+        }else{
+            groupsToTemplate(allGroups, function (done) {
+                selectableButtons(done);
+            });
+        }
     });
 });
 

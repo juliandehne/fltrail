@@ -26,15 +26,11 @@ public class GroupfindingImpl implements IGroupFinding {
     @Inject
     private ICommunication iCommunication;
 
+    @Inject
+    private RandomGroupAlgorithm randomGroupAlgorithm;
 
     @Inject
     private GroupFormationFactory groupFormationFactory;
-
-
-    @Inject
-    public GroupfindingImpl(GroupDAO groupDAO) {
-        this.groupDAO = groupDAO;
-    }
 
 
     @Override
@@ -87,7 +83,7 @@ public class GroupfindingImpl implements IGroupFinding {
 
     @Override
     public List<Group> createRandomGroups(Project project) {
-        return new RandomGroupAlgorithm(userDAO).calculateGroups(project);
+        return randomGroupAlgorithm.calculateGroups(project);
     }
 
     /**
