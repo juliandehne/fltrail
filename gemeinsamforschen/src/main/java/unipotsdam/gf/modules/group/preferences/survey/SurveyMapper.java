@@ -31,7 +31,7 @@ import java.util.UUID;
 
 public class SurveyMapper {
 
-    private static final String NICKNAME1 = "NICKNAME1";
+    public static final String NICKNAME1 = "NICKNAME1";
     private static final String NICKNAME2 = "NICKNAME2";
     public static final String EMAIL1 = "EMAIL1";
     private static final String EMAIL2 = "EMAIL2";
@@ -159,34 +159,47 @@ public class SurveyMapper {
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException {
         log.trace("persisting survey data");
         User user;
-        if (req != null && (data.get(EMAIL1) != null) && (req.getAttribute("userEmail") == null)) {
+        // it is test context
+        if (req == null){
+            user = createUserFromSurvey(data);
+            // it is in survey context
+        } else if (req.getAttribute("userEmail") == null) {
             req.getSession().setAttribute("userEmail", data.get(EMAIL1));
-            String nickname = data.get(NICKNAME1);
-            data.remove(NICKNAME1);
-            String nickname2 = data.get(NICKNAME2);
-            data.remove(NICKNAME2);
-
-            String email = data.get(EMAIL1);
-            data.remove(EMAIL1);
-            String email2 = data.get(EMAIL2);
-            data.remove(EMAIL2);
-
-            String discord = data.get(DISCORDID);
-            data.remove(DISCORDID);
-
-            user = new User(email);
-            user.setName(nickname);
-            user.setDiscordid(discord);
-            user.setPassword("egal");
-            userDAO.persist(user);
-        } else {
+            user = createUserFromSurvey(data);
+        }
+        // it is in fl context
+        else {
             user = userDAO.getUserByEmail(req.getAttribute("userEmail").toString());
         }
+        // save
         management.register(user, new Project(projectId), null);
 
         UserProfile userProfile = new UserProfile(data, user, projectId);
         profileDAO.save(userProfile);
 
+    }
+
+    private User createUserFromSurvey(HashMap<String, String> data) {
+        User user;
+        String nickname = data.get(NICKNAME1);
+        data.remove(NICKNAME1);
+        String nickname2 = data.get(NICKNAME2);
+        data.remove(NICKNAME2);
+
+        String email = data.get(EMAIL1);
+        data.remove(EMAIL1);
+        String email2 = data.get(EMAIL2);
+        data.remove(EMAIL2);
+
+        String discord = data.get(DISCORDID);
+        data.remove(DISCORDID);
+
+        user = new User(email);
+        user.setName(nickname);
+        user.setDiscordid(discord);
+        user.setPassword("egal");
+        userDAO.persist(user);
+        return user;
     }
 
     public String createNewProject(GroupWorkContext projectContext) {

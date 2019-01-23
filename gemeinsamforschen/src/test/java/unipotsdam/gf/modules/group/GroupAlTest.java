@@ -16,6 +16,7 @@ import unipotsdam.gf.modules.group.preferences.groupal.*;
 
 import unipotsdam.gf.modules.group.preferences.groupal.request.*;
 import unipotsdam.gf.modules.group.preferences.groupal.response.ResponseHolder;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyPreparation;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyView;
@@ -126,7 +127,7 @@ public class GroupAlTest {
     public void testGroupAl() throws Exception {
 
 
-        Project project = new Project("d1_test");
+        Project project = new Project(surveyMapper.createNewProject(GroupWorkContext.dota));
 
         // utility
         Random random = new Random();
@@ -138,7 +139,7 @@ public class GroupAlTest {
         List<ProfileQuestion> questions = profileDAO.getQuestions();
 
         // add answers
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 30; i++) {
             User user = factory.manufacturePojo(User.class);
             HashMap<String, String> data = new HashMap<>();
             for (ProfileQuestion question : questions) {
@@ -147,6 +148,7 @@ public class GroupAlTest {
                 data.put(id + "", rateAnswer+"");
             }
             data.put(SurveyMapper.EMAIL1, user.getEmail());
+            data.put(SurveyMapper.NICKNAME1, user.getName());
             surveyMapper.saveData(data, project.getName(), null);
         }
 
