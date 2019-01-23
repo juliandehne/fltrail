@@ -5,9 +5,10 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 
 import javax.inject.Inject;
@@ -43,7 +44,7 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
     @Override
-    public GroupFormationMechanism getGFM(Project project){
+    public GroupFormationMechanism getGFM(Project project) {
         return groupDAO.getGroupFormationMechanism(project);
     }
 
@@ -55,10 +56,14 @@ public class GroupfindingImpl implements IGroupFinding {
         }
     }
 
-
     @Override
     public List<Group> getGroups(Project project) {
         return groupDAO.getGroupsByProjectName(project.getName());
+    }
+
+    @Override
+    public List<Group> getGroups(User user, GroupWorkContext context) {
+        return groupDAO.getGroupsByContextUser(user, context);
     }
 
     @Override
@@ -72,11 +77,11 @@ public class GroupfindingImpl implements IGroupFinding {
 
     @Override
     public int getMinNumberOfStudentsNeeded(Project project) {
-       return getGroupFormationAlgorithm(project).getMinNumberOfStudentsNeeded();
+        return getGroupFormationAlgorithm(project).getMinNumberOfStudentsNeeded();
     }
 
     @Override
-    public void deleteGroups(Project project){
+    public void deleteGroups(Project project) {
         groupDAO.deleteGroups(project);
     }
 
@@ -85,9 +90,9 @@ public class GroupfindingImpl implements IGroupFinding {
         return new RandomGroupAlgorithm(userDAO).calculateGroups(project);
     }
 
-
     /**
      * after this groups should not be touched by the system
+     *
      * @param project
      */
     @Override
@@ -105,7 +110,7 @@ public class GroupfindingImpl implements IGroupFinding {
         return groupFormationFactory.instance(selectedGFM);
     }
 
-    public GroupFormationMechanism getGroupFormationMechanism(Project project){
+    public GroupFormationMechanism getGroupFormationMechanism(Project project) {
         return groupDAO.getGroupFormationMechanism(project);
     }
 }

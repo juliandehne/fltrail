@@ -125,19 +125,20 @@ public class GroupAlTest {
     @Test
     public void testGroupAl() throws Exception {
 
+
         Project project = new Project("d1_test");
 
         // utility
         Random random = new Random();
 
         // add questions
-        SurveyPreparation.main(new String[0]);
+        //SurveyPreparation.main(new String[0]);
         
         // get variables
         List<ProfileQuestion> questions = profileDAO.getQuestions();
 
         // add answers
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 6; i++) {
             User user = factory.manufacturePojo(User.class);
             HashMap<String, String> data = new HashMap<>();
             for (ProfileQuestion question : questions) {
@@ -146,7 +147,7 @@ public class GroupAlTest {
                 data.put(id + "", rateAnswer+"");
             }
             data.put(SurveyMapper.EMAIL1, user.getEmail());
-            surveyMapper.saveData(data, project.getName());
+            surveyMapper.saveData(data, project.getName(), null);
         }
 
         // calculate groups

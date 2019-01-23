@@ -3,6 +3,7 @@ package unipotsdam.gf.process;
 import unipotsdam.gf.config.GroupAlConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
@@ -13,6 +14,8 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXBException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,10 +33,10 @@ public class SurveyProcess {
     @Inject
     private SurveyMapper surveyMapper;
 
-    public void saveSurveyData(Project project, HashMap<String, String> data) throws RocketChatDownException,
-            UserDoesNotExistInRocketChatException {
+    public void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException, JAXBException, WrongNumberOfParticipantsException {
 
-        surveyMapper.saveData(data, project.getName());
+        surveyMapper.saveData(data, project.getName(), req);
 
         List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
         if (usersByProjectName.size() == GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {

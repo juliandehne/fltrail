@@ -1,19 +1,24 @@
 package unipotsdam.gf.modules.group;
 
+import org.apache.catalina.startup.ContextConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.GroupFormationProcess;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
@@ -105,7 +110,14 @@ public class GroupView {
         return groupfinding.getGroups(projectDAO.getProjectByName(projectName));
     }
 
-
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/get/context/{context}")
+    public GroupData getGroups(@PathParam("context") String context, @Context HttpServletRequest req) {
+        User user = new User((String)req.getSession().getAttribute("userEmail"));
+        GroupWorkContext context1 = GroupWorkContext.valueOf(context);
+        return new GroupData(groupfinding.getGroups(user, context1));
+    }
 
     /**
      * find out if this is used by learning goal

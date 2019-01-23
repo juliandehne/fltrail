@@ -1,28 +1,42 @@
 package unipotsdam.gf.modules.group.preferences.survey;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GroupAlConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
+
+import static jdk.nashorn.internal.objects.Global.undefined;
 
 @Path("/survey")
 public class SurveyView {
 
     private final static Logger log = LoggerFactory.getLogger(SurveyView.class);
+
+    @Inject
+    private GFContexts gfContexts;
 
     @Inject
     private SurveyProcess surveyProcess;
@@ -34,6 +48,9 @@ public class SurveyView {
     @Inject
     private SurveyMapper surveyMapper;
 
+
+    @Inject
+    private UserDAO userDAO;
 
 
     @GET
@@ -76,10 +93,34 @@ public class SurveyView {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/save/projects/{projectName}")
     public void saveSurvey(
-            HashMap<String, String> data, @PathParam("projectName") String projectName)
-            throws IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
-            surveyProcess.saveSurveyData(new Project(projectName), data);
+            HashMap<String, String> data, @PathParam("projectName") String projectName,
+            @Context HttpServletRequest req)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+
+            surveyProcess.saveSurveyData(new Project(projectName), data, req);
     }
 
+    @POST
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/user")
+    public String loggedIn(@Context HttpServletRequest req) {
+        try{
+            String userSessionEmail = gfContexts.getUserEmail(req);
+            if (userSessionEmail == null)
+                return "authenticated";
+            else
+                return "userEmail set";
+        }catch(Exception e){
+            return "userEmail not set";
+        }
+    }
+
+    @POST
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/user/{userEmail}")
+    public String authenticate(@PathParam("userEmail") String userEmail, @Context HttpServletRequest req) {
+        gfContexts.updateUserWithEmail(req, userDAO.getUserByEmail(userEmail));
+        return "userEmail set";
+    }
 
 }

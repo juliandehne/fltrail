@@ -5,9 +5,11 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.group.GroupFormationAlgorithm;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.GroupfindingCriteria;
+import unipotsdam.gf.modules.user.User;
 
 import javax.ws.rs.Produces;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public interface IGroupFinding {
      */
     java.util.List<Group> getGroups(Project project);
 
+    java.util.List<Group> getGroups(User user, GroupWorkContext context);
     /**
      *
      * @param groupFindingMechanism
