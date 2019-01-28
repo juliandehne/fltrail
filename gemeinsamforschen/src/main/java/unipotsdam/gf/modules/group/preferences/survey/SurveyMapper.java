@@ -126,7 +126,7 @@ public class SurveyMapper {
                     i = 0;
                     surveyData.getPages().add(profileQuestionsPage);
                     if (isdebug) {
-                        break;
+                        return surveyData;
                     }
                     profileQuestionsPage = new Page();
                     profileQuestionsPage.setName("page" + i);

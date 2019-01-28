@@ -28,7 +28,8 @@
 
 <main class="groups-manual">
     <div class="row group">
-        <h2>Gruppeneinteilung</h2>
+        <h2 id="Gruppeneinteilung">Gruppeneinteilung</h2>
+        <h2 id="groupsHeadline">groups</h2>
         <div class="col span_content span_2_of_2">
             <div class="alert alert-warning" id="noGroupsYet">There are no groups built yet.</div>
             <div class="alert alert-warning" id="bisherKeineGruppen">Die Gruppen wurden noch nicht gebildet.</div>

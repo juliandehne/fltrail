@@ -15,7 +15,7 @@
     <script src="./js/enter-gfm.js"></script>
 </head>
 <body>
-<div class="row group">
+<div class="row group" id="naviPagi">
 
     <nav aria-label="...">
         <ul class="pagination">
@@ -37,7 +37,7 @@
         </ul>
     </nav>
 </div>
-<div id="theTextPage" class="collapse in">
+<div id="theTextPageGer" class="collapse">
     <div class="row group">
 
         <h2>Willkommen</h2>
@@ -56,6 +56,22 @@
         </p>
     </div>
 </div>
+<div id="theTextPageEn" class="collapse">
+    <div class="row group">
+        <h2>Welcome</h2>
+        <br>
+        <p>Thank you for your interest and your participation in our survey.
+            We are here to build and evaluate groups based on different criteria. Therefore use the
+            "survey-page" and answer the questions. This will last about 10 minutes<br>
+            When 30 people commited their answers, you can see which group you are in on the "group-page".
+            As long as there are not enough participants, you can't see your group.<br>
+            Please add your group members on discord and have at least 5 games together before you
+            evaluate your group <a href="#">here</a>.<br>
+            <br>
+            Thank you for your participation!
+        </p>
+    </div>
+</div>
 <div class="row group">
     <div id="theSurvey" class="collapse">
         <div id="messageHolder">No context selected!</div>
@@ -65,15 +81,21 @@
 </div>
 <div id="theGroupView" class="collapse">
     <div class="row group">
-        <div class="alert alert-info" id="ifNoUserIsSet">
+        <div class="alert alert-info" id="ifNoUserIsSetGer">
             <p>Bitte geben Sie Ihre E-Mail an:</p>
-            <input id="userEmailGroupView" class="form-control">
-            <button class="btn btn-primary" style="margin-top:10px;" id="btnSetUserEmail">bestätigen</button>
+            <input id="userEmailGroupViewGer" class="form-control">
+            <button class="btn btn-primary" style="margin-top:10px;" id="btnSetUserEmailGer">bestätigen</button>
+        </div>
+        <div class="alert alert-info" id="ifNoUserIsSetEn">
+            <p>Please enter your email:</p>
+            <input id="userEmailGroupViewEn" class="form-control">
+            <button class="btn btn-primary" style="margin-top:10px;" id="btnSetUserEmailEn">submit</button>
         </div>
     </div>
     <div id="ifUserIsSet">
         <jsp:include page="../groupfinding/view-groups-body.jsp"/>
     </div>
 </div>
+
 </body>
 </html>

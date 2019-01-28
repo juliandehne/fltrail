@@ -2,17 +2,85 @@ let projectId = "";
 
 $(document).ready(function () {
     let messageHolder = $('#messageHolder');
+    let language = getQueryVariable("language");
+    let context = getQueryVariable("context");
+    let userEmail = getQueryVariable("userEmail");
+
+    if (!language || !context){
+        messageHolder.show();
+    }
+
+    if (language==='en'){
+        $('#theTextPageEn').toggleClass("in");
+        $('#navGroupView').html("groups");
+        $('#navTextPage').html("introduction");
+        $('#navSurvey').html("survey");
+    }else{
+        if(language==='ger'){
+            $('#theTextPageGer').toggleClass("in");
+            $('#navGroupView').html("Gruppen");
+            $('#navTextPage').html("Einleitung");
+            $('#navSurvey').html("Umfrage");
+        }
+    }
+
+    if (userEmail){
+        preparePageToggle();
+        $('#naviPagi').hide();
+        $('#theGroupView').toggleClass("in");
+        authenticate(userEmail, function(){
+            $('#ifNoUserIsSetGer').hide();
+            $('#ifNoUserIsSetEn').hide();
+            $('#ifUserIsSet').show();
+            getAllGroups(function (allGroups) {
+                if(allGroups.length === 0){
+                    if (language==="en"){
+                        $('#noGroupsYet').show();
+                        $('#groupsHeadline').show();
+                        $('#bisherKeineGruppen').hide();
+                        $('#Gruppeneinteilung').hide();
+                    }else{
+                        $('#bisherKeineGruppen').show();
+                        $('#Gruppeneinteilung').show();
+                        $('#noGroupsYet').hide();
+                        $('#groupsHeadline').hide();
+                    }
+                }else{
+                    groupsToTemplate(allGroups, function (done) {
+                        selectableButtons(done);
+                    });
+                }
+            });
+        });
+    }
+
+
     messageHolder.hide();
     $('#ifNoUserIsSet').hide();
     $('#ifUserIsSet').hide();
     $('#noGroupsYet').hide();
+    if (language==='en'){
+        $('#groupsHeadline').show();
+        $('#Gruppeneinteilung').hide();
+    }else{
+        if(language ==='ger'){
+            $('#groupsHeadline').hide();
+            $('#Gruppeneinteilung').show();
+        }
+    }
     $('#bisherKeineGruppen').hide();
 
 
     // creating the survey element
     $('#navTextPage').on('click', function(){
         preparePageToggle();
-        $('#theTextPage').toggleClass("in");
+        if(language==='en'){
+            $('#theTextPageEn').toggleClass("in");
+        }else{
+            if(language==='ger'){
+                $('#theTextPageGer').toggleClass("in");
+            }
+        }
         $('#navLiTextPage').toggleClass("active");
         document.getElementById('navBtnPrev').className="page-item disabled";
     });
@@ -23,16 +91,27 @@ $(document).ready(function () {
         authenticate("", function(loggedin){
             if (!loggedin){
                 $('#ifUserIsSet').hide();
-                $('#ifNoUserIsSet').show();
+                if (language==='en'){
+                    $('#ifNoUserIsSetEn').show();
+                    $('#ifNoUserIsSetGer').hide();
+                }else{
+                    if(language==='ger'){
+                        $('#ifNoUserIsSetGer').show();
+                        $('#ifNoUserIsSetEn').hide();
+                    }
+                }
             } else{
-                $('#ifNoUserIsSet').hide();
+                $('#ifNoUserIsSetGer').hide();
+                $('#ifNoUserIsSetEn').hide();
                 $('#ifUserIsSet').show();
                 getAllGroups(function (allGroups) {
                     if(allGroups.length === 0){
                         if (language==="en"){
                             $('#noGroupsYet').show();
+                            $('#groupsHeadline').show();
                         }else{
                             $('#bisherKeineGruppen').show();
+                            $('#Gruppeneinteilung').show();
                         }
                     }else{
                         groupsToTemplate(allGroups, function (done) {
@@ -57,6 +136,13 @@ $(document).ready(function () {
             $('#navLiSurvey').toggleClass("active");
         }else{
             $('#theTextPage').toggleClass("in");
+            if(language==='en'){
+                $('#theTextPageEn').toggleClass("in");
+            }else{
+                if(language==='ger'){
+                    $('#theTextPageGer').toggleClass("in");
+                }
+            }
             $('#navLiTextPage').toggleClass("active");
             document.getElementById('navBtnPrev').className="page-item disabled";
         }
@@ -64,7 +150,7 @@ $(document).ready(function () {
     $('#btnNext').on('click',function(){
         let activeDiv = $('.collapse.in')[0];
         preparePageToggle();
-        if ($(activeDiv).attr("id")==="theTextPage"){
+        if ($(activeDiv).attr("id")==="theTextPageGer" || $(activeDiv).attr("id")==="theTextPageEn"){
             $('#theSurvey').toggleClass("in");
             $('#navLiSurvey').toggleClass("active");
         }else{
@@ -73,6 +159,15 @@ $(document).ready(function () {
             authenticate("", function(loggedin){
                 if (!loggedin){
                     $('#ifUserIsSet').hide();
+                    if (language==='en'){
+                        $('#ifNoUserIsSetEn').show();
+                        $('#ifNoUserIsSetGer').hide();
+                    }else{
+                        if(language==='ger'){
+                            $('#ifNoUserIsSetGer').show();
+                            $('#ifNoUserIsSetEn').hide();
+                        }
+                    }
                     $('#ifNoUserIsSet').show();
                 } else{
                     $('#ifNoUserIsSet').hide();
@@ -81,8 +176,14 @@ $(document).ready(function () {
                         if(allGroups.length === 0){
                             if (language==="en"){
                                 $('#noGroupsYet').show();
+                                $('#groupsHeadline').show();
+                                $('#bisherKeineGruppen').hide();
+                                $('#Gruppeneinteilung').hide();
                             }else{
                                 $('#bisherKeineGruppen').show();
+                                $('#Gruppeneinteilung').show();
+                                $('#noGroupsYet').hide();
+                                $('#groupsHeadline').hide();
                             }
                         }else{
                             groupsToTemplate(allGroups, function (done) {
@@ -96,38 +197,17 @@ $(document).ready(function () {
         }
     });
 
-    $('#btnSetUserEmail').on('click',function(){
-        let userEmail = $('#userEmailGroupView').val();
-        authenticate(userEmail, function(){
-            $('#ifNoUserIsSet').hide();
-            $('#ifUserIsSet').show();
-            getAllGroups(function (allGroups) {
-                if(allGroups.length === 0){
-                    if (language==="en"){
-                        $('#noGroupsYet').show();
-                    }else{
-                        $('#bisherKeineGruppen').show();
-                    }
-                }else{
-                    groupsToTemplate(allGroups, function (done) {
-                        selectableButtons(done);
-                    });
-                }
-            });
-        });
+    $('#btnSetUserEmailGer').on('click',function(){
+        btnSetUserEmail();
     });
-
+    $('#btnSetUserEmailEn').on('click',function(){
+        btnSetUserEmail();
+    });
 
     Survey
         .StylesManager
         .applyTheme("default");
 
-    let language = getQueryVariable("language");
-    let context = getQueryVariable("context");
-
-    if (!language || !context){
-        messageHolder.show();
-    }
 
     let projq = new RequestObj(1, "/survey", "/project/name/?", [context],[]);
     serverSide(projq, "GET", function (response) {
@@ -154,10 +234,10 @@ $(document).ready(function () {
         //alert(resultAsString); //send Ajax request to your web server.
 
         let dataReq = new RequestObj(1, "/survey", "/save/projects/?", [projectId], [], survey.data);
-
+        userEmail=survey.data.EMAIL1;
         serverSide(dataReq, "POST", function () {
             //log.warn(a);
-            $("#resultLink").append("the groups can be viewed on next page.");
+            location.href=window.location.href +"&userEmail="+userEmail;//todo: get userEmail
         })
     }
 
@@ -236,5 +316,39 @@ function authenticate(userEmail, callback){
         },
         error: function (a) {
         }
+    });
+}
+
+function btnSetUserEmail(){
+    let userEmail;
+    if (language==='en'){
+        userEmail = $('#userEmailGroupViewEn').val();
+    }else{
+        if(language==='ger'){
+            userEmail = $('#userEmailGroupViewGer').val();
+        }
+    }
+    authenticate(userEmail, function(){
+        $('#ifNoUserIsSet').hide();
+        $('#ifUserIsSet').show();
+        getAllGroups(function (allGroups) {
+            if(allGroups.length === 0){
+                if (language==="en"){
+                    $('#noGroupsYet').show();
+                    $('#groupsHeadline').show();
+                    $('#bisherKeineGruppen').hide();
+                    $('#Gruppeneinteilung').hide();
+                }else{
+                    $('#bisherKeineGruppen').show();
+                    $('#Gruppeneinteilung').show();
+                    $('#noGroupsYet').hide();
+                    $('#groupsHeadline').hide();
+                }
+            }else{
+                groupsToTemplate(allGroups, function (done) {
+                    selectableButtons(done);
+                });
+            }
+        });
     });
 }

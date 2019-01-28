@@ -273,7 +273,7 @@ function linkToRegister(projectName, linkUrl){
         },
         type: 'GET',
         success: function (response) {
-            if (response.gfm==="Manual"){
+            if ((response.gfm==="Manual")&& isSearching()){
                 loginProject(projectName);
             }else{
                 location.href = linkUrl + projectName;
