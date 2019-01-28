@@ -1,3 +1,32 @@
+
+# GroupAl Configuration
+
+## building your own groupal server
+
+The Source code lies currently at https://gitup.uni-potsdam.de/dehne/groupal-mono.
+Read the README in the CSharp directory (not in the main directory).
+
+## accessing the groupal server 
+
+1. Groupal is currently deployed at http://fleckenroller.cs.uni-potsdam.de:12345.
+1. The package unipotsdam.gf.modules.group.preferences.groupal contains examples for request and possible responses
+1. It also contains mapping classes
+1. The class GroupAlMatcher is the access point for matching groups using groupal
+
+# CompBase Configuration
+
+## building compbase from source
+
+The compbase code can be found at https://gitup.uni-potsdam.de/dehne/compbase. Use the extensive documentation
+in git wiki to get it to run.
+
+## accessing the compbase
+
+1. Compbase is deployed at https://apiup.uni-potsdam.de/endpoints/competenceAPI
+2. An swagger documentation can be found at http://fleckenroller.cs.uni-potsdam.de/doku/api/#!/default
+3. The class unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher is the entry point for accessing the Compbase 
+over java
+
 # Rocket Chat Configuration
 
 ## Admin Account
@@ -25,8 +54,6 @@ localhost:8080/gemeinsamforschen/rest/chat/login
 
 1. FOR API URL: http://localhost:8080/gemeinsamforschen/rest/chat/sso
 localhost:8080/gemeinsamforschen/rest/chat/sso
-
-
 
 after this only login on rocketchat will be:
 

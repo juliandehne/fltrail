@@ -12,6 +12,9 @@ public class ResultSetUtil {
         String discordId = vereinfachtesResultSet.getString("discordid");
         String rocketChatUserName = vereinfachtesResultSet.getString("rocketChatUserName");
         Boolean isStudent = vereinfachtesResultSet.getBoolean("isStudent");
-        return new User(name, password, email, rocketChatUserName, isStudent, discordId);
+        int id = vereinfachtesResultSet.getInt("id");
+        User result =  new User(name, password, email, rocketChatUserName, isStudent, discordId);
+        result.setId(id);
+        return result;
     }
 }

@@ -21,6 +21,8 @@ public class User {
 
     private String discordid;
 
+    private Integer id;
+
 
     public User() {
     }
@@ -132,5 +134,13 @@ public class User {
     @Override
     public int hashCode() {
         return getEmail().hashCode();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
