@@ -14,6 +14,7 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
 import unipotsdam.gf.modules.group.preferences.groupal.GroupAlMatcher;
+import unipotsdam.gf.modules.group.preferences.groupal.PGroupAlMatcher;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -55,7 +56,7 @@ public class SurveyMapper {
     private Management management;
 
     @Inject
-    private GroupAlMatcher groupAlMatcher;
+    private PGroupAlMatcher groupAlMatcher;
 
     @Inject
     private GroupDAO groupDAO;

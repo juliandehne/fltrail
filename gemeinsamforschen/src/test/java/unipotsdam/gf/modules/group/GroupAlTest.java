@@ -42,7 +42,7 @@ public class GroupAlTest {
     private Marshaller jaxbMarshaller;
 
     @Inject
-    private GroupAlMatcher groupAlMatcher;
+    private PGroupAlMatcher groupAlMatcher;
 
     @Inject
     private ProfileDAO profileDAO;
@@ -153,7 +153,7 @@ public class GroupAlTest {
         }
 
         // calculate groups
-        List<Group> d1_test = groupAlMatcher.createGroups(project, 3);
+        List<Group> d1_test = groupAlMatcher.calculateGroups(project);
         assertTrue(!d1_test.isEmpty());
         assertTrue(d1_test.size() == 10);
     }

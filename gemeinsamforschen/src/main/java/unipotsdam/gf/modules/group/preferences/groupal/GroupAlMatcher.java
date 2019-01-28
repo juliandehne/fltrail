@@ -33,11 +33,25 @@ public class GroupAlMatcher implements GroupFormationAlgorithm {
     @Inject
     private UserDAO userDAO;
 
+    /**
+     * create groups for a given project
+     *
+     * It will read the Profile Data from the users from the db and send it to groupal to be matched
+     * @param project
+     * @param groupsize
+     * @return
+     * @throws JsonProcessingException
+     * @throws JAXBException
+     * @throws WrongNumberOfParticipantsException
+     */
     public List<Group> createGroups(Project project, int groupsize)
             throws JsonProcessingException, JAXBException, WrongNumberOfParticipantsException {
 
         // convert to groupalformat
-        final ParticipantsHolder responses = profileDAO.getResponses(project);
+        ParticipantsHolder responses = profileDAO.getResponses(project);
+
+        responses = adjustUserCount(responses);
+
         //JacksonPojoToJson.writeObjectAsXML(responses);
         int participantCount = responses.getParticipants().size();
         if (participantCount % groupsize != 0 || participantCount < 6)  {
@@ -74,6 +88,18 @@ public class GroupAlMatcher implements GroupFormationAlgorithm {
         return result;
     }
 
+    protected ParticipantsHolder adjustUserCount(ParticipantsHolder responses) {
+        return responses;
+    }
+
+    /**
+     * like createGroups(Project project, int groupsize) with fixed group size 3
+     * @param project
+     * @return
+     * @throws WrongNumberOfParticipantsException
+     * @throws JAXBException
+     * @throws JsonProcessingException
+     */
     @Override
     public List<Group> calculateGroups(Project project)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
