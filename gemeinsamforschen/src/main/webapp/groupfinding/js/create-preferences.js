@@ -59,8 +59,8 @@ function takesPartInProject() {
     let userEmail = getUserEmail();
     let projectName = getProjectName();
     loginProject(projectName);
-    checkCompBase(function (isCompBaseOnline) {
-        if (isCompBaseOnline) {
+    //checkCompBase(function (isCompBaseOnline) {
+        //if (1) {
             let allTheTags = [];
             let allTheCompetencies;
             allTheCompetencies = $('#competencies0').val().split(",");
@@ -81,11 +81,20 @@ function takesPartInProject() {
                 document.getElementById('loader').className = "loader-inactive";
                 return false;
             }
-            let data = {                                            //JSON object 'data' collects everything to send
-                "tags": allTheCompetencies.concat(allTheTags)       //todo: this differs from the backend interface atm
+            let dataTags =allTheCompetencies.concat(allTheTags);
+            for (let i=0; i<dataTags.length; i++){
+                dataTags[i] = "Studierende interessieren sich für "+dataTags[i];
+            }
+
+            let data = {
+                "competences":[],
+                "researchQuestions":[],
+                //JSON object 'data' collects everything to send
+                "tagsSelected": dataTags                            //todo: this differs from the backend interface atm
             };                                                      //todo: Julian needs to fix the backend =)
             let dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
-            let url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
+            //let url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
+            let url = "../rest/group/user/" + userEmail + "/projects/" + projectName + "/preferences";
             $.ajax({
                 url: url,
                 type: 'PUT',
@@ -102,11 +111,11 @@ function takesPartInProject() {
                     console.log(a);
                 }
             });
-        } else {
+    /*    } else {
             document.getElementById('loader').className = "loader-inactive";
             location.href = "../project/tasks-student.jsp?projectName="+projectName;
         }
-    });
+    });*/
 }
 
 function loginProject(projectName) {
