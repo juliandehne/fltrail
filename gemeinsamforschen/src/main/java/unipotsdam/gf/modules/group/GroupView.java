@@ -35,6 +35,14 @@ public class GroupView {
     private GroupFormationProcess groupFormationProcess;
 
 
+    /**
+     * initializes groups
+     * @param projectName
+     * @return
+     * @throws WrongNumberOfParticipantsException
+     * @throws JAXBException
+     * @throws JsonProcessingException
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all/projects/{projectName}")
@@ -121,7 +129,7 @@ public class GroupView {
     /**
      * find out if this is used by learning goal
      */
-    @Deprecated
+/*    @Deprecated
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}")
@@ -136,7 +144,7 @@ public class GroupView {
     public void persistGroups(@PathParam("projectName") String  projectName, GroupData data) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         Project project = new Project(projectName);
         groupFormationProcess.saveGroups(data.getGroups(), project);
-    }
+    }*/
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

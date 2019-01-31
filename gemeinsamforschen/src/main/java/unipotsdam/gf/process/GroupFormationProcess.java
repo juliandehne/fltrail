@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
+import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupData;
@@ -34,6 +35,9 @@ public class GroupFormationProcess {
 
     @Inject
     private IGroupFinding groupfinding;
+
+    @Inject
+    private ICommunication iCommunication;
 
     public void setGroupFormationMechanism(GroupFormationMechanism groupFormationMechanism, Project project) {
             projectDAO.setGroupFormationMechanism(groupFormationMechanism, project);
@@ -67,12 +71,23 @@ public class GroupFormationProcess {
         taskDAO.finishMemberTask(project, TaskName.WAITING_FOR_GROUP);
         taskDAO.persistMemberTask(project,  TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);
 
-        //saveGroups(groupfinding.getGroups(project), project);
+        saveGroups(groupfinding.getGroups(project), project);
         //if the project is finalized create group chat room
-        groupfinding.finalizeGroups(project);
+        List<Group> groups = groupfinding.getGroups(project);
+        for (Group group : groups) {
+            iCommunication.createChatRoom(group, false);
+        }
     }
 
 
+    /**
+     * if there are no groups for project yet they are created via the gfm
+     * @param project
+     * @return
+     * @throws WrongNumberOfParticipantsException
+     * @throws JAXBException
+     * @throws JsonProcessingException
+     */
     public GroupData getOrInitializeGroups(Project project)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         List<Group> groups1 = groupfinding.getGroups(project);
@@ -85,10 +100,16 @@ public class GroupFormationProcess {
         }
     }
 
-    public void saveGroups(List<Group> groups,Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    /**
+     * overwrites existing groups with manual selection
+     * @param groups
+     * @param project
+     * @throws RocketChatDownException
+     * @throws UserDoesNotExistInRocketChatException
+     */
+    private void saveGroups(List<Group> groups,Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         groupfinding.deleteGroups(project);
         groupfinding.persistGroups(groups, project);
-        finalize(project);
     }
 
     public GroupFormationMechanism getGFMByProject(Project project){

@@ -64,7 +64,7 @@
                 </div>
                 <h3>Gruppenarbeitseinstellungen</h3>
                 <ul>
-                    <li>
+                    <li id="lgLI">
                         <input type="radio" id="lg" name="gfm" value="Basierend auf Lernzielen">
                         <label for="lg">Basierend auf Lernzielen</label>
                     </li>
@@ -72,7 +72,7 @@
                         <input type="radio" id="ml" name="gfm" value="per Hand">
                         <label for="ml">per Hand</label>
                     </li>
-                    <li>
+                    <li id="bpLI">
                         <input type="radio" id="bp" name="gfm" value="Basierend auf Präferenzen">
                         <label for="bp">Basierend auf Präferenzen</label>
                     </li>

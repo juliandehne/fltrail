@@ -41,7 +41,7 @@ public class HealthChecks {
             Response response =
                     client.target("http://fleckenroller.cs.uni-potsdam.de/app/competence-database-prod/api1/competences")
                             .request().get();
-            Boolean compBaseAvailable = response.getStatus() == 200;
+            compBaseAvailable = response.getStatus() == 200;
             Duration timePassed = Duration.between(Instant.now(), timeForCheck);
             log.trace("Comp: " + timePassed.toString());
         }

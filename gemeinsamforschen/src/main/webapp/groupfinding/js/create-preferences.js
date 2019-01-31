@@ -3,13 +3,6 @@
  */
 
 $(document).ready(function () {
-    checkCompBase(function (isCompBaseOnline) {
-        if (!isCompBaseOnline) {
-            $('#competenciesFieldSet').hide();
-            $('#researchQuestionFieldSet').hide();
-        }
-    });
-
     $('#projectWrongPassword').hide();
     printTags();
     let competencies = $("#competencies0");
@@ -139,18 +132,4 @@ function loginProject(projectName) {
             }
         });
     }
-}
-
-function checkCompBase(callback) {
-    $.ajax({
-        url: '../rest/system/health',
-        Accept: "application/json",
-        contentType: "application/json",
-        success: function (response) {
-            callback(response.compBaseOnline);
-        },
-        error: function (a) {
-            console.log(a);
-        }
-    });
 }

@@ -6,6 +6,14 @@ let gfm = "";
  * Created by fides-WHK on 19.02.2018.
  */
 $(document).ready(function () {
+    checkCompBase(function (isCompBaseOnline, isGroupAlOnline) {
+        if (!isCompBaseOnline) {
+            $('#lgLI').hide();
+        }
+        if(!isGroupAlOnline){
+            $('#bpLI').hide();
+        }
+    });
     // hide the different error messages
     errorMessages();
     // add the tagsinput lib
@@ -177,6 +185,20 @@ function sendGroupPreferences() {
         },
         error: function () {
             return false;
+        }
+    });
+}
+
+function checkCompBase(callback) {
+    $.ajax({
+        url: '../rest/system/health',
+        Accept: "application/json",
+        contentType: "application/json",
+        success: function (response) {
+            callback(response.compBaseOnline, response.groupAlOnline);
+        },
+        error: function (a) {
+            console.log(a);
         }
     });
 }

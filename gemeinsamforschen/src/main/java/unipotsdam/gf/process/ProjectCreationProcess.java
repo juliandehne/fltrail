@@ -7,6 +7,7 @@ import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectConfiguration;
@@ -44,6 +45,9 @@ public class ProjectCreationProcess {
     private GroupDAO groupDAO;
 
     @Inject
+    private ProfileDAO profileDAO;
+
+    @Inject
     private ICommunication iCommunication;
 
     @Inject
@@ -63,9 +67,10 @@ public class ProjectCreationProcess {
         } catch (Exception e) {
             throw new WebApplicationException("Project already exists");
         }
+        profileDAO.createNewSurveyProject(project);
         taskDao.createTaskWaitForParticipants(project, author);
 
-        // create chatromm
+        // create chatroom
         iCommunication.createEmptyChatRoom(project.getName(), false);
         iCommunication.addUserToChatRoom(author, project.getName());
 

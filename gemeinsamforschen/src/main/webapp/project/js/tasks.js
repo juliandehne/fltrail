@@ -1,3 +1,5 @@
+let object;
+
 $(document).ready(function () {
     let userEmail = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
@@ -13,7 +15,7 @@ function fillTasks(projectName, userEmail) {
         },
         type: 'GET',
         success: function (response) {
-            let object = fillObjectWithTasks(response);
+            object = fillObjectWithTasks(response);
             for (let task in object) {
                 let tmplObject = fitObjectInTmpl(object[task]);
                 if (tmplObject.taskProgress === "FINISHED") {
@@ -25,8 +27,6 @@ function fillTasks(projectName, userEmail) {
         },
         error: function (a) {
         }
-
-
     });
 }
 
@@ -149,13 +149,16 @@ function fitObjectInTmpl(object) {
     if (object.taskType.includes("LINKED")) {
         switch (object.taskName) {
             case "WAIT_FOR_PARTICPANTS":
-                if (
-                    (object.taskData.gfm === "Manual")
-                    ||
-                    (object.taskData.participantCount.participants >= object.taskData.participantCount.participantsNeeded)
-                ) {
+                if(object.taskData.participantCount.participants >= object.taskData.participantCount.participantsNeeded){
                     result.solveTaskWith = "Gruppen erstellen";
-                    result.solveTaskWithLink = "redirect(\'../groupfinding/create-groups-manual.jsp?projectName=" + object.projectName + "\')";
+                    switch (object.taskData.gfm){
+                        case "Manual":
+                            result.solveTaskWithLink = "redirect(\'../groupfinding/create-groups-manual.jsp?projectName=" + object.projectName + "\')";
+                            break;
+                        default:
+                            result.solveTaskWithLink = "initializeGroups("+object.projectName+");";
+                            break;
+                    }
                 }
                 break;
             case "CLOSE_GROUP_FINDING_PHASE":
@@ -291,4 +294,11 @@ function closePhase(phase, projectName) {
 
 
     })
+}
+
+function initializeGroups(projectName){
+    let projq = new RequestObj(1, "/group", "/all/projects/?", [projectName], []);
+    serverSide(projq, "GET", function (response) {
+        redirect("../groupfinding/create-groups-manual.jsp?projectName=" + object.projectName);
+    });
 }

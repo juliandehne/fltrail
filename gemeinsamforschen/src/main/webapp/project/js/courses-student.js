@@ -247,12 +247,7 @@ function isSearching() {
 
 function buttonHandler() {
     // append buttons for project cards
-    let linkUrl = "";
-    if (isSearching()) {
-        linkUrl = "../groupfinding/enter-preferences.jsp?projectName=";
-    } else {
-        linkUrl = "tasks-student.jsp?projectName=";
-    }
+    let linkUrl = "tasks-student.jsp?projectName=";
     $('.project_Button').each(function () {
         $(this).on('click', function () {
             let projectName = $(this).attr('name');
@@ -273,8 +268,23 @@ function linkToRegister(projectName, linkUrl){
         },
         type: 'GET',
         success: function (response) {
-            if ((response.gfm==="Manual")&& isSearching()){
-                loginProject(projectName);
+            if (isSearching()){
+                switch (response.gfm){
+                    case "Manual":
+                        loginProject(projectName);
+                        break;
+                    case "SingleUser":
+                        loginProject(projectName);
+                        break;
+                    case "LearningGoalStrategy":
+                        linkUrl= "../groupfinding/enter-preferences.jsp?projectName=";
+                        location.href = linkUrl + projectName;
+                        break;
+                    case "UserProfilStrategy":
+                        linkUrl= "../groupfinding/groupALSurvey.jsp?projectName=";
+                        location.href = linkUrl + projectName;
+                        break;
+                }
             }else{
                 location.href = linkUrl + projectName;
             }
