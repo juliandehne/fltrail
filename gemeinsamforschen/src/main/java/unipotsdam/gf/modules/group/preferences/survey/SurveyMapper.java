@@ -2,18 +2,14 @@ package unipotsdam.gf.modules.group.preferences.survey;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import unipotsdam.gf.config.GroupAlConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.communication.view.CommunicationView;
-import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
-import unipotsdam.gf.modules.group.preferences.groupal.GroupAlMatcher;
 import unipotsdam.gf.modules.group.preferences.groupal.PGroupAlMatcher;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
@@ -21,7 +17,7 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.user.UserProfile;
-import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.ProjectCreationProcess;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -47,19 +43,14 @@ public class SurveyMapper {
     private ProjectDAO projectDAO;
 
     @Inject
-    private IPhases phases;
-
-    @Inject
     private UserDAO userDAO;
 
     @Inject
     private Management management;
 
     @Inject
-    private PGroupAlMatcher groupAlMatcher;
+    private ProjectCreationProcess projectCreationProcess;
 
-    @Inject
-    private GroupDAO groupDAO;
 
     private static final Logger log = LoggerFactory.getLogger(CommunicationView.class);
 
@@ -67,10 +58,9 @@ public class SurveyMapper {
      * generate the backing data for the survey
      *
      * @param groupWorkContext
-     * @param standalone       is false if run within fltrail general project
      * @return
      */
-    public SurveyData getItemsFromDB(GroupWorkContext groupWorkContext, Boolean standalone, Project project)
+    public SurveyData getItemsFromDB(GroupWorkContext groupWorkContext, Project project)
             throws Exception {
         SurveyData surveyData = new SurveyData(); // the result obj
 
@@ -80,6 +70,7 @@ public class SurveyMapper {
         if (questions == null) {
             throw new Exception("items are not available in DB");
         }
+        boolean standalone = (groupWorkContext==GroupWorkContext.dota ||groupWorkContext==GroupWorkContext.overwatch);
         if (standalone) {
             // the general questions to create a profile (given that we are not running the survey as part of the normal
             // FL-Trail Mode
@@ -106,46 +97,44 @@ public class SurveyMapper {
 
             String discordIdString = "(optional) Enter your discord ID!";
             switch (groupWorkContext) {
-                case fl:
-                    break;
                 case dota:
                 case overwatch:
                     LocalizedText discordQuestion =
                             new LocalizedText("" + discordIdString, "(optional) Geben Sie ihre Discord ID ein!");
                     addGeneralQuestion(DISCORDID, discordQuestion, generalDetails);
                     break;
+                case fl:
+                    break;
             }
             surveyData.getPages().add(generalDetails);
-
-            int i = 0;
-            Page profileQuestionsPage = new Page();
-            profileQuestionsPage.setName("page" + i);
-            for (ProfileQuestion question : questions) {
-                // just those things
-                i++;
-                if (i == 5) {
-                    i = 0;
-                    surveyData.getPages().add(profileQuestionsPage);
-                    if (isdebug) {
-                        return surveyData;
-                    }
-                    profileQuestionsPage = new Page();
-                    profileQuestionsPage.setName("page" + i);
-                }
-                profileQuestionsPage.getQuestions().add(convertQuestion(question));
-            }
-            if (!profileQuestionsPage.getQuestions().isEmpty()) {
+        }
+        int i = 0;
+        Page profileQuestionsPage = new Page();
+        profileQuestionsPage.setName("page" + i);
+        for (ProfileQuestion question : questions) {
+            // just those things
+            i++;
+            if (i == 5) {
+                i = 0;
                 surveyData.getPages().add(profileQuestionsPage);
+                if (isdebug) {
+                    return surveyData;
+                }
+                profileQuestionsPage = new Page();
+                profileQuestionsPage.setName("page" + i);
             }
+            profileQuestionsPage.getQuestions().add(convertQuestion(question));
+        }
+        if (!profileQuestionsPage.getQuestions().isEmpty()) {
+            surveyData.getPages().add(profileQuestionsPage);
         }
         return surveyData;
     }
 
     private void addGeneralQuestion(String name, LocalizedText nickname1, Page generalDetails) {
-        LocalizedText generalTextQuestion = nickname1;
         OpenQuestion openQuestion = new OpenQuestion();
         openQuestion.setName(name);
-        openQuestion.setTitle(generalTextQuestion);
+        openQuestion.setTitle(nickname1);
         generalDetails.getQuestions().add(openQuestion);
     }
 
@@ -156,25 +145,24 @@ public class SurveyMapper {
         return scaledQuestion;
     }
 
-    public void saveData(HashMap<String, String> data, String projectId, HttpServletRequest req)
-            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException {
+    public void saveData(HashMap<String, String> data, String projectId, HttpServletRequest req) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         log.trace("persisting survey data");
         User user;
         // it is test context
-        if (req == null){
+        if (req == null) {
             user = createUserFromSurvey(data);
             // it is in survey context
-        } else if (req.getAttribute("userEmail") == null) {
+        } else if (req.getSession().getAttribute("userEmail") == null) {
             req.getSession().setAttribute("userEmail", data.get(EMAIL1));
             user = createUserFromSurvey(data);
         }
         // it is in fl context
         else {
-            user = userDAO.getUserByEmail(req.getAttribute("userEmail").toString());
+            user = userDAO.getUserByEmail(req.getSession().getAttribute("userEmail").toString());
+            projectCreationProcess.updateProjCreaProcTasks(new Project(projectId), user);
         }
-        // save
+        //save
         management.register(user, new Project(projectId), null);
-
         UserProfile userProfile = new UserProfile(data, user, projectId);
         profileDAO.save(userProfile);
 
@@ -210,5 +198,9 @@ public class SurveyMapper {
         projectDAO.persist(project);
         profileDAO.createNewSurveyProject(new Project(randomId));
         return randomId;
+    }
+
+    public GroupWorkContext getGroupWorkContext(Project project){
+        return profileDAO.getGroupWorkContext(project);
     }
 }

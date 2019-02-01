@@ -4,5 +4,4 @@ public enum GroupWorkContext {
     fl,
     dota,
     overwatch,
-
 }

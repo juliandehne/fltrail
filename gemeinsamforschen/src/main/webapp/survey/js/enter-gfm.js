@@ -10,13 +10,17 @@ $(document).ready(function () {
         messageHolder.show();
     }
 
+    if (!language){
+        language='en';
+    }
+
     if (language==='en'){
         $('#theTextPageEn').toggleClass("in");
         $('#navGroupView').html("groups");
         $('#navTextPage').html("introduction");
         $('#navSurvey').html("survey");
     }else{
-        if(language==='ger'){
+        if(language==='de'){
             $('#theTextPageGer').toggleClass("in");
             $('#navGroupView').html("Gruppen");
             $('#navTextPage').html("Einleitung");
@@ -63,7 +67,7 @@ $(document).ready(function () {
         $('#groupsHeadline').show();
         $('#Gruppeneinteilung').hide();
     }else{
-        if(language ==='ger'){
+        if(language ==='de'){
             $('#groupsHeadline').hide();
             $('#Gruppeneinteilung').show();
         }
@@ -77,7 +81,7 @@ $(document).ready(function () {
         if(language==='en'){
             $('#theTextPageEn').toggleClass("in");
         }else{
-            if(language==='ger'){
+            if(language==='de'){
                 $('#theTextPageGer').toggleClass("in");
             }
         }
@@ -95,7 +99,7 @@ $(document).ready(function () {
                     $('#ifNoUserIsSetEn').show();
                     $('#ifNoUserIsSetGer').hide();
                 }else{
-                    if(language==='ger'){
+                    if(language==='de'){
                         $('#ifNoUserIsSetGer').show();
                         $('#ifNoUserIsSetEn').hide();
                     }
@@ -139,7 +143,7 @@ $(document).ready(function () {
             if(language==='en'){
                 $('#theTextPageEn').toggleClass("in");
             }else{
-                if(language==='ger'){
+                if(language==='de'){
                     $('#theTextPageGer').toggleClass("in");
                 }
             }
@@ -163,7 +167,7 @@ $(document).ready(function () {
                         $('#ifNoUserIsSetEn').show();
                         $('#ifNoUserIsSetGer').hide();
                     }else{
-                        if(language==='ger'){
+                        if(language==='de'){
                             $('#ifNoUserIsSetGer').show();
                             $('#ifNoUserIsSetEn').hide();
                         }
@@ -324,7 +328,7 @@ function btnSetUserEmail(){
     if (language==='en'){
         userEmail = $('#userEmailGroupViewEn').val();
     }else{
-        if(language==='ger'){
+        if(language==='de'){
             userEmail = $('#userEmailGroupViewGer').val();
         }
     }

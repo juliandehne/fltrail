@@ -107,7 +107,7 @@ public class GroupFormationProcess {
      * @throws RocketChatDownException
      * @throws UserDoesNotExistInRocketChatException
      */
-    private void saveGroups(List<Group> groups,Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public void saveGroups(List<Group> groups,Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         groupfinding.deleteGroups(project);
         groupfinding.persistGroups(groups, project);
     }

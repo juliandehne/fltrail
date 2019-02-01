@@ -142,7 +142,7 @@ function viewToGroup(callback) {
 function saveNewGroups(groups) {
     let data = JSON.stringify(groups);
     $.ajax({
-        url: "../rest/group/projects/" + $('#projectName').html().trim(),
+        url: "../rest/group/projects/" + $('#projectName').html().trim()+"/groups/finalize",
         data: data,
         headers: {
             "Content-Type": "application/json",

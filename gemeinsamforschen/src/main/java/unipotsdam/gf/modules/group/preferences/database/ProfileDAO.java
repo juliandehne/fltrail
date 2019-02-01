@@ -1,12 +1,15 @@
 package unipotsdam.gf.modules.group.preferences.database;
 
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.excel.ItemSet;
 import unipotsdam.gf.modules.group.preferences.groupal.request.*;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.UserProfile;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
+import unipotsdam.gf.process.GroupFormationProcess;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -380,5 +383,16 @@ public class ProfileDAO {
 
         connect.issueInsertOrDeleteStatement(query, project.getName());
         connect.close();
+    }
+
+    public GroupWorkContext getGroupWorkContext(Project project){
+        connect.connect();
+        String query = "SELECT * FROM projects WHERE name=?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
+        GroupWorkContext groupWorkContext = GroupWorkContext.fl;
+        if (vereinfachtesResultSet.next()){
+            groupWorkContext = GroupWorkContext.valueOf(vereinfachtesResultSet.getString("context"));
+        }
+        return groupWorkContext;
     }
 }

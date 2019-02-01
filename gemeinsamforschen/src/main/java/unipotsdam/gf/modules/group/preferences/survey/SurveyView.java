@@ -7,11 +7,13 @@ import unipotsdam.gf.config.GroupAlConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.session.GFContexts;
@@ -48,10 +50,8 @@ public class SurveyView {
     @Inject
     private SurveyMapper surveyMapper;
 
-
     @Inject
     private UserDAO userDAO;
-
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -67,8 +67,9 @@ public class SurveyView {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/data/project/{projectId}")
     public SurveyData getSurveyData(@PathParam("projectId") String projectId) throws Exception {
-        // TODO change context to dynamic
-        return surveyMapper.getItemsFromDB(GroupWorkContext.dota, true, new Project(projectId));
+        Project project = projectDAO.getProjectByName(projectId);
+        GroupWorkContext groupWorkContext = surveyMapper.getGroupWorkContext(project);
+        return surveyMapper.getItemsFromDB(groupWorkContext, project);
     }
 
     @GET
@@ -96,8 +97,12 @@ public class SurveyView {
             HashMap<String, String> data, @PathParam("projectName") String projectName,
             @Context HttpServletRequest req)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-
+        GroupWorkContext groupWorkContext = surveyMapper.getGroupWorkContext(new Project(projectName));
+        if(groupWorkContext!= GroupWorkContext.fl){
             surveyProcess.saveSurveyData(new Project(projectName), data, req);
+        }else{
+            surveyMapper.saveData(data,projectName,req);
+        }
     }
 
     @POST

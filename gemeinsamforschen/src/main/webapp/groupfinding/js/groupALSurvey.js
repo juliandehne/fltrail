@@ -1,25 +1,21 @@
-let projectId="";
+let projectId = "";
+let userEmail;
 $(document).ready(function () {
     Survey
         .StylesManager
         .applyTheme("default");
 
-
-    let projq = new RequestObj(1, "/survey", "/project/name/?", ["FL"], []);
-    serverSide(projq, "GET", function (response) {
-
-        projectId = response.name;
-        // getting the survey items from the server
-        let requ = new RequestObj(1, "/survey", "/data/project/?", [projectId], []);
-        serverSide(requ, "GET", function (surveyJSON) {
-            let survey = new Survey.Model(surveyJSON);
-            survey.locale = "en";
+    projectId = getQueryVariable("projectName");
+    // getting the survey items from the server
+    let requ = new RequestObj(1, "/survey", "/data/project/?", [projectId], []);
+    serverSide(requ, "GET", function (surveyJSON) {
+        let survey = new Survey.Model(surveyJSON);
+        survey.locale = "de";
 
 
-            $("#surveyContainer").Survey({
-                model: survey,
-                onComplete: sendDataToServer
-            });
+        $("#surveyContainer").Survey({
+            model: survey,
+            onComplete: sendDataToServer
         });
     });
 
@@ -31,7 +27,7 @@ $(document).ready(function () {
         userEmail = survey.data.EMAIL1;
         serverSide(dataReq, "POST", function () {
             //log.warn(a);
-            location.href = "../project/tasks-student.jsp?projectName="+projectId;
+            location.href = "../project/tasks-student.jsp?projectName=" + projectId;
         })
     }
 });

@@ -156,7 +156,7 @@ function fitObjectInTmpl(object) {
                             result.solveTaskWithLink = "redirect(\'../groupfinding/create-groups-manual.jsp?projectName=" + object.projectName + "\')";
                             break;
                         default:
-                            result.solveTaskWithLink = "initializeGroups("+object.projectName+");";
+                            result.solveTaskWithLink = "initializeGroups('"+object.projectName+"');";
                             break;
                     }
                 }
@@ -299,6 +299,6 @@ function closePhase(phase, projectName) {
 function initializeGroups(projectName){
     let projq = new RequestObj(1, "/group", "/all/projects/?", [projectName], []);
     serverSide(projq, "GET", function (response) {
-        redirect("../groupfinding/create-groups-manual.jsp?projectName=" + object.projectName);
+        redirect("../groupfinding/create-groups-manual.jsp?projectName=" + projectName);
     });
 }

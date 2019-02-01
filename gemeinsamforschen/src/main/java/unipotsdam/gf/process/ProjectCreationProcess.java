@@ -57,7 +57,7 @@ public class ProjectCreationProcess {
      * STEP 1
      *
      * @param project which project is created
-     * @param author who creates the project
+     * @param author  who creates the project
      */
     public void createProject(Project project, User author)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
@@ -80,13 +80,75 @@ public class ProjectCreationProcess {
      * STEP 2
      *
      * @param project which project is entered
-     * @param user who is participates the project
+     * @param user    who is participates the project
      */
     public void studentEntersProject(Project project, User user)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         // student enters project
         iManagement.register(user, project, null);
+        updateProjCreaProcTasks(project, user);
+    }
 
+    public void createUser(User user)
+            throws UserExistsInMysqlException, RocketChatDownException, UserExistsInRocketChatException {
+        if (iManagement.exists(user)) {
+            throw new UserExistsInMysqlException();
+        }
+        // create user in rocket chat
+        iCommunication.registerUser(user);
+        // create user in mysql
+        iManagement.create(user);
+
+    }
+
+    public Boolean authenticateUser(User user, HttpServletRequest req)
+            throws UserDoesNotExistInRocketChatException, RocketChatDownException {
+        // todo implement
+
+        RocketChatUser isLoggedIn = null;
+        try {
+            isLoggedIn = iCommunication.loginUser(user);
+            gfContexts.updateUserSessionWithRocketChat(req, isLoggedIn);
+        } catch (Exception e) {
+            System.out.println("rocketchat funktioniert nicht ... mache trotzdem weiter");
+        } finally {
+            if (isLoggedIn != null) {
+                gfContexts.updateUserWithEmail(req, isLoggedIn);
+                return iManagement.exists(user);
+            } else {
+                gfContexts.updateUserWithEmail(req, user);
+                return iManagement.exists(user);
+            }
+        }
+    }
+
+    public void deleteUser(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        iManagement.delete(user);
+        iCommunication.delete(user);
+    }
+
+    public void deleteProject(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        // TODO implement
+        iManagement.delete(project);
+        iCommunication.deleteChatRoom(project);
+    }
+
+    /*  */
+
+    /**
+     * STEP N
+     *
+     * @param project the project to delete
+     *//*
+    public void deleteProject(Project project) {
+        try {
+            iManagement.delete(project);
+        } catch (Exception e) {
+            throw new WebApplicationException("Project already exists");
+        }
+        //taskDao.createTaskWaitForParticipants(project, author);
+    }*/
+    public void updateProjCreaProcTasks(Project project, User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         // create info for student
         Task task = taskDao.createWaitingForGroupFormationTask(project, user);
 
@@ -108,61 +170,4 @@ public class ProjectCreationProcess {
         iCommunication.addUserToChatRoom(user, project.getName());
     }
 
-    public void createUser(User user)
-            throws UserExistsInMysqlException, RocketChatDownException, UserExistsInRocketChatException {
-        if(iManagement.exists(user)) {
-            throw new UserExistsInMysqlException();
-        }
-        // create user in rocket chat
-        iCommunication.registerUser(user);
-        // create user in mysql
-        iManagement.create(user);
-
-    }
-
-    public Boolean authenticateUser(User user, HttpServletRequest req)
-            throws UserDoesNotExistInRocketChatException, RocketChatDownException {
-        // todo implement
-
-        RocketChatUser isLoggedIn = null;
-        try  {
-        isLoggedIn = iCommunication.loginUser(user);
-        gfContexts.updateUserSessionWithRocketChat(req, isLoggedIn);
-        } catch(Exception e) {
-            System.out.println("rocketchat funktioniert nicht ... mache trotzdem weiter");
-        } finally {
-            if (isLoggedIn != null) {
-            gfContexts.updateUserWithEmail(req, isLoggedIn);
-            return iManagement.exists(user);
-            } else {
-                gfContexts.updateUserWithEmail(req, user);
-                return iManagement.exists(user);
-            }
-        }
-    }
-
-    public void deleteUser(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
-        iManagement.delete(user);
-        iCommunication.delete(user);
-    }
-
-    public void deleteProject(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
-        // TODO implement
-        iManagement.delete(project);
-        iCommunication.deleteChatRoom(project);
-    }
-
-  /*  *//**
-     * STEP N
-     *
-     * @param project the project to delete
-     *//*
-    public void deleteProject(Project project) {
-        try {
-            iManagement.delete(project);
-        } catch (Exception e) {
-            throw new WebApplicationException("Project already exists");
-        }
-        //taskDao.createTaskWaitForParticipants(project, author);
-    }*/
 }

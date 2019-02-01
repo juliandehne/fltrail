@@ -149,9 +149,10 @@ public class GroupView {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}/groups/finalize")
-    public void finalizeGroups(@PathParam("projectName") String  projectName)
+    public void finalizeGroups(@PathParam("projectName") String  projectName, Group[] groups)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         Project project = new Project(projectName);
+        groupFormationProcess.saveGroups(Arrays.asList(groups), project);
         groupFormationProcess.finalize(project);
     }
 
