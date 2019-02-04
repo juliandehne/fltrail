@@ -40,14 +40,18 @@ public class SurveyProcess {
     @Inject
     private IGroupFinding groupfinding;
 
-    public void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req)
+    public void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-        surveyMapper.saveData(data, project.getName(), req);
-        List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
-        if (usersByProjectName.size() == GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
-            List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
-            groupfinding.persistGroups(groups, project);
-            phases.endPhase(Phase.GroupFormation, project);
+        if (groupWorkContext==GroupWorkContext.evaluation){
+            surveyMapper.saveEvaluation(data,project.getName(),req);
+        }else{
+            surveyMapper.saveData(data, project.getName(), req);
+            List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
+            if (usersByProjectName.size() == GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
+                List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
+                groupfinding.persistGroups(groups, project);
+                phases.endPhase(Phase.GroupFormation, project);
+            }
         }
     }
 

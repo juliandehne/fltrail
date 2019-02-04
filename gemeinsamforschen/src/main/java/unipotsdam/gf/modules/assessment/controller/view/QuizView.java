@@ -29,6 +29,38 @@ public class QuizView {
     @Inject
     Management management;
 
+    /**
+     * possible dimensions:
+     * Verantwortungsbewusstsein
+     * Disskusionsfähigkeit
+     * Anteil am Produkt
+     * Kooperationsbereitschaft
+     * Selbstständigkeit
+     * Führungsqualität
+     * Pünktlichkeit
+     * Motivation
+     * Gewissenhaftigkeit
+     * respektvoller Umgang mit anderen
+     * Wert der Beiträge
+     * kann sich an Vereinbarungen halten
+     * emotionale Stabilität
+     * Hilfsbereitschaft
+     * @param projectName
+     * @return
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/workProperty/project/{projectName}")
+    public ArrayList<String> getWorkProperty(@PathParam("projectName") String projectName) {
+        ArrayList<String> result = new ArrayList<>();
+        result.add("Anteil am Produkt");
+        result.add("Verantwortungsbewusstsein");
+        result.add("Kooperationsbereitschaft");
+        result.add("Diskussionsbereitschaft");
+        result.add("Selbstständigkeit");
+        return result;
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/project/{projectName}/quiz/{quizId}/author/{author}")

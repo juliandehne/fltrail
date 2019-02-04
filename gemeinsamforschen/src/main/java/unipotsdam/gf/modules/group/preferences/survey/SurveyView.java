@@ -3,19 +3,13 @@ package unipotsdam.gf.modules.group.preferences.survey;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.config.GroupAlConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
-import unipotsdam.gf.modules.group.GroupFormationMechanism;
-import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.SurveyProcess;
-import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
@@ -23,14 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
-
-import static jdk.nashorn.internal.objects.Global.undefined;
 
 @Path("/survey")
 public class SurveyView {
@@ -62,13 +51,21 @@ public class SurveyView {
     }
 
 
-
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/data/project/{projectId}")
     public SurveyData getSurveyData(@PathParam("projectId") String projectId) throws Exception {
         Project project = projectDAO.getProjectByName(projectId);
         GroupWorkContext groupWorkContext = surveyMapper.getGroupWorkContext(project);
+        return surveyMapper.getItemsFromDB(groupWorkContext, project);
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("/evaluation/project/{projectId}")
+    public SurveyData getEvaluationQuestions(@PathParam("projectId") String projectId) throws Exception {
+        Project project = projectDAO.getProjectByName(projectId);
+        GroupWorkContext groupWorkContext = GroupWorkContext.evaluation;
         return surveyMapper.getItemsFromDB(groupWorkContext, project);
     }
 
@@ -98,24 +95,35 @@ public class SurveyView {
             @Context HttpServletRequest req)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         GroupWorkContext groupWorkContext = surveyMapper.getGroupWorkContext(new Project(projectName));
-        if(groupWorkContext!= GroupWorkContext.fl){
-            surveyProcess.saveSurveyData(new Project(projectName), data, req);
-        }else{
-            surveyMapper.saveData(data,projectName,req);
+        if (groupWorkContext != GroupWorkContext.fl) {
+            surveyProcess.saveSurveyData(new Project(projectName), data, req, groupWorkContext);
+        } else {
+            surveyMapper.saveData(data, projectName, req);
         }
+    }
+
+    @POST
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("/save/evaluation/projects/{projectName}")
+    public void saveEvaluation(
+            HashMap<String, String> data, @PathParam("projectName") String projectName,
+            @Context HttpServletRequest req)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+        GroupWorkContext groupWorkContext = GroupWorkContext.evaluation;
+        surveyProcess.saveSurveyData(new Project(projectName), data, req, groupWorkContext);
     }
 
     @POST
     @Produces(MediaType.TEXT_HTML)
     @Path("/user")
     public String loggedIn(@Context HttpServletRequest req) {
-        try{
+        try {
             String userSessionEmail = gfContexts.getUserEmail(req);
             if (userSessionEmail == null)
                 return "authenticated";
             else
                 return "userEmail set";
-        }catch(Exception e){
+        } catch (Exception e) {
             return "userEmail not set";
         }
     }

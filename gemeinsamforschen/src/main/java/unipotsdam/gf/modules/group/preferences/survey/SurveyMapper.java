@@ -63,10 +63,14 @@ public class SurveyMapper {
     public SurveyData getItemsFromDB(GroupWorkContext groupWorkContext, Project project)
             throws Exception {
         SurveyData surveyData = new SurveyData(); // the result obj
-
         // the persisted questions from the excel sheet (ITEMS for FL, based on FideS Team research)
-        HashMap<Project, List<ProfileQuestion>> questionMap = profileDAO.getSelectedQuestions();
-        List<ProfileQuestion> questions = questionMap.get(project);
+        HashMap<Project, List<ProfileQuestion>> questionMap = profileDAO.getSelectedQuestions(groupWorkContext);
+        List<ProfileQuestion> questions;
+        if (groupWorkContext==GroupWorkContext.evaluation){
+            questions = questionMap.get(new Project());
+        }else{
+            questions = questionMap.get(project);
+        }
         if (questions == null) {
             throw new Exception("items are not available in DB");
         }
@@ -145,6 +149,12 @@ public class SurveyMapper {
         return scaledQuestion;
     }
 
+    public void saveEvaluation(HashMap<String, String> data, String projectId, HttpServletRequest req){
+        User user = userDAO.getUserByEmail(req.getSession().getAttribute("userEmail").toString());
+        UserProfile userProfile = new UserProfile(data, user, projectId);
+        profileDAO.save(userProfile, GroupWorkContext.evaluation);
+    }
+
     public void saveData(HashMap<String, String> data, String projectId, HttpServletRequest req) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         log.trace("persisting survey data");
         User user;
@@ -164,7 +174,7 @@ public class SurveyMapper {
         //save
         management.register(user, new Project(projectId), null);
         UserProfile userProfile = new UserProfile(data, user, projectId);
-        profileDAO.save(userProfile);
+        profileDAO.save(userProfile, null);
 
     }
 

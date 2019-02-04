@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.group.preferences.database;
 
-import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.excel.ItemSet;
 import unipotsdam.gf.modules.group.preferences.groupal.request.*;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
@@ -9,7 +8,6 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.UserProfile;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.process.GroupFormationProcess;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -82,10 +80,18 @@ public class ProfileDAO {
      *
      * @param profileQuestionAnswer
      */
-    public void persist(ProfileQuestionAnswer profileQuestionAnswer) {
+    public void persist(ProfileQuestionAnswer profileQuestionAnswer, GroupWorkContext groupWorkContext) {
         connect.connect();
-        String query =
-                "INSERT INTO profilequestionanswer (`profileQuestionId`,`answerIndex`, `selectedAnswer`, " + "`userEmail`) values (?,?,?,?)";
+        String query;
+        if (groupWorkContext == GroupWorkContext.evaluation) {
+            query =
+                    "INSERT INTO peerAssessmentWorkAnswer (`propertieId`,`answerIndex`, `selectedAnswer`, " +
+                            "`userEmail`) values (?,?,?,?)";
+        } else {
+            query =
+                    "INSERT INTO profilequestionanswer (`profileQuestionId`,`answerIndex`, `selectedAnswer`, " +
+                            "`userEmail`) values (?,?,?,?)";
+        }
         connect.issueInsertOrDeleteStatement(query, profileQuestionAnswer.getQuestion().getId(),
                 profileQuestionAnswer.getAnswerIndex(), profileQuestionAnswer.getSelectedAnswer(),
                 profileQuestionAnswer.getUser().getEmail());
@@ -196,18 +202,29 @@ public class ProfileDAO {
 
     }
 
-    public HashMap<Project, List<ProfileQuestion>> getSelectedQuestions() {
+    public HashMap<Project, List<ProfileQuestion>> getSelectedQuestions(GroupWorkContext groupWorkContext) {
         HashMap<Project, List<ProfileQuestion>> profileQuestions = new HashMap<>();
         connect.connect();
-        String query =
-                "Select pq.id,p.name, pq.question, pq.question_en, pq.subvariable from projects p " + "join " +
-                        "surveyitemsselected sis on p.name = sis.projectname " + "join profilequestions pq on pq.id = sis.profilequestionid";
+        String query;
+        if (groupWorkContext == GroupWorkContext.evaluation) {
+            query = "Select id, question, question_en, subvariable from peerAssessmentWorkProperties";
+        } else {
+            query =
+                    "Select pq.id,p.name, pq.question, pq.question_en, pq.subvariable from projects p " +
+                            "join surveyitemsselected sis on p.name = sis.projectname " +
+                            "join profilequestions pq on pq.id = sis.profilequestionid";
+        }
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
         while (vereinfachtesResultSet.next()) {
-            Project project = new Project(vereinfachtesResultSet.getString("name"));
             ProfileQuestion profileQuestion = new ProfileQuestion(5, vereinfachtesResultSet.getString("question"),
                     vereinfachtesResultSet.getString("question_en"), vereinfachtesResultSet.getString("subvariable"));
             profileQuestion.setId(vereinfachtesResultSet.getInt("id"));
+            Project project;
+            if (groupWorkContext != GroupWorkContext.evaluation) {
+                project = new Project(vereinfachtesResultSet.getString("name"));
+            } else {
+                project = new Project();
+            }
             if (profileQuestions.keySet().contains(project)) {
                 List<ProfileQuestion> profileQuestions1 = profileQuestions.get(project);
                 profileQuestions1.add(profileQuestion);
@@ -241,7 +258,7 @@ public class ProfileDAO {
         connect.close();
     }
 
-    public void save(UserProfile profile) {
+    public void save(UserProfile profile, GroupWorkContext groupWorkContext) {
         HashMap<String, String> data = profile.getData();
         for (String key : data.keySet()) {
             String value = data.get(key);
@@ -250,12 +267,13 @@ public class ProfileDAO {
             profileQuestionAnswer.setQuestion(new ProfileQuestion(questionId));
             profileQuestionAnswer.setAnswerIndex(Integer.parseInt(value));
             profileQuestionAnswer.setUser(profile.getUser());
-            persist(profileQuestionAnswer);
+            persist(profileQuestionAnswer, groupWorkContext);
         }
     }
 
     /**
      * get participant answers from the db
+     *
      * @param project
      * @return
      */
@@ -271,11 +289,11 @@ public class ProfileDAO {
                 " join profilequestions pq on pq.id = pqa.profileQuestionId" +
                 " join surveyitemsselected sis on sis.profilequestionid = pq.id" +
                 " join users u on u.email = pqa.userEmail" +
-                " join projectuser pu on u.email=pu.userEmail and pu.projectname = ?"+
+                " join projectuser pu on u.email=pu.userEmail and pu.projectname = ?" +
                 " join profilevariables pv on pv.subvariable = pq.subvariable ";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
         int i = 0;
-        while (vereinfachtesResultSet.next()){
+        while (vereinfachtesResultSet.next()) {
             String subvariable = vereinfachtesResultSet.getString("subvariable");
             String isHomogenous = vereinfachtesResultSet.getInt("homogeneity") == 1 ? "true" : "false";
             Boolean polarity = vereinfachtesResultSet.getBoolean("polarity");
@@ -314,12 +332,12 @@ public class ProfileDAO {
                 int i1 = criteria.indexOf(usedCriterionMain);
                 Criterion criterion1 = criteria.get(i1);
                 int size = criterion1.getValues().size();
-                value.setName("value"+(size));
+                value.setName("value" + (size));
                 criterion1.getValues().add(value);
                 criteria.remove(criterion1);
                 criteria.add(criterion1);
             } else {
-                value.setName("value"+0);
+                value.setName("value" + 0);
                 usedCriterionMain.getValues().add(value);
                 criteria.add(usedCriterionMain);
             }
@@ -327,7 +345,7 @@ public class ProfileDAO {
             Criterion criterion1 = new Criterion();
             criterion1.setName(subvariable);
             criterion1.setIsHomogeneous(isHomogenous);
-            value.setName("value"+0);
+            value.setName("value" + 0);
             criterion1.getValues().add(value);
             ArrayList<Criterion> criteria = new ArrayList<>();
             criteria.add(criterion1);
@@ -355,7 +373,6 @@ public class ProfileDAO {
     }
 
 
-
     private UsedCriterion fillUsedCriterion(
             ArrayList<UsedCriterion> usedCriterions, String subvariable, String isHomogenous) {
         UsedCriterion usedCriterionMain = new UsedCriterion();
@@ -379,18 +396,18 @@ public class ProfileDAO {
     public void createNewSurveyProject(Project project) {
         connect.connect();
         String query = "Insert into surveyitemsselected (projectname, profilequestionid) " +
-                        " SELECT ?, id FROM profilequestions";
+                " SELECT ?, id FROM profilequestions";
 
         connect.issueInsertOrDeleteStatement(query, project.getName());
         connect.close();
     }
 
-    public GroupWorkContext getGroupWorkContext(Project project){
+    public GroupWorkContext getGroupWorkContext(Project project) {
         connect.connect();
         String query = "SELECT * FROM projects WHERE name=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
         GroupWorkContext groupWorkContext = GroupWorkContext.fl;
-        if (vereinfachtesResultSet.next()){
+        if (vereinfachtesResultSet.next()) {
             groupWorkContext = GroupWorkContext.valueOf(vereinfachtesResultSet.getString("context"));
         }
         return groupWorkContext;
