@@ -7,9 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
-
-
-
 <html>
 
 <head>
@@ -55,11 +52,11 @@
                 <div class="alert alert-danger" role="alert" style="width:475px" id="projectIsMissing">
                     Tragen sie einen Projektnamen ein.
                 </div>
-                <div class="form-group">
+                <div class="form-group infotext">
                     <input class="form-control" name="name" placeholder="Name" id="nameProject">
                 </div>
                 <label> Passwort zum Teilnehmen (optional) </label>
-                <div class="form-group">
+                <div class="form-group infotext">
                     <input class="form-control" name="password" placeholder="Passwort" id="passwordProject">
                 </div>
                 <h3>Gruppenarbeitseinstellungen</h3>
@@ -83,7 +80,7 @@
                 </ul>
                 <h3>Projektbeschreibung</h3>
 
-                <textarea class="" rows="4" cols="60" id="projectDescription"
+                <textarea class="form-control infotext" rows="5" id="projectDescription"
                           placeholder="meine Projektbeschreibung"></textarea>
 
                 <h3>Tags </h3>

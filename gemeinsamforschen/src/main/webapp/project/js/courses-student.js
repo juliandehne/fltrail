@@ -138,7 +138,8 @@ function printProjectCard(response, project, tmplObject) {
             projectTags: response[project].tags,
             projectDescription: response[project].description,
             projectAction: projectAction,
-            isSearching: isSearching()
+            isSearching: isSearching(),
+            passwordRequired: response[project].password !=="",
         });
     }
 }

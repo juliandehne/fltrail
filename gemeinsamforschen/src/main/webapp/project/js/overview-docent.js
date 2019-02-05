@@ -81,6 +81,7 @@ function getProjects(userName) {
                 });
             } else {
                 $('#headLine').html("Sie haben noch keine Kurse erstellt.");
+                $('#selfMade').hide();
                 $('.select_arrow').each(function () {
                     $(this).hide();
                 });

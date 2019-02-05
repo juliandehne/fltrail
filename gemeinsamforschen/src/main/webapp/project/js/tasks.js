@@ -86,10 +86,13 @@ function fitObjectInTmpl(object) {
     switch (object.taskName) {
         case "WAIT_FOR_PARTICPANTS":
             let countMissing = object.taskData.participantCount.participantsNeeded - object.taskData.participantCount.participants;
-            result.infoText = "Warten Sie auf die Anmeldungen der Studenten.\n" +
+            result.infoText = "Warten Sie auf die Anmeldungen der Studenten.\n"+
                 "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
+            if (object.taskData.participantCount.participants===0){
+                result.infoText = " Es gibt noch keine Teilnehmer.";
+            }
             if (countMissing>0){
-                result.infoText += " Es fehlen noch " + countMissing;
+                result.infoText += " Es fehlen noch " + countMissing+".";
             }
 
             break;

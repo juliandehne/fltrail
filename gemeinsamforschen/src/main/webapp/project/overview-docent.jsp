@@ -26,7 +26,7 @@
 
         <h2 id="headLine">Projekt finden</h2>
         <p id="introduction"></p>
-        <label class="container">Selbst erstellt
+        <label class="container" id="selfMade">Selbst erstellt
             <input type="checkbox" checked="checked">
             <span class="checkmark"></span>
         </label>
