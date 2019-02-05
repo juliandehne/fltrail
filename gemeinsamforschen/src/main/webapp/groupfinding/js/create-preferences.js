@@ -112,8 +112,8 @@ function takesPartInProject() {
 }
 
 function loginProject(projectName) {
-    let password = $('#projectPassword').val();
-    let url = "../../gemeinsamforschen/rest/project/login/" + projectName + "?password=" + password;
+    //let password = $('#projectPassword').val();
+    let url = "../../gemeinsamforschen/rest/project/login/" + projectName;// + "?password=" + password;
     if (projectName === "") {
         return false;
     } else {

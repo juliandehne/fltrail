@@ -20,12 +20,12 @@
             <a class="nav-link"
                href="<%= hierarchyLevel%>project/courses-student.jsp">Home</a>
             <a class="nav-link"
-               href="<%= hierarchyLevel%>project/courses-student.jsp?all=true">suche Kurs</a>
+               href="<%= hierarchyLevel%>project/courses-student.jsp?all=true">Kurssuche</a>
             <% } else {%>
             <a class="nav-link"
-               href="<%= hierarchyLevel%>project/overview-docent.jsp">meine Projekte</a>
+               href="<%= hierarchyLevel%>project/overview-docent.jsp">Projekte</a>
             <% } %>
-            <a class="nav-link" href="<%= hierarchyLevel%>profile/profile.jsp?">Profil</a>
+            <!--<a class="nav-link" href="<%= hierarchyLevel%>profile/profile.jsp?">Profil</a>-->
         </div>
         <div class="nav-group-right">
             <a class="nav-link" id="logout" style="cursor:pointer">Logout</a>
@@ -43,7 +43,7 @@
         <h1 id="projectHeadline"><%= tu.printMe(projectName)%>
         </h1>
         <% } else {%>
-        <h1 id="projectHeadline">Brauchen wir hier überhaupt eine Überschrift?</h1>
+        <h1 id="projectHeadline">Projektunterstützung für forschendes Lernen</h1>
         <%}%>
     </div>
 </div>

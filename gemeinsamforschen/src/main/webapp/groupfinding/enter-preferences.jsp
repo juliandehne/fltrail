@@ -28,11 +28,11 @@
     <jsp:include page="../taglibs/timeLine.jsp"/>
     <div class="col span_content">
         <h3>Geben Sie hier ihre Präferenzen ein!</h3>
-        <fieldset>
+        <!--fieldset>
             <legend>Passwort</legend>
             <input class="form-control" type="text" placeholder="******" id="projectPassword">
             <div class="alert alert-danger" id="projectWrongPassword">Das Passwort ist falsch.</div>
-        </fieldset>
+        </fieldset>-->
         <fieldset id="competenciesFieldSet">
             <legend>Interessen</legend>
             <p>Umreißen Sie Ihre Interessen in diesem Kurs mit einigen Tags (Substantiven)</p>

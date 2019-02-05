@@ -57,7 +57,9 @@
                         {{/each}}
                         </div>
                     {{if isSearching}}
-                    <a data-toggle="collapse" data-target="#passwordDiv_${projectName}">Zeige Passwort </a>
+                    {{if passwordRequired}}
+                    <div style="margin-top:25px;">
+                    <a data-toggle="collapse" data-target="#passwordDiv_${projectName}">Passwort eingeben</a>
                         <div id="passwordDiv_${projectName}" class="collapse">
                             <label>
                                 Passwort
@@ -67,6 +69,8 @@
                                 Falsches Passwort
                             </div>
                         </div>
+                    </div>
+                    {{/if}}
                     {{/if}}
                     <button class="primary project_Button" name="${projectName}" id="project_${projectName}"
                     style="margin-top:10px;">${projectAction} </button>

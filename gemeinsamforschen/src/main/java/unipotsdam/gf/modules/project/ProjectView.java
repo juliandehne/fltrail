@@ -125,10 +125,11 @@ public class ProjectView {
         if (project == null) {
             return "project missing";
         }
+        /*
         if (!project.getPassword().equals(password)) {
             return "wrong password";
         }
-
+        */
         // TODO, this should not be called here
         projectCreationProcess.studentEntersProject(project, user);
 

@@ -70,7 +70,7 @@ function errorMessages() {
 function initTagsInput(allTheTags) {
     $(function () {
         $('#tagsProject').tagsInput({
-            width: '475px',
+            width: '400px',
             onAddTag: function (tag) {
                 allTheTags.push(tag);
             },
