@@ -60,7 +60,9 @@
         </div>
         <div class="cover"></div>
     </div>
+    <div class="row">
 
+    </div>
 </main>
 <jsp:include page="../taglibs/footer.jsp"/>
 </body>

@@ -56,6 +56,7 @@
        <div style="clear:left"></div>
    </div>
 
+
         </script>
 
         <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
@@ -65,11 +66,15 @@
    </div>
 </div>
 
+
         </script>
     </div>
     <div class="col span_chat">
         <chat:chatWindow orientation="right" scope="project"/>
         <chat:chatWindow orientation="right" scope="group"/>
+    </div>
+    <div class="row">
+
     </div>
 </main>
 <jsp:include page="../taglibs/footer.jsp"/>

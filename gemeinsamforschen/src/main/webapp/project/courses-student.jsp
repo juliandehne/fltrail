@@ -42,42 +42,41 @@
 
     </div>
 
-        <div class="row group projects-grid" id="projects">
-            <script id="projectTRTemplate" type="text/x-jQuery-tmpl">
-            <div class="card card-project projectDynamic">
-                <div class="card-inner">
-                    <h3>${projectName}</h3>
-                    <p>
-                        ${projectDescription}
-                    </p>
-                    <label>Stichworte:</label>
-                        <div class='tags'>
-                        {{each(i) projectTags}}
-                            <span class='tag'>${projectTags[i]}</span><div class="spacing"></div>
-                        {{/each}}
-                        </div>
-                    {{if isSearching}}
-                    {{if passwordRequired}}
-                    <div style="margin-top:25px;">
-                    <a data-toggle="collapse" data-target="#passwordDiv_${projectName}">Passwort eingeben</a>
-                        <div id="passwordDiv_${projectName}" class="collapse">
-                            <label>
-                                Passwort
-                                <input class="form-control" id="projectPassword" placeholder="********">
-                            </label>
-                            <div id="projectWrongPassword" class="alert alert-alert" style="display:none;">
-                                Falsches Passwort
-                            </div>
-                        </div>
+    <div class="row group projects-grid" id="projects">
+        <script id="projectTRTemplate" type="text/x-jQuery-tmpl">
+        <div class="card card-project projectDynamic">
+        <div class="card-inner">
+            <h3>${projectName}</h3>
+            <p>
+                ${projectDescription}
+            </p>
+            <label>Stichworte:</label>
+            <div class='tags'>
+                {{each(i) projectTags}}
+                <span class='tag'>${projectTags[i]}</span><div class="spacing"></div>
+                {{/each}}
+            </div>
+            {{if isSearching}}
+            {{if passwordRequired}}
+            <div style="margin-top:25px;">
+                <a data-toggle="collapse" data-target="#passwordDiv_${projectName}">Passwort eingeben</a>
+                <div id="passwordDiv_${projectName}" class="collapse">
+                    <label>
+                        Passwort
+                        <input class="form-control" id="projectPassword" placeholder="********">
+                    </label>
+                    <div id="projectWrongPassword" class="alert alert-alert" style="display:none;">
+                        Falsches Passwort
                     </div>
-                    {{/if}}
-                    {{/if}}
-                    <button class="primary project_Button" name="${projectName}" id="project_${projectName}"
-                    style="margin-top:10px;">${projectAction} </button>
                 </div>
             </div>
-            </script>
+            {{/if}}
+            {{/if}}
+            <button class="primary project_Button" name="${projectName}" id="project_${projectName}" style="margin-top:10px;">${projectAction} </button>
         </div>
+    </div>
+    </script>
+    </div>
 
 
 </main>
