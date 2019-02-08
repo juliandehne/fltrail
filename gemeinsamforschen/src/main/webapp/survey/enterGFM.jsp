@@ -50,7 +50,7 @@
             ausgefüllt haben, ist die "Gruppen-Seite" leer. <br>
             Sobald Sie Ihre Gruppe gefunden haben, können Sie sich gegenseitig auf Discord adden und
             Ihr Spiel starten. Nachdem Sie wenigstens 5 Spiele gemeinsam bestritten haben, bitten wir Sie
-            Ihre Erfahrung mit der Gruppe zu <a href="#">hier</a> zu bewerten.<br>
+            Ihre Erfahrung mit der Gruppe zu <a href="assess-group.jsp">hier</a> zu bewerten.<br>
             <br>
             Vielen Dank für Ihre Teilnahme
         </p>

@@ -6,3 +6,14 @@
 .student-button {
     margin-left: 2px;
 }
+
+.student-button.active{
+    background-color:lightblue;
+}
+.student-button.active:hover{
+    background-color:lightblue;
+}
+.student-button.active:focus {
+    background-color:lightblue;
+
+}

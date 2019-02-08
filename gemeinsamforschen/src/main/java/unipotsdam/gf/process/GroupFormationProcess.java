@@ -67,6 +67,9 @@ public class GroupFormationProcess {
         Task task2 = new Task(TaskName.WAIT_FOR_PARTICPANTS, project.getAuthorEmail(), project.getName(), Progress
                 .FINISHED);
         taskDAO.updateForUser(task2);
+        Task task3 = new Task(TaskName.EDIT_FORMED_GROUPS, project.getAuthorEmail(),project.getName(),
+                Progress.FINISHED);
+        taskDAO.updateForUser(task3);
         // Die Studierenden müssen nicht mehr auf die Gruppenfindung warten
         taskDAO.finishMemberTask(project, TaskName.WAITING_FOR_GROUP);
         taskDAO.persistMemberTask(project,  TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);

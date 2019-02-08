@@ -44,11 +44,9 @@
 
         </script>
         <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
-   <div class="card-finished"><h4 class="icon closed">${infoText}</h4>
+   <div class="card-finished"><h4 class="icon closed" {{if !timeFrame}}style="color:lightgray;"{{/if}}>${infoText}</h4>
    {{html timeFrame}}
    </div>
-
-
         </script>
     </div>
     <div class="col span_chat">

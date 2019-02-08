@@ -26,17 +26,17 @@
 
         <h2 id="headLine">Projekt finden</h2>
         <p id="introduction"></p>
-        <label class="container" id="selfMade">Selbst erstellt
+        <!--<label class="container" id="selfMade">Selbst erstellt
             <input type="checkbox" checked="checked">
             <span class="checkmark"></span>
-        </label>
+        </label>-->
         <!-- filter-->
-        <div class="filter" id="projectDropdown">
+        <div class="filter" id="projectDropdown" style="max-width: 500px;">
             <script id="searchingTemplate" type="text/x-jQuery-tmpl">
             <div class="projectDynamic">
                 <select>
                     {{each(prop,val) projects}}
-                        <option value="${val}">${val}</option>
+                        <option value="${val}" style="max-width: 450px;">${val}</option>
                     {{/each}}
                 </select>
             </script>
