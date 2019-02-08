@@ -30,30 +30,30 @@ function createNewProject(allTheTags) {
     // getting the data from the form fields
     let project = getProjectValues();
     // create the project
-    if (project) {
-        // create the project in local db
-        let localurl = "../rest/project/create";
-        $.ajax({                        //check local DB for existence of projectName
-            url: localurl,
-            contentType: 'application/json',
-            type: 'POST',
-            data: JSON.stringify(project),
-            success: function (response) {
-                if (response === "Project already exists") {
-                    $('#projectNameExists').show();
-                } else {
-                    if (allTheTags.length !== 5) {
-                        $('#exactNumberOfTags').show();
+    if (allTheTags.length !== 5) {
+        $('#exactNumberOfTags').show();
+    } else {
+        if (project) {
+            // create the project in local db
+            let localurl = "../rest/project/create";
+            $.ajax({                        //check local DB for existence of projectName
+                url: localurl,
+                contentType: 'application/json',
+                type: 'POST',
+                data: JSON.stringify(project),
+                success: function (response) {
+                    if (response === "Project already exists") {
+                        $('#projectNameExists').show();
                     } else {
                         sendGroupPreferences();
                     }
+                },
+                error: function (a) {
+                    console.log(a);
+                    return true;
                 }
-            },
-            error: function (a) {
-                console.log(a);
-                return true;
-            }
-        });
+            });
+        }
     }
 }
 
@@ -74,8 +74,9 @@ function initTagsInput(allTheTags) {
             onAddTag: function (tag) {
                 allTheTags.push(tag);
             },
-            onRemoveTag: function () {
-                allTheTags = $(this).val().split(",");
+            onRemoveTag: function (tag) {
+                allTheTags.pop();
+                //allTheTags = $(this).val().split(",");
             }
         });
     });
@@ -159,7 +160,6 @@ function createProjectinCompbase() {
 function sendGroupPreferences() {
     gfm = $('input[name=gfm]:checked').val();
     if (gfm === "Basierend auf Präferenzen") {
-        // TODO implement preference based group selection
         gfm = "UserProfilStrategy";
     } else if (gfm === "per Hand") {
         gfm = "Manual";

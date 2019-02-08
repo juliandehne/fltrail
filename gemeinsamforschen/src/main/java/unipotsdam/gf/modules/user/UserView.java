@@ -1,9 +1,6 @@
 package unipotsdam.gf.modules.user;
 
-import org.glassfish.hk2.api.ServiceLocator;
-import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.exceptions.*;
-import unipotsdam.gf.healthchecks.HealthChecks;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.session.GFContexts;

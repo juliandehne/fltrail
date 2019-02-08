@@ -2,15 +2,12 @@ package unipotsdam.gf.process;
 
 import unipotsdam.gf.exceptions.*;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.annotation.model.Category;
-import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.project.ProjectConfiguration;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
@@ -23,7 +20,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
-import java.util.HashMap;
 
 import static unipotsdam.gf.modules.group.GroupFormationMechanism.SingleUser;
 
@@ -114,12 +110,11 @@ public class ProjectCreationProcess {
         } finally {
             if (isLoggedIn != null) {
                 gfContexts.updateUserWithEmail(req, isLoggedIn);
-                return iManagement.exists(user);
             } else {
                 gfContexts.updateUserWithEmail(req, user);
-                return iManagement.exists(user);
             }
         }
+        return iManagement.exists(user);
     }
 
     public void deleteUser(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
