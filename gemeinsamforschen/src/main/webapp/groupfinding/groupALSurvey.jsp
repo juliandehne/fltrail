@@ -26,7 +26,6 @@
 <!-- back-->
 <div class="row group">
     <div id="theSurvey">
-        <div id="messageHolder">No context selected!</div>
         <div id="surveyContainer"></div>
         <div id="resultLink"></div>
     </div>

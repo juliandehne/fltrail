@@ -153,7 +153,7 @@ function fitObjectInTmpl(object) {
         switch (object.taskName) {
             case "WAIT_FOR_PARTICPANTS":
                 if(object.taskData.participantCount.participants >= object.taskData.participantCount.participantsNeeded){
-                    result.solveTaskWith = "Gruppen erstellen";
+                    result.solveTaskWith = "Gruppen einsehen";
                     switch (object.taskData.gfm){
                         case "Manual":
                             result.solveTaskWithLink = "redirect(\'../groupfinding/create-groups-manual.jsp?projectName=" + object.projectName + "\')";

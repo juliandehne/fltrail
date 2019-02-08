@@ -53,12 +53,15 @@ public class SurveyPreparationHelper {
         // creating survey projects
         ArrayList<Project> surveyProjects = new ArrayList<Project>();
         Project d1_test = new Project("d1_test");
+        d1_test.setGroupWorkContext(GroupWorkContext.dota);
         d1_test.setSurvey(true);
 
         Project o1_test = new Project("o1_test");
         o1_test.setSurvey(true);
+        o1_test.setGroupWorkContext(GroupWorkContext.overwatch);
 
         Project fl_test = new Project("fl_test");
+        fl_test.setGroupWorkContext(GroupWorkContext.fl_survey);
         fl_test.setSurvey(true);
 
         surveyProjects.add(o1_test);

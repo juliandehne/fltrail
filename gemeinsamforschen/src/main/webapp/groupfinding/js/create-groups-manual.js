@@ -25,6 +25,14 @@ $(document).ready(function () {
         });
         selectableButtons(true);  //i have no clue why this needs to be called twice, but it seems necessary
     });
+    $('#backToTasks').on('click',function(){
+        location.href="../project/tasks-student.jsp?projectName="+$('#projectName').html().trim();
+    });
+    $('#deselectStudents').on('click',function(){
+        $('.student-button.active').each(function(){
+            $(this).toggleClass('active');
+        })
+    });
 });
 
 function getAllGroups(callback) {

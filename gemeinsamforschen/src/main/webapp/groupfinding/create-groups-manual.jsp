@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 
-
 <html>
 <head>
     <jsp:include page="../taglibs/omniDependencies.jsp">
@@ -39,6 +38,7 @@
     </ul>
 </div>
 
+
 </script>
 
 <body>
@@ -47,7 +47,7 @@
 </jsp:include>
 <!-- back-->
 <div class="row group nav">
-    <a href="" ><i class="fas fa-chevron-circle-left"> zurück zu den Aufgaben</i></a>
+    <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> zurück zu den Aufgaben</i></a>
 </div>
 <main class="groups-manual">
 
@@ -56,11 +56,13 @@
         <h2>Gruppeneinteilung</h2>
 
         <div class="info-message">
-            <p>Tun sie dieses und jenes</p>
+            <p>Wählen Sie die Studenten an, die sie verschieben wollen. Dann die Gruppe,
+                in die die Studenten verschoben werden sollen und klicken sie auf "Personen verchieben".</p>
         </div>
 
-            <button id="btnRelocate" class="spacer-horizontal primary">Personen verschieben</button>
-            <button id="openNewGroup">Neue Gruppe öffnen</button>
+        <button id="btnRelocate" class="spacer-horizontal primary">Personen verschieben</button>
+        <button id="openNewGroup" class="spacer-horizontal primary">Neue Gruppe öffnen</button>
+        <button id="deselectStudents" class="spacer-horizontal primary">Selektion aufheben</button>
 
 
         <div class="col span_content span_2_of_2">
@@ -77,23 +79,19 @@
                         <div class="list-group" style="display: flex; flex-wrap: wrap;" id="groupsInProject">
                             <div style="..." id="gruppenlos" class="grouplists">
                                 <ul class="complex-list">
-                                   <li class="label">
-                                       <button type="button" class="group-button list-group-item list-group-item-action active">
-                                           Nicht zu geordnet
-                                       </button>
-                                   </li>
+                                    <li class="label">
+                                        <button type="button"
+                                                class="group-button list-group-item list-group-item-action active">
+                                            Nicht zu geordnet
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
-            <button type="button" class="btn-success" id="btnSave"> speichern</button>
-
+            <button type="button" class="btn-success" style="height:50px;" id="btnSave">Gruppen final speichern</button>
         </div>
 
         <div class="col span_chat"></div>
