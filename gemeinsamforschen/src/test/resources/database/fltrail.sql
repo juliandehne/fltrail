@@ -106,13 +106,6 @@ CREATE TABLE `peerassessmentworkproperties` (
   `polarity` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `peerassessmentworkproperties` (`id`, `scaleSize`, `question`, `question_en`, `subvariable`, `polarity`) VALUES
-                                                                                                                            (1, 5, 'Wie schätzt du die Mitarbeit des Gruppenmitglieds ein?', 'How do you assess the collaboration flow for your group member?', 'collabflow', 0),
-                                                                                                                            (2, 5, 'Wie gut hat das gegenseitige Verständnis über eure Interaktion hinweg funktioniert?', 'How do you assess the sustained mutual understanding flow of your group member?', 'understanding', 0),
-                                                                                                                            (3, 5, 'Wie schätzt du den Wissensaustausch mit deinem Gruppenmitglied ein?', 'How do you asses the knowledge exchange and giving explanations of your group member?', 'knowledgeexchange', 0),
-                                                                                                                            (4, 5, 'Wie bewertest du die Argumentationen deines Gruppenmitglieds?', 'How do you assess the argumentation of your group member?', 'Argumentation', 0),
-                                                                                                                            (5, 5, 'Wie beurteilst du das Zeitmanagement bzw. die Strukturierung von Problemen deines Gruppenmitglieds?', 'How do you assess the \"Structuring the problem solving process/time management\" of your group member?', 'timeManagement', 0),
-                                                                                                                            (6, 5, 'Wie gut war die Kooperation deines Gruppenmitglieds durchschnittlich?', 'How do you assess the cooperative orientation of your group member?', 'cooperation', 0);
 
 CREATE TABLE `phasesselected` (
   `projectName` varchar(100) NOT NULL,
@@ -147,72 +140,6 @@ CREATE TABLE `profilequestions` (
   `polarity` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='stores the questions needed for group finding';
 
-INSERT INTO `profilequestions` (`id`, `scaleSize`, `question`, `question_en`, `subvariable`, `polarity`) VALUES
-                                                                                                                (1, 5, 'Ich fühle mich wohl, so wie ich bin ', 'I like me the way I am ', 'Neurotizismus', 0),
-                                                                                                                (2, 5, 'Ich habe häufig Stimmungsschwankungen', 'My mood changes a lot', 'Neurotizismus', 1),
-                                                                                                                (3, 5, 'Ich mag mich selbst nicht', 'I don\'t like myself', 'Neurotizismus', 1),
-                                                                                                                (4, 5, 'Ich gerate leicht in Panik', 'I panique a lot', 'Neurotizismus', 1),
-                                                                                                                (5, 5, 'Ich bin oft völlig am Ende', 'I am totally finished a lot', 'Neurotizismus', 1),
-                                                                                                                (6, 5, 'Ich fühle mich selten niedergeschlagen ', 'I feel rarely down ', 'Neurotizismus', 0),
-                                                                                                                (7, 5, 'Ich bin zufrieden mit mir selbst ', 'I am content with myself ', 'Neurotizismus', 0),
-                                                                                                                (8, 5, 'Ich fühle mich oft niedergeschlagen', 'I feel down a lot', 'Neurotizismus', 1),
-                                                                                                                (9, 5, 'Ich gewinne leicht Freunde', 'I make friends easily', 'Extraversion', 1),
-                                                                                                                (10, 5, 'Ich halte mich im Hintergrund', 'I always keep in the back ', 'Extraversion', 0),
-                                                                                                                (11, 5, 'Ich weiß, wie ich Menschen für mich einnehmen kann', 'I know, how to charm people', 'Extraversion', 1),
-                                                                                                                (12, 5, 'Ich mag es nicht, Aufmerksamkeit auf mich zu ziehen', 'I don\'t like to draw attention ', 'Extraversion', 0),
-                                                                                                                (13, 5, 'Ich rede nicht viel', 'I don\'t talk too much ', 'Extraversion', 0),
-                                                                                                                (14, 5, 'Ich fühle mich wohl, wenn ich unter Menschen bin', 'I feel well, when I am with people', 'Extraversion', 1),
-                                                                                                                (15, 5, 'Ich bin der Stimmungsmacher auf Partys', 'I am the centre of attention at parties', 'Extraversion', 1),
-                                                                                                                (16, 5, 'Ich bin nicht gesprächig', 'I am not very talkativ ', 'Extraversion', 0),
-                                                                                                                (17, 5, 'Ich fühle mich wohl, so wie ich bin ', 'I like me the way I am ', 'Neurotizismus', 1),
-                                                                                                                (18, 5, 'Ich habe häufig Stimmungsschwankungen', 'My mood changes a lot', 'Neurotizismus', 1),
-                                                                                                                (19, 5, 'Ich mag mich selbst nicht', 'I don\'t like myself', 'Neurotizismus', 1),
-                                                                                                                (20, 5, 'Ich gerate leicht in Panik', 'I panique a lot', 'Neurotizismus', 1),
-                                                                                                                (21, 5, 'Ich bin oft völlig am Ende', 'I am totally finished a lot', 'Neurotizismus', 1),
-                                                                                                                (22, 5, 'Ich fühle mich selten niedergeschlagen ', 'I feel rarely down ', 'Neurotizismus', 1),
-                                                                                                                (23, 5, 'Ich bin zufrieden mit mir selbst ', 'I am content with myself ', 'Neurotizismus', 1),
-                                                                                                                (24, 5, 'Ich fühle mich oft niedergeschlagen', 'I feel down a lot', 'Neurotizismus', 1),
-                                                                                                                (25, 5, 'Ich gewinne leicht Freunde', 'I make friends easily', 'Extraversion', 1),
-                                                                                                                (26, 5, 'Ich halte mich im Hintergrund', 'I always keep in the back ', 'Extraversion', 1),
-                                                                                                                (27, 5, 'Ich weiß, wie ich Menschen für mich einnehmen kann', 'I know, how to charm people', 'Extraversion', 1),
-                                                                                                                (28, 5, 'Ich mag es nicht, Aufmerksamkeit auf mich zu ziehen', 'I don\'t like to draw attention ', 'Extraversion', 1),
-                                                                                                                (29, 5, 'Ich rede nicht viel', 'I don\'t talk too much ', 'Extraversion', 1),
-                                                                                                                (30, 5, 'Ich fühle mich wohl, wenn ich unter Menschen bin', 'I feel well, when I am with people', 'Extraversion', 1),
-                                                                                                                (31, 5, 'Ich bin der Stimmungsmacher auf Partys', 'I am the centre of attention at parties', 'Extraversion', 1),
-                                                                                                                (32, 5, 'Ich bin nicht gesprächig', 'I am not very talkativ ', 'Extraversion', 1),
-                                                                                                                (33, 5, 'Ich fühle mich wohl, so wie ich bin ', 'I like me the way I am ', 'Neurotizismus', 1),
-                                                                                                                (34, 5, 'Ich habe häufig Stimmungsschwankungen', 'My mood changes a lot', 'Neurotizismus', 1),
-                                                                                                                (35, 5, 'Ich mag mich selbst nicht', 'I don\'t like myself', 'Neurotizismus', 1),
-                                                                                                                (36, 5, 'Ich gerate leicht in Panik', 'I panique a lot', 'Neurotizismus', 1),
-                                                                                                                (37, 5, 'Ich bin oft völlig am Ende', 'I am totally finished a lot', 'Neurotizismus', 1),
-                                                                                                                (38, 5, 'Ich fühle mich selten niedergeschlagen ', 'I feel rarely down ', 'Neurotizismus', 1),
-                                                                                                                (39, 5, 'Ich bin zufrieden mit mir selbst ', 'I am content with myself ', 'Neurotizismus', 1),
-                                                                                                                (40, 5, 'Ich fühle mich oft niedergeschlagen', 'I feel down a lot', 'Neurotizismus', 1),
-                                                                                                                (41, 5, 'Ich gewinne leicht Freunde', 'I make friends easily', 'Extraversion', 1),
-                                                                                                                (42, 5, 'Ich halte mich im Hintergrund', 'I always keep in the back ', 'Extraversion', 1),
-                                                                                                                (43, 5, 'Ich weiß, wie ich Menschen für mich einnehmen kann', 'I know, how to charm people', 'Extraversion', 1),
-                                                                                                                (44, 5, 'Ich mag es nicht, Aufmerksamkeit auf mich zu ziehen', 'I don\'t like to draw attention ', 'Extraversion', 1),
-                                                                                                                (45, 5, 'Ich rede nicht viel', 'I don\'t talk too much ', 'Extraversion', 1),
-                                                                                                                (46, 5, 'Ich fühle mich wohl, wenn ich unter Menschen bin', 'I feel well, when I am with people', 'Extraversion', 1),
-                                                                                                                (47, 5, 'Ich bin der Stimmungsmacher auf Partys', 'I am the centre of attention at parties', 'Extraversion', 1),
-                                                                                                                (48, 5, 'Ich bin nicht gesprächig', 'I am not very talkativ ', 'Extraversion', 1),
-                                                                                                                (49, 5, 'Ich fühle mich wohl, so wie ich bin ', 'I like me the way I am ', 'Neurotizismus', 1),
-                                                                                                                (50, 5, 'Ich habe häufig Stimmungsschwankungen', 'My mood changes a lot', 'Neurotizismus', 1),
-                                                                                                                (51, 5, 'Ich mag mich selbst nicht', 'I don\'t like myself', 'Neurotizismus', 1),
-                                                                                                                (52, 5, 'Ich gerate leicht in Panik', 'I panique a lot', 'Neurotizismus', 1),
-                                                                                                                (53, 5, 'Ich bin oft völlig am Ende', 'I am totally finished a lot', 'Neurotizismus', 1),
-                                                                                                                (54, 5, 'Ich fühle mich selten niedergeschlagen ', 'I feel rarely down ', 'Neurotizismus', 1),
-                                                                                                                (55, 5, 'Ich bin zufrieden mit mir selbst ', 'I am content with myself ', 'Neurotizismus', 1),
-                                                                                                                (56, 5, 'Ich fühle mich oft niedergeschlagen', 'I feel down a lot', 'Neurotizismus', 1),
-                                                                                                                (57, 5, 'Ich gewinne leicht Freunde', 'I make friends easily', 'Extraversion', 1),
-                                                                                                                (58, 5, 'Ich halte mich im Hintergrund', 'I always keep in the back ', 'Extraversion', 1),
-                                                                                                                (59, 5, 'Ich weiß, wie ich Menschen für mich einnehmen kann', 'I know, how to charm people', 'Extraversion', 1),
-                                                                                                                (60, 5, 'Ich mag es nicht, Aufmerksamkeit auf mich zu ziehen', 'I don\'t like to draw attention ', 'Extraversion', 1),
-                                                                                                                (61, 5, 'Ich rede nicht viel', 'I don\'t talk too much ', 'Extraversion', 1),
-                                                                                                                (62, 5, 'Ich fühle mich wohl, wenn ich unter Menschen bin', 'I feel well, when I am with people', 'Extraversion', 1),
-                                                                                                                (63, 5, 'Ich bin der Stimmungsmacher auf Partys', 'I am the centre of attention at parties', 'Extraversion', 1),
-                                                                                                                (64, 5, 'Ich bin nicht gesprächig', 'I am not very talkativ ', 'Extraversion', 1);
-
 CREATE TABLE `profilevariables` (
   `variable` varchar(100) DEFAULT NULL,
   `subvariable` varchar(100) DEFAULT NULL,
@@ -223,10 +150,6 @@ CREATE TABLE `profilevariables` (
   `subvariableweight` float DEFAULT NULL,
   `homogeneity` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-INSERT INTO `profilevariables` (`variable`, `subvariable`, `subvariabledefinition`, `variabledefinition`, `context`, `variableweight`, `subvariableweight`, `homogeneity`) VALUES
-                                                                                                                                                                                  ('Persönlichkeit', 'Neurotizismus', NULL, 'egal', 'allgemein', 1, 1, 1),
-                                                                                                                                                                                  ('Persönlichkeit', 'Extraversion', NULL, 'egal', 'allgemein', 1, 1, 0);
 
 CREATE TABLE `projects` (
   `name` varchar(100) NOT NULL,
@@ -308,8 +231,6 @@ CREATE TABLE `users` (
   `discordid` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Just lists the users';
 
-INSERT INTO `users` (`id`, `name`, `password`, `email`, `rocketChatUserName`, `isStudent`, `discordid`) VALUES
-                                                                                                               (1, 'Julian Dehne', 'egal', 'julian.dehne@uni-potsdam.de', 'fltrailadmin', 0, NULL);
 
 CREATE TABLE `workrating` (
   `projectName` varchar(200) NOT NULL,
