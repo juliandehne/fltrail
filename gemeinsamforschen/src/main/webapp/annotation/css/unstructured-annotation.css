@@ -196,3 +196,29 @@ body, html {
     border-color: #a1887f;
     color: #a1887f;
 }
+
+.infobox.dossier {
+
+}
+
+/*context menu */
+
+.context-menu-list .context-menu-item.context-menu-hover {
+
+    background-color: #075f8b;
+}
+
+context-menu-list.context-menu-list {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 0;
+    padding: 0;
+}
+
+context-menu-list.context-menu-item {
+    padding: .5em .5em;
+}
+
+context-menu-list.context-menu-item .context-menu-list .context-menu-item   {
+    padding: .5em .1em .5em .5em;
+}

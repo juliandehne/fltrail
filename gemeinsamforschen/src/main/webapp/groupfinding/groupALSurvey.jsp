@@ -25,10 +25,14 @@
 </jsp:include>
 <!-- back-->
 <div class="row group">
-    <div id="theSurvey">
-        <div id="surveyContainer"></div>
-        <div id="resultLink"></div>
+<main class="projects">
+    <div class="col span_content span_2_of_2 centered">
+        <div id="theSurvey">
+            <div id="surveyContainer"></div>
+            <div id="resultLink"></div>
+        </div>
     </div>
+</main>
 </div>
 <jsp:include page="../taglibs/footer.jsp"/>
 </body>

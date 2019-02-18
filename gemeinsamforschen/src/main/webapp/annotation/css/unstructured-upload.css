@@ -47,7 +47,13 @@ body, html {
 .upload-text {
     display: flex;
     flex-flow: column;
-    height: 100%;
+    height: 50vh;
+}
+
+.upload-text label {
+    color: #000;
+    font-size: 1.2em;
+    margin-bottom: .5em;
 }
 
 .upload-text-textarea {
@@ -67,4 +73,6 @@ label.error {
 .flex .container-fluid {
     flex: 1;
 }
+
+
 
