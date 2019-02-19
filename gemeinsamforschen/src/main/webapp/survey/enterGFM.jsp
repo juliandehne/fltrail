@@ -50,9 +50,9 @@
             ausgefüllt haben, ist die "Gruppen-Seite" leer. <br>
             Sobald Sie Ihre Gruppe gefunden haben, können Sie sich gegenseitig auf Discord adden und
             Ihr Spiel starten. Nachdem Sie wenigstens 5 Spiele gemeinsam bestritten haben, bitten wir Sie
-            Ihre Erfahrung mit der Gruppe zu <a href="assess-group.jsp">hier</a> zu bewerten.<br>
+            Ihre Erfahrung mit der Gruppe zu <a href="http://fleckenroller.cs.uni-potsdam.de/limesurvey/index.php/356615?lang=en">hier</a> zu bewerten.<br>
             <br>
-            Vielen Dank für Ihre Teilnahme
+            Vielen Dank für Ihre Teilnahme!
         </p>
     </div>
 </div>
@@ -66,7 +66,7 @@
             When 30 people commited their answers, you can see which group you are in on the "group-page".
             As long as there are not enough participants, you can't see your group.<br>
             Please add your group members on discord and have at least 5 games together before you
-            evaluate your group <a href="#">here</a>.<br>
+            evaluate your group <a href="http://fleckenroller.cs.uni-potsdam.de/limesurvey/index.php/356615?lang=en">here</a>.<br>
             <br>
             Thank you for your participation!
         </p>

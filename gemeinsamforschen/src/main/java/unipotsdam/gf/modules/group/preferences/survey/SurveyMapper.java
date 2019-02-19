@@ -29,9 +29,9 @@ import java.util.UUID;
 public class SurveyMapper {
 
     public static final String NICKNAME1 = "NICKNAME1";
-    private static final String NICKNAME2 = "NICKNAME2";
+    /*private static final String NICKNAME2 = "NICKNAME2";*/
     public static final String EMAIL1 = "EMAIL1";
-    private static final String EMAIL2 = "EMAIL2";
+    /*private static final String EMAIL2 = "EMAIL2";*/
     private static final String DISCORDID = "DISCORDID";
 
     private Boolean isdebug = true;
@@ -95,9 +95,9 @@ public class SurveyMapper {
             Page generalDetails = new Page();
             generalDetails.setName("general1");
             addGeneralQuestion(NICKNAME1, nickname1, generalDetails);
-            addGeneralQuestion(NICKNAME2, nickname2, generalDetails);
+            //addGeneralQuestion(NICKNAME2, nickname2, generalDetails);
             addGeneralQuestion(EMAIL1, email1, generalDetails);
-            addGeneralQuestion(EMAIL2, email2, generalDetails);
+            //addGeneralQuestion(EMAIL2, email2, generalDetails);
 
             String discordIdString = "(optional) Enter your discord ID!";
             switch (groupWorkContext) {
@@ -182,14 +182,8 @@ public class SurveyMapper {
         User user;
         String nickname = data.get(NICKNAME1);
         data.remove(NICKNAME1);
-        String nickname2 = data.get(NICKNAME2);
-        data.remove(NICKNAME2);
-
         String email = data.get(EMAIL1);
         data.remove(EMAIL1);
-        String email2 = data.get(EMAIL2);
-        data.remove(EMAIL2);
-
         String discord = data.get(DISCORDID);
         data.remove(DISCORDID);
 
