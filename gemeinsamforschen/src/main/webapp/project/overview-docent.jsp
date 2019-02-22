@@ -60,7 +60,7 @@
                          <label>Stichworte:</label>
                              <div class='tags'>
                              {{each(i) projectTags}}
-                                 <span class='tag'>${projectTags[i]}</span><div class="spacing"></div>
+                                 <span class='tag'>${projectTags[i]}</span>
                              {{/each}}
                              </div>
                         <button class="primary project_Button" name="${projectName}" id="project_${projectName}"

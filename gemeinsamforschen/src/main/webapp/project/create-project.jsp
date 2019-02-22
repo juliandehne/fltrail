@@ -93,7 +93,7 @@
                 <%-- <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>--%>
 
                 <div class="form-group">
-                    <button class="primary" style="margin-left:129px;" id="sendProject">erstellen</button>
+                    <button class="primary" id="sendProject">Erstellen</button>
                 </div>
 
             </div>
