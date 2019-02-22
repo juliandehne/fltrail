@@ -25,6 +25,10 @@
 </jsp:include>
 <!-- back-->
 <div class="row group">
+    <h5>
+        Ihre Daten werden vertraulich behandelt und an keinen Dritten weitergegeben. Diese Erhebung
+        dient ausschließlich der Zusammensetzung der Gruppen.
+    </h5>
     <div id="theSurvey">
         <div id="surveyContainer"></div>
         <div id="resultLink"></div>

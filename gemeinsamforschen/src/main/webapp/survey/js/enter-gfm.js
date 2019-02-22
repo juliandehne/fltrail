@@ -1,6 +1,14 @@
 let projectId = "";
 
 $(document).ready(function () {
+    authenticate("", function(loggedin) {
+        if (loggedin) {
+            $('#navLiSurvey').toggleClass("disabled");
+            $('#navSurvey').toggleClass("disabled");
+
+        }
+    });
+
     let messageHolder = $('#messageHolder');
     let language = getQueryVariable("language");
     let context = getQueryVariable("context");
@@ -57,8 +65,6 @@ $(document).ready(function () {
             });
         });
     }
-
-
     messageHolder.hide();
     $('#ifNoUserIsSet').hide();
     $('#ifUserIsSet').hide();

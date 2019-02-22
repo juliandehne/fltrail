@@ -4,6 +4,9 @@ $(document).ready(function () {
     let userEmail = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
     fillTasks(projectName, userEmail);
+    $('#groupView').on('click', function(){
+        location.href="../groupfinding/view-groups.jsp?projectName="+projectName;
+    });
 });
 
 function fillTasks(projectName, userEmail) {
@@ -152,7 +155,11 @@ function fitObjectInTmpl(object) {
     if (object.taskType.includes("LINKED")) {
         switch (object.taskName) {
             case "WAIT_FOR_PARTICPANTS":
+                let countMissing = object.taskData.participantCount.participantsNeeded - object.taskData.participantCount.participants;
                 if(object.taskData.participantCount.participants >= object.taskData.participantCount.participantsNeeded){
+                    result.infoText = "Sehen Sie sich den Gruppenvorschlag des Algorithmus an oder " +
+                        "warten Sie auf weitere Teilnehmer. Die Gruppen sind noch nicht final gespeichert.\n"+
+                        "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
                     result.solveTaskWith = "Gruppen einsehen";
                     switch (object.taskData.gfm){
                         case "Manual":
@@ -161,6 +168,15 @@ function fitObjectInTmpl(object) {
                         default:
                             result.solveTaskWithLink = "initializeGroups('"+object.projectName+"');";
                             break;
+                    }
+                }else{
+                    result.infoText = "Warten sie auf Anmeldung der StudentInnen. \n"+
+                        "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
+                    if (object.taskData.participantCount.participants===0){
+                        result.infoText = " Es gibt noch keine Teilnehmer.";
+                    }
+                    if (countMissing>0){
+                        result.infoText += " Es fehlen noch " + countMissing+".";
                     }
                 }
                 break;
@@ -234,6 +250,10 @@ function fitObjectInTmpl(object) {
     }
 
     if (object.progress === "FINISHED") {
+        if (object.taskName === "WAIT_FOR_PARTICPANTS"){
+            result.infoText = "Gruppen sind final gespeichert. \n"+
+                "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
+        }
         if (object.taskName.includes("CLOSE")) {
             result.taskProgress = "FINISHED";
             result.infoText = object.phase;
@@ -254,8 +274,9 @@ function fitObjectInTmpl(object) {
 
 function fillObjectWithTasks(response) {
     let tempObject = [];
+    let first = true;
     for (let task in response) {
-        if (response.hasOwnProperty(task))
+        if (response.hasOwnProperty(task)) {
             tempObject.push({
                 taskType: response[task].taskType,  //
                 taskData: response[task].taskData,
@@ -269,8 +290,13 @@ function fillObjectWithTasks(response) {
                 link: response[task].link,  //
                 userEmail: response[task].userEmail,
                 projectName: response[task].projectName,
-                progress: response[task].progress
+                progress: response[task].progress,
+                current: first
             });
+            if(first){
+                first=false;
+            }
+        }
     }
 
     return tempObject;

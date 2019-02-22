@@ -63,7 +63,7 @@
                 <ul>
                     <li id="lgLI">
                         <input type="radio" id="lg" name="gfm" value="Basierend auf Lernzielen">
-                        <label for="lg">Basierend auf Lernzielen</label>
+                        <label for="lg">Basierend auf Interessen der Studenten</label>
                     </li>
                     <li>
                         <input type="radio" id="ml" name="gfm" value="per Hand">
@@ -71,7 +71,7 @@
                     </li>
                     <li id="bpLI">
                         <input type="radio" id="bp" name="gfm" value="Basierend auf Präferenzen">
-                        <label for="bp">Basierend auf Präferenzen</label>
+                        <label for="bp">Basierend auf Persönlichkeitsmerkmalen</label>
                     </li>
                     <li>
                         <input type="radio" id="single" name="gfm" value="Keine Gruppen">

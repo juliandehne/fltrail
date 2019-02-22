@@ -20,7 +20,7 @@
 </jsp:include>
 <!-- back-->
 <div class="row group nav">
-    <a href="" ><i class="fas fa-chevron-circle-left"> zurück zu den Aufgaben</i></a>
+    <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> zurück zu den Aufgaben</i></a>
 </div>
 <jsp:include page="view-groups-body.jsp"/>
 <jsp:include page="../taglibs/footer.jsp"/>

@@ -5,6 +5,14 @@ html {
     height:100%;
 }
 
+nav {
+    cursor: pointer;
+}
+
+a.disabled{
+    pointer-events: none;
+}
+
 body {
     height:120%;
     position:relative;
@@ -191,6 +199,12 @@ footer {
     -webkit-box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
     -moz-box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
     box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
+}
+
+.card.current {
+    -webkit-box-shadow: 15px 15px 8px -8px rgba(100, 90, 100, 0.62);
+    -moz-box-shadow: 15px 15px 8px -8px rgba(100, 90, 100, 0.62);
+    box-shadow: 15px 15px 8px -8px rgba(100, 90, 100, 0.62);
 }
 
 .grouptask:before {

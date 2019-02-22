@@ -33,6 +33,7 @@ $(document).ready(function () {
             $(this).toggleClass('active');
         })
     });
+
 });
 
 function getAllGroups(callback) {
@@ -84,7 +85,7 @@ function relocateMember(callback) {
         let newGroup = $('#' + $(this).html().trim());
         let complexList = $(this).parent().parent();
         memberBtns.each(function () {
-            let newLI = $('<li></li>');
+            let newLI = $(this).parent();
             $(this).toggleClass('active');
             $(newLI).append(this);
             $(complexList).append(newLI);
@@ -180,4 +181,25 @@ function openNewGroup(callback) {
     $('#groupTemplate').tmpl(groupTmplObject).appendTo('#groupsInProject');
     let done = true;
     callback(done);
+}
+
+function allowDrop(ev){
+    ev.preventDefault();
+}
+
+function dropContent(ev){
+    ev.preventDefault();
+    let data = ev.dataTransfer.getData("text");
+    let target = ev.target;
+    if (target.nodeName === "BUTTON"){
+        target=target.parentElement;
+    }
+    if (target.nodeName === "LI"){
+        target=target.parentElement;
+    }
+    $(target).append(document.getElementById(data));
+}
+
+function allowDrag(ev){
+    ev.dataTransfer.setData("text", ev.target.id);
 }
