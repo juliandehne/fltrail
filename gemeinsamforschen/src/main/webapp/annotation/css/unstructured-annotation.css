@@ -222,3 +222,12 @@ context-menu-list.context-menu-item {
 context-menu-list.context-menu-item .context-menu-list .context-menu-item   {
     padding: .5em .1em .5em .5em;
 }
+
+.infobox.dossier p:before{
+
+    content: "f05a";
+    font-family:"Font Awesome 5 Free";
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+}
