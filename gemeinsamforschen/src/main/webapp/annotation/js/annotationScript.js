@@ -12,17 +12,20 @@ $(document).ready(function () {
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
     let category = getQueryVariable("category");
     getFeedbackName();
-    $('#categoryHeadline').html(category);
+    $('#categoryHeadline').html("in der Kategorie "+category);
     let btnFinalize = $('#finalize');
     btnFinalize.hide();
     let btnBack = $('#btnBack');
     if (category === "TITEL" || category === "titel") {
-        btnBack.hide();
+        //btnBack.hide();
+        btnBack.css('visibility','hidden');
     }
+
     let btnContinue = $('#btnContinue');
     if (category === "AUSWERTUNG") {
         btnFinalize.show();
         btnContinue.hide();
+
     }
     $('.close').on("click", function () {
         $('#annotation-edit-modal').hide();
