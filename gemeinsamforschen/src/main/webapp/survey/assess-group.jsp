@@ -18,7 +18,7 @@
         <h2>Bewertung Ihrer Gruppe</h2>
         <br>
         <p> Vielen Dank für Ihre Zeit und Ihr Interesse an dieser Studie bis zum Ende teil zu nehmen.
-            Hier bewerten Sie die Teamfähigkeit und Charaktermerkmale Ihrer Gruppenmitglieder.<br>
+            Hier bewerten Sie die Teamfähigkeit Ihrer Gruppenmitglieder.<br>
             Sollten Sie noch nicht wenigstens 5 Spiele mit Ihrer Gruppe gespielt haben,
             bitten wir Sie dies zu gewährleisten bevor Sie Ihre Gruppe hier bewerten.<br>
 
@@ -32,8 +32,7 @@
         <h2>Assess your group</h2>
         <br>
         <p> Thanks a lot for your time and your interest to participate in this study.
-            Here you can evaluate your group members by meanings of their character and the
-            skills to react in a team.<br>
+            Here you can evaluate your group members by meanings of their skills to work in a team.<br>
             If you did not have at least 5 games with your group, we ask you to complete these
             before you attend to assess your group.
             <br>

@@ -169,7 +169,7 @@ function sendGroupPreferences() {
         gfm = "SingleUser";
     }
 
-    let localurl = "../../gemeinsamforschen/rest/group/gfm/create/projects/" + projectName;
+    let localurl = "../rest/group/gfm/create/projects/" + projectName;
     $.ajax({
         gfm: gfm,
         url: localurl,

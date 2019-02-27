@@ -9,8 +9,10 @@ $(document).ready(function () {
                 "Cache-Control": "no-cache"
             },
             success:function(){
-                let context = getQueryVariable("context")!==null;
-                if (!context){
+                let context = getQueryVariable("context");
+                if (context==="dota" ||
+                    context==="overwatch" ||
+                    context==="fl_survey"){
                     document.location.reload();
                 }else{
                     let target = "index.jsp";

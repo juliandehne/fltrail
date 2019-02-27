@@ -17,7 +17,7 @@ $(document).ready(function () {
  * selects the tags from the db and prints the seleciton
  */
 function printTags() {
-    let url = "../../gemeinsamforschen/rest/project/tags/" + getProjectName();
+    let url = "../rest/project/tags/" + getProjectName();
     $.ajax({
         url: url,
         Accept: "application/json",
@@ -113,7 +113,7 @@ function takesPartInProject() {
 
 function loginProject(projectName) {
     //let password = $('#projectPassword').val();
-    let url = "../../gemeinsamforschen/rest/project/login/" + projectName;// + "?password=" + password;
+    let url = "../rest/project/login/" + projectName;// + "?password=" + password;
     if (projectName === "") {
         return false;
     } else {

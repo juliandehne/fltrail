@@ -17,14 +17,6 @@
     <script src="js/create-groups-manual.js"></script>
     <link rel="stylesheet" href="css/create-groups-manual.css">
 </head>
-
-<div>
-    <button draggable="true" ondragstart="allowDrag(event);">zieh mich </button>
-</div>
-<ul ondragover="allowDrop(event);" ondrop="dropContent(event);">
-
-</ul>
-
 <script id="groupTemplate" type="text/x-jQuery-tmpl">
 
 <div class="grouplists" id="${groupName}">

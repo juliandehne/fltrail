@@ -24,7 +24,7 @@
 <main class="project-overview">
     <jsp:include page="../taglibs/timeLine.jsp"/>
 
-    <div class="col span_content span_l_of_2">
+    <div class="col span_content span_l_of_3">
 
         <%--    <div class="infotext ">
             <p class="icon">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
@@ -69,7 +69,7 @@
 
         </script>
     </div>
-    <div class="col span_chat">
+    <div class="col span_chat span_l_of_3 right">
         <chat:chatWindow orientation="right" scope="project"/>
         <chat:chatWindow orientation="right" scope="group"/>
         <a id="groupView" style="cursor:pointer;">Gruppenansicht</a>

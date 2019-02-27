@@ -40,10 +40,10 @@
                 </div>
             </form>
 
-            <div>
+            <!--<div>
                 <label for="file">Alternativ bitte Datei wählen</label>
                 <input type="file" id="file" class="primary" name="file">
-            </div>
+            </div>-->
             <div class="document-text-buttons">
                 <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
                 </button>--%>
