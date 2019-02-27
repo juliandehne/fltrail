@@ -13,6 +13,9 @@ $(document).ready(function () {
     let language = getQueryVariable("language");
     let context = getQueryVariable("context");
     let userEmail = getQueryVariable("userEmail");
+    let navTextPage =$('#navTextPage');
+    let navGroupView = $('#navGroupView');
+    let navSurvey = $('#navSurvey');
 
     if (!context){
         messageHolder.show();
@@ -26,15 +29,15 @@ $(document).ready(function () {
 
     if (language==='en'){
         $('#theTextPageEn').toggleClass("in");
-        $('#navGroupView').html("groups");
-        $('#navTextPage').html("introduction");
-        $('#navSurvey').html("survey");
+        navGroupView.html("groups");
+        navTextPage.html("introduction");
+        navSurvey.html("survey");
     }else{
         if(language==='de'){
             $('#theTextPageGer').toggleClass("in");
-            $('#navGroupView').html("Gruppen");
-            $('#navTextPage').html("Einleitung");
-            $('#navSurvey').html("Umfrage");
+            navGroupView.html("Gruppen");
+            navTextPage.html("Einleitung");
+            navSurvey.html("Umfrage");
         }
     }
 
@@ -84,7 +87,7 @@ $(document).ready(function () {
 
 
     // creating the survey element
-    $('#navTextPage').on('click', function(){
+    navTextPage.on('click', function(){
         preparePageToggle();
         if(language==='en'){
             $('#theTextPageEn').toggleClass("in");
@@ -96,7 +99,7 @@ $(document).ready(function () {
         $('#navLiTextPage').toggleClass("active");
         document.getElementById('navBtnPrev').className="page-item disabled";
     });
-    $('#navGroupView').on('click',function(){
+    navGroupView.on('click',function(){
         preparePageToggle();
         $('#theGroupView').toggleClass("in");
         $('#navLiGroupView').toggleClass("active");
@@ -135,7 +138,7 @@ $(document).ready(function () {
         });
         document.getElementById("navBtnNext").className="page-item disabled";
     });
-    $('#navSurvey').on('click',function(){
+    navSurvey.on('click',function(){
         preparePageToggle();
         $('#theSurvey').toggleClass("in");
         $('#navLiSurvey').toggleClass("active");

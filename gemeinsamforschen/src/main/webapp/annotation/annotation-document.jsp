@@ -47,22 +47,16 @@
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
-<main>
+<main id="seeFeedback" class="">
     <div class="row group">
         <div class="col span_l_of_2">
 
             <h3>Feedback geben: <span id="feedBackTarget"></span></h3>
 
-
-
-
-
             <h4 id="categoryHeadline"></h4>
             <input type="text" id="annotation-search" onkeyup="searchAnnotation()" placeholder="Suchen...">
 
             <div id="documentText"></div>
-
-
 
         </div><!-- end col -->
 
@@ -71,7 +65,7 @@
             <div class="pagination-holder">
             <button id="btnBack" type="button" class="btn btn-secondary" title="Zurück">&#xf053;</button>
 
-                <span class="current-category">KATEGORIE</span>
+                <span id="current-category" class="current-category">KATEGORIE</span>
 
                 <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">&#xf054;</button>
                 <button id="finalize" type="button" class="btn btn-success" title="finanlisieren">&#xf00c;</button>

@@ -7,9 +7,9 @@
     <jsp:include page="../taglibs/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="js/jquery3.1.1.min.js"></script>
     <link href="https://surveyjs.azureedge.net/1.0.60/survey.css" type="text/css" rel="stylesheet"/>
-    <script src="https://surveyjs.azureedge.net/1.0.60/survey.jquery.min.js"></script>
+    <script src="js/survey.jquery.1.0.60.min.js"></script>
     <link rel="stylesheet" href="../groupfinding/css/create-groups-manual.css">
     <script type="text/javascript" src="../libs/jquery/jqueryTemplate.js"></script>
     <script src="./js/enter-gfm.js"></script>
@@ -63,11 +63,10 @@
     <div class="row group">
         <h2>Welcome</h2>
         <br>
-        <p>Thank you for your interest and y8o9p
-            our participation in our survey.
+        <p>Thank you for your interest and your participation in our survey.
             We are here to build and evaluate groups based on different criteria. Therefore use the
-            "survey-page" and answer the questions. This will last about 10 minutes<br>
-            When 30 people commited their answers, you can see which group you are in on the "group-page".
+            "survey-page" and answer the questions. This will last about 10 minutes.<br>
+            When 30 people committed their answers, you can see which group you are in on the "group-page".
             As long as there are not enough participants, you can't see your group.<br>
             <%--Please evaluate your group afterwards <a
                     href="http://fleckenroller.cs.uni-potsdam.de/limesurvey/index.php/356615?lang=en">here</a>.<br>--%>
@@ -86,13 +85,15 @@
 <div id="theGroupView" class="collapse">
     <div class="row group">
         <div class="alert alert-info" id="ifNoUserIsSetGer">
-            <p>Bitte geben Sie Ihre E-Mail an:</p>
-            <input id="userEmailGroupViewGer" class="form-control">
+            <label>Bitte geben Sie Ihre E-Mail an:
+                <input id="userEmailGroupViewGer" class="form-control">
+            </label>
             <button class="btn btn-primary" style="margin-top:10px;" id="btnSetUserEmailGer">bestätigen</button>
         </div>
         <div class="alert alert-info" id="ifNoUserIsSetEn">
-            <p>Please enter your email:</p>
-            <input id="userEmailGroupViewEn" class="form-control">
+            <label>Please enter your email:
+                <input id="userEmailGroupViewEn" class="form-control">
+            </label>
             <button class="btn btn-primary" style="margin-top:10px;" id="btnSetUserEmailEn">submit</button>
         </div>
     </div>

@@ -13,6 +13,8 @@ $(document).ready(function () {
     let category = getQueryVariable("category");
     if (getQueryVariable("seeFeedback")!=="true"){
         getFeedbackName();
+    }else{
+        document.getElementById('seeFeedback').className="seeFeedback";
     }
     $('#categoryHeadline').html("in der Kategorie "+category);
     let btnFinalize = $('#finalize');
@@ -634,13 +636,7 @@ function getSelectedText() {
  * @returns {string} The user color
  */
 function getUserColor(userEmail, category) {
-    // insert new color if there is no userEmail key
-    if (getQueryVariable("seeFeedback")) {
-        generateCategoryBasedColor(userEmail, category);
-    }
-    if (userColors.get(userEmail) == null) {
-        generateCategoryBasedColor(userEmail, category);
-    }
+    generateCategoryBasedColor(userEmail, category);
     // return the color
     return userColors.get(userEmail);
 }
@@ -653,13 +649,7 @@ function getUserColor(userEmail, category) {
  * @returns {string} The dark user color
  */
 function getDarkUserColor(userEmail, category) {
-    // insert new color if there is no userEmail key
-    if (getQueryVariable("seeFeedback")) {
         generateCategoryBasedColor(userEmail, category);
-    }
-    if (userColorsDark.get(userEmail) == null) {
-        generateCategoryBasedColor(userEmail, category);
-    }
     // return the color
     return userColorsDark.get(userEmail);
 }
