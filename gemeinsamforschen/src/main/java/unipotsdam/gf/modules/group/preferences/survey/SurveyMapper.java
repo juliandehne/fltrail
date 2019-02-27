@@ -4,13 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
-import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
-import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.communication.view.CommunicationView;
-import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
-import unipotsdam.gf.modules.group.preferences.groupal.PGroupAlMatcher;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -21,7 +17,6 @@ import unipotsdam.gf.process.ProjectCreationProcess;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.JAXBException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -33,6 +28,7 @@ public class SurveyMapper {
     public static final String EMAIL1 = "EMAIL1";
     /*private static final String EMAIL2 = "EMAIL2";*/
     private static final String DISCORDID = "DISCORDID";
+
 
     private Boolean isdebug = true;
 
@@ -74,7 +70,8 @@ public class SurveyMapper {
         if (questions == null) {
             throw new Exception("items are not available in DB");
         }
-        boolean standalone = (groupWorkContext==GroupWorkContext.dota ||groupWorkContext==GroupWorkContext.overwatch);
+        boolean standalone = (groupWorkContext==GroupWorkContext.dota ||groupWorkContext==GroupWorkContext.overwatch
+                || groupWorkContext == GroupWorkContext.fl_survey);
         if (standalone) {
             // the general questions to create a profile (given that we are not running the survey as part of the normal
             // FL-Trail Mode

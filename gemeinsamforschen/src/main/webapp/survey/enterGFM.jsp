@@ -52,9 +52,8 @@
             Sobald 30 Teilnehmer die Umfrage ausgefüllt haben, werden Gruppen gebildet, die Sie dann
             unter dem Reiter "Gruppen" finden werden. So lange noch keine 30 Teilnehmer den Fragebogen
             ausgefüllt haben, ist die "Gruppen-Seite" leer. <br>
-            Sobald Sie Ihre Gruppe gefunden haben, können Sie sich gegenseitig auf Discord adden und
-            Ihr Spiel starten. Nachdem Sie wenigstens 5 Spiele gemeinsam bestritten haben, bitten wir Sie
-            Ihre Erfahrung mit der Gruppe zu <a href="http://fleckenroller.cs.uni-potsdam.de/limesurvey/index.php/356615?lang=en">hier</a> zu bewerten.<br>
+            <%--Wir bitten Sie ihre Erfahrung mit der Gruppe zu <a
+                    href="http://fleckenroller.cs.uni-potsdam.de/limesurvey/index.php/356615?lang=en">hier</a> zu bewerten.<br>--%>
             <br>
             Vielen Dank für Ihre Teilnahme!
         </p>
@@ -64,13 +63,14 @@
     <div class="row group">
         <h2>Welcome</h2>
         <br>
-        <p>Thank you for your interest and your participation in our survey.
+        <p>Thank you for your interest and y8o9p
+            our participation in our survey.
             We are here to build and evaluate groups based on different criteria. Therefore use the
             "survey-page" and answer the questions. This will last about 10 minutes<br>
             When 30 people commited their answers, you can see which group you are in on the "group-page".
             As long as there are not enough participants, you can't see your group.<br>
-            Please add your group members on discord and have at least 5 games together before you
-            evaluate your group <a href="http://fleckenroller.cs.uni-potsdam.de/limesurvey/index.php/356615?lang=en">here</a>.<br>
+            <%--Please evaluate your group afterwards <a
+                    href="http://fleckenroller.cs.uni-potsdam.de/limesurvey/index.php/356615?lang=en">here</a>.<br>--%>
             <br>
             Thank you for your participation!
         </p>

@@ -46,7 +46,9 @@ public class SurveyPreparationHelper {
         }
 
         // importing items
-        String itemExamle = "groupfindingitems_beispiel.xls";
+        //String itemExamle = "groupfindingitems_beispiel.xls";
+        //String itemExamle = "groupfindingitems_selected.xls";
+        String itemExamle = "groupfindingitems_selected_final1.xls";
         ItemWriter itemWriter = new ItemWriter(itemExamle);
         itemWriter.writeItems();
 
