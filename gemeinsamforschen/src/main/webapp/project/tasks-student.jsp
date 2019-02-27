@@ -36,24 +36,24 @@
 
         </div>
         <script id="taskTemplate" type="text/x-jQuery-tmpl">
-        <div class="card ${phase}">
+            <div class="card ${phase} current">
             <div class="col span_s_of_2 icon ${taskType}">
-       </div>
-       <div class="col span_l_of_2" id="${taskName}">
-           {{if infoText}}
-               <h4>${infoText}</h4>
-           {{/if}}
-           {{if solveTaskWith}}
-               <button class='primary' onClick='${solveTaskWithLink}'>${solveTaskWith}</button>
-           {{/if}}
-           {{if helpLink}}
-               <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
-           {{/if}}
-       </div>
-       {{if timeFrame}}
-           {{html timeFrame}}
-       {{/if}}
-       <div style="clear:left"></div>
+        </div>
+        <div class="col span_l_of_2" id="${taskName}">
+            {{if infoText}}
+                <h4>${infoText}</h4>
+            {{/if}}
+            {{if solveTaskWith}}
+                <button class='primary' onClick='${solveTaskWithLink}'>${solveTaskWith}</button>
+            {{/if}}
+            {{if helpLink}}
+                <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
+            {{/if}}
+        </div>
+        {{if timeFrame}}
+            {{html timeFrame}}
+        {{/if}}
+        <div style="clear:left"></div>
    </div>
 
 
@@ -72,6 +72,7 @@
     <div class="col span_chat">
         <chat:chatWindow orientation="right" scope="project"/>
         <chat:chatWindow orientation="right" scope="group"/>
+        <a id="groupView" style="cursor:pointer;">Gruppenansicht</a>
     </div>
     <div class="row">
 

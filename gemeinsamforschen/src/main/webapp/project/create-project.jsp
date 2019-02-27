@@ -63,7 +63,7 @@
                 <ul>
                     <li id="lgLI">
                         <input type="radio" id="lg" name="gfm" value="Basierend auf Lernzielen">
-                        <label for="lg">Basierend auf Lernzielen</label>
+                        <label for="lg">Basierend auf Interessen der Studenten</label>
                     </li>
                     <li>
                         <input type="radio" id="ml" name="gfm" value="per Hand">
@@ -71,7 +71,7 @@
                     </li>
                     <li id="bpLI">
                         <input type="radio" id="bp" name="gfm" value="Basierend auf Präferenzen">
-                        <label for="bp">Basierend auf Präferenzen</label>
+                        <label for="bp">Basierend auf Persönlichkeitsmerkmalen</label>
                     </li>
                     <li>
                         <input type="radio" id="single" name="gfm" value="Keine Gruppen">
@@ -93,7 +93,7 @@
                 <%-- <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>--%>
 
                 <div class="form-group">
-                    <button class="primary" style="margin-left:129px;" id="sendProject">erstellen</button>
+                    <button class="primary" id="sendProject">Erstellen</button>
                 </div>
 
             </div>

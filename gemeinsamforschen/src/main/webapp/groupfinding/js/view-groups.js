@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    $('#noGroupsYet').hide();
+    $('#bisherKeineGruppen').hide();
+    let projectName = $('#projectName').html().trim();
+    $('#backToTasks').on('click',function(){
+        location.href="../project/tasks-student.jsp?projectName="+projectName;
+    });
     getAllGroups(function (allGroups) {
         if(allGroups.length === 0){
             if (language==="en"){

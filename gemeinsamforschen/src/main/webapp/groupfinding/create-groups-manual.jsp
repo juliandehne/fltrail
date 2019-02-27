@@ -13,20 +13,29 @@
     <jsp:include page="../taglibs/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+
     <script src="js/create-groups-manual.js"></script>
     <link rel="stylesheet" href="css/create-groups-manual.css">
 </head>
 
+<div>
+    <button draggable="true" ondragstart="allowDrag(event);">zieh mich </button>
+</div>
+<ul ondragover="allowDrop(event);" ondrop="dropContent(event);">
+
+</ul>
+
 <script id="groupTemplate" type="text/x-jQuery-tmpl">
 
 <div class="grouplists" id="${groupName}">
-    <ul class="complex-list">
+    <ul class="complex-list" ondragover="allowDrop(event);" ondrop="dropContent(event);">
         <li class="label">
             <button type="button" class="group-button list-group-item list-group-item-action">${groupName}</button>
         </li>
     {{each groupMember}}
-        <li>
-            <button type="button" name="student" class="student-button list-group-item list-group-item-action">
+        <li draggable="true" ondragstart="allowDrag(event);" ondrop="noDropHere(event);" id="${name}_${groupName}">
+            <button type="button" name="student"
+            class="student-button list-group-item list-group-item-action">
                 <span>${name}</span>
                 <p name="userEmail" hidden>${email}</p>
             </button>
@@ -98,6 +107,7 @@
 
 
     </div>
+
 </main>
 <jsp:include page="../taglibs/footer.jsp"/>
 </body>

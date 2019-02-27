@@ -5,6 +5,14 @@ html {
     height:100%;
 }
 
+nav {
+    cursor: pointer;
+}
+
+a.disabled{
+    pointer-events: none;
+}
+
 body {
     height:120%;
     position:relative;
@@ -52,7 +60,7 @@ footer {
     height: 80px;
     background: #ededed;
     padding: .5em;
-    position: absolute;
+  /*  position: absolute;*/
     width: 100%;
     bottom: 0;
 }
@@ -193,6 +201,12 @@ footer {
     box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
 }
 
+.card.current {
+    -webkit-box-shadow: 15px 15px 8px -8px rgba(100, 90, 100, 0.62);
+    -moz-box-shadow: 15px 15px 8px -8px rgba(100, 90, 100, 0.62);
+    box-shadow: 15px 15px 8px -8px rgba(100, 90, 100, 0.62);
+}
+
 .grouptask:before {
     content: "\f0c0";
     font-size: 2em;
@@ -212,7 +226,7 @@ footer {
     content: "\f017";
     text-align: center;
     display: block;
-    line-height: 1.8em;
+    line-height: 2em;
     font-size: 1.5em;
     color: #fff;
 }
@@ -343,14 +357,16 @@ a:visited {
 /* lists */
 
 .complex-list li {
-    border-bottom: 1px solid #ededed;
-    padding: .7em .2em .7em .2em;
+
+
 
 }
 
-.complex-list li.label {
+.complex-list li.label button{
     font-weight: 700;
     color: #000;
+    background-color:#ededed;
+    font-size: 13px;
 }
 
 .grouplists {
@@ -358,6 +374,35 @@ a:visited {
     width: 300px;
     margin: 10px;
 }
+
+.groups-manual .info-message p {
+    margin: 0;
+    padding: 1em 0 1em 0;
+}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+    border-color:#ededed;
+}
+
+/* + overwrite bootstrap rules */
+.complex-list .list-group-item:last-child {
+
+    border-bottom-right-radius: 0 ;
+    border-bottom-left-radius: 0;
+}
+.complex-list .list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.complex-list .list-group-item {
+    border-width: 0 0 1px 0;
+    padding: 1em .2em .7em 1em;
+    border-radius:0;
+    border-bottom: 1px solid #ededed;
+}
+
+
 
 /*colors*/
 
@@ -441,17 +486,24 @@ header .nav-group-left a {
     margin-right:2em;
 }
 /*links and buttons */
-button {
+button, .btn {
     border: none;
-    backrgound-color: #dedede;
+    background-color: #dedede;
     display: block;
     padding: .8em;
     color: #075F8B;
+    border-radius:0;
 }
 
-.primary {
+
+
+.btn-success {
+    background-color: #1a3358;
+}
+
+.primary, .btn-primary {
     background-color: #075F8B;
-    color: #fff;
+    color: #fff !important;
 }
 
 .inline-btn {
@@ -833,6 +885,8 @@ main.groups-manual{
 .spacer-horizontal {
     margin-top: .5em;
     margin-bottom: .5em;
+    float: left;
+    margin-right: 1em;
 }
 
 /***custom checkmark ****/
@@ -909,5 +963,49 @@ main.groups-manual{
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
+/* projects-grid page */
+
+.card-project .tag {
+    background-color: #075F8B;
+    display:inline-block;
+    padding:.2em;
+    margin-right:.2em;
+    color:#fff;
+}
+
+/*overwrite survey.js styles */
+
+.sv_main {
+
+    font-family: nunito, helvetica, arial, sans-serif !important;
+    font-size: 13px !important;
+    line-height: 1.2em !important;
+}
+
+.sv_main.sv_default_css .sv_body {
+    border-color: #075f8b !important;
+}
+
+.sv_main.sv_default_css input[type="button"], .sv_default_css button {
+    color: #fff;
+    background-color: #075f8b !important;
+    padding: .8em !important;
+}
+
+.sv_main input[type="button"], .sv_main button {
+    border-radius: 0px !important;
+}
+
+.sv_main.sv_default_css .sv_q_rating_item .sv_q_rating_item_text:hover {
+    border-color: #075f8b !important;
+}
+
+.sv_main.sv_default_css .sv_q_rating_item.active .sv_q_rating_item_text {
+    background-color: #075f8b !important;
+    border-color: transparent !important;
+
+}
+
 
 

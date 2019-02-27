@@ -17,7 +17,7 @@
 <body>
 <div class="row group" id="naviPagi">
 
-    <nav aria-label="...">
+    <nav aria-label="..." style="float:left">
         <ul class="pagination">
             <li class="page-item disabled" id="navBtnPrev">
                 <a class="page-link" id="btnPrev"><-</a>
@@ -36,6 +36,10 @@
             </li>
         </ul>
     </nav>
+    <div class="right" style="float:right;margin-top:20px;">
+        <a id="logout" style="cursor:pointer">logout</a>
+    </div>
+
 </div>
 <div id="theTextPageGer" class="collapse">
     <div class="row group">

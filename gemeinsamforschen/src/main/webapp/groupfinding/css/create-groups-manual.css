@@ -8,12 +8,12 @@
 }
 
 .student-button.active{
-    background-color:lightblue;
+    background-color:#e0071c;
 }
 .student-button.active:hover{
     background-color:lightblue;
 }
 .student-button.active:focus {
-    background-color:lightblue;
+    background-color:#e0071c;
 
 }

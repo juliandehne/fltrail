@@ -25,10 +25,18 @@
 </jsp:include>
 <!-- back-->
 <div class="row group">
+<main class="projects">
+    <div class="col span_content span_2_of_2 centered">
+    <h5>
+        Ihre Daten werden vertraulich behandelt und an keinen Dritten weitergegeben. Diese Erhebung
+        dient ausschließlich der Zusammensetzung der Gruppen.
+    </h5>
     <div id="theSurvey">
         <div id="surveyContainer"></div>
         <div id="resultLink"></div>
     </div>
+    </div>
+</main>
 </div>
 <jsp:include page="../taglibs/footer.jsp"/>
 </body>

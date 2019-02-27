@@ -9,8 +9,13 @@ $(document).ready(function () {
                 "Cache-Control": "no-cache"
             },
             success:function(){
-                let target = "index.jsp";
-                document.location = changeLocationTo(target);
+                let context = getQueryVariable("context")!==null;
+                if (!context){
+                    document.location.reload();
+                }else{
+                    let target = "index.jsp";
+                    document.location = changeLocationTo(target);
+                }
             },
             error: function(a){
                 console.log(a);

@@ -117,18 +117,42 @@ body, html {
     color: lightgray;
 }
 
-.titel {
-    background-color: #ba68c8;
-}
-
 .added-titel {
     border-style: solid;
     border-color: #ba68c8;
     color: #ba68c8;
 }
 
+.titel {
+    background-color: #ba68c8;
+}
+
 .recherche {
     background-color: #7986cb;
+}
+
+.literaturverzeichnis {
+    background-color: #4dd0e1;
+}
+
+.forschungsfrage {
+    background-color: #81c784;
+}
+
+.untersuchungskonzept {
+    background-color: #dce775;
+}
+
+.methodik {
+    background-color: #ffd54f;
+}
+
+.durchfuehrung {
+    background-color: #ff8a65;
+}
+
+.auswertung {
+    background-color: #a1887f;
 }
 
 .added-recherche {
@@ -137,18 +161,10 @@ body, html {
     color: #7986cb;
 }
 
-.literaturverzeichnis {
-    background-color: #4dd0e1;
-}
-
 .added-literaturverzeichnis {
     border-style: solid;
     border-color: #4dd0e1;
     color: #4dd0e1;
-}
-
-.forschungsfrage {
-    background-color: #81c784;
 }
 
 .added-forschungsfrage {
@@ -157,18 +173,10 @@ body, html {
     color: #81c784;
 }
 
-.untersuchungskonzept {
-    background-color: #dce775;
-}
-
 .added-untersuchungskonzept {
     border-style: solid;
     border-color: #dce775;
     color: #dce775;
-}
-
-.methodik {
-    background-color: #ffd54f;
 }
 
 .added-methodik {
@@ -177,22 +185,40 @@ body, html {
     color: #ffd54f;
 }
 
-.durchfuehrung {
-    background-color: #ff8a65;
-}
-
 .added-durchfuehrung {
     border-style: solid;
     border-color: #ff8a65;
     color: #ff8a65;
 }
 
-.auswertung {
-    background-color: #a1887f;
-}
-
 .added-auswertung {
     border-style: solid;
     border-color: #a1887f;
     color: #a1887f;
+}
+
+.infobox.dossier {
+
+}
+
+/*context menu */
+
+.context-menu-list .context-menu-item.context-menu-hover {
+
+    background-color: #075f8b;
+}
+
+context-menu-list.context-menu-list {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 0;
+    padding: 0;
+}
+
+context-menu-list.context-menu-item {
+    padding: .5em .5em;
+}
+
+context-menu-list.context-menu-item .context-menu-list .context-menu-item   {
+    padding: .5em .1em .5em .5em;
 }
