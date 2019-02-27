@@ -14,13 +14,15 @@ $(document).ready(function () {
     if (getQueryVariable("seeFeedback")!=="true"){
         getFeedbackName();
     }
-    $('#categoryHeadline').html(category);
+    $('#categoryHeadline').html("in der Kategorie "+category);
     let btnFinalize = $('#finalize');
     btnFinalize.hide();
     let btnBack = $('#btnBack');
     if (category === "TITEL" || category === "titel") {
-        btnBack.hide();
+        //btnBack.hide();
+        btnBack.css('visibility','hidden');
     }
+
     let btnContinue = $('#btnContinue');
     if (category === "AUSWERTUNG") {
         btnFinalize.show();
