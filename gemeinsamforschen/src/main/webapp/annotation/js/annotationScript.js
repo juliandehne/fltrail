@@ -11,7 +11,9 @@ let startCharacter, endCharacter;
 $(document).ready(function () {
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
     let category = getQueryVariable("category");
-    getFeedbackName();
+    if (getQueryVariable("seeFeedback")!=="true"){
+        getFeedbackName();
+    }
     $('#categoryHeadline').html(category);
     let btnFinalize = $('#finalize');
     btnFinalize.hide();
@@ -28,24 +30,22 @@ $(document).ready(function () {
         $('#annotation-edit-modal').hide();
         $('#annotation-create-modal').hide();
     });
-
+    let btnWholeCategory=$('#btnWholeCategory');
     if (!category) {
         btnFinalize.hide();
         btnContinue.hide();
         btnBack.hide();
-        $('#btnWholeCategory').hide();
+        btnWholeCategory.hide();
     }
     let documentText = $('#documentText');
     // fetch full submission from database
     getFullSubmission(getQueryVariable("fullSubmissionId"), function (response) {
 
         // set text
-        let documentText = $('#documentText');
         documentText.html(response.text);
 
         // fetch submission parts
         getSubmissionPart(fullSubmissionId, category, function (response) {
-            let documentText = $('#documentText');
             let body;
             if (response === false) {
                 body = [{
@@ -234,7 +234,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#btnWholeCategory').click(function () {
+    btnWholeCategory.click(function () {
         getSubmissionPart(fullSubmissionId, category, function () {
             selectText();
             handleAnnotationClick();
@@ -328,9 +328,9 @@ $(document).ready(function () {
 
     // fetch annotations from server on page start
     if (getQueryVariable("seeFeedback") === "true") {
-        $('#btnWholeCategory').hide();
-        $('#btnContinue').hide();
-        $('#documentText').toggleClass('leftcontent-text').toggleClass('feedbackText');
+        btnWholeCategory.hide();
+        btnContinue.hide();
+        documentText.toggleClass('leftcontent-text').toggleClass('feedbackText');
         let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT", "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
         for (let i = 0; i < categories.length; i++) {
             getAnnotations(fullSubmissionId, categories[i], function (response) {
@@ -498,7 +498,6 @@ function displayAnnotation(annotation) {
                 addHighlightedAnnotation(annotation);
 
                 // scroll document text to anchor element
-                let documentText = $('#documentText');
                 let anchor = $('#anchor');
                 documentText.scrollTo(anchor);
             })
@@ -638,7 +637,7 @@ function getUserColor(userEmail, category) {
         generateCategoryBasedColor(userEmail, category);
     }
     if (userColors.get(userEmail) == null) {
-        generateRandomColor(userEmail);
+        generateCategoryBasedColor(userEmail, category);
     }
     // return the color
     return userColors.get(userEmail);
@@ -657,45 +656,63 @@ function getDarkUserColor(userEmail, category) {
         generateCategoryBasedColor(userEmail, category);
     }
     if (userColorsDark.get(userEmail) == null) {
-        generateRandomColor(userEmail);
+        generateCategoryBasedColor(userEmail, category);
     }
     // return the color
     return userColorsDark.get(userEmail);
 }
 
-/**
- * Generate a random color of the format 'rgb(r, g, b)'
- *
- * @param userEmail The given user token
- */
-function generateRandomColor(userEmail) {
-    let r = Math.floor(Math.random() * 56) + 170;
-    let g = Math.floor(Math.random() * 56) + 170;
-    let b = Math.floor(Math.random() * 56) + 170;
-    let r_d = r - 50;
-    let g_d = g - 50;
-    let b_d = b - 50;
-
-    let color = 'rgb(' + r + ',' + g + ',' + b + ')';
-    let colorDark = 'rgb(' + r_d + ',' + g_d + ',' + b_d + ')';
-
-    userColors.set(userEmail, color);
-    userColorsDark.set(userEmail, colorDark);
-}
-
 function generateCategoryBasedColor(userEmail, category) {
-    let category_r, category_g, category_b = 0;
-    let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT", "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
-    for (let i = 0; i < categories.length; i++) {
-        if (category === categories[i]) {
-            category_r = i * 203 % 255; //mod 255 ensures to create valid colors. times any big
-            category_g = i * 101 % 255; //number enlarges variation of usually pretty close numbers
-            category_b = i * 181 % 255;
-        }
-    }
-    let r = category_r + (userEmail.hashCode() * userEmail.hashCode() * userEmail.hashCode()) % 71;
-    let g = category_g + (userEmail.hashCode() * userEmail.hashCode()) % 71;
-    let b = category_b + userEmail.hashCode() % 71;
+    let category_r, category_g, category_b;
+    let categorymap = {
+        TITEL: {
+            r:"ba",
+            g:"68",
+            b:"c8",
+        },
+        RECHERCHE: {
+            r:"79",
+            g:"86",
+            b:"cb",
+        },
+        LITERATURVERZEICHNIS: {
+            r: "4d",
+            g: "d0",
+            b: "e1",
+        },
+        FORSCHUNGSFRAGE: {
+            r: "81",
+            g: "c7",
+            b: "84",
+        },
+        UNTERSUCHUNGSKONZEPT: {
+            r: "dc",
+            g: "e7",
+            b: "75",
+        },
+        METHODIK: {
+            r: "ff",
+            g: "d5",
+            b: "4f",
+        },
+        DURCHFUEHRUNG: {
+            r: "ff",
+            g: "8a",
+            b: "65",
+        },
+        AUSWERTUNG: {
+            r: "a1",
+            g: "88",
+            b: "7f",
+        },
+    };
+    category_r=categorymap[category].r;
+    category_g=categorymap[category].g;
+    category_b=categorymap[category].b;
+
+    let r = parseInt(category_r,16) + (userEmail.hashCode() * userEmail.hashCode() * userEmail.hashCode()) % 31;
+    let g = parseInt(category_g,16) + (userEmail.hashCode() * userEmail.hashCode()) % 31;
+    let b = parseInt(category_b,16) + userEmail.hashCode() % 31;
     let r_d = r - 50;
     let g_d = g - 50;
     let b_d = b - 50;
