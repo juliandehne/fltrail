@@ -14,11 +14,13 @@ $(document).ready(function () {
     let context = getQueryVariable("context");
     let userEmail = getQueryVariable("userEmail");
 
-    if (!language || !context){
+    if (!context){
         messageHolder.show();
+        context="fl_survey";
     }
 
     if (!language){
+        messageHolder.show();
         language='en';
     }
 

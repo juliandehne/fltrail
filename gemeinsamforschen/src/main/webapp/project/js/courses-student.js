@@ -282,7 +282,7 @@ function linkToRegister(projectName, linkUrl){
                         location.href = linkUrl + projectName;
                         break;
                     case "UserProfilStrategy":
-                        linkUrl= "../groupfinding/groupALSurvey.jsp?projectName=";
+                        linkUrl= "../groupfinding/groupALSurvey.jsp?context=fl&projectName=";
                         location.href = linkUrl + projectName;
                         break;
                 }
