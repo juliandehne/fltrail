@@ -23,11 +23,14 @@ public class ItemWriter {
     }
 
     public void writeItems() throws Exception {
+
+
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
 
         String path = System.getProperty("user.dir") + "/src/main/resources/"+excelFileName;
         java.util.List<ItemSet> itemSets = Poiji.fromExcel(new File(path), ItemSet.class);
+        itemSets.remove(itemSets.size() - 1);
 
         for (ItemSet itemSet : itemSets) {
 
