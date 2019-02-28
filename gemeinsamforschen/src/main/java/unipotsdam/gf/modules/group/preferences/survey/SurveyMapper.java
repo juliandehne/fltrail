@@ -30,7 +30,7 @@ public class SurveyMapper {
     private static final String DISCORDID = "DISCORDID";
 
 
-    private Boolean isdebug = true;
+    private Boolean isdebug = false;
 
     @Inject
     private ProfileDAO profileDAO;
