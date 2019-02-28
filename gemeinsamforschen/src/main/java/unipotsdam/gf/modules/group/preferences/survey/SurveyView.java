@@ -10,6 +10,7 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.SurveyProcess;
+import unipotsdam.gf.process.tasks.ParticipantsCount;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
@@ -136,4 +137,11 @@ public class SurveyView {
         return "userEmail set";
     }
 
+    @GET
+    @Path("/participantCount/project/{projectName}")
+    public String getParticipantCount(@PathParam("projectName") String projectName,
+                                      @Context HttpServletRequest req){
+        ParticipantsCount participantsCount = projectDAO.getParticipantCount(new Project(projectName));
+        return Integer.toString(participantsCount.getParticipants());
+    }
 }

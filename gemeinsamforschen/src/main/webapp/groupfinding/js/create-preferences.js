@@ -51,59 +51,66 @@ function takesPartInProject() {
 
     let userEmail = getUserEmail();
     let projectName = getProjectName();
-    loginProject(projectName);
     //checkCompBase(function (isCompBaseOnline) {
-        //if (1) {
-            let allTheTags = [];
-            let allTheCompetencies;
-            allTheCompetencies = $('#competencies0').val().split(",");
-            for (let i = 0; i < document.getElementsByName("tag").length; i++) {   //goes through all tags and adds them to allTheTags
-                if (document.getElementById("tag" + i).checked) {
-                    allTheTags.push(document.getElementById("tag" + i).value);
-                }
-            }
-            if (allTheTags.length > 2) {
-                $(".alert").css('background-color', 'lightcoral');
-                allTheTags = [];
-                document.getElementById('loader').className = "loader-inactive";
-                return false;
-            }
-            if (allTheTags.length < 2) {
-                $(".alert").css('background-color', 'lightcoral');
-                allTheTags = [];
-                document.getElementById('loader').className = "loader-inactive";
-                return false;
-            }
-            let dataTags =allTheCompetencies.concat(allTheTags);
-            for (let i=0; i<dataTags.length; i++){
-                dataTags[i] = "Studierende interessieren sich für "+dataTags[i];
-            }
+    //if (1) {
+    let allTheTags = [];
+    let allTheCompetencies;
+    allTheCompetencies = $('#competencies0').val().split(",");
+    for (let i = 0; i < document.getElementsByName("tag").length; i++) {   //goes through all tags and adds them to allTheTags
+        if (document.getElementById("tag" + i).checked) {
+            allTheTags.push(document.getElementById("tag" + i).value);
+        }
+    }
+    if (allTheTags.length > 2) {
+        $(".alert").css('background-color', 'lightcoral');
+        allTheTags = [];
+        document.getElementById('loader').className = "loader-inactive";
+        $('.cover').each(function () {
+            $(this).fadeOut(100);
+        });
+        return false;
+    }
+    if (allTheTags.length < 2) {
+        $(".alert").css('background-color', 'lightcoral');
+        allTheTags = [];
+        document.getElementById('loader').className = "loader-inactive";
+        $('.cover').each(function () {
+            $(this).fadeOut(100);
+        });
+        return false;
+    }
+    let dataTags = allTheCompetencies.concat(allTheTags);
+    for (let i = 0; i < dataTags.length; i++) {
+        dataTags[i] = "Studierende interessieren sich für " + dataTags[i];
+    }
 
-            let data = {
-                "competences":[],
-                "researchQuestions":[],
-                //JSON object 'data' collects everything to send
-                "tagsSelected": dataTags                            //todo: this differs from the backend interface atm
-            };                                                      //todo: Julian needs to fix the backend =)
-            let dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
-            //let url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
-            let url = "../rest/group/user/" + userEmail + "/projects/" + projectName + "/preferences";
-            $.ajax({
-                url: url,
-                type: 'PUT',
-                Accept: "text/plain; charset=utf-8",
-                contentType: "application/json",
-                projectName: projectName,
-                data: dataString,
-                success: function (response) {
-                    console.log(response);
-                    document.getElementById('loader').className = "loader-inactive";
-                    location.href = "../project/tasks-student.jsp?projectName="+projectName;
-                },
-                error: function (a) {
-                    console.log(a);
-                }
-            });
+    let data = {
+        "competences": [],
+        "researchQuestions": [],
+        //JSON object 'data' collects everything to send
+        "tagsSelected": dataTags                            //todo: this differs from the backend interface atm
+    };                                                      //todo: Julian needs to fix the backend =)
+    loginProject(projectName);
+
+    let dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified
+    //let url = compbaseUrl + "/api2/user/" + userEmail + "/projects/" + projectName + "/preferences";
+    let url = "../rest/group/user/" + userEmail + "/projects/" + projectName + "/preferences";
+    $.ajax({
+        url: url,
+        type: 'PUT',
+        Accept: "text/plain; charset=utf-8",
+        contentType: "application/json",
+        projectName: projectName,
+        data: dataString,
+        success: function (response) {
+            console.log(response);
+            document.getElementById('loader').className = "loader-inactive";
+            location.href = "../project/tasks-student.jsp?projectName=" + projectName;
+        },
+        error: function (a) {
+            console.log(a);
+        }
+    });
     /*    } else {
             document.getElementById('loader').className = "loader-inactive";
             location.href = "../project/tasks-student.jsp?projectName="+projectName;

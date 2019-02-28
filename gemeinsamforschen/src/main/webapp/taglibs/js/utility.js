@@ -207,3 +207,9 @@ function calculateHierachy(level) {
 
     }
 }
+
+function clpSet(){
+    let clpText = document.getElementsByName('clpText');
+    clpText[0].select();
+    document.execCommand('copy');
+}

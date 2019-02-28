@@ -1,39 +1,38 @@
 let projectId = "";
-
+let language = "";
 $(document).ready(function () {
-    authenticate("", function(loggedin) {
+    authenticate("", function (loggedin) {
         if (loggedin) {
             $('#navLiSurvey').toggleClass("disabled");
             $('#navSurvey').toggleClass("disabled");
-
         }
     });
 
     let messageHolder = $('#messageHolder');
-    let language = getQueryVariable("language");
+    language = getQueryVariable("language");
     let context = getQueryVariable("context");
     let userEmail = getQueryVariable("userEmail");
-    let navTextPage =$('#navTextPage');
+    let navTextPage = $('#navTextPage');
     let navGroupView = $('#navGroupView');
     let navSurvey = $('#navSurvey');
 
-    if (!context){
+    if (!context) {
         messageHolder.show();
-        context="fl_survey";
+        context = "fl_survey";
     }
 
-    if (!language){
+    if (!language) {
         messageHolder.show();
-        language='en';
+        language = 'en';
     }
 
-    if (language==='en'){
+    if (language === 'en') {
         $('#theTextPageEn').toggleClass("in");
         navGroupView.html("groups");
         navTextPage.html("introduction");
         navSurvey.html("survey");
-    }else{
-        if(language==='de'){
+    } else {
+        if (language === 'de') {
             $('#theTextPageGer').toggleClass("in");
             navGroupView.html("Gruppen");
             navTextPage.html("Einleitung");
@@ -41,44 +40,20 @@ $(document).ready(function () {
         }
     }
 
-    if (userEmail){
+    if (userEmail) {
         preparePageToggle();
         $('#naviPagi').hide();
-        $('#theGroupView').toggleClass("in");
-        authenticate(userEmail, function(){
-            $('#ifNoUserIsSetGer').hide();
-            $('#ifNoUserIsSetEn').hide();
-            $('#ifUserIsSet').show();
-            getAllGroups(function (allGroups) {
-                if(allGroups.length === 0){
-                    if (language==="en"){
-                        $('#noGroupsYet').show();
-                        $('#groupsHeadline').show();
-                        $('#bisherKeineGruppen').hide();
-                        $('#Gruppeneinteilung').hide();
-                    }else{
-                        $('#bisherKeineGruppen').show();
-                        $('#Gruppeneinteilung').show();
-                        $('#noGroupsYet').hide();
-                        $('#groupsHeadline').hide();
-                    }
-                }else{
-                    groupsToTemplate(allGroups, function (done) {
-                        selectableButtons(done);
-                    });
-                }
-            });
-        });
+        openGroupView(userEmail);
     }
     messageHolder.hide();
     $('#ifNoUserIsSet').hide();
     $('#ifUserIsSet').hide();
     $('#noGroupsYet').hide();
-    if (language==='en'){
+    if (language === 'en') {
         $('#groupsHeadline').show();
         $('#Gruppeneinteilung').hide();
-    }else{
-        if(language ==='de'){
+    } else {
+        if (language === 'de') {
             $('#groupsHeadline').hide();
             $('#Gruppeneinteilung').show();
         }
@@ -87,135 +62,63 @@ $(document).ready(function () {
 
 
     // creating the survey element
-    navTextPage.on('click', function(){
+    navTextPage.on('click', function () {
         preparePageToggle();
-        if(language==='en'){
+        if (language === 'en') {
             $('#theTextPageEn').toggleClass("in");
-        }else{
-            if(language==='de'){
+        } else {
+            if (language === 'de') {
                 $('#theTextPageGer').toggleClass("in");
             }
         }
         $('#navLiTextPage').toggleClass("active");
-        document.getElementById('navBtnPrev').className="page-item disabled";
+        document.getElementById('navBtnPrev').className = "page-item disabled";
     });
-    navGroupView.on('click',function(){
+    navGroupView.on('click', function () {
         preparePageToggle();
-        $('#theGroupView').toggleClass("in");
-        $('#navLiGroupView').toggleClass("active");
-        authenticate("", function(loggedin){
-            if (!loggedin){
-                $('#ifUserIsSet').hide();
-                if (language==='en'){
-                    $('#ifNoUserIsSetEn').show();
-                    $('#ifNoUserIsSetGer').hide();
-                }else{
-                    if(language==='de'){
-                        $('#ifNoUserIsSetGer').show();
-                        $('#ifNoUserIsSetEn').hide();
-                    }
-                }
-            } else{
-                $('#ifNoUserIsSetGer').hide();
-                $('#ifNoUserIsSetEn').hide();
-                $('#ifUserIsSet').show();
-                getAllGroups(function (allGroups) {
-                    if(allGroups.length === 0){
-                        if (language==="en"){
-                            $('#noGroupsYet').show();
-                            $('#groupsHeadline').show();
-                        }else{
-                            $('#bisherKeineGruppen').show();
-                            $('#Gruppeneinteilung').show();
-                        }
-                    }else{
-                        groupsToTemplate(allGroups, function (done) {
-                            selectableButtons(done);
-                        });
-                    }
-                });
-            }
-        });
-        document.getElementById("navBtnNext").className="page-item disabled";
+        openGroupView("");
+        document.getElementById("navBtnNext").className = "page-item disabled";
     });
-    navSurvey.on('click',function(){
+    navSurvey.on('click', function () {
         preparePageToggle();
         $('#theSurvey').toggleClass("in");
         $('#navLiSurvey').toggleClass("active");
     });
-    $('#btnPrev').on('click', function(){
+    $('#btnPrev').on('click', function () {
         let activeDiv = $('.collapse.in')[0];
         preparePageToggle();
-        if ($(activeDiv).attr("id")==="theGroupView"){
+        if ($(activeDiv).attr("id") === "theGroupView") {
             $('#theSurvey').toggleClass("in");
             $('#navLiSurvey').toggleClass("active");
-        }else{
+        } else {
             $('#theTextPage').toggleClass("in");
-            if(language==='en'){
+            if (language === 'en') {
                 $('#theTextPageEn').toggleClass("in");
-            }else{
-                if(language==='de'){
+            } else {
+                if (language === 'de') {
                     $('#theTextPageGer').toggleClass("in");
                 }
             }
             $('#navLiTextPage').toggleClass("active");
-            document.getElementById('navBtnPrev').className="page-item disabled";
+            document.getElementById('navBtnPrev').className = "page-item disabled";
         }
     });
-    $('#btnNext').on('click',function(){
+    $('#btnNext').on('click', function () {
         let activeDiv = $('.collapse.in')[0];
         preparePageToggle();
-        if ($(activeDiv).attr("id")==="theTextPageGer" || $(activeDiv).attr("id")==="theTextPageEn"){
+        if ($(activeDiv).attr("id") === "theTextPageGer" || $(activeDiv).attr("id") === "theTextPageEn") {
             $('#theSurvey').toggleClass("in");
             $('#navLiSurvey').toggleClass("active");
-        }else{
-            $('#theGroupView').toggleClass("in");
-            $('#navLiGroupView').toggleClass("active");
-            authenticate("", function(loggedin){
-                if (!loggedin){
-                    $('#ifUserIsSet').hide();
-                    if (language==='en'){
-                        $('#ifNoUserIsSetEn').show();
-                        $('#ifNoUserIsSetGer').hide();
-                    }else{
-                        if(language==='de'){
-                            $('#ifNoUserIsSetGer').show();
-                            $('#ifNoUserIsSetEn').hide();
-                        }
-                    }
-                    $('#ifNoUserIsSet').show();
-                } else{
-                    $('#ifNoUserIsSet').hide();
-                    $('#ifUserIsSet').show();
-                    getAllGroups(function (allGroups) {
-                        if(allGroups.length === 0){
-                            if (language==="en"){
-                                $('#noGroupsYet').show();
-                                $('#groupsHeadline').show();
-                                $('#bisherKeineGruppen').hide();
-                                $('#Gruppeneinteilung').hide();
-                            }else{
-                                $('#bisherKeineGruppen').show();
-                                $('#Gruppeneinteilung').show();
-                                $('#noGroupsYet').hide();
-                                $('#groupsHeadline').hide();
-                            }
-                        }else{
-                            groupsToTemplate(allGroups, function (done) {
-                                selectableButtons(done);
-                            });
-                        }
-                    });
-                }
-            });
-            document.getElementById("navBtnNext").className="page-item disabled";
+        } else {
+            openGroupView("");
+            document.getElementById("navBtnNext").className = "page-item disabled";
         }
     });
 
-    $('#btnSetUserEmailGer').on('click',function(){
+    $('#btnSetUserEmailGer').on('click', function () {
         btnSetUserEmail();
     });
-    $('#btnSetUserEmailEn').on('click',function(){
+    $('#btnSetUserEmailEn').on('click', function () {
         btnSetUserEmail();
     });
 
@@ -224,13 +127,21 @@ $(document).ready(function () {
         .applyTheme("default");
 
 
-    let projq = new RequestObj(1, "/survey", "/project/name/?", [context],[]);
+    let projq = new RequestObj(1, "/survey", "/project/name/?", [context], []);
     serverSide(projq, "GET", function (response) {
 
         projectId = response.name;
         // getting the survey items from the server
-        let requ= new RequestObj(1, "/survey", "/data/project/?", [projectId], []);
+        let requ = new RequestObj(1, "/survey", "/data/project/?", [projectId], []);
         serverSide(requ, "GET", function (surveyJSON) {
+            for (let page = 0; page < surveyJSON.pages.length; page++) {
+                for (let question = 0; question < surveyJSON.pages[page].questions.length; question++) {
+                    let deleteMe = surveyJSON.pages[page].questions[question].title[language];
+                    if (deleteMe.includes('(optional)')) {
+                        surveyJSON.pages[page].questions[question].isRequired = false;
+                    }
+                }
+            }
             let survey = new Survey.Model(surveyJSON);
             survey.locale = "en";
             if (language) {
@@ -249,30 +160,30 @@ $(document).ready(function () {
         //alert(resultAsString); //send Ajax request to your web server.
 
         let dataReq = new RequestObj(1, "/survey", "/save/projects/?", [projectId], [], survey.data);
-        userEmail=survey.data.EMAIL1;
+        userEmail = survey.data.EMAIL1;
         serverSide(dataReq, "POST", function () {
             //log.warn(a);
-            location.href=window.location.href +"&userEmail="+userEmail;//todo: get userEmail
+            location.href = window.location.href + "&userEmail=" + userEmail;//todo: get userEmail
         })
     }
 
 });
 
 
-function preparePageToggle(){
+function preparePageToggle() {
     let collapsable = $('.collapse');
     let navi = $('.page-item');
-    collapsable.each(function(){
-        this.className="collapse";
+    collapsable.each(function () {
+        this.className = "collapse";
     });
-    navi.each(function(){
-        this.className="page-item";
+    navi.each(function () {
+        this.className = "page-item";
     });
 }
 
 function getAllGroups(callback) {
     $.ajax({
-        url: "../rest/group/get/context/"+getQueryVariable("context"),
+        url: "../rest/group/get/context/" + getQueryVariable("context"),
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
@@ -313,19 +224,19 @@ function selectableButtons(done) {
     }
 }
 
-function authenticate(userEmail, callback){
+function authenticate(userEmail, callback) {
     $.ajax({
-        url: "../rest/survey/user/"+userEmail,
+        url: "../rest/survey/user/" + userEmail,
         headers: {
             "Content-Type": "text/html",
             "Cache-Control": "no-cache"
         },
         type: 'POST',
         success: function (response) {
-                        //Session.setAttribute(userEmail) happens on serverSide
-            if (response==="userEmail set"){
+            //Session.setAttribute(userEmail) happens on serverSide
+            if (response === "userEmail set") {
                 callback(response);
-            }else{
+            } else {
                 return callback(response === "userEmail set");
             }
         },
@@ -334,36 +245,103 @@ function authenticate(userEmail, callback){
     });
 }
 
-function btnSetUserEmail(){
+function btnSetUserEmail() {
     let userEmail;
-    if (language==='en'){
+    if (language === 'en') {
         userEmail = $('#userEmailGroupViewEn').val();
-    }else{
-        if(language==='de'){
+    } else {
+        if (language === 'de') {
             userEmail = $('#userEmailGroupViewGer').val();
         }
     }
-    authenticate(userEmail, function(){
+    authenticate(userEmail, function () {
         $('#ifNoUserIsSet').hide();
+        $('#ifNoUserIsSetEn').hide();
         $('#ifUserIsSet').show();
         getAllGroups(function (allGroups) {
-            if(allGroups.length === 0){
-                if (language==="en"){
+            if (allGroups.length === 0) {
+                if (language === "en") {
                     $('#noGroupsYet').show();
                     $('#groupsHeadline').show();
                     $('#bisherKeineGruppen').hide();
                     $('#Gruppeneinteilung').hide();
-                }else{
+                } else {
                     $('#bisherKeineGruppen').show();
                     $('#Gruppeneinteilung').show();
                     $('#noGroupsYet').hide();
                     $('#groupsHeadline').hide();
                 }
-            }else{
+            } else {
                 groupsToTemplate(allGroups, function (done) {
                     selectableButtons(done);
                 });
             }
         });
+    });
+}
+
+function openGroupView(userEmail){
+    $('#theGroupView').toggleClass("in");
+    $('#navLiGroupView').toggleClass("active");
+    authenticate(userEmail, function (loggedin) {
+        if (!loggedin) {
+            $('#ifUserIsSet').hide();
+            if (language === 'en') {
+                $('#ifNoUserIsSetEn').show();
+                $('#ifNoUserIsSetGer').hide();
+            } else {
+                if (language === 'de') {
+                    $('#ifNoUserIsSetGer').show();
+                    $('#ifNoUserIsSetEn').hide();
+                }
+            }
+            $('#ifNoUserIsSet').show();
+        } else {
+            $('#ifNoUserIsSetEn').hide();
+            $('#ifNoUserIsSetGer').hide();
+            let clpText = document.getElementsByName('clpText');
+            clpText[0].value = document.URL;
+            clpText[1].value = document.URL;
+            $('#ifNoUserIsSet').hide();
+            $('#ifUserIsSet').show();
+            $.ajax({
+                url: "../rest/survey/participantCount/project/" + projectId,
+                headers: {
+                    "Content-Type": "text/html",
+                    "Cache-Control": "no-cache"
+                },
+                type: 'GET',
+                success: function (response) {
+                    let participantsNeeded = 30-response;
+                    if (language==="en"){
+                        $('#participantsMissing').html("They are still "+ participantsNeeded+ " participants missing to form groups.")
+                    }else{
+                        $('#teilnehmerFehlend').html("Es fehlen noch "+ participantsNeeded+ " Teilnehmer um die Gruppen zu bilden.")
+                    }
+                },
+                error: function(){
+
+                }
+            });
+            getAllGroups(function (allGroups) {
+                if (allGroups.length === 0) {
+                    if (language === "en") {
+                        $('#noGroupsYet').show();
+                        $('#groupsHeadline').show();
+                        $('#bisherKeineGruppen').hide();
+                        $('#Gruppeneinteilung').hide();
+                    } else {
+                        $('#bisherKeineGruppen').show();
+                        $('#Gruppeneinteilung').show();
+                        $('#noGroupsYet').hide();
+                        $('#groupsHeadline').hide();
+                    }
+                } else {
+                    groupsToTemplate(allGroups, function (done) {
+                        selectableButtons(done);
+                    });
+                }
+            });
+        }
     });
 }
