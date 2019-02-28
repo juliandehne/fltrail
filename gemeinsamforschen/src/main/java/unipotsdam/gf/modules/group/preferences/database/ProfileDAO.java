@@ -41,7 +41,8 @@ public class ProfileDAO {
             polarity = ((ScaledProfileQuestion) profileQuestion).getPolarity();
         }
         String query =
-                "INSERT INTO profilequestions (`scaleSize`, `question`, `question_en`, `subvariable`, " + "`polarity`) values (?,?,?,?,?)";
+                "INSERT INTO profilequestions (`scaleSize`, `question`, `question_en`, `subvariable`, " +
+                        "`polarity`) values (?,?,?,?,?)";
         result = connect.issueInsertStatementWithAutoincrement(query, scaleSize, germanQuestion, englishQuestion,
                 subvariable, polarity);
 
@@ -242,20 +243,27 @@ public class ProfileDAO {
 
     public void addItemsToProject(Project project, List<ProfileQuestion> questions) {
 
-        ArrayList<Integer> questionids = new ArrayList<>();
+        //ArrayList<Integer> questionids = new ArrayList<>();
 
         // persist the questions
-        for (ProfileQuestion question : questions) {
-            int i = persistHelper(question);
+    /*    for (ProfileQuestion question : questions) {
+            //int i = persistHelper(question);
+            int i = -1;
+            connect.connect();
+            connect
+            connect.close();
             questionids.add(i);
+        }*/
+
+        for (ProfileQuestion question : questions) {
+            connect.connect();
+            String query = "INSERT INTO surveyitemsselected (`projectname`, `profilequestionid`) " +
+                    "select ?, id from profilequestions p where p.question = ?";
+            connect.issueInsertOrDeleteStatement(query, project.getName(), question.getQuestion());
+            connect.close();
         }
 
-        connect.connect();
-        String query = "INSERT INTO surveyitemsselected (`projectname`, `profilequestionid`) values (?,?)";
-        for (Integer questionid : questionids) {
-            connect.issueInsertOrDeleteStatement(query, project.getName(), questionid);
-        }
-        connect.close();
+
     }
 
     public void save(UserProfile profile, GroupWorkContext groupWorkContext) {
