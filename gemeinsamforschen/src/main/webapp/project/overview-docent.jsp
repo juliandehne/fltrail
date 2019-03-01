@@ -53,6 +53,11 @@
                 <script id="projectTRTemplate" type="text/x-jQuery-tmpl">
                 <div class="card card-project projectDynamic">
                     <div class="card-inner">
+                    <div class="right">
+                        <a href="delete-project.jsp">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                    </div>
                         <h3>${projectName}</h3>
                         <p>
                            ${projectDescription}

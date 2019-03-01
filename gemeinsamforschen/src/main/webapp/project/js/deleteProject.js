@@ -4,9 +4,12 @@
 $(document).ready(function () {
     $("#projectWrongPassword").hide();
     $("#projectIsMissing").hide();
+    $("#noPermission").hide();
+    $("#notAuthor").hide();
+
 
     $("#deleteProject").on('click', function () {
-        let projectName = $('#projectName').text().trim();
+        let projectName = $('#projectNameInput').val().trim();
         deleteProject(projectName);
     });
 });
@@ -23,6 +26,14 @@ function deleteProject(projectName) {
             contentType: "text/plain",
             type: 'POST',
             success: function (response) {
+                if (response==="no permission"){
+                    $("#noPermission").show();
+                    return false;
+                }
+                if (response==="not author"){
+                    $("#notAuthor").show();
+                    return false;
+                }
                 if (response === "project missing") {
                     $("#projectIsMissing").show();
                 } else {
@@ -33,13 +44,12 @@ function deleteProject(projectName) {
                         contentType: "text/plain",
                         async: false,
                         success: function (response) {
-
                         },
                         error: function (a) {
                             console.log(a);
                         }
                     });
-                    window.location.href = " ../projects/overview-docent.jsp";
+                    window.location.href = " ../project/overview-docent.jsp";
                 }
             },
             error: function (a) {

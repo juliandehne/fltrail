@@ -55,19 +55,28 @@ public class ProjectView {
 
     @POST
     @Path("/delete/project/{projectName}")
-    public void deleteProject(@Context HttpServletRequest req, @PathParam("projectName") String projectName)
-            throws URISyntaxException, IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public String deleteProject(@Context HttpServletRequest req, @PathParam("projectName") String projectName)
+            throws IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         String userEmail1 = gfContexts.getUserEmail(req);
         User user = iManagement.getUserByEmail(userEmail1);
         Boolean isStudent= user.getStudent();
         String userEmail = gfContexts.getUserEmail(req);
-        Project project = projectDAO.getProjectByName(projectName);
+        Project project;
+        try{
+            project = projectDAO.getProjectByName(projectName);
+        }catch(Exception e){
+            return "project missing";
+        }
         if (!isStudent){
             if (project.getAuthorEmail().equals(userEmail)){
                 projectCreationProcess.deleteProject(project);
+            }else{
+                return "not author";
             }
+        }else{
+            return "no permission";
         }
-
+        return "success";
     }
 
     @GET
