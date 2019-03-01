@@ -1,21 +1,32 @@
 package unipotsdam.gf.modules.group;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 
-import javax.xml.bind.JAXBException;
+import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SingleGroupMatcher implements GroupFormationAlgorithm {
+
+    @Inject
+    UserDAO userDAO;
+
     @Override
-    public List<Group> calculateGroups(Project project) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-        return null;
+    public List<Group> calculateGroups(Project project) {
+        ArrayList<Group> groups = new ArrayList<>();
+        List<User> users = userDAO.getUsersByProjectName(project.getName());
+        for (User user: users) {
+            List<User> singleGroup = new ArrayList<>();
+            singleGroup.add(user);
+            groups.add(new Group(singleGroup, project.getName()));
+        }
+        return groups;
     }
 
     @Override
-    public void addGroupRelevantData(Project project, User user, Object data) throws Exception {
+    public void addGroupRelevantData(Project project, User user, Object data) {
         // do nothing
     }
 

@@ -30,7 +30,7 @@ public class SurveyMapper {
     private static final String DISCORDID = "DISCORDID";
 
 
-    private Boolean isdebug = false;
+    private Boolean isdebug = true;
 
     @Inject
     private ProfileDAO profileDAO;
@@ -104,7 +104,9 @@ public class SurveyMapper {
                             new LocalizedText("" + discordIdString, "(optional) Geben Sie ihre Discord ID ein!");
                     addGeneralQuestion(DISCORDID, discordQuestion, generalDetails);
                     break;
+                case fl_survey:
                 case fl:
+                case evaluation:
                     break;
             }
             surveyData.getPages().add(generalDetails);

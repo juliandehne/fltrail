@@ -37,11 +37,6 @@ public class GroupView {
 
     /**
      * initializes groups
-     * @param projectName
-     * @return
-     * @throws WrongNumberOfParticipantsException
-     * @throws JAXBException
-     * @throws JsonProcessingException
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -149,9 +144,23 @@ public class GroupView {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}/groups/finalize")
-    public void finalizeGroups(@PathParam("projectName") String  projectName, Group[] groups)
+    public void finalizeGroups(@PathParam("projectName") String  projectName, Group[] groups,
+                               @QueryParam("manipulated") String isManipulated)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         Project project = new Project(projectName);
+        if (isManipulated.equals("true")){
+            boolean isSingleUser =true;
+            for (Group group: groups) {
+                if (group.getMembers().size()>1){
+                    isSingleUser = false;
+                }
+            }
+            if (isSingleUser){
+                projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.SingleUser, project);
+            }else{
+                projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
+            }
+        }
         groupFormationProcess.saveGroups(Arrays.asList(groups), project);
         groupFormationProcess.finalize(project);
     }

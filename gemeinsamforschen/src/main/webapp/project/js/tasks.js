@@ -1,10 +1,12 @@
 let object;
-
+let groupViewLink;
 $(document).ready(function () {
     let userEmail = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
+    groupViewLink =$('#groupView');
+    groupViewLink.hide();
     fillTasks(projectName, userEmail);
-    $('#groupView').on('click', function(){
+    groupViewLink.on('click', function(){
         location.href="../groupfinding/view-groups.jsp?projectName="+projectName;
     });
 });
@@ -63,15 +65,19 @@ function fitObjectInTmpl(object) {
             result.phase = "card-grouping";
             break;
         case "DossierFeedback":
+            groupViewLink.show();
             result.phase = "card-feedback";
             break;
         case "Execution":
+            groupViewLink.show();
             result.phase = "card-execution";
             break;
         case "Assessment":
+            groupViewLink.show();
             result.phase = "card-assessment";
             break;
         case "Projectfinished":
+            groupViewLink.show();
             result.phase = "card-grades";
             break;
         default:

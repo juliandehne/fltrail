@@ -12,8 +12,8 @@ public class GroupFormationFactory {
     @Inject
     RandomGroupAlgorithm randomGroupAlgorithm;
 
-    @Inject
-    GroupAlMatcher groupAlMatcher;
+    //@Inject
+    //GroupAlMatcher groupAlMatcher;
 
     @Inject
     PGroupAlMatcher pGroupAlMatcher;
@@ -23,6 +23,9 @@ public class GroupFormationFactory {
 
     @Inject
     BigGroupMatcher bigGroupMatcher;
+
+    @Inject
+    SingleGroupMatcher singleGroupMatcher;
 
     public GroupFormationAlgorithm instance() {
         return randomGroupAlgorithm;
@@ -40,7 +43,8 @@ public class GroupFormationFactory {
                 return pGroupAlMatcher;
             }
             case SingleUser: {
-                return bigGroupMatcher;
+                return singleGroupMatcher;
+                //return bigGroupMatcher;
             }
         }
         return instance();

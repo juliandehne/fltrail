@@ -34,6 +34,6 @@ public class BigGroupMatcher implements GroupFormationAlgorithm {
 
     @Override
     public int getMinNumberOfStudentsNeeded() {
-        return 0;
+        return 2;
     }
 }

@@ -70,7 +70,7 @@ public class RandomGroupAlgorithm implements GroupFormationAlgorithm {
 
     @Override
     public int getMinNumberOfStudentsNeeded() {
-        return 6;
+        return 2;
     }
 
     // (number % 3) + (Math.floor(number/3)-(number%3)) = n für alle Zahlen größer als 5

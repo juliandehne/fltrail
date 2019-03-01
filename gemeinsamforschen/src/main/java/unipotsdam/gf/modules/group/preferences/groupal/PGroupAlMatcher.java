@@ -27,8 +27,7 @@ public class PGroupAlMatcher extends GroupAlMatcher {
     @Inject
     UserDAO userDAO;
 
-    List<User> calculatedList;
-    List<User> restUsers;
+    private List<User> restUsers;
 
     @Override
     public List<Group> calculateGroups(Project project)
@@ -39,7 +38,7 @@ public class PGroupAlMatcher extends GroupAlMatcher {
         int userCount = usersByProjectName.size();
         int calculateCount = userCount - (userCount % 3);
 
-        calculatedList = usersByProjectName.subList(0, calculateCount);
+        List<User> calculatedList = usersByProjectName.subList(0, calculateCount);
         restUsers = usersByProjectName.subList(calculateCount, userCount);
 
         Iterator<User> iterator = restUsers.iterator();
