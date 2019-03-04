@@ -262,8 +262,6 @@ public class ProfileDAO {
             connect.issueInsertOrDeleteStatement(query, project.getName(), question.getQuestion());
             connect.close();
         }
-
-
     }
 
     public void save(UserProfile profile, GroupWorkContext groupWorkContext) {

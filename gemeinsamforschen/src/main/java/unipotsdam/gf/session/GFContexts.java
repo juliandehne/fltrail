@@ -1,5 +1,7 @@
 package unipotsdam.gf.session;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
@@ -22,6 +24,10 @@ public class GFContexts {
     public static final String ROCKETCHATID = "rocketchatid";
 
 
+    private final static Logger log = LoggerFactory.getLogger(GFContexts.class);
+
+
+
     public String getUserEmail(HttpServletRequest req) throws IOException {
         Object userEmail = req.getSession().getAttribute(GFContexts.USEREMAIL);
         if (userEmail == null) {
@@ -42,7 +48,9 @@ public class GFContexts {
     }
 
     public void updateUserWithEmail(HttpServletRequest req, User user) {
+        log.debug("setting user email ssession:" + user.getEmail());
         req.getSession().setAttribute(GFContexts.USEREMAIL, user.getEmail());
+        log.debug("user session email:" + req.getSession().getAttribute(GFContexts.USEREMAIL));
     }
 
     public void updateUserSessionWithStatus(HttpServletRequest req, User user) {

@@ -49,6 +49,7 @@ public class SessionExistsFilter implements Filter {
     public void doFilter(
             ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request1 = (HttpServletRequest) request;
+        log.debug("user session email in filter:" + request1.getSession().getAttribute(GFContexts.USEREMAIL));
         Object attribute = request1.getSession().getAttribute(GFContexts.USEREMAIL);
 
         if (attribute == null) {

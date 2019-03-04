@@ -1,6 +1,9 @@
 package unipotsdam.gf.modules.user;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.exceptions.*;
+import unipotsdam.gf.modules.communication.view.CommunicationView;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.session.GFContexts;
@@ -25,6 +28,9 @@ import java.net.URISyntaxException;
 @Path("/user")
 @ManagedBean
 public class UserView {
+
+
+    private static final Logger log = LoggerFactory.getLogger(UserView.class);
 
     @Inject
     private GFContexts gfContexts;
@@ -66,6 +72,8 @@ public class UserView {
             @Context HttpServletRequest req, @FormParam("name") String name, @FormParam("password") String password,
             @FormParam("email") String email, @FormParam("isStudent") String isStudent) throws URISyntaxException {
 
+        log.debug("entered reg");
+
         User user = new User(name, password, email, isStudent == null);
         try {
             projectCreationProcess.createUser(user);
@@ -89,6 +97,9 @@ public class UserView {
         }
         user = fillUserFields(user);
         gfContexts.updateUserSessionWithStatus(req, user);
+
+
+        log.debug("exit reg");
         return redirectToProjectPage(user);
 
     }
@@ -114,6 +125,8 @@ public class UserView {
             @Context HttpServletRequest req, @FormParam("name") String name, @FormParam("password") String password,
             @FormParam("email") String email) throws URISyntaxException {
 
+        log.debug("entered login");
+
         User user = new User(name, password, email, null);
         try {
             Boolean exists = projectCreationProcess.authenticateUser(user, req);
@@ -126,6 +139,8 @@ public class UserView {
             }
         } catch (UserDoesNotExistInRocketChatException | RocketChatDownException e) {
             return loginError();
+        } finally {
+            log.debug("exited login");
         }
 
     }
