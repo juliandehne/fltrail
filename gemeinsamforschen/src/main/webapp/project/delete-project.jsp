@@ -25,14 +25,23 @@
 </jsp:include>
 <main>
     <div class="col span_content">
-        <legend style="margin-left:13px;">Projektnamen</legend>
-        <input class="form-control" type="text" id="projectName" name="Project" required
+        <legend style="margin-left:13px;">Löschen eines Projekts</legend>
+        <p style="margin-left:10px;">Bestätigen Sie das Löschen des Projekts durch Eingabe des Projektnamens:</p>
+        <input class="form-control" type="text" id="projectNameInput" name="Project" required
                placeholder="Projekt1" autofocus
                style="max-width:417px;margin-left:14px;padding-top:10px;margin-top:2px;margin-bottom:13px;">
-        <div class="alert alert-warning" role="alert" id="projectIsMissing">
-            Dieser Projektname existiert nicht
+        <div class="alert alert-warning" role="alert" id="projectIsMissing" style="margin-left:10px;">
+            Dieser Projektname existiert nicht.
         </div>
-        <button id="deleteProject" class="btn btn-danger">löschen</button>
+        <div class="alert alert-warning" role="alert" id="noPermission" style="margin-left:10px;">
+            Sie sind nicht befugt dieses Projekt zu löschen.
+        </div>
+        <div class="alert alert-warning" role="alert" id="notAuthor" style="margin-left:10px;">
+            Sie haben diesen Kurs nicht erstellt und dürfen ihn daher nicht löschen.
+        </div>
+        <button id="deleteProject" class="btn" style="background-color: #EF3434; margin-left:10px; font-size: 15px;">
+            löschen
+        </button>
     </div>
     <div class="col span_chat">
 

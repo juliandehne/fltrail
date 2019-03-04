@@ -1,3 +1,4 @@
+let manipulated=false;
 $(document).ready(function () {
     $('#studentsWithoutGroup').hide();
     $('#done').hide();
@@ -81,6 +82,7 @@ function selectableButtons(done) {
 function relocateMember(callback) {
     let memberBtns = $('.student-button.active');
     let newGroupBtn = $('.group-button.active');
+    manipulated=true;
     newGroupBtn.each(function () {
         let newGroup = $('#' + $(this).html().trim());
         let complexList = $(this).parent().parent();
@@ -150,8 +152,13 @@ function viewToGroup(callback) {
 
 function saveNewGroups(groups) {
     let data = JSON.stringify(groups);
+    //append "manipulated" to data
+    let url = "../rest/group/projects/" + $('#projectName').html().trim()+"/groups/finalize";
+    if (manipulated===true){
+        url+= "?manipulated=true";
+    }
     $.ajax({
-        url: "../rest/group/projects/" + $('#projectName').html().trim()+"/groups/finalize",
+        url: url,
         data: data,
         headers: {
             "Content-Type": "application/json",
@@ -197,6 +204,7 @@ function dropContent(ev){
     if (target.nodeName === "LI"){
         target=target.parentElement;
     }
+    manipulated=true;
     $(target).append(document.getElementById(data));
 }
 

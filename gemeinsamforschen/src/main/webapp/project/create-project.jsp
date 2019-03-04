@@ -64,18 +64,29 @@
                     <li id="lgLI">
                         <input type="radio" id="lg" name="gfm" value="Basierend auf Lernzielen">
                         <label for="lg">Basierend auf Interessen der Studenten</label>
+                        <div class='explanation icon'><p>Studenten nennen Schlagworte, die ihre Interessen
+                            bezüglich des Projekts betreffen.
+                            Dabei werden Gruppen gebildet, deren Gruppenmitglieder ähnliche Interessen
+                            vorweisen.</p></div>
                     </li>
                     <li>
                         <input type="radio" id="ml" name="gfm" value="per Hand">
                         <label for="ml">per Hand</label>
+                        <div class='explanation icon'><p>Nachdem genug Studenten dem Projekt beigetreten sind
+                            können Sie die Gruppen eigenständig zuordnen.</p></div>
                     </li>
                     <li id="bpLI">
                         <input type="radio" id="bp" name="gfm" value="Basierend auf Präferenzen">
                         <label for="bp">Basierend auf Persönlichkeitsmerkmalen</label>
+                        <div class='explanation icon'><p>Studenten beantworten Fragen zu Ihrer Persönlichkeit,
+                            wenn sie sich in das Projekt einschreiben wollen.
+                            Dabei werden Gruppen gebildet, deren Gruppenmitglieder synergieren
+                            während das Konfliktpotential minimiert wird.</p></div>
                     </li>
                     <li>
                         <input type="radio" id="single" name="gfm" value="Keine Gruppen">
                         <label for="single">Einzelarbeit</label>
+                        <div class='explanation icon'><p>Studenten arbeiten einzeln an ihren Projekten.</p></div>
                     </li>
                 </ul>
                 <h3>Projektbeschreibung</h3>
