@@ -60,7 +60,7 @@ public class SurveyProcess {
         if (projectName == null) {
             // if result is empty create new project, add all the questions to it and return this
             Project project = new Project(surveyMapper.createNewProject(GroupWorkContext.valueOf(projectContext)));
-            projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy, project);
+            projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy, project);
             return project;
         } else {
             return new Project(projectName);

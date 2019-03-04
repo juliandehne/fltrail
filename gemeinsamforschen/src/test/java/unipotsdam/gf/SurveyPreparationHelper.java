@@ -3,6 +3,7 @@ package unipotsdam.gf;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
 import unipotsdam.gf.modules.group.preferences.excel.ItemWriter;
@@ -66,6 +67,7 @@ public class SurveyPreparationHelper {
                 d1_test.setGroupWorkContext(value);
                 d1_test.setSurvey(true);
 
+                projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy,d1_test);
                 // create project in db
                 projectDAO.persist(d1_test);
 
