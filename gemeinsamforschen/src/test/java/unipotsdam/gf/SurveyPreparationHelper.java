@@ -3,6 +3,7 @@ package unipotsdam.gf;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
 import unipotsdam.gf.modules.group.preferences.excel.ItemWriter;
@@ -73,6 +74,9 @@ public class SurveyPreparationHelper {
         for (Project surveyProject : surveyProjects) {
             projectDAO.persist(surveyProject);
         }
+        projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy,d1_test);
+        projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy,o1_test);
+        projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy,fl_test);
 
         // the persisted questions from the excel sheet (ITEMS for FL, based on FideS Team research)
         List<ProfileQuestion> questions = profileDAO.getQuestions();
