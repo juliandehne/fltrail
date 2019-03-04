@@ -56,22 +56,17 @@ public class SurveyMapper {
      * @param groupWorkContext
      * @return
      */
-    public SurveyData getItemsFromDB(GroupWorkContext groupWorkContext, Project project)
-            throws Exception {
+    public SurveyData getItemsFromDB(GroupWorkContext groupWorkContext, Project project) throws Exception {
         SurveyData surveyData = new SurveyData(); // the result obj
         // the persisted questions from the excel sheet (ITEMS for FL, based on FideS Team research)
         HashMap<Project, List<ProfileQuestion>> questionMap = profileDAO.getSelectedQuestions(groupWorkContext);
-        List<ProfileQuestion> questions;
-        if (groupWorkContext==GroupWorkContext.evaluation){
-            questions = questionMap.get(new Project());
-        }else{
-            questions = questionMap.get(project);
-        }
+        List<ProfileQuestion> questions = questionMap.get(project);
+
         if (questions == null) {
             throw new Exception("items are not available in DB");
         }
-        boolean standalone = (groupWorkContext==GroupWorkContext.dota ||groupWorkContext==GroupWorkContext.overwatch
-                || groupWorkContext == GroupWorkContext.fl_survey);
+        boolean standalone =
+                (groupWorkContext != GroupWorkContext.fl);
         if (standalone) {
             // the general questions to create a profile (given that we are not running the survey as part of the normal
             // FL-Trail Mode
@@ -99,14 +94,13 @@ public class SurveyMapper {
             String discordIdString = "(optional) Enter your discord ID!";
             switch (groupWorkContext) {
                 case dota:
-                case overwatch:
+                case dota_survey_a1:
+                case dota_survey_a2:
                     LocalizedText discordQuestion =
                             new LocalizedText("" + discordIdString, "(optional) Geben Sie ihre Discord ID ein!");
                     addGeneralQuestion(DISCORDID, discordQuestion, generalDetails);
                     break;
-                case fl_survey:
-                case fl:
-                case evaluation:
+                default:
                     break;
             }
             surveyData.getPages().add(generalDetails);
@@ -148,13 +142,14 @@ public class SurveyMapper {
         return scaledQuestion;
     }
 
-    public void saveEvaluation(HashMap<String, String> data, String projectId, HttpServletRequest req){
+/*    public void saveEvaluation(HashMap<String, String> data, String projectId, HttpServletRequest req) {
         User user = userDAO.getUserByEmail(req.getSession().getAttribute("userEmail").toString());
         UserProfile userProfile = new UserProfile(data, user, projectId);
         profileDAO.save(userProfile, GroupWorkContext.evaluation);
-    }
+    }*/
 
-    public void saveData(HashMap<String, String> data, String projectId, HttpServletRequest req) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public void saveData(HashMap<String, String> data, String projectId, HttpServletRequest req)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         log.trace("persisting survey data");
         User user;
         // it is test context
@@ -203,7 +198,7 @@ public class SurveyMapper {
         return randomId;
     }
 
-    public GroupWorkContext getGroupWorkContext(Project project){
+    public GroupWorkContext getGroupWorkContext(Project project) {
         return profileDAO.getGroupWorkContext(project);
     }
 }

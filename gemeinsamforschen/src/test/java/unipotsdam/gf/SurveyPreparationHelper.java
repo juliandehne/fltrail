@@ -35,53 +35,47 @@ public class SurveyPreparationHelper {
 
     public void prepareSurvey() throws Exception {
 
-        // create dehne user
-        try {
-            User dehne = new User("julian.dehne@uni-potsdam.de");
-            dehne.setPassword("egal");
-            dehne.setRocketChatUsername("fltrailadmin");
-            dehne.setStudent(false);
-            dehne.setName("Julian Dehne");
-            userDAO.persist(dehne);
-        } catch (Exception e) {
+
+        GroupWorkContext[] values = GroupWorkContext.values();
+
+        for (GroupWorkContext value : values) {
+
+
+            // create dehne user
+            try {
+                User dehne = new User("julian.dehne@uni-potsdam.de");
+                dehne.setPassword("egal");
+                dehne.setRocketChatUsername("fltrailadmin");
+                dehne.setStudent(false);
+                dehne.setName("Julian Dehne");
+                userDAO.persist(dehne);
+            } catch (Exception e) {
+            }
+
+            // importing items
+            //String itemExamle = "groupfindingitems_beispiel.xls";
+            //String itemExamle = "groupfindingitems_selected.xls";
+            String itemExamle = "groupfindingitems_selected_final1.xls";
+            ItemWriter itemWriter = new ItemWriter(itemExamle);
+            itemWriter.writeItems();
+
+            if (value != GroupWorkContext.fl) {
+
+                // creating survey projects
+                Project d1_test = new Project(value.toString());
+                d1_test.setGroupWorkContext(value);
+                d1_test.setSurvey(true);
+
+                // create project in db
+                projectDAO.persist(d1_test);
+
+                // the persisted questions from the excel sheet (ITEMS for FL, based on FideS Team research)
+                List<ProfileQuestion> questions = profileDAO.getQuestions();
+
+                // todo find out mathematically if that works, how many iterations are needed and
+                persistselectedItems(d1_test, questions);
+            }
         }
-
-        // importing items
-        //String itemExamle = "groupfindingitems_beispiel.xls";
-        //String itemExamle = "groupfindingitems_selected.xls";
-        String itemExamle = "groupfindingitems_selected_final1.xls";
-        ItemWriter itemWriter = new ItemWriter(itemExamle);
-        itemWriter.writeItems();
-
-        // creating survey projects
-        ArrayList<Project> surveyProjects = new ArrayList<Project>();
-        Project d1_test = new Project("d1_test");
-        d1_test.setGroupWorkContext(GroupWorkContext.dota);
-        d1_test.setSurvey(true);
-
-        Project o1_test = new Project("o1_test");
-        o1_test.setSurvey(true);
-        o1_test.setGroupWorkContext(GroupWorkContext.overwatch);
-
-        Project fl_test = new Project("fl_test");
-        fl_test.setGroupWorkContext(GroupWorkContext.fl_survey);
-        fl_test.setSurvey(true);
-
-        surveyProjects.add(o1_test);
-        surveyProjects.add(d1_test);
-
-        for (Project surveyProject : surveyProjects) {
-            projectDAO.persist(surveyProject);
-        }
-
-        // the persisted questions from the excel sheet (ITEMS for FL, based on FideS Team research)
-        List<ProfileQuestion> questions = profileDAO.getQuestions();
-
-        // todo find out mathematically if that works, how many iterations are needed and
-        persistselectedItems(d1_test, questions);
-        persistselectedItems(o1_test, questions);
-        persistselectedItems(fl_test, questions);
-
     }
 
     private void persistselectedItems(Project someTest, List<ProfileQuestion> questions) {

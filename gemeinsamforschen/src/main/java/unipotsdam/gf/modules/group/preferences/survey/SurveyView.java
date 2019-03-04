@@ -61,14 +61,14 @@ public class SurveyView {
         return surveyMapper.getItemsFromDB(groupWorkContext, project);
     }
 
-    @GET
+ /*   @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/evaluation/project/{projectId}")
     public SurveyData getEvaluationQuestions(@PathParam("projectId") String projectId) throws Exception {
         Project project = projectDAO.getProjectByName(projectId);
         GroupWorkContext groupWorkContext = GroupWorkContext.evaluation;
         return surveyMapper.getItemsFromDB(groupWorkContext, project);
-    }
+    }*/
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -103,7 +103,7 @@ public class SurveyView {
         }
     }
 
-    @POST
+/*    @POST
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/save/evaluation/projects/{projectName}")
     public void saveEvaluation(
@@ -112,7 +112,7 @@ public class SurveyView {
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         GroupWorkContext groupWorkContext = GroupWorkContext.evaluation;
         surveyProcess.saveSurveyData(new Project(projectName), data, req, groupWorkContext);
-    }
+    }*/
 
     @POST
     @Produces(MediaType.TEXT_HTML)

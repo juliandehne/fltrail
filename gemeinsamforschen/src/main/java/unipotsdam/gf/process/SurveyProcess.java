@@ -42,9 +42,9 @@ public class SurveyProcess {
 
     public void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-        if (groupWorkContext==GroupWorkContext.evaluation){
+       /* if (groupWorkContext==GroupWorkContext.evaluation){
             surveyMapper.saveEvaluation(data,project.getName(),req);
-        }else{
+        }else{*/
             surveyMapper.saveData(data, project.getName(), req);
             List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
             if (usersByProjectName.size() == GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
@@ -52,7 +52,7 @@ public class SurveyProcess {
                 groupfinding.persistGroups(groups, project);
                 phases.endPhase(Phase.GroupFormation, project);
             }
-        }
+        //}
     }
 
     public Project getSurveyProjectName(String projectContext) {
