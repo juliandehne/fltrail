@@ -237,10 +237,14 @@ ol#annotations {
 
 }
 
+.three_rows {
+      float: left;
+      width: 33.33%;
+  }
+
 #btnBack, #btnContinue, #finalize {
     display: inline-block;
-    float: left;
-    width: 33.33%;
+
     font-family:"Font Awesome 5 Free";
     font-weight:900;
 }
