@@ -18,4 +18,7 @@ public enum GroupWorkContext {
     // for tests with fl team / people
     fl_test,
 
+    // seems outdated
+    evaluation
+
 }

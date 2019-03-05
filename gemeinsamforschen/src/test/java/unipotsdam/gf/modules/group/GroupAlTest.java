@@ -131,7 +131,7 @@ public class GroupAlTest {
         //SurveyPreparation.main(new String[0]);
         
         // get variables
-        List<ProfileQuestion> questions = profileDAO.getQuestions();
+        List<ProfileQuestion> questions = profileDAO.getQuestions(GroupWorkContext.dota_test);
 
         // add answers
         for (int i = 0; i < 30; i++) {

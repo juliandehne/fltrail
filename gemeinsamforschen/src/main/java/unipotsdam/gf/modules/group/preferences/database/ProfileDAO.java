@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.group.preferences.database;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import unipotsdam.gf.modules.group.preferences.excel.ItemSet;
 import unipotsdam.gf.modules.group.preferences.groupal.request.*;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
@@ -41,8 +42,7 @@ public class ProfileDAO {
             polarity = ((ScaledProfileQuestion) profileQuestion).getPolarity();
         }
         String query =
-                "INSERT INTO profilequestions (`scaleSize`, `question`, `question_en`, `subvariable`, " +
-                        "`polarity`) values (?,?,?,?,?)";
+                "INSERT INTO profilequestions (`scaleSize`, `question`, `question_en`, `subvariable`, " + "`polarity`) values (?,?,?,?,?)";
         result = connect.issueInsertStatementWithAutoincrement(query, scaleSize, germanQuestion, englishQuestion,
                 subvariable, polarity);
 
@@ -86,12 +86,10 @@ public class ProfileDAO {
         String query;
         if (groupWorkContext == GroupWorkContext.evaluation) {
             query =
-                    "INSERT INTO peerAssessmentWorkAnswer (`propertieId`,`answerIndex`, `selectedAnswer`, " +
-                            "`userEmail`) values (?,?,?,?)";
+                    "INSERT INTO peerAssessmentWorkAnswer (`propertieId`,`answerIndex`, `selectedAnswer`, " + "`userEmail`) values (?,?,?,?)";
         } else {
             query =
-                    "INSERT INTO profilequestionanswer (`profileQuestionId`,`answerIndex`, `selectedAnswer`, " +
-                            "`userEmail`) values (?,?,?,?)";
+                    "INSERT INTO profilequestionanswer (`profileQuestionId`,`answerIndex`, `selectedAnswer`, " + "`userEmail`) values (?,?,?,?)";
         }
         connect.issueInsertOrDeleteStatement(query, profileQuestionAnswer.getQuestion().getId(),
                 profileQuestionAnswer.getAnswerIndex(), profileQuestionAnswer.getSelectedAnswer(),
@@ -102,14 +100,41 @@ public class ProfileDAO {
     /**
      * get all the questions
      *
+     * @param gfc
      * @return
      */
-    public java.util.List<ProfileQuestion> getQuestions() {
+    public java.util.List<ProfileQuestion> getQuestions(
+            GroupWorkContext gfc) throws Exception {
         ArrayList<ProfileQuestion> profileQuestions = new ArrayList<>();
         connect.connect();
 
-        String query =
-                "SELECT q.id,scaleSize, subvariable, question, question_en, name from profilequestions q" + " LEFT JOIN profilequestionoptions o on q.id = o.profileQuestionId";
+        String query = "";
+        String queryWithFL =
+                "SELECT q.id,scaleSize, subvariable, question, question_en, name from profilequestions q" +
+                        " LEFT JOIN profilequestionoptions o on q.id = o.profileQuestionId";
+
+        String queryWithoutFL =
+                "SELECT q.id,scaleSize, subvariable, question, question_en, name from profilequestions q" +
+                        " LEFT JOIN profilequestionoptions o on q.id = o.profileQuestionId" +
+                        " LEFT JOIN profilevariables pv on pv.subvariable = pq.subvariable " +
+                        " WHERE pv.variable = 'Persönlichkeit'";
+
+        switch (gfc) {
+            case fl:
+            case evaluation:
+                throw new Exception("wrong usage of method");
+            case dota:
+            case dota_survey_a2:
+            case fl_survey_a4:
+            case fl_test:
+            case dota_test:
+                query = queryWithFL;
+                break;
+            default:
+                query = queryWithoutFL;
+        }
+
+
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
         HashMap<Integer, ArrayList<String>> optionMap = new HashMap<>();
         List<ProfileQuestion> tmpList = new ArrayList<>();
@@ -195,8 +220,7 @@ public class ProfileDAO {
         Boolean homogeneity = itemSet.getIsHomogenous().trim().equals("true");
         connect.connect();
         String query =
-                "INSERT INTO profilevariables (`variable`, `subvariable`, `variableDefinition`, `context`, " +
-                        "`variableweight`, `subvariableweight`, `homogeneity`) values (?,?,?,?,?,?,?)";
+                "INSERT INTO profilevariables (`variable`, `subvariable`, `variableDefinition`, `context`, " + "`variableweight`, `subvariableweight`, `homogeneity`) values (?,?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(query, variable, subvariable, variableDefinition, context, variableweight,
                 subvariableweight, homogeneity);
         connect.close();
@@ -211,9 +235,7 @@ public class ProfileDAO {
             query = "Select id, question, question_en, subvariable from peerAssessmentWorkProperties";
         } else {
             query =
-                    "Select pq.id,p.name, pq.question, pq.question_en, pq.subvariable from projects p " +
-                            "join surveyitemsselected sis on p.name = sis.projectname " +
-                            "join profilequestions pq on pq.id = sis.profilequestionid";
+                    "Select pq.id,p.name, pq.question, pq.question_en, pq.subvariable from projects p " + "join surveyitemsselected sis on p.name = sis.projectname " + "join profilequestions pq on pq.id = sis.profilequestionid";
         }
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
         while (vereinfachtesResultSet.next()) {
@@ -257,8 +279,8 @@ public class ProfileDAO {
 
         for (ProfileQuestion question : questions) {
             connect.connect();
-            String query = "INSERT INTO surveyitemsselected (`projectname`, `profilequestionid`) " +
-                    "select ?, id from profilequestions p where p.question = ?";
+            String query =
+                    "INSERT INTO surveyitemsselected (`projectname`, `profilequestionid`) " + "select ?, id from profilequestions p where p.question = ?";
             connect.issueInsertOrDeleteStatement(query, project.getName(), question.getQuestion());
             connect.close();
         }
@@ -290,13 +312,8 @@ public class ProfileDAO {
         HashMap<String, Integer> ids = new HashMap<>();
 
         connect.connect();
-        String query = "SELECT pv.homogeneity, pqa.answerIndex, pqa.userEmail, pq.subvariable, pq.polarity, u.id " +
-                "from profilequestionanswer pqa " +
-                " join profilequestions pq on pq.id = pqa.profileQuestionId" +
-                " join surveyitemsselected sis on sis.profilequestionid = pq.id" +
-                " join users u on u.email = pqa.userEmail" +
-                " join projectuser pu on u.email=pu.userEmail and pu.projectname = ?" +
-                " join profilevariables pv on pv.subvariable = pq.subvariable ";
+        String query =
+                "SELECT pv.homogeneity, pqa.answerIndex, pqa.userEmail, pq.subvariable, pq.polarity, u.id " + "from profilequestionanswer pqa " + " join profilequestions pq on pq.id = pqa.profileQuestionId" + " join surveyitemsselected sis on sis.profilequestionid = pq.id" + " join users u on u.email = pqa.userEmail" + " join projectuser pu on u.email=pu.userEmail and pu.projectname = ?" + " join profilevariables pv on pv.subvariable = pq.subvariable ";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
         int i = 0;
         while (vereinfachtesResultSet.next()) {
@@ -321,8 +338,8 @@ public class ProfileDAO {
 
 
     private void fillParticipantMap(
-            HashMap<String, ArrayList<Criterion>> participantsMap, HashMap<String, Integer> ids,
-            String userEmail, int answerIndex, int userId, String subvariable, String isHomogenous, Boolean polarity,
+            HashMap<String, ArrayList<Criterion>> participantsMap, HashMap<String, Integer> ids, String userEmail,
+            int answerIndex, int userId, String subvariable, String isHomogenous, Boolean polarity,
             UsedCriterion usedCriterionMain) {
 
         Value value = new Value();
@@ -401,8 +418,8 @@ public class ProfileDAO {
 
     public void createNewSurveyProject(Project project) {
         connect.connect();
-        String query = "Insert into surveyitemsselected (projectname, profilequestionid) " +
-                " SELECT ?, id FROM profilequestions";
+        String query =
+                "Insert into surveyitemsselected (projectname, profilequestionid) " + " SELECT ?, id FROM profilequestions";
 
         connect.issueInsertOrDeleteStatement(query, project.getName());
         connect.close();

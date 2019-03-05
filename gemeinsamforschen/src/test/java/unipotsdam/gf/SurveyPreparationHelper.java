@@ -39,7 +39,7 @@ public class SurveyPreparationHelper {
 
         GroupWorkContext[] values = GroupWorkContext.values();
 
-        for (GroupWorkContext value : values) {
+        for (GroupWorkContext gfc : values) {
 
 
             // create dehne user
@@ -60,11 +60,11 @@ public class SurveyPreparationHelper {
             ItemWriter itemWriter = new ItemWriter(itemExamle);
             itemWriter.writeItems();
 
-            if (value != GroupWorkContext.fl) {
+            if (gfc != GroupWorkContext.fl) {
 
                 // creating survey projects
-                Project d1_test = new Project(value.toString());
-                d1_test.setGroupWorkContext(value);
+                Project d1_test = new Project(gfc.toString());
+                d1_test.setGroupWorkContext(gfc);
                 d1_test.setSurvey(true);
 
                 projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy,d1_test);
@@ -72,7 +72,7 @@ public class SurveyPreparationHelper {
                 projectDAO.persist(d1_test);
 
                 // the persisted questions from the excel sheet (ITEMS for FL, based on FideS Team research)
-                List<ProfileQuestion> questions = profileDAO.getQuestions();
+                List<ProfileQuestion> questions = profileDAO.getQuestions(gfc);
 
                 // todo find out mathematically if that works, how many iterations are needed and
                 persistselectedItems(d1_test, questions);
