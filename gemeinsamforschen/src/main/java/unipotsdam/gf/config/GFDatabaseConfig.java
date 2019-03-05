@@ -8,7 +8,7 @@ public class GFDatabaseConfig {
     public static final String DB_URL = "jdbc:mysql://localhost";
     //  Database credentials
     public static final String USER = "root";
-    public static final String PASS = "";
+    public static final String PASS = "qawsedRF12";
     public static final String DB_NAME = "fltrail";
 
     // prod details
