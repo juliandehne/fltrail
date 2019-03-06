@@ -59,15 +59,16 @@
                         </a>
                     </div>
                         <h3>${projectName}</h3>
-                        <p>
-                           ${projectDescription}
-                        </p>
                          <label>Stichworte:</label>
                              <div class='tags'>
                              {{each(i) projectTags}}
                                  <span class='tag'>${projectTags[i]}</span>
                              {{/each}}
                              </div>
+                        <p>
+                           ${projectDescription}
+                        </p>
+
                         <button class="primary project_Button" name="${projectName}" id="project_${projectName}"
                             style="margin-top:10px;">Einsehen </button>
                     </div>
