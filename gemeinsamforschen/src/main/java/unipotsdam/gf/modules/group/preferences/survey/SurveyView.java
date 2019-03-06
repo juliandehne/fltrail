@@ -14,6 +14,7 @@ import unipotsdam.gf.process.tasks.ParticipantsCount;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -42,6 +43,9 @@ public class SurveyView {
 
     @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private ServletContextEvent sce;
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -97,7 +101,7 @@ public class SurveyView {
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         GroupWorkContext groupWorkContext = surveyMapper.getGroupWorkContext(new Project(projectName));
         if (groupWorkContext != GroupWorkContext.fl) {
-            surveyProcess.saveSurveyData(new Project(projectName), data, req, groupWorkContext);
+            surveyProcess.saveSurveyData(new Project(projectName), data, req, groupWorkContext, sce);
         } else {
             surveyMapper.saveData(data, projectName, req);
         }

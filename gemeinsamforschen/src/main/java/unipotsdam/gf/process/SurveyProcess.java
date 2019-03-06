@@ -16,8 +16,10 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.scheduler.Scheduler;
 
 import javax.inject.Inject;
+import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.JAXBException;
 import java.util.HashMap;
@@ -40,7 +42,7 @@ public class SurveyProcess {
     @Inject
     private IGroupFinding groupfinding;
 
-    public void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext)
+    public void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext, ServletContextEvent sce)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
        /* if (groupWorkContext==GroupWorkContext.evaluation){
             surveyMapper.saveEvaluation(data,project.getName(),req);
@@ -53,8 +55,6 @@ public class SurveyProcess {
                 phases.endPhase(Phase.GroupFormation, project);
                 //todo: sende Email an alle
                 switch (groupWorkContext){
-                    case fl:
-                    case evaluation:
                     case dota:
                     case dota_test:
                     case dota_survey_a2:
@@ -62,8 +62,16 @@ public class SurveyProcess {
                     case fl_survey_a4:
                     case dota_survey_a1:
                     case fl_survey_a3:
+                    case fl_lausberg:
+                    case other_survey_a1:
+                    case other_survey_a2:
+                        Scheduler scheduler = new Scheduler();
+                        scheduler.contextInitialized(sce);
+                        break;
+                    case fl:
+                    case evaluation:
+                        break;
                 }
-                //todo: schedule 3 Wochen Evaluationsnachricht für Participants. Wenn Kontext cool
             }
         //}
     }
