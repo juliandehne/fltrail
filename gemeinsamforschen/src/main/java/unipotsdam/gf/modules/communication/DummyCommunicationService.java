@@ -111,18 +111,15 @@ public class DummyCommunicationService implements ICommunication {
         return null;
     }
 
-    @Override
     public boolean sendSingleMessage(EMailMessage EMailMessage, User user) {
         return true;
     }
 
-    @Override
     public boolean informAboutMissingTasks(
             Map<StudentIdentifier, ConstraintsMessages> tasks, Project project) {
         return true;
     }
 
-    @Override
     public boolean sendMessageToUsers(Project project, EMailMessage eMailMessage) {
         return true;
     }

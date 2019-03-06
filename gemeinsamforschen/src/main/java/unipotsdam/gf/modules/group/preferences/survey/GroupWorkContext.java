@@ -19,6 +19,15 @@ public enum GroupWorkContext {
     fl_test,
 
     // seems outdated
-    evaluation
+    evaluation,
+
+    // fl survey with prof. lausberg
+    fl_lausberg,
+
+    //G_A Variablen ohne G_FL in other context
+    other_survey_a1,
+
+    // G_A Variablen mit G_FL in other context
+    other_survey_a2
 
 }
