@@ -382,61 +382,7 @@ public class CommunicationService implements ICommunication {
     }
 
 
-    // TODO: Think about splitting email and chat communication into different
-    @Override
-    public boolean sendSingleMessage(EMailMessage eMailMessage, User user) {
 
-        //loginUser(ADMIN_USER);
-
-        Properties properties = new Properties();
-        properties.put("mail.smtp.auth", true);
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.host", SMTP_HOST);
-        properties.put("mail.smtp.port", SMTP_PORT);
-
-        Session session = Session.getInstance(properties, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(SMTP_USERNAME, SMTP_PASSWORD);
-            }
-        });
-
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(SMTP_USERNAME, "FLTrail Messagebot"));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
-            message.setSubject(eMailMessage.getSubject());
-            message.setText(eMailMessage.getBody());
-
-            Transport.send(message);
-            return true;
-        } catch (MessagingException | UnsupportedEncodingException e) {
-            log.error("Exception while sending an email: {}", e);
-            return false;
-        }
-    }
-
-    @Override
-    public boolean informAboutMissingTasks(Map<StudentIdentifier, ConstraintsMessages> tasks, Project project) {
-        HashMap<StudentIdentifier, ConstraintsMessages> notSentEMailMap = new HashMap<>();
-        tasks.entrySet().stream().filter(entry -> {
-            User user = new User();
-            user.setEmail(entry.getKey().getUserEmail());
-            EMailMessage eMailMessage = new EMailMessage();
-            eMailMessage.setSubject("Benachrichtigung über nicht erledigte Aufgaben im Projekt " + project.getName());
-            eMailMessage.setBody(entry.getValue().toString());
-            return !sendSingleMessage(eMailMessage, user);
-        }).forEach(entry -> notSentEMailMap.put(entry.getKey(), entry.getValue()));
-        return notSentEMailMap.isEmpty();
-    }
-
-    @Override
-    public boolean sendMessageToUsers(Project project, EMailMessage eMailMessage) {
-        List<User> users = userDAO.getUsersByProjectName(project.getName());
-        List<User> userEmailProblemList =
-                users.stream().filter(user -> !sendSingleMessage(eMailMessage, user)).collect(Collectors.toList());
-        return userEmailProblemList.isEmpty();
-    }
 
     private boolean hasEmptyParameter(String... parameters) {
         return Arrays.stream(parameters).anyMatch(String::isEmpty);

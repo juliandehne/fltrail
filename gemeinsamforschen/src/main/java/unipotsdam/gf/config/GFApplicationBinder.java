@@ -11,6 +11,7 @@ import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunica
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.communication.DummyCommunicationService;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
+import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.group.*;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
@@ -59,6 +60,7 @@ public class GFApplicationBinder extends AbstractBinder {
             log.trace("Rocket Chat is not online. Removing chat capabilities");
         }
 
+        bind(EmailService.class).to(EmailService.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(PeerAssessment.class).to(IPeerAssessment.class);
         bind(PhasesImpl.class).to(IPhases.class);

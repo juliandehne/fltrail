@@ -124,13 +124,7 @@ public interface ICommunication {
 
     String getProjectChatRoomLink(String projectName);
 
-    // TODO implement as Email or whatever
-    boolean sendSingleMessage(EMailMessage EMailMessage, User user);
 
-    //added by Axel.
-    boolean informAboutMissingTasks(Map<StudentIdentifier, ConstraintsMessages> tasks, Project project);
-
-    boolean sendMessageToUsers(Project project, EMailMessage eMailMessage);
 
     void delete(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 

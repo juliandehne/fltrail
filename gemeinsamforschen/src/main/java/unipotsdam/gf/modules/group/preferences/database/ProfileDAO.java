@@ -127,6 +127,8 @@ public class ProfileDAO {
             case dota_survey_a2:
             case fl_survey_a4:
             case fl_test:
+            case other_survey_a2:
+            case fl_lausberg:
             case dota_test:
                 query = queryWithFL;
                 break;

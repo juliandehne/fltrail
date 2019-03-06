@@ -57,6 +57,9 @@ public class CommunicationServiceTest {
     private UserDAO userDAO;
 
     @Inject
+    private EmailService emailService;
+
+    @Inject
     private ProjectDAO projectDAO;
 
     private List<String> createdChatRooms;
@@ -78,7 +81,9 @@ public class CommunicationServiceTest {
         locator.inject(this);
 
         user = new User("Vorname Nachname", "password", "email@uni.de", true);
-        userDAO.persist(user);
+        if (!userDAO.exists(user)) {
+            userDAO.persist(user);
+        }
 
         createdChatRooms = new ArrayList<>();
 
@@ -247,16 +252,15 @@ public class CommunicationServiceTest {
     }
 
     @Test
-    @Ignore
     public void sendSingleMessage() {
         User user = new User();
         // Permalink for email-address: http://www.trashmail.de/index.php?search=javatest
-        user.setEmail("javatest@trashmail.de");
+        user.setEmail("julian.dehne@web.de");
         EMailMessage eMailMessage = new EMailMessage();
         eMailMessage.setSubject("Test Email");
         eMailMessage.setBody("Test Body");
 
-        iCommunication.sendSingleMessage(eMailMessage, user);
+        emailService.sendSingleMessage(eMailMessage, user);
     }
 
     @Test
@@ -269,10 +273,10 @@ public class CommunicationServiceTest {
         StudentIdentifier studentIdentifier = new StudentIdentifier();
         studentIdentifier.setProjectName(projectId);
         // Permalink for email-address: http://www.trashmail.de/index.php?search=javatest
-        studentIdentifier.setUserEmail("javatest@trashmail.de");
+        studentIdentifier.setUserEmail("julian.dehne@web.de");
         ConstraintsMessages constraintsMessages = new ConstraintsMessages(Constraints.QuizCount, studentIdentifier);
         tasks.put(studentIdentifier, constraintsMessages);
-        boolean successful = iCommunication.informAboutMissingTasks(tasks, project);
+        boolean successful = emailService.informAboutMissingTasks(tasks, project);
         assertTrue(successful);
     }
 

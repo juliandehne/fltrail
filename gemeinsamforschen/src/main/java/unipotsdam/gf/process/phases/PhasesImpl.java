@@ -2,6 +2,7 @@ package unipotsdam.gf.process.phases;
 
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IJournal;
@@ -48,6 +49,9 @@ public class PhasesImpl implements IPhases {
     private GroupFormationProcess groupFormationProcess;
 
 
+    @Inject
+    private EmailService emailService;
+
 
 
     public PhasesImpl() {
@@ -79,7 +83,7 @@ public class PhasesImpl implements IPhases {
         switch (currentPhase) {
             case GroupFormation:
                 // inform users about the formed groups, optionally giving them a hint on what happens next
-                iCommunication.sendMessageToUsers(project, Messages.GroupFormation(project));
+                emailService.sendMessageToUsers(project, Messages.GroupFormation(project));
                 saveState(project, changeToPhase);
                 groupFormationProcess.finalize(project);
                 dossierCreationProcess.start(project);
@@ -93,16 +97,16 @@ public class PhasesImpl implements IPhases {
                 tasks = iJournal.getPortfoliosForEvaluationPrepared(project);
                 if (tasks.size() < 1) {
                     // inform users about the end of the phase
-                    iCommunication.sendMessageToUsers(project, Messages.AssessmentPhaseStarted(project));
+                    emailService.sendMessageToUsers(project, Messages.AssessmentPhaseStarted(project));
                     saveState(project, changeToPhase);
                 } else {
-                    iCommunication.informAboutMissingTasks(tasks, project);
+                    emailService.informAboutMissingTasks(tasks, project);
                 }
                 break;
             case Assessment:
                 tasks = iPeerAssessment.allAssessmentsDone(project.getName());
                 if (tasks.size() < 1) {
-                    iCommunication.sendMessageToUsers(project, Messages.CourseEnds(project));
+                    emailService.sendMessageToUsers(project, Messages.CourseEnds(project));
                     iPeerAssessment.finalizeAssessment(project.getName());
                     saveState(project, changeToPhase);
                 } else {
