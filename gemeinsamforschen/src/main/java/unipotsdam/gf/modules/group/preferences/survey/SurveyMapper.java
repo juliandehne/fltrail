@@ -26,7 +26,7 @@ public class SurveyMapper {
     public static final String NICKNAME1 = "NICKNAME1";
     /*private static final String NICKNAME2 = "NICKNAME2";*/
     public static final String EMAIL1 = "EMAIL1";
-    /*private static final String EMAIL2 = "EMAIL2";*/
+    private static final String EMAIL2 = "EMAIL2";
     private static final String DISCORDID = "DISCORDID";
 
 
@@ -89,7 +89,7 @@ public class SurveyMapper {
             addGeneralQuestion(NICKNAME1, nickname1, generalDetails);
             //addGeneralQuestion(NICKNAME2, nickname2, generalDetails);
             addGeneralQuestion(EMAIL1, email1, generalDetails);
-            //addGeneralQuestion(EMAIL2, email2, generalDetails);
+            addGeneralQuestion(EMAIL2, email2, generalDetails);
 
             String discordIdString = "(optional) Enter your discord ID!";
             switch (groupWorkContext) {

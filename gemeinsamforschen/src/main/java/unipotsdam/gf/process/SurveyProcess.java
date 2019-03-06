@@ -51,6 +51,19 @@ public class SurveyProcess {
                 List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
                 groupfinding.persistGroups(groups, project);
                 phases.endPhase(Phase.GroupFormation, project);
+                //todo: sende Email an alle
+                switch (groupWorkContext){
+                    case fl:
+                    case evaluation:
+                    case dota:
+                    case dota_test:
+                    case dota_survey_a2:
+                    case fl_test:
+                    case fl_survey_a4:
+                    case dota_survey_a1:
+                    case fl_survey_a3:
+                }
+                //todo: schedule 3 Wochen Evaluationsnachricht für Participants. Wenn Kontext cool
             }
         //}
     }

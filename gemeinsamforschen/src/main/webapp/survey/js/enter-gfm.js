@@ -1,5 +1,6 @@
 let projectId = "";
 let language = "";
+let userEmail;
 $(document).ready(function () {
     authenticate("", function (loggedin) {
         if (loggedin) {
@@ -11,7 +12,7 @@ $(document).ready(function () {
     let messageHolder = $('#messageHolder');
     language = getQueryVariable("language");
     let context = getQueryVariable("context");
-    let userEmail = getQueryVariable("userEmail");
+    userEmail = getQueryVariable("userEmail");
     let navTextPage = $('#navTextPage');
     let navGroupView = $('#navGroupView');
     let navSurvey = $('#navSurvey');
@@ -126,7 +127,6 @@ $(document).ready(function () {
         .StylesManager
         .applyTheme("default");
 
-
     let projq = new RequestObj(1, "/survey", "/project/name/?", [context], []);
     serverSide(projq, "GET", function (response) {
 
@@ -136,9 +136,15 @@ $(document).ready(function () {
         serverSide(requ, "GET", function (surveyJSON) {
             for (let page = 0; page < surveyJSON.pages.length; page++) {
                 for (let question = 0; question < surveyJSON.pages[page].questions.length; question++) {
-                    let deleteMe = surveyJSON.pages[page].questions[question].title[language];
-                    if (deleteMe.includes('(optional)')) {
+                    let questionText = surveyJSON.pages[page].questions[question].title[language];
+                    if (questionText.includes('(optional)')) {
                         surveyJSON.pages[page].questions[question].isRequired = false;
+                    }
+                    if (questionText.includes('email') ||
+                        questionText.includes('E-Mail')){
+                        surveyJSON.pages[page].questions[question].validators = [{
+                            type: "email"
+                        }]
                     }
                 }
             }
@@ -150,7 +156,8 @@ $(document).ready(function () {
 
             $("#surveyContainer").Survey({
                 model: survey,
-                onComplete: sendDataToServer
+                onComplete: sendDataToServer,
+                onValidateQuestion: validateEmails
             });
         });
     });
@@ -158,7 +165,6 @@ $(document).ready(function () {
     function sendDataToServer(survey) {
         //var resultAsString = JSON.stringify(survey.data);
         //alert(resultAsString); //send Ajax request to your web server.
-
         let dataReq = new RequestObj(1, "/survey", "/save/projects/?", [projectId], [], survey.data);
         userEmail = survey.data.EMAIL1;
         serverSide(dataReq, "POST", function () {
@@ -280,7 +286,7 @@ function btnSetUserEmail() {
     });
 }
 
-function openGroupView(userEmail){
+function openGroupView(userEmail) {
     $('#theGroupView').toggleClass("in");
     $('#navLiGroupView').toggleClass("active");
     authenticate(userEmail, function (loggedin) {
@@ -312,14 +318,14 @@ function openGroupView(userEmail){
                 },
                 type: 'GET',
                 success: function (response) {
-                    let participantsNeeded = 30-response;
-                    if (language==="en"){
-                        $('#participantsMissing').html("They are still "+ participantsNeeded+ " participants missing to form groups.")
-                    }else{
-                        $('#teilnehmerFehlend').html("Es fehlen noch "+ participantsNeeded+ " Teilnehmer um die Gruppen zu bilden.")
+                    let participantsNeeded = 30 - response;
+                    if (language === "en") {
+                        $('#participantsMissing').html("They are still " + participantsNeeded + " participants missing to form groups.")
+                    } else {
+                        $('#teilnehmerFehlend').html("Es fehlen noch " + participantsNeeded + " Teilnehmer um die Gruppen zu bilden.")
                     }
                 },
-                error: function(){
+                error: function () {
 
                 }
             });
@@ -344,4 +350,15 @@ function openGroupView(userEmail){
             });
         }
     });
+}
+
+function validateEmails(survey, options){
+    if (options.name === "EMAIL1"){
+        userEmail = options.value;
+    }
+    if (options.name === "EMAIL2"){
+        if (userEmail !== options.value){
+            options.error = "The Email is not the same as the first one.";
+        }
+    }
 }
