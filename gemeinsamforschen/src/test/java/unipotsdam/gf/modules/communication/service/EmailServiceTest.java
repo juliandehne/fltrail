@@ -78,7 +78,9 @@ public class EmailServiceTest {
         Project project = new Project();
         project.setName("Testprojekt");
         project.setGroupWorkContext(GroupWorkContext.dota_survey_a1);
-        emailService.sendSingleMessage(Messages.SurveyGroupFormation(project), new User(GFMailConfig.EMAIL_ADRESS));
+        emailService.sendSingleMessage(Messages.SurveyGroupFormation(project, "julian.dehne@web.de"), new User
+                (GFMailConfig
+                .EMAIL_ADRESS));
     }
 
     @Test

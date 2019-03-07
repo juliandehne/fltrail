@@ -37,21 +37,21 @@ public class SurveyPreparationHelper {
     public void prepareSurvey() throws Exception {
 
 
+        // create dehne user
+        try {
+            User dehne = new User("julian.dehne@uni-potsdam.de");
+            dehne.setPassword("egal");
+            dehne.setRocketChatUsername("fltrailadmin");
+            dehne.setStudent(false);
+            dehne.setName("Julian Dehne");
+            userDAO.persist(dehne);
+        } catch (Exception e) {
+        }
+
+
         GroupWorkContext[] values = GroupWorkContext.values();
 
         for (GroupWorkContext gfc : values) {
-
-
-            // create dehne user
-            try {
-                User dehne = new User("julian.dehne@uni-potsdam.de");
-                dehne.setPassword("egal");
-                dehne.setRocketChatUsername("fltrailadmin");
-                dehne.setStudent(false);
-                dehne.setName("Julian Dehne");
-                userDAO.persist(dehne);
-            } catch (Exception e) {
-            }
 
             // importing items
             //String itemExamle = "groupfindingitems_beispiel.xls";

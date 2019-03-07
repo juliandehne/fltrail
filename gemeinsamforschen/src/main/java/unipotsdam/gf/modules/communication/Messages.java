@@ -14,13 +14,13 @@ public class Messages {
         return eMailMessage;
     }
 
-    public static EMailMessage SurveyGroupFormation(Project project) {
+    public static EMailMessage SurveyGroupFormation(Project project, String userEmail) {
         StringBuilder message_de = new StringBuilder();
         message_de.append("Liebe Teilnehmenden,\n");
         message_de.append("die Gruppen wurden gebildet.");
         message_de
                 .append("Sie können unter http://fleckenroller.cs.uni-potsdam" + ".de/app/gemeinsamforschen/survey/enterGFM.jsp?context=" + project
-                        .getGroupWorkContext());
+                        .getGroupWorkContext()+"&userEmail="+userEmail);
         message_de.append("&language=de ");
         message_de.append("angeschaut werden.");
         message_de.append("\nMit besten Grüßen, \n Julian Dehne");
@@ -31,7 +31,7 @@ public class Messages {
         message_en
                 .append(" They can be looked up at http://fleckenroller.cs.uni-potsdam" + "" +
                         ".de/app/gemeinsamforschen/survey/enterGFM.jsp?context=" + project
-                        .getGroupWorkContext());
+                        .getGroupWorkContext()+"&userEmail="+userEmail+"&language=en");
         message_en.append("&language=en ");
         message_en.append(".");
         message_en.append("\nYours sincerly, \n Julian Dehne");

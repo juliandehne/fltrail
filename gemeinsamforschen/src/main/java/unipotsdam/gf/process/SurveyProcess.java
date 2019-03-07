@@ -60,8 +60,11 @@ public class SurveyProcess {
                 groupfinding.persistGroups(groups, project);
                 phases.endPhase(Phase.GroupFormation, project);
 
-                EMailMessage message = Messages.SurveyGroupFormation(project);
-                emailService.sendMessageToUsers(project, message);
+                for (User user : usersByProjectName) {
+                    EMailMessage message = Messages.SurveyGroupFormation(project, user.getEmail());
+                    emailService.sendSingleMessage(message, user);
+                }
+
 
                 //todo: sende Email an alle
                 switch (groupWorkContext){
@@ -76,7 +79,7 @@ public class SurveyProcess {
                     case other_survey_a1:
                     case other_survey_a2:
                         Scheduler scheduler = new Scheduler(project, emailService);
-                        scheduler.contextInitialized(sce);
+                        scheduler.start(sce);
                         break;
                     case fl:
                     case evaluation:

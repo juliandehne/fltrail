@@ -18,20 +18,40 @@ public class Scheduler implements ServletContextListener {
 
     private ScheduledExecutorService scheduler;
 
+    public Scheduler() {
+        emailService = null;
+        project = null;
+    }
+
     public Scheduler(Project project, EmailService emailService) {
         this.project = project;
         this.emailService = emailService;
     }
 
 
-    @Override
-    public void contextInitialized(ServletContextEvent servletContextEvent) {
+    public void start(ServletContextEvent servletContextEvent) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduler.scheduleAtFixedRate(new SendMails(project, emailService), 0 , 21, TimeUnit.DAYS);
     }
 
+
+    /**
+     * this is called on tomcat startup, not precisely want we wanted
+     * @param sce
+     */
+ /*   @Override
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(new SendMails(project, emailService), 0 , 21, TimeUnit.DAYS);
+    }*/
+
+    @Override
+    public void contextInitialized(ServletContextEvent sce) {
+
+    }
+
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        scheduler.shutdownNow();
+        //scheduler.shutdownNow();
     }
 }
