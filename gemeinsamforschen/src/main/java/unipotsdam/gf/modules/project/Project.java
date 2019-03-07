@@ -31,6 +31,7 @@ public class Project {
     public Project() {
         tags = new String[0];
         this.timecreated = System.currentTimeMillis();
+        this.active = true;
     }
 
     public Project(String name, String password, Boolean active, String author, String[] tags) {

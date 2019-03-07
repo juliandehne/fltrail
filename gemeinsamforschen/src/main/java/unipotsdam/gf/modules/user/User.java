@@ -25,9 +25,8 @@ public class User {
 
 
     public User() {
+        this.discordid = "";
     }
-
-
 
     public User(String name, String password, String email, String rocketChatUsername, Boolean isStudent) {
         this.name = name;
@@ -35,6 +34,7 @@ public class User {
         this.email = email;
         this.rocketChatUsername = rocketChatUsername;
         this.setStudent(isStudent);
+        this.discordid = "";
     }
 
     public User(String name, String password, String email, String rocketChatUsername, Boolean isStudent, String discordId) {
@@ -47,9 +47,9 @@ public class User {
     }
 
 
-
     public User(String authorEmail) {
         this.email = authorEmail;
+        this.discordid = "";
     }
 
     public User(String name, String password, String email, Boolean isStudent) {
@@ -57,6 +57,7 @@ public class User {
         this.password= password;
         this.email = email;
         this.isStudent = isStudent;
+        this.discordid = "";
     }
 
 

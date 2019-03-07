@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.communication.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFMailConfig;
 
 import javax.mail.Message;
@@ -10,6 +12,8 @@ import javax.mail.internet.MimeMessage;
 import java.util.Date;
 
 public class EmailUtil {
+
+	private final static Logger log = LoggerFactory.getLogger(EmailUtil.class);
 
 	/**
 	 * Utility method to send simple HTML email
@@ -27,9 +31,9 @@ public class EmailUtil {
 	      msg.addHeader("format", "flowed");
 	      msg.addHeader("Content-Transfer-Encoding", "8bit");
 
-	      msg.setFrom(new InternetAddress(GFMailConfig.EMAIL_ADRESS, "NoReply-JD"));
+	      msg.setFrom(new InternetAddress(GFMailConfig.EMAIL_ADRESS, "Julian Dehne"));
 
-	      msg.setReplyTo(InternetAddress.parse("no_reply@example.com", false));
+	      msg.setReplyTo(InternetAddress.parse(GFMailConfig.EMAIL_ADRESS, false));
 
 	      msg.setSubject(subject, "UTF-8");
 
@@ -41,7 +45,7 @@ public class EmailUtil {
 	      System.out.println("Message is ready");
     	  Transport.send(msg);
 
-	      System.out.println("EMail Sent Successfully!!");
+	      log.info("EMail Sent Successfully to: " +toEmail);
 	    }
 	    catch (Exception e) {
 	      e.printStackTrace();

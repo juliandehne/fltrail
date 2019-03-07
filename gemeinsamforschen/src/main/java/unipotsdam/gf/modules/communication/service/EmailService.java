@@ -29,37 +29,40 @@ public class EmailService {
 
     private final static Logger log = LoggerFactory.getLogger(EmailService.class);
 
-    @Inject
-    private UnirestService unirestService;
+
     @Inject
     private UserDAO userDAO;
-    @Inject
-    private GroupDAO groupDAO;
 
 
     public boolean sendSingleMessage(EMailMessage eMailMessage, User user) {
 
-        final String fromEmail = GFMailConfig.EMAIL_ADRESS; //requires valid gmail id
-        final String password = GFMailConfig.SMTP_PASSWORD; // correct password for gmail id
-        final String toEmail = user.getEmail(); // can be any email id
+        try {
 
-        System.out.println("TLSEmail Start");
-        Properties props = new Properties();
-        props.put("mail.smtp.host", GFMailConfig.SMTP_HOST); //SMTP Host
-        props.put("mail.smtp.port", GFMailConfig.SMTP_PORT); //TLS Port
-        props.put("mail.smtp.auth", "true"); //enable authentication
-        props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+            final String fromEmail = GFMailConfig.EMAIL_ADRESS; //requires valid gmail id
+            final String password = GFMailConfig.SMTP_PASSWORD; // correct password for gmail id
+            final String toEmail = user.getEmail(); // can be any email id
 
-        //create Authenticator object to pass in Session.getInstance argument
-        Authenticator auth = new Authenticator() {
-            //override the getPasswordAuthentication method
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(fromEmail, password);
-            }
-        };
-        Session session = Session.getInstance(props, auth);
+            //System.out.println("TLSEmail Start");
+            Properties props = new Properties();
+            props.put("mail.smtp.host", GFMailConfig.SMTP_HOST); //SMTP Host
+            props.put("mail.smtp.port", GFMailConfig.SMTP_PORT); //TLS Port
+            props.put("mail.smtp.auth", "true"); //enable authentication
+            props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
 
-        EmailUtil.sendEmail(session, toEmail,eMailMessage.getSubject(), eMailMessage.getBody());
+            //create Authenticator object to pass in Session.getInstance argument
+            Authenticator auth = new Authenticator() {
+                //override the getPasswordAuthentication method
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(fromEmail, password);
+                }
+            };
+            Session session = Session.getInstance(props, auth);
+
+            EmailUtil.sendEmail(session, toEmail, eMailMessage.getSubject(), eMailMessage.getBody());
+
+        } catch (Exception e) {
+            log.warn("could not send email to: " + user.getEmail());
+        }
 
         return true;
     }
@@ -80,9 +83,13 @@ public class EmailService {
 
 
     public boolean sendMessageToUsers(Project project, EMailMessage eMailMessage) {
-        List<User> users = userDAO.getUsersByProjectName(project.getName());
-        List<User> userEmailProblemList =
-                users.stream().filter(user -> !sendSingleMessage(eMailMessage, user)).collect(Collectors.toList());
-        return userEmailProblemList.isEmpty();
+        try {
+            List<User> users = userDAO.getUsersByProjectName(project.getName());
+            List<User> userEmailProblemList = users.stream().filter(user -> !sendSingleMessage(eMailMessage, user)).collect(Collectors.toList());
+            return userEmailProblemList.isEmpty();
+        } catch (Exception e) {
+            log.warn("could not send email to users of project: " + project.getName());
+        }
+        return false;
     }
 }
