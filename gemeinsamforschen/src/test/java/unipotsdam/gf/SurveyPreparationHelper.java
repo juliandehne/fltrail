@@ -72,8 +72,12 @@ public class SurveyPreparationHelper {
                 Project project = new Project(groupWorkContext.toString());
                 project.setGroupWorkContext(groupWorkContext);
                 project.setSurvey(true);
+                Project d1_test = new Project(groupWorkContext.toString());
+                d1_test.setGroupWorkContext(groupWorkContext);
+                d1_test.setSurvey(true);
+                projectDAO.persist(d1_test);
 
-                projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy,project);
+                projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy,d1_test);
                 // create project in db
                 projectDAO.persist(project);
 
@@ -81,7 +85,7 @@ public class SurveyPreparationHelper {
                 List<ProfileQuestion> questions = profileDAO.getQuestions(groupWorkContext);
 
                 // todo find out mathematically if that works, how many iterations are needed and
-                persistselectedItems(project, questions);
+                persistselectedItems(d1_test, questions);
             }
         }
     }

@@ -152,6 +152,7 @@ public class SurveyMapper {
         log.trace("persisting survey data");
         User user;
         // it is test context
+        data.remove(EMAIL2);
         if (req == null) {
             user = createUserFromSurvey(data);
             // it is in survey context

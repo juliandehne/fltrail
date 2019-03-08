@@ -96,7 +96,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(RandomGroupAlgorithm.class).to(RandomGroupAlgorithm.class);
         bind(SingleGroupMatcher.class).to(SingleGroupMatcher.class);
         bind(SurveyProcess.class).to(SurveyProcess.class);
-        bind(ServletContextEvent.class).to(ServletContextEvent.class);
         bindMore();
     }
 

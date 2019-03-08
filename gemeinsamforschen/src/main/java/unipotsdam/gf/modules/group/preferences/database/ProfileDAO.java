@@ -226,10 +226,13 @@ public class ProfileDAO {
         if (groupWorkContext == GroupWorkContext.evaluation) {
             query = "Select id, question, question_en, subvariable from peerAssessmentWorkProperties";
         } else {
-            query =
-                    "Select pq.id,p.name, pq.question, pq.question_en, pq.subvariable from projects p " + "join surveyitemsselected sis on p.name = sis.projectname " + "join profilequestions pq on pq.id = sis.profilequestionid";
+            query = "SELECT DISTINCT * From " +
+                    "(Select pq.id, p.name, p.context, pq.question, pq.question_en, pq.subvariable " +
+                    "from projects p join surveyitemsselected sis on p.name = sis.projectname " +
+                    "join profilequestions pq on pq.id = sis.profilequestionid) as result " +
+                    "WHERE context=?";
         }
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, groupWorkContext.toString());
         while (vereinfachtesResultSet.next()) {
             ProfileQuestion profileQuestion = new ProfileQuestion(5, vereinfachtesResultSet.getString("question"),
                     vereinfachtesResultSet.getString("question_en"), vereinfachtesResultSet.getString("subvariable"));
@@ -309,7 +312,13 @@ public class ProfileDAO {
 
         connect.connect();
         String query =
-                "SELECT pv.homogeneity, pqa.answerIndex, pqa.userEmail, pq.subvariable, pq.polarity, u.id " + "from profilequestionanswer pqa " + " join profilequestions pq on pq.id = pqa.profileQuestionId" + " join surveyitemsselected sis on sis.profilequestionid = pq.id" + " join users u on u.email = pqa.userEmail" + " join projectuser pu on u.email=pu.userEmail and pu.projectname = ?" + " join profilevariables pv on pv.subvariable = pq.subvariable ";
+                "SELECT DISTINCT pv.homogeneity, pqa.answerIndex, pqa.userEmail, pqa.profileQuestionId, pq.subvariable, pq.polarity, u.id " +
+                        "from profilequestionanswer pqa " +
+                        " join profilequestions pq on pq.id = pqa.profileQuestionId" +
+                        " join surveyitemsselected sis on sis.profilequestionid = pq.id" +
+                        " join users u on u.email = pqa.userEmail" +
+                        " join projectuser pu on u.email=pu.userEmail and pu.projectname = ?" +
+                        " join profilevariables pv on pv.subvariable = pq.subvariable ";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
         int i = 0;
         while (vereinfachtesResultSet.next()) {
