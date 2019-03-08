@@ -18,6 +18,7 @@ public class Messages {
     }
 
     public static EMailMessage SurveyGroupFormation(Project project, String userEmail) {
+        userEmail = stringToAsciiEncode(userEmail);
         // deutsch
         StringBuilder message_de = new StringBuilder();
         message_de.append("Liebe Teilnehmenden,\n");
@@ -111,5 +112,15 @@ public class Messages {
         eMailMessage.setSubject(project.getName() + ": Bewertungsphase abgeschlossen");
         eMailMessage.setBody("Die Bewertung ist abgeschlossen. Sie erhalten ihre Bewertung in Kürze.");
         return eMailMessage;
+    }
+
+    public static String stringToAsciiEncode(String input) {
+        String result = "";
+        for (Character character : input.toCharArray()) {
+            int ascii = (int) character;
+            String rChar = ascii+"-";
+            result += rChar;
+        }
+        return result.substring(0, result.length()-1);
     }
 }

@@ -13,6 +13,7 @@ import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContextUtil;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -50,9 +51,6 @@ public class SurveyProcess {
 
     public void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext, ServletContextEvent sce)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-       /* if (groupWorkContext==GroupWorkContext.evaluation){
-            surveyMapper.saveEvaluation(data,project.getName(),req);
-        }else{*/
             surveyMapper.saveData(data, project.getName(), req);
             List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
             if (usersByProjectName.size() == GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
@@ -65,25 +63,11 @@ public class SurveyProcess {
                     emailService.sendSingleMessage(message, user);
                 }
 
-
-                //todo: sende Email an alle
-                switch (groupWorkContext){
-                    case dota:
-                    case dota_test:
-                    case dota_survey_a2:
-                    case fl_test:
-                    case fl_survey_a4:
-                    case dota_survey_a1:
-                    case fl_survey_a3:
-                    case fl_lausberg:
-                    case other_survey_a1:
-                    case other_survey_a2:
-                        Scheduler scheduler = new Scheduler(project, emailService);
-                        scheduler.start(sce);
-                        break;
-                    case fl:
-                    case evaluation:
-                        break;
+                // schedule an group email, that in 30 days from having finished group formation
+                // an evaluation email is send out
+                if(GroupWorkContextUtil.isSurveyContext(groupWorkContext)) {
+                    Scheduler scheduler = new Scheduler(project, emailService);
+                    scheduler.start(sce);
                 }
             }
         //}
