@@ -4,6 +4,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import unipotsdam.gf.modules.group.preferences.excel.ItemSet;
 import unipotsdam.gf.modules.group.preferences.groupal.request.*;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContextUtil;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.UserProfile;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ProfileDAO {
+
     @Inject
     private MysqlConnect connect;
 
@@ -119,23 +121,11 @@ public class ProfileDAO {
                         " LEFT JOIN profilevariables pv on pv.subvariable = q.subvariable " +
                         " WHERE pv.variable = 'Persönlichkeit'";
 
-        switch (gfc) {
-            case fl:
-            case evaluation:
-                return null;
-            case dota:
-            case dota_survey_a2:
-            case fl_survey_a4:
-            case fl_test:
-            case other_survey_a2:
-            case fl_lausberg:
-            case dota_test:
-                query = queryWithFL;
-                break;
-            default:
-                query = queryWithoutFL;
+        if (GroupWorkContextUtil.usesFullSetOfItems(gfc)) {
+            query = queryWithFL;
+        } else {
+            query = queryWithoutFL;
         }
-
 
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
         HashMap<Integer, ArrayList<String>> optionMap = new HashMap<>();

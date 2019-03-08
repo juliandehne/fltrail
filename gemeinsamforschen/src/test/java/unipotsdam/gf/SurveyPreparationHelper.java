@@ -8,6 +8,7 @@ import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
 import unipotsdam.gf.modules.group.preferences.excel.ItemWriter;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContextUtil;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
@@ -20,6 +21,7 @@ import java.util.List;
 
 public class SurveyPreparationHelper {
 
+
     @Inject
     ProfileDAO profileDAO;
 
@@ -29,9 +31,13 @@ public class SurveyPreparationHelper {
     @Inject
     ProjectDAO projectDAO;
 
+    private final GroupWorkContextUtil util;
+
     public SurveyPreparationHelper() {
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
+
+        this.util = new GroupWorkContextUtil();
     }
 
     public void prepareSurvey() throws Exception {
@@ -51,7 +57,7 @@ public class SurveyPreparationHelper {
 
         GroupWorkContext[] values = GroupWorkContext.values();
 
-        for (GroupWorkContext gfc : values) {
+        for (GroupWorkContext groupWorkContext : values) {
 
             // importing items
             //String itemExamle = "groupfindingitems_beispiel.xls";
@@ -60,11 +66,11 @@ public class SurveyPreparationHelper {
             ItemWriter itemWriter = new ItemWriter(itemExamle);
             itemWriter.writeItems();
 
-            if (gfc != GroupWorkContext.fl) {
+            if (util.isSurveyContext(groupWorkContext)) {
 
                 // creating survey projects
-                Project d1_test = new Project(gfc.toString());
-                d1_test.setGroupWorkContext(gfc);
+                Project d1_test = new Project(groupWorkContext.toString());
+                d1_test.setGroupWorkContext(groupWorkContext);
                 d1_test.setSurvey(true);
 
                 projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy,d1_test);
@@ -72,7 +78,7 @@ public class SurveyPreparationHelper {
                 projectDAO.persist(d1_test);
 
                 // the persisted questions from the excel sheet (ITEMS for FL, based on FideS Team research)
-                List<ProfileQuestion> questions = profileDAO.getQuestions(gfc);
+                List<ProfileQuestion> questions = profileDAO.getQuestions(groupWorkContext);
 
                 // todo find out mathematically if that works, how many iterations are needed and
                 persistselectedItems(d1_test, questions);
