@@ -100,7 +100,7 @@ public class SurveyView {
             @Context HttpServletRequest req)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         GroupWorkContext groupWorkContext = surveyMapper.getGroupWorkContext(new Project(projectName));
-        if (groupWorkContext != GroupWorkContext.fl) {
+        if (!GroupWorkContextUtil.isSurveyContext(groupWorkContext)) {
             Project project = new Project(projectName);
             project.setGroupWorkContext(groupWorkContext);
             surveyProcess.saveSurveyData(project, data, req, groupWorkContext, sce);

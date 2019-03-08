@@ -14,6 +14,7 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.user.UserProfile;
 import unipotsdam.gf.process.ProjectCreationProcess;
+import unipotsdam.gf.process.SurveyProcess;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -65,9 +66,7 @@ public class SurveyMapper {
         if (questions == null) {
             throw new Exception("items are not available in DB");
         }
-        boolean standalone =
-                (groupWorkContext != GroupWorkContext.fl);
-        if (standalone) {
+        if (GroupWorkContextUtil.isSurveyContext(groupWorkContext)) {
             // the general questions to create a profile (given that we are not running the survey as part of the normal
             // FL-Trail Mode
             LocalizedText nickname1 = new LocalizedText("Choose a nickname!", "Wählen Sie einen Nickname aus!");
@@ -189,6 +188,14 @@ public class SurveyMapper {
         return user;
     }
 
+    /**
+     * after groups have been formed for a certain project, a new internal project is created for the next cohort
+     * using the link
+     * It is looked up based on the context set
+     * @see SurveyProcess#getSurveyProjectName(String)
+     * @param projectContext
+     * @return
+     */
     public String createNewProject(GroupWorkContext projectContext) {
         String randomId = UUID.randomUUID().toString();
         Project project = new Project(randomId);

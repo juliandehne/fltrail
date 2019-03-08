@@ -84,6 +84,13 @@ public class EmailServiceTest {
     }
 
     @Test
+    public void convertEmailToAscii() {
+        String hello  = "hello";
+        String s = Messages.stringToAsciiEncode(hello);
+        System.out.println(s);
+    }
+
+    @Test
     public void testSendEmailToAll() {
 
         User author = factory.manufacturePojo(User.class);
