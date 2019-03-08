@@ -72,10 +72,10 @@ public class SurveyPreparationHelper {
                 Project d1_test = new Project(groupWorkContext.toString());
                 d1_test.setGroupWorkContext(groupWorkContext);
                 d1_test.setSurvey(true);
+                projectDAO.persist(d1_test);
 
                 projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy,d1_test);
                 // create project in db
-                projectDAO.persist(d1_test);
 
                 // the persisted questions from the excel sheet (ITEMS for FL, based on FideS Team research)
                 List<ProfileQuestion> questions = profileDAO.getQuestions(groupWorkContext);

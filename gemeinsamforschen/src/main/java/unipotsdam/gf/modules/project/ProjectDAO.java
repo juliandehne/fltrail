@@ -163,7 +163,7 @@ public class ProjectDAO {
     public void setGroupFormationMechanism(GroupFormationMechanism groupFormationMechanism, Project project) {
         connect.connect();
         String mysql = "INSERT IGNORE INTO groupfindingmechanismselected (`projectName`, `gfmSelected`) values (?,?)";
-        connect.issueUpdateStatement(mysql, project.getName(), groupFormationMechanism.name());
+        connect.issueInsertOrDeleteStatement(mysql, project.getName(), groupFormationMechanism.name());
         connect.close();
     }
 
