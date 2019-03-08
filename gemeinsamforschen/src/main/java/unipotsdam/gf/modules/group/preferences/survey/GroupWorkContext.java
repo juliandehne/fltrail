@@ -24,10 +24,19 @@ public enum GroupWorkContext {
     // fl survey with prof. lausberg
     fl_lausberg,
 
+    // fl survey with prof. lausberg
+    fl_lausberg_test,
+
     //G_A Variablen ohne G_FL in other context
     other_survey_a1,
 
     // G_A Variablen mit G_FL in other context
-    other_survey_a2
+    other_survey_a2,
+
+    // fl survey with prof. lausberg
+    fl_wedeman,
+
+    // fl survey with prof. lausberg
+    fl_wedeman_test,
 
 }

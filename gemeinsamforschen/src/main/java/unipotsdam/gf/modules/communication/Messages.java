@@ -3,9 +3,12 @@ package unipotsdam.gf.modules.communication;
 
 import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContextUtil;
 import unipotsdam.gf.modules.project.Project;
 
 public class Messages {
+
+
     public static EMailMessage GroupFormation(Project project) {
         // TODO add link to site + markup
         EMailMessage eMailMessage = new EMailMessage();
@@ -15,6 +18,7 @@ public class Messages {
     }
 
     public static EMailMessage SurveyGroupFormation(Project project, String userEmail) {
+        // deutsch
         StringBuilder message_de = new StringBuilder();
         message_de.append("Liebe Teilnehmenden,\n");
         message_de.append("die Gruppen wurden gebildet.");
@@ -25,6 +29,7 @@ public class Messages {
         message_de.append("angeschaut werden.");
         message_de.append("\nMit besten Grüßen, \n Julian Dehne");
 
+        // englisch
         StringBuilder message_en = new StringBuilder();
         message_en.append("Dear participants,\n");
         message_en.append("the groups have been formed.");
@@ -74,18 +79,11 @@ public class Messages {
 
     private static String switchLanguage(
             Project project, StringBuilder message_de, StringBuilder message_en, String body) {
-        switch (project.getGroupWorkContext()) {
-            case fl_lausberg:
-            case fl_test:
-            case other_survey_a1:
-            case other_survey_a2:
-            case dota_survey_a1:
-            case dota_test:
-                body = message_de.toString();
-                break;
-            case dota_survey_a2:
-                body = message_en.toString();
-                break;
+        if(GroupWorkContextUtil.isGerman(project.getGroupWorkContext())) {
+            return message_de.toString();
+        }
+        if (GroupWorkContextUtil.isEnglish(project.getGroupWorkContext())) {
+            return message_en.toString();
         }
         return body;
     }
