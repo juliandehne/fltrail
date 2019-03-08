@@ -44,7 +44,6 @@ public class SurveyView {
     @Inject
     private UserDAO userDAO;
 
-    @Inject
     private ServletContextEvent sce;
 
     @GET

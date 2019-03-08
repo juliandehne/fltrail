@@ -16,7 +16,7 @@ public class Scheduler implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(new SendMails(), 0 , 21, TimeUnit.DAYS);
+        scheduler.scheduleAtFixedRate(new SendMails(), 21 , 21, TimeUnit.DAYS);
     }
 
     @Override
