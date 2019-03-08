@@ -13,6 +13,7 @@ $(document).ready(function () {
     language = getQueryVariable("language");
     let context = getQueryVariable("context");
     userEmail = getQueryVariable("userEmail");
+
     let navTextPage = $('#navTextPage');
     let navGroupView = $('#navGroupView');
     let navSurvey = $('#navSurvey');
@@ -42,6 +43,21 @@ $(document).ready(function () {
     }
 
     if (userEmail) {
+        let correctEmail="";
+        let backToChar="";
+        for (let i=0; i<userEmail.length; i++){
+            if (userEmail[i]!=="-"){
+                backToChar += userEmail[i];
+            }else{
+                correctEmail += String.fromCharCode(backToChar);
+                backToChar="";
+            }
+        }
+        if (userEmail[userEmail.length-1] !== "-"){
+            correctEmail += String.fromCharCode(backToChar);
+            backToChar="";
+        }
+        userEmail=correctEmail;
         preparePageToggle();
         $('#naviPagi').hide();
         openGroupView(userEmail);
@@ -169,7 +185,12 @@ $(document).ready(function () {
         userEmail = survey.data.EMAIL1;
         serverSide(dataReq, "POST", function () {
             //log.warn(a);
-            location.href = window.location.href + "&userEmail=" + userEmail;//todo: get userEmail
+            let asciiMail= "";
+            for (let i=0; i<userEmail.length; i++){
+                asciiMail += userEmail[i].charCodeAt(0)+"-";
+            }
+            asciiMail=asciiMail.substring(0,asciiMail.length-1);
+            location.href = window.location.href + "&userEmail=" + asciiMail;
         })
     }
 

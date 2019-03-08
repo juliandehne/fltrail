@@ -35,7 +35,7 @@ public class EmailService {
 
 
     public boolean sendSingleMessage(EMailMessage eMailMessage, User user) {
-
+/*
         try {
 
             final String fromEmail = GFMailConfig.EMAIL_ADRESS; //requires valid gmail id
@@ -63,7 +63,7 @@ public class EmailService {
         } catch (Exception e) {
             log.warn("could not send email to: " + user.getEmail());
         }
-
+*/
         return true;
     }
 
