@@ -1,12 +1,15 @@
 package unipotsdam.gf.core.context.project;
 
+import ch.vorburger.exec.ManagedProcessException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
+import unipotsdam.gf.core.database.UpdateDB;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.user.User;
@@ -17,6 +20,9 @@ import unipotsdam.gf.modules.project.ProjectConfiguration;
 import unipotsdam.gf.modules.project.ProjectDAO;
 
 import javax.inject.Inject;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
@@ -43,9 +49,10 @@ public class ProjectDAOTest {
     PodamFactory factory = new PodamFactoryImpl();
 
     @Before
-    public void setUp() {
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
-        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+    public void setUp() throws IOException, SQLException, ManagedProcessException {
+
+        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
 
         project = factory.manufacturePojo(Project.class);
@@ -86,11 +93,9 @@ public class ProjectDAOTest {
     @Test
     public void testRegister() {
         User user = factory.manufacturePojo(User.class);
-        management.create(user);
-        assert management.exists(user);
+        user.setStudent(true);
+        userDAO.persist(user);
 
-        Project project = factory.manufacturePojo(Project.class);
-        management.create(project);
         management.register(user, project, null);
     }
 

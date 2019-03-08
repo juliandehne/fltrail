@@ -114,15 +114,15 @@ public class ProfileDAO {
                         " LEFT JOIN profilequestionoptions o on q.id = o.profileQuestionId";
 
         String queryWithoutFL =
-                "SELECT q.id,scaleSize, subvariable, question, question_en, name from profilequestions q" +
+                "SELECT q.id,scaleSize, pv.subvariable, question, question_en, name from profilequestions q" +
                         " LEFT JOIN profilequestionoptions o on q.id = o.profileQuestionId" +
-                        " LEFT JOIN profilevariables pv on pv.subvariable = pq.subvariable " +
+                        " LEFT JOIN profilevariables pv on pv.subvariable = q.subvariable " +
                         " WHERE pv.variable = 'Persönlichkeit'";
 
         switch (gfc) {
             case fl:
             case evaluation:
-                throw new Exception("wrong usage of method");
+                return null;
             case dota:
             case dota_survey_a2:
             case fl_survey_a4:
@@ -278,6 +278,10 @@ public class ProfileDAO {
             connect.close();
             questionids.add(i);
         }*/
+
+        if (questions == null ) {
+            return;
+        }
 
         for (ProfileQuestion question : questions) {
             connect.connect();

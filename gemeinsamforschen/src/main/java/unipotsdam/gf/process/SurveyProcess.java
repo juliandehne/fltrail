@@ -7,6 +7,9 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.modules.communication.Messages;
+import unipotsdam.gf.modules.communication.model.EMailMessage;
+import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
@@ -40,6 +43,9 @@ public class SurveyProcess {
     private SurveyMapper surveyMapper;
 
     @Inject
+    private EmailService emailService;
+
+    @Inject
     private IGroupFinding groupfinding;
 
     public void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext, ServletContextEvent sce)
@@ -53,6 +59,13 @@ public class SurveyProcess {
                 List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
                 groupfinding.persistGroups(groups, project);
                 phases.endPhase(Phase.GroupFormation, project);
+
+                for (User user : usersByProjectName) {
+                    EMailMessage message = Messages.SurveyGroupFormation(project, user.getEmail());
+                    emailService.sendSingleMessage(message, user);
+                }
+
+
                 //todo: sende Email an alle
                 switch (groupWorkContext){
                     case dota:
@@ -65,8 +78,8 @@ public class SurveyProcess {
                     case fl_lausberg:
                     case other_survey_a1:
                     case other_survey_a2:
-                        Scheduler scheduler = new Scheduler();
-                        scheduler.contextInitialized(sce);
+                        Scheduler scheduler = new Scheduler(project, emailService);
+                        scheduler.start(sce);
                         break;
                     case fl:
                     case evaluation:
