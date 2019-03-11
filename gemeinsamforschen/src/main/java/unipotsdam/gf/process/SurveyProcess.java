@@ -15,6 +15,7 @@ import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContextUtil;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
+import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
@@ -45,6 +46,9 @@ public class SurveyProcess {
 
     @Inject
     private EmailService emailService;
+
+    @Inject
+    private Management iManagement;
 
     @Inject
     private IGroupFinding groupfinding;
@@ -83,5 +87,10 @@ public class SurveyProcess {
         } else {
             return new Project(projectName);
         }
+    }
+
+    public Boolean isStudentInProject(User user){
+        List<Project> projects = iManagement.getProjectsStudent(user);
+        return projects != null && !projects.isEmpty();
     }
 }

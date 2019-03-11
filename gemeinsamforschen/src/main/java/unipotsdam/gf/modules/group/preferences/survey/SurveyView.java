@@ -8,6 +8,7 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.tasks.ParticipantsCount;
@@ -143,9 +144,17 @@ public class SurveyView {
     }
 
     @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Path("/checkDoubleParticipation/user/{userEmail}")
+    public String checkDoubleParticipation(@PathParam("userEmail") String userEmail, @PathParam("context") String context, @Context HttpServletRequest req) {
+        User user = new User(userEmail);
+        return surveyProcess.isStudentInProject(user).toString();
+    }
+
+    @GET
     @Path("/participantCount/project/{projectName}")
     public String getParticipantCount(@PathParam("projectName") String projectName,
-                                      @Context HttpServletRequest req){
+                                      @Context HttpServletRequest req) {
         ParticipantsCount participantsCount = projectDAO.getParticipantCount(new Project(projectName));
         return Integer.toString(participantsCount.getParticipants());
     }

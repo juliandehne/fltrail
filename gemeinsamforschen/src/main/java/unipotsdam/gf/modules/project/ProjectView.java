@@ -92,7 +92,8 @@ public class ProjectView {
     @Path("/all/student/{studentEmail}")
     public java.util.List<Project> getProjectsStudent(
             @PathParam("studentEmail") String studentEmail) {
-        return iManagement.getProjectsStudent(studentEmail);
+        User user = new User (studentEmail);
+        return iManagement.getProjectsStudent(user);
     }
 
     @GET
