@@ -54,17 +54,15 @@ public class SurveyPreparationHelper {
         } catch (Exception e) {
         }
 
+        // importing items
+        //String itemExamle = "groupfindingitems_beispiel.xls";
+        //String itemExamle = "groupfindingitems_selected.xls";
+        String itemExamle = "groupfindingitems_selected_final1.xls";
+        ItemWriter itemWriter = new ItemWriter(itemExamle);
+        itemWriter.writeItems();
 
         GroupWorkContext[] values = GroupWorkContext.values();
-
         for (GroupWorkContext groupWorkContext : values) {
-
-            // importing items
-            //String itemExamle = "groupfindingitems_beispiel.xls";
-            //String itemExamle = "groupfindingitems_selected.xls";
-            String itemExamle = "groupfindingitems_selected_final1.xls";
-            ItemWriter itemWriter = new ItemWriter(itemExamle);
-            itemWriter.writeItems();
 
             if (util.isSurveyContext(groupWorkContext)) {
 

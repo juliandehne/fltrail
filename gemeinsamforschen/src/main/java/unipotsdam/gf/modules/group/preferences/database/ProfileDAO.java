@@ -110,12 +110,12 @@ public class ProfileDAO {
         ArrayList<ProfileQuestion> profileQuestions = new ArrayList<>();
         connect.connect();
 
-        String query = "";
-        String queryWithFL =
-                "SELECT q.id,scaleSize, subvariable, question, question_en, name from profilequestions q" +
-                        " LEFT JOIN profilequestionoptions o on q.id = o.profileQuestionId";
+        String query =
+                /*"";
+        String queryWithFL =*/
+                "SELECT q.id,scaleSize, subvariable, question, question_en, name from profilequestions q" + " LEFT JOIN profilequestionoptions o on q.id = o.profileQuestionId";
 
-        String queryWithoutFL =
+/*        String queryWithoutFL =
                 "SELECT q.id,scaleSize, pv.subvariable, question, question_en, name from profilequestions q" +
                         " LEFT JOIN profilequestionoptions o on q.id = o.profileQuestionId" +
                         " LEFT JOIN profilevariables pv on pv.subvariable = q.subvariable " +
@@ -125,7 +125,7 @@ public class ProfileDAO {
             query = queryWithFL;
         } else {
             query = queryWithoutFL;
-        }
+        }*/
 
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
         HashMap<Integer, ArrayList<String>> optionMap = new HashMap<>();
@@ -226,13 +226,11 @@ public class ProfileDAO {
         if (groupWorkContext == GroupWorkContext.evaluation) {
             query = "Select id, question, question_en, subvariable from peerAssessmentWorkProperties";
         } else {
-            query = "SELECT DISTINCT * From " +
-                    "(Select pq.id, p.name, p.context, pq.question, pq.question_en, pq.subvariable " +
-                    "from projects p join surveyitemsselected sis on p.name = sis.projectname " +
-                    "join profilequestions pq on pq.id = sis.profilequestionid) as result " +
-                    "WHERE context=?";
+            query =
+                    "SELECT DISTINCT * From " + "(Select pq.id, p.name, p.context, pq.question, pq.question_en, pq.subvariable " + "from projects p join surveyitemsselected sis on p.name = sis.projectname " + "join profilequestions pq on pq.id = sis.profilequestionid) as result " + "WHERE context=?";
         }
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, groupWorkContext.toString());
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(query, groupWorkContext.toString());
         while (vereinfachtesResultSet.next()) {
             ProfileQuestion profileQuestion = new ProfileQuestion(5, vereinfachtesResultSet.getString("question"),
                     vereinfachtesResultSet.getString("question_en"), vereinfachtesResultSet.getString("subvariable"));
@@ -272,7 +270,7 @@ public class ProfileDAO {
             questionids.add(i);
         }*/
 
-        if (questions == null ) {
+        if (questions == null) {
             return;
         }
 
@@ -300,6 +298,9 @@ public class ProfileDAO {
 
     /**
      * get participant answers from the db
+     * they are filtered depending on the case of the survey
+     * if it is supposed to contain fl specific questions,
+     * the later included, else they aren't
      *
      * @param project
      * @return
@@ -311,14 +312,33 @@ public class ProfileDAO {
         HashMap<String, Integer> ids = new HashMap<>();
 
         connect.connect();
-        String query =
-                "SELECT DISTINCT pv.homogeneity, pqa.answerIndex, pqa.userEmail, pqa.profileQuestionId, pq.subvariable, pq.polarity, u.id " +
-                        "from profilequestionanswer pqa " +
-                        " join profilequestions pq on pq.id = pqa.profileQuestionId" +
-                        " join surveyitemsselected sis on sis.profilequestionid = pq.id" +
-                        " join users u on u.email = pqa.userEmail" +
-                        " join projectuser pu on u.email=pu.userEmail and pu.projectname = ?" +
-                        " join profilevariables pv on pv.subvariable = pq.subvariable ";
+        String query = "";
+        String queryWithFL =
+                "SELECT DISTINCT pv.homogeneity, pqa.answerIndex, pqa.userEmail, pqa.profileQuestionId, pq.subvariable, pq.polarity, u.id "
+                        + "from profilequestionanswer pqa "
+                        + " join profilequestions pq on pq.id = pqa.profileQuestionId"
+                        + " join surveyitemsselected sis on sis.profilequestionid = pq.id"
+                        + " join users u on u.email = pqa.userEmail"
+                        + " join projectuser pu on u.email=pu.userEmail and pu.projectname = ?"
+                        + " join profilevariables pv on pv.subvariable = pq.subvariable ";
+
+        String queryWithoutFL =
+                "SELECT DISTINCT pv.homogeneity, pqa.answerIndex, pqa.userEmail, pqa.profileQuestionId, pq.subvariable, pq.polarity, u.id "
+                        + "from profilequestionanswer pqa "
+                        + " join profilequestions pq on pq.id = pqa.profileQuestionId"
+                        + " join surveyitemsselected sis on sis.profilequestionid = pq.id"
+                        + " join users u on u.email = pqa.userEmail"
+                        + " join projectuser pu on u.email=pu.userEmail and pu.projectname = ?"
+                        + " join profilevariables pv on pv.subvariable = pq.subvariable "
+                        + " where pv.variable = 'Persönlichkeit'";
+
+
+        if (GroupWorkContextUtil.usesFullSetOfItems(project.getGroupWorkContext())) {
+            query = queryWithFL;
+        } else {
+            query = queryWithoutFL;
+        }
+
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
         int i = 0;
         while (vereinfachtesResultSet.next()) {
