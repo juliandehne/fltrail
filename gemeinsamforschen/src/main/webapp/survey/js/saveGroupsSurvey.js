@@ -54,8 +54,8 @@ function initializeOrGetGroups(projectName, callback){
             "Cache-Control": "no-cache"
         },
         type: 'POST',
-        success: function (data) {
-            callback(data.groups);
+        success: function (groups) {
+            callback(groups);
         },
         error: function (a) {
         }

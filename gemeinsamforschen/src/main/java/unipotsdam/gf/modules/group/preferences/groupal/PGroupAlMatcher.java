@@ -46,6 +46,7 @@ public class PGroupAlMatcher extends GroupAlMatcher {
             for (User user : usersByProjectName) {
                 group.getMembers().add(user);
             }
+            group.setName(project.getName());
             groups.add(group);
             return groups;
         }

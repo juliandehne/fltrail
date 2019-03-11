@@ -1,7 +1,10 @@
 package unipotsdam.gf.modules.group;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 public class GroupData {
     List<Group> groups;

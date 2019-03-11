@@ -8,8 +8,6 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.Group;
-import unipotsdam.gf.modules.group.GroupData;
-import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
@@ -26,7 +24,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -175,13 +172,14 @@ public class SurveyView {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}/buildGroups")
-    public GroupData buildGroups(@PathParam("projectName") String  projectName)
+    public List<Group> buildGroups(@PathParam("projectName") String  projectName)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         Project project = new Project(projectName);
         groupfinding.deleteGroups(project);
         List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
         groupfinding.persistGroups(groups, project);
-        return new GroupData(groups);
+        return groups;
     }
 }
