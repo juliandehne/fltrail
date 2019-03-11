@@ -104,7 +104,9 @@ public class SurveyView {
             project.setGroupWorkContext(groupWorkContext);
             surveyProcess.saveSurveyData(project, data, req, groupWorkContext, sce);
         } else {
-            surveyMapper.saveData(data, projectName, req);
+            Project project = new Project(projectName);
+            project.setGroupWorkContext(groupWorkContext);
+            surveyMapper.saveData(data, project, req);
         }
     }
 

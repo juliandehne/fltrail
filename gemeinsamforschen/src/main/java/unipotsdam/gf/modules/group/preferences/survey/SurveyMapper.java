@@ -147,7 +147,7 @@ public class SurveyMapper {
         profileDAO.save(userProfile, GroupWorkContext.evaluation);
     }*/
 
-    public void saveData(HashMap<String, String> data, String projectId, HttpServletRequest req)
+    public void saveData(HashMap<String, String> data, Project project, HttpServletRequest req)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         log.trace("persisting survey data");
         User user;
@@ -163,11 +163,11 @@ public class SurveyMapper {
         // it is in fl context
         else {
             user = userDAO.getUserByEmail(req.getSession().getAttribute("userEmail").toString());
-            projectCreationProcess.updateProjCreaProcTasks(new Project(projectId), user);
+            projectCreationProcess.updateProjCreaProcTasks(project, user);
         }
         //save
-        management.register(user, new Project(projectId), null);
-        UserProfile userProfile = new UserProfile(data, user, projectId);
+        management.register(user, project, null);
+        UserProfile userProfile = new UserProfile(data, user, project.getName());
         profileDAO.save(userProfile, null);
 
     }

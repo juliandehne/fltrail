@@ -103,6 +103,9 @@ public class GroupAlMatcher implements GroupFormationAlgorithm {
     @Override
     public List<Group> calculateGroups(Project project)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+        if (project.getGroupWorkContext() == null) {
+            throw new Error("Please set Group Work context before trying to calculate groups");
+        }
         return createGroups(project,3);
     }
 
