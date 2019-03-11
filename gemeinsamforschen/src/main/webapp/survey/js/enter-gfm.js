@@ -41,7 +41,9 @@ $(document).ready(function () {
             navSurvey.html("Umfrage");
         }
     }
-
+    $('#buildGroupsLink').on('click',function(){
+        location.href="saveGroups.jsp?context="+context+"&language="+language;
+    });
     if (userEmail) {
         let correctEmail="";
         let backToChar="";
