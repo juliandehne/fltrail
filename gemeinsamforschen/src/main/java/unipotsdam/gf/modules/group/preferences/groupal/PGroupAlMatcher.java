@@ -33,18 +33,34 @@ public class PGroupAlMatcher extends GroupAlMatcher {
     public List<Group> calculateGroups(Project project)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
 
+        // get all users
         List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
 
+
         int userCount = usersByProjectName.size();
+
+        // if they are less then 6, we cant calculate much
+        if (userCount < 6) {
+            ArrayList<Group> groups = new ArrayList<>();
+            Group group = new Group();
+            for (User user : usersByProjectName) {
+                group.getMembers().add(user);
+            }
+            groups.add(group);
+            return groups;
+        }
+
         int calculateCount = userCount - (userCount % 3);
 
+        // the needed users are calculated in @see PGroupAlMatcher#adjustUserCount
         List<User> calculatedList = usersByProjectName.subList(0, calculateCount);
-        restUsers = usersByProjectName.subList(calculateCount, userCount);
 
-        Iterator<User> iterator = restUsers.iterator();
         // calculate groups with super class
         List<Group> groups = createGroups(project, 3);
 
+        // verteile die restlichen
+        restUsers = usersByProjectName.subList(calculateCount, userCount);
+        Iterator<User> iterator = restUsers.iterator();
         for (Group group : groups) {
             if (iterator.hasNext()) {
                 group.getMembers().add(iterator.next());
@@ -66,6 +82,7 @@ public class PGroupAlMatcher extends GroupAlMatcher {
         List<Integer> restUserIds = restUsers.stream().map(User::getId).collect(Collectors.toList());
         List<Participants> participants = responses.getParticipants();
         List<Participants> adjustedParticpants = new ArrayList<>();
+        // make sure the rest users are not included
         for (Participants participant : participants) {
             if (!restUserIds.contains(participant.getId())) {
                 adjustedParticpants.add(participant);
