@@ -144,7 +144,7 @@ public class GroupAlTest {
             }
             data.put(SurveyMapper.EMAIL1, user.getEmail());
             data.put(SurveyMapper.NICKNAME1, user.getName());
-            surveyMapper.saveData(data, project.getName(), null);
+            surveyMapper.saveData(data, project, null);
         }
 
         // calculate groups

@@ -12,7 +12,7 @@
     <script src="js/survey.jquery.1.0.60.min.js"></script>
     <link rel="stylesheet" href="../groupfinding/css/create-groups-manual.css">
     <script type="text/javascript" src="../libs/jquery/jqueryTemplate.js"></script>
-    <script src="./js/enter-gfm.js"></script>
+    <script src="./js/saveGroupsSurvey.js"></script>
 </head>
 <body>
 <div class="row group" id="naviPagi">

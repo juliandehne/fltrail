@@ -53,26 +53,30 @@ public class SurveyProcess {
     @Inject
     private IGroupFinding groupfinding;
 
+
+
     public synchronized void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext, ServletContextEvent sce)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-            surveyMapper.saveData(data, project.getName(), req);
-            List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
-            if (usersByProjectName.size() == GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
-                List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
-                groupfinding.persistGroups(groups, project);
-                phases.endPhase(Phase.GroupFormation, project);
+            surveyMapper.saveData(data, project, req);
+            if (GroupWorkContextUtil.isAutomatedGroupFormation(groupWorkContext)) {
+                List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
+                if (usersByProjectName.size() == GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
+                    List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
+                    groupfinding.persistGroups(groups, project);
+                    phases.endPhase(Phase.GroupFormation, project);
 
                 /*for (User user : usersByProjectName) {
                     EMailMessage message = Messages.SurveyGroupFormation(project, user.getEmail());
                     emailService.sendSingleMessage(message, user);
                 }*/
 
-                // schedule an group email, that in 30 days from having finished group formation
-                // an evaluation email is send out
+                    // schedule an group email, that in 30 days from having finished group formation
+                    // an evaluation email is send out
                 /*if(GroupWorkContextUtil.isSurveyContext(groupWorkContext)) {
                     Scheduler scheduler = new Scheduler(project, emailService);
                     scheduler.start(sce);
                 }*/
+                }
             }
         //}
     }

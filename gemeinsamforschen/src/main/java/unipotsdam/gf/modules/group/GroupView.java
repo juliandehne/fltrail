@@ -148,6 +148,7 @@ public class GroupView {
                                @QueryParam("manipulated") String isManipulated)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         Project project = new Project(projectName);
+        // wenn gruppen aussehen wie einzelarbeit, dann wird hier umgeschaltet
         if (isManipulated.equals("true")){
             boolean isSingleUser =true;
             for (Group group: groups) {
@@ -161,6 +162,7 @@ public class GroupView {
                 projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
             }
         }
+        // normaler Prozess hier weiter
         groupFormationProcess.saveGroups(Arrays.asList(groups), project);
         groupFormationProcess.finalize(project);
     }

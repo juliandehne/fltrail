@@ -6,10 +6,15 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
+import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupData;
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.tasks.ParticipantsCount;
 import unipotsdam.gf.session.GFContexts;
@@ -21,6 +26,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +41,9 @@ public class SurveyView {
     @Inject
     private SurveyProcess surveyProcess;
 
+    @Inject
+    private IGroupFinding groupfinding;
+
 
     @Inject
     private ProjectDAO projectDAO;
@@ -45,10 +54,13 @@ public class SurveyView {
     @Inject
     private UserDAO userDAO;
 
+    @Inject
+    private GroupFormationProcess groupFormationProcess;
+
     private ServletContextEvent sce;
 
     @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     @Path("/project/name/{projectContext}")
     public Project getProjectName(@PathParam("projectContext") String projectContext) {
         // get project where name like projectContext and is active
@@ -148,7 +160,7 @@ public class SurveyView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path("/checkDoubleParticipation/user/{userEmail}")
-    public String checkDoubleParticipation(@PathParam("userEmail") String userEmail, @PathParam("context") String context, @Context HttpServletRequest req) {
+    public String checkDoubleParticipation(@PathParam("userEmail") String userEmail, @Context HttpServletRequest req) {
         User user = new User(userEmail);
         return surveyProcess.isStudentInProject(user).toString();
     }
@@ -159,5 +171,17 @@ public class SurveyView {
                                       @Context HttpServletRequest req) {
         ParticipantsCount participantsCount = projectDAO.getParticipantCount(new Project(projectName));
         return Integer.toString(participantsCount.getParticipants());
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/projects/{projectName}/buildGroups")
+    public GroupData buildGroups(@PathParam("projectName") String  projectName)
+            throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+        Project project = new Project(projectName);
+        groupfinding.deleteGroups(project);
+        List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
+        groupfinding.persistGroups(groups, project);
+        return new GroupData(groups);
     }
 }

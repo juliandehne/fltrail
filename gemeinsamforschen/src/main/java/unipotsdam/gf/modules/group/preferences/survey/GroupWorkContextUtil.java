@@ -1,8 +1,5 @@
 package unipotsdam.gf.modules.group.preferences.survey;
 
-import unipotsdam.gf.modules.group.Group;
-import unipotsdam.gf.modules.project.Project;
-
 public class GroupWorkContextUtil {
     public static Boolean isSurveyContext(GroupWorkContext groupWorkContext) {
         return !groupWorkContext.equals(GroupWorkContext.fl) && !groupWorkContext.equals(GroupWorkContext.evaluation);
@@ -86,6 +83,20 @@ public class GroupWorkContextUtil {
             case fl_lausberg:
             case fl_lausberg_test:
             case dota_survey_a1:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public static Boolean isAutomatedGroupFormation(GroupWorkContext groupWorkContext) {
+        switch (groupWorkContext) {
+            case other_survey_a2:
+            case dota_survey_a1:
+            case dota_survey_a2:
+            case dota:
+            case dota_test:
+            case evaluation:
                 return true;
             default:
                 return false;
