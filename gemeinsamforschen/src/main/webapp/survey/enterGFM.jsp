@@ -37,6 +37,7 @@
         </ul>
     </nav>
     <div class="right" style="float:right;margin-top:20px;">
+        <a id="buildGroupsLink" style="cursor:pointer; margin-right:150px;">Gruppen speichern</a>
         <a id="logout" style="cursor:pointer">logout</a>
     </div>
 

@@ -139,15 +139,15 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public List<Project> getProjectsStudent(String studentEmail) {
-        if (studentEmail == null) {
+    public List<Project> getProjectsStudent(User user) {
+        if (user == null) {
             return null;
         }
         connect.connect();
         String mysqlRequest =
                 "SELECT projectName FROM projectuser WHERE userEmail=?";
         List<Project> result = new ArrayList<>();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, studentEmail);
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, user.getEmail());
         while (vereinfachtesResultSet.next()) {
             String project = vereinfachtesResultSet.getString("projectName");
             result.add(projectDAO.getProjectByName(project));

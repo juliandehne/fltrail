@@ -15,6 +15,7 @@ import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContextUtil;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
+import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
@@ -47,9 +48,12 @@ public class SurveyProcess {
     private EmailService emailService;
 
     @Inject
+    private Management iManagement;
+
+    @Inject
     private IGroupFinding groupfinding;
 
-    public void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext, ServletContextEvent sce)
+    public synchronized void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext, ServletContextEvent sce)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
             surveyMapper.saveData(data, project.getName(), req);
             List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
@@ -58,17 +62,17 @@ public class SurveyProcess {
                 groupfinding.persistGroups(groups, project);
                 phases.endPhase(Phase.GroupFormation, project);
 
-                for (User user : usersByProjectName) {
+                /*for (User user : usersByProjectName) {
                     EMailMessage message = Messages.SurveyGroupFormation(project, user.getEmail());
                     emailService.sendSingleMessage(message, user);
-                }
+                }*/
 
                 // schedule an group email, that in 30 days from having finished group formation
                 // an evaluation email is send out
-                if(GroupWorkContextUtil.isSurveyContext(groupWorkContext)) {
+                /*if(GroupWorkContextUtil.isSurveyContext(groupWorkContext)) {
                     Scheduler scheduler = new Scheduler(project, emailService);
                     scheduler.start(sce);
-                }
+                }*/
             }
         //}
     }
@@ -83,5 +87,10 @@ public class SurveyProcess {
         } else {
             return new Project(projectName);
         }
+    }
+
+    public Boolean isStudentInProject(User user){
+        List<Project> projects = iManagement.getProjectsStudent(user);
+        return projects != null && !projects.isEmpty();
     }
 }

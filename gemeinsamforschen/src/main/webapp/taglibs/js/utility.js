@@ -10,9 +10,7 @@ $(document).ready(function () {
             },
             success:function(){
                 let context = getQueryVariable("context");
-                if (context==="dota" ||
-                    context==="overwatch" ||
-                    context==="fl_survey"){
+                if (context!=="fl"){
                     document.location.reload();
                 }else{
                     let target = "index.jsp";

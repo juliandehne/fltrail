@@ -89,7 +89,7 @@ public interface Management {
 
     List<Project> getProjects(String userEmail);
 
-    List<Project> getProjectsStudent(String studentToken);
+    List<Project> getProjectsStudent(User user);
 
     List<Project> getAllProjects();
 

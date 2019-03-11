@@ -41,7 +41,9 @@ $(document).ready(function () {
             navSurvey.html("Umfrage");
         }
     }
-
+    $('#buildGroupsLink').on('click',function(){
+        location.href="saveGroups.jsp?context="+context+"&language="+language;
+    });
     if (userEmail) {
         let correctEmail="";
         let backToChar="";
@@ -55,7 +57,6 @@ $(document).ready(function () {
         }
         if (userEmail[userEmail.length-1] !== "-"){
             correctEmail += String.fromCharCode(backToChar);
-            backToChar="";
         }
         userEmail=correctEmail;
         preparePageToggle();
@@ -376,10 +377,31 @@ function openGroupView(userEmail) {
 function validateEmails(survey, options){
     if (options.name === "EMAIL1"){
         userEmail = options.value;
+        let context = getQueryVariable("context");
+        checkExistence(userEmail, context, function(exists){
+            if (exists === "true"){
+                options.error = "You already participated in a survey.";
+            }
+        });
     }
     if (options.name === "EMAIL2"){
         if (userEmail !== options.value){
             options.error = "The Email is not the same as the first one.";
         }
     }
+}
+
+function checkExistence(userEmail, context, callback){
+    $.ajax({
+        url: "../rest/survey/checkDoubleParticipation/user/"+userEmail,
+        headers: {
+            "Content-Type": "text/html",
+            "Cache-Control": "no-cache"
+        },
+        type: 'GET',
+        async: false,
+        success: function (response) {
+            callback(response);
+        }
+    });
 }
