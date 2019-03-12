@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <jsp:include page="../taglibs/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
@@ -13,16 +14,25 @@
     <link rel="stylesheet" href="../groupfinding/css/create-groups-manual.css">
     <script type="text/javascript" src="../libs/jquery/jqueryTemplate.js"></script>
     <script src="./js/saveGroupsSurvey.js"></script>
+    <link rel="stylesheet" href="./css/survey.css"/>
+
 </head>
 <body>
 <div class="row group" id="naviPagi">
-    <div class="alert alert-info" style="margin-top: 50px;">
+    <button class="btn btn-secondary" id="backToSurvey" onclick="history.back(-1)" />Zurück zum Survey</button>
+    <div class="alert alert-info" id="authenticationPanel">
         <label>Bitte geben sie das Passwort zur Gruppenbildung ein
             <input id="password" class="form-control">
         </label>
-        <button class="btn btn-primary" style="margin-top:10px;" id="btnBuildGroups">bestätigen</button>
+        <button class="btn btn-primary" id="btnBuildGroups">Gruppen bilden</button>
+    </div>
+    <div class="alert alert-danger" role="alert" id="wrongAuthentication">
+        Das Passwort ist falsch. Versuchen Sie es erneut!
     </div>
     <div id="eMailVerified">
+        <div class="alert alert-warning" role="alert" id="NoParticipantsInfo">
+            Es gibt noch keine Teilnehmer in diesem Projekt.
+        </div>
         <jsp:include page="../groupfinding/view-groups-body.jsp"/>
     </div>
 </div>
