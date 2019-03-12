@@ -16,17 +16,17 @@ $(document).ready(function () {
                         $('#groupsInProject').hide();
                         $('.groups-manual').hide();
                         $('#NoParticipantsInfo').show();
+                    } else {
+                        groupsToTemplate(groups, function (done) {
+                            $('#Gruppeneinteilung').show();
+                            $('#groupsHeadline').hide();
+                            $('#noGroupsYet').hide();
+                            $('#bisherKeineGruppen').hide();
+                            $('#groupsInProject').show();
+                            $('.groups-manual').show();
+                            $('#NoParticipantsInfo').hide();
+                        });
                     }
-                    groupsToTemplate(groups, function (done) {
-
-                        $('#Gruppeneinteilung').show();
-                        $('#groupsHeadline').hide();
-                        $('#noGroupsYet').hide();
-                        $('#bisherKeineGruppen').hide();
-                        $('#groupsInProject').show();
-                        $('.groups-manual').show();
-                        $('#NoParticipantsInfo').hide();
-                    });
                 });
 
                 // es wäre besser, wenn dies nicht in dem gruppen template enthalten wäre

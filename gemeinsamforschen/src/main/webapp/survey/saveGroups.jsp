@@ -26,11 +26,11 @@
         </label>
         <button class="btn btn-primary" id="btnBuildGroups">Gruppen bilden</button>
     </div>
-    <div class="alert alert-error" role="alert" id="wrongAuthentication">
+    <div class="alert alert-danger" role="alert" id="wrongAuthentication">
         Das Passwort ist falsch. Versuchen Sie es erneut!
     </div>
     <div id="eMailVerified">
-        <div class="alert alert-info" role="alert" id="NoParticipantsInfo">
+        <div class="alert alert-warning" role="alert" id="NoParticipantsInfo">
             Es gibt noch keine Teilnehmer in diesem Projekt.
         </div>
         <jsp:include page="../groupfinding/view-groups-body.jsp"/>

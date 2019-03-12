@@ -41,24 +41,24 @@ $(document).ready(function () {
             navSurvey.html("Umfrage");
         }
     }
-    $('#buildGroupsLink').on('click',function(){
-        location.href="saveGroups.jsp?context="+context+"&language="+language;
+    $('#buildGroupsLink').on('click', function () {
+        location.href = "saveGroups.jsp?context=" + context + "&language=" + language;
     });
     if (userEmail) {
-        let correctEmail="";
-        let backToChar="";
-        for (let i=0; i<userEmail.length; i++){
-            if (userEmail[i]!=="-"){
+        let correctEmail = "";
+        let backToChar = "";
+        for (let i = 0; i < userEmail.length; i++) {
+            if (userEmail[i] !== "-") {
                 backToChar += userEmail[i];
-            }else{
+            } else {
                 correctEmail += String.fromCharCode(backToChar);
-                backToChar="";
+                backToChar = "";
             }
         }
-        if (userEmail[userEmail.length-1] !== "-"){
+        if (userEmail[userEmail.length - 1] !== "-") {
             correctEmail += String.fromCharCode(backToChar);
         }
-        userEmail=correctEmail;
+        userEmail = correctEmail;
         preparePageToggle();
         $('#naviPagi').hide();
         openGroupView(userEmail);
@@ -158,7 +158,7 @@ $(document).ready(function () {
                         surveyJSON.pages[page].questions[question].isRequired = false;
                     }
                     if (questionText.includes('email') ||
-                        questionText.includes('E-Mail')){
+                        questionText.includes('E-Mail')) {
                         surveyJSON.pages[page].questions[question].validators = [{
                             type: "email"
                         }]
@@ -186,11 +186,11 @@ $(document).ready(function () {
         userEmail = survey.data.EMAIL1;
         serverSide(dataReq, "POST", function () {
             //log.warn(a);
-            let asciiMail= "";
-            for (let i=0; i<userEmail.length; i++){
-                asciiMail += userEmail[i].charCodeAt(0)+"-";
+            let asciiMail = "";
+            for (let i = 0; i < userEmail.length; i++) {
+                asciiMail += userEmail[i].charCodeAt(0) + "-";
             }
-            asciiMail=asciiMail.substring(0,asciiMail.length-1);
+            asciiMail = asciiMail.substring(0, asciiMail.length - 1);
             location.href = window.location.href + "&userEmail=" + asciiMail;
         })
     }
@@ -253,27 +253,31 @@ function selectableButtons(done) {
 }
 
 function authenticate(userEmail, callback) {
-    $.ajax({
-        url: "../rest/survey/user/" + userEmail,
-        headers: {
-            "Content-Type": "text/html",
-            "Cache-Control": "no-cache"
-        },
-        type: 'POST',
-        success: function (response) {
-            $('#emailDoesNotExistWarning').hide();
-            //Session.setAttribute(userEmail) happens on serverSide
-            if (response === "userEmail set") {
-                callback(response);
-            } else {
-                return callback(response === "userEmail set");
+    if (userEmail.trim() == "") {
+        $('#emailDoesNotExistWarning').show();
+    } else {
+        $.ajax({
+            url: "../rest/survey/user/" + userEmail,
+            headers: {
+                "Content-Type": "text/html",
+                "Cache-Control": "no-cache"
+            },
+            type: 'POST',
+            success: function (response) {
+                $('#emailDoesNotExistWarning').hide();
+                //Session.setAttribute(userEmail) happens on serverSide
+                if (response === "userEmail set") {
+                    callback(response);
+                } else {
+                    return callback(response === "userEmail set");
+                }
+            },
+            error: function (a) {
+                console.log("user Email existiert nicht");
+                $('#emailDoesNotExistWarning').show();
             }
-        },
-        error: function (a) {
-            console.log("user Email existiert nicht");
-            $('#emailDoesNotExistWarning').show();
-        }
-    });
+        });
+    }
 }
 
 function btnSetUserEmail() {
@@ -377,26 +381,26 @@ function openGroupView(userEmail) {
     });
 }
 
-function validateEmails(survey, options){
-    if (options.name === "EMAIL1"){
+function validateEmails(survey, options) {
+    if (options.name === "EMAIL1") {
         userEmail = options.value;
         let context = getQueryVariable("context");
-        checkExistence(userEmail, context, function(exists){
-            if (exists === "true"){
+        checkExistence(userEmail, context, function (exists) {
+            if (exists === "true") {
                 options.error = "You already participated in a survey.";
             }
         });
     }
-    if (options.name === "EMAIL2"){
-        if (userEmail !== options.value){
+    if (options.name === "EMAIL2") {
+        if (userEmail !== options.value) {
             options.error = "The Email is not the same as the first one.";
         }
     }
 }
 
-function checkExistence(userEmail, context, callback){
+function checkExistence(userEmail, context, callback) {
     $.ajax({
-        url: "../rest/survey/checkDoubleParticipation/user/"+userEmail,
+        url: "../rest/survey/checkDoubleParticipation/user/" + userEmail,
         headers: {
             "Content-Type": "text/html",
             "Cache-Control": "no-cache"
