@@ -90,6 +90,10 @@
                 <input id="userEmailGroupViewGer" class="form-control">
             </label>
             <button class="btn btn-primary" style="margin-top:10px;" id="btnSetUserEmailGer">bestätigen</button>
+            <div class="alert alert-danger" role="alert" id="emailDoesNotExistWarning">
+                Diese Email existiert nicht. Bitte nehmen Sie an der Umfrage teil / This Email does not exist. Please
+                enter the survey.
+            </div>
         </div>
         <div class="alert alert-info" id="ifNoUserIsSetEn">
             <label>Please enter your email:
@@ -101,6 +105,7 @@
     <div id="ifUserIsSet">
         <jsp:include page="../groupfinding/view-groups-body.jsp"/>
     </div>
+
 </div>
 
 </body>

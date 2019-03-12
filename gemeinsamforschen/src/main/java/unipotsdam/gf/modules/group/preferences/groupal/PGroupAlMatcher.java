@@ -39,6 +39,11 @@ public class PGroupAlMatcher extends GroupAlMatcher {
 
         int userCount = usersByProjectName.size();
 
+        // wenn es keine User in dem Projekt gibt, können wir direkt zurück kehren
+        if (userCount == 0) {
+            return new ArrayList<>();
+        }
+
         // if they are less then 6, we cant calculate much
         if (userCount < 6) {
             ArrayList<Group> groups = new ArrayList<>();

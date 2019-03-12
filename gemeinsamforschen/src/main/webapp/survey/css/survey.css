@@ -1,0 +1,27 @@
+
+#authenticationPanel{
+    margin-top: 50px;
+}
+
+button{
+    margin-top:10px !important;
+}
+
+#emailDoesNotExistWarning{
+    display: none;
+}
+
+#NoParticipantsInfo {
+    display: none;
+}
+
+.alert {
+    margin-top:30px;
+    margin-bottom:30px;
+}
+
+#wrongAuthentication {
+    display: none;
+}
+
+

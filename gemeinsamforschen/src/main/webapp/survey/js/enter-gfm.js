@@ -261,6 +261,7 @@ function authenticate(userEmail, callback) {
         },
         type: 'POST',
         success: function (response) {
+            $('#emailDoesNotExistWarning').hide();
             //Session.setAttribute(userEmail) happens on serverSide
             if (response === "userEmail set") {
                 callback(response);
@@ -269,6 +270,8 @@ function authenticate(userEmail, callback) {
             }
         },
         error: function (a) {
+            console.log("user Email existiert nicht");
+            $('#emailDoesNotExistWarning').show();
         }
     });
 }
