@@ -7,29 +7,31 @@ $(document).ready(function () {
         let encodedPass = context.hashCode();
         if (encodedPass == password) {
             $('#wrongAuthentication').hide();
+            $('#authenticationPanel').hide();
+            $('#eMailVerified').show();
 
             getProjectNameByContext(context, function (projectName) {
                 initializeOrGetGroups(projectName, function (groups) {
                     if (groups.length == 0) {
                         $('#groupsInProject').hide();
+                        $('.groups-manual').hide();
                         $('#NoParticipantsInfo').show();
-                    } else {
-                        $('#groupsInProject').show();
-                        $('#NoParticipantsInfo').hide();
                     }
                     groupsToTemplate(groups, function (done) {
+
+                        $('#Gruppeneinteilung').show();
+                        $('#groupsHeadline').hide();
+                        $('#noGroupsYet').hide();
+                        $('#bisherKeineGruppen').hide();
+                        $('#groupsInProject').show();
+                        $('.groups-manual').show();
+                        $('#NoParticipantsInfo').hide();
                     });
                 });
 
                 // es wäre besser, wenn dies nicht in dem gruppen template enthalten wäre
-                $('#authenticationPanel').hide();
-                $('#eMailVerified').show();
 
-                $('.groups-manual').hide();
-                /*$('#Gruppeneinteilung').hide();
-                $('#groupsHeadline').hide();
-                $('#noGroupsYet').hide();
-                $('#bisherKeineGruppen').hide();*/
+
             });
         } else {
             $('#wrongAuthentication').show();
