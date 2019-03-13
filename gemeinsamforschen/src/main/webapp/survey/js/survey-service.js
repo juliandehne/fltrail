@@ -76,15 +76,15 @@ function getAllGroups(callback) {
 }
 
 
-function getParticipantsNeeded1(context) {
+function getParticipantsNeeded1(context, callback) {
     let projq = new RequestObj(1, "/survey", "/project/name/?", [context], []);
     serverSide(projq, "GET", function (response) {
         projectId = response.name;
-        getParticipantsNeeded2(projectId);
+        getParticipantsNeeded2(projectId, callback);
     });
 }
 
-function getParticipantsNeeded2(projectId){
+function getParticipantsNeeded2(projectId, callback){
     $.ajax({
         url: "../rest/survey/participantCount/project/" + projectId,
         headers: {
@@ -99,6 +99,7 @@ function getParticipantsNeeded2(projectId){
             } else {
                 participantsMissing = result;
             }
+            callback(participantsMissing);
         },
         error: function () {
             participantsMissing = 0;

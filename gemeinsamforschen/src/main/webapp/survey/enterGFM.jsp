@@ -61,16 +61,18 @@
 
 <div class="row group">
     <div id="theSurvey" class="collapse">
-        <div id="messageHolder">No context selected!</div>
+        <div id="noSurveyContextMessage">No context selected!</div>
         <div id="surveyContainer"></div>
         <div id="resultLink"></div>
     </div>
 </div>
 <div id="theGroupView" class="collapse">
-    <div id="groupViewTemplateHolder"></div>
+
+    <!-- To see groups you need to be logged in. To log in, we have this div-->
+    <div id="groupViewLoginTemplateHolder"></div>
     <script type="text/x-jQuery-tmpl" id="groupViewTemplate">
         <div class="row group">
-            <div class="alert alert-info" id="ifNoUserIsSet">
+            <div class="alert alert-info">
                 <label>${enterEmail}
                     <input id="userEmailGroupView" class="form-control">
                 </label>
@@ -80,10 +82,77 @@
             </div>
         </div>
     </script>
-    <div id="ifUserIsSet">
-        <jsp:include page="../groupfinding/view-groups-body.jsp"/>
-    </div>
+    <!-- To see groups you need to be logged in. To log in, we have this div-->
 
+    <!-- You logged in successfully -->
+    <div id="groupsOrNoParticipantsMessage">
+        <div class="row group">
+
+            <!-- title -->
+            <div id="titleHolder"></div>
+            <script type="text/x-jQuery-tmpl" id="titleTemplate">
+            <h2 id="groupsHeadline">${computedGroups}</h2>
+        </script>
+            <!-- /title -->
+
+
+            <div class="col span_content span_2_of_2">
+
+                <!-- There are no groups built yet because there are not enough members -->
+                <div id="noGroupMessageHolder"></div>
+                <script type="text/x-jQuery-tmpl" id="noGroupTemplate">
+                <div class="alert alert-warning" id="noGroupsYet" style="display: block">
+                <div style="display:block">
+                    ${noGroupsYet}
+                    <p id="participantsMissing">${participantsMissing}</p>
+                    ${comeBackAfterMail}
+                </div>
+                <div style="display:flex">
+                    <input name="clpText" value="" readonly class="form-control-plaintext">
+                    <button onclick="clpSet();" class="btn btn-secondary"><i class="far fa-clipboard"></i></button>
+                </div>
+            </div>
+            </script>
+                <!-- /There are no groups built yet because there are not enough members -->
+
+                <div style="display: flex">
+                    <div style="display:block">
+
+                        <!-- There are groups and they will be displayed here -->
+                        <div class="list-group" style="display: flex; flex-wrap: wrap;" id="groupsInProject"></div>
+                        <script id="groupTemplate" type="text/x-jQuery-tmpl">
+                            <div style="" class="grouplists" id="${groupName}">
+                                <ul class="complex-list">
+                                    <li class="label">
+                                        <div type="button" class="list-group-item list-group-item-action">${groupName}</div>
+                                    </li>
+                                    {{each groupMember}}
+                                    <li>
+                                        <div type="button" name="student" class="list-group-item list-group-item-action">
+                                            <span>name: ${name}</span>
+                                            <p name="userEmail">E-mail: ${email}</p>
+                                            {{if discordid}}
+                                                <p name="discordId"> discordId: ${discordid}</p>
+                                            {{/if}}
+                                        </div>
+                                    </li>
+                                    {{/each}}
+                                    <li>
+                                        <p name="chatRoomId" hidden>${chatRoomId}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </script>
+                        <!-- /There are groups and they will be displayed here -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /You logged in successfully -->
+
+
+    </div>
 </div>
 
 </body>

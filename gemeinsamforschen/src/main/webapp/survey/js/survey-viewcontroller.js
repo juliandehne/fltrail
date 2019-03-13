@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     // set defaults
     if (!context) {
-        context = "fl_survey_test";
+        context = "fl_test";
     }
 
     if (!language) {
@@ -108,9 +108,8 @@ function printNavi(naviObject) {
 
 function printGroupView(groupViewLoginObject, titleObject){
     // calculate missing participants
-    getParticipantsNeeded1(context);
 
-    $('#groupViewTemplate').tmpl(groupViewLoginObject).appendTo('#groupViewTemplateHolder');
+    $('#groupViewTemplate').tmpl(groupViewLoginObject).appendTo('#groupViewLoginTemplateHolder');
     $('#emailDoesNotExistWarning').hide();
     $('#titleTemplate').tmpl(titleObject).appendTo('#titleHolder');
     $('#titleHolder').hide();
@@ -147,7 +146,6 @@ function showGroupView() {
     resetNaviSelections();
     $('#theGroupView').toggleClass("in");
     $('#navLiGroupView').toggleClass("active");
-    openGroupView("");
     $('#navBtnNext').attr('className', 'page-item disabled');
 }
 
@@ -180,24 +178,22 @@ function nextView() {
     }
 }
 
-function checkUserEmailForDirectLink(userEmail) {
-    if (userEmail) {
+function checkUserEmailForDirectLink(encodedEmail) {
+    if (encodedEmail) {
         let correctEmail = "";
         let backToChar = "";
-        for (let i = 0; i < userEmail.length; i++) {
-            if (userEmail[i] !== "-") {
-                backToChar += userEmail[i];
+        for (let i = 0; i < encodedEmail.length; i++) {
+            if (encodedEmail[i] !== "-") {
+                backToChar += encodedEmail[i];
             } else {
                 correctEmail += String.fromCharCode(backToChar);
                 backToChar = "";
             }
         }
-        if (userEmail[userEmail.length - 1] !== "-") {
+        if (encodedEmail[encodedEmail.length - 1] !== "-") {
             correctEmail += String.fromCharCode(backToChar);
         }
         userEmail = correctEmail;
-        //$('#naviPagi').hide();
-        openGroupView(userEmail);
     }
 }
 
@@ -205,6 +201,10 @@ function checkUserEmailForDirectLink(userEmail) {
 // ################# Survey Functions #############################
 
 function prepareSurvey() {
+    $('#noSurveyContextMessage').hide();
+    if (!context) {
+        $('#noSurveyContextMessage').show();
+    }
     Survey
         .StylesManager
         .applyTheme("default");
@@ -246,7 +246,7 @@ function validateEmails(survey, options) {
 
 // #################### Group Functions #############################
 
-function groupsToTemplate(allGroups, callback) {
+function groupsToTemplate(allGroups) {
     let groupTmplObject = [];
     $('#groupsInProject').html("");
     for (let group = 0; group < allGroups.length; group++) {
@@ -257,23 +257,42 @@ function groupsToTemplate(allGroups, callback) {
         });
     }
     $('#groupTemplate').tmpl(groupTmplObject).appendTo('#groupsInProject');
-    let done = true;
-    callback(done);
 }
 
 
 function prepareGroupTab(){
-
     // only display email
     toggleLoginWithGroups();
 
-    // if email is set in url
+    //if email is set in url
+    if (userEmail){
+        authenticate(userEmail, function (exists) {
+            showErrorMessageOrGroupView(exists);
+        });
+    }
 
+    // if email is not set in url
     $('#btnSetUserEmail').on('click', function(){
-
+        userEmail = $('#userEmailGroupView').val();
+        authenticate(userEmail, function (exists) {
+            showErrorMessageOrGroupView(exists);
+        })
     })
 }
 
+/**
+ * if use does not exist, show message
+ * if he does toggle the login field and display groups
+ * @param exists
+ */
+function showErrorMessageOrGroupView(exists = true) {
+    if (!exists) {
+        $('#emailDoesNotExistWarning').show();
+    } else {
+        $('#emailDoesNotExistWarning').hide();
+        toggleLoginWithGroups(false);
+    }
+}
 
 /**
  * on the page either the login field or the group information
@@ -281,11 +300,14 @@ function prepareGroupTab(){
  */
 function toggleLoginWithGroups(loginActive = true){
     if (loginActive) {
-        $('#ifUserIsSet').hide();
-        $('#groupViewTemplateHolder').show();
+        $('#groupsOrNoParticipantsMessage').hide();
+        $('#groupViewLoginTemplateHolder').show();
     } else {
-        $('#ifUserIsSet').show();
-        $('#groupViewTemplateHolder').hide();
+        $('#groupsOrNoParticipantsMessage').show();
+        $('#groupViewLoginTemplateHolder').hide();
+        getParticipantsNeeded1(context, function(participantsMissing){
+            toggleGroup(participantsMissing===0);
+        });
     }
 }
 
@@ -296,9 +318,10 @@ function toggleLoginWithGroups(loginActive = true){
 function toggleGroup(groupsAreCalculated = false) {
     if (groupsAreCalculated) {
         $('#groupsInProject').show();
-        $('#noGroupsYet').hide();
+        $('#noGroupMessageHolder').hide();
+        getAllGroups(groupsToTemplate);
     } else {
         $('#groupsInProject').hide();
-        $('#noGroupsYet').show();
+        $('#noGroupMessageHolder').show();
     }
 }

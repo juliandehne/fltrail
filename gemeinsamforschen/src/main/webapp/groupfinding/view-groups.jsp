@@ -22,7 +22,7 @@
 <div class="row group nav">
     <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> zurück zu den Aufgaben</i></a>
 </div>
-<jsp:include page="view-groups-body.jsp"/>
+<!-- <jsp:include page="view-groups-body.jsp"/> todo repair me please-->
 <jsp:include page="../taglibs/footer.jsp"/>
 </body>
 </html>
