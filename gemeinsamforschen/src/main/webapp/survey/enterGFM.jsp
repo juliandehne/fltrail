@@ -26,7 +26,7 @@
     <nav aria-label="..." style="float:left">
         <ul class="pagination">
             <li class="page-item disabled" id="navBtnPrev">
-                <a class="page-link" id="btnPrev"><-</a>
+                <a class="page-link" id="btnPrev"><i class="fas fa-arrow-left"></i></i></a>
             </li>
             <li class="page-item active" id="navLiTextPage">
                 <a class="page-link" id="navTextPage">${introduction}</a>
@@ -38,7 +38,7 @@
                 <a class="page-link" id="navGroupView">${groups}</a>
             </li>
             <li class="page-item" id="navBtnNext">
-                <a class="page-link" id="btnNext">-></a>
+                <a class="page-link" id="btnNext"><i class="fas fa-arrow-right"></i></a>
             </li>
         </ul>
     </nav>
@@ -67,24 +67,19 @@
     </div>
 </div>
 <div id="theGroupView" class="collapse">
-    <div class="row group">
-        <div class="alert alert-info" id="ifNoUserIsSetGer">
-            <label>Bitte geben Sie Ihre E-Mail an:
-                <input id="userEmailGroupViewGer" class="form-control">
-            </label>
-            <button class="btn btn-primary" style="margin-top:10px;" id="btnSetUserEmailGer">bestätigen</button>
+    <div id="groupViewTemplateHolder"></div>
+    <script type="text/x-jQuery-tmpl" id="groupViewTemplate">
+        <div class="row group">
+            <div class="alert alert-info" id="ifNoUserIsSet">
+                <label>${enterEmail}
+                    <input id="userEmailGroupView" class="form-control">
+                </label>
+                <button class="btn btn-primary" style="margin-top:10px;" id="btnSetUserEmail">${submit}</button>
             <div class="alert alert-danger" role="alert" id="emailDoesNotExistWarning">
-                Diese Email existiert nicht. Bitte nehmen Sie an der Umfrage teil / This Email does not exist. Please
-                enter the survey.
+                ${emailDoesntExist}
             </div>
         </div>
-        <div class="alert alert-info" id="ifNoUserIsSetEn">
-            <label>Please enter your email:
-                <input id="userEmailGroupViewEn" class="form-control">
-            </label>
-            <button class="btn btn-primary" style="margin-top:10px;" id="btnSetUserEmailEn">submit</button>
-        </div>
-    </div>
+    </script>
     <div id="ifUserIsSet">
         <jsp:include page="../groupfinding/view-groups-body.jsp"/>
     </div>

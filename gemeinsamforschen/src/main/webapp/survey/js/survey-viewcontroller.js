@@ -1,6 +1,11 @@
+// context variables
 let language = "";
 let userEmail;
 let context;
+
+// placeholders
+let participantsMissing = 30;
+
 
 // ##############################################################################
 // ####################### LOGIC ################################################
@@ -28,24 +33,36 @@ $(document).ready(function () {
     // ############## Translations ###############################
     let welcomeObject;
     let naviObject;
+    let groupViewLoginObject;
+    let titleObject;
+    let noGroupObject;
+
+
 
     if (language == 'en') {
         welcomeObject = [{
             welcomeTitle: welcomeTitleEN,
             welcomeText: welcomeTextEN
-        }]
+        }];
         naviObject = navEN;
+        groupViewLoginObject = groupViewLoginEN;
+        titleObject = computedGroupsEN;
+        noGroupObject = noGroupsMessageEN(participantsMissing);
     } else {
         welcomeObject = [{
             welcomeTitle: welcomeTitleDE,
             welcomeText: welcomeTextDE
-        }]
+        }];
         naviObject = navDE;
+        groupViewLoginObject = groupViewLoginDE;
+        titleObject = computedGroupsDE;
+        noGroupObject = noGroupsMessageDE(participantsMissing);
     }
 
     // print templates
     printWelcomeText(welcomeObject);
     printNavi(naviObject);
+    printGroupView(groupViewLoginObject, titleObject);
 
     // ############## Navigation ###############################
     // activate the group link
@@ -69,6 +86,7 @@ $(document).ready(function () {
 
     // survey tab
     prepareSurvey();
+    prepareGroupTab();
 
 });
 
@@ -86,6 +104,16 @@ function printWelcomeText(welcomeObject) {
 
 function printNavi(naviObject) {
     $('#navigationTemplate').tmpl(naviObject).appendTo('#navigationTemplateHolder');
+}
+
+function printGroupView(groupViewLoginObject, titleObject){
+    // calculate missing participants
+    getParticipantsNeeded1(context);
+
+    $('#groupViewTemplate').tmpl(groupViewLoginObject).appendTo('#groupViewTemplateHolder');
+    $('#emailDoesNotExistWarning').hide();
+    $('#titleTemplate').tmpl(titleObject).appendTo('#titleHolder');
+    $('#titleHolder').hide();
 }
 
 // navigation functions
@@ -108,7 +136,7 @@ function showIntroduction() {
     resetNaviSelections();
     $('#welcomeTextHolder').toggleClass("in");
     $('#navLiTextPage').toggleClass("active");
-    document.getElementById('navBtnPrev').className = "page-item disabled";
+    $('#navBtnPrev').attr('className', 'page-item disabled');
 }
 
 /**
@@ -120,7 +148,7 @@ function showGroupView() {
     $('#theGroupView').toggleClass("in");
     $('#navLiGroupView').toggleClass("active");
     openGroupView("");
-    document.getElementById("navBtnNext").className = "page-item disabled";
+    $('#navBtnNext').attr('className', 'page-item disabled');
 }
 
 // displays the survey tab
@@ -134,19 +162,9 @@ function showSurveyView() {
 function prevView() {
     let activeDiv = $('.collapse.in')[0];
     if ($(activeDiv).attr("id") === "theGroupView") {
-        $('#theSurvey').toggleClass("in");
-        $('#navLiSurvey').toggleClass("active");
+        showSurveyView();
     } else {
-        $('#theTextPage').toggleClass("in");
-        if (language === 'en') {
-            $('#theTextPageEn').toggleClass("in");
-        } else {
-            if (language === 'de') {
-                $('#theTextPageGer').toggleClass("in");
-            }
-        }
-        $('#navLiTextPage').toggleClass("active");
-        document.getElementById('navBtnPrev').className = "page-item disabled";
+        showIntroduction();
     }
 }
 
@@ -208,6 +226,23 @@ function loadSurvey(surveyJSON){
     });
 }
 
+function validateEmails(survey, options) {
+    if (options.name === "EMAIL1") {
+        userEmail = options.value;
+        let context = getQueryVariable("context");
+        checkExistence(userEmail, context, function (exists) {
+            if (exists === "true") {
+                options.error = "You already participated in a survey.";
+            }
+        });
+    }
+    if (options.name === "EMAIL2") {
+        if (userEmail !== options.value) {
+            options.error = "The Email is not the same as the first one.";
+        }
+    }
+}
+
 
 // #################### Group Functions #############################
 
@@ -224,4 +259,46 @@ function groupsToTemplate(allGroups, callback) {
     $('#groupTemplate').tmpl(groupTmplObject).appendTo('#groupsInProject');
     let done = true;
     callback(done);
+}
+
+
+function prepareGroupTab(){
+
+    // only display email
+    toggleLoginWithGroups();
+
+    // if email is set in url
+
+    $('#btnSetUserEmail').on('click', function(){
+
+    })
+}
+
+
+/**
+ * on the page either the login field or the group information
+ * is displayed
+ */
+function toggleLoginWithGroups(loginActive = true){
+    if (loginActive) {
+        $('#ifUserIsSet').hide();
+        $('#groupViewTemplateHolder').show();
+    } else {
+        $('#ifUserIsSet').show();
+        $('#groupViewTemplateHolder').hide();
+    }
+}
+
+/**
+ * if the groups are calculated, they are displayed,
+ * else: the current number of participants
+ */
+function toggleGroup(groupsAreCalculated = false) {
+    if (groupsAreCalculated) {
+        $('#groupsInProject').show();
+        $('#noGroupsYet').hide();
+    } else {
+        $('#groupsInProject').hide();
+        $('#noGroupsYet').show();
+    }
 }

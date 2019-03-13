@@ -76,6 +76,37 @@ function getAllGroups(callback) {
 }
 
 
+function getParticipantsNeeded1(context) {
+    let projq = new RequestObj(1, "/survey", "/project/name/?", [context], []);
+    serverSide(projq, "GET", function (response) {
+        projectId = response.name;
+        getParticipantsNeeded2(projectId);
+    });
+}
+
+function getParticipantsNeeded2(projectId){
+    $.ajax({
+        url: "../rest/survey/participantCount/project/" + projectId,
+        headers: {
+            "Content-Type": "text/html",
+            "Cache-Control": "no-cache"
+        },
+        type: 'GET',
+        success: function (numberOfParticipants) {
+            let result = 0;
+            if (30 - numberOfParticipants < 0) {
+                participantsMissing = result;
+            } else {
+                participantsMissing = result;
+            }
+        },
+        error: function () {
+            participantsMissing = 0;
+        }
+    });
+
+}
+
 // ###################### User Management ############################################
 
 
@@ -120,3 +151,4 @@ function checkExistence(userEmail, context, callback) {
         }
     });
 }
+

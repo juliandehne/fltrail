@@ -31,29 +31,25 @@
 
 <main class="groups-manual">
     <div class="row group">
-        <h2 id="Gruppeneinteilung">Gruppeneinteilung</h2>
-        <h2 id="groupsHeadline">Computed Groups</h2>
+        <div id="titleHolder"></div>
+        <script type="text/x-jQuery-tmpl" id="titleTemplate">
+            <h2 id="groupsHeadline">${computedGroups}</h2>
+        </script>
         <div class="col span_content span_2_of_2">
-            <div class="alert alert-warning" id="noGroupsYet" style="display: block">
+            <div id="noGroupHolder"></div>
+            <script type="text/x-jQuery-tmpl" id="noGroupTemplate">
+                <div class="alert alert-warning" id="noGroupsYet" style="display: block">
                 <div style="display:block">
-                    There are no groups built yet.<br>
-                    <p id="participantsMissing"></p>
-                    Please come back to this page after you get an E-Mail, that groups where built.<br>
+                    ${noGroupsYet}
+                    <p id="participantsMissing">${participantsMissing}</p>
+                    ${comeBackAfterMail}
                 </div>
                 <div style="display:flex">
                     <input name="clpText" value="" readonly class="form-control-plaintext">
                     <button onclick="clpSet();" class="btn btn-secondary"><i class="far fa-clipboard"></i></button>
                 </div>
             </div>
-            <div class="alert alert-warning" id="bisherKeineGruppen">
-                Die Gruppen wurden noch nicht gebildet.<br>
-                <p id="teilnehmerFehlend"></p>
-                Bitte kommen sie zu dieser Seite zurück nachdem sie eine E-Mail diesbezüglich bekommen haben.
-                <div style="display:flex; margin-top: 20px;">
-                    <input name="clpText" value="" readonly class="form-control-plaintext" size="80">
-                    <button onclick="clpSet();" class="btn btn-primary" style="margin-left:10px;"><i class="far fa-clipboard"></i></button>
-                </div>
-            </div>
+            </script>
             <div style="display: flex">
                 <div style="display:block">
                     <div class="list-group" style="display: flex; flex-wrap: wrap;" id="groupsInProject">

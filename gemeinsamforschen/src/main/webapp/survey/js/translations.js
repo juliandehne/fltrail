@@ -29,8 +29,51 @@ let navDE = [{
     survey: "Umfrage",
     persist: "Admin",
     logout: "ausloggen"
-}]
+}];
+
+let groupViewLoginEN = [{
+    enterEmail: "Please enter your Email here:",
+    submit: "submit",
+    emailDoesntExist: "This Email does not exists. Please participate in the survey first."
+}];
+
+let groupViewLoginDE = [{
+    enterEmail: "Bitte geben sie ihre Email hier ein:",
+    submit: "bestätigen",
+    emailDoesntExist: "Diese Email existiert nicht. Bitte nehmen Sie an der Umfrage teil."
+}];
+
+let computedGroupsEN = [{
+    computedGroups: "Computed Groups",
+}];
+
+let computedGroupsDE = [{
+    computedGroups: "Gruppeneinteilung",
+}];
 
 
+function noGroupsMessageEN(participantsNeeded) {
+    let noGroupsEN = [{
+        noGroupsYet: "There are no groups built yet.",
+        participantsMissing: messageParticipantsNeededEN(participantsNeeded),
+        comeBackAfterMail: "Please come back to this page after you get an E-Mail, that groups where built.",
+    }];
+    return noGroupsEN;
+}
 
+function noGroupsMessageDE(participantsNeeded) {
+    let noGroupsDE = [{
+        noGroupsYet: "Es wurden noch keine Gruppen gebildet.",
+        participantsMissing: messageParticipantsNeededDE(participantsNeeded),
+        comeBackAfterMail: "Kommen sie auf diese Seite zurück nachdem sie eine EMail bekommen haben.",
+    }];
+    return noGroupsDE;
+}
 
+function messageParticipantsNeededDE(participantsNeeded) {
+    return "They are still " + participantsNeeded + " participants missing to form groups.";
+}
+
+function messageParticipantsNeededEN(participantsNeeded) {
+    return "Es fehlen noch " + participantsNeeded + " Teilnehmer um die Gruppen zu bilden.";
+}
