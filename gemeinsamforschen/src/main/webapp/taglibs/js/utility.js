@@ -11,7 +11,9 @@ $(document).ready(function () {
             success:function(){
                 let context = getQueryVariable("context");
                 if (context!=="fl"){
-                    document.location.reload();
+                    //document.location.reload();
+                    updateURLParameter(document.location.href, "userEmail", "");
+
                 }else{
                     let target = "index.jsp";
                     document.location = changeLocationTo(target);
@@ -30,6 +32,32 @@ $(document).ready(function () {
         goBack();
     });
 });
+
+
+
+
+/**
+ * http://stackoverflow.com/a/10997390/11236
+ */
+function updateURLParameter(url, param, paramVal){
+    var newAdditionalURL = "";
+    var tempArray = url.split("?");
+    var baseURL = tempArray[0];
+    var additionalURL = tempArray[1];
+    var temp = "";
+    if (additionalURL) {
+        tempArray = additionalURL.split("&");
+        for (var i=0; i<tempArray.length; i++){
+            if(tempArray[i].split('=')[0] != param){
+                newAdditionalURL += temp + tempArray[i];
+                temp = "&";
+            }
+        }
+    }
+
+    var rows_txt = temp + "" + param + "=" + paramVal;
+    return baseURL + "?" + newAdditionalURL + rows_txt;
+}
 
 function changeLocationTo(target) {
     let level = $('#hierarchyLevel').html().trim();

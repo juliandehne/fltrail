@@ -177,6 +177,7 @@ public class SurveyView {
     public List<Group> buildGroups(@PathParam("projectName") String  projectName)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         Project project = new Project(projectName);
+        // todo set GroupWorkContext
         groupfinding.deleteGroups(project);
         List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
         groupfinding.persistGroups(groups, project);

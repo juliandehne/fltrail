@@ -9,6 +9,9 @@ $(document).ready(function () {
         }
     });
 
+    // todo why do we need this?
+    $('#naviPagi').show();
+
     let messageHolder = $('#messageHolder');
     language = getQueryVariable("language");
     let context = getQueryVariable("context");
@@ -60,7 +63,7 @@ $(document).ready(function () {
         }
         userEmail = correctEmail;
         preparePageToggle();
-        $('#naviPagi').hide();
+        //$('#naviPagi').hide();
         openGroupView(userEmail);
     }
     messageHolder.hide();
@@ -254,7 +257,7 @@ function selectableButtons(done) {
 
 function authenticate(userEmail, callback) {
     if (userEmail.trim() == "") {
-        $('#emailDoesNotExistWarning').show();
+        callback(false);
     } else {
         $.ajax({
             url: "../rest/survey/user/" + userEmail,
@@ -264,17 +267,16 @@ function authenticate(userEmail, callback) {
             },
             type: 'POST',
             success: function (response) {
-                $('#emailDoesNotExistWarning').hide();
                 //Session.setAttribute(userEmail) happens on serverSide
                 if (response === "userEmail set") {
                     callback(response);
                 } else {
-                    return callback(response === "userEmail set");
+                    callback(response === "userEmail set");
                 }
             },
             error: function (a) {
                 console.log("user Email existiert nicht");
-                $('#emailDoesNotExistWarning').show();
+                callback(false);
             }
         });
     }
@@ -289,36 +291,41 @@ function btnSetUserEmail() {
             userEmail = $('#userEmailGroupViewGer').val();
         }
     }
-    authenticate(userEmail, function () {
-        $('#ifNoUserIsSet').hide();
-        $('#ifNoUserIsSetEn').hide();
-        $('#ifUserIsSet').show();
-        getAllGroups(function (allGroups) {
-            if (allGroups.length === 0) {
-                if (language === "en") {
-                    $('#noGroupsYet').show();
-                    $('#groupsHeadline').show();
-                    $('#bisherKeineGruppen').hide();
-                    $('#Gruppeneinteilung').hide();
+    authenticate(userEmail, function (loggedIn) {
+        if (!loggedIn) {
+            $("#emailDoesNotExistWarning").show();
+        } else {
+            $("#emailDoesNotExistWarning").hide();
+
+            $('#ifNoUserIsSet').hide();
+            $('#ifNoUserIsSetEn').hide();
+            $('#ifUserIsSet').show();
+            getAllGroups(function (allGroups) {
+                if (allGroups.length === 0) {
+                    if (language === "en") {
+                        $('#noGroupsYet').show();
+                        $('#groupsHeadline').show();
+                        $('#bisherKeineGruppen').hide();
+                        $('#Gruppeneinteilung').hide();
+                    } else {
+                        $('#bisherKeineGruppen').show();
+                        $('#Gruppeneinteilung').show();
+                        $('#noGroupsYet').hide();
+                        $('#groupsHeadline').hide();
+                    }
                 } else {
-                    $('#bisherKeineGruppen').show();
-                    $('#Gruppeneinteilung').show();
-                    $('#noGroupsYet').hide();
-                    $('#groupsHeadline').hide();
+                    groupsToTemplate(allGroups, function (done) {
+                        selectableButtons(done);
+                    });
                 }
-            } else {
-                groupsToTemplate(allGroups, function (done) {
-                    selectableButtons(done);
-                });
-            }
-        });
+            });
+        }
     });
 }
 
 function openGroupView(userEmail) {
-    $('#theGroupView').toggleClass("in");
-    $('#navLiGroupView').toggleClass("active");
     authenticate(userEmail, function (loggedin) {
+
         if (!loggedin) {
             $('#ifUserIsSet').hide();
             if (language === 'en') {
