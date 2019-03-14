@@ -1,5 +1,7 @@
 
 
+// ############## survey functions ############################
+
 /**
  * send the survey data to the server
  * @param survey
@@ -75,6 +77,23 @@ function getAllGroups(callback) {
     });
 }
 
+// fetches the initialized groups from the backend
+function initializeOrGetGroups(projectName, callback) {
+    $.ajax({
+        url: "../rest/survey/projects/" + projectName + "/buildGroups",
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        type: 'POST',
+        success: function (groups) {
+            callback(groups);
+        },
+        error: function (a) {
+            callback([]);
+        }
+    });
+}
 
 function getParticipantsNeeded1(context, callback) {
     let projq = new RequestObj(1, "/survey", "/project/name/?", [context], []);
@@ -152,4 +171,41 @@ function checkExistence(userEmail, context, callback) {
         }
     });
 }
+
+
+// ########################### project functions #################################
+
+function getProjectNameByContext(context, callback) {
+    $.ajax({
+        url: "../rest/survey/project/name/" + context,
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        type: 'GET',
+        success: function (projectName) {
+            callback(projectName.name);
+        },
+        error: function (a) {
+        }
+    });
+}
+
+
+
+/*
+function groupsToTemplate(allGroups, callback) {
+    let groupTmplObject = [];
+    for (let group = 0; group < allGroups.length; group++) {
+        groupTmplObject.push({
+            groupName: "group" + group,
+            groupMember: allGroups[group].members,
+            chatRoomId: allGroups[group].chatRoomId,
+        });
+    }
+    $('#groupTemplate').tmpl(groupTmplObject).appendTo('#groupsInProject');
+    let done = true;
+    callback(done);
+}
+*/
 

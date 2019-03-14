@@ -1,3 +1,4 @@
+/*
 let projectId = "";
 let language = "";
 let userEmail;
@@ -418,4 +419,4 @@ function checkExistence(userEmail, context, callback) {
             callback(response);
         }
     });
-}
+}*/

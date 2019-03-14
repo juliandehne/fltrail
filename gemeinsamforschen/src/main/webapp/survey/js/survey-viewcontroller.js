@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     // set defaults
     if (!context) {
-        context = "fl_test";
+        context = "dota_test";
     }
 
     if (!language) {

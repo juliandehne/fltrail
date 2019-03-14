@@ -13,7 +13,9 @@
     <script src="js/survey.jquery.1.0.60.min.js"></script>
     <link rel="stylesheet" href="../groupfinding/css/create-groups-manual.css">
     <script type="text/javascript" src="../libs/jquery/jqueryTemplate.js"></script>
-    <script src="./js/saveGroupsSurvey.js"></script>
+
+    <script  type="text/javascript" src="./js/survey-service.js"></script>
+    <script  type="text/javascript" src="./js/saveGroupsSurvey.js"></script>
     <link rel="stylesheet" href="./css/survey.css"/>
 
 </head>
