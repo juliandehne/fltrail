@@ -102,4 +102,18 @@ public class GroupWorkContextUtil {
                 return false;
         }
     }
+
+    public static int getParticipantNeeded(GroupWorkContext context) {
+        switch (context) {
+            case fl:
+                return -1;
+            case dota_survey_a1:
+            case dota_survey_a2:
+            case dota:
+            case dota_test:
+                return 30;
+            default:
+                return 2;
+        }
+    }
 }

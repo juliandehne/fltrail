@@ -5,7 +5,11 @@ public class ParticipantsCount {
     private int participantsNeeded;
     private String dataName;
 
+
     private static String PARTICIPANT_COUNT_NAME="PARTICIPANT_COUNT_NAME";
+
+    public ParticipantsCount() {
+    }
 
     public ParticipantsCount(int count, int participantsNeeded) {
         this.dataName = PARTICIPANT_COUNT_NAME;

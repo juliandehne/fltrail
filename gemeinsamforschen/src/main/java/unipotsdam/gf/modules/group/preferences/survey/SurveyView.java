@@ -162,12 +162,39 @@ public class SurveyView {
         return surveyProcess.isStudentInProject(user).toString();
     }
 
+    /**
+     * participant count
+     * @param projectName
+     * @param req
+     * @return
+     */
     @GET
     @Path("/participantCount/project/{projectName}")
     public String getParticipantCount(@PathParam("projectName") String projectName,
                                       @Context HttpServletRequest req) {
         ParticipantsCount participantsCount = projectDAO.getParticipantCount(new Project(projectName));
         return Integer.toString(participantsCount.getParticipants());
+    }
+
+    /**
+     * participant needed count
+     * @param projectName
+     * @param req
+     * @return
+     */
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/participantCountNeeded/project/{projectName}/context/{context}")
+    public ParticipantsCount getParticipantNeededCount(@PathParam("projectName") String projectName, @PathParam("context")
+            String context, @Context HttpServletRequest req) {
+
+        int needed = GroupWorkContextUtil.getParticipantNeeded(GroupWorkContext.valueOf(context));
+        ParticipantsCount participantsCount = projectDAO.getParticipantCount(new Project(projectName));
+
+        if (needed >= 0) {
+            participantsCount.setParticipantsNeeded(needed);
+        }
+        return participantsCount;
     }
 
     @POST

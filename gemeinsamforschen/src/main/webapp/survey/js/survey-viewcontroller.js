@@ -3,9 +3,6 @@ let language = "";
 let userEmail;
 let context;
 
-// placeholders
-let participantsMissing = 30;
-
 
 // ##############################################################################
 // ####################### LOGIC ################################################
@@ -16,14 +13,11 @@ $(document).ready(function () {
     // ############## Context ##################################
     language = getQueryVariable("language");
     context = getQueryVariable("context");
-    userEmail = getQueryVariable("userEmail");
-
-    // ############## REDIRECTS #################################
-    checkUserEmailForDirectLink(userEmail);
+    userEmail = convertEncodedEmail(getQueryVariable("userEmail"));
 
     // set defaults
     if (!context) {
-        context = "fl_test";
+        context = "dota_test";
     }
 
     if (!language) {
@@ -35,8 +29,6 @@ $(document).ready(function () {
     let naviObject;
     let groupViewLoginObject;
     let titleObject;
-    let noGroupObject;
-
 
 
     if (language == 'en') {
@@ -47,7 +39,7 @@ $(document).ready(function () {
         naviObject = navEN;
         groupViewLoginObject = groupViewLoginEN;
         titleObject = computedGroupsEN;
-        noGroupObject = noGroupsMessageEN(participantsMissing);
+
     } else {
         welcomeObject = [{
             welcomeTitle: welcomeTitleDE,
@@ -56,7 +48,6 @@ $(document).ready(function () {
         naviObject = navDE;
         groupViewLoginObject = groupViewLoginDE;
         titleObject = computedGroupsDE;
-        noGroupObject = noGroupsMessageDE(participantsMissing);
     }
 
     // print templates
@@ -83,11 +74,15 @@ $(document).ready(function () {
     $('#btnPrev').on('click', prevView);
     $('#btnNext').on('click', nextView);
 
+    $("#logout").on('click', logout);
+
 
     // survey tab
     prepareSurvey();
     prepareGroupTab();
 
+    // ############## REDIRECTS #################################
+    checkUserEmailForDirectLink();
 });
 
 
@@ -98,7 +93,7 @@ $(document).ready(function () {
 
 // template functions
 function printWelcomeText(welcomeObject) {
-  $('#welcomeTextTemplate').tmpl(welcomeObject).appendTo('#welcomeTextHolder');
+    $('#welcomeTextTemplate').tmpl(welcomeObject).appendTo('#welcomeTextHolder');
 }
 
 
@@ -106,16 +101,29 @@ function printNavi(naviObject) {
     $('#navigationTemplate').tmpl(naviObject).appendTo('#navigationTemplateHolder');
 }
 
-function printGroupView(groupViewLoginObject, titleObject){
-    // calculate missing participants
-
+function printGroupView(groupViewLoginObject, titleObject) {
     $('#groupViewTemplate').tmpl(groupViewLoginObject).appendTo('#groupViewLoginTemplateHolder');
     $('#emailDoesNotExistWarning').hide();
     $('#titleTemplate').tmpl(titleObject).appendTo('#titleHolder');
     $('#titleHolder').hide();
+
+    // paint the participant needed box
+    getParticipantsNeeded1(context, function (participantsNeededObj) {
+        paintNoGroupsBuildMessage(participantsNeededObj);
+    })
 }
 
 // navigation functions
+
+function redirectToGroupView(email) {
+    showGroupView()
+}
+
+
+function logout() {
+    location.href = "./enterGFM.jsp?context=" + context + "&language=" + language;
+}
+
 function resetNaviSelections() {
     let collapsable = $('.collapse');
     let navi = $('.page-item');
@@ -168,17 +176,16 @@ function prevView() {
 
 function nextView() {
     let activeDiv = $('.collapse.in')[0];
-    preparePageToggle();
-    if ($(activeDiv).attr("id") === "theTextPageGer" || $(activeDiv).attr("id") === "theTextPageEn") {
-        $('#theSurvey').toggleClass("in");
-        $('#navLiSurvey').toggleClass("active");
-    } else {
-        openGroupView("");
-        document.getElementById("navBtnNext").className = "page-item disabled";
+    let navId = $(activeDiv).attr("id");
+    if (navId === "theSurvey") {
+        showGroupView();
+    }
+    if (navId === "welcomeTextHolder") {
+        showSurveyView();
     }
 }
 
-function checkUserEmailForDirectLink(encodedEmail) {
+function convertEncodedEmail(encodedEmail) {
     if (encodedEmail) {
         let correctEmail = "";
         let backToChar = "";
@@ -193,8 +200,17 @@ function checkUserEmailForDirectLink(encodedEmail) {
         if (encodedEmail[encodedEmail.length - 1] !== "-") {
             correctEmail += String.fromCharCode(backToChar);
         }
-        userEmail = correctEmail;
+        return correctEmail;
+    } else {
+        return false;
     }
+}
+
+function checkUserEmailForDirectLink() {
+    showGroupView();
+    authenticate(userEmail, function (exists) {
+        showErrorMessageOrGroupView(exists);
+    })
 }
 
 
@@ -212,7 +228,7 @@ function prepareSurvey() {
     getSurveyPages1(context, loadSurvey);
 }
 
-function loadSurvey(surveyJSON){
+function loadSurvey(surveyJSON) {
     let survey = new Survey.Model(surveyJSON);
     survey.locale = "en";
     if (language) {
@@ -246,6 +262,27 @@ function validateEmails(survey, options) {
 
 // #################### Group Functions #############################
 
+function paintNoGroupsBuildMessage(participantsNeededObj) {
+
+    let participantsMissing = participantsNeededObj.participantsNeeded;
+    let noGroupsMessageObject;
+    if (language == "en") {
+        noGroupsMessageObject = noGroupsMessageEN(participantsMissing);
+    } else {
+        noGroupsMessageObject = noGroupsMessageDE(participantsMissing);
+    }
+    // if the context has manual group formation don't show the missing participants
+    if (participantsNeededObj.participants > participantsMissing) {
+        noGroupsMessageObject.participantsMissing = "";
+    }
+    // render the message
+    $('#noGroupTemplate').tmpl(noGroupsMessageObject).appendTo('#noGroupMessageHolder');
+
+    let clpText = document.getElementsByName('clpText');
+    clpText[0].value = document.URL;
+    //clpText[1].value = document.URL;
+}
+
 function groupsToTemplate(allGroups) {
     let groupTmplObject = [];
     $('#groupsInProject').html("");
@@ -260,19 +297,19 @@ function groupsToTemplate(allGroups) {
 }
 
 
-function prepareGroupTab(){
+function prepareGroupTab() {
     // only display email
     toggleLoginWithGroups();
 
     //if email is set in url
-    if (userEmail){
+    if (userEmail) {
         authenticate(userEmail, function (exists) {
             showErrorMessageOrGroupView(exists);
         });
     }
 
     // if email is not set in url
-    $('#btnSetUserEmail').on('click', function(){
+    $('#btnSetUserEmail').on('click', function () {
         userEmail = $('#userEmailGroupView').val();
         authenticate(userEmail, function (exists) {
             showErrorMessageOrGroupView(exists);
@@ -287,7 +324,9 @@ function prepareGroupTab(){
  */
 function showErrorMessageOrGroupView(exists = true) {
     if (!exists) {
-        $('#emailDoesNotExistWarning').show();
+        if (email && email.trim() !== "") {
+            $('#emailDoesNotExistWarning').show();
+        }
     } else {
         $('#emailDoesNotExistWarning').hide();
         toggleLoginWithGroups(false);
@@ -298,16 +337,18 @@ function showErrorMessageOrGroupView(exists = true) {
  * on the page either the login field or the group information
  * is displayed
  */
-function toggleLoginWithGroups(loginActive = true){
+function toggleLoginWithGroups(loginActive = true) {
     if (loginActive) {
         $('#groupsOrNoParticipantsMessage').hide();
         $('#groupViewLoginTemplateHolder').show();
     } else {
         $('#groupsOrNoParticipantsMessage').show();
         $('#groupViewLoginTemplateHolder').hide();
-        getParticipantsNeeded1(context, function(participantsMissing){
-            toggleGroup(participantsMissing===0);
-        });
+        /*getParticipantsNeeded1(context, function (participantsNeededObj) {
+            participantsMissing = participantsNeededObj.participantsNeeded - participantsNeededObj.participants;
+            toggleGroup(participantsMissing <= 0);
+        });*/
+        getAllGroups(toggleGroup);
     }
 }
 
@@ -315,11 +356,10 @@ function toggleLoginWithGroups(loginActive = true){
  * if the groups are calculated, they are displayed,
  * else: the current number of participants
  */
-function toggleGroup(groupsAreCalculated = false) {
-    if (groupsAreCalculated) {
+function toggleGroup(groups) {
+    if (groups.length > 0) {
         $('#groupsInProject').show();
         $('#noGroupMessageHolder').hide();
-        getAllGroups(groupsToTemplate);
     } else {
         $('#groupsInProject').hide();
         $('#noGroupMessageHolder').show();

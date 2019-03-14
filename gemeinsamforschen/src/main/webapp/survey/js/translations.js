@@ -71,7 +71,7 @@ function noGroupsMessageDE(participantsNeeded) {
 }
 
 function messageParticipantsNeededDE(participantsNeeded) {
-    return "They are still " + participantsNeeded + " participants missing to form groups.";
+    return "Es fehlen noch " + participantsNeeded + " Teilnehmer, um Gruppen zu bilden.";
 }
 
 function messageParticipantsNeededEN(participantsNeeded) {

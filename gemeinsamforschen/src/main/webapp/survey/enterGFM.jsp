@@ -99,7 +99,9 @@
             <div class="col span_content span_2_of_2">
 
                 <!-- There are no groups built yet because there are not enough members -->
-                <div id="noGroupMessageHolder"></div>
+                <div id="noGroupMessageHolder">
+
+                </div>
                 <script type="text/x-jQuery-tmpl" id="noGroupTemplate">
                 <div class="alert alert-warning" id="noGroupsYet" style="display: block">
                 <div style="display:block">
