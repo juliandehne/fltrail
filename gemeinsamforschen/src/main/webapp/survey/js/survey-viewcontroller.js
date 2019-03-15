@@ -13,11 +13,14 @@ $(document).ready(function () {
     // ############## Context ##################################
     language = getQueryVariable("language");
     context = getQueryVariable("context");
-    userEmail = convertEncodedEmail(getQueryVariable("userEmail"));
+    let email = getQueryVariable("userEmail");
+    if (email) {
+        userEmail = convertEncodedEmail();
+    }
 
     // set defaults
     if (!context) {
-        context = "dota_test";
+        context = "fl_test";
     }
 
     if (!language) {
@@ -73,7 +76,6 @@ $(document).ready(function () {
 
     $('#btnPrev').on('click', prevView);
     $('#btnNext').on('click', nextView);
-
     $("#logout").on('click', logout);
 
 
@@ -207,8 +209,10 @@ function convertEncodedEmail(encodedEmail) {
 }
 
 function checkUserEmailForDirectLink() {
-    showGroupView();
     authenticate(userEmail, function (exists) {
+        if (exists) {
+            showGroupView();
+        }
         showErrorMessageOrGroupView(exists);
     })
 }
@@ -324,7 +328,7 @@ function prepareGroupTab() {
  */
 function showErrorMessageOrGroupView(exists = true) {
     if (!exists) {
-        if (email && email.trim() !== "") {
+        if (userEmail && userEmail.trim() !== "") {
             $('#emailDoesNotExistWarning').show();
         }
     } else {

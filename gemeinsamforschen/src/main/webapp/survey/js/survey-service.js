@@ -7,7 +7,7 @@
 function sendDataToServer(survey) {
     //var resultAsString = JSON.stringify(survey.data);
     //alert(resultAsString); //send Ajax request to your web server.
-    let dataReq = new RequestObj(1, "/survey", "/save/projects/?", [projectId], [], survey.data);
+    let dataReq = new RequestObj(1, "/survey", "/save/projects/?/context/?", [context,context], [], survey.data);
     userEmail = survey.data.EMAIL1;
     serverSide(dataReq, "POST", function () {
         //log.warn(a);
@@ -154,7 +154,7 @@ function authenticate(userEmail, callback) {
         callback(false);
     } else {
         $.ajax({
-            url: "../rest/survey/user/" + userEmail,
+            url: "../rest/survey/user/" + userEmail + "/context/" + context,
             headers: {
                 "Content-Type": "text/html",
                 "Cache-Control": "no-cache"
@@ -162,11 +162,7 @@ function authenticate(userEmail, callback) {
             type: 'POST',
             success: function (response) {
                 //Session.setAttribute(userEmail) happens on serverSide
-                if (response === "userEmail set") {
-                    callback(response);
-                } else {
-                    callback(response === "userEmail set");
-                }
+                callback(response);
             },
             error: function (a) {
                 console.log("user Email existiert nicht");

@@ -1,3 +1,4 @@
+/*
 package unipotsdam.gf.modules.group.preferences.groupal;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,7 +34,10 @@ public class GroupAlMatcher implements GroupFormationAlgorithm {
     @Inject
     private UserDAO userDAO;
 
-    /**
+
+
+    */
+/**
      * create groups for a given project
      *
      * It will read the Profile Data from the users from the db and send it to groupal to be matched
@@ -43,7 +47,8 @@ public class GroupAlMatcher implements GroupFormationAlgorithm {
      * @throws JsonProcessingException
      * @throws JAXBException
      * @throws WrongNumberOfParticipantsException
-     */
+     *//*
+
     public List<Group> createGroups(Project project, int groupsize)
             throws JsonProcessingException, JAXBException, WrongNumberOfParticipantsException {
 
@@ -92,14 +97,16 @@ public class GroupAlMatcher implements GroupFormationAlgorithm {
         return responses;
     }
 
-    /**
+    */
+/**
      * like createGroups(Project project, int groupsize) with fixed group size 3
      * @param project
      * @return
      * @throws WrongNumberOfParticipantsException
      * @throws JAXBException
      * @throws JsonProcessingException
-     */
+     *//*
+
     @Override
     public List<Group> calculateGroups(Project project)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
@@ -124,3 +131,4 @@ public class GroupAlMatcher implements GroupFormationAlgorithm {
         return 6;
     }
 }
+*/

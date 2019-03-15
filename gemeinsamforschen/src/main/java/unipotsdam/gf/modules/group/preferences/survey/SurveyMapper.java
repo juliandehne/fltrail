@@ -15,9 +15,12 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.user.UserProfile;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.process.SurveyProcess;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -47,6 +50,9 @@ public class SurveyMapper {
 
     @Inject
     private ProjectCreationProcess projectCreationProcess;
+
+    @Inject
+    private GFContexts gfContexts;
 
 
     private static final Logger log = LoggerFactory.getLogger(CommunicationView.class);
@@ -91,16 +97,10 @@ public class SurveyMapper {
             addGeneralQuestion(EMAIL2, email2, generalDetails);
 
             String discordIdString = "(optional) Enter your discord ID!";
-            switch (groupWorkContext) {
-                case dota:
-                case dota_survey_a1:
-                case dota_survey_a2:
-                    LocalizedText discordQuestion =
-                            new LocalizedText("" + discordIdString, "(optional) Geben Sie ihre Discord ID ein!");
-                    addGeneralQuestion(DISCORDID, discordQuestion, generalDetails);
-                    break;
-                default:
-                    break;
+            if (GroupWorkContextUtil.isGamingOrAutomatedGroupFormation(groupWorkContext)) {
+                LocalizedText discordQuestion =
+                        new LocalizedText("" + discordIdString, "(optional) Geben Sie ihre Discord ID ein!");
+                addGeneralQuestion(DISCORDID, discordQuestion, generalDetails);
             }
             surveyData.getPages().add(generalDetails);
         }
@@ -147,29 +147,50 @@ public class SurveyMapper {
         profileDAO.save(userProfile, GroupWorkContext.evaluation);
     }*/
 
-    public void saveData(HashMap<String, String> data, Project project, HttpServletRequest req)
-            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public void saveData(HashMap<String, String> data, Project project, HttpServletRequest req) throws Exception {
         log.trace("persisting survey data");
-        User user;
-        // it is test context
-        data.remove(EMAIL2);
-        if (req == null) {
-            user = createUserFromSurvey(data);
-            // it is in survey context
-        } else if (req.getSession().getAttribute("userEmail") == null) {
-            req.getSession().setAttribute("userEmail", data.get(EMAIL1));
-            user = createUserFromSurvey(data);
+
+        if(project.getGroupWorkContext() == null) {
+            throw new Exception("groupworkcontext is not set");
         }
-        // it is in fl context
-        else {
-            user = userDAO.getUserByEmail(req.getSession().getAttribute("userEmail").toString());
-            projectCreationProcess.updateProjCreaProcTasks(project, user);
-        }
-        //save
-        management.register(user, project, null);
+
+        // save the user in db
+        User user = saveUser(data, project, req);
+        // clean the data
+        cleanData(data);
+        // persist the answers
         UserProfile userProfile = new UserProfile(data, user, project.getName());
         profileDAO.save(userProfile, null);
 
+    }
+
+    private User saveUser(HashMap<String, String> data, Project project, HttpServletRequest req)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException, IOException {
+
+        User user = null;
+        if (GroupWorkContextUtil.isSurveyContext(project.getGroupWorkContext())) {
+            user = createUserFromSurvey(data);
+            management.register(user, project, null);
+            gfContexts.updateUserWithEmail(req, user);
+        }
+        // it is in fl context
+        else {
+            User userFromSession = gfContexts.getUserFromSession(req);
+            projectCreationProcess.updateProjCreaProcTasks(project, userFromSession);
+        }
+        return user;
+    }
+
+    private void cleanData(HashMap<String, String> data) {
+        ArrayList<String> toRemove = new ArrayList<>();
+        for (String key : data.keySet()) {
+            if (!key.matches("^[0-9]*$")) {
+                toRemove.add(key);
+            }
+        }
+        for (String key : toRemove) {
+            data.remove(key);
+        }
     }
 
     private User createUserFromSurvey(HashMap<String, String> data) {
@@ -193,9 +214,10 @@ public class SurveyMapper {
      * after groups have been formed for a certain project, a new internal project is created for the next cohort
      * using the link
      * It is looked up based on the context set
-     * @see SurveyProcess#getSurveyProjectName(String)
+     *
      * @param projectContext
      * @return
+     * @see SurveyProcess#getSurveyProjectName(String)
      */
     public String createNewProject(GroupWorkContext projectContext) {
         String randomId = UUID.randomUUID().toString();

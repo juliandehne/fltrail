@@ -21,22 +21,25 @@ public enum GroupWorkContext {
     // seems outdated
     evaluation,
 
-    // fl survey with prof. lausberg
-    fl_lausberg,
+    fl_HUL_1, // with fl
+    fl_HUL_2, // without fl
+    fl_HUL_3, // with fl
+    fl_HUL_4, // without fl and en
+    fl_HUL_5, // with fl and en
 
-    // fl survey with prof. lausberg
-    fl_lausberg_test,
+    fl_UP_1,
+    fl_UP_2,
+    fl_UP_3,
+    fl_UP_4,
+    fl_UP_5,
 
-    //G_A Variablen ohne G_FL in other context
-    other_survey_a1,
+    fl_K_1,
+    fl_K_2,
+    fl_K_3,
+    fl_K_4,
+    fl_K_5,
 
-    // G_A Variablen mit G_FL in other context
-    other_survey_a2,
-
-    // fl survey with prof. lausberg
-    fl_wedeman,
-
-    // fl survey with prof. lausberg
-    fl_wedeman_test,
+    fl_other_1,
+    fl_other_2,
 
 }

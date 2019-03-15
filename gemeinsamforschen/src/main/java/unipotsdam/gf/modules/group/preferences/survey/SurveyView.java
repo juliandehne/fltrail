@@ -24,6 +24,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,15 +57,27 @@ public class SurveyView {
 
     private ServletContextEvent sce;
 
+    /**
+     * // get project where name like projectContext and is active
+     *
+     * @param projectContext
+     * @return
+     */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/project/name/{projectContext}")
     public Project getProjectName(@PathParam("projectContext") String projectContext) {
-        // get project where name like projectContext and is active
-        return surveyProcess.getSurveyProjectName(projectContext);
+        return surveyProcess.getSurveyProjectName(GroupWorkContext.valueOf(projectContext));
     }
 
 
+    /**
+     * get the survey questions
+     *
+     * @param projectId
+     * @return
+     * @throws Exception
+     */
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/data/project/{projectId}")
@@ -83,6 +96,11 @@ public class SurveyView {
         return surveyMapper.getItemsFromDB(groupWorkContext, project);
     }*/
 
+    /**
+     * get all current survey projects
+     *
+     * @return
+     */
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/projects")
@@ -92,6 +110,10 @@ public class SurveyView {
 
     }
 
+    /*    *//**
+     * get the status of a project
+     * @return
+     *//*
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/status")
@@ -99,23 +121,36 @@ public class SurveyView {
 
         // TODO implement
         return new ProjectStatus();
-    }
+    }*/
 
+    /**
+     * save the answers a user has given in a survey
+     *
+     * @param data
+     * @param projectName
+     * @param req
+     * @throws RocketChatDownException
+     * @throws UserDoesNotExistInRocketChatException
+     * @throws WrongNumberOfParticipantsException
+     * @throws JAXBException
+     * @throws IOException
+     */
     @POST
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Path("/save/projects/{projectName}")
+    @Path("/save/projects/{projectName}/context/{context}")
     public void saveSurvey(
             HashMap<String, String> data, @PathParam("projectName") String projectName,
-            @Context HttpServletRequest req)
-            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-        GroupWorkContext groupWorkContext = surveyMapper.getGroupWorkContext(new Project(projectName));
+            @PathParam("context") String context, @Context HttpServletRequest req) throws Exception {
+        GroupWorkContext groupWorkContext = GroupWorkContext.valueOf(context);
+        Project project = new Project(projectName);
+        project.setGroupWorkContext(groupWorkContext);
+        // check if it is surveyContext
         if (GroupWorkContextUtil.isSurveyContext(groupWorkContext)) {
-            Project project = new Project(projectName);
-            project.setGroupWorkContext(groupWorkContext);
+            if (GroupWorkContextUtil.isGamingOrAutomatedGroupFormation(groupWorkContext)) {
+                project = surveyProcess.getSurveyProjectName(groupWorkContext);
+            }
             surveyProcess.saveSurveyData(project, data, req, groupWorkContext, sce);
         } else {
-            Project project = new Project(projectName);
-            project.setGroupWorkContext(groupWorkContext);
             surveyMapper.saveData(data, project, req);
         }
     }
@@ -131,27 +166,49 @@ public class SurveyView {
         surveyProcess.saveSurveyData(new Project(projectName), data, req, groupWorkContext);
     }*/
 
+    /**
+     * checks if there is a user session
+     *
+     * @param req
+     * @return
+     */
     @POST
-    @Produces(MediaType.TEXT_HTML)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/user")
-    public String loggedIn(@Context HttpServletRequest req) {
+    public Boolean loggedIn(@Context HttpServletRequest req) {
         try {
             String userSessionEmail = gfContexts.getUserEmail(req);
-            if (userSessionEmail == null)
-                return "authenticated";
-            else
-                return "userEmail set";
+            if (userSessionEmail == null) {
+                return false;
+            } else {
+                return true;
+            }
         } catch (Exception e) {
-            return "userEmail not set";
+            return false;
         }
     }
 
+    /**
+     * checks if the user email exists
+     *
+     * @param userEmail
+     * @param req
+     * @return
+     */
     @POST
-    @Produces(MediaType.TEXT_HTML)
-    @Path("/user/{userEmail}")
-    public String authenticate(@PathParam("userEmail") String userEmail, @Context HttpServletRequest req) {
-        gfContexts.updateUserWithEmail(req, userDAO.getUserByEmail(userEmail));
-        return "userEmail set";
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/user/{userEmail}/context/{context}")
+    public Boolean authenticate(
+            @PathParam("userEmail") String userEmail, @PathParam("context") String context,
+            @Context HttpServletRequest req) {
+        User user = new User(userEmail);
+        Project projectName = getProjectName(context);
+        List<User> usersByProjectName = userDAO.getUsersByProjectName(projectName.getName());
+        if (usersByProjectName.contains(user)) {
+            gfContexts.updateUserWithEmail(req, userDAO.getUserByEmail(userEmail));
+            return true;
+        }
+        return false;
     }
 
     @GET
@@ -164,20 +221,22 @@ public class SurveyView {
 
     /**
      * participant count
+     *
      * @param projectName
      * @param req
      * @return
      */
     @GET
     @Path("/participantCount/project/{projectName}")
-    public String getParticipantCount(@PathParam("projectName") String projectName,
-                                      @Context HttpServletRequest req) {
+    public String getParticipantCount(
+            @PathParam("projectName") String projectName, @Context HttpServletRequest req) {
         ParticipantsCount participantsCount = projectDAO.getParticipantCount(new Project(projectName));
         return Integer.toString(participantsCount.getParticipants());
     }
 
     /**
      * participant needed count
+     *
      * @param projectName
      * @param req
      * @return
@@ -185,8 +244,9 @@ public class SurveyView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/participantCountNeeded/project/{projectName}/context/{context}")
-    public ParticipantsCount getParticipantNeededCount(@PathParam("projectName") String projectName, @PathParam("context")
-            String context, @Context HttpServletRequest req) {
+    public ParticipantsCount getParticipantNeededCount(
+            @PathParam("projectName") String projectName, @PathParam("context") String context,
+            @Context HttpServletRequest req) {
 
         int needed = GroupWorkContextUtil.getParticipantNeeded(GroupWorkContext.valueOf(context));
         ParticipantsCount participantsCount = projectDAO.getParticipantCount(new Project(projectName));
@@ -201,7 +261,7 @@ public class SurveyView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}/buildGroups")
-    public List<Group> buildGroups(@PathParam("projectName") String  projectName)
+    public List<Group> buildGroups(@PathParam("projectName") String projectName)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         Project project = new Project(projectName);
         // todo set GroupWorkContext

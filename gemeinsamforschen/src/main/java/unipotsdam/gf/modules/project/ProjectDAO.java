@@ -220,12 +220,12 @@ public class ProjectDAO {
         return projects;
     }
 
-    public String getActiveSurveyProject(String projectContext) {
+    public String getActiveSurveyProject(GroupWorkContext projectContext) {
         connect.connect();
 
         String query = "select * from projects where context = ? and phase = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(query, projectContext, Phase.GroupFormation);
+                connect.issueSelectStatement(query, projectContext.toString(), Phase.GroupFormation);
 
         boolean next = vereinfachtesResultSet.next();
         String result = null;
