@@ -193,17 +193,17 @@ public class SurveyMapper {
      * after groups have been formed for a certain project, a new internal project is created for the next cohort
      * using the link
      * It is looked up based on the context set
-     * @see SurveyProcess#getSurveyProjectName(String)
+     * @see SurveyProcess#getOrCreateSurveyProject(GroupWorkContext)
      * @param projectContext
      * @return
      */
-    public String createNewProject(GroupWorkContext projectContext) {
+    public SurveyProject createNewProject(GroupWorkContext projectContext) {
         String randomId = UUID.randomUUID().toString();
-        Project project = new Project(randomId);
+        SurveyProject project = new SurveyProject(randomId, projectContext);
         project.setGroupWorkContext(projectContext);
         projectDAO.persist(project);
-        profileDAO.createNewSurveyProject(new Project(randomId));
-        return randomId;
+        profileDAO.createNewSurveyProject(project);
+        return project;
     }
 
     public GroupWorkContext getGroupWorkContext(Project project) {

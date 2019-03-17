@@ -122,7 +122,7 @@ public class GroupAlTest {
     public void testGroupAl() throws Exception {
 
 
-        Project project = new Project(surveyMapper.createNewProject(GroupWorkContext.dota));
+        Project project = surveyMapper.createNewProject(GroupWorkContext.dota);
 
         // utility
         Random random = new Random();

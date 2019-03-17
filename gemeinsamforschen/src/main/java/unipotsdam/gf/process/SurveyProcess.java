@@ -12,9 +12,7 @@ import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
-import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
-import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContextUtil;
-import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
+import unipotsdam.gf.modules.group.preferences.survey.*;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -26,6 +24,7 @@ import unipotsdam.gf.process.scheduler.Scheduler;
 import javax.inject.Inject;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.PathParam;
 import javax.xml.bind.JAXBException;
 import java.util.HashMap;
 import java.util.List;
@@ -54,9 +53,17 @@ public class SurveyProcess {
     private IGroupFinding groupfinding;
 
 
+    public SurveyData getSurveyQuestions(String projectId) throws Exception {
+        Project project = projectDAO.getProjectByName(projectId);
+        GroupWorkContext groupWorkContext = surveyMapper.getGroupWorkContext(project);
+        return surveyMapper.getItemsFromDB(groupWorkContext, project);
+    }
 
-    public synchronized void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext, ServletContextEvent sce)
+
+    public synchronized void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+        GroupWorkContext groupWorkContext = surveyMapper.getGroupWorkContext(project);
+        if (GroupWorkContextUtil.isSurveyContext(groupWorkContext)) {
             surveyMapper.saveData(data, project, req);
             if (GroupWorkContextUtil.isAutomatedGroupFormation(groupWorkContext)) {
                 List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
@@ -78,23 +85,36 @@ public class SurveyProcess {
                 }*/
                 }
             }
-        //}
+            //}
+        } else {
+            surveyMapper.saveData(data, project, req);
+        }
+
     }
 
-    public Project getSurveyProjectName(String projectContext) {
-        String projectName = projectDAO.getActiveSurveyProject(projectContext);
-        if (projectName == null) {
+    public SurveyProject getOrCreateSurveyProject(GroupWorkContext projectContext) {
+        SurveyProject surveyProject = projectDAO.getActiveSurveyProject(projectContext);
+        if (surveyProject == null) {
             // if result is empty create new project, add all the questions to it and return this
-            Project project = new Project(surveyMapper.createNewProject(GroupWorkContext.valueOf(projectContext)));
+            SurveyProject project = surveyMapper.createNewProject(projectContext);
             projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy, project);
             return project;
-        } else {
-            return new Project(projectName);
         }
+        return surveyProject;
     }
 
-    public Boolean isStudentInProject(User user){
+    public Boolean isStudentInProject(User user) {
         List<Project> projects = iManagement.getProjectsStudent(user);
         return projects != null && !projects.isEmpty();
     }
+
+    public List<Group> startGroupFormation(String projectName) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+        Project project = new Project(projectName);
+        // todo set GroupWorkContext
+        groupfinding.deleteGroups(project);
+        List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
+        groupfinding.persistGroups(groups, project);
+        return groups;
+    }
+
 }

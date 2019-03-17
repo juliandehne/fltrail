@@ -12,13 +12,11 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.tasks.ParticipantsCount;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
-import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -41,27 +39,19 @@ public class SurveyView {
     @Inject
     private IGroupFinding groupfinding;
 
-
     @Inject
     private ProjectDAO projectDAO;
 
     @Inject
-    private SurveyMapper surveyMapper;
-
-    @Inject
     private UserDAO userDAO;
 
-    @Inject
-    private GroupFormationProcess groupFormationProcess;
-
-    private ServletContextEvent sce;
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/project/name/{projectContext}")
     public Project getProjectName(@PathParam("projectContext") String projectContext) {
         // get project where name like projectContext and is active
-        return surveyProcess.getSurveyProjectName(projectContext);
+        return surveyProcess.getOrCreateSurveyProject(GroupWorkContext.valueOf(projectContext));
     }
 
 
@@ -69,10 +59,9 @@ public class SurveyView {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/data/project/{projectId}")
     public SurveyData getSurveyData(@PathParam("projectId") String projectId) throws Exception {
-        Project project = projectDAO.getProjectByName(projectId);
-        GroupWorkContext groupWorkContext = surveyMapper.getGroupWorkContext(project);
-        return surveyMapper.getItemsFromDB(groupWorkContext, project);
+        return surveyProcess.getSurveyQuestions(projectId);
     }
+
 
  /*   @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -92,14 +81,14 @@ public class SurveyView {
 
     }
 
-    @GET
+  /*  @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/status")
     public ProjectStatus getProjectStatus() {
 
         // TODO implement
         return new ProjectStatus();
-    }
+    }*/
 
     @POST
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -108,16 +97,7 @@ public class SurveyView {
             HashMap<String, String> data, @PathParam("projectName") String projectName,
             @Context HttpServletRequest req)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-        GroupWorkContext groupWorkContext = surveyMapper.getGroupWorkContext(new Project(projectName));
-        if (GroupWorkContextUtil.isSurveyContext(groupWorkContext)) {
-            Project project = new Project(projectName);
-            project.setGroupWorkContext(groupWorkContext);
-            surveyProcess.saveSurveyData(project, data, req, groupWorkContext, sce);
-        } else {
-            Project project = new Project(projectName);
-            project.setGroupWorkContext(groupWorkContext);
-            surveyMapper.saveData(data, project, req);
-        }
+        surveyProcess.saveSurveyData(new Project(projectName), data, req);
     }
 
 /*    @POST
@@ -176,11 +156,8 @@ public class SurveyView {
     @Path("/projects/{projectName}/buildGroups")
     public List<Group> buildGroups(@PathParam("projectName") String  projectName)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-        Project project = new Project(projectName);
-        // todo set GroupWorkContext
-        groupfinding.deleteGroups(project);
-        List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
-        groupfinding.persistGroups(groups, project);
-        return groups;
+        return surveyProcess.startGroupFormation(projectName);
     }
+
+
 }

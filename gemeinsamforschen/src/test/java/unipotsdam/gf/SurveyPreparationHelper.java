@@ -64,7 +64,7 @@ public class SurveyPreparationHelper {
         GroupWorkContext[] values = GroupWorkContext.values();
         for (GroupWorkContext groupWorkContext : values) {
 
-            if (util.isSurveyContext(groupWorkContext)) {
+            if (util.isSurveyContext(groupWorkContext) && !util.isAutomatedGroupFormation(groupWorkContext)) {
 
                 // creating survey projects
                 Project project = new Project(groupWorkContext.toString());
