@@ -1,7 +1,6 @@
 package unipotsdam.gf.modules.group;
 
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
-import unipotsdam.gf.modules.group.preferences.groupal.GroupAlMatcher;
 import unipotsdam.gf.modules.group.preferences.groupal.PGroupAlMatcher;
 import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
 

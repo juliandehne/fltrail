@@ -1,16 +1,11 @@
 package unipotsdam.gf.process;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.config.GroupAlConfig;
-import unipotsdam.gf.exceptions.RocketChatDownException;
-import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
-import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
-import unipotsdam.gf.modules.communication.Messages;
-import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupFormationAlgorithm;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContextUtil;
@@ -21,12 +16,10 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.scheduler.Scheduler;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.JAXBException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,12 +49,13 @@ public class SurveyProcess {
 
 
     public synchronized void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext, ServletContextEvent sce)
-            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+            throws Exception {
             surveyMapper.saveData(data, project, req);
-            if (GroupWorkContextUtil.isAutomatedGroupFormation(groupWorkContext)) {
+            if (GroupWorkContextUtil.isGamingOrAutomatedGroupFormation(groupWorkContext)) {
                 List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
-                if (usersByProjectName.size() == GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
-                    List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
+                if (usersByProjectName.size() >= GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
+                    GroupFormationAlgorithm groupFormationAlgorithm = groupfinding.getGroupFormationAlgorithm(project);
+                    List<Group> groups = groupFormationAlgorithm.calculateGroups(project);
                     groupfinding.persistGroups(groups, project);
                     phases.endPhase(Phase.GroupFormation, project);
 
@@ -81,15 +75,22 @@ public class SurveyProcess {
         //}
     }
 
-    public Project getSurveyProjectName(String projectContext) {
-        String projectName = projectDAO.getActiveSurveyProject(projectContext);
-        if (projectName == null) {
-            // if result is empty create new project, add all the questions to it and return this
-            Project project = new Project(surveyMapper.createNewProject(GroupWorkContext.valueOf(projectContext)));
-            projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy, project);
-            return project;
+    public Project getSurveyProjectName(GroupWorkContext projectContext) {
+        if (!GroupWorkContextUtil.isGamingOrAutomatedGroupFormation(projectContext)) {
+            return new Project(projectContext.toString());
         } else {
-            return new Project(projectName);
+            String projectName = projectDAO.getActiveSurveyProject(projectContext);
+            if (projectName == null) {
+                // if result is empty create new project, add all the questions to it and return this
+                Project project = new Project(surveyMapper.createNewProject(projectContext));
+                projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy, project);
+                project.setGroupWorkContext(projectContext);
+                return project;
+            } else {
+                Project project  = new Project(projectName);
+                project.setGroupWorkContext(projectContext);
+                return project;
+            }
         }
     }
 

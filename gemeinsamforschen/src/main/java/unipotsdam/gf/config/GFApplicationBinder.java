@@ -16,7 +16,6 @@ import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.group.*;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
-import unipotsdam.gf.modules.group.preferences.groupal.GroupAlMatcher;
 import unipotsdam.gf.modules.group.preferences.groupal.PGroupAlMatcher;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
 import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
@@ -40,8 +39,6 @@ import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
-
-import javax.servlet.ServletContextEvent;
 
 public class GFApplicationBinder extends AbstractBinder {
 
@@ -88,7 +85,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(UnirestService.class).to(UnirestService.class);
         bind(ProfileDAO.class).to(ProfileDAO.class);
         bind(SurveyMapper.class).to(SurveyMapper.class);
-        bind(GroupAlMatcher.class).to(GroupAlMatcher.class);
+        //bind(GroupAlMatcher.class).to(GroupAlMatcher.class);
         bind(PGroupAlMatcher.class).to(PGroupAlMatcher.class);
         bind(CompBaseMatcher.class).to(CompBaseMatcher.class);
         bind(BigGroupMatcher.class).to(BigGroupMatcher.class);

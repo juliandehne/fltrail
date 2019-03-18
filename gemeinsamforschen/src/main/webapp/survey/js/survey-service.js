@@ -1,3 +1,5 @@
+
+
 // ############## survey functions ############################
 
 /**
@@ -97,30 +99,11 @@ function getParticipantsNeeded1(context, callback) {
     let projq = new RequestObj(1, "/survey", "/project/name/?", [context], []);
     serverSide(projq, "GET", function (response) {
         projectId = response.name;
-        getParticipantsNeeded2(projectId, context, callback);
+        getParticipantsNeeded2(projectId, callback);
     });
 }
 
-function getParticipantsNeeded2(projectId, context, callback) {
-    $.ajax({
-        url: "../rest/survey/participantCountNeeded/project/" + projectId + "/context/" + context,
-        headers: {
-            "Content-Type": "text/html",
-            "Cache-Control": "no-cache"
-        },
-        type: 'GET',
-        success: function (response) {
-            callback(response);
-        },
-        error: function () {
-            console.log("could not get participants needed for  " + projectId);
-        }
-    });
-
-}
-
-
-/*function getParticipantsNeeded2(projectId, callback){
+function getParticipantsNeeded2(projectId, callback){
     $.ajax({
         url: "../rest/survey/participantCount/project/" + projectId,
         headers: {
@@ -142,15 +125,13 @@ function getParticipantsNeeded2(projectId, context, callback) {
         }
     });
 
-}*/
+}
 
 // ###################### User Management ############################################
 
 
 function authenticate(userEmail, callback) {
-    if (!userEmail) {
-        callback(false);
-    } else if (userEmail.trim() == "") {
+    if (userEmail.trim() == "") {
         callback(false);
     } else {
         $.ajax({
@@ -209,6 +190,7 @@ function getProjectNameByContext(context, callback) {
         }
     });
 }
+
 
 
 /*

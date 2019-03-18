@@ -49,8 +49,10 @@ public class GFContexts {
 
     public void updateUserWithEmail(HttpServletRequest req, User user) {
         log.debug("setting user email ssession:" + user.getEmail());
-        req.getSession().setAttribute(GFContexts.USEREMAIL, user.getEmail());
-        log.debug("user session email:" + req.getSession().getAttribute(GFContexts.USEREMAIL));
+        if (req != null) {
+            req.getSession().setAttribute(GFContexts.USEREMAIL, user.getEmail());
+            log.debug("user session email:" + req.getSession().getAttribute(GFContexts.USEREMAIL));
+        }
     }
 
     public void updateUserSessionWithStatus(HttpServletRequest req, User user) {

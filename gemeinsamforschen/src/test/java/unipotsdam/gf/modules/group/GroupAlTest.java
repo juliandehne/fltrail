@@ -37,7 +37,7 @@ public class GroupAlTest {
     private Marshaller jaxbMarshaller;
 
     @Inject
-    private PGroupAlMatcher groupAlMatcher;
+    private PGroupAlMatcher pGroupAlMatcher;
 
     @Inject
     private ProfileDAO profileDAO;
@@ -144,11 +144,12 @@ public class GroupAlTest {
             }
             data.put(SurveyMapper.EMAIL1, user.getEmail());
             data.put(SurveyMapper.NICKNAME1, user.getName());
+            project.setGroupWorkContext(GroupWorkContext.dota_survey_a1);
             surveyMapper.saveData(data, project, null);
         }
 
         // calculate groups
-        List<Group> d1_test = groupAlMatcher.calculateGroups(project);
+        List<Group> d1_test = pGroupAlMatcher.calculateGroups(project);
         assertTrue(!d1_test.isEmpty());
         assertTrue(d1_test.size() == 10);
     }
