@@ -145,7 +145,7 @@ function showIntroduction() {
     resetNaviSelections();
     $('#welcomeTextHolder').toggleClass("in");
     $('#navLiTextPage').toggleClass("active");
-    $('#navBtnPrev').attr('className', 'page-item disabled');
+    $('#navBtnPrev').attr('class', 'page-item disabled');
 }
 
 /**
@@ -156,7 +156,7 @@ function showGroupView() {
     resetNaviSelections();
     $('#theGroupView').toggleClass("in");
     $('#navLiGroupView').toggleClass("active");
-    $('#navBtnNext').attr('className', 'page-item disabled');
+    $('#navBtnNext').attr('class', 'page-item disabled');
 }
 
 // displays the survey tab
@@ -268,7 +268,7 @@ function validateEmails(survey, options) {
 
 function paintNoGroupsBuildMessage(participantsNeededObj) {
 
-    let participantsMissing = participantsNeededObj.participantsNeeded;
+    let participantsMissing = participantsNeededObj.participantsNeeded -  participantsNeededObj.participants;
     let noGroupsMessageObject;
     if (language == "en") {
         noGroupsMessageObject = noGroupsMessageEN(participantsMissing);
@@ -282,8 +282,8 @@ function paintNoGroupsBuildMessage(participantsNeededObj) {
     // render the message
     $('#noGroupTemplate').tmpl(noGroupsMessageObject).appendTo('#noGroupMessageHolder');
 
-    let clpText = document.getElementsByName('clpText');
-    clpText[0].value = document.URL;
+    let clpText = document.getElementById('clpText');
+    clpText.value = document.URL;
     //clpText[1].value = document.URL;
 }
 
