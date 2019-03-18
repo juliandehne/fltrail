@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.communication.view.CommunicationView;
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
 import unipotsdam.gf.modules.project.Management;
@@ -164,10 +165,20 @@ public class SurveyMapper {
 
     }
 
+    /**
+     * add survey user to project and save his responses
+     * @param data
+     * @param project
+     * @param req
+     * @return
+     * @throws RocketChatDownException
+     * @throws UserDoesNotExistInRocketChatException
+     * @throws IOException
+     */
     private User saveUser(HashMap<String, String> data, Project project, HttpServletRequest req)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, IOException {
 
-        User user = null;
+        User user;
         if (GroupWorkContextUtil.isSurveyContext(project.getGroupWorkContext())) {
             user = createUserFromSurvey(data);
             management.register(user, project, null);
@@ -175,8 +186,8 @@ public class SurveyMapper {
         }
         // it is in fl context
         else {
-            User userFromSession = gfContexts.getUserFromSession(req);
-            projectCreationProcess.updateProjCreaProcTasks(project, userFromSession);
+            user = gfContexts.getUserFromSession(req);
+            projectCreationProcess.updateProjCreaProcTasks(project, user);
         }
         return user;
     }
@@ -217,15 +228,17 @@ public class SurveyMapper {
      *
      * @param projectContext
      * @return
-     * @see SurveyProcess#getSurveyProjectName(String)
      */
-    public String createNewProject(GroupWorkContext projectContext) {
+    public SurveyProject createNewProject(GroupWorkContext projectContext) {
         String randomId = UUID.randomUUID().toString();
-        Project project = new Project(randomId);
+        SurveyProject project = new SurveyProject(randomId, projectContext);
         project.setGroupWorkContext(projectContext);
+        project.setSurvey(true);
         projectDAO.persist(project);
-        profileDAO.createNewSurveyProject(new Project(randomId));
-        return randomId;
+        projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy, project);
+        profileDAO.createNewSurveyProject(project);
+
+        return project;
     }
 
     public GroupWorkContext getGroupWorkContext(Project project) {

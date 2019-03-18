@@ -1,15 +1,19 @@
 package unipotsdam.gf.process;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GroupAlConfig;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationAlgorithm;
-import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContextUtil;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
+import unipotsdam.gf.modules.group.preferences.survey.SurveyProject;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -18,8 +22,8 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
 
 import javax.inject.Inject;
-import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.JAXBException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -46,55 +50,72 @@ public class SurveyProcess {
     @Inject
     private IGroupFinding groupfinding;
 
+    private final static Logger log = LoggerFactory.getLogger(SurveyProcess.class);
 
 
-    public synchronized void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext, ServletContextEvent sce)
+    public synchronized void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext)
             throws Exception {
-            surveyMapper.saveData(data, project, req);
-            if (GroupWorkContextUtil.isGamingOrAutomatedGroupFormation(groupWorkContext)) {
-                List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
-                if (usersByProjectName.size() >= GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE) {
-                    GroupFormationAlgorithm groupFormationAlgorithm = groupfinding.getGroupFormationAlgorithm(project);
-                    List<Group> groups = groupFormationAlgorithm.calculateGroups(project);
-                    groupfinding.persistGroups(groups, project);
-                    phases.endPhase(Phase.GroupFormation, project);
+        surveyMapper.saveData(data, project, req);
+    }
 
-                /*for (User user : usersByProjectName) {
-                    EMailMessage message = Messages.SurveyGroupFormation(project, user.getEmail());
-                    emailService.sendSingleMessage(message, user);
-                }*/
+    public List<Group> formGroupsForSurvey(SurveyProject project) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+        List<Group> groups1 = groupfinding.getGroups(project);
+        if (!groups1.isEmpty()) {
+            groupfinding.deleteGroups(project);
+        }
+        GroupFormationAlgorithm groupFormationAlgorithm = groupfinding.getGroupFormationAlgorithm(project);
+        groups1 = groupFormationAlgorithm.calculateGroups(project);
+        groupfinding.persistGroups(groups1, project);
+        phases.saveState(project, Phase.Execution);
+        sendEmailsForAutomatedGroupsFormed();
+        return groups1;
+    }
 
-                    // schedule an group email, that in 30 days from having finished group formation
-                    // an evaluation email is send out
+    private void sendEmailsForAutomatedGroupsFormed() {
+    /*for (User user : usersByProjectName) {
+        EMailMessage message = Messages.SurveyGroupFormation(project, user.getEmail());
+        emailService.sendSingleMessage(message, user);
+    }*/
+
+        // schedule an group email, that in 30 days from having finished group formation
+        // an evaluation email is send out
                 /*if(GroupWorkContextUtil.isSurveyContext(groupWorkContext)) {
                     Scheduler scheduler = new Scheduler(project, emailService);
                     scheduler.start(sce);
                 }*/
-                }
-            }
         //}
     }
 
-    public Project getSurveyProjectName(GroupWorkContext projectContext) {
+    public Project getSurveyProjectNameOrInitialize(GroupWorkContext projectContext, String email) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+
         if (!GroupWorkContextUtil.isGamingOrAutomatedGroupFormation(projectContext)) {
+            log.debug("project is manual group formation and has only one name equal to context");
             return new Project(projectContext.toString());
         } else {
-            String projectName = projectDAO.getActiveSurveyProject(projectContext);
-            if (projectName == null) {
-                // if result is empty create new project, add all the questions to it and return this
-                Project project = new Project(surveyMapper.createNewProject(projectContext));
-                projectDAO.setGroupFormationMechanism(GroupFormationMechanism.UserProfilStrategy, project);
-                project.setGroupWorkContext(projectContext);
-                return project;
+            SurveyProject surveyProject = projectDAO.getSurveyProjectByUser(new User(email));
+            if (surveyProject == null) {
+                log.debug("user has no project, checking for active");
+                surveyProject = projectDAO.getActiveSurveyProject(projectContext);
+                if (surveyProject == null) {
+                    surveyProject = surveyMapper.createNewProject(projectContext);
+                    log.info("created first project for context " + projectContext);
+                }
             } else {
-                Project project  = new Project(projectName);
-                project.setGroupWorkContext(projectContext);
-                return project;
+                log.debug("has a project");
+                List<User> usersByProjectName = userDAO.getUsersByProjectName(surveyProject.getName());
+                if (usersByProjectName.size() >= GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE &&
+                        surveyProject.getPhase() == Phase.GroupFormation) {
+                    log.debug("has a project and it has sufficient participants");
+                    formGroupsForSurvey(surveyProject);
+                    surveyMapper.createNewProject(projectContext);
+                    log.info("created new project for context " + projectContext);
+                }
             }
+            return surveyProject;
         }
     }
 
-    public Boolean isStudentInProject(User user){
+    public Boolean isStudentInProject(User user) {
         List<Project> projects = iManagement.getProjectsStudent(user);
         return projects != null && !projects.isEmpty();
     }

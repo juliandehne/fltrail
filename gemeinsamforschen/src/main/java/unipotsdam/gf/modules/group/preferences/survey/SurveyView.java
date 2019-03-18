@@ -39,9 +39,6 @@ public class SurveyView {
     @Inject
     private SurveyProcess surveyProcess;
 
-    @Inject
-    private IGroupFinding groupfinding;
-
 
     @Inject
     private ProjectDAO projectDAO;
@@ -52,10 +49,7 @@ public class SurveyView {
     @Inject
     private UserDAO userDAO;
 
-    @Inject
-    private GroupFormationProcess groupFormationProcess;
 
-    private ServletContextEvent sce;
 
     /**
      * // get project where name like projectContext and is active
@@ -65,9 +59,13 @@ public class SurveyView {
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("/project/name/{projectContext}")
-    public Project getProjectName(@PathParam("projectContext") String projectContext) {
-        return surveyProcess.getSurveyProjectName(GroupWorkContext.valueOf(projectContext));
+    @Path("/project/name/{projectContext}/email/{email}")
+    public Project getProjectName(@PathParam("projectContext") String projectContext, @PathParam("email") String email) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+        String emailString = email;
+        if (email.trim().equals("UNKNOWN")) {
+            emailString = null;
+        }
+        return surveyProcess.getSurveyProjectNameOrInitialize(GroupWorkContext.valueOf(projectContext),emailString);
     }
 
 
@@ -87,41 +85,22 @@ public class SurveyView {
         return surveyMapper.getItemsFromDB(groupWorkContext, project);
     }
 
- /*   @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Path("/evaluation/project/{projectId}")
-    public SurveyData getEvaluationQuestions(@PathParam("projectId") String projectId) throws Exception {
-        Project project = projectDAO.getProjectByName(projectId);
-        GroupWorkContext groupWorkContext = GroupWorkContext.evaluation;
-        return surveyMapper.getItemsFromDB(groupWorkContext, project);
-    }*/
 
     /**
      * get all current survey projects
      *
      * @return
-     */
+
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Path("/projects")
-    public java.util.List<Project> getCurrentSurveyProjects() {
-        List<Project> surveyProjects = projectDAO.getSurveyProjects();
+    @Path("/projects/context/{context}")
+    public Project getCurrentSurveyProjects(@PathParam("context") String context) {
+        GroupWorkContext groupWorkContext = GroupWorkContext.valueOf(context);
+        Project surveyProjects = projectDAO.getSurveyProjects(Phase.GroupFormation, groupWorkContext);
         return surveyProjects;
-
     }
+     */
 
-    /*    *//**
-     * get the status of a project
-     * @return
-     *//*
-    @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Path("/status")
-    public ProjectStatus getProjectStatus() {
-
-        // TODO implement
-        return new ProjectStatus();
-    }*/
 
     /**
      * save the answers a user has given in a survey
@@ -145,26 +124,9 @@ public class SurveyView {
         Project project = new Project(projectName);
         project.setGroupWorkContext(groupWorkContext);
         // check if it is surveyContext
-        if (GroupWorkContextUtil.isSurveyContext(groupWorkContext)) {
-            if (GroupWorkContextUtil.isGamingOrAutomatedGroupFormation(groupWorkContext)) {
-                project = surveyProcess.getSurveyProjectName(groupWorkContext);
-            }
-            surveyProcess.saveSurveyData(project, data, req, groupWorkContext, sce);
-        } else {
-            surveyMapper.saveData(data, project, req);
-        }
+        surveyProcess.saveSurveyData(project, data, req, groupWorkContext);
     }
 
-/*    @POST
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Path("/save/evaluation/projects/{projectName}")
-    public void saveEvaluation(
-            HashMap<String, String> data, @PathParam("projectName") String projectName,
-            @Context HttpServletRequest req)
-            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-        GroupWorkContext groupWorkContext = GroupWorkContext.evaluation;
-        surveyProcess.saveSurveyData(new Project(projectName), data, req, groupWorkContext);
-    }*/
 
     /**
      * checks if there is a user session
@@ -200,9 +162,9 @@ public class SurveyView {
     @Path("/user/{userEmail}/context/{context}")
     public Boolean authenticate(
             @PathParam("userEmail") String userEmail, @PathParam("context") String context,
-            @Context HttpServletRequest req) {
+            @Context HttpServletRequest req) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         User user = new User(userEmail);
-        Project projectName = getProjectName(context);
+        Project projectName = getProjectName(context, userEmail);
         List<User> usersByProjectName = userDAO.getUsersByProjectName(projectName.getName());
         if (usersByProjectName.contains(user)) {
             gfContexts.updateUserWithEmail(req, userDAO.getUserByEmail(userEmail));
@@ -219,20 +181,7 @@ public class SurveyView {
         return surveyProcess.isStudentInProject(user).toString();
     }
 
-    /**
-     * participant count
-     *
-     * @param projectName
-     * @param req
-     * @return
-     */
-    @GET
-    @Path("/participantCount/project/{projectName}")
-    public String getParticipantCount(
-            @PathParam("projectName") String projectName, @Context HttpServletRequest req) {
-        ParticipantsCount participantsCount = projectDAO.getParticipantCount(new Project(projectName));
-        return Integer.toString(participantsCount.getParticipants());
-    }
+
 
     /**
      * participant needed count
@@ -263,11 +212,7 @@ public class SurveyView {
     @Path("/projects/{projectName}/buildGroups")
     public List<Group> buildGroups(@PathParam("projectName") String projectName)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-        Project project = new Project(projectName);
-        // todo set GroupWorkContext
-        groupfinding.deleteGroups(project);
-        List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
-        groupfinding.persistGroups(groups, project);
-        return groups;
+        SurveyProject project = new SurveyProject(projectName, null);
+        return surveyProcess.formGroupsForSurvey(project);
     }
 }

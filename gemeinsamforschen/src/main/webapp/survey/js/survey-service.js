@@ -9,7 +9,7 @@
 function sendDataToServer(survey) {
     //var resultAsString = JSON.stringify(survey.data);
     //alert(resultAsString); //send Ajax request to your web server.
-    let dataReq = new RequestObj(1, "/survey", "/save/projects/?/context/?", [context, context], [], survey.data);
+    let dataReq = new RequestObj(1, "/survey", "/save/projects/?/context/?", [projectName, context], [], survey.data);
     userEmail = survey.data.EMAIL1;
     serverSide(dataReq, "POST", function () {
         //log.warn(a);
@@ -23,22 +23,8 @@ function sendDataToServer(survey) {
 }
 
 
-/**
- * get survey pages for context
- * @param context
- * @param callback
- */
-function getSurveyPages1(context, callback) {
-    let projq = new RequestObj(1, "/survey", "/project/name/?", [context], []);
-    serverSide(projq, "GET", function (response) {
-        let projectId = response.name;
-        getSurveyPages2(projectId, callback);
-    });
-}
-
-
-function getSurveyPages2(projectId, callback) {
-    let requ = new RequestObj(1, "/survey", "/data/project/?", [projectId], []);
+function getSurveyPages1(callback) {
+    let requ = new RequestObj(1, "/survey", "/data/project/?", [projectName], []);
     serverSide(requ, "GET", function (surveyJSON) {
         for (let page = 0; page < surveyJSON.pages.length; page++) {
             for (let question = 0; question < surveyJSON.pages[page].questions.length; question++) {
@@ -95,17 +81,11 @@ function initializeOrGetGroups(projectName, callback) {
     });
 }
 
-function getParticipantsNeeded1(context, callback) {
-    let projq = new RequestObj(1, "/survey", "/project/name/?", [context], []);
-    serverSide(projq, "GET", function (response) {
-        let projectId = response.name;
-        getParticipantsNeeded2(projectId, callback);
-    });
-}
 
-function getParticipantsNeeded2(projectId, callback){
+
+function getParticipantsNeeded1(projectId, callback){
     $.ajax({
-        url: "../rest/survey/participantCount/project/" + projectId + "/context/"+context,
+        url: "../rest/survey/participantCountNeeded/project/" + projectId + "/context/"+context,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
@@ -166,8 +146,12 @@ function checkExistence(userEmail, context, callback) {
 // ########################### project functions #################################
 
 function getProjectNameByContext(context, callback) {
+    let tmpEmail="UNKNOWN";
+    if (userEmail){
+        tmpEmail=userEmail;
+    }
     $.ajax({
-        url: "../rest/survey/project/name/" + context,
+        url: "../rest/survey/project/name/" + context+"/email/"+tmpEmail,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"

@@ -1,10 +1,8 @@
 package unipotsdam.gf.modules.project;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import unipotsdam.gf.interfaces.IGroupFinding;
-import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
+import unipotsdam.gf.modules.group.preferences.survey.SurveyProject;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.tasks.ParticipantsCount;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -206,21 +204,7 @@ public class ProjectDAO {
         return projects;
     }
 
-    public List<Project> getSurveyProjects() {
-        connect.connect();
-        String query = "Select * from projects where issurvey = ?";
-
-        ArrayList<Project> projects = new ArrayList<>();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, true);
-        while(vereinfachtesResultSet.next()) {
-            Project projectFromResultSet = getProjectFromResultSet(vereinfachtesResultSet);
-            projects.add(projectFromResultSet);
-        }
-        connect.close();
-        return projects;
-    }
-
-    public String getActiveSurveyProject(GroupWorkContext projectContext) {
+    public SurveyProject getActiveSurveyProject(GroupWorkContext projectContext) {
         connect.connect();
 
         String query = "select * from projects where context = ? and phase = ?";
@@ -232,9 +216,28 @@ public class ProjectDAO {
         if (next) {
             result = vereinfachtesResultSet.getString("name");
         }
-
         connect.close();
+        if (result == null) {
+            return null;
+        }
+        return new SurveyProject(result, projectContext);
+    }
 
-        return result;
+    public SurveyProject getSurveyProjectByUser(User user) {
+        connect.connect();
+
+        String query = "SELECT * from projectuser pu join projects p on p.name = pu.projectName where pu.userEmail = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, user.getEmail());
+
+        SurveyProject surveyProject = null;
+        if (vereinfachtesResultSet.next()) {
+            String projectName = vereinfachtesResultSet.getString("projectName");
+            GroupWorkContext groupWorkContext = GroupWorkContext.valueOf(vereinfachtesResultSet.getString("context"));
+            Phase phase = Phase.valueOf(vereinfachtesResultSet.getString("phase"));
+            surveyProject = new SurveyProject(projectName,groupWorkContext);
+            surveyProject.setPhase(phase);
+        }
+        connect.close();
+        return surveyProject;
     }
 }

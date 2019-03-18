@@ -140,7 +140,8 @@ public class PhasesImpl implements IPhases {
         }
     }
 
-    private void saveState(Project project, Phase phase) {
+    @Override
+    public void saveState(Project project, Phase phase) {
         assert project.getName() != null;
         connect.connect();
         String mysqlRequest = "UPDATE `projects` SET `phase`=? WHERE name=? LIMIT 1";

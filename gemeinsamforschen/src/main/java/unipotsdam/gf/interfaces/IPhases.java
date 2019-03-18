@@ -14,4 +14,5 @@ public interface IPhases {
     void endPhase(Phase phase, Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
 
+    void saveState(Project project, Phase phase);
 }

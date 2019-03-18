@@ -83,7 +83,7 @@ public class Messages {
         if(GroupWorkContextUtil.isGerman(project.getGroupWorkContext())) {
             return message_de.toString();
         }
-        if (GroupWorkContextUtil.isEnglish(project.getGroupWorkContext())) {
+        if (!GroupWorkContextUtil.isGerman(project.getGroupWorkContext())) {
             return message_en.toString();
         }
         return body;

@@ -77,7 +77,7 @@ public class EmailServiceTest {
     public void testSingleMessage() {
         Project project = new Project();
         project.setName("Testprojekt");
-        project.setGroupWorkContext(GroupWorkContext.dota_survey_a1);
+        project.setGroupWorkContext(GroupWorkContext.dota_1);
         emailService.sendSingleMessage(Messages.SurveyGroupFormation(project, "julian.dehne@web.de"), new User
                 (GFMailConfig
                 .EMAIL_ADRESS));
@@ -98,7 +98,7 @@ public class EmailServiceTest {
 
         Project project = new Project();
         project.setName("Testprojekt");
-        project.setGroupWorkContext(GroupWorkContext.dota_survey_a2);
+        project.setGroupWorkContext(GroupWorkContext.dota_1);
         project.setAuthorEmail(author.getEmail());
         projectDAO.persist(project);
 

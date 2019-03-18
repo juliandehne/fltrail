@@ -47,8 +47,8 @@ public class User {
     }
 
 
-    public User(String authorEmail) {
-        this.email = authorEmail;
+    public User(String userEmail) {
+        this.email = userEmail;
         this.discordid = "";
     }
 

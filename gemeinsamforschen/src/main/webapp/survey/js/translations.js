@@ -2,7 +2,7 @@ let welcomeTextDE = "Vielen Dank, für Ihr Interesse an diesem Experiment teil z
     " basierend auf verschiedenen Kriterien. Hierzu gehen Sie bitte auf die \"Umfragen-Seite\" und beantworten die" +
     " dortigen Fragen. Dies dauert etwa 10 Minuten. Sobald 30 Teilnehmer die Umfrage ausgefüllt haben, werden" +
     " Gruppen gebildet, die Sie dann unter dem Reiter \"Gruppen\" finden werden. So lange noch keine 30 Teilnehmer" +
-    " den Fragebogen ausgefüllt haben, ist die \"Gruppen-Seite\" leer. </br> Vielen Dank für Ihre Teilnahme!";
+    " den Fragebogen ausgefüllt haben, ist die \"Gruppen-Seite\" leer. <br> Vielen Dank für Ihre Teilnahme!";
 
 let welcomeTextEN = " Thank you for your interest and your participation in our survey." +
     "            We are here to build and evaluate groups based on different criteria. Therefore use the\n" +

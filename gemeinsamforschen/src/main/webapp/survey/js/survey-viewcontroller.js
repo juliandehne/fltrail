@@ -2,6 +2,7 @@
 let language = "";
 let userEmail;
 let context;
+let projectName;
 
 
 // ##############################################################################
@@ -53,38 +54,44 @@ $(document).ready(function () {
         titleObject = computedGroupsDE;
     }
 
-    // print templates
-    printWelcomeText(welcomeObject);
-    printNavi(naviObject);
-    printGroupView(groupViewLoginObject, titleObject);
+    getProjectNameByContext(context, function (surveyName) {
+        projectName = surveyName;
 
-    // ############## Navigation ###############################
-    // activate the group link
-    $('#buildGroupsLink').on('click', function () {
-        location.href = "saveGroups.jsp?context=" + context + "&language=" + language;
-    });
-    // the button for next page
-    let navTextPage = $('#navTextPage');
-    // the button for group view
-    let navGroupView = $('#navGroupView');
-    // the button for survey view
-    let navSurvey = $('#navSurvey');
+        // print templates
+        printWelcomeText(welcomeObject);
+        printNavi(naviObject);
+        printGroupView(groupViewLoginObject, titleObject);
 
-    navTextPage.on('click', showIntroduction);
-    navGroupView.on('click', showGroupView);
-    navSurvey.on('click', showSurveyView);
+        // ############## Navigation ###############################
+        // activate the group link
+        $('#buildGroupsLink').on('click', function () {
+            location.href = "saveGroups.jsp?context=" + context + "&language=" + language;
+        });
+        // the button for next page
+        let navTextPage = $('#navTextPage');
+        // the button for group view
+        let navGroupView = $('#navGroupView');
+        // the button for survey view
+        let navSurvey = $('#navSurvey');
 
-    $('#btnPrev').on('click', prevView);
-    $('#btnNext').on('click', nextView);
-    $("#logout").on('click', logout);
+        navTextPage.on('click', showIntroduction);
+        navGroupView.on('click', showGroupView);
+        navSurvey.on('click', showSurveyView);
+
+        $('#btnPrev').on('click', prevView);
+        $('#btnNext').on('click', nextView);
+        $("#logout").on('click', logout);
 
 
-    // survey tab
-    prepareSurvey();
-    prepareGroupTab();
+        // survey tab
+        if (!disableSurveyTab()) {
+            prepareSurvey();
+        }
+        prepareGroupTab();
 
-    // ############## REDIRECTS #################################
-    checkUserEmailForDirectLink();
+        // ############## REDIRECTS #################################
+        checkUserEmailForDirectLink();
+    })
 });
 
 
@@ -135,6 +142,7 @@ function resetNaviSelections() {
     navi.each(function () {
         this.className = "page-item";
     });
+    disableSurveyTab();
 }
 
 /**
@@ -217,10 +225,22 @@ function checkUserEmailForDirectLink() {
     })
 }
 
+function disableSurveyTab() {
+    if (userEmail) {
+        //disable navigation to survey
+        $('#navLiSurvey').attr('class', 'page-item disabled');
+        $('#navSurvey').attr('class', 'page-item disabled');
+        return true;
+    } else {
+        return false;
+    }
+}
+
 
 // ################# Survey Functions #############################
 
 function prepareSurvey() {
+
     $('#noSurveyContextMessage').hide();
     if (!context) {
         $('#noSurveyContextMessage').show();
@@ -229,8 +249,9 @@ function prepareSurvey() {
         .StylesManager
         .applyTheme("default");
 
-    getSurveyPages1(context, loadSurvey);
+    getSurveyPages1(loadSurvey);
 }
+
 
 function loadSurvey(surveyJSON) {
     let survey = new Survey.Model(surveyJSON);

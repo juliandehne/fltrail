@@ -122,7 +122,7 @@ public class GroupAlTest {
     public void testGroupAl() throws Exception {
 
 
-        Project project = new Project(surveyMapper.createNewProject(GroupWorkContext.dota));
+        Project project = surveyMapper.createNewProject(GroupWorkContext.dota_1);
 
         // utility
         Random random = new Random();
@@ -131,7 +131,7 @@ public class GroupAlTest {
         //SurveyPreparation.main(new String[0]);
         
         // get variables
-        List<ProfileQuestion> questions = profileDAO.getQuestions(GroupWorkContext.dota_test);
+        List<ProfileQuestion> questions = profileDAO.getQuestions(GroupWorkContext.dota_1);
 
         // add answers
         for (int i = 0; i < 30; i++) {
@@ -144,7 +144,7 @@ public class GroupAlTest {
             }
             data.put(SurveyMapper.EMAIL1, user.getEmail());
             data.put(SurveyMapper.NICKNAME1, user.getName());
-            project.setGroupWorkContext(GroupWorkContext.dota_survey_a1);
+            project.setGroupWorkContext(GroupWorkContext.dota_1);
             surveyMapper.saveData(data, project, null);
         }
 
