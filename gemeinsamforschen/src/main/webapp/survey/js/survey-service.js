@@ -131,7 +131,7 @@ function getParticipantsNeeded2(projectId, callback){
 
 
 function authenticate(userEmail, callback) {
-    if (userEmail.trim() == "") {
+    if (userEmail && userEmail.trim() == "") {
         callback(false);
     } else {
         $.ajax({

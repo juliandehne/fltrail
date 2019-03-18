@@ -7,10 +7,17 @@
     "id": "156f0045-ec18-4d1a-abef-d35f1d5b9996",
     "name": "createUser",
     "commands": [{
+      "id": "7815a526-f49b-4638-bd89-a450a9995a0a",
+      "comment": "",
+      "command": "store",
+      "target": "dota_survey_a1",
+      "targets": [],
+      "value": "contextName"
+    }, {
       "id": "85f79318-18a9-4931-b8f4-8a5c60e8730b",
       "comment": "",
       "command": "open",
-      "target": "gemeinsamforschen/survey/enterGFM.jsp?context=dota_test&language=de",
+      "target": "gemeinsamforschen/survey/enterGFM.jsp?context=${contextName}&language=de",
       "targets": [],
       "value": ""
     }, {
@@ -75,7 +82,7 @@
         ["xpath=//div[@id='sq_100']/div[2]/input", "xpath:idRelative"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "dota_test${index}"
+      "value": "${contextName}${index}"
     }, {
       "id": "1c4d597c-a887-4cd5-bc5a-0bff028aef63",
       "comment": "",
@@ -88,7 +95,7 @@
         ["xpath=//div[@id='sq_101']/div[2]/input", "xpath:idRelative"],
         ["xpath=//div[3]/div/div[2]/input", "xpath:position"]
       ],
-      "value": "dota_test${index}@uni.de"
+      "value": "${contextName}${index}@uni.de"
     }, {
       "id": "5f78f451-693d-4adb-8f18-b3931554a049",
       "comment": "",
@@ -101,7 +108,7 @@
         ["xpath=//div[@id='sq_102']/div[2]/input", "xpath:idRelative"],
         ["xpath=//div[4]/div/div[2]/input", "xpath:position"]
       ],
-      "value": "dota_test${index}@uni.de"
+      "value": "${contextName}${index}@uni.de"
     }, {
       "id": "4f275e38-554f-4608-b0fa-827278f01521",
       "comment": "",
@@ -532,13 +539,6 @@
         ["xpath=//div[@id='surveyContainer']/div/form/div[2]/div[2]/div[4]/input[3]", "xpath:idRelative"],
         ["xpath=//input[3]", "xpath:position"]
       ],
-      "value": ""
-    }, {
-      "id": "265bccc4-962c-48db-bf69-ec5e7f61dfe8",
-      "comment": "",
-      "command": "executeScript",
-      "target": "history.back();",
-      "targets": [],
       "value": ""
     }, {
       "id": "e5069eff-db06-47eb-bacb-ed91f8166f86",
