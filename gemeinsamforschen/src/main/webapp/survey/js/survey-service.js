@@ -83,9 +83,9 @@ function initializeOrGetGroups(projectName, callback) {
 
 
 
-function getParticipantsNeeded1(projectId, callback){
+function getParticipantsNeeded1(callback){
     $.ajax({
-        url: "../rest/survey/participantCountNeeded/project/" + projectId + "/context/"+context,
+        url: "../rest/survey/participantCountNeeded/project/" + projectName + "/context/"+context,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
