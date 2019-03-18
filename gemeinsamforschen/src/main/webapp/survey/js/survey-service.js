@@ -9,7 +9,7 @@
 function sendDataToServer(survey) {
     //var resultAsString = JSON.stringify(survey.data);
     //alert(resultAsString); //send Ajax request to your web server.
-    let dataReq = new RequestObj(1, "/survey", "/save/projects/?", [projectId], [], survey.data);
+    let dataReq = new RequestObj(1, "/survey", "/save/projects/?/context/?", [context, context], [], survey.data);
     userEmail = survey.data.EMAIL1;
     serverSide(dataReq, "POST", function () {
         //log.warn(a);
@@ -31,7 +31,7 @@ function sendDataToServer(survey) {
 function getSurveyPages1(context, callback) {
     let projq = new RequestObj(1, "/survey", "/project/name/?", [context], []);
     serverSide(projq, "GET", function (response) {
-        projectId = response.name;
+        let projectId = response.name;
         getSurveyPages2(projectId, callback);
     });
 }
@@ -98,30 +98,24 @@ function initializeOrGetGroups(projectName, callback) {
 function getParticipantsNeeded1(context, callback) {
     let projq = new RequestObj(1, "/survey", "/project/name/?", [context], []);
     serverSide(projq, "GET", function (response) {
-        projectId = response.name;
+        let projectId = response.name;
         getParticipantsNeeded2(projectId, callback);
     });
 }
 
 function getParticipantsNeeded2(projectId, callback){
     $.ajax({
-        url: "../rest/survey/participantCount/project/" + projectId,
+        url: "../rest/survey/participantCount/project/" + projectId + "/context/"+context,
         headers: {
-            "Content-Type": "text/html",
+            "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         type: 'GET',
         success: function (numberOfParticipants) {
-            let result = 0;
-            if (30 - numberOfParticipants < 0) {
-                participantsMissing = result;
-            } else {
-                participantsMissing = result;
-            }
-            callback(participantsMissing);
+            callback(numberOfParticipants);
         },
         error: function () {
-            participantsMissing = 0;
+            callback(false);
         }
     });
 
@@ -131,11 +125,11 @@ function getParticipantsNeeded2(projectId, callback){
 
 
 function authenticate(userEmail, callback) {
-    if (userEmail && userEmail.trim() == "") {
+    if (!userEmail || userEmail.trim() == "") {
         callback(false);
     } else {
         $.ajax({
-            url: "../rest/survey/user/" + userEmail,
+            url: "../rest/survey/user/" + userEmail + "/context/"+context,
             headers: {
                 "Content-Type": "text/html",
                 "Cache-Control": "no-cache"
@@ -143,11 +137,7 @@ function authenticate(userEmail, callback) {
             type: 'POST',
             success: function (response) {
                 //Session.setAttribute(userEmail) happens on serverSide
-                if (response === "userEmail set") {
-                    callback(response);
-                } else {
-                    callback(response === "userEmail set");
-                }
+                callback(response);
             },
             error: function (a) {
                 console.log("user Email existiert nicht");

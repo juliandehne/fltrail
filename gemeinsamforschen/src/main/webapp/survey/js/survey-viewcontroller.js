@@ -15,7 +15,7 @@ $(document).ready(function () {
     context = getQueryVariable("context");
     let email = getQueryVariable("userEmail");
     if (email) {
-        userEmail = convertEncodedEmail();
+        userEmail = convertEncodedEmail(email);
     }
 
     // set defaults
@@ -268,7 +268,7 @@ function validateEmails(survey, options) {
 
 function paintNoGroupsBuildMessage(participantsNeededObj) {
 
-    let participantsMissing = participantsNeededObj.participantsNeeded -  participantsNeededObj.participants;
+    let participantsMissing = participantsNeededObj.participantsNeeded;
     let noGroupsMessageObject;
     if (language == "en") {
         noGroupsMessageObject = noGroupsMessageEN(participantsMissing);
