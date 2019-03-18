@@ -6,19 +6,17 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
-import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.SurveyProcess;
-import unipotsdam.gf.process.tasks.ParticipantsCount;
+import unipotsdam.gf.process.tasks.ProjectStatus;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
-import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -38,6 +36,9 @@ public class SurveyView {
 
     @Inject
     private SurveyProcess surveyProcess;
+
+    @Inject
+    private GroupDAO groupDAO;
 
 
     @Inject
@@ -193,17 +194,24 @@ public class SurveyView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/participantCountNeeded/project/{projectName}/context/{context}")
-    public ParticipantsCount getParticipantNeededCount(
+    public ProjectStatus getParticipantNeededCount(
             @PathParam("projectName") String projectName, @PathParam("context") String context,
             @Context HttpServletRequest req) {
+        GroupWorkContext groupWorkContext =  GroupWorkContext.valueOf(context);
 
-        int needed = GroupWorkContextUtil.getParticipantNeeded(GroupWorkContext.valueOf(context));
-        ParticipantsCount participantsCount = projectDAO.getParticipantCount(new Project(projectName));
+        int needed = GroupWorkContextUtil.getParticipantNeeded(groupWorkContext);
+        ProjectStatus projectStatus = projectDAO.getParticipantCount(new Project(projectName));
 
         if (needed >= 0) {
-            participantsCount.setParticipantsNeeded(needed);
+            projectStatus.setParticipantsNeeded(needed);
         }
-        return participantsCount;
+        // set survey type
+        projectStatus.setSurvey(GroupWorkContextUtil.isSurveyContext(groupWorkContext));
+        // set info that groups are formed
+        List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(projectName);
+        projectStatus.setGroupsFormed(groupsByProjectName != null && !groupsByProjectName.isEmpty());
+
+        return projectStatus;
     }
 
     @POST

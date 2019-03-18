@@ -17,7 +17,7 @@ import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.progress.HasProgress;
 import unipotsdam.gf.process.progress.ProgressData;
 import unipotsdam.gf.process.tasks.FeedbackTaskData;
-import unipotsdam.gf.process.tasks.ParticipantsCount;
+import unipotsdam.gf.process.tasks.ProjectStatus;
 import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.TaskName;
 
@@ -668,7 +668,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         Integer result = 0;
         switch (groupFormationMechanism) {
             case SingleUser:
-                ParticipantsCount participantCount = projectDAO.getParticipantCount(project);
+                ProjectStatus participantCount = projectDAO.getParticipantCount(project);
                 result = participantCount.getParticipants();
                 break;
             case LearningGoalStrategy:

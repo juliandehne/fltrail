@@ -1,23 +1,25 @@
 package unipotsdam.gf.process.tasks;
 
-public class ParticipantsCount {
+public class ProjectStatus {
     private int participants;
     private int participantsNeeded;
     private String dataName;
+    private Boolean groupsFormed;
+    private Boolean isAutomated;
 
 
     private static String PARTICIPANT_COUNT_NAME="PARTICIPANT_COUNT_NAME";
 
-    public ParticipantsCount() {
+    public ProjectStatus() {
     }
 
-    public ParticipantsCount(int count, int participantsNeeded) {
+    public ProjectStatus(int count, int participantsNeeded) {
         this.dataName = PARTICIPANT_COUNT_NAME;
         this.participants = count;
         this.participantsNeeded =  participantsNeeded;
     }
 
-    public ParticipantsCount(int participants) {
+    public ProjectStatus(int participants) {
         this.participants = participants;
         this.participantsNeeded = 1;
         this.dataName = PARTICIPANT_COUNT_NAME;
@@ -45,5 +47,21 @@ public class ParticipantsCount {
 
     public void setParticipantsNeeded(int participantsNeeded) {
         this.participantsNeeded = participantsNeeded;
+    }
+
+    public Boolean getGroupsFormed() {
+        return groupsFormed;
+    }
+
+    public void setGroupsFormed(Boolean groupsFormed) {
+        this.groupsFormed = groupsFormed;
+    }
+
+    public Boolean getSurvey() {
+        return isAutomated;
+    }
+
+    public void setSurvey(Boolean survey) {
+        isAutomated = survey;
     }
 }

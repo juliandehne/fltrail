@@ -18,7 +18,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Comparator;
 import java.util.List;
 
 import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
@@ -96,10 +95,10 @@ public class TaskDAO {
         Task task = getGeneralTask(vereinfachtesResultSet);
         Project project = new Project();
         project.setName(vereinfachtesResultSet.getString("projectName"));
-        ParticipantsCount participantsCount = projectDAO.getParticipantCount(project);
-        participantsCount.setParticipantsNeeded(groupFinding.getMinNumberOfStudentsNeeded(project));
+        ProjectStatus projectStatus = projectDAO.getParticipantCount(project);
+        projectStatus.setParticipantsNeeded(groupFinding.getMinNumberOfStudentsNeeded(project));
         Map<String, Object> taskData = new HashMap<>();
-        taskData.put("participantCount", participantsCount);
+        taskData.put("participantCount", projectStatus);
         GroupFormationMechanism gfm =groupFinding.getGFM(project);
         taskData.put("gfm", gfm);
         task.setTaskData(taskData);

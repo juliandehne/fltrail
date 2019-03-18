@@ -3,6 +3,8 @@ let language = "";
 let userEmail;
 let context;
 let projectName;
+let alreadyParticipatedMessage;
+let mailsDontMatch;
 
 
 // ##############################################################################
@@ -43,7 +45,8 @@ $(document).ready(function () {
         naviObject = navEN;
         groupViewLoginObject = groupViewLoginEN;
         titleObject = computedGroupsEN;
-
+        alreadyParticipatedMessage = alreadyParticipatedMessageEN;
+        mailsDontMatch = mailsDontMatchEN;
     } else {
         welcomeObject = [{
             welcomeTitle: welcomeTitleDE,
@@ -52,6 +55,8 @@ $(document).ready(function () {
         naviObject = navDE;
         groupViewLoginObject = groupViewLoginDE;
         titleObject = computedGroupsDE;
+        alreadyParticipatedMessage = alreadyParticipatedMessageDE;
+        mailsDontMatch = mailsDontMatchDE;
     }
 
     getProjectNameByContext(context, function (surveyName) {
@@ -117,8 +122,8 @@ function printGroupView(groupViewLoginObject, titleObject) {
     $('#titleHolder').hide();
 
     // paint the participant needed box
-    getParticipantsNeeded1(function (participantsNeededObj) {
-        paintGroupsOrMessage(participantsNeededObj);
+    getParticipantsNeeded1(function (projectStatus) {
+        paintGroupsOrMessage(projectStatus);
     });
 }
 
@@ -273,13 +278,13 @@ function validateEmails(survey, options) {
         let context = getQueryVariable("context");
         checkExistence(userEmail, context, function (exists) {
             if (exists === "true") {
-                options.error = "You already participated in a survey.";
+                options.error = alreadyParticipatedMessage;
             }
         });
     }
     if (options.name === "EMAIL2") {
         if (userEmail !== options.value) {
-            options.error = "The Email is not the same as the first one.";
+            options.error = mailsDontMatch;
         }
     }
 }
@@ -287,20 +292,20 @@ function validateEmails(survey, options) {
 
 // #################### Group Functions #############################
 
-function paintGroupsOrMessage(participantsNeededObj) {
-    let isParticipantMissing = participantsNeededObj.participantsNeeded > participantsNeededObj.participants;
-    let participantsMissing = participantsNeededObj.participantsNeeded - participantsNeededObj.participants;
-    if (!isParticipantMissing) {
+function paintGroupsOrMessage(projectStatus) {
+    let groupsFormed = projectStatus.groupsFormed;
+    let isAutomated = projectStatus.isAutomated;
+    if (groupsFormed) {
         getAllGroups(groupsToTemplate);
     } else {
         let noGroupsMessageObject;
+        let participantsMissing = projectStatus.participantsNeeded - projectStatus.participants;
         if (language == "en") {
             noGroupsMessageObject = noGroupsMessageEN(participantsMissing);
         } else {
             noGroupsMessageObject = noGroupsMessageDE(participantsMissing);
         }
-        // if the context has manual group formation don't show the missing participants
-        if (isParticipantMissing) {
+        if (!isAutomated) {
             noGroupsMessageObject.participantsMissing = "";
         }
         // render the message
@@ -310,6 +315,35 @@ function paintGroupsOrMessage(participantsNeededObj) {
         clpText.value = document.URL;
         //clpText[1].value = document.URL;
     }
+    if (isAutomated) {
+        let isParticipantMissing = projectStatus.participantsNeeded > projectStatus.participants;
+        let participantsMissing = projectStatus.participantsNeeded - projectStatus.participants;
+        if (!isParticipantMissing) {
+            getAllGroups(groupsToTemplate);
+        } else {
+            let noGroupsMessageObject;
+            if (language == "en") {
+                noGroupsMessageObject = noGroupsMessageEN(participantsMissing);
+            } else {
+                noGroupsMessageObject = noGroupsMessageDE(participantsMissing);
+            }
+            // if the context has manual group formation don't show the missing participants
+            if (isParticipantMissing) {
+                noGroupsMessageObject.participantsMissing = "";
+            }
+            // render the message
+            $('#noGroupTemplate').tmpl(noGroupsMessageObject).appendTo('#noGroupMessageHolder');
+
+            let clpText = document.getElementById('clpText');
+            clpText.value = document.URL;
+            //clpText[1].value = document.URL;
+        }
+    } else {
+        if (groupsFormed) {
+            getAllGroups(groupsToTemplate);
+        }
+    }
+
 }
 
 function groupsToTemplate(allGroups) {
