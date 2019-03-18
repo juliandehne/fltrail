@@ -33,7 +33,12 @@ function getSurveyPages1(callback) {
                     surveyJSON.pages[page].questions[question].isRequired = false;
                 }
                 if (questionText.includes('email') ||
-                    questionText.includes('E-Mail')) {
+                    questionText.includes('e-mail') ||
+                    questionText.includes('E-Mail') ||
+                    questionText.includes('E-MAIL') ||
+                    questionText.includes('EMail') ||
+                    questionText.includes('Email')
+                ) {
                     surveyJSON.pages[page].questions[question].validators = [{
                         type: "email"
                     }]
@@ -165,7 +170,21 @@ function getProjectNameByContext(context, callback) {
     });
 }
 
-
+function getContextType(callback) {
+    $.ajax({
+        url: "../rest/survey/context/"+context +"/isAutomated",
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        type: 'GET',
+        success: function (isAutomated) {
+            callback(isAutomated);
+        },
+        error: function (a) {
+        }
+    });
+}
 
 /*
 function groupsToTemplate(allGroups, callback) {

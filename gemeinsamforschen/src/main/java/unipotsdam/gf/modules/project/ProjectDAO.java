@@ -4,7 +4,7 @@ import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyProject;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.process.tasks.ParticipantsCount;
+import unipotsdam.gf.process.tasks.ProjectStatus;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.phases.Phase;
@@ -134,7 +134,7 @@ public class ProjectDAO {
         return result;
     }
 
-    public ParticipantsCount getParticipantCount(Project project) {
+    public ProjectStatus getParticipantCount(Project project) {
         connect.connect();
         String mysqlRequest = "SELECT COUNT(userEmail) FROM projectuser where projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getName());
@@ -147,7 +147,7 @@ public class ProjectDAO {
 
         connect.close();
 
-        return new ParticipantsCount(count);
+        return new ProjectStatus(count);
     }
 
     public void changeGroupFormationMechanism(

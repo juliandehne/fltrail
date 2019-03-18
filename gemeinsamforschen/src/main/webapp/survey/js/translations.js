@@ -51,6 +51,21 @@ let computedGroupsDE = [{
     computedGroups: "Gruppeneinteilung",
 }];
 
+let alreadyParticipatedMessageEN = "You already participated in a survey.";
+
+let alreadyParticipatedMessageDE = "Sie haben bereits an einer Umfrage teilgenommen.";
+
+let mailsDontMatchEN = "The Email is not the same as the first one.";
+
+let mailsDontMatchDE = "Diese E-Mail stimmt nicht mit der oberen überein.";
+
+let noGroupsMessageManualEN = [{
+    noGroupsYet: "There are no groups built yet.",
+    participantsMissing: "",
+    comeBackAfterMail: "Please come back to this page after you get an E-Mail, that groups where built.",
+}];
+
+let noGroupsMessageManualDE = "Es wurden noch keine Gruppen gebildet.";
 
 function noGroupsMessageEN(participantsNeeded) {
     let noGroupsEN = [{
