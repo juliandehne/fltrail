@@ -90,31 +90,29 @@
 
             <!-- title -->
             <div id="titleHolder"></div>
-            <script type="text/x-jQuery-tmpl" id="titleTemplate">
-            <h2 id="groupsHeadline">${computedGroups}</h2>
-        </script>
+                <script type="text/x-jQuery-tmpl" id="titleTemplate">
+                    <h2 id="groupsHeadline">${computedGroups}</h2>
+                </script>
             <!-- /title -->
 
 
             <div class="col span_content span_2_of_2">
 
                 <!-- There are no groups built yet because there are not enough members -->
-                <div id="noGroupMessageHolder">
-
-                </div>
-                <script type="text/x-jQuery-tmpl" id="noGroupTemplate">
-                <div class="alert alert-warning" id="noGroupsYet" style="display: block">
-                <div style="display:block">
-                    ${noGroupsYet}
-                    <p id="participantsMissing">${participantsMissing}</p>
-                    ${comeBackAfterMail}
-                </div>
-                <div style="display:flex">
-                    <input name="clpText" value="" readonly class="form-control-plaintext">
-                    <button onclick="clpSet();" class="btn btn-secondary"><i class="far fa-clipboard"></i></button>
-                </div>
-            </div>
-            </script>
+                <div id="noGroupMessageHolder"></div>
+                    <script type="text/x-jQuery-tmpl" id="noGroupTemplate">
+                        <div class="alert alert-warning" id="noGroupsYet" style="display: block">
+                            <div style="display:block">
+                                ${noGroupsYet}
+                                <p id="participantsMissing">${participantsMissing}</p>
+                                ${comeBackAfterMail}
+                            </div>
+                            <div style="display:flex">
+                                <input id="clpText" value="" readonly class="form-control-plaintext">
+                                <button onclick="clpSet();" class="btn btn-secondary"><i class="far fa-clipboard"></i></button>
+                            </div>
+                        </div>
+                    </script>
                 <!-- /There are no groups built yet because there are not enough members -->
 
                 <div style="display: flex">
