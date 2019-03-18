@@ -346,19 +346,6 @@ function paintGroupsOrMessage(projectStatus) {
 
 }
 
-function groupsToTemplate(allGroups) {
-    let groupTmplObject = [];
-    $('#groupsInProject').html("");
-    for (let group = 0; group < allGroups.length; group++) {
-        groupTmplObject.push({
-            groupName: "group" + group,
-            groupMember: allGroups[group].members,
-            chatRoomId: allGroups[group].chatRoomId,
-        });
-    }
-    $('#groupTemplate').tmpl(groupTmplObject).appendTo('#groupsInProject');
-}
-
 
 function prepareGroupTab() {
     // only display email

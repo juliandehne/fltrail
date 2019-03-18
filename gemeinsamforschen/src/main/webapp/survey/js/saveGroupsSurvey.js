@@ -1,44 +1,59 @@
+
+let context;
+let projectName;
+
+function showNoParticipantsMessage() {
+    $('#NoParticipantsInfo').show();
+
+    $('#groupsInProject').hide();
+    $('.groups-manual').hide();
+}
+
+/*function hideNoParticipantsMessage() {
+    $('#eMailVerified').hide();
+    $('#NoParticipantsInfo').hide();
+}*/
+
+function showGroups() {
+    $('#groupsInProject').show();
+    $('.groups-manual').show();
+
+}
+
 $(document).ready(function () {
     $('#eMailVerified').hide();
-    let context = getQueryVariable("context");
+    context = getQueryVariable("context");
+    projectName = context;
+
     $('#btnBuildGroups').on('click', function () {
+
+        $('#eMailVerified').show();
+
         let password = $('#password').val().trim();
         //if (true){
         let encodedPass = context.hashCode();
         if (encodedPass == password || true) {
             $('#wrongAuthentication').hide();
             $('#authenticationPanel').hide();
-            $('#eMailVerified').show();
 
-            getProjectNameByContext(context, function (projectName) {
-                initializeOrGetGroups(projectName, function (groups) {
-                    if (groups.length == 0) {
-                        $('#groupsInProject').hide();
-                        $('.groups-manual').hide();
-                        $('#NoParticipantsInfo').show();
-                    } else {
-                        groupsToTemplate(groups, function (done) {
-                            $('#Gruppeneinteilung').show();
-                            $('#groupsHeadline').hide();
-                            $('#noGroupsYet').hide();
-                            $('#bisherKeineGruppen').hide();
-                            $('#groupsInProject').show();
-                            $('.groups-manual').show();
-                            $('#NoParticipantsInfo').hide();
+            getParticipantsNeeded1(function (projectStatus) {
+                //let groupsFormed = projectStatus.groupsFormed;
+                if (projectStatus.participants < projectStatus.participantsNeeded) {
+                    showNoParticipantsMessage();
+                } else {
+                    let isAutomated = projectStatus.automated;
+                    if (!isAutomated) {
+                        initializeOrGetGroups(projectName, function (groups) {
+                            groupsToTemplate(groups, function (done) {
+                                showGroups();
+                            });
                         });
                     }
-                });
-
-                // es wäre besser, wenn dies nicht in dem gruppen template enthalten wäre
-
-
+                }
             });
         } else {
             $('#wrongAuthentication').show();
         }
-        /*getProjectNameByContext(context, function(projectName){
-
-        });*/
     });
 });
 

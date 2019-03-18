@@ -90,7 +90,7 @@
 
             <!-- title -->
             <div id="titleHolder"></div>
-                <script type="text/x-jQuery-tmpl" id="titleTemplate">
+            <script type="text/x-jQuery-tmpl" id="titleTemplate">
                     <h2 id="groupsHeadline">${computedGroups}</h2>
                 </script>
             <!-- /title -->
@@ -100,7 +100,7 @@
 
                 <!-- There are no groups built yet because there are not enough members -->
                 <div id="noGroupMessageHolder"></div>
-                    <script type="text/x-jQuery-tmpl" id="noGroupTemplate">
+                <script type="text/x-jQuery-tmpl" id="noGroupTemplate">
                         <div class="alert alert-warning" id="noGroupsYet" style="display: block">
                             <div style="display:block">
                                 ${noGroupsYet}

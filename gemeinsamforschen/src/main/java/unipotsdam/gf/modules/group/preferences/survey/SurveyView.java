@@ -214,13 +214,22 @@ public class SurveyView {
         return projectStatus;
     }
 
+    /**
+     * this should never be called by automated
+     * @param projectName
+     * @return
+     * @throws WrongNumberOfParticipantsException
+     * @throws JAXBException
+     * @throws JsonProcessingException
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}/buildGroups")
     public List<Group> buildGroups(@PathParam("projectName") String projectName)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-        SurveyProject project = new SurveyProject(projectName, null);
+        GroupWorkContext groupWorkContext = GroupWorkContext.valueOf(projectName);
+        SurveyProject project = new SurveyProject(projectName, groupWorkContext);
         return surveyProcess.formGroupsForSurvey(project);
     }
 }
