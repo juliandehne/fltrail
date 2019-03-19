@@ -235,7 +235,7 @@ function calculateHierachy(level) {
 }
 
 function clpSet(){
-    let clpText = document.getElementsByName('clpText');
-    clpText[0].select();
+    let clpText = document.getElementById('clpText');
+    clpText.select();
     document.execCommand('copy');
 }

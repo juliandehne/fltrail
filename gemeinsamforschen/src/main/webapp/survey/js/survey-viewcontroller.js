@@ -292,6 +292,11 @@ function validateEmails(survey, options) {
 
 // #################### Group Functions #############################
 
+function clipBoardFunction() {
+    let clpText = document.getElementById('clpText');
+    clpText.value = document.URL;
+}
+
 function paintGroupsOrMessage(projectStatus) {
     let groupsFormed = projectStatus.groupsFormed;
     let isAutomated = projectStatus.automated;
@@ -311,8 +316,7 @@ function paintGroupsOrMessage(projectStatus) {
         // render the message
         $('#noGroupTemplate').tmpl(noGroupsMessageObject).appendTo('#noGroupMessageHolder');
 
-        let clpText = document.getElementById('clpText');
-        clpText.value = document.URL;
+        clipBoardFunction();
         //clpText[1].value = document.URL;
     }
     if (isAutomated) {
@@ -333,9 +337,7 @@ function paintGroupsOrMessage(projectStatus) {
             }
             // render the message
             $('#noGroupTemplate').tmpl(noGroupsMessageObject).appendTo('#noGroupMessageHolder');
-
-            let clpText = document.getElementById('clpText');
-            clpText.value = document.URL;
+            clipBoardFunction();
             //clpText[1].value = document.URL;
         }
     } else {

@@ -45,6 +45,10 @@ function getSurveyPages1(callback) {
                 }
             }
         }
+        //
+        surveyJSON.title.de = surveyJSTitleDE;
+        surveyJSON.title.en = surveyJSTitleEN;
+
         callback(surveyJSON);
     });
 }

@@ -1,13 +1,13 @@
 let welcomeTextDE = "Vielen Dank, für Ihr Interesse an diesem Experiment teil zu nehmen. Es geht um Gruppenbildung" +
-    " basierend auf verschiedenen Kriterien. Hierzu gehen Sie bitte auf die \"Umfragen-Seite\" und beantworten die" +
+    " basierend auf verschiedenen Kriterien. Hierzu gehen Sie bitte auf die \"Profil-Seite\" und beantworten die" +
     " dortigen Fragen. Dies dauert etwa 10 Minuten. Sobald 30 Teilnehmer die Umfrage ausgefüllt haben, werden" +
     " Gruppen gebildet, die Sie dann unter dem Reiter \"Gruppen\" finden werden. So lange noch keine 30 Teilnehmer" +
-    " den Fragebogen ausgefüllt haben, ist die \"Gruppen-Seite\" leer. <br> Vielen Dank für Ihre Teilnahme!";
+    " den Fragebogen ausgefüllt haben, ist die \"Gruppen-Seite\" leer. Vielen Dank für Ihre Teilnahme!";
 
 let welcomeTextEN = " Thank you for your interest and your participation in our survey." +
-    "            We are here to build and evaluate groups based on different criteria. Therefore use the\n" +
-    "            \"survey-page\" and answer the questions. This will last about 10 minutes." +
-    "            When 30 people committed their answers, you can see which group you are in on the \"group-page\".\n" +
+    "            We are here to build and evaluate groups based on different criteria. Please use the" +
+    "            profile page and answer the questions. This will take about 10 minutes." +
+    "            After 30 people have committed their answers, you can see which group you are in on the group page." +
     "            As long as there are not enough participants, you can't see your group." +
     "            Thank you for your participation!";
 
@@ -18,7 +18,7 @@ let welcomeTitleEN = "Welcome";
 let navEN = [{
     groups: "Groups",
     introduction: "Introduction",
-    survey: "Survey",
+    survey: "Profile",
     persist: "Admin",
     logout: "log out"
 }];
@@ -26,7 +26,7 @@ let navEN = [{
 let navDE = [{
     groups: "Gruppen",
     introduction: "Einleitung",
-    survey: "Umfrage",
+    survey: "Profil",
     persist: "Admin",
     logout: "ausloggen"
 }];
@@ -92,3 +92,6 @@ function messageParticipantsNeededDE(participantsNeeded) {
 function messageParticipantsNeededEN(participantsNeeded) {
     return "Es fehlen noch " + participantsNeeded + " Teilnehmer um die Gruppen zu bilden.";
 }
+
+let surveyJSTitleDE = "Bitte füllen Sie ihr Profil aus!";
+let surveyJSTitleEN = "Please complete your profile!";
