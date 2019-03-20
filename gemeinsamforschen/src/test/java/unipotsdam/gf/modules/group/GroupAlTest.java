@@ -134,7 +134,7 @@ public class GroupAlTest {
         List<ProfileQuestion> questions = profileDAO.getQuestions(GroupWorkContext.dota_1);
 
         // add answers
-        for (int i = 0; i < 57; i++) {
+        for (int i = 0; i < 300; i++) {
             User user = factory.manufacturePojo(User.class);
             HashMap<String, String> data = new HashMap<>();
             for (ProfileQuestion question : questions) {
@@ -146,6 +146,7 @@ public class GroupAlTest {
             data.put(SurveyMapper.NICKNAME1, user.getName());
             project.setGroupWorkContext(GroupWorkContext.dota_1);
             surveyMapper.saveData(data, project, null);
+            Thread.sleep(15);
         }
 
         // calculate groups

@@ -148,7 +148,7 @@ public class SurveyMapper {
         profileDAO.save(userProfile, GroupWorkContext.evaluation);
     }*/
 
-    public void saveData(HashMap<String, String> data, Project project, HttpServletRequest req) throws Exception {
+    public synchronized void saveData(HashMap<String, String> data, Project project, HttpServletRequest req) throws Exception {
         log.trace("persisting survey data");
 
         if(project.getGroupWorkContext() == null) {

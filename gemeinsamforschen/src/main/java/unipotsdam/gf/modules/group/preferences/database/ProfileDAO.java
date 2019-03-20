@@ -83,7 +83,7 @@ public class ProfileDAO {
      *
      * @param profileQuestionAnswer
      */
-    public void persist(ProfileQuestionAnswer profileQuestionAnswer, GroupWorkContext groupWorkContext) {
+    public synchronized void persist(ProfileQuestionAnswer profileQuestionAnswer, GroupWorkContext groupWorkContext) {
         connect.connect();
         String query;
         if (groupWorkContext == GroupWorkContext.evaluation) {
