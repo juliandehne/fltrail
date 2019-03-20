@@ -66,7 +66,7 @@ public class ItemWriter {
                 scaledProfileQuestion.setQuestion(germanItem);
                 scaledProfileQuestion.setQuestion_en(englishItem);
                 scaledProfileQuestion.setScaleSize(5);
-                scaledProfileQuestion.setSubvariable(itemSet.getSubVariable());
+                scaledProfileQuestion.setSubvariable(itemSet.getSubVariable().replaceAll("\n", "").trim());
                 profileDAO.persist(scaledProfileQuestion);
             }
         }

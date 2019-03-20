@@ -203,10 +203,10 @@ public class ProfileDAO {
      * @param itemSet
      */
     public void persistProfileVariable(ItemSet itemSet) {
-        String variable = itemSet.getVariable();
-        String subvariable = itemSet.getSubVariable();
-        String context = itemSet.getContext();
-        String variableDefinition = itemSet.getVariableDefinition();
+        String variable = itemSet.getVariable().replaceAll("\n", "").trim();
+        String subvariable = itemSet.getSubVariable().replaceAll("\n", "").trim();
+        String context = itemSet.getContext().replaceAll("\n", "").trim();
+        String variableDefinition = itemSet.getVariableDefinition().replaceAll("\n", "").trim();
         String subvariableweight = "1";
         String variableweight = "1";
         Boolean homogeneity = itemSet.getIsHomogenous().trim().equals("true");

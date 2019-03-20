@@ -10,7 +10,7 @@
     <script src="js/jquery3.1.1.min.js"></script>
     <link href="https://surveyjs.azureedge.net/1.0.60/survey.css" type="text/css" rel="stylesheet"/>
     <script src="js/survey.jquery.1.0.60.min.js"></script>
-    <link rel="stylesheet" href="../groupfinding/css/create-groups-manual.css">
+    <link  href="css/survey.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="../libs/jquery/jqueryTemplate.js"></script>
     <script src="./js/translations.js"></script>
     <script src="./js/survey-service.js"></script>

@@ -297,55 +297,36 @@ function clipBoardFunction() {
     clpText.value = document.URL;
 }
 
+function paintNoGroupsYet(participantsMissing) {
+    let noGroupsMessageObject;
+    if (language == "en") {
+        noGroupsMessageObject = noGroupsMessageEN(participantsMissing);
+    } else {
+        noGroupsMessageObject = noGroupsMessageDE(participantsMissing);
+    }
+    // if the context has manual group formation don't show the missing participants
+    if (!participantsMissing) {
+        noGroupsMessageObject[0].participantsMissing = "";
+    }
+    // render the message
+    $('#noGroupTemplate').tmpl(noGroupsMessageObject).appendTo('#noGroupMessageHolder');
+    clipBoardFunction();
+}
+
 function paintGroupsOrMessage(projectStatus) {
     let groupsFormed = projectStatus.groupsFormed;
     let isAutomated = projectStatus.automated;
+    let participantsMissing = projectStatus.participantsNeeded - projectStatus.participants;
     if (groupsFormed) {
+        //let isParticipantMissing = projectStatus.participantsNeeded > projectStatus.participants;
         getAllGroups(groupsToTemplate);
     } else {
-        let noGroupsMessageObject;
-        let participantsMissing = projectStatus.participantsNeeded - projectStatus.participants;
-        if (language == "en") {
-            noGroupsMessageObject = noGroupsMessageEN(participantsMissing);
+        if (isAutomated) {
+            paintNoGroupsYet(participantsMissing);
         } else {
-            noGroupsMessageObject = noGroupsMessageDE(participantsMissing);
-        }
-        if (!isAutomated) {
-            noGroupsMessageObject[0].participantsMissing = "";
-        }
-        // render the message
-        $('#noGroupTemplate').tmpl(noGroupsMessageObject).appendTo('#noGroupMessageHolder');
-
-        clipBoardFunction();
-        //clpText[1].value = document.URL;
-    }
-    if (isAutomated) {
-        let isParticipantMissing = projectStatus.participantsNeeded > projectStatus.participants;
-        let participantsMissing = projectStatus.participantsNeeded - projectStatus.participants;
-        if (!isParticipantMissing) {
-            getAllGroups(groupsToTemplate);
-        } else {
-            let noGroupsMessageObject;
-            if (language == "en") {
-                noGroupsMessageObject = noGroupsMessageEN(participantsMissing);
-            } else {
-                noGroupsMessageObject = noGroupsMessageDE(participantsMissing);
-            }
-            // if the context has manual group formation don't show the missing participants
-            if (isParticipantMissing) {
-                noGroupsMessageObject.participantsMissing = "";
-            }
-            // render the message
-            $('#noGroupTemplate').tmpl(noGroupsMessageObject).appendTo('#noGroupMessageHolder');
-            clipBoardFunction();
-            //clpText[1].value = document.URL;
-        }
-    } else {
-        if (groupsFormed) {
-            getAllGroups(groupsToTemplate);
+            paintNoGroupsYet(false);
         }
     }
-
 }
 
 

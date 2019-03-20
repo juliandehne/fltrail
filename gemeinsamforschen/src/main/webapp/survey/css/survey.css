@@ -24,4 +24,9 @@ button{
     display: none;
 }
 
+#clpText {
+    width: 50% !important;
+    margin-top: 10px;
+}
+
 
