@@ -55,8 +55,8 @@
        <div class="row group">
            <h2>${welcomeTitle}</h2>
             ${welcomeText}
+            <button id="welcomeNextButton" class="btn btn-primary right">${buttonLabel}</button>
        </div>
-
 </script>
 
 <div class="row group">

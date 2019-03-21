@@ -41,11 +41,13 @@ $(document).ready(function () {
     if (language == 'en') {
         welcomeObject = [{
             welcomeTitle: welcomeTitleEN,
-            welcomeText: welcomeTextEN
+            welcomeText: welcomeTextEN,
+            buttonLabel: buttonLabelEN
         }];
         welcomeObjectFL = [{
             welcomeTitle: welcomeTitleEN,
-            welcomeText: welcomeTextFlEN
+            welcomeText: welcomeTextFlEN,
+            buttonLabel: buttonLabelEN
         }];
         naviObject = navEN;
         groupViewLoginObject = groupViewLoginEN;
@@ -55,11 +57,13 @@ $(document).ready(function () {
     } else {
         welcomeObject = [{
             welcomeTitle: welcomeTitleDE,
-            welcomeText: welcomeTextDE
+            welcomeText: welcomeTextDE,
+            buttonLabel: buttonLabelDE
         }];
         welcomeObjectFL = [{
             welcomeTitle: welcomeTitleDE,
-            welcomeText: welcomeTextFlDE
+            welcomeText: welcomeTextFlDE,
+            buttonLabel: buttonLabelDE
         }];
         naviObject = navDE;
         groupViewLoginObject = groupViewLoginDE;
@@ -92,10 +96,13 @@ $(document).ready(function () {
         let navGroupView = $('#navGroupView');
         // the button for survey view
         let navSurvey = $('#navSurvey');
+        // the button for next page on Welcome page
+        let welcomeNextButton = $('#welcomeNextButton');
 
         navTextPage.on('click', showIntroduction);
         navGroupView.on('click', showGroupView);
         navSurvey.on('click', showSurveyView);
+        welcomeNextButton.on('click', showSurveyView);
 
         $('#btnPrev').on('click', prevView);
         $('#btnNext').on('click', nextView);

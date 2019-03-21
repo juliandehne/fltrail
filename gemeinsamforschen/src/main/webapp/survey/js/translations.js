@@ -37,6 +37,8 @@ let welcomeTextFlDE = "Vielen Dank, für Ihr Interesse an diesem Experiment teil
 let welcomeTitleDE = "Willkommen";
 let welcomeTitleEN = "Welcome";
 
+let buttonLabelDE = "Weiter";
+let buttonLabelEN = "next";
 
 let navEN = [{
     groups: "Groups",
