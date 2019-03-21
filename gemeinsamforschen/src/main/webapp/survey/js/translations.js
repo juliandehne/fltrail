@@ -1,10 +1,10 @@
-let welcomeTextDE = "Vielen Dank, für Ihr Interesse an diesem Experiment teil zu nehmen. Es geht um Gruppenbildung" +
+let welcomeTextDE = "Vielen Dank, für Ihr Interesse an diesem Experiment teilzunehmen. Es geht um Gruppenbildung" +
     " basierend auf verschiedenen Kriterien. Hierzu gehen Sie bitte auf die Profilseite und beantworten die" +
     " dortigen Fragen. Dies dauert etwa 10 Minuten. Sobald 30 Teilnehmer die Umfrage ausgefüllt haben, werden" +
     " Gruppen gebildet, die Sie dann unter dem Reiter Gruppen finden werden. So lange noch keine 30 Teilnehmer" +
-    " den Fragebogen ausgefüllt haben, ist die Gruppenseite leer. Bitte beachten Sie, dass die Email anderen " +
-    " Teilnehmern gezeigt wird. Sollte dies für Sie eine unangenehm sein, empfehlen wir, eine alternative" +
-    " Emailadresse bei web.de oder ähnlichem Anbieter einzurichten." +
+    " den Fragebogen ausgefüllt haben, ist die Gruppenseite leer. Bitte beachten Sie, dass die E-Mail anderen " +
+    " Teilnehmern gezeigt wird. Sollte dies für Sie unangenehm sein, empfehlen wir, eine alternative" +
+    " E-Mailadresse bei web.de oder ähnlichem Anbieter einzurichten." +
     " Vielen" +
     " Dank für Ihre Teilnahme!";
 
@@ -13,9 +13,26 @@ let welcomeTextEN = " Thank you for your interest and your participation in our 
     "            profile page and answer the questions. This will take about 10 minutes." +
     "            After 30 people have committed their answers, you can see which group you are in on the group page." +
     "            As long as there are not enough participants, you can't see your group. Please note that your email" +
-    " will be visible to other participants. If that is a problem please create an alternativ Email Account like" +
+    " will be visible to other participants. If that is a problem, please create an alternative email account like" +
     " web.de."  +
     "            Thank you for your participation!";
+
+let welcomeTextFlEN = "Thank you for your interest and your participation in our survey." +
+    "     We are here to build and evaluate groups based on different criteria. Please use the" +
+    "     profile page and answer the questions. This will take about 10 minutes." +
+    "     After groups are formed by your docent you can see all groups on the group page. " +
+    "     Please note that your email" +
+    "     will be visible to other participants. If that is a problem please create an alternative email account like" +
+    "     web.de." +
+    "     Thank you for your participation!";
+
+let welcomeTextFlDE = "Vielen Dank, für Ihr Interesse an diesem Experiment teilzunehmen. Es geht um Gruppenbildung" +
+    "     basierend auf verschiedenen Kriterien. Hierzu gehen Sie bitte auf die Profilseite und beantworten die" +
+    "     dortigen Fragen. Dies dauert etwa 10 Minuten. Nachdem die Kursleitung Gruppen gebildet hat, können Sie" +
+    "     unter dem Reiter \"Gruppen\" alle Gruppen sehen. Hier sehen auch andere Teilnehmer Ihre E-Mail. Sollte " +
+    "     Ihnen das unangenehm sein, empfehlen wir eine neue Adresse auf web.de oder bei einem ähnlichen " +
+    "     Anbieter einzurichten." +
+    "       Vielen Dank für Ihre Teilnahme!";
 
 let welcomeTitleDE = "Willkommen";
 let welcomeTitleEN = "Welcome";

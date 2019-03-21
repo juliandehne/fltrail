@@ -32,6 +32,7 @@ $(document).ready(function () {
 
     // ############## Translations ###############################
     let welcomeObject;
+    let welcomeObjectFL;
     let naviObject;
     let groupViewLoginObject;
     let titleObject;
@@ -41,6 +42,10 @@ $(document).ready(function () {
         welcomeObject = [{
             welcomeTitle: welcomeTitleEN,
             welcomeText: welcomeTextEN
+        }];
+        welcomeObjectFL = [{
+            welcomeTitle: welcomeTitleEN,
+            welcomeText: welcomeTextFlEN
         }];
         naviObject = navEN;
         groupViewLoginObject = groupViewLoginEN;
@@ -52,6 +57,10 @@ $(document).ready(function () {
             welcomeTitle: welcomeTitleDE,
             welcomeText: welcomeTextDE
         }];
+        welcomeObjectFL = [{
+            welcomeTitle: welcomeTitleDE,
+            welcomeText: welcomeTextFlDE
+        }];
         naviObject = navDE;
         groupViewLoginObject = groupViewLoginDE;
         titleObject = computedGroupsDE;
@@ -59,11 +68,16 @@ $(document).ready(function () {
         mailsDontMatch = mailsDontMatchDE;
     }
 
-    getProjectNameByContext(context, function (surveyName) {
-        projectName = surveyName;
+    getProjectNameByContext(context, function (project) {
+        projectName = project.name;
+        let isAutomated = project.automated;
 
         // print templates
-        printWelcomeText(welcomeObject);
+        if (!isAutomated){
+            printWelcomeText(welcomeObjectFL);
+        }else{
+            printWelcomeText(welcomeObject);
+        }
         printNavi(naviObject);
         printGroupView(groupViewLoginObject, titleObject);
 
@@ -183,7 +197,11 @@ function showSurveyView() {
 function prevView() {
     let activeDiv = $('.collapse.in')[0];
     if ($(activeDiv).attr("id") === "theGroupView") {
-        showSurveyView();
+        if ($('#navSurvey').attr("class").includes("disabled")){
+            showIntroduction();
+        }else{
+            showSurveyView();
+        }
     } else {
         showIntroduction();
     }
@@ -196,7 +214,11 @@ function nextView() {
         showGroupView();
     }
     if (navId === "welcomeTextHolder") {
-        showSurveyView();
+        if ($('#navSurvey').attr("class").includes("disabled")){
+            showGroupView();
+        }else{
+            showSurveyView();
+        }
     }
 }
 

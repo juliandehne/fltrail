@@ -32,12 +32,8 @@ function getSurveyPages1(callback) {
                 if (questionText.includes('(optional)')) {
                     surveyJSON.pages[page].questions[question].isRequired = false;
                 }
-                if (questionText.includes('email') ||
-                    questionText.includes('e-mail') ||
-                    questionText.includes('E-Mail') ||
-                    questionText.includes('E-MAIL') ||
-                    questionText.includes('EMail') ||
-                    questionText.includes('Email')
+                if (questionText.toLowerCase().includes('email')||
+                    questionText.toLowerCase().includes('e-mail')
                 ) {
                     surveyJSON.pages[page].questions[question].validators = [{
                         type: "email"
@@ -114,8 +110,8 @@ function getParticipantsNeeded1(callback){
             "Cache-Control": "no-cache"
         },
         type: 'GET',
-        success: function (numberOfParticipants) {
-            callback(numberOfParticipants);
+        success: function (projectStatus) {
+            callback(projectStatus);
         },
         error: function () {
             callback(false);
@@ -180,8 +176,8 @@ function getProjectNameByContext(context, callback) {
             "Cache-Control": "no-cache"
         },
         type: 'GET',
-        success: function (projectName) {
-            callback(projectName.name);
+        success: function (project) {
+            callback(project);
         },
         error: function (a) {
         }

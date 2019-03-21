@@ -86,11 +86,11 @@ public class SurveyProcess {
         //}
     }
 
-    public Project getSurveyProjectNameOrInitialize(GroupWorkContext projectContext, String email) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+    public SurveyProject getSurveyProjectNameOrInitialize(GroupWorkContext projectContext, String email) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
 
         if (!GroupWorkContextUtil.isGamingOrAutomatedGroupFormation(projectContext)) {
             log.debug("project is manual group formation and has only one name equal to context");
-            return new Project(projectContext.toString());
+            return new SurveyProject(projectContext.toString(), projectContext);
         } else {
             SurveyProject surveyProject = projectDAO.getSurveyProjectByUser(new User(email));
             if (surveyProject == null) {

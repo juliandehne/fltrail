@@ -61,7 +61,7 @@ public class SurveyView {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/project/name/{projectContext}/email/{email}")
-    public Project getProjectName(@PathParam("projectContext") String projectContext, @PathParam("email") String email) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+    public SurveyProject getProjectName(@PathParam("projectContext") String projectContext, @PathParam("email") String email) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         String emailString = email;
         if (email.trim().equals("UNKNOWN")) {
             emailString = null;
