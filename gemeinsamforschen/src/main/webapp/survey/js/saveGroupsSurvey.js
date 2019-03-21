@@ -32,7 +32,7 @@ $(document).ready(function () {
         let password = $('#password').val().trim();
         //if (true){
         let encodedPass = context.hashCode();
-        if (encodedPass == password || true) {
+        if (encodedPass == password) {
             $('#wrongAuthentication').hide();
             $('#authenticationPanel').hide();
 
