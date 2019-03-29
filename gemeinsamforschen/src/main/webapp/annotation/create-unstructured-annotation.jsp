@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
+<%--<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>--%>
 
 
 <!DOCTYPE html>
@@ -34,6 +34,10 @@
     <!-- js - unstructuredUpload -->
     <script src="js/unstructuredAnnotation.js"></script>
 
+    <!-- quilljs -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
 
 </head>
 
@@ -46,7 +50,7 @@
 
                     <div class="col span_content span_l_of_2">
                         <h3>Dossier</h3>
-                        <div class="leftcontent-text context-menu-one" id="documentText"></div>
+                        <div class="leftcontent-text context-menu-one" id="editor"></div>
                         <div class="leftcontent-buttons">
                             <div class="leftcontent-buttons-save">
                                 <button id="btnSave" type="button" class="btn btn-primary">Speichern</button>
@@ -81,6 +85,15 @@
         </div>
     </div>
 </main>
+<script>
+    const quill = new Quill('#editor', {
+        theme: 'snow',
+        readOnly: true,
+        "modules": {
+            "toolbar": false
+        }
+    });
+</script>
 <jsp:include page="../taglibs/footer.jsp"/>
 </body>
 

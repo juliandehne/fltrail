@@ -1,14 +1,15 @@
 /**
  * This function will fire when the DOM is ready
  */
+
 $(document).ready(function () {
     $('#missingAnnotation').hide();
     buildAnnotationList();
     // fetch the document text of the given id
     getFullSubmission(getQueryVariable("submissionId"), function (response) {
         // set text in div
-        $('#documentText').text(response.text);
-
+        quill.setContents(JSON.parse(response.text));
+        /*
         // get submissions parts from database
         getAllSubmissionParts(getQueryVariable("submissionId"), function (response) {
 
@@ -24,6 +25,7 @@ $(document).ready(function () {
             }
 
         });
+         */
 
     }, function () {
         console.log("error occured at getting full submission");
@@ -44,7 +46,8 @@ $(document).ready(function () {
         callback: function (key, options) {
 
             // handle the category click
-            handleCategoryClick(key);
+            console.log(options.items.annotation.items[key].color);
+            handleCategoryClick(key,options.items.annotation.items[key].color);
 
         },
         items: {
@@ -52,7 +55,7 @@ $(document).ready(function () {
                 name: "Annotation",
                 icon: "edit",
                 items: {
-                    "titel": {name: "Titel"},
+                    "titel": {name: "Titel", color: "test"},
                     "recherche": {name: "Recherche"},
                     "literaturverzeichnis": {name: "Literaturverzeichnis"},
                     "forschungsfrage": {name: "Forschungsfrage"},
@@ -76,15 +79,15 @@ $(document).ready(function () {
  * @param endCharacter The end character of the selected range
  */
 function handleCategorySelection(category, startCharacter, endCharacter) {
-
     // if highlighting is possible
     if (!isAlreadyHighlighted(startCharacter, endCharacter)) {
-
+        // TODO: change to quill subject
         // check if element has 'not-added' class
         let elem = $('#' + category);
         if (elem.hasClass("not-added")) {
             elem.toggleClass("not-added added-" + category);
         }
+        //console.log(elem.css());
 
         // add highlighted text based on selected text
         addHighlightedText(startCharacter, endCharacter, category, calculateExtraOffset(startCharacter));
@@ -126,20 +129,7 @@ function getSelectedText() {
  */
 function addHighlightedText(startCharacter, endCharacter, category, offset) {
 
-    let documentText = $('#documentText').text();
-    let documentHtml = $('#documentText').html();
-
-    // create <span> tag with the annotated text
-    let replacement = $('<span></span>').attr('class', category).html(documentText.slice(startCharacter, endCharacter));
-
-    // wrap an <p> tag around the replacement, get its parent (the <p>) and ask for the html
-    let replacementHtml = replacement.wrap('<p/>').parent().html();
-
-    // insert the replacementHtml
-    let newDocument = documentHtml.slice(0, startCharacter + offset) + replacementHtml + documentHtml.slice(endCharacter + offset);
-
-    // set new document text
-    $('#documentText').html(newDocument);
+    let length = endCharacter - startCharacter;
 }
 
 /**
@@ -303,23 +293,12 @@ function finalizeDossier(submissionId) {
  *
  * @param key The selected category
  */
-function handleCategoryClick(key) {
-
-    // if saved selection's range count is > 0
-    let sel = rangy.getSelection();
-    if (sel.rangeCount > 0) {
-        // calculate character range offset from range
-        let range = sel.getRangeAt(0);
-        let offsets = range.toCharacterRange($('#documentText')[0]);
-
-        // if selected text's length is > 0
-        let selectedText = getSelectedText();
-        if (selectedText.length > 0) {
-            // save start and end character and handle the selection
-            let startCharacter = offsets.start;
-            let endCharacter = offsets.end;
-            handleCategorySelection(key, startCharacter, endCharacter);
-        }
+function handleCategoryClick(key, color) {
+    console.log(color)
+    let selection = quill.getSelection();
+    if (selection.length > 0) {
+        let endCharacter = selection.index = selection.length;
+        handleCategorySelection(key, selection.index, endCharacter);
     }
 }
 
