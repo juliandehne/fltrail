@@ -46,8 +46,7 @@ $(document).ready(function () {
         callback: function (key, options) {
 
             // handle the category click
-            console.log(options.items.annotation.items[key].color);
-            handleCategoryClick(key,options.items.annotation.items[key].color);
+            handleCategoryClick(key,options.items.annotation.items[key].background);
 
         },
         items: {
@@ -55,14 +54,14 @@ $(document).ready(function () {
                 name: "Annotation",
                 icon: "edit",
                 items: {
-                    "titel": {name: "Titel", color: "test"},
-                    "recherche": {name: "Recherche"},
-                    "literaturverzeichnis": {name: "Literaturverzeichnis"},
-                    "forschungsfrage": {name: "Forschungsfrage"},
-                    "untersuchungskonzept": {name: "Untersuchungskonzept"},
-                    "methodik": {name: "Methodik"},
-                    "durchfuehrung": {name: "Durchführung"},
-                    "auswertung": {name: "Auswertung"}
+                    "titel": {name: "Titel", background: "#ba68c8"},
+                    "recherche": {name: "Recherche", background: "#7986cb"},
+                    "literaturverzeichnis": {name: "Literaturverzeichnis", background: "#4dd0e1"},
+                    "forschungsfrage": {name: "Forschungsfrage", background: "#81c784"},
+                    "untersuchungskonzept": {name: "Untersuchungskonzept", background: "#dce775"},
+                    "methodik": {name: "Methodik", background: "#ffd54f"},
+                    "durchfuehrung": {name: "Durchführung", background: "#ff8a65"},
+                    "auswertung": {name: "Auswertung", background: "#a1887f"}
                 }
             }
 
@@ -78,19 +77,13 @@ $(document).ready(function () {
  * @param startCharacter The start character of the selected range
  * @param endCharacter The end character of the selected range
  */
-function handleCategorySelection(category, startCharacter, endCharacter) {
+function handleCategorySelection(category, color, startCharacter, endCharacter) {
     // if highlighting is possible
     if (!isAlreadyHighlighted(startCharacter, endCharacter)) {
         // TODO: change to quill subject
         // check if element has 'not-added' class
-        let elem = $('#' + category);
-        if (elem.hasClass("not-added")) {
-            elem.toggleClass("not-added added-" + category);
-        }
-        //console.log(elem.css());
-
-        // add highlighted text based on selected text
-        addHighlightedText(startCharacter, endCharacter, category, calculateExtraOffset(startCharacter));
+        let length = endCharacter - startCharacter;
+        quill.formatText(startCharacter,length, 'background', color);
 
         // update data from category list
         addSelectionDataToList(startCharacter, endCharacter, category);
@@ -120,19 +113,6 @@ function getSelectedText() {
 }
 
 /**
- * Add a highlighted text at specific position
- *
- * @param startCharacter The offset of the start character
- * @param endCharacter The offset of the end character
- * @param category The category selected by user
- * @param offset The calculated extra offset depending on already highlighted text
- */
-function addHighlightedText(startCharacter, endCharacter, category, offset) {
-
-    let length = endCharacter - startCharacter;
-}
-
-/**
  * Check if the selected range is already highlighted
  *
  * @param startCharacter The start character of the range
@@ -140,6 +120,7 @@ function addHighlightedText(startCharacter, endCharacter, category, offset) {
  * @returns {boolean} Returns true if the selected range ist already highlighted
  */
 function isAlreadyHighlighted(startCharacter, endCharacter) {
+    // TODO: refactor for quill
     let isHighlighted = false;
     $('#annotations').find('.category-card').each(function () {
         let array = $(this).data('array');
@@ -185,6 +166,7 @@ function calculateExtraOffset(startCharacter) {
  * @param category The chosen category
  */
 function addSelectionDataToList(startCharacter, endCharacter, category) {
+    // TODO: change for quillJs
     let elem = $('#' + category);
     let array = elem.data('array');
 
@@ -294,11 +276,10 @@ function finalizeDossier(submissionId) {
  * @param key The selected category
  */
 function handleCategoryClick(key, color) {
-    console.log(color)
     let selection = quill.getSelection();
     if (selection.length > 0) {
-        let endCharacter = selection.index = selection.length;
-        handleCategorySelection(key, selection.index, endCharacter);
+        let endCharacter = selection.index + selection.length;
+        handleCategorySelection(key, color, selection.index, endCharacter);
     }
 }
 
