@@ -91,6 +91,9 @@ function handleCategorySelection(category, color, startCharacter, endCharacter) 
         let length = endCharacter - startCharacter;
         quill.formatText(startCharacter,length, 'background', color);
 
+        toggleStatusbar(category);
+
+
         // update data from category list
         addSelectionDataToList(startCharacter, endCharacter, category);
     }
@@ -124,6 +127,10 @@ function isAlreadyHighlighted(startCharacter, endCharacter) {
         }
     });
     return isHighlighted;
+}
+
+function toggleStatusbar(category) {
+    $('#' + category).toggleClass("not-added added-" + category);
 }
 
 /**
