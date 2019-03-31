@@ -51,19 +51,20 @@
 <main>
     <div class="row group">
 
-                    <div class="col span_content span_l_of_2">
-                        <h3>Dossier</h3>
-                        <div class="leftcontent-text context-menu-one" id="editor"></div>
-                        <div class="leftcontent-buttons">
-                            <div class="leftcontent-buttons-save">
-                                <button id="btnSave" type="button" class="btn btn-primary">Speichern</button>
-                            </div>
-                        </div>
-                    </div>
+        <div class="col span_content span_l_of_2">
+            <h3>Dossier</h3>
+            <div class="leftcontent-text context-menu-one" id="editor"></div>
+            <div class="leftcontent-buttons">
+                <div class="leftcontent-buttons-save">
+                    <button id="btnSave" type="button" class="btn btn-primary">Speichern</button>
+                </div>
+            </div>
+        </div>
 
-                <div class="col span_content span_s_of_2">
-                    <div class="infobox dossier">
-                        <p>Ordne allen Textteilen passende Kategorien zu. Markiere den Text, klicke auf die rechte Mousetaste und wähle die passende Kategorie.</p>
+        <div class="col span_content span_s_of_2">
+            <div class="infobox dossier">
+                <p>Ordne allen Textteilen passende Kategorien zu. Markiere den Text, klicke auf die rechte Mousetaste
+                    und wähle die passende Kategorie.</p>
 
             </div>
             <div id="missingAnnotation" class="alert alert-warning"></div>
