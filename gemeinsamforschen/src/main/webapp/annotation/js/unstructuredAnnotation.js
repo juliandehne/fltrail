@@ -2,6 +2,9 @@
  * This function will fire when the DOM is ready
  */
 
+const staticCategories = [{name: "TITEL"}, {name: "RECHERCHE"}, {name: "LITERATURVERZEICHNIS"}, {name: "FORSCHUNGSFRAGE"}, {name: "UNTERSUCHUNGSKONZEPT"},
+    {name: "METHODIK"}, {name: "DURCHFUEHRUNG"}, {name: "AUSWERTUNG"}]
+
 $(document).ready(function () {
     $('#missingAnnotation').hide();
     buildAnnotationList();
@@ -250,9 +253,10 @@ function handleCategoryClick(key, color) {
 }
 
 function buildAnnotationList() {
-    let data = {categories: [{name: "TITEL"}, {name: "RECHERCHE"}, {name: "LITERATURVERZEICHNIS"}, {name: "FORSCHUNGSFRAGE"}, {name: "UNTERSUCHUNGSKONZEPT"},
-            {name: "METHODIK"}, {name: "DURCHFUEHRUNG"}, {name: "AUSWERTUNG"}]};
-
+    let data = {categories: []};
+    staticCategories.forEach(function(category) {
+        data.categories.push({name: category.name, nameLower: category.name.toLowerCase()})
+    });
     let tmpl = $.templates("#annotationTemplate");
     let html = tmpl.render(data);
     $("#annotations").html(html);

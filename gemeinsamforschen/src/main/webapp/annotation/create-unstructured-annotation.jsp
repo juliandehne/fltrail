@@ -73,7 +73,7 @@
 
                 {{for categories}}
                     <li class="spacing">
-                        <div id="{{>name}}" class="category-card not-added">
+                        <div id="{{>nameLower}}" class="category-card not-added">
                             <p>{{>name}}</p>
                         </div>
                     </li>
