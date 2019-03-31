@@ -74,6 +74,7 @@ $(document).ready(function () {
  * Handel the category selection
  *
  * @param category The chosen category
+ * @param color
  * @param startCharacter The start character of the selected range
  * @param endCharacter The end character of the selected range
  */
@@ -81,7 +82,6 @@ function handleCategorySelection(category, color, startCharacter, endCharacter) 
     // if highlighting is possible
     // TODO: reimplement isAlreadyHighlighted for quillJs
     if (!isAlreadyHighlighted(startCharacter, endCharacter)) {
-        // TODO: change to quill subject
         // TODO: add status bar switch if text is annotated
         // TODO: add save for backend
         // TODO: add reload of saved annotations after site reload
@@ -96,23 +96,6 @@ function handleCategorySelection(category, color, startCharacter, endCharacter) 
         window.alert("Dieser Bereich wurde bereits zugeordnet.")
     }
 
-}
-
-/**
- * Get the text value of the selected text
- *
- * @returns {string} The text
- */
-function getSelectedText() {
-    if (window.getSelection) {
-        return window.getSelection().toString();
-    }
-    else if (document.getSelection) {
-        return document.getSelection();
-    }
-    else if (document.selection) {
-        return document.selection.createRange().text;
-    }
 }
 
 /**
@@ -138,27 +121,6 @@ function isAlreadyHighlighted(startCharacter, endCharacter) {
         }
     });
     return isHighlighted;
-}
-
-/**
- * Iterate over all data arrays and calculate the offset for a given start character
- *
- * @param startCharacter The given start character
- * @returns {number} The offset
- */
-function calculateExtraOffset(startCharacter) {
-    let extraOffset = 0;
-    $('#annotations').find('.category-card').each(function () {
-        let array = $(this).data('array');
-        if (array != null) {
-            for (let i = 0; i < array.length; i++) {
-                if (array[i].end <= startCharacter) {
-                    extraOffset += 22 + $(this).attr('id').length;
-                }
-            }
-        }
-    });
-    return extraOffset;
 }
 
 /**
@@ -239,7 +201,7 @@ function saveButtonHandler() {
 
                 // send the post request to the back-end and save promise
                 promises.push(createSubmissionPart(submissionPartPostRequest, function (response) {
-                    console.log("send " + response.category + "'s post request to back-end")
+                    console.log(`send ${response.category} 's post request to back-end`);
                 }));
                 categoriesSent.push(category);
             }
@@ -277,6 +239,7 @@ function finalizeDossier(submissionId) {
  * Handle the category click and start the saving event
  *
  * @param key The selected category
+ * @param color
  */
 function handleCategoryClick(key, color) {
     let selection = quill.getSelection();
@@ -287,10 +250,10 @@ function handleCategoryClick(key, color) {
 }
 
 function buildAnnotationList() {
-    let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT",
-        "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
-    for (let i in categories) {
-        let tmplObject = {annotationType: categories[i].toLowerCase()};
-        $('#annotationTemplate').tmpl(tmplObject).appendTo('#annotations');
-    }
+    let data = {categories: [{name: "TITEL"}, {name: "RECHERCHE"}, {name: "LITERATURVERZEICHNIS"}, {name: "FORSCHUNGSFRAGE"}, {name: "UNTERSUCHUNGSKONZEPT"},
+            {name: "METHODIK"}, {name: "DURCHFUEHRUNG"}, {name: "AUSWERTUNG"}]};
+
+    let tmpl = $.templates("#annotationTemplate");
+    let html = tmpl.render(data);
+    $("#annotations").html(html);
 }

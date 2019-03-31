@@ -38,6 +38,9 @@
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
+    <!-- jsrender -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.2/jsrender.js"></script>
+
 
 </head>
 
@@ -62,22 +65,21 @@
                     <div class="infobox dossier">
                         <p>Ordne allen Textteilen passende Kategorien zu. Markiere den Text, klicke auf die rechte Mousetaste und wähle die passende Kategorie.</p>
 
-                    </div>
-                    <div id="missingAnnotation" class="alert alert-warning"></div>
+            </div>
+            <div id="missingAnnotation" class="alert alert-warning"></div>
+            <ol id="annotations">
+            <script id="annotationTemplate" type="text/x-jsrender">
 
-                        <ol id="annotations">
-
-                        </ol>
-                        <script id="annotationTemplate" type="text/x-jQuery-tmpl">
-                        <li class="spacing">
-                        <div id="${annotationType}" class="category-card not-added">
-                            <p>${annotationType}</p>
+                {{for categories}}
+                    <li class="spacing">
+                        <div id="{{>name}}" class="category-card not-added">
+                            <p>{{>name}}</p>
                         </div>
                     </li>
-
-                        </script>
-
-                </div>
+                {{/for}}
+            </script>
+            </ol>
+        </div>
 
         <div class="col span_chat">
             <chat:chatWindow orientation="right" scope="project"/>
