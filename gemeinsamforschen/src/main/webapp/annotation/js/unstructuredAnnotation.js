@@ -85,7 +85,7 @@ function handleCategorySelection(category, color, startCharacter, endCharacter) 
     // if highlighting is possible
     // TODO: reimplement isAlreadyHighlighted for quillJs
     if (!isAlreadyHighlighted(startCharacter, endCharacter)) {
-        // TODO: add status bar switch if text is annotated
+        // TODO: fix status bar (if already checked, don't uncheck if another area is marked with same annotation)
         // TODO: add save for backend
         // TODO: add reload of saved annotations after site reload
         let length = endCharacter - startCharacter;
