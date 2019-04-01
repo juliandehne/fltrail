@@ -83,9 +83,7 @@ $(document).ready(function () {
  */
 function handleCategorySelection(category, color, startCharacter, endCharacter) {
     // if highlighting is possible
-    // TODO: reimplement isAlreadyHighlighted for quillJs
     if (!isAlreadyHighlighted(startCharacter, endCharacter)) {
-        // TODO: fix status bar (if already checked, don't uncheck if another area is marked with same annotation)
         // TODO: add save for backend
         // TODO: add reload of saved annotations after site reload
         let length = endCharacter - startCharacter;
@@ -112,7 +110,6 @@ function handleCategorySelection(category, color, startCharacter, endCharacter) 
  * @returns {boolean} Returns true if the selected range ist already highlighted
  */
 function isAlreadyHighlighted(startCharacter, endCharacter) {
-    // TODO: refactor for quill
     let isHighlighted = false;
     $('#annotations').find('.category-card').each(function () {
         let array = $(this).data('array');
@@ -130,7 +127,10 @@ function isAlreadyHighlighted(startCharacter, endCharacter) {
 }
 
 function toggleStatusbar(category) {
-    $('#' + category).toggleClass("not-added added-" + category);
+    let categoryTag = $('#' + category);
+    if (!categoryTag.hasClass('added-' + category)) {
+        categoryTag.toggleClass("not-added added-" + category);
+    }
 }
 
 /**
