@@ -12,7 +12,7 @@ $(document).ready(function () {
     getFullSubmission(getQueryVariable("submissionId"), function (response) {
         // set text in div
         quill.setContents(JSON.parse(response.text));
-        /*
+
         // get submissions parts from database
         getAllSubmissionParts(getQueryVariable("submissionId"), function (response) {
 
@@ -28,7 +28,7 @@ $(document).ready(function () {
             }
 
         });
-         */
+
 
     }, function () {
         console.log("error occured at getting full submission");
@@ -83,8 +83,6 @@ $(document).ready(function () {
 function handleCategorySelection(category, startCharacter, endCharacter) {
     // if highlighting is possible
     if (!isAlreadyHighlighted(startCharacter, endCharacter)) {
-        // TODO: add save for backend
-        // TODO: add reload of saved annotations after site reload
         toggleStatusbar(category);
         highlightText(category, startCharacter, endCharacter);
 
