@@ -49,7 +49,7 @@ $(document).ready(function () {
         callback: function (key, options) {
 
             // handle the category click
-            handleCategoryClick(key,options.items.annotation.items[key].background);
+            handleCategoryClick(key);
 
         },
         items: {
@@ -57,14 +57,14 @@ $(document).ready(function () {
                 name: "Annotation",
                 icon: "edit",
                 items: {
-                    "titel": {name: "Titel", background: "#ba68c8"},
-                    "recherche": {name: "Recherche", background: "#7986cb"},
-                    "literaturverzeichnis": {name: "Literaturverzeichnis", background: "#4dd0e1"},
-                    "forschungsfrage": {name: "Forschungsfrage", background: "#81c784"},
-                    "untersuchungskonzept": {name: "Untersuchungskonzept", background: "#dce775"},
-                    "methodik": {name: "Methodik", background: "#ffd54f"},
-                    "durchfuehrung": {name: "Durchführung", background: "#ff8a65"},
-                    "auswertung": {name: "Auswertung", background: "#a1887f"}
+                    "titel": {name: "Titel"},
+                    "recherche": {name: "Recherche"},
+                    "literaturverzeichnis": {name: "Literaturverzeichnis"},
+                    "forschungsfrage": {name: "Forschungsfrage"},
+                    "untersuchungskonzept": {name: "Untersuchungskonzept"},
+                    "methodik": {name: "Methodik"},
+                    "durchfuehrung": {name: "Durchführung"},
+                    "auswertung": {name: "Auswertung"}
                 }
             }
 
@@ -77,29 +77,30 @@ $(document).ready(function () {
  * Handel the category selection
  *
  * @param category The chosen category
- * @param color
  * @param startCharacter The start character of the selected range
  * @param endCharacter The end character of the selected range
  */
-function handleCategorySelection(category, color, startCharacter, endCharacter) {
+function handleCategorySelection(category, startCharacter, endCharacter) {
     // if highlighting is possible
     if (!isAlreadyHighlighted(startCharacter, endCharacter)) {
         // TODO: add save for backend
         // TODO: add reload of saved annotations after site reload
-        let length = endCharacter - startCharacter;
-        quill.formatText(startCharacter,length, 'background', color);
-
         toggleStatusbar(category);
-
+        highlightText(category, startCharacter, endCharacter);
 
         // update data from category list
         addSelectionDataToList(startCharacter, endCharacter, category);
-    }
-    else {
+    } else {
         // show error message to user
         window.alert("Dieser Bereich wurde bereits zugeordnet.")
     }
 
+}
+
+function highlightText(category, startCharacter, endCharacter) {
+    let color = $('.added-' + category).css('background-color');
+    let length = endCharacter - startCharacter;
+    quill.formatText(startCharacter, length, 'background', color);
 }
 
 /**
@@ -141,7 +142,6 @@ function toggleStatusbar(category) {
  * @param category The chosen category
  */
 function addSelectionDataToList(startCharacter, endCharacter, category) {
-    // TODO: change for quillJs
     let elem = $('#' + category);
     let array = elem.data('array');
 
@@ -153,8 +153,7 @@ function addSelectionDataToList(startCharacter, endCharacter, category) {
         };
         // update array
         array.push(newElement);
-    }
-    else {
+    } else {
         // store first element in array
         array = [
             {
@@ -251,17 +250,17 @@ function finalizeDossier(submissionId) {
  * @param key The selected category
  * @param color
  */
-function handleCategoryClick(key, color) {
+function handleCategoryClick(key) {
     let selection = quill.getSelection();
     if (selection.length > 0) {
         let endCharacter = selection.index + selection.length;
-        handleCategorySelection(key, color, selection.index, endCharacter);
+        handleCategorySelection(key, selection.index, endCharacter);
     }
 }
 
 function buildAnnotationList() {
     let data = {categories: []};
-    staticCategories.forEach(function(category) {
+    staticCategories.forEach(function (category) {
         data.categories.push({name: category.name, nameLower: category.name.toLowerCase()})
     });
     let tmpl = $.templates("#annotationTemplate");
