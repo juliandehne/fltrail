@@ -37,9 +37,9 @@ public class ChatWindow extends SimpleTagSupport {
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         /*String token = request.getParameter("token"); */
         String projectName = request.getParameter("projectName");
-        String userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL).toString();
+        Object userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL);
 
-        if (!(request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) == null)) {
+        if (userEmail != null && !(request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) == null)) {
             /*
              * create project chatroom
              */
@@ -53,7 +53,7 @@ public class ChatWindow extends SimpleTagSupport {
                 // scope is group
                 String projectChatRoomLink = null;
                 try {
-                    projectChatRoomLink = communicationService.getChatRoomLink(userEmail, projectName);
+                    projectChatRoomLink = communicationService.getChatRoomLink(userEmail.toString(), projectName);
                 } catch (RocketChatDownException | UserDoesNotExistInRocketChatException e) {
                     e.printStackTrace();
                 }

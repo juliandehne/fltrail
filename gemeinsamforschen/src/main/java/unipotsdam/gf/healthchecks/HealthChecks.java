@@ -3,6 +3,7 @@ package unipotsdam.gf.healthchecks;
 import ch.vorburger.exec.ManagedProcessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.config.GroupAlConfig;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
@@ -29,7 +30,7 @@ public class HealthChecks {
             Duration timePassed = Duration.between(Instant.now(), timeForCheck);
             log.trace("Rock: " + timePassed.toString());
         }
-        return rocketChatAvailable;
+        return rocketChatAvailable && FLTrailConfig.rocketChatIsOnline;
     }
 
     private static Boolean compBaseAvailable = null;

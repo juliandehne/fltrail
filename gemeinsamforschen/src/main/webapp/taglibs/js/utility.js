@@ -8,18 +8,19 @@ $(document).ready(function () {
                 "Content-Type": "application/json",
                 "Cache-Control": "no-cache"
             },
-            success:function(){
+            success: function () {
                 let context = getQueryVariable("context");
-                if (context!=="fl"){
-                    //document.location.reload();
-                    updateURLParameter(document.location.href, "userEmail", "");
-
-                }else{
+                if (!context) {
                     let target = "index.jsp";
                     document.location = changeLocationTo(target);
+                } else if (context !== "fl") {
+                    //document.location.reload();
+                    updateURLParameter(document.location.href, "userEmail", "");
+                } else {
+                    document.location.reload();
                 }
             },
-            error: function(a){
+            error: function (a) {
                 console.log(a);
             }
         });
@@ -34,12 +35,10 @@ $(document).ready(function () {
 });
 
 
-
-
 /**
  * http://stackoverflow.com/a/10997390/11236
  */
-function updateURLParameter(url, param, paramVal){
+function updateURLParameter(url, param, paramVal) {
     var newAdditionalURL = "";
     var tempArray = url.split("?");
     var baseURL = tempArray[0];
@@ -47,8 +46,8 @@ function updateURLParameter(url, param, paramVal){
     var temp = "";
     if (additionalURL) {
         tempArray = additionalURL.split("&");
-        for (var i=0; i<tempArray.length; i++){
-            if(tempArray[i].split('=')[0] != param){
+        for (var i = 0; i < tempArray.length; i++) {
+            if (tempArray[i].split('=')[0] != param) {
                 newAdditionalURL += temp + tempArray[i];
                 temp = "&";
             }
@@ -234,7 +233,7 @@ function calculateHierachy(level) {
     }
 }
 
-function clpSet(){
+function clpSet() {
     let clpText = document.getElementById('clpText');
     clpText.select();
     document.execCommand('copy');
