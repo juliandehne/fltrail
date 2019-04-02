@@ -172,7 +172,8 @@ function saveNewGroups(groups) {
             }, 1000);
         },
         error: function (a) {
-            alert(a);
+            //alert(a);
+            console.error(a);
         }
     });
 }

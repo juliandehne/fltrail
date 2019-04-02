@@ -15,7 +15,7 @@
     </jsp:include>
 
     <script src="js/create-groups-manual.js"></script>
-    <link rel="stylesheet" href="css/create-groups-manual.css">
+    <%--<link rel="stylesheet" href="css/create-groups-manual.css">--%>
 </head>
 <script id="groupTemplate" type="text/x-jQuery-tmpl">
 
@@ -29,7 +29,7 @@
             <button type="button" name="student"
             class="student-button list-group-item list-group-item-action">
                 <span>${name}</span>
-                <p name="userEmail" hidden>${email}</p>
+                <p name="userEmail" >${email}</p>
             </button>
         </li>
     {{/each}}

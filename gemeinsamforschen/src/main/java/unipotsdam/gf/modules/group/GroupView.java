@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.group;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
@@ -147,9 +148,10 @@ public class GroupView {
     public void finalizeGroups(@PathParam("projectName") String  projectName, Group[] groups,
                                @QueryParam("manipulated") String isManipulated)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+
         Project project = new Project(projectName);
         // wenn gruppen aussehen wie einzelarbeit, dann wird hier umgeschaltet
-        if (isManipulated.equals("true")){
+       /* if (!isManipulated == null && isManipulated.equals("true")){
             boolean isSingleUser =true;
             for (Group group: groups) {
                 if (group.getMembers().size()>1){
@@ -161,7 +163,7 @@ public class GroupView {
             }else{
                 projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
             }
-        }
+        }*/
         // normaler Prozess hier weiter
         groupFormationProcess.saveGroups(Arrays.asList(groups), project);
         groupFormationProcess.finalize(project);
