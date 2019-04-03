@@ -1,13 +1,17 @@
 /**
  * This function will fire when the DOM is ready
  */
+
+const staticCategories = [{name: "TITEL"}, {name: "RECHERCHE"}, {name: "LITERATURVERZEICHNIS"}, {name: "FORSCHUNGSFRAGE"}, {name: "UNTERSUCHUNGSKONZEPT"},
+    {name: "METHODIK"}, {name: "DURCHFUEHRUNG"}, {name: "AUSWERTUNG"}]
+
 $(document).ready(function () {
     $('#missingAnnotation').hide();
     buildAnnotationList();
     // fetch the document text of the given id
     getFullSubmission(getQueryVariable("submissionId"), function (response) {
         // set text in div
-        $('#documentText').text(response.text);
+        quill.setContents(JSON.parse(response.text));
 
         // get submissions parts from database
         getAllSubmissionParts(getQueryVariable("submissionId"), function (response) {
@@ -24,6 +28,7 @@ $(document).ready(function () {
             }
 
         });
+
 
     }, function () {
         console.log("error occured at getting full submission");
@@ -76,70 +81,24 @@ $(document).ready(function () {
  * @param endCharacter The end character of the selected range
  */
 function handleCategorySelection(category, startCharacter, endCharacter) {
-
     // if highlighting is possible
     if (!isAlreadyHighlighted(startCharacter, endCharacter)) {
-
-        // check if element has 'not-added' class
-        let elem = $('#' + category);
-        if (elem.hasClass("not-added")) {
-            elem.toggleClass("not-added added-" + category);
-        }
-
-        // add highlighted text based on selected text
-        addHighlightedText(startCharacter, endCharacter, category, calculateExtraOffset(startCharacter));
+        toggleStatusbar(category);
+        highlightText(category, startCharacter, endCharacter);
 
         // update data from category list
         addSelectionDataToList(startCharacter, endCharacter, category);
-    }
-    else {
+    } else {
         // show error message to user
         window.alert("Dieser Bereich wurde bereits zugeordnet.")
     }
 
 }
 
-/**
- * Get the text value of the selected text
- *
- * @returns {string} The text
- */
-function getSelectedText() {
-    if (window.getSelection) {
-        return window.getSelection().toString();
-    }
-    else if (document.getSelection) {
-        return document.getSelection();
-    }
-    else if (document.selection) {
-        return document.selection.createRange().text;
-    }
-}
-
-/**
- * Add a highlighted text at specific position
- *
- * @param startCharacter The offset of the start character
- * @param endCharacter The offset of the end character
- * @param category The category selected by user
- * @param offset The calculated extra offset depending on already highlighted text
- */
-function addHighlightedText(startCharacter, endCharacter, category, offset) {
-
-    let documentText = $('#documentText').text();
-    let documentHtml = $('#documentText').html();
-
-    // create <span> tag with the annotated text
-    let replacement = $('<span></span>').attr('class', category).html(documentText.slice(startCharacter, endCharacter));
-
-    // wrap an <p> tag around the replacement, get its parent (the <p>) and ask for the html
-    let replacementHtml = replacement.wrap('<p/>').parent().html();
-
-    // insert the replacementHtml
-    let newDocument = documentHtml.slice(0, startCharacter + offset) + replacementHtml + documentHtml.slice(endCharacter + offset);
-
-    // set new document text
-    $('#documentText').html(newDocument);
+function highlightText(category, startCharacter, endCharacter) {
+    let color = $('.added-' + category).css('background-color');
+    let length = endCharacter - startCharacter;
+    quill.formatText(startCharacter, length, 'background', color);
 }
 
 /**
@@ -166,25 +125,11 @@ function isAlreadyHighlighted(startCharacter, endCharacter) {
     return isHighlighted;
 }
 
-/**
- * Iterate over all data arrays and calculate the offset for a given start character
- *
- * @param startCharacter The given start character
- * @returns {number} The offset
- */
-function calculateExtraOffset(startCharacter) {
-    let extraOffset = 0;
-    $('#annotations').find('.category-card').each(function () {
-        let array = $(this).data('array');
-        if (array != null) {
-            for (let i = 0; i < array.length; i++) {
-                if (array[i].end <= startCharacter) {
-                    extraOffset += 22 + $(this).attr('id').length;
-                }
-            }
-        }
-    });
-    return extraOffset;
+function toggleStatusbar(category) {
+    let categoryTag = $('#' + category);
+    if (!categoryTag.hasClass('added-' + category)) {
+        categoryTag.toggleClass("not-added added-" + category);
+    }
 }
 
 /**
@@ -206,8 +151,7 @@ function addSelectionDataToList(startCharacter, endCharacter, category) {
         };
         // update array
         array.push(newElement);
-    }
-    else {
+    } else {
         // store first element in array
         array = [
             {
@@ -264,7 +208,7 @@ function saveButtonHandler() {
 
                 // send the post request to the back-end and save promise
                 promises.push(createSubmissionPart(submissionPartPostRequest, function (response) {
-                    console.log("send " + response.category + "'s post request to back-end")
+                    console.log(`send ${response.category} 's post request to back-end`);
                 }));
                 categoriesSent.push(category);
             }
@@ -302,32 +246,22 @@ function finalizeDossier(submissionId) {
  * Handle the category click and start the saving event
  *
  * @param key The selected category
+ * @param color
  */
 function handleCategoryClick(key) {
-
-    // if saved selection's range count is > 0
-    let sel = rangy.getSelection();
-    if (sel.rangeCount > 0) {
-        // calculate character range offset from range
-        let range = sel.getRangeAt(0);
-        let offsets = range.toCharacterRange($('#documentText')[0]);
-
-        // if selected text's length is > 0
-        let selectedText = getSelectedText();
-        if (selectedText.length > 0) {
-            // save start and end character and handle the selection
-            let startCharacter = offsets.start;
-            let endCharacter = offsets.end;
-            handleCategorySelection(key, startCharacter, endCharacter);
-        }
+    let selection = quill.getSelection();
+    if (selection.length > 0) {
+        let endCharacter = selection.index + selection.length;
+        handleCategorySelection(key, selection.index, endCharacter);
     }
 }
 
 function buildAnnotationList() {
-    let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT",
-        "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
-    for (let i in categories) {
-        let tmplObject = {annotationType: categories[i].toLowerCase()};
-        $('#annotationTemplate').tmpl(tmplObject).appendTo('#annotations');
-    }
+    let data = {categories: []};
+    staticCategories.forEach(function (category) {
+        data.categories.push({name: category.name, nameLower: category.name.toLowerCase()})
+    });
+    let tmpl = $.templates("#annotationTemplate");
+    let html = tmpl.render(data);
+    $("#annotations").html(html);
 }

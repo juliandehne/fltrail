@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
+<%--<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>--%>
 
 
 <!DOCTYPE html>
@@ -23,6 +23,10 @@
     <!-- js - unstructuredRest -->
     <script src="js/unstructuredRest.js"></script>
 
+    <!-- quilljs -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
 </head>
 
 <body>
@@ -32,24 +36,21 @@
 <main>
     <div class="row group">
         <div class="col span_content span_l_of_2">
-            <form id="upload-textarea-form">
-                <div class="form-group upload-text" id="documentText">
-                    <label for="upload-textarea">Texteingabe</label>
-                    <textarea class="upload-text-textarea form-control" placeholder="Text einfügen..."
-                              id="upload-textarea" name="uploadtextarea"></textarea>
-                </div>
-            </form>
+            <div class="upload-text" id="documentText">
+                <label for="editor">Texteingabe</label>
+                <div id="editor"></div>
+            </div>
 
             <!--<div>
                 <label for="file">Alternativ bitte Datei wählen</label>
                 <input type="file" id="file" class="primary" name="file">
             </div>-->
-            <div class="document-text-buttons">
-                <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
-                </button>--%>
-                <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
-                </button>
-            </div>
+        </div>
+        <div class="document-text-buttons">
+            <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
+            </button>--%>
+            <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
+            </button>
         </div>
         <div class="col span_content span_l_of_2"></div>
         <div class="col span_chat">
@@ -59,6 +60,11 @@
     </div>
 </main>
 <jsp:include page="../taglibs/footer.jsp"/>
+<script>
+    const quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+</script>
 </body>
 
 </html>
