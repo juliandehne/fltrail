@@ -67,28 +67,26 @@
                     <button id="btnBack" type="button" class="btn btn-secondary" title="Zurück">&#xf053;</button>
                 </div>
                 <span id="current-category" class="current-category">KATEGORIE</span>
-                </div>
-                <div class="three_rows">
-                    <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">&#xf054;</button>
-                    <button id="finalize" type="button" class="btn btn-success" title="finanlisieren">&#xf00c;</button>
-                </div>
             </div>
-            <div class="infobox dossier" style="clear:left; margin-top: 120px;">
-                <p>Markiere Text und klicke mit der rechten Mousetaste, um den ausgewählten Text zu kommentieren oder</p>
-
+            <div class="three_rows">
+                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">&#xf054;</button>
+                <button id="finalize" type="button" class="btn btn-success" title="finanlisieren">&#xf00c;</button>
             </div>
-            <button id="btnWholeCategory" type="button" class="btn btn-primary">kompletten
-                Teil kommentieren
-            </button>
-
-
-
-                <ol id="annotations">
-                </ol>
+        </div>
+        <div class="infobox dossier" style="clear:left; margin-top: 120px;">
+            <p>Markiere Text und klicke mit der rechten Mousetaste, um den ausgewählten Text zu kommentieren oder</p>
 
         </div>
-    </div> <!-- end row -->
+        <button id="btnWholeCategory" type="button" class="btn btn-primary">kompletten
+            Teil kommentieren
+        </button>
 
+
+        <ol id="annotations">
+        </ol>
+
+    </div>
+    </div> <!-- end row -->
 
 
     <!-- annotation create modal -->
