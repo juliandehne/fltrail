@@ -11,18 +11,18 @@ let startCharacter, endCharacter;
 $(document).ready(function () {
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
     let category = getQueryVariable("category");
-    if (getQueryVariable("seeFeedback")!=="true"){
+    if (getQueryVariable("seeFeedback") !== "true") {
         getFeedbackName();
-    }else{
-        document.getElementById('seeFeedback').className="seeFeedback";
+    } else {
+        document.getElementById('seeFeedback').className = "seeFeedback";
     }
-    $('#categoryHeadline').html("in der Kategorie "+category);
+    $('#categoryHeadline').html("in der Kategorie " + category);
     let btnFinalize = $('#finalize');
     btnFinalize.hide();
     let btnBack = $('#btnBack');
     if (category === "TITEL" || category === "titel") {
         //btnBack.hide();
-        btnBack.css('visibility','hidden');
+        btnBack.css('visibility', 'hidden');
     }
 
     let btnContinue = $('#btnContinue');
@@ -34,7 +34,7 @@ $(document).ready(function () {
         $('#annotation-edit-modal').hide();
         $('#annotation-create-modal').hide();
     });
-    let btnWholeCategory=$('#btnWholeCategory');
+    let btnWholeCategory = $('#btnWholeCategory');
     if (!category) {
         btnFinalize.hide();
         btnContinue.hide();
@@ -133,8 +133,7 @@ $(document).ready(function () {
 
         if (!nextCategory) {
 
-        }
-        else {
+        } else {
             location.href = "../annotation/annotation-document.jsp?" +
                 "projectName=" + getProjectName() +
                 "&fullSubmissionId=" + submissionId +
@@ -401,8 +400,7 @@ function displayAnnotation(annotation) {
         title.indexOf(filter) > -1 ||
         comment.indexOf(filter) > -1) {
         display = ''
-    }
-    else {
+    } else {
         display = 'none'
     }
 
@@ -570,9 +568,9 @@ function addHighlightedSubmissionPart(startCharacter, endCharacter, offset) {
 
     // set new document text
     docText.html(newDocument);
-    if (getQueryVariable("seeFeedback") === "true"){
-        let deleteMe=document.getElementsByClassName('categoryText');
-        deleteMe[0].className='feedbackText';
+    if (getQueryVariable("seeFeedback") === "true") {
+        let deleteMe = document.getElementsByClassName('categoryText');
+        deleteMe[0].className = 'feedbackText';
     }
 }
 
@@ -619,11 +617,9 @@ function deleteHighlightedText() {
 function getSelectedText() {
     if (window.getSelection) {
         return window.getSelection().toString();
-    }
-    else if (document.getSelection) {
+    } else if (document.getSelection) {
         return document.getSelection();
-    }
-    else if (document.selection) {
+    } else if (document.selection) {
         return document.selection.createRange().text;
     }
 }
@@ -649,7 +645,7 @@ function getUserColor(userEmail, category) {
  * @returns {string} The dark user color
  */
 function getDarkUserColor(userEmail, category) {
-        generateCategoryBasedColor(userEmail, category);
+    generateCategoryBasedColor(userEmail, category);
     // return the color
     return userColorsDark.get(userEmail);
 }
@@ -658,14 +654,14 @@ function generateCategoryBasedColor(userEmail, category) {
     let category_r, category_g, category_b;
     let categorymap = {
         TITEL: {
-            r:"ba",
-            g:"68",
-            b:"c8",
+            r: "ba",
+            g: "68",
+            b: "c8",
         },
         RECHERCHE: {
-            r:"79",
-            g:"86",
-            b:"cb",
+            r: "79",
+            g: "86",
+            b: "cb",
         },
         LITERATURVERZEICHNIS: {
             r: "4d",
@@ -698,13 +694,13 @@ function generateCategoryBasedColor(userEmail, category) {
             b: "7f",
         },
     };
-    category_r=categorymap[category].r;
-    category_g=categorymap[category].g;
-    category_b=categorymap[category].b;
+    category_r = categorymap[category].r;
+    category_g = categorymap[category].g;
+    category_b = categorymap[category].b;
 
-    let r = parseInt(category_r,16) + (userEmail.hashCode() * userEmail.hashCode() * userEmail.hashCode()) % 31;
-    let g = parseInt(category_g,16) + (userEmail.hashCode() * userEmail.hashCode()) % 31;
-    let b = parseInt(category_b,16) + userEmail.hashCode() % 31;
+    let r = parseInt(category_r, 16) + (userEmail.hashCode() * userEmail.hashCode() * userEmail.hashCode()) % 31;
+    let g = parseInt(category_g, 16) + (userEmail.hashCode() * userEmail.hashCode()) % 31;
+    let b = parseInt(category_b, 16) + userEmail.hashCode() % 31;
     let r_d = r - 50;
     let g_d = g - 50;
     let b_d = b - 50;
@@ -882,8 +878,7 @@ function showAndHideToggleButton() {
         if (cloneWidth > comment.width()) {
             $(this).find('.annotation-header-toggle').show();
             $(this).find('.annotation-header-data').css('width', 'calc(100% - 40px)');
-        }
-        else {
+        } else {
             $(this).find('.annotation-header-toggle').hide();
             $(this).find('.annotation-header-data').css('width', '100%');
         }
@@ -913,8 +908,7 @@ function showAndHideToggleButtonById(id) {
     if (cloneWidth > comment.width()) {
         annotationElement.find('.annotation-header-toggle').show();
         annotationElement.find('.annotation-header-data').css('width', 'calc(100% - 40px)');
-    }
-    else {
+    } else {
         annotationElement.find('.annotation-header-toggle').hide();
         annotationElement.find('.annotation-header-data').css('width', '100%');
     }
@@ -925,7 +919,7 @@ function showAndHideToggleButtonById(id) {
  *
  */
 function handleAnnotationClick() {
-
+    // TODO: change implementation again for quillJs
     // if saved selection's range count is > 0
     let sel = rangy.getSelection();
     if (sel.rangeCount > 0) {
@@ -943,8 +937,7 @@ function handleAnnotationClick() {
             if (isAnnotationInRange(startCharacter, endCharacter)) {
                 // display annotation create modal
                 $('#annotation-create-modal').show();
-            }
-            else {
+            } else {
                 window.alert("Annotationen sind nur in vorgehobenen Bereichen möglich")
             }
         } else {
@@ -994,8 +987,7 @@ function searchAnnotation() {
             title.indexOf(filter) > -1 ||
             comment.indexOf(filter) > -1) {
             $(this).css('display', '')
-        }
-        else {
+        } else {
             $(this).css('display', 'none')
         }
     });
@@ -1023,11 +1015,11 @@ String.prototype.hashCode = function () {
     return hash;
 };
 
-function getFeedbackName(){
+function getFeedbackName() {
     $.ajax({
         url: "../rest/annotations/feedbackTarget/projectName/" + $('#projectName').html().trim(),
         headers: {
-            "Content-Type":"application/json",
+            "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         type: 'GET',
