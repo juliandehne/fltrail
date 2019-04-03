@@ -3,7 +3,7 @@
  */
 
 const staticCategories = [{name: "TITEL"}, {name: "RECHERCHE"}, {name: "LITERATURVERZEICHNIS"}, {name: "FORSCHUNGSFRAGE"}, {name: "UNTERSUCHUNGSKONZEPT"},
-    {name: "METHODIK"}, {name: "DURCHFUEHRUNG"}, {name: "AUSWERTUNG"}]
+    {name: "METHODIK"}, {name: "DURCHFUEHRUNG"}, {name: "AUSWERTUNG"}];
 
 $(document).ready(function () {
     $('#missingAnnotation').hide();
@@ -88,6 +88,7 @@ function handleCategorySelection(category, startCharacter, endCharacter) {
 
         // update data from category list
         addSelectionDataToList(startCharacter, endCharacter, category);
+        removeSelection();
     } else {
         // show error message to user
         window.alert("Dieser Bereich wurde bereits zugeordnet.")
@@ -99,6 +100,10 @@ function highlightText(category, startCharacter, endCharacter) {
     let color = $('.added-' + category).css('background-color');
     let length = endCharacter - startCharacter;
     quill.formatText(startCharacter, length, 'background', color);
+}
+
+function removeSelection() {
+    quill.setSelection(null);
 }
 
 /**

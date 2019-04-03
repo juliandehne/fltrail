@@ -10,7 +10,7 @@
     <jsp:include page="../taglibs/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
-
+    <jsp:include page="../taglibs/quillJsDependencies.jsp"/>
     <!-- js - jQuery validation plugin -->
     <script src="../libs/jquery/jqueryValidate.js"></script>
     <!-- js - jQuery ui position -->
@@ -22,10 +22,6 @@
     <script src="js/unstructuredUpload.js"></script>
     <!-- js - unstructuredRest -->
     <script src="js/unstructuredRest.js"></script>
-
-    <!-- quilljs -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
 </head>
 
@@ -60,11 +56,9 @@
     </div>
 </main>
 <jsp:include page="../taglibs/footer.jsp"/>
-<script>
-    const quill = new Quill('#editor', {
-        theme: 'snow'
-    });
-</script>
+<jsp:include page="../taglibs/quillJsEditor.jsp">
+    <jsp:param name="readOnly" value="false"/>
+</jsp:include>
 </body>
 
 </html>

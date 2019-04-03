@@ -10,7 +10,7 @@
     <jsp:include page="../taglibs/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
-
+    <jsp:include page="../taglibs/quillJsDependencies.jsp"/>
     <!-- css - unstructured-annotation -->
     <link rel="stylesheet" type="text/css" href="css/unstructured-annotation.css">
     <!-- css - contextMenu -->
@@ -33,10 +33,6 @@
     <script src="js/unstructuredRest.js"></script>
     <!-- js - unstructuredUpload -->
     <script src="js/unstructuredAnnotation.js"></script>
-
-    <!-- quilljs -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 
     <!-- jsrender -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.2/jsrender.js"></script>
@@ -88,15 +84,9 @@
         </div>
     </div>
 </main>
-<script>
-    const quill = new Quill('#editor', {
-        theme: 'snow',
-        readOnly: true,
-        "modules": {
-            "toolbar": false
-        }
-    });
-</script>
+<jsp:include page="../taglibs/quillJsEditor.jsp">
+    <jsp:param name="readOnly" value="true"/>
+</jsp:include>
 <jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
