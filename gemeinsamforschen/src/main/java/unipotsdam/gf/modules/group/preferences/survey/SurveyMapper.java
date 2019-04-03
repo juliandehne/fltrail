@@ -15,7 +15,6 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.user.UserProfile;
 import unipotsdam.gf.process.ProjectCreationProcess;
-import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
@@ -156,7 +155,7 @@ public class SurveyMapper {
         }
 
         // save the user in db
-        User user = saveUser(data, project, req);
+        User user = registerUserInProject(data, project, req);
         // clean the data
         cleanData(data);
         // persist the answers
@@ -175,7 +174,7 @@ public class SurveyMapper {
      * @throws UserDoesNotExistInRocketChatException
      * @throws IOException
      */
-    private User saveUser(HashMap<String, String> data, Project project, HttpServletRequest req)
+    private User registerUserInProject(HashMap<String, String> data, Project project, HttpServletRequest req)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, IOException {
 
         User user;
@@ -187,6 +186,7 @@ public class SurveyMapper {
         // it is in fl context
         else {
             user = gfContexts.getUserFromSession(req);
+            projectDAO.register(user, project);
             projectCreationProcess.updateProjCreaProcTasks(project, user);
         }
         return user;

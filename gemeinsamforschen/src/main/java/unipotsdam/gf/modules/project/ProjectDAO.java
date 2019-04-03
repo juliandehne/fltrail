@@ -4,6 +4,7 @@ import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyProject;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserInterests;
 import unipotsdam.gf.process.tasks.ProjectStatus;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
@@ -239,5 +240,12 @@ public class ProjectDAO {
         }
         connect.close();
         return surveyProject;
+    }
+
+    public void register(User user, Project project) {
+        connect.connect();
+        String mysqlRequest = "INSERT INTO projectuser (`projectName`, `userEmail`) values (?,?)";
+        connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), user.getEmail());
+        connect.close();
     }
 }

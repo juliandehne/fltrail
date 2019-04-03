@@ -37,14 +37,16 @@ public class GroupView {
 
 
     /**
-     * initializes groups
+     * initializes groups (should only be used in fl context)
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all/projects/{projectName}")
     public GroupData getOrInitializeGroups(@PathParam("projectName") String projectName)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-        return groupFormationProcess.getOrInitializeGroups(new Project(projectName));
+        Project project = new Project(projectName);
+        project.setGroupWorkContext(GroupWorkContext.fl);
+        return groupFormationProcess.getOrInitializeGroups(project);
     }
 
 

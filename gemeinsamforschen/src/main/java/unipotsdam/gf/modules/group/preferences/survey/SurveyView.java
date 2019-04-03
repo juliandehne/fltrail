@@ -125,8 +125,33 @@ public class SurveyView {
         Project project = new Project(projectName);
         project.setGroupWorkContext(groupWorkContext);
         // check if it is surveyContext
-        surveyProcess.saveSurveyData(project, data, req, groupWorkContext);
+        surveyProcess.saveSurveyData(project, data, req);
     }
+
+
+    /**
+     * save the answers a user has given in a survey
+     *
+     * @param data
+     * @param projectName
+     * @param req
+     * @throws RocketChatDownException
+     * @throws UserDoesNotExistInRocketChatException
+     * @throws WrongNumberOfParticipantsException
+     * @throws JAXBException
+     * @throws IOException
+     */
+    @POST
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("/save/projects/{projectName}")
+    public void saveFLSurvey(HashMap<String, String> data, @PathParam("projectName") String projectName, @Context HttpServletRequest req) throws Exception {
+        GroupWorkContext groupWorkContext = GroupWorkContext.fl;
+        Project project = new Project(projectName);
+        project.setGroupWorkContext(groupWorkContext);
+        // check if it is surveyContext
+        surveyProcess.saveSurveyData(project, data, req);
+    }
+
 
 
     /**

@@ -53,7 +53,7 @@ public class SurveyProcess {
     private final static Logger log = LoggerFactory.getLogger(SurveyProcess.class);
 
 
-    public synchronized void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req, GroupWorkContext groupWorkContext)
+    public synchronized void saveSurveyData(Project project, HashMap<String, String> data, HttpServletRequest req)
             throws Exception {
         surveyMapper.saveData(data, project, req);
     }
