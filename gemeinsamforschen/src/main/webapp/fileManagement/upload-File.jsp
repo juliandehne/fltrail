@@ -25,13 +25,11 @@
 
 
     <!-- this is what we are here for -->
-    <div class="col span_content span_l_of_3">
-        Please upload your presentation: <input type="file" id="fileInput" accept=".pptx, .pdf"/> <br>
-        Thank you <br>
-        <button id="upload">submit</button>
-    </div>
+    <form action="../rest/fileStorage/presentation/projectName/CheckThisOut" method="post" enctype="multipart/form-data">
+        <p>Select a file: <input type="file" name="file" size="45" accept=".pdf, .pptx"/></p>
+        <input type="submit" value="Upload File"/>
+    </form>
     <!-- this is what we are here for -->
-
 
 
     <div class="col span_chat span_l_of_3 right">
