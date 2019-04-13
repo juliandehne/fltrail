@@ -288,3 +288,7 @@ ol#annotations {
 .modal {
     top: 50px;
 }
+
+.ql-disabled {
+    display: none;
+}

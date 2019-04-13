@@ -5,6 +5,15 @@ let userColorsDark = new Map();
 // declare document text, start and end character
 let startCharacter, endCharacter;
 
+/*
+    TODO
+    ----
+    - isAnnotationInRange(start,end) fuer quillJs implementieren
+    - selectText fixen (vielleicht categoryText iwo wieder einfuegen, wo es fehlt)
+    - Websocket fixen
+ */
+
+
 /**
  * This function will fire when the DOM is ready
  */
@@ -41,12 +50,30 @@ $(document).ready(function () {
         btnBack.hide();
         btnWholeCategory.hide();
     }
-    let documentText = $('#documentText');
+    // TODO: The whole function doesn't make sense at the moment for me. need to investigate what is happening here without changing the code and then implementing the changes
     // fetch full submission from database
     getFullSubmission(getQueryVariable("fullSubmissionId"), function (response) {
 
+
+        // TODO: maybe improve implementation
         // set text
-        documentText.html(response.text);
+        /*
+         I think this is a bad implementation, because we just set content, we don't want to use later. At the moment
+         there is a workaround implemented to not have a flicker at the start (all text is shown and afterwards only
+         part of the text.
+         Workaround:
+            The Editor is just hided with display: none in the ql-disabled class. After the correct contents is set,
+            the editor will be shown again.
+         Idea to improve:
+            It is only here, because of a possible failure of the getSubmissionPart function, but it is unclear why the
+            call should fail in the first place here? Nobody can see the submission if there are no annotationParts
+            declared.
+
+            So would it be better to remove the error-case and show an error instead? The annotationScript.js is also not
+            used everywhere other than in the annotation-document.jsp while this is written, so I don't see the point
+            at the moment.
+         */
+        quill.setContents(JSON.parse(response.text));
 
         // fetch submission parts
         getSubmissionPart(fullSubmissionId, category, function (response) {
@@ -67,14 +94,8 @@ $(document).ready(function () {
                     offset += 34;
                 }
             }
-            documentText.data("body", body);
-            // save body
-            documentText.data("body", body);
-
-
-            // scroll document text to first span element
-            let span = $('#documentText span').first();
-            documentText.scrollTo(span);
+            let editor = $('#editor');
+            editor.data("body", body);
         }, function () {
             //error
         })
@@ -553,21 +574,10 @@ function addHighlightedAnnotation(annotation) {
  */
 function addHighlightedSubmissionPart(startCharacter, endCharacter, offset) {
 
-    let docText = $('#documentText');
-    let documentText = docText.text();
-    let documentHtml = docText.html();
+    let length = endCharacter - startCharacter;
 
-    // create <span> tag with the annotated text
-    let replacement = $('<span></span>').attr('class', 'categoryText').html(documentText.slice(startCharacter, endCharacter));
-
-    // wrap an <p> tag around the replacement, get its parent (the <p>) and ask for the html
-    let replacementHtml = replacement.wrap('<p/>').parent().html();
-
-    // insert the replacementHtml
-    let newDocument = documentHtml.slice(0, startCharacter + offset) + replacementHtml + documentHtml.slice(endCharacter + offset);
-
-    // set new document text
-    docText.html(newDocument);
+    quill.setContents(quill.getContents(startCharacter, length));
+    $('.ql-disabled').show();
     if (getQueryVariable("seeFeedback") === "true") {
         let deleteMe = document.getElementsByClassName('categoryText');
         deleteMe[0].className = 'feedbackText';

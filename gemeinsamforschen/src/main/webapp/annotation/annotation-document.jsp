@@ -13,6 +13,7 @@
     <jsp:include page="../taglibs/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <jsp:include page="../taglibs/quillJsDependencies.jsp"/>
     <!-- css - annotationStyle -->
     <link rel="stylesheet" type="text/css" href="css/annotationStyle.css">
     <!-- css - contextMenu -->
@@ -56,7 +57,7 @@
             <h4 id="categoryHeadline"></h4>
             <input type="text" id="annotation-search" onkeyup="searchAnnotation()" placeholder="Suchen...">
 
-            <div id="documentText"></div>
+            <div id="editor" class="context-menu-one"></div>
 
         </div><!-- end col -->
 
@@ -165,6 +166,9 @@
     </div>
 
 </main>
+<jsp:include page="../taglibs/quillJsEditor.jsp">
+    <jsp:param name="readOnly" value="true"/>
+</jsp:include>
 <jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
