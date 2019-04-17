@@ -560,7 +560,7 @@ function addHighlightedSubmissionPart(startCharacter, endCharacter) {
  */
 function calculateExtraOffset(startCharacter) {
     // get submission part body
-    let body = $('#documentText').data("body");
+    let body = $('#editor').data("body");
     let extraOffset = 0;
 
     for (let i = 0; i < body.length; i++) {
@@ -899,18 +899,16 @@ function showAndHideToggleButtonById(id) {
 function handleAnnotationClick() {
     // TODO: change implementation again for quillJs
     // if saved selection's range count is > 0
-    let sel = rangy.getSelection();
-    if (sel.rangeCount > 0) {
-        // calculate character range offset from range
-        let range = sel.getRangeAt(0);
-        let offsets = range.toCharacterRange($('#documentText')[0]);
 
+    let selection = quill.getSelection();
+    if (selection.length > 0) {
+        // TODO: why should selection be 0, if selection.length is longer than 0
         // if selected text's length is > 0
-        let selectedText = getSelectedText();
+        let selectedText = quill.getText(selection.index, selection.length);
         if (selectedText.length > 0) {
-            // save start and end character and handle the selection
-            startCharacter = offsets.start;
-            endCharacter = offsets.end;
+
+            startCharacter = selection.index;
+            endCharacter = selection.index + selection.length
 
             if (isAnnotationInRange(startCharacter, endCharacter)) {
                 // display annotation create modal
@@ -935,7 +933,7 @@ function handleAnnotationClick() {
  * @returns {boolean} Returns true if the selection is in range
  */
 function isAnnotationInRange(start, end) {
-    let body = $('#documentText').data("body");
+    let body = $('#editor').data("body");
     for (let i = 0; i < body.length; i++) {
         if (body[i].startCharacter <= start && end <= body[i].endCharacter) {
             return true;
@@ -972,14 +970,10 @@ function searchAnnotation() {
 }
 
 function selectText() {
-    let text = document.getElementsByClassName('categoryText')[0];
-    if (window.getSelection()) {
-        let selection = window.getSelection();
-        let range = document.createRange();
-        range.selectNodeContents(text);
-        selection.removeAllRanges();
-        selection.addRange(range);
+    let selection = quill.getSelection();
+    if (selection.length > 0) {
     }
+
 }
 
 String.prototype.hashCode = function () {
