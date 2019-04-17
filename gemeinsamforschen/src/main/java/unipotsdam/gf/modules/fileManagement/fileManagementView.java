@@ -40,9 +40,25 @@ public class fileManagementView {
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Project project = projectDAO.getProjectByName(projectName);
-        FileManagementService.saveFileAsPDFBLOBInDB(user, project, inputStream, fileDetail, FileRole.PRESENTATION);
+        FileManagementService.saveFileAsPDF(user, project, inputStream, fileDetail, FileRole.PRESENTATION);
 
         //Respond that everything worked out
         return Response.ok("Data upload successfull").build();
+    }
+
+    // http://localhost:8080/Jersey-UP-DOWN-PDF-File/rest/fileservice/download/pdf
+    @GET
+    @Path("/download/fileLocation/{fileLocation}")
+    @Produces("application/pdf")
+    public Response downloadPdfFile(@PathParam("fileLocation") String fileLocation) {
+
+        // set file (and path) to be download
+        File file = FileManagementService.getPDFFile(fileLocation);
+
+        Response.ResponseBuilder responseBuilder = Response.ok(file);
+
+        String fileName = file.getName();
+        responseBuilder.header("Content-Disposition", "attachment; filename=\""+fileName+".pdf\"");
+        return responseBuilder.build();
     }
 }

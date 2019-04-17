@@ -1,14 +1,24 @@
 package unipotsdam.gf.modules.fileManagement;
 
+import com.itextpdf.text.Document;
+
 import java.io.InputStream;
 
 public class PDFFile {
-    private InputStream BLOB;
+    public Document getDocument() {
+        return document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
+    }
+
+    private Document document;
     private String nameOfFile;
     private FileRole fileRole;
 
-    public PDFFile(InputStream blob, String nameOfFile, FileRole fileRole) {
-        BLOB = blob;
+    public PDFFile(Document document, String nameOfFile, FileRole fileRole) {
+        this.document = document;
         this.nameOfFile = nameOfFile;
         this.fileRole = fileRole;
     }
@@ -19,14 +29,6 @@ public class PDFFile {
 
     public void setNameOfFile(String nameOfFile) {
         this.nameOfFile = nameOfFile;
-    }
-
-    public InputStream getBLOB() {
-        return BLOB;
-    }
-
-    public void setBLOB(InputStream BLOB) {
-        this.BLOB = BLOB;
     }
 
     public FileRole getFileRole() {

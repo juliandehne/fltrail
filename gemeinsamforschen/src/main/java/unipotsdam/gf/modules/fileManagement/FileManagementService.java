@@ -14,53 +14,130 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class FileManagementService {
 
-    public static void saveFileAsPDFBLOBInDB(
+    private static final String folderName = "userFilesFLTrail/";
+
+
+    static void saveFileAsPDF(
             User user,
             Project project,
             InputStream inputStream,
             FormDataContentDisposition fileDetail,
             FileRole fileRole
     ) throws IOException, SQLException {
-        InputStream in = getInputStreamFromFile(inputStream, fileDetail);
-        PDFFile pdfFile = new PDFFile(in, fileDetail.getFileName(), fileRole);
-        FileManagementDAO.saveInputStreamToDB(user, project, pdfFile);
+        String fileName = getDocumentFromFile(inputStream);
+
+        //writePDFFileOnFileSystem(pdfFile);
+        FileManagementDAO.writePDFMetaToDB(user, project, fileName, fileRole, fileDetail.getFileName());
     }
 
-    private static InputStream getInputStreamFromFile(InputStream inputStream, FormDataContentDisposition fileDetail) throws IOException {
-        InputStream result;
-        try{
-            XMLSlideShow ppt = new XMLSlideShow(OPCPackage.open(inputStream));
-            Document document = FileManagementService.convertPPTXtoPDF(
-                    ppt,
-                    fileDetail.getFileName().substring(0,fileDetail.getFileName().lastIndexOf("."))
-            );
+    private static String getDocumentFromFile(InputStream inputStream) throws IOException {
+        String fileName;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        // Read the Stream to copy it
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = inputStream.read(buffer)) > -1) {
+            baos.write(buffer, 0, len);
+        }
+        baos.flush();
+
+        // Open new InputStreams using the recorded bytes
+        InputStream inputStreamPPTX = new ByteArrayInputStream(baos.toByteArray());
+        InputStream inputStreamPDF = new ByteArrayInputStream(baos.toByteArray());
+
+        //convert pptx-InputStream to pdf-Document
+        try {
+            Document document = new Document();
+            XMLSlideShow ppt = new XMLSlideShow(OPCPackage.open(inputStreamPPTX));
+            fileName = FileManagementService.convertPPTXtoPDF(ppt);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             PdfWriter.getInstance(document, out);
-            result = new ByteArrayInputStream(out.toByteArray());
-        }catch (Exception e){
-            result = inputStream;
-            //parse inputStream to PDF Document
         }
+        //if it was PDF-InputStream already, convert it to PDF-Document
+        catch (Exception e) {
+            fileName = convertInputStreamToPDF(inputStreamPDF);
+        }
+
         inputStream.close();
-        return result;
+        return fileName;
     }
 
-    static Document convertPPTXtoPDF(XMLSlideShow ppt, String fileName) throws IOException, DocumentException {
+    private static String convertInputStreamToPDF(InputStream inputStream) {
+
+        String uuid = UUID.randomUUID().toString();
+        String fileName = uuid + ".pdf";
+        new File(folderName).mkdir();
+        String qualifiedUploadFilePath = folderName + fileName;
+        try (OutputStream outputStream = new FileOutputStream(new File(qualifiedUploadFilePath))) {
+
+            int read;
+            byte[] bytes = new byte[1024];
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+            outputStream.flush();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        //release resource, if any
+        //release resource, if any
+            /*
+        //ByteArrayOutputStream out = new ByteArrayOutputStream(new File());
+        Document document = new Document();
+
+        //////////Wenn ich diese Funktion auslagere, funktioniert sie nicht mehr. Aber sie wird 2 mal verwendet =/
+        String uuid = UUID.randomUUID().toString();
+        String fileName =  uuid+ ".pdf";
+        String folderName = "userFilesFLTrail/";
+        new File(folderName).mkdir();
+        FileOutputStream out = new FileOutputStream(
+                //to be found in "C:/dev/apache-tomcat-7.0.88-windows-x64/apache-tomcat-7.0.88/bin/userFiles"
+                folderName+fileName
+        );
+        PdfWriter.getInstance(document, out);
+        //////////bis hier
+
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            PdfWriter writer = PdfWriter.getInstance(document, baos);
+            //document.open();
+            XMLWorkerHelper.getInstance().parseXHtml(writer, document, inputStream);
+            document.open();
+        } catch (Exception e) {
+            //logger.error("Unexpected error", e);
+        }
+        document.close();
+        */
+        return fileName;
+    }
+
+    static String convertPPTXtoPDF(XMLSlideShow ppt) throws IOException, DocumentException {
         //create a new pdf with name of file
         Document document = new Document();
-        if(false){  //writes the pdf File onto disk. Just for Test-reasons.
-            FileOutputStream out = new FileOutputStream(System.getProperty("user.dir") + "/src/main/resources/"+fileName+".pdf");
-            PdfWriter.getInstance(document, out);
-        }
         PdfPTable table = new PdfPTable(1);
+
+        //////////Wenn ich diese Funktion auslagere, funktioniert sie nicht mehr. Aber sie wird 2 mal verwendet =/
+        String uuid = UUID.randomUUID().toString();
+        String fileName = uuid + ".pdf";
+        new File(folderName).mkdir();
+        FileOutputStream out = new FileOutputStream(
+                //to be found in "C:/dev/apache-tomcat-7.0.88-windows-x64/apache-tomcat-7.0.88/bin/userFiles"
+                folderName + fileName
+        );
+        PdfWriter.getInstance(document, out);
+        /////////bis hier
 
         //create a image for each slide and save it as png
         Dimension pgsize = ppt.getPageSize();
@@ -92,6 +169,29 @@ public class FileManagementService {
         }
         document.add(table);
         document.close();
-        return document;
+        return fileName;
+    }
+
+    public void downloadPDF(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        response.setContentType("application/pdf");
+        response.setHeader("Content-disposition", "attachment;filename=" + "testPDF.pdf");
+        try {
+            File f = new File("C://New folder//itext_Test.pdf");
+            FileInputStream fis = new FileInputStream(f);
+            DataOutputStream os = new DataOutputStream(response.getOutputStream());
+            response.setHeader("Content-Length", String.valueOf(f.length()));
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = fis.read(buffer)) >= 0) {
+                os.write(buffer, 0, len);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static File getPDFFile(String fileLocation) {
+        return new File(folderName + fileLocation);
     }
 }
