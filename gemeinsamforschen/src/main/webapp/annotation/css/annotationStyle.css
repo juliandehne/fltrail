@@ -289,6 +289,6 @@ ol#annotations {
     top: 50px;
 }
 
-.ql-disabled {
+.hidden-quill {
     display: none;
 }

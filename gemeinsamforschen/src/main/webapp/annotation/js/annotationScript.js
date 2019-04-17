@@ -54,45 +54,14 @@ $(document).ready(function () {
     // fetch full submission from database
     getFullSubmission(getQueryVariable("fullSubmissionId"), function (response) {
 
-
-        // TODO: maybe improve implementation
-        // set text
-        /*
-         I think this is a bad implementation, because we just set content, we don't want to use later. At the moment
-         there is a workaround implemented to not have a flicker at the start (all text is shown and afterwards only
-         part of the text.
-         Workaround:
-            The Editor is just hided with display: none in the ql-disabled class. After the correct contents is set,
-            the editor will be shown again.
-         Idea to improve:
-            It is only here, because of a possible failure of the getSubmissionPart function, but it is unclear why the
-            call should fail in the first place here? Nobody can see the submission if there are no annotationParts
-            declared.
-
-            So would it be better to remove the error-case and show an error instead? The annotationScript.js is also not
-            used everywhere other than in the annotation-document.jsp while this is written, so I don't see the point
-            at the moment.
-         */
-        quill.setContents(JSON.parse(response.text));
+        // set text if student looks at peer review
+        quillTemp.setContents(JSON.parse(response.text));
 
         // fetch submission parts
         getSubmissionPart(fullSubmissionId, category, function (response) {
-            let body;
-            if (response === false) {
-                body = [{
-                    startCharacter: 0,
-                    endCharacter: documentText.html().length,
-                    text: documentText.html()
-                }];
-                addHighlightedSubmissionPart(body[0].startCharacter, body[0].endCharacter, 0);
-            } else {
-                body = response.body;
-                let offset = 0;
-                for (let i = 0; i < body.length; i++) {
-                    addHighlightedSubmissionPart(body[i].startCharacter, body[i].endCharacter, offset);
-                    // add char count of '<span class="categoryText"></span>'
-                    offset += 34;
-                }
+            let body = response ? response.body : [{startCharacter: 0, endCharacter: quillTemp.getLength()}];
+            for (let i = 0; i < body.length; i++) {
+                addHighlightedSubmissionPart(body[i].startCharacter, body[i].endCharacter);
             }
             let editor = $('#editor');
             editor.data("body", body);
@@ -572,12 +541,11 @@ function addHighlightedAnnotation(annotation) {
  * @param endCharacter The offset of the end character
  * @param offset The calculated extra offset depending on already highlighted text
  */
-function addHighlightedSubmissionPart(startCharacter, endCharacter, offset) {
+function addHighlightedSubmissionPart(startCharacter, endCharacter) {
 
     let length = endCharacter - startCharacter;
-
-    quill.setContents(quill.getContents(startCharacter, length));
-    $('.ql-disabled').show();
+    let contents = quillTemp.getContents(startCharacter, length);
+    quill.setContents(contents);
     if (getQueryVariable("seeFeedback") === "true") {
         let deleteMe = document.getElementsByClassName('categoryText');
         deleteMe[0].className = 'feedbackText';

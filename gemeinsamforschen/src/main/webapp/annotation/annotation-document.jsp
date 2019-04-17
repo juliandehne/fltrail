@@ -164,8 +164,11 @@
         <chat:chatWindow orientation="right" scope="project"/>
         <chat:chatWindow orientation="right" scope="group"/>
     </div>
-
+    <div class="hidden-quill" id="hiddenEditor"></div>
 </main>
+<script>
+    const quillTemp = new Quill("#hiddenEditor", {});
+</script>
 <jsp:include page="../taglibs/quillJsEditor.jsp">
     <jsp:param name="readOnly" value="true"/>
 </jsp:include>
