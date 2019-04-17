@@ -8,9 +8,11 @@ let startCharacter, endCharacter;
 /*
     TODO
     ----
+    - scroll to text bei annotation mouseover implementieren
     - isAnnotationInRange(start,end) fuer quillJs implementieren
     - selectText fixen (vielleicht categoryText iwo wieder einfuegen, wo es fehlt)
     - Websocket fixen
+    - fix bug  with selection (siehe trello)
  */
 
 
@@ -490,11 +492,11 @@ function displayAnnotation(annotation) {
                 addHighlightedAnnotation(annotation);
 
                 // scroll document text to anchor element
-                let anchor = $('#anchor');
-                documentText.scrollTo(anchor);
+                //let anchor = $('#anchor');
+                //documentText.scrollTo(anchor);
             })
             .mouseleave(function () {
-                deleteHighlightedText();
+                deleteHighlightedText(annotation);
             })
             .append(
                 $('<div>').attr('class', 'spacing')
@@ -508,30 +510,28 @@ function displayAnnotation(annotation) {
  * @param annotation
  */
 function addHighlightedAnnotation(annotation) {
+    let annotationInformation = getAnnotationInformation(annotation);
+
+    quill.formatText(annotationInformation.startCharacter, annotationInformation.length, 'background', annotationInformation.color);
+}
+
+/**
+ * Restore the base text
+ */
+function deleteHighlightedText(annotation) {
+    let annotationInformation = getAnnotationInformation(annotation)
+    let format = quill.getFormat(annotationInformation.startCharacter, annotationInformation.length);
+    format.background = 'white';
+    quill.formatText(annotationInformation.startCharacter, annotationInformation.length, format);
+}
+
+function getAnnotationInformation(annotation) {
     let startCharacter = annotation.body.startCharacter;
-    let endCharacter = annotation.body.endCharacter;
+    let length = annotation.body.endCharacter - startCharacter;
     let userEmail = annotation.userEmail;
-    let offset = calculateExtraOffset(startCharacter);
+    let color = getUserColor(userEmail, annotation.targetCategory);
 
-    //initialize variables
-    let docText = $('#documentText');
-    let documentText = docText.text();
-    let documentHtml = docText.html();
-
-    //create <span> tag with the annotated text
-    let replacement = $('<span></span>')
-        .attr('id', 'anchor')
-        .css('background-color', getUserColor(userEmail, annotation.targetCategory))
-        .html(documentText.slice(startCharacter, endCharacter));
-
-    //wrap an <p> tag around the replacement, get its parent (the <p>) and ask for the html
-    let replacementHtml = replacement.wrap('<p/>').parent().html();
-
-    //insert the replacementHtml
-    let newDocument = documentHtml.slice(0, startCharacter + offset) + replacementHtml + documentHtml.slice(endCharacter + offset);
-
-    // set new document text
-    docText.html(newDocument);
+    return {startCharacter: startCharacter, length: length, color: color};
 }
 
 /**
@@ -575,17 +575,7 @@ function calculateExtraOffset(startCharacter) {
     return extraOffset;
 }
 
-/**
- * Restore the base text
- */
-function deleteHighlightedText() {
 
-    let documentText = $('#documentText');
-    let highlight = documentText.find('#anchor');
-    let text = highlight.text();
-    highlight.replaceWith(text);
-
-}
 
 /**
  * Get the text value of the selected text
