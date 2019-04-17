@@ -9,10 +9,10 @@ let startCharacter, endCharacter;
     TODO
     ----
     - scroll to text bei annotation mouseover implementieren
-    - isAnnotationInRange(start,end) fuer quillJs implementieren
-    - selectText fixen (vielleicht categoryText iwo wieder einfuegen, wo es fehlt)
     - Websocket fixen
-    - fix bug  with selection (siehe trello)
+    - Testen von annotation suchen
+    - bei neuer annotation alter text noch in der card drin
+    - bearbeiten druecken laesst die karte nicht verschwinden
  */
 
 
@@ -231,7 +231,6 @@ $(document).ready(function () {
 
     btnWholeCategory.click(function () {
         getSubmissionPart(fullSubmissionId, category, function () {
-            selectText();
             handleAnnotationClick();
 
         });
@@ -294,7 +293,8 @@ $(document).ready(function () {
             // remove annotation from list
             $('#' + id).closest('.listelement').remove();
             // remove highlighted text
-            deleteHighlightedText();
+            // TODO: find out if it created a bug not to call this function here
+            //deleteHighlightedText();
 
             // hide and clear the modal
             $('#annotation-edit-modal').hide();
@@ -511,7 +511,6 @@ function displayAnnotation(annotation) {
  */
 function addHighlightedAnnotation(annotation) {
     let annotationInformation = getAnnotationInformation(annotation);
-
     quill.formatText(annotationInformation.startCharacter, annotationInformation.length, 'background', annotationInformation.color);
 }
 
@@ -542,53 +541,13 @@ function getAnnotationInformation(annotation) {
  * @param offset The calculated extra offset depending on already highlighted text
  */
 function addHighlightedSubmissionPart(startCharacter, endCharacter) {
-
     let length = endCharacter - startCharacter;
     let contents = quillTemp.getContents(startCharacter, length);
     quill.setContents(contents);
     if (getQueryVariable("seeFeedback") === "true") {
+        //TODO: find out, what to do here
         let deleteMe = document.getElementsByClassName('categoryText');
         deleteMe[0].className = 'feedbackText';
-    }
-}
-
-/**
- * Iterate over all data arrays and calculate the offset for a given start character
- *
- * @param startCharacter The given start character
- * @returns {number} The offset
- */
-function calculateExtraOffset(startCharacter) {
-    // get submission part body
-    let body = $('#editor').data("body");
-    let extraOffset = 0;
-
-    for (let i = 0; i < body.length; i++) {
-        if (body[i].startCharacter <= startCharacter) {
-            extraOffset += 27;
-        }
-        if (body[i].endCharacter <= startCharacter) {
-            extraOffset += 7;
-        }
-    }
-
-    return extraOffset;
-}
-
-
-
-/**
- * Get the text value of the selected text
- *
- * @returns {string} The text
- */
-function getSelectedText() {
-    if (window.getSelection) {
-        return window.getSelection().toString();
-    } else if (document.getSelection) {
-        return document.getSelection();
-    } else if (document.selection) {
-        return document.selection.createRange().text;
     }
 }
 
@@ -887,19 +846,14 @@ function showAndHideToggleButtonById(id) {
  *
  */
 function handleAnnotationClick() {
-    // TODO: change implementation again for quillJs
-    // if saved selection's range count is > 0
 
+    // if saved selection's range count is > 0
     let selection = quill.getSelection();
-    if (selection.length > 0) {
-        // TODO: why should selection be 0, if selection.length is longer than 0
-        // if selected text's length is > 0
+    if (selection && selection.length > 0) {
         let selectedText = quill.getText(selection.index, selection.length);
         if (selectedText.length > 0) {
-
             startCharacter = selection.index;
             endCharacter = selection.index + selection.length
-
             if (isAnnotationInRange(startCharacter, endCharacter)) {
                 // display annotation create modal
                 $('#annotation-create-modal').show();
@@ -959,6 +913,7 @@ function searchAnnotation() {
     });
 }
 
+// TODO: find out where this function is used and why, maybe deletetable
 function selectText() {
     let selection = quill.getSelection();
     if (selection.length > 0) {
