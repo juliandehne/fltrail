@@ -12,7 +12,7 @@ let startCharacter, endCharacter;
     - Websocket fixen
     - Testen von annotation suchen
     - bei neuer annotation alter text noch in der card drin
-    - bearbeiten druecken laesst die karte nicht verschwinden
+    - bearbeiten druecken laesst die karte nicht verschwinden (was wollte ich damit sagen?)
  */
 
 
@@ -52,7 +52,6 @@ $(document).ready(function () {
         btnBack.hide();
         btnWholeCategory.hide();
     }
-    // TODO: The whole function doesn't make sense at the moment for me. need to investigate what is happening here without changing the code and then implementing the changes
     // fetch full submission from database
     getFullSubmission(getQueryVariable("fullSubmissionId"), function (response) {
 
@@ -325,7 +324,7 @@ $(document).ready(function () {
     if (getQueryVariable("seeFeedback") === "true") {
         btnWholeCategory.hide();
         btnContinue.hide();
-        documentText.toggleClass('leftcontent-text').toggleClass('feedbackText');
+        //documentText.toggleClass('leftcontent-text').toggleClass('feedbackText');
         let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT", "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
         for (let i = 0; i < categories.length; i++) {
             getAnnotations(fullSubmissionId, categories[i], function (response) {
@@ -546,8 +545,8 @@ function addHighlightedSubmissionPart(startCharacter, endCharacter) {
     quill.setContents(contents);
     if (getQueryVariable("seeFeedback") === "true") {
         //TODO: find out, what to do here
-        let deleteMe = document.getElementsByClassName('categoryText');
-        deleteMe[0].className = 'feedbackText';
+        //let deleteMe = document.getElementsByClassName('categoryText');
+        //deleteMe[0].className = 'feedbackText';
     }
 }
 
