@@ -542,6 +542,11 @@ function getAnnotationInformation(annotation) {
 function addHighlightedSubmissionPart(startCharacter, endCharacter) {
     let length = endCharacter - startCharacter;
     let contents = quillTemp.getContents(startCharacter, length);
+    let format = quillTemp.getFormat(startCharacter, length);
+    if (contents.ops.length === 1 && format.header) {
+        // noinspection JSValidateTypes
+        contents.ops[1] = {insert: "\n", attributes: format};
+    }
     quill.setContents(contents);
     if (getQueryVariable("seeFeedback") === "true") {
         //TODO: find out, what to do here
