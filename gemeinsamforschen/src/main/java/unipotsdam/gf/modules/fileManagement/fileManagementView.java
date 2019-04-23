@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
 import java.sql.SQLException;
+import java.util.Map;
 
 @Path("/fileStorage")
 public class fileManagementView {
@@ -29,18 +30,21 @@ public class fileManagementView {
     @Inject
     private UserDAO userDAO;
 
+    @Inject
+    private FileManagementService fileManagementService;
+
     @POST
     @Path("/presentation/projectName/{projectName}")
     @Produces("application/json")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadPPTX(@Context HttpServletRequest req,@PathParam("projectName") String projectName,
             @FormDataParam("file") InputStream inputStream, @FormDataParam("file") FormDataContentDisposition fileDetail
-    ) throws IOException, SQLException {
+    ) throws IOException {
         //get the PDF Version of the InputStream and Write it in DB as BLOB
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Project project = projectDAO.getProjectByName(projectName);
-        FileManagementService.saveFileAsPDF(user, project, inputStream, fileDetail, FileRole.PRESENTATION);
+        fileManagementService.saveFileAsPDF(user, project, inputStream, fileDetail, FileRole.PRESENTATION);
 
         //Respond that everything worked out
         return Response.ok("Data upload successfull").build();
@@ -60,5 +64,15 @@ public class fileManagementView {
         String fileName = file.getName();
         responseBuilder.header("Content-Disposition", "attachment; filename=\""+fileName+".pdf\"");
         return responseBuilder.build();
+    }
+
+    @GET
+    @Path("/listOfFiles/projectName/{projectName}")
+    @Produces("application/json")
+    public Map<String, String> getListOfFiles(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
+        String userEmail = gfContexts.getUserEmail(req);
+        User user = userDAO.getUserByEmail(userEmail);
+        Project project = projectDAO.getProjectByName(projectName);
+        return fileManagementService.getListOfFiles(user, project);
     }
 }

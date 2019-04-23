@@ -18,6 +18,12 @@
     <script src="js/upload-File.js"></script>
 </head>
 <body>
+<div class="loader-inactive" id="loader">
+    <div class="sk-cube1 sk-cube"></div>
+    <div class="sk-cube2 sk-cube"></div>
+    <div class="sk-cube4 sk-cube"></div>
+    <div class="sk-cube3 sk-cube"></div>
+</div>
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
@@ -25,12 +31,18 @@
 
 
     <!-- this is what we are here for -->
-    <form action="../rest/fileStorage/presentation/projectName/CheckThisOut" method="post" enctype="multipart/form-data">
+    <form id="uploadForm" method="POST"  enctype="multipart/form-data">
         <p>Select a file: <input type="file" name="file" size="45" accept=".pdf, .pptx"/></p>
-        <input type="submit" value="Upload File"/>
+        <button id="uploadSubmit" class="btn btn-primary">Upload File</button>
     </form>
+    <div id="successUpload" class="alert alert-success">Die Datei wurde erfolgreich gespeichert.</div>
+    <div id="errorUpload" class="alert alert-warning">Ein Fehler ist beim Upload der Datei aufgetreten.</div>
     <!-- this is what we are here for -->
-
+    <ol id="listOfFiles">
+        <script id="listOfFilesTemplate" type="text/x-jQuery-tmpl">
+            <li><a id="${fileCount}" href="../rest/fileStorage/download/fileLocation/${fileLocation}">${fileName}</a></li>
+        </script>
+    </ol>
 
     <div class="col span_chat span_l_of_3 right">
         <chat:chatWindow orientation="right" scope="project"/>

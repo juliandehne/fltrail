@@ -47,6 +47,15 @@ CREATE TABLE `contributionrating` (
   `research` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='TODO @Axel plz comment';
 
+CREATE TABLE `largefilestorage` (
+  `id` int(11) NOT NULL,
+  `userEmail` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `projectName` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `filelocation` varchar(100) NOT NULL,
+  `filerole` varchar(100) NOT NULL,
+  `filename` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `fullsubmissions` (
   `id` varchar(120) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -418,6 +427,18 @@ ALTER TABLE `tasks`
 
 ALTER TABLE `workrating`
   ADD CONSTRAINT `workrating_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `largefilestorage`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `largefilestorage_projects_name_fk` (`projectName`),
+  ADD KEY `largefilestorage_users_email_fk` (`userEmail`);
+
+ALTER TABLE `largefilestorage`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `largefilestorage`
+  ADD CONSTRAINT `largefilestorage_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `largefilestorage_users_email_fk` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

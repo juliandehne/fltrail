@@ -13,6 +13,8 @@ import unipotsdam.gf.modules.communication.DummyCommunicationService;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
+import unipotsdam.gf.modules.fileManagement.FileManagementDAO;
+import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.group.*;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
@@ -93,6 +95,8 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(RandomGroupAlgorithm.class).to(RandomGroupAlgorithm.class);
         bind(SingleGroupMatcher.class).to(SingleGroupMatcher.class);
         bind(SurveyProcess.class).to(SurveyProcess.class);
+        bind(FileManagementService.class).to(FileManagementService.class);
+        bind(FileManagementDAO.class).to(FileManagementDAO.class);
         bindMore();
     }
 
