@@ -1,18 +1,21 @@
 /**
  * This function will fire when the DOM is ready
  */
+
 $(document).ready(function () {
 
     $('#btnNext').click(function () {
 
             if (quill.getText().length > 1) {
                 let user = getUserEmail();
-                let text = quill.getContents();
+                let content = quill.getContents();
+                let html = quill.root.innerHTML;
 
                 // build request
                 let fullSubmissionPostRequest = {
                     user: user,
-                    text: JSON.stringify(text),
+                    text: JSON.stringify(content),
+                    html: html,
                     projectName: $('#projectName').text().trim()
                 };
 

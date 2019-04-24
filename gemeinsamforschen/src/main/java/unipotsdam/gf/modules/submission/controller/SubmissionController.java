@@ -8,7 +8,12 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -17,8 +22,8 @@ import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.progress.HasProgress;
 import unipotsdam.gf.process.progress.ProgressData;
 import unipotsdam.gf.process.tasks.FeedbackTaskData;
-import unipotsdam.gf.process.tasks.ProjectStatus;
 import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.ProjectStatus;
 import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
@@ -32,19 +37,15 @@ import java.util.UUID;
  */
 public class SubmissionController implements ISubmission, HasProgress {
 
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SubmissionController.class);
     @Inject
     private MysqlConnect connection;
-
     @Inject
     private UserDAO userDAO;
-
     @Inject
     private GroupDAO groupDAO;
-
     @Inject
     private ProjectDAO projectDAO;
-
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SubmissionController.class);
 
     @Override
     public FullSubmission addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest) {

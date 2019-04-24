@@ -4,7 +4,12 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.healthchecks.HealthChecks;
-import unipotsdam.gf.interfaces.*;
+import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.interfaces.IJournal;
+import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
@@ -13,7 +18,12 @@ import unipotsdam.gf.modules.communication.DummyCommunicationService;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
-import unipotsdam.gf.modules.group.*;
+import unipotsdam.gf.modules.general.service.PDFGeneratorService;
+import unipotsdam.gf.modules.group.BigGroupMatcher;
+import unipotsdam.gf.modules.group.GroupDAO;
+import unipotsdam.gf.modules.group.GroupFormationFactory;
+import unipotsdam.gf.modules.group.GroupfindingImpl;
+import unipotsdam.gf.modules.group.SingleGroupMatcher;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.groupal.PGroupAlMatcher;
@@ -101,5 +111,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(MysqlConnect.class).to(MysqlConnect.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(UnirestService.class).to(UnirestService.class);
+        bind(PDFGeneratorService.class).to(PDFGeneratorService.class);
     }
 }

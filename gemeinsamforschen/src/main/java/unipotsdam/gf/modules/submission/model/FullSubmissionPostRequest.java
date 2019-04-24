@@ -9,14 +9,8 @@ public class FullSubmissionPostRequest {
     // variables
     private String user;
     private String text;
+    private String html;
     private String projectName;
-
-    // constructors
-    public FullSubmissionPostRequest(String user, String text, String projectName) {
-        this.user = user;
-        this.text = text;
-        this.projectName = projectName;
-    }
 
     public FullSubmissionPostRequest() {
     }
@@ -46,11 +40,20 @@ public class FullSubmissionPostRequest {
         this.projectName = projectName;
     }
 
+    public String getHtml() {
+        return html;
+    }
+
+    public void setHtml(String html) {
+        this.html = html;
+    }
+
     @Override
     public String toString() {
         return "FullSubmissionPostRequest{" +
                 "user='" + user + '\'' +
                 ", text='" + text + '\'' +
+                ", html='" + html + '\'' +
                 ", projectName='" + projectName + '\'' +
                 '}';
     }

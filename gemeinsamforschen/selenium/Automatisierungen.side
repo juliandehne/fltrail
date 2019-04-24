@@ -17,7 +17,7 @@
       "id": "4cdd2c67-b330-4ebf-9dad-06784ae81bbe",
       "comment": "",
       "command": "setWindowSize",
-      "target": "2560x1417",
+      "target": "1024x768",
       "targets": [],
       "value": ""
     }, {

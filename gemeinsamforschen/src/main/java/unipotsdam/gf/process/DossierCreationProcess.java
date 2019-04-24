@@ -1,6 +1,9 @@
 package unipotsdam.gf.process;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.modules.general.service.PDFGeneratorService;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
@@ -9,10 +12,15 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.*;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.process.tasks.TaskType;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +42,9 @@ public class DossierCreationProcess {
 
     @Inject
     private Feedback feedback;
+
+    @Inject
+    private PDFGeneratorService pdfGeneratorService;
 
     /**
      * start the Dossier Phase
@@ -59,8 +70,15 @@ public class DossierCreationProcess {
      */
     public FullSubmission addSubmission(
             FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) {
-        FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
 
+        try {
+            pdfGeneratorService.generatePDFFromHTML(fullSubmissionPostRequest.getHtml(), "test.pdf");
+        } catch (IOException | DocumentException | CssResolverException e) {
+            e.printStackTrace();
+            return null;
+        }
+        FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
+        // TODO: add pdf convert and save here -> maybe somewhere else, to get it automated each time you save an dossier
         // this completes the upload task
         Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.FINISHED);
         taskDAO.updateForUser(task);
