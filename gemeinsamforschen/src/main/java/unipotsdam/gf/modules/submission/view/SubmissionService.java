@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.submission.view;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
@@ -24,6 +26,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -48,8 +51,14 @@ public class SubmissionService {
         // save full submission request in database and return the new full submission
         // TODO: convert fullSubmissionPostRequest.getHtml() to pdf with https://www.baeldung.com/pdf-conversions-java
 
-        final FullSubmission fullSubmission = dossierCreationProcess.addSubmission(fullSubmissionPostRequest, new
-                User(fullSubmissionPostRequest.getUser()), new Project(fullSubmissionPostRequest.getProjectName()));
+        final FullSubmission fullSubmission;
+        try {
+            fullSubmission = dossierCreationProcess.addSubmission(fullSubmissionPostRequest, new
+                    User(fullSubmissionPostRequest.getUser()), new Project(fullSubmissionPostRequest.getProjectName()));
+        } catch (CssResolverException | DocumentException | IOException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
         return Response.ok(fullSubmission).build();
     }
 
@@ -135,8 +144,8 @@ public class SubmissionService {
 
     @POST
     @Path("/id/{submissionId}/projects/{projectId}/finalize")
-    public void finalize (@PathParam("submissionId") String submissionId, @PathParam("projectId") String projectId,
-                          @Context HttpServletRequest req) {
+    public void finalize(@PathParam("submissionId") String submissionId, @PathParam("projectId") String projectId,
+                         @Context HttpServletRequest req) {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         dossierCreationProcess.finalizeDossier(new FullSubmission(submissionId), new User(userEmail),
                 new Project(projectId));

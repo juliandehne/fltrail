@@ -2,8 +2,12 @@ package unipotsdam.gf.process;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.tool.xml.exceptions.CssResolverException;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition.FormDataContentDispositionBuilder;
 import unipotsdam.gf.interfaces.Feedback;
-import unipotsdam.gf.modules.general.service.PDFGeneratorService;
+import unipotsdam.gf.modules.fileManagement.FileManagementService;
+import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.fileManagement.FileType;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
@@ -44,7 +48,7 @@ public class DossierCreationProcess {
     private Feedback feedback;
 
     @Inject
-    private PDFGeneratorService pdfGeneratorService;
+    private FileManagementService fileManagementService;
 
     /**
      * start the Dossier Phase
@@ -69,14 +73,12 @@ public class DossierCreationProcess {
      * @return
      */
     public FullSubmission addSubmission(
-            FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) {
+            FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) throws CssResolverException, DocumentException, IOException {
 
-        try {
-            pdfGeneratorService.generatePDFFromHTML(fullSubmissionPostRequest.getHtml(), "test.pdf");
-        } catch (IOException | DocumentException | CssResolverException e) {
-            e.printStackTrace();
-            return null;
-        }
+        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName("dossier.pdf");
+        fileManagementService.saveFileAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
+                FileRole.DOSSIER, FileType.HTML);
+
         FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
         // TODO: add pdf convert and save here -> maybe somewhere else, to get it automated each time you save an dossier
         // this completes the upload task
@@ -141,12 +143,12 @@ public class DossierCreationProcess {
          }*/
     }
 
-    public void createSeeFeedBackTask(Project project, User distributeur){
+    public void createSeeFeedBackTask(Project project, User distributeur) {
         User user = submissionController.getFeedbackedUser(project, distributeur);
         taskDAO.persist(project, user, TaskName.SEE_FEEDBACK, Phase.DossierFeedback);
     }
 
-    public String getFeedBackTarget(Project project, User user){
-        return feedback.getFeedBackTarget(project,user);
+    public String getFeedBackTarget(Project project, User user) {
+        return feedback.getFeedBackTarget(project, user);
     }
 }

@@ -18,15 +18,13 @@ import unipotsdam.gf.modules.communication.DummyCommunicationService;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
-import unipotsdam.gf.modules.general.service.PDFGeneratorService;
+import unipotsdam.gf.modules.fileManagement.FileManagementDAO;
+import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.group.BigGroupMatcher;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationFactory;
 import unipotsdam.gf.modules.group.GroupfindingImpl;
 import unipotsdam.gf.modules.group.SingleGroupMatcher;
-import unipotsdam.gf.modules.fileManagement.FileManagementDAO;
-import unipotsdam.gf.modules.fileManagement.FileManagementService;
-import unipotsdam.gf.modules.group.*;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.groupal.PGroupAlMatcher;
@@ -116,6 +114,5 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(MysqlConnect.class).to(MysqlConnect.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(UnirestService.class).to(UnirestService.class);
-        bind(PDFGeneratorService.class).to(PDFGeneratorService.class);
     }
 }
