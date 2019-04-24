@@ -1,12 +1,10 @@
-let projectName;
 $(document).ready(function () {
-    projectName = $('#projectName').html().trim();
     errorHandler(null);
     $('#uploadSubmit').on('click', function(event){
         event.preventDefault();
-        uploadForm();
+        uploadForm($('#projectName').html().trim());
     });
-    listFilesOfGroup();
+    listFilesOfGroup($('#projectName').html().trim());
 
 });
 
@@ -26,7 +24,7 @@ function errorHandler(error) {
     }
 }
 
-function uploadForm(){
+function uploadForm(projectName){
     document.getElementById('loader').className = "loader";
     let data = new FormData($('#uploadForm')[0]);
     $.ajax({
@@ -49,7 +47,7 @@ function uploadForm(){
     });
 }
 
-function listFilesOfGroup(){
+function listFilesOfGroup(projectName){
     $.ajax({
         url: "../rest/fileStorage/listOfFiles/projectName/"+projectName,
         type: 'GET',
