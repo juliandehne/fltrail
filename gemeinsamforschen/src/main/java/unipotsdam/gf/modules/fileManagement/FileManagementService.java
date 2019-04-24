@@ -14,34 +14,42 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 
 import javax.imageio.ImageIO;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.UUID;
 
 public class FileManagementService {
 
+    @Inject
+    private FileManagementDAO fileManagementDAO;
+
     private static final String folderName = "userFilesFLTrail/";
 
 
-    static void saveFileAsPDF(
+    void saveFileAsPDF(
             User user,
             Project project,
             InputStream inputStream,
             FormDataContentDisposition fileDetail,
             FileRole fileRole
-    ) throws IOException, SQLException {
+    ) throws IOException {
         String fileName = getDocumentFromFile(inputStream);
 
         //writePDFFileOnFileSystem(pdfFile);
-        FileManagementDAO.writePDFMetaToDB(user, project, fileName, fileRole, fileDetail.getFileName());
+        fileManagementDAO.writePDFMetaToDB(user, project, fileName, fileRole, fileDetail.getFileName());
     }
 
-    private static String getDocumentFromFile(InputStream inputStream) throws IOException {
+    private String getDocumentFromFile(InputStream inputStream) throws IOException {
         String fileName;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -61,7 +69,7 @@ public class FileManagementService {
         try {
             Document document = new Document();
             XMLSlideShow ppt = new XMLSlideShow(OPCPackage.open(inputStreamPPTX));
-            fileName = FileManagementService.convertPPTXtoPDF(ppt);
+            fileName = convertPPTXtoPDF(ppt);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             PdfWriter.getInstance(document, out);
         }
@@ -74,7 +82,7 @@ public class FileManagementService {
         return fileName;
     }
 
-    private static String convertInputStreamToPDF(InputStream inputStream) {
+    private String convertInputStreamToPDF(InputStream inputStream) {
 
         String uuid = UUID.randomUUID().toString();
         String fileName = uuid + ".pdf";
@@ -91,39 +99,10 @@ public class FileManagementService {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-        //release resource, if any
-        //release resource, if any
-            /*
-        //ByteArrayOutputStream out = new ByteArrayOutputStream(new File());
-        Document document = new Document();
-
-        //////////Wenn ich diese Funktion auslagere, funktioniert sie nicht mehr. Aber sie wird 2 mal verwendet =/
-        String uuid = UUID.randomUUID().toString();
-        String fileName =  uuid+ ".pdf";
-        String folderName = "userFilesFLTrail/";
-        new File(folderName).mkdir();
-        FileOutputStream out = new FileOutputStream(
-                //to be found in "C:/dev/apache-tomcat-7.0.88-windows-x64/apache-tomcat-7.0.88/bin/userFiles"
-                folderName+fileName
-        );
-        PdfWriter.getInstance(document, out);
-        //////////bis hier
-
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PdfWriter writer = PdfWriter.getInstance(document, baos);
-            //document.open();
-            XMLWorkerHelper.getInstance().parseXHtml(writer, document, inputStream);
-            document.open();
-        } catch (Exception e) {
-            //logger.error("Unexpected error", e);
-        }
-        document.close();
-        */
         return fileName;
     }
 
-    static String convertPPTXtoPDF(XMLSlideShow ppt) throws IOException, DocumentException {
+    String convertPPTXtoPDF(XMLSlideShow ppt) throws IOException, DocumentException {
         //create a new pdf with name of file
         Document document = new Document();
         PdfPTable table = new PdfPTable(1);
@@ -172,26 +151,22 @@ public class FileManagementService {
         return fileName;
     }
 
-    public void downloadPDF(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        response.setContentType("application/pdf");
-        response.setHeader("Content-disposition", "attachment;filename=" + "testPDF.pdf");
-        try {
-            File f = new File("C://New folder//itext_Test.pdf");
-            FileInputStream fis = new FileInputStream(f);
-            DataOutputStream os = new DataOutputStream(response.getOutputStream());
-            response.setHeader("Content-Length", String.valueOf(f.length()));
-            byte[] buffer = new byte[1024];
-            int len = 0;
-            while ((len = fis.read(buffer)) >= 0) {
-                os.write(buffer, 0, len);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     static File getPDFFile(String fileLocation) {
         return new File(folderName + fileLocation);
+    }
+
+    Map<String, String> getListOfFiles(User user, Project project){
+        return fileManagementDAO.getListOfFiles(user, project);
+    }
+
+    void deleteFile(String fileLocation){
+        try{
+            Path path = Paths.get("."+File.separator+folderName+File.separator+fileLocation);
+            Files.delete(path);
+        }catch(Exception e){
+
+        }
+        fileManagementDAO.deleteMetaOfFile(fileLocation);
+
     }
 }

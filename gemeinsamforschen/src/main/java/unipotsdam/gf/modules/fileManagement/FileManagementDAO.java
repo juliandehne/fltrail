@@ -1,36 +1,59 @@
 package unipotsdam.gf.modules.fileManagement;
 
-import unipotsdam.gf.config.GFDatabaseConfig;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @ManagedBean
 @Resource
 @Singleton
-class FileManagementDAO {
+public class FileManagementDAO {
 
-    static void writePDFMetaToDB(User user, Project project, String fileLocation, FileRole fileRole, String fileName)
-            throws SQLException {
-        String url = GFDatabaseConfig.DB_URL+"/fltrail";
-        String dbUser = GFDatabaseConfig.USER;
-        String dbPassword = GFDatabaseConfig.PASS;
-        Connection connection = DriverManager.getConnection(url, dbUser, dbPassword);
+    @Inject
+    private MysqlConnect connect;
+
+    void writePDFMetaToDB(User user, Project project, String fileLocation, FileRole fileRole, String fileName) {
+        connect.connect();
         String mysqlRequest =
                 "INSERT INTO `largefilestorage`(`userEmail`, `projectName`, `filelocation`, `filerole`, `filename`) VALUES (?,?,?,?,?)";
-        PreparedStatement statement = connection.prepareStatement(mysqlRequest);
-        statement.setString(1, user.getEmail());
-        statement.setString(2, project.getName());
-        statement.setString(3, fileLocation);
-        statement.setString(4, fileRole.toString());
-        statement.setString(5, fileName);
-        statement.executeUpdate();
+        connect.issueInsertOrDeleteStatement(mysqlRequest, user.getEmail(), project.getName(),
+                fileLocation, fileRole.toString(), fileName);
+        connect.close();
+    }
+
+    Map<String, String> getListOfFiles(User user, Project project) {
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM `largefilestorage` lfs JOIN `groupuser` gu " +
+                "ON gu.userEmail=lfs.userEmail JOIN groups g on g.id=gu.groupId WHERE g.id " +
+                "IN (SELECT gu2.groupId FROM `groupuser` gu2 WHERE gu2.userEmail=?) AND g.projectName=?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, user.getEmail(), project.getName());
+        boolean next = vereinfachtesResultSet.next();
+        Map<String, String> result = new HashMap<>();
+        while (next) {
+            result.put(
+                    vereinfachtesResultSet.getString("filelocation"),
+                    vereinfachtesResultSet.getString("fileName")
+            );
+            next = vereinfachtesResultSet.next();
+        }
+        connect.close();
+        return result;
+    }
+
+    void deleteMetaOfFile(String fileLocation){
+        connect.connect();
+        String mysqlRequest =
+                "DELETE FROM `largefilestorage` WHERE filelocation=?";
+        connect.issueInsertOrDeleteStatement(mysqlRequest, fileLocation);
+        connect.close();
     }
 }
