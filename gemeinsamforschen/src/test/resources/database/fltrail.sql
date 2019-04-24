@@ -38,6 +38,8 @@ CREATE TABLE `categoriesselected` (
   `categorySelected` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='NOT IMPLEMENTED';
 
+--user with userName in project projectName gets quantitative feedback from fromPeer.
+--This feedback ranges between 1 and 5 for the categories dossier, eJournal and research.
 CREATE TABLE `contributionrating` (
   `projectName` varchar(200) NOT NULL,
   `userName` varchar(100) NOT NULL,
@@ -45,8 +47,12 @@ CREATE TABLE `contributionrating` (
   `dossier` int(11) NOT NULL,
   `eJournal` int(11) NOT NULL,
   `research` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='TODO @Axel plz comment';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Holds the quantitative peer assessment regarding the uploads.';
 
+--user with userEmail uploads a file for project projectName
+--This file is saved locally in TomCat-Folder (for example C:\dev\apache-tomcat-7.0.88-windows-x64\apache-tomcat-7.0.88\bin\userFilesFLTrail)
+-- with name fileLocation. The original fileName is saved in DB.
+--fileRole indicates the purpose of the file (for example PRESENTATION or DOSSIER)
 CREATE TABLE `largefilestorage` (
   `id` int(11) NOT NULL,
   `userEmail` varchar(255) CHARACTER SET utf8 NOT NULL,

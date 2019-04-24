@@ -75,4 +75,13 @@ public class fileManagementView {
         Project project = projectDAO.getProjectByName(projectName);
         return fileManagementService.getListOfFiles(user, project);
     }
+
+    @POST
+    @Path("/delete/fileLocation/{fileLocation}")
+    @Produces("application/json")
+    public Response deleteFile(@Context HttpServletRequest req,@PathParam("fileLocation") String fileLocation) throws IOException {
+        fileManagementService.deleteFile(fileLocation);
+        //Respond that everything worked out
+        return Response.ok("Data deletion successfull").build();
+    }
 }

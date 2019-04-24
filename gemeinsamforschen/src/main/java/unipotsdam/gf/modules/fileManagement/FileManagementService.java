@@ -21,6 +21,9 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Map;
 import java.util.UUID;
@@ -148,30 +151,22 @@ public class FileManagementService {
         return fileName;
     }
 
-    public void downloadPDF(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        response.setContentType("application/pdf");
-        response.setHeader("Content-disposition", "attachment;filename=" + "testPDF.pdf");
-        try {
-            File f = new File("C://New folder//itext_Test.pdf");
-            FileInputStream fis = new FileInputStream(f);
-            DataOutputStream os = new DataOutputStream(response.getOutputStream());
-            response.setHeader("Content-Length", String.valueOf(f.length()));
-            byte[] buffer = new byte[1024];
-            int len = 0;
-            while ((len = fis.read(buffer)) >= 0) {
-                os.write(buffer, 0, len);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     static File getPDFFile(String fileLocation) {
         return new File(folderName + fileLocation);
     }
 
     Map<String, String> getListOfFiles(User user, Project project){
         return fileManagementDAO.getListOfFiles(user, project);
+    }
+
+    void deleteFile(String fileLocation){
+        try{
+            Path path = Paths.get("."+File.separator+folderName+File.separator+fileLocation);
+            Files.delete(path);
+        }catch(Exception e){
+
+        }
+        fileManagementDAO.deleteMetaOfFile(fileLocation);
+
     }
 }

@@ -1,15 +1,13 @@
-let userEmail;
 let projectName;
 $(document).ready(function () {
-    userEmail = $('#userEmail').html().trim();
     projectName = $('#projectName').html().trim();
     errorHandler(null);
     $('#uploadSubmit').on('click', function(event){
         event.preventDefault();
         uploadForm();
     });
-
     listFilesOfGroup();
+
 });
 
 function errorHandler(error) {
@@ -17,9 +15,14 @@ function errorHandler(error) {
         case "upload":
             $('#errorUpload').show();
         break;
+        case "deletion":
+            $('#errorDeletion').show();
+            break;
         default:
             $('#successUpload').hide();
             $('#errorUpload').hide();
+            $('#fileDeleted').hide();
+            $('#errorDeletion').hide();
     }
 }
 
@@ -63,9 +66,30 @@ function listFilesOfGroup(){
                 count++;
             }
             $('#listOfFilesTemplate').tmpl(tmplObject).appendTo('#listOfFiles');
+            prepareDeletion();
         },
         error: function(a){
 
         }
+    });
+}
+
+function prepareDeletion(){
+    let linksForDeletion = $('.deleteFile');
+    linksForDeletion.each(function(){
+        $(this).on('click', function(){
+            $.ajax({
+                url: "../rest/fileStorage/delete/fileLocation/"+$(this).attr('name'),
+                method: 'POST',
+                dataType: "text",
+                type: 'POST',
+                success: function(){
+                    $('#fileDeleted').show();
+                },
+                error: function(){
+                    errorHandler("deletion");
+                }
+            });
+        });
     });
 }

@@ -48,4 +48,12 @@ public class FileManagementDAO {
         connect.close();
         return result;
     }
+
+    void deleteMetaOfFile(String fileLocation){
+        connect.connect();
+        String mysqlRequest =
+                "DELETE FROM `largefilestorage` WHERE filelocation=?";
+        connect.issueInsertOrDeleteStatement(mysqlRequest, fileLocation);
+        connect.close();
+    }
 }
