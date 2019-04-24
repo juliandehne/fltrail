@@ -88,10 +88,8 @@ public class FileManagementService {
     private String saveHTMLAsPDF(InputStream inputStream, String filenameWithoutExtension) throws IOException, DocumentException, CssResolverException {
         Document document = new Document();
         String filename = filenameWithoutExtension + ".pdf";
-        PdfWriter writer = PdfWriter.getInstance(document,
-                new FileOutputStream(FOLDER_NAME + filename));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(FOLDER_NAME + filename));
         document.open();
-
         /*
             TODO: css is not applied correctly, that's why an indent
             example:
@@ -100,7 +98,6 @@ public class FileManagementService {
                 2.              2.
                     a.          3.
          */
-        //
         CSSResolver cssResolver = XMLWorkerHelper.getInstance().getDefaultCssResolver(false);
         cssResolver.addCssFile("https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.css", true);
         HtmlPipelineContext htmlContext = new HtmlPipelineContext(null);
