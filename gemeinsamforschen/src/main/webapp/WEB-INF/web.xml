@@ -21,6 +21,10 @@
                 unipotsdam.gf, com.fasterxml.jackson.jaxrs.json
             </param-value>
         </init-param>
+        <init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+        </init-param>
 
         <init-param>
             <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
