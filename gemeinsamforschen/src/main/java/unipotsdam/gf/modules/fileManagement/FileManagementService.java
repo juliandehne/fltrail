@@ -74,7 +74,7 @@ public class FileManagementService {
                 break;
         }
         //writePDFFileOnFileSystem(pdfFile);
-        fileManagementDAO.writePDFMetaToDB(user, project, fileName, fileRole, fileDetail.getFileName());
+        fileManagementDAO.writeFileMetaToDB(user, project, fileName, fileRole, fileDetail.getFileName());
     }
 
     public void saveFileAsPDF(User user, Project project, String fileContent, FormDataContentDisposition fileDetail,

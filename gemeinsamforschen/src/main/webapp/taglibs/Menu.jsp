@@ -32,6 +32,12 @@
         </div>
     </div>
 </header>
+<div class="loader-inactive" id="loader">
+    <div class="sk-cube1 sk-cube"></div>
+    <div class="sk-cube2 sk-cube"></div>
+    <div class="sk-cube4 sk-cube"></div>
+    <div class="sk-cube3 sk-cube"></div>
+</div>
 <p id="hierarchyLevel" hidden><%= tu.printMe(request.getParameter("hierarchy"))%>
 </p>
 <p id="userEmail" hidden><%= tu.printMe(userEmail)%>

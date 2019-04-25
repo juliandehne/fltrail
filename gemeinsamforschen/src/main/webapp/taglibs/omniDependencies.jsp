@@ -31,7 +31,6 @@
 <link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/css/Sidebar-Menu.css">
 <script src="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/js/utility.js"></script>
 <script src="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/js/footer.js"></script>
-<script src="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/js/fileStorage.js"></script>
 <!--<link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "project/css/all.css\">-->
 <!--<link rel=\"stylesheet\" href=\"" + hierarchyToString(hierarchyLevel) + "project/css/style.css\" type=\"text/css\">-->
 <link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/tagsinput/jquery.tagsinput.min.css">

@@ -20,7 +20,7 @@ public class FileManagementDAO {
     @Inject
     private MysqlConnect connect;
 
-    void writePDFMetaToDB(User user, Project project, String fileLocation, FileRole fileRole, String fileName) {
+    void writeFileMetaToDB(User user, Project project, String fileLocation, FileRole fileRole, String fileName) {
         connect.connect();
         String mysqlRequest =
                 "INSERT INTO `largefilestorage`(`userEmail`, `projectName`, `filelocation`, `filerole`, `filename`) VALUES (?,?,?,?,?)";

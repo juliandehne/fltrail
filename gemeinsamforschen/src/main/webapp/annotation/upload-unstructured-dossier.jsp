@@ -37,10 +37,16 @@
                 <div id="editor"></div>
             </div>
 
-            <!--<div>
-                <label for="file">Alternativ bitte Datei wählen</label>
-                <input type="file" id="file" class="primary" name="file">
-            </div>-->
+            <!-- Just a dummy so far -->
+            <div>
+                <label>Alternativ bitte Datei wählen
+                    <jsp:include page="../taglibs/upload-file.jsp">
+                        <jsp:param name="fileRole" value="DOSSIER"/>
+                    </jsp:include>
+                </label>
+            </div>
+            <!-- Just a dummy so far -->
+
         </div>
         <div class="document-text-buttons">
             <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück

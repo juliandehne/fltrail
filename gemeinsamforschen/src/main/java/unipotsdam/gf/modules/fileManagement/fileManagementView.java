@@ -42,19 +42,42 @@ public class fileManagementView {
     private FileManagementService fileManagementService;
 
     @POST
-    @Path("/presentation/projectName/{projectName}")
+    @Path("/{fileRole}/projectName/{projectName}")
     @Produces("application/json")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadPPTX(@Context HttpServletRequest req,@PathParam("projectName") String projectName,
-            @FormDataParam("file") InputStream inputStream, @FormDataParam("file") FormDataContentDisposition fileDetail
+    public Response uploadFile(@Context HttpServletRequest req, @PathParam("projectName") String projectName,
+                               @PathParam("fileRole") FileRole fileRole,
+                               @FormDataParam("file") InputStream inputStream, @FormDataParam("file") FormDataContentDisposition fileDetail
     ) throws IOException, CssResolverException, DocumentException {
-        //get the PDF Version of the InputStream and Write it in DB as BLOB
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Project project = projectDAO.getProjectByName(projectName);
+        switch (fileRole) {
+            case PRESENTATION:
+                return uploadPPTX(user, project, inputStream, fileDetail);
+            case DOSSIER:
+                break;
+            case LEARNINGGOALS:
+                break;
+            case EXTRA:
+                return uploadFile(user, project, inputStream, fileDetail);
+            default:
+                break;
+        }
+        return null;
+    }
+
+    private Response uploadPPTX(User user, Project project, InputStream inputStream, FormDataContentDisposition fileDetail
+    ) throws IOException {
+        //get the PDF Version of the InputStream and Write Meta into DB
         fileManagementService.saveFileAsPDF(user, project, inputStream, fileDetail, FileRole.PRESENTATION, FileType.UNKNOWN);
 
         //Respond that everything worked out
+        return Response.ok("Data upload successfull").build();
+    }
+
+    private Response uploadFile(User user, Project project, InputStream inputStream, FormDataContentDisposition fileDetail){
+        //todo implement
         return Response.ok("Data upload successfull").build();
     }
 
@@ -70,7 +93,7 @@ public class fileManagementView {
         Response.ResponseBuilder responseBuilder = Response.ok(file);
 
         String fileName = file.getName();
-        responseBuilder.header("Content-Disposition", "attachment; filename=\""+fileName+".pdf\"");
+        responseBuilder.header("Content-Disposition", "attachment; filename=\"" + fileName + ".pdf\"");
         return responseBuilder.build();
     }
 
@@ -87,7 +110,7 @@ public class fileManagementView {
     @POST
     @Path("/delete/fileLocation/{fileLocation}")
     @Produces("application/json")
-    public Response deleteFile(@Context HttpServletRequest req,@PathParam("fileLocation") String fileLocation) throws IOException {
+    public Response deleteFile(@Context HttpServletRequest req, @PathParam("fileLocation") String fileLocation) throws IOException {
         fileManagementService.deleteFile(fileLocation);
         //Respond that everything worked out
         return Response.ok("Data deletion successfull").build();

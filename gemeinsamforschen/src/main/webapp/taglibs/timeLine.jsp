@@ -7,12 +7,7 @@
     String projectName = tu.getParamterFromQuery("projectName", request);
     Phase phase = tu.getPhase(projectName);
 %>
-<div class="loader-inactive" id="loader">
-    <div class="sk-cube1 sk-cube"></div>
-    <div class="sk-cube2 sk-cube"></div>
-    <div class="sk-cube4 sk-cube"></div>
-    <div class="sk-cube3 sk-cube"></div>
-</div>
+
 <div class="col span_timeline timeline span_s_of_2">
     <!--begin timeLine -->
     <ul>
@@ -57,7 +52,8 @@
     </ul>
     <!-- end timeLine-->
 
-    <!--begin data deletion, up- and download-->
+    <!--begin data deletion and download-->
+    <script src="../taglibs/js/fileStorage.js"></script>
     <div style="margin-top:50px;"></div>
     <h4>Ergebnisse</h4>
     <ul id="listOfFiles">
@@ -68,16 +64,10 @@
             </li>
         </script>
     </ul>
-    <form id="uploadForm" method="POST"  enctype="multipart/form-data">
-        <label>Select a file: <input type="file" name="file" size="45" accept=".pdf, .pptx"/></label>
-        <button id="uploadSubmit" class="btn btn-primary">Upload File</button>
-    </form>
 
-    <div id="successUpload" class="alert alert-success">Die Datei wurde erfolgreich gespeichert.</div>
-    <div id="errorUpload" class="alert alert-warning">Ein Fehler ist beim Upload der Datei aufgetreten.</div>
     <div id="fileDeleted" class="alert alert-success">Die Datei wurde erfolgreich gelöscht.</div>
     <div id="errorDeletion" class="alert alert-warning">Ein Fehler ist aufgetreten beim Löschen der Datei.</div>
-    <!--end data deletion, up- and download-->
+    <!--end data deletion and download-->
 
 </div>
 <%!
