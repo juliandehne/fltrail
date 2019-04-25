@@ -86,18 +86,21 @@ public class FileManagementService {
     }
 
     private String saveHTMLAsPDF(InputStream inputStream, String filenameWithoutExtension) throws IOException, DocumentException, CssResolverException {
-        Document document = new Document();
-        String filename = filenameWithoutExtension + ".pdf";
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(FOLDER_NAME + filename));
-        document.open();
+        String fileName = filenameWithoutExtension + ".pdf";
         /*
-            TODO: css is not applied correctly, that's why an indent
+        Document document = new Document();
+
+
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
+        document.open();
+
+            TODO: css is not applied correctly, that's why an indent, doesn't work, need fix
             example:
                 HTML            PDF
                 1.              1.
                 2.              2.
                     a.          3.
-         */
+
         CSSResolver cssResolver = XMLWorkerHelper.getInstance().getDefaultCssResolver(false);
         cssResolver.addCssFile("https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.css", true);
         HtmlPipelineContext htmlContext = new HtmlPipelineContext(null);
@@ -105,8 +108,13 @@ public class FileManagementService {
         XMLWorker worker = new XMLWorker(pipeline, true);
         XMLParser parser = new XMLParser(worker);
         parser.parse(inputStream);
+         */
+        Document document = new Document();
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
+        document.open();
+        XMLWorkerHelper.getInstance().parseXHtml(writer, document, inputStream);
         document.close();
-        return filename;
+        return fileName;
     }
 
     private String correctingTags(String fileContent) {
