@@ -1,51 +1,9 @@
 $(document).ready(function () {
-    errorHandler(null);
-    $('#uploadSubmit').on('click', function(event){
-        event.preventDefault();
-        uploadForm($('#projectName').html().trim());
-    });
+    $('#fileDeleted').hide();
+    $('#errorDeletion').hide();
     listFilesOfGroup($('#projectName').html().trim());
 
 });
-
-function errorHandler(error) {
-    switch (error) {
-        case "upload":
-            $('#errorUpload').show();
-        break;
-        case "deletion":
-            $('#errorDeletion').show();
-            break;
-        default:
-            $('#successUpload').hide();
-            $('#errorUpload').hide();
-            $('#fileDeleted').hide();
-            $('#errorDeletion').hide();
-    }
-}
-
-function uploadForm(projectName){
-    document.getElementById('loader').className = "loader";
-    let data = new FormData($('#uploadForm')[0]);
-    $.ajax({
-        url: "../rest/fileStorage/presentation/projectName/"+projectName,
-        data: data,
-        dataType: "text",
-        cache: false,
-        contentType: false,
-        processData: false,
-        method: 'POST',
-        type: 'POST',
-        success: function(data){
-            $('#successUpload').show();
-            document.getElementById('loader').className = "loader-inactive";
-        },
-        error: function(data){
-            errorHandler("upload");
-            document.getElementById('loader').className = "loader-inactive";
-        }
-    });
-}
 
 function listFilesOfGroup(projectName){
     $.ajax({
@@ -85,8 +43,7 @@ function prepareDeletion(){
                     $('#fileDeleted').show();
                 },
                 error: function(){
-                    errorHandler("deletion");
-                }
+                    $('#errorDeletion').show();                }
             });
         });
     });

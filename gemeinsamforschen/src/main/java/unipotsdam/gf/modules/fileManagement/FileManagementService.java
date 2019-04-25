@@ -15,8 +15,6 @@ import unipotsdam.gf.modules.user.User;
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -24,7 +22,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.Map;
 import java.util.UUID;
 
@@ -46,7 +43,7 @@ public class FileManagementService {
         String fileName = getDocumentFromFile(inputStream);
 
         //writePDFFileOnFileSystem(pdfFile);
-        fileManagementDAO.writePDFMetaToDB(user, project, fileName, fileRole, fileDetail.getFileName());
+        fileManagementDAO.writeFileMetaToDB(user, project, fileName, fileRole, fileDetail.getFileName());
     }
 
     private String getDocumentFromFile(InputStream inputStream) throws IOException {
