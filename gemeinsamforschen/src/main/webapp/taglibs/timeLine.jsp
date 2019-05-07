@@ -13,40 +13,40 @@
     <ul>
         <% if (phase != null) {%>
             <% if (phase == Phase.GroupFormation) {%>
-                <li class="neutral icon closed">Projektinitialisierung</li>
-                <li class="draft icon ">Entwurfsphase</li>
-                <li class="icon inactive">Feedbackphase</li>
-                <li class="icon inactive">Reflextionsphase</li>
-                <li class="icon inactive">Assessment</li>
-                <li class="icon inactive">Noten</li>
+                <li class="icon  phase1">Projektinitialisierung</li>
+                <li class="icon inactive  phase2 ">Entwurfsphase</li>
+
+                <li class="icon inactive phase4">Reflextionsphase</li>
+                <li class="icon inactive phase5">Assessment</li>
+                <li class="icon inactive phase6">Noten</li>
             <%} else if (phase == Phase.DossierFeedback) {%>
-                <li class="neutral icon closed">Projektinitialisierung</li>
-                <li class="draft icon closed">Entwurfsphase</li>
-                <li class="feedback icon">Feedbackphase</li>
-                <li class="icon inactive">Reflextionsphase</li>
-                <li class="icon inactive">Assessment</li>
-                <li class="icon inactive">Noten</li>
+                <li class="icon closed phase1">Projektinitialisierung</li>
+                <li class="icon  phase2">Entwurfsphase</li>
+
+                <li class="icon inactive phase4">Reflextionsphase</li>
+                <li class="icon inactive phase5">Assessment</li>
+                <li class="icon inactive phase6">Noten</li>
             <%} else if (phase == Phase.Execution) {%>
-                <li class="neutral icon closed">Projektinitialisierung</li>
-                <li class="draft icon closed">Entwurfsphase</li>
-                <li class="feedback icon closed">Feedbackphase</li>
-                <li class="icon">Reflextionsphase</li>
-                <li class="icon inactive">Assessment</li>
-                <li class="icon inactive">Noten</li>
+                <li class="neutral icon closed phase1">Projektinitialisierung</li>
+                <li class="draft icon closed phase2">Entwurfsphase</li>
+
+                <li class="icon phase4">Reflextionsphase</li>
+                <li class="icon inactive phase5">Assessment</li>
+                <li class="icon inactive phase6">Noten</li>
             <%} else if (phase == Phase.Assessment) {%>
-                <li class="neutral icon closed">Projektinitialisierung</li>
-                <li class="draft icon closed">Entwurfsphase</li>
-                <li class="feedback icon closed">Feedbackphase</li>
-                <li class="icon closed">Reflextionsphase</li>
-                <li class="icon">Assessment</li>
-                <li class="icon inactive">Noten</li>
+                <li class="neutral icon closed phase1">Projektinitialisierung</li>
+                <li class="draft icon closed phase2">Entwurfsphase</li>
+
+                <li class="icon closed phase4">Reflextionsphase</li>
+                <li class="icon phase5">Assessment</li>
+                <li class="icon inactive phase6">Noten</li>
             <%} else if (phase == Phase.Projectfinished) {%>
-                <li class="neutral icon closed">Projektinitialisierung</li>
-                <li class="draft icon closed\">Entwurfsphase</li>
-                <li class="feedback icon closed\">Feedbackphase</li>
-                <li class="icon closed">Reflextionsphase</li>
-                <li class="icon closed">Assessment</li>
-                <li class="icon">Noten</li>
+                <li class="icon closed phase1">Projektinitialisierung</li>
+                <li class="icon closed phase2">Entwurfsphase</li>
+
+                <li class="icon closed phase4">Reflextionsphase</li>
+                <li class="icon closed phase5">Assessment</li>
+                <li class="icon phase6">Noten</li>
             <%}%>
         <%}%>
     </ul>

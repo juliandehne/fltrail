@@ -15,17 +15,19 @@
 </jsp:include>
 <main class="project-overview">
     <jsp:include page="../taglibs/timeLine.jsp"/>
-    <div class="col span_content span_l_of_2">
+    <div class="col span_content span_l_of_2 tasklist">
         <div id="listOfTasks">
 
         </div>
         <script id="taskTemplate" type="text/x-jQuery-tmpl">
+
+  <h3 class="phase-heading ${phase} ">${phase}</h3>
    <div class="card ${phase}">
        <div class="col span_s_of_2 icon ${taskType}">
        </div>
        <div class="col span_l_of_2" id="${taskName}">
            {{if infoText}}
-               <h4>${infoText}</h4>
+               <p class="task-info">${infoText}</p>
            {{/if}}
            {{if solveTaskWith}}
                <button class='primary' onClick='${solveTaskWithLink}'>${solveTaskWith}</button>
@@ -43,11 +45,14 @@
 
 
         </script>
+
         <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
-   <div class="card-finished"><h4 class="icon closed" {{if !timeFrame}}style="color:lightgray;"{{/if}}>${infoText}</h4>
-   {{html timeFrame}}
-   </div>
+            <div class="card-finished">
+                <h3 class="icon closed phase-heading ${phase} " {{if !timeFrame}}style="color:lightgray;"{{/if}}><span>${infoText}</span></h3>
+           <p style="text-align:center;">{{html timeFrame}}</p>
+            </div>
         </script>
+
     </div>
     <div class="col span_chat">
         <chat:chatWindow orientation="right" scope="project"/>
