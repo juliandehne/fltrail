@@ -1,7 +1,6 @@
 package unipotsdam.gf.process;
 
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition.FormDataContentDispositionBuilder;
 import unipotsdam.gf.interfaces.Feedback;
@@ -73,9 +72,9 @@ public class DossierCreationProcess {
      * @return
      */
     public FullSubmission addSubmission(
-            FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) throws CssResolverException, DocumentException, IOException {
+            FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) throws DocumentException, IOException {
 
-        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName("dossier.pdf");
+        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName("dossier_" + user.getName() + ".pdf");
         fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
                 FileRole.DOSSIER, FileType.HTML);
 

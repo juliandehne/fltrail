@@ -1,7 +1,6 @@
 package unipotsdam.gf.modules.submission.view;
 
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
@@ -54,7 +53,7 @@ public class SubmissionService {
         try {
             fullSubmission = dossierCreationProcess.addSubmission(fullSubmissionPostRequest, new
                     User(fullSubmissionPostRequest.getUser()), new Project(fullSubmissionPostRequest.getProjectName()));
-        } catch (CssResolverException | DocumentException | IOException e) {
+        } catch (DocumentException | IOException e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

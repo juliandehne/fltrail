@@ -45,6 +45,10 @@ public class FileManagementService {
         return new File(FOLDER_NAME + fileLocation);
     }
 
+    private String getFullPath(String fileName) {
+        return FOLDER_NAME + fileName;
+    }
+
     void saveFileAsPDF(
             User user,
             Project project,
@@ -78,6 +82,7 @@ public class FileManagementService {
 
     private String saveHTMLAsPDF(InputStream inputStream, String filenameWithoutExtension) throws IOException, DocumentException {
         String fileName = filenameWithoutExtension + ".pdf";
+        String path = getFullPath(fileName);
         /*
         Document document = new Document();
 
@@ -101,7 +106,7 @@ public class FileManagementService {
         parser.parse(inputStream);
          */
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
         document.open();
         XMLWorkerHelper.getInstance().parseXHtml(writer, document, inputStream);
         document.close();
