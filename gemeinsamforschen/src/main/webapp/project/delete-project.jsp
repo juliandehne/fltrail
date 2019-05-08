@@ -39,7 +39,7 @@
         <div class="alert alert-warning" role="alert" id="notAuthor" style="margin-left:10px;">
             Sie haben diesen Kurs nicht erstellt und dürfen ihn daher nicht löschen.
         </div>
-        <button id="deleteProject" class="btn" style="background-color: #EF3434; margin-left:10px; font-size: 15px;">
+        <button id="deleteProject" class="btn" style="background-color: #EF3434; margin-left:10px; color: black; font-size: 15px;">
             löschen
         </button>
     </div>

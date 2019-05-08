@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.assessment.controller.view;
 
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
@@ -10,9 +11,13 @@ import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
+import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -28,6 +33,15 @@ public class QuizView {
 
     @Inject
     Management management;
+
+    @Inject
+    ProjectDAO projectDAO;
+
+    @Inject
+    UserDAO userDAO;
+
+    @Inject
+    private GFContexts gfContexts;
 
     /**
      * possible dimensions:
@@ -71,7 +85,7 @@ public class QuizView {
         } catch (UnsupportedEncodingException e) {
             throw new AssertionError("UTF-8 is unknown");
         }
-    }  ///////////////////////////////funktioniert//////////////////////////////////
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -86,7 +100,6 @@ public class QuizView {
     public ArrayList<Quiz> getQuiz(@PathParam("projectName") String projectName) {
         return peer.getQuiz(projectName);
     }
-    //////////////////////////////////////////funktioniert///////////////////////////////////////
 
 
     @POST
@@ -98,10 +111,25 @@ public class QuizView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/groupRate/project/{projectName}/student/{userName}")
-    public Integer whichGroupToRate(@PathParam("projectName") String projectName, @PathParam("userName") String userName) {
-        StudentIdentifier student = new StudentIdentifier(projectName, userName);
-        return peer.whichGroupToRate(student);
+    @Path("/groupRate/project/{projectName}")
+    public Integer whichGroupToRate(@PathParam("projectName") String projectName,@Context HttpServletRequest req) throws IOException {
+        String userEmail = gfContexts.getUserEmail(req);
+        User user = userDAO.getUserByEmail(userEmail);
+        Project project = projectDAO.getProjectByName(projectName);
+        return peer.whichGroupToRate(project, user);
+    }
+
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("contributions/project/{projectName}")
+    public Map<String, String> getContributionsForProject(@Context HttpServletRequest req,
+            @PathParam("projectName") String projectName) throws IOException {
+        Project project = projectDAO.getProjectByName(projectName);
+        String userEmail = gfContexts.getUserEmail(req);
+        User user = userDAO.getUserByEmail(userEmail);
+        Integer groupId = peer.whichGroupToRate(project, user);
+        peer.getContributionsFromGroup(project, groupId);
+        return null;
     }
 
     @POST
@@ -109,7 +137,7 @@ public class QuizView {
     @Path("/contributionRating/group/{groupId}/fromPeer/{fromPeer}")
     public void postContributionRating(Map<String, Integer> contributionRatings,
                                        @PathParam("groupId") String groupId,
-                                       @PathParam("fromPeer") String fromPeer) throws IOException {
+                                       @PathParam("fromPeer") String fromPeer) {
         peer.postContributionRating(groupId, fromPeer, contributionRatings);
     }
 
@@ -136,9 +164,12 @@ public class QuizView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path("/whatToRate/project/{projectName}/student/{userName}")
-    public String whatToRate(@PathParam("projectName") String projectName, @PathParam("userName") String userName) {
-        StudentIdentifier student = new StudentIdentifier(projectName, userName);
-        return peer.whatToRate(student);
+    public String whatToRate(@Context HttpServletRequest req,
+            @PathParam("projectName") String projectName, @PathParam("userName") String userName) throws IOException {
+        Project project = new Project(projectName);
+        String userEmail = gfContexts.getUserEmail(req);
+        User user = new User(userEmail);
+        return peer.whatToRate(project, user);
     }
 
     /*@POST
@@ -187,7 +218,8 @@ public class QuizView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/finalize/project/{projectName}")
     public String calculateAssessment(@PathParam("projectName") String projectName) {
-        peer.finalizeAssessment(projectName);
+        Project project = new Project(projectName);
+        peer.finalizeAssessment(project);
         return "successfully finalized "+projectName;
     }
 
@@ -248,12 +280,14 @@ public class QuizView {
         Performance pf = new Performance();
         pf.setContributionRating(contribution1);
         pf.setQuizAnswer(quiz);
-        pf.setStudentIdentifier(student);
+        pf.setProject(new Project("test1"));
+        pf.setUser(new User("test1@uni.de"));
         pf.setWorkRating(work);
         Performance pf2 = new Performance();
         pf2.setContributionRating(contribution2);
         pf2.setQuizAnswer(quiz);
-        pf2.setStudentIdentifier(student);
+        pf2.setProject(new Project("test2"));
+        pf2.setUser(new User("test2@uni.de"));
         pf2.setWorkRating(work2);
         result.add(pf);
         result.add(pf2);

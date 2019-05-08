@@ -1,6 +1,7 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
@@ -16,7 +17,7 @@ import java.util.Map;
  * Created by dehne on 18.05.2018.
  */
 public interface IPeerAssessment {
-    void finalizeAssessment(String projectName);
+    void finalizeAssessment(Project project);
 
     Quiz getQuiz(String projectName, String quizId, String author);
     ArrayList<Quiz> getQuiz(String projectName, String author);
@@ -30,7 +31,9 @@ public interface IPeerAssessment {
 
     Double getAssessmentForStudent(StudentIdentifier student);
 
-    Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance);
+    Map<String, String> getContributionsFromGroup(Project project, Integer groupId);
+
+    Map<User, Double> calculateAssessment(ArrayList<Performance> totalPerformance);
 
         /**
          * writes a quiz-question into the DB so other students can benefit from another's insights.
@@ -71,12 +74,7 @@ public interface IPeerAssessment {
      */
     void postPeerRating(ArrayList<PeerRating> peerRatings, String projectName);
 
-    /**
-     *
-     * @param student
-     * @return
-     */
-    Integer whichGroupToRate(StudentIdentifier student);
+    Integer whichGroupToRate(Project project, User user);
 
     void postContributionRating(String groupId,
                                 String fromPeer,
@@ -90,7 +88,7 @@ public interface IPeerAssessment {
 
     void deleteQuiz(String quizId);
 
-    String whatToRate(StudentIdentifier student);
+    String whatToRate(Project project, User user);
 
     Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectName);
 

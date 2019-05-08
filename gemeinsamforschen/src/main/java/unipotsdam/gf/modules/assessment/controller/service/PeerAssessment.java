@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.assessment.controller.service;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
@@ -31,10 +32,10 @@ public class PeerAssessment implements IPeerAssessment {
     private GroupDAO groupDAO;
 
     @Override
-    public void finalizeAssessment(String projectName){
-        cheatCheckerMethods method = assessmentDBCommunication.getAssessmentMethod(projectName);
-        Map<StudentIdentifier, Double> grading = calculateAssessment(projectName, method);
-        assessmentDBCommunication.writeGradesToDB(grading);
+    public void finalizeAssessment(Project project){
+        cheatCheckerMethods method = assessmentDBCommunication.getAssessmentMethod(project);
+        Map<User, Double> grading = calculateAssessment(project, method);
+        assessmentDBCommunication.writeGradesToDB(project, grading);
     }
 
     @Override//returns one quiz
@@ -63,6 +64,12 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
+    public Map<String, String> getContributionsFromGroup(Project project, Integer groupId){
+        //todo: implement
+        return null;
+    }
+
+    @Override
     public void createQuiz(StudentAndQuiz studentAndQuiz) {
         new QuizDBCommunication().createQuiz(studentAndQuiz.getQuiz(), studentAndQuiz.getStudentIdentifier().getUserEmail(), studentAndQuiz.getStudentIdentifier().getProjectName());
     }
@@ -73,23 +80,23 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public String whatToRate(StudentIdentifier student) {
-        Integer groupId = groupDAO.getGroupByStudent(student);
+    public String whatToRate(Project project, User user) {
+        Integer groupId = groupDAO.getGroupByStudent(project, user);
         ArrayList<String> groupMembers = assessmentDBCommunication.getStudentsByGroupAndProject(groupId);
         for (String peer : groupMembers) {
-            if (!peer.equals(student.getUserEmail())) {
-                StudentIdentifier groupMember = new StudentIdentifier(student.getProjectName(), peer);
-                if (!assessmentDBCommunication.getWorkRating(groupMember, student.getUserEmail())) {
+            if (!peer.equals(user.getEmail())) {
+                StudentIdentifier groupMember = new StudentIdentifier(project.getName(), peer);
+                if (!assessmentDBCommunication.getWorkRating(groupMember, user.getEmail())) {
                     return "workRating";
                 }
             }
         }
-        ArrayList<Integer> answers = assessmentDBCommunication.getAnsweredQuizzes(student);
+        ArrayList<Integer> answers = assessmentDBCommunication.getAnsweredQuizzes(project, user);
         if (answers == null) {
             return "quiz";
         }
-        Integer groupToRate = assessmentDBCommunication.getWhichGroupToRate(student);
-        if (!assessmentDBCommunication.getContributionRating(groupToRate, student.getUserEmail())) {
+        Integer groupToRate = assessmentDBCommunication.getWhichGroupToRate(project, user);
+        if (!assessmentDBCommunication.getContributionRating(groupToRate, user.getEmail())) {
             return "contributionRating";
         }
         return "done";
@@ -107,43 +114,44 @@ public class PeerAssessment implements IPeerAssessment {
 
     }
     @Override
-    public Map<StudentIdentifier, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
-        Map<StudentIdentifier, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
-        Map<StudentIdentifier, Map<String, Double>> workRating = new HashMap<>();
-        Map<StudentIdentifier, Map<String, Double>> contributionRating = new HashMap<>();
+    public Map<User, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
+        Map<User, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
+        Map<User, Map<String, Double>> workRating = new HashMap<>();
+        Map<User, Map<String, Double>> contributionRating = new HashMap<>();
         for (Performance performance : totalPerformance) {
-            workRating.put(performance.getStudentIdentifier(), performance.getWorkRating());
-            contributionRating.put(performance.getStudentIdentifier(), performance.getContributionRating());
+            workRating.put(performance.getUser(), performance.getWorkRating());
+            contributionRating.put(performance.getUser(), performance.getContributionRating());
         }
-        Map<StudentIdentifier, Double> workRateMean = new HashMap<>(mapToGrade(workRating));
-        Map<StudentIdentifier, Double> contributionMean = new HashMap<>(mapToGrade(contributionRating));
-        Map<StudentIdentifier, Double> result = new HashMap<>();
-        for (StudentIdentifier student : quizMean.keySet()) {
+        Map<User, Double> workRateMean = new HashMap<>(mapToGrade(workRating));
+        Map<User, Double> contributionMean = new HashMap<>(mapToGrade(contributionRating));
+        Map<User, Double> result = new HashMap<>();
+        for (User student : quizMean.keySet()) {
             double grade = (quizMean.get(student) + workRateMean.get(student) + contributionMean.get(student)) * 100 / 3.;
             result.put(student, grade);
         }
         return result;
     }
 
-    private Map<StudentIdentifier, Double> calculateAssessment(String projectName, cheatCheckerMethods method) {
+    private Map<User, Double> calculateAssessment(Project project, cheatCheckerMethods method) {
         ArrayList<Performance> totalPerformance = new ArrayList<>();
         //get all students in projectID from DB
-        List<String> students = assessmentDBCommunication.getStudents(projectName);
+        List<String> students = assessmentDBCommunication.getStudents(project.getName());
         //for each student
         for (String student : students) {
+            User user = new User(student);
             Integer groupId;
             Performance performance = new Performance();
-            StudentIdentifier userNameentifier = new StudentIdentifier(projectName, student);
-            groupId = groupDAO.getGroupByStudent(userNameentifier);
-            Integer numberOfQuizzes = assessmentDBCommunication.getQuizCount(projectName);
-            List<Integer> answeredQuizzes = assessmentDBCommunication.getAnsweredQuizzes(userNameentifier);
+            groupId = groupDAO.getGroupByStudent(project, user);
+            Integer numberOfQuizzes = assessmentDBCommunication.getQuizCount(project.getName());
+            List<Integer> answeredQuizzes = assessmentDBCommunication.getAnsweredQuizzes(project, user);
             for (Integer i=answeredQuizzes.size(); i<numberOfQuizzes;i++){
                 answeredQuizzes.add(0);
             }
-            ArrayList<Map<String, Double>> workRating = assessmentDBCommunication.getWorkRating(userNameentifier);
+            ArrayList<Map<String, Double>> workRating = assessmentDBCommunication.getWorkRating(project, user);
             ArrayList<Map<String, Double>> contributionRating =
                     assessmentDBCommunication.getContributionRating(groupId);
-            performance.setStudentIdentifier(userNameentifier);
+            performance.setProject(project);
+            performance.setUser(user);
             performance.setQuizAnswer(answeredQuizzes);
             performance.setWorkRating(cheatChecker(workRating, method));
             performance.setContributionRating(cheatChecker(contributionRating, method));
@@ -152,9 +160,9 @@ public class PeerAssessment implements IPeerAssessment {
         return calculateAssessment(totalPerformance);
     }
 
-    private Map<StudentIdentifier, Double> quizGrade(ArrayList<Performance> totalPerformance) {
+    private Map<User, Double> quizGrade(ArrayList<Performance> totalPerformance) {
         double[] allAssessments = new double[totalPerformance.size()];
-        Map<StudentIdentifier, Double> grading = new HashMap<>();
+        Map<User, Double> grading = new HashMap<>();
 
         for (int i = 0; i < totalPerformance.size(); i++) {
             for (Integer quiz : totalPerformance.get(i).getQuizAnswer()) {
@@ -163,15 +171,15 @@ public class PeerAssessment implements IPeerAssessment {
             allAssessments[i] = allAssessments[i] / totalPerformance.get(i).getQuizAnswer().size();
         }
         for (int i = 0; i < totalPerformance.size(); i++) {
-            grading.put(totalPerformance.get(i).getStudentIdentifier(), allAssessments[i]);
+            grading.put(totalPerformance.get(i).getUser(), allAssessments[i]);
         }
         return grading;
     }
 
-    private Map<StudentIdentifier, Double> mapToGrade(Map<StudentIdentifier, Map<String, Double>> ratings) {
+    private Map<User, Double> mapToGrade(Map<User, Map<String, Double>> ratings) {
         Double allAssessments;
-        Map<StudentIdentifier, Double> grading = new HashMap<>();
-        for (StudentIdentifier student : ratings.keySet()) {
+        Map<User, Double> grading = new HashMap<>();
+        for (User student : ratings.keySet()) {
             if (ratings.get(student) != null) {
                 allAssessments = sumOfDimensions(ratings.get(student));
                 Double countDimensions = (double) ratings.get(student).size();
@@ -281,8 +289,8 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public Integer whichGroupToRate(StudentIdentifier student) {
-        return assessmentDBCommunication.getWhichGroupToRate(student);
+    public Integer whichGroupToRate(Project project, User user) {
+        return assessmentDBCommunication.getWhichGroupToRate(project, user);
     }
 
     @Override

@@ -67,8 +67,8 @@ public class GroupfindingImpl implements IGroupFinding {
         // TODO implement for othermechanisms
     }
 
-    public ArrayList<String> getStudentsInSameGroup(StudentIdentifier student) {
-        return groupDAO.getStudentsInSameGroupAs(student);
+    public ArrayList<String> getStudentsInSameGroup(Project project, User user) {
+        return groupDAO.getStudentsInSameGroupAs(project, user);
     }
 
     @Override

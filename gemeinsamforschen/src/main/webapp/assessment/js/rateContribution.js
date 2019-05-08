@@ -69,3 +69,35 @@ function safeContributionRating() {
         }
     });
 }
+
+function prepareContributionRating() {
+    $.ajax({
+        url: '../rest/assessments/contributions/project/' + projectName,
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        type: 'GET',
+        success: function (response) {
+            for (let contribution in response) {
+                if(response.hasOwnProperty(contribution)) {
+                    let tmplObject = getTmplObject(contribution);
+                    $('#contributionTemplate').tmpl(tmplObject).appendTo('#listOfContributions');
+                }
+            }
+        },
+        error: function (a) {
+
+        }
+    });
+
+}
+
+function getTmplObject(contribution) {
+    let result = {
+        contributionName: "",
+        contributionText: "",
+        contributionFile: "",
+    };
+    return result;
+}
