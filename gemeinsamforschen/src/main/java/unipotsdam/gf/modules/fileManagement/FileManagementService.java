@@ -6,15 +6,8 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorker;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import com.itextpdf.tool.xml.exceptions.CssResolverException;
-import com.itextpdf.tool.xml.parser.XMLParser;
-import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
-import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
-import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
-import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
-import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
@@ -87,6 +80,7 @@ public class FileManagementService {
 
     private String saveHTMLAsPDF(InputStream inputStream, String filenameWithoutExtension) throws IOException, DocumentException, CssResolverException {
         String fileName = filenameWithoutExtension + ".pdf";
+        String path = FOLDER_NAME + fileName;
         /*
         Document document = new Document();
 
@@ -110,7 +104,7 @@ public class FileManagementService {
         parser.parse(inputStream);
          */
         Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(fileName));
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
         document.open();
         XMLWorkerHelper.getInstance().parseXHtml(writer, document, inputStream);
         document.close();
@@ -118,7 +112,10 @@ public class FileManagementService {
     }
 
     private String correctingTags(String fileContent) {
-        return fileContent.replaceAll("<br>", "<br/>");
+        String correctedFileContent = fileContent.replaceAll("<br>", "<br/>");
+        correctedFileContent = correctedFileContent.replaceAll("\">", "\"/>");
+        return correctedFileContent;
+
     }
 
     private String getDocumentFromFile(InputStream inputStream, String fileNameWithoutExtension) throws IOException {
