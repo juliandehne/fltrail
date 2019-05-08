@@ -15,6 +15,7 @@
 </head>
 
 <body>
+<div id="flex-wrapper">
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
@@ -168,6 +169,7 @@
     </div>
 </main>
 <jsp:include page="../taglibs/footer.jsp"/>
+</div>
 </body>
 
 </html>

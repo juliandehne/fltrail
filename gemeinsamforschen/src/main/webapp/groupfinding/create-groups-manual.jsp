@@ -43,6 +43,7 @@
 </script>
 
 <body>
+<div id="flex-wrapper">
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
@@ -92,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn-success" style="height:50px;" id="btnSave">Gruppen final speichern</button>
+            <button type="button" class="primary" style="height:50px;" id="btnSave">Gruppen final speichern</button>
         </div>
 
         <div class="col span_chat"></div>
@@ -102,5 +103,6 @@
 
 </main>
 <jsp:include page="../taglibs/footer.jsp"/>
+</div>
 </body>
 </html>

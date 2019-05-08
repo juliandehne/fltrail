@@ -37,53 +37,60 @@
 </head>
 
 <body>
-<jsp:include page="../taglibs/Menu.jsp">
-    <jsp:param name="hierarchy" value="1"/>
-</jsp:include>
-<main>
-    <div class="row group">
+<div id="flex-wrapper">
+    <jsp:include page="../taglibs/Menu.jsp">
+        <jsp:param name="hierarchy" value="1"/>
+    </jsp:include>
+    <!-- back-->
+    <div class="backlink">
 
-        <div class="col span_content span_l_of_2">
-            <h3>Dossier</h3>
-            <div class="leftcontent-text context-menu-one" id="editor"></div>
-            <div class="leftcontent-buttons">
-                <div class="leftcontent-buttons-save">
-                    <button id="btnSave" type="button" class="btn btn-primary">Speichern</button>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den Aufgaben</i></a>
+    </div>
+    <main>
+        <div class="row group">
+
+            <div class="col span_content span_l_of_2">
+                <h3>Dossier</h3>
+                <div class="leftcontent-text context-menu-one" id="editor"></div>
+                <div class="leftcontent-buttons">
+                    <div class="leftcontent-buttons-save">
+                        <button id="btnSave" type="button" class="btn btn-primary">Speichern</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col span_content span_s_of_2">
-            <div class="infobox dossier">
-                <p>Ordne allen Textteilen passende Kategorien zu. Markiere den Text, klicke auf die rechte Mousetaste
-                    und wähle die passende Kategorie.</p>
+            <div class="col span_content span_s_of_2">
+                <div class="infobox dossier">
+                    <p>Ordne allen Textteilen passende Kategorien zu. Markiere den Text, klicke auf die rechte Mousetaste
+                        und wähle die passende Kategorie.</p>
 
+                </div>
+                <div id="missingAnnotation" class="alert alert-warning"></div>
+                <ol id="annotations">
+                <script id="annotationTemplate" type="text/x-jsrender">
+
+                    {{for categories}}
+                        <li class="spacing">
+                            <div id="{{>nameLower}}" class="category-card not-added">
+                                <p>{{>name}}</p>
+                            </div>
+                        </li>
+                    {{/for}}
+                </script>
+                </ol>
             </div>
-            <div id="missingAnnotation" class="alert alert-warning"></div>
-            <ol id="annotations">
-            <script id="annotationTemplate" type="text/x-jsrender">
 
-                {{for categories}}
-                    <li class="spacing">
-                        <div id="{{>nameLower}}" class="category-card not-added">
-                            <p>{{>name}}</p>
-                        </div>
-                    </li>
-                {{/for}}
-            </script>
-            </ol>
+            <div class="col span_chat">
+                <chat:chatWindow orientation="right" scope="project"/>
+                <chat:chatWindow orientation="right" scope="group"/>
+            </div>
         </div>
-
-        <div class="col span_chat">
-            <chat:chatWindow orientation="right" scope="project"/>
-            <chat:chatWindow orientation="right" scope="group"/>
-        </div>
-    </div>
-</main>
-<jsp:include page="../taglibs/quillJsEditor.jsp">
-    <jsp:param name="readOnly" value="true"/>
-</jsp:include>
-<jsp:include page="../taglibs/footer.jsp"/>
+    </main>
+    <jsp:include page="../taglibs/quillJsEditor.jsp">
+        <jsp:param name="readOnly" value="true"/>
+    </jsp:include>
+    <jsp:include page="../taglibs/footer.jsp"/>
+</div>
 </body>
 
 </html>
