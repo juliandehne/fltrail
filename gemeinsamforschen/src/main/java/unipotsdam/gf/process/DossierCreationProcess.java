@@ -75,7 +75,7 @@ public class DossierCreationProcess {
     public FullSubmission addSubmission(
             FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) throws CssResolverException, DocumentException, IOException {
 
-        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName("dossier.pdf");
+        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName("dossier" + user.getEmail() + ".pdf");
         fileManagementService.saveFileAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
                 FileRole.DOSSIER, FileType.HTML);
 
