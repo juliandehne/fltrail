@@ -6,15 +6,7 @@ import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorker;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
-import com.itextpdf.tool.xml.exceptions.CssResolverException;
-import com.itextpdf.tool.xml.parser.XMLParser;
-import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
-import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
-import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
-import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
-import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
@@ -60,7 +52,7 @@ public class FileManagementService {
             FormDataContentDisposition fileDetail,
             FileRole fileRole,
             FileType fileType
-    ) throws IOException, CssResolverException, DocumentException {
+    ) throws IOException, DocumentException {
         String fileNameWithoutExtension = UUID.randomUUID().toString();
         FileUtils.mkdir(FOLDER_NAME);
         String fileName;
@@ -73,19 +65,18 @@ public class FileManagementService {
                 fileName = getDocumentFromFile(inputStream, fileNameWithoutExtension);
                 break;
         }
-        //writePDFFileOnFileSystem(pdfFile);
         fileManagementDAO.writeFileMetaToDB(user, project, fileName, fileRole, fileDetail.getFileName());
     }
 
-    public void saveFileAsPDF(User user, Project project, String fileContent, FormDataContentDisposition fileDetail,
-                              FileRole fileRole, FileType fileType) throws IOException, CssResolverException, DocumentException {
+    public void saveStringAsPDF(User user, Project project, String fileContent, FormDataContentDisposition fileDetail,
+                                FileRole fileRole, FileType fileType) throws IOException, DocumentException {
         fileContent = correctingTags(fileContent);
         InputStream inputStream = IOUtils.toInputStream(fileContent);
         saveFileAsPDF(user, project, inputStream, fileDetail, fileRole, fileType);
 
     }
 
-    private String saveHTMLAsPDF(InputStream inputStream, String filenameWithoutExtension) throws IOException, DocumentException, CssResolverException {
+    private String saveHTMLAsPDF(InputStream inputStream, String filenameWithoutExtension) throws IOException, DocumentException {
         String fileName = filenameWithoutExtension + ".pdf";
         /*
         Document document = new Document();

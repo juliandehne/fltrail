@@ -76,11 +76,10 @@ public class DossierCreationProcess {
             FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) throws CssResolverException, DocumentException, IOException {
 
         FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName("dossier.pdf");
-        fileManagementService.saveFileAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
+        fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
                 FileRole.DOSSIER, FileType.HTML);
 
         FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
-        // TODO: add pdf convert and save here -> maybe somewhere else, to get it automated each time you save an dossier
         // this completes the upload task
         Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.FINISHED);
         taskDAO.updateForUser(task);

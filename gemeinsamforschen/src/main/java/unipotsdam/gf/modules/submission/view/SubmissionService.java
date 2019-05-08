@@ -49,7 +49,6 @@ public class SubmissionService {
     @Path("/full")
     public Response addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest) {
         // save full submission request in database and return the new full submission
-        // TODO: convert fullSubmissionPostRequest.getHtml() to pdf with https://www.baeldung.com/pdf-conversions-java
 
         final FullSubmission fullSubmission;
         try {
