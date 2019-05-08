@@ -20,6 +20,7 @@ den Zustand ändert
     <link rel="stylesheet" type="text/css" href="css/researchReport.css">
 </head>
 <body>
+<div id="flex-wrapper">
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
@@ -88,5 +89,7 @@ den Zustand ändert
         <!--FilePond -->
         <script>FilePond.parse(document.body);</script> <!--FilePond -->
     </div>
+</main>
+</div>
 </body>
 </html>

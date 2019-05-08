@@ -14,6 +14,7 @@
     <script src="js/create-preferences.js"></script>
 </head>
 <body>
+<div id="flex-wrapper">
 
 <div class="loader-inactive" id="loader">
     <div class="sk-cube1 sk-cube"></div>
@@ -67,5 +68,6 @@
     </main>
 </div>
 <jsp:include page="../taglibs/footer.jsp"/>
+</div>
 </body>
 </html>

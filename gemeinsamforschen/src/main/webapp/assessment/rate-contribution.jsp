@@ -14,6 +14,7 @@
 </head>
 
 <body>
+<div id="flex-wrapper">
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
@@ -80,6 +81,8 @@
             <chat:chatWindow orientation="right" scope="group"/></div>
         <jsp:include page="../taglibs/footer.jsp"/>
     </div>
+</main>
+</div>
 </body>
 
 </html>
