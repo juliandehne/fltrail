@@ -68,7 +68,7 @@ public class fileManagementView {
     }
 
     private Response uploadPPTX(User user, Project project, InputStream inputStream, FormDataContentDisposition fileDetail
-    ) throws IOException {
+    ) throws IOException, DocumentException {
         //get the PDF Version of the InputStream and Write Meta into DB
         fileManagementService.saveFileAsPDF(user, project, inputStream, fileDetail, FileRole.PRESENTATION, FileType.UNKNOWN);
 
