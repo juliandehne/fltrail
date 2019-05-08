@@ -55,8 +55,9 @@ public class GroupView {
     @Path("/project/{projectName}/student/{userName}")
     public ArrayList<String> getStudentsInSameGroup(
             @PathParam("projectName") String projectName, @PathParam("userName") String userName){
-        StudentIdentifier student = new StudentIdentifier(projectName, userName);
-        return groupfinding.getStudentsInSameGroup(student);
+        User user = new User(userName);
+        Project project = new Project(projectName);
+        return groupfinding.getStudentsInSameGroup(project, user);
     }
 
 

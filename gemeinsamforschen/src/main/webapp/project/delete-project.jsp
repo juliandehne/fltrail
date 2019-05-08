@@ -19,13 +19,14 @@
 </head>
 
 <body>
+<div id="flex-wrapper">
 <div class="loader-inactive" id="loader"></div>
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
 <main>
-    <div class="col span_content">
-        <legend style="margin-left:13px;">Löschen eines Projekts</legend>
+    <div class="col span_2_of_2">
+        <h2>Löschen eines Projekts</h2>
         <p style="margin-left:10px;">Bestätigen Sie das Löschen des Projekts durch Eingabe des Projektnamens:</p>
         <input class="form-control" type="text" id="projectNameInput" name="Project" required
                placeholder="Projekt1" autofocus
@@ -39,15 +40,17 @@
         <div class="alert alert-warning" role="alert" id="notAuthor" style="margin-left:10px;">
             Sie haben diesen Kurs nicht erstellt und dürfen ihn daher nicht löschen.
         </div>
-        <button id="deleteProject" class="btn" style="background-color: #EF3434; margin-left:10px; font-size: 15px;">
+        <button id="deleteProject" class="btn primary">
             löschen
         </button>
     </div>
+
     <div class="col span_chat">
 
     </div>
 </main>
 <jsp:include page="../taglibs/footer.jsp"/>
+</div>
 </body>
 
 </html>

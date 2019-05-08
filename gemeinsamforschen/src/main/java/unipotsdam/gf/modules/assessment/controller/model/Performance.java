@@ -1,40 +1,27 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
+
 import java.util.List;
 import java.util.Map;
 
 public class Performance {
-    private StudentIdentifier userNameentifier;
-    private List<Integer> quizAnswer;
-    private Map<String, Double> workRating;
-    private Map<String, Double> contributionRating;
-
-    public Performance(){}
-
-    public Performance(StudentIdentifier student, List<Integer> quiz, Map contributionRating, Map workRating) {
-        this.userNameentifier = student;
-        this.quizAnswer = quiz;
-        this.workRating=workRating;
-        this.contributionRating = contributionRating;
-
+    public Project getProject() {
+        return project;
     }
 
-    public StudentIdentifier getStudentIdentifier() {
-        return userNameentifier;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
-    public void setStudentIdentifier(StudentIdentifier userNameentifier) {
-        this.userNameentifier = userNameentifier;
+    public User getUser() {
+        return user;
     }
 
-    public Map getContributionRating() {
-        return contributionRating;
+    public void setUser(User user) {
+        this.user = user;
     }
-
-    public void setContributionRating(Map contributionRating) {
-        this.contributionRating = contributionRating;
-    }
-
 
     public List<Integer> getQuizAnswer() {
         return quizAnswer;
@@ -44,23 +31,47 @@ public class Performance {
         this.quizAnswer = quizAnswer;
     }
 
-    public Map getWorkRating() {
+    public Map<String, Double> getWorkRating() {
         return workRating;
     }
 
-    public void setWorkRating(Map workRating) {
+    public void setWorkRating(Map<String, Double> workRating) {
         this.workRating = workRating;
     }
 
+    public Map<String, Double> getContributionRating() {
+        return contributionRating;
+    }
+
+    public void setContributionRating(Map<String, Double> contributionRating) {
+        this.contributionRating = contributionRating;
+    }
+
+    public Performance(Project project, User user, List<Integer> quizAnswer, Map<String, Double> workRating, Map<String, Double> contributionRating) {
+        this.project = project;
+        this.user = user;
+        this.quizAnswer = quizAnswer;
+        this.workRating = workRating;
+        this.contributionRating = contributionRating;
+    }
 
     @Override
     public String toString() {
         return "Performance{" +
-                "userNameentifier=" + userNameentifier +
+                "project=" + project +
+                ", user=" + user +
                 ", quizAnswer=" + quizAnswer +
-                ", contributionRating='" + contributionRating + '\'' +
                 ", workRating=" + workRating +
+                ", contributionRating=" + contributionRating +
                 '}';
     }
+
+    private Project project;
+    private User user;
+    private List<Integer> quizAnswer;
+    private Map<String, Double> workRating;
+    private Map<String, Double> contributionRating;
+
+    public Performance(){}
 
 }

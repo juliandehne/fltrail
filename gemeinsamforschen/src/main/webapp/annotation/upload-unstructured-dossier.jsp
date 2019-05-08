@@ -26,19 +26,26 @@
 </head>
 
 <body>
+<div id="flex-wrapper">
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
+    <!-- back-->
+    <div class="backlink">
+
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den Aufgaben</i></a>
+    </div>
 <main>
     <div class="row group">
         <div class="col span_content span_l_of_2">
+            <h2>Dossier anlegen</h2>
             <div class="upload-text" id="documentText">
                 <label for="editor">Texteingabe</label>
                 <div id="editor"></div>
             </div>
 
             <!-- Just a dummy so far -->
-            <div>
+            <div class="row">
                 <label>Alternativ bitte Datei wählen
                     <jsp:include page="../taglibs/upload-file.jsp">
                         <jsp:param name="fileRole" value="DOSSIER"/>
@@ -48,23 +55,26 @@
             <!-- Just a dummy so far -->
 
         </div>
-        <div class="document-text-buttons">
-            <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
-            </button>--%>
-            <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
-            </button>
-        </div>
-        <div class="col span_content span_l_of_2"></div>
+        <div class="col span_content span_s_of_2">
+                <div class="document-text-buttons">
+                    <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
+                    </button>--%>
+                    <button type="button" class="btn btn-primary document-text-buttons-next" id="btnNext">Weiter
+                    </button>
+                </div>
+
+         </div>
         <div class="col span_chat">
             <chat:chatWindow orientation="right" scope="project"/>
             <chat:chatWindow orientation="right" scope="group"/>
         </div>
-    </div>
 </main>
 <jsp:include page="../taglibs/footer.jsp"/>
 <jsp:include page="../taglibs/quillJsEditor.jsp">
     <jsp:param name="readOnly" value="false"/>
 </jsp:include>
+
+</div> <!-- flex wrapper -->
 </body>
 
 </html>

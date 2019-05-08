@@ -18,6 +18,7 @@
 
 
 <body>
+<div id="flex-wrapper">
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
@@ -202,6 +203,9 @@
             </div>
         </div>
         <communication:chatWindow orientation="right"></communication:chatWindow>
+
+    </main>
+</div>
 </body>
 
 </html>

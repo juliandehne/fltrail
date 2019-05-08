@@ -107,7 +107,7 @@ public class PhasesImpl implements IPhases {
                 tasks = iPeerAssessment.allAssessmentsDone(project.getName());
                 if (tasks.size() < 1) {
                     emailService.sendMessageToUsers(project, Messages.CourseEnds(project));
-                    iPeerAssessment.finalizeAssessment(project.getName());
+                    iPeerAssessment.finalizeAssessment(project);
                     saveState(project, changeToPhase);
                 } else {
                     iPeerAssessment.assignMissingAssessmentTasks(project);

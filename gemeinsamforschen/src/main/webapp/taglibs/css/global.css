@@ -14,8 +14,13 @@ a.disabled{
 }
 
 body {
-    height:120%;
-    position:relative;
+    display: flex;
+    flex-direction: column;
+    height:100%;
+}
+
+.flex-wrapper {
+    flex: 1 0 auto;
 }
 
 header {
@@ -55,14 +60,22 @@ main {
 
 }
 
+.backlink {
+    max-width: 1280px;
+    margin: 0 auto;
+    height: 20px;
+    padding-left: 10px;
+}
+
 footer {
     text-align: center;
     height: 80px;
     background: #ededed;
     padding: .5em;
-  /*  position: absolute;*/
+    flex-shrink: 0;
     width: 100%;
-    bottom: 0;
+    margin-top: 20px;
+
 }
 
 .row {
@@ -560,6 +573,8 @@ button, .btn {
     padding: .8em;
     color: #075F8B;
     border-radius:0;
+    font-size: 1em;
+    line-height: 1;
 }
 
 
@@ -1051,7 +1066,7 @@ main.groups-manual{
     background-color: #1a335880;
     display:inline-block;
     padding:.2em;
-    margin-right:.2em;
+    margin:.2em;
     color:#fff;
 }
 

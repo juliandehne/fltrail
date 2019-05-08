@@ -3,6 +3,8 @@ package unipotsdam.gf.modules.peerassessment;
 import org.junit.Test;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -183,7 +185,6 @@ public class HashMapTest {
     @Test
     public void test1() {
         ArrayList<Performance> result = new ArrayList<>();
-        StudentIdentifier student = new StudentIdentifier("projekt", "student");
         List<Integer> quiz = new ArrayList<>();
         quiz.add(1);
         quiz.add(0);
@@ -215,12 +216,14 @@ public class HashMapTest {
         Performance pf = new Performance();
         pf.setContributionRating(contribution1);
         pf.setQuizAnswer(quiz);
-        pf.setStudentIdentifier(student);
+        pf.setProject(new Project("test1"));
+        pf.setUser(new User("test@uni.de"));
         pf.setWorkRating(work);
         Performance pf2 = new Performance();
         pf2.setContributionRating(contribution2);
         pf2.setQuizAnswer(quiz);
-        pf2.setStudentIdentifier(student);
+        pf2.setProject(new Project("test1"));
+        pf2.setUser(new User("test@uni.de"));
         pf2.setWorkRating(work2);
         result.add(pf);
         result.add(pf2);

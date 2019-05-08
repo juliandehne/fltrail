@@ -1,8 +1,3 @@
-body, html {
-    height: 100vh;
-    width: 100vw;
-}
-
 .content-mainpage {
     display: flex;
     box-sizing: border-box;
@@ -47,7 +42,12 @@ body, html {
 .upload-text {
     display: flex;
     flex-flow: column;
-    height: 50vh;
+
+    margin-bottom: 20px;
+}
+
+.ql-editor {
+    min-height:400px;
 }
 
 .upload-text label {

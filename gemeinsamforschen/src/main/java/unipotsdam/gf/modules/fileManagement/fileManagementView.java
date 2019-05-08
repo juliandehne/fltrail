@@ -56,6 +56,8 @@ public class fileManagementView {
             case PRESENTATION:
                 return uploadPPTX(user, project, inputStream, fileDetail);
             case DOSSIER:
+                //this can just be used for PDFs and PPTX, so: todo replace this with docx interface
+                fileManagementService.saveFileAsPDF(user, project, inputStream, fileDetail, FileRole.DOSSIER, FileType.UNKNOWN);
                 break;
             case LEARNINGGOALS:
                 break;

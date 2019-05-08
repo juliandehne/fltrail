@@ -53,20 +53,17 @@ $(document).ready(function () {
 
         },
         items: {
-            "annotation": {
-                name: "Annotation",
-                icon: "edit",
-                items: {
-                    "titel": {name: "Titel"},
-                    "recherche": {name: "Recherche"},
-                    "literaturverzeichnis": {name: "Literaturverzeichnis"},
-                    "forschungsfrage": {name: "Forschungsfrage"},
-                    "untersuchungskonzept": {name: "Untersuchungskonzept"},
-                    "methodik": {name: "Methodik"},
-                    "durchfuehrung": {name: "Durchführung"},
-                    "auswertung": {name: "Auswertung"}
-                }
-            }
+
+            "titel": {name: "Titel", icon: "edit"},
+            "recherche": {name: "Recherche", icon: "edit"},
+            "literaturverzeichnis": {name: "Literaturverzeichnis", icon: "edit"},
+            "forschungsfrage": {name: "Forschungsfrage", icon: "edit"},
+            "untersuchungskonzept": {name: "Untersuchungskonzept", icon: "edit"},
+            "methodik": {name: "Methodik", icon: "edit"},
+            "durchfuehrung": {name: "Durchführung", icon: "edit"},
+            "auswertung": {name: "Auswertung", icon: "edit"}
+
+
 
         }
     });

@@ -16,6 +16,7 @@
     <title>Forschungsbericht erstellen</title>
 </head>
 <body>
+<div id="flex-wrapper">
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
@@ -86,5 +87,7 @@
         <!--FilePond -->
         <script>FilePond.parse(document.body);</script> <!--FilePond -->
     </div>
+</main>
+</div>
 </body>
 </html>

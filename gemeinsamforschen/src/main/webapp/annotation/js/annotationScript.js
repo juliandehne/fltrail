@@ -27,7 +27,7 @@ $(document).ready(function () {
     } else {
         document.getElementById('seeFeedback').className = "seeFeedback";
     }
-    $('#categoryHeadline').html("in der Kategorie " + category);
+    $('#categoryHeadline').html("Kategorie: " + category);
     let btnFinalize = $('#finalize');
     btnFinalize.hide();
     let btnBack = $('#btnBack');
@@ -945,7 +945,7 @@ function getFeedbackName() {
         },
         type: 'GET',
         success: function (response) {
-            $('#feedBackTarget').html(response.name + " schrieb folgendes");
+            $('#feedBackTarget').html(response.name );
         }
     });
 }

@@ -45,7 +45,6 @@ function fitObjectInTmpl(object) {
         timeFrame: "",
         taskData: object.taskData,
         taskProgress: ""
-
     };
 
     if (object.taskType !== "INFO") {

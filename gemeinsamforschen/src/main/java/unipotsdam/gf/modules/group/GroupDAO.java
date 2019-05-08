@@ -35,16 +35,16 @@ public class GroupDAO {
         this.connect = connect;
     }
 
-    public ArrayList<String> getStudentsInSameGroupAs(StudentIdentifier student) {
+    public ArrayList<String> getStudentsInSameGroupAs(Project project, User user) {
         connect.connect();
         ArrayList<String> result = new ArrayList<>();
-        int groupId= getGroupByStudent(student);
+        int groupId= getGroupByStudent(project, user);
         String mysqlRequest = "SELECT * FROM `groupuser` WHERE `groupId`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, groupId);
         boolean next2 = vereinfachtesResultSet.next();
         while (next2) {
             String peer = vereinfachtesResultSet.getString("userEmail");
-            if (!peer.equals(student.getUserEmail()))
+            if (!peer.equals(user.getEmail()))
                 result.add(peer);
             next2 = vereinfachtesResultSet.next();
         }
@@ -52,12 +52,12 @@ public class GroupDAO {
         return result;
     }
 
-    public Integer getGroupByStudent(StudentIdentifier student) {
+    public Integer getGroupByStudent(Project project, User user) {
         Integer result;
         connect.connect();
         String mysqlRequest = "SELECT groupId FROM `groupuser` gu JOIN groups g WHERE g.`projectName`=? AND gu.groupid=g.id AND gu.userEmail=? ";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail());
+                connect.issueSelectStatement(mysqlRequest, project.getName(), user.getEmail());
         vereinfachtesResultSet.next();
         result = vereinfachtesResultSet.getInt("groupId");
         return result;

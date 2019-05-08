@@ -52,7 +52,7 @@ public interface IGroupFinding {
      * @param student
      * @return
      */
-    ArrayList<String> getStudentsInSameGroup(StudentIdentifier student);
+    ArrayList<String> getStudentsInSameGroup(Project project, User user);
 
     int getMinNumberOfStudentsNeeded(Project project);
 
