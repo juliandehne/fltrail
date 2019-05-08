@@ -71,7 +71,6 @@ footer {
     margin: 0 auto !important;
     max-width: 1280px;
 
-    box-shadow: border-box;
 
 }
 
@@ -165,13 +164,61 @@ footer {
 .timeline li {
     line-height: 1em;
     margin-bottom: 1em;
+
+}
+
+.timeline ul {
+    background-image:url("../img/line.png");
+    background-repeat:repeat-y;
+    background-position: 5px;
 }
 
 .timeline {
     padding:2em;
     box-sizing: border-box;
 }
+
+.timeline li:before {
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+    content: "";
+    border-radius: 50%;
+    margin-right: 1em;
+}
+
+/*phases colors timeline */
+
+.timeline li.phase1:before {
+    background-color:#1a3358;
+
+}
+.timeline li.phase2:before {
+    background-color:#6576b8;
+}
+.timeline li.phase3:before {
+    background-color:#009acc;
+}
+.timeline li.phase4:before {
+    background-color:#f1d16a;
+}
+.timeline li.phase5:before {
+    background-color:#9b667b;
+}
+.timeline li.phase6:before {
+    background-color:#f3a184;
+}
+
+.timeline li.inactive:before {
+    background-color:#737373 !important;
+}
+
 /*tasklist */
+
+.tasklist {
+    max-width:400px;
+}
+
 
 .infotext {
     max-width: 400px;
@@ -195,11 +242,36 @@ footer {
     padding: 1em;
     margin-bottom: 1em;
     box-sizing: border-box;
-    border-left: 10px solid #075F8B;
+
     -webkit-box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
     -moz-box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
     box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
 }
+
+
+.card.card-grouping{
+    border-left:10px solid #1a3358;
+}
+
+/*
+.card.card-draft{
+    border-left:10px solid #6576b8;
+} */
+
+.card.card-feedback{
+    border-left:10px solid #6576B8;
+}
+.card.card-execution{
+    border-left:10px solid #f1d16a;
+}
+.card.card-assessment{
+    border-left:10px solid #9b667b;
+}
+.card.card-grades{
+    border-left:10px solid #737373;
+}
+
+
 
 .card.current {
     -webkit-box-shadow: 15px 15px 8px -8px rgba(100, 90, 100, 0.62);
@@ -340,6 +412,28 @@ h4 {
     font-weight: bold;
 }
 
+h3.phase-heading {
+    font-family: spectral, georgia, serif;
+    text-align: center;
+}
+
+h3.phase-heading.card-grouping {
+    color: #075F8B;
+}
+h3.phase-heading.card-feedback{
+    color: #6576B8;
+}
+h3.phase-heading.card-execution{
+    color: #009ACC;
+}
+h3.phase-heading.card-assessment{
+    color:#F1D16A;
+}
+h3.phase-heading.card-grades{
+    color: #CCCBCB;
+}
+
+
 a:link {
     text-decoration: underline;
     color: #075F8B;
@@ -411,56 +505,28 @@ body {
     color: #5F6366;
 }
 
-.neutral {
+.phase1 {
     color: #075F8B;
 }
 
-.draft {
+.phase2 {
     color: #6576B8;
 }
 
-.feedback {
+.phase3 {
     color: #009ACC;
 }
 
-.reflection {
+.phase4 {
     color:#F1D16A;
 }
 
-.presentation {
+.phase5 {
     color: #CCCBCB;
 }
 
-.assessment {
+.phase6 {
     color: #9B667B;
-}
-
-.grades {
-
-}
-
-.card-draft {
-    border-left-color: #6576B8;
-}
-
-.card-feedback {
-    border-left-color: #009ACC;
-}
-
-.card-reflection {
-    border-left-color: #F1D16A;
-}
-
-.card-presentation {
-    border-left-color: #CCCBCB;
-}
-
-.card-assessment {
-    border-left-color: #9B667B;
-}
-
-.card-grades {
-    border-left-color: #F3A184;
 }
 
 .inactive {
@@ -503,7 +569,7 @@ button, .btn {
 }
 
 .primary, .btn-primary {
-    background-color: #075F8B;
+    background-color: #065f8b;
     color: #fff !important;
 }
 
@@ -671,9 +737,6 @@ main.groups-manual{
 .projects .introduction {
     max-width: 400px;
     margin: 0 auto;
-
-    margin-bottom: 0px;
-
     margin-bottom: 4em;
 }
 
@@ -700,16 +763,12 @@ main.groups-manual{
 }
 
 .projects .card {
-    /*width:200px;
-    height:200px;*/
-
     margin-bottom: 10px;
-    flex: 1 1 200px;
+    flex: 1 1 300px;
     border-left: 0;
     min-height: 200px;
     width: 200px;
     padding: 0;
-
     -webkit-box-shadow: 0px 0px 0px -8px rgba(140, 138, 140, 0.62);
     -moz-box-shadow: 0px 0px 0px -8px rgba(140, 138, 140, 0.62);
     box-shadow: 0px 0px 0px -8px rgba(140, 138, 140, 0.62);
@@ -720,7 +779,7 @@ main.groups-manual{
 
     margin: 0px 5px 0px 5px;
 
-    /* border-top:10px solid #065f8b;*/
+    height:400px;
     border-top: 10px solid #065f8b;
     padding: 5px;
     position: relative;
@@ -730,13 +789,18 @@ main.groups-manual{
 }
 
 .projects .card div.card-inner p {
-    height: 60px;
+    min-height: 60px;
     overflow: hidden;
+    max-height: 156px;
 }
 
 .projects .card .project_Button {
 
     margin: 0 auto;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    margin-left: -30px;
 
 }
 
