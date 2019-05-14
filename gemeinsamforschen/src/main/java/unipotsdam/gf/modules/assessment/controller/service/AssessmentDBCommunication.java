@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.modules.assessment.controller.model.Contribution;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -14,6 +15,7 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -299,6 +301,20 @@ public class AssessmentDBCommunication {
             }
             next = selectWorkRatingResultSet.next();
         }
+    }
+
+    public Contribution getContribution(Project project, Integer groupId, String role){
+        connect.connect();
+        String sqlStatement =
+                "SELECT * FROM largefilestorage WHERE projectName=? AND filerole=?;";
+        VereinfachtesResultSet selectResultSet = connect.issueSelectStatement(sqlStatement, groupId, project.getName(), role);
+        if (selectResultSet.next()){
+            Contribution result = new Contribution();
+            result.setPathToFile(Paths.get(selectResultSet.getString("filelocation")));
+            result.setNameOfFile(selectResultSet.getString("filename"));
+            return result;
+        }
+        return null;
     }
 
 }

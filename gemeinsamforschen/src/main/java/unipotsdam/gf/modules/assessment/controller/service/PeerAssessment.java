@@ -1,19 +1,15 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
 
 import javax.inject.Inject;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -64,8 +60,22 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public Map<String, String> getContributionsFromGroup(Project project, Integer groupId){
+    public List<FullContribution> getContributionsFromGroup(Project project, Integer groupId){
         //todo: implement
+        List<FullContribution> result = new ArrayList<>();
+        for (String role : Categories.contributionRatingCategories){
+            FullContribution fullContribution = new FullContribution();
+            fullContribution.setRoleOfContribution(role);
+            fullContribution.setTextOfContribution("");
+            Contribution contribution = assessmentDBCommunication.getContribution(project, groupId, role);
+            if (contribution != null){
+
+            }else{
+
+            }
+            fullContribution.setNameOfFile("");
+            fullContribution.setPathToFile(Paths.get(""));
+        }
         return null;
     }
 

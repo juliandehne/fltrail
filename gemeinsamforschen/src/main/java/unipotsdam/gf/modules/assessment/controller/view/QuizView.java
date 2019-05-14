@@ -1,16 +1,11 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
+import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.session.GFContexts;
 
@@ -122,14 +117,15 @@ public class QuizView {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("contributions/project/{projectName}")
-    public Map<String, String> getContributionsForProject(@Context HttpServletRequest req,
-            @PathParam("projectName") String projectName) throws IOException {
+    public List<FullContribution> getContributionsForProject(@Context HttpServletRequest req,
+                                                             @PathParam("projectName") String projectName) throws IOException {
+        List<FullContribution> result;
         Project project = projectDAO.getProjectByName(projectName);
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Integer groupId = peer.whichGroupToRate(project, user);
-        peer.getContributionsFromGroup(project, groupId);
-        return null;
+        result = peer.getContributionsFromGroup(project, groupId);
+        return result;
     }
 
     @POST
