@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.annotation.controller;
 
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.IAnnotation;
@@ -98,13 +100,24 @@ public class AnnotationController implements IAnnotation {
             return annotation;
         }
         else {
-
             // close connection
             connection.close();
-
             return null;
         }
+    }
 
+    public String getFinishedDossier(Project project, Integer groupId){
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * FROM fullsubmissions WHERE projectname = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getName(), groupId);
+
+        if (rs.next()) {
+            return rs.getString("text");
+        }else{
+            return null;
+        }
     }
 
     @Override

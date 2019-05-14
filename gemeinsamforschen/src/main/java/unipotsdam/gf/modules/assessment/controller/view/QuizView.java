@@ -168,14 +168,6 @@ public class QuizView {
         return peer.whatToRate(project, user);
     }
 
-    /*@POST
-    @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/assessment")
-    public void addAssessmentDataToDB(Assessment assessment) {
-        peer.addAssessmentDataToDB(assessment);
-    }*/
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/project/{projectName}")
@@ -265,14 +257,12 @@ public class QuizView {
         work2.put("cooperation", 5.);
         work2.put("communication", 3.);
         work2.put("autonomous", 4.);
-        Map<String, Double> contribution1 = new HashMap<>();
-        contribution1.put("Dossier", 4.);
-        contribution1.put("eJournal", 2.);
-        contribution1.put("research", 4.);
-        Map<String, Double> contribution2 = new HashMap<>();
-        contribution2.put("Dossier", 2.);
-        contribution2.put("eJournal", 3.);
-        contribution2.put("research", 4.);
+        Map<ContributionCategories, Double> contribution1 = new HashMap<>();
+        contribution1.put(ContributionCategories.DOSSIER, 4.);
+        contribution1.put(ContributionCategories.RESEARCH, 4.);
+        Map<ContributionCategories, Double> contribution2 = new HashMap<>();
+        contribution2.put(ContributionCategories.DOSSIER, 2.);
+        contribution2.put(ContributionCategories.RESEARCH, 3.);
         Performance pf = new Performance();
         pf.setContributionRating(contribution1);
         pf.setQuizAnswer(quiz);

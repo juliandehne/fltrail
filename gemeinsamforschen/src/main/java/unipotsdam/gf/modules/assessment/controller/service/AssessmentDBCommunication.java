@@ -1,15 +1,12 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
-import unipotsdam.gf.modules.assessment.controller.model.Contribution;
+import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.constraints.Constraints;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
-import unipotsdam.gf.modules.assessment.controller.model.Categories;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -98,16 +95,16 @@ public class AssessmentDBCommunication {
         return result;
     }
 
-    ArrayList<Map<String, Double>> getContributionRating(Integer groupId) {
-        ArrayList<Map<String, Double>> result = new ArrayList<>();
+    ArrayList<Map<ContributionCategories, Double>> getContributionRating(Integer groupId) {
+        ArrayList<Map<ContributionCategories, Double>> result = new ArrayList<>();
         connect.connect();
         String mysqlRequest = "SELECT * FROM `contributionrating` WHERE `groupId`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, groupId);
         boolean next = vereinfachtesResultSet.next();
         while (next) {
-            Map<String, Double> contributionRating = new HashMap<>();
-            for (String category : Categories.contributionRatingCategories) {
-                contributionRating.put(category, (double) vereinfachtesResultSet.getInt(category));
+            Map<ContributionCategories, Double> contributionRating = new HashMap<>();
+            for (ContributionCategories category : ContributionCategories.values()) {
+                contributionRating.put(category, (double) vereinfachtesResultSet.getInt(category.toString()));
             }
             result.add(contributionRating);
             next = vereinfachtesResultSet.next();
@@ -177,13 +174,13 @@ public class AssessmentDBCommunication {
     Integer getWhichGroupToRate(Project project, User user) {
         Integer result;
         connect.connect();
-        String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `projectName`=? AND `userEmail`=? ";
+        String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `userEmail`=? ";
         VereinfachtesResultSet vereinfachtesResultSet1 =
-                connect.issueSelectStatement(mysqlRequest1, project.getName(), user.getEmail());
+                connect.issueSelectStatement(mysqlRequest1, user.getEmail());
         vereinfachtesResultSet1.next();
         Integer groupId = vereinfachtesResultSet1.getInt("groupId");
 
-        String mysqlRequest2 = "SELECT DISTINCT groupId FROM `groupuser` WHERE `projectName`=? ";
+        String mysqlRequest2 = "SELECT DISTINCT groupId FROM `groups` WHERE `projectName`=? ";
         VereinfachtesResultSet vereinfachtesResultSet2 =
                 connect.issueSelectStatement(mysqlRequest2, project.getName());
         Boolean next = vereinfachtesResultSet2.next();
@@ -197,7 +194,6 @@ public class AssessmentDBCommunication {
             } else {
                 next = vereinfachtesResultSet2.next();
             }
-
         }
         connect.close();
         return result;
@@ -303,10 +299,10 @@ public class AssessmentDBCommunication {
         }
     }
 
-    public Contribution getContribution(Project project, Integer groupId, String role){
+    public Contribution getContribution(Project project, Integer groupId, ContributionCategories role){
         connect.connect();
         String sqlStatement =
-                "SELECT * FROM largefilestorage WHERE projectName=? AND filerole=?;";
+                "SELECT * FROM `largefilestorage` lfs JOIN groupuser gu on gu.groupId=? AND gu.userEmail=lfs.userEmail WHERE lfs.projectName=? AND lfs.filerole=?;";
         VereinfachtesResultSet selectResultSet = connect.issueSelectStatement(sqlStatement, groupId, project.getName(), role);
         if (selectResultSet.next()){
             Contribution result = new Contribution();

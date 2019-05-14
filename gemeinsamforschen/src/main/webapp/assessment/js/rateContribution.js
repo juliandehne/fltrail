@@ -24,9 +24,8 @@ $(document).ready(function () {
 
 function whichGroupToRate() {
     let projectName = $('#projectName').html().trim();
-    let userName = $('#user').html().trim();
     $.ajax({
-        url: '../rest/assessments/groupRate/project/' + projectName + '/student/' + userName,
+        url: '../rest/assessments/groupRate/project/' + projectName,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",

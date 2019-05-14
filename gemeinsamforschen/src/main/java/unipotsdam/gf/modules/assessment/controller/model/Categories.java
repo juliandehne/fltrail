@@ -14,10 +14,5 @@ public class Categories {
                 add("autonomous");
             }}
     );
-    public static final List<String> contributionRatingCategories = Collections.unmodifiableList(
-            new ArrayList<String>() {{
-                add("dossier");
-                add("research");
-            }}
-    );
+
 }

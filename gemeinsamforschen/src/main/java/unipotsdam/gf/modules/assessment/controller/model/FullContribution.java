@@ -4,7 +4,7 @@ import java.nio.file.Path;
 
 public class FullContribution extends Contribution{
 
-    private String roleOfContribution;
+    private ContributionCategories roleOfContribution;
     private String textOfContribution;
 
     public FullContribution() {
@@ -13,16 +13,16 @@ public class FullContribution extends Contribution{
     @Override
     public String toString() {
         return "FullContribution{" +
-                "roleOfContribution='" + roleOfContribution + '\'' +
+                "roleOfContribution=" + roleOfContribution +
                 ", textOfContribution='" + textOfContribution + '\'' +
                 '}';
     }
 
-    public String getRoleOfContribution() {
+    public ContributionCategories getRoleOfContribution() {
         return roleOfContribution;
     }
 
-    public void setRoleOfContribution(String roleOfContribution) {
+    public void setRoleOfContribution(ContributionCategories roleOfContribution) {
         this.roleOfContribution = roleOfContribution;
     }
 
@@ -34,12 +34,12 @@ public class FullContribution extends Contribution{
         this.textOfContribution = textOfContribution;
     }
 
-    public FullContribution(String roleOfContribution, String textOfContribution) {
+    public FullContribution(ContributionCategories roleOfContribution, String textOfContribution) {
         this.roleOfContribution = roleOfContribution;
         this.textOfContribution = textOfContribution;
     }
 
-    public FullContribution(Path pathToFile, String nameOfFile, String roleOfContribution, String textOfContribution) {
+    public FullContribution(Path pathToFile, String nameOfFile, ContributionCategories roleOfContribution, String textOfContribution) {
         super(pathToFile, nameOfFile);
         this.roleOfContribution = roleOfContribution;
         this.textOfContribution = textOfContribution;

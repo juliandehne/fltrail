@@ -28,7 +28,7 @@
 
             <script id="contributionTemplate" type="text/x-jQuery-tmpl">
             <div class="contributionRating" id="${contributionName}">
-            ${contributionName}
+                <h4>${contributionName}</h4>
             {{if contributionText}}
                 <p>${contributionText}</p>
             {{/if}}
