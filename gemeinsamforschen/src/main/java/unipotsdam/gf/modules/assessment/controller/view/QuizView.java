@@ -116,6 +116,7 @@ public class QuizView {
 
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("contributions/project/{projectName}")
     public List<FullContribution> getContributionsForProject(@Context HttpServletRequest req,
                                                              @PathParam("projectName") String projectName) throws IOException {
@@ -130,11 +131,12 @@ public class QuizView {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/contributionRating/group/{groupId}/fromPeer/{fromPeer}")
-    public void postContributionRating(Map<String, Integer> contributionRatings,
+    @Path("/contributionRating/project/{projectName}/group/{groupId}/fromPeer/{fromPeer}")
+    public void postContributionRating(Map<ContributionCategories, Integer> contributionRatings,
                                        @PathParam("groupId") String groupId,
+                                       @PathParam("projectName") String projectName,
                                        @PathParam("fromPeer") String fromPeer) {
-        peer.postContributionRating(groupId, fromPeer, contributionRatings);
+        peer.postContributionRating(new Project(projectName), groupId, fromPeer, contributionRatings);
     }
 
     @POST

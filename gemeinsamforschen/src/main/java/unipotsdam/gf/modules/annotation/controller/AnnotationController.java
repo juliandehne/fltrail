@@ -110,8 +110,9 @@ public class AnnotationController implements IAnnotation {
         connection.connect();
 
         // build and execute request
-        String request = "SELECT * FROM fullsubmissions WHERE projectname = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getName(), groupId);
+        String request = "SELECT * FROM fullsubmissions fs JOIN groupuser gu ON gu.userEmail=fs.user " +
+                "AND gu.groupId=? WHERE projectname = ? AND finalized=1;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName());
 
         if (rs.next()) {
             return rs.getString("text");

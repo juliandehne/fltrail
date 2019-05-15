@@ -39,7 +39,7 @@ public class FullContribution extends Contribution{
         this.textOfContribution = textOfContribution;
     }
 
-    public FullContribution(Path pathToFile, String nameOfFile, ContributionCategories roleOfContribution, String textOfContribution) {
+    public FullContribution(String pathToFile, String nameOfFile, ContributionCategories roleOfContribution, String textOfContribution) {
         super(pathToFile, nameOfFile);
         this.roleOfContribution = roleOfContribution;
         this.textOfContribution = textOfContribution;

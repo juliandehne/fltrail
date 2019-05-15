@@ -7,6 +7,7 @@
     <jsp:include page="../taglibs/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <jsp:include page="../taglibs/quillJsDependencies.jsp"/>
     <script src="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.js"></script>
     <script src="https://cdn.rawgit.com/showdownjs/showdown/1.8.5/dist/showdown.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
@@ -19,90 +20,50 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <main>
-        <jsp:include page="../taglibs/timeLine.jsp"/>
-        <div class="col span_content span_l_of_3">
-            <h2>Letzter Schritt im Projekt </h2>
-            <div id="listOfContributions">
+        <div class="row group">
+            <div class="col span_1_of_2">
+                <h2>Letzter Schritt im Projekt </h2>
+                <h3>Bewerte Gruppe <span id="groupId"></span></h3>
+
+                <div id="listOfContributions">
+
+                </div>
+                <script id="contributionTemplate" type="text/x-jQuery-tmpl">
+            <div class="contributionRating" id="${contributionRole}">
+                <h4>${contributionFileName}<a href="${contributionFilePath}"><i class="fas fa-paperclip"></i></a></h4>
+            {{if contributionText!=null}}
+            <div id="editor${contributionRole}" class="ql-container ql-snow ql-disabled">
 
             </div>
-
-            <script id="contributionTemplate" type="text/x-jQuery-tmpl">
-            <div class="contributionRating" id="${contributionName}">
-                <h4>${contributionName}</h4>
-            {{if contributionText}}
-                <p>${contributionText}</p>
             {{/if}}
-                Die meisten Menschen sind bereit zu lernen, aber nur die wenigsten,
-                sich belehren zu lassen.
-
-                <textarea id="${contributionName}Feedback">
+                <textarea id="${contributionRole}Feedback">
 			        meine Bewertung
 			    </textarea>
-                <label>(sehr gut)5<input type="radio" name="${contributionName}" value="5"></label>
-                <label><input type="radio" name="${contributionName}" value="4">    </label>
-                <label><input type="radio" name="${contributionName}" value="3">    </label>
-                <label><input type="radio" name="${contributionName}" value="2">    </label>
-                <label><input type="radio" name="${contributionName}" value="1"> 1 (schlecht)</label>
+                <label>(sehr gut)5<input type="radio" name="${contributionRole}" value="5"></label>
+                <label><input type="radio" name="${contributionRole}" value="4">    </label>
+                <label><input type="radio" name="${contributionRole}" value="3">    </label>
+                <label><input type="radio" name="${contributionRole}" value="2">    </label>
+                <label><input type="radio" name="${contributionRole}" value="1"> 1 (schlecht)</label>
             </div>
 
-            </script>
 
-            <p id="groupId" hidden>Hier steht jetzt das richtige</p>
-            <table>
-                <tr>
-                    <td id="yourContent">
-                        <table class="table-striped peerStudent"
-                               style="width:100%;border:1px solid; margin:auto;" id="2">
-                            <tr>
-                                <td align="center">
-                                    <h3>Gruppe 4</h3>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="contributionRating" id="Dossier">
-                                        Dossier:
-                                        Hier sollte das Dossier stehen und herunterladbar sein.
-                                        Die meisten Menschen sind bereit zu lernen, aber nur die wenigsten,
-                                        sich belehren zu lassen.
-                                        <textarea id="dossierFeedback">
-				                        meine Bewertung
-			                        </textarea>
-                                        <label><input type="radio" name="dossier" value="5">Perfekt</label>
-                                        <label><input type="radio" name="dossier" value="4">Makellos</label>
-                                        <label><input type="radio" name="dossier" value="3">regulär</label>
-                                        <label><input type="radio" name="dossier" value="2">Makelhaft</label>
-                                        <label><input type="radio" name="dossier" value="1">Lädiert</label>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="contributionRating" id="research">
-                                        Präsentation: <a href="#"><i class="fa fa-paperclip"></i></a>
-                                        <textarea id="presentationFeedback">
-				                        meine Bewertung
-			                        </textarea>
-                                        <label><input type="radio" name="research" value="5">Perfekt</label>
-                                        <label><input type="radio" name="research" value="4">Makellos</label>
-                                        <label><input type="radio" name="research" value="3">regulär</label>
-                                        <label><input type="radio" name="research" value="2">Makelhaft</label>
-                                        <label><input type="radio" name="research" value="1">Lädiert</label>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
-                        <button id="submit" class="btn btn-success">Feedback hochladen</button>
-                    </td>
-                </tr>
-            </table>
+                </script>
+                <button id="submit" class="btn btn-primary">Feedback hochladen</button>
+                <div id="done" class="alert alert-success">
+                    <p>Ihr Feedback wurde erfolgreich gespeichert. Vielen Dank.</p>
+                </div>
+                <div id="missingFeedback" class="alert alert-warning">
+                    <p>Stellen sie sicher alle Beiträge der Gruppe bewertet zu haben.</p>
+                </div>
+            </div>
+            <div class="col span_chat">
+                <chat:chatWindow orientation="right" scope="project"/>
+                <chat:chatWindow orientation="right" scope="group"/>
+            </div>
         </div>
-        <div class="col span_chat">
-            <chat:chatWindow orientation="right" scope="project"/>
-            <chat:chatWindow orientation="right" scope="group"/>
-        </div>
-        <jsp:include page="../taglibs/footer.jsp"/>
     </main>
+        <jsp:include page="../taglibs/footer.jsp"/>
+
 </body>
 
 </html>

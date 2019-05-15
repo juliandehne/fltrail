@@ -3,30 +3,22 @@ package unipotsdam.gf.modules.assessment.controller.model;
 import java.nio.file.Path;
 
 public class Contribution {
-    private Path pathToFile;
+    private String pathToFile;
     private String nameOfFile;
 
     @Override
     public String toString() {
         return "Contribution{" +
-                "pathToFile=" + pathToFile +
+                "pathToFile='" + pathToFile + '\'' +
                 ", nameOfFile='" + nameOfFile + '\'' +
                 '}';
     }
 
-    public Contribution() {
-    }
-
-    public Contribution(Path pathToFile, String nameOfFile) {
-        this.pathToFile = pathToFile;
-        this.nameOfFile = nameOfFile;
-    }
-
-    public Path getPathToFile() {
+    public String getPathToFile() {
         return pathToFile;
     }
 
-    public void setPathToFile(Path pathToFile) {
+    public void setPathToFile(String pathToFile) {
         this.pathToFile = pathToFile;
     }
 
@@ -35,6 +27,14 @@ public class Contribution {
     }
 
     public void setNameOfFile(String nameOfFile) {
+        this.nameOfFile = nameOfFile;
+    }
+
+    public Contribution() {
+    }
+
+    public Contribution(String pathToFile, String nameOfFile) {
+        this.pathToFile = pathToFile;
         this.nameOfFile = nameOfFile;
     }
 }

@@ -72,9 +72,10 @@ public interface IPeerAssessment {
 
     Integer whichGroupToRate(Project project, User user);
 
-    void postContributionRating(String groupId,
+    void postContributionRating(Project project,
+                                String groupId,
                                 String fromPeer,
-                                Map<String, Integer> contributionRating);
+                                Map<ContributionCategories, Integer> contributionRating);
 
     /**
      * @param questions

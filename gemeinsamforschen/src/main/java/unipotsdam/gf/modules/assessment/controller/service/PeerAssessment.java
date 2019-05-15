@@ -352,10 +352,11 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public void postContributionRating(String groupId,
+    public void postContributionRating(Project project,
+                                        String groupId,
                                        String fromStudent,
-                                       Map<String, Integer> contributionRating) {
-        assessmentDBCommunication.writeContributionRatingToDB(groupId, fromStudent, contributionRating);
+                                       Map<ContributionCategories, Integer> contributionRating) {
+        assessmentDBCommunication.writeContributionRatingToDB(project, groupId, fromStudent, contributionRating);
     }
 
     @Override

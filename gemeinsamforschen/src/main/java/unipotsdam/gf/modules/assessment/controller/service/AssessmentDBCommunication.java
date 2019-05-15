@@ -173,38 +173,41 @@ public class AssessmentDBCommunication {
 
     Integer getWhichGroupToRate(Project project, User user) {
         Integer result;
+        List<Integer> groups= new ArrayList<>();
         connect.connect();
-        String mysqlRequest1 = "SELECT groupId FROM `groupuser` WHERE `userEmail`=? ";
+        String mysqlRequest1 = "SELECT groupId FROM `groupuser` gu JOIN groups g on " +
+                "gu.groupid=g.id AND g.projectName=? WHERE `userEmail`=?";
         VereinfachtesResultSet vereinfachtesResultSet1 =
-                connect.issueSelectStatement(mysqlRequest1, user.getEmail());
+                connect.issueSelectStatement(mysqlRequest1, project.getName(), user.getEmail());
         vereinfachtesResultSet1.next();
         Integer groupId = vereinfachtesResultSet1.getInt("groupId");
 
-        String mysqlRequest2 = "SELECT DISTINCT groupId FROM `groups` WHERE `projectName`=? ";
+        String mysqlRequest2 = "SELECT DISTINCT id FROM `groups` WHERE `projectName`=? ";
         VereinfachtesResultSet vereinfachtesResultSet2 =
                 connect.issueSelectStatement(mysqlRequest2, project.getName());
-        Boolean next = vereinfachtesResultSet2.next();
-        result = vereinfachtesResultSet2.getInt("groupId");
+        boolean next = vereinfachtesResultSet2.next();
         while (next) {
-            if (vereinfachtesResultSet2.getInt("groupId") == groupId) {
-                next = vereinfachtesResultSet2.next();
-                if (next) {
-                    result = vereinfachtesResultSet2.getInt("groupId");
-                }
-            } else {
-                next = vereinfachtesResultSet2.next();
-            }
+            groups.add(vereinfachtesResultSet2.getInt("id"));
+            next = vereinfachtesResultSet2.next();
+        }
+        if (groups.indexOf(groupId)+1 == groups.size()){
+            result = groups.get(0);
+        }else{
+            result = groups.get(groups.indexOf(groupId)+1);
         }
         connect.close();
         return result;
     }
 
-    void writeContributionRatingToDB(String groupId, String fromStudent, Map<String, Integer> contributionRating) {
+    void writeContributionRatingToDB(Project project, String groupId, String fromStudent, Map<ContributionCategories, Integer> contributionRating) {
         connect.connect();
-        String mysqlRequest =
-                "INSERT INTO `contributionrating`(`groupId`, `fromPeer`, `dossier`, `research`) VALUES (?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, groupId, fromStudent, contributionRating.get("dossier"),
-                contributionRating.get("research"));
+        for(ContributionCategories contribution : contributionRating.keySet()){
+            String mysqlRequest =
+                    "INSERT INTO `contributionrating`(`projectName`, `groupId`, `fromPeer`, `contributionrole`, `rating`)" +
+                            " VALUES (?,?,?,?,?)";
+            connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), groupId, fromStudent,
+                    contribution.toString(), contributionRating.get(contribution));
+        }
         connect.close();
     }
 
@@ -306,7 +309,7 @@ public class AssessmentDBCommunication {
         VereinfachtesResultSet selectResultSet = connect.issueSelectStatement(sqlStatement, groupId, project.getName(), role);
         if (selectResultSet.next()){
             Contribution result = new Contribution();
-            result.setPathToFile(Paths.get(selectResultSet.getString("filelocation")));
+            result.setPathToFile(selectResultSet.getString("filelocation"));
             result.setNameOfFile(selectResultSet.getString("filename"));
             return result;
         }
