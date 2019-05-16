@@ -16,6 +16,6 @@ public class HealthChecksView {
         Boolean mysqlOnline = HealthChecks.isMysqlOnline();
         Boolean groupAlOnline = HealthChecks.isGroupAlOnline();
         //return new HealthData(compBaseOnline, rocketOnline, mysqlOnline, groupAlOnline);
-        return new HealthData(true,false,true,true);
+        return new HealthData(true,rocketOnline,true,true);
     }
 }

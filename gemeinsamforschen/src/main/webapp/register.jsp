@@ -21,9 +21,9 @@
     <form method="post" action="rest/user/create">
         <h2 class="sr-only">Login Formular</h2>
         <div class="illustration"><img src="libs/img/fides-logo.svg"></div>
-        <div class="form-group"><input class="form-control" name="name" placeholder="Name"></div>
-        <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
-        <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password">
+        <div class="form-group"><input class="form-control" name="name" placeholder="Name" required></div>
+        <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" required></div>
+        <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password" required>
         </div>
         <div class="form-group"><label>Bitte kein sensibeles Passwort verwenden!</label></div>
         <div class="form-group">

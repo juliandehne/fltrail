@@ -52,6 +52,10 @@ $(document).ready(function () {
         btnBack.hide();
         btnWholeCategory.hide();
     }
+    $('#backToTasks').on('click',function(){
+        location.href="../project/tasks-student.jsp?projectName="+$('#projectName').html().trim();
+    });
+
     // fetch full submission from database
     getFullSubmission(getQueryVariable("fullSubmissionId"), function (response) {
 

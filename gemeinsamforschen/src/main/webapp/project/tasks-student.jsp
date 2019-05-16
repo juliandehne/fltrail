@@ -41,7 +41,7 @@
             </div>
 
                 <script id="taskTemplate" type="text/x-jQuery-tmpl">
-                    <h3 class="phase-heading ${phase} ">${phase}</h3>
+                    <h3 class="phase-heading ${phase} ">${headLine}</h3>
                      <div class="card ${phase} current">
                         <div class="col span_s_of_2 icon ${taskType}"></div>
 
@@ -79,6 +79,8 @@
         <div class="col span_chat right">
             <chat:chatWindow orientation="right" scope="project"/>
             <chat:chatWindow orientation="right" scope="group"/>
+
+            <a href="http://fleckenroller.cs.uni-potsdam.de:3000/home">chat</a>
             <a id="groupView" style="cursor:pointer;">Gruppenansicht</a>
         </div>
     </div> <!-- end row -->

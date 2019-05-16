@@ -56,7 +56,7 @@ public interface IGroupFinding {
 
     int getMinNumberOfStudentsNeeded(Project project);
 
-    void deleteGroups(Project project);
+    void deleteGroups(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     List<Group> createRandomGroups(Project project);
 

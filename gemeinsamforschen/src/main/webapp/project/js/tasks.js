@@ -40,6 +40,7 @@ function fitObjectInTmpl(object) {
         taskType: "",
         infoText: "",
         phase: "",
+        headLine: "",
         solveTaskWith: "",
         helpLink: "",
         timeFrame: "",
@@ -59,25 +60,31 @@ function fitObjectInTmpl(object) {
     switch (object.phase) {
         case "CourseCreation":
             result.phase = "card-draft";
+            result.headLine = "Projektstart";
             break;
         case "GroupFormation":
             result.phase = "card-grouping";
+            result.headLine = "Gruppenbildung";
             break;
         case "DossierFeedback":
             groupViewLink.show();
             result.phase = "card-feedback";
+            result.headLine = "Entwurfsphase";
             break;
         case "Execution":
             groupViewLink.show();
             result.phase = "card-execution";
+            result.headLine = "Reflexionsphase";
             break;
         case "Assessment":
             groupViewLink.show();
             result.phase = "card-assessment";
+            result.headLine = "Bewertungsphase";
             break;
         case "Projectfinished":
             groupViewLink.show();
             result.phase = "card-grades";
+            result.headLine = "Projektabschluss";
             break;
         default:
             result.phase = "";
@@ -281,6 +288,11 @@ function fillObjectWithTasks(response) {
     let tempObject = [];
     let first = true;
     for (let task in response) {
+        let headLine = "";
+        switch (response[task].phase){
+            case ("card-grouping"):
+                break;
+        }
         if (response.hasOwnProperty(task)) {
             tempObject.push({
                 taskType: response[task].taskType,  //
@@ -292,6 +304,7 @@ function fillObjectWithTasks(response) {
                 groupTask: response[task].groupTask,//
                 importance: response[task].importance,
                 phase: response[task].phase,  //
+                headLine: "",
                 link: response[task].link,  //
                 userEmail: response[task].userEmail,
                 projectName: response[task].projectName,

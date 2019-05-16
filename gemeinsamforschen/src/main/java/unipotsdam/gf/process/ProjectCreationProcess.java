@@ -143,6 +143,15 @@ public class ProjectCreationProcess {
         }
         //taskDao.createTaskWaitForParticipants(project, author);
     }*/
+
+
+    /**
+     * the tasks are changed after user enters project
+     * @param project
+     * @param user
+     * @throws RocketChatDownException
+     * @throws UserDoesNotExistInRocketChatException
+     */
     public void updateProjCreaProcTasks(Project project, User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         // create info for student
         Task task = taskDao.createWaitingForGroupFormationTask(project, user);

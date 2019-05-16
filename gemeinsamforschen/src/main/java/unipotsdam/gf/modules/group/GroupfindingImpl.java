@@ -77,8 +77,14 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
     @Override
-    public void deleteGroups(Project project) {
+    public void deleteGroups(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         groupDAO.deleteGroups(project);
+        if (project.getGroupWorkContext().equals(GroupWorkContext.fl)) {
+            List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
+            for (Group group : groupsByProjectName) {
+                iCommunication.deleteChatRoom(group);
+            }
+        }
     }
 
     @Override

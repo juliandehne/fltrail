@@ -7,6 +7,7 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
+import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -29,11 +30,15 @@ public class GroupView {
 
     @Inject
     private IGroupFinding groupfinding;
+
     @Inject
     private ProjectDAO projectDAO;
 
     @Inject
     private GroupFormationProcess groupFormationProcess;
+
+    @Inject
+    private ProfileDAO profileDAO;
 
 
     /**
@@ -152,7 +157,8 @@ public class GroupView {
                                @QueryParam("manipulated") String isManipulated)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 
-        Project project = new Project(projectName);
+        Project project = projectDAO.getProjectByName(projectName);
+        project.setGroupWorkContext(profileDAO.getGroupWorkContext(project));
         // wenn gruppen aussehen wie einzelarbeit, dann wird hier umgeschaltet
        /* if (!isManipulated == null && isManipulated.equals("true")){
             boolean isSingleUser =true;
