@@ -6,6 +6,7 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 
 import javax.xml.bind.JAXBException;
+import java.util.List;
 
 /** todo route group relevant user data over interface
  *
@@ -13,6 +14,9 @@ import javax.xml.bind.JAXBException;
 public interface GroupFormationAlgorithm {
     java.util.List<Group> calculateGroups(Project project)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException;
+
+    List<Group> calculateGroups(Project project, int minGroupSize);
+
     // in case of compbase all the data is added iteratively over the interface
     void addGroupRelevantData(Project project, User user, Object data) throws Exception;
     // in case of groupal the data is added to the mysql db

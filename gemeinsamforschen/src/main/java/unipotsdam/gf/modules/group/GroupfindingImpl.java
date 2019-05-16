@@ -1,7 +1,9 @@
 package unipotsdam.gf.modules.group;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
@@ -12,6 +14,7 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 
 import javax.inject.Inject;
+import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +85,8 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
     @Override
-    public List<Group> createRandomGroups(Project project) {
+    public List<Group> createRandomGroups(Project project)
+            throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         return randomGroupAlgorithm.calculateGroups(project);
     }
 
