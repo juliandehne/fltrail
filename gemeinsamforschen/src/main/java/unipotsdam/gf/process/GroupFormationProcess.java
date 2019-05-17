@@ -7,6 +7,7 @@ import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupData;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
@@ -39,6 +40,9 @@ public class GroupFormationProcess {
 
     @Inject
     private IGroupFinding groupfinding;
+
+    @Inject
+    private GroupDAO groupdao;
 
     @Inject
     private ICommunication iCommunication;
@@ -102,6 +106,7 @@ public class GroupFormationProcess {
         if (groups1 == null || groups1.isEmpty()) {
             List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
             groupfinding.persistGroups(groups, project);
+            groupfinding.persistOriginalGroups(groups, project, groupdao.getGroupFormationMechanism(project));
             return new GroupData(groups);
         } else {
             return new GroupData(groups1);

@@ -53,8 +53,27 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
     @Override
+    public void persistOriginalGroups(java.util.List<Group> groupComposition, Project project,
+                                      GroupFormationMechanism groupFormationMechanism){
+        //this solution for groupIds is probably no reason to celebrate for my Boss...
+        //since the ID does not match the groupId from table groups
+        //but they would not match anyway after groups were manipulated by the docent.
+        //so its ok hopefully.
+        int groupId=0;
+        for (Group group : groupComposition) {
+            group.setProjectName(project.getName());
+            groupDAO.persistOriginalGroup(group, groupId, groupFormationMechanism);
+            groupId++;
+        }
+    }
+
+    @Override
     public List<Group> getGroups(Project project) {
         return groupDAO.getGroupsByProjectName(project.getName());
+    }
+
+    public List<Group> getOriginalGroups(Project project) {
+        return groupDAO.getOriginalGroupsByProjectName(project.getName());
     }
 
     @Override

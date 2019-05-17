@@ -33,6 +33,7 @@ public interface IGroupFinding {
      */
     void persistGroups(java.util.List<Group> groupComposition, Project project);
 
+    void persistOriginalGroups(java.util.List<Group> groupComposition, Project project, GroupFormationMechanism groupFormationMechanism);
     /**
      * @param project
      * @return
@@ -46,12 +47,6 @@ public interface IGroupFinding {
      */
     void formGroups(GroupFormationMechanism groupFindingMechanism);
 
-
-    /**
-     *
-     * @param student
-     * @return
-     */
     ArrayList<String> getStudentsInSameGroup(Project project, User user);
 
     int getMinNumberOfStudentsNeeded(Project project);

@@ -66,7 +66,6 @@ public class GroupDAO {
     // refactor (you get the id as a return value when inserting into the db)
     public void persist(Group group) {
         assert group.getProjectName() != null;
-
         connect.connect();
 
         String mysqlRequestGroup = "INSERT INTO groups (`projectName`,`chatRoomId`) values (?,?)";
@@ -79,7 +78,18 @@ public class GroupDAO {
             connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getId());
         }
         connect.close();
+    }
 
+    public void persistOriginalGroup(Group group, int groupId, GroupFormationMechanism groupFormationMechanism){
+        assert group.getProjectName() != null;
+        connect.connect();
+        for (User groupMember : group.getMembers()) {
+            String mysqlRequest2 = "INSERT INTO originalgroups (`userEmail`, `projectName`, `groupId`, " +
+                    "`groupFormationMechanism`) values (?,?,?,?)";
+            connect.issueInsertOrDeleteStatement(mysqlRequest2, groupMember.getEmail(), group.getProjectName(),
+                    groupId, groupFormationMechanism);
+        }
+        connect.close();
     }
 
     public void update(Group group) {
@@ -112,10 +122,20 @@ public class GroupDAO {
                 "gu.userEmail=u.email " +
                 "where g.projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
-        List<Group> uniqueGroups = resultSetToGroupList(vereinfachtesResultSet);
+        List<Group> uniqueGroups = resultSetToGroupList(vereinfachtesResultSet, true);
         connect.close();
         return uniqueGroups;
     }
+
+    public List<Group> getOriginalGroupsByProjectName(String projectName) {
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM originalgroups where projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
+        List<Group> uniqueGroups = resultSetToGroupList(vereinfachtesResultSet, false);
+        connect.close();
+        return uniqueGroups;
+    }
+
     public List<Group> getGroupsByContextUser(User user, GroupWorkContext context){
         connect.connect();
         String mysqlRequest = "SELECT p.name as projectName, gu.userEmail, gu.groupId, g.chatroomId  " +
@@ -124,18 +144,21 @@ public class GroupDAO {
                 "groups g on pu.projectName=g.projectName JOIN " +
                 "groupuser gu on g.id=gu.groupId ";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, context.toString(), user.getEmail());
-        List<Group> uniqueGroups = resultSetToGroupList(vereinfachtesResultSet);
+        List<Group> uniqueGroups = resultSetToGroupList(vereinfachtesResultSet, true);
         connect.close();
         return uniqueGroups;
     }
 
 
-    private void fillGroupFromResultSet(ArrayList<Group> groups, VereinfachtesResultSet vereinfachtesResultSet) {
+    private void fillGroupFromResultSet(ArrayList<Group> groups, VereinfachtesResultSet vereinfachtesResultSet,
+                                        Boolean withRocketChatId) {
         boolean next = vereinfachtesResultSet.next();
         while (next) {
             String projectName = vereinfachtesResultSet.getString("projectName");
             User user = userDAO.getUserByEmail(vereinfachtesResultSet.getString("userEmail"));
-            String chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
+            String chatRoomId = null;
+            if(withRocketChatId)
+                chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
             ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
             Group group = new Group(vereinfachtesResultSet.getInt("groupId"), userList, projectName, chatRoomId);
             groups.add(group);
@@ -192,14 +215,14 @@ public class GroupDAO {
         connect.close();
     }
 
-    private List<Group> resultSetToGroupList(VereinfachtesResultSet vereinfachtesResultSet){
+    private List<Group> resultSetToGroupList(VereinfachtesResultSet vereinfachtesResultSet, Boolean withRocketChatId){
         if (Objects.isNull(vereinfachtesResultSet)) {
             connect.close();
             return Collections.emptyList();
         }
 
         ArrayList<Group> groups = new ArrayList<>();
-        fillGroupFromResultSet(groups, vereinfachtesResultSet);
+        fillGroupFromResultSet(groups, vereinfachtesResultSet, withRocketChatId);
         ArrayList<Group> uniqueGroups = new ArrayList<>();
         ArrayList<Integer> groupIds = new ArrayList<>();
         for (Group group : groups) {

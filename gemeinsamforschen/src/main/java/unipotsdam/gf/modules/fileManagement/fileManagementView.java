@@ -95,7 +95,7 @@ public class fileManagementView {
         Response.ResponseBuilder responseBuilder = Response.ok(file);
 
         String fileName = file.getName();
-        responseBuilder.header("Content-Disposition", "attachment; filename=\"" + fileName + ".pdf\"");
+        responseBuilder.header("Content-Disposition", "attachment; filename=\"" + fileName);
         return responseBuilder.build();
     }
 
