@@ -93,7 +93,7 @@ function prepareContributionRating() {
                             {
                                 readOnly: true
                             });
-                        editor.setText(response[contribution].textOfContribution);
+                        editor.setContent(response[contribution].textOfContribution);
                     }
                 }
             }

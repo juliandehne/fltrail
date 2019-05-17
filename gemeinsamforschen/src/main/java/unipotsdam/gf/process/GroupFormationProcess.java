@@ -9,6 +9,7 @@ import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupData;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
@@ -32,6 +33,9 @@ public class GroupFormationProcess {
 
     @Inject
     TaskDAO taskDAO;
+
+    @Inject
+    ProfileDAO profileDAO;
 
     @Inject
     private IGroupFinding groupfinding;
@@ -59,7 +63,7 @@ public class GroupFormationProcess {
      * this method finalizes the groups
      * @param project which project
      */
-    public void finalize(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public void finalize(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
         Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, project.getAuthorEmail(), project.getName(), Progress.FINISHED);
         taskDAO.updateForUser(task);
@@ -73,8 +77,9 @@ public class GroupFormationProcess {
         // Die Studierenden müssen nicht mehr auf die Gruppenfindung warten
         taskDAO.finishMemberTask(project, TaskName.WAITING_FOR_GROUP);
         taskDAO.persistMemberTask(project,  TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);
+        project.setGroupWorkContext(profileDAO.getGroupWorkContext(project));
 
-        saveGroups(groupfinding.getGroups(project), project);
+        saveGroups(getOrInitializeGroups(project).getGroups(), project);
         //if the project is finalized create group chat room
         List<Group> groups = groupfinding.getGroups(project);
         for (Group group : groups) {

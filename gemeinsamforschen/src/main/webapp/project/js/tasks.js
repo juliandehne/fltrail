@@ -174,9 +174,6 @@ function fitObjectInTmpl(object) {
                         "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
                     result.solveTaskWith = "Gruppen einsehen";
                     switch (object.taskData.gfm){
-                        case "Manual":
-                            result.solveTaskWithLink = "redirect(\'../groupfinding/create-groups-manual.jsp?projectName=" + object.projectName + "\')";
-                            break;
                         default:
                             result.solveTaskWithLink = "initializeGroups('"+object.projectName+"');";
                             break;

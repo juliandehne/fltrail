@@ -1,7 +1,9 @@
 package unipotsdam.gf.process.phases;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.interfaces.ICommunication;
@@ -18,6 +20,7 @@ import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.xml.bind.JAXBException;
 import java.util.Map;
 
 /**
@@ -77,7 +80,7 @@ public class PhasesImpl implements IPhases {
     */
 
     @Override
-    public void endPhase(Phase currentPhase, Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public void endPhase(Phase currentPhase, Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         Phase changeToPhase = getNextPhase(currentPhase);
         Map<StudentIdentifier, ConstraintsMessages> tasks;
         switch (currentPhase) {

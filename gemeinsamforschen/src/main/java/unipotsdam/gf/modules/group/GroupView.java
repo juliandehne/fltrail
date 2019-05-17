@@ -152,7 +152,7 @@ public class GroupView {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/projects/{projectName}/groups/finalize")
+    @Path("/projects/{projectName}/groups/save")
     public void finalizeGroups(@PathParam("projectName") String  projectName, Group[] groups,
                                @QueryParam("manipulated") String isManipulated)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
@@ -160,7 +160,7 @@ public class GroupView {
         Project project = projectDAO.getProjectByName(projectName);
         project.setGroupWorkContext(profileDAO.getGroupWorkContext(project));
         // wenn gruppen aussehen wie einzelarbeit, dann wird hier umgeschaltet
-       /* if (!isManipulated == null && isManipulated.equals("true")){
+        if (isManipulated != null && isManipulated.equals("true")){
             boolean isSingleUser =true;
             for (Group group: groups) {
                 if (group.getMembers().size()>1){
@@ -172,10 +172,10 @@ public class GroupView {
             }else{
                 projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
             }
-        }*/
+        }
         // normaler Prozess hier weiter
         groupFormationProcess.saveGroups(Arrays.asList(groups), project);
-        groupFormationProcess.finalize(project);
+        //groupFormationProcess.finalize(project);
     }
 
     /**

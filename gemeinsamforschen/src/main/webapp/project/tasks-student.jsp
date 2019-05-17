@@ -79,8 +79,6 @@
         <div class="col span_chat right">
             <chat:chatWindow orientation="right" scope="project"/>
             <chat:chatWindow orientation="right" scope="group"/>
-
-            <a href="http://fleckenroller.cs.uni-potsdam.de:3000/home">chat</a>
             <a id="groupView" style="cursor:pointer;">Gruppenansicht</a>
         </div>
     </div> <!-- end row -->

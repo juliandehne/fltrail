@@ -1,7 +1,9 @@
 package unipotsdam.gf.process.phases;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.interfaces.IPhases;
@@ -12,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBException;
 
 /**
  * REST API for switching phases
@@ -37,7 +40,7 @@ public class PhaseView {
     @Path("/{projectPhase}/projects/{projectName}/end")
     @GET
     public String endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectName") String
-            projectName) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+            projectName) throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         Phase phase = Phase.valueOf(projectPhase);
         Project project = projectDAO.getProjectByName(projectName);
         phases.endPhase(phase, project);

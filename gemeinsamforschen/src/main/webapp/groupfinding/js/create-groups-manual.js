@@ -153,7 +153,7 @@ function viewToGroup(callback) {
 function saveNewGroups(groups) {
     let data = JSON.stringify(groups);
     //append "manipulated" to data
-    let url = "../rest/group/projects/" + $('#projectName').html().trim()+"/groups/finalize";
+    let url = "../rest/group/projects/" + $('#projectName').html().trim()+"/groups/save";
     if (manipulated===true){
         url+= "?manipulated=true";
     }
