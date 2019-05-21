@@ -100,15 +100,7 @@ function fitObjectInTmpl(object) {
     }
     switch (object.taskName) {
         case "WAIT_FOR_PARTICPANTS":
-            let countMissing = object.taskData.participantCount.participantsNeeded - object.taskData.participantCount.participants;
-            result.infoText = "Warten Sie auf die Anmeldungen der Studenten.\n"+
-                "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
-            if (object.taskData.participantCount.participants===0){
-                result.infoText = " Es gibt noch keine Teilnehmer.";
-            }
-            if (countMissing>0){
-                result.infoText += " Es fehlen noch " + countMissing+".";
-            }
+            result.infoText = waitForParticipantsInfoText(object);
 
             break;
         case "BUILD_GROUPS":
@@ -152,10 +144,10 @@ function fitObjectInTmpl(object) {
             }
             break;
         case "WAIT_FOR_REFLECTION":
-            result.infoText = "[TEACHER] Nun haben die Studenten Zeit über sich und die Welt nachzudenken.";
+            result.infoText = "Nun arbeiten die Studenten an ihren Projekten.";
             break;
         case "EDIT_FORMED_GROUPS":
-            result.infoText = "[TEACHER] Die Gruppen wurden vom Algorithmus gebildet. Sie können noch manuell" +
+            result.infoText = "Die Gruppen wurden vom Algorithmus gebildet. Sie können noch manuell" +
                 " editiert werden."; // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
             break;
         case "CONTACT_GROUP_MEMBERS":
@@ -179,14 +171,7 @@ function fitObjectInTmpl(object) {
                             break;
                     }
                 }else{
-                    result.infoText = "Warten sie auf Anmeldung der StudentInnen. \n"+
-                        "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
-                    if (object.taskData.participantCount.participants===0){
-                        result.infoText = " Es gibt noch keine Teilnehmer.";
-                    }
-                    if (countMissing>0){
-                        result.infoText += " Es fehlen noch " + countMissing+".";
-                    }
+                    result.infoText = waitForParticipantsInfoText(object);
                 }
                 break;
             case "CLOSE_GROUP_FINDING_PHASE":
@@ -345,4 +330,21 @@ function initializeGroups(projectName){
     serverSide(projq, "GET", function (response) {
         redirect("../groupfinding/create-groups-manual.jsp?projectName=" + projectName);
     });
+}
+
+function waitForParticipantsInfoText(object){
+    let countMissing = object.taskData.participantCount.participantsNeeded - object.taskData.participantCount.participants;
+    let result = "Warten Sie auf die Anmeldungen der Studenten.\n"+
+        "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
+    if (object.taskData.participantCount.participants===0){
+        result = " Es gibt noch keine Teilnehmer.";
+    }
+    if (countMissing>0){
+        if(countMissing===1) {
+            result += " Um Gruppen bilden zu können, fehlt noch ein Student.";
+        }else{
+            result += " Um Gruppen bilden zu können, fehlen noch " + countMissing + " Studenten.";
+        }
+    }
+    return result
 }

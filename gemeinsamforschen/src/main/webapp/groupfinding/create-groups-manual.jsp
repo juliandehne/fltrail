@@ -93,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="primary" style="height:50px;" id="btnSave">Gruppen final speichern</button>
+            <button type="button" class="primary" style="height:50px;" id="btnSave">Gruppen speichern</button>
         </div>
 
         <div class="col span_chat"></div>

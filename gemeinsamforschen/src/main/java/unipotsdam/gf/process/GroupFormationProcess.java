@@ -103,7 +103,12 @@ public class GroupFormationProcess {
     public GroupData getOrInitializeGroups(Project project)
             throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         List<Group> groups1 = groupfinding.getGroups(project);
-        if (groups1 == null || groups1.isEmpty()) {
+        Integer participantCount = projectDAO.getParticipantCount(project).getParticipants();
+        Integer groupMemberCount = 0;       //if participant authenticates after groups were built
+        for (Group g : groups1){            //groups need to be recalculated
+            groupMemberCount += g.getMembers().size();
+        }
+        if (groups1 == null || groups1.isEmpty() || !groupMemberCount.equals(participantCount)) {
             List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
             groupfinding.persistGroups(groups, project);
             groupfinding.persistOriginalGroups(groups, project, groupdao.getGroupFormationMechanism(project));

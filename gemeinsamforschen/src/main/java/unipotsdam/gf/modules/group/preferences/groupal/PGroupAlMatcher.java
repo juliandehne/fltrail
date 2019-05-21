@@ -127,7 +127,7 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
 
     @Override
     public int getMinNumberOfStudentsNeeded() {
-        return 0;
+        return 1;
     }
 
 

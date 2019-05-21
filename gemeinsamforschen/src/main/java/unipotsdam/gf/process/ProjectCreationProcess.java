@@ -1,6 +1,9 @@
 package unipotsdam.gf.process;
 
-import unipotsdam.gf.exceptions.*;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.UserExistsInMysqlException;
+import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -147,6 +150,7 @@ public class ProjectCreationProcess {
 
     /**
      * the tasks are changed after user enters project
+     *
      * @param project
      * @param user
      * @throws RocketChatDownException
@@ -165,11 +169,11 @@ public class ProjectCreationProcess {
             if (!groupFormationMechanism.equals(SingleUser) && !groupFormationMechanism
                     .equals(GroupFormationMechanism.Manual)) {
                 taskDao.persistTeacherTask(project, TaskName.EDIT_FORMED_GROUPS, Phase.GroupFormation);
-            } else {
-                taskDao.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
-                taskDao.updateForAll(task);
-                //phases.endPhase(Phase.GroupFormation, project);
             }
+            taskDao.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
+            taskDao.updateForAll(task);
+            //phases.endPhase(Phase.GroupFormation, project);
+            
         }
         iCommunication.addUserToChatRoom(user, project.getName());
     }
