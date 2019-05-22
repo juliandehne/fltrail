@@ -39,7 +39,13 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
     private ProfileDAO profileDAO;
 
     @Override
-    public List<Group> calculateGroups(Project project) {
+    public List<Group> calculateGroups(Project project)
+            throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+        return calculateGroups(project, 3);
+    }
+
+    @Override
+    public List<Group> calculateGroups(Project project, int minGroupSize) {
 
         // get all users
         List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
@@ -56,8 +62,16 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
             return new ArrayList<>();
         }
 
-        // if they are less then 6, we cant calculate much
-        if (userCount < 6) {
+
+        /**
+         * Der Satz von silvester minUserCount = (ab -a -b) +1
+         * minGroupSize = a
+         * maxGroupSize = b = a+1
+         */
+        // if they are less then minUserCount, we cant calculate much
+        int maxGroupSize = minGroupSize + 1;
+        int minUserCount = minGroupSize * maxGroupSize - minGroupSize - maxGroupSize +1;
+        if (userCount < minUserCount) {
             ArrayList<Group> groups = new ArrayList<>();
             Group group = new Group();
             for (User user : usersByProjectName) {
@@ -68,7 +82,7 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
             return groups;
         }
 
-        int calculateCount = userCount - (userCount % 3);
+        int calculateCount = userCount - (userCount % minGroupSize);
 
         List<User> restUsers = usersByProjectName.subList(calculateCount, userCount);
         responses = adjustUserCount(responses, restUsers);
