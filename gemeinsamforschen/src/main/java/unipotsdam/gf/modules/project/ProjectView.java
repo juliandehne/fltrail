@@ -40,9 +40,11 @@ public class ProjectView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/create")
-    public String createProject(@Context HttpServletRequest req, Project project)
+    public String createProject(@Context HttpServletRequest req, Project project, @QueryParam("userCount") Integer userCount)
             throws IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         String userEmail = gfContexts.getUserEmail(req);
+        userCount +=0;
+        userCount +=0;
         User user = iManagement.getUserByEmail(userEmail);
         assert user != null;
         if (user == null) {

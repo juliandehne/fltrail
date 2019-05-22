@@ -82,7 +82,25 @@
                         <div class='explanation icon'><p>Studenten beantworten Fragen zu Ihrer Persönlichkeit,
                             wenn sie sich in das Projekt einschreiben wollen.
                             Dabei werden Gruppen gebildet, deren Gruppenmitglieder synergieren
-                            während das Konfliktpotential minimiert wird.</p></div>
+                            während das Konfliktpotential minimiert wird.</p>
+                            <div class="dropdown"> <label>Gruppengröße</label>
+                                <button class="btn btn-primary dropdown-toggle"
+                                        type="button"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false"
+                                        id="userCount">
+                                    Dreier- und Vierer- Gruppen
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="userCount">
+                                    <button class="dropdown-item groupSize btn btn-primary" value="2">Zweier- und Dreier- Gruppen</button>
+                                    <button class="dropdown-item groupSize btn btn-primary" value="3">Dreier- und Vierer- Gruppen</button>
+                                    <button class="dropdown-item groupSize btn btn-primary" value="4">Vierer- und Fünfer- Gruppen</button>
+                                    <button class="dropdown-item groupSize btn btn-primary" value="5">Fünfer- und Sechser-Gruppen</button>
+                                    <button class="dropdown-item groupSize btn btn-primary" value="6">Sechser- und Siebener-Gruppen</button>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                     <li>
                         <input type="radio" id="single" name="gfm" value="Keine Gruppen">
@@ -90,6 +108,8 @@
                         <div class='explanation icon'><p>Studenten arbeiten einzeln an ihren Projekten.</p></div>
                     </li>
                 </ul>
+
+
                 <h3>Projektbeschreibung</h3>
 
                 <textarea class="form-control infotext" rows="5" id="projectDescription"

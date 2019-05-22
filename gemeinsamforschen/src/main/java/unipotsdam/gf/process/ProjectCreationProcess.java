@@ -173,7 +173,7 @@ public class ProjectCreationProcess {
             taskDao.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
             taskDao.updateForAll(task);
             //phases.endPhase(Phase.GroupFormation, project);
-            
+
         }
         iCommunication.addUserToChatRoom(user, project.getName());
     }
