@@ -33,6 +33,7 @@ public interface Management {
      */
     void create(Project project);
 
+    void create(Project project, Integer groupSize);
     /**
      * create a Group in the database
      *

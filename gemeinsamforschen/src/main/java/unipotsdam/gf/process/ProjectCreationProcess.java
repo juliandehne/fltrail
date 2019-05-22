@@ -58,11 +58,11 @@ public class ProjectCreationProcess {
      * @param project which project is created
      * @param author  who creates the project
      */
-    public void createProject(Project project, User author)
+    public void createProject(Project project, User author, Integer groupSize)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         project.setAuthorEmail(author.getEmail());
         try {
-            iManagement.create(project);
+            iManagement.create(project, groupSize);
         } catch (Exception e) {
             throw new WebApplicationException("Project already exists");
         }

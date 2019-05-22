@@ -3,11 +3,11 @@ let groupViewLink;
 $(document).ready(function () {
     let userEmail = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
-    groupViewLink =$('#groupView');
+    groupViewLink = $('#groupView');
     groupViewLink.hide();
     fillTasks(projectName, userEmail);
-    groupViewLink.on('click', function(){
-        location.href="../groupfinding/view-groups.jsp?projectName="+projectName;
+    groupViewLink.on('click', function () {
+        location.href = "../groupfinding/view-groups.jsp?projectName=" + projectName;
     });
 });
 
@@ -45,7 +45,8 @@ function fitObjectInTmpl(object) {
         helpLink: "",
         timeFrame: "",
         taskData: object.taskData,
-        taskProgress: ""
+        taskProgress: "",
+        inCardSolver: "",
     };
 
     if (object.taskType !== "INFO") {
@@ -101,7 +102,13 @@ function fitObjectInTmpl(object) {
     switch (object.taskName) {
         case "WAIT_FOR_PARTICPANTS":
             result.infoText = waitForParticipantsInfoText(object);
-
+            switch (object.taskData.gfm) {
+                case "UserProfilStrategy":
+                    if (countMissingStudents(object) > 0) {
+                        result.inCardSolver = "resizeGroup";
+                    }
+                    break;
+            }
             break;
         case "BUILD_GROUPS":
             result.infoText = "Erstellen Sie die Gruppen.";
@@ -135,7 +142,7 @@ function fitObjectInTmpl(object) {
         case "CLOSE_DOSSIER_FEEDBACK_PHASE":
             let count = object.taskData.length;
             if (count <= 3) {
-                result.infoText = "Warten sie noch auf die Studenten ";
+                result.infoText = "Warten sie noch auf die / den Studenten ";
                 for (let i = 0; i < object.taskData.length; i++) {
                     result.infoText += object.taskData[i] + " ";
                 }
@@ -159,18 +166,17 @@ function fitObjectInTmpl(object) {
     if (object.taskType.includes("LINKED")) {
         switch (object.taskName) {
             case "WAIT_FOR_PARTICPANTS":
-                let countMissing = object.taskData.participantCount.participantsNeeded - object.taskData.participantCount.participants;
-                if(object.taskData.participantCount.participants >= object.taskData.participantCount.participantsNeeded){
+                if (object.taskData.participantCount.participants >= object.taskData.participantCount.participantsNeeded) {
                     result.infoText = "Sehen Sie sich den Gruppenvorschlag des Algorithmus an oder " +
-                        "warten Sie auf weitere Teilnehmer. Die Gruppen sind noch nicht final gespeichert.\n"+
+                        "warten Sie auf weitere Teilnehmer. Die Gruppen sind noch nicht final gespeichert.\n" +
                         "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
                     result.solveTaskWith = "Gruppen einsehen";
-                    switch (object.taskData.gfm){
+                    switch (object.taskData.gfm) {
                         default:
-                            result.solveTaskWithLink = "initializeGroups('"+object.projectName+"');";
+                            result.solveTaskWithLink = "initializeGroups('" + object.projectName + "');";
                             break;
                     }
-                }else{
+                } else {
                     result.infoText = waitForParticipantsInfoText(object);
                 }
                 break;
@@ -244,8 +250,8 @@ function fitObjectInTmpl(object) {
     }
 
     if (object.progress === "FINISHED") {
-        if (object.taskName === "WAIT_FOR_PARTICPANTS"){
-            result.infoText = "Gruppen sind final gespeichert. \n"+
+        if (object.taskName === "WAIT_FOR_PARTICPANTS") {
+            result.infoText = "Gruppen sind final gespeichert. \n" +
                 "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
         }
         if (object.taskName.includes("CLOSE")) {
@@ -271,7 +277,7 @@ function fillObjectWithTasks(response) {
     let first = true;
     for (let task in response) {
         let headLine = "";
-        switch (response[task].phase){
+        switch (response[task].phase) {
             case ("card-grouping"):
                 break;
         }
@@ -293,8 +299,8 @@ function fillObjectWithTasks(response) {
                 progress: response[task].progress,
                 current: first
             });
-            if(first){
-                first=false;
+            if (first) {
+                first = false;
             }
         }
     }
@@ -325,26 +331,47 @@ function closePhase(phase, projectName) {
     })
 }
 
-function initializeGroups(projectName){
+function initializeGroups(projectName) {
     let projq = new RequestObj(1, "/group", "/all/projects/?", [projectName], []);
     serverSide(projq, "GET", function (response) {
         redirect("../groupfinding/create-groups-manual.jsp?projectName=" + projectName);
     });
 }
 
-function waitForParticipantsInfoText(object){
-    let countMissing = object.taskData.participantCount.participantsNeeded - object.taskData.participantCount.participants;
-    let result = "Warten Sie auf die Anmeldungen der Studenten.\n"+
+function countMissingStudents(object) {
+    return object.taskData.participantCount.participantsNeeded - object.taskData.participantCount.participants;
+}
+
+function waitForParticipantsInfoText(object) {
+    let result = "Warten Sie auf die Anmeldungen der Studenten.\n" +
         "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
-    if (object.taskData.participantCount.participants===0){
+    if (object.taskData.participantCount.participants === 0) {
         result = " Es gibt noch keine Teilnehmer.";
     }
-    if (countMissing>0){
-        if(countMissing===1) {
+    if (countMissingStudents(object) > 0) {
+        if (countMissingStudents(object) === 1) {
             result += " Um Gruppen bilden zu können, fehlt noch ein Student.";
-        }else{
-            result += " Um Gruppen bilden zu können, fehlen noch " + countMissing + " Studenten.";
+        } else {
+            result += " Um Gruppen bilden zu können, fehlen noch " + countMissingStudents(object) + " Studenten.";
         }
     }
     return result
+}
+
+function resizeGroup(){
+    $.ajax({
+        url: '../rest/project/update/project/' + $('#projectName').html().trim() + '/groupSize/' + $('#userCount').val().trim(),
+        headers: {
+            "Cache-Control": "no-cache"
+        },
+        type: 'POST',
+        success: function (response) {
+            location.reload();
+        }
+    });
+}
+
+function updateGroupSizeView(){
+    let userCount = parseInt($('#userCount').val().trim());
+    $('#groupSize').html(userCount*(userCount-1));
 }

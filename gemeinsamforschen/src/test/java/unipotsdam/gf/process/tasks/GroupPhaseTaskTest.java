@@ -84,7 +84,7 @@ public class GroupPhaseTaskTest {
         Project project = factory.manufacturePojo(Project.class);
         project.setName("TEST");
         projectCreationProcess.deleteProject(project);
-        projectCreationProcess.createProject(project, teacher);
+        projectCreationProcess.createProject(project, teacher, 3);
 
         groupFormationProcess.setGroupFormationMechanism(GroupFormationMechanism.Manual, project);
         ArrayList<User> students = new ArrayList<>();

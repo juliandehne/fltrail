@@ -83,21 +83,14 @@
                             wenn sie sich in das Projekt einschreiben wollen.
                             Dabei werden Gruppen gebildet, deren Gruppenmitglieder synergieren
                             während das Konfliktpotential minimiert wird.</p>
-                            <div class="dropdown"> <label>Gruppengröße</label>
-                                <button class="btn btn-primary dropdown-toggle"
-                                        type="button"
-                                        data-toggle="dropdown"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                        id="userCount">
-                                    Dreier- und Vierer- Gruppen
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="userCount">
-                                    <button class="dropdown-item groupSize btn btn-primary" value="2">Zweier- und Dreier- Gruppen</button>
-                                    <button class="dropdown-item groupSize btn btn-primary" value="3">Dreier- und Vierer- Gruppen</button>
-                                    <button class="dropdown-item groupSize btn btn-primary" value="4">Vierer- und Fünfer- Gruppen</button>
-                                    <button class="dropdown-item groupSize btn btn-primary" value="5">Fünfer- und Sechser-Gruppen</button>
-                                    <button class="dropdown-item groupSize btn btn-primary" value="6">Sechser- und Siebener-Gruppen</button>
+                            <label>Präferierte Gruppengröße <input value="3" id="userCount" style="width:20px;"></label>
+                            <a data-toggle="collapse" href="#howToBuildGroups" role="button" aria-expanded="false" aria-controls="howToBuildGroups"><i class="fas fa-question"></i></a>
+                            Mit dieser Gruppengröße benötigt das Projekt wenigstens <span id="groupSize">6</span> Teilnehmer
+                            um Gruppen bilden zu können.
+                            <div class="collapse" id="howToBuildGroups">
+                                <div class="card card-body">
+                                    Es werden so viele Gruppen mit Ihrer präferierten Gruppengröße gebildet wie möglich.
+                                    Die verbleibenden Studenten werden dann zufällig auf die bestehenden Gruppen verteilt.
                                 </div>
                             </div>
                         </div>

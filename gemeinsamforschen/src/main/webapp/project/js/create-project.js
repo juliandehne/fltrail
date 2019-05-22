@@ -23,12 +23,12 @@ $(document).ready(function () {
     initSendButton(allTheTags);
     $('#tagsProject').importTags('');
 
-    $('.dropdown-item.groupSize').each(function(){
-        $(this).on('click', function(){
-            $('#userCount').html($(this).html());
-            groupSize=$(this).val();
-        })
-    })
+    let userCount = $('#userCount');
+    userCount.change(function(){
+        groupSize = parseInt(userCount.val());
+        let minSize = (groupSize*(groupSize+1))- 2*groupSize;
+        $('#groupSize').html(minSize);
+    });
 });
 
 // function that creates the project in the db
@@ -43,7 +43,7 @@ function createNewProject(allTheTags) {
     } else {
         if (project) {
             // create the project in local db
-            let localurl = "../rest/project/create?userCount="+groupSize;
+            let localurl = "../rest/project/create?groupSize="+groupSize;
 
             $.ajax({                        //check local DB for existence of projectName
                 url: localurl,
@@ -83,7 +83,7 @@ function initTagsInput(allTheTags) {
             onAddTag: function (tag) {
                 allTheTags.push(tag);
             },
-            onRemoveTag: function (tag) {
+            onRemoveTag: function () {
                 allTheTags.pop();
                 //allTheTags = $(this).val().split(",");
             }

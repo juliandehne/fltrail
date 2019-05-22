@@ -7,6 +7,7 @@
     <jsp:include page="../taglibs/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <script src="js/inCardSolverHTML.js"></script>
     <script src="js/tasks.js"></script>
 </head>
 <body>
@@ -35,6 +36,26 @@
                            {{/if}}
                            {{if solveTaskWith}}
                                <button class='primary' onClick='${solveTaskWithLink}'>${solveTaskWith}</button>
+                           {{/if}}
+                           {{if inCardSolver}}
+                                {{if inCardSolver=="resizeGroup"}}
+                                <div class="inCardSolver">
+                                    <p>Sollten Sie sich für eine andere Gruppengröße entschieden haben, können sie dies hier ändern. </p>
+                                    <label>Präferierte Gruppengröße <input value='3' id='userCount' style='width:20px;' onchange='updateGroupSizeView()'></label>
+                                    <a data-toggle='collapse' href='#howToBuildGroups' role='button' aria-expanded='false' aria-controls='howToBuildGroups'>
+                                        <i class='fas fa-question'></i>
+                                    </a>
+                                    Mit dieser Gruppengröße benötigt das Projekt wenigstens <span id='groupSize'>6</span>
+                                    Teilnehmer um Gruppen bilden zu können.
+                                    <div class='collapse' id='howToBuildGroups'>
+                                        <div class='card card-body'>Es werden so viele Gruppen mit Ihrer präferierten
+                                        Gruppengröße gebildet wie möglich. Die verbleibenden Studenten werden dann
+                                        zufällig auf die bestehenden Gruppen verteilt.
+                                        </div>
+                                    </div>
+                                    <button onClick='resizeGroup();'>speichern</button>
+                                </div>
+                                {{/if}}
                            {{/if}}
                            {{if helpLink}}
                                <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
