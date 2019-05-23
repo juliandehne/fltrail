@@ -41,7 +41,7 @@
                                 {{if inCardSolver=="resizeGroup"}}
                                 <div class="inCardSolver">
                                     <p>Sollten Sie sich für eine andere Gruppengröße entschieden haben, können sie dies hier ändern. </p>
-                                    <label>Präferierte Gruppengröße <input value='3' id='userCount' style='width:20px;' onchange='updateGroupSizeView()'></label>
+                                    <label>Präferierte Gruppengröße <input value='3' type='number' min='3' id='userCount' style='width:40px;' onchange='updateGroupSizeView()'></label>
                                     <a data-toggle='collapse' href='#howToBuildGroups' role='button' aria-expanded='false' aria-controls='howToBuildGroups'>
                                         <i class='fas fa-question'></i>
                                     </a>

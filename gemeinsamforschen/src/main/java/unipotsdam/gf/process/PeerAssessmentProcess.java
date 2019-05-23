@@ -50,7 +50,7 @@ public class PeerAssessmentProcess {
         task.setProgress(Progress.FINISHED);
         task.setTaskName(TaskName.CLOSE_ASSESSMENT_PHASE);
         taskDAO.updateForUser(task);
-        taskDAO.persist(taskDAO.createDefault(project, user, TaskName.END, Phase.Projectfinished));
+        taskDAO.persist(taskDAO.createUserDefault(project, user, TaskName.END, Phase.Projectfinished));
         //todo: implement communication stuff
         /*   if (tasks.size() > 0) {
          iCommunication.informAboutMissingTasks(tasks, project);

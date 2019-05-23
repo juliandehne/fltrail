@@ -63,7 +63,7 @@ public class DossierCreationProcess {
         // create a task, telling the docent to wait for students upload of dossiers
         taskDAO.persist(project, new User(project.getAuthorEmail()), TaskName.WAITING_FOR_STUDENT_DOSSIERS, Phase
                 .DossierFeedback, TaskType.INFO);
-        taskDAO.persistMemberTask(project, TaskName.UPLOAD_DOSSIER, Phase.DossierFeedback);
+        taskDAO.persistGroupTask(project, TaskName.UPLOAD_DOSSIER, Phase.DossierFeedback);
     }
 
     /**
@@ -83,7 +83,7 @@ public class DossierCreationProcess {
         // TODO: add pdf convert and save here -> maybe somewhere else, to get it automated each time you save an dossier
         // this completes the upload task
         Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.FINISHED);
-        taskDAO.updateForUser(task);
+        taskDAO.updateForGroup(task);
 
         // this triggers the annotate task
         taskDAO.persist(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback, TaskType.LINKED);
@@ -109,7 +109,7 @@ public class DossierCreationProcess {
             List<User> projectParticipants = userDAO.getUsersByProjectName(project.getName());
             List<Task> allFeedbackTasks = new ArrayList<>();
             for (User participant : projectParticipants) {
-                Task giveFeedbackTask = taskDAO.createDefault(
+                Task giveFeedbackTask = taskDAO.createUserDefault(
                         project, participant, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
                 taskDAO.persist(giveFeedbackTask);
                 allFeedbackTasks.add(giveFeedbackTask);
@@ -132,7 +132,7 @@ public class DossierCreationProcess {
         task.setProgress(Progress.FINISHED);
         task.setTaskName(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
         taskDAO.updateForUser(task);
-        taskDAO.persist(taskDAO.createDefault(project, user, TaskName.WAIT_FOR_REFLECTION, Phase.Execution));
+        taskDAO.persist(taskDAO.createUserDefault(project, user, TaskName.WAIT_FOR_REFLECTION, Phase.Execution));
         //todo: implement communication stuff
         /*   if (tasks.size() > 0) {
          iCommunication.informAboutMissingTasks(tasks, project);

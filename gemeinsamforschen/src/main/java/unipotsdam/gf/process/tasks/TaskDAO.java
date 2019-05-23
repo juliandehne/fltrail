@@ -1,6 +1,8 @@
 package unipotsdam.gf.process.tasks;
 
 import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -34,6 +36,9 @@ public class TaskDAO {
     private UserDAO userDAO;
 
     @Inject
+    private GroupDAO groupDAO;
+
+    @Inject
     private MysqlConnect connect;
 
     @Inject
@@ -52,7 +57,7 @@ public class TaskDAO {
         task.setImportance(Importance.valueOf(vereinfachtesResultSet.getString("importance")));
         task.setUserEmail(vereinfachtesResultSet.getString("userEmail"));
         task.setProjectName(vereinfachtesResultSet.getString("projectName"));
-        task.setGroupTask(vereinfachtesResultSet.getBoolean("groupTask"));
+        task.setGroupTask(vereinfachtesResultSet.getInt("groupTask"));
         task.setProgress(Progress.valueOf(vereinfachtesResultSet.getString("progress")));
         try {
             task.setEventCreated(vereinfachtesResultSet.getTimestamp("created").getTime());
@@ -109,7 +114,7 @@ public class TaskDAO {
         return task;
     }
 
-    public Task createDefault(Project project, User target, TaskName taskName, Phase phase) {
+    public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase) {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
@@ -118,11 +123,26 @@ public class TaskDAO {
         task.setUserEmail(target.getEmail());
         task.setImportance(Importance.MEDIUM);
         task.setProgress(Progress.JUSTSTARTED);
-        task.setGroupTask(false);
+        task.setGroupTask(0);
         task.setTaskName(taskName);
         task.setPhase(phase);
         task.setTaskType(TaskType.INFO, TaskType.LINKED);
+        return task;
+    }
 
+    public Task createGroupDefault(Project project, Integer groupId, TaskName taskName, Phase phase) {
+        Task task = new Task();
+        task.setTaskName(taskName);
+        task.setEventCreated(System.currentTimeMillis());
+        task.setDeadline(System.currentTimeMillis()+7000*60*60*24);
+        task.setProjectName(project.getName());
+        task.setUserEmail("");
+        task.setImportance(Importance.MEDIUM);
+        task.setProgress(Progress.JUSTSTARTED);
+        task.setGroupTask(groupId);
+        task.setTaskName(taskName);
+        task.setPhase(phase);
+        task.setTaskType(TaskType.INFO, TaskType.LINKED);
         return task;
     }
 
@@ -168,10 +188,12 @@ public class TaskDAO {
     // get all the tasks a user has in a specific project
     public ArrayList<Task> getTasks(User user, Project project) {
         connect.connect();
-        String query = "Select * from tasks where userEmail = ? AND projectName = ? ORDER BY created DESC";
+        String query = "Select * from tasks t where t.userEmail = ? AND t.projectName = ? OR t.groupTask IN " +
+                "(SELECT gu.groupId FROM groupuser gu JOIN groups g on gu.groupId = g.id and g.projectName=? " +
+                "AND gu.userEmail=?) ORDER BY created DESC";
         ArrayList<Task> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(query, user.getEmail(), project.getName());
+                connect.issueSelectStatement(query, user.getEmail(), project.getName(), project.getName(), user.getEmail());
         while (vereinfachtesResultSet.next()) {
             String taskName = vereinfachtesResultSet.getString("taskName");
 
@@ -249,19 +271,19 @@ public class TaskDAO {
     }
 
     public void persist(Project project, User target, TaskName taskName, Phase phase) {
-        Task aDefault = createDefault(project, target, taskName, phase);
+        Task aDefault = createUserDefault(project, target, taskName, phase);
         persist(aDefault);
     }
 
     public void persist(Project project, User target, TaskName taskName, Phase phase, Progress progress) {
-        Task aDefault = createDefault(project, target, taskName, phase);
+        Task aDefault = createUserDefault(project, target, taskName, phase);
         aDefault.setProgress(progress);
         persist(aDefault);
     }
 
     public void persistTeacherTask(Project project, TaskName taskName, Phase phase) {
         User user = new User(projectDAO.getProjectByName(project.getName()).getAuthorEmail());
-        Task aDefault = createDefault(project, user, taskName, phase);
+        Task aDefault = createUserDefault(project, user, taskName, phase);
         ////////don't know yet if it should happen here//////////
         aDefault.setTaskType(TaskType.LINKED);
         ////////could also be a default                //////////
@@ -269,14 +291,14 @@ public class TaskDAO {
     }
 
     public void createTaskWaitForParticipants(Project project, User author) {
-        Task task = createDefault(project, author, TaskName.WAIT_FOR_PARTICPANTS, Phase.GroupFormation);
+        Task task = createUserDefault(project, author, TaskName.WAIT_FOR_PARTICPANTS, Phase.GroupFormation);
         task.setTaskName(WAIT_FOR_PARTICPANTS);
         task.setTaskType(TaskType.LINKED, TaskType.INFO);
         persist(task);
     }
 
     public Task createWaitingForGroupFormationTask(Project project, User target) {
-        Task task = createDefault(project, target, WAITING_FOR_GROUP, Phase.GroupFormation);
+        Task task = createUserDefault(project, target, WAITING_FOR_GROUP, Phase.GroupFormation);
         task.setTaskType(TaskType.INFO);
         task.setImportance(Importance.MEDIUM);
         task.setProgress(Progress.JUSTSTARTED);
@@ -290,6 +312,15 @@ public class TaskDAO {
         String query = "UPDATE tasks set progress = ? where userEmail = ? AND projectName = ? AND taskName = ?";
         connect.issueUpdateStatement(
                 query, task.getProgress().name(), task.getUserEmail(), task.getProjectName(), task.getTaskName());
+        connect.close();
+    }
+
+    public void updateForGroup(Task task) {
+        connect.connect();
+        Integer groupId = groupDAO.getGroupByStudent(new Project(task.getProjectName()), new User(task.getUserEmail()));
+        String query = "UPDATE tasks set progress = ? where groupId = ? AND projectName = ? AND taskName = ?";
+        connect.issueUpdateStatement(
+                query, task.getProgress().name(), groupId, task.getProjectName(), task.getTaskName());
         connect.close();
     }
 
@@ -307,15 +338,28 @@ public class TaskDAO {
         }
     }
 
-    public void persist(Project project, User user, TaskName finalizeDossier, Phase dossierFeedback, TaskType linked) {
-        Task task = createDefault(project, user, finalizeDossier, dossierFeedback);
+    public void persistGroupTask(Project project, TaskName taskName, Phase phase){
+        List<Group> groups = groupFinding.getGroups(project);
+        for (Group group : groups){
+            persist(project, group.getId(), taskName, phase, TaskType.LINKED);
+        }
+    }
+
+    public void persist(Project project, Integer groupId, TaskName finalizeDossier, Phase phase, TaskType linked) {
+        Task task = createGroupDefault(project, groupId, finalizeDossier, phase);
         task.setTaskType(linked);
         persist(task);
     }
 
-    public void persistFeedbackTask(Project project, FeedbackTaskData feedbackTaskData) {
+    public void persist(Project project, User user, TaskName finalizeDossier, Phase dossierFeedback, TaskType linked) {
+        Task task = createUserDefault(project, user, finalizeDossier, dossierFeedback);
+        task.setTaskType(linked);
+        persist(task);
+    }
+
+    public void persistFeedbackTask(Project project, GroupFeedbackTaskData groupFeedbackTaskData) {
         // create task
-        persist(project, feedbackTaskData.getTarget(), TaskName.GIVE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);
+        persist(project, groupFeedbackTaskData.getTarget(), TaskName.GIVE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);
     }
 
     /*

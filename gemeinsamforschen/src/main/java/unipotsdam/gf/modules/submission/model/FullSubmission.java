@@ -9,7 +9,7 @@ public class FullSubmission {
     // variables
     private String id;
     private long timestamp;
-    private String user;
+    private Integer groupId;
     private String text;
 
     public String getProjectName() {
@@ -23,10 +23,10 @@ public class FullSubmission {
     private String projectName;
 
     // constructor
-    public FullSubmission(String id, long timestamp, String user, String text, String projectName) {
+    public FullSubmission(String id, long timestamp, Integer groupId, String text, String projectName) {
         this.id = id;
         this.timestamp = timestamp;
-        this.user = user;
+        this.groupId = groupId;
         this.text = text;
         this.projectName = projectName;
     }
@@ -52,12 +52,12 @@ public class FullSubmission {
         this.timestamp = timestamp;
     }
 
-    public String getUser() {
-        return user;
+    public Integer getUser() {
+        return groupId;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUser(Integer groupId) {
+        this.groupId = groupId;
     }
 
     public String getText() {
@@ -74,7 +74,7 @@ public class FullSubmission {
         return "FullSubmission{" +
                 "id='" + id + '\'' +
                 ", timestamp=" + timestamp +
-                ", user='" + user + '\'' +
+                ", user='" + groupId + '\'' +
                 ", text='" + text + '\'' +
                 ", projectName='" + projectName + '\'' +
                 '}';

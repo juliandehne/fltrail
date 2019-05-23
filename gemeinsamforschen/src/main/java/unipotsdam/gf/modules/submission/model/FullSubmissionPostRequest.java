@@ -7,7 +7,7 @@ package unipotsdam.gf.modules.submission.model;
 public class FullSubmissionPostRequest {
 
     // variables
-    private String user;
+    private Integer groupId;
     private String text;
     private String html;
     private String projectName;
@@ -16,12 +16,12 @@ public class FullSubmissionPostRequest {
     }
 
     // methods
-    public String getUser() {
-        return user;
+    public Integer getGroupId() {
+        return groupId;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUser(Integer groupId) {
+        this.groupId = groupId;
     }
 
     public String getText() {
@@ -51,7 +51,7 @@ public class FullSubmissionPostRequest {
     @Override
     public String toString() {
         return "FullSubmissionPostRequest{" +
-                "user='" + user + '\'' +
+                "user='" + groupId + '\'' +
                 ", text='" + text + '\'' +
                 ", html='" + html + '\'' +
                 ", projectName='" + projectName + '\'' +

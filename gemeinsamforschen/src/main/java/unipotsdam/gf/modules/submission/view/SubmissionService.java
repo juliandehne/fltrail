@@ -12,6 +12,7 @@ import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
 import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 import unipotsdam.gf.modules.submission.model.SubmissionResponse;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.session.GFContexts;
 
@@ -45,16 +46,21 @@ public class SubmissionService {
     @Inject
     private SubmissionController submissionController;
 
+    @Inject
+    private UserDAO userDAO;
+
     @POST
     @Path("/full")
-    public Response addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest) {
+    public Response addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest, @Context HttpServletRequest req) {
+        String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         // save full submission request in database and return the new full submission
         // TODO: convert fullSubmissionPostRequest.getHtml() to pdf with https://www.baeldung.com/pdf-conversions-java
 
         final FullSubmission fullSubmission;
+        User user = userDAO.getUserByEmail(userEmail);
         try {
-            fullSubmission = dossierCreationProcess.addSubmission(fullSubmissionPostRequest, new
-                    User(fullSubmissionPostRequest.getUser()), new Project(fullSubmissionPostRequest.getProjectName()));
+            fullSubmission = dossierCreationProcess.addSubmission(fullSubmissionPostRequest, user
+                    , new Project(fullSubmissionPostRequest.getProjectName()));
         } catch (CssResolverException | DocumentException | IOException e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

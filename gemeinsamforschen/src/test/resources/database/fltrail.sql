@@ -60,14 +60,14 @@ CREATE TABLE `largefilestorage` (
   `filelocation` varchar(100) NOT NULL,
   `filerole` varchar(100) NOT NULL,
   `filename` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `originalgroups` (
   `userEmail` varchar(200) NOT NULL,
   `projectName` varchar(200) NOT NULL,
   `groupId` int(11) NOT NULL,
   `groupFormationMechanism` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `fullsubmissions` (
   `id` varchar(120) NOT NULL,
@@ -110,14 +110,14 @@ CREATE TABLE `journals` (
   `visibility` varchar(100) NOT NULL,
   `category` varchar(100) NOT NULL,
   `open` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `peerassessmentworkanswer` (
   `propertieId` int(11) DEFAULT NULL,
   `answerIndex` int(11) DEFAULT NULL,
   `selectedAnswer` varchar(255) DEFAULT NULL,
   `userEmail` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `peerassessmentworkproperties` (
   `id` int(11) NOT NULL,
@@ -126,7 +126,7 @@ CREATE TABLE `peerassessmentworkproperties` (
   `question_en` varchar(500) NOT NULL,
   `subvariable` varchar(100) DEFAULT NULL,
   `polarity` tinyint(4) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `phasesselected` (
@@ -151,7 +151,7 @@ CREATE TABLE `profilequestionrelations` (
   `firstQuestionId` int(11) DEFAULT NULL,
   `secondQuestionId` int(11) DEFAULT NULL,
   `relation` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='This indicates if a profile question leads to homogenity in groups';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This indicates if a profile question leads to homogenity in groups';
 
 CREATE TABLE `profilequestions` (
   `id` int(11) NOT NULL,
@@ -171,7 +171,7 @@ CREATE TABLE `profilevariables` (
   `variableweight` float DEFAULT NULL,
   `subvariableweight` float DEFAULT NULL,
   `homogeneity` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `projects` (
   `name` varchar(100) NOT NULL,
@@ -182,7 +182,8 @@ CREATE TABLE `projects` (
   `description` varchar(600) DEFAULT NULL,
   `phase` varchar(400) NOT NULL DEFAULT 'GroupFormation',
   `isSurvey` tinyint(1) DEFAULT NULL,
-  `context` varchar(100) DEFAULT NULL
+  `context` varchar(100) DEFAULT NULL,
+  `groupSize` INT NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='just a list of all the projects';
 
 CREATE TABLE `projectuser` (
@@ -216,12 +217,12 @@ CREATE TABLE `submissionparts` (
 CREATE TABLE `submissionuser` (
   `submissionId` varchar(400) DEFAULT NULL,
   `userEmail` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='no idea if that is needed. seems not be used';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='no idea if that is needed. seems not be used';
 
 CREATE TABLE `surveyitemsselected` (
   `projectname` varchar(100) DEFAULT NULL,
   `profilequestionid` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tags` (
   `projectName` varchar(200) NOT NULL,

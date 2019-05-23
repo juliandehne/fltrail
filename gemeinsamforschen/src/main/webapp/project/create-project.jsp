@@ -83,7 +83,7 @@
                             wenn sie sich in das Projekt einschreiben wollen.
                             Dabei werden Gruppen gebildet, deren Gruppenmitglieder synergieren
                             während das Konfliktpotential minimiert wird.</p>
-                            <label>Präferierte Gruppengröße <input value="3" id="userCount" style="width:20px;"></label>
+                            <label>Präferierte Gruppengröße <input value="3" type='number' min='3' id="userCount" style="width:40px;"></label>
                             <a data-toggle="collapse" href="#howToBuildGroups" role="button" aria-expanded="false" aria-controls="howToBuildGroups"><i class="fas fa-question"></i></a>
                             Mit dieser Gruppengröße benötigt das Projekt wenigstens <span id="groupSize">6</span> Teilnehmer
                             um Gruppen bilden zu können.
