@@ -1,7 +1,6 @@
 package unipotsdam.gf.process;
 
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition.FormDataContentDispositionBuilder;
 import unipotsdam.gf.interfaces.Feedback;
@@ -73,14 +72,13 @@ public class DossierCreationProcess {
      * @return
      */
     public FullSubmission addSubmission(
-            FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) throws CssResolverException, DocumentException, IOException {
+            FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) throws DocumentException, IOException {
 
-        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName("dossier" + user.getEmail() + ".pdf");
-        fileManagementService.saveFileAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
+        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName("dossier_" + user.getEmail() + ".pdf");
+        fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
                 FileRole.DOSSIER, FileType.HTML);
 
         FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
-        // TODO: add pdf convert and save here -> maybe somewhere else, to get it automated each time you save an dossier
         // this completes the upload task
         Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.FINISHED);
         taskDAO.updateForGroup(task);

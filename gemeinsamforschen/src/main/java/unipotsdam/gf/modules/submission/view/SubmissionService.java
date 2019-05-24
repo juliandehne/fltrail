@@ -1,11 +1,15 @@
 package unipotsdam.gf.modules.submission.view;
 
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.SubmissionResponse;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -13,7 +17,12 @@ import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -48,7 +57,6 @@ public class SubmissionService {
     public Response addFullSubmission(@Context HttpServletRequest req,
                                       FullSubmissionPostRequest fullSubmissionPostRequest) {
         // save full submission request in database and return the new full submission
-        // TODO: convert fullSubmissionPostRequest.getHtml() to pdf with https://www.baeldung.com/pdf-conversions-java
 
         final FullSubmission fullSubmission;
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
@@ -56,7 +64,7 @@ public class SubmissionService {
         try {
             fullSubmission = dossierCreationProcess.addSubmission(fullSubmissionPostRequest, user
                     , new Project(fullSubmissionPostRequest.getProjectName()));
-        } catch (CssResolverException | DocumentException | IOException e) {
+        } catch (DocumentException | IOException e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
