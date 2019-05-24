@@ -23,6 +23,11 @@ public class BigGroupMatcher implements GroupFormationAlgorithm {
     }
 
     @Override
+    public List<Group> calculateGroups(Project project, int minGroupSize) {
+        return calculateGroups(project);
+    }
+
+    @Override
     public void addGroupRelevantData(Project project, User user, Object data) {
 
     }

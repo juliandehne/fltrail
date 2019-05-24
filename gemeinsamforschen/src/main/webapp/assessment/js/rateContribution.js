@@ -1,18 +1,9 @@
 $(document).ready(function () {
-    new InscrybMDE({
-        element: document.getElementById("presentationFeedback"),
-        spellChecker: false,
-        //toolbar: ["bold", "italic", "heading", "|", "quote", "table", "code", "|" , "side-by-side", "fullscreen"],
-        minHeight: "80px",
-    });
-    new InscrybMDE({
-        element: document.getElementById("dossierFeedback"),
-        spellChecker: false,
-        //toolbar: ["bold", "italic", "heading", "|", "quote", "table", "code", "|" , "side-by-side", "fullscreen"],
-        minHeight: "80px",
-    });
+    $('#missingFeedback').hide();
+    $('#done').hide();
 
-    whichGroupToRate();
+
+    whichGroupToRate(prepareContributionRating);
 
     //editor.style = "min-height: 100px";
 
@@ -22,11 +13,10 @@ $(document).ready(function () {
     });
 });
 
-function whichGroupToRate() {
+function whichGroupToRate(callback) {
     let projectName = $('#projectName').html().trim();
-    let userName = $('#user').html().trim();
     $.ajax({
-        url: '../rest/assessments/groupRate/project/' + projectName + '/student/' + userName,
+        url: '../rest/assessments/groupRate/project/' + projectName,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -34,6 +24,7 @@ function whichGroupToRate() {
         },
         success: function (groupId) {
             $('#groupId').html(groupId);
+            callback();
         },
         error: function () {
 
@@ -51,10 +42,14 @@ function safeContributionRating() {
         let checkbox = $("#" + contributions[contribution].id + " input:checked");
         dataP[checkbox.attr('name')] = checkbox.val();
     }
-    let fromPeer = $('#user').html().trim();
+    if (contributions.length>$("input:checked").length){
+        $('#missingFeedback').show();
+        return false;
+    }
+    let fromPeer = $('#userEmail').html().trim();
     let groupId = $('#groupId').html().trim();
     $.ajax({
-        url: '../rest/assessments/contributionRating/group/' + groupId + '/fromPeer/' + fromPeer,
+        url: '../rest/assessments/contributionRating/project/'+$('#projectName').html().trim()+'/group/' + groupId + '/fromPeer/' + fromPeer,
         type: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -62,7 +57,10 @@ function safeContributionRating() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            location.href = "projects-student.jsp?projectName=" + projectName;
+            $('#done').show();
+            setTimeout(function () {
+                document.location.href = "../project/tasks-docent.jsp?projectName=" + $('#projectName').html().trim();
+            }, 1000);
         },
         error: function (a, b, c) {
 
@@ -72,7 +70,7 @@ function safeContributionRating() {
 
 function prepareContributionRating() {
     $.ajax({
-        url: '../rest/assessments/contributions/project/' + projectName,
+        url: '../rest/assessments/contributions/project/' + $('#projectName').html().trim(),
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
@@ -81,8 +79,22 @@ function prepareContributionRating() {
         success: function (response) {
             for (let contribution in response) {
                 if(response.hasOwnProperty(contribution)) {
-                    let tmplObject = getTmplObject(contribution);
+                    let tmplObject = getTmplObject(response[contribution]);
                     $('#contributionTemplate').tmpl(tmplObject).appendTo('#listOfContributions');
+                    new InscrybMDE({
+                        element: document.getElementById(response[contribution].roleOfContribution+"Feedback"),
+                        spellChecker: false,
+                        //toolbar: ["bold", "italic", "heading", "|", "quote", "table", "code", "|" , "side-by-side", "fullscreen"],
+                        minHeight: "80px",
+                    });
+                    //editor.value(response[contribution].textOfContribution);
+                    if (response[contribution].textOfContribution != null){
+                        let editor = new Quill('#editor'+response[contribution].roleOfContribution,
+                            {
+                                readOnly: true
+                            });
+                        editor.setContent(response[contribution].textOfContribution);
+                    }
                 }
             }
         },
@@ -95,9 +107,10 @@ function prepareContributionRating() {
 
 function getTmplObject(contribution) {
     let result = {
-        contributionName: "",
-        contributionText: "",
-        contributionFile: "",
+        contributionRole: contribution.roleOfContribution,
+        contributionText: contribution.textOfContribution,
+        contributionFileName: contribution.nameOfFile,
+        contributionFilePath: "../rest/fileStorage/download/fileLocation/"+contribution.pathToFile,
     };
     return result;
 }

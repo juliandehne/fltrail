@@ -62,6 +62,13 @@ CREATE TABLE `largefilestorage` (
   `filename` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `originalgroups` (
+  `userEmail` varchar(200) NOT NULL,
+  `projectName` varchar(200) NOT NULL,
+  `groupId` int(11) NOT NULL,
+  `groupFormationMechanism` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `fullsubmissions` (
   `id` varchar(120) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

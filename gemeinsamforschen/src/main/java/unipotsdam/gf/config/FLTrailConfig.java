@@ -5,7 +5,7 @@ public class FLTrailConfig {
     public FLTrailConfig() {
     }
 
-    public static Boolean rocketChatIsOnline = false;
+    public static Boolean rocketChatIsOnline = true;
 
 
 }

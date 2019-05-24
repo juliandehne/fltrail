@@ -1,24 +1,23 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.modules.annotation.controller.AnnotationController;
+import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
 
 import javax.inject.Inject;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static unipotsdam.gf.modules.fileManagement.FileRole.DOSSIER;
 
 public class PeerAssessment implements IPeerAssessment {
 
@@ -30,6 +29,9 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Inject
     private GroupDAO groupDAO;
+
+    @Inject
+    private AnnotationController annotationController;
 
     @Override
     public void finalizeAssessment(Project project){
@@ -64,9 +66,30 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public Map<String, String> getContributionsFromGroup(Project project, Integer groupId){
-        //todo: implement
-        return null;
+    public List<FullContribution> getContributionsFromGroup(Project project, Integer groupId){
+        List<FullContribution> result = new ArrayList<>();
+        for (ContributionCategories role : ContributionCategories.values()){
+            FullContribution fullContribution = new FullContribution();
+            Contribution contribution = assessmentDBCommunication.getContribution(project, groupId, role);
+            if (contribution != null){
+                fullContribution.setNameOfFile(contribution.getNameOfFile());
+                fullContribution.setPathToFile(contribution.getPathToFile());
+            }else{
+                fullContribution.setNameOfFile(null);
+                fullContribution.setPathToFile(null);
+            }
+            fullContribution.setRoleOfContribution(role);
+            fullContribution.setTextOfContribution("");
+            switch (role) {
+                case DOSSIER:
+                    fullContribution.setTextOfContribution(annotationController.getFinishedDossier(project,groupId));
+                    break;
+                case RESEARCH:
+                    break;
+            }
+            result.add(fullContribution);
+        }
+        return result;
     }
 
     @Override
@@ -117,13 +140,13 @@ public class PeerAssessment implements IPeerAssessment {
     public Map<User, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         Map<User, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
         Map<User, Map<String, Double>> workRating = new HashMap<>();
-        Map<User, Map<String, Double>> contributionRating = new HashMap<>();
+        Map<User, Map<ContributionCategories, Double>> contributionRating = new HashMap<>();
         for (Performance performance : totalPerformance) {
             workRating.put(performance.getUser(), performance.getWorkRating());
             contributionRating.put(performance.getUser(), performance.getContributionRating());
         }
         Map<User, Double> workRateMean = new HashMap<>(mapToGrade(workRating));
-        Map<User, Double> contributionMean = new HashMap<>(mapToGrade(contributionRating));
+        Map<User, Double> contributionMean = new HashMap<>(mapToGradeContribution(contributionRating));
         Map<User, Double> result = new HashMap<>();
         for (User student : quizMean.keySet()) {
             double grade = (quizMean.get(student) + workRateMean.get(student) + contributionMean.get(student)) * 100 / 3.;
@@ -148,13 +171,13 @@ public class PeerAssessment implements IPeerAssessment {
                 answeredQuizzes.add(0);
             }
             ArrayList<Map<String, Double>> workRating = assessmentDBCommunication.getWorkRating(project, user);
-            ArrayList<Map<String, Double>> contributionRating =
+            ArrayList<Map<ContributionCategories, Double>> contributionRating =
                     assessmentDBCommunication.getContributionRating(groupId);
             performance.setProject(project);
             performance.setUser(user);
             performance.setQuizAnswer(answeredQuizzes);
             performance.setWorkRating(cheatChecker(workRating, method));
-            performance.setContributionRating(cheatChecker(contributionRating, method));
+            performance.setContributionRating(cheatCheckerContributions(contributionRating, method));
             totalPerformance.add(performance);
         }
         return calculateAssessment(totalPerformance);
@@ -174,6 +197,20 @@ public class PeerAssessment implements IPeerAssessment {
             grading.put(totalPerformance.get(i).getUser(), allAssessments[i]);
         }
         return grading;
+    }
+
+    private Map<User, Double> mapToGradeContribution(Map<User, Map<ContributionCategories, Double>> ratings) {
+        //convert Map<User, Map<ContributionCategories, Double>> to Map<User, Map<String, Double>>
+        Map<User, Map<String, Double>> convertTo = new HashMap<>();
+        for (User user : ratings.keySet()){
+            Map<String, Double> marksForContribution = new HashMap<>();
+            for (ContributionCategories contributionCategories : ratings.get(user).keySet()){
+                marksForContribution.put(contributionCategories.toString(), ratings.get(user).get(contributionCategories));
+            }
+            convertTo.put(user, marksForContribution);
+        }
+        return mapToGrade(convertTo);
+
     }
 
     private Map<User, Double> mapToGrade(Map<User, Map<String, Double>> ratings) {
@@ -216,6 +253,27 @@ public class PeerAssessment implements IPeerAssessment {
             }
         }
         return mean;
+    }
+
+    private Map<ContributionCategories, Double> cheatCheckerContributions(ArrayList<Map<ContributionCategories, Double>> contributionRatings, cheatCheckerMethods method) {
+        //convert ArrayList<Map<ContributionCategories, Double>> to ArrayList<Map<String, Double>>
+        ArrayList<Map<String, Double>> ratings = new ArrayList<>();
+        for (Map<ContributionCategories, Double> rating: contributionRatings){
+            Map<String, Double> markForContribution = new HashMap<>();
+            for (ContributionCategories contribution : rating.keySet()){
+                markForContribution.put(contribution.toString(), rating.get(contribution));
+            }
+            ratings.add(markForContribution);
+        }
+
+        Map<String, Double> unparsedSolution = cheatChecker(ratings, method);
+        Map<ContributionCategories, Double> result= new HashMap<>();
+
+        //convert ArrayList<Map<String, Double>> back to ArrayList<Map<ContributionCategories, Double>>
+        for (String key : unparsedSolution.keySet()){
+            result.put(ContributionCategories.valueOf(key), unparsedSolution.get(key));
+        }
+        return result;
     }
 
     private Map<String, Double> cheatChecker(ArrayList<Map<String, Double>> workRatings, cheatCheckerMethods method) {
@@ -294,10 +352,11 @@ public class PeerAssessment implements IPeerAssessment {
     }
 
     @Override
-    public void postContributionRating(String groupId,
+    public void postContributionRating(Project project,
+                                        String groupId,
                                        String fromStudent,
-                                       Map<String, Integer> contributionRating) {
-        assessmentDBCommunication.writeContributionRatingToDB(groupId, fromStudent, contributionRating);
+                                       Map<ContributionCategories, Integer> contributionRating) {
+        assessmentDBCommunication.writeContributionRatingToDB(project, groupId, fromStudent, contributionRating);
     }
 
     @Override

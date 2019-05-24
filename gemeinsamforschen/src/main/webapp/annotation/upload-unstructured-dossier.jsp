@@ -32,7 +32,6 @@
 </jsp:include>
     <!-- back-->
     <div class="backlink">
-
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den Aufgaben</i></a>
     </div>
 <main>

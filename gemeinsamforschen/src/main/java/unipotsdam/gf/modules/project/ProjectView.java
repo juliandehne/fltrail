@@ -40,7 +40,7 @@ public class ProjectView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/create")
-    public String createProject(@Context HttpServletRequest req, Project project)
+    public String createProject(@Context HttpServletRequest req, Project project, @QueryParam("groupSize") Integer groupSize)
             throws IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         String userEmail = gfContexts.getUserEmail(req);
         User user = iManagement.getUserByEmail(userEmail);
@@ -49,7 +49,15 @@ public class ProjectView {
             throw new IOException("NO user with this email exists in db");
         }
         project.setName(UriEncoder.decode(project.getName()));
-        projectCreationProcess.createProject(project, user);
+        projectCreationProcess.createProject(project, user, groupSize);
+        return "success";
+    }
+
+    @POST
+    @Path("/update/project/{projectName}/groupSize/{groupSize}")
+    public String updateGroupSize(@Context HttpServletRequest req, @PathParam("groupSize") Integer groupSize, @PathParam("projectName") String projectName){
+        Project project = projectDAO.getProjectByName(projectName);
+        projectDAO.updateGroupSize(project, groupSize);
         return "success";
     }
 

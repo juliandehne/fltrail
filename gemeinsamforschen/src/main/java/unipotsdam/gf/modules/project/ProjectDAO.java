@@ -4,11 +4,10 @@ import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyProject;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.user.UserInterests;
-import unipotsdam.gf.process.tasks.ProjectStatus;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.tasks.ProjectStatus;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -26,6 +25,11 @@ public class ProjectDAO {
     @Inject
     private MysqlConnect connect;
 
+    public void persist(Project project, Integer groupSize) {
+        persist(project);
+        updateGroupSize(project, groupSize);
+    }
+
     public void persist(Project project) {
 
         if (!exists(project)) {
@@ -33,7 +37,7 @@ public class ProjectDAO {
             if (project.getPassword() == null) {
                 project.setPassword("");
             }
-            if(project.getAuthorEmail() == null) {
+            if (project.getAuthorEmail() == null) {
                 project.setAuthorEmail("julian.dehne@uni-potsdam.de");
             }
             if (project.getGroupWorkContext() == null) {
@@ -63,6 +67,27 @@ public class ProjectDAO {
         connect.close();
 
 
+    }
+
+    public void updateGroupSize(Project project, Integer groupSize){
+        connect.connect();
+        String mysqlRequest =
+                "UPDATE projects SET `groupSize` = ? WHERE name = ?";
+        connect.issueUpdateStatement(mysqlRequest, groupSize, project.getName());
+        connect.close();
+    }
+
+    public Integer getGroupSize(Project project){
+        int result = 3;
+        connect.connect();
+        String mysqlRequest =
+                "SELECT groupSize FROM projects WHERE projects.name = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getName());
+        if (vereinfachtesResultSet.next()){
+            result = vereinfachtesResultSet.getInt("groupSize");
+        }
+        connect.close();
+        return result;
     }
 
     public void delete(Project project) {
@@ -185,12 +210,12 @@ public class ProjectDAO {
         //get all projectNames with the Student in GroupFormation Phase
         String mysqlRequest = "" +
                 "SELECT * FROM projects " +
-                    "LEFT JOIN " +
-                        "(SELECT p.name as studentParticipatesIn FROM projects p " +
-                            "LEFT JOIN " +
-                            "projectuser pu on p.name = pu.projectName WHERE userEmail=?" +
-                        ") as j1 " +
-                    "on name=studentParticipatesIn " +
+                "LEFT JOIN " +
+                "(SELECT p.name as studentParticipatesIn FROM projects p " +
+                "LEFT JOIN " +
+                "projectuser pu on p.name = pu.projectName WHERE userEmail=?" +
+                ") as j1 " +
+                "on name=studentParticipatesIn " +
                 "WHERE studentParticipatesIn IS NULL AND phase='GroupFormation' " +
                 "AND context='FL';";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, user.getEmail());
@@ -235,7 +260,7 @@ public class ProjectDAO {
             String projectName = vereinfachtesResultSet.getString("projectName");
             GroupWorkContext groupWorkContext = GroupWorkContext.valueOf(vereinfachtesResultSet.getString("context"));
             Phase phase = Phase.valueOf(vereinfachtesResultSet.getString("phase"));
-            surveyProject = new SurveyProject(projectName,groupWorkContext);
+            surveyProject = new SurveyProject(projectName, groupWorkContext);
             surveyProject.setPhase(phase);
         }
         connect.close();

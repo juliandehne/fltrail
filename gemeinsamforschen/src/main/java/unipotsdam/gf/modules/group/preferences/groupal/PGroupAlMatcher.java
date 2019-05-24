@@ -1,8 +1,6 @@
 package unipotsdam.gf.modules.group.preferences.groupal;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.config.GroupAlConfig;
-import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationAlgorithm;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
@@ -21,7 +19,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -40,6 +37,20 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
 
     @Override
     public List<Group> calculateGroups(Project project) {
+        Integer minGroupSize;
+        try{
+            minGroupSize= projectDAO.getGroupSize(project);
+        }catch(Exception e){
+            minGroupSize= 3;
+        }
+        if (minGroupSize < 2){
+            minGroupSize = 3;
+        }
+        return calculateGroups(project, minGroupSize);
+    }
+
+    @Override
+    public List<Group> calculateGroups(Project project, int minGroupSize) {
 
         // get all users
         List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
@@ -56,8 +67,16 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
             return new ArrayList<>();
         }
 
-        // if they are less then 6, we cant calculate much
-        if (userCount < 6) {
+
+        /*
+         * Der Satz von silvester minUserCount = (ab -a -b) +1
+         * minGroupSize = a
+         * maxGroupSize = b = a+1
+         */
+        // if they are less then minUserCount, we cant calculate much
+        int maxGroupSize = minGroupSize + 1;
+        int minUserCount = minGroupSize * maxGroupSize - minGroupSize - maxGroupSize +1;
+        if (userCount < minUserCount) {
             ArrayList<Group> groups = new ArrayList<>();
             Group group = new Group();
             for (User user : usersByProjectName) {
@@ -68,11 +87,11 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
             return groups;
         }
 
-        int calculateCount = userCount - (userCount % 3);
+        int calculateCount = userCount - (userCount % minGroupSize);
 
         List<User> restUsers = usersByProjectName.subList(calculateCount, userCount);
         responses = adjustUserCount(responses, restUsers);
-        List<Group> result = calculateGroupsWithGroupAl(project, responses);
+        List<Group> result = calculateGroupsWithGroupAl(project, responses, minGroupSize);
 
         // verteile die restlichen
         Iterator<User> iterator = restUsers.iterator();
@@ -85,13 +104,13 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
         return result;
     }
 
-    private List<Group> calculateGroupsWithGroupAl(Project project, ParticipantsHolder responses) {
+    private List<Group> calculateGroupsWithGroupAl(Project project, ParticipantsHolder responses, Integer minGroupSize) {
         // send to groupal
         // convert result from groupal
         Client client = ClientBuilder.newClient();
         //WebTarget webTarget = client.target(GroupAlConfig.GROUPAl_LOCAL_URL + groupsize);
-        WebTarget webTarget = client.target(GroupAlConfig.GROUPAl_URL + 3);
-        final ResponseHolder groupResults = (ResponseHolder) webTarget.request(MediaType.APPLICATION_JSON)
+        WebTarget webTarget = client.target(GroupAlConfig.GROUPAl_URL + minGroupSize);
+        final ResponseHolder groupResults = webTarget.request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(responses, MediaType.APPLICATION_XML)).readEntity(ResponseHolder.class);
         assert groupResults != null;
 
@@ -116,7 +135,7 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
     }
 
     @Override
-    public void addGroupRelevantData(Project project, User user, Object data) throws Exception {
+    public void addGroupRelevantData(Project project, User user, Object data) {
 
     }
 
@@ -127,11 +146,11 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
 
     @Override
     public int getMinNumberOfStudentsNeeded() {
-        return 0;
+        return 1;
     }
 
 
-    protected ParticipantsHolder adjustUserCount(
+    private ParticipantsHolder adjustUserCount(
             ParticipantsHolder responses, List<User> restUsers) {
         List<Integer> restUserIds = restUsers.stream().map(User::getId).collect(Collectors.toList());
         List<Participants> participants = responses.getParticipants();

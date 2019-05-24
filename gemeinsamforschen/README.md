@@ -66,3 +66,13 @@ fleckenroller.cs.uni-potsdam.de:3000
 1. navigate to "http://fleckenroller.cs.uni-potsdam.de:3000/admin/General --> rest api"
 2. DONT activate CORS
 3. activate personal rest access
+
+###To clean rocketChat, clean mongoDB. This is how you do it:
+   
+   1. log into "fleckenroller.cs.uni-potsdam.de" via putty with your credentials of UP
+   2. type following lines into console:
+   3. mongo			//starts mongoDB
+   4. use rocketchat//changes from testDB to rocketchatDB		
+   5. db.users.remove({"name": /[^fltrailadmin]/})
+   6. db.rocketchat_room.remove({"name":/[^general]/})
+   7. exit

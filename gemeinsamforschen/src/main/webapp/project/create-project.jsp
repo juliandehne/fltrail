@@ -82,7 +82,18 @@
                         <div class='explanation icon'><p>Studenten beantworten Fragen zu Ihrer Persönlichkeit,
                             wenn sie sich in das Projekt einschreiben wollen.
                             Dabei werden Gruppen gebildet, deren Gruppenmitglieder synergieren
-                            während das Konfliktpotential minimiert wird.</p></div>
+                            während das Konfliktpotential minimiert wird.</p>
+                            <label>Präferierte Gruppengröße <input value="3" id="userCount" style="width:20px;"></label>
+                            <a data-toggle="collapse" href="#howToBuildGroups" role="button" aria-expanded="false" aria-controls="howToBuildGroups"><i class="fas fa-question"></i></a>
+                            Mit dieser Gruppengröße benötigt das Projekt wenigstens <span id="groupSize">6</span> Teilnehmer
+                            um Gruppen bilden zu können.
+                            <div class="collapse" id="howToBuildGroups">
+                                <div class="card card-body">
+                                    Es werden so viele Gruppen mit Ihrer präferierten Gruppengröße gebildet wie möglich.
+                                    Die verbleibenden Studenten werden dann zufällig auf die bestehenden Gruppen verteilt.
+                                </div>
+                            </div>
+                        </div>
                     </li>
                     <li>
                         <input type="radio" id="single" name="gfm" value="Keine Gruppen">
@@ -90,6 +101,8 @@
                         <div class='explanation icon'><p>Studenten arbeiten einzeln an ihren Projekten.</p></div>
                     </li>
                 </ul>
+
+
                 <h3>Projektbeschreibung</h3>
 
                 <textarea class="form-control infotext" rows="5" id="projectDescription"

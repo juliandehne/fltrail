@@ -39,15 +39,15 @@ public class Performance {
         this.workRating = workRating;
     }
 
-    public Map<String, Double> getContributionRating() {
+    public Map<ContributionCategories, Double> getContributionRating() {
         return contributionRating;
     }
 
-    public void setContributionRating(Map<String, Double> contributionRating) {
+    public void setContributionRating(Map<ContributionCategories, Double> contributionRating) {
         this.contributionRating = contributionRating;
     }
 
-    public Performance(Project project, User user, List<Integer> quizAnswer, Map<String, Double> workRating, Map<String, Double> contributionRating) {
+    public Performance(Project project, User user, List<Integer> quizAnswer, Map<String, Double> workRating, Map<ContributionCategories, Double> contributionRating) {
         this.project = project;
         this.user = user;
         this.quizAnswer = quizAnswer;
@@ -70,7 +70,7 @@ public class Performance {
     private User user;
     private List<Integer> quizAnswer;
     private Map<String, Double> workRating;
-    private Map<String, Double> contributionRating;
+    private Map<ContributionCategories, Double> contributionRating;
 
     public Performance(){}
 

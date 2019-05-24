@@ -41,7 +41,7 @@
             </div>
 
                 <script id="taskTemplate" type="text/x-jQuery-tmpl">
-                    <h3 class="phase-heading ${phase} ">${phase}</h3>
+                    <h3 class="phase-heading ${phase} ">${headLine}</h3>
                      <div class="card ${phase} current">
                         <div class="col span_s_of_2 icon ${taskType}"></div>
 

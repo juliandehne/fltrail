@@ -20,6 +20,14 @@ public class TaskOrder {
         result.add(TaskName.GIVE_FEEDBACK);
         result.add(TaskName.SEE_FEEDBACK);
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
+        //todo Martins tasks
+        result.add(TaskName.CLOSE_EXECUTION_PHASE);
+        result.add(TaskName.WAIT_FOR_PEER_ASSESSMENTS);
+        result.add(TaskName.GIVE_ASSESSMENT);
+        result.add(TaskName.SEE_ASSESSMENT);
+        result.add(TaskName.FINALIZE_ASSESSMENT);
+        result.add(TaskName.CLOSE_ASSESSMENT_PHASE);
+        result.add(TaskName.END);
         this.orderedTasks = result;
     }
     public TaskName getNextTask(TaskName taskName){

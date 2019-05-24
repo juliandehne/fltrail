@@ -1,5 +1,6 @@
 package unipotsdam.gf.interfaces;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
@@ -15,6 +16,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectConfiguration;
@@ -31,6 +33,7 @@ import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 
 import javax.inject.Inject;
+import javax.xml.bind.JAXBException;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,7 +102,7 @@ public class ActivityFlowTest {
     }
 
     @Test
-    public void activityPlayer() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public void activityPlayer() throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         // register teacher
         loginTeacher();
 
@@ -186,7 +189,7 @@ public class ActivityFlowTest {
 
     }
 
-    public void uploadDossiers() throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public void uploadDossiers() throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
 
 
         for (User student : students) {

@@ -1,6 +1,7 @@
 let allTheTags = [];
 let projectName = "";
 let gfm = "";
+let groupSize = 3;
 
 /**
  * Created by fides-WHK on 19.02.2018.
@@ -21,6 +22,13 @@ $(document).ready(function () {
     // add handle to the submit button
     initSendButton(allTheTags);
     $('#tagsProject').importTags('');
+
+    let userCount = $('#userCount');
+    userCount.change(function(){
+        groupSize = parseInt(userCount.val());
+        let minSize = (groupSize*(groupSize+1))- 2*groupSize;
+        $('#groupSize').html(minSize);
+    });
 });
 
 // function that creates the project in the db
@@ -35,7 +43,8 @@ function createNewProject(allTheTags) {
     } else {
         if (project) {
             // create the project in local db
-            let localurl = "../rest/project/create";
+            let localurl = "../rest/project/create?groupSize="+groupSize;
+
             $.ajax({                        //check local DB for existence of projectName
                 url: localurl,
                 contentType: 'application/json',
@@ -74,7 +83,7 @@ function initTagsInput(allTheTags) {
             onAddTag: function (tag) {
                 allTheTags.push(tag);
             },
-            onRemoveTag: function (tag) {
+            onRemoveTag: function () {
                 allTheTags.pop();
                 //allTheTags = $(this).val().split(",");
             }

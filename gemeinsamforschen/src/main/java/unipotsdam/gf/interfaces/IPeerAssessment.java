@@ -1,13 +1,9 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
-import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +27,7 @@ public interface IPeerAssessment {
 
     Double getAssessmentForStudent(StudentIdentifier student);
 
-    Map<String, String> getContributionsFromGroup(Project project, Integer groupId);
+    List<FullContribution> getContributionsFromGroup(Project project, Integer groupId);
 
     Map<User, Double> calculateAssessment(ArrayList<Performance> totalPerformance);
 
@@ -76,9 +72,10 @@ public interface IPeerAssessment {
 
     Integer whichGroupToRate(Project project, User user);
 
-    void postContributionRating(String groupId,
+    void postContributionRating(Project project,
+                                String groupId,
                                 String fromPeer,
-                                Map<String, Integer> contributionRating);
+                                Map<ContributionCategories, Integer> contributionRating);
 
     /**
      * @param questions

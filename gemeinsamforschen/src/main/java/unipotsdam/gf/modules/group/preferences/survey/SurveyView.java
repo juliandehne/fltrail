@@ -61,7 +61,7 @@ public class SurveyView {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/project/name/{projectContext}/email/{email}")
-    public SurveyProject getProjectName(@PathParam("projectContext") String projectContext, @PathParam("email") String email) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+    public SurveyProject getProjectName(@PathParam("projectContext") String projectContext, @PathParam("email") String email) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         String emailString = email;
         if (email.trim().equals("UNKNOWN")) {
             emailString = null;
@@ -188,7 +188,7 @@ public class SurveyView {
     @Path("/user/{userEmail}/context/{context}")
     public Boolean authenticate(
             @PathParam("userEmail") String userEmail, @PathParam("context") String context,
-            @Context HttpServletRequest req) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+            @Context HttpServletRequest req) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         User user = new User(userEmail);
         Project projectName = getProjectName(context, userEmail);
         List<User> usersByProjectName = userDAO.getUsersByProjectName(projectName.getName());
@@ -252,7 +252,7 @@ public class SurveyView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}/buildGroups")
     public List<Group> buildGroups(@PathParam("projectName") String projectName)
-            throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+            throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         GroupWorkContext groupWorkContext = GroupWorkContext.valueOf(projectName);
         SurveyProject project = new SurveyProject(projectName, groupWorkContext);
         return surveyProcess.formGroupsForSurvey(project);

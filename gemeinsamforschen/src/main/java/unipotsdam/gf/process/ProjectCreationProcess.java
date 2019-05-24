@@ -1,6 +1,9 @@
 package unipotsdam.gf.process;
 
-import unipotsdam.gf.exceptions.*;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.UserExistsInMysqlException;
+import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -55,11 +58,11 @@ public class ProjectCreationProcess {
      * @param project which project is created
      * @param author  who creates the project
      */
-    public void createProject(Project project, User author)
+    public void createProject(Project project, User author, Integer groupSize)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         project.setAuthorEmail(author.getEmail());
         try {
-            iManagement.create(project);
+            iManagement.create(project, groupSize);
         } catch (Exception e) {
             throw new WebApplicationException("Project already exists");
         }
@@ -143,6 +146,16 @@ public class ProjectCreationProcess {
         }
         //taskDao.createTaskWaitForParticipants(project, author);
     }*/
+
+
+    /**
+     * the tasks are changed after user enters project
+     *
+     * @param project
+     * @param user
+     * @throws RocketChatDownException
+     * @throws UserDoesNotExistInRocketChatException
+     */
     public void updateProjCreaProcTasks(Project project, User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         // create info for student
         Task task = taskDao.createWaitingForGroupFormationTask(project, user);
@@ -156,11 +169,11 @@ public class ProjectCreationProcess {
             if (!groupFormationMechanism.equals(SingleUser) && !groupFormationMechanism
                     .equals(GroupFormationMechanism.Manual)) {
                 taskDao.persistTeacherTask(project, TaskName.EDIT_FORMED_GROUPS, Phase.GroupFormation);
-            } else {
-                taskDao.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
-                taskDao.updateForAll(task);
-                //phases.endPhase(Phase.GroupFormation, project);
             }
+            taskDao.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
+            taskDao.updateForAll(task);
+            //phases.endPhase(Phase.GroupFormation, project);
+
         }
         iCommunication.addUserToChatRoom(user, project.getName());
     }

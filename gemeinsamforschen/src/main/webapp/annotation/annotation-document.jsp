@@ -178,11 +178,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="col span_chat">
-            <chat:chatWindow orientation="right" scope="project"/>
-            <chat:chatWindow orientation="right" scope="group"/>
-        </div>
         <div class="hidden-quill" id="hiddenEditor"></div>
         </div><!-- end row group -->
     </main>

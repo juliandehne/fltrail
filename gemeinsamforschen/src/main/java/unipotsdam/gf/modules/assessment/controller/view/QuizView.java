@@ -1,16 +1,11 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
+import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.session.GFContexts;
 
@@ -121,24 +116,27 @@ public class QuizView {
 
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("contributions/project/{projectName}")
-    public Map<String, String> getContributionsForProject(@Context HttpServletRequest req,
-            @PathParam("projectName") String projectName) throws IOException {
+    public List<FullContribution> getContributionsForProject(@Context HttpServletRequest req,
+                                                             @PathParam("projectName") String projectName) throws IOException {
+        List<FullContribution> result;
         Project project = projectDAO.getProjectByName(projectName);
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Integer groupId = peer.whichGroupToRate(project, user);
-        peer.getContributionsFromGroup(project, groupId);
-        return null;
+        result = peer.getContributionsFromGroup(project, groupId);
+        return result;
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/contributionRating/group/{groupId}/fromPeer/{fromPeer}")
-    public void postContributionRating(Map<String, Integer> contributionRatings,
+    @Path("/contributionRating/project/{projectName}/group/{groupId}/fromPeer/{fromPeer}")
+    public void postContributionRating(Map<ContributionCategories, Integer> contributionRatings,
                                        @PathParam("groupId") String groupId,
+                                       @PathParam("projectName") String projectName,
                                        @PathParam("fromPeer") String fromPeer) {
-        peer.postContributionRating(groupId, fromPeer, contributionRatings);
+        peer.postContributionRating(new Project(projectName), groupId, fromPeer, contributionRatings);
     }
 
     @POST
@@ -171,14 +169,6 @@ public class QuizView {
         User user = new User(userEmail);
         return peer.whatToRate(project, user);
     }
-
-    /*@POST
-    @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/assessment")
-    public void addAssessmentDataToDB(Assessment assessment) {
-        peer.addAssessmentDataToDB(assessment);
-    }*/
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -269,14 +259,12 @@ public class QuizView {
         work2.put("cooperation", 5.);
         work2.put("communication", 3.);
         work2.put("autonomous", 4.);
-        Map<String, Double> contribution1 = new HashMap<>();
-        contribution1.put("Dossier", 4.);
-        contribution1.put("eJournal", 2.);
-        contribution1.put("research", 4.);
-        Map<String, Double> contribution2 = new HashMap<>();
-        contribution2.put("Dossier", 2.);
-        contribution2.put("eJournal", 3.);
-        contribution2.put("research", 4.);
+        Map<ContributionCategories, Double> contribution1 = new HashMap<>();
+        contribution1.put(ContributionCategories.DOSSIER, 4.);
+        contribution1.put(ContributionCategories.RESEARCH, 4.);
+        Map<ContributionCategories, Double> contribution2 = new HashMap<>();
+        contribution2.put(ContributionCategories.DOSSIER, 2.);
+        contribution2.put(ContributionCategories.RESEARCH, 3.);
         Performance pf = new Performance();
         pf.setContributionRating(contribution1);
         pf.setQuizAnswer(quiz);

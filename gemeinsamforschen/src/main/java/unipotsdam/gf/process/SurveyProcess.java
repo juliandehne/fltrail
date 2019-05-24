@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GroupAlConfig;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
@@ -58,7 +60,7 @@ public class SurveyProcess {
         surveyMapper.saveData(data, project, req);
     }
 
-    public List<Group> formGroupsForSurvey(SurveyProject project) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+    public List<Group> formGroupsForSurvey(SurveyProject project) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException, RocketChatDownException, UserDoesNotExistInRocketChatException {
         List<Group> groups1 = groupfinding.getGroups(project);
         if (!groups1.isEmpty()) {
             groupfinding.deleteGroups(project);
@@ -86,7 +88,7 @@ public class SurveyProcess {
         //}
     }
 
-    public SurveyProject getSurveyProjectNameOrInitialize(GroupWorkContext projectContext, String email) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+    public SurveyProject getSurveyProjectNameOrInitialize(GroupWorkContext projectContext, String email) throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException, RocketChatDownException, UserDoesNotExistInRocketChatException {
 
         if (!GroupWorkContextUtil.isGamingOrAutomatedGroupFormation(projectContext)) {
             log.debug("project is manual group formation and has only one name equal to context");

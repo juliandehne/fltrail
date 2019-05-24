@@ -27,7 +27,7 @@ $(document).ready(function () {
         selectableButtons(true);  //i have no clue why this needs to be called twice, but it seems necessary
     });
     $('#backToTasks').on('click',function(){
-        location.href="../project/tasks-student.jsp?projectName="+$('#projectName').html().trim();
+        location.href="../project/tasks-docent.jsp?projectName="+$('#projectName').html().trim();
     });
     $('#deselectStudents').on('click',function(){
         $('.student-button.active').each(function(){
@@ -153,7 +153,7 @@ function viewToGroup(callback) {
 function saveNewGroups(groups) {
     let data = JSON.stringify(groups);
     //append "manipulated" to data
-    let url = "../rest/group/projects/" + $('#projectName').html().trim()+"/groups/finalize";
+    let url = "../rest/group/projects/" + $('#projectName').html().trim()+"/groups/save";
     if (manipulated===true){
         url+= "?manipulated=true";
     }

@@ -59,6 +59,11 @@ public class ManagementImpl implements Management {
     }
 
     @Override
+    public void create(Project project, Integer groupSize){
+        projectDAO.persist(project, groupSize);
+    }
+
+    @Override
     public void delete(Project project) {
        projectDAO.delete(project);
     }

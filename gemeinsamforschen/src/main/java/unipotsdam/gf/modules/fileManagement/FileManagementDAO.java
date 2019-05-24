@@ -33,7 +33,8 @@ public class FileManagementDAO {
         connect.connect();
         String mysqlRequest = "SELECT * FROM `largefilestorage` lfs JOIN `groupuser` gu " +
                 "ON gu.userEmail=lfs.userEmail JOIN groups g on g.id=gu.groupId WHERE g.id " +
-                "IN (SELECT gu2.groupId FROM `groupuser` gu2 WHERE gu2.userEmail=?) AND g.projectName=?";
+                "IN (SELECT gu2.groupId FROM `groupuser` gu2 WHERE gu2.userEmail=?) AND g.projectName=? " +
+                "AND g.projectName=lfs.projectName";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, user.getEmail(), project.getName());
         boolean next = vereinfachtesResultSet.next();

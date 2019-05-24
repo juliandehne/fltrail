@@ -1,7 +1,9 @@
 package unipotsdam.gf.modules.group;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
@@ -12,6 +14,7 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 
 import javax.inject.Inject;
+import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +56,27 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
     @Override
+    public void persistOriginalGroups(java.util.List<Group> groupComposition, Project project,
+                                      GroupFormationMechanism groupFormationMechanism){
+        //this solution for groupIds is probably no reason to celebrate for my Boss...
+        //since the ID does not match the groupId from table groups
+        //but they would not match anyway after groups were manipulated by the docent.
+        //so its ok hopefully.
+        int groupId=0;
+        for (Group group : groupComposition) {
+            group.setProjectName(project.getName());
+            groupDAO.persistOriginalGroup(group, groupId, groupFormationMechanism);
+            groupId++;
+        }
+    }
+
+    @Override
     public List<Group> getGroups(Project project) {
         return groupDAO.getGroupsByProjectName(project.getName());
+    }
+
+    public List<Group> getOriginalGroups(Project project) {
+        return groupDAO.getOriginalGroupsByProjectName(project.getName());
     }
 
     @Override
@@ -77,12 +99,19 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
     @Override
-    public void deleteGroups(Project project) {
+    public void deleteGroups(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         groupDAO.deleteGroups(project);
+        if (project.getGroupWorkContext().equals(GroupWorkContext.fl)) {
+            List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
+            for (Group group : groupsByProjectName) {
+                iCommunication.deleteChatRoom(group);
+            }
+        }
     }
 
     @Override
-    public List<Group> createRandomGroups(Project project) {
+    public List<Group> createRandomGroups(Project project)
+            throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         return randomGroupAlgorithm.calculateGroups(project);
     }
 
