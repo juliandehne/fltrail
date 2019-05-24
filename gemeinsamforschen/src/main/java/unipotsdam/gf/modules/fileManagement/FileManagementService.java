@@ -7,13 +7,18 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
-import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.codehaus.plexus.util.FileUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.HtmlSerializer;
+import org.htmlcleaner.SimpleHtmlSerializer;
+import org.htmlcleaner.TagNode;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 
@@ -75,7 +80,8 @@ public class FileManagementService {
 
     public void saveStringAsPDF(User user, Project project, String fileContent, FormDataContentDisposition fileDetail,
                                 FileRole fileRole, FileType fileType) throws IOException, DocumentException {
-        fileContent = correctingTags(fileContent);
+        fileContent = cleanHTML(fileContent);
+        //fileContent = manipulateIndentation(fileContent);
         InputStream inputStream = IOUtils.toInputStream(fileContent);
         saveFileAsPDF(user, project, inputStream, fileDetail, fileRole, fileType);
 
@@ -84,28 +90,7 @@ public class FileManagementService {
     private String saveHTMLAsPDF(InputStream inputStream, String filenameWithoutExtension) throws IOException, DocumentException {
         String fileName = filenameWithoutExtension + ".pdf";
         String path = getFullPath(fileName);
-        /*
-        Document document = new Document();
 
-
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filename));
-        document.open();
-
-            TODO: css is not applied correctly, that's why an indent, doesn't work, need fix
-            example:
-                HTML            PDF
-                1.              1.
-                2.              2.
-                    a.          3.
-
-        CSSResolver cssResolver = XMLWorkerHelper.getInstance().getDefaultCssResolver(false);
-        cssResolver.addCssFile("https://cdnjs.cloudflare.com/ajax/libs/quill/1.3.6/quill.snow.css", true);
-        HtmlPipelineContext htmlContext = new HtmlPipelineContext(null);
-        CssResolverPipeline pipeline = new CssResolverPipeline(cssResolver, new HtmlPipeline(htmlContext, new PdfWriterPipeline(document, writer)));
-        XMLWorker worker = new XMLWorker(pipeline, true);
-        XMLParser parser = new XMLParser(worker);
-        parser.parse(inputStream);
-         */
         Document document = new Document();
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(path));
         document.open();
@@ -114,11 +99,30 @@ public class FileManagementService {
         return fileName;
     }
 
-    private String correctingTags(String fileContent) {
-        String correctedFileContent = fileContent.replaceAll("<br>", "<br/>");
-        correctedFileContent = correctedFileContent.replaceAll("\">", "\"/>");
-        return correctedFileContent;
+    private String cleanHTML(String fileContent) {
+        HtmlCleaner htmlCleaner = new HtmlCleaner();
+        TagNode tagNode = htmlCleaner.clean(fileContent);
+        HtmlSerializer htmlSerializer = new SimpleHtmlSerializer(htmlCleaner.getProperties());
+        return htmlSerializer.getAsString(tagNode);
+    }
 
+    String manipulateIndentation(String fileContent) {
+        /*
+        todo:
+            implementation hier
+            -------------------
+            - wenn text zurueckkommt, dann TextNode erzeugen, die text von vorheriger node beinhaltet, aber davor jeweilige aufzaehlungszeichen hinzufuegt
+            - am ende alle <ol> und </ol> loeschen (wenn noetig)
+         */
+        org.jsoup.nodes.Document document = Jsoup.parse(fileContent);
+
+        Elements elements = document.select("ol");
+        elements.forEach(element -> {
+            JsoupConverter converter = new JsoupConverter();
+            String fullText = converter.convertElementsToTextNodes(element.childNodes());
+            element.text(fullText);
+        });
+        return fileContent;
     }
 
     private String getDocumentFromFile(InputStream inputStream, String fileNameWithoutExtension) throws IOException {
