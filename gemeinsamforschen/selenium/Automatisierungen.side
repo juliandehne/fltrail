@@ -50,7 +50,7 @@
         ["xpath=//input[@name='name']", "xpath:attributes"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "martin"
+      "value": "docent"
     }, {
       "id": "686e67ef-5113-454d-85fb-4416ab86c9ca",
       "comment": "",
@@ -62,7 +62,7 @@
         ["xpath=//input[@name='email']", "xpath:attributes"],
         ["xpath=//div[3]/input", "xpath:position"]
       ],
-      "value": "martin@docent"
+      "value": "docent@docent.de"
     }, {
       "id": "91dfd90d-af73-4ff7-9011-25846724cf28",
       "comment": "",
@@ -372,7 +372,7 @@
         ["xpath=//input[@name='name']", "xpath:attributes"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "martin"
+      "value": "student1"
     }, {
       "id": "bf07077b-8003-4d0c-8850-6424e4271c6b",
       "comment": "",
@@ -384,7 +384,7 @@
         ["xpath=//input[@name='email']", "xpath:attributes"],
         ["xpath=//div[3]/input", "xpath:position"]
       ],
-      "value": "martin@student1"
+      "value": "student1@student.de"
     }, {
       "id": "253a01ec-e410-43b9-9c71-eb8fe81d3f8f",
       "comment": "",
@@ -671,7 +671,7 @@
         ["xpath=//input[@name='name']", "xpath:attributes"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "martin"
+      "value": "student2"
     }, {
       "id": "dfda71fe-3302-4b16-86cd-c2626095e9b1",
       "comment": "",
@@ -683,7 +683,7 @@
         ["xpath=//input[@name='email']", "xpath:attributes"],
         ["xpath=//div[3]/input", "xpath:position"]
       ],
-      "value": "martin@student2"
+      "value": "student2@student.de"
     }, {
       "id": "55ceb9de-3953-41b7-bd14-11be37ec70fb",
       "comment": "",
@@ -972,7 +972,7 @@
         ["xpath=//input[@name='name']", "xpath:attributes"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "martin"
+      "value": "student3"
     }, {
       "id": "35cd9018-504c-453c-bc21-3fefb01155f6",
       "comment": "",
@@ -984,7 +984,7 @@
         ["xpath=//input[@name='email']", "xpath:attributes"],
         ["xpath=//div[3]/input", "xpath:position"]
       ],
-      "value": "martin@student3"
+      "value": "student3@student.de"
     }, {
       "id": "7e72f452-2ccf-4e38-a433-3298f821ccdb",
       "comment": "",
@@ -1293,7 +1293,7 @@
         ["xpath=//input[@name='name']", "xpath:attributes"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "martin"
+      "value": "student5"
     }, {
       "id": "647cdf73-89ca-4cf0-91f6-7718a049b797",
       "comment": "",
@@ -1305,7 +1305,7 @@
         ["xpath=//input[@name='email']", "xpath:attributes"],
         ["xpath=//div[3]/input", "xpath:position"]
       ],
-      "value": "martin@student5"
+      "value": "student5@student.de"
     }, {
       "id": "9844cca2-533b-4522-8631-755e5140368b",
       "comment": "",
@@ -1594,7 +1594,7 @@
         ["xpath=//input[@name='name']", "xpath:attributes"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "martin"
+      "value": "student4"
     }, {
       "id": "9c0330d7-aa43-413f-b8f4-e0c4f2a694d7",
       "comment": "",
@@ -1606,7 +1606,7 @@
         ["xpath=//input[@name='email']", "xpath:attributes"],
         ["xpath=//div[3]/input", "xpath:position"]
       ],
-      "value": "martin@student4"
+      "value": "student4@student.de"
     }, {
       "id": "6e356644-183e-4c91-9c9b-8a376324c313",
       "comment": "",
@@ -1890,7 +1890,7 @@
         ["xpath=//input[@name='email']", "xpath:attributes"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "martin@docent"
+      "value": "docent@docent.de"
     }, {
       "id": "08b09412-d6a6-400b-8bc3-b8bfd4b0a2ba",
       "comment": "",
