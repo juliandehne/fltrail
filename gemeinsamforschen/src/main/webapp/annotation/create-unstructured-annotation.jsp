@@ -31,7 +31,7 @@
     <script src="js/unstructuredAnnotation.js"></script>
 
     <!-- jsrender -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.2/jsrender.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
 
 
 </head>

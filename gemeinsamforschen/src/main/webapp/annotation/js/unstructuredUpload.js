@@ -2,52 +2,56 @@
  * This function will fire when the DOM is ready
  */
 let groupId = 0;
+let contributionType;
+let hierarchyLevel;
 $(document).ready(function () {
     getMyGroupId(getFullSubmissionOfGroup);
+    contributionType = $('#contributionType').html().trim();
+    hierarchyLevel = $('#hierarchyLevel').html().trim();
+    populateTextFields();
 
+    $('#btnSave').click(function () {
 
-    $('#btnNext').click(function () {
+        if (quill.getText().length > 1) {
+            let user = getUserEmail();
+            let content = quill.getContents();
+            let html = quill.root.innerHTML;
 
-            if (quill.getText().length > 1) {
-                let user = getUserEmail();
-                let content = quill.getContents();
-                let html = quill.root.innerHTML;
+            // build request
+            let fullSubmissionPostRequest = {
+                groupId: groupId,
+                text: JSON.stringify(content),
+                html: html,
+                projectName: $('#projectName').text().trim()
+            };
 
-                // build request
-                let fullSubmissionPostRequest = {
-                    groupId: groupId,
-                    text: JSON.stringify(content),
-                    html: html,
-                    projectName: $('#projectName').text().trim()
-                };
+            // save request in database
+            createFullSubmission(fullSubmissionPostRequest, function () {
 
-                // save request in database
-                createFullSubmission(fullSubmissionPostRequest, function (response) {
-
-                    // jump to next page
-                    location.href = "create-unstructured-annotation.jsp?projectName=" + $('#projectName').text().trim() + "&submissionId=" + response.id;
-                });
-            } else {
-                alert("Ein Text wird benötigt");
-            }
-            // fetch user and text
+                // back to main page
+                location.href = hierarchyLevel + "project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
+            });
+        } else {
+            alert("Ein Text wird benötigt");
+        }
+        // fetch user and text
 
     });
 
-    $('#backToTasks').click(function(){
+    $('#backToTasks').click(function () {
         location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
     });
     $('#btnBack').click(function () {
         // if there is text inside the textarea
-            // show user alert message that the text will be lost
-            if (window.confirm("Möchten Sie zur vorherigen Seite zurückkehren? \nIhr bisheriger Text wird nicht gespeichert.")) {
-                // clear textarea
-                quill.setText("");
+        // show user alert message that the text will be lost
+        if (window.confirm("Möchten Sie zur vorherigen Seite zurückkehren? \nIhr bisheriger Text wird nicht gespeichert.")) {
+            // clear textarea
+            quill.setText("");
 
-                // jump to previous page
-                //window.history.back();
-                location.href = "../../project/projects-student.jsp";
-            }
+            // jump to previous page
+            //window.history.back();
+            location.href = "../../project/projects-student.jsp";
+        }
 
         // nothing to check
         else {
@@ -76,4 +80,14 @@ function getFullSubmissionOfGroup(groupId) {
 
         }
     })
+}
+
+function populateTextFields() {
+    let data = {};
+    data.header = contributionType;
+    let tmpl = $.templates("#headerTemplate");
+    //tmpl.link("#result");
+    let html = tmpl.render(data);
+    $("#result").html(html);
+
 }

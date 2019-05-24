@@ -186,7 +186,7 @@ function fitObjectInTmpl(object) {
                 break;
             case "UPLOAD_DOSSIER":
                 result.solveTaskWith = "Lege ein Dossier an";
-                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "\')";
+                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&contributionType=Dossier" + "\')";
                 break;
             case "CREATE_QUIZ":
                 result.solveTaskWith = "Erstelle ein Quiz";

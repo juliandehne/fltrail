@@ -38,7 +38,7 @@
     <div class="sk-cube4 sk-cube"></div>
     <div class="sk-cube3 sk-cube"></div>
 </div>
-<p id="hierarchyLevel" hidden><%= tu.printMe(request.getParameter("hierarchy"))%>
+<p id="hierarchyLevel" hidden><%= tu.printMe(hierarchyLevel)%>
 </p>
 <p id="userEmail" hidden><%= tu.printMe(userEmail)%>
 </p>
