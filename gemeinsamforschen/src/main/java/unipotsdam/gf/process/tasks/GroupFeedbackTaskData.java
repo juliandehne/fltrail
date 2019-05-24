@@ -4,30 +4,30 @@ import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
 
-public class FeedbackTaskData {
-    private User target;
+public class GroupFeedbackTaskData {
+    private Integer targetGroupId;
     private String submissionId;
     private Category category;
 
 
-    public FeedbackTaskData() {
+    public GroupFeedbackTaskData() {
     }
 
 
-    public FeedbackTaskData(User target, FullSubmission fullSubmission, Category category) {
-        this.target = target;
+    public GroupFeedbackTaskData(Integer targetGroupId, FullSubmission fullSubmission, Category category) {
+        this.targetGroupId = targetGroupId;
         this.fullSubmission = fullSubmission;
         this.category = category;
     }
 
     private FullSubmission fullSubmission;
 
-    public User getTarget() {
-        return target;
+    public Integer getTarget() {
+        return targetGroupId;
     }
 
-    public void setTarget(User target) {
-        this.target = target;
+    public void setTarget(Integer targetGroupId) {
+        this.targetGroupId = targetGroupId;
     }
 
 

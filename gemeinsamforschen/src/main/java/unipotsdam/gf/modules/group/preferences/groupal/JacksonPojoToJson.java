@@ -24,7 +24,7 @@ public class JacksonPojoToJson {
     public static void main(String[] args) throws Exception {
 
         // shows how to use
-        writeExample(Project.class);
+        writeExample(ParticipantsHolder.class);
     }
 
     public static void writeExample(Class object) throws JsonProcessingException {

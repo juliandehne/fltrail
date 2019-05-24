@@ -1,8 +1,10 @@
 /**
  * This function will fire when the DOM is ready
  */
-
+let groupId = 0;
 $(document).ready(function () {
+    getMyGroupId(getFullSubmissionOfGroup);
+
 
     $('#btnNext').click(function () {
 
@@ -13,7 +15,7 @@ $(document).ready(function () {
 
                 // build request
                 let fullSubmissionPostRequest = {
-                    user: user,
+                    groupId: groupId,
                     text: JSON.stringify(content),
                     html: html,
                     projectName: $('#projectName').text().trim()
@@ -33,7 +35,7 @@ $(document).ready(function () {
     });
 
     $('#backToTasks').click(function(){
-        location.href = "../../project/tasks-student.jsp?projectName="+$('#projectName').text().trim();
+        location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
     });
     $('#btnBack').click(function () {
         // if there is text inside the textarea
@@ -56,3 +58,22 @@ $(document).ready(function () {
     });
 
 });
+
+
+function getFullSubmissionOfGroup(groupId) {
+    let projectName = $('#projectName').html().trim();
+    $.ajax({
+        url: '../rest/submissions/full/groupId/' + groupId + '/project/' + projectName,
+        type: 'GET',
+        headers: {
+            "Cache-Control": "no-cache"
+        },
+        success: function (fullSubmission) {
+            //set content in Quill here
+            quill.setContents(JSON.parse(fullSubmission.text));
+        },
+        error: function () {
+
+        }
+    })
+}

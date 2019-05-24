@@ -1,11 +1,11 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
+import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.session.GFContexts;
 
@@ -261,10 +261,10 @@ public class QuizView {
         work2.put("autonomous", 4.);
         Map<ContributionCategories, Double> contribution1 = new HashMap<>();
         contribution1.put(ContributionCategories.DOSSIER, 4.);
-        contribution1.put(ContributionCategories.RESEARCH, 4.);
+        contribution1.put(ContributionCategories.PORTFOLIO, 4.);
         Map<ContributionCategories, Double> contribution2 = new HashMap<>();
         contribution2.put(ContributionCategories.DOSSIER, 2.);
-        contribution2.put(ContributionCategories.RESEARCH, 3.);
+        contribution2.put(ContributionCategories.PORTFOLIO, 3.);
         Performance pf = new Performance();
         pf.setContributionRating(contribution1);
         pf.setQuizAnswer(quiz);

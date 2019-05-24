@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.group.preferences.groupal;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.config.GroupAlConfig;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationAlgorithm;
@@ -19,6 +20,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -43,7 +45,7 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
         }catch(Exception e){
             minGroupSize= 3;
         }
-        if (minGroupSize < 2){
+        if (minGroupSize < 3){
             minGroupSize = 3;
         }
         return calculateGroups(project, minGroupSize);
@@ -108,8 +110,22 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
         // send to groupal
         // convert result from groupal
         Client client = ClientBuilder.newClient();
+
+
+        try {
+            JacksonPojoToJson.writeObjectAsXML(responses);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+
         //WebTarget webTarget = client.target(GroupAlConfig.GROUPAl_LOCAL_URL + groupsize);
         WebTarget webTarget = client.target(GroupAlConfig.GROUPAl_URL + minGroupSize);
+
+        // testing
+        /*final String groupResults2 = webTarget.request(MediaType.APPLICATION_JSON)
+                .post(Entity.entity(responses, MediaType.APPLICATION_XML)).readEntity(String.class);
+        System.err.println(Entity.entity(responses, MediaType.APPLICATION_XML).toString());*/
+
         final ResponseHolder groupResults = webTarget.request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(responses, MediaType.APPLICATION_XML)).readEntity(ResponseHolder.class);
         assert groupResults != null;

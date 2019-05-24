@@ -8,12 +8,7 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -21,7 +16,7 @@ import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.progress.HasProgress;
 import unipotsdam.gf.process.progress.ProgressData;
-import unipotsdam.gf.process.tasks.FeedbackTaskData;
+import unipotsdam.gf.process.tasks.GroupFeedbackTaskData;
 import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.ProjectStatus;
 import unipotsdam.gf.process.tasks.TaskName;
@@ -58,8 +53,8 @@ public class SubmissionController implements ISubmission, HasProgress {
         }
 
         // build and execute request
-        String request = "INSERT INTO fullsubmissions (`id`, `user`, `text`, `projectName`) VALUES (?,?,?,?);";
-        connection.issueInsertOrDeleteStatement(request, uuid, fullSubmissionPostRequest.getUser(),
+        String request = "REPLACE INTO fullsubmissions (`id`, `groupId`, `text`, `projectName`) VALUES (?,?,?,?);";
+        connection.issueInsertOrDeleteStatement(request, uuid, fullSubmissionPostRequest.getGroupId(),
                 fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectName());
 
         // close connection
@@ -93,7 +88,23 @@ public class SubmissionController implements ISubmission, HasProgress {
         connection.close();
 
         return fullSubmission;
+    }
 
+    public String getFullSubmissionId(Integer groupId, Project project) {
+        // establish connection
+        String fullSubmissionId = null;
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName());
+
+        if (rs.next()) {
+            // save submission
+            fullSubmissionId = rs.getString("id");
+        }
+        connection.close();
+        return fullSubmissionId;
     }
 
     private boolean existsFullSubmissionId(String id) {
@@ -352,11 +363,11 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp("timestamp").getTime();
-        String user = rs.getString("user");
+        Integer groupId = rs.getInt("groupId");
         String text = rs.getString("text");
         String projectName = rs.getString("projectName");
 
-        return new FullSubmission(id, timestamp, user, text, projectName);
+        return new FullSubmission(id, timestamp, groupId, text, projectName);
 
     }
 
@@ -546,7 +557,7 @@ public class SubmissionController implements ISubmission, HasProgress {
     }
 
     public SubmissionRenderData getSubmissionData(User user, Project project) {
-        String query = "SELECT id FROM fullsubmissions WHERE user = ? AND projectName = ?";
+        String query = "SELECT id FROM fullsubmissions WHERE groupId = ? AND projectName = ?";
         SubmissionRenderData data = new SubmissionRenderData();
 
         connection.connect();
@@ -585,6 +596,7 @@ public class SubmissionController implements ISubmission, HasProgress {
      * @param submissionOwner
      * @param feedbackGiver
      */
+    @Deprecated
     public void updateFullSubmission(User submissionOwner, User feedbackGiver) {
         connection.connect();
         String query = "update RocketChatUserName fullsubmissions set feedbackUser = ? where user = ?";
@@ -597,25 +609,25 @@ public class SubmissionController implements ISubmission, HasProgress {
      * @param target
      * @return
      */
-    public FeedbackTaskData getFeedbackTaskData(User target, Project project) {
+    public GroupFeedbackTaskData getFeedbackTaskData(User target, Project project) {
         connection.connect();
-
+        Integer targetGroupId = groupDAO.getGroupByStudent(project, target);
         String query = "SELECT * from fullsubmissions where feedbackUser = ? and projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, target.getEmail(),
                 project.getName());
-        return resultSetToFeedback(target, vereinfachtesResultSet);
+        return resultSetToFeedback(targetGroupId, vereinfachtesResultSet);
     }
 
-    public FeedbackTaskData getMyFeedback(User user, Project project) {
+    public GroupFeedbackTaskData getMyFeedback(User user, Project project) {
         connection.connect();
-
-        String query = "SELECT * from fullsubmissions where user = ? and projectName = ?";
-        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, user.getEmail(),
+        Integer groupId = groupDAO.getGroupByStudent(project, user);
+        String query = "SELECT * from fullsubmissions where groupId = ? and projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, groupId,
                 project.getName());
-        return resultSetToFeedback(user, vereinfachtesResultSet);
+        return resultSetToFeedback(groupId, vereinfachtesResultSet);
     }
 
-    private FeedbackTaskData resultSetToFeedback(User user, VereinfachtesResultSet vereinfachtesResultSet) {
+    private GroupFeedbackTaskData resultSetToFeedback(Integer targetGroupId, VereinfachtesResultSet vereinfachtesResultSet) {
         if (vereinfachtesResultSet.next()) {
             String submissionId = vereinfachtesResultSet.getString("id");
             String projectName = vereinfachtesResultSet.getString("projectName");
@@ -623,7 +635,7 @@ public class SubmissionController implements ISubmission, HasProgress {
             FullSubmission fullSubmission = new FullSubmission(submissionId);
             fullSubmission.setProjectName(projectName);
             connection.close();
-            return new FeedbackTaskData(user, fullSubmission, category);
+            return new GroupFeedbackTaskData(targetGroupId, fullSubmission, category);
         } else
             return null;
     }

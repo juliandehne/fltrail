@@ -16,7 +16,7 @@ public class Task {
     private Long eventCreated;
     private Long deadline;
 
-    private Boolean groupTask;
+    private Integer groupTask;
     private Importance importance;
     private Phase phase;
 
@@ -99,11 +99,11 @@ public class Task {
         this.deadline = deadline;
     }
 
-    public Boolean getGroupTask() {
+    public Integer getGroupTask() {
         return groupTask;
     }
 
-    public void setGroupTask(Boolean groupTask) {
+    public void setGroupTask(Integer groupTask) {
         this.groupTask = groupTask;
     }
 
