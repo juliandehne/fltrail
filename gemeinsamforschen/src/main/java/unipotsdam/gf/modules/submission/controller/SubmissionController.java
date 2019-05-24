@@ -8,12 +8,7 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -58,7 +53,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         }
 
         // build and execute request
-        String request = "INSERT INTO fullsubmissions (`id`, `groupId`, `text`, `projectName`) VALUES (?,?,?,?);";
+        String request = "REPLACE INTO fullsubmissions (`id`, `groupId`, `text`, `projectName`) VALUES (?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, uuid, fullSubmissionPostRequest.getGroupId(),
                 fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectName());
 
@@ -93,7 +88,23 @@ public class SubmissionController implements ISubmission, HasProgress {
         connection.close();
 
         return fullSubmission;
+    }
 
+    public String getFullSubmissionId(Integer groupId, Project project) {
+        // establish connection
+        String fullSubmissionId = null;
+        connection.connect();
+
+        // build and execute request
+        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName());
+
+        if (rs.next()) {
+            // save submission
+            fullSubmissionId = rs.getString("id");
+        }
+        connection.close();
+        return fullSubmissionId;
     }
 
     private boolean existsFullSubmissionId(String id) {

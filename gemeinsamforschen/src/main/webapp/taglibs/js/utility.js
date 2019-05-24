@@ -238,3 +238,22 @@ function clpSet() {
     clpText.select();
     document.execCommand('copy');
 }
+
+
+function getMyGroupId(callback) {
+    let projectName = $('#projectName').html().trim();
+    $.ajax({
+        url: '../rest/group/get/groupId/projects/' + projectName,
+        type: 'GET',
+        headers: {
+            "Cache-Control": "no-cache"
+        },
+        success: function (response) {
+            groupId = response;
+            callback(response);
+        },
+        error: function () {
+
+        }
+    })
+}

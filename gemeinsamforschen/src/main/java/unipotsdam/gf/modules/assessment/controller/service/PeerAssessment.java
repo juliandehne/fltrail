@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -7,17 +8,9 @@ import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
-import unipotsdam.gf.interfaces.IPeerAssessment;
 
 import javax.inject.Inject;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static unipotsdam.gf.modules.fileManagement.FileRole.DOSSIER;
+import java.util.*;
 
 public class PeerAssessment implements IPeerAssessment {
 
@@ -84,7 +77,7 @@ public class PeerAssessment implements IPeerAssessment {
                 case DOSSIER:
                     fullContribution.setTextOfContribution(annotationController.getFinishedDossier(project,groupId));
                     break;
-                case RESEARCH:
+                case PORTFOLIO:
                     break;
             }
             result.add(fullContribution);

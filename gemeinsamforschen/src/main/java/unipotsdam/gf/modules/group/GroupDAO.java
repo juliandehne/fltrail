@@ -3,12 +3,10 @@ package unipotsdam.gf.modules.group;
 import org.apache.logging.log4j.util.Strings;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.util.ResultSetUtil;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -147,6 +145,20 @@ public class GroupDAO {
         List<Group> uniqueGroups = resultSetToGroupList(vereinfachtesResultSet, true);
         connect.close();
         return uniqueGroups;
+    }
+
+    public Integer getMyGroupId(User user, Project project) {
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM `groupuser` gu JOIN groups g on gu.groupId = g.id " +
+                "AND g.projectName= ? WHERE userEmail=?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest,
+                project.getName(), user.getEmail());
+        Integer groupId = null;
+        if (vereinfachtesResultSet.next()) {
+            groupId = vereinfachtesResultSet.getInt("groupId");
+        }
+        connect.close();
+        return groupId;
     }
 
 

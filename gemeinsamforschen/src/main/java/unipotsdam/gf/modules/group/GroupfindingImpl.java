@@ -6,7 +6,6 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
 import unipotsdam.gf.modules.project.Project;
@@ -82,6 +81,11 @@ public class GroupfindingImpl implements IGroupFinding {
     @Override
     public List<Group> getGroups(User user, GroupWorkContext context) {
         return groupDAO.getGroupsByContextUser(user, context);
+    }
+
+    @Override
+    public Integer getMyGroupId(User user, Project project) {
+        return groupDAO.getMyGroupId(user, project);
     }
 
     @Override
