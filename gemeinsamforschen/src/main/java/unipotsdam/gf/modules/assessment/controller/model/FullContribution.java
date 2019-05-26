@@ -1,10 +1,8 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
-import java.nio.file.Path;
-
 public class FullContribution extends Contribution{
 
-    private ContributionCategories roleOfContribution;
+    private ContributionCategory roleOfContribution;
     private String textOfContribution;
 
     public FullContribution() {
@@ -18,12 +16,15 @@ public class FullContribution extends Contribution{
                 '}';
     }
 
-    public ContributionCategories getRoleOfContribution() {
-        return roleOfContribution;
+    public FullContribution(ContributionCategory roleOfContribution, String textOfContribution) {
+        this.roleOfContribution = roleOfContribution;
+        this.textOfContribution = textOfContribution;
     }
 
-    public void setRoleOfContribution(ContributionCategories roleOfContribution) {
+    public FullContribution(String pathToFile, String nameOfFile, ContributionCategory roleOfContribution, String textOfContribution) {
+        super(pathToFile, nameOfFile);
         this.roleOfContribution = roleOfContribution;
+        this.textOfContribution = textOfContribution;
     }
 
     public String getTextOfContribution() {
@@ -34,14 +35,11 @@ public class FullContribution extends Contribution{
         this.textOfContribution = textOfContribution;
     }
 
-    public FullContribution(ContributionCategories roleOfContribution, String textOfContribution) {
-        this.roleOfContribution = roleOfContribution;
-        this.textOfContribution = textOfContribution;
+    public ContributionCategory getRoleOfContribution() {
+        return roleOfContribution;
     }
 
-    public FullContribution(String pathToFile, String nameOfFile, ContributionCategories roleOfContribution, String textOfContribution) {
-        super(pathToFile, nameOfFile);
+    public void setRoleOfContribution(ContributionCategory roleOfContribution) {
         this.roleOfContribution = roleOfContribution;
-        this.textOfContribution = textOfContribution;
     }
 }

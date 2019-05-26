@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.submission.model;
 
+import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+
 /**
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
@@ -11,6 +13,7 @@ public class FullSubmission {
     private long timestamp;
     private Integer groupId;
     private String text;
+    private ContributionCategory contributionCategory;
 
     public String getProjectName() {
         return projectName;

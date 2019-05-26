@@ -1,6 +1,10 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.modules.assessment.controller.model.Categories;
+import unipotsdam.gf.modules.assessment.controller.model.Contribution;
+import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -12,7 +16,6 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,15 +98,15 @@ public class AssessmentDBCommunication {
         return result;
     }
 
-    ArrayList<Map<ContributionCategories, Double>> getContributionRating(Integer groupId) {
-        ArrayList<Map<ContributionCategories, Double>> result = new ArrayList<>();
+    ArrayList<Map<ContributionCategory, Double>> getContributionRating(Integer groupId) {
+        ArrayList<Map<ContributionCategory, Double>> result = new ArrayList<>();
         connect.connect();
         String mysqlRequest = "SELECT * FROM `contributionrating` WHERE `groupId`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, groupId);
         boolean next = vereinfachtesResultSet.next();
         while (next) {
-            Map<ContributionCategories, Double> contributionRating = new HashMap<>();
-            for (ContributionCategories category : ContributionCategories.values()) {
+            Map<ContributionCategory, Double> contributionRating = new HashMap<>();
+            for (ContributionCategory category : ContributionCategory.values()) {
                 contributionRating.put(category, (double) vereinfachtesResultSet.getInt(category.toString()));
             }
             result.add(contributionRating);
@@ -199,9 +202,9 @@ public class AssessmentDBCommunication {
         return result;
     }
 
-    void writeContributionRatingToDB(Project project, String groupId, String fromStudent, Map<ContributionCategories, Integer> contributionRating) {
+    void writeContributionRatingToDB(Project project, String groupId, String fromStudent, Map<ContributionCategory, Integer> contributionRating) {
         connect.connect();
-        for(ContributionCategories contribution : contributionRating.keySet()){
+        for (ContributionCategory contribution : contributionRating.keySet()) {
             String mysqlRequest =
                     "INSERT INTO `contributionrating`(`projectName`, `groupId`, `fromPeer`, `contributionrole`, `rating`)" +
                             " VALUES (?,?,?,?,?)";
@@ -302,7 +305,7 @@ public class AssessmentDBCommunication {
         }
     }
 
-    public Contribution getContribution(Project project, Integer groupId, ContributionCategories role){
+    public Contribution getContribution(Project project, Integer groupId, ContributionCategory role) {
         connect.connect();
         String sqlStatement =
                 "SELECT * FROM `largefilestorage` lfs JOIN groupuser gu on gu.groupId=? AND gu.userEmail=lfs.userEmail WHERE lfs.projectName=? AND lfs.filerole=?;";

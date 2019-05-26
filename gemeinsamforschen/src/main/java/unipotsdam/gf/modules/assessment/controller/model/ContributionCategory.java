@@ -1,5 +1,5 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
-public enum ContributionCategories {
+public enum ContributionCategory {
     DOSSIER, PORTFOLIO, PRESENTATION
 }

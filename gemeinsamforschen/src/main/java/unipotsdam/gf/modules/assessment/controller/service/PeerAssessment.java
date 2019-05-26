@@ -2,7 +2,15 @@ package unipotsdam.gf.modules.assessment.controller.service;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.modules.assessment.controller.model.Contribution;
+import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
+import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
@@ -10,7 +18,11 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PeerAssessment implements IPeerAssessment {
 
@@ -61,7 +73,7 @@ public class PeerAssessment implements IPeerAssessment {
     @Override
     public List<FullContribution> getContributionsFromGroup(Project project, Integer groupId){
         List<FullContribution> result = new ArrayList<>();
-        for (ContributionCategories role : ContributionCategories.values()){
+        for (ContributionCategory role : ContributionCategory.values()) {
             FullContribution fullContribution = new FullContribution();
             Contribution contribution = assessmentDBCommunication.getContribution(project, groupId, role);
             if (contribution != null){
@@ -133,7 +145,7 @@ public class PeerAssessment implements IPeerAssessment {
     public Map<User, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
         Map<User, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
         Map<User, Map<String, Double>> workRating = new HashMap<>();
-        Map<User, Map<ContributionCategories, Double>> contributionRating = new HashMap<>();
+        Map<User, Map<ContributionCategory, Double>> contributionRating = new HashMap<>();
         for (Performance performance : totalPerformance) {
             workRating.put(performance.getUser(), performance.getWorkRating());
             contributionRating.put(performance.getUser(), performance.getContributionRating());
@@ -164,7 +176,7 @@ public class PeerAssessment implements IPeerAssessment {
                 answeredQuizzes.add(0);
             }
             ArrayList<Map<String, Double>> workRating = assessmentDBCommunication.getWorkRating(project, user);
-            ArrayList<Map<ContributionCategories, Double>> contributionRating =
+            ArrayList<Map<ContributionCategory, Double>> contributionRating =
                     assessmentDBCommunication.getContributionRating(groupId);
             performance.setProject(project);
             performance.setUser(user);
@@ -192,13 +204,13 @@ public class PeerAssessment implements IPeerAssessment {
         return grading;
     }
 
-    private Map<User, Double> mapToGradeContribution(Map<User, Map<ContributionCategories, Double>> ratings) {
-        //convert Map<User, Map<ContributionCategories, Double>> to Map<User, Map<String, Double>>
+    private Map<User, Double> mapToGradeContribution(Map<User, Map<ContributionCategory, Double>> ratings) {
+        //convert Map<User, Map<ContributionCategory, Double>> to Map<User, Map<String, Double>>
         Map<User, Map<String, Double>> convertTo = new HashMap<>();
         for (User user : ratings.keySet()){
             Map<String, Double> marksForContribution = new HashMap<>();
-            for (ContributionCategories contributionCategories : ratings.get(user).keySet()){
-                marksForContribution.put(contributionCategories.toString(), ratings.get(user).get(contributionCategories));
+            for (ContributionCategory contributionCategory : ratings.get(user).keySet()) {
+                marksForContribution.put(contributionCategory.toString(), ratings.get(user).get(contributionCategory));
             }
             convertTo.put(user, marksForContribution);
         }
@@ -248,23 +260,23 @@ public class PeerAssessment implements IPeerAssessment {
         return mean;
     }
 
-    private Map<ContributionCategories, Double> cheatCheckerContributions(ArrayList<Map<ContributionCategories, Double>> contributionRatings, cheatCheckerMethods method) {
-        //convert ArrayList<Map<ContributionCategories, Double>> to ArrayList<Map<String, Double>>
+    private Map<ContributionCategory, Double> cheatCheckerContributions(ArrayList<Map<ContributionCategory, Double>> contributionRatings, cheatCheckerMethods method) {
+        //convert ArrayList<Map<ContributionCategory, Double>> to ArrayList<Map<String, Double>>
         ArrayList<Map<String, Double>> ratings = new ArrayList<>();
-        for (Map<ContributionCategories, Double> rating: contributionRatings){
+        for (Map<ContributionCategory, Double> rating : contributionRatings) {
             Map<String, Double> markForContribution = new HashMap<>();
-            for (ContributionCategories contribution : rating.keySet()){
+            for (ContributionCategory contribution : rating.keySet()) {
                 markForContribution.put(contribution.toString(), rating.get(contribution));
             }
             ratings.add(markForContribution);
         }
 
         Map<String, Double> unparsedSolution = cheatChecker(ratings, method);
-        Map<ContributionCategories, Double> result= new HashMap<>();
+        Map<ContributionCategory, Double> result = new HashMap<>();
 
-        //convert ArrayList<Map<String, Double>> back to ArrayList<Map<ContributionCategories, Double>>
+        //convert ArrayList<Map<String, Double>> back to ArrayList<Map<ContributionCategory, Double>>
         for (String key : unparsedSolution.keySet()){
-            result.put(ContributionCategories.valueOf(key), unparsedSolution.get(key));
+            result.put(ContributionCategory.valueOf(key), unparsedSolution.get(key));
         }
         return result;
     }
@@ -346,9 +358,9 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public void postContributionRating(Project project,
-                                        String groupId,
+                                       String groupId,
                                        String fromStudent,
-                                       Map<ContributionCategories, Integer> contributionRating) {
+                                       Map<ContributionCategory, Integer> contributionRating) {
         assessmentDBCommunication.writeContributionRatingToDB(project, groupId, fromStudent, contributionRating);
     }
 

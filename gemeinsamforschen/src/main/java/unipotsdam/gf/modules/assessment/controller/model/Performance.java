@@ -39,20 +39,18 @@ public class Performance {
         this.workRating = workRating;
     }
 
-    public Map<ContributionCategories, Double> getContributionRating() {
-        return contributionRating;
-    }
+    private Map<ContributionCategory, Double> contributionRating;
 
-    public void setContributionRating(Map<ContributionCategories, Double> contributionRating) {
-        this.contributionRating = contributionRating;
-    }
-
-    public Performance(Project project, User user, List<Integer> quizAnswer, Map<String, Double> workRating, Map<ContributionCategories, Double> contributionRating) {
+    public Performance(Project project, User user, List<Integer> quizAnswer, Map<String, Double> workRating, Map<ContributionCategory, Double> contributionRating) {
         this.project = project;
         this.user = user;
         this.quizAnswer = quizAnswer;
         this.workRating = workRating;
         this.contributionRating = contributionRating;
+    }
+
+    public Map<ContributionCategory, Double> getContributionRating() {
+        return contributionRating;
     }
 
     @Override
@@ -70,7 +68,10 @@ public class Performance {
     private User user;
     private List<Integer> quizAnswer;
     private Map<String, Double> workRating;
-    private Map<ContributionCategories, Double> contributionRating;
+
+    public void setContributionRating(Map<ContributionCategory, Double> contributionRating) {
+        this.contributionRating = contributionRating;
+    }
 
     public Performance(){}
 

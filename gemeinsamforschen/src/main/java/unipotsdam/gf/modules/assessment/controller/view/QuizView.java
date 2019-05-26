@@ -1,7 +1,13 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
+import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -11,7 +17,12 @@ import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
@@ -132,7 +143,7 @@ public class QuizView {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/contributionRating/project/{projectName}/group/{groupId}/fromPeer/{fromPeer}")
-    public void postContributionRating(Map<ContributionCategories, Integer> contributionRatings,
+    public void postContributionRating(Map<ContributionCategory, Integer> contributionRatings,
                                        @PathParam("groupId") String groupId,
                                        @PathParam("projectName") String projectName,
                                        @PathParam("fromPeer") String fromPeer) {
@@ -259,12 +270,12 @@ public class QuizView {
         work2.put("cooperation", 5.);
         work2.put("communication", 3.);
         work2.put("autonomous", 4.);
-        Map<ContributionCategories, Double> contribution1 = new HashMap<>();
-        contribution1.put(ContributionCategories.DOSSIER, 4.);
-        contribution1.put(ContributionCategories.PORTFOLIO, 4.);
-        Map<ContributionCategories, Double> contribution2 = new HashMap<>();
-        contribution2.put(ContributionCategories.DOSSIER, 2.);
-        contribution2.put(ContributionCategories.PORTFOLIO, 3.);
+        Map<ContributionCategory, Double> contribution1 = new HashMap<>();
+        contribution1.put(ContributionCategory.DOSSIER, 4.);
+        contribution1.put(ContributionCategory.PORTFOLIO, 4.);
+        Map<ContributionCategory, Double> contribution2 = new HashMap<>();
+        contribution2.put(ContributionCategory.DOSSIER, 2.);
+        contribution2.put(ContributionCategory.PORTFOLIO, 3.);
         Performance pf = new Performance();
         pf.setContributionRating(contribution1);
         pf.setQuizAnswer(quiz);
