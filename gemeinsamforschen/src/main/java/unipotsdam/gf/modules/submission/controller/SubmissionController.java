@@ -4,11 +4,17 @@ import com.google.common.base.Strings;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.interfaces.ISubmission;
 import unipotsdam.gf.modules.annotation.model.Category;
+import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -53,9 +59,9 @@ public class SubmissionController implements ISubmission, HasProgress {
         }
 
         // build and execute request
-        String request = "REPLACE INTO fullsubmissions (`id`, `groupId`, `text`, `projectName`) VALUES (?,?,?,?);";
+        String request = "REPLACE INTO fullsubmissions (`id`, `groupId`, `text`, `projectName`, `contributionCategory`) VALUES (?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, uuid, fullSubmissionPostRequest.getGroupId(),
-                fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectName());
+                fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectName(), fullSubmissionPostRequest.getContributionCategory());
 
         // close connection
         connection.close();
@@ -366,8 +372,9 @@ public class SubmissionController implements ISubmission, HasProgress {
         Integer groupId = rs.getInt("groupId");
         String text = rs.getString("text");
         String projectName = rs.getString("projectName");
+        ContributionCategory contributionCategory = ContributionCategory.valueOf(rs.getString("contributionCategory"));
 
-        return new FullSubmission(id, timestamp, groupId, text, projectName);
+        return new FullSubmission(id, timestamp, groupId, text, contributionCategory, projectName);
 
     }
 

@@ -97,13 +97,14 @@ CREATE TABLE `contributionrating` (
 --
 
 CREATE TABLE `fullsubmissions` (
-  `id` varchar(120) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `groupId` int(100) NOT NULL,
-  `text` mediumtext NOT NULL,
-  `projectName` varchar(200) NOT NULL,
-  `feedbackUser` varchar(255) DEFAULT NULL,
-  `finalized` tinyint(1) DEFAULT NULL
+                                   `id`                   varchar(120) NOT NULL,
+                                   `timestamp`            timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                   `groupId`              int(100) NOT NULL,
+                                   `text`                 mediumtext NOT NULL,
+                                   `projectName`          varchar(200) NOT NULL,
+                                   `feedbackUser`         varchar(255)       DEFAULT NULL,
+                                   `finalized`            tinyint(1)         DEFAULT NULL,
+                                   `contributionCategory` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This holds the aggregated text of the dossier students should upload';
 
 -- --------------------------------------------------------

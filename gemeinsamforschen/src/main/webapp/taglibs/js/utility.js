@@ -60,7 +60,7 @@ function updateURLParameter(url, param, paramVal) {
 
 function changeLocationTo(target) {
     let level = $('#hierarchyLevel').html().trim();
-    return calculateHierachy(level) + target;
+    return level + target;
 }
 
 
@@ -216,20 +216,6 @@ function serverSideWithType(requestObj, method, callback, contentType) {
                 console.log(a);
             }
         });
-    }
-}
-
-
-function calculateHierachy(level) {
-
-    if (level === 0) {
-
-        return "";
-
-    } else {
-
-        return calculateHierachy(level - 1) + "../";
-
     }
 }
 

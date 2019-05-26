@@ -4,9 +4,9 @@
 <%--<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>--%>
 <%
     TagUtilities tu = new TagUtilities();
-    String contributionType = tu.getParamterFromQuery("contributionType", request);
-    if (contributionType == null) {
-        contributionType = "Unbekannt";
+    String contributionCategory = tu.getParamterFromQuery("contributionCategory", request);
+    if (contributionCategory == null) {
+        contributionCategory = "Unbekannt";
     }
 %>
 
@@ -90,7 +90,7 @@
         <jsp:param name="readOnly" value="false"/>
     </jsp:include>
 
-    <p id="contributionType" hidden><%= tu.printMe(contributionType)%>
+        <p id="contributionCategory" hidden><%= tu.printMe(contributionCategory)%>
 </body>
 
 </html>

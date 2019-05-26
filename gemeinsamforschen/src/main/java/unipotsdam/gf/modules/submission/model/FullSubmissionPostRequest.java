@@ -1,5 +1,7 @@
 package unipotsdam.gf.modules.submission.model;
 
+import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+
 /**
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
@@ -11,6 +13,7 @@ public class FullSubmissionPostRequest {
     private String text;
     private String html;
     private String projectName;
+    private ContributionCategory contributionCategory;
 
     public FullSubmissionPostRequest() {
     }
@@ -48,13 +51,22 @@ public class FullSubmissionPostRequest {
         this.html = html;
     }
 
+    public ContributionCategory getContributionCategory() {
+        return contributionCategory;
+    }
+
+    public void setContributionCategory(ContributionCategory contributionCategory) {
+        this.contributionCategory = contributionCategory;
+    }
+
     @Override
     public String toString() {
         return "FullSubmissionPostRequest{" +
-                "user='" + groupId + '\'' +
+                "groupId=" + groupId +
                 ", text='" + text + '\'' +
                 ", html='" + html + '\'' +
                 ", projectName='" + projectName + '\'' +
+                ", contributionCategory='" + contributionCategory + '\'' +
                 '}';
     }
 

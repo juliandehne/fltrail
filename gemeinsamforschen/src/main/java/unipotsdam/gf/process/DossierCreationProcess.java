@@ -4,6 +4,7 @@ import com.itextpdf.text.DocumentException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition.FormDataContentDispositionBuilder;
 import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.fileManagement.FileType;
@@ -74,18 +75,20 @@ public class DossierCreationProcess {
     public FullSubmission addSubmission(
             FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) throws DocumentException, IOException {
 
-        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName("dossier_" + user.getEmail() + ".pdf");
+        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName(fullSubmissionPostRequest.getContributionCategory() + "_" + user.getEmail() + ".pdf");
         fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
                 FileRole.DOSSIER, FileType.HTML);
 
         FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
+
         // this completes the upload task
-        Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.FINISHED);
-        taskDAO.updateForGroup(task);
+        if (fullSubmission.getContributionCategory() == ContributionCategory.DOSSIER) {
+            Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.FINISHED);
+            taskDAO.updateForGroup(task);
 
-        // this triggers the annotate task
-        taskDAO.persist(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback, TaskType.LINKED);
-
+            // this triggers the annotate task
+            taskDAO.persist(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback, TaskType.LINKED);
+        }
         return fullSubmission;
     }
 

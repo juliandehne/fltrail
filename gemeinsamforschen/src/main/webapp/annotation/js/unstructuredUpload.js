@@ -2,11 +2,11 @@
  * This function will fire when the DOM is ready
  */
 let groupId = 0;
-let contributionType;
+let contributionCategory;
 let hierarchyLevel;
 $(document).ready(function () {
     getMyGroupId(getFullSubmissionOfGroup);
-    contributionType = $('#contributionType').html().trim();
+    contributionCategory = $('#contributionCategory').html().trim();
     hierarchyLevel = $('#hierarchyLevel').html().trim();
     populateTextFields();
 
@@ -22,7 +22,8 @@ $(document).ready(function () {
                 groupId: groupId,
                 text: JSON.stringify(content),
                 html: html,
-                projectName: $('#projectName').text().trim()
+                projectName: $('#projectName').text().trim(),
+                contributionCategory: contributionCategory.toUpperCase()
             };
 
             // save request in database
@@ -84,7 +85,7 @@ function getFullSubmissionOfGroup(groupId) {
 
 function populateTextFields() {
     let data = {};
-    data.header = contributionType;
+    data.header = contributionCategory;
     let tmpl = $.templates("#headerTemplate");
     //tmpl.link("#result");
     let html = tmpl.render(data);

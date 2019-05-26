@@ -62,8 +62,8 @@ public class SubmissionService {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         User user = userDAO.getUserByEmail(userEmail);
         try {
-            fullSubmission = dossierCreationProcess.addSubmission(fullSubmissionPostRequest, user
-                    , new Project(fullSubmissionPostRequest.getProjectName()));
+            fullSubmission = dossierCreationProcess.addSubmission(fullSubmissionPostRequest, user,
+                    new Project(fullSubmissionPostRequest.getProjectName()));
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

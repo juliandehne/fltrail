@@ -25,12 +25,12 @@ public class FullSubmission {
 
     private String projectName;
 
-    // constructor
-    public FullSubmission(String id, long timestamp, Integer groupId, String text, String projectName) {
+    public FullSubmission(String id, long timestamp, Integer groupId, String text, ContributionCategory contributionCategory, String projectName) {
         this.id = id;
         this.timestamp = timestamp;
         this.groupId = groupId;
         this.text = text;
+        this.contributionCategory = contributionCategory;
         this.projectName = projectName;
     }
 
@@ -71,14 +71,22 @@ public class FullSubmission {
         this.text = text;
     }
 
+    public ContributionCategory getContributionCategory() {
+        return contributionCategory;
+    }
+
+    public void setContributionCategory(ContributionCategory contributionCategory) {
+        this.contributionCategory = contributionCategory;
+    }
 
     @Override
     public String toString() {
         return "FullSubmission{" +
                 "id='" + id + '\'' +
                 ", timestamp=" + timestamp +
-                ", user='" + groupId + '\'' +
+                ", groupId=" + groupId +
                 ", text='" + text + '\'' +
+                ", contributionCategory=" + contributionCategory +
                 ", projectName='" + projectName + '\'' +
                 '}';
     }
