@@ -4,6 +4,7 @@
 let groupId = 0;
 let contributionCategory;
 let hierarchyLevel;
+let fullSubmissionId = "";
 $(document).ready(function () {
     getMyGroupId(getFullSubmissionOfGroup);
     contributionCategory = $('#contributionCategory').html().trim();
@@ -76,6 +77,7 @@ function getFullSubmissionOfGroup(groupId) {
         success: function (fullSubmission) {
             //set content in Quill here
             quill.setContents(JSON.parse(fullSubmission.text));
+            fullSubmissionId = fullSubmission.id;
         },
         error: function () {
 

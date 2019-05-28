@@ -9,6 +9,9 @@ $(document).ready(function () {
     $('#missingAnnotation').hide();
     buildAnnotationList();
     // fetch the document text of the given id
+    getMyGroupId(getFullSubmissionOfGroup);
+
+    /*
     getFullSubmission(getQueryVariable("submissionId"), function (response) {
         // set text in div
         quill.setContents(JSON.parse(response.text));
@@ -35,7 +38,7 @@ $(document).ready(function () {
         // jump to upload page on error
         // location.href = "upload-unstructured-dossier.jsp"
     });
-
+    */
     // set click listener to save button
     $('#btnSave').click(function () {
         saveButtonHandler();

@@ -1,7 +1,14 @@
+<%@ page import="unipotsdam.gf.taglibs.TagUtilities" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%--<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>--%>
-
+<%
+    TagUtilities tu = new TagUtilities();
+    String contributionCategory = tu.getParamterFromQuery("contributionCategory", request);
+    if (contributionCategory == null) {
+        contributionCategory = "Unbekannt";
+    }
+%>
 
 <!DOCTYPE html>
 <html>
@@ -26,6 +33,8 @@
     <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js"
             type="text/javascript"></script>
     <!-- js - unstructuredRest -->
+    <script src="js/unstructuredUpload.js"></script>
+
     <script src="js/unstructuredRest.js"></script>
     <!-- js - unstructuredUpload -->
     <script src="js/unstructuredAnnotation.js"></script>
@@ -67,7 +76,7 @@
                 </div>
                 <div id="missingAnnotation" class="alert alert-warning"></div>
                 <ol id="annotations">
-                <script id="annotationTemplate" type="text/x-jsrender">
+                    <script id="annotationTemplate" type="text/x-jsrender">
 
                     {{for categories}}
                         <li class="spacing">
@@ -91,6 +100,8 @@
     </jsp:include>
     <jsp:include page="../taglibs/footer.jsp"/>
 </div>
+<p id="contributionCategory" hidden><%= tu.printMe(contributionCategory)%>
+
 </body>
 
 </html>
