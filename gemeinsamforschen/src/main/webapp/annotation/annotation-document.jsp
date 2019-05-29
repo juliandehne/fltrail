@@ -59,7 +59,7 @@
             <div class="col span_l_of_2">
 
                 <h3>Feedback geben </h3>
-                <p>Gib <span id="feedBackTarget"></span> eine Rückmeldung für das Dossier.</p>
+                <p>Gib der Gruppe <span id="feedBackTarget"></span> eine Rückmeldung für das Dossier.</p>
 
                 <br>
 
@@ -98,9 +98,7 @@
                 </div>
 
 
-
-
-                <h4 class="comment-headline">Kommentare</h4>
+                <h4 class="comment-headline">Feedback</h4>
                 <ol id="annotations">
 
                 </ol>

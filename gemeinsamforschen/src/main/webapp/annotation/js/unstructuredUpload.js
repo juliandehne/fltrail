@@ -4,6 +4,7 @@
 let groupId = 0;
 let contributionCategory;
 let hierarchyLevel;
+let fullSubmissionId = "";
 $(document).ready(function () {
     getMyGroupId(getFullSubmissionOfGroup);
     contributionCategory = $('#contributionCategory').html().trim();
@@ -64,24 +65,6 @@ $(document).ready(function () {
 
 });
 
-
-function getFullSubmissionOfGroup(groupId) {
-    let projectName = $('#projectName').html().trim();
-    $.ajax({
-        url: '../rest/submissions/full/groupId/' + groupId + '/project/' + projectName,
-        type: 'GET',
-        headers: {
-            "Cache-Control": "no-cache"
-        },
-        success: function (fullSubmission) {
-            //set content in Quill here
-            quill.setContents(JSON.parse(fullSubmission.text));
-        },
-        error: function () {
-
-        }
-    })
-}
 
 function populateTextFields() {
     let data = {};

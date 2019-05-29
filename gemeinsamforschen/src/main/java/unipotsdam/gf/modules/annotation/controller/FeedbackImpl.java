@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.annotation.controller;
 
 import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.user.User;
@@ -17,6 +18,9 @@ public class FeedbackImpl implements Feedback {
     @Inject
     MysqlConnect connection;
 
+    @Inject
+    GroupDAO groupDAO;
+
     @Override
     public void assigningMissingFeedbackTasks(Project project) {
 
@@ -25,21 +29,21 @@ public class FeedbackImpl implements Feedback {
     @Override
     public void specifyFeedbackTasks(List<Task> tasks) {
         for (Task task : tasks) {
-            List<String> studentsToFeedback = studentsToFeedback(tasks, task, 1);
-            for (String userEmail : studentsToFeedback) {
+            List<Integer> groupToFeedback = groupToFeedback(tasks, task, 1);
+            for (Integer groupId : groupToFeedback) {
                 connection.connect();
-                String request = "UPDATE `fullsubmissions` SET `feedbackUser`=? WHERE user=? AND projectName=?";
-                connection.issueInsertOrDeleteStatement(request, userEmail, task.getUserEmail(), task.getProjectName());
+                String request = "UPDATE `fullsubmissions` SET `feedbackGroup`=? WHERE groupId=? AND projectName=?";
+                connection.issueInsertOrDeleteStatement(request, groupId, task.getGroupTask(), task.getProjectName());
                 connection.close();
             }
         }
     }
 
-    private List<String> studentsToFeedback(List<Task> tasks, Task task, int howMany) {
-        List<String> result = new ArrayList<>();
+    private List<Integer> groupToFeedback(List<Task> tasks, Task task, int howMany) {
+        List<Integer> result = new ArrayList<>();
         int position = tasks.indexOf(task);
         for (int i = 1; i <= howMany; i++) {
-            result.add(tasks.get((i + position) % tasks.size()).getUserEmail());  //modulo builds a circle in users
+            result.add(tasks.get((i + position) % tasks.size()).getGroupTask());  //modulo builds a circle in users
         }
         return result;
     }
@@ -51,11 +55,12 @@ public class FeedbackImpl implements Feedback {
 
     public String getFeedBackTarget(Project project,User user){
         connection.connect();
+        Integer groupId = groupDAO.getMyGroupId(user, project);
         String feedbackTarget="";
-        String request = "SELECT * FROM `fullsubmissions` WHERE feedbackUser=? AND projectName=?";
-        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(request, user.getEmail(), project.getName());
+        String request = "SELECT * FROM `fullsubmissions` WHERE feedbackGroup=? AND projectName=?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(request, groupId, project.getName());
         if (vereinfachtesResultSet.next()){
-            feedbackTarget = vereinfachtesResultSet.getString("user");
+            feedbackTarget = vereinfachtesResultSet.getString("groupId");
         }
         connection.close();
         return feedbackTarget;

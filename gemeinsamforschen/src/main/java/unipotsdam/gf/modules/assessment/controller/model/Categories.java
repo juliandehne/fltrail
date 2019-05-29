@@ -15,4 +15,16 @@ public class Categories {
             }}
     );
 
+    public static final List<String> standardAnnotationCategories = Collections.unmodifiableList(
+            new ArrayList<String>() {{
+                add("TITEL");
+                add("RECHERCHE");
+                add("LITERATURVERZEICHNIS");
+                add("FORSCHUNGSFRAGE");
+                add("UNTERSUCHUNGSKONZEPT");
+                add("METHODIK");
+                add("DURCHFUEHRUNG");
+                add("AUSWERTUNG");
+            }}
+    );
 }

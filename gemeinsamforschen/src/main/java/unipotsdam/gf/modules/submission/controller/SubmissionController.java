@@ -9,12 +9,7 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -131,9 +126,9 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         // build and execute request
         String request =
-                "INSERT IGNORE INTO submissionparts (`userEmail`, `fullSubmissionId`, `category`) VALUES (?,?,?);";
+                "INSERT IGNORE INTO submissionparts (`groupId`, `fullSubmissionId`, `category`) VALUES (?,?,?);";
 
-        connection.issueInsertOrDeleteStatement(request, submissionPartPostRequest.getUserEmail(),
+        connection.issueInsertOrDeleteStatement(request, submissionPartPostRequest.getGroupId(),
                 submissionPartPostRequest.getFullSubmissionId(),
                 submissionPartPostRequest.getCategory().toString().toUpperCase());
 
@@ -392,7 +387,7 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         // initialize variables
         long timestamp = rs.getTimestamp("timestamp").getTime();
-        String userEmail = rs.getString("userEmail");
+        String userEmail = rs.getString("groupId");
         String fullSubmissionId = rs.getString("fullSubmissionId");
         Category category = Category.valueOf(rs.getString("category").toUpperCase());
 
@@ -474,7 +469,7 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         while (rs.next()) {
             if (!Strings.isNullOrEmpty(rs.getString("category"))) {
-                representations.add(new SubmissionProjectRepresentation(rs.getString("userEmail"),
+                representations.add(new SubmissionProjectRepresentation(rs.getInt("groupId"),
                         Category.valueOf(rs.getString("category").toUpperCase()), rs.getString("fullSubmissionId")));
             }
         }
@@ -619,8 +614,8 @@ public class SubmissionController implements ISubmission, HasProgress {
     public GroupFeedbackTaskData getFeedbackTaskData(User target, Project project) {
         connection.connect();
         Integer targetGroupId = groupDAO.getGroupByStudent(project, target);
-        String query = "SELECT * from fullsubmissions where feedbackUser = ? and projectName = ?";
-        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, target.getEmail(),
+        String query = "SELECT * from fullsubmissions where feedbackGroup = ? and projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, targetGroupId,
                 project.getName());
         return resultSetToFeedback(targetGroupId, vereinfachtesResultSet);
     }
@@ -635,7 +630,7 @@ public class SubmissionController implements ISubmission, HasProgress {
     }
 
     private GroupFeedbackTaskData resultSetToFeedback(Integer targetGroupId, VereinfachtesResultSet vereinfachtesResultSet) {
-        if (vereinfachtesResultSet.next()) {
+        if (vereinfachtesResultSet != null && vereinfachtesResultSet.next()) {
             String submissionId = vereinfachtesResultSet.getString("id");
             String projectName = vereinfachtesResultSet.getString("projectName");
             Category category = Category.TITEL;

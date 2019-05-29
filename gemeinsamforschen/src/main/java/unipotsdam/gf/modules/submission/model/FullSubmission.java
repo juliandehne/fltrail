@@ -46,11 +46,11 @@ public class FullSubmission {
         this.timestamp = timestamp;
     }
 
-    public Integer getUser() {
+    public Integer getGroupId() {
         return groupId;
     }
 
-    public void setUser(Integer groupId) {
+    public void setGroupId(Integer groupId) {
         this.groupId = groupId;
     }
 
