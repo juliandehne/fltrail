@@ -2,14 +2,10 @@ package unipotsdam.gf.modules.submission.view;
 
 import com.itextpdf.text.DocumentException;
 import unipotsdam.gf.modules.annotation.model.Category;
+import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
-import unipotsdam.gf.modules.submission.model.SubmissionResponse;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -17,17 +13,13 @@ import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Sven Kästle
@@ -171,4 +163,12 @@ public class SubmissionService {
         dossierCreationProcess.finalizeDossier(new FullSubmission(submissionId), new User(userEmail),
                 new Project(projectId));
     }
+
+    @GET
+    @Path("categories/project/{projectName}")
+    public List<String> getAnnotationCategories(@PathParam("projectName") String projectName) {
+        //todo: for every project categories should be selectable
+        return Categories.standardAnnotationCategories;
+    }
+
 }

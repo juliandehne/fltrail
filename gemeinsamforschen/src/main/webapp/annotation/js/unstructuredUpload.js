@@ -66,25 +66,6 @@ $(document).ready(function () {
 });
 
 
-function getFullSubmissionOfGroup(groupId) {
-    let projectName = $('#projectName').html().trim();
-    $.ajax({
-        url: '../rest/submissions/full/groupId/' + groupId + '/project/' + projectName,
-        type: 'GET',
-        headers: {
-            "Cache-Control": "no-cache"
-        },
-        success: function (fullSubmission) {
-            //set content in Quill here
-            quill.setContents(JSON.parse(fullSubmission.text));
-            fullSubmissionId = fullSubmission.id;
-        },
-        error: function () {
-
-        }
-    })
-}
-
 function populateTextFields() {
     let data = {};
     data.header = contributionCategory;

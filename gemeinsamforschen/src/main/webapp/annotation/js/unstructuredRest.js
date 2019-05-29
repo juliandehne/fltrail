@@ -118,3 +118,19 @@ function getAllSubmissionParts(id, responseHandler) {
         }
     })
 }
+
+function getAnnotationCategories(callback) {
+    let url = "../rest/submissions/categories/project/" + $('#projectName').html().trim();
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            // handle the response
+            callback(response);
+        },
+        error: function () {
+            console.log("error loading annotation categories");
+        }
+    })
+}

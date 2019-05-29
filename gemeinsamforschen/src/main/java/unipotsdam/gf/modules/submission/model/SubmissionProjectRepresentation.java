@@ -5,13 +5,13 @@ import unipotsdam.gf.modules.annotation.model.Category;
 public class SubmissionProjectRepresentation {
 
     // variables
-    private String user;
+    private Integer groupId;
     private Category category;
     private String fullSubmissionId;
 
     // constructor
-    public SubmissionProjectRepresentation(String user, Category category, String fullSubmissionId) {
-        this.user = user;
+    public SubmissionProjectRepresentation(Integer groupId, Category category, String fullSubmissionId) {
+        this.groupId = groupId;
         this.category = category;
         this.fullSubmissionId = fullSubmissionId;
     }
@@ -20,12 +20,12 @@ public class SubmissionProjectRepresentation {
     }
 
     // methods
-    public String getUser() {
-        return user;
+    public Integer getGroupId() {
+        return groupId;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setGroupId(String user) {
+        this.groupId = groupId;
     }
 
     public Category getCategory() {
@@ -47,7 +47,7 @@ public class SubmissionProjectRepresentation {
     @Override
     public String toString() {
         return "SubmissionProjectRepresentation{" +
-                "user='" + user + '\'' +
+                "groupId='" + groupId + '\'' +
                 ", category=" + category +
                 ", fullSubmissionId='" + fullSubmissionId + '\'' +
                 '}';

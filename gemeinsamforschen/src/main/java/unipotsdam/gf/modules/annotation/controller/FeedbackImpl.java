@@ -25,21 +25,21 @@ public class FeedbackImpl implements Feedback {
     @Override
     public void specifyFeedbackTasks(List<Task> tasks) {
         for (Task task : tasks) {
-            List<String> studentsToFeedback = studentsToFeedback(tasks, task, 1);
-            for (String userEmail : studentsToFeedback) {
+            List<Integer> groupToFeedback = groupToFeedback(tasks, task, 1);
+            for (Integer groupId : groupToFeedback) {
                 connection.connect();
-                String request = "UPDATE `fullsubmissions` SET `feedbackUser`=? WHERE user=? AND projectName=?";
-                connection.issueInsertOrDeleteStatement(request, userEmail, task.getUserEmail(), task.getProjectName());
+                String request = "UPDATE `fullsubmissions` SET `feedbackGroup`=? WHERE groupId=? AND projectName=?";
+                connection.issueInsertOrDeleteStatement(request, groupId, task.getUserEmail(), task.getProjectName());
                 connection.close();
             }
         }
     }
 
-    private List<String> studentsToFeedback(List<Task> tasks, Task task, int howMany) {
-        List<String> result = new ArrayList<>();
+    private List<Integer> groupToFeedback(List<Task> tasks, Task task, int howMany) {
+        List<Integer> result = new ArrayList<>();
         int position = tasks.indexOf(task);
         for (int i = 1; i <= howMany; i++) {
-            result.add(tasks.get((i + position) % tasks.size()).getUserEmail());  //modulo builds a circle in users
+            result.add(tasks.get((i + position) % tasks.size()).getGroupTask());  //modulo builds a circle in users
         }
         return result;
     }

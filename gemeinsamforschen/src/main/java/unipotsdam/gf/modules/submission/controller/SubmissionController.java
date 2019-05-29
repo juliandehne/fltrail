@@ -9,12 +9,7 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -131,9 +126,9 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         // build and execute request
         String request =
-                "INSERT IGNORE INTO submissionparts (`userEmail`, `fullSubmissionId`, `category`) VALUES (?,?,?);";
+                "INSERT IGNORE INTO submissionparts (`groupId`, `fullSubmissionId`, `category`) VALUES (?,?,?);";
 
-        connection.issueInsertOrDeleteStatement(request, submissionPartPostRequest.getUserEmail(),
+        connection.issueInsertOrDeleteStatement(request, submissionPartPostRequest.getGroupId(),
                 submissionPartPostRequest.getFullSubmissionId(),
                 submissionPartPostRequest.getCategory().toString().toUpperCase());
 
@@ -392,7 +387,7 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         // initialize variables
         long timestamp = rs.getTimestamp("timestamp").getTime();
-        String userEmail = rs.getString("userEmail");
+        String userEmail = rs.getString("groupId");
         String fullSubmissionId = rs.getString("fullSubmissionId");
         Category category = Category.valueOf(rs.getString("category").toUpperCase());
 
@@ -474,7 +469,7 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         while (rs.next()) {
             if (!Strings.isNullOrEmpty(rs.getString("category"))) {
-                representations.add(new SubmissionProjectRepresentation(rs.getString("userEmail"),
+                representations.add(new SubmissionProjectRepresentation(rs.getInt("groupId"),
                         Category.valueOf(rs.getString("category").toUpperCase()), rs.getString("fullSubmissionId")));
             }
         }

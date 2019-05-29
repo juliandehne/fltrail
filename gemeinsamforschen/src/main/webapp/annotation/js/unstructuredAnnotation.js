@@ -2,43 +2,19 @@
  * This function will fire when the DOM is ready
  */
 
-const staticCategories = [{name: "TITEL"}, {name: "RECHERCHE"}, {name: "LITERATURVERZEICHNIS"}, {name: "FORSCHUNGSFRAGE"}, {name: "UNTERSUCHUNGSKONZEPT"},
-    {name: "METHODIK"}, {name: "DURCHFUEHRUNG"}, {name: "AUSWERTUNG"}];
-
+let staticCategories = [];
 $(document).ready(function () {
+    getAnnotationCategories(function (categories) {
+        buildAnnotationList(categories);
+        staticCategories = categories;
+    });
     $('#missingAnnotation').hide();
-    buildAnnotationList();
     // fetch the document text of the given id
     getMyGroupId(getFullSubmissionOfGroup);
 
-    /*
-    getFullSubmission(getQueryVariable("submissionId"), function (response) {
-        // set text in div
-        quill.setContents(JSON.parse(response.text));
-
-        // get submissions parts from database
-        getAllSubmissionParts(getQueryVariable("submissionId"), function (response) {
-
-            // iterate over response
-            for (let i = 0; i < response.length; i++) {
-                // save current category and body
-                let category = response[i].category;
-                let body = response[i].body;
-                // iterate over body and handle every selection
-                for (let j = 0; j < body.length; j++) {
-                    handleCategorySelection(category.toLowerCase(), body[j].startCharacter, body[j].endCharacter);
-                }
-            }
-
-        });
-
-
-    }, function () {
-        console.log("error occured at getting full submission");
-        // jump to upload page on error
-        // location.href = "upload-unstructured-dossier.jsp"
+    $('#backToTasks').click(function () {
+        location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
     });
-    */
     // set click listener to save button
     $('#btnSave').click(function () {
         saveButtonHandler();
@@ -191,8 +167,8 @@ function saveButtonHandler() {
                 // initialize the post request
                 let category = $(this).attr('id').toUpperCase();
                 let submissionPartPostRequest = {
-                    userEmail: getUserEmail(),
-                    fullSubmissionId: getQueryVariable("submissionId"),
+                    groupId: groupId,
+                    fullSubmissionId: fullSubmissionId,
                     category: category,
                     body: []
                 };
@@ -220,10 +196,8 @@ function saveButtonHandler() {
         });
 
         $.when.apply($, promises).then(function () {
-            let categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRAGE", "UNTERSUCHUNGSKONZEPT",
-                "METHODIK", "DURCHFUEHRUNG", "AUSWERTUNG"];
-            if (categoriesSent.length === categories.length) {
-                finalizeDossier(getQueryVariable("submissionId"));
+            if (categoriesSent.length === staticCategories.length) {
+                finalizeDossier(fullSubmissionId);
             } else {
                 let missingAnnotation = $('#missingAnnotation');
                 missingAnnotation.show();
@@ -261,10 +235,10 @@ function handleCategoryClick(key) {
     }
 }
 
-function buildAnnotationList() {
+function buildAnnotationList(categories) {
     let data = {categories: []};
-    staticCategories.forEach(function (category) {
-        data.categories.push({name: category.name, nameLower: category.name.toLowerCase()})
+    categories.forEach(function (category) {
+        data.categories.push({name: category, nameLower: category.toLowerCase()})
     });
     let tmpl = $.templates("#annotationTemplate");
     let html = tmpl.render(data);

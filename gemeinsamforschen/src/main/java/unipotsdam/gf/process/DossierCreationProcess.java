@@ -16,11 +16,7 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.Progress;
-import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskName;
-import unipotsdam.gf.process.tasks.TaskType;
+import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -83,11 +79,11 @@ public class DossierCreationProcess {
 
         // this completes the upload task
         if (fullSubmission.getContributionCategory() == ContributionCategory.DOSSIER) {
-            Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.FINISHED);
+            Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.INPROGRESS);
             taskDAO.updateForGroup(task);
 
             // this triggers the annotate task
-            taskDAO.persist(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback, TaskType.LINKED);
+            taskDAO.persistGroupTask(project, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
         }
         return fullSubmission;
     }
@@ -101,19 +97,24 @@ public class DossierCreationProcess {
         submissionController.markAsFinal(fullSubmission);
 
         // mark annotate task as finished in db
-        Task task = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), project.getName(),
+        //todo: for iterative work, these two tasks need to be seperated
+        Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(),
                 Progress.FINISHED);
-        taskDAO.updateForUser(task);
+        taskDAO.updateForGroup(task);
+        Task task1 = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), project.getName(),
+                Progress.FINISHED);
+        taskDAO.updateForGroup(task1);
+        Task giveFeedbackTask = new Task(TaskName.GIVE_FEEDBACK, user.getEmail(), project.getName(), Progress.JUSTSTARTED);
+        taskDAO.updateForGroup(giveFeedbackTask);
+
 
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
             // create Task to give Feedback
             List<User> projectParticipants = userDAO.getUsersByProjectName(project.getName());
             List<Task> allFeedbackTasks = new ArrayList<>();
             for (User participant : projectParticipants) {
-                Task giveFeedbackTask = taskDAO.createUserDefault(
-                        project, participant, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
-                taskDAO.persist(giveFeedbackTask);
-                allFeedbackTasks.add(giveFeedbackTask);
+                Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(project, participant, TaskName.GIVE_FEEDBACK).get(0);
+                allFeedbackTasks.add(giveFeedbackTask1);
             }
             //specifies user, who needs to give a feedback in DB
             feedback.specifyFeedbackTasks(allFeedbackTasks);
