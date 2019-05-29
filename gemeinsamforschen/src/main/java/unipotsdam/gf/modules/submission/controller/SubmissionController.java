@@ -614,8 +614,8 @@ public class SubmissionController implements ISubmission, HasProgress {
     public GroupFeedbackTaskData getFeedbackTaskData(User target, Project project) {
         connection.connect();
         Integer targetGroupId = groupDAO.getGroupByStudent(project, target);
-        String query = "SELECT * from fullsubmissions where feedbackUser = ? and projectName = ?";
-        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, target.getEmail(),
+        String query = "SELECT * from fullsubmissions where feedbackGroup = ? and projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, targetGroupId,
                 project.getName());
         return resultSetToFeedback(targetGroupId, vereinfachtesResultSet);
     }
@@ -630,7 +630,7 @@ public class SubmissionController implements ISubmission, HasProgress {
     }
 
     private GroupFeedbackTaskData resultSetToFeedback(Integer targetGroupId, VereinfachtesResultSet vereinfachtesResultSet) {
-        if (vereinfachtesResultSet.next()) {
+        if (vereinfachtesResultSet != null && vereinfachtesResultSet.next()) {
             String submissionId = vereinfachtesResultSet.getString("id");
             String projectName = vereinfachtesResultSet.getString("projectName");
             Category category = Category.TITEL;

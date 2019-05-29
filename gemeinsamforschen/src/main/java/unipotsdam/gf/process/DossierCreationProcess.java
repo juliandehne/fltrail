@@ -59,7 +59,7 @@ public class DossierCreationProcess {
         // create a task, telling the docent to wait for students upload of dossiers
         taskDAO.persist(project, new User(project.getAuthorEmail()), TaskName.WAITING_FOR_STUDENT_DOSSIERS, Phase
                 .DossierFeedback, TaskType.INFO);
-        taskDAO.persistGroupTask(project, TaskName.UPLOAD_DOSSIER, Phase.DossierFeedback);
+        taskDAO.persistTaskForAllGroups(project, TaskName.UPLOAD_DOSSIER, Phase.DossierFeedback);
     }
 
     /**
@@ -83,7 +83,7 @@ public class DossierCreationProcess {
             taskDAO.updateForGroup(task);
 
             // this triggers the annotate task
-            taskDAO.persistGroupTask(project, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
+            taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
         }
         return fullSubmission;
     }
@@ -104,8 +104,7 @@ public class DossierCreationProcess {
         Task task1 = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), project.getName(),
                 Progress.FINISHED);
         taskDAO.updateForGroup(task1);
-        Task giveFeedbackTask = new Task(TaskName.GIVE_FEEDBACK, user.getEmail(), project.getName(), Progress.JUSTSTARTED);
-        taskDAO.updateForGroup(giveFeedbackTask);
+        taskDAO.persistTaskGroup(project, user, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
 
 
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
