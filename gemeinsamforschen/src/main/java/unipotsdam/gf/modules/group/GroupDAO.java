@@ -205,7 +205,10 @@ public class GroupDAO {
         }
         String chatRoomId = Strings.EMPTY;
         if (resultSet.next()) {
-            chatRoomId = resultSet.getString("chatRoomId");
+            String result = resultSet.getString("chatRoomId");
+            if (result != null) {
+                chatRoomId = result;
+            }
         }
         connect.close();
         return chatRoomId;

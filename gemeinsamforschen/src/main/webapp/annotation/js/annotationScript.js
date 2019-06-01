@@ -8,10 +8,21 @@ let startCharacter, endCharacter;
 /*
     TODO
     ----
-    - scroll to text bei annotation mouseover implementieren
-    - Websocket fixen
-    - Testen von annotation suchen
-    - bei neuer annotation alter text noch in der card drin
+    create feedback page:
+        - remove quillJsTemp and show content in quillJS
+        - move colors from annotation class to utility class
+        - color text like category
+
+    show feedback page (could be this page):
+        - color feedback in user color
+        - color on mouseover
+        -
+
+    not one page!:
+        - you need to hide half of the page, just to have one page: einzige gemeinsamkeit -> editor und das reicht nicht
+
+
+    - Websocket fixen (vllt)
     - bearbeiten druecken laesst die karte nicht verschwinden (was wollte ich damit sagen?)
  */
 
@@ -31,13 +42,13 @@ $(document).ready(function () {
     let btnFinalize = $('#finalize');
     btnFinalize.hide();
     let btnBack = $('#btnBack');
-    if (category === "TITEL" || category === "titel") {
+    if (category.toUpperCase() === "TITEL") {
         //btnBack.hide();
         btnBack.css('visibility', 'hidden');
     }
 
     let btnContinue = $('#btnContinue');
-    if (category === "AUSWERTUNG") {
+    if (category.toUpperCase() === "AUSWERTUNG") {
         btnFinalize.show();
         btnContinue.hide();
     }
@@ -941,6 +952,7 @@ String.prototype.hashCode = function () {
 };
 
 function getFeedbackName() {
+    // TODO: should Text "Gib der Gruppe eine Rückmeldung für das Dossier." have a name in it? (Groups doesn't have a name)
     $.ajax({
         url: "../rest/annotations/feedbackTarget/projectName/" + $('#projectName').html().trim(),
         headers: {

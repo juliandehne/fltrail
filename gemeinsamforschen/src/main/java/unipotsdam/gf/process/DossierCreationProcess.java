@@ -16,7 +16,11 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.*;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.process.tasks.TaskType;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -144,12 +148,15 @@ public class DossierCreationProcess {
          }*/
     }
 
-    public void createSeeFeedBackTask(Project project, User distributeur) {
-        User user = submissionController.getFeedbackedUser(project, distributeur);
-        taskDAO.persist(project, user, TaskName.SEE_FEEDBACK, Phase.DossierFeedback);
+    public void createSeeFeedBackTask(Project project, int feedbackGroupId) {
+        int groupId = submissionController.getFeedbackedGroupIdByProjectAndFeedbackGroupId(project, feedbackGroupId);
+        if (groupId == 0) {
+            return;
+        }
+        taskDAO.persist(project, groupId, TaskName.SEE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);
     }
 
-    public String getFeedBackTarget(Project project, User user) {
+    public int getFeedBackTarget(Project project, User user) {
         return feedback.getFeedBackTarget(project, user);
     }
 }

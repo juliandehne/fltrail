@@ -1,0 +1,39 @@
+.added-titel {
+    border-color: #ba68c8;
+    background-color: #ba68c8;
+}
+
+.added-recherche {
+    border-color: #7986cb;
+    background: #7986cb;
+}
+
+.added-literaturverzeichnis {
+    border-color: #4dd0e1;
+    background: #4dd0e1;
+}
+
+.added-forschungsfrage {
+    border-color: #81c784;
+    background: #81c784;
+}
+
+.added-untersuchungskonzept {
+    border-color: #dce775;
+    background: #dce775;
+}
+
+.added-methodik {
+    border-color: #ffd54f;
+    background: #ffd54f;
+}
+
+.added-durchfuehrung {
+    border-color: #ff8a65;
+    background: #ff8a65;
+}
+
+.added-auswertung {
+    border-color: #a1887f;
+    background: #a1887f;
+}

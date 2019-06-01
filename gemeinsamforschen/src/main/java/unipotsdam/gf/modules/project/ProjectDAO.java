@@ -151,7 +151,7 @@ public class ProjectDAO {
         String mysqlRequest = "SELECT t.tag from tags t where t.projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getName());
 
-        java.util.List<String> result = new ArrayList<>();
+        List<String> result = new ArrayList<>();
 
         while (vereinfachtesResultSet.next()) {
             result.add(vereinfachtesResultSet.getString("tag"));

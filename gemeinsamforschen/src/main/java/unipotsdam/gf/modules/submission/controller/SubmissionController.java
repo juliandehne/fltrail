@@ -9,7 +9,12 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -744,15 +749,16 @@ public class SubmissionController implements ISubmission, HasProgress {
         return result;
     }
 
-    public User getFeedbackedUser(Project project, User distributer) {
-        User feedbackedUser;
+    public int getFeedbackedGroupIdByProjectAndFeedbackGroupId(Project project, int feedbackgroupId) {
         connection.connect();
-        String query = "select user from fullsubmissions where projectName = ? AND feedbackUser=?";
+        String query = "select groupId from fullsubmissions where projectName = ? AND feedbackGroup=?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query,
-                project.getName(), distributer.getEmail());
-        vereinfachtesResultSet.next();
-        feedbackedUser = userDAO.getUserByEmail(vereinfachtesResultSet.getString("user"));
+                project.getName(), feedbackgroupId);
+        int feedbackedGroupId = 0;
+        if (vereinfachtesResultSet.next()) {
+            feedbackedGroupId = vereinfachtesResultSet.getInt("groupId");
+        }
         connection.close();
-        return feedbackedUser;
+        return feedbackedGroupId;
     }
 }

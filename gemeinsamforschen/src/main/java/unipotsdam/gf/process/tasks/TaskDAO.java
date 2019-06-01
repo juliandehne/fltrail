@@ -387,6 +387,15 @@ public class TaskDAO {
         persist(project, groupFeedbackTaskData.getTarget(), TaskName.GIVE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);
     }
 
+    public void endFeedback(Task task) {
+        connect.connect();
+        String query = "UPDATE tasks set progress = ? where userEmail = ? AND projectName = ? AND taskName = ?";
+        connect.issueUpdateStatement(
+                query, task.getProgress().name(), task.getUserEmail(), task.getProjectName(), task.getTaskName());
+        connect.close();
+
+    }
+
     /*
      * if this takes long rewrite it as batch updateRocketChatUserName
      */

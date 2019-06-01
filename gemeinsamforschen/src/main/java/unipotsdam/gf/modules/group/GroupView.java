@@ -13,15 +13,28 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.GroupFormationProcess;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Path("/group")
 public class GroupView {
@@ -37,6 +50,9 @@ public class GroupView {
 
     @Inject
     private ProfileDAO profileDAO;
+
+    @Inject
+    private GFContexts gfContexts;
 
 
     /**
@@ -201,5 +217,6 @@ public class GroupView {
         new CompBaseMatcher().sendPreferenceData(projectId, userId, preferenceData);
         return Response.ok().entity("Lernziele werden verarbeitet").build();
     }
+
 
 }

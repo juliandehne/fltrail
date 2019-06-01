@@ -303,10 +303,18 @@ ol#annotations {
     display: none;
 }
 
+.hidden-category-field {
+    display: none;
+}
+
 #seeFeedback .ql-container.ql-snow {
     border-width:0px;
 }
 
 #seeFeedback .ql-editor {
     padding:0;
+}
+
+.ql-editor {
+    min-height: 100px;
 }

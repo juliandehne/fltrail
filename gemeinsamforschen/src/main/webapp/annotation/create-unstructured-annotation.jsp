@@ -20,9 +20,11 @@
     <jsp:include page="../taglibs/quillJsDependencies.jsp"/>
     <!-- css - unstructured-annotation -->
     <link rel="stylesheet" type="text/css" href="css/unstructured-annotation.css">
+    <link rel="stylesheet" type="text/css" href="css/annotationColorTheme.css">
     <!-- css - contextMenu -->
     <link href="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.css" rel="stylesheet"
           type="text/css"/>
+
 
     <!-- js - jQuery validation plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.14.0/jquery.validate.min.js"></script>

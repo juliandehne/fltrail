@@ -86,6 +86,22 @@ CREATE TABLE `categoriesselected`
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `contributionfeedback`
+--
+
+CREATE TABLE `contributionfeedback`
+(
+    `id`                         varchar(120) CHARACTER SET utf8 NOT NULL,
+    `fullsubmissionId`           varchar(120) CHARACTER SET utf8 DEFAULT NULL,
+    `fullSubmissionPartCategory` varchar(120) CHARACTER SET utf8 DEFAULT NULL,
+    `text`                       mediumtext CHARACTER SET utf8,
+    `groupId`                    int(11)                         NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = latin1 COMMENT ='This table saves feedback for contributions';
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `contributionrating`
 --
 
@@ -110,10 +126,10 @@ CREATE TABLE `fullsubmissions`
 (
     `id`                   varchar(120) NOT NULL,
     `timestamp`            timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `groupId`              int(11)     NOT NULL,
+    `groupId`              int(11)      NOT NULL,
     `text`                 mediumtext   NOT NULL,
     `projectName`          varchar(200) NOT NULL,
-    `feedbackGroup`         int(11)          DEFAULT NULL,
+    `feedbackGroup`        int(11)               DEFAULT NULL,
     `finalized`            tinyint(1)            DEFAULT NULL,
     `contributionCategory` varchar(200) NOT NULL
 ) ENGINE = InnoDB
@@ -423,7 +439,7 @@ CREATE TABLE `submissionpartbodyelements`
 CREATE TABLE `submissionparts`
 (
     `timestamp`        timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `groupId` int(11) NOT NULL,
+    `groupId`          int(11)      NOT NULL,
     `fullSubmissionId` varchar(120) NOT NULL,
     `category`         varchar(30)  NOT NULL
 ) ENGINE = InnoDB
@@ -543,6 +559,15 @@ ALTER TABLE `assessmentmechanismselected`
 --
 ALTER TABLE `categoriesselected`
     ADD KEY `categoriesselected_projects_name_fk` (`projectName`);
+
+--
+-- Indizes für die Tabelle `contributionfeedback`
+--
+ALTER TABLE `contributionfeedback`
+    ADD PRIMARY KEY (`id`),
+    ADD UNIQUE KEY `feedback_id_uindex` (`id`),
+    ADD KEY `feedback_fullsubmissions_id_fk` (`fullsubmissionId`),
+    ADD KEY `contributionfeedback_groups_id_fk` (`groupId`);
 
 --
 -- Indizes für die Tabelle `contributionrating`
@@ -710,15 +735,13 @@ ALTER TABLE `workrating`
 -- AUTO_INCREMENT für Tabelle `groups`
 --
 ALTER TABLE `groups`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 44;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `largefilestorage`
 --
 ALTER TABLE `largefilestorage`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 12;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `peerassessmentworkproperties`
@@ -736,15 +759,13 @@ ALTER TABLE `profilequestionoptions`
 -- AUTO_INCREMENT für Tabelle `profilequestions`
 --
 ALTER TABLE `profilequestions`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 93;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `users`
 --
 ALTER TABLE `users`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
-    AUTO_INCREMENT = 40;
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints der exportierten Tabellen
@@ -773,6 +794,13 @@ ALTER TABLE `assessmentmechanismselected`
 --
 ALTER TABLE `categoriesselected`
     ADD CONSTRAINT `categoriesselected_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `contributionfeedback`
+--
+ALTER TABLE `contributionfeedback`
+    ADD CONSTRAINT `contributionfeedback_groups_id_fk` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `feedback_fullsubmissions_id_fk` FOREIGN KEY (`fullsubmissionId`) REFERENCES `fullsubmissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `contributionrating`

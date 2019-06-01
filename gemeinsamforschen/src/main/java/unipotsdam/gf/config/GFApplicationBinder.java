@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.healthchecks.HealthChecks;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.interfaces.IContributionFeedback;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.interfaces.IPeerAssessment;
@@ -18,6 +19,8 @@ import unipotsdam.gf.modules.communication.DummyCommunicationService;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
+import unipotsdam.gf.modules.contributionFeedback.service.ContributionFeedbackDAO;
+import unipotsdam.gf.modules.contributionFeedback.service.ContributionFeedbackService;
 import unipotsdam.gf.modules.fileManagement.FileManagementDAO;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.group.BigGroupMatcher;
@@ -114,5 +117,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(MysqlConnect.class).to(MysqlConnect.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(UnirestService.class).to(UnirestService.class);
+        bind(ContributionFeedbackService.class).to(IContributionFeedback.class);
+        bind(ContributionFeedbackDAO.class).to(ContributionFeedbackDAO.class);
     }
 }
