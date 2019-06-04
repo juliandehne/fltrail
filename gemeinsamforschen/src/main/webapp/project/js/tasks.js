@@ -185,7 +185,7 @@ function fitObjectInTmpl(object) {
                 result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 break;
             case "UPLOAD_DOSSIER":
-                result.solveTaskWith = "Lege ein Dossier an";
+                result.solveTaskWith = "Bearbeite / Erstelle Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&contributionCategory=Dossier" + "\')";
                 break;
             case "CREATE_QUIZ":
@@ -253,6 +253,15 @@ function fitObjectInTmpl(object) {
         if (object.taskName === "WAIT_FOR_PARTICPANTS") {
             result.infoText = "Gruppen sind final gespeichert. \n" +
                 "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
+        }
+        if (object.taskName === "GIVE_FEEDBACK") {
+            result.infoText = "Sie können weiterhin ihr Feedback editieren";
+            if (object.taskData !== null) {
+                result.solveTaskWith = "Geben Sie ein Feedback";
+                result.solveTaskWithLink = "redirect(\'../annotation/give-feedback.jsp?" +
+                    "projectName=" + object.projectName +
+                    "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
+            }
         }
         if (object.taskName.includes("CLOSE")) {
             result.taskProgress = "FINISHED";

@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -150,35 +149,5 @@ public class AnnotationService {
 
             return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }
-    }
-
-
-    @GET
-    @Path("/finalize/projectName/{projectName}")
-    @Produces("application/json")
-    public String finalizeFeedback(@Context HttpServletRequest req, @PathParam("projectName") String projectName)
-            throws IOException {
-        Task task= new Task();
-        String userEmail = gfContexts.getUserEmail(req);
-        task.setProjectName(projectName);
-        task.setUserEmail(userEmail);
-        task.setTaskName(TaskName.GIVE_FEEDBACK);
-        task.setProgress(Progress.FINISHED);
-        Integer groupId = groupFinding.getMyGroupId(new User(userEmail), new Project(projectName));
-        task.setGroupTask(groupId);
-        controller.endFeedback(task);
-        Project project = projectDAO.getProjectByName(projectName);
-        dossierCreationProcess.createSeeFeedBackTask(project, groupId);
-        dossierCreationProcess.createCloseFeedBackPhaseTask(project);
-        return null;
-    }
-
-    @GET
-    @Path("/feedbackTarget/projectName/{projectName}")
-    public String getFeedBackTarget(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
-        String userEmail = gfContexts.getUserEmail(req);
-        User user = userDAO.getUserByEmail(userEmail);
-        Project project = projectDAO.getProjectByName(projectName);
-        return dossierCreationProcess.getFeedBackTarget(project, user);
     }
 }

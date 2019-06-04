@@ -104,10 +104,10 @@ public class TaskDAO {
         projectStatus.setParticipantsNeeded(groupFinding.getMinNumberOfStudentsNeeded(project));
         Map<String, Object> taskData = new HashMap<>();
         taskData.put("participantCount", projectStatus);
-        GroupFormationMechanism gfm =groupFinding.getGFM(project);
+        GroupFormationMechanism gfm = groupFinding.getGFM(project);
         taskData.put("gfm", gfm);
         task.setTaskData(taskData);
-        if (gfm.equals(GroupFormationMechanism.Manual)){
+        if (gfm.equals(GroupFormationMechanism.Manual)) {
             task.setTaskType(TaskType.LINKED);
         }
         task.setHasRenderModel(true);
@@ -118,7 +118,7 @@ public class TaskDAO {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
-        task.setDeadline(System.currentTimeMillis()+7000*60*60*24);
+        task.setDeadline(System.currentTimeMillis() + 7000 * 60 * 60 * 24);
         task.setProjectName(project.getName());
         task.setUserEmail(target.getEmail());
         task.setImportance(Importance.MEDIUM);
@@ -134,7 +134,7 @@ public class TaskDAO {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
-        task.setDeadline(System.currentTimeMillis()+7000*60*60*24);
+        task.setDeadline(System.currentTimeMillis() + 7000 * 60 * 60 * 24);
         task.setProjectName(project.getName());
         task.setUserEmail("");
         task.setImportance(Importance.MEDIUM);
@@ -268,6 +268,20 @@ public class TaskDAO {
         return result;
     }
 
+    //todo: mach mal hier weiter morgen
+   /* public ArrayList<Task> getTasksWithTaskName(Project project, TaskName taskname) {
+        connect.connect();
+        String query = "Select * from tasks t where t.projectName = ? AND t.taskName= ? ORDER BY created DESC";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(query, project.getName(), taskname.toString());
+        ArrayList<Task> result = new ArrayList<>();
+        while (vereinfachtesResultSet.next()) {
+            result.add(resultSetToTask(user, project, vereinfachtesResultSet));
+        }
+        connect.close();
+        return result;
+    }*/
+
     public ArrayList<Task> getTasksWithTaskName(Project project, User user, TaskName taskname) {
         connect.connect();
         String query = "Select * from tasks t where (t.userEmail = ? AND t.projectName = ? OR t.groupTask IN " +
@@ -360,7 +374,7 @@ public class TaskDAO {
 
     public void persistTaskForAllGroups(Project project, TaskName taskName, Phase phase) {
         List<Group> groups = groupFinding.getGroups(project);
-        for (Group group : groups){
+        for (Group group : groups) {
             persist(project, group.getId(), taskName, phase, TaskType.LINKED);
         }
     }

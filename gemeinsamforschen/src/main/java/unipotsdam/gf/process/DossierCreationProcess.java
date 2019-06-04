@@ -16,11 +16,7 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.Progress;
-import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskName;
-import unipotsdam.gf.process.tasks.TaskType;
+import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -117,7 +113,7 @@ public class DossierCreationProcess {
             List<Task> allFeedbackTasks = new ArrayList<>();
             for (User participant : projectParticipants) {
                 Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(project, participant, TaskName.GIVE_FEEDBACK).get(0);
-                if (allFeedbackTasks.indexOf(giveFeedbackTask1) == -1)
+                if (!allFeedbackTasks.contains(giveFeedbackTask1))
                     allFeedbackTasks.add(giveFeedbackTask1);
             }
             //specifies user, who needs to give a feedback in DB
