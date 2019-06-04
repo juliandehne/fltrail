@@ -21,7 +21,7 @@ function connect(targetId, targetCategory) {
         }
         else if (message.type === "EDIT") {
             getAnnotation(message.annotationId, function (response) {
-                editAnnotationValues(response);
+                //editAnnotationValues(response);
             })
         }
     };

@@ -2,18 +2,9 @@ const categories = ["TITEL", "RECHERCHE", "LITERATURVERZEICHNIS", "FORSCHUNGSFRA
 
 /*
     TODO
-        create feedback page:
-            - implement how btnContinue works
-            - implement how btnBack works
-            - implement how btnFinalize works
         show feedback page (could be this page):
             - color feedback in user color
-            - color on mouseover with user color
-            -
-        not one page!:
-            - you need to hide half of the page, just to have one page: einzige gemeinsamkeit -> editor und das reicht nicht
-        - Websocket fixen (vllt)
-        - bearbeiten druecken laesst die karte nicht verschwinden (was wollte ich damit sagen?)
+            - color on mouseover with user color (nicht mehr, da wir nur noch ein feedback haben pro seite)
  */
 
 let contributionFeedback = undefined;
@@ -28,7 +19,6 @@ $(document).ready(function () {
         $('#feedBackTarget').html(response.id);
     });
 
-    addExistingContributionFeedback(fullSubmissionId, category);
 
     $('#categoryHeadline').html("Kategorie: " + category);
     let btnFinalize = $('#finalize');
@@ -81,7 +71,7 @@ $(document).ready(function () {
     }, function () {
         //error
     });
-
+    addExistingContributionFeedback(fullSubmissionId, category);
     // connect to websocket on page ready
     connect(fullSubmissionId, category);
 });
@@ -188,51 +178,6 @@ function saveContributionFeedback() {
                 console.log(response);
             });
         });
-    }
-}
-
-/**
- * Change title and comment from annotation by given annotation
- *
- * @param annotation The given altered annotation
- */
-function editAnnotationValues(annotation) {
-    // find annotation
-    let annotationElement = $('#' + annotation.id);
-
-    // set title and comment
-    annotationElement.find('.annotation-header-data-title').text(annotation.body.title);
-    annotationElement.find('.annotation-body-text').text(annotation.body.comment);
-
-    // handle drop down button
-    showAndHideToggleButtonById(annotation.id);
-}
-
-/**
- * Show or hide the drop down button for a given annotation card.
- *
- * @param id The id of the annotation
- */
-function showAndHideToggleButtonById(id) {
-    // find annotation
-    let annotationElement = $('#' + id);
-    // find the comment element, clone and hide it
-    let comment = annotationElement.find('.annotation-body').children('p');
-    let clone = comment.clone()
-        .css({display: 'inline', width: 'auto', visibility: 'hidden'})
-        .appendTo('body');
-    let cloneWidth = clone.width();
-
-    // remove the element from the page
-    clone.remove();
-
-    // show drop down button only if text was truncated
-    if (cloneWidth > comment.width()) {
-        annotationElement.find('.annotation-header-toggle').show();
-        annotationElement.find('.annotation-header-data').css('width', 'calc(100% - 40px)');
-    } else {
-        annotationElement.find('.annotation-header-toggle').hide();
-        annotationElement.find('.annotation-header-data').css('width', '100%');
     }
 }
 
