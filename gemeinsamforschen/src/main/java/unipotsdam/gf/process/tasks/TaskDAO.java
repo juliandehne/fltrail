@@ -370,6 +370,10 @@ public class TaskDAO {
         persist(project, groupId, taskName, phase, TaskType.LINKED);
     }
 
+    public void persistTaskGroup(Project project, Integer groupId, TaskName taskName, Phase phase) {
+        persist(project, groupId, taskName, phase, TaskType.LINKED);
+    }
+
     public void persist(Project project, Integer groupId, TaskName finalizeDossier, Phase phase, TaskType linked) {
         Task task = createGroupDefault(project, groupId, finalizeDossier, phase);
         task.setTaskType(linked);

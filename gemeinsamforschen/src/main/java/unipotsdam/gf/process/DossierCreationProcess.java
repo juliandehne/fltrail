@@ -113,7 +113,8 @@ public class DossierCreationProcess {
             List<Task> allFeedbackTasks = new ArrayList<>();
             for (User participant : projectParticipants) {
                 Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(project, participant, TaskName.GIVE_FEEDBACK).get(0);
-                allFeedbackTasks.add(giveFeedbackTask1);
+                if (allFeedbackTasks.indexOf(giveFeedbackTask1) == -1)
+                    allFeedbackTasks.add(giveFeedbackTask1);
             }
             //specifies user, who needs to give a feedback in DB
             feedback.specifyFeedbackTasks(allFeedbackTasks);
@@ -144,9 +145,9 @@ public class DossierCreationProcess {
          }*/
     }
 
-    public void createSeeFeedBackTask(Project project, User distributeur) {
-        User user = submissionController.getFeedbackedUser(project, distributeur);
-        taskDAO.persist(project, user, TaskName.SEE_FEEDBACK, Phase.DossierFeedback);
+    public void createSeeFeedBackTask(Project project, Integer groupId) {
+        Integer feedbackedgroup = submissionController.getFeedbackedgroup(project, groupId);
+        taskDAO.persistTaskGroup(project, feedbackedgroup, TaskName.SEE_FEEDBACK, Phase.DossierFeedback);
     }
 
     public String getFeedBackTarget(Project project, User user) {

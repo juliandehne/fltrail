@@ -1,17 +1,11 @@
 package unipotsdam.gf.modules.annotation.controller;
 
+import unipotsdam.gf.interfaces.IAnnotation;
+import unipotsdam.gf.modules.annotation.model.*;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.interfaces.IAnnotation;
-import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.modules.annotation.model.Annotation;
-import unipotsdam.gf.modules.annotation.model.AnnotationBody;
-import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
-import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
-import unipotsdam.gf.modules.annotation.model.Category;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -180,11 +174,10 @@ public class AnnotationController implements IAnnotation {
 
     public void endFeedback(Task task){
         connection.connect();
-        String query = "UPDATE tasks set progress = ? where userEmail = ? AND projectName = ? AND taskName = ?";
+        String query = "UPDATE tasks set progress = ? where groupTask = ? AND projectName = ? AND taskName = ?";
         connection.issueUpdateStatement(
-                query, task.getProgress().name(), task.getUserEmail(), task.getProjectName(), task.getTaskName());
+                query, task.getProgress().name(), task.getGroupTask(), task.getProjectName(), task.getTaskName());
         connection.close();
-
     }
 
     /**

@@ -944,12 +944,11 @@ function getFeedbackName() {
     $.ajax({
         url: "../rest/annotations/feedbackTarget/projectName/" + $('#projectName').html().trim(),
         headers: {
-            "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
         type: 'GET',
         success: function (response) {
-            $('#feedBackTarget').html(response.name );
+            $('#feedBackTarget').html(response);
         }
     });
 }

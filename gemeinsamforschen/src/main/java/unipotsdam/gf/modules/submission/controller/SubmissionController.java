@@ -744,15 +744,15 @@ public class SubmissionController implements ISubmission, HasProgress {
         return result;
     }
 
-    public User getFeedbackedUser(Project project, User distributer) {
-        User feedbackedUser;
+    public Integer getFeedbackedgroup(Project project, Integer groupId) {
+        Integer feedbackedGroup;
         connection.connect();
-        String query = "select user from fullsubmissions where projectName = ? AND feedbackUser=?";
+        String query = "select groupId from fullsubmissions where projectName = ? AND feedbackGroup=?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query,
-                project.getName(), distributer.getEmail());
+                project.getName(), groupId);
         vereinfachtesResultSet.next();
-        feedbackedUser = userDAO.getUserByEmail(vereinfachtesResultSet.getString("user"));
+        feedbackedGroup = vereinfachtesResultSet.getInt("groupId");
         connection.close();
-        return feedbackedUser;
+        return feedbackedGroup;
     }
 }

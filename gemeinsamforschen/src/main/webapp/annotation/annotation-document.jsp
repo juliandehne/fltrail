@@ -69,7 +69,8 @@
 
                         <h4 id="categoryHeadline" class="current-category"> </h4>
                         <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">&#xf054;</button>
-                        <button id="finalize" type="button" class="btn btn-primary" title="finanlisieren">&#xf00c;</button>
+                        <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">&#xf00c;
+                        </button>
                     </div>
 
 
