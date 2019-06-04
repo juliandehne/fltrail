@@ -25,6 +25,8 @@
 
     <!-- css - upload-unstructured -->
     <link rel="stylesheet" type="text/css" href="css/unstructured-upload.css">
+
+    <script src="../taglibs/js/utility.js"></script>
     <!-- js - unstructuredUpload -->
     <script src="js/unstructuredUpload.js"></script>
     <!-- js - unstructuredRest -->

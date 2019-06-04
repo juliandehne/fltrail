@@ -53,14 +53,14 @@ public class FeedbackImpl implements Feedback {
         return null;
     }
 
-    public String getFeedBackTarget(Project project,User user){
+    public int getFeedBackTarget(Project project, User user) {
         connection.connect();
         Integer groupId = groupDAO.getMyGroupId(user, project);
-        String feedbackTarget="";
+        int feedbackTarget = 0;
         String request = "SELECT * FROM `fullsubmissions` WHERE feedbackGroup=? AND projectName=?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(request, groupId, project.getName());
         if (vereinfachtesResultSet.next()){
-            feedbackTarget = vereinfachtesResultSet.getString("groupId");
+            feedbackTarget = vereinfachtesResultSet.getInt("groupId");
         }
         connection.close();
         return feedbackTarget;

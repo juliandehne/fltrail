@@ -9,7 +9,12 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -744,14 +749,15 @@ public class SubmissionController implements ISubmission, HasProgress {
         return result;
     }
 
-    public Integer getFeedbackedgroup(Project project, Integer groupId) {
-        Integer feedbackedGroup;
+    public int getFeedbackedgroup(Project project, Integer groupId) {
+        int feedbackedGroup =0;
         connection.connect();
         String query = "select groupId from fullsubmissions where projectName = ? AND feedbackGroup=?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query,
                 project.getName(), groupId);
-        vereinfachtesResultSet.next();
-        feedbackedGroup = vereinfachtesResultSet.getInt("groupId");
+        if (vereinfachtesResultSet.next()) {
+            feedbackedGroup = vereinfachtesResultSet.getInt("groupId");
+        }
         connection.close();
         return feedbackedGroup;
     }

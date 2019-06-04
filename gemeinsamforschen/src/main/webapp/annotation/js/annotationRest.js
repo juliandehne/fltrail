@@ -101,17 +101,3 @@ function getAnnotations(targetId, targetCategory, responseHandler) {
         }
     });
 }
-
-function finalize() {
-    $.ajax({
-        url: "../rest/annotations/finalize/projectName/" + getProjectName(),
-        type: "GET",
-        dataType: "application/json",
-        contentType: "application/json",
-        success: function () {
-            location.href = "../project/tasks-student.jsp?projectName=" + getProjectName()
-        },
-        error: function (a) {
-        }
-    });
-}

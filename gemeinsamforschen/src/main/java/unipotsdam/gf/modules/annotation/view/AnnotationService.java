@@ -4,20 +4,14 @@ import io.dropwizard.jersey.PATCH;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.model.*;
-import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
-import unipotsdam.gf.process.tasks.Progress;
-import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskName;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -49,6 +43,9 @@ public class AnnotationService {
     private UserDAO userDAO;
 
     @Inject
+    private GroupDAO groupDAO;
+
+    @Inject
     private DossierCreationProcess dossierCreationProcess;
 
     @POST
@@ -64,6 +61,7 @@ public class AnnotationService {
 
     @PATCH
     @Path("{id}")
+    @Deprecated
     public Response alterAnnotation(@PathParam("id") String annotationId, AnnotationPatchRequest request) {
 
         // declare response
@@ -90,6 +88,7 @@ public class AnnotationService {
 
     @DELETE
     @Path("{id}")
+    @Deprecated
     public Response deleteAnnotation(@PathParam("id") String annotationId) {
 
         // declare response

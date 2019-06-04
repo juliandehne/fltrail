@@ -14,15 +14,6 @@ public class FullSubmission {
     private Integer groupId;
     private String text;
     private ContributionCategory contributionCategory;
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
     private String projectName;
 
     public FullSubmission(String id, long timestamp, Integer groupId, String text, ContributionCategory contributionCategory, String projectName) {
@@ -78,6 +69,15 @@ public class FullSubmission {
     public void setContributionCategory(ContributionCategory contributionCategory) {
         this.contributionCategory = contributionCategory;
     }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
 
     @Override
     public String toString() {

@@ -1,7 +1,8 @@
 package unipotsdam.gf.interfaces;
+
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.researchreport.ResearchReport;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.tasks.Task;
 
 import java.util.List;
@@ -32,5 +33,5 @@ public interface Feedback {
      */
     ResearchReport getFeedbackTask(User student);
 
-    String getFeedBackTarget(Project project,User user);
+    int getFeedBackTarget(Project project, User user);
 }
