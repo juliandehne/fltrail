@@ -2,8 +2,10 @@ package unipotsdam.gf.modules.contributionFeedback.service;
 
 import unipotsdam.gf.interfaces.IContributionFeedback;
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
+import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.Task;
 import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -44,7 +46,12 @@ public class ContributionFeedbackService implements IContributionFeedback {
     }
 
     @Override
-    public void endFeedback(Task task) {
-        taskDAO.endFeedback(task);
+    public void endFeedback(String projectName, int groupId) {
+        Task task = new Task();
+        task.setProjectName(projectName);
+        task.setTaskName(TaskName.GIVE_FEEDBACK);
+        task.setProgress(Progress.FINISHED);
+        task.setGroupTask(groupId);
+        taskDAO.updateGroupTask(task);
     }
 }

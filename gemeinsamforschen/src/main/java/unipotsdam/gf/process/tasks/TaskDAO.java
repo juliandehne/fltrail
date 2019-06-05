@@ -368,12 +368,20 @@ public class TaskDAO {
     }
 
     public void updateForGroup(Task task) {
-        connect.connect();
         Integer groupId = groupDAO.getGroupByStudent(new Project(task.getProjectName()), new User(task.getUserEmail()));
-        String query = "UPDATE tasks set progress = ? where groupTask = ? AND projectName = ? AND taskName = ?";
+        updateGroupTask(task, groupId);
+    }
+
+    public void updateGroupTask(Task task, int groupId) {
+        connect.connect();
+        String query = "UPDATE tasks SET `progress` = ? where groupTask = ? AND projectName = ? AND taskName = ?";
         connect.issueUpdateStatement(
                 query, task.getProgress().name(), groupId, task.getProjectName(), task.getTaskName());
         connect.close();
+    }
+
+    public void updateGroupTask(Task task) {
+        updateGroupTask(task, task.getGroupTask());
     }
 
     public void updateForAll(Task task) {
@@ -423,15 +431,6 @@ public class TaskDAO {
         persist(project, groupFeedbackTaskData.getTarget(), TaskName.GIVE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);
     }
 
-    public void endFeedback(Task task) {
-        connect.connect();
-        String query = "UPDATE tasks set progress = ? where userEmail = ? AND projectName = ? AND taskName = ?";
-        connect.issueUpdateStatement(
-                query, task.getProgress().name(), task.getUserEmail(), task.getProjectName(), task.getTaskName());
-        connect.close();
-
-    }
-
     /*
      * if this takes long rewrite it as batch updateRocketChatUserName
      */
@@ -442,6 +441,5 @@ public class TaskDAO {
             updateForUser(task);
         }
     }
-
 
 }

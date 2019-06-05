@@ -8,15 +8,19 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
-import unipotsdam.gf.process.tasks.Progress;
-import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskName;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -94,11 +98,7 @@ public class ContributionFeedbackView {
     @Path("/finalize/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response finalizeFeedback(@QueryParam("groupId") int groupId, @QueryParam("projectName") String projectName) {
-        Task task = new Task();
-        task.setProjectName(projectName);
-        task.setTaskName(TaskName.GIVE_FEEDBACK);
-        task.setProgress(Progress.FINISHED);
-        contributionFeedbackService.endFeedback(task);
+        contributionFeedbackService.endFeedback(projectName, groupId);
         Project project = projectDAO.getProjectByName(projectName);
         dossierCreationProcess.createSeeFeedBackTask(project, groupId);
         dossierCreationProcess.createCloseFeedBackPhaseTask(project);

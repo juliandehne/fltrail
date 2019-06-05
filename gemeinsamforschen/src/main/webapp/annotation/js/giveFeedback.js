@@ -24,8 +24,9 @@ $(document).ready(function () {
     let btnFinalize = $('#finalize');
     btnFinalize.hide();
     btnFinalize.on("click", function () {
-        saveContributionFeedback();
-        finalize();
+        saveContributionFeedback(function () {
+            finalize();
+        });
     });
 
     let btnBack = $('#btnBack');

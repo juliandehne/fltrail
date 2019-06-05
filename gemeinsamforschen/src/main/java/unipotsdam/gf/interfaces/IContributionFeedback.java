@@ -1,7 +1,6 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
-import unipotsdam.gf.process.tasks.Task;
 
 public interface IContributionFeedback {
 
@@ -13,5 +12,5 @@ public interface IContributionFeedback {
 
     void updateContributionFeedback(ContributionFeedback contributionFeedback);
 
-    void endFeedback(Task task);
+    void endFeedback(String projectName, int groupId);
 }
