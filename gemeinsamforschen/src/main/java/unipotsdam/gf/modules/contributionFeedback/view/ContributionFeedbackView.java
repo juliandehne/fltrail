@@ -61,7 +61,7 @@ public class ContributionFeedbackView {
         ContributionFeedback contributionFeedback = contributionFeedbackService.getContributionFeedback(fullSubmissionId,
                 fullSubmissionPartCategory, groupId);
         if (Objects.isNull(contributionFeedback)) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NO_CONTENT).build();
         }
         return Response.ok(contributionFeedback).build();
     }
@@ -78,8 +78,7 @@ public class ContributionFeedbackView {
         if (contributionFeedback.getGroupId() == 0) {
             Response.status(Response.Status.BAD_REQUEST).entity("groupId was not defined").build();
         }
-        contributionFeedbackService.saveContributionFeedback(contributionFeedback);
-        return Response.ok().build();
+        return Response.ok(contributionFeedbackService.saveContributionFeedback(contributionFeedback)).build();
     }
 
     @PUT
@@ -88,7 +87,7 @@ public class ContributionFeedbackView {
     public Response updateContributionFeedback(@PathParam("id") String id, ContributionFeedback contributionFeedback) {
         contributionFeedback.setId(id);
         contributionFeedbackService.updateContributionFeedback(contributionFeedback);
-        return Response.ok().build();
+        return Response.ok(contributionFeedback).build();
     }
 
     @POST

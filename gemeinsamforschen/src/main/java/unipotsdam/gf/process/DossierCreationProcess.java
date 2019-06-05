@@ -8,6 +8,8 @@ import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.fileManagement.FileType;
+import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
@@ -46,10 +48,13 @@ public class DossierCreationProcess {
     @Inject
     private FileManagementService fileManagementService;
 
+    @Inject
+    private GroupDAO groupDAO;
+
     /**
      * start the Dossier Phase
      *
-     * @param project
+     * @param project the project that is about to get updated to next phase (to dossierFeedback-phase)
      */
     public void start(Project project) {
         Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, project.getAuthorEmail(), project.getName(),
@@ -63,10 +68,10 @@ public class DossierCreationProcess {
     }
 
     /**
-     * @param fullSubmissionPostRequest
-     * @param user
-     * @param project
-     * @return
+     * @param fullSubmissionPostRequest Elements needed to build the fullSubmission-class
+     * @param user User who uploaded the Submission for his / her group
+     * @param project the project the submission was written for
+     * @return the fullSubmission with correct ID
      */
     public FullSubmission addSubmission(
             FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) throws DocumentException, IOException {
@@ -89,8 +94,8 @@ public class DossierCreationProcess {
     }
 
     /**
-     * @param fullSubmission
-     * @param user
+     * @param fullSubmission created in a groupTask, identified by projectName and groupId. Holds Text
+     * @param user User who finalized the Dossier for whole Group.
      */
     public void finalizeDossier(FullSubmission fullSubmission, User user, Project project) {
         // mark as final in db
@@ -109,10 +114,10 @@ public class DossierCreationProcess {
 
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
             // create Task to give Feedback
-            List<User> projectParticipants = userDAO.getUsersByProjectName(project.getName());
+            List<Group> groupsInProjekt = groupDAO.getGroupsByProjectName(project.getName());
             List<Task> allFeedbackTasks = new ArrayList<>();
-            for (User participant : projectParticipants) {
-                Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(project, participant, TaskName.GIVE_FEEDBACK).get(0);
+            for (Group ignored : groupsInProjekt) {
+                Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(project, TaskName.GIVE_FEEDBACK).get(0);
                 if (!allFeedbackTasks.contains(giveFeedbackTask1))
                     allFeedbackTasks.add(giveFeedbackTask1);
             }

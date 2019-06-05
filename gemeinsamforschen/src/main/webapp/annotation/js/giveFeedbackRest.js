@@ -1,4 +1,4 @@
-const baseUrl = "../rest/contributionfeedback/";
+const baseUrl = "../rest/contributionfeedback";
 
 /**
  * POST: Save an annotation in the database
@@ -34,7 +34,7 @@ function createContributionFeedback(contributionFeedback, responseHandler) {
 function updateContributionFeedback(id, contributionFeedback, responseHandler) {
     let contributionFeedbackRequest = $.extend(true, {}, contributionFeedback);
     contributionFeedbackRequest.text = JSON.stringify(contributionFeedbackRequest.text);
-    let url = baseUrl + id;
+    let url = baseUrl + "/" + id;
     let json = JSON.stringify(contributionFeedbackRequest);
     $.ajax({
         url: url,
@@ -55,7 +55,7 @@ function updateContributionFeedback(id, contributionFeedback, responseHandler) {
  * @param responseHandler The response handler
  */
 function getContributionFeedbackById(id, responseHandler) {
-    let url = baseUrl + id;
+    let url = baseUrl + "/" + id;
     $.ajax({
         url: url,
         type: "GET",
@@ -96,7 +96,7 @@ function getContributionFeedback(fullSubmissionId, fullSubmissionPartCategory, g
 function finalize() {
     getMyGroupId(function (groupId) {
         let projectName = getProjectName();
-        let url = baseUrl + "finalize/?" + $.param({
+        let url = baseUrl + "/finalize?" + $.param({
             projectName: projectName,
             groupId: groupId
         });

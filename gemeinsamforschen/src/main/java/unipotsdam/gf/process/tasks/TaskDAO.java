@@ -205,7 +205,7 @@ public class TaskDAO {
 
     private Task resultSetToTask(User user, Project project, VereinfachtesResultSet vereinfachtesResultSet) {
         String taskName = vereinfachtesResultSet.getString("taskName");
-        Task result = new Task();
+        Task result;
         TaskName taskName1 = TaskName.valueOf(taskName);
         switch (taskName1) {
             case WAIT_FOR_PARTICPANTS: {
@@ -213,15 +213,13 @@ public class TaskDAO {
                 break;
             }
             case ANNOTATE_DOSSIER: {
-                Task finalizeDossierTask = getFinalizeDossierTask(vereinfachtesResultSet);
                 //finalizeDossierTask.setTaskType(TaskType.LINKED);
-                result = finalizeDossierTask;
+                result = getFinalizeDossierTask(vereinfachtesResultSet);
                 break;
             }
             case UPLOAD_DOSSIER: {
-                Task generalTask = getGeneralTask(vereinfachtesResultSet);
                 //generalTask.setTaskType(TaskType.LINKED);
-                result = generalTask;
+                result = getGeneralTask(vereinfachtesResultSet);
                 break;
             }
 
@@ -268,19 +266,18 @@ public class TaskDAO {
         return result;
     }
 
-    //todo: mach mal hier weiter morgen
-   /* public ArrayList<Task> getTasksWithTaskName(Project project, TaskName taskname) {
+    public ArrayList<Task> getTasksWithTaskName(Project project, TaskName taskname) {
         connect.connect();
         String query = "Select * from tasks t where t.projectName = ? AND t.taskName= ? ORDER BY created DESC";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, project.getName(), taskname.toString());
         ArrayList<Task> result = new ArrayList<>();
-        while (vereinfachtesResultSet.next()) {
-            result.add(resultSetToTask(user, project, vereinfachtesResultSet));
+        while (vereinfachtesResultSet.next()) { //an empty userEmail includes groupTasks and excludes userTasks
+            result.add(resultSetToTask(new User(""), project, vereinfachtesResultSet));
         }
         connect.close();
         return result;
-    }*/
+    }
 
     public ArrayList<Task> getTasksWithTaskName(Project project, User user, TaskName taskname) {
         connect.connect();

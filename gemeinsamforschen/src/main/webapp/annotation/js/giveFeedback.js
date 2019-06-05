@@ -29,7 +29,7 @@ $(document).ready(function () {
     });
 
     let btnBack = $('#btnBack');
-    btnBack.click(handleBackButtonClick)
+    btnBack.click(handleBackButtonClick);
     if (category.toUpperCase() === "TITEL") {
         //btnBack.css('visibility', 'hidden');
         btnBack.hide()
@@ -82,11 +82,12 @@ function handleContinueButtonClick() {
     let nextCategory = calculateNextCategory(category);
 
     if (nextCategory) {
-        saveContributionFeedback();
-        location.href = "../annotation/give-feedback.jsp?" +
-            "projectName=" + getProjectName() +
-            "&fullSubmissionId=" + submissionId +
-            "&category=" + nextCategory;
+        saveContributionFeedback(function () {
+            location.href = "../annotation/give-feedback.jsp?" +
+                "projectName=" + getProjectName() +
+                "&fullSubmissionId=" + submissionId +
+                "&category=" + nextCategory;
+        });
     }
 }
 
@@ -149,7 +150,7 @@ function highlightQuillText(startIndex, endIndex, category) {
 }
 
 
-function saveContributionFeedback() {
+function saveContributionFeedback(callback) {
 
     // initialize target
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
@@ -160,7 +161,7 @@ function saveContributionFeedback() {
         let contributionFeedbackRequest = contributionFeedback;
         contributionFeedbackRequest.text = content;
         updateContributionFeedback(contributionFeedbackRequest.id, contributionFeedbackRequest, function () {
-            console.log(response);
+            callback();
         });
     } else {
         getMyGroupId(function (groupId) {
@@ -176,6 +177,7 @@ function saveContributionFeedback() {
                 // send new annotation to websocket
                 //send("CREATE", response.id);
                 console.log(response);
+                callback();
             });
         });
     }
