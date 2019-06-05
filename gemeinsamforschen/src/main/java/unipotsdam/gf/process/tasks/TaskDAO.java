@@ -61,11 +61,11 @@ public class TaskDAO {
         task.setProgress(Progress.valueOf(vereinfachtesResultSet.getString("progress")));
         try {
             task.setEventCreated(vereinfachtesResultSet.getTimestamp("created").getTime());
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         try {
             task.setDeadline(vereinfachtesResultSet.getTimestamp("due").getTime());
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         task.setPhase(Phase.valueOf(vereinfachtesResultSet.getString("phase")));
         task.setTaskName(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
@@ -130,7 +130,7 @@ public class TaskDAO {
         return task;
     }
 
-    public Task createGroupDefault(Project project, Integer groupId, TaskName taskName, Phase phase) {
+    private Task createGroupDefault(Project project, Integer groupId, TaskName taskName, Phase phase) {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
@@ -204,14 +204,23 @@ public class TaskDAO {
     }
 
     private Task resultSetToTask(User user, Project project, VereinfachtesResultSet vereinfachtesResultSet) {
+        int groupId = vereinfachtesResultSet.getInt("groupTask");
+        if (groupId == 0) {
+            return resultSetToUserTask(user, project, vereinfachtesResultSet);
+        } else {
+            return resultSetToGroupTask(groupId, project, vereinfachtesResultSet);
+        }
+    }
+
+    private Task resultSetToTask(Integer groupId, Project project, VereinfachtesResultSet vereinfachtesResultSet) {
+        return resultSetToGroupTask(groupId, project, vereinfachtesResultSet);
+    }
+
+    private Task resultSetToGroupTask(Integer groupId, Project project, VereinfachtesResultSet vereinfachtesResultSet) {
         String taskName = vereinfachtesResultSet.getString("taskName");
-        Task result;
+        Task result = new Task();
         TaskName taskName1 = TaskName.valueOf(taskName);
         switch (taskName1) {
-            case WAIT_FOR_PARTICPANTS: {
-                result = getTaskWaitForParticipants(vereinfachtesResultSet);
-                break;
-            }
             case ANNOTATE_DOSSIER: {
                 //finalizeDossierTask.setTaskType(TaskType.LINKED);
                 result = getFinalizeDossierTask(vereinfachtesResultSet);
@@ -222,13 +231,25 @@ public class TaskDAO {
                 result = getGeneralTask(vereinfachtesResultSet);
                 break;
             }
-
             case GIVE_FEEDBACK: {
                 Task feedbackTask = getGeneralTask(vereinfachtesResultSet);
                 //feedback.assigningMissingFeedbackTasks();
-                feedbackTask.setTaskData(submissionController.getFeedbackTaskData(user, project));
+                feedbackTask.setTaskData(submissionController.getFeedbackTaskData(groupId, project));
                 feedbackTask.setHasRenderModel(true);
                 result = feedbackTask;
+                break;
+            }
+        }
+        return result;
+    }
+
+    private Task resultSetToUserTask(User user, Project project, VereinfachtesResultSet vereinfachtesResultSet) {
+        String taskName = vereinfachtesResultSet.getString("taskName");
+        Task result;
+        TaskName taskName1 = TaskName.valueOf(taskName);
+        switch (taskName1) {
+            case WAIT_FOR_PARTICPANTS: {
+                result = getTaskWaitForParticipants(vereinfachtesResultSet);
                 break;
             }
             case SEE_FEEDBACK: {
@@ -266,14 +287,14 @@ public class TaskDAO {
         return result;
     }
 
-    public ArrayList<Task> getTasksWithTaskName(Project project, TaskName taskname) {
+    public ArrayList<Task> getTasksWithTaskName(Integer groupId, Project project, TaskName taskname) {
         connect.connect();
-        String query = "Select * from tasks t where t.projectName = ? AND t.taskName= ? ORDER BY created DESC";
+        String query = "Select * from tasks t where t.groupTask = ? AND t.projectName = ? AND t.taskName= ? ORDER BY created DESC";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(query, project.getName(), taskname.toString());
+                connect.issueSelectStatement(query, groupId, project.getName(), taskname.toString());
         ArrayList<Task> result = new ArrayList<>();
         while (vereinfachtesResultSet.next()) { //an empty userEmail includes groupTasks and excludes userTasks
-            result.add(resultSetToTask(new User(""), project, vereinfachtesResultSet));
+            result.add(resultSetToTask(groupId, project, vereinfachtesResultSet));
         }
         connect.close();
         return result;
@@ -297,7 +318,7 @@ public class TaskDAO {
     private Task getFinalizeDossierTask(VereinfachtesResultSet vereinfachtesResultSet) {
         Task task = getGeneralTask(vereinfachtesResultSet);
         task.setTaskData(submissionController
-                .getSubmissionData(new User(task.getUserEmail()), new Project(task.getProjectName())));
+                .getSubmissionData(task.getGroupTask(), new Project(task.getProjectName())));
         return task;
     }
 

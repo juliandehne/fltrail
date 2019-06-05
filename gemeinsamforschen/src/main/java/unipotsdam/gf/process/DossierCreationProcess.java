@@ -116,8 +116,8 @@ public class DossierCreationProcess {
             // create Task to give Feedback
             List<Group> groupsInProjekt = groupDAO.getGroupsByProjectName(project.getName());
             List<Task> allFeedbackTasks = new ArrayList<>();
-            for (Group ignored : groupsInProjekt) {
-                Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(project, TaskName.GIVE_FEEDBACK).get(0);
+            for (Group group : groupsInProjekt) {
+                Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.GIVE_FEEDBACK).get(0);
                 if (!allFeedbackTasks.contains(giveFeedbackTask1))
                     allFeedbackTasks.add(giveFeedbackTask1);
             }
