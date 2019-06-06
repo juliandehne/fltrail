@@ -68,7 +68,14 @@
 
         <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
             <div class="card ${phase}">
-               <div class="card-finished"><h4 class="icon closed">${infoText}</h4>
+               <div class="card-finished">
+                    <h4 class="icon closed">${infoText}</h4>
+                    {{if solveTaskWith}}
+                        <button class='primary' onClick='${solveTaskWithLink}'>${solveTaskWith}</button>
+                    {{/if}}
+                    {{if helpLink}}
+                        <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
+                    {{/if}}
                {{html timeFrame}}
                </div>
             </div>
