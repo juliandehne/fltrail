@@ -114,7 +114,6 @@ function finalize() {
 }
 
 function getFeedbackedGroup(responseHandler) {
-    // TODO: should Text "Gib der Gruppe eine Rückmeldung für das Dossier." have a name in it? (Groups doesn't have a name)
     $.ajax({
         url: "../rest/contributionfeedback/feedbackTarget/projectName/" + $('#projectName').html().trim(),
         headers: {

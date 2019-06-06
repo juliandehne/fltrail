@@ -70,6 +70,16 @@
             <div class="card ${phase}">
                <div class="card-finished">
                     <h4 class="icon closed">${infoText}</h4>
+
+               {{html timeFrame}}
+               </div>
+            </div>
+
+        </script>
+                <script id="inProgressTaskTemplate" type="text/x-jQuery-tmpl">
+            <div class="card ${phase}">
+               <div class="card-finished">
+                    <h4 class="icon">${infoText}<i class="fa fa-clock-o" aria-hidden="true"></i></h4>
                     {{if solveTaskWith}}
                         <button class='primary' onClick='${solveTaskWithLink}'>${solveTaskWith}</button>
                     {{/if}}
@@ -79,8 +89,6 @@
                {{html timeFrame}}
                </div>
             </div>
-
-
         </script>
     </div>
         <div class="col span_chat right">

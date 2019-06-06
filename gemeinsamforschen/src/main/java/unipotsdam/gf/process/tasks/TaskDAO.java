@@ -218,7 +218,7 @@ public class TaskDAO {
 
     private Task resultSetToGroupTask(Integer groupId, Project project, VereinfachtesResultSet vereinfachtesResultSet) {
         String taskName = vereinfachtesResultSet.getString("taskName");
-        Task result = new Task();
+        Task result;
         TaskName taskName1 = TaskName.valueOf(taskName);
         switch (taskName1) {
             case ANNOTATE_DOSSIER: {
@@ -238,6 +238,19 @@ public class TaskDAO {
                 feedbackTask.setHasRenderModel(true);
                 result = feedbackTask;
                 break;
+            }
+            case SEE_FEEDBACK: {
+                Task task = getGeneralTask(vereinfachtesResultSet);
+                task.setTaskType(TaskType.LINKED);
+                Map<String, String> taskData = new HashMap<>();
+                taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project));
+                taskData.put("category", "TITEL");
+                task.setTaskData(taskData);
+                result = task;
+                break;
+            }
+            default: {
+                result = getGeneralTask(vereinfachtesResultSet);
             }
         }
         return result;

@@ -71,6 +71,16 @@ public class ContributionFeedbackDAO {
         return contributionFeedback;
     }
 
+    public ContributionFeedback getFeedbackFor(String fullSubmissionId, String fullSubmissionPartCategory) {
+        connect.connect();
+        String query = "SELECT * FROM contributionfeedback WHERE fullSubmissionId = ? and fullSubmissionPartCategory = ?";
+
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, fullSubmissionId, fullSubmissionPartCategory);
+        ContributionFeedback contributionFeedback = getContributionFeedback(vereinfachtesResultSet);
+        connect.close();
+        return contributionFeedback;
+    }
+
     public void update(ContributionFeedback contributionFeedback) {
         connect.connect();
         String query = "UPDATE contributionFeedback SET `text` = ? WHERE fullSubmissionId = ? and groupId = ? and fullSubmissionPartCategory = ?";

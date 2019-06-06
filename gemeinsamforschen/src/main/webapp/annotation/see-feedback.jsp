@@ -38,11 +38,10 @@
     <script src="js/annotationWebsocket.js"></script>
     <!-- js - annotation REST script -->
     <script src="js/giveFeedbackRest.js"></script>
-    <script src="js/unstructuredRest.js"></script>
+    <script src="js/unstructuredRest.js"></script>  <!-- ! -->
     <!-- js - feedbackScript -->
-    <script src="js/giveFeedback.js"></script>
-        <script src="js/feedbackUtils.js"></script>
-
+    <script src="js/seeFeedback.js"></script>
+    <script src="js/feedbackUtils.js"></script>
 
 </head>
 
@@ -59,8 +58,7 @@
     </div>
     <main id="seeFeedback" class="">
 
-        <h3>Feedback geben </h3>
-        <p>Gib der Gruppe <span id="feedBackTarget"></span> eine Rückmeldung für das Dossier.</p>
+        <h3>Das Feedback für ihr <span class="contributionCategory"></span></h3>
 
         <br>
         <div class="three_rows">
@@ -71,7 +69,7 @@
             <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">&#xf00c;</button>
         </div>
         <div id="editor"></div>
-        <h3>Gib dein Feedback ein.</h3>
+        <h3>Zu diesem Teil gab es folgendes Feedback: </h3>
         <div id="feedbackEditor"></div>
     </main>
     <jsp:include page="../taglibs/quillJsEditor.jsp">
@@ -80,9 +78,9 @@
     <script>
         const quillFeedback = new Quill('#feedbackEditor', {
             theme: 'snow',
-            readOnly: false,
+            readOnly: true,
             "modules": {
-                "toolbar": true
+                "toolbar": false
             }
         });
     </script>

@@ -10,6 +10,8 @@ public interface IContributionFeedback {
 
     ContributionFeedback getContributionFeedback(String fullSubmissionId, String fullSubmissionCategory, int groupId);
 
+    ContributionFeedback getContributionFeedback(String fullSubmissionId, String fullSubmissionCategory);
+
     void updateContributionFeedback(ContributionFeedback contributionFeedback);
 
     void endFeedback(String projectName, int groupId);

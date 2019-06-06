@@ -41,6 +41,11 @@ public class ContributionFeedbackService implements IContributionFeedback {
     }
 
     @Override
+    public ContributionFeedback getContributionFeedback(String fullSubmissionId, String fullSubmissionCategory) {
+        return contributionFeedbackDAO.getFeedbackFor(fullSubmissionId, fullSubmissionCategory);
+    }
+
+    @Override
     public void updateContributionFeedback(ContributionFeedback contributionFeedback) {
         contributionFeedbackDAO.update(contributionFeedback);
     }

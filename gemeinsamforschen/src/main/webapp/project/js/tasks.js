@@ -23,10 +23,18 @@ function fillTasks(projectName, userEmail) {
             object = fillObjectWithTasks(response);
             for (let task in object) {
                 let tmplObject = fitObjectInTmpl(object[task]);
-                if (tmplObject.taskProgress === "FINISHED") {
-                    $('#finishedTaskTemplate').tmpl(tmplObject).appendTo('#listOfTasks');
-                } else {
-                    $('#taskTemplate').tmpl(tmplObject).appendTo('#listOfTasks');
+                switch (tmplObject.taskProgress) {
+                    case "FINISHED":
+                        $('#finishedTaskTemplate').tmpl(tmplObject).appendTo('#listOfTasks');
+                        break;
+                    case "INPROGRESS":
+                        $('#inProgressTaskTemplate').tmpl(tmplObject).appendTo('#listOfTasks');
+                        break;
+                    case "JUSTSTARTED":
+                        $('#taskTemplate').tmpl(tmplObject).appendTo('#listOfTasks');
+                        break;
+                    default:
+                        break;
                 }
             }
         },
@@ -45,7 +53,7 @@ function fitObjectInTmpl(object) {
         helpLink: "",
         timeFrame: "",
         taskData: object.taskData,
-        taskProgress: "",
+        taskProgress: object.progress,
         inCardSolver: "",
     };
 
@@ -236,11 +244,11 @@ function fitObjectInTmpl(object) {
             case "SEE_FEEDBACK":
                 if (object.taskData !== null) {
                     result.solveTaskWith = "zum Feedback";
-                    result.solveTaskWithLink = "redirect(\'../annotation/annotation-document.jsp?" +
+                    result.solveTaskWithLink = "redirect(\'../annotation/see-feedback.jsp?" +
                         "projectName=" + object.projectName +
-                        "&fullSubmissionId=" + object.taskData.fullSubmission.id +
+                        "&fullSubmissionId=" + object.taskData.fullSubmissionId +
                         "&category=" + object.taskData.category +
-                        "&seeFeedback=true\')";
+                        "&contribution=DOSSIER\')";
                 }
                 break;
             default:
@@ -262,6 +270,10 @@ function fitObjectInTmpl(object) {
                     "projectName=" + object.projectName +
                     "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
             }
+        }
+        if (object.taskName === "ANNOTATE_DOSSIER" || object.taskName === "UPLOAD_DOSSIER") {
+            result.solveTaskWith = "";
+            result.solveTaskWithLink = "";
         }
         if (object.taskName.includes("CLOSE")) {
             result.taskProgress = "FINISHED";
