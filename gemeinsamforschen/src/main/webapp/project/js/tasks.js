@@ -58,7 +58,7 @@ function fitObjectInTmpl(object) {
     };
 
     if (object.taskType !== "INFO") {
-        if (object.groupTask === true) {
+        if (object.groupTask !== 0) {
             result.taskType = "grouptask"
         } else {
             result.taskType = "usertask"
