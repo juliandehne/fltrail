@@ -93,8 +93,10 @@
     </div>
         <div class="col span_chat right">
             <chat:chatWindow orientation="right" scope="project"/>
-            <chat:chatWindow orientation="right" scope="group"/>
-            <a id="groupView" style="cursor:pointer;">Gruppenansicht</a>
+            <div id="groupView">
+                <chat:chatWindow orientation="right" scope="group"/>
+                <a style="cursor:pointer;">Gruppenansicht</a>
+            </div>
         </div>
     </div> <!-- end row -->
 </main>

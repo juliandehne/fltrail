@@ -144,15 +144,23 @@ function fitObjectInTmpl(object) {
             result.infoText = "Sie erhielten Feedback zu Ihrem Dossier.";
             break;
         case "WAITING_FOR_STUDENT_DOSSIERS":
-            result.infoText = "[TEACHER] Warten Sie darauf, dass jeder Student ein Dossier" +
-                "hochlädt und ein Feedback für jemanden gab.";
+            result.infoText = "Studierende legen nun ein Dossier an und" +
+                " geben sich gegenseitig Feedback.";
             break;
         case "CLOSE_DOSSIER_FEEDBACK_PHASE":
             let count = object.taskData.length;
             if (count <= 3) {
-                result.infoText = "Warten sie noch auf die / den Studenten ";
+                result.infoText = "Es fehlen noch die Feedbacks der Gruppe/n ";
                 for (let i = 0; i < object.taskData.length; i++) {
-                    result.infoText += object.taskData[i] + " ";
+                    for (let j = 0; j < object.taskData[i].members.length; j++) {
+                        result.infoText += object.taskData[i].members[j].name;
+                        if (j < object.taskData[i].members.length - 1) {
+                            result.infoText += ", "
+                        }
+                    }
+                    if (i < object.taskData.length - 1) {
+                        result.infoText += " und "
+                    }
                 }
             } else {
                 result.infoText = "Noch haben nicht alle Studenten ihren Peers ein Feedback gegeben.";

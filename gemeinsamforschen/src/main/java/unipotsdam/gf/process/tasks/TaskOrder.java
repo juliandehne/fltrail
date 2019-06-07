@@ -3,7 +3,6 @@ package unipotsdam.gf.process.tasks;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class TaskOrder {
     private List<TaskName> orderedTasks;
@@ -20,6 +19,7 @@ public class TaskOrder {
         result.add(TaskName.GIVE_FEEDBACK);
         result.add(TaskName.SEE_FEEDBACK);
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
+        result.add(TaskName.WAIT_FOR_REFLECTION);
         //todo Martins tasks
         result.add(TaskName.CLOSE_EXECUTION_PHASE);
         result.add(TaskName.WAIT_FOR_PEER_ASSESSMENTS);

@@ -60,7 +60,6 @@
     <main id="seeFeedback" class="">
 
         <h3>Feedback geben </h3>
-        <p>Gib der Gruppe <span id="feedBackTarget"></span> eine Rückmeldung für das Dossier.</p>
 
         <br>
         <div class="three_rows">
