@@ -13,8 +13,6 @@ import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.Task;
@@ -112,6 +110,7 @@ public class GroupFormationProcess {
             List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
             groupfinding.persistGroups(groups, project);
             groupfinding.persistOriginalGroups(groups, project, groupdao.getGroupFormationMechanism(project));
+            taskDAO.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
             return new GroupData(groups);
         } else {
             return new GroupData(groups1);
