@@ -16,35 +16,35 @@
                 <li class="icon  phase1">Projektinitialisierung</li>
                 <li class="icon inactive  phase2 ">Entwurfsphase</li>
 
-                <li class="icon inactive phase4">Reflextionsphase</li>
+        <li class="icon inactive phase4">Durchführung</li>
                 <li class="icon inactive phase5">Assessment</li>
                 <li class="icon inactive phase6">Noten</li>
             <%} else if (phase == Phase.DossierFeedback) {%>
                 <li class="icon closed phase1">Projektinitialisierung</li>
                 <li class="icon  phase2">Entwurfsphase</li>
 
-                <li class="icon inactive phase4">Reflextionsphase</li>
+        <li class="icon inactive phase4">Durchführung</li>
                 <li class="icon inactive phase5">Assessment</li>
                 <li class="icon inactive phase6">Noten</li>
             <%} else if (phase == Phase.Execution) {%>
                 <li class="neutral icon closed phase1">Projektinitialisierung</li>
                 <li class="draft icon closed phase2">Entwurfsphase</li>
 
-                <li class="icon phase4">Reflextionsphase</li>
+        <li class="icon phase4">Durchführung</li>
                 <li class="icon inactive phase5">Assessment</li>
                 <li class="icon inactive phase6">Noten</li>
             <%} else if (phase == Phase.Assessment) {%>
                 <li class="neutral icon closed phase1">Projektinitialisierung</li>
                 <li class="draft icon closed phase2">Entwurfsphase</li>
 
-                <li class="icon closed phase4">Reflextionsphase</li>
+        <li class="icon closed phase4">Durchführung</li>
                 <li class="icon phase5">Assessment</li>
                 <li class="icon inactive phase6">Noten</li>
             <%} else if (phase == Phase.Projectfinished) {%>
                 <li class="icon closed phase1">Projektinitialisierung</li>
                 <li class="icon closed phase2">Entwurfsphase</li>
 
-                <li class="icon closed phase4">Reflextionsphase</li>
+        <li class="icon closed phase4">Durchführung</li>
                 <li class="icon closed phase5">Assessment</li>
                 <li class="icon phase6">Noten</li>
             <%}%>
@@ -55,7 +55,7 @@
     <!--begin data deletion and download-->
     <script src="../taglibs/js/fileStorage.js"></script>
     <div style="margin-top:50px;"></div>
-    <h4>Ergebnisse</h4>
+    <h4 id="fileManagementHeader">Ergebnisse</h4>
     <ul id="listOfFiles">
         <script id="listOfFilesTemplate" type="text/x-jQuery-tmpl">
             <li>

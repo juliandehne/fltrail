@@ -83,7 +83,7 @@ function fitObjectInTmpl(object) {
         case "Execution":
             groupViewLink.show();
             result.phase = "card-execution";
-            result.headLine = "Reflexionsphase";
+            result.headLine = "Durchführung";
             break;
         case "Assessment":
             groupViewLink.show();
