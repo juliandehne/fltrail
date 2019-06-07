@@ -45,7 +45,7 @@
                     Es müssen genau 5 Tags eingegeben werden.
                 </div>
                 <div class="alert alert-danger" role="alert" style="width:475px" id="specialChars">
-                    Der Projektname darf keine Sonderzeichen enthalten.
+                    Der Projektname darf keine Sonderzeichen oder Umlaute enthalten.
                 </div>
                 <div class="alert alert-danger" role="alert" style="width:475px" id="projectDescriptionMissing">
                     Geben Sie eine Beschreibung für Ihr Projekt an.

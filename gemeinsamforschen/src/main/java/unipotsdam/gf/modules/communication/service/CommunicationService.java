@@ -11,7 +11,6 @@ import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
@@ -24,35 +23,15 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.ws.rs.core.Response;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static unipotsdam.gf.config.GFMailConfig.SMTP_HOST;
-import static unipotsdam.gf.config.GFMailConfig.SMTP_PASSWORD;
-import static unipotsdam.gf.config.GFMailConfig.SMTP_PORT;
-import static unipotsdam.gf.config.GFMailConfig.SMTP_USERNAME;
-import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
 import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_API_LINK;
 import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_ROOM_LINK;
 
@@ -118,10 +97,9 @@ public class CommunicationService implements ICommunication {
         //loginUser(ADMIN_USER);
 
         Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this).build();
-
         List<String> usernameList = member.stream().map(User::getRocketChatUsername).collect(Collectors.toList());
         HashMap<String, Object> bodyMap = new HashMap<>();
-        bodyMap.put("name", name);
+        bodyMap.put("name", specialFreeName(name));
         bodyMap.put("readOnly", readOnly);
         bodyMap.put("members", usernameList);
 
@@ -362,8 +340,7 @@ public class CommunicationService implements ICommunication {
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 
         //loginUser(ADMIN_USER);
-
-        String chatRoomId = groupDAO.getGroupChatRoomId(new User(userEmail), new Project(projectName));
+        String chatRoomId = groupDAO.getGroupChatRoomId(new User(userEmail), specialFreeName(projectName));
         if (chatRoomId.isEmpty()) {
             return Strings.EMPTY;
         }
@@ -378,7 +355,7 @@ public class CommunicationService implements ICommunication {
 
     @Override
     public String getProjectChatRoomLink(String projectName) {
-        return ROCKET_CHAT_ROOM_LINK + projectName + "?layout=embedded";
+        return ROCKET_CHAT_ROOM_LINK + specialFreeName(projectName) + "?layout=embedded";
     }
 
 
@@ -485,7 +462,9 @@ public class CommunicationService implements ICommunication {
                 // wenn der Nutzer nicht existiert, brauchen wir ihn auch nicht löschen
             }
         }
+    }
 
-
+    private String specialFreeName(String name) {
+        return String.valueOf(name.hashCode());
     }
 }

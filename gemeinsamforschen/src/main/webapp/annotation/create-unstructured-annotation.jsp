@@ -83,6 +83,7 @@
                             <div id="{{>nameLower}}" class="category-card not-added">
                                 <p>{{>name}}</p>
                             </div>
+                            <a onClick="deleteCategory('{{>nameLower}}');"><i class="fa fa-trash" aria-hidden="true"></i></a>
                         </li>
                     {{/for}}
                 </script>

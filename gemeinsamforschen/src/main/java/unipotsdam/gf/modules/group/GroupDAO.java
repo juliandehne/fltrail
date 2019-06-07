@@ -125,6 +125,30 @@ public class GroupDAO {
         return uniqueGroups;
     }
 
+    public Group getGroupByGroupId(Integer groupId) {
+        connect.connect();
+        String mysqlRequest = "SELECT * FROM groups g " +
+                "JOIN groupuser gu ON g.id=gu.groupId " +
+                "JOIN users u ON " +
+                "gu.userEmail=u.email " +
+                "where g.id= ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, groupId);
+        List<User> members = new ArrayList<>();
+        String projectName = "";
+        String rocketChatId = "";
+        String groupName = "";
+        while (vereinfachtesResultSet.next()) {
+            members.add(userDAO.getUserByEmail(vereinfachtesResultSet.getString("userEmail")));
+            projectName = vereinfachtesResultSet.getString("projectName");
+            rocketChatId = vereinfachtesResultSet.getString("chatRoomId");
+            groupName = vereinfachtesResultSet.getString("name");
+        }
+        Group group = new Group(groupId, members, projectName, rocketChatId);
+        group.setName(groupName);
+        connect.close();
+        return group;
+    }
+
     public List<Group> getOriginalGroupsByProjectName(String projectName) {
         connect.connect();
         String mysqlRequest = "SELECT * FROM originalgroups where projectName = ?";
@@ -190,14 +214,14 @@ public class GroupDAO {
         return groupFormationMechanism;
     }
 
-    public String getGroupChatRoomId(User user, Project project) {
+    public String getGroupChatRoomId(User user, String projectName) {
         connect.connect();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("SELECT g.chatRoomId FROM groups g ");
         stringBuilder.append("join groupuser gu on g.id=gu.groupId ");
         stringBuilder.append("where g.projectName=? and gu.userEmail=?");
 
-        VereinfachtesResultSet resultSet = connect.issueSelectStatement(stringBuilder.toString(), project.getName(),
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(stringBuilder.toString(), projectName,
                 user.getEmail());
         if (Objects.isNull(resultSet)) {
             connect.close();

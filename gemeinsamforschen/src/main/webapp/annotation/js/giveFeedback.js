@@ -20,9 +20,8 @@ $(document).ready(function () {
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
     let category = getQueryVariable("category");
     $('#categoryHeadline').html("Kategorie: " + category);
-    getFeedbackedGroup(function (response) {
-        $('#feedBackTarget').html(response.id);
-    });
+    /*getFeedbackedGroup(function (response) {
+    });*/
     prepareFeedbackMenu(category);
     let btnBack = $('#btnBack');
     btnBack.click(handleBackButtonClick);

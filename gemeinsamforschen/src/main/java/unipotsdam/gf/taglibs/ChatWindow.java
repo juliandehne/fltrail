@@ -32,11 +32,12 @@ public class ChatWindow extends SimpleTagSupport {
 
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
+        TagUtilities tu = new TagUtilities();
 
         PageContext pageContext = (PageContext) getJspContext();
         HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
         /*String token = request.getParameter("token"); */
-        String projectName = request.getParameter("projectName");
+        String projectName = tu.getParamterFromQuery("projectName", request);
         Object userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL);
 
         if (userEmail != null && !(request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) == null)) {
