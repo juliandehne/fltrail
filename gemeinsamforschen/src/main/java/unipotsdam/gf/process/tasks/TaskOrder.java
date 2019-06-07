@@ -3,7 +3,6 @@ package unipotsdam.gf.process.tasks;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 public class TaskOrder {
     private List<TaskName> orderedTasks;
@@ -16,12 +15,16 @@ public class TaskOrder {
         result.add(TaskName.CONTACT_GROUP_MEMBERS);
         result.add(TaskName.WAITING_FOR_STUDENT_DOSSIERS);
         result.add(TaskName.UPLOAD_DOSSIER);
+        result.add(TaskName.OPTIONAL_PORTFOLIO_ENTRY);
         result.add(TaskName.ANNOTATE_DOSSIER);
         result.add(TaskName.GIVE_FEEDBACK);
         result.add(TaskName.SEE_FEEDBACK);
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
-        //todo Martins tasks
+        result.add(TaskName.REFLECT_DOSSIER_CREATION);
+        //end of execution phase
+        result.add(TaskName.ANSWER_REFLECTION_QUESTIONS);
         result.add(TaskName.CLOSE_EXECUTION_PHASE);
+        result.add(TaskName.COLLECT_RESULTS_FOR_ASSESSMENT);
         result.add(TaskName.WAIT_FOR_PEER_ASSESSMENTS);
         result.add(TaskName.GIVE_ASSESSMENT);
         result.add(TaskName.SEE_ASSESSMENT);

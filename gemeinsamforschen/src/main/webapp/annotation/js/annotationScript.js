@@ -63,12 +63,12 @@ $(document).ready(function () {
         btnBack.hide();
         btnWholeCategory.hide();
     }
-    $('#backToTasks').on('click',function(){
-        location.href="../project/tasks-student.jsp?projectName="+$('#projectName').html().trim();
+    $('#backToTasks').on('click', function () {
+        location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
     });
 
     // fetch full submission from database
-    getFullSubmission(getQueryVariable("fullSubmissionId"), function (response) {
+    getFullSubmission(getQueryVariable("fullSubmissionId"), getQueryVariable("contributionCategory"), function (response) {
 
         // set text if student looks at peer review
         quillTemp.setContents(JSON.parse(response.text));

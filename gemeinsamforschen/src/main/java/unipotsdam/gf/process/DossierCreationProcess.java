@@ -4,6 +4,7 @@ import com.itextpdf.text.DocumentException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition.FormDataContentDispositionBuilder;
 import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.interfaces.IReflectionService;
 import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -18,7 +19,11 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.*;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.process.tasks.TaskType;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -50,6 +55,9 @@ public class DossierCreationProcess {
 
     @Inject
     private GroupDAO groupDAO;
+
+    @Inject
+    private IReflectionService reflectionService;
 
     /**
      * start the Dossier Phase
@@ -89,6 +97,8 @@ public class DossierCreationProcess {
 
             // this triggers the annotate task
             taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
+
+            reflectionService.startOptionalPortfolioTask(project, user, Phase.DossierFeedback);
         }
         return fullSubmission;
     }
@@ -103,20 +113,20 @@ public class DossierCreationProcess {
 
         // mark annotate task as finished in db
         //todo: for iterative work, these two tasks need to be seperated
-        Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(),
+        Task taskUpload = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(),
                 Progress.FINISHED);
-        taskDAO.updateForGroup(task);
-        Task task1 = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), project.getName(),
+        taskDAO.updateForGroup(taskUpload);
+        Task taskAnnotate = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), project.getName(),
                 Progress.FINISHED);
-        taskDAO.updateForGroup(task1);
+        taskDAO.updateForGroup(taskAnnotate);
         taskDAO.persistTaskGroup(project, user, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
 
 
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
             // create Task to give Feedback
-            List<Group> groupsInProjekt = groupDAO.getGroupsByProjectName(project.getName());
+            List<Group> groupsInProject = groupDAO.getGroupsByProjectName(project.getName());
             List<Task> allFeedbackTasks = new ArrayList<>();
-            for (Group group : groupsInProjekt) {
+            for (Group group : groupsInProject) {
                 Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.GIVE_FEEDBACK).get(0);
                 if (!allFeedbackTasks.contains(giveFeedbackTask1))
                     allFeedbackTasks.add(giveFeedbackTask1);

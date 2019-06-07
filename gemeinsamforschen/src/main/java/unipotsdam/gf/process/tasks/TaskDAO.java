@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
@@ -65,7 +66,7 @@ public class TaskDAO {
         }
         try {
             task.setDeadline(vereinfachtesResultSet.getTimestamp("due").getTime());
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
         }
         task.setPhase(Phase.valueOf(vereinfachtesResultSet.getString("phase")));
         task.setTaskName(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
@@ -115,18 +116,32 @@ public class TaskDAO {
     }
 
     public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase) {
+        return createUserDefault(project, target, taskName, phase, Importance.MEDIUM);
+    }
+
+    public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase, Importance importance) {
+        return createUserDefault(project, target, taskName, phase, importance, Progress.JUSTSTARTED);
+    }
+
+    public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase, Importance importance, Progress progress) {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
-        task.setDeadline(System.currentTimeMillis() + 7000 * 60 * 60 * 24);
+        task.setDeadline(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7));
         task.setProjectName(project.getName());
         task.setUserEmail(target.getEmail());
-        task.setImportance(Importance.MEDIUM);
-        task.setProgress(Progress.JUSTSTARTED);
+        task.setImportance(importance);
+        task.setProgress(progress);
         task.setGroupTask(0);
         task.setTaskName(taskName);
         task.setPhase(phase);
         task.setTaskType(TaskType.INFO, TaskType.LINKED);
+        return task;
+    }
+
+    public Task createUserDefaultWithoutDeadline(Project project, User target, TaskName taskName, Phase phase, Importance importance, Progress progress) {
+        Task task = createUserDefault(project, target, taskName, phase, importance, progress);
+        task.setDeadline(0L);
         return task;
     }
 

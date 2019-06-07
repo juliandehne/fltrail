@@ -168,6 +168,9 @@ function fitObjectInTmpl(object) {
         case "CONTACT_GROUP_MEMBERS":
             result.infoText = "Sagen sie hallo zu ihren Gruppenmitgliedern über den Chat.";
             break;
+        case "OPTIONAL_PORTFOLIO_ENTRY":
+            result.infoText = "E-Portfolio";
+            break;
         default:
             result.infoText = "";
     }
@@ -250,6 +253,11 @@ function fitObjectInTmpl(object) {
                         "&category=" + object.taskData.category +
                         "&contribution=DOSSIER\')";
                 }
+                break;
+
+            case "OPTIONAL_PORTFOLIO_ENTRY":
+                result.solveTaskWith = "Erstelle einen Portfolio-Eintrag (optional)";
+                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&contributionCategory=Portfolio" + "\')";
                 break;
             default:
                 result.solveTaskWith = null;

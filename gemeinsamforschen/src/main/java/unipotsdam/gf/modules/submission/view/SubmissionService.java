@@ -3,9 +3,15 @@ package unipotsdam.gf.modules.submission.view;
 import com.itextpdf.text.DocumentException;
 import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
+import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.SubmissionResponse;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -13,13 +19,20 @@ import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Sven Kästle
@@ -65,34 +78,38 @@ public class SubmissionService {
 
     @GET
     @Path("/full/{id}")
-    public Response getFullSubmission(@PathParam("id") String fullSubmissionId) {
+    public Response getFullSubmission(@PathParam("id") String fullSubmissionId,
+                                      @QueryParam("contributionCategory") ContributionCategory contributionCategory) {
 
         // get full submission from database based by id
 
-        FullSubmission fullSubmission = submissionController.getFullSubmission(fullSubmissionId);
+        FullSubmission fullSubmission = submissionController.getFullSubmission(fullSubmissionId, contributionCategory);
 
         if (fullSubmission != null) {
             return Response.ok(fullSubmission).build();
         } else {
             // declare response
             SubmissionResponse response = new SubmissionResponse();
-            response.setMessage("Submission with the id '" + fullSubmissionId + "' can't be found");
+            String message = String.format("Submission with the id '%s' and contribution category '%s' can't be found",
+                    fullSubmissionId, contributionCategory);
+            response.setMessage(message);
 
             return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }
-
     }
 
     @GET
-    @Path("/full/groupId/{groupId}/project/{projectName}")
+    @Path("/full/groupId/{groupId}/project/{projectName}/contributionCategory/{contributionCategory}")
     public Response getFullSubmission(@PathParam("projectName") String projectName,
-                                      @PathParam("groupId") Integer groupId
-    ) throws IOException {
+                                      @PathParam("groupId") Integer groupId,
+                                      @PathParam("contributionCategory") ContributionCategory contributionCategory) {
         Project project = new Project(projectName);
-        String fullSubmissionId = submissionController.getFullSubmissionId(groupId, project);
+        FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project);
 
-        // get full submission from database based by id
-        return getFullSubmission(fullSubmissionId);
+        if (Objects.isNull(fullSubmission)) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(fullSubmission).build();
     }
 
     @POST

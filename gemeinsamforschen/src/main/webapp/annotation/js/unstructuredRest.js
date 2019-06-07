@@ -23,11 +23,14 @@ function createFullSubmission(fullSubmissionPostRequest, responseHandler) {
  * GET: Get a specific full submission for a given id
  *
  * @param id The id of the full submission
+ * @param contributionCategory
  * @param responseHandler The response handler
  * @param errorHandler The error handler
  */
-function getFullSubmission(id, responseHandler, errorHandler) {
-    let url = "../rest/submissions/full/" + id;
+function getFullSubmission(id, contributionCategory, responseHandler, errorHandler) {
+    let url = "../rest/submissions/full/" + id + '?' + $.param({
+        contributionCategory: contributionCategory
+    });
     $.ajax({
         url: url,
         type: "GET",
