@@ -217,7 +217,11 @@ function fitObjectInTmpl(object) {
                 break;
             case "ANNOTATE_DOSSIER":
                 result.solveTaskWith = "Annotiere das Dossier";
-                result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?projectName=" + object.projectName + "&submissionId=" + object.taskData.fullSubmissionId + "\')";
+                result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?" + $.param({
+                    projectName: object.projectName,
+                    submissionId: object.taskData.fullSubmissionId,
+                    contributionCategory: "Dossier"
+                }) + "\')";
                 break;
             case "FINALIZE_DOSSIER":
                 result.solveTaskWith = "Finalisiere das Dossier";
