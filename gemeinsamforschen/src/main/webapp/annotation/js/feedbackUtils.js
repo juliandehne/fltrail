@@ -7,7 +7,7 @@ function prepareFeedbackMenu(category) {
     let startCharacter;
     let endCharacter;
 // fetch full submission from database
-    getFullSubmission(getQueryVariable("fullSubmissionId"), getQueryVariable("contributionCategory"), function (response) {
+    getFullSubmission(getQueryVariable("fullSubmissionId"), function (response) {
 
         // set text if student looks at peer review
         quill.setContents(JSON.parse(response.text));

@@ -69,12 +69,12 @@ public class SubmissionController implements ISubmission, HasProgress {
         connection.close();
 
         // get the new submission from database
-        return getFullSubmission(uuid, fullSubmissionPostRequest.getContributionCategory());
+        return getFullSubmission(uuid);
 
     }
 
     @Override
-    public FullSubmission getFullSubmission(String fullSubmissionId, ContributionCategory contributionCategory) {
+    public FullSubmission getFullSubmission(String fullSubmissionId) {
 
         // establish connection
         connection.connect();
@@ -82,8 +82,8 @@ public class SubmissionController implements ISubmission, HasProgress {
         FullSubmission fullSubmission = null;
 
         // build and execute request
-        String request = "SELECT * FROM fullsubmissions WHERE id = ? and contributionCategory = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId, contributionCategory.toString());
+        String request = "SELECT * FROM fullsubmissions WHERE id = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId);
 
         if (rs.next()) {
             // save submission
@@ -96,13 +96,13 @@ public class SubmissionController implements ISubmission, HasProgress {
         return fullSubmission;
     }
 
-    public FullSubmission getFullSubmissionBy(int groupId, Project project) {
+    public FullSubmission getFullSubmissionByGroupIdAndProjectNameAndContributionCategory(int groupId, Project project, ContributionCategory contributionCategory) {
 
         FullSubmission fullSubmission = null;
         connection.connect();
 
-        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName());
+        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ? AND contributionCategory = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName(), contributionCategory);
 
         if (rs.next()) {
             fullSubmission = getFullSubmissionFromResultSet(rs);
@@ -111,8 +111,8 @@ public class SubmissionController implements ISubmission, HasProgress {
         return fullSubmission;
     }
 
-    public String getFullSubmissionId(Integer groupId, Project project) {
-        FullSubmission fullSubmission = getFullSubmissionBy(groupId, project);
+    public String getFullSubmissionId(Integer groupId, Project project, ContributionCategory contributionCategory) {
+        FullSubmission fullSubmission = getFullSubmissionByGroupIdAndProjectNameAndContributionCategory(groupId, project, contributionCategory);
         String fullSubmissionId = null;
         if (!Objects.isNull(fullSubmission)) {
             fullSubmissionId = fullSubmission.getId();

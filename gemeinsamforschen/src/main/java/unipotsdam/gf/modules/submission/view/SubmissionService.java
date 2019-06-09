@@ -4,6 +4,7 @@ import com.itextpdf.text.DocumentException;
 import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
@@ -25,7 +26,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -56,42 +56,55 @@ public class SubmissionService {
     @Inject
     private GFContexts gfContexts;
 
+    @Inject
+    private FileManagementService fileManagementService;
+
 
     @POST
     @Path("/full")
     public Response addFullSubmission(@Context HttpServletRequest req,
                                       FullSubmissionPostRequest fullSubmissionPostRequest) {
         // save full submission request in database and return the new full submission
-
         final FullSubmission fullSubmission;
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         User user = userDAO.getUserByEmail(userEmail);
+        Project project = new Project(fullSubmissionPostRequest.getProjectName());
         try {
-            fullSubmission = dossierCreationProcess.addSubmission(fullSubmissionPostRequest, user,
-                    new Project(fullSubmissionPostRequest.getProjectName()));
+
+            fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest);
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while converting to pdf").build();
         }
+
+        fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
+
+        switch (fullSubmission.getContributionCategory()) {
+            case DOSSIER:
+                dossierCreationProcess.notifyAboutSubmission(user, project);
+                break;
+            case PORTFOLIO:
+                break;
+        }
+
+
         return Response.ok(fullSubmission).build();
     }
 
     @GET
     @Path("/full/{id}")
-    public Response getFullSubmission(@PathParam("id") String fullSubmissionId,
-                                      @QueryParam("contributionCategory") ContributionCategory contributionCategory) {
+    public Response getFullSubmission(@PathParam("id") String fullSubmissionId) {
 
         // get full submission from database based by id
 
-        FullSubmission fullSubmission = submissionController.getFullSubmission(fullSubmissionId, contributionCategory);
+        FullSubmission fullSubmission = submissionController.getFullSubmission(fullSubmissionId);
 
         if (fullSubmission != null) {
             return Response.ok(fullSubmission).build();
         } else {
             // declare response
             SubmissionResponse response = new SubmissionResponse();
-            String message = String.format("Submission with the id '%s' and contribution category '%s' can't be found",
-                    fullSubmissionId, contributionCategory);
+            String message = String.format("Submission with the id '%s' can't be found", fullSubmissionId);
             response.setMessage(message);
 
             return Response.status(Response.Status.NOT_FOUND).entity(response).build();
@@ -104,7 +117,7 @@ public class SubmissionService {
                                       @PathParam("groupId") Integer groupId,
                                       @PathParam("contributionCategory") ContributionCategory contributionCategory) {
         Project project = new Project(projectName);
-        FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project);
+        FullSubmission fullSubmission = submissionController.getFullSubmissionByGroupIdAndProjectNameAndContributionCategory(groupId, project, contributionCategory);
 
         if (Objects.isNull(fullSubmission)) {
             return Response.status(Response.Status.NOT_FOUND).build();

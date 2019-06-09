@@ -5,28 +5,6 @@ let userColorsDark = new Map();
 // declare document text, start and end character
 let startCharacter, endCharacter;
 
-/*
-    TODO
-    ----
-    create feedback page:
-        - remove quillJsTemp and show content in quillJS
-        - move colors from annotation class to utility class
-        - color text like category
-
-    show feedback page (could be this page):
-        - color feedback in user color
-        - color on mouseover
-        -
-
-    not one page!:
-        - you need to hide half of the page, just to have one page: einzige gemeinsamkeit -> editor und das reicht nicht
-
-
-    - Websocket fixen (vllt)
-    - bearbeiten druecken laesst die karte nicht verschwinden (was wollte ich damit sagen?)
- */
-
-
 /**
  * This function will fire when the DOM is ready
  */
@@ -68,7 +46,7 @@ $(document).ready(function () {
     });
 
     // fetch full submission from database
-    getFullSubmission(getQueryVariable("fullSubmissionId"), getQueryVariable("contributionCategory"), function (response) {
+    getFullSubmission(getQueryVariable("fullSubmissionId"), function (response) {
 
         // set text if student looks at peer review
         quillTemp.setContents(JSON.parse(response.text));

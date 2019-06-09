@@ -1,7 +1,6 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.annotation.model.Category;
-import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.submission.model.SubmissionPart;
@@ -30,7 +29,7 @@ public interface ISubmission {
      * @param fullSubmissionId The id of the submission
      * @return The full submission
      */
-    FullSubmission getFullSubmission(String fullSubmissionId, ContributionCategory contributionCategory);
+    FullSubmission getFullSubmission(String fullSubmissionId);
 
     /**
      * Checks if a full submission id already exists in the database

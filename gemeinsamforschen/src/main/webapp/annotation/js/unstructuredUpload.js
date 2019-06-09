@@ -5,16 +5,19 @@ let groupId = 0;
 let contributionCategory;
 let hierarchyLevel;
 let fullSubmissionId = "";
+let personal;
 $(document).ready(function () {
-    getMyGroupId(getFullSubmissionOfGroup);
     contributionCategory = $('#contributionCategory').html().trim();
+    setPersonal();
+    if (!personal) {
+        getMyGroupId(getFullSubmissionOfGroup);
+    }
     hierarchyLevel = $('#hierarchyLevel').html().trim();
     populateTextFields();
 
     $('#btnSave').click(function () {
 
         if (quill.getText().length > 1) {
-            let user = getUserEmail();
             let content = quill.getContents();
             let html = quill.root.innerHTML;
 
@@ -66,9 +69,14 @@ $(document).ready(function () {
 });
 
 
+function setPersonal() {
+    let personalString = $("#personal").html().trim();
+    personal = personalString.toUpperCase() === 'TRUE';
+}
+
 function populateTextFields() {
     let data = {};
-    data.header = contributionCategory;
+    data.header = contributionCategory === "Portfolio" ? "Portfolio-Eintrag" : contributionCategory;
     let tmpl = $.templates("#headerTemplate");
     //tmpl.link("#result");
     let html = tmpl.render(data);

@@ -265,7 +265,11 @@ function fitObjectInTmpl(object) {
 
             case "OPTIONAL_PORTFOLIO_ENTRY":
                 result.solveTaskWith = "Erstelle einen Portfolio-Eintrag (optional)";
-                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&contributionCategory=Portfolio" + "\')";
+                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
+                    projectName: object.projectName,
+                    contributionCategory: "Portfolio",
+                    personal: "true"
+                }) + "\')";
                 break;
             default:
                 result.solveTaskWith = null;

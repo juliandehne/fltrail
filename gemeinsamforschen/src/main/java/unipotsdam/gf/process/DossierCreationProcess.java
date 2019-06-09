@@ -1,20 +1,12 @@
 package unipotsdam.gf.process;
 
-import com.itextpdf.text.DocumentException;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition.FormDataContentDispositionBuilder;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IReflectionService;
-import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
-import unipotsdam.gf.modules.fileManagement.FileManagementService;
-import unipotsdam.gf.modules.fileManagement.FileRole;
-import unipotsdam.gf.modules.fileManagement.FileType;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
@@ -27,7 +19,6 @@ import unipotsdam.gf.process.tasks.TaskType;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,9 +40,6 @@ public class DossierCreationProcess {
 
     @Inject
     private Feedback feedback;
-
-    @Inject
-    private FileManagementService fileManagementService;
 
     @Inject
     private GroupDAO groupDAO;
@@ -76,36 +64,25 @@ public class DossierCreationProcess {
     }
 
     /**
-     * @param fullSubmissionPostRequest Elements needed to build the fullSubmission-class
-     * @param user User who uploaded the Submission for his / her group
-     * @param project the project the submission was written for
+     * @param user                      User who uploaded the Submission for his / her group
+     * @param project                   the project the submission was written for
      * @return the fullSubmission with correct ID
      */
-    public FullSubmission addSubmission(
-            FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) throws DocumentException, IOException {
-
-        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName(fullSubmissionPostRequest.getContributionCategory() + "_" + user.getEmail() + ".pdf");
-        fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
-                FileRole.DOSSIER, FileType.HTML);
-
-        FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
-
+    public void notifyAboutSubmission(User user, Project project) {
         // this completes the upload task
-        if (fullSubmission.getContributionCategory() == ContributionCategory.DOSSIER) {
-            Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.INPROGRESS);
-            taskDAO.updateForGroup(task);
+        Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.INPROGRESS);
+        taskDAO.updateForGroup(task);
 
-            // this triggers the annotate task
-            taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
+        // this triggers the annotate task
+        taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
 
-            reflectionService.startOptionalPortfolioTask(project, user, Phase.DossierFeedback);
-        }
-        return fullSubmission;
+        reflectionService.startOptionalPortfolioTask(project, user, Phase.DossierFeedback);
+
     }
 
     /**
      * @param fullSubmission created in a groupTask, identified by projectName and groupId. Holds Text
-     * @param user User who finalized the Dossier for whole Group.
+     * @param user           User who finalized the Dossier for whole Group.
      */
     public void finalizeDossier(FullSubmission fullSubmission, User user, Project project) {
         // mark as final in db

@@ -16,8 +16,10 @@ import static java.net.URLDecoder.decode;
 
 public class TagUtilities {
     private static final Logger log = LoggerFactory.getLogger(TagUtilities.class);
+
     @Inject
     private ProjectDAO projectDAO;
+
 
     public TagUtilities() {
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());

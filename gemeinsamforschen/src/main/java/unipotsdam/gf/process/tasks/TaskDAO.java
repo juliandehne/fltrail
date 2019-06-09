@@ -1,6 +1,7 @@
 package unipotsdam.gf.process.tasks;
 
 import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
@@ -258,7 +259,7 @@ public class TaskDAO {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setTaskType(TaskType.LINKED);
                 Map<String, String> taskData = new HashMap<>();
-                taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project));
+                taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, ContributionCategory.DOSSIER));
                 taskData.put("category", "TITEL");
                 task.setTaskData(taskData);
                 result = task;
