@@ -76,7 +76,8 @@ public class DossierCreationProcess {
         // this triggers the annotate task
         taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
 
-        reflectionService.startOptionalPortfolioTask(project, user, Phase.DossierFeedback);
+        Group group = groupDAO.getMyGroup(user, project);
+        reflectionService.startOptionalPortfolioTask(project, group, Phase.DossierFeedback);
 
     }
 

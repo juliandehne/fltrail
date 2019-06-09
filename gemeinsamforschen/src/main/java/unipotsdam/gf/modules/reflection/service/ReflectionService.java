@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.reflection.service;
 
 import unipotsdam.gf.interfaces.IReflectionService;
+import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.phases.Phase;
@@ -21,12 +22,17 @@ public class ReflectionService implements IReflectionService {
     @Inject
     private TaskDAO taskDAO;
 
-    public void startOptionalPortfolioTask(Project project, User target, Phase phase) {
-        persistOptionalEntryTask(project, target, Progress.JUSTSTARTED, phase);
+    public void startOptionalPortfolioTask(Project project, Group group, Phase phase) {
+        group.getMembers().forEach(target -> {
+            persistOptionalEntryTask(project, target, Progress.JUSTSTARTED, phase);
+        });
+
     }
 
-    public void finishOptionalPortfolioTask(Project project, User target, Phase phase) {
-        persistOptionalEntryTask(project, target, Progress.FINISHED, phase);
+    public void finishOptionalPortfolioTask(Project project, Group group, Phase phase) {
+        group.getMembers().forEach(target -> {
+            persistOptionalEntryTask(project, target, Progress.FINISHED, phase);
+        });
     }
 
     private void persistOptionalEntryTask(Project project, User target, Progress progress, Phase phase) {
