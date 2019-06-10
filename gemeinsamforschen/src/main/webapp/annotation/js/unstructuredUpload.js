@@ -17,30 +17,31 @@ $(document).ready(function () {
 
     $('#btnSave').click(function () {
 
-        if (quill.getText().length > 1) {
-            let content = quill.getContents();
-            let html = quill.root.innerHTML;
+        getMyGroupId(function (groupId) {
+            if (quill.getText().length > 1) {
+                let content = quill.getContents();
+                let html = quill.root.innerHTML;
 
-            // build request
-            let fullSubmissionPostRequest = {
-                groupId: groupId,
-                text: JSON.stringify(content),
-                html: html,
-                projectName: $('#projectName').text().trim(),
-                contributionCategory: contributionCategory.toUpperCase()
-            };
+                // build request
+                let fullSubmissionPostRequest = {
+                    groupId: groupId,
+                    text: JSON.stringify(content),
+                    html: html,
+                    projectName: $('#projectName').text().trim(),
+                    personal: personal,
+                    contributionCategory: contributionCategory.toUpperCase()
+                };
 
-            // save request in database
-            createFullSubmission(fullSubmissionPostRequest, function () {
+                // save request in database
+                createFullSubmission(fullSubmissionPostRequest, function () {
 
-                // back to main page
-                location.href = hierarchyLevel + "project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
-            });
-        } else {
-            alert("Ein Text wird benötigt");
-        }
-        // fetch user and text
-
+                    // back to main page
+                    location.href = hierarchyLevel + "project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
+                });
+            } else {
+                alert("Ein Text wird benötigt");
+            }
+        });
     });
 
     $('#backToTasks').click(function () {

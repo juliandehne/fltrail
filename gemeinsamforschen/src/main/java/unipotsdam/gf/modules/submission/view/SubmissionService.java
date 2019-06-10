@@ -13,6 +13,7 @@ import unipotsdam.gf.modules.submission.model.SubmissionPart;
 import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
 import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 import unipotsdam.gf.modules.submission.model.SubmissionResponse;
+import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -65,29 +66,34 @@ public class SubmissionService {
     public Response addFullSubmission(@Context HttpServletRequest req,
                                       FullSubmissionPostRequest fullSubmissionPostRequest) {
         // save full submission request in database and return the new full submission
-        final FullSubmission fullSubmission;
+
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         User user = userDAO.getUserByEmail(userEmail);
         Project project = new Project(fullSubmissionPostRequest.getProjectName());
-        try {
 
-            fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest);
-        } catch (DocumentException | IOException e) {
-            e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while converting to pdf").build();
+
+        if (fullSubmissionPostRequest.isPersonal()) {
+            fullSubmissionPostRequest.setUserEMail(userEmail);
+            fullSubmissionPostRequest.setVisibility(Visibility.PERSONAL);
+        } else {
+            fullSubmissionPostRequest.setVisibility(Visibility.GROUP);
         }
 
-        fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
+        final FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
 
         switch (fullSubmission.getContributionCategory()) {
             case DOSSIER:
+                try {
+                    fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest);
+                } catch (DocumentException | IOException e) {
+                    e.printStackTrace();
+                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while converting to pdf").build();
+                }
                 dossierCreationProcess.notifyAboutSubmission(user, project);
                 break;
             case PORTFOLIO:
                 break;
         }
-
-
         return Response.ok(fullSubmission).build();
     }
 
@@ -117,7 +123,7 @@ public class SubmissionService {
                                       @PathParam("groupId") Integer groupId,
                                       @PathParam("contributionCategory") ContributionCategory contributionCategory) {
         Project project = new Project(projectName);
-        FullSubmission fullSubmission = submissionController.getFullSubmissionByGroupIdAndProjectNameAndContributionCategory(groupId, project, contributionCategory);
+        FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project, contributionCategory);
 
         if (Objects.isNull(fullSubmission)) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -190,8 +196,14 @@ public class SubmissionService {
     public void finalize(@PathParam("submissionId") String submissionId, @PathParam("projectId") String projectId,
                          @Context HttpServletRequest req) {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
-        dossierCreationProcess.finalizeDossier(new FullSubmission(submissionId), new User(userEmail),
-                new Project(projectId));
+        FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
+        switch (fullSubmission.getContributionCategory()) {
+            case DOSSIER:
+                dossierCreationProcess.finalizeDossier(fullSubmission, new User(userEmail), new Project(projectId));
+                break;
+            case PORTFOLIO:
+                break;
+        }
     }
 
     @GET
