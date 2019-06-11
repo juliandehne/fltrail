@@ -332,7 +332,9 @@ function fillObjectWithTasks(response) {
 function redirect(url) {
     location.href = url;
 }
-
+/**
+ * TODO @Axel move this to better location
+ */
 function closePhase(phase, projectName) {
     let innerurl = '../rest/phases/' + phase + '/projects/' + projectName + '/end';
     $.ajax({
@@ -352,6 +354,9 @@ function closePhase(phase, projectName) {
     })
 }
 
+/**
+* TODO @Axel move this to better location
+*/
 function initializeGroups(projectName) {
     let projq = new RequestObj(1, "/group", "/all/projects/?", [projectName], []);
     serverSide(projq, "GET", function (response) {
@@ -379,6 +384,9 @@ function waitForParticipantsInfoText(object) {
     return result
 }
 
+/**
+ * TODO @Axel move this to better location
+ */
 function resizeGroup(){
     $.ajax({
         url: '../rest/project/update/project/' + $('#projectName').html().trim() + '/groupSize/' + $('#userCount').val().trim(),
@@ -392,6 +400,9 @@ function resizeGroup(){
     });
 }
 
+/**
+ * TODO @Axel move this to better location or delete
+ */
 function updateGroupSizeView(){
     let userCount = parseInt($('#userCount').val().trim());
     $('#groupSize').html(userCount*(userCount-1));

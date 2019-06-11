@@ -13,8 +13,6 @@ import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.Task;
@@ -47,6 +45,12 @@ public class GroupFormationProcess {
     @Inject
     private ICommunication iCommunication;
 
+
+    /**
+     * changes the group formation algorithm to the given.
+     * @param groupFormationMechanism
+     * @param project
+     */
     public void setGroupFormationMechanism(GroupFormationMechanism groupFormationMechanism, Project project) {
             projectDAO.setGroupFormationMechanism(groupFormationMechanism, project);
     }

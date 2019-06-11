@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.peerassessment;
+package unipotsdam.gf.modules.assessment;
 
 import org.junit.Test;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;

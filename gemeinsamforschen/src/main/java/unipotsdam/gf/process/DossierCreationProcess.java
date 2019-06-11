@@ -51,6 +51,7 @@ public class DossierCreationProcess {
     @Inject
     private GroupDAO groupDAO;
 
+
     /**
      * start the Dossier Phase
      *
@@ -148,6 +149,13 @@ public class DossierCreationProcess {
          iCommunication.sendMessageToUsers(project, Messages.NewFeedbackTask(project));
          saveState(project, changeToPhase);
          }*/
+
+        // add peer assessment tasks
+        // note that this should be moved to another process later on
+
+
+
+         //peerAssessmentProcess.startPeerAssessmentPhaseForTest(project);
     }
 
     public void createSeeFeedBackTask(Project project, Integer groupId) {

@@ -1,5 +1,6 @@
 package unipotsdam.gf.process.tasks;
 
+import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.process.phases.Phase;
 
 public class Task {
@@ -24,6 +25,12 @@ public class Task {
     private String userEmail;
     private String projectName;
     private Progress progress;
+
+    public Task(TaskName taskName, Project project, Progress progress) {
+        this.taskName = taskName;
+        this.projectName = project.getName();
+        this.progress = progress;
+    }
 
     public String getUserEmail() {
         return userEmail;
