@@ -93,6 +93,13 @@ public class DossierCreationProcess {
         return fullSubmission;
     }
 
+    public FullSubmission updateSubmission(String fullSubmissionId, FullSubmissionPostRequest fullSubmissionPostRequest,
+                                           User user, Project project, Boolean finalize) {
+        //todo: hier wird dann wohl weiter gemacht. Du / Ich kannst ja das todo von "FinalizeDossier" hier auch gleich
+        //todo: verarbeiten. Wie wärs? =) gl
+        return null;
+    }
+
     /**
      * @param fullSubmission created in a groupTask, identified by projectName and groupId. Holds Text
      * @param user User who finalized the Dossier for whole Group.

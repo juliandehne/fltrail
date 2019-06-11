@@ -96,6 +96,22 @@ public class SubmissionService {
     }
 
     @POST
+    @Path("/full/{id}/update")
+    public Response updateFullSubmission(@Context HttpServletRequest req,
+                                         FullSubmissionPostRequest fullSubmissionPostRequest,
+                                         @QueryParam("finalize") Boolean finalize,
+                                         @PathParam("id") String fullSubmissionId) {
+        // save full submission request in database and return the new full submission
+
+        final FullSubmission fullSubmission;
+        String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
+        User user = userDAO.getUserByEmail(userEmail);
+        fullSubmission = dossierCreationProcess.updateSubmission(fullSubmissionId, fullSubmissionPostRequest, user,
+                new Project(fullSubmissionPostRequest.getProjectName()), finalize);
+        return Response.ok(fullSubmission).build();
+    }
+
+    @POST
     @Path("/part")
     public Response addSubmissionPart(SubmissionPartPostRequest submissionPartPostRequest) {
         // save submission part request in the database and return the new submission part

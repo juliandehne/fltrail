@@ -14,7 +14,6 @@ $(document).ready(function () {
     $('#btnSave').click(function () {
 
         if (quill.getText().length > 1) {
-            let user = getUserEmail();
             let content = quill.getContents();
             let html = quill.root.innerHTML;
 
