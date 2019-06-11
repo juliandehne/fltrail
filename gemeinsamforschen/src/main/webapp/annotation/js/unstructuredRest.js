@@ -4,8 +4,11 @@
  * @param fullSubmissionPostRequest The post request
  * @param responseHandler The response handler
  */
+
+const baseUrl = "../rest/submissions/";
+
 function createFullSubmission(fullSubmissionPostRequest, responseHandler) {
-    let url = "../rest/submissions/full";
+    let url = baseUrl + "full";
     let json = JSON.stringify(fullSubmissionPostRequest);
     $.ajax({
         url: url,
@@ -28,7 +31,7 @@ function createFullSubmission(fullSubmissionPostRequest, responseHandler) {
  * @param errorHandler The error handler
  */
 function getFullSubmission(id, responseHandler, errorHandler) {
-    let url = "../rest/submissions/full/" + id;
+    let url = baseUrl + "full/" + id;
     $.ajax({
         url: url,
         type: "GET",
@@ -52,7 +55,7 @@ function getFullSubmission(id, responseHandler, errorHandler) {
  * @returns A promise object
  */
 function createSubmissionPart(submissionPartPostRequest, responseHandler) {
-    let url = "../rest/submissions/part/";
+    let url = baseUrl + "part/";
     let json = JSON.stringify(submissionPartPostRequest);
     return $.ajax({
         url: url,
@@ -82,7 +85,7 @@ function getSubmissionPart(id, category, responseHandler, errorHandler) {
         responseHandler(false);
         return false;
     }
-    let url = "../rest/submissions/full/" + id + "/category/" + category;
+    let url = baseUrl + "full/" + id + "/category/" + category;
     $.ajax({
         url: url,
         type: "GET",
@@ -105,7 +108,7 @@ function getSubmissionPart(id, category, responseHandler, errorHandler) {
  * @param responseHandler The response handler
  */
 function getAllSubmissionParts(id, responseHandler) {
-    let url = "../rest/submissions/full/" + id + "/parts";
+    let url = baseUrl + "full/" + id + "/parts";
     $.ajax({
         url: url,
         type: "GET",
@@ -132,6 +135,25 @@ function getAnnotationCategories(callback) {
         },
         error: function () {
             console.log("error loading annotation categories");
+        }
+    })
+}
+
+function getVisibilities(callback) {
+    if (personal == null) {
+        personal = false;
+    }
+    let url = baseUrl + "visibilities/personal/" + $('#personal').html().trim();
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            // handle the response
+            callback(response);
+        },
+        error: function () {
+            console.log("error loading visibilities");
         }
     })
 }
