@@ -1,11 +1,7 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.annotation.model.Category;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.*;
 
 import java.util.ArrayList;
 
@@ -24,12 +20,29 @@ public interface ISubmission {
     FullSubmission addFullSubmission(FullSubmissionPostRequest request);
 
     /**
-     * Get the entire submission from the databse
+     * Store the full submission text in the database
+     *
+     * @param request The full submission post request
+     * @return The new full submission
+     */
+    FullSubmission addFullSubmission(FullSubmissionPostRequest request, Integer version);
+
+    /**
+     * Get the entire submission from the database in first version
      *
      * @param fullSubmissionId The id of the submission
      * @return The full submission
      */
     FullSubmission getFullSubmission(String fullSubmissionId);
+
+    /**
+     * Get the entire submission from the database in given version
+     *
+     * @param fullSubmissionId The id of the submission
+     * @param version          The Version you are looking for
+     * @return The full submission
+     */
+    FullSubmission getFullSubmission(String fullSubmissionId, Integer version);
 
     /**
      * Checks if a full submission id already exists in the database

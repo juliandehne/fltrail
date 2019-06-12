@@ -46,6 +46,11 @@ public class SubmissionController implements ISubmission, HasProgress {
 
     @Override
     public FullSubmission addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest) {
+        return addFullSubmission(fullSubmissionPostRequest, 0);
+    }
+
+    @Override
+    public FullSubmission addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest, Integer version) {
 
         connection.connect();
         // create a new id if we found no id.
@@ -55,22 +60,22 @@ public class SubmissionController implements ISubmission, HasProgress {
         }
 
         // build and execute request
-        String request = "REPLACE INTO fullsubmissions (`id`, `groupId`, `text`, `projectName`, `contributionCategory`) VALUES (?,?,?,?,?);";
+        String request = "REPLACE INTO fullsubmissions (`id`, `groupId`, `text`, `projectName`, `contributionCategory`, `version`) VALUES (?,?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, uuid, fullSubmissionPostRequest.getGroupId(),
-                fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectName(), fullSubmissionPostRequest.getContributionCategory());
+                fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectName(), fullSubmissionPostRequest.getContributionCategory(), version);
 
         // close connection
         connection.close();
-
-        // get the new submission from database
-        FullSubmission fullSubmission = getFullSubmission(uuid);
-
-        return fullSubmission;
-
+        return getFullSubmission(uuid);
     }
 
     @Override
     public FullSubmission getFullSubmission(String fullSubmissionId) {
+        return getFullSubmission(fullSubmissionId, 0);
+    }
+
+    @Override
+    public FullSubmission getFullSubmission(String fullSubmissionId, Integer version) {
 
         // establish connection
         connection.connect();
@@ -78,13 +83,11 @@ public class SubmissionController implements ISubmission, HasProgress {
         FullSubmission fullSubmission = null;
 
         // build and execute request
-        String request = "SELECT * FROM fullsubmissions WHERE id = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId);
-
+        String request = "SELECT * FROM fullsubmissions WHERE id = ? AND version = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId, version);
         if (rs.next()) {
             // save submission
             fullSubmission = getFullSubmissionFromResultSet(rs);
-
         }
 
         connection.close();
@@ -589,10 +592,10 @@ public class SubmissionController implements ISubmission, HasProgress {
      *
      * @param fullSubmission
      */
-    public void markAsFinal(FullSubmission fullSubmission) {
+    public void markAsFinal(FullSubmission fullSubmission, Boolean finalized) {
         connection.connect();
         String query = "update fullsubmissions set finalized = ? where id = ?";
-        connection.issueUpdateStatement(query, 1, fullSubmission.getId());
+        connection.issueUpdateStatement(query, finalized, fullSubmission.getId());
         connection.close();
     }
 
@@ -741,6 +744,21 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         while (vereinfachtesResultSet.next()) {
             Integer groupId = vereinfachtesResultSet.getInt("groupTask");
+            result.add(groupDAO.getGroupByGroupId(groupId));
+        }
+        connection.close();
+        return result;
+    }
+
+    public List<Group> getAllGroupsWithFinalizedDossier(Project project) {
+        List<Group> result = new ArrayList<>();
+        connection.connect();
+        String query = "select * from fullSubmissions where projectName = ? and version = ? and finalized=?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query,
+                project.getName(), 1, 1);
+
+        while (vereinfachtesResultSet.next()) {
+            Integer groupId = vereinfachtesResultSet.getInt("groupId");
             result.add(groupDAO.getGroupByGroupId(groupId));
         }
         connection.close();

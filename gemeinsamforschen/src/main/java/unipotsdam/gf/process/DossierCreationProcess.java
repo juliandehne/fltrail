@@ -93,11 +93,16 @@ public class DossierCreationProcess {
         return fullSubmission;
     }
 
-    public FullSubmission updateSubmission(String fullSubmissionId, FullSubmissionPostRequest fullSubmissionPostRequest,
-                                           User user, Project project, Boolean finalize) {
-        //todo: hier wird dann wohl weiter gemacht. Du / Ich kannst ja das todo von "FinalizeDossier" hier auch gleich
-        //todo: verarbeiten. Wie wärs? =) gl
-        return null;
+    public FullSubmission updateSubmission(FullSubmissionPostRequest fullSubmissionPostRequest,
+                                           User user, Project project, Boolean finalize) throws IOException, DocumentException {
+        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName(fullSubmissionPostRequest.getContributionCategory() + "_" + user.getEmail() + ".pdf");
+        fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
+                FileRole.DOSSIER, FileType.HTML);
+
+        FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest, 1);
+        submissionController.markAsFinal(fullSubmission, finalize);
+
+        return fullSubmission;
     }
 
     /**
@@ -106,10 +111,9 @@ public class DossierCreationProcess {
      */
     public void finalizeDossier(FullSubmission fullSubmission, User user, Project project) {
         // mark as final in db
-        submissionController.markAsFinal(fullSubmission);
+        submissionController.markAsFinal(fullSubmission, true);
 
         // mark annotate task as finished in db
-        //todo: for iterative work, these two tasks need to be seperated
         Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(),
                 Progress.FINISHED);
         taskDAO.updateForGroup(task);
@@ -160,6 +164,18 @@ public class DossierCreationProcess {
     public void createSeeFeedBackTask(Project project, Integer groupId) {
         Integer feedbackedgroup = submissionController.getFeedbackedgroup(project, groupId);
         taskDAO.persistTaskGroup(project, feedbackedgroup, TaskName.SEE_FEEDBACK, Phase.DossierFeedback);
+    }
+
+    public void createReeditDossierTask(Project project, Integer groupId) {
+        String submissionId = submissionController.getFullSubmissionId(groupId, project);
+        FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
+        FullSubmissionPostRequest fspr = new FullSubmissionPostRequest();
+        fspr.setContributionCategory(fullSubmission.getContributionCategory());
+        fspr.setHtml(fullSubmission.getText());
+        fspr.setProjectName(project.getName());
+        fspr.setGroupdId(groupId);
+        submissionController.addFullSubmission(fspr, 1);
+        taskDAO.persistTaskGroup(project, groupId, TaskName.REEDIT_DOSSIER, Phase.DossierFeedback);
     }
 
     public int getFeedBackTarget(Project project, User user) {

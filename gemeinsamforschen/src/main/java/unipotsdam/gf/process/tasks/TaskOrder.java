@@ -18,6 +18,7 @@ public class TaskOrder {
         result.add(TaskName.ANNOTATE_DOSSIER);
         result.add(TaskName.GIVE_FEEDBACK);
         result.add(TaskName.SEE_FEEDBACK);
+        result.add(TaskName.REEDIT_DOSSIER);
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
         result.add(TaskName.WAIT_FOR_REFLECTION);
         //todo Martins tasks

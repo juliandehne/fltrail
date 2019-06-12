@@ -27,8 +27,8 @@ function createFullSubmission(fullSubmissionPostRequest, responseHandler) {
  * @param responseHandler The response handler
  * @param finalize If "true" group ends dossier reediting. While false, fullSubmission can be reedited
  */
-function updateFullSubmission(fullSubmissionId, fullSubmissionPostRequest, finalize, responseHandler) {
-    let url = "../rest/submissions/full/" + fullSubmissionId + "/update?finalize=" + finalize;
+function updateFullSubmission(fullSubmissionPostRequest, finalize, responseHandler) {
+    let url = "../rest/submissions/full/update?finalize=" + finalize;
     let json = JSON.stringify(fullSubmissionPostRequest);
     $.ajax({
         url: url,

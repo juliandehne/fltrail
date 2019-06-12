@@ -18,7 +18,7 @@ $(document).ready(function () {
             projectName: $('#projectName').text().trim(),
             contributionCategory: contribution.toUpperCase()
         };
-        updateFullSubmission(fullSubmissionId, fullSubmissionPostRequest, true, function () {
+        updateFullSubmission(fullSubmissionPostRequest, true, function () {
             location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
         });
     });
@@ -39,7 +39,7 @@ $(document).ready(function () {
             };
 
             // save request in database
-            updateFullSubmission(fullSubmissionId, fullSubmissionPostRequest, false, function () {
+            updateFullSubmission(fullSubmissionPostRequest, false, function () {
 
                 // back to main page
                 location.href = hierarchyLevel + "project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();

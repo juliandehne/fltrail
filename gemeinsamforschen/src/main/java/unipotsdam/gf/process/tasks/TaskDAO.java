@@ -282,7 +282,7 @@ public class TaskDAO {
             case CLOSE_DOSSIER_FEEDBACK_PHASE: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setHasRenderModel(true);
-                List<Group> missingFeedbacks = constraints.checkWhichFeedbacksAreMissing(project);
+                List<Group> missingFeedbacks = constraints.checkWhichDossiersAreNotFinalized(project);
                 task.setTaskData(missingFeedbacks);  //frontendCheck if missingFeedbacks.size ==0
                 result = task;
                 Task waitingForDossiers = new Task();

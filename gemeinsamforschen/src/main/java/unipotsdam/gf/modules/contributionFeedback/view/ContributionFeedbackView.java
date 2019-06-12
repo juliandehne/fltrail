@@ -100,7 +100,7 @@ public class ContributionFeedbackView {
         contributionFeedbackService.endFeedback(projectName, groupId);
         Project project = projectDAO.getProjectByName(projectName);
         dossierCreationProcess.createSeeFeedBackTask(project, groupId);
-        dossierCreationProcess.createCloseFeedBackPhaseTask(project);
+        dossierCreationProcess.createReeditDossierTask(project, groupId);
         return Response.ok().build();
     }
 
