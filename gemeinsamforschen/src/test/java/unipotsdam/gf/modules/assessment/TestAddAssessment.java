@@ -5,6 +5,7 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
 import org.junit.Test;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
+import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.interfaces.IPeerAssessment;
@@ -14,6 +15,7 @@ import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
+import unipotsdam.gf.process.PeerAssessmentProcess;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -21,7 +23,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 public class TestAddAssessment {
+
+
+    @Inject
+    private PeerAssessmentProcess peerAssessmentProcess;
 
     @Inject
     private IPeerAssessment peer;
@@ -162,6 +170,12 @@ public class TestAddAssessment {
 
         }
         connect.close();
+    }
+
+    @Test
+    public void quickstartAssessmentPhase() {
+        Project project = new Project("Meine Güte");
+        peerAssessmentProcess.startPeerAssessmentPhaseForTest(project);
     }
 
 

@@ -5,28 +5,6 @@ let userColorsDark = new Map();
 // declare document text, start and end character
 let startCharacter, endCharacter;
 
-/*
-    TODO
-    ----
-    create feedback page:
-        - remove quillJsTemp and show content in quillJS
-        - move colors from annotation class to utility class
-        - color text like category
-
-    show feedback page (could be this page):
-        - color feedback in user color
-        - color on mouseover
-        -
-
-    not one page!:
-        - you need to hide half of the page, just to have one page: einzige gemeinsamkeit -> editor und das reicht nicht
-
-
-    - Websocket fixen (vllt)
-    - bearbeiten druecken laesst die karte nicht verschwinden (was wollte ich damit sagen?)
- */
-
-
 /**
  * This function will fire when the DOM is ready
  */
@@ -63,8 +41,8 @@ $(document).ready(function () {
         btnBack.hide();
         btnWholeCategory.hide();
     }
-    $('#backToTasks').on('click',function(){
-        location.href="../project/tasks-student.jsp?projectName="+$('#projectName').html().trim();
+    $('#backToTasks').on('click', function () {
+        location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
     });
 
     // fetch full submission from database

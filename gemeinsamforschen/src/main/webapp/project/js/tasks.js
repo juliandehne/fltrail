@@ -176,6 +176,9 @@ function fitObjectInTmpl(object) {
         case "CONTACT_GROUP_MEMBERS":
             result.infoText = "Sagen sie hallo zu ihren Gruppenmitgliedern über den Chat.";
             break;
+        case "OPTIONAL_PORTFOLIO_ENTRY":
+            result.infoText = "E-Portfolio";
+            break;
         default:
             result.infoText = "";
     }
@@ -214,7 +217,11 @@ function fitObjectInTmpl(object) {
                 break;
             case "ANNOTATE_DOSSIER":
                 result.solveTaskWith = "Annotiere das Dossier";
-                result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?projectName=" + object.projectName + "&submissionId=" + object.taskData.fullSubmissionId + "\')";
+                result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?" + $.param({
+                    projectName: object.projectName,
+                    submissionId: object.taskData.fullSubmissionId,
+                    contributionCategory: "Dossier"
+                }) + "\')";
                 break;
             case "FINALIZE_DOSSIER":
                 result.solveTaskWith = "Finalisiere das Dossier";
@@ -258,6 +265,15 @@ function fitObjectInTmpl(object) {
                         "&category=" + object.taskData.category +
                         "&contribution=DOSSIER\')";
                 }
+                break;
+
+            case "OPTIONAL_PORTFOLIO_ENTRY":
+                result.solveTaskWith = "Erstelle einen Portfolio-Eintrag (optional)";
+                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
+                    projectName: object.projectName,
+                    contributionCategory: "Portfolio",
+                    personal: "true"
+                }) + "\')";
                 break;
             default:
                 result.solveTaskWith = null;
@@ -340,7 +356,9 @@ function fillObjectWithTasks(response) {
 function redirect(url) {
     location.href = url;
 }
-
+/**
+ * TODO @Axel move this to better location
+ */
 function closePhase(phase, projectName) {
     let innerurl = '../rest/phases/' + phase + '/projects/' + projectName + '/end';
     $.ajax({
@@ -360,6 +378,9 @@ function closePhase(phase, projectName) {
     })
 }
 
+/**
+* TODO @Axel move this to better location
+*/
 function initializeGroups(projectName) {
     let projq = new RequestObj(1, "/group", "/all/projects/?", [projectName], []);
     serverSide(projq, "GET", function (response) {
@@ -387,6 +408,9 @@ function waitForParticipantsInfoText(object) {
     return result
 }
 
+/**
+ * TODO @Axel move this to better location
+ */
 function resizeGroup(){
     $.ajax({
         url: '../rest/project/update/project/' + $('#projectName').html().trim() + '/groupSize/' + $('#userCount').val().trim(),
@@ -400,6 +424,9 @@ function resizeGroup(){
     });
 }
 
+/**
+ * TODO @Axel move this to better location or delete
+ */
 function updateGroupSizeView(){
     let userCount = parseInt($('#userCount').val().trim());
     $('#groupSize').html(userCount*(userCount-1));

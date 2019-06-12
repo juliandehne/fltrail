@@ -87,8 +87,10 @@ function getContributionFeedback(fullSubmissionId, fullSubmissionPartCategory, g
         type: "GET",
         dataType: "json",
         success: function (response) {
-            response.text = JSON.parse(response.text);
-            responseHandler(response);
+            if (response) {
+                response.text = JSON.parse(response.text);
+                responseHandler(response);
+            }
         }
     });
 }

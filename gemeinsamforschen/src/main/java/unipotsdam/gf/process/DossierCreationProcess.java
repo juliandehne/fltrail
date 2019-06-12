@@ -1,28 +1,24 @@
 package unipotsdam.gf.process;
 
-import com.itextpdf.text.DocumentException;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition.FormDataContentDispositionBuilder;
 import unipotsdam.gf.interfaces.Feedback;
-import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
-import unipotsdam.gf.modules.fileManagement.FileManagementService;
-import unipotsdam.gf.modules.fileManagement.FileRole;
-import unipotsdam.gf.modules.fileManagement.FileType;
+import unipotsdam.gf.interfaces.IReflectionService;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.*;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.process.tasks.TaskType;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,10 +42,11 @@ public class DossierCreationProcess {
     private Feedback feedback;
 
     @Inject
-    private FileManagementService fileManagementService;
+    private GroupDAO groupDAO;
 
     @Inject
-    private GroupDAO groupDAO;
+    private IReflectionService reflectionService;
+
 
     /**
      * start the Dossier Phase
@@ -68,29 +65,21 @@ public class DossierCreationProcess {
     }
 
     /**
-     * @param fullSubmissionPostRequest Elements needed to build the fullSubmission-class
-     * @param user User who uploaded the Submission for his / her group
-     * @param project the project the submission was written for
+     * @param user                      User who uploaded the Submission for his / her group
+     * @param project                   the project the submission was written for
      * @return the fullSubmission with correct ID
      */
-    public FullSubmission addSubmission(
-            FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) throws DocumentException, IOException {
-
-        FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName(fullSubmissionPostRequest.getContributionCategory() + "_" + user.getEmail() + ".pdf");
-        fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
-                FileRole.DOSSIER, FileType.HTML);
-
-        FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
-
+    public void notifyAboutSubmission(User user, Project project) {
         // this completes the upload task
-        if (fullSubmission.getContributionCategory() == ContributionCategory.DOSSIER) {
-            Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.INPROGRESS);
-            taskDAO.updateForGroup(task);
+        Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.INPROGRESS);
+        taskDAO.updateForGroup(task);
 
-            // this triggers the annotate task
-            taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
-        }
-        return fullSubmission;
+        // this triggers the annotate task
+        taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
+
+        Group group = groupDAO.getMyGroup(user, project);
+        reflectionService.startOptionalPortfolioTask(project, group, Phase.DossierFeedback);
+
     }
 
     public FullSubmission updateSubmission(FullSubmissionPostRequest fullSubmissionPostRequest,
@@ -107,27 +96,27 @@ public class DossierCreationProcess {
 
     /**
      * @param fullSubmission created in a groupTask, identified by projectName and groupId. Holds Text
-     * @param user User who finalized the Dossier for whole Group.
+     * @param user           User who finalized the Dossier for whole Group.
      */
     public void finalizeDossier(FullSubmission fullSubmission, User user, Project project) {
         // mark as final in db
         submissionController.markAsFinal(fullSubmission, true);
 
         // mark annotate task as finished in db
-        Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(),
+        Task taskUpload = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(),
                 Progress.FINISHED);
-        taskDAO.updateForGroup(task);
-        Task task1 = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), project.getName(),
+        taskDAO.updateForGroup(taskUpload);
+        Task taskAnnotate = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), project.getName(),
                 Progress.FINISHED);
-        taskDAO.updateForGroup(task1);
+        taskDAO.updateForGroup(taskAnnotate);
         taskDAO.persistTaskGroup(project, user, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
 
 
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
             // create Task to give Feedback
-            List<Group> groupsInProjekt = groupDAO.getGroupsByProjectName(project.getName());
+            List<Group> groupsInProject = groupDAO.getGroupsByProjectName(project.getName());
             List<Task> allFeedbackTasks = new ArrayList<>();
-            for (Group group : groupsInProjekt) {
+            for (Group group : groupsInProject) {
                 Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.GIVE_FEEDBACK).get(0);
                 if (!allFeedbackTasks.contains(giveFeedbackTask1))
                     allFeedbackTasks.add(giveFeedbackTask1);
@@ -159,6 +148,13 @@ public class DossierCreationProcess {
          iCommunication.sendMessageToUsers(project, Messages.NewFeedbackTask(project));
          saveState(project, changeToPhase);
          }*/
+
+        // add peer assessment tasks
+        // note that this should be moved to another process later on
+
+
+
+         //peerAssessmentProcess.startPeerAssessmentPhaseForTest(project);
     }
 
     public void createSeeFeedBackTask(Project project, Integer groupId) {

@@ -5,38 +5,43 @@ let groupId = 0;
 let contributionCategory;
 let hierarchyLevel;
 let fullSubmissionId = "";
+let personal;
 $(document).ready(function () {
-    getMyGroupId(getFullSubmissionOfGroup);
     contributionCategory = $('#contributionCategory').html().trim();
+    setPersonal();
+    if (!personal) {
+        getMyGroupId(getFullSubmissionOfGroup);
+    }
     hierarchyLevel = $('#hierarchyLevel').html().trim();
     populateTextFields();
 
     $('#btnSave').click(function () {
 
-        if (quill.getText().length > 1) {
-            let content = quill.getContents();
-            let html = quill.root.innerHTML;
+        getMyGroupId(function (groupId) {
+            if (quill.getText().length > 1) {
+                let content = quill.getContents();
+                let html = quill.root.innerHTML;
 
-            // build request
-            let fullSubmissionPostRequest = {
-                groupId: groupId,
-                text: JSON.stringify(content),
-                html: html,
-                projectName: $('#projectName').text().trim(),
-                contributionCategory: contributionCategory.toUpperCase()
-            };
+                // build request
+                let fullSubmissionPostRequest = {
+                    groupId: groupId,
+                    text: JSON.stringify(content),
+                    html: html,
+                    projectName: $('#projectName').text().trim(),
+                    personal: personal,
+                    contributionCategory: contributionCategory.toUpperCase()
+                };
 
-            // save request in database
-            createFullSubmission(fullSubmissionPostRequest, function () {
+                // save request in database
+                createFullSubmission(fullSubmissionPostRequest, function () {
 
-                // back to main page
-                location.href = hierarchyLevel + "project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
-            });
-        } else {
-            alert("Ein Text wird benötigt");
-        }
-        // fetch user and text
-
+                    // back to main page
+                    location.href = hierarchyLevel + "project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
+                });
+            } else {
+                alert("Ein Text wird benötigt");
+            }
+        });
     });
 
     $('#backToTasks').click(function () {
@@ -65,9 +70,14 @@ $(document).ready(function () {
 });
 
 
+function setPersonal() {
+    let personalString = $("#personal").html().trim();
+    personal = personalString.toUpperCase() === 'TRUE';
+}
+
 function populateTextFields() {
     let data = {};
-    data.header = contributionCategory;
+    data.header = contributionCategory === "Portfolio" ? "Portfolio-Eintrag" : contributionCategory;
     let tmpl = $.templates("#headerTemplate");
     //tmpl.link("#result");
     let html = tmpl.render(data);

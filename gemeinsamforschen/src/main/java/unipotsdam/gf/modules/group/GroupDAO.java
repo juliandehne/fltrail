@@ -185,6 +185,10 @@ public class GroupDAO {
         return groupId;
     }
 
+    public Group getMyGroup(User user, Project project) {
+        int groupId = getMyGroupId(user, project);
+        return getGroupByGroupId(groupId);
+    }
 
     private void fillGroupFromResultSet(ArrayList<Group> groups, VereinfachtesResultSet vereinfachtesResultSet,
                                         Boolean withRocketChatId) {
