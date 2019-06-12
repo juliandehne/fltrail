@@ -116,6 +116,7 @@ public class GroupFormationProcess {
             List<Group> groups = groupfinding.getGroupFormationAlgorithm(project).calculateGroups(project);
             groupfinding.persistGroups(groups, project);
             groupfinding.persistOriginalGroups(groups, project, groupdao.getGroupFormationMechanism(project));
+            taskDAO.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
             return new GroupData(groups);
         } else {
             return new GroupData(groups1);

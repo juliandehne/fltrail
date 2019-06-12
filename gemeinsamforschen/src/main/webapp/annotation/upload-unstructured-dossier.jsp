@@ -1,3 +1,4 @@
+<%@ page import="com.google.common.base.Strings" %>
 <%@ page import="unipotsdam.gf.taglibs.TagUtilities" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
@@ -7,6 +8,10 @@
     String contributionCategory = tu.getParamterFromQuery("contributionCategory", request);
     if (contributionCategory == null) {
         contributionCategory = "Unbekannt";
+    }
+    String personalString = tu.getParamterFromQuery("personal", request);
+    if (Strings.isNullOrEmpty(personalString)) {
+        personalString = "false";
     }
 %>
 
@@ -54,7 +59,6 @@
                 <div id="result"></div>
                 <script id="headerTemplate" type="text/x-jsrender">
                     <h2>{{:header}} anlegen</h2>
-
                 </script>
                 <div class="upload-text" id="documentText">
                     <label for="editor">Texteingabe</label>
@@ -92,7 +96,8 @@
         <jsp:param name="readOnly" value="false"/>
     </jsp:include>
 
-        <p id="contributionCategory" hidden><%= tu.printMe(contributionCategory)%>
+    <p id="contributionCategory" hidden><%= tu.printMe(contributionCategory)%>
+    <p id="personal" hidden><%= tu.printMe(personalString)%>
 </body>
 
 </html>

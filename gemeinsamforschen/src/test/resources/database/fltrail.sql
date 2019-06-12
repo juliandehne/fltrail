@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 24. Mai 2019 um 11:08
+-- Erstellungszeit: 10. Jun 2019 um 10:43
 -- Server-Version: 10.1.32-MariaDB
 -- PHP-Version: 7.2.5
 
@@ -131,7 +131,9 @@ CREATE TABLE `fullsubmissions`
     `projectName`          varchar(200) NOT NULL,
     `feedbackGroup`        int(11)               DEFAULT NULL,
     `finalized`            tinyint(1)            DEFAULT NULL,
-    `contributionCategory` varchar(200) NOT NULL
+    `contributionCategory` varchar(200) NOT NULL,
+    `userEmail`            varchar(255)          DEFAULT NULL,
+    `visibility`           varchar(200) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='This holds the aggregated text of the dossier students should upload';
 
@@ -580,8 +582,10 @@ ALTER TABLE `contributionrating`
 --
 ALTER TABLE `fullsubmissions`
     ADD PRIMARY KEY (`id`),
-    ADD UNIQUE KEY `fullsubmissions_user_projectName_uindex` (`groupId`, `projectName`),
-    ADD KEY `fullsubmissions_projects_name_fk` (`projectName`);
+    ADD UNIQUE KEY `fullsubmissions_id_uindex` (`id`),
+    ADD KEY `fullsubmissions_projects_name_fk` (`projectName`),
+    ADD KEY `fullsubmissions_users_email_fk` (`userEmail`),
+    ADD KEY `fullsubmissions_groups_id_fk` (`groupId`);
 
 --
 -- Indizes für die Tabelle `grades`
@@ -812,7 +816,9 @@ ALTER TABLE `contributionrating`
 -- Constraints der Tabelle `fullsubmissions`
 --
 ALTER TABLE `fullsubmissions`
-    ADD CONSTRAINT `fullsubmissions_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+    ADD CONSTRAINT `fullsubmissions_groups_id_fk` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `fullsubmissions_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `fullsubmissions_users_email_fk` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `grades`

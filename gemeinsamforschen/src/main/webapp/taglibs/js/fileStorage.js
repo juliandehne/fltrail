@@ -21,6 +21,9 @@ function listFilesOfGroup(projectName){
                 });
                 count++;
             }
+            if (count === 1) {
+                $('#fileManagementHeader').hide();
+            }
             $('#listOfFilesTemplate').tmpl(tmplObject).appendTo('#listOfFiles');
             prepareDeletion();
         },

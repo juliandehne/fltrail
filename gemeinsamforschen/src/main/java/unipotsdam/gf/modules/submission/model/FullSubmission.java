@@ -12,17 +12,25 @@ public class FullSubmission {
     private String id;
     private long timestamp;
     private Integer groupId;
+    private String userEmail;
     private String text;
     private ContributionCategory contributionCategory;
     private String projectName;
+    private Visibility visibility;
 
-    public FullSubmission(String id, long timestamp, Integer groupId, String text, ContributionCategory contributionCategory, String projectName) {
+    public FullSubmission(String id, long timestamp, Integer groupId, String text, ContributionCategory contributionCategory, String projectName, Visibility visibility) {
+        this(id, timestamp, groupId, null, text, contributionCategory, projectName, visibility);
+    }
+
+    public FullSubmission(String id, long timestamp, Integer groupId, String userEmail, String text, ContributionCategory contributionCategory, String projectName, Visibility visibility) {
         this.id = id;
         this.timestamp = timestamp;
         this.groupId = groupId;
+        this.userEmail = userEmail;
         this.text = text;
         this.contributionCategory = contributionCategory;
         this.projectName = projectName;
+        this.visibility = visibility;
     }
 
     public FullSubmission(String submissionId) {
@@ -78,6 +86,21 @@ public class FullSubmission {
         this.projectName = projectName;
     }
 
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Visibility visibility) {
+        this.visibility = visibility;
+    }
 
     @Override
     public String toString() {
@@ -85,9 +108,11 @@ public class FullSubmission {
                 "id='" + id + '\'' +
                 ", timestamp=" + timestamp +
                 ", groupId=" + groupId +
+                ", userEmail='" + userEmail + '\'' +
                 ", text='" + text + '\'' +
                 ", contributionCategory=" + contributionCategory +
                 ", projectName='" + projectName + '\'' +
+                ", visibility=" + visibility +
                 '}';
     }
 

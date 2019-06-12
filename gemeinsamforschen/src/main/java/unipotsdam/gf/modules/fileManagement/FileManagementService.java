@@ -20,6 +20,7 @@ import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.user.User;
 
 import javax.imageio.ImageIO;
@@ -78,13 +79,23 @@ public class FileManagementService {
         fileManagementDAO.writeFileMetaToDB(user, project, fileName, fileRole, fileDetail.getFileName());
     }
 
-    public void saveStringAsPDF(User user, Project project, String fileContent, FormDataContentDisposition fileDetail,
-                                FileRole fileRole, FileType fileType) throws IOException, DocumentException {
-        fileContent = cleanHTML(fileContent);
-        //fileContent = manipulateIndentation(fileContent);
+    private void saveStringAsPDF(User user, Project project, String fileContent, FormDataContentDisposition fileDetail,
+                                 FileRole fileRole, FileType fileType) throws IOException, DocumentException {
+        if (fileType.equals(FileType.HTML)) {
+            fileContent = cleanHTML(fileContent);
+            //fileContent = manipulateIndentation(fileContent);
+        }
         InputStream inputStream = IOUtils.toInputStream(fileContent);
         saveFileAsPDF(user, project, inputStream, fileDetail, fileRole, fileType);
 
+    }
+
+    public void saveStringAsPDF(User user, Project project, FullSubmissionPostRequest fullSubmissionPostRequest) throws IOException, DocumentException {
+        String fileName = fullSubmissionPostRequest.getContributionCategory() + "_" + user.getEmail() + ".pdf";
+        String categoryString = fullSubmissionPostRequest.getContributionCategory().toString();
+        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name(categoryString).fileName(fileName);
+        // TODO: merge FileRole with ContributionCategory?
+        saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(), FileRole.DOSSIER, FileType.HTML);
     }
 
     private String saveHTMLAsPDF(InputStream inputStream, String filenameWithoutExtension) throws IOException, DocumentException {

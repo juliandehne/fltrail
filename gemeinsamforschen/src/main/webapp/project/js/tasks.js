@@ -58,7 +58,7 @@ function fitObjectInTmpl(object) {
     };
 
     if (object.taskType !== "INFO") {
-        if (object.groupTask === true) {
+        if (object.groupTask !== 0) {
             result.taskType = "grouptask"
         } else {
             result.taskType = "usertask"
@@ -83,7 +83,7 @@ function fitObjectInTmpl(object) {
         case "Execution":
             groupViewLink.show();
             result.phase = "card-execution";
-            result.headLine = "Reflexionsphase";
+            result.headLine = "Durchführung";
             break;
         case "Assessment":
             groupViewLink.show();
@@ -144,15 +144,23 @@ function fitObjectInTmpl(object) {
             result.infoText = "Sie erhielten Feedback zu Ihrem Dossier.";
             break;
         case "WAITING_FOR_STUDENT_DOSSIERS":
-            result.infoText = "[TEACHER] Warten Sie darauf, dass jeder Student ein Dossier" +
-                "hochlädt und ein Feedback für jemanden gab.";
+            result.infoText = "Studierende legen nun ein Dossier an und" +
+                " geben sich gegenseitig Feedback.";
             break;
         case "CLOSE_DOSSIER_FEEDBACK_PHASE":
             let count = object.taskData.length;
             if (count <= 3) {
-                result.infoText = "Warten sie noch auf die / den Studenten ";
+                result.infoText = "Es fehlen noch die Feedbacks der Gruppe/n ";
                 for (let i = 0; i < object.taskData.length; i++) {
-                    result.infoText += object.taskData[i] + " ";
+                    for (let j = 0; j < object.taskData[i].members.length; j++) {
+                        result.infoText += object.taskData[i].members[j].name;
+                        if (j < object.taskData[i].members.length - 1) {
+                            result.infoText += ", "
+                        }
+                    }
+                    if (i < object.taskData.length - 1) {
+                        result.infoText += " und "
+                    }
                 }
             } else {
                 result.infoText = "Noch haben nicht alle Studenten ihren Peers ein Feedback gegeben.";
@@ -167,6 +175,9 @@ function fitObjectInTmpl(object) {
             break;
         case "CONTACT_GROUP_MEMBERS":
             result.infoText = "Sagen sie hallo zu ihren Gruppenmitgliedern über den Chat.";
+            break;
+        case "OPTIONAL_PORTFOLIO_ENTRY":
+            result.infoText = "E-Portfolio";
             break;
         default:
             result.infoText = "";
@@ -206,7 +217,11 @@ function fitObjectInTmpl(object) {
                 break;
             case "ANNOTATE_DOSSIER":
                 result.solveTaskWith = "Annotiere das Dossier";
-                result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?projectName=" + object.projectName + "&submissionId=" + object.taskData.fullSubmissionId + "\')";
+                result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?" + $.param({
+                    projectName: object.projectName,
+                    submissionId: object.taskData.fullSubmissionId,
+                    contributionCategory: "Dossier"
+                }) + "\')";
                 break;
             case "FINALIZE_DOSSIER":
                 result.solveTaskWith = "Finalisiere das Dossier";
@@ -250,6 +265,15 @@ function fitObjectInTmpl(object) {
                         "&category=" + object.taskData.category +
                         "&contribution=DOSSIER\')";
                 }
+                break;
+
+            case "OPTIONAL_PORTFOLIO_ENTRY":
+                result.solveTaskWith = "Erstelle einen Portfolio-Eintrag (optional)";
+                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
+                    projectName: object.projectName,
+                    contributionCategory: "Portfolio",
+                    personal: "true"
+                }) + "\')";
                 break;
             default:
                 result.solveTaskWith = null;

@@ -1,12 +1,12 @@
 package unipotsdam.gf.process.constraints;
 
 import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.tasks.ProjectStatus;
 
@@ -70,13 +70,13 @@ public class ConstraintsImpl {
         return result;
     }
 
-    public List<String> checkWhichFeedbacksAreMissing(Project project){
-        List<User> participants = userDAO.getUsersByProjectName(project.getName());
-        List<User> doneParticipants = submissionController.getAllUsersWithFinalizedFeedback(project);
-        List<String> missingFeedbacksFrom = new ArrayList<>();
-        for(User participant: participants){
-            if (!doneParticipants.contains(participant)){
-                missingFeedbacksFrom.add(participant.getName());
+    public List<Group> checkWhichFeedbacksAreMissing(Project project) {
+        List<Group> groupsInProject = groupDAO.getGroupsByProjectName(project.getName());
+        List<Group> doneGroups = submissionController.getAllGroupsWithFinalizedFeedback(project);
+        List<Group> missingFeedbacksFrom = new ArrayList<>();
+        for (Group group : groupsInProject) {
+            if (!doneGroups.contains(group)) {
+                missingFeedbacksFrom.add(group);
             }
         }
         return missingFeedbacksFrom;

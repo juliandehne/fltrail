@@ -5,14 +5,20 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.interfaces.ISubmission;
 import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.progress.HasProgress;
@@ -25,6 +31,7 @@ import unipotsdam.gf.process.tasks.TaskName;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -34,12 +41,13 @@ import java.util.UUID;
 public class SubmissionController implements ISubmission, HasProgress {
 
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(SubmissionController.class);
+
     @Inject
     private MysqlConnect connection;
-    @Inject
-    private UserDAO userDAO;
+
     @Inject
     private GroupDAO groupDAO;
+
     @Inject
     private ProjectDAO projectDAO;
 
@@ -52,19 +60,30 @@ public class SubmissionController implements ISubmission, HasProgress {
         while (existsFullSubmissionId(uuid)) {
             uuid = UUID.randomUUID().toString();
         }
+        String requestCommand = "INSERT INTO";
+        if (!(fullSubmissionPostRequest.getContributionCategory() == ContributionCategory.PORTFOLIO)) {
+            Project project = new Project(fullSubmissionPostRequest.getProjectName());
+            FullSubmission fullSubmission = getFullSubmissionBy(fullSubmissionPostRequest.getGroupId(), project,
+                    fullSubmissionPostRequest.getContributionCategory());
+            if (fullSubmission != null) {
+                uuid = fullSubmission.getId();
+            }
+            requestCommand = "REPLACE INTO";
+        }
+
+        String request = String.join(" ", requestCommand.trim(),
+                "fullsubmissions (`id`, `groupId`, `text`, `projectName`, `contributionCategory`, `userEmail`, `visibility`) VALUES (?,?,?,?,?,?,?);");
 
         // build and execute request
-        String request = "REPLACE INTO fullsubmissions (`id`, `groupId`, `text`, `projectName`, `contributionCategory`) VALUES (?,?,?,?,?);";
         connection.issueInsertOrDeleteStatement(request, uuid, fullSubmissionPostRequest.getGroupId(),
-                fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectName(), fullSubmissionPostRequest.getContributionCategory());
+                fullSubmissionPostRequest.getText(), fullSubmissionPostRequest.getProjectName(),
+                fullSubmissionPostRequest.getContributionCategory(), fullSubmissionPostRequest.getUserEMail(), fullSubmissionPostRequest.getVisibility());
 
         // close connection
         connection.close();
 
         // get the new submission from database
-        FullSubmission fullSubmission = getFullSubmission(uuid);
-
-        return fullSubmission;
+        return getFullSubmission(uuid);
 
     }
 
@@ -91,20 +110,27 @@ public class SubmissionController implements ISubmission, HasProgress {
         return fullSubmission;
     }
 
-    public String getFullSubmissionId(Integer groupId, Project project) {
-        // establish connection
-        String fullSubmissionId = null;
+    public FullSubmission getFullSubmissionBy(int groupId, Project project, ContributionCategory contributionCategory) {
+
+        FullSubmission fullSubmission = null;
         connection.connect();
 
-        // build and execute request
-        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName());
+        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ? AND contributionCategory = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName(), contributionCategory);
 
         if (rs.next()) {
-            // save submission
-            fullSubmissionId = rs.getString("id");
+            fullSubmission = getFullSubmissionFromResultSet(rs);
         }
         connection.close();
+        return fullSubmission;
+    }
+
+    public String getFullSubmissionId(Integer groupId, Project project, ContributionCategory contributionCategory) {
+        FullSubmission fullSubmission = getFullSubmissionBy(groupId, project, contributionCategory);
+        String fullSubmissionId = null;
+        if (!Objects.isNull(fullSubmission)) {
+            fullSubmissionId = fullSubmission.getId();
+        }
         return fullSubmissionId;
     }
 
@@ -217,10 +243,9 @@ public class SubmissionController implements ISubmission, HasProgress {
         connection.close();
 
         // get the new submission from database
-        SubmissionPart submissionPart = getSubmissionPart(submissionPartPostRequest.getFullSubmissionId(),
-                submissionPartPostRequest.getCategory());
 
-        return submissionPart;
+        return getSubmissionPart(submissionPartPostRequest.getFullSubmissionId(),
+                submissionPartPostRequest.getCategory());
 
     }
 
@@ -345,13 +370,9 @@ public class SubmissionController implements ISubmission, HasProgress {
             int count = rs.getInt("exists");
 
             // return true if we found the id
-            if (count < 1) {
-                return false;
-            } else {
-                return true;
-            }
+            return count >= 1;
         }
-        return null;
+        return false;
     }
 
     /**
@@ -365,11 +386,13 @@ public class SubmissionController implements ISubmission, HasProgress {
         String id = rs.getString("id");
         long timestamp = rs.getTimestamp("timestamp").getTime();
         Integer groupId = rs.getInt("groupId");
+        String userEmail = rs.getString("userEmail");
         String text = rs.getString("text");
         String projectName = rs.getString("projectName");
         ContributionCategory contributionCategory = ContributionCategory.valueOf(rs.getString("contributionCategory"));
+        Visibility visibility = Visibility.valueOf(rs.getString("visibility"));
 
-        return new FullSubmission(id, timestamp, groupId, text, contributionCategory, projectName);
+        return new FullSubmission(id, timestamp, groupId, userEmail, text, contributionCategory, projectName, visibility);
 
     }
 
@@ -674,8 +697,8 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         // the number of dossiers needed relative to the group or user count
         progressData.setNumberNeeded(dossiersNeeded(project));
-        List<User> strugglersWithSubmission = getStrugglersWithSubmission(project);
-        progressData.setUsersMissing(strugglersWithSubmission);
+        List<Group> strugglersWithSubmission = getStrugglersWithSubmission(project);
+        progressData.setGroupsMissing(strugglersWithSubmission);
         progressData
                 .setAlmostComplete((progressData.getNumberOfCompletion() / progressData.getNumberNeeded()) <= (1 / 10));
         return progressData;
@@ -706,55 +729,48 @@ public class SubmissionController implements ISubmission, HasProgress {
     }
 
 
-    public List<User> getStrugglersWithSubmission(Project project) {
-        ArrayList<User> struggles = new ArrayList<>();
-        GroupFormationMechanism groupFormationMechanism = groupDAO.getGroupFormationMechanism(project);
-        switch (groupFormationMechanism) {
-            case SingleUser:
-                List<User> usersInProject = userDAO.getUsersByProjectName(project.getName());
-                List<User> usersHaveGivenFeedback = getAllUsersWithDossierUploaded(project);
-                for (User user : usersInProject) {
-                    if (!usersHaveGivenFeedback.contains(user)) {
-                        struggles.add(user);
-                    }
-                }
-                break;
-            case LearningGoalStrategy:
-            case Manual:
-            case UserProfilStrategy:
+    public List<Group> getStrugglersWithSubmission(Project project) {
+        ArrayList<Group> struggles = new ArrayList<>();
+        List<Group> groupsInProject = groupDAO.getGroupsByProjectName(project.getName());
+        List<Group> groupsHaveGivenFeedback = getAllGroupsWithDossierUploaded(project);
+        for (Group group : groupsInProject) {
+            if (!groupsHaveGivenFeedback.contains(group)) {
+                struggles.add(group);
+            }
         }
         return struggles;
     }
 
-    public List<User> getAllUsersWithDossierUploaded(Project project) {
-        List<User> result = new ArrayList<>();
+    public List<Group> getAllGroupsWithDossierUploaded(Project project) {
+        List<Group> result = new ArrayList<>();
         connection.connect();
         String query = "select * from fullsubmissions where projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, project.getName());
 
         while (vereinfachtesResultSet.next()) {
-            result.add(userDAO.getUserByEmail(vereinfachtesResultSet.getString("feedbackUser")));
+            result.add(groupDAO.getGroupByGroupId(vereinfachtesResultSet.getInt("feedbackGroup")));
         }
         connection.close();
         return result;
     }
 
-    public List<User> getAllUsersWithFinalizedFeedback(Project project) {
-        List<User> result = new ArrayList<>();
+    public List<Group> getAllGroupsWithFinalizedFeedback(Project project) {
+        List<Group> result = new ArrayList<>();
         connection.connect();
         String query = "select * from tasks where projectName = ? and taskName = ? and progress=?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query,
                 project.getName(), TaskName.GIVE_FEEDBACK, Progress.FINISHED);
 
         while (vereinfachtesResultSet.next()) {
-            result.add(userDAO.getUserByEmail(vereinfachtesResultSet.getString("userEmail")));
+            Integer groupId = vereinfachtesResultSet.getInt("groupTask");
+            result.add(groupDAO.getGroupByGroupId(groupId));
         }
         connection.close();
         return result;
     }
 
     public int getFeedbackedgroup(Project project, Integer groupId) {
-        int feedbackedGroup =0;
+        int feedbackedGroup = 0;
         connection.connect();
         String query = "select groupId from fullsubmissions where projectName = ? AND feedbackGroup=?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query,

@@ -20,6 +20,7 @@ $(document).ready(function () {
         saveButtonHandler();
     });
 
+
     /**
      * Context menu handler
      */
@@ -243,4 +244,19 @@ function buildAnnotationList(categories) {
     let tmpl = $.templates("#annotationTemplate");
     let html = tmpl.render(data);
     $("#annotations").html(html);
+}
+
+function deleteCategory(category) {
+    let categoryLI = $('#' + category);
+    let textArrays = categoryLI.data('array');
+    for (let i = 0; i < textArrays.length; i++) {
+        quill.formatText(textArrays[i].start, textArrays[i].end - textArrays[i].start, 'background', '#FFF');
+    }
+    categoryLI.data('array', []);
+
+    $('.added-' + category).each(function () {
+        $(this).toggleClass('added-' + category + ' not-added');
+    });
+
+    let test = category;
 }

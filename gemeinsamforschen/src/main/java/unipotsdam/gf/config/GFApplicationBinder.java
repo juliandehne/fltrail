@@ -11,6 +11,7 @@ import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.interfaces.IReflectionService;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
@@ -38,6 +39,7 @@ import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionService;
 import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
@@ -117,5 +119,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(UnirestService.class).to(UnirestService.class);
         bind(ContributionFeedbackService.class).to(IContributionFeedback.class);
         bind(ContributionFeedbackDAO.class).to(ContributionFeedbackDAO.class);
+        bind(ReflectionService.class).to(IReflectionService.class);
     }
 }

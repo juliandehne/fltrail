@@ -1,6 +1,6 @@
 package unipotsdam.gf.process.progress;
 
-import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.group.Group;
 
 import java.util.List;
 
@@ -8,17 +8,17 @@ public class ProgressData {
     private Boolean isAlmostComplete;
     private int numberOfCompletion;
     private int numberNeeded;
-    private java.util.List<User> usersMissing;
+    private java.util.List<Group> groupsMissing;
 
     public ProgressData() {
     }
 
     public ProgressData(
-            Boolean isAlmostComplete, int numberOfCompletion, int numberNeeded, List<User> usersMissing) {
+            Boolean isAlmostComplete, int numberOfCompletion, int numberNeeded, List<Group> groupsMissing) {
         this.isAlmostComplete = isAlmostComplete;
         this.numberOfCompletion = numberOfCompletion;
         this.numberNeeded = numberNeeded;
-        this.usersMissing = usersMissing;
+        this.groupsMissing = groupsMissing;
     }
 
     public Boolean getAlmostComplete() {
@@ -45,11 +45,11 @@ public class ProgressData {
         this.numberNeeded = numberNeeded;
     }
 
-    public List<User> getUsersMissing() {
-        return usersMissing;
+    public List<Group> getGroupsMissing() {
+        return groupsMissing;
     }
 
-    public void setUsersMissing(List<User> usersMissing) {
-        this.usersMissing = usersMissing;
+    public void setGroupsMissing(List<Group> groupsMissing) {
+        this.groupsMissing = groupsMissing;
     }
 }

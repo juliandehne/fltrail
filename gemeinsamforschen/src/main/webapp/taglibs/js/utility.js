@@ -246,8 +246,9 @@ function getMyGroupId(callback) {
 
 function getFullSubmissionOfGroup(groupId) {
     let projectName = $('#projectName').html().trim();
+    let contributionCategory = $('#contributionCategory').html().trim();
     $.ajax({
-        url: '../rest/submissions/full/groupId/' + groupId + '/project/' + projectName,
+        url: '../rest/submissions/full/groupId/' + groupId + '/project/' + projectName + '/contributionCategory/' + contributionCategory.toUpperCase(),
         type: 'GET',
         headers: {
             "Cache-Control": "no-cache"

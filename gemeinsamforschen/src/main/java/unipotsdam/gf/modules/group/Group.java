@@ -80,7 +80,7 @@ public class Group {
 
     @Override
     public boolean equals(Object o) {
-        if (Object.class.equals(Group.class)){
+        if (o instanceof Group) {
             Group group = (Group) o;
             return this.getId() == group.getId();
         }else{
