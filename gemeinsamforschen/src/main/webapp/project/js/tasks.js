@@ -168,6 +168,9 @@ function handleInfoTasks(object, result) {
             result.infoText = "Studierende legen nun ein Dossier an und" +
                 " geben sich gegenseitig Feedback.";
             break;
+        case "REEDIT_DOSSIER":
+            result.infoText = "Basierend auf dem Feedback können sie nun ihr Dossier überarbeiten";
+            break;
         case "CLOSE_DOSSIER_FEEDBACK_PHASE":
             let count = object.taskData.length;
             if (count <= 3) {
@@ -233,6 +236,10 @@ function handleLinkedTasks(object, result) {
             case "UPLOAD_DOSSIER":
                 result.solveTaskWith = "Bearbeite / Erstelle Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&contributionCategory=Dossier" + "\')";
+                break;
+            case "REEDIT_DOSSIER":
+                result.solveTaskWith = "Überarbeite Dossier";
+                result.solveTaskWithLink = "redirect(\'../annotation/reedit-dossier.jsp?fullsubmissionid=" + object.taskData.fullSubmissionId + "&projectName=" + object.projectName + "&contribution=DOSSIER\')";
                 break;
             case "CREATE_QUIZ":
                 result.solveTaskWith = "Erstelle ein Quiz";

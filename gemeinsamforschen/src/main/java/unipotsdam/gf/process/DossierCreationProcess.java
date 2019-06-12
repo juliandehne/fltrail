@@ -1,30 +1,37 @@
 package unipotsdam.gf.process;
 
+import com.itextpdf.text.DocumentException;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IReflectionService;
+import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+import unipotsdam.gf.modules.fileManagement.FileManagementService;
+import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.fileManagement.FileType;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.Progress;
-import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskName;
-import unipotsdam.gf.process.tasks.TaskType;
+import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Singleton
 public class DossierCreationProcess {
 
+    @Inject
+    private FileManagementService fileManagementService;
 
     @Inject
     private SubmissionController submissionController;
@@ -82,16 +89,27 @@ public class DossierCreationProcess {
 
     }
 
+    public FullSubmission updateSubmission(FullSubmissionPostRequest fullSubmissionPostRequest,
+                                           User user, Project project, Boolean finalize) throws IOException, DocumentException {
+        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName(fullSubmissionPostRequest.getContributionCategory() + "_" + user.getEmail() + ".pdf");
+        fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
+                FileRole.DOSSIER, FileType.HTML);
+
+        FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest, 1);
+        submissionController.markAsFinal(fullSubmission, finalize);
+
+        return fullSubmission;
+    }
+
     /**
      * @param fullSubmission created in a groupTask, identified by projectName and groupId. Holds Text
      * @param user           User who finalized the Dossier for whole Group.
      */
     public void finalizeDossier(FullSubmission fullSubmission, User user, Project project) {
         // mark as final in db
-        submissionController.markAsFinal(fullSubmission);
+        submissionController.markAsFinal(fullSubmission, true);
 
         // mark annotate task as finished in db
-        //todo: for iterative work, these two tasks need to be seperated
         Task taskUpload = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(),
                 Progress.FINISHED);
         taskDAO.updateForGroup(taskUpload);
@@ -149,6 +167,19 @@ public class DossierCreationProcess {
     public void createSeeFeedBackTask(Project project, Integer groupId) {
         Integer feedbackedgroup = submissionController.getFeedbackedgroup(project, groupId);
         taskDAO.persistTaskGroup(project, feedbackedgroup, TaskName.SEE_FEEDBACK, Phase.DossierFeedback);
+    }
+
+    public void createReeditDossierTask(Project project, Integer groupId) {
+        String submissionId = submissionController.getFullSubmissionId(groupId, project, ContributionCategory.DOSSIER);
+        FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
+        FullSubmissionPostRequest fspr = new FullSubmissionPostRequest();
+        fspr.setContributionCategory(fullSubmission.getContributionCategory());
+        fspr.setHtml(fullSubmission.getText());
+        fspr.setProjectName(project.getName());
+        fspr.setGroupdId(groupId);
+        fspr.setVisibility(Visibility.GROUP);
+        submissionController.addFullSubmission(fspr, 1);
+        taskDAO.persistTaskGroup(project, groupId, TaskName.REEDIT_DOSSIER, Phase.DossierFeedback);
     }
 
     public int getFeedBackTarget(Project project, User user) {

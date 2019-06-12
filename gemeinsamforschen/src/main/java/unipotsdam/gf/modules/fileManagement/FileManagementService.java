@@ -36,13 +36,7 @@ import javax.ws.rs.core.Response;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -93,8 +87,8 @@ public class FileManagementService {
         fileManagementDAO.writeFileMetaToDB(user, project, fileName, fileRole, fileDetail.getFileName());
     }
 
-    private void saveStringAsPDF(User user, Project project, String fileContent, FormDataContentDisposition fileDetail,
-                                 FileRole fileRole, FileType fileType) throws IOException, DocumentException {
+    public void saveStringAsPDF(User user, Project project, String fileContent, FormDataContentDisposition fileDetail,
+                                FileRole fileRole, FileType fileType) throws IOException, DocumentException {
         if (fileType.equals(FileType.HTML)) {
             fileContent = cleanHTML(fileContent);
             //fileContent = manipulateIndentation(fileContent);

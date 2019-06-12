@@ -20,6 +20,29 @@ function createFullSubmission(fullSubmissionPostRequest, responseHandler) {
 }
 
 /**
+ * POST: Save an full submission in the database
+ *
+ * @param fullSubmissionId Id of submission that is about to get updated
+ * @param fullSubmissionPostRequest The post request
+ * @param responseHandler The response handler
+ * @param finalize If "true" group ends dossier reediting. While false, fullSubmission can be reedited
+ */
+function updateFullSubmission(fullSubmissionPostRequest, finalize, responseHandler) {
+    let url = "../rest/submissions/full/update?finalize=" + finalize;
+    let json = JSON.stringify(fullSubmissionPostRequest);
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: json,
+        contentType: "application/json",
+        dataType: "json",
+        success: function (response) {
+            responseHandler(response);
+        }
+    });
+}
+
+/**
  * GET: Get a specific full submission for a given id
  *
  * @param id The id of the full submission

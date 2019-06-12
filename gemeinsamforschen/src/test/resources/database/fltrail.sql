@@ -125,6 +125,7 @@ CREATE TABLE `contributionrating`
 CREATE TABLE `fullsubmissions`
 (
     `id`                   varchar(120) NOT NULL,
+    `version`              int(11)      NOT NULL,
     `timestamp`            timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `groupId`              int(11)      NOT NULL,
     `text`                 mediumtext   NOT NULL,

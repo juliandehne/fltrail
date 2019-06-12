@@ -19,6 +19,7 @@ public class TaskOrder {
         result.add(TaskName.ANNOTATE_DOSSIER);
         result.add(TaskName.GIVE_FEEDBACK);
         result.add(TaskName.SEE_FEEDBACK);
+        result.add(TaskName.REEDIT_DOSSIER);
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
         result.add(TaskName.REFLECT_DOSSIER_CREATION);
         //end of execution phase

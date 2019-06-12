@@ -265,6 +265,13 @@ public class TaskDAO {
                 result = task;
                 break;
             }
+            case REEDIT_DOSSIER: {
+                result = getGeneralTask(vereinfachtesResultSet);
+                Map<String, String> taskData = new HashMap<>();
+                taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, ContributionCategory.DOSSIER, 1));
+                result.setTaskData(taskData);
+                break;
+            }
             default: {
                 result = getGeneralTask(vereinfachtesResultSet);
             }
@@ -298,7 +305,7 @@ public class TaskDAO {
             case CLOSE_DOSSIER_FEEDBACK_PHASE: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setHasRenderModel(true);
-                List<Group> missingFeedbacks = constraints.checkWhichFeedbacksAreMissing(project);
+                List<Group> missingFeedbacks = constraints.checkWhichDossiersAreNotFinalized(project);
                 task.setTaskData(missingFeedbacks);  //frontendCheck if missingFeedbacks.size ==0
                 result = task;
                 Task waitingForDossiers = new Task();
