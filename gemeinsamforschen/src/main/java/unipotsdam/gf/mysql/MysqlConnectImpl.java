@@ -8,12 +8,7 @@ import unipotsdam.gf.config.GFDatabaseConfig;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.Date;
 
 @ManagedBean
@@ -78,8 +73,10 @@ public class MysqlConnectImpl implements MysqlConnect {
             }
             return ps;
         } catch (SQLException ex) {
-
             printErrorMessage(statement, ex);
+        } catch (Exception e) {
+            Boolean error = true;
+            e.printStackTrace();
         }
         return null;
     }
