@@ -39,9 +39,8 @@ function prepareDeletion(){
         $(this).on('click', function(){
             $.ajax({
                 url: "../rest/fileStorage/delete/fileLocation/"+$(this).attr('name'),
-                method: 'POST',
                 dataType: "text",
-                type: 'POST',
+                type: 'DELETE',
                 success: function(){
                     $('#fileDeleted').show();
                 },

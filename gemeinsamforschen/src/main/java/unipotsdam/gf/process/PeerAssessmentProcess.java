@@ -1,5 +1,7 @@
 package unipotsdam.gf.process;
 
+import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -18,13 +20,55 @@ public class PeerAssessmentProcess {
     @Inject
     private UserDAO userDAO;
 
+    @Inject
+    private GroupDAO groupDAO;
+
     /**
      * this function is only used to show the peer assessment phase before previous phases are ready
+     *
      * @param project
      */
-    public void startPeerAssessmentPhaseForTest(Project project) {
-        //Task task = new Task(TaskName.UPLOAD_PRESENTATION, project, Progress.JUSTSTARTED);
-        taskDAO.persistTaskForAllGroups(project, UPLOAD_PRESENTATION, Phase.GroupFormation);
+    public void startPeerAssessmentPhase(Project project) {
+        taskDAO.persistTaskForAllGroups(project, UPLOAD_PRESENTATION, Phase.Assessment);
+    }
+
+    public void fileHasBeenUploaded(
+            FileRole fileRole, User userFromSession, Project project) {
+        switch (fileRole) {
+            case PRESENTATION:
+                finishPresentationUpload(userFromSession, project);
+                break;
+            case FINAL_REPORT:
+                finishReportUpload(userFromSession, project);
+                break;
+            default:
+        }
+    }
+
+    private void finishPresentationUpload(User userFromSession, Project project) {
+        // get the group the user is in the project
+        Integer groupByStudent = groupDAO.getGroupByStudent(project, userFromSession);
+        // update the task for all the group members
+        taskDAO.updateGroupTask(
+                new GroupTask(TaskName.UPLOAD_PRESENTATION, groupByStudent, Progress.FINISHED, project));
+        // set new tasks
+        taskDAO.persistTaskForAllGroups(project, TaskName.UPLOAD_FINAL_REPORT, Phase.Assessment);
+    }
+
+    private synchronized void finishReportUpload(User userFromSession, Project project) {
+        // get the group the user is in the project
+        Integer groupByStudent = groupDAO.getGroupByStudent(project, userFromSession);
+        // update the task for all the group members
+        taskDAO.updateGroupTask(
+                new GroupTask(TaskName.UPLOAD_FINAL_REPORT, groupByStudent, Progress.FINISHED, project));
+        // set new tasks
+
+        // check if all the groups have finished uploads and stuff TODO
+
+        // set assessment tasks for group
+        taskDAO.persistTaskForAllGroups(project, TaskName.GIVE_ASSESSMENT, Phase.Assessment);
+        // set assessment tasks for docent TODO
+
     }
 
     /**

@@ -143,7 +143,7 @@ public class DossierCreationProcess {
 
 
 
-         //peerAssessmentProcess.startPeerAssessmentPhaseForTest(project);
+         //peerAssessmentProcess.startPeerAssessmentPhase(project);
     }
 
     public void createSeeFeedBackTask(Project project, Integer groupId) {

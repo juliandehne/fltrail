@@ -93,6 +93,8 @@ public class GroupFormationProcess {
         for (Group group : groups) {
             iCommunication.createChatRoom(group, false);
         }
+
+
     }
 
 

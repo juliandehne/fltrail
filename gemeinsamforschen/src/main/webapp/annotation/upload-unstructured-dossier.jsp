@@ -29,13 +29,13 @@
     <script src="../libs/jquery/jqueryUI.js" type="text/javascript"></script>
 
     <!-- css - upload-unstructured -->
-    <link rel="stylesheet" type="text/css" href="css/unstructured-upload.css">
+    <link rel="stylesheet" type="text/css" href="../taglibs/css/unstructured-upload.css">
 
     <script src="../taglibs/js/utility.js"></script>
     <!-- js - unstructuredUpload -->
-    <script src="js/unstructuredUpload.js"></script>
+    <script src="../taglibs/js/unstructuredUpload.js"></script>
     <!-- js - unstructuredRest -->
-    <script src="js/unstructuredRest.js"></script>
+    <script src="../taglibs/js/unstructuredRest.js"></script>
 
     <!-- jsrender -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
@@ -85,10 +85,10 @@
                 </div>
 
             </div>
-            <div class="col span_chat">
+        <%--    <div class="col span_chat">
                 <chat:chatWindow orientation="right" scope="project"/>
                 <chat:chatWindow orientation="right" scope="group"/>
-            </div>
+            </div>--%>
         </div> <!-- flex wrapper -->
     </main>
     <jsp:include page="../taglibs/footer.jsp"/>

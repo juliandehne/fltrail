@@ -409,7 +409,7 @@ public class TaskDAO {
         connect.close();
     }
 
-    public void updateGroupTask(Task task) {
+    public void updateGroupTask(GroupTask task) {
         updateGroupTask(task, task.getGroupTask());
     }
 

@@ -4,7 +4,9 @@ import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
 import org.junit.Test;
-import unipotsdam.gf.core.database.TestGFApplicationBinder;
+import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
@@ -14,7 +16,6 @@ import unipotsdam.gf.modules.assessment.controller.model.GroupEvalDataList;
 import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.process.PeerAssessmentProcess;
 
 import javax.inject.Inject;
@@ -23,10 +24,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.*;
 
 
 public class TestAddAssessment {
 
+    @Inject
+    private IGroupFinding groupFinding;
 
     @Inject
     private PeerAssessmentProcess peerAssessmentProcess;
@@ -42,7 +47,8 @@ public class TestAddAssessment {
 
     @Before
     public void setUp() {
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
 
     }
@@ -174,9 +180,18 @@ public class TestAddAssessment {
 
     @Test
     public void quickstartAssessmentPhase() {
-        Project project = new Project("Meine Güte");
-        peerAssessmentProcess.startPeerAssessmentPhaseForTest(project);
+
+
+        Project project = new Project("assessmenttest");
+        List<Group> groups = groupFinding.getGroups(project);
+        assertFalse(groups.isEmpty());
+
+        peerAssessmentProcess.startPeerAssessmentPhase(project);
+
+
     }
+
+
 
 
 }
