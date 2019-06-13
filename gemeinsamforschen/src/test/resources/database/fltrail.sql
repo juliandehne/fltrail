@@ -585,6 +585,8 @@ ALTER TABLE `fullsubmissions`
     ADD PRIMARY KEY (`id`),
     ADD UNIQUE KEY `fullsubmissions_id_uindex` (`id`),
     ADD KEY `fullsubmissions_projects_name_fk` (`projectName`),
+    ADD KEY `fullsubmissions_version_fk` (`version`),
+    ADD KEY `fullsubmissions_contribution_category_fk` (`contributionCategory`),
     ADD KEY `fullsubmissions_users_email_fk` (`userEmail`),
     ADD KEY `fullsubmissions_groups_id_fk` (`groupId`);
 

@@ -193,6 +193,9 @@ function handleInfoTasks(object, result) {
         case "WAIT_FOR_REFLECTION":
             result.infoText = "Nun arbeiten die Studenten an ihren Projekten.";
             break;
+        case "CLOSE_EXECUTION_PHASE":
+            result.infoText = "Beenden Sie nun die Durchführungsphase.";
+            break;
         case "EDIT_FORMED_GROUPS":
             result.infoText = "Die Gruppen wurden vom Algorithmus gebildet. Sie können noch manuell" +
                 " editiert werden."; // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
@@ -247,6 +250,10 @@ function handleLinkedTasks(object, result) {
             case "CREATE_QUIZ":
                 result.solveTaskWith = "Erstelle ein Quiz";
                 result.solveTaskWithLink = "redirect(\'../assessment/create-quiz.jsp?projectName=" + object.projectName + "\')";
+                break;
+            case "CLOSE_EXECUTION_PHASE":
+                result.solveTaskWith = "Assessmentphase starten";
+                result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 break;
             case "WRITE_EJOURNAL":
                 result.solveTaskWith = "Lege ein EJournal an";
@@ -345,6 +352,10 @@ function handleProgress(object, result) {
                     "projectName=" + object.projectName +
                     "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
             }
+        }
+        if (object.taskName === "REEDIT_DOSSIER") {
+            result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +
+                "Warten sie nun auf die nächste Phase.";
         }
         if (object.taskName === "ANNOTATE_DOSSIER" || object.taskName === "UPLOAD_DOSSIER") {
             result.solveTaskWith = "";

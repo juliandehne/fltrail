@@ -411,8 +411,18 @@ public class TaskDAO {
         connect.close();
     }
 
+    /**
+     * task needs to contain a user or a groupTask. Besides that it needs a projectName, TaskName and Progress
+     *
+     * @param task The task, that is meant to become updated
+     */
     public void updateForGroup(Task task) {
-        Integer groupId = groupDAO.getGroupByStudent(new Project(task.getProjectName()), new User(task.getUserEmail()));
+        Integer groupId;
+        if (task.getUserEmail() != null) {
+            groupId = groupDAO.getGroupByStudent(new Project(task.getProjectName()), new User(task.getUserEmail()));
+        } else {
+            groupId = task.getGroupTask();
+        }
         updateGroupTask(task, groupId);
     }
 

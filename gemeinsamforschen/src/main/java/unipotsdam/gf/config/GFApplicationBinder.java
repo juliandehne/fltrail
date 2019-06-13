@@ -98,6 +98,12 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(SurveyProcess.class).to(SurveyProcess.class);
         bind(FileManagementService.class).to(FileManagementService.class);
         bind(FileManagementDAO.class).to(FileManagementDAO.class);
+
+        /**
+         * @Martin comment in for your development
+         */
+        bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
+        //bind(ExecutionProcess.class).to(IExecutionProcess.class);
         bindMore();
     }
 

@@ -10,8 +10,9 @@ $(document).ready(function () {
     });
     $('#missingAnnotation').hide();
     // fetch the document text of the given id
-    getMyGroupId(getFullSubmissionOfGroup);
-
+    getMyGroupId(function (groupId) {
+        getFullSubmissionOfGroup(groupId, 0)
+    });
     $('#backToTasks').click(function () {
         location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
     });

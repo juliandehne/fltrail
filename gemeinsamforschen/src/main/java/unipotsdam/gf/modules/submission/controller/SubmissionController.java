@@ -52,8 +52,6 @@ public class SubmissionController implements ISubmission, HasProgress {
 
     @Override
     public FullSubmission addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest, Integer version) {
-
-
         // create a new id if we found no id.
         String uuid = UUID.randomUUID().toString();
         String requestCommand = "INSERT INTO";
@@ -87,7 +85,7 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         // get the new submission from database
 
-        return getFullSubmission(uuid);
+        return getFullSubmission(uuid, version);
 
     }
 

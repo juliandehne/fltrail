@@ -110,9 +110,10 @@ public class SubmissionService {
     @Path("/full/groupId/{groupId}/project/{projectName}/contributionCategory/{contributionCategory}")
     public Response getFullSubmission(@PathParam("projectName") String projectName,
                                       @PathParam("groupId") Integer groupId,
-                                      @PathParam("contributionCategory") ContributionCategory contributionCategory) {
+                                      @PathParam("contributionCategory") ContributionCategory contributionCategory,
+                                      @QueryParam("version") Integer version) {
         Project project = new Project(projectName);
-        FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project, contributionCategory);
+        FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project, contributionCategory, version);
 
         if (Objects.isNull(fullSubmission)) {
             return Response.status(Response.Status.NOT_FOUND).build();
@@ -133,7 +134,7 @@ public class SubmissionService {
         fullSubmission = dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, user,
                 new Project(fullSubmissionPostRequest.getProjectName()), finalize);
         if (finalize) {
-            dossierCreationProcess.createCloseFeedBackPhaseTask(new Project(fullSubmission.getProjectName()));
+            dossierCreationProcess.createCloseFeedBackPhaseTask(new Project(fullSubmission.getProjectName()), user);
         }
         return Response.ok(fullSubmission).build();
     }
