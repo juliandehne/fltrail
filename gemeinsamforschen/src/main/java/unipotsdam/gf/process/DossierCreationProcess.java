@@ -133,7 +133,13 @@ public class DossierCreationProcess {
         }
     }
 
-    public void createCloseFeedBackPhaseTask(Project project) {
+    public void createCloseFeedBackPhaseTask(Project project, User user) {
+        Task task = new Task();
+        task.setUserEmail(user.getEmail());
+        task.setProjectName(project.getName());
+        task.setProgress(Progress.FINISHED);
+        task.setTaskName(TaskName.REEDIT_DOSSIER);
+        taskDAO.updateForGroup(task);
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE, Phase.DossierFeedback);
     }
 
@@ -174,7 +180,7 @@ public class DossierCreationProcess {
         FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
         FullSubmissionPostRequest fspr = new FullSubmissionPostRequest();
         fspr.setContributionCategory(fullSubmission.getContributionCategory());
-        fspr.setHtml(fullSubmission.getText());
+        fspr.setText(fullSubmission.getText());
         fspr.setProjectName(project.getName());
         fspr.setGroupdId(groupId);
         fspr.setVisibility(Visibility.GROUP);

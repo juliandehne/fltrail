@@ -10,7 +10,9 @@ $(document).ready(function () {
     contributionCategory = $('#contributionCategory').html().trim();
     setPersonal();
     if (!personal) {
-        getMyGroupId(getFullSubmissionOfGroup);
+        getMyGroupId(function (groupId) {
+            getFullSubmissionOfGroup(groupId, 0)
+        });
     }
     hierarchyLevel = $('#hierarchyLevel').html().trim();
     populateTextFields();

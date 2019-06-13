@@ -35,7 +35,7 @@
     <!-- js - rangy TextRange Module -->
     <script src="../libs/jquery/jqueryRangyTextRange.js" type="text/javascript"></script>
     <!-- js - annotation REST script -->
-    <script src="js/unstructuredRest.js"></script>  <!-- ! -->
+        <script src="../taglibs/js/unstructuredRest.js"></script>  <!-- ! -->
     <!-- js - feedbackScript -->
         <script src="js/reedit-dossier.js"></script>
 

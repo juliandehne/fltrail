@@ -1,9 +1,10 @@
 let groupId = 0;
-let hierarchyLevel;
 let fullSubmissionId = "";
 let contributionCategory;
 $(document).ready(function () {
-    getMyGroupId(getFullSubmissionOfGroup);
+    getMyGroupId(function (groupId) {
+        getFullSubmissionOfGroup(groupId, 1)
+    });
     let contribution = getQueryVariable("contribution");
     $('#contributionCategory').html(contribution[0] + contribution.substring(1, contribution.length).toLowerCase());
     $('#finalize').on("click", function () {
@@ -16,13 +17,16 @@ $(document).ready(function () {
             text: JSON.stringify(content),
             html: html,
             projectName: $('#projectName').text().trim(),
-            contributionCategory: contribution.toUpperCase()
+            contributionCategory: contribution.toUpperCase(),
+            visibility: 'GROUP'
         };
         updateFullSubmission(fullSubmissionPostRequest, true, function () {
             location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
         });
     });
-
+    $('#backToTasks').on('click', function () {
+        location.href = "../project/tasks-student.jsp?projectName=" + projectName;
+    });
     $('#btnSave').click(function () {
 
         if (quill.getText().length > 1) {
@@ -35,14 +39,15 @@ $(document).ready(function () {
                 text: JSON.stringify(content),
                 html: html,
                 projectName: $('#projectName').text().trim(),
-                contributionCategory: contribution.toUpperCase()
+                contributionCategory: contribution.toUpperCase(),
+                visibility: 'GROUP'
             };
 
             // save request in database
             updateFullSubmission(fullSubmissionPostRequest, false, function () {
 
                 // back to main page
-                location.href = hierarchyLevel + "project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
+                location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
             });
         } else {
             alert("Ein Text wird benötigt");

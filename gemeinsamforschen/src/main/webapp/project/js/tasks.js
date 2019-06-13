@@ -336,6 +336,10 @@ function handleProgress(object, result) {
                     "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
             }
         }
+        if (object.taskName === "REEDIT_DOSSIER") {
+            result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +
+                "Warten sie nun auf die nächste Phase.";
+        }
         if (object.taskName === "ANNOTATE_DOSSIER" || object.taskName === "UPLOAD_DOSSIER") {
             result.solveTaskWith = "";
             result.solveTaskWithLink = "";
