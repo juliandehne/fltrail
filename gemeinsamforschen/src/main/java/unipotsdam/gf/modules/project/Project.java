@@ -4,7 +4,6 @@ import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.process.phases.Phase;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -23,6 +22,26 @@ public class Project {
     private String[] tags;
     private String description;
     private Boolean isSurvey;
+    private String[] categories;
+
+
+    public Project(String name, String password, Boolean active, String author, String[] tags, String[] categories) {
+        this.name = name;
+        this.password = password;
+        this.active = active;
+        this.authorEmail = author;
+        this.timecreated = System.currentTimeMillis();
+        // default starting at course creation if new
+        this.setPhase(Phase.GroupFormation);
+        this.tags = tags;
+        this.isSurvey = false;
+        this.categories = categories;
+    }
+
+    public String[] getCategories() {
+        return categories;
+    }
+
 
 
 
@@ -46,6 +65,11 @@ public class Project {
         this.tags = tags;
         this.isSurvey = false;
     }
+
+    public void setCategories(String[] categories) {
+        this.categories = categories;
+    }
+
 
     public Project(
             String name, String password, Boolean active,

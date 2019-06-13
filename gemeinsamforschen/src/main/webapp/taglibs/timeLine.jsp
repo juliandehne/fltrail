@@ -60,7 +60,8 @@
         <script id="listOfFilesTemplate" type="text/x-jQuery-tmpl">
             <li>
                 <a id="${fileCount}" href="../rest/fileStorage/download/fileLocation/${fileLocation}">${fileName}</a>
-                <a name="${fileLocation}" class="deleteFile" style="cursor: pointer;"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <!--<a name="${fileLocation}" class="deleteFile" style="cursor: pointer;"><i class="fa fa-trash" aria-hidden="true"></i></a>-->
+                <!-- use this comment for debugging deletion stuff -->
             </li>
         </script>
     </ul>

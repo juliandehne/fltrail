@@ -220,5 +220,4 @@ public class SubmissionService {
         //todo: for every project categories should be selectable
         return Categories.standardAnnotationCategories;
     }
-
 }

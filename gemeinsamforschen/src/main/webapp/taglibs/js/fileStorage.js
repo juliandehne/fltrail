@@ -45,7 +45,8 @@ function prepareDeletion(){
                     $('#fileDeleted').show();
                 },
                 error: function(){
-                    $('#errorDeletion').show();                }
+                    $('#errorDeletion').show();
+                }
             });
         });
     });
