@@ -38,7 +38,7 @@
     <script src="js/annotationWebsocket.js"></script>
     <!-- js - annotation REST script -->
     <script src="js/giveFeedbackRest.js"></script>
-    <script src="js/unstructuredRest.js"></script>
+        <script src="../taglibs/js/unstructuredRest.js"></script>
     <!-- js - feedbackScript -->
     <script src="js/giveFeedback.js"></script>
         <script src="js/feedbackUtils.js"></script>

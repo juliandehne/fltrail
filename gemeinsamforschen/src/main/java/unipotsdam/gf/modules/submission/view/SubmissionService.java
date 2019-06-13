@@ -7,13 +7,7 @@ import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
-import unipotsdam.gf.modules.submission.model.SubmissionResponse;
-import unipotsdam.gf.modules.submission.model.Visibility;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -21,12 +15,7 @@ import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -119,12 +108,31 @@ public class SubmissionService {
     @Path("/full/groupId/{groupId}/project/{projectName}/contributionCategory/{contributionCategory}")
     public Response getFullSubmission(@PathParam("projectName") String projectName,
                                       @PathParam("groupId") Integer groupId,
-                                      @PathParam("contributionCategory") ContributionCategory contributionCategory) {
+                                      @PathParam("contributionCategory") ContributionCategory contributionCategory,
+                                      @QueryParam("version") Integer version) {
         Project project = new Project(projectName);
-        FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project, contributionCategory);
+        FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project, contributionCategory, version);
 
         if (Objects.isNull(fullSubmission)) {
             return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(fullSubmission).build();
+    }
+
+    @POST
+    @Path("/full/update")
+    public Response updateFullSubmission(@Context HttpServletRequest req,
+                                         FullSubmissionPostRequest fullSubmissionPostRequest,
+                                         @QueryParam("finalize") Boolean finalize) throws IOException, DocumentException {
+        // save full submission request in database and return the new full submission
+
+        final FullSubmission fullSubmission;
+        String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
+        User user = userDAO.getUserByEmail(userEmail);
+        fullSubmission = dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, user,
+                new Project(fullSubmissionPostRequest.getProjectName()), finalize);
+        if (finalize) {
+            dossierCreationProcess.createCloseFeedBackPhaseTask(new Project(fullSubmission.getProjectName()), user);
         }
         return Response.ok(fullSubmission).build();
     }

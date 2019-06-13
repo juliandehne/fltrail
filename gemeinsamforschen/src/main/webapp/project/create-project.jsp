@@ -17,6 +17,7 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <script src="../groupfinding/js/config.js"></script>
+    <script src="../taglibs/js/unstructuredRest.js"></script>
     <script src="js/create-project.js"></script>
 </head>
 
@@ -117,6 +118,22 @@
                 </div>
                 <%-- <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>--%>
 
+                <div>
+                    <h3>Bestandteile der studentischen Arbeit</h3>
+                    <p>Bestimmen sie welche Abschnitte sie in der studentischen Ausarbeitung sehen wollen:</p>
+                    <ul id="categoryList">
+
+                    </ul>
+                    <script id="categoryTemplate" type="text/x-jQuery-tmpl">
+                        <li>
+                            <label>
+                                <input type="checkbox" class="category" value="${category}">
+                                <span>${category}</span>
+                            </label>
+                        </li>
+
+                    </script>
+                </div>
                 <div class="form-group">
                     <button class="primary" id="sendProject">Erstellen</button>
                 </div>

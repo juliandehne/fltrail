@@ -30,7 +30,7 @@ public class FullSubmissionPostRequest {
         return groupId;
     }
 
-    public void setGroupId(Integer groupId) {
+    public void setGroupdId(Integer groupId) {
         this.groupId = groupId;
     }
 

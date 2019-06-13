@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.group;
 
+import com.lowagie.text.html.HtmlEncoder;
 import org.apache.logging.log4j.util.Strings;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Project;
@@ -120,6 +121,8 @@ public class GroupDAO {
                 "gu.userEmail=u.email " +
                 "where g.projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
+        /*vereinfachtesResultSet.next();
+        Object projectName1 = vereinfachtesResultSet.getInt(0);*/
         List<Group> uniqueGroups = resultSetToGroupList(vereinfachtesResultSet, true);
         connect.close();
         return uniqueGroups;
@@ -197,8 +200,9 @@ public class GroupDAO {
             String projectName = vereinfachtesResultSet.getString("projectName");
             User user = userDAO.getUserByEmail(vereinfachtesResultSet.getString("userEmail"));
             String chatRoomId = null;
-            if(withRocketChatId)
+            if(withRocketChatId) {
                 chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
+            }
             ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
             Group group = new Group(vereinfachtesResultSet.getInt("groupId"), userList, projectName, chatRoomId);
             groups.add(group);

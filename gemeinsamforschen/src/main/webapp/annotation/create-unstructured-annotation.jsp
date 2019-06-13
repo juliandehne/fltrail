@@ -35,7 +35,7 @@
     <script src="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.js"
             type="text/javascript"></script>
     <!-- js - unstructuredRest -->
-    <script src="js/unstructuredRest.js"></script>
+    <script src="../taglibs/js/unstructuredRest.js"></script>
     <!-- js - unstructuredUpload -->
     <script src="js/unstructuredAnnotation.js"></script>
 

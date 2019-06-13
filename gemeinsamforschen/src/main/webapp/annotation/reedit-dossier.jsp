@@ -34,14 +34,10 @@
     <script src="../libs/jquery/jqueryRangy.js" type="text/javascript"></script>
     <!-- js - rangy TextRange Module -->
     <script src="../libs/jquery/jqueryRangyTextRange.js" type="text/javascript"></script>
-    <!-- js - annotation websocket script -->
-    <script src="js/annotationWebsocket.js"></script>
     <!-- js - annotation REST script -->
-    <script src="js/giveFeedbackRest.js"></script>
         <script src="../taglibs/js/unstructuredRest.js"></script>  <!-- ! -->
     <!-- js - feedbackScript -->
-    <script src="js/seeFeedback.js"></script>
-    <script src="js/feedbackUtils.js"></script>
+        <script src="js/reedit-dossier.js"></script>
 
 </head>
 
@@ -58,32 +54,27 @@
     </div>
     <main id="seeFeedback" class="">
 
-        <h3>Das Feedback für ihr <span class="contributionCategory"></span></h3>
+        <h3>Hier können sie ihr <span id="contributionCategory"></span> überarbeiten</h3>
 
         <br>
         <div class="three_rows">
-            <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">&#xf053;</button>
-
-            <h4 id="categoryHeadline" class="current-category"></h4>
-            <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">&#xf054;</button>
-            <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">&#xf00c;</button>
+            <label>
+                <button id="btnSave" type="button" class="btn btn-primary" title="weiter"><i
+                        class="far fa-arrow-alt-circle-right"></i></button>
+                Nächste Version des Dossiers speichern
+            </label>
+            <label>
+                <button id="finalize" type="button" class="btn btn-primary" title="finalisieren"><i
+                        class="far fa-calendar-check"></i></button>
+                Letzte Version des Dossiers speichern und erneutes Editieren Blocken
+            </label>
         </div>
         <div id="editor"></div>
-        <h3>Zu diesem Teil gab es folgendes Feedback: </h3>
-        <div id="feedbackEditor"></div>
+
     </main>
     <jsp:include page="../taglibs/quillJsEditor.jsp">
-        <jsp:param name="readOnly" value="true"/>
+        <jsp:param name="readOnly" value="false"/>
     </jsp:include>
-    <script>
-        const quillFeedback = new Quill('#feedbackEditor', {
-            theme: 'snow',
-            readOnly: true,
-            "modules": {
-                "toolbar": false
-            }
-        });
-    </script>
     <jsp:include page="../taglibs/footer.jsp"/>
 
     <div style="height: 200px" id="categoryColor" class="hidden-category-field"></div>

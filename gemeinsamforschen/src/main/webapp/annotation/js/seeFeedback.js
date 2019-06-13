@@ -10,7 +10,7 @@ $(document).ready(function () {
     $('#categoryHeadline').html("Kategorie: " + category);
     let contribution = getQueryVariable("contribution");
     $('.contributionCategory').each(function () {
-        $(this).html(contribution);
+        $(this).html(contribution[0] + contribution.substring(1, contribution.length).toLowerCase());
     });
     prepareFeedbackMenu(category);
     getFeedbackFor(fullSubmissionId, category);

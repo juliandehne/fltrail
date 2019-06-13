@@ -70,9 +70,22 @@ public class ConstraintsImpl {
         return result;
     }
 
+    @Deprecated
     public List<Group> checkWhichFeedbacksAreMissing(Project project) {
         List<Group> groupsInProject = groupDAO.getGroupsByProjectName(project.getName());
         List<Group> doneGroups = submissionController.getAllGroupsWithFinalizedFeedback(project);
+        List<Group> missingFeedbacksFrom = new ArrayList<>();
+        for (Group group : groupsInProject) {
+            if (!doneGroups.contains(group)) {
+                missingFeedbacksFrom.add(group);
+            }
+        }
+        return missingFeedbacksFrom;
+    }
+
+    public List<Group> checkWhichDossiersAreNotFinalized(Project project) {
+        List<Group> groupsInProject = groupDAO.getGroupsByProjectName(project.getName());
+        List<Group> doneGroups = submissionController.getAllGroupsWithFinalizedDossier(project);
         List<Group> missingFeedbacksFrom = new ArrayList<>();
         for (Group group : groupsInProject) {
             if (!doneGroups.contains(group)) {

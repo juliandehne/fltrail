@@ -1,5 +1,5 @@
 package unipotsdam.gf.modules.fileManagement;
 
 public enum FileRole {
-    DOSSIER, LEARNINGGOALS, EXTRA, PRESENTATION, PORTFOLIO
+    DOSSIER, LEARNINGGOALS, EXTRA, PRESENTATION, PORTFOLIO, FINAL_REPORT
 }

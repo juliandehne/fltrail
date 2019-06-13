@@ -97,7 +97,7 @@ function getContributionFeedback(fullSubmissionId, fullSubmissionPartCategory, g
 
 function finalize() {
     getMyGroupId(function (groupId) {
-        let projectName = getProjectName();
+        let projectName = decodeURI(getProjectName());
         let url = baseUrl + "/finalize?" + $.param({
             projectName: projectName,
             groupId: groupId

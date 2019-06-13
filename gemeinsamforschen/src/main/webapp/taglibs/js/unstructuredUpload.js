@@ -13,7 +13,9 @@ $(document).ready(function () {
     contributionCategory = $('#contributionCategory').html().trim();
     setupPageContent();
     if (!personal) {
-        getMyGroupId(getFullSubmissionOfGroup);
+        getMyGroupId(function (groupId) {
+            getFullSubmissionOfGroup(groupId, 0)
+        });
     }
     hierarchyLevel = $('#hierarchyLevel').html().trim();
 

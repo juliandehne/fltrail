@@ -1,14 +1,21 @@
 let object;
 let groupViewLink;
+let projectName;
+let userEmail;
 $(document).ready(function () {
-    let userEmail = $('#userEmail').html().trim();
-    let projectName = $('#projectName').html().trim();
+    userEmail = $('#userEmail').html().trim();
+    projectName = $('#projectName').html().trim();
     groupViewLink = $('#groupView');
     groupViewLink.hide();
     fillTasks(projectName, userEmail);
     groupViewLink.on('click', function () {
         location.href = "../groupfinding/view-groups.jsp?projectName=" + projectName;
     });
+    /**
+     * TODO refactor remove all the inline js and group it like this leading
+     *
+     */
+
 });
 
 function fillTasks(projectName, userEmail) {
@@ -43,29 +50,7 @@ function fillTasks(projectName, userEmail) {
     });
 }
 
-function fitObjectInTmpl(object) {
-    let result = {
-        taskType: "",
-        infoText: "",
-        phase: "",
-        headLine: "",
-        solveTaskWith: "",
-        helpLink: "",
-        timeFrame: "",
-        taskData: object.taskData,
-        taskProgress: object.progress,
-        inCardSolver: "",
-    };
-
-    if (object.taskType !== "INFO") {
-        if (object.groupTask !== 0) {
-            result.taskType = "grouptask"
-        } else {
-            result.taskType = "usertask"
-        }
-    } else {
-        result.taskType = "infotask"
-    }
+function handlePhases(object, result) {
     switch (object.phase) {
         case "CourseCreation":
             result.phase = "card-draft";
@@ -98,6 +83,9 @@ function fitObjectInTmpl(object) {
         default:
             result.phase = "";
     }
+}
+
+function handleDeadlines(object, result) {
     if (object.deadline != null) {
         let daysLeft = Math.round((object.deadline - Date.now()) / 1000 / 60 / 60 / 24);
         if (daysLeft >= 1)
@@ -107,6 +95,25 @@ function fitObjectInTmpl(object) {
     } else {
         result.timeFrame = "";
     }
+}
+
+function handleTaskType(object, result) {
+    if (object.taskType !== "INFO") {
+        if (object.groupTask === true) {
+            result.taskType = "grouptask"
+        } else {
+            result.taskType = "usertask"
+        }
+    } else {
+        result.taskType = "infotask"
+    }
+}
+
+function handleInfoTasks(object, result) {
+
+   /* if (object.hasRenderModel) {
+        result.inCardSolver = object.taskName;
+    }*/
     switch (object.taskName) {
         case "WAIT_FOR_PARTICPANTS":
             result.infoText = waitForParticipantsInfoText(object);
@@ -117,6 +124,9 @@ function fitObjectInTmpl(object) {
                     }
                     break;
             }
+            break;
+        case "UPLOAD_FINAL_REPORT":
+            result.infoText = "Bitte laden Sie den Abschlussbericht (stellvertretend für ihre Gruppe) hoch!";
             break;
         case "BUILD_GROUPS":
             result.infoText = "Erstellen Sie die Gruppen.";
@@ -147,6 +157,9 @@ function fitObjectInTmpl(object) {
             result.infoText = "Studierende legen nun ein Dossier an und" +
                 " geben sich gegenseitig Feedback.";
             break;
+        case "REEDIT_DOSSIER":
+            result.infoText = "Basierend auf dem Feedback können sie nun ihr Dossier überarbeiten";
+            break;
         case "CLOSE_DOSSIER_FEEDBACK_PHASE":
             let count = object.taskData.length;
             if (count <= 3) {
@@ -169,6 +182,9 @@ function fitObjectInTmpl(object) {
         case "WAIT_FOR_REFLECTION":
             result.infoText = "Nun arbeiten die Studenten an ihren Projekten.";
             break;
+        case "CLOSE_EXECUTION_PHASE":
+            result.infoText = "Beenden Sie nun die Durchführungsphase.";
+            break;
         case "EDIT_FORMED_GROUPS":
             result.infoText = "Die Gruppen wurden vom Algorithmus gebildet. Sie können noch manuell" +
                 " editiert werden."; // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
@@ -179,9 +195,15 @@ function fitObjectInTmpl(object) {
         case "OPTIONAL_PORTFOLIO_ENTRY":
             result.infoText = "E-Portfolio";
             break;
+        case "UPLOAD_PRESENTATION":
+            result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
+            break;
         default:
             result.infoText = "";
     }
+}
+
+function handleLinkedTasks(object, result) {
     if (object.taskType.includes("LINKED")) {
         switch (object.taskName) {
             case "WAIT_FOR_PARTICPANTS":
@@ -207,9 +229,17 @@ function fitObjectInTmpl(object) {
                 result.solveTaskWith = "Bearbeite / Erstelle Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&contributionCategory=Dossier" + "\')";
                 break;
+            case "REEDIT_DOSSIER":
+                result.solveTaskWith = "Überarbeite Dossier";
+                result.solveTaskWithLink = "redirect(\'../annotation/reedit-dossier.jsp?fullsubmissionid=" + object.taskData.fullSubmissionId + "&projectName=" + object.projectName + "&contribution=DOSSIER\')";
+                break;
             case "CREATE_QUIZ":
                 result.solveTaskWith = "Erstelle ein Quiz";
                 result.solveTaskWithLink = "redirect(\'../assessment/create-quiz.jsp?projectName=" + object.projectName + "\')";
+                break;
+            case "CLOSE_EXECUTION_PHASE":
+                result.solveTaskWith = "Assessmentphase starten";
+                result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 break;
             case "WRITE_EJOURNAL":
                 result.solveTaskWith = "Lege ein EJournal an";
@@ -266,6 +296,18 @@ function fitObjectInTmpl(object) {
                         "&contribution=DOSSIER\')";
                 }
                 break;
+            case "UPLOAD_PRESENTATION":
+                result.solveTaskWith = "Presentation hochladen";
+                result.solveTaskWithLink = "redirect(\'../assessment/upload-presentation.jsp?" +
+                    "projectName=" + object.projectName+"\')";
+
+                break;
+            case "UPLOAD_FINAL_REPORT":
+                result.solveTaskWith = "Abschlussbericht hochladen";
+                result.solveTaskWithLink = "redirect(\'../assessment/upload-final-report.jsp?" +
+                    "projectName=" + object.projectName+"\')";
+
+                break;
 
             case "OPTIONAL_PORTFOLIO_ENTRY":
                 result.solveTaskWith = "Erstelle einen Portfolio-Eintrag (optional)";
@@ -280,51 +322,84 @@ function fitObjectInTmpl(object) {
 
         }
     }
+}
 
+function handleFinishedTasks(object, result) {
     if (object.progress === "FINISHED") {
         if (object.taskName === "WAIT_FOR_PARTICPANTS") {
             result.infoText = "Gruppen sind final gespeichert. \n" +
                 "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
         }
         if (object.taskName === "GIVE_FEEDBACK") {
-            result.infoText = "Sie können weiterhin ihr Feedback editieren";
             if (object.taskData !== null) {
+                result.infoText = "Sie können weiterhin ihr Feedback editieren";
                 result.solveTaskWith = "Geben Sie ein Feedback";
                 result.solveTaskWithLink = "redirect(\'../annotation/give-feedback.jsp?" +
                     "projectName=" + object.projectName +
                     "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
+            } else {
+                result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
             }
+        }
+        if (object.taskName === "REEDIT_DOSSIER") {
+            result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +
+                "Warten sie nun auf die nächste Phase.";
         }
         if (object.taskName === "ANNOTATE_DOSSIER" || object.taskName === "UPLOAD_DOSSIER") {
             result.solveTaskWith = "";
             result.solveTaskWithLink = "";
         }
+        // ev. noch implementieren
+        if (object.taskName === "WAIT_FOR_UPLOAD"){
+
+        }
         if (object.taskName.includes("CLOSE")) {
-            result.taskProgress = "FINISHED";
             result.infoText = object.phase;
             let created = new Date(object.eventCreated);
             let deadline = new Date(object.deadline);
             result.timeFrame = "<p>" + created.getDate() + "." + (created.getMonth() + 1) + "." + created.getFullYear() +
                 " bis " + deadline.getDate() + "." + (deadline.getMonth() + 1) + "." + deadline.getFullYear() + "</p>";
-            return result;
         } else {
             result.timeFrame = "";
         }
         result.taskProgress = "FINISHED";
-        return result;
     }
+}
+
+function fitObjectInTmpl(object) {
+    let result = {
+        taskType: "",
+        infoText: "",
+        phase: "",
+        headLine: "",
+        solveTaskWith: "",
+        helpLink: "",
+        timeFrame: "",
+        taskData: object.taskData,
+        taskProgress: object.progress,
+        current: object.current,
+        inCardSolver: object.taskName,
+    };
+    handleTaskType(object, result);
+    handlePhases(object, result);
+    handleDeadlines(object, result);
+    handleInfoTasks(object, result);
+    handleLinkedTasks(object, result);
+    handleFinishedTasks(object, result);
 
     return result;
 }
 
 function fillObjectWithTasks(response) {
     let tempObject = [];
-    let first = true;
+    let thisPhase = "";
     for (let task in response) {
-        let headLine = "";
-        switch (response[task].phase) {
-            case ("card-grouping"):
-                break;
+        let first;
+        if (response.hasOwnProperty(task) && thisPhase === response[task].phase) {
+            first = false;
+        } else {
+            thisPhase = response[task].phase;
+            first = true;
         }
         if (response.hasOwnProperty(task)) {
             tempObject.push({
@@ -344,9 +419,6 @@ function fillObjectWithTasks(response) {
                 progress: response[task].progress,
                 current: first
             });
-            if (first) {
-                first = false;
-            }
         }
     }
 
@@ -357,6 +429,9 @@ function redirect(url) {
     location.href = url;
 }
 
+/**
+ * TODO @Axel move this to better location
+ */
 function closePhase(phase, projectName) {
     let innerurl = '../rest/phases/' + phase + '/projects/' + projectName + '/end';
     $.ajax({
@@ -376,6 +451,9 @@ function closePhase(phase, projectName) {
     })
 }
 
+/**
+ * TODO @Axel move this to better location
+ */
 function initializeGroups(projectName) {
     let projq = new RequestObj(1, "/group", "/all/projects/?", [projectName], []);
     serverSide(projq, "GET", function (response) {
@@ -403,7 +481,10 @@ function waitForParticipantsInfoText(object) {
     return result
 }
 
-function resizeGroup(){
+/**
+ * TODO @Axel move this to better location
+ */
+function resizeGroup() {
     $.ajax({
         url: '../rest/project/update/project/' + $('#projectName').html().trim() + '/groupSize/' + $('#userCount').val().trim(),
         headers: {
@@ -416,7 +497,10 @@ function resizeGroup(){
     });
 }
 
-function updateGroupSizeView(){
+/**
+ * TODO @Axel move this to better location or delete
+ */
+function updateGroupSizeView() {
     let userCount = parseInt($('#userCount').val().trim());
-    $('#groupSize').html(userCount*(userCount-1));
+    $('#groupSize').html(userCount * (userCount - 1));
 }

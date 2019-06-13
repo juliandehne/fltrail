@@ -45,6 +45,12 @@ public class GroupFormationProcess {
     @Inject
     private ICommunication iCommunication;
 
+
+    /**
+     * changes the group formation algorithm to the given.
+     * @param groupFormationMechanism
+     * @param project
+     */
     public void setGroupFormationMechanism(GroupFormationMechanism groupFormationMechanism, Project project) {
             projectDAO.setGroupFormationMechanism(groupFormationMechanism, project);
     }
@@ -87,6 +93,8 @@ public class GroupFormationProcess {
         for (Group group : groups) {
             iCommunication.createChatRoom(group, false);
         }
+
+
     }
 
 

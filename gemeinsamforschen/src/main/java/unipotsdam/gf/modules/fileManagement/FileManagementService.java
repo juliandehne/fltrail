@@ -7,6 +7,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
@@ -20,21 +21,22 @@ import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.process.PeerAssessmentProcess;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -44,6 +46,17 @@ import java.util.UUID;
 public class FileManagementService {
 
     private static final String FOLDER_NAME = "userFilesFLTrail/";
+
+    @Inject
+    private GFContexts gfContexts;
+
+    @Inject
+    private ProjectDAO projectDAO;
+
+    @Inject
+    private UserDAO userDAO;
+
+
 
     @Inject
     private FileManagementDAO fileManagementDAO;
@@ -56,14 +69,9 @@ public class FileManagementService {
         return FOLDER_NAME + fileName;
     }
 
-    void saveFileAsPDF(
-            User user,
-            Project project,
-            InputStream inputStream,
-            FormDataContentDisposition fileDetail,
-            FileRole fileRole,
-            FileType fileType
-    ) throws IOException, DocumentException {
+    private void saveFileAsPDF(
+            User user, Project project, InputStream inputStream, FormDataContentDisposition fileDetail,
+            FileRole fileRole, FileType fileType) throws IOException, DocumentException {
         String fileNameWithoutExtension = UUID.randomUUID().toString();
         FileUtils.mkdir(FOLDER_NAME);
         String fileName;
@@ -79,8 +87,8 @@ public class FileManagementService {
         fileManagementDAO.writeFileMetaToDB(user, project, fileName, fileRole, fileDetail.getFileName());
     }
 
-    private void saveStringAsPDF(User user, Project project, String fileContent, FormDataContentDisposition fileDetail,
-                                 FileRole fileRole, FileType fileType) throws IOException, DocumentException {
+    public void saveStringAsPDF(User user, Project project, String fileContent, FormDataContentDisposition fileDetail,
+                                FileRole fileRole, FileType fileType) throws IOException, DocumentException {
         if (fileType.equals(FileType.HTML)) {
             fileContent = cleanHTML(fileContent);
             //fileContent = manipulateIndentation(fileContent);
@@ -185,7 +193,8 @@ public class FileManagementService {
         return fileName;
     }
 
-    String convertPPTXtoPDF(XMLSlideShow ppt, String fileNameWithoutExtension) throws IOException, DocumentException {
+    private String convertPPTXtoPDF(XMLSlideShow ppt, String fileNameWithoutExtension) throws IOException,
+            DocumentException {
         //create a new pdf with name of file
         Document document = new Document();
         PdfPTable table = new PdfPTable(1);
@@ -232,7 +241,10 @@ public class FileManagementService {
         return fileName;
     }
 
-    Map<String, String> getListOfFiles(User user, Project project) {
+    Map<String, String> getListOfFiles(HttpServletRequest req, String projectName) throws IOException {
+        String userEmail = gfContexts.getUserEmail(req);
+        User user = userDAO.getUserByEmail(userEmail);
+        Project project = projectDAO.getProjectByName(projectName);
         return fileManagementDAO.getListOfFiles(user, project);
     }
 
@@ -245,5 +257,43 @@ public class FileManagementService {
         }
         fileManagementDAO.deleteMetaOfFile(fileLocation);
 
+    }
+
+    public void uploadPPTX(User user, Project project, InputStream inputStream, FormDataContentDisposition
+            fileDetail
+    ) throws IOException, CssResolverException, DocumentException {
+        //get the PDF Version of the InputStream and Write Meta into DB
+        saveFileAsPDF(user, project, inputStream, fileDetail, FileRole.PRESENTATION, FileType.UNKNOWN);
+    }
+
+    public void uploadFile(User user, Project project, InputStream inputStream, FormDataContentDisposition
+            fileDetail){
+        //todo implement
+        //return Response.ok("Data upload successfull").build();
+    }
+
+    public void uploadFile1(
+            HttpServletRequest req, String projectName,
+            FileRole fileRole, InputStream inputStream,
+            FormDataContentDisposition fileDetail)
+            throws IOException, CssResolverException, DocumentException {
+        String userEmail = gfContexts.getUserEmail(req);
+        User user = userDAO.getUserByEmail(userEmail);
+        Project project = projectDAO.getProjectByName(projectName);
+        switch (fileRole) {
+            case PRESENTATION:
+                uploadPPTX(user, project, inputStream, fileDetail);
+                break;
+            case DOSSIER:
+                //this can just be used for PDFs and PPTX, so: todo replace this with docx interface
+                saveFileAsPDF(user, project, inputStream, fileDetail, FileRole.DOSSIER, FileType.UNKNOWN);
+                break;
+            case LEARNINGGOALS:
+                break;
+            case EXTRA:
+                uploadFile(user, project, inputStream, fileDetail);
+            default:
+                break;
+        }
     }
 }

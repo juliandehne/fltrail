@@ -13,18 +13,20 @@ function prepareFeedbackMenu(category) {
         quill.setContents(JSON.parse(response.text));
 
         // fetch submission parts
-        getSubmissionPart(getQueryVariable("fullSubmissionId"), category, function (response) {
-            let body = response ? response.body : [{startCharacter: 0, endCharacter: quillTemp.getLength()}];
-            for (let i = 0; i < body.length; i++) {
-                startCharacter = body[i].startCharacter;
-                endCharacter = body[i].endCharacter;
-                highlightQuillText(body[i].startCharacter, body[i].endCharacter, category);
-            }
-            let editor = $('#editor');
-            editor.data("body", body);
-        }, function () {
-            //error
-        })
+        if (category !== undefined) {
+            getSubmissionPart(getQueryVariable("fullSubmissionId"), category, function (response) {
+                let body = response ? response.body : [{startCharacter: 0, endCharacter: quillTemp.getLength()}];
+                for (let i = 0; i < body.length; i++) {
+                    startCharacter = body[i].startCharacter;
+                    endCharacter = body[i].endCharacter;
+                    highlightQuillText(body[i].startCharacter, body[i].endCharacter, category);
+                }
+                let editor = $('#editor');
+                editor.data("body", body);
+            }, function () {
+                //error
+            })
+        }
 
     }, function () {
         //error

@@ -11,7 +11,7 @@ $(document).ready(function () {
         if (!isCompBaseOnline) {
             $('#lgLI').hide();
         }
-        if(!isGroupAlOnline){
+        if (!isGroupAlOnline) {
             $('#bpLI').hide();
         }
     });
@@ -24,11 +24,24 @@ $(document).ready(function () {
     $('#tagsProject').importTags('');
 
     let userCount = $('#userCount');
-    userCount.change(function(){
+    userCount.change(function () {
         groupSize = parseInt(userCount.val());
-        let minSize = (groupSize*(groupSize+1))- 2*groupSize;
+        let minSize = (groupSize * (groupSize + 1)) - 2 * groupSize;
         $('#groupSize').html(minSize);
     });
+
+    getAnnotationCategories(function (response) {
+        let tmplObject = [];
+        for (let b in response) {
+            if (response.hasOwnProperty(b)) {
+                tmplObject.push({category: response[b]});
+            }
+        }
+        $('#categoryTemplate').tmpl(tmplObject).appendTo('#categoryList');
+
+    });
+
+
 });
 
 // function that creates the project in the db
@@ -43,7 +56,7 @@ function createNewProject(allTheTags) {
     } else {
         if (project) {
             // create the project in local db
-            let localurl = "../rest/project/create?groupSize="+groupSize;
+            let localurl = "../rest/project/create?groupSize=" + groupSize;
 
             $.ajax({                        //check local DB for existence of projectName
                 url: localurl,
@@ -123,6 +136,10 @@ function getProjectValues() {
         document.getElementById('tagHelper').className = "";
     }
     let time = new Date().getTime();
+    let selectedCategories = [];
+    $(".category input:checked").each(function () {
+        selectedCategories.push($(this).val());
+    });
 
     return {
         "name": projectName,
@@ -132,7 +149,8 @@ function getProjectValues() {
         "phase": "GroupFormation",
         "timecreated": time,
         "authorEmail": $('#userEmail').text().trim(),
-        "tags": allTheTags
+        "tags": allTheTags,
+        "categories": selectedCategories,
     };
 }
 

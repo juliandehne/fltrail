@@ -41,8 +41,11 @@
             </div>
 
                 <script id="taskTemplate" type="text/x-jQuery-tmpl">
-                    <h3 class="phase-heading ${phase} ">${headLine}</h3>
-                     <div class="card ${phase} current">
+                <div></div>
+                    {{if (current==true)}}
+                        <h3 class="phase-heading ${phase} ">${headLine}</h3>
+                    {{/if}}
+                    <div class="card ${phase} current">
                         <div class="col span_s_of_2 icon ${taskType}"></div>
 
                         <div class="col span_l_of_2" id="${taskName}">
@@ -63,10 +66,13 @@
 
                         <div style="clear:left"></div>
                     </div>
-
                 </script>
 
         <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
+        <div></div>
+                    {{if (current==true)}}
+                        <h3 class="phase-heading ${phase} ">${headLine}</h3>
+                    {{/if}}
             <div class="card ${phase}">
                <div class="card-finished">
                     <h4 class="icon closed">${infoText}</h4>
@@ -77,6 +83,10 @@
 
         </script>
                 <script id="inProgressTaskTemplate" type="text/x-jQuery-tmpl">
+                <div></div>
+                    {{if (current==true)}}
+                        <h3 class="phase-heading ${phase} ">${headLine}</h3>
+                    {{/if}}
             <div class="card ${phase}">
                <div class="card-finished">
                     <h4 class="icon">${infoText}<i class="fa fa-clock-o" aria-hidden="true"></i></h4>

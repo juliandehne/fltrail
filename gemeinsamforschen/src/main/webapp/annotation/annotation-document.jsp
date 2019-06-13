@@ -87,12 +87,6 @@
 
             <div class="col span_s_of_2">
 
-
-
-
-
-
-
                 <div class="infobox dossier" >
                     <p>Markiere Text und klicke mit der rechten Mousetaste, um den ausgewählten Text zu kommentieren oder</p>
 

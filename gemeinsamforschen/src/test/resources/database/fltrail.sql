@@ -125,6 +125,7 @@ CREATE TABLE `contributionrating`
 CREATE TABLE `fullsubmissions`
 (
     `id`                   varchar(120) NOT NULL,
+    `version`              int(11)      NOT NULL,
     `timestamp`            timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `groupId`              int(11)      NOT NULL,
     `text`                 mediumtext   NOT NULL,
@@ -218,8 +219,9 @@ CREATE TABLE `journals`
 
 CREATE TABLE `largefilestorage`
 (
-    `id`           int(11)      NOT NULL,
-    `userEmail`    varchar(255) NOT NULL,
+    `id`           int(11) NOT NULL,
+    `groupId`      int(11),
+    `userEmail`    varchar(255),
     `projectName`  varchar(100) NOT NULL,
     `filelocation` varchar(100) NOT NULL,
     `filerole`     varchar(100) NOT NULL,
@@ -584,6 +586,8 @@ ALTER TABLE `fullsubmissions`
     ADD PRIMARY KEY (`id`),
     ADD UNIQUE KEY `fullsubmissions_id_uindex` (`id`),
     ADD KEY `fullsubmissions_projects_name_fk` (`projectName`),
+    ADD KEY `fullsubmissions_version_fk` (`version`),
+    ADD KEY `fullsubmissions_contribution_category_fk` (`contributionCategory`),
     ADD KEY `fullsubmissions_users_email_fk` (`userEmail`),
     ADD KEY `fullsubmissions_groups_id_fk` (`groupId`);
 

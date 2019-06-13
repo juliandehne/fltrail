@@ -19,12 +19,14 @@ public class TaskOrder {
         result.add(TaskName.ANNOTATE_DOSSIER);
         result.add(TaskName.GIVE_FEEDBACK);
         result.add(TaskName.SEE_FEEDBACK);
+        result.add(TaskName.REEDIT_DOSSIER);
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
         result.add(TaskName.REFLECT_DOSSIER_CREATION);
         //end of execution phase
         result.add(TaskName.ANSWER_REFLECTION_QUESTIONS);
         result.add(TaskName.WAIT_FOR_REFLECTION);
         result.add(TaskName.CLOSE_EXECUTION_PHASE);
+        result.add(TaskName.UPLOAD_PRESENTATION);
         result.add(TaskName.COLLECT_RESULTS_FOR_ASSESSMENT);
         result.add(TaskName.WAIT_FOR_PEER_ASSESSMENTS);
         result.add(TaskName.GIVE_ASSESSMENT);

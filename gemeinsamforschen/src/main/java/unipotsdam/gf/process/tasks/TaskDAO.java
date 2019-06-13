@@ -1,7 +1,9 @@
 package unipotsdam.gf.process.tasks;
 
 import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.assessment.AssessmentDAO;
 import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
@@ -48,6 +50,9 @@ public class TaskDAO {
 
     @Inject
     private SubmissionController submissionController;
+
+    @Inject
+    private AssessmentDAO assessmentDAO;
 
     @Inject
     private ConstraintsImpl constraints;
@@ -265,6 +270,13 @@ public class TaskDAO {
                 result = task;
                 break;
             }
+            case REEDIT_DOSSIER: {
+                result = getGeneralTask(vereinfachtesResultSet);
+                Map<String, String> taskData = new HashMap<>();
+                taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, ContributionCategory.DOSSIER, 1));
+                result.setTaskData(taskData);
+                break;
+            }
             default: {
                 result = getGeneralTask(vereinfachtesResultSet);
             }
@@ -298,7 +310,7 @@ public class TaskDAO {
             case CLOSE_DOSSIER_FEEDBACK_PHASE: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setHasRenderModel(true);
-                List<Group> missingFeedbacks = constraints.checkWhichFeedbacksAreMissing(project);
+                List<Group> missingFeedbacks = constraints.checkWhichDossiersAreNotFinalized(project);
                 task.setTaskData(missingFeedbacks);  //frontendCheck if missingFeedbacks.size ==0
                 result = task;
                 Task waitingForDossiers = new Task();
@@ -307,6 +319,14 @@ public class TaskDAO {
                 waitingForDossiers.setProgress(Progress.FINISHED);
                 waitingForDossiers.setTaskName(TaskName.WAITING_FOR_STUDENT_DOSSIERS);
                 updateForUser(waitingForDossiers);
+                break;
+            }
+            case WAIT_FOR_UPLOAD: {
+                Task task = getGeneralTask(vereinfachtesResultSet);
+                task.setHasRenderModel(true);
+                // get Progress from peer assessment
+                task.setTaskData(assessmentDAO.getProgress());
+                result = task;
                 break;
             }
             default: {
@@ -396,8 +416,18 @@ public class TaskDAO {
         connect.close();
     }
 
+    /**
+     * task needs to contain a user or a groupTask. Besides that it needs a projectName, TaskName and Progress
+     *
+     * @param task The task, that is meant to become updated
+     */
     public void updateForGroup(Task task) {
-        Integer groupId = groupDAO.getGroupByStudent(new Project(task.getProjectName()), new User(task.getUserEmail()));
+        Integer groupId;
+        if (task.getUserEmail() != null) {
+            groupId = groupDAO.getGroupByStudent(new Project(task.getProjectName()), new User(task.getUserEmail()));
+        } else {
+            groupId = task.getGroupTask();
+        }
         updateGroupTask(task, groupId);
     }
 
@@ -409,7 +439,7 @@ public class TaskDAO {
         connect.close();
     }
 
-    public void updateGroupTask(Task task) {
+    public void updateGroupTask(GroupTask task) {
         updateGroupTask(task, task.getGroupTask());
     }
 

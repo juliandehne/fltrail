@@ -244,11 +244,14 @@ function getMyGroupId(callback) {
     })
 }
 
-function getFullSubmissionOfGroup(groupId) {
+function getFullSubmissionOfGroup(groupId, version) {
     let projectName = $('#projectName').html().trim();
     let contributionCategory = $('#contributionCategory').html().trim();
     $.ajax({
-        url: '../rest/submissions/full/groupId/' + groupId + '/project/' + projectName + '/contributionCategory/' + contributionCategory.toUpperCase(),
+        url: '../rest/submissions/full/groupId/' + groupId +
+            '/project/' + projectName +
+            '/contributionCategory/' + contributionCategory.toUpperCase() +
+            '?version=' + version,
         type: 'GET',
         headers: {
             "Cache-Control": "no-cache"
