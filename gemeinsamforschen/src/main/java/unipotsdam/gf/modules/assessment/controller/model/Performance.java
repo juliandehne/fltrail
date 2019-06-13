@@ -39,7 +39,6 @@ public class Performance {
         this.workRating = workRating;
     }
 
-    private Map<ContributionCategory, Double> contributionRating;
 
     public Performance(Project project, User user, List<Integer> quizAnswer, Map<String, Double> workRating, Map<ContributionCategory, Double> contributionRating) {
         this.project = project;
@@ -68,6 +67,8 @@ public class Performance {
     private User user;
     private List<Integer> quizAnswer;
     private Map<String, Double> workRating;
+    private Map<ContributionCategory, Double> contributionRating;
+
 
     public void setContributionRating(Map<ContributionCategory, Double> contributionRating) {
         this.contributionRating = contributionRating;

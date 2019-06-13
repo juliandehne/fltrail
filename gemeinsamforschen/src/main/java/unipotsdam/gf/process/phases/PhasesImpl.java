@@ -4,17 +4,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
-import unipotsdam.gf.modules.communication.service.EmailService;
-import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.communication.Messages;
+import unipotsdam.gf.modules.communication.service.EmailService;
+import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
+import unipotsdam.gf.process.IExecutionProcess;
+import unipotsdam.gf.process.PeerAssessmentProcess;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import javax.annotation.ManagedBean;
@@ -43,6 +45,9 @@ public class PhasesImpl implements IPhases {
     private ICommunication iCommunication;
 
     @Inject
+    private IExecutionProcess iExecutionProcess;
+
+    @Inject
     private IJournal iJournal;
 
     @Inject
@@ -51,6 +56,8 @@ public class PhasesImpl implements IPhases {
     @Inject
     private GroupFormationProcess groupFormationProcess;
 
+    @Inject
+    private PeerAssessmentProcess peerAssessmentProcess;
 
     @Inject
     private EmailService emailService;
@@ -94,17 +101,16 @@ public class PhasesImpl implements IPhases {
             case DossierFeedback:
                 // check if everybody has uploaded a dossier
                 dossierCreationProcess.finishPhase(project);
+                saveState(project, changeToPhase);
+                iExecutionProcess.start(project);
                 break;
             case Execution:
                 // check if the portfolios have been prepared for evaluation (relevant entries selected)
-                tasks = iJournal.getPortfoliosForEvaluationPrepared(project);
-                if (tasks.size() < 1) {
-                    // inform users about the end of the phase
-                    emailService.sendMessageToUsers(project, Messages.AssessmentPhaseStarted(project));
+                if (iExecutionProcess.isPhaseCompleted(project)) {
                     saveState(project, changeToPhase);
-                } else {
-                    emailService.informAboutMissingTasks(tasks, project);
                 }
+                iExecutionProcess.finishPhase(project);
+                peerAssessmentProcess.startPeerAssessmentPhase(project);
                 break;
             case Assessment:
                 tasks = iPeerAssessment.allAssessmentsDone(project.getName());
