@@ -206,6 +206,9 @@ function handleInfoTasks(object, result) {
         case "UPLOAD_PRESENTATION":
             result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
             break;
+        case "UPLOAD_FINAL_REPORT":
+            result.infoText = "Bitte laden Sie den Abschlussbericht (stellvertretend für ihre Gruppe) hoch!";
+            break;
         default:
             result.infoText = "";
     }
@@ -306,6 +309,13 @@ function handleLinkedTasks(object, result) {
                     "projectName=" + object.projectName+"\')";
 
                 break;
+            case "UPLOAD_FINAL_REPORT":
+                result.solveTaskWith = "Abschlussbericht hochladen";
+                result.solveTaskWithLink = "redirect(\'../assessment/upload-final-report.jsp?" +
+                    "projectName=" + object.projectName+"\')";
+
+                break;
+
             case "OPTIONAL_PORTFOLIO_ENTRY":
                 result.solveTaskWith = "Erstelle einen Portfolio-Eintrag (optional)";
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({

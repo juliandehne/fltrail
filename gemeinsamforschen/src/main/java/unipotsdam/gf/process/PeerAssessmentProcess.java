@@ -29,7 +29,11 @@ public class PeerAssessmentProcess {
      * @param project
      */
     public void startPeerAssessmentPhase(Project project) {
+        // distribute upload tasks
         taskDAO.persistTaskForAllGroups(project, UPLOAD_PRESENTATION, Phase.Assessment);
+        // distribute teacher tasks
+        taskDAO.persistTeacherTask(project, TaskName.WAIT_FOR_UPLOADS_OR_FF, Phase.Assessment);
+
     }
 
     public void fileHasBeenUploaded(

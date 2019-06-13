@@ -283,6 +283,7 @@ public class FileManagementService {
         switch (fileRole) {
             case PRESENTATION:
                 uploadPPTX(user, project, inputStream, fileDetail);
+                break;
             case DOSSIER:
                 //this can just be used for PDFs and PPTX, so: todo replace this with docx interface
                 saveFileAsPDF(user, project, inputStream, fileDetail, FileRole.DOSSIER, FileType.UNKNOWN);

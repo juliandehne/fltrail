@@ -316,6 +316,14 @@ public class TaskDAO {
                 updateForUser(waitingForDossiers);
                 break;
             }
+            case WAIT_FOR_PRESENTATION_AND_FINAL_REPORT_UPLOAD: {
+                Task task = getGeneralTask(vereinfachtesResultSet);
+                task.setHasRenderModel(true);
+                // get Progress from peer assessment
+                //task.setTaskData();
+                result = task;
+                break;
+            }
             default: {
                 result = getGeneralTask(vereinfachtesResultSet);
             }

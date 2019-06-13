@@ -13,5 +13,6 @@ public class GroupTask extends Task {
         setGroupTask(groupId);
         setTaskName(taskName);
         setProgress(progress);
+        setProjectName(project.getName());
     }
 }
