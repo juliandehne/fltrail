@@ -5,10 +5,10 @@
  * @param responseHandler The response handler
  */
 
-const baseUrl = "../rest/submissions/";
+const baseSubmissionUrl = "../rest/submissions/";
 
 function createFullSubmission(fullSubmissionPostRequest, responseHandler) {
-    let url = baseUrl + "full";
+    let url = baseSubmissionUrl + "full";
     let json = JSON.stringify(fullSubmissionPostRequest);
     $.ajax({
         url: url,
@@ -54,7 +54,7 @@ function updateFullSubmission(fullSubmissionPostRequest, finalize, responseHandl
  * @param errorHandler The error handler
  */
 function getFullSubmission(id, responseHandler, errorHandler) {
-    let url = baseUrl + "full/" + id;
+    let url = baseSubmissionUrl + "full/" + id;
     $.ajax({
         url: url,
         type: "GET",
@@ -78,7 +78,7 @@ function getFullSubmission(id, responseHandler, errorHandler) {
  * @returns A promise object
  */
 function createSubmissionPart(submissionPartPostRequest, responseHandler) {
-    let url = baseUrl + "part/";
+    let url = baseSubmissionUrl + "part/";
     let json = JSON.stringify(submissionPartPostRequest);
     return $.ajax({
         url: url,
@@ -108,7 +108,7 @@ function getSubmissionPart(id, category, responseHandler, errorHandler) {
         responseHandler(false);
         return false;
     }
-    let url = baseUrl + "full/" + id + "/category/" + category;
+    let url = baseSubmissionUrl + "full/" + id + "/category/" + category;
     $.ajax({
         url: url,
         type: "GET",
@@ -131,7 +131,7 @@ function getSubmissionPart(id, category, responseHandler, errorHandler) {
  * @param responseHandler The response handler
  */
 function getAllSubmissionParts(id, responseHandler) {
-    let url = baseUrl + "full/" + id + "/parts";
+    let url = baseSubmissionUrl + "full/" + id + "/parts";
     $.ajax({
         url: url,
         type: "GET",
@@ -166,7 +166,7 @@ function getVisibilities(callback) {
     if (personal == null) {
         personal = false;
     }
-    let url = baseUrl + "visibilities/personal/" + $('#personal').html().trim();
+    let url = baseSubmissionUrl + "visibilities/personal/" + $('#personal').html().trim();
     $.ajax({
         url: url,
         type: "GET",
