@@ -3,7 +3,6 @@ package unipotsdam.gf.process;
 import com.itextpdf.text.DocumentException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import unipotsdam.gf.interfaces.Feedback;
-import unipotsdam.gf.interfaces.IReflectionService;
 import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -56,7 +55,7 @@ public class DossierCreationProcess {
     private GroupDAO groupDAO;
 
     @Inject
-    private IReflectionService reflectionService;
+    private ReflexionProcess reflexionProcess;
 
 
     /**
@@ -89,8 +88,7 @@ public class DossierCreationProcess {
         taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
 
         Group group = groupDAO.getMyGroup(user, project);
-        reflectionService.startOptionalPortfolioTask(project, group, Phase.DossierFeedback);
-
+        reflexionProcess.startOptionalEPortfolioEntryTask(project, group);
     }
 
     public FullSubmission updateSubmission(FullSubmissionPostRequest fullSubmissionPostRequest,

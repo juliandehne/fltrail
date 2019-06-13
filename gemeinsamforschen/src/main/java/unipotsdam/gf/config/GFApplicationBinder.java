@@ -11,7 +11,7 @@ import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
-import unipotsdam.gf.interfaces.IReflectionService;
+import unipotsdam.gf.interfaces.IReflexionService;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
@@ -40,7 +40,7 @@ import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.reflection.service.ReflectionService;
+import unipotsdam.gf.modules.reflection.service.ReflexionService;
 import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
@@ -53,6 +53,7 @@ import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.IExecutionProcess;
 import unipotsdam.gf.process.PeerAssessmentProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
+import unipotsdam.gf.process.ReflexionProcess;
 import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.PhasesImpl;
@@ -117,6 +118,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(FileManagementService.class).to(FileManagementService.class);
         bind(FileManagementDAO.class).to(FileManagementDAO.class);
         bind(AssessmentDAO.class).to(AssessmentDAO.class);
+        bind(ReflexionProcess.class).to(ReflexionProcess.class);
 
         /*
          * TODO: @Martin comment in for your development
@@ -133,6 +135,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(UnirestService.class).to(UnirestService.class);
         bind(ContributionFeedbackService.class).to(IContributionFeedback.class);
         bind(ContributionFeedbackDAO.class).to(ContributionFeedbackDAO.class);
-        bind(ReflectionService.class).to(IReflectionService.class);
+        bind(ReflexionService.class).to(IReflexionService.class);
     }
 }

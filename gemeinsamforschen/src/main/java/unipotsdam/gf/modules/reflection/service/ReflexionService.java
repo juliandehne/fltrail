@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.reflection.service;
 
-import unipotsdam.gf.interfaces.IReflectionService;
+import unipotsdam.gf.interfaces.IReflexionService;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
@@ -17,7 +17,7 @@ import javax.inject.Inject;
 
 @ManagedBean
 @Resource
-public class ReflectionService implements IReflectionService {
+public class ReflexionService implements IReflexionService {
 
     @Inject
     private TaskDAO taskDAO;
