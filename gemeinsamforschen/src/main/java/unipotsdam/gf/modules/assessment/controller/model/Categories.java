@@ -26,5 +26,20 @@ public class Categories {
                 add("DURCHFUEHRUNG");
                 add("AUSWERTUNG");
             }}
+            /*
+            new ArrayList<String>() {{
+        add("Erkenntnisinteresse");
+        add("Forschungsfrage");
+        add("Forschungsstand");
+        add("Theoretische Gegenstandsbestimmung");
+        add("Erhebungsmethode");
+        add("Auswertungsmethode");
+        add("Sample");
+        add("Zugang zum Feld");
+        add("Erhebungsinstrument");
+        add("Zeitplan");
+        add("Literatur");
+        add("Anhang");
+    }}*/
     );
 }

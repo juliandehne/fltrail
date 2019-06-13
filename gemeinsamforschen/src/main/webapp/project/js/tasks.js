@@ -335,12 +335,14 @@ function handleProgress(object, result) {
                 "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
         }
         if (object.taskName === "GIVE_FEEDBACK") {
-            result.infoText = "Sie können weiterhin ihr Feedback editieren";
             if (object.taskData !== null) {
+                result.infoText = "Sie können weiterhin ihr Feedback editieren";
                 result.solveTaskWith = "Geben Sie ein Feedback";
                 result.solveTaskWithLink = "redirect(\'../annotation/give-feedback.jsp?" +
                     "projectName=" + object.projectName +
                     "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
+            } else {
+                result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
             }
         }
         if (object.taskName === "REEDIT_DOSSIER") {
@@ -376,6 +378,7 @@ function fitObjectInTmpl(object) {
         taskData: object.taskData,
         taskProgress: object.progress,
         inCardSolver: "",
+        current: object.current
     };
     handleTaskType(object, result);
     handlePhases(object, result);
@@ -389,12 +392,14 @@ function fitObjectInTmpl(object) {
 
 function fillObjectWithTasks(response) {
     let tempObject = [];
-    let first = true;
+    let thisPhase = "";
     for (let task in response) {
-        let headLine = "";
-        switch (response[task].phase) {
-            case ("card-grouping"):
-                break;
+        let first;
+        if (response.hasOwnProperty(task) && thisPhase === response[task].phase) {
+            first = false;
+        } else {
+            thisPhase = response[task].phase;
+            first = true;
         }
         if (response.hasOwnProperty(task)) {
             tempObject.push({
@@ -414,9 +419,6 @@ function fillObjectWithTasks(response) {
                 progress: response[task].progress,
                 current: first
             });
-            if (first) {
-                first = false;
-            }
         }
     }
 
