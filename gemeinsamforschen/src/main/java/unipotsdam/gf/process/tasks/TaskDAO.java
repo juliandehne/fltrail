@@ -1,7 +1,9 @@
 package unipotsdam.gf.process.tasks;
 
 import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.modules.assessment.AssessmentDAO;
 import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
@@ -48,6 +50,9 @@ public class TaskDAO {
 
     @Inject
     private SubmissionController submissionController;
+
+    @Inject
+    private AssessmentDAO assessmentDAO;
 
     @Inject
     private ConstraintsImpl constraints;
@@ -316,11 +321,11 @@ public class TaskDAO {
                 updateForUser(waitingForDossiers);
                 break;
             }
-            case WAIT_FOR_PRESENTATION_AND_FINAL_REPORT_UPLOAD: {
+            case WAIT_FOR_UPLOAD: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setHasRenderModel(true);
                 // get Progress from peer assessment
-                //task.setTaskData();
+                task.setTaskData(assessmentDAO.getProgress());
                 result = task;
                 break;
             }

@@ -7,6 +7,7 @@ import unipotsdam.gf.healthchecks.HealthChecks;
 import unipotsdam.gf.interfaces.*;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
+import unipotsdam.gf.modules.assessment.AssessmentDAO;
 import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
 import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.communication.DummyCommunicationService;
@@ -98,6 +99,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(SurveyProcess.class).to(SurveyProcess.class);
         bind(FileManagementService.class).to(FileManagementService.class);
         bind(FileManagementDAO.class).to(FileManagementDAO.class);
+        bind(AssessmentDAO.class).to(AssessmentDAO.class);
 
         /**
          * @Martin comment in for your development

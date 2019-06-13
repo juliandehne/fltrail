@@ -219,8 +219,9 @@ CREATE TABLE `journals`
 
 CREATE TABLE `largefilestorage`
 (
-    `id`           int(11)      NOT NULL,
-    `userEmail`    varchar(255) NOT NULL,
+    `id`           int(11) NOT NULL,
+    `groupId`      int(11),
+    `userEmail`    varchar(255),
     `projectName`  varchar(100) NOT NULL,
     `filelocation` varchar(100) NOT NULL,
     `filerole`     varchar(100) NOT NULL,

@@ -182,7 +182,7 @@ public class TestAddAssessment {
     public void quickstartAssessmentPhase() {
 
 
-        Project project = new Project("assessmenttest");
+        Project project = new Project("assessmenttest2");
         List<Group> groups = groupFinding.getGroups(project);
         assertFalse(groups.isEmpty());
 

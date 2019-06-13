@@ -8,6 +8,7 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <script src="js/inCardSolverHTML.js"></script>
+    <script src="../assessment/js/assessmentService.js"></script>
     <script src="js/tasks.js"></script>
 </head>
 <body>
@@ -24,9 +25,8 @@
             <div id="listOfTasks">
 
             </div>
-
+             <!-- -->
              <script id="taskTemplate" type="text/x-jQuery-tmpl">
-
                   <h3 class="phase-heading ${phase} ">${phase}</h3>
                    <div class="card ${phase}">
                        <div class="col span_s_of_2 icon ${taskType}"> </div>
@@ -55,6 +55,20 @@
                                     </div>
                                     <button onClick='resizeGroup();'>speichern</button>
                                 </div>
+                                {{/if}}
+                                {{if inCardSolver=="WAIT_FOR_UPLOAD"}}
+                                    <div class="inCardSolver">
+                                       {{if taskData.numberOfGroupsWithoutPresentation > 0 }}
+                                        Es haben noch ${taskData.numberOfGroupsWithoutPresentation} Gruppen keine Präsentation hochgeladen.
+                                       {{/if}}
+                                        {{if taskData.numberOfGroupsWithoutExternalAssessment > 0 }}
+                                        ${taskData.numberOfGroupsWithoutExternalAssessment} Gruppen haben keine Bewertung durch Peers bekommen.
+                                        {{/if}}
+                                        {{if taskData.numberOfStudentsWithoutInternalAsssessment > 0 }}
+                                        ${taskData.numberOfStudentsWithoutInternalAsssessment} Studierende haben noch keine Bewertung der Gruppe bekommen.
+                                        {{/if}}
+                                        <button id='startGradingButton' onClick="startGrading(getProjectName());">Bewertung abschließen</button>
+                                    </div>
                                 {{/if}}
                            {{/if}}
                            {{if helpLink}}

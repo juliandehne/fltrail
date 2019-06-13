@@ -1,14 +1,21 @@
 let object;
 let groupViewLink;
+let projectName;
+let userEmail;
 $(document).ready(function () {
-    let userEmail = $('#userEmail').html().trim();
-    let projectName = $('#projectName').html().trim();
+    userEmail = $('#userEmail').html().trim();
+    projectName = $('#projectName').html().trim();
     groupViewLink = $('#groupView');
     groupViewLink.hide();
     fillTasks(projectName, userEmail);
     groupViewLink.on('click', function () {
         location.href = "../groupfinding/view-groups.jsp?projectName=" + projectName;
     });
+    /**
+     * TODO refactor remove all the inline js and group it like this leading
+     *
+     */
+
 });
 
 function fillTasks(projectName, userEmail) {
@@ -41,31 +48,6 @@ function fillTasks(projectName, userEmail) {
         error: function (a) {
         }
     });
-}
-
-function fitObjectInTmpl(object) {
-    let result = {
-        taskType: "",
-        infoText: "",
-        phase: "",
-        headLine: "",
-        solveTaskWith: "",
-        helpLink: "",
-        timeFrame: "",
-        taskData: object.taskData,
-        taskProgress: object.progress,
-        inCardSolver: "",
-    };
-
-    if (object.taskType !== "INFO") {
-        if (object.groupTask !== 0) {
-            result.taskType = "grouptask"
-        } else {
-            result.taskType = "usertask"
-        }
-    } else {
-        result.taskType = "infotask"
-    }
 }
 
 function handlePhases(object, result) {
@@ -128,6 +110,10 @@ function handleTaskType(object, result) {
 }
 
 function handleInfoTasks(object, result) {
+
+   /* if (object.hasRenderModel) {
+        result.inCardSolver = object.taskName;
+    }*/
     switch (object.taskName) {
         case "WAIT_FOR_PARTICPANTS":
             result.infoText = waitForParticipantsInfoText(object);
@@ -138,6 +124,9 @@ function handleInfoTasks(object, result) {
                     }
                     break;
             }
+            break;
+        case "UPLOAD_FINAL_REPORT":
+            result.infoText = "Bitte laden Sie den Abschlussbericht (stellvertretend für ihre Gruppe) hoch!";
             break;
         case "BUILD_GROUPS":
             result.infoText = "Erstellen Sie die Gruppen.";
@@ -208,9 +197,6 @@ function handleInfoTasks(object, result) {
             break;
         case "UPLOAD_PRESENTATION":
             result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
-            break;
-        case "UPLOAD_FINAL_REPORT":
-            result.infoText = "Bitte laden Sie den Abschlussbericht (stellvertretend für ihre Gruppe) hoch!";
             break;
         default:
             result.infoText = "";
@@ -338,7 +324,7 @@ function handleLinkedTasks(object, result) {
     }
 }
 
-function handleProgress(object, result) {
+function handleFinishedTasks(object, result) {
     if (object.progress === "FINISHED") {
         if (object.taskName === "WAIT_FOR_PARTICPANTS") {
             result.infoText = "Gruppen sind final gespeichert. \n" +
@@ -360,6 +346,10 @@ function handleProgress(object, result) {
         if (object.taskName === "ANNOTATE_DOSSIER" || object.taskName === "UPLOAD_DOSSIER") {
             result.solveTaskWith = "";
             result.solveTaskWithLink = "";
+        }
+        // ev. noch implementieren
+        if (object.taskName === "WAIT_FOR_UPLOAD"){
+
         }
         if (object.taskName.includes("CLOSE")) {
             result.infoText = object.phase;
@@ -385,14 +375,14 @@ function fitObjectInTmpl(object) {
         timeFrame: "",
         taskData: object.taskData,
         taskProgress: object.progress,
-        inCardSolver: "",
+        inCardSolver: object.taskName,
     };
     handleTaskType(object, result);
     handlePhases(object, result);
     handleDeadlines(object, result);
     handleInfoTasks(object, result);
     handleLinkedTasks(object, result);
-    handleProgress(object, result);
+    handleFinishedTasks(object, result);
 
     return result;
 }
