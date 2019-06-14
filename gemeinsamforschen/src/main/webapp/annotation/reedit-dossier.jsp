@@ -54,7 +54,7 @@
     </div>
     <main id="seeFeedback" class="">
 
-        <h3>Hier können sie ihr <span id="contributionCategory"></span> überarbeiten</h3>
+        <h3>Hier können sie ihr <span id="fileRole"></span> überarbeiten</h3>
 
         <br>
         <div class="three_rows">

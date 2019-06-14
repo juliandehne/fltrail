@@ -108,6 +108,13 @@ public class VereinfachtesResultSet {
         throw new Error(errorMessage(columnLabel));
     }
 
+	public Timestamp getTimestampIgnoreError(String columnLabel) {
+		try {
+			return resultSet.getTimestamp(columnLabel);
+		} catch (SQLException ex) {
+		}
+		throw new Error(errorMessage(columnLabel));
+	}
 
 	public String getString(String columnLabel) {
 		try {

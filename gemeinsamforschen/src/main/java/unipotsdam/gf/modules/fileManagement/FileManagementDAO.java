@@ -42,7 +42,7 @@ public class FileManagementDAO {
                     "INSERT INTO `largefilestorage`(`userEmail`, `projectName`, `filelocation`, `filerole`, " +
                             "`filename`, `groupId`) VALUES (?,?,?,?,?,?)";
             connect.issueInsertOrDeleteStatement(
-                    mysqlRequest, user.getEmail(), project.getName(), fileLocation, fileRole.toString(), fileName);
+                    mysqlRequest, user.getEmail(), project.getName(), fileLocation, fileRole.toString(), fileName, groupId);
         } else {
             String mysqlRequest =
                     "INSERT INTO `largefilestorage`(`userEmail`, `projectName`, `filelocation`, `filerole`, `filename`) VALUES (?,?,?,?,?)";

@@ -58,7 +58,7 @@
     </div>
     <main id="seeFeedback" class="">
 
-        <h3>Das Feedback für ihr <span class="contributionCategory"></span></h3>
+        <h3>Das Feedback für ihr <span class="fileRole"></span></h3>
 
         <br>
         <div class="three_rows">

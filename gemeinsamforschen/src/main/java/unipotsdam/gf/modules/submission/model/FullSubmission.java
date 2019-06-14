@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.submission.model;
 
-import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+import unipotsdam.gf.modules.fileManagement.FileRole;
 
 /**
  * @author Sven Kästle
@@ -14,21 +14,21 @@ public class FullSubmission {
     private Integer groupId;
     private String userEmail;
     private String text;
-    private ContributionCategory contributionCategory;
+    private FileRole fileRole;
     private String projectName;
     private Visibility visibility;
 
-    public FullSubmission(String id, long timestamp, Integer groupId, String text, ContributionCategory contributionCategory, String projectName, Visibility visibility) {
-        this(id, timestamp, groupId, null, text, contributionCategory, projectName, visibility);
+    public FullSubmission(String id, long timestamp, Integer groupId, String text, FileRole fileRole, String projectName, Visibility visibility) {
+        this(id, timestamp, groupId, null, text, fileRole, projectName, visibility);
     }
 
-    public FullSubmission(String id, long timestamp, Integer groupId, String userEmail, String text, ContributionCategory contributionCategory, String projectName, Visibility visibility) {
+    public FullSubmission(String id, long timestamp, Integer groupId, String userEmail, String text, FileRole fileRole, String projectName, Visibility visibility) {
         this.id = id;
         this.timestamp = timestamp;
         this.groupId = groupId;
         this.userEmail = userEmail;
         this.text = text;
-        this.contributionCategory = contributionCategory;
+        this.fileRole = fileRole;
         this.projectName = projectName;
         this.visibility = visibility;
     }
@@ -70,12 +70,12 @@ public class FullSubmission {
         this.text = text;
     }
 
-    public ContributionCategory getContributionCategory() {
-        return contributionCategory;
+    public FileRole getFileRole() {
+        return fileRole;
     }
 
-    public void setContributionCategory(ContributionCategory contributionCategory) {
-        this.contributionCategory = contributionCategory;
+    public void setFileRole(FileRole fileRole) {
+        this.fileRole = fileRole;
     }
 
     public String getProjectName() {
@@ -110,7 +110,7 @@ public class FullSubmission {
                 ", groupId=" + groupId +
                 ", userEmail='" + userEmail + '\'' +
                 ", text='" + text + '\'' +
-                ", contributionCategory=" + contributionCategory +
+                ", fileRole=" + fileRole +
                 ", projectName='" + projectName + '\'' +
                 ", visibility=" + visibility +
                 '}';

@@ -52,7 +52,7 @@
                     <jsp:include page="../taglibs/upload-file.jsp">
                         <jsp:param name="fileRole" value="PRESENTATION"/>
                     </jsp:include>
-                    <p id="contributionCategory" hidden>PRESENTATION</p>
+                    <p id="fileRole" hidden>PRESENTATION</p>
                     </label>
                 </div>
             </div>

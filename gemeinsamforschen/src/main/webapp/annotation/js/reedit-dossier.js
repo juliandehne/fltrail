@@ -1,12 +1,14 @@
 let groupId = 0;
 let fullSubmissionId = "";
-let contributionCategory;
+let fileRole;
+let projectName;
 $(document).ready(function () {
+    projectName = $('#projectName').text().trim();
     getMyGroupId(function (groupId) {
         getFullSubmissionOfGroup(groupId, 1)
     });
     let contribution = getQueryVariable("contribution");
-    $('#contributionCategory').html(contribution[0] + contribution.substring(1, contribution.length).toLowerCase());
+    $('#fileRole').html(contribution[0] + contribution.substring(1, contribution.length).toLowerCase());
     $('#finalize').on("click", function () {
         let content = quill.getContents();
         let html = quill.root.innerHTML;
@@ -16,8 +18,8 @@ $(document).ready(function () {
             groupId: groupId,
             text: JSON.stringify(content),
             html: html,
-            projectName: $('#projectName').text().trim(),
-            contributionCategory: contribution.toUpperCase(),
+            projectName: projectName,
+            fileRole: contribution.toUpperCase(),
             visibility: 'GROUP'
         };
         updateFullSubmission(fullSubmissionPostRequest, true, function () {
@@ -39,7 +41,7 @@ $(document).ready(function () {
                 text: JSON.stringify(content),
                 html: html,
                 projectName: $('#projectName').text().trim(),
-                contributionCategory: contribution.toUpperCase(),
+                fileRole: contribution.toUpperCase(),
                 visibility: 'GROUP'
             };
 

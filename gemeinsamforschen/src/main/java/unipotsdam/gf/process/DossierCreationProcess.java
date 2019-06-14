@@ -3,7 +3,6 @@ package unipotsdam.gf.process;
 import com.itextpdf.text.DocumentException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import unipotsdam.gf.interfaces.Feedback;
-import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.fileManagement.FileType;
@@ -93,7 +92,7 @@ public class DossierCreationProcess {
 
     public FullSubmission updateSubmission(FullSubmissionPostRequest fullSubmissionPostRequest,
                                            User user, Project project, Boolean finalize) throws IOException, DocumentException {
-        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName(fullSubmissionPostRequest.getContributionCategory() + "_" + user.getEmail() + ".pdf");
+        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName(fullSubmissionPostRequest.getFileRole() + "_" + user.getEmail() + ".pdf");
         fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
                 FileRole.DOSSIER, FileType.HTML);
 
@@ -178,10 +177,10 @@ public class DossierCreationProcess {
     }
 
     public void createReeditDossierTask(Project project, Integer groupId) {
-        String submissionId = submissionController.getFullSubmissionId(groupId, project, ContributionCategory.DOSSIER);
+        String submissionId = submissionController.getFullSubmissionId(groupId, project, FileRole.DOSSIER);
         FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
         FullSubmissionPostRequest fspr = new FullSubmissionPostRequest();
-        fspr.setContributionCategory(fullSubmission.getContributionCategory());
+        fspr.setFileRole(fullSubmission.getFileRole());
         fspr.setText(fullSubmission.getText());
         fspr.setProjectName(project.getName());
         fspr.setGroupdId(groupId);
