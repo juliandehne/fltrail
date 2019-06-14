@@ -1,10 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
-import unipotsdam.gf.modules.assessment.controller.model.Categories;
-import unipotsdam.gf.modules.assessment.controller.model.Contribution;
-import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
+import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -172,34 +168,6 @@ public class AssessmentDBCommunication {
                 fromStudent, workRating.get("responsibility"), workRating.get("partOfWork"),
                 workRating.get("cooperation"), workRating.get("communication"), workRating.get("autonomous"));
         connect.close();
-    }
-
-    Integer getWhichGroupToRate(Project project, User user) {
-        Integer result;
-        List<Integer> groups= new ArrayList<>();
-        connect.connect();
-        String mysqlRequest1 = "SELECT groupId FROM `groupuser` gu JOIN groups g on " +
-                "gu.groupid=g.id AND g.projectName=? WHERE `userEmail`=?";
-        VereinfachtesResultSet vereinfachtesResultSet1 =
-                connect.issueSelectStatement(mysqlRequest1, project.getName(), user.getEmail());
-        vereinfachtesResultSet1.next();
-        Integer groupId = vereinfachtesResultSet1.getInt("groupId");
-
-        String mysqlRequest2 = "SELECT DISTINCT id FROM `groups` WHERE `projectName`=? ";
-        VereinfachtesResultSet vereinfachtesResultSet2 =
-                connect.issueSelectStatement(mysqlRequest2, project.getName());
-        boolean next = vereinfachtesResultSet2.next();
-        while (next) {
-            groups.add(vereinfachtesResultSet2.getInt("id"));
-            next = vereinfachtesResultSet2.next();
-        }
-        if (groups.indexOf(groupId)+1 == groups.size()){
-            result = groups.get(0);
-        }else{
-            result = groups.get(groups.indexOf(groupId)+1);
-        }
-        connect.close();
-        return result;
     }
 
     void writeContributionRatingToDB(Project project, String groupId, String fromStudent, Map<ContributionCategory, Integer> contributionRating) {
