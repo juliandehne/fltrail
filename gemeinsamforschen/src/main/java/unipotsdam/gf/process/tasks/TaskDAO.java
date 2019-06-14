@@ -325,7 +325,7 @@ public class TaskDAO {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setHasRenderModel(true);
                 // get Progress from peer assessment
-                task.setTaskData(assessmentDAO.getProgress());
+                task.setTaskData(assessmentDAO.getProgress(new Project(task.getProjectName())));
                 result = task;
                 break;
             }

@@ -11,11 +11,6 @@ $(document).ready(function () {
     groupViewLink.on('click', function () {
         location.href = "../groupfinding/view-groups.jsp?projectName=" + projectName;
     });
-    /**
-     * TODO refactor remove all the inline js and group it like this leading
-     *
-     */
-
 });
 
 function fillTasks(projectName, userEmail) {

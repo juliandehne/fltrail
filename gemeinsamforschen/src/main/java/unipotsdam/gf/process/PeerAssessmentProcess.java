@@ -75,6 +75,11 @@ public class PeerAssessmentProcess {
 
     }
 
+    public void startGrading(Project project) {
+        // TODO implement
+        System.out.println("grading tihs project now:" + project);
+    }
+
     /**
      * IF WE GET TO THE PEER ASSESSMENT PHASE NATURALLY (NOT VIA DIRECT LINK AFTER GROUP FORMATION)
      * COMMENT THE FUNCTIONS IN THAT ARE NEEDED

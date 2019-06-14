@@ -61,13 +61,21 @@
                                        {{if taskData.numberOfGroupsWithoutPresentation > 0 }}
                                         Es haben noch ${taskData.numberOfGroupsWithoutPresentation} Gruppen keine Präsentation hochgeladen.
                                        {{/if}}
+                                        {{if taskData.numberOfGroupReportsMissing > 0 }}
+                                        Es haben noch ${taskData.numberOfGroupReportsMissing} Gruppen keine finale Abgabe hochgeladen.
+                                       {{/if}}
+                                        <button id='startGradingButton' onClick="startGrading(getProjectName());">Bewertung abschließen</button>
+                                    </div>
+                                {{/if}}
+                                 {{if inCardSolver=="WAIT_FOR_GRADING"}}
+                                    <div class="inCardSolver">
                                         {{if taskData.numberOfGroupsWithoutExternalAssessment > 0 }}
                                         ${taskData.numberOfGroupsWithoutExternalAssessment} Gruppen haben keine Bewertung durch Peers bekommen.
                                         {{/if}}
                                         {{if taskData.numberOfStudentsWithoutInternalAsssessment > 0 }}
                                         ${taskData.numberOfStudentsWithoutInternalAsssessment} Studierende haben noch keine Bewertung der Gruppe bekommen.
                                         {{/if}}
-                                        <button id='startGradingButton' onClick="startGrading(getProjectName());">Bewertung abschließen</button>
+                                        <button id='startGradingButton' onClick="startDocentGrading(getProjectName());">Bewertung abschließen</button>
                                     </div>
                                 {{/if}}
                            {{/if}}
