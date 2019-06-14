@@ -5,9 +5,9 @@
 <%--<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>--%>
 <%
     TagUtilities tu = new TagUtilities();
-    String contributionCategory = tu.getParamterFromQuery("contributionCategory", request);
-    if (contributionCategory == null) {
-        contributionCategory = "Unbekannt";
+    String fileRole = tu.getParamterFromQuery("fileRole", request);
+    if (fileRole == null) {
+        fileRole = "Unbekannt";
     }
     String personalString = tu.getParamterFromQuery("personal", request);
     if (Strings.isNullOrEmpty(personalString)) {
@@ -61,7 +61,7 @@
                 <script id="visibilityTemplate" type="text/x-jsrender">
                     <div></div>
                     <h2>{{:header}} anlegen</h2>
-                    {{if contributionCategory == "Portfolio"}}
+                    {{if fileRole == "Portfolio"}}
                         <div class="dropdown">
                             <button class="dropbtn btn btn-primary" onclick="dropDownClick()">Sichtbarkeit: {{:currentVisibility.buttonText}}
                                 <i class="fa fa-caret-down"></i>
@@ -111,7 +111,7 @@
         <jsp:param name="readOnly" value="false"/>
     </jsp:include>
 
-    <p id="contributionCategory" hidden><%= tu.printMe(contributionCategory)%>
+        <p id="fileRole" hidden><%= tu.printMe(fileRole)%>
     <p id="personal" hidden><%= tu.printMe(personalString)%>
 </body>
 

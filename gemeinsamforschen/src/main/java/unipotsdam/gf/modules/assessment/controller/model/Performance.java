@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
+import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 
@@ -40,16 +41,14 @@ public class Performance {
     }
 
 
-    public Performance(Project project, User user, List<Integer> quizAnswer, Map<String, Double> workRating, Map<ContributionCategory, Double> contributionRating) {
+    private Map<FileRole, Double> contributionRating;
+
+    public Performance(Project project, User user, List<Integer> quizAnswer, Map<String, Double> workRating, Map<FileRole, Double> contributionRating) {
         this.project = project;
         this.user = user;
         this.quizAnswer = quizAnswer;
         this.workRating = workRating;
         this.contributionRating = contributionRating;
-    }
-
-    public Map<ContributionCategory, Double> getContributionRating() {
-        return contributionRating;
     }
 
     @Override
@@ -67,10 +66,12 @@ public class Performance {
     private User user;
     private List<Integer> quizAnswer;
     private Map<String, Double> workRating;
-    private Map<ContributionCategory, Double> contributionRating;
 
+    public Map<FileRole, Double> getContributionRating() {
+        return contributionRating;
+    }
 
-    public void setContributionRating(Map<ContributionCategory, Double> contributionRating) {
+    public void setContributionRating(Map<FileRole, Double> contributionRating) {
         this.contributionRating = contributionRating;
     }
 

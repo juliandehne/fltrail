@@ -2,7 +2,7 @@
  * This function will fire when the DOM is ready
  */
 let groupId = 0;
-let contributionCategory;
+let fileRole;
 let hierarchyLevel;
 let fullSubmissionId = "";
 let personal;
@@ -10,7 +10,7 @@ let currentVisibility;
 let possibleVisibilities = [];
 
 $(document).ready(function () {
-    contributionCategory = $('#contributionCategory').html().trim();
+    fileRole = $('#fileRole').html().trim();
     setupPageContent();
     if (!personal) {
         getMyGroupId(function (groupId) {
@@ -34,7 +34,7 @@ $(document).ready(function () {
                     html: html,
                     projectName: $('#projectName').text().trim(),
                     personal: personal,
-                    contributionCategory: contributionCategory.toUpperCase(),
+                    fileRole: fileRole.toUpperCase(),
                     visibility: currentVisibility.name
                 };
 
@@ -95,8 +95,8 @@ function setupPageContent() {
 
 function populateTextFields() {
     let data = {};
-    data.header = contributionCategory === "Portfolio" ? "Portfolio-Eintrag" : contributionCategory;
-    data.contributionCategory = contributionCategory;
+    data.header = fileRole === "Portfolio" ? "Portfolio-Eintrag" : fileRole;
+    data.fileRole = fileRole;
     data.possibleVisibilities = Object.values(possibleVisibilities);
     data.currentVisibility = currentVisibility;
     let tmpl = $.templates("#visibilityTemplate");
@@ -123,7 +123,7 @@ function dropDownClick() {
 
 // close dropdown after clicking
 window.onclick = function (e) {
-    if (contributionCategory === 'Portfolio') {
+    if (fileRole === 'Portfolio') {
         if (!e.target.matches('.dropbtn') && !e.target.matches('.fa-caret-down')) {
             var myDropdown = document.getElementById("myDropdown");
             if (myDropdown.classList.contains('show')) {

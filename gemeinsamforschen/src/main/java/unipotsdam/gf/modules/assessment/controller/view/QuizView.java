@@ -1,13 +1,13 @@
 package unipotsdam.gf.modules.assessment.controller.view;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
 import unipotsdam.gf.modules.assessment.controller.model.Quiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -143,7 +143,7 @@ public class QuizView {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/contributionRating/project/{projectName}/group/{groupId}/fromPeer/{fromPeer}")
-    public void postContributionRating(Map<ContributionCategory, Integer> contributionRatings,
+    public void postContributionRating(Map<FileRole, Integer> contributionRatings,
                                        @PathParam("groupId") String groupId,
                                        @PathParam("projectName") String projectName,
                                        @PathParam("fromPeer") String fromPeer) {
@@ -270,12 +270,12 @@ public class QuizView {
         work2.put("cooperation", 5.);
         work2.put("communication", 3.);
         work2.put("autonomous", 4.);
-        Map<ContributionCategory, Double> contribution1 = new HashMap<>();
-        contribution1.put(ContributionCategory.DOSSIER, 4.);
-        contribution1.put(ContributionCategory.PORTFOLIO, 4.);
-        Map<ContributionCategory, Double> contribution2 = new HashMap<>();
-        contribution2.put(ContributionCategory.DOSSIER, 2.);
-        contribution2.put(ContributionCategory.PORTFOLIO, 3.);
+        Map<FileRole, Double> contribution1 = new HashMap<>();
+        contribution1.put(FileRole.DOSSIER, 4.);
+        contribution1.put(FileRole.PORTFOLIO, 4.);
+        Map<FileRole, Double> contribution2 = new HashMap<>();
+        contribution2.put(FileRole.DOSSIER, 2.);
+        contribution2.put(FileRole.PORTFOLIO, 3.);
         Performance pf = new Performance();
         pf.setContributionRating(contribution1);
         pf.setQuizAnswer(quiz);

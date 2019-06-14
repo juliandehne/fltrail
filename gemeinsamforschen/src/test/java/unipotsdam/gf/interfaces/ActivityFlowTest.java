@@ -17,76 +17,55 @@ import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.group.GroupfindingCriteria;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectConfiguration;
+import unipotsdam.gf.modules.researchreport.ResearchReport;
+import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.Task;
 import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.group.GroupFormationMechanism;
-import unipotsdam.gf.modules.group.GroupfindingCriteria;
-import unipotsdam.gf.modules.journal.model.Journal;
-import unipotsdam.gf.modules.annotation.model.Category;
-import unipotsdam.gf.modules.researchreport.ResearchReport;
-import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 
 import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertTrue;
 
 
 @RunWith(MockitoJUnitRunner.class)
 public class ActivityFlowTest {
 
+    private final ArrayList<User> students = new ArrayList<>();
+    private final Project project = factory.manufacturePojo(Project.class);
     /**
      * Utility to creaty dummy data for students
      */
     PodamFactory factory = new PodamFactoryImpl();
-
-    @Inject
-    Management management;
-
-    @Inject
-    ResearchReportManagement researchReportManagement;
-
-    @Inject
-    IPhases phases;
-
-    @Inject
-    IGroupFinding groupFinding;
-
-    @Inject
-    ICommunication iCommunication;
-
-    @Inject
-    IJournal iJournal;
-
-    @Inject
-    TaskDAO taskDAO;
-
-    @Inject
-    private ConstraintsImpl constraints;
-
-    @Inject
-    IPeerAssessment iPeerAssessment;
-
-
-    private final Project project = factory.manufacturePojo(Project.class);
-    private final ArrayList<User> students = new ArrayList<>();
-    private final User teacher = factory.manufacturePojo(User.class);
-
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
-
-
+    private final User teacher = factory.manufacturePojo(User.class);
+    @Inject
+    Management management;
+    @Inject
+    ResearchReportManagement researchReportManagement;
+    @Inject
+    IPhases phases;
+    @Inject
+    IGroupFinding groupFinding;
+    @Inject
+    ICommunication iCommunication;
+    @Inject
+    TaskDAO taskDAO;
+    @Inject
+    IPeerAssessment iPeerAssessment;
+    @Inject
+    private ConstraintsImpl constraints;
 
     @Before
     public void setUp() {
@@ -124,13 +103,9 @@ public class ActivityFlowTest {
         // end first phase
         phases.endPhase(Phase.DossierFeedback, project);
 
-        // updateForUser reflections
-        uploadReflections();
-
         // end execution phase
         phases.endPhase(Phase.Execution, project);
     }
-
 
 
     public void formGroups() {
@@ -151,42 +126,12 @@ public class ActivityFlowTest {
 
 
     public void loginStudents() {
-        for (int i=0;i<100;i++) {
+        for (int i = 0; i < 100; i++) {
             User student = factory.manufacturePojo(User.class);
             student.setStudent(true);
             students.add(student);
             management.create(student);
         }
-    }
-
-    public void uploadReflections() {
-        // updateForUser single reflection
-        Journal journalEntry = factory.manufacturePojo(Journal.class);
-
-        for (User student : students) {
-            iJournal.uploadJournalEntry(journalEntry, student);
-        }
-
-
-        // create quiz TODO@Axel this should be a quiz dependend on the student for easier initialization and
-        // de-coupling
-        //StudentAndQuiz studentAndQuiz = factory.manufacturePojo(StudentAndQuiz.class);
-        //QuizAnswer quizAnswer = factory.manufacturePojo(QuizAnswer.class);
-        //iPeerAssessment.createQuiz(studentAndQuiz);
-        //iPeerAssessment.answerQuiz(studentAndQuiz, quizAnswer);
-
-        // finales Portfolio zusammenstellen
-        java.util.List<Journal> journalEntries = new ArrayList<Journal>();
-        journalEntries.add(journalEntry);
-
-        ResearchReport finalResearchReport = factory.manufacturePojo(ResearchReport.class);
-        File presentation = new File("dummy.pptx");
-
-        for (User student : students) {
-            iJournal.uploadFinalPortfolio(project,journalEntries, finalResearchReport, presentation, student);
-        }
-        assertNotNull(true);
-
     }
 
     public void uploadDossiers() throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {

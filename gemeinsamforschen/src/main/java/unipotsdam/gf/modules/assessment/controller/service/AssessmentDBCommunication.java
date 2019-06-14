@@ -1,5 +1,10 @@
 package unipotsdam.gf.modules.assessment.controller.service;
 
+import unipotsdam.gf.modules.assessment.controller.model.Categories;
+import unipotsdam.gf.modules.assessment.controller.model.Contribution;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
+import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
@@ -94,15 +99,15 @@ public class AssessmentDBCommunication {
         return result;
     }
 
-    ArrayList<Map<ContributionCategory, Double>> getContributionRating(Integer groupId) {
-        ArrayList<Map<ContributionCategory, Double>> result = new ArrayList<>();
+    ArrayList<Map<FileRole, Double>> getContributionRating(Integer groupId) {
+        ArrayList<Map<FileRole, Double>> result = new ArrayList<>();
         connect.connect();
         String mysqlRequest = "SELECT * FROM `contributionrating` WHERE `groupId`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, groupId);
         boolean next = vereinfachtesResultSet.next();
         while (next) {
-            Map<ContributionCategory, Double> contributionRating = new HashMap<>();
-            for (ContributionCategory category : ContributionCategory.values()) {
+            Map<FileRole, Double> contributionRating = new HashMap<>();
+            for (FileRole category : FileRole.values()) {
                 contributionRating.put(category, (double) vereinfachtesResultSet.getInt(category.toString()));
             }
             result.add(contributionRating);
@@ -170,9 +175,9 @@ public class AssessmentDBCommunication {
         connect.close();
     }
 
-    void writeContributionRatingToDB(Project project, String groupId, String fromStudent, Map<ContributionCategory, Integer> contributionRating) {
+    void writeContributionRatingToDB(Project project, String groupId, String fromStudent, Map<FileRole, Integer> contributionRating) {
         connect.connect();
-        for (ContributionCategory contribution : contributionRating.keySet()) {
+        for (FileRole contribution : contributionRating.keySet()) {
             String mysqlRequest =
                     "INSERT INTO `contributionrating`(`projectName`, `groupId`, `fromPeer`, `contributionrole`, `rating`)" +
                             " VALUES (?,?,?,?,?)";
@@ -273,7 +278,7 @@ public class AssessmentDBCommunication {
         }
     }
 
-    public Contribution getContribution(Project project, Integer groupId, ContributionCategory role) {
+    public Contribution getContribution(Project project, Integer groupId, FileRole role) {
         connect.connect();
         String sqlStatement =
                 "SELECT * FROM `largefilestorage` lfs JOIN groupuser gu on gu.groupId=? AND gu.userEmail=lfs.userEmail WHERE lfs.projectName=? AND lfs.filerole=?;";

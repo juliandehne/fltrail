@@ -1,8 +1,10 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
+import unipotsdam.gf.modules.fileManagement.FileRole;
+
 public class FullContribution extends Contribution{
 
-    private ContributionCategory roleOfContribution;
+    private FileRole roleOfContribution;
     private String textOfContribution;
 
     public FullContribution() {
@@ -16,12 +18,12 @@ public class FullContribution extends Contribution{
                 '}';
     }
 
-    public FullContribution(ContributionCategory roleOfContribution, String textOfContribution) {
+    public FullContribution(FileRole roleOfContribution, String textOfContribution) {
         this.roleOfContribution = roleOfContribution;
         this.textOfContribution = textOfContribution;
     }
 
-    public FullContribution(String pathToFile, String nameOfFile, ContributionCategory roleOfContribution, String textOfContribution) {
+    public FullContribution(String pathToFile, String nameOfFile, FileRole roleOfContribution, String textOfContribution) {
         super(pathToFile, nameOfFile);
         this.roleOfContribution = roleOfContribution;
         this.textOfContribution = textOfContribution;
@@ -35,11 +37,11 @@ public class FullContribution extends Contribution{
         this.textOfContribution = textOfContribution;
     }
 
-    public ContributionCategory getRoleOfContribution() {
+    public FileRole getRoleOfContribution() {
         return roleOfContribution;
     }
 
-    public void setRoleOfContribution(ContributionCategory roleOfContribution) {
+    public void setRoleOfContribution(FileRole roleOfContribution) {
         this.roleOfContribution = roleOfContribution;
     }
 }

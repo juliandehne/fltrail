@@ -25,18 +25,21 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.PeerAssessmentProcess;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -99,10 +102,9 @@ public class FileManagementService {
     }
 
     public void saveStringAsPDF(User user, Project project, FullSubmissionPostRequest fullSubmissionPostRequest) throws IOException, DocumentException {
-        String fileName = fullSubmissionPostRequest.getContributionCategory() + "_" + user.getEmail() + ".pdf";
-        String categoryString = fullSubmissionPostRequest.getContributionCategory().toString();
+        String fileName = fullSubmissionPostRequest.getFileRole() + "_" + user.getEmail() + ".pdf";
+        String categoryString = fullSubmissionPostRequest.getFileRole().toString();
         FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name(categoryString).fileName(fileName);
-        // TODO: merge FileRole with ContributionCategory?
         saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(), FileRole.DOSSIER, FileType.HTML);
     }
 
