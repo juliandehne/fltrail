@@ -3,7 +3,6 @@ package unipotsdam.gf.process.tasks;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
 import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
@@ -121,15 +120,57 @@ public class TaskDAO {
         return task;
     }
 
-    public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase) {
+    public Task getTaskByProjectNameAndUserEmailAndTaskNameAndPhase(Project project, User user, TaskName taskName, Phase phase) {
+        connect.connect();
+
+        String query = "Select * from tasks where userEmail = ? and projectName = ? and phase = ? and taskName = ?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(query, user.getEmail(), project.getName(), phase.name(), taskName.name());
+        Task task = null;
+        if (resultSet.next()) {
+            task = getGeneralTask(resultSet);
+        }
+        connect.close();
+        return task;
+    }
+
+    public List<Task> getTaskOfGroupsByProjectNameAndTaskNameAndPhase(Project project, TaskName taskName, Phase phase) {
+        connect.connect();
+        String query = "Select * from tasks where groupTask != 0 and projectName = ? and phase = ? and taskName = ?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(query, project.getName(), phase.name(), taskName.name());
+        ArrayList<Task> groupsTask = null;
+
+        while (resultSet.next()) {
+            if (groupsTask == null) {
+                groupsTask = new ArrayList<>();
+            }
+            groupsTask.add(getGeneralTask(resultSet));
+        }
+        connect.close();
+        return groupsTask;
+    }
+
+    /**
+     * TODO  refactor reduce overloading by introducing
+     * @param project
+     * @param target
+     * @param taskName
+     * @param phase
+     * @return
+     */
+    private Task createUserDefault(Project project, User target, TaskName taskName, Phase phase) {
         return createUserDefault(project, target, taskName, phase, Importance.MEDIUM);
     }
 
-    public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase, Importance importance) {
+    public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase, Progress progress) {
+        return createUserDefault(project, target, taskName, phase, Importance.MEDIUM, progress);
+    }
+
+    private Task createUserDefault(Project project, User target, TaskName taskName, Phase phase, Importance importance) {
         return createUserDefault(project, target, taskName, phase, importance, Progress.JUSTSTARTED);
     }
 
-    public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase, Importance importance, Progress progress) {
+    private Task createUserDefault(
+            Project project, User target, TaskName taskName, Phase phase, Importance importance, Progress progress) {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
@@ -151,20 +192,19 @@ public class TaskDAO {
         return task;
     }
 
-    private Task createGroupDefault(Project project, Integer groupId, TaskName taskName, Phase phase) {
-        Task task = new Task();
-        task.setTaskName(taskName);
-        task.setEventCreated(System.currentTimeMillis());
-        task.setDeadline(System.currentTimeMillis() + 7000 * 60 * 60 * 24);
-        task.setProjectName(project.getName());
-        task.setUserEmail("");
-        task.setImportance(Importance.MEDIUM);
-        task.setProgress(Progress.JUSTSTARTED);
-        task.setGroupTask(groupId);
-        task.setTaskName(taskName);
-        task.setPhase(phase);
-        task.setTaskType(TaskType.INFO, TaskType.LINKED);
-        return task;
+    private GroupTask createGroupDefault(Project project, Integer groupId, TaskName taskName, Phase phase) {
+        return createGroupTask(project, groupId, taskName, phase, Progress.JUSTSTARTED);
+    }
+
+    public GroupTask createGroupTask(Project project, Integer groupId, TaskName taskName, Phase phase, Progress progress) {
+        GroupTask groupTask = new GroupTask(taskName, groupId, progress, project);
+        groupTask.setEventCreated(System.currentTimeMillis());
+        groupTask.setDeadline(System.currentTimeMillis() + 7000 * 60 * 60 * 24);
+        groupTask.setUserEmail("");
+        groupTask.setImportance(Importance.MEDIUM);
+        groupTask.setPhase(phase);
+        groupTask.setTaskType(TaskType.INFO, TaskType.LINKED);
+        return groupTask;
     }
 
     public void persist(Task task) {
@@ -398,14 +438,13 @@ public class TaskDAO {
         persist(task);
     }
 
-    public Task createWaitingForGroupFormationTask(Project project, User target) {
+    public void createWaitingForGroupFormationTask(Project project, User target) {
         Task task = createUserDefault(project, target, WAITING_FOR_GROUP, Phase.GroupFormation);
         task.setTaskType(TaskType.INFO);
         task.setImportance(Importance.MEDIUM);
         task.setProgress(Progress.JUSTSTARTED);
 
         persist(task);
-        return task;
     }
 
     public void updateForUser(Task task) {
@@ -451,7 +490,7 @@ public class TaskDAO {
     }
 
     public void persistMemberTask(Project project, TaskName taskName, Phase phase) {
-        java.util.List<User> members = userDAO.getUsersByProjectName(project.getName());
+        List<User> members = userDAO.getUsersByProjectName(project.getName());
         for (User member : members) {
             persist(project, member, taskName, phase);
         }
@@ -473,8 +512,8 @@ public class TaskDAO {
         persist(project, groupId, taskName, phase, TaskType.LINKED);
     }
 
-    public void persist(Project project, Integer groupId, TaskName finalizeDossier, Phase phase, TaskType linked) {
-        Task task = createGroupDefault(project, groupId, finalizeDossier, phase);
+    public void persist(Project project, Integer groupId, TaskName taskName, Phase phase, TaskType linked) {
+        Task task = createGroupDefault(project, groupId, taskName, phase);
         task.setTaskType(linked);
         persist(task);
     }

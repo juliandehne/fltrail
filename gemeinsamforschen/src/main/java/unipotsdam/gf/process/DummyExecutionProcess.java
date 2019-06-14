@@ -26,7 +26,7 @@ public class DummyExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public Boolean isPhaseCompleted(Project project) {
+    public boolean isPhaseCompleted(Project project) {
         return true;
     }
 

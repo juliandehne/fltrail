@@ -4,7 +4,14 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.healthchecks.HealthChecks;
-import unipotsdam.gf.interfaces.*;
+import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.interfaces.IContributionFeedback;
+import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.interfaces.IJournal;
+import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.interfaces.IReflexionService;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
@@ -18,7 +25,11 @@ import unipotsdam.gf.modules.contributionFeedback.service.ContributionFeedbackDA
 import unipotsdam.gf.modules.contributionFeedback.service.ContributionFeedbackService;
 import unipotsdam.gf.modules.fileManagement.FileManagementDAO;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
-import unipotsdam.gf.modules.group.*;
+import unipotsdam.gf.modules.group.BigGroupMatcher;
+import unipotsdam.gf.modules.group.GroupDAO;
+import unipotsdam.gf.modules.group.GroupFormationFactory;
+import unipotsdam.gf.modules.group.GroupfindingImpl;
+import unipotsdam.gf.modules.group.SingleGroupMatcher;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.groupal.PGroupAlMatcher;
@@ -29,14 +40,21 @@ import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.reflection.service.ReflectionService;
+import unipotsdam.gf.modules.reflection.service.ReflexionService;
 import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
-import unipotsdam.gf.process.*;
+import unipotsdam.gf.process.DossierCreationProcess;
+import unipotsdam.gf.process.DummyExecutionProcess;
+import unipotsdam.gf.process.GroupFormationProcess;
+import unipotsdam.gf.process.IExecutionProcess;
+import unipotsdam.gf.process.PeerAssessmentProcess;
+import unipotsdam.gf.process.ProjectCreationProcess;
+import unipotsdam.gf.process.ReflexionProcess;
+import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.TaskDAO;
@@ -100,9 +118,10 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(FileManagementService.class).to(FileManagementService.class);
         bind(FileManagementDAO.class).to(FileManagementDAO.class);
         bind(AssessmentDAO.class).to(AssessmentDAO.class);
+        bind(ReflexionProcess.class).to(ReflexionProcess.class);
 
-        /**
-         * @Martin comment in for your development
+        /*
+         * TODO: @Martin comment in for your development
          */
         bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
         //bind(ExecutionProcess.class).to(IExecutionProcess.class);
@@ -116,6 +135,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(UnirestService.class).to(UnirestService.class);
         bind(ContributionFeedbackService.class).to(IContributionFeedback.class);
         bind(ContributionFeedbackDAO.class).to(ContributionFeedbackDAO.class);
-        bind(ReflectionService.class).to(IReflectionService.class);
+        bind(ReflexionService.class).to(IReflexionService.class);
     }
 }

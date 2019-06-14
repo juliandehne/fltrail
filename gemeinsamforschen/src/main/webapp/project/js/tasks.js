@@ -303,7 +303,6 @@ function handleLinkedTasks(object, result) {
                     "projectName=" + object.projectName+"\')";
 
                 break;
-
             case "OPTIONAL_PORTFOLIO_ENTRY":
                 result.solveTaskWith = "Erstelle einen Portfolio-Eintrag (optional)";
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
@@ -312,6 +311,14 @@ function handleLinkedTasks(object, result) {
                     personal: "true"
                 }) + "\')";
                 break;
+           /* case "GIVE_ASSESSMENT":
+                result.solveTaskWith = "Bewerten";
+                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
+                    projectName: object.projectName,
+                    contributionCategory: "Portfolio",
+                    personal: "true"
+                }) + "\')";
+                break;*/
             default:
                 result.solveTaskWith = null;
 

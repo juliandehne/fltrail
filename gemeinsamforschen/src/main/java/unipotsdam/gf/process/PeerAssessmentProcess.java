@@ -67,17 +67,23 @@ public class PeerAssessmentProcess {
                 new GroupTask(TaskName.UPLOAD_FINAL_REPORT, groupByStudent, Progress.FINISHED, project));
         // set new tasks
 
-        // check if all the groups have finished uploads and stuff TODO
-
-        // set assessment tasks for group
-        taskDAO.persistTaskForAllGroups(project, TaskName.GIVE_ASSESSMENT, Phase.Assessment);
-        // set assessment tasks for docent TODO
 
     }
 
+    /**
+     *
+     * @param project
+     */
     public void startGrading(Project project) {
         // TODO implement
-        System.out.println("grading tihs project now:" + project);
+        //System.out.println("grading tihs project now:" + project);
+
+        // set assessment tasks for students
+        taskDAO.persistMemberTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT, Phase.Assessment);
+        taskDAO.persistMemberTask(project, TaskName.GIVE_INTERNAL_ASSESSMENT, Phase.Assessment);
+
+        // set assessment tasks for docent TODO
+        
     }
 
     /**

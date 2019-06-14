@@ -4,7 +4,7 @@ import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.process.phases.Phase;
 
-public interface IReflectionService {
+public interface IReflexionService {
 
     void startOptionalPortfolioTask(Project project, Group group, Phase phase);
 

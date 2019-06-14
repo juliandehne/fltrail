@@ -3,7 +3,6 @@ package unipotsdam.gf.process;
 import com.itextpdf.text.DocumentException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import unipotsdam.gf.interfaces.Feedback;
-import unipotsdam.gf.interfaces.IReflectionService;
 import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -19,7 +18,11 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.*;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.process.tasks.TaskType;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -52,7 +55,7 @@ public class DossierCreationProcess {
     private GroupDAO groupDAO;
 
     @Inject
-    private IReflectionService reflectionService;
+    private ReflexionProcess reflexionProcess;
 
 
     /**
@@ -85,8 +88,7 @@ public class DossierCreationProcess {
         taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
 
         Group group = groupDAO.getMyGroup(user, project);
-        reflectionService.startOptionalPortfolioTask(project, group, Phase.DossierFeedback);
-
+        reflexionProcess.startOptionalEPortfolioEntryTask(project, group);
     }
 
     public FullSubmission updateSubmission(FullSubmissionPostRequest fullSubmissionPostRequest,
@@ -152,7 +154,7 @@ public class DossierCreationProcess {
         task.setProgress(Progress.FINISHED);
         task.setTaskName(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
         taskDAO.updateForUser(task);
-        taskDAO.persist(taskDAO.createUserDefault(project, user, TaskName.WAIT_FOR_REFLECTION, Phase.Execution));
+
         //todo: implement communication stuff
         /*   if (tasks.size() > 0) {
          iCommunication.informAboutMissingTasks(tasks, project);

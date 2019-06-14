@@ -40,6 +40,7 @@
     <!-- jsrender -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
 
+
 </head>
 
 <body>
@@ -47,7 +48,7 @@
     <jsp:include page="../taglibs/Menu.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
-    <
+
     <!-- back-->
     <div class="backlink">
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
@@ -56,15 +57,36 @@
     <main>
         <div class="row group">
             <div class="col span_content span_l_of_2">
-                <div id="result"></div>
-                <script id="headerTemplate" type="text/x-jsrender">
+                <div id="templateResult"></div>
+                <script id="visibilityTemplate" type="text/x-jsrender">
+                    <div></div>
                     <h2>{{:header}} anlegen</h2>
+                    {{if contributionCategory == "Portfolio"}}
+                        <div class="dropdown">
+                            <button class="dropbtn btn btn-primary" onclick="dropDownClick()">Sichtbarkeit: {{:currentVisibility.buttonText}}
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                            <div class="dropdown-content" id="myDropdown">
+                                {{for possibleVisibilities}}
+                                    <a id={{:name}} onclick='visibilityDropDownClicked("{{:name}}")'>{{:buttonText}}</a>
+                                {{/for}}
+                            </div>
+                        </div>
+                    {{/if}}
                 </script>
+
+                <br>
                 <div class="upload-text" id="documentText">
                     <label for="editor">Texteingabe</label>
                     <div id="editor"></div>
                 </div>
 
+                <div class="document-text-buttons">
+                    <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
+                    </button>--%>
+                    <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">Speichern
+                    </button>
+                </div>
                 <!-- Just a dummy so far -->
                 <div class="row">
                     <label>Alternativ bitte Datei wählen
@@ -76,15 +98,8 @@
                 <!-- Just a dummy so far -->
 
             </div>
-            <div class="col span_content span_s_of_2">
-                <div class="document-text-buttons">
-                    <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
-                    </button>--%>
-                    <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">Speichern
-                    </button>
-                </div>
 
-            </div>
+
         <%--    <div class="col span_chat">
                 <chat:chatWindow orientation="right" scope="project"/>
                 <chat:chatWindow orientation="right" scope="group"/>

@@ -21,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,9 +64,6 @@ public class SubmissionService {
 
         if (fullSubmissionPostRequest.isPersonal()) {
             fullSubmissionPostRequest.setUserEMail(userEmail);
-            fullSubmissionPostRequest.setVisibility(Visibility.PERSONAL);
-        } else {
-            fullSubmissionPostRequest.setVisibility(Visibility.GROUP);
         }
 
         final FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
@@ -220,4 +218,15 @@ public class SubmissionService {
         //todo: for every project categories should be selectable
         return Categories.standardAnnotationCategories;
     }
+
+    @GET
+    @Path("/visibilities/personal/{personal}")
+    public Response getPossibleVisibilities(@PathParam("personal") boolean personal) {
+        HashMap<Visibility, String> visibilityButtonTextHashMap = Visibility.toVisibilityButtonTextMap();
+        if (!personal) {
+            visibilityButtonTextHashMap.remove(Visibility.PERSONAL);
+        }
+        return Response.ok(visibilityButtonTextHashMap).build();
+    }
+
 }

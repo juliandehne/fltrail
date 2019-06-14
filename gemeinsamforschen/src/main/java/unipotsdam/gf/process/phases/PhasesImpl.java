@@ -5,7 +5,6 @@ import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.interfaces.IJournal;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
@@ -46,9 +45,6 @@ public class PhasesImpl implements IPhases {
 
     @Inject
     private IExecutionProcess iExecutionProcess;
-
-    @Inject
-    private IJournal iJournal;
 
     @Inject
     private DossierCreationProcess dossierCreationProcess;
@@ -106,10 +102,11 @@ public class PhasesImpl implements IPhases {
                 break;
             case Execution:
                 // check if the portfolios have been prepared for evaluation (relevant entries selected)
-                if (iExecutionProcess.isPhaseCompleted(project)) {
-                    saveState(project, changeToPhase);
-                }
                 iExecutionProcess.finishPhase(project);
+                if (!iExecutionProcess.isPhaseCompleted(project)) {
+                    return;
+                }
+                saveState(project, changeToPhase);
                 peerAssessmentProcess.startPeerAssessmentPhase(project);
                 break;
             case Assessment:

@@ -23,8 +23,13 @@ public class AssessmentDAO {
     @Inject
     private UserDAO userDAO;
 
+    /**
+     * get the progress for the docent so he can assess if he wants to proceed to grading
+     * @param project
+     * @return
+     */
     public AssessmentProgress getProgress(Project project) {
-        AssessmentProgress assessmentProgress =  podamFactory.manufacturePojo(AssessmentProgress.class);
+        AssessmentProgress assessmentProgress =  new AssessmentProgress();
         //assessmentProgress.setNumberOfGroupsWithoutPresentation(3);
 
         int numberOfGroups = groupDAO.getGroupsByProjectName(project.getName()).size();
@@ -39,16 +44,27 @@ public class AssessmentDAO {
         int reportCount = getNumberOfSubmittedFiles(project, fileRole2);
         assessmentProgress.setNumberOfGroupReportsMissing(numberOfGroups - reportCount);
 
+        //
+        assessmentProgress.setNumberOfGroupsWithoutExternalAssessment(numberOfGroups);
+        // Todo IMPLEMENT
+
+        assessmentProgress.setNumberOfStudentsWithoutInternalAsssessment(userDAO.getUsersByProjectName(project
+                .getName()).size());
+        // TODO IMPLEMENT
+
         return assessmentProgress;
     }
 
     public int getNumberOfSubmittedFiles(Project project, String fileRole) {
         int presentationCount;
         connect.connect();
-        String query = "SELECT COUNT(*) from largefilestorage where projectName = ? and fileRole = " +fileRole ;
+        String query = "SELECT COUNT(*) from largefilestorage where projectName = ? and fileRole = '" +fileRole +"'" ;
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
+        if (vereinfachtesResultSet == null) {
+            return  0;
+        }
         vereinfachtesResultSet.next();
-        presentationCount = vereinfachtesResultSet.getInt(0);
+        presentationCount = vereinfachtesResultSet.getInt("COUNT(*)");
         connect.close();
         return presentationCount;
     }

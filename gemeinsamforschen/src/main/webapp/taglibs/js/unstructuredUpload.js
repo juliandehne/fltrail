@@ -6,16 +6,19 @@ let contributionCategory;
 let hierarchyLevel;
 let fullSubmissionId = "";
 let personal;
+let currentVisibility;
+let possibleVisibilities = [];
+
 $(document).ready(function () {
     contributionCategory = $('#contributionCategory').html().trim();
-    setPersonal();
+    setupPageContent();
     if (!personal) {
         getMyGroupId(function (groupId) {
             getFullSubmissionOfGroup(groupId, 0)
         });
     }
     hierarchyLevel = $('#hierarchyLevel').html().trim();
-    populateTextFields();
+
 
     $('#btnSave').click(function () {
 
@@ -31,7 +34,8 @@ $(document).ready(function () {
                     html: html,
                     projectName: $('#projectName').text().trim(),
                     personal: personal,
-                    contributionCategory: contributionCategory.toUpperCase()
+                    contributionCategory: contributionCategory.toUpperCase(),
+                    visibility: currentVisibility.name
                 };
 
                 // save request in database
@@ -72,17 +76,59 @@ $(document).ready(function () {
 });
 
 
-function setPersonal() {
+function setupPageContent() {
     let personalString = $("#personal").html().trim();
     personal = personalString.toUpperCase() === 'TRUE';
+    getVisibilities(function (response) {
+        Object.entries(response).forEach(([name, buttonText]) => {
+            possibleVisibilities[name] = {name: name, buttonText: buttonText};
+        });
+        if (personal === true) {
+            currentVisibility = possibleVisibilities['PERSONAL'];
+        } else {
+            currentVisibility = possibleVisibilities['GROUP'];
+        }
+        populateTextFields();
+    });
 }
+
 
 function populateTextFields() {
     let data = {};
     data.header = contributionCategory === "Portfolio" ? "Portfolio-Eintrag" : contributionCategory;
-    let tmpl = $.templates("#headerTemplate");
-    //tmpl.link("#result");
+    data.contributionCategory = contributionCategory;
+    data.possibleVisibilities = Object.values(possibleVisibilities);
+    data.currentVisibility = currentVisibility;
+    let tmpl = $.templates("#visibilityTemplate");
     let html = tmpl.render(data);
-    $("#result").html(html);
+    $("#templateResult").html(html);
 
 }
+
+function visibilityDropDownClicked(clickedItem) {
+
+    let dropBtn = $('.dropbtn');
+    let oldText = dropBtn.html();
+    let oldVisibility = currentVisibility;
+    currentVisibility = possibleVisibilities[clickedItem];
+    let newText = oldText.replace(oldVisibility.buttonText, currentVisibility.buttonText);
+    dropBtn.html(newText);
+
+}
+
+
+function dropDownClick() {
+    $('#myDropdown').toggleClass('show');
+}
+
+// close dropdown after clicking
+window.onclick = function (e) {
+    if (contributionCategory === 'Portfolio') {
+        if (!e.target.matches('.dropbtn') && !e.target.matches('.fa-caret-down')) {
+            var myDropdown = document.getElementById("myDropdown");
+            if (myDropdown.classList.contains('show')) {
+                myDropdown.classList.remove('show');
+            }
+        }
+    }
+};
