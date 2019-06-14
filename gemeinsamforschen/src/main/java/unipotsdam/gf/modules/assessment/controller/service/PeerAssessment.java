@@ -11,18 +11,16 @@ import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
 import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.assessment.controller.model.*;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
+import unipotsdam.gf.process.tasks.TaskMapping;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PeerAssessment implements IPeerAssessment {
 
@@ -34,6 +32,9 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Inject
     private GroupDAO groupDAO;
+
+    @Inject
+    private TaskMapping taskMapping;
 
     @Inject
     private AnnotationController annotationController;
@@ -123,7 +124,7 @@ public class PeerAssessment implements IPeerAssessment {
         if (answers == null) {
             return "quiz";
         }
-        Integer groupToRate = assessmentDBCommunication.getWhichGroupToRate(project, user);
+        Integer groupToRate = taskMapping.getWhichGroupToRate(project, user);
         if (!assessmentDBCommunication.getContributionRating(groupToRate, user.getEmail())) {
             return "contributionRating";
         }
@@ -353,7 +354,7 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public Integer whichGroupToRate(Project project, User user) {
-        return assessmentDBCommunication.getWhichGroupToRate(project, user);
+        return taskMapping.getWhichGroupToRate(project, user);
     }
 
     @Override

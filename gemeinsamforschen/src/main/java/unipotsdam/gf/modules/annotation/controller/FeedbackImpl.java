@@ -8,9 +8,9 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskMapping;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FeedbackImpl implements Feedback {
@@ -21,6 +21,9 @@ public class FeedbackImpl implements Feedback {
     @Inject
     GroupDAO groupDAO;
 
+    @Inject
+    TaskMapping taskMapping;
+
     @Override
     public void assigningMissingFeedbackTasks(Project project) {
 
@@ -29,7 +32,7 @@ public class FeedbackImpl implements Feedback {
     @Override
     public void specifyFeedbackTasks(List<Task> tasks) {
         for (Task task : tasks) {
-            List<Integer> groupToFeedback = groupToFeedback(tasks, task, 1);
+            List<Integer> groupToFeedback = taskMapping.groupToFeedback(tasks, task, 1);
             for (Integer groupId : groupToFeedback) {
                 connection.connect();
                 String request = "UPDATE `fullsubmissions` SET `feedbackGroup`=? WHERE groupId=? AND projectName=?";
@@ -39,14 +42,6 @@ public class FeedbackImpl implements Feedback {
         }
     }
 
-    private List<Integer> groupToFeedback(List<Task> tasks, Task task, int howMany) {
-        List<Integer> result = new ArrayList<>();
-        int position = tasks.indexOf(task);
-        for (int i = 1; i <= howMany; i++) {
-            result.add(tasks.get((i + position) % tasks.size()).getGroupTask());  //modulo builds a circle in users
-        }
-        return result;
-    }
 
     @Override
     public ResearchReport getFeedbackTask(User student) {
