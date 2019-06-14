@@ -319,6 +319,12 @@ function handleLinkedTasks(object, result) {
                     personal: "true"
                 }) + "\')";
                 break;*/
+            case "GIVE_EXTERNAL_ASSESSMENT":
+                result.solveTaskWith = "Bewerten Sie die Ergebnisse ihrer Kommilitonen!";
+                result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
+                    "projectName=" + object.projectName+"&groupId="+result.taskData.objectGroup.id+"\')";
+
+                break;
             default:
                 result.solveTaskWith = null;
 

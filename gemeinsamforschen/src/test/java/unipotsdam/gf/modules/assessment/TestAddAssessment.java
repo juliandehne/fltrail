@@ -181,12 +181,13 @@ public class TestAddAssessment {
     @Test
     public void quickstartAssessmentPhase() {
 
-
         Project project = new Project("assessmenttest2");
         List<Group> groups = groupFinding.getGroups(project);
         assertFalse(groups.isEmpty());
 
-        peerAssessmentProcess.startPeerAssessmentPhase(project);
+        //peerAssessmentProcess.startPeerAssessmentPhase(project);
+
+        peerAssessmentProcess.startGrading(project);
 
 
     }

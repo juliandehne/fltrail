@@ -108,10 +108,10 @@ public class AnnotationController implements IAnnotation {
                 "AND gu.groupId=? WHERE projectname = ? AND finalized=1;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName());
 
-        if (rs.next()) {
+        if (rs!= null && rs.next()) {
             return rs.getString("text");
         }else{
-            return null;
+            return "random shit";
         }
     }
 

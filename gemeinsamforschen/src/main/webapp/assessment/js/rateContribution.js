@@ -3,17 +3,17 @@ $(document).ready(function () {
     $('#done').hide();
 
 
-    whichGroupToRate(prepareContributionRating);
+    $('#groupId').html(getQueryVariable(groupId));
+    prepareContributionRating();
 
     //editor.style = "min-height: 100px";
-
 
     $('#submit').on('click', function () {
         safeContributionRating();
     });
 });
 
-function whichGroupToRate(callback) {
+/*function whichGroupToRate(callback) {
     let projectName = $('#projectName').html().trim();
     $.ajax({
         url: '../rest/assessments/groupRate/project/' + projectName,
@@ -30,7 +30,7 @@ function whichGroupToRate(callback) {
 
         }
     })
-}
+}*/
 
 function safeContributionRating() {
     let contributions = $('.contributionRating');
@@ -70,7 +70,7 @@ function safeContributionRating() {
 
 function prepareContributionRating() {
     $.ajax({
-        url: '../rest/assessments/contributions/project/' + $('#projectName').html().trim(),
+        url: '../rest/assessments/contributions/project/' + getProjectName(),
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"

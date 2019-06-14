@@ -1,53 +1,63 @@
 package unipotsdam.gf.process.tasks;
 
+import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.mysql.VereinfachtesResultSet;
-
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TaskMapping {
+    private User subject;
+    // object is either a group or a user
+    private Group objectGroup;
+    private User objectUser;
+    private TaskName taskName;
+    private Project project;
 
-    @Inject
-    private MysqlConnect connect;
-
-    public List<Integer> groupToFeedback(List<Task> tasks, Task task, int howMany) {
-        List<Integer> result = new ArrayList<>();
-        int position = tasks.indexOf(task);
-        for (int i = 1; i <= howMany; i++) {
-            result.add(tasks.get((i + position) % tasks.size()).getGroupTask());  //modulo builds a circle in users
-        }
-        return result;
+    public TaskMapping(
+            User subject, Group objectGroup, User objectUser, TaskName taskName, Project project) {
+        this.subject = subject;
+        this.objectGroup = objectGroup;
+        this.objectUser = objectUser;
+        this.taskName = taskName;
+        this.project = project;
     }
 
-    public Integer getWhichGroupToRate(Project project, User user) {
-        Integer result;
-        List<Integer> groups = new ArrayList<>();
-        connect.connect();
-        String mysqlRequest1 = "SELECT groupId FROM `groupuser` gu JOIN groups g on " +
-                "gu.groupid=g.id AND g.projectName=? WHERE `userEmail`=?";
-        VereinfachtesResultSet vereinfachtesResultSet1 =
-                connect.issueSelectStatement(mysqlRequest1, project.getName(), user.getEmail());
-        vereinfachtesResultSet1.next();
-        Integer groupId = vereinfachtesResultSet1.getInt("groupId");
+    public User getSubject() {
+        return subject;
+    }
 
-        String mysqlRequest2 = "SELECT DISTINCT id FROM `groups` WHERE `projectName`=? ";
-        VereinfachtesResultSet vereinfachtesResultSet2 =
-                connect.issueSelectStatement(mysqlRequest2, project.getName());
-        boolean next = vereinfachtesResultSet2.next();
-        while (next) {
-            groups.add(vereinfachtesResultSet2.getInt("id"));
-            next = vereinfachtesResultSet2.next();
-        }
-        if (groups.indexOf(groupId) + 1 == groups.size()) {
-            result = groups.get(0);
-        } else {
-            result = groups.get(groups.indexOf(groupId) + 1);
-        }
-        connect.close();
-        return result;
+    public void setSubject(User subject) {
+        this.subject = subject;
+    }
+
+    public Group getObjectGroup() {
+        return objectGroup;
+    }
+
+    public void setObjectGroup(Group objectGroup) {
+        this.objectGroup = objectGroup;
+    }
+
+    public User getObjectUser() {
+        return objectUser;
+    }
+
+    public void setObjectUser(User objectUser) {
+        this.objectUser = objectUser;
+    }
+
+    public TaskName getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(TaskName taskName) {
+        this.taskName = taskName;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }
