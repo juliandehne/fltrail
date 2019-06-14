@@ -202,6 +202,15 @@ public class AnnotationController implements IAnnotation {
         AnnotationBody body = new AnnotationBody(title, comment, startCharacter, endCharacter);
 
         return new Annotation(id, timestamp, userEmail, targetId, targetCategory, body);
+    }
 
+    public void setAnnotationCategories(Project project) {
+        connection.connect();
+        for (String category : project.getCategories()) {
+            String query = "INSERT INTO `categoriesselected`(`projectName`, `categorySelected`) VALUES (?,?)";
+            connection.issueUpdateStatement(
+                    query, project.getName(), category);
+        }
+        connection.close();
     }
 }

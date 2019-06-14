@@ -303,7 +303,10 @@ public class TaskDAO {
             }
             case REEDIT_DOSSIER: {
                 result = getGeneralTask(vereinfachtesResultSet);
-
+                GroupFeedbackTaskData groupFeedbackTaskData = submissionController.getMyFeedback(groupId, project);
+                if (groupFeedbackTaskData == null) {
+                    break;
+                }
                 Map<String, String> taskData = new HashMap<>();
                 taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, ContributionCategory.DOSSIER, 1));
                 result.setTaskData(taskData);

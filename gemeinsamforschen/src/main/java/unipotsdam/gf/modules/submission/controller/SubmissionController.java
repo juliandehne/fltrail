@@ -660,8 +660,12 @@ public class SubmissionController implements ISubmission, HasProgress {
     }
 
     public GroupFeedbackTaskData getMyFeedback(User user, Project project) {
-        connection.connect();
         Integer groupId = groupDAO.getGroupByStudent(project, user);
+        return getMyFeedback(groupId, project);
+    }
+
+    public GroupFeedbackTaskData getMyFeedback(Integer groupId, Project project) {
+        connection.connect();
         String query = "SELECT * from fullsubmissions where groupId = ? and projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, groupId,
                 project.getName());
@@ -802,5 +806,19 @@ public class SubmissionController implements ISubmission, HasProgress {
         }
         connection.close();
         return feedbackedGroup;
+    }
+
+    public List<String> getAnnotationCategories(Project project) {
+        List<String> result = new ArrayList<>();
+        connection.connect();
+        String query = "select * from categoriesselected where projectName = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query,
+                project.getName());
+        while (vereinfachtesResultSet.next()) {
+
+            result.add(vereinfachtesResultSet.getString("categorySelected"));
+        }
+        connection.close();
+        return result;
     }
 }

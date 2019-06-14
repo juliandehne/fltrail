@@ -137,9 +137,12 @@ function getProjectValues() {
     }
     let time = new Date().getTime();
     let selectedCategories = [];
-    $(".category input:checked").each(function () {
+    $("input:checked[class*='category']").each(function () {
         selectedCategories.push($(this).val());
     });
+    if (selectedCategories.length === 0) {
+        stop();
+    }
 
     return {
         "name": projectName,
