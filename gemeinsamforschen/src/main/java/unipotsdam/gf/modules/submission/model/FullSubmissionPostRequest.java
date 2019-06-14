@@ -1,7 +1,7 @@
 package unipotsdam.gf.modules.submission.model;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+import unipotsdam.gf.modules.fileManagement.FileRole;
 
 /**
  * @author Sven Kästle
@@ -16,7 +16,7 @@ public class FullSubmissionPostRequest {
     private String text;
     private String html;
     private String projectName;
-    private ContributionCategory contributionCategory;
+    private FileRole fileRole;
 
     // have to be set in backend
     private String userEMail;
@@ -58,12 +58,12 @@ public class FullSubmissionPostRequest {
         this.html = html;
     }
 
-    public ContributionCategory getContributionCategory() {
-        return contributionCategory;
+    public FileRole getFileRole() {
+        return fileRole;
     }
 
-    public void setContributionCategory(ContributionCategory contributionCategory) {
-        this.contributionCategory = contributionCategory;
+    public void setFileRole(FileRole fileRole) {
+        this.fileRole = fileRole;
     }
 
     public boolean isPersonal() {
@@ -98,7 +98,7 @@ public class FullSubmissionPostRequest {
                 ", text='" + text + '\'' +
                 ", html='" + html + '\'' +
                 ", projectName='" + projectName + '\'' +
-                ", contributionCategory=" + contributionCategory +
+                ", fileRole=" + fileRole +
                 '}';
     }
 }

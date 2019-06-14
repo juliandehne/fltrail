@@ -4,9 +4,9 @@
 <%--<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>--%>
 <%
     TagUtilities tu = new TagUtilities();
-    String contributionCategory = tu.getParamterFromQuery("contributionCategory", request);
-    if (contributionCategory == null) {
-        contributionCategory = "Unbekannt";
+    String fileRole = tu.getParamterFromQuery("fileRole", request);
+    if (fileRole == null) {
+        fileRole = "Unbekannt";
     }
 %>
 
@@ -101,7 +101,7 @@
     </jsp:include>
     <jsp:include page="../taglibs/footer.jsp"/>
 </div>
-<p id="contributionCategory" hidden><%= tu.printMe(contributionCategory)%>
+<p id="fileRole" hidden><%= tu.printMe(fileRole)%>
 
 </body>
 

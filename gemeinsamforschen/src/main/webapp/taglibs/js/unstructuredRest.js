@@ -49,7 +49,6 @@ function updateFullSubmission(fullSubmissionPostRequest, finalize, responseHandl
  * GET: Get a specific full submission for a given id
  *
  * @param id The id of the full submission
- * @param contributionCategory
  * @param responseHandler The response handler
  * @param errorHandler The error handler
  */

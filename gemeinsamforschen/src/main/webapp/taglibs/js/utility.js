@@ -246,11 +246,11 @@ function getMyGroupId(callback) {
 
 function getFullSubmissionOfGroup(groupId, version) {
     let projectName = $('#projectName').html().trim();
-    let contributionCategory = $('#contributionCategory').html().trim();
+    let fileRole = $('#fileRole').html().trim();
     $.ajax({
         url: '../rest/submissions/full/groupId/' + groupId +
             '/project/' + projectName +
-            '/contributionCategory/' + contributionCategory.toUpperCase() +
+            '/fileRole/' + fileRole.toUpperCase() +
             '?version=' + version,
         type: 'GET',
         headers: {

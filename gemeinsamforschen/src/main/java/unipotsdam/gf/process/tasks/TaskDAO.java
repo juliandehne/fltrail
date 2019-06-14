@@ -2,7 +2,7 @@ package unipotsdam.gf.process.tasks;
 
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
-import unipotsdam.gf.modules.assessment.controller.model.ContributionCategory;
+import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
@@ -70,7 +70,7 @@ public class TaskDAO {
         } catch (Exception ignored) {
         }
         try {
-            task.setDeadline(vereinfachtesResultSet.getTimestamp("due").getTime());
+            task.setDeadline(vereinfachtesResultSet.getTimestampIgnoreError("due").getTime());
         } catch (Throwable ignored) {
         }
         task.setPhase(Phase.valueOf(vereinfachtesResultSet.getString("phase")));
@@ -304,7 +304,7 @@ public class TaskDAO {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setTaskType(TaskType.LINKED);
                 Map<String, String> taskData = new HashMap<>();
-                taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, ContributionCategory.DOSSIER));
+                taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, FileRole.DOSSIER));
                 taskData.put("category", "TITEL");
                 task.setTaskData(taskData);
                 result = task;
@@ -312,9 +312,12 @@ public class TaskDAO {
             }
             case REEDIT_DOSSIER: {
                 result = getGeneralTask(vereinfachtesResultSet);
-
+                GroupFeedbackTaskData groupFeedbackTaskData = submissionController.getMyFeedback(groupId, project);
+                if (groupFeedbackTaskData == null) {
+                    break;
+                }
                 Map<String, String> taskData = new HashMap<>();
-                taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, ContributionCategory.DOSSIER, 1));
+                taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, FileRole.DOSSIER, 1));
                 result.setTaskData(taskData);
                 break;
             }

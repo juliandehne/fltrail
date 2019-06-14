@@ -9,7 +9,7 @@ $(document).ready(function () {
     let category = getQueryVariable("category");
     $('#categoryHeadline').html("Kategorie: " + category);
     let contribution = getQueryVariable("contribution");
-    $('.contributionCategory').each(function () {
+    $('.fileRole').each(function () {
         $(this).html(contribution[0] + contribution.substring(1, contribution.length).toLowerCase());
     });
     prepareFeedbackMenu(category);

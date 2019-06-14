@@ -124,17 +124,17 @@ CREATE TABLE `contributionrating`
 
 CREATE TABLE `fullsubmissions`
 (
-    `id`                   varchar(120) NOT NULL,
-    `version`              int(11)      NOT NULL,
-    `timestamp`            timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `groupId`              int(11)      NOT NULL,
-    `text`                 mediumtext   NOT NULL,
-    `projectName`          varchar(200) NOT NULL,
-    `feedbackGroup`        int(11)               DEFAULT NULL,
-    `finalized`            tinyint(1)            DEFAULT NULL,
-    `contributionCategory` varchar(200) NOT NULL,
-    `userEmail`            varchar(255)          DEFAULT NULL,
-    `visibility`           varchar(200) NOT NULL
+    `id`            varchar(120) NOT NULL,
+    `version`       int(11)      NOT NULL,
+    `timestamp`     timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `groupId`       int(11)      NOT NULL,
+    `text`          mediumtext   NOT NULL,
+    `projectName`   varchar(200) NOT NULL,
+    `feedbackGroup` int(11)               DEFAULT NULL,
+    `finalized`     tinyint(1)            DEFAULT NULL,
+    `fileRole`      varchar(200) NOT NULL,
+    `userEmail`     varchar(255)          DEFAULT NULL,
+    `visibility`    varchar(200) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='This holds the aggregated text of the dossier students should upload';
 
@@ -606,7 +606,7 @@ ALTER TABLE `fullsubmissions`
     ADD UNIQUE KEY `fullsubmissions_id_uindex` (`id`),
     ADD KEY `fullsubmissions_projects_name_fk` (`projectName`),
     ADD KEY `fullsubmissions_version_fk` (`version`),
-    ADD KEY `fullsubmissions_contribution_category_fk` (`contributionCategory`),
+    ADD KEY `fullsubmissions_contribution_category_fk` (`fileRole`),
     ADD KEY `fullsubmissions_users_email_fk` (`userEmail`),
     ADD KEY `fullsubmissions_groups_id_fk` (`groupId`);
 

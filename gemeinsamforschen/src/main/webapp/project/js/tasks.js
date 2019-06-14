@@ -222,7 +222,7 @@ function handleLinkedTasks(object, result) {
                 break;
             case "UPLOAD_DOSSIER":
                 result.solveTaskWith = "Bearbeite / Erstelle Dossier";
-                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&contributionCategory=Dossier" + "\')";
+                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&fileRole=Dossier" + "\')";
                 break;
             case "REEDIT_DOSSIER":
                 result.solveTaskWith = "Überarbeite Dossier";
@@ -245,7 +245,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?" + $.param({
                     projectName: object.projectName,
                     submissionId: object.taskData.fullSubmissionId,
-                    contributionCategory: "Dossier"
+                    fileRole: "Dossier"
                 }) + "\')";
                 break;
             case "FINALIZE_DOSSIER":
@@ -307,7 +307,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWith = "Erstelle einen Portfolio-Eintrag (optional)";
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
                     projectName: object.projectName,
-                    contributionCategory: "Portfolio",
+                    fileRole: "Portfolio",
                     personal: "true"
                 }) + "\')";
                 break;
