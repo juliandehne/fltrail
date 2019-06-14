@@ -40,15 +40,15 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ActivityFlowTest {
-
-    private final ArrayList<User> students = new ArrayList<>();
-    private final Project project = factory.manufacturePojo(Project.class);
     /**
      * Utility to creaty dummy data for students
      */
-    PodamFactory factory = new PodamFactoryImpl();
+
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
+    PodamFactory factory = new PodamFactoryImpl();
+    private final ArrayList<User> students = new ArrayList<>();
+    private final Project project = factory.manufacturePojo(Project.class);
     private final User teacher = factory.manufacturePojo(User.class);
     @Inject
     Management management;
