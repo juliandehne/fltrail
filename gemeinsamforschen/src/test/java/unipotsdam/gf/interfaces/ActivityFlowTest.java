@@ -47,9 +47,9 @@ public class ActivityFlowTest {
      * Utility to creaty dummy data for students
      */
     PodamFactory factory = new PodamFactoryImpl();
-    private final User teacher = factory.manufacturePojo(User.class);
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
+    private final User teacher = factory.manufacturePojo(User.class);
     @Inject
     Management management;
     @Inject
