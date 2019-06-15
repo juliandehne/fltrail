@@ -161,11 +161,8 @@ function getAnnotationCategories(callback) {
     })
 }
 
-function getVisibilities(callback) {
-    if (personal == null) {
-        personal = false;
-    }
-    let url = baseSubmissionUrl + "visibilities/personal/" + $('#personal').html().trim();
+function getVisibilities(personal, callback) {
+    let url = baseSubmissionUrl + "visibilities/personal/" + personal;
     $.ajax({
         url: url,
         type: "GET",
@@ -176,6 +173,27 @@ function getVisibilities(callback) {
         },
         error: function () {
             console.log("error loading visibilities");
+        }
+    })
+}
+
+function getPortfolioSubmissions(queryParams, callback) {
+    let url = baseSubmissionUrl + "portfolio?" + $.param({
+        projectName: queryParams.projectName,
+        visibility: queryParams.visibility
+    });
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            // handle the response
+            callback(response);
+        },
+        error: function () {
+            let response = [];
+            response.error = true;
+            callback(response);
         }
     })
 }

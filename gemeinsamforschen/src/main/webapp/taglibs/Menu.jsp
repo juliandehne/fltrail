@@ -25,6 +25,10 @@
             <a class="nav-link"
                href="<%= hierarchyLevel%>project/overview-docent.jsp">Projekte</a>
             <% } %>
+            <% if (projectName != null) {%>
+            <a class="nav-link"
+               href="<%=hierarchyLevel%>portfolio/show-portfolio.jsp?projectName=<%=projectName%>">E-Portfolio</a>
+            <% } %>
             <!--<a class="nav-link" href="<%= hierarchyLevel%>profile/profile.jsp?">Profil</a>-->
         </div>
         <div class="nav-group-right">

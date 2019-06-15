@@ -42,13 +42,13 @@ import static org.junit.Assert.assertTrue;
 public class ActivityFlowTest {
 
     private final ArrayList<User> students = new ArrayList<>();
-    private final Project project = factory.manufacturePojo(Project.class);
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
     /**
      * Utility to creaty dummy data for students
      */
     PodamFactory factory = new PodamFactoryImpl();
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
+    private final Project project = factory.manufacturePojo(Project.class);
     private final User teacher = factory.manufacturePojo(User.class);
     @Inject
     Management management;

@@ -30,12 +30,15 @@
 
     <!-- css - upload-unstructured -->
     <link rel="stylesheet" type="text/css" href="../taglibs/css/unstructured-upload.css">
+    <link rel="stylesheet" type="text/css" href="../taglibs/css/visibilityButton.css">
 
     <script src="../taglibs/js/utility.js"></script>
     <!-- js - unstructuredUpload -->
     <script src="../taglibs/js/unstructuredUpload.js"></script>
     <!-- js - unstructuredRest -->
     <script src="../taglibs/js/unstructuredRest.js"></script>
+
+    <script src="../taglibs/js/visibilityButton.js"></script>
 
     <!-- jsrender -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
@@ -57,10 +60,15 @@
     <main>
         <div class="row group">
             <div class="col span_content span_l_of_2">
-                <div id="templateResult"></div>
-                <script id="visibilityTemplate" type="text/x-jsrender">
+                <div id="headerTemplateResult"></div>
+                <script id="headerTemplate" type="text/x-jsrender">
                     <div></div>
                     <h2>{{:header}} anlegen</h2>
+
+                </script>
+                <div id="visibilityTemplateResult"></div>
+                <script id="visibilityTemplate" type="text/x-jsrender">
+                    <div></div>
                     {{if fileRole == "Portfolio"}}
                         <div class="dropdown">
                             <button class="dropbtn btn btn-primary" onclick="dropDownClick()">Sichtbarkeit: {{:currentVisibility.buttonText}}
@@ -68,7 +76,7 @@
                             </button>
                             <div class="dropdown-content" id="myDropdown">
                                 {{for possibleVisibilities}}
-                                    <a id={{:name}} onclick='visibilityDropDownClicked("{{:name}}")'>{{:buttonText}}</a>
+                                    <a id={{:name}} onclick='changeButtonText("{{:name}}")'>{{:buttonText}}</a>
                                 {{/for}}
                             </div>
                         </div>
