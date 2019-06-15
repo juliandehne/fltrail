@@ -108,10 +108,10 @@ public class AnnotationController implements IAnnotation {
                 "AND gu.groupId=? WHERE projectname = ? AND finalized=1;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName());
 
-        if (rs.next()) {
+        if (rs!= null && rs.next()) {
             return rs.getString("text");
         }else{
-            return null;
+            return "random shit";
         }
     }
 
@@ -202,6 +202,15 @@ public class AnnotationController implements IAnnotation {
         AnnotationBody body = new AnnotationBody(title, comment, startCharacter, endCharacter);
 
         return new Annotation(id, timestamp, userEmail, targetId, targetCategory, body);
+    }
 
+    public void setAnnotationCategories(Project project) {
+        connection.connect();
+        for (String category : project.getCategories()) {
+            String query = "INSERT INTO `categoriesselected`(`projectName`, `categorySelected`) VALUES (?,?)";
+            connection.issueUpdateStatement(
+                    query, project.getName(), category);
+        }
+        connection.close();
     }
 }

@@ -535,6 +535,25 @@ CREATE TABLE `workrating`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='@Axel plz comment';
 
+
+create table mappedtasks
+(
+  id            int auto_increment
+    primary key,
+  subjectEmail  varchar(200) null,
+  groupObjectId int          null,
+  objectEmail   varchar(200) null,
+  taskname      varchar(200) null,
+  projectName   varchar(200) null
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8
+  comment 'This table holds the task mapping i.e. which user should give feedback to which groups products';
+
+
+
+
+
+
 --
 -- Indizes der exportierten Tabellen
 --

@@ -59,15 +59,26 @@
                                 {{if inCardSolver=="WAIT_FOR_UPLOAD"}}
                                     <div class="inCardSolver">
                                        {{if taskData.numberOfGroupsWithoutPresentation > 0 }}
-                                        Es haben noch ${taskData.numberOfGroupsWithoutPresentation} Gruppen keine Präsentation hochgeladen.
+                                        Anzahl an Gruppen ohne hochgeladene Präsentation:
+                                        ${taskData.numberOfGroupsWithoutPresentation}.
                                        {{/if}}
+                                        {{if taskData.numberOfGroupReportsMissing > 0 }}
+                                        Anzahl an Gruppen ohne hochgeladene Abgabe ${taskData.numberOfGroupReportsMissing}.
+                                       {{/if}}
+                                        <button id='startGradingButton' onClick="startGrading(getProjectName());">Bewertung abschließen</button>
+                                    </div>
+                                {{/if}}
+                                 {{if inCardSolver=="WAIT_FOR_GRADING"}}
+                                    <div class="inCardSolver">
                                         {{if taskData.numberOfGroupsWithoutExternalAssessment > 0 }}
-                                        ${taskData.numberOfGroupsWithoutExternalAssessment} Gruppen haben keine Bewertung durch Peers bekommen.
+                                        Anzahl an Gruppen ohne Bewertung durch Peers
+                                        bekommen: ${taskData.numberOfGroupsWithoutExternalAssessment} .
                                         {{/if}}
                                         {{if taskData.numberOfStudentsWithoutInternalAsssessment > 0 }}
-                                        ${taskData.numberOfStudentsWithoutInternalAsssessment} Studierende haben noch keine Bewertung der Gruppe bekommen.
+                                        Anzahl an Studierenden ohne Bewertung durch die Gruppe.
+                                        ${taskData.numberOfStudentsWithoutInternalAsssessment} .
                                         {{/if}}
-                                        <button id='startGradingButton' onClick="startGrading(getProjectName());">Bewertung abschließen</button>
+                                        <button id='startGradingButton' onClick="startDocentGrading(getProjectName());">Bewertung abschließen</button>
                                     </div>
                                 {{/if}}
                            {{/if}}

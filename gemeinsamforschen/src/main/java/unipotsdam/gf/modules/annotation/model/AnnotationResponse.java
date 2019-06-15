@@ -7,7 +7,7 @@ package unipotsdam.gf.modules.annotation.model;
 public class AnnotationResponse {
 
     // variables
-    String message;
+    private String message;
 
     // constructors
     public AnnotationResponse(String message) {

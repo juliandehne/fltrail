@@ -7,7 +7,7 @@ public class AssessmentProgress {
 
     private int numberOfGroups;
     private int numberOfGroupPresentions;
-    private int numberOfGroupReports;
+    private int numberOfGroupReportsMissing;
     private int numberOfGroupsWithoutExternalAssessment;
     private int numberOfStudentsWithoutInternalAsssessment;
     private int numberOfGroupsWithoutPresentation;
@@ -18,7 +18,7 @@ public class AssessmentProgress {
             int numberOfGroupsWithoutExternalAssessment, int numberOfStudentsWithoutInternalAsssessment) {
         this.numberOfGroups = numberOfGroups;
         this.numberOfGroupPresentions = numberOfGroupPresentions;
-        this.numberOfGroupReports = numberOfGroupReports;
+        this.numberOfGroupReportsMissing = numberOfGroupReports;
         this.numberOfGroupsWithoutExternalAssessment = numberOfGroupsWithoutExternalAssessment;
         this.numberOfStudentsWithoutInternalAsssessment = numberOfStudentsWithoutInternalAsssessment;
     }
@@ -39,12 +39,12 @@ public class AssessmentProgress {
         this.numberOfGroupPresentions = numberOfGroupPresentions;
     }
 
-    public int getNumberOfGroupReports() {
-        return numberOfGroupReports;
+    public int getNumberOfGroupReportsMissing() {
+        return numberOfGroupReportsMissing;
     }
 
-    public void setNumberOfGroupReports(int numberOfGroupReports) {
-        this.numberOfGroupReports = numberOfGroupReports;
+    public void setNumberOfGroupReportsMissing(int numberOfGroupReportsMissing) {
+        this.numberOfGroupReportsMissing = numberOfGroupReportsMissing;
     }
 
     public int getNumberOfGroupsWithoutExternalAssessment() {

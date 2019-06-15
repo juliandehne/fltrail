@@ -11,11 +11,6 @@ $(document).ready(function () {
     groupViewLink.on('click', function () {
         location.href = "../groupfinding/view-groups.jsp?projectName=" + projectName;
     });
-    /**
-     * TODO refactor remove all the inline js and group it like this leading
-     *
-     */
-
 });
 
 function fillTasks(projectName, userEmail) {
@@ -308,7 +303,6 @@ function handleLinkedTasks(object, result) {
                     "projectName=" + object.projectName+"\')";
 
                 break;
-
             case "OPTIONAL_PORTFOLIO_ENTRY":
                 result.solveTaskWith = "Erstelle einen Portfolio-Eintrag (optional)";
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
@@ -316,6 +310,20 @@ function handleLinkedTasks(object, result) {
                     fileRole: "Portfolio",
                     personal: "true"
                 }) + "\')";
+                break;
+           /* case "GIVE_ASSESSMENT":
+                result.solveTaskWith = "Bewerten";
+                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
+                    projectName: object.projectName,
+                    contributionCategory: "Portfolio",
+                    personal: "true"
+                }) + "\')";
+                break;*/
+            case "GIVE_EXTERNAL_ASSESSMENT":
+                result.solveTaskWith = "Bewerten Sie die Ergebnisse ihrer Kommilitonen!";
+                result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
+                    "projectName=" + object.projectName+"&groupId="+result.taskData.objectGroup.id+"\')";
+
                 break;
             default:
                 result.solveTaskWith = null;

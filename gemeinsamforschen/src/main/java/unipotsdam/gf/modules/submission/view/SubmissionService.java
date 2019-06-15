@@ -230,8 +230,11 @@ public class SubmissionService {
     @GET
     @Path("categories/project/{projectName}")
     public List<String> getAnnotationCategories(@PathParam("projectName") String projectName) {
-        //todo: for every project categories should be selectable
-        return Categories.standardAnnotationCategories;
+        List<String> result = submissionController.getAnnotationCategories(new Project(projectName));
+        if (result.size() == 0) {
+            return Categories.standardAnnotationCategories;
+        }
+        return result;
     }
 
     @GET

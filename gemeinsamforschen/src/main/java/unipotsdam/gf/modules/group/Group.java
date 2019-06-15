@@ -17,6 +17,10 @@ public class Group {
         members = new ArrayList<>();
     }
 
+    public Group(int id) {
+        this.id = id;
+        members = new ArrayList<>();
+    }
 
     public String getProjectName() {
         return projectName;

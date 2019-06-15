@@ -149,7 +149,15 @@ public class TaskDAO {
         return groupsTask;
     }
 
-    public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase) {
+    /**
+     * TODO  refactor reduce overloading by introducing
+     * @param project
+     * @param target
+     * @param taskName
+     * @param phase
+     * @return
+     */
+    private Task createUserDefault(Project project, User target, TaskName taskName, Phase phase) {
         return createUserDefault(project, target, taskName, phase, Importance.MEDIUM);
     }
 
@@ -157,11 +165,12 @@ public class TaskDAO {
         return createUserDefault(project, target, taskName, phase, Importance.MEDIUM, progress);
     }
 
-    public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase, Importance importance) {
+    private Task createUserDefault(Project project, User target, TaskName taskName, Phase phase, Importance importance) {
         return createUserDefault(project, target, taskName, phase, importance, Progress.JUSTSTARTED);
     }
 
-    public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase, Importance importance, Progress progress) {
+    private Task createUserDefault(
+            Project project, User target, TaskName taskName, Phase phase, Importance importance, Progress progress) {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setEventCreated(System.currentTimeMillis());
@@ -303,7 +312,10 @@ public class TaskDAO {
             }
             case REEDIT_DOSSIER: {
                 result = getGeneralTask(vereinfachtesResultSet);
-
+                GroupFeedbackTaskData groupFeedbackTaskData = submissionController.getMyFeedback(groupId, project);
+                if (groupFeedbackTaskData == null) {
+                    break;
+                }
                 Map<String, String> taskData = new HashMap<>();
                 taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, FileRole.DOSSIER, 1));
                 result.setTaskData(taskData);
@@ -357,7 +369,13 @@ public class TaskDAO {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setHasRenderModel(true);
                 // get Progress from peer assessment
-                task.setTaskData(assessmentDAO.getProgress());
+                task.setTaskData(assessmentDAO.getProgress(new Project(task.getProjectName())));
+                result = task;
+                break;
+            }
+            case GIVE_EXTERNAL_ASSESSMENT: {
+                Task task = getGeneralTask(vereinfachtesResultSet);
+                task.setTaskData(assessmentDAO.getTargetGroupForAssessment(new User(task.getUserEmail())));
                 result = task;
                 break;
             }
@@ -430,14 +448,13 @@ public class TaskDAO {
         persist(task);
     }
 
-    public Task createWaitingForGroupFormationTask(Project project, User target) {
+    public void createWaitingForGroupFormationTask(Project project, User target) {
         Task task = createUserDefault(project, target, WAITING_FOR_GROUP, Phase.GroupFormation);
         task.setTaskType(TaskType.INFO);
         task.setImportance(Importance.MEDIUM);
         task.setProgress(Progress.JUSTSTARTED);
 
         persist(task);
-        return task;
     }
 
     public void updateForUser(Task task) {

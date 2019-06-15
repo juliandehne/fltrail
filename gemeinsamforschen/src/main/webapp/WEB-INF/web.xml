@@ -61,6 +61,7 @@
         <url-pattern>/journal/*</url-pattern> <!-- either url-pattern or servlet-name is mandatory -->
         <url-pattern>/profile/*</url-pattern> <!-- either url-pattern or servlet-name is mandatory -->
         <url-pattern>/researchReport/*</url-pattern> <!-- either url-pattern or servlet-name is mandatory -->
+        <url-pattern>/assessment/*</url-pattern> <!-- either url-pattern or servlet-name is mandatory -->
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 

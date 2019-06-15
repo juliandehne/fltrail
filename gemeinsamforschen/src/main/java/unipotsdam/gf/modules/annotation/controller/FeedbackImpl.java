@@ -8,7 +8,7 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskMapping;
+import unipotsdam.gf.process.tasks.TaskMapper;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -22,7 +22,7 @@ public class FeedbackImpl implements Feedback {
     GroupDAO groupDAO;
 
     @Inject
-    TaskMapping taskMapping;
+    TaskMapper taskMapper;
 
     @Override
     public void assigningMissingFeedbackTasks(Project project) {
@@ -32,7 +32,7 @@ public class FeedbackImpl implements Feedback {
     @Override
     public void specifyFeedbackTasks(List<Task> tasks) {
         for (Task task : tasks) {
-            List<Integer> groupToFeedback = taskMapping.groupToFeedback(tasks, task, 1);
+            List<Integer> groupToFeedback = taskMapper.groupToFeedback(tasks, task, 1);
             for (Integer groupId : groupToFeedback) {
                 connection.connect();
                 String request = "UPDATE `fullsubmissions` SET `feedbackGroup`=? WHERE groupId=? AND projectName=?";

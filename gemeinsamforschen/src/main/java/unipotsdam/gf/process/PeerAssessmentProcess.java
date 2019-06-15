@@ -10,6 +10,8 @@ import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 
+import java.util.List;
+
 import static unipotsdam.gf.process.tasks.TaskName.UPLOAD_PRESENTATION;
 
 public class PeerAssessmentProcess {
@@ -23,6 +25,9 @@ public class PeerAssessmentProcess {
     @Inject
     private GroupDAO groupDAO;
 
+    @Inject
+    private TaskMapper taskMapper;
+
     /**
      * this function is only used to show the peer assessment phase before previous phases are ready
      *
@@ -33,7 +38,6 @@ public class PeerAssessmentProcess {
         taskDAO.persistTaskForAllGroups(project, UPLOAD_PRESENTATION, Phase.Assessment);
         // distribute teacher tasks
         taskDAO.persistTeacherTask(project, TaskName.WAIT_FOR_UPLOAD, Phase.Assessment);
-
     }
 
     public void fileHasBeenUploaded(
@@ -67,12 +71,30 @@ public class PeerAssessmentProcess {
                 new GroupTask(TaskName.UPLOAD_FINAL_REPORT, groupByStudent, Progress.FINISHED, project));
         // set new tasks
 
-        // check if all the groups have finished uploads and stuff TODO
 
-        // set assessment tasks for group
-        taskDAO.persistTaskForAllGroups(project, TaskName.GIVE_ASSESSMENT, Phase.Assessment);
+    }
+
+    /**
+     *
+     * @param project
+     */
+    public void startGrading(Project project) {
+        // TODO implement
+        //System.out.println("grading tihs project now:" + project);
+
+        // set assessment tasks for students
+        taskDAO.persistMemberTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT, Phase.Assessment);
+        taskDAO.persistMemberTask(project, TaskName.GIVE_INTERNAL_ASSESSMENT, Phase.Assessment);
+
         // set assessment tasks for docent TODO
 
+        // set assessment tasks for students
+        List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
+        for (User user : usersByProjectName) {
+            taskMapper.persistTaskMapping(project, user, TaskName.GIVE_EXTERNAL_ASSESSMENT);
+        }
+
+        // set final grading tasks
     }
 
     /**

@@ -20,14 +20,33 @@ public enum TaskName {
     OPTIONAL_PORTFOLIO_ENTRY, REFLECT_DOSSIER_CREATION, ANSWER_REFLEXION_QUESTIONS,
 
     // assessment tasks
-    UPLOAD_PRESENTATION, UPLOAD_FINAL_REPORT,
+
+    // students have to upload their presentation
+    UPLOAD_PRESENTATION,
+    // students have to upload their final report
+    UPLOAD_FINAL_REPORT,
+    // the docent waits for students to upload presentation
     WAIT_FOR_UPLOAD,
-    GIVE_ASSESSMENT, SEE_ASSESSMENT,
+
+
+    // student gives assessment to other group
+    GIVE_EXTERNAL_ASSESSMENT,
+
+    // student rates his own group
+    GIVE_INTERNAL_ASSESSMENT,
+
+
+    // DOCENT gives assessments
+    GIVE_ASSESSMENT,
+
+    SEE_ASSESSMENT,
 
     // shared tasks
     // execution phase
     CHOOSE_FITTING_COMPETENCES, CHOOSE_REFLEXION_QUESTIONS,
 
 
+    // the docent waits for students to grade their peers
+    WAIT_FOR_GRADING,
     END
 }

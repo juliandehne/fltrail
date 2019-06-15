@@ -27,6 +27,8 @@ public class TaskOrder {
         result.add(TaskName.WAIT_FOR_REFLECTION);
         result.add(TaskName.CLOSE_EXECUTION_PHASE);
         result.add(TaskName.UPLOAD_PRESENTATION);
+        result.add(TaskName.UPLOAD_FINAL_REPORT);
+        result.add(TaskName.GIVE_EXTERNAL_ASSESSMENT);
         result.add(TaskName.COLLECT_RESULTS_FOR_ASSESSMENT);
         result.add(TaskName.WAIT_FOR_PEER_ASSESSMENTS);
         result.add(TaskName.GIVE_ASSESSMENT);

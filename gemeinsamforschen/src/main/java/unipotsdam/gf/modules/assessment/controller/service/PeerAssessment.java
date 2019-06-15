@@ -17,7 +17,7 @@ import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
-import unipotsdam.gf.process.tasks.TaskMapping;
+import unipotsdam.gf.process.tasks.TaskMapper;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -34,7 +34,7 @@ public class PeerAssessment implements IPeerAssessment {
     private GroupDAO groupDAO;
 
     @Inject
-    private TaskMapping taskMapping;
+    private TaskMapper taskMapper;
 
     @Inject
     private AnnotationController annotationController;
@@ -124,7 +124,7 @@ public class PeerAssessment implements IPeerAssessment {
         if (answers == null) {
             return "quiz";
         }
-        Integer groupToRate = taskMapping.getWhichGroupToRate(project, user);
+        Integer groupToRate = taskMapper.getWhichGroupToRate(project, user);
         if (!assessmentDBCommunication.getContributionRating(groupToRate, user.getEmail())) {
             return "contributionRating";
         }
@@ -354,7 +354,7 @@ public class PeerAssessment implements IPeerAssessment {
 
     @Override
     public Integer whichGroupToRate(Project project, User user) {
-        return taskMapping.getWhichGroupToRate(project, user);
+        return taskMapper.getWhichGroupToRate(project, user);
     }
 
     @Override

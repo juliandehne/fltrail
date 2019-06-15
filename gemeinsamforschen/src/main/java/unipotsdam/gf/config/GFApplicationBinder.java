@@ -56,7 +56,7 @@ import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskMapping;
+import unipotsdam.gf.process.tasks.TaskMapper;
 import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 
@@ -117,7 +117,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(FileManagementDAO.class).to(FileManagementDAO.class);
         bind(AssessmentDAO.class).to(AssessmentDAO.class);
         bind(ReflexionProcess.class).to(ReflexionProcess.class);
-        bind(TaskMapping.class).to(TaskMapping.class);
+        bind(TaskMapper.class).to(TaskMapper.class);
 
         /*
          * TODO: @Martin comment in for your development

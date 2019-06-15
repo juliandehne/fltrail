@@ -5,6 +5,7 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.UserExistsInMysqlException;
 import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
@@ -46,6 +47,9 @@ public class ProjectCreationProcess {
     @Inject
     private GFContexts gfContexts;
 
+    @Inject
+    private AnnotationController annotationController;
+
     /**
      * STEP 1
      *
@@ -60,6 +64,7 @@ public class ProjectCreationProcess {
         } catch (Exception e) {
             throw new WebApplicationException("Project already exists");
         }
+        annotationController.setAnnotationCategories(project);
         profileDAO.createNewSurveyProject(project);
         taskDao.createTaskWaitForParticipants(project, author);
 
