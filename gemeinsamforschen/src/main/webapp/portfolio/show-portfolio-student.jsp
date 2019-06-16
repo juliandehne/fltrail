@@ -21,7 +21,7 @@
 
     <!-- js - unstructuredRest -->
     <script src="../taglibs/js/unstructuredRest.js"></script>
-    <script src="js/portfolio.js"></script>
+    <script src="js/portfolio-student.js"></script>
     <script src="../taglibs/js/visibilityButton.js"></script>
 
 </head>
@@ -67,7 +67,7 @@
                         }
                     }).setContents({{:text}});
                     {{:scriptEnd}}
-                    <h4 class="creation-information">{{:userEmail}} - {{:timestamp}}</h4>
+                    <h4 class="creation-information">{{:userEmail}} - {{:timestampDateTimeFormat}}</h4>
                     <br/>
                 {{/for}}
                 {{if error}}

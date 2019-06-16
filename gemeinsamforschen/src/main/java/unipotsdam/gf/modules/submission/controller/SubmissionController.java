@@ -197,11 +197,11 @@ public class SubmissionController implements ISubmission, HasProgress {
         return fullSubmissionList;
     }
 
-    public List<FullSubmission> getPublicSubmissions(Project project, FileRole fileRole) {
+    public List<FullSubmission> getProjectSubmissions(Project project, FileRole fileRole, Visibility visibility) {
         List<FullSubmission> fullSubmissionList = new ArrayList<>();
         connection.connect();
         String query = "SELECT * FROM fullsubmissions WHERE projectName= ? AND fileRole = ? and visibility = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(query, project.getName(), fileRole.name(), Visibility.PUBLIC.name());
+        VereinfachtesResultSet rs = connection.issueSelectStatement(query, project.getName(), fileRole.name(), visibility);
         while (rs.next()) {
             fullSubmissionList.add(getFullSubmissionFromResultSet(rs));
         }

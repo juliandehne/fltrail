@@ -1,16 +1,3 @@
-function changeButtonText(clickedItem, callback) {
-    let dropBtn = $('.dropbtn');
-    let oldText = dropBtn.html();
-    let oldVisibility = currentVisibility;
-    currentVisibility = possibleVisibilities[clickedItem];
-    let newText = oldText.replace(oldVisibility.buttonText, currentVisibility.buttonText);
-    dropBtn.html(newText);
-    if (callback) {
-        callback();
-    }
-}
-
-
 function dropDownClick() {
     $('#myDropdown').toggleClass('show');
 }

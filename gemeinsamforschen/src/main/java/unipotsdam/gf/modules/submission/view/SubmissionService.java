@@ -259,18 +259,17 @@ public class SubmissionService {
         }
         Project project = new Project(projectName);
         User user = new User(userEmail);
-        int groupId = groupDAO.getMyGroupId(user, project);
+        Integer groupId = groupDAO.getMyGroupId(user, project);
 
         List<FullSubmission> fullSubmissionList = new ArrayList<>();
 
         switch (visibility) {
             case DOCENT:
+            case PUBLIC:
+                fullSubmissionList = submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
                 break;
             case GROUP:
                 fullSubmissionList = submissionController.getGroupSubmissions(project, groupId, FileRole.PORTFOLIO, visibility);
-                break;
-            case PUBLIC:
-                fullSubmissionList = submissionController.getPublicSubmissions(project, FileRole.PORTFOLIO);
                 break;
             case PERSONAL:
                 fullSubmissionList = submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO);
@@ -279,9 +278,7 @@ public class SubmissionService {
         if (fullSubmissionList.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).entity("No portfolio entries found").build();
         }
-
         return Response.ok(fullSubmissionList).build();
-
     }
 
 }

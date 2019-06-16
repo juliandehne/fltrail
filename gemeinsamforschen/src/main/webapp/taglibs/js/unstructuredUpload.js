@@ -37,7 +37,7 @@ $(document).ready(function () {
                     projectName: $('#projectName').text().trim(),
                     personal: personal,
                     fileRole: fileRole.toUpperCase(),
-                    visibility: currentVisibility.name
+                    visibility: currentVisibleButtonText.name
                 };
 
                 // save request in database
@@ -108,4 +108,16 @@ function populateTextFields() {
     let tmpl = $.templates("#visibilityTemplate");
     let html = tmpl.render(data);
     $("#visibilityTemplateResult").html(html);
+}
+
+function changeButtonText(clickedItem, callback) {
+    let dropBtn = $('.dropbtn');
+    let oldText = dropBtn.html();
+    let oldVisibility = currentVisibility;
+    currentVisibility = possibleVisibilities[clickedItem];
+    let newText = oldText.replace(oldVisibility.buttonText, currentVisibility.buttonText);
+    dropBtn.html(newText);
+    if (callback) {
+        callback();
+    }
 }

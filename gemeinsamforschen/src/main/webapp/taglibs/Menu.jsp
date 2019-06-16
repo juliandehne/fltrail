@@ -21,14 +21,19 @@
                href="<%= hierarchyLevel%>project/courses-student.jsp">Home</a>
             <a class="nav-link"
                href="<%= hierarchyLevel%>project/courses-student.jsp?all=true">Kurssuche</a>
+            <% if (projectName != null) {%>
+            <a class="nav-link"
+               href="<%=hierarchyLevel%>portfolio/show-portfolio-student.jsp?projectName=<%=projectName%>">E-Portfolio</a>
+            <% } %>
             <% } else {%>
             <a class="nav-link"
                href="<%= hierarchyLevel%>project/overview-docent.jsp">Projekte</a>
-            <% } %>
             <% if (projectName != null) {%>
             <a class="nav-link"
-               href="<%=hierarchyLevel%>portfolio/show-portfolio.jsp?projectName=<%=projectName%>">E-Portfolio</a>
+               href="<%=hierarchyLevel%>portfolio/show-portfolio-docent.jsp?projectName=<%=projectName%>">E-Portfolio</a>
             <% } %>
+            <% } %>
+
             <!--<a class="nav-link" href="<%= hierarchyLevel%>profile/profile.jsp?">Profil</a>-->
         </div>
         <div class="nav-group-right">
