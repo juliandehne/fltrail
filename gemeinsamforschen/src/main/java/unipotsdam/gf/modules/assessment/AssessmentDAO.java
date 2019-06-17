@@ -341,7 +341,7 @@ public class AssessmentDAO {
         }
     }
 
-    public FullContribution getContribution(Project project, Integer groupId, FileRole role) {
+    FullContribution getContribution(Project project, Integer groupId, FileRole role) {
         FullContribution result = null;
         connect.connect();
         String sqlStatement =

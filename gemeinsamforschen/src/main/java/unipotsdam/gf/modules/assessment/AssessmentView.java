@@ -45,21 +45,23 @@ public class AssessmentView {
 
     @POST
     @Path("/grading/start/projects/{projectName}")
-    public void startGrading(@PathParam("projectName") String projectName){
+    public void startGrading(@PathParam("projectName") String projectName) {
         peerAssessmentProcess.startGrading(new Project(projectName));
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/peerRating/project/{projectName}")
-    public void postPeerRating(ArrayList<PeerRating> peerRatings, @PathParam("projectName") String projectName) throws IOException {
+    public void postPeerRating(ArrayList<PeerRating> peerRatings, @PathParam("projectName") String projectName)
+            throws IOException {
         peer.postPeerRating(peerRatings, projectName);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/groupRate/project/{projectName}")
-    public Integer whichGroupToRate(@PathParam("projectName") String projectName,@Context HttpServletRequest req) throws IOException {
+    public Integer whichGroupToRate(@PathParam("projectName") String projectName, @Context HttpServletRequest req)
+            throws IOException {
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Project project = projectDAO.getProjectByName(projectName);
@@ -70,8 +72,8 @@ public class AssessmentView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("contributions/project/{projectName}")
-    public List<FullContribution> getContributionsForProject(@Context HttpServletRequest req,
-                                                             @PathParam("projectName") String projectName) throws IOException {
+    public List<FullContribution> getContributionsForProject(
+            @Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
         List<FullContribution> result;
         Project project = projectDAO.getProjectByName(projectName);
         String userEmail = gfContexts.getUserEmail(req);
@@ -84,18 +86,18 @@ public class AssessmentView {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/contributionRating/project/{projectName}/group/{groupId}/fromPeer/{fromPeer}")
-    public void postContributionRating(Map<FileRole, Integer> contributionRatings,
-                                       @PathParam("groupId") String groupId,
-                                       @PathParam("projectName") String projectName,
-                                       @PathParam("fromPeer") String fromPeer) {
-        peer.postContributionRating(new Project(projectName), groupId, fromPeer, contributionRatings);
+    public void postContributionRating(
+            Map<FileRole, Integer> contributionRatings, @PathParam("groupId") String groupId,
+            @PathParam("projectName") String projectName, @PathParam("fromPeer") String fromPeer) {
+        peerAssessmentProcess.postContributionRating(contributionRatings, groupId, projectName, fromPeer);
     }
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path("/whatToRate/project/{projectName}/student/{userName}")
-    public String whatToRate(@Context HttpServletRequest req,
-                             @PathParam("projectName") String projectName, @PathParam("userName") String userName) throws IOException {
+    public String whatToRate(
+            @Context HttpServletRequest req, @PathParam("projectName") String projectName,
+            @PathParam("userName") String userName) throws IOException {
         Project project = new Project(projectName);
         String userEmail = gfContexts.getUserEmail(req);
         User user = new User(userEmail);
@@ -112,7 +114,8 @@ public class AssessmentView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/project/{projectName}/student/{studentEmail}")
-    public Double getAssessmentForStudent(@PathParam("projectName") String projectName, @PathParam("studentEmail") String studentEmail) {
+    public Double getAssessmentForStudent(
+            @PathParam("projectName") String projectName, @PathParam("studentEmail") String studentEmail) {
         StudentIdentifier student = new StudentIdentifier(projectName, studentEmail);
         return peer.getAssessmentForStudent(student);
     }
@@ -125,7 +128,7 @@ public class AssessmentView {
     public String calculateAssessment(@PathParam("projectName") String projectName) {
         Project project = new Project(projectName);
         peer.finalizeAssessment(project);
-        return "successfully finalized "+projectName;
+        return "successfully finalized " + projectName;
     }
 
     @GET
@@ -138,7 +141,8 @@ public class AssessmentView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/total/project/{projectName}/student/{student}")
-    public ArrayList<Performance> getTotalAssessment(@PathParam("projectName") String ProjectId, @PathParam("student") String student) {
+    public ArrayList<Performance> getTotalAssessment(
+            @PathParam("projectName") String ProjectId, @PathParam("student") String student) {
         StudentIdentifier userNameentifier = new StudentIdentifier(ProjectId, student);
         return getTotalAssessment(userNameentifier);
     }  //////////dummy/////////////funktioniert wie geplant//////////////////////////////////

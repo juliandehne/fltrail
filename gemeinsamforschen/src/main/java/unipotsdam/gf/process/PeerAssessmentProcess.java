@@ -1,5 +1,6 @@
 package unipotsdam.gf.process;
 
+import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
@@ -9,8 +10,10 @@ import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
+import javax.ws.rs.PathParam;
 
 import java.util.List;
+import java.util.Map;
 
 import static unipotsdam.gf.process.tasks.TaskName.UPLOAD_PRESENTATION;
 
@@ -27,6 +30,9 @@ public class PeerAssessmentProcess {
 
     @Inject
     private TaskMapper taskMapper;
+
+    @Inject
+    private IPeerAssessment peer;
 
     /**
      * this function is only used to show the peer assessment phase before previous phases are ready
@@ -53,6 +59,17 @@ public class PeerAssessmentProcess {
         }
     }
 
+    public void postContributionRating(Map<FileRole, Integer> contributionRatings,
+                                       String groupId,
+                                        String projectName,
+                                      String fromPeer) {
+        peer.postContributionRating(new Project(projectName), groupId, fromPeer, contributionRatings);
+        // finish task for user
+        taskDAO.updateForUser(new Task(TaskName.GIVE_EXTERNAL_ASSESSMENT, fromPeer, projectName, Progress.FINISHED));
+        // start internal evaluation task
+        taskDAO.persist(new Task(TaskName.GIVE_INTERNAL_ASSESSMENT, fromPeer, projectName, Progress.JUSTSTARTED));
+
+    }
     private void finishPresentationUpload(User userFromSession, Project project) {
         // get the group the user is in the project
         Integer groupByStudent = groupDAO.getGroupByStudent(project, userFromSession);
@@ -70,7 +87,6 @@ public class PeerAssessmentProcess {
         taskDAO.updateGroupTask(
                 new GroupTask(TaskName.UPLOAD_FINAL_REPORT, groupByStudent, Progress.FINISHED, project));
         // set new tasks
-
 
     }
 

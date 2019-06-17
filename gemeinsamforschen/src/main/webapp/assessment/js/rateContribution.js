@@ -82,16 +82,9 @@ function prepareContributionRating() {
         type: 'GET',
         success: function (response) {
             for (let contribution in response) {
+                let tmplObject = getTmplObject(response[contribution]);
+                $('#contributionTemplate').tmpl(tmplObject).appendTo('#listOfContributions');
                 if(response.hasOwnProperty(contribution)) {
-                    let tmplObject = getTmplObject(response[contribution]);
-                    $('#contributionTemplate').tmpl(tmplObject).appendTo('#listOfContributions');
-                    new InscrybMDE({
-                        element: document.getElementById(response[contribution].roleOfContribution+"Feedback"),
-                        spellChecker: false,
-                        //toolbar: ["bold", "italic", "heading", "|", "quote", "table", "code", "|" , "side-by-side", "fullscreen"],
-                        minHeight: "80px",
-                    });
-                    //editor.value(response[contribution].textOfContribution);
                     if (response[contribution].textOfContribution != null){
                         let editor = new Quill('#editor'+response[contribution].roleOfContribution,
                             {
