@@ -74,7 +74,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         //
         String request = String.join(" ", requestCommand.trim(),
                 //String request = "INSERT INTO "+
-                "fullsubmissions (`id`, `version`, `groupId`, `text`, `projectName`, `fileRole`, `visibility`) VALUES (?,?,?,?,?,?,?);");
+                "fullsubmissions (`id`, `version`, `groupId`, `text`, `projectName`, `fileRole`, `userEmail`, `visibility`) VALUES (?,?,?,?,?,?,?,?);");
 
         connection.connect();
         // build and execute request
@@ -83,6 +83,7 @@ public class SubmissionController implements ISubmission, HasProgress {
                 fullSubmissionPostRequest.getText(),
                 fullSubmissionPostRequest.getProjectName(),
                 fullSubmissionPostRequest.getFileRole().toString(),
+                fullSubmissionPostRequest.getUserEMail(),
                 fullSubmissionPostRequest.getVisibility().toString()
         );
 
@@ -97,7 +98,23 @@ public class SubmissionController implements ISubmission, HasProgress {
 
     @Override
     public FullSubmission getFullSubmission(String fullSubmissionId) {
-        return getFullSubmission(fullSubmissionId, 0);
+        // establish connection
+        connection.connect();
+
+        FullSubmission fullSubmission = null;
+
+        // build and execute request
+        String request = "SELECT * FROM fullsubmissions WHERE id = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, fullSubmissionId);
+        if (rs.next()) {
+            // save submission
+            fullSubmission = getFullSubmissionFromResultSet(rs);
+
+        }
+
+        connection.close();
+
+        return fullSubmission;
     }
 
     @Override
@@ -122,8 +139,35 @@ public class SubmissionController implements ISubmission, HasProgress {
         return fullSubmission;
     }
 
+    public List<FullSubmission> getPersonalSubmissions(User user, Project project, FileRole fileRole) {
+        List<FullSubmission> fullSubmissionList = null;
+        connection.connect();
+
+        String request = "SELECT * FROM fullsubmissions WHERE userEmail = ? AND projectName= ? AND fileRole = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, user.getEmail(), project.getName(), fileRole);
+
+        while (rs.next()) {
+            if (fullSubmissionList == null) {
+                fullSubmissionList = new ArrayList<>();
+            }
+            fullSubmissionList.add(getFullSubmissionFromResultSet(rs));
+        }
+        connection.close();
+        return fullSubmissionList;
+    }
+
     public FullSubmission getFullSubmissionBy(int groupId, Project project, FileRole fileRole) {
-        return getFullSubmissionBy(groupId, project, fileRole, 0);
+        FullSubmission fullSubmission = null;
+        connection.connect();
+
+        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ? AND fileRole = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName(), fileRole);
+
+        if (rs.next()) {
+            fullSubmission = getFullSubmissionFromResultSet(rs);
+        }
+        connection.close();
+        return fullSubmission;
     }
 
     public FullSubmission getFullSubmissionBy(int groupId, Project project, FileRole fileRole, Integer version) {
@@ -139,6 +183,30 @@ public class SubmissionController implements ISubmission, HasProgress {
         }
         connection.close();
         return fullSubmission;
+    }
+
+    public List<FullSubmission> getGroupSubmissions(Project project, int groupId, FileRole fileRole, Visibility visibility) {
+        List<FullSubmission> fullSubmissionList = new ArrayList<>();
+        connection.connect();
+        String query = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ? AND fileRole = ? and visibility = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(query, groupId, project.getName(), fileRole.name(), visibility.name());
+        while (rs.next()) {
+            fullSubmissionList.add(getFullSubmissionFromResultSet(rs));
+        }
+
+        return fullSubmissionList;
+    }
+
+    public List<FullSubmission> getProjectSubmissions(Project project, FileRole fileRole, Visibility visibility) {
+        List<FullSubmission> fullSubmissionList = new ArrayList<>();
+        connection.connect();
+        String query = "SELECT * FROM fullsubmissions WHERE projectName= ? AND fileRole = ? and visibility = ?;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(query, project.getName(), fileRole.name(), visibility);
+        while (rs.next()) {
+            fullSubmissionList.add(getFullSubmissionFromResultSet(rs));
+        }
+
+        return fullSubmissionList;
     }
 
     public String getFullSubmissionId(Integer groupId, Project project, FileRole fileRole) {

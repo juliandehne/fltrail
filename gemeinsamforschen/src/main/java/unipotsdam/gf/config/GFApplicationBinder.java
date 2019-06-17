@@ -64,7 +64,9 @@ public class GFApplicationBinder extends AbstractBinder {
 
     private final static Logger log = LoggerFactory.getLogger(GFApplicationBinder.class);
 
-
+    /**
+     * TODO replace DummyImplementation
+     */
     @Override
     protected void configure() {
 
@@ -133,6 +135,5 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(UnirestService.class).to(UnirestService.class);
         bind(ContributionFeedbackService.class).to(IContributionFeedback.class);
         bind(ContributionFeedbackDAO.class).to(ContributionFeedbackDAO.class);
-        bind(ReflexionService.class).to(IReflexionService.class);
     }
 }

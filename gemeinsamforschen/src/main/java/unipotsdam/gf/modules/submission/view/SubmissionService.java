@@ -5,6 +5,7 @@ import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
@@ -62,6 +63,8 @@ public class SubmissionService {
     @Inject
     private FileManagementService fileManagementService;
 
+    @Inject
+    private GroupDAO groupDAO;
 
     @POST
     @Path("/full")
@@ -242,6 +245,40 @@ public class SubmissionService {
             visibilityButtonTextHashMap.remove(Visibility.PERSONAL);
         }
         return Response.ok(visibilityButtonTextHashMap).build();
+    }
+
+    @GET
+    @Path("portfolio")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPortfolioEntries(@Context HttpServletRequest req, @QueryParam("projectName") String projectName, @QueryParam("visibility") Visibility visibility) {
+        String userEmail;
+        try {
+            userEmail = gfContexts.getUserEmail(req);
+        } catch (IOException e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("userEmail not found in context").build();
+        }
+        Project project = new Project(projectName);
+        User user = new User(userEmail);
+        Integer groupId = groupDAO.getMyGroupId(user, project);
+
+        List<FullSubmission> fullSubmissionList = new ArrayList<>();
+
+        switch (visibility) {
+            case DOCENT:
+            case PUBLIC:
+                fullSubmissionList = submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
+                break;
+            case GROUP:
+                fullSubmissionList = submissionController.getGroupSubmissions(project, groupId, FileRole.PORTFOLIO, visibility);
+                break;
+            case PERSONAL:
+                fullSubmissionList = submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO);
+        }
+
+        if (fullSubmissionList.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND).entity("No portfolio entries found").build();
+        }
+        return Response.ok(fullSubmissionList).build();
     }
 
 }

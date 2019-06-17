@@ -11,6 +11,8 @@ let possibleVisibilities = [];
 
 $(document).ready(function () {
     fileRole = $('#fileRole').html().trim();
+    let personalString = $("#personal").html().trim();
+    personal = personalString.toUpperCase() === 'TRUE';
     setupPageContent();
     if (!personal) {
         getMyGroupId(function (groupId) {
@@ -35,7 +37,7 @@ $(document).ready(function () {
                     projectName: $('#projectName').text().trim(),
                     personal: personal,
                     fileRole: fileRole.toUpperCase(),
-                    visibility: currentVisibility.name
+                    visibility: currentVisibleButtonText.name
                 };
 
                 // save request in database
@@ -75,11 +77,9 @@ $(document).ready(function () {
 
 });
 
-
 function setupPageContent() {
-    let personalString = $("#personal").html().trim();
-    personal = personalString.toUpperCase() === 'TRUE';
-    getVisibilities(function (response) {
+    populateHeaderTemplate();
+    getVisibilities(personal, function (response) {
         Object.entries(response).forEach(([name, buttonText]) => {
             possibleVisibilities[name] = {name: name, buttonText: buttonText};
         });
@@ -92,43 +92,32 @@ function setupPageContent() {
     });
 }
 
+function populateHeaderTemplate() {
+    let data = {};
+    data.header = fileRole === "Portfolio" ? "Portfolio-Eintrag" : fileRole;
+    let tmpl = $.templates("#headerTemplate");
+    let html = tmpl.render(data);
+    $("#headerTemplateResult").html(html);
+}
 
 function populateTextFields() {
     let data = {};
-    data.header = fileRole === "Portfolio" ? "Portfolio-Eintrag" : fileRole;
     data.fileRole = fileRole;
     data.possibleVisibilities = Object.values(possibleVisibilities);
     data.currentVisibility = currentVisibility;
     let tmpl = $.templates("#visibilityTemplate");
     let html = tmpl.render(data);
-    $("#templateResult").html(html);
-
+    $("#visibilityTemplateResult").html(html);
 }
 
-function visibilityDropDownClicked(clickedItem) {
-
+function changeButtonText(clickedItem, callback) {
     let dropBtn = $('.dropbtn');
     let oldText = dropBtn.html();
     let oldVisibility = currentVisibility;
     currentVisibility = possibleVisibilities[clickedItem];
     let newText = oldText.replace(oldVisibility.buttonText, currentVisibility.buttonText);
     dropBtn.html(newText);
-
-}
-
-
-function dropDownClick() {
-    $('#myDropdown').toggleClass('show');
-}
-
-// close dropdown after clicking
-window.onclick = function (e) {
-    if (fileRole === 'Portfolio') {
-        if (!e.target.matches('.dropbtn') && !e.target.matches('.fa-caret-down')) {
-            var myDropdown = document.getElementById("myDropdown");
-            if (myDropdown.classList.contains('show')) {
-                myDropdown.classList.remove('show');
-            }
-        }
+    if (callback) {
+        callback();
     }
-};
+}
