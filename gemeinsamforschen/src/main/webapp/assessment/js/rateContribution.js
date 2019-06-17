@@ -1,9 +1,12 @@
+let groupId;
+
 $(document).ready(function () {
     $('#missingFeedback').hide();
     $('#done').hide();
 
 
-    $('#groupId').html(getQueryVariable(groupId));
+    groupId=getQueryVariable("groupId");
+    $('#groupId').append(groupId);
     prepareContributionRating();
 
     //editor.style = "min-height: 100px";
@@ -16,7 +19,7 @@ $(document).ready(function () {
 /*function whichGroupToRate(callback) {
     let projectName = $('#projectName').html().trim();
     $.ajax({
-        url: '../rest/assessments/groupRate/project/' + projectName,
+        url: '../rest/assessment/groupRate/project/' + projectName,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -47,9 +50,10 @@ function safeContributionRating() {
         return false;
     }
     let fromPeer = $('#userEmail').html().trim();
-    let groupId = $('#groupId').html().trim();
+    let groupId = getQueryVariable("groupId");
+    let projectName = $('#projectName').html().trim();
     $.ajax({
-        url: '../rest/assessments/contributionRating/project/'+$('#projectName').html().trim()+'/group/' + groupId + '/fromPeer/' + fromPeer,
+        url: '../rest/assessment/contributionRating/project/'+projectName+'/group/' + groupId + '/fromPeer/' + fromPeer,
         type: 'POST',
         headers: {
             "Content-Type": "application/json",
@@ -70,7 +74,7 @@ function safeContributionRating() {
 
 function prepareContributionRating() {
     $.ajax({
-        url: '../rest/assessments/contributions/project/' + getProjectName(),
+        url: '../rest/assessment/contributions/project/' + getProjectName(),
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"

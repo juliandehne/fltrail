@@ -72,7 +72,7 @@ function checkAssessementPhase() {
     let userName = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
     $.ajax({
-        url: '../rest/assessments/whatToRate/project/' + projectName + '/student/' + userName,
+        url: '../rest/assessment/whatToRate/project/' + projectName + '/student/' + userName,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",

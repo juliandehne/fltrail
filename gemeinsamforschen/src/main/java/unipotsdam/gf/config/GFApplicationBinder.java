@@ -14,8 +14,7 @@ import unipotsdam.gf.interfaces.IReflexionService;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
-import unipotsdam.gf.modules.assessment.controller.service.AssessmentDBCommunication;
-import unipotsdam.gf.modules.assessment.controller.service.PeerAssessment;
+import unipotsdam.gf.modules.assessment.PeerAssessmentImpl;
 import unipotsdam.gf.modules.communication.DummyCommunicationService;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.communication.service.EmailService;
@@ -38,6 +37,7 @@ import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.quiz.QuizDAO;
 import unipotsdam.gf.modules.reflection.service.ReflexionService;
 import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
 import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
@@ -64,9 +64,7 @@ public class GFApplicationBinder extends AbstractBinder {
 
     private final static Logger log = LoggerFactory.getLogger(GFApplicationBinder.class);
 
-    /**
-     * TODO replace DummyImplementation
-     */
+
     @Override
     protected void configure() {
 
@@ -81,14 +79,13 @@ public class GFApplicationBinder extends AbstractBinder {
 
         bind(EmailService.class).to(EmailService.class);
         bind(ManagementImpl.class).to(Management.class);
-        bind(PeerAssessment.class).to(IPeerAssessment.class);
         bind(PeerAssessmentProcess.class).to(PeerAssessmentProcess.class);
         bind(PhasesImpl.class).to(IPhases.class);
         bind(GFContext.class).to(GFContext.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
-        bind(AssessmentDBCommunication.class).to(AssessmentDBCommunication.class);
+        bind(AssessmentDAO.class).to(AssessmentDAO.class);
         bind(GFContexts.class).to(GFContexts.class);
         bind(ProjectCreationProcess.class).to(ProjectCreationProcess.class);
         bind(GroupFormationProcess.class).to(GroupFormationProcess.class);
@@ -118,6 +115,8 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(AssessmentDAO.class).to(AssessmentDAO.class);
         bind(ReflexionProcess.class).to(ReflexionProcess.class);
         bind(TaskMapper.class).to(TaskMapper.class);
+        bind(PeerAssessmentImpl.class).to(IPeerAssessment.class);
+        bind(QuizDAO.class).to(QuizDAO.class);
 
         /*
          * TODO: @Martin comment in for your development

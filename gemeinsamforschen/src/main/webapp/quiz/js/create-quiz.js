@@ -52,7 +52,7 @@ $(document).ready(function () {
         });
         $.ajax({
             data: data,
-            url: '../rest/assessments/quiz',
+            url: '../rest/quiz/quiz',
             headers: {
                 "Content-Type": "application/json",
                 "Cache-Control": "no-cache"

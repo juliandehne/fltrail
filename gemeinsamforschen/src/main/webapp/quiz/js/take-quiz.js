@@ -1,8 +1,4 @@
 $(document).ready(function () {
-    $('#newQuiz').on('click', function () {
-        location.href = "create-quiz.jsp?projectName=" + projectName;
-    });
-
     let loading = $('#loadbar').hide();
     $(document)
         .ajaxStart(function () {
@@ -27,13 +23,12 @@ $(document).ready(function () {
 
     let projectName = document.getElementById('projectName').innerText.trim();
     $.ajax({
-        url: '../rest/assessments/project/' + projectName + '/quiz/',
+        url: '../rest/quiz/project/' + projectName + '/quiz/',
         type: 'GET',
         success: function (data) {
             let table = document.getElementById('tableQuiz');
             for (let quiz = 0; quiz < data.length; quiz++) {
-                let question = data[quiz].question.replace(/ /g, "").replace(/\?/g, "").replace(/,/g, "");
-                question = question.replace(/\"/g, "").replace(/\'/g, "");
+                let question = data[quiz].question.replace(/ /g, "").replace("?", "").replace(",", "");
                 let answers = data[quiz].correctAnswers.concat(data[quiz].incorrectAnswers);
                 let colspan = answers.length;
                 let trQuestion = document.createElement('TR');
@@ -42,6 +37,7 @@ $(document).ready(function () {
                     '' + data[quiz].question + '</td>';
                 trQuestion.innerHTML = tdQuestion;
                 let trAnswers = document.createElement('TR');
+                answers = shuffle(answers);
                 let answersTd = '<td style="display: block;">' +
                     '<div ' +
                     'class="quiz collapse" ' +
@@ -61,28 +57,63 @@ $(document).ready(function () {
                 }
                 tdQuestion = "";
                 answers = [];
-                let deletebutton = '<button class="btn btn-danger" id="delete' + question + '">löschen</button>';
-                trAnswers.innerHTML = answersTd + deletebutton + '</div></td>';
+                trAnswers.innerHTML = answersTd + '</div></td>';
                 table.appendChild(trQuestion);
                 table.appendChild(trAnswers);
-                $("#delete" + question).click({quizId: data[quiz].question}, deleteQuiz);
             }
         },
         error: function (a) {
             alert('Fehler ' + a);
         }
     });
-
-    function deleteQuiz(event) {
-        $.ajax({
-            url: '../rest/assessments/quiz/' + encodeURIComponent(event.data.quizId),
-            type: 'POST',
-            success: function () {
-                document.location.href = "quiz-docent.jsp?projectName=" + projectName;
-            },
-            error: function (a) {
-                alert(a)
-            }
-        });
-    }
+    $("#submitQuiz").on("click", function () {
+        safeQuizAnswers();
+    });
 });
+
+function shuffle(a) {
+    let j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
+
+function safeQuizAnswers() {
+    let quizzes = $('.quiz');
+    ///////initialize variables///////
+    let dataP = {};
+
+    ///////read values from html///////
+    for (let quiz = 0; quiz < quizzes.length; quiz++) {
+        let answerList = [];
+        if (quizzes[quiz].id !== "") {
+            let checkedBoxes = $("#" + quizzes[quiz].id + " input:checked");
+            checkedBoxes.each(function () {
+                answerList.push($(this).val());
+            });
+            let question = $("#" + quizzes[quiz].id + " p").html().trim();
+            dataP[question] = answerList;
+        }
+    }
+    let projectName = $('#projectName').html().trim();
+    let userName = $('#user').html().trim();
+    $.ajax({
+        url: '../rest/quiz/quizAnswer/projectName/' + projectName + '/userName/' + userName,
+        type: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        data: JSON.stringify(dataP),
+        success: function () {
+            location.href = "rate-contribution.jsp?projectName=" + projectName;
+        },
+        error: function (a, b, c) {
+
+        }
+    });
+}

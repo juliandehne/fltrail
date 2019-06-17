@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $("#giveItBack").on("click", function () {
         $.ajax({
-            url: "../rest/assessments/total/project/" + "gemeinsamForschen" + "/student/" + "Bela",
+            url: "../rest/assessment/total/project/" + "gemeinsamForschen" + "/student/" + "Bela",
             type: 'GET',
             success: function (data) {
                 alert("here is the TotalPerformance: " + data);
@@ -62,7 +62,7 @@ $(document).ready(function () {
         ];
 
         $.ajax({
-            url: "../rest/assessments/calculate",
+            url: "../rest/assessment/calculate",
             type: 'POST',
             headers: {
                 "Content-Type": "application/json",

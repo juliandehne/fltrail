@@ -46,9 +46,10 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.UUID;
 
+import static unipotsdam.gf.config.FileConfig.*;
+
 public class FileManagementService {
 
-    private static final String FOLDER_NAME = "userFilesFLTrail/";
 
     @Inject
     private GFContexts gfContexts;
@@ -58,8 +59,6 @@ public class FileManagementService {
 
     @Inject
     private UserDAO userDAO;
-
-
 
     @Inject
     private FileManagementDAO fileManagementDAO;
@@ -72,7 +71,18 @@ public class FileManagementService {
         return FOLDER_NAME + fileName;
     }
 
-    private void saveFileAsPDF(
+    /**
+     * saving NOT PDF files is supported yes or no? TODO @Axel
+     * @param user
+     * @param project
+     * @param inputStream
+     * @param fileDetail
+     * @param fileRole
+     * @param fileType
+     * @throws IOException
+     * @throws DocumentException
+     */
+    private void saveFile(
             User user, Project project, InputStream inputStream, FormDataContentDisposition fileDetail,
             FileRole fileRole, FileType fileType) throws IOException, DocumentException {
         String fileNameWithoutExtension = UUID.randomUUID().toString();
@@ -83,6 +93,7 @@ public class FileManagementService {
                 fileName = saveHTMLAsPDF(inputStream, fileNameWithoutExtension);
                 break;
             case UNKNOWN:
+            case PDF:
             default:
                 fileName = getDocumentFromFile(inputStream, fileNameWithoutExtension);
                 break;
@@ -97,8 +108,7 @@ public class FileManagementService {
             //fileContent = manipulateIndentation(fileContent);
         }
         InputStream inputStream = IOUtils.toInputStream(fileContent);
-        saveFileAsPDF(user, project, inputStream, fileDetail, fileRole, fileType);
-
+        saveFile(user, project, inputStream, fileDetail, fileRole, fileType);
     }
 
     public void saveStringAsPDF(User user, Project project, FullSubmissionPostRequest fullSubmissionPostRequest) throws IOException, DocumentException {
@@ -127,7 +137,7 @@ public class FileManagementService {
         return htmlSerializer.getAsString(tagNode);
     }
 
-    String manipulateIndentation(String fileContent) {
+    void manipulateIndentation(String fileContent) {
         /*
         todo:
             implementation hier
@@ -143,7 +153,6 @@ public class FileManagementService {
             String fullText = converter.convertElementsToTextNodes(element.childNodes());
             element.text(fullText);
         });
-        return fileContent;
     }
 
     private String getDocumentFromFile(InputStream inputStream, String fileNameWithoutExtension) throws IOException {
@@ -265,7 +274,7 @@ public class FileManagementService {
             fileDetail
     ) throws IOException, CssResolverException, DocumentException {
         //get the PDF Version of the InputStream and Write Meta into DB
-        saveFileAsPDF(user, project, inputStream, fileDetail, FileRole.PRESENTATION, FileType.UNKNOWN);
+        saveFile(user, project, inputStream, fileDetail, FileRole.PRESENTATION, FileType.UNKNOWN);
     }
 
     public void uploadFile(User user, Project project, InputStream inputStream, FormDataContentDisposition
@@ -288,13 +297,16 @@ public class FileManagementService {
                 break;
             case DOSSIER:
                 //this can just be used for PDFs and PPTX, so: todo replace this with docx interface
-                saveFileAsPDF(user, project, inputStream, fileDetail, FileRole.DOSSIER, FileType.UNKNOWN);
+                saveFile(user, project, inputStream, fileDetail, FileRole.DOSSIER, FileType.UNKNOWN);
                 break;
             case LEARNINGGOALS:
                 break;
             case EXTRA:
+                // seems not to be implemented TODO @Axel
                 uploadFile(user, project, inputStream, fileDetail);
             default:
+                //uploadFile(user, project, inputStream, fileDetail);
+                saveFile(user, project, inputStream, fileDetail, fileRole, FileType.PDF);
                 break;
         }
     }

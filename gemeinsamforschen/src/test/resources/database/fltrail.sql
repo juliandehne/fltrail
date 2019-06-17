@@ -108,11 +108,11 @@ CREATE TABLE `contributionfeedback`
 CREATE TABLE `contributionrating`
 (
     `projectName` varchar(200) NOT NULL,
-    `userName`    varchar(100) NOT NULL,
+    `userName`    varchar(100) NULL,
     `fromPeer`    varchar(100) NOT NULL,
-    `dossier`     int(11)      NOT NULL,
-    `eJournal`    int(11)      NOT NULL,
-    `research`    int(11)      NOT NULL
+    `groupId`     int,
+    `fileRole`    varchar(100),
+    `rating`      int not NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='Holds the quantitative peer assessment regarding the uploads.';
 

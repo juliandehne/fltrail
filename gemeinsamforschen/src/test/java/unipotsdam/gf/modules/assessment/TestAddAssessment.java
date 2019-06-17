@@ -6,16 +6,14 @@ import org.junit.Before;
 import org.junit.Test;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.quiz.Quiz;
+import unipotsdam.gf.modules.quiz.StudentAndQuiz;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.GroupEvalDataDatasets;
-import unipotsdam.gf.modules.assessment.controller.model.GroupEvalDataList;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentAndQuiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.process.PeerAssessmentProcess;
 
 import javax.inject.Inject;
@@ -24,8 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 
 
 public class TestAddAssessment {
@@ -43,7 +40,7 @@ public class TestAddAssessment {
     private String quizId = "Whats a good Test?";
 
     @Inject
-    MysqlConnect connect;
+    private MysqlConnect connect;
 
     @Before
     public void setUp() {
@@ -104,13 +101,13 @@ public class TestAddAssessment {
 
     @Test
     public void addTestAssessment() {
-        int [] quizAnswers = new int[5];
+        int[] quizAnswers = new int[5];
         quizAnswers[0] = 0;
         quizAnswers[1] = 1;
         quizAnswers[2] = 0;
         quizAnswers[3] = 1;
         quizAnswers[4] = 1;
-        int [] workRating = new int[3];
+        int[] workRating = new int[3];
         workRating[0] = 5;      //Führungsqualität
         workRating[1] = 1;      //Pünktlichkeit
         workRating[2] = 4;      //Hilfsbereitschaft oder so
@@ -145,54 +142,32 @@ public class TestAddAssessment {
         connect.close();
     }
 
-    @Test
-    public void groupDatafromDB() {
 
-        List<String> userNamen = new ArrayList<>();
-        GroupEvalDataDatasets datenSaetze = new GroupEvalDataDatasets();
-        GroupEvalDataList datenDia = new GroupEvalDataList();
-        connect.connect();
-
-        String mysqlRequestGroupuser = "SELECT * FROM `groupuser` WHERE `groupId`=? ";
-
-        VereinfachtesResultSet namenDerUser = connect.issueSelectStatement(mysqlRequestGroupuser, 3);
-        int[] bewertungenZwischen = new int[10];
-        while (namenDerUser.next()) {
-            userNamen.add(namenDerUser.getString("userEmail"));
-        }
-        for (int i = 0; i < userNamen.size(); i++) {
-            String mysqlRequestAssessment = "SELECT * FROM `assessments` WHERE `empfaengerId`=?";
-            VereinfachtesResultSet bewertungDerUser = connect.issueSelectStatement(mysqlRequestAssessment, userNamen.get(i));
-
-            while (bewertungDerUser.next()) {
-                //bewertungenZwischen.add(bewertungDerUser.getInt("bewertung"));
-                System.out.println("Hass");
-            }
-            datenSaetze.setData(bewertungenZwischen);
-            //datenSaetze.setLabel(userNamen.get(i));
-            datenDia.appendDataSet(datenSaetze);
-            System.out.println(datenSaetze.getData());
-            System.out.println(datenSaetze.getLabel());
-
-        }
-        connect.close();
-    }
 
     @Test
     public void quickstartAssessmentPhase() {
 
-        Project project = new Project("assessmenttest2");
+        Project project = new Project("Meine Güte");
         List<Group> groups = groupFinding.getGroups(project);
         assertFalse(groups.isEmpty());
 
-        //peerAssessmentProcess.startPeerAssessmentPhase(project);
+        peerAssessmentProcess.startPeerAssessmentPhase(project);
+        //peerAssessmentProcess.startGrading(project);
+
+
+    }
+
+    @Test
+    public void quickstartGradingPhase() {
+
+        Project project = new Project("Meine Güte");
+        List<Group> groups = groupFinding.getGroups(project);
+        assertFalse(groups.isEmpty());
 
         peerAssessmentProcess.startGrading(project);
 
 
     }
-
-
 
 
 }

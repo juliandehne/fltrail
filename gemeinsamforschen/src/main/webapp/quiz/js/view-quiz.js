@@ -37,7 +37,7 @@ $(document).ready(function () {
     let author = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
     $.ajax({
-        url: '../rest/assessments/project/' + projectName + '/quiz/' + quizId + '/author/' + author,
+        url: '../rest/quiz/project/' + projectName + '/quiz/' + quizId + '/author/' + author,
         type: 'GET',
         success: function (data) {
             let table = document.getElementById('tableQuiz');
@@ -64,7 +64,7 @@ $(document).ready(function () {
     });
     $("#deleteQuiz").on("click", function () {
         $.ajax({
-            url: '../rest/assessments/quiz/' + encodeURIComponent(quizId),
+            url: '../rest/quiz/quiz/' + encodeURIComponent(quizId),
             type: 'POST',
             success: function () {
                 document.location.href = "Quiz.jsp?projectName=" + projectName;

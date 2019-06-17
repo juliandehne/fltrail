@@ -2,6 +2,9 @@ package unipotsdam.gf.modules.assessment.controller.model;
 
 import unipotsdam.gf.modules.fileManagement.FileRole;
 
+/**
+ * TODO @AXEL pull roleOfContribution member up to contribution as it is essential to the concept
+ */
 public class FullContribution extends Contribution{
 
     private FileRole roleOfContribution;

@@ -112,7 +112,7 @@ function updateStatus(projectName) {
 function getGrade(projectName) {
     let userName = $('#userEmail').html().trim();
     $.ajax({
-        url: '../rest/assessments/get/project/' + projectName + '/student/' + userName,
+        url: '../rest/assessment/get/project/' + projectName + '/student/' + userName,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"

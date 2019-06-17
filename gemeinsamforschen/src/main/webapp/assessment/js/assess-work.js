@@ -113,7 +113,7 @@ function assessPeer() {
     }
     let projectName = $('#projectName').html().trim();
     $.ajax({
-        url: '../rest/assessments/peerRating/project/' + projectName,
+        url: '../rest/assessment/peerRating/project/' + projectName,
         type: 'POST',
         headers: {
             "Content-Type": "application/json",

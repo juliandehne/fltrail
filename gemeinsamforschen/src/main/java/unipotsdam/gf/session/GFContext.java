@@ -3,7 +3,7 @@ package unipotsdam.gf.session;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.modules.assessment.controller.model.Quiz;
+import unipotsdam.gf.modules.quiz.Quiz;
 import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 
 public class GFContext {

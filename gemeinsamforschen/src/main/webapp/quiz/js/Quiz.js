@@ -2,7 +2,7 @@ $(document).ready(function () {
     let projectName = document.getElementById('projectName').innerText.trim();
     let userName = document.getElementById('userEmail').innerText.trim();
     $.ajax({
-        url: '../rest/assessments/project/' + projectName + '/quiz/author/' + userName,
+        url: '../rest/quiz/project/' + projectName + '/quiz/author/' + userName,
         projectName: projectName,
         type: 'GET',
         success: function (data) {

@@ -1,5 +1,7 @@
-package unipotsdam.gf.modules.assessment.controller.model;
+package unipotsdam.gf.modules.quiz;
 
+
+import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 
 /**
  * TODO @Axel: Normally a quiz would have a student field property instead of creating a new class
