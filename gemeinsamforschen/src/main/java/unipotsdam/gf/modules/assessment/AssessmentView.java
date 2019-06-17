@@ -1,17 +1,23 @@
 package unipotsdam.gf.modules.assessment;
 
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
 import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
 import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
+import unipotsdam.gf.modules.group.preferences.survey.SurveyData;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.PeerAssessmentProcess;
+import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
@@ -19,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -151,54 +158,57 @@ public class AssessmentView {
         return peer.getTotalAssessment(userNameentifier);
     }  /////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
+    /**
+     * get the survey questions
+     *
+     * @param projectId
+     * @return
+     * @throws Exception
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("/data/project/{projectId}")
+    public SurveyData getInternalAssessmentQuestions(@PathParam("projectId") String projectId) throws Exception {
+        InternalAssessmentQuestions internalAssessmentQuestions = new InternalAssessmentQuestions();
+        SurveyData questionsInSurveyJSFormat = internalAssessmentQuestions.getQuestionsInSurveyJSFormat();
+        return questionsInSurveyJSFormat;
+    }
+
+    /**
+     * save the answers a user has given in a survey
+     *
+     * @param data
+     * @param projectName
+     * @param req
+     * @throws RocketChatDownException
+     * @throws UserDoesNotExistInRocketChatException
+     * @throws WrongNumberOfParticipantsException
+     * @throws JAXBException
+     * @throws IOException
+     */
+    @POST
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("/save/projects/{projectName}/context/{context}/user/{userFeedbacked}")
+    public void saveInternalAssessment(
+            HashMap<String, String> data, @PathParam("projectName") String projectName,
+            @PathParam("context") String context, @PathParam("userFeedbacked") String userFeedbacked, @Context
+            HttpServletRequest req)
+            throws Exception {
+            Project project = new Project(projectName);
+            User user = gfContexts.getUserFromSession(req);
+            User feedbackedUser = new User(userFeedbacked);
+            peerAssessmentProcess.persistInternalAssessment(project, user, feedbackedUser);
+    }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/dummy/totalperformance")
-    public List<Performance> getTotalAssessment() {
-        List<Performance> result = new ArrayList<>();
-        StudentIdentifier student = new StudentIdentifier("projekt", "student");
-        List<Integer> quiz = new ArrayList<>();
-        quiz.add(1);
-        quiz.add(0);
-        quiz.add(1);
-        quiz.add(0);
-        quiz.add(1);
-        quiz.add(0);
-        quiz.add(1);
-        Map<String, Double> work = new HashMap<>();
-        work.put("responsibility", 1.);
-        work.put("partOfWork", 1.);
-        work.put("cooperation", 1.);
-        work.put("communication", 1.);
-        work.put("autonomous", 1.);
-        Map<String, Double> work2 = new HashMap<>();
-        work2.put("responsibility", 3.);
-        work2.put("partOfWork", 4.);
-        work2.put("cooperation", 5.);
-        work2.put("communication", 3.);
-        work2.put("autonomous", 4.);
-        Map<FileRole, Double> contribution1 = new HashMap<>();
-        contribution1.put(FileRole.DOSSIER, 4.);
-        contribution1.put(FileRole.PORTFOLIO, 4.);
-        Map<FileRole, Double> contribution2 = new HashMap<>();
-        contribution2.put(FileRole.DOSSIER, 2.);
-        contribution2.put(FileRole.PORTFOLIO, 3.);
-        Performance pf = new Performance();
-        pf.setContributionRating(contribution1);
-        pf.setQuizAnswer(quiz);
-        pf.setProject(new Project("test1"));
-        pf.setUser(new User("test1@uni.de"));
-        pf.setWorkRating(work);
-        Performance pf2 = new Performance();
-        pf2.setContributionRating(contribution2);
-        pf2.setQuizAnswer(quiz);
-        pf2.setProject(new Project("test2"));
-        pf2.setUser(new User("test2@uni.de"));
-        pf2.setWorkRating(work2);
-        result.add(pf);
-        result.add(pf2);
-        return result;
-    }  /////////dummy////////////returns what i expect it to return!!!!!//////////////////////////////////
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("/nextGroupMemberToRate/projects/{projectName}")
+    public User getNextGroupMemberToRateInternally(@PathParam("projectName") String projectName, @Context
+            HttpServletRequest req) throws IOException {
+        Project project = new Project(projectName);
+        User user = gfContexts.getUserFromSession(req);
+        return peerAssessmentProcess.getNextUserToRateInternally(project, user);
+    }
+
 
 }

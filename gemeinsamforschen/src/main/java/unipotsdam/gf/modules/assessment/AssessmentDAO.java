@@ -360,5 +360,39 @@ public class AssessmentDAO {
         return result;
     }
 
+    /**
+     * TODO @Julian join with user Table to get the Name of the User to Feedback as well to display
+     * @param user
+     * @param project
+     * @return
+     */
+    public User getNextGroupMemberToFeedback(User user, Project project) {
+        User result = null;
+        connect.connect();
+
+        // SELF JOIN YEAH YEAH YEAH
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("SELECT gu2.userEmail from groupuser gu ");
+        stringBuilder.append("JOIN groupuser gu2 ");
+        stringBuilder.append("ON gu.groupId = gu2.groupId ");
+        stringBuilder.append("join groups g ");
+        stringBuilder.append("on gu.groupId = g.id");
+        stringBuilder.append("JOIN workrating wr ");
+        stringBuilder.append("ON wr.userEmail <> gu2.userEmail ");
+        stringBuilder.append("WHERE wr.fromPeer <> gu.userEmail ");
+        stringBuilder.append("AND gu.userEmail <> gu2.userEmail ");
+        stringBuilder.append("AND gu.userEmail = ? ");
+        stringBuilder.append("AND g.projectName = ?");
+        String query = stringBuilder.toString();
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query);
+        if (vereinfachtesResultSet != null) {
+            vereinfachtesResultSet.next();
+            String userEmail = vereinfachtesResultSet.getString("userEmail");
+            result = new User(userEmail);
+        }
+
+        connect.close();
+        return result;
+    }
 
 }

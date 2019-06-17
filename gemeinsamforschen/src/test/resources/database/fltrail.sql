@@ -527,13 +527,11 @@ CREATE TABLE `workrating`
     `projectName`    varchar(200) NOT NULL,
     `userEmail`      varchar(100) NOT NULL,
     `fromPeer`       varchar(100) NOT NULL,
-    `responsibility` int(11)      NOT NULL,
-    `partOfWork`     int(11)      NOT NULL,
-    `cooperation`    int(11)      NOT NULL,
-    `communication`  int(11)      NOT NULL,
-    `autonomous`     int(11)      NOT NULL
+    `rating`         int          NOT NULL,
+    `itemName`       varchar(100) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='@Axel plz comment';
+
 
 
 create table mappedtasks

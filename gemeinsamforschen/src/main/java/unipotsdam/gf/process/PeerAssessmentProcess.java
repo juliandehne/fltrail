@@ -1,6 +1,7 @@
 package unipotsdam.gf.process;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.modules.assessment.AssessmentDAO;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
@@ -33,6 +34,9 @@ public class PeerAssessmentProcess {
 
     @Inject
     private IPeerAssessment peer;
+
+    @Inject
+    private AssessmentDAO assessmentDAO;
 
     /**
      * this function is only used to show the peer assessment phase before previous phases are ready
@@ -112,6 +116,15 @@ public class PeerAssessmentProcess {
 
         // set final grading tasks
     }
+
+    public void persistInternalAssessment(Project project, User user, User feedbackedUser) {
+            // TODO need to implement
+    }
+
+    public User getNextUserToRateInternally(Project project, User user) {
+        return assessmentDAO.getNextGroupMemberToFeedback(user, project);
+    }
+
 
     /**
      * IF WE GET TO THE PEER ASSESSMENT PHASE NATURALLY (NOT VIA DIRECT LINK AFTER GROUP FORMATION)

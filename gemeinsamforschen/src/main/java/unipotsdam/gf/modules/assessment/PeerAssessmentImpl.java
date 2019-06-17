@@ -104,6 +104,12 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         new QuizDAO().deleteQuiz(quizId);
     }
 
+    /**
+     * TODO @AXEL plz add comment what this does or delete
+     * @param project
+     * @param user
+     * @return
+     */
     @Override
     public String whatToRate(Project project, User user) {
         Integer groupId = groupDAO.getGroupByStudent(project, user);
