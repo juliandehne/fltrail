@@ -1,9 +1,6 @@
 package unipotsdam.gf.modules.assessment;
 
-import unipotsdam.gf.modules.group.preferences.survey.LocalizedText;
-import unipotsdam.gf.modules.group.preferences.survey.Page;
-import unipotsdam.gf.modules.group.preferences.survey.Question;
-import unipotsdam.gf.modules.group.preferences.survey.SurveyData;
+import unipotsdam.gf.modules.group.preferences.survey.*;
 
 import java.util.ArrayList;
 
@@ -69,17 +66,25 @@ public class InternalAssessmentQuestions {
 
     public SurveyData getQuestionsInSurveyJSFormat() {
         SurveyData surveyData = new SurveyData();
+        //surveyData.setTitle(new LocalizedText("Bewertung der Gruppenarbeit", "Bewertung der Gruppenarbeit" ));
         Page page = new Page();
-        page.setName("Bewertung der Gruppenarbeit");
+        //page.setName("Bewertung der Gruppenarbeit");
+        int i = 0;
         for (QuestionData questionData : getTheQuestions()) {
+            if (i == 4) {
+                surveyData.getPages().add(page);
+                page = new Page();
+                //page.setName("Bewertung der Gruppenarbeit");
+            }
             page.getQuestions().add(convert(questionData));
+            i++;
         }
         surveyData.getPages().add(page);
         return surveyData;
     }
 
     private Question convert(QuestionData questionData) {
-        Question result = new Question();
+        Question result = new ScaledQuestion();
         result.setIsRequired(true);
         result.setName(questionData.getKey());
         LocalizedText localizedText = new LocalizedText();

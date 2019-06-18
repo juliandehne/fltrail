@@ -193,6 +193,9 @@ function handleInfoTasks(object, result) {
         case "UPLOAD_PRESENTATION":
             result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
             break;
+        case "GIVE_INTERNAL_ASSESSMENT":
+            result.infoText = "Bitte laden Sie die Gruppenarbeit ihres Gruppenmitglieds!";
+            break;
         default:
             result.infoText = "";
     }
@@ -324,6 +327,10 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
                     "projectName=" + object.projectName+"&groupId="+result.taskData.objectGroup.id+"\')";
 
+                break;
+            case "GIVE_INTERNAL_ASSESSMENT":
+                result.solveTaskWith = "Bewerten Sie ihr Gruppenmitglied!";
+                result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName="+projectName+"\')";
                 break;
             default:
                 result.solveTaskWith = null;

@@ -13,6 +13,7 @@ import unipotsdam.gf.process.tasks.*;
 import javax.inject.Inject;
 import javax.ws.rs.PathParam;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -106,19 +107,17 @@ public class PeerAssessmentProcess {
         taskDAO.persistMemberTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT, Phase.Assessment);
         taskDAO.persistMemberTask(project, TaskName.GIVE_INTERNAL_ASSESSMENT, Phase.Assessment);
 
-        // set assessment tasks for docent TODO
-
         // set assessment tasks for students
         List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
         for (User user : usersByProjectName) {
             taskMapper.persistTaskMapping(project, user, TaskName.GIVE_EXTERNAL_ASSESSMENT);
         }
-
         // set final grading tasks
     }
 
-    public void persistInternalAssessment(Project project, User user, User feedbackedUser) {
-            // TODO need to implement
+    public void persistInternalAssessment(
+            Project project, User user, User feedbackedUser, HashMap<String, String> data) {
+         assessmentDAO.persistInternalAssessment(project, user, feedbackedUser, data);
     }
 
     public User getNextUserToRateInternally(Project project, User user) {

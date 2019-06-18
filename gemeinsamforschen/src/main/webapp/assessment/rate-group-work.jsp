@@ -3,7 +3,7 @@
   User: dehne
   Date: 18.09.2018
   Time: 13:36
-  To change this template use File | Settings | File Templates.
+  This JSP holds the questions that are used to assess the group work
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
@@ -17,7 +17,7 @@
     <script src="https://surveyjs.azureedge.net/1.0.60/survey.jquery.min.js"></script>
     <link rel="stylesheet" href="../groupfinding/css/create-groups-manual.css">
     <script type="text/javascript" src="../libs/jquery/jqueryTemplate.js"></script>
-    <script src="js/groupALSurvey.js"></script>
+    <script src="js/rate-group-work.js"></script>
 </head>
 <body>
 <div id="flex-wrapper">
@@ -28,9 +28,12 @@
     <div class="row group">
         <main class="projects">
             <div class="col span_content span_2_of_2 centered">
-                <h5>
+                <div id="taskTemplateDiv">
 
-                </h5>
+                </div>
+                    <script id="taskTemplate" type="text/x-jQuery-tmpl">
+                        <h3>Bewertung des Gruppenmitglieds ${name}</h3>
+                    </script>
                 <div id="theSurvey">
                     <div id="surveyContainer"></div>
                     <div id="resultLink"></div>

@@ -197,7 +197,7 @@ public class AssessmentView {
             Project project = new Project(projectName);
             User user = gfContexts.getUserFromSession(req);
             User feedbackedUser = new User(userFeedbacked);
-            peerAssessmentProcess.persistInternalAssessment(project, user, feedbackedUser);
+            peerAssessmentProcess.persistInternalAssessment(project, user, feedbackedUser, data);
     }
 
     @GET
