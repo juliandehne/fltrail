@@ -147,7 +147,7 @@ public class TestAddAssessment {
     @Test
     public void quickstartAssessmentPhase() {
 
-        Project project = new Project("Meine Güte");
+        Project project = new Project("assessmenttest3");
         List<Group> groups = groupFinding.getGroups(project);
         assertFalse(groups.isEmpty());
 

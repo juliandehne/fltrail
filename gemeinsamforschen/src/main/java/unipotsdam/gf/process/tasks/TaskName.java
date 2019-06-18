@@ -19,7 +19,9 @@ public enum TaskName {
     // Student ePortfolio Tasks
     OPTIONAL_PORTFOLIO_ENTRY, REFLECT_DOSSIER_CREATION, ANSWER_REFLEXION_QUESTIONS,
 
-    // assessment tasks
+    ///////////////////////////////////
+    // ASSESSMENT PHASE  tasks
+    ////////////////////////////////////
 
     // students have to upload their presentation
     UPLOAD_PRESENTATION,
@@ -35,11 +37,11 @@ public enum TaskName {
     // student rates his own group
     GIVE_INTERNAL_ASSESSMENT,
 
-
-    // DOCENT gives assessments
-    GIVE_ASSESSMENT,
-
-    SEE_ASSESSMENT,
+    // students wait for their grades to be done
+    WAIT_FOR_GRADING,
+    /////////////////////////////////////////////////////
+    // GRADING PHASE TASKS
+    /////////////////////////////////////////////////////
 
     // shared tasks
     // execution phase
@@ -47,6 +49,6 @@ public enum TaskName {
 
 
     // the docent waits for students to grade their peers
-    WAIT_FOR_GRADING,
+
     END
 }

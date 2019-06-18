@@ -34,7 +34,8 @@ function sendDataToServer(survey) {
     serverSide(dataReq, "POST", function () {
         //log.warn(a);
         // bestätigung, dass es gut funktioniert hat und dann zurückbutton anbieten
-        //location.href = "../project/tasks-student.jsp?projectName=" + projectName;
+        // this here is a dummy
+        location.href = "../project/tasks-student.jsp?projectName=" + projectName;
     })
 }
 

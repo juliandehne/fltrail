@@ -55,16 +55,45 @@ public class AssessmentDAO {
         String fileRole2 = FileRole.FINAL_REPORT.name();
         int reportCount = getNumberOfSubmittedFiles(project, fileRole2);
         assessmentProgress.setNumberOfGroupReportsMissing(numberOfGroups - reportCount);
+        
+        int nEA = getNumberOfGroupsWithoutExternalAssessment(project);
+        assessmentProgress.setNumberOfGroupsWithoutExternalAssessment(nEA);
 
-        //
-        assessmentProgress.setNumberOfGroupsWithoutExternalAssessment(numberOfGroups);
-        // Todo IMPLEMENT
-
+        int nSIA = getNumberOfStudentsWithoutInternalAssesment(project);
         assessmentProgress
-                .setNumberOfStudentsWithoutInternalAsssessment(userDAO.getUsersByProjectName(project.getName()).size());
-        // TODO IMPLEMENT
+                .setNumberOfStudentsWithoutInternalAsssessment(nSIA);
 
         return assessmentProgress;
+    }
+
+    /**
+     * SELECT count(*) from groupuser currentUser JOIN groupuser feedbackedUser ON currentUser.groupId = feedbackedUser.groupId JOIN groups g on currentUser.groupId = g.id JOIN users us on us.email = feedbackedUser.userEmail WHERE g.projectName = "assessmenttest3" AND currentUser.userEmail <> feedbackedUser.userEmail AND (currentUser.userEmail, feedbackedUser.userEmail) not in( SELECT wr.fromPeer, wr.userEmail from workrating wr ) ORDER BY us.id
+     * @param project
+     * @return
+     */
+    private int getNumberOfStudentsWithoutInternalAssesment(Project project) {
+        int result = -1;
+        connect.connect();
+        String query = "SELECT count(*) from groupuser currentUser" +
+                " JOIN groupuser feedbackedUser ON currentUser.groupId = feedbackedUser.groupId " +
+                " JOIN groups g on currentUser.groupId = g.id" +
+                " JOIN users us on us.email = feedbackedUser.userEmail " +
+                " WHERE g.projectName = ? " +
+                " AND currentUser.userEmail <> feedbackedUser.userEmail" +
+                " AND (currentUser.userEmail, feedbackedUser.userEmail)" +
+                " not in( SELECT wr.fromPeer, wr.userEmail from workrating wr )";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
+        // TODO continue implement
+        connect.close();
+        return result;
+    }
+
+    private int getNumberOfGroupsWithoutExternalAssessment(Project project) {
+        int result = -1;
+        connect.connect();
+
+        connect.close();
+        return result;
     }
 
     public int getNumberOfSubmittedFiles(Project project, String fileRole) {
@@ -356,7 +385,8 @@ public class AssessmentDAO {
     }
 
     /**
-     * TODO @Julian join with user Table to get the Name of the User to Feedback as well to display
+     * This method gets the next user that has not been given feedback yet from the group
+     * needs to be tested with at least 3-4 users in a group and more then one group
      SELECT  us.email, us.name
      from groupuser currentUser
      JOIN groupuser feedbackedUser

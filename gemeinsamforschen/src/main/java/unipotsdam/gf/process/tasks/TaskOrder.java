@@ -31,8 +31,6 @@ public class TaskOrder {
         result.add(TaskName.GIVE_EXTERNAL_ASSESSMENT);
         result.add(TaskName.COLLECT_RESULTS_FOR_ASSESSMENT);
         result.add(TaskName.WAIT_FOR_PEER_ASSESSMENTS);
-        result.add(TaskName.GIVE_ASSESSMENT);
-        result.add(TaskName.SEE_ASSESSMENT);
         result.add(TaskName.FINALIZE_ASSESSMENT);
         result.add(TaskName.CLOSE_ASSESSMENT_PHASE);
         result.add(TaskName.END);
