@@ -80,10 +80,16 @@
 
                     {{for categories}}
                         <li class="spacing">
-                            <div id="{{>nameLower}}" class="category-card not-added">
+                        <div class="row group">
+                            <div id="{{>nameLower}}" class="category-card not-added col span_content">
                                 <p>{{>name}}</p>
                             </div>
-                            <a onClick="deleteCategory('{{>nameLower}}');"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                            <div class="delete-part span_content">
+                                <a onClick="deleteCategory('{{>nameLower}}');">
+                                    <p>X</p>
+                                </a>
+                            </div>
+                        </div>
                         </li>
                     {{/for}}
                 </script>
