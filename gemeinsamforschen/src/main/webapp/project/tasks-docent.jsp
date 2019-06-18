@@ -27,8 +27,11 @@
             </div>
              <!-- -->
              <script id="taskTemplate" type="text/x-jQuery-tmpl">
-                  <h3 class="phase-heading ${phase} ">${phase}</h3>
-                   <div class="card ${phase}">
+             <div></div>   <!-- Without this seemingly useless line, intelliJ does not recognise HTML code-->
+                  {{if (current==true)}}
+                        <h3 class="phase-heading ${phase} ">${headLine}</h3>
+                  {{/if}}
+                  <div class="card ${phase}">
                        <div class="col span_s_of_2 icon ${taskType}"> </div>
                        <div class="col span_l_of_2" id="${taskName}">
                            {{if infoText}}
@@ -90,23 +93,60 @@
                            {{html timeFrame}}
                        {{/if}}
                            <div style="clear:left"></div>
-                    </div> <!-- end card -->
-
-
-
+                  </div> <!-- end card -->
                 </script>
 
-        <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
+             <!-- <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
             <div class="card-finished">
                 <h3 class="icon closed phase-heading ${phase} " {{if !timeFrame}}style="color:lightgray;"{{/if}}><span>${infoText}</span></h3>
            <p style="text-align:center;">{{html timeFrame}}</p>
             </div>
+        </script>-->
+
+
+             <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
+                <div></div>
+                    {{if (current==true)}}
+                        <h3 class="phase-heading ${phase} ">${headLine}</h3>
+                    {{/if}}
+                    {{if timeFrame}}
+                        <p style="text-align:center;">{{html timeFrame}}</p>
+                    {{else}}
+            <div class="card ${phase} row">
+
+                    <div class="col span_s_of_2 icon ${taskType}"></div>
+                    <div class="col span_l_of_2">
+                    <p style="color:gray;">${infoText}</p>
+                    {{if inCardSolver}}
+                        {{if inCardSolver=="WAIT_FOR_PARTICPANTS"}}
+                            <p style="color:gray;">
+                                Die Arbeitsgruppen wurden gebildet. Unter diesem
+                                <a style="cursor:pointer;" id="groupView">Link</a>
+                                können sie die Gruppen sehen.
+                            </p>
+                        {{/if}}
+                    {{/if}}
+                    </div>
+            </div>
+            {{/if}}
         </script>
 
+
         </div> <!-- end span L of 2 -->
-        <div class="col span_chat">
-            <chat:chatWindow orientation="right" scope="project"/>
-            <%--<chat:chatWindow orientation="right" scope="group"/>--%>
+        <div class="col span_chat right">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item active">
+                    <a class="nav-link active" href="#projectChat" role="tab" data-toggle="tab">ProjektChat</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="projectChat">
+                    <chat:chatWindow orientation="right" scope="project"/>
+                </div>
+            </div>
+
         </div>
     </div><!-- end row -->
 </main>

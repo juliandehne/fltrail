@@ -1,5 +1,6 @@
 $(document).ready(function () {
     $('#headLineProject').html($('#projectName').html());
+    $('#taskCompleted').hide();
     $('#logout').click(function () {
         $.ajax({
             url: '../rest/logout/user',
@@ -278,4 +279,20 @@ function calculateHierachy(level) {
         return calculateHierachy(level - 1) + "../";
 
     }
+}
+
+/**
+ * Use this function when page has a div with ID "taskCompleted"
+ * @param isDocent
+ */
+function taskCompleted() {
+    let isStudent = $('#isStudent').val();
+    $('#taskCompleted').show();
+    setTimeout(function () {
+        if (isStudent === "isDocent") {
+            document.location.href = "../project/tasks-docent.jsp?projectName=" + $('#projectName').html().trim();
+        } else {
+            document.location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
+        }
+    }, 1000);
 }

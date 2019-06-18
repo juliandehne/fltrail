@@ -68,19 +68,32 @@
                     </div>
                 </script>
 
-        <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
-        <div></div>
+                <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
+                <div></div>
                     {{if (current==true)}}
                         <h3 class="phase-heading ${phase} ">${headLine}</h3>
                     {{/if}}
+                    {{if timeFrame}}
+                        <p style="text-align:center;">{{html timeFrame}}</p>
+                    {{else}}
             <div class="card ${phase}">
-               <div class="card-finished">
-                    <h4 class="icon closed">${infoText}</h4>
 
-               {{html timeFrame}}
-               </div>
+                    <div class="col span_s_of_2 icon ${taskType}"></div>
+                    <div class="col span_l_of_2">
+                    <p style="color:gray;">${infoText}</p>
+                    {{if inCardSolver}}
+                        {{if inCardSolver=="WAITING_FOR_GROUP"}}
+                            <p style="color:gray;">
+                                Die Arbeitsgruppen wurden gebildet. Unter diesem
+                                <a style="cursor:pointer;" id="groupView">Link</a>
+                                können sie die Gruppen sehen.
+                            </p>
+                        {{/if}}
+                    {{/if}}
+                    </div>
+                <div style="clear:left"></div>
             </div>
-
+            {{/if}}
         </script>
                 <script id="inProgressTaskTemplate" type="text/x-jQuery-tmpl">
                 <div></div>
@@ -102,11 +115,25 @@
         </script>
     </div>
         <div class="col span_chat right">
-            <chat:chatWindow orientation="right" scope="project"/>
-            <div id="groupView">
-                <chat:chatWindow orientation="right" scope="group"/>
-                <a style="cursor:pointer;">Gruppenansicht</a>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item active">
+                    <a class="nav-link active" href="#projectChat" role="tab" data-toggle="tab">ProjektChat</a>
+                </li>
+                <li class="nav-item" disabled="true" id="liGroupWindow">
+                    <a class="nav-link" href="#groupChat" role="tab" data-toggle="tab">Gruppenchat</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="projectChat">
+                    <chat:chatWindow orientation="right" scope="project"/>
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="groupChat">
+                    <chat:chatWindow orientation="right" scope="group"/>
+                </div>
             </div>
+
         </div>
     </div> <!-- end row -->
 </main>

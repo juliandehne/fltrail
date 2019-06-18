@@ -53,6 +53,7 @@
 </p>
 <p id="projectName" hidden><%= tu.printMe(projectName)%>
 </p>
+<input id="isStudent" value="<%= tu.printMe(isStudent)%>" hidden>
 <div class="row group">
     <div class="titlerow"><% if (projectName != null) {%>
         <h1 id="projectHeadline"><%= tu.printMe(projectName)%>

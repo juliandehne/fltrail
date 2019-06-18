@@ -13,6 +13,11 @@ a.disabled{
     pointer-events: none;
 }
 
+li.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -149,7 +154,7 @@ footer {
 
 @media only screen and (max-width: 480px) {
     .col {
-        margin: 1% 0 1% 0%;
+        margin: 1% 0 1% 0;
     }
 }
 
@@ -167,7 +172,10 @@ footer {
     font-family: 'Font Awesome 5 Free' !important;
     font-style: normal;
     font-weight: 900;
+}
 
+.col.icon.closed {
+    font-size: 20px;
 }
 
 .closed:after {

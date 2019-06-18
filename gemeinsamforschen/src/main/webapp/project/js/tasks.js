@@ -5,15 +5,17 @@ let userEmail;
 $(document).ready(function () {
     userEmail = $('#userEmail').html().trim();
     projectName = $('#projectName').html().trim();
-    groupViewLink = $('#groupView');
-    groupViewLink.hide();
-    fillTasks(projectName, userEmail);
-    groupViewLink.on('click', function () {
-        location.href = "../groupfinding/view-groups.jsp?projectName=" + projectName;
+    groupViewLink = $('#liGroupWindow');
+    groupViewLink.toggleClass("disabled");
+
+    fillTasks(projectName, userEmail, function () {
+        $('#groupView').on('click', function () {
+            location.href = "../groupfinding/view-groups.jsp?projectName=" + projectName;
+        });
     });
 });
 
-function fillTasks(projectName, userEmail) {
+function fillTasks(projectName, userEmail, callback) {
     $.ajax({
         url: '../rest/tasks/user/' + encodeURI(userEmail) + '/project/' + projectName,
         headers: {
@@ -39,6 +41,7 @@ function fillTasks(projectName, userEmail) {
                         break;
                 }
             }
+            callback();
         },
         error: function (a) {
         }
@@ -56,22 +59,22 @@ function handlePhases(object, result) {
             result.headLine = "Gruppenbildung";
             break;
         case "DossierFeedback":
-            groupViewLink.show();
+            groupViewLink.toggleClass("disabled");
             result.phase = "card-feedback";
             result.headLine = "Entwurfsphase";
             break;
         case "Execution":
-            groupViewLink.show();
+            groupViewLink.toggleClass("disabled");
             result.phase = "card-execution";
             result.headLine = "Durchführung";
             break;
         case "Assessment":
-            groupViewLink.show();
+            groupViewLink.toggleClass("disabled");
             result.phase = "card-assessment";
             result.headLine = "Bewertungsphase";
             break;
         case "Projectfinished":
-            groupViewLink.show();
+            groupViewLink.toggleClass("disabled");
             result.phase = "card-grades";
             result.headLine = "Projektabschluss";
             break;
@@ -94,7 +97,7 @@ function handleDeadlines(object, result) {
 
 function handleTaskType(object, result) {
     if (object.taskType !== "INFO") {
-        if (object.groupTask === true) {
+        if (object.groupTask !== 0) {
             result.taskType = "grouptask"
         } else {
             result.taskType = "usertask"
@@ -130,11 +133,11 @@ function handleInfoTasks(object, result) {
             result.infoText = "Gehen Sie zur nächsten Phase über.";
             break;
         case "WAITING_FOR_GROUP":
-            result.infoText = "[STUDENT] Die Arbeitsgruppen werden gebildet. Sie werden informiert, wenn es so weit" +
+            result.infoText = "Die Arbeitsgruppen werden gebildet. Sie werden informiert, wenn es so weit" +
                 " ist.";
             break;
         case "UPLOAD_DOSSIER":
-            result.infoText = "Legen Sie ein Dossier an.";
+            result.infoText = "Legen sie ein Dossier an.";
             break;
         case "ANNOTATE_DOSSIER":
             result.infoText = "Annotieren Sie ihr Dossier.";
@@ -188,7 +191,8 @@ function handleInfoTasks(object, result) {
             result.infoText = "Sagen sie hallo zu ihren Gruppenmitgliedern über den Chat.";
             break;
         case "OPTIONAL_PORTFOLIO_ENTRY":
-            result.infoText = "E-Portfolio";
+            result.infoText = "Sie können hier ihr E-Portfolio beginnen. \n " +
+                "Am Ende des Projekts muss jede Gruppe ein gemeinsames Portfolio abgeben.";
             break;
         case "UPLOAD_PRESENTATION":
             result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
@@ -341,31 +345,39 @@ function handleLinkedTasks(object, result) {
 
 function handleFinishedTasks(object, result) {
     if (object.progress === "FINISHED") {
-        if (object.taskName === "WAIT_FOR_PARTICPANTS") {
-            result.infoText = "Gruppen sind final gespeichert. \n" +
-                "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
-        }
-        if (object.taskName === "GIVE_FEEDBACK") {
-            if (object.taskData !== null) {
-                result.infoText = "Sie können weiterhin ihr Feedback editieren";
-                result.solveTaskWith = "Geben Sie ein Feedback";
-                result.solveTaskWithLink = "redirect(\'../annotation/give-feedback.jsp?" +
-                    "projectName=" + object.projectName +
-                    "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
-            } else {
-                result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
-            }
-        }
-        if (object.taskName === "REEDIT_DOSSIER") {
-            result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +
-                "Warten sie nun auf die nächste Phase.";
-        }
-        if (object.taskName === "ANNOTATE_DOSSIER" || object.taskName === "UPLOAD_DOSSIER") {
-            result.solveTaskWith = "";
-            result.solveTaskWithLink = "";
-        }
-        // ev. noch implementieren
-        if (object.taskName === "WAIT_FOR_UPLOAD"){
+        switch (object.taskName) {
+            case "WAIT_FOR_PARTICPANTS":
+                result.inCardSolver = object.taskName;
+                result.infoText = "Gruppen sind final gespeichert. \n" +
+                    "Es sind " + object.taskData.participantCount.participants + " Studenten in diesem Projekt.";
+                break;
+            case "WAITING_FOR_GROUP":
+                result.infoText = "";
+                result.inCardSolver = object.taskName;
+                break;
+            case "GIVE_FEEDBACK":
+                if (object.taskData !== null) {
+                    result.infoText = "Sie können weiterhin ihr Feedback editieren";
+                    result.solveTaskWith = "Geben Sie ein Feedback";
+                    result.solveTaskWithLink = "redirect(\'../annotation/give-feedback.jsp?" +
+                        "projectName=" + object.projectName +
+                        "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
+                } else {
+                    result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
+                }
+                break;
+            case "REEDIT_DOSSIER":
+                result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +
+                    "Warten sie nun auf die nächste Phase.";
+                break;
+            case "ANNOTATE_DOSSIER":
+            case "UPLOAD_DOSSIER":
+                result.solveTaskWith = "";
+                result.solveTaskWithLink = "";
+                break;
+            case "WAIT_FOR_UPLOAD":
+
+                break;
 
         }
         if (object.taskName.includes("CLOSE")) {
@@ -378,6 +390,7 @@ function handleFinishedTasks(object, result) {
             result.timeFrame = "";
         }
         result.taskProgress = "FINISHED";
+        result.taskType = "closed";
     }
 }
 

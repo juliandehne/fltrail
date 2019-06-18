@@ -2,7 +2,8 @@ package unipotsdam.gf;
 
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HashShower {
     public static void main(String[] args) {
@@ -18,7 +19,19 @@ public class HashShower {
             System.out.println("context: " + value + ", Hash: "+ value.toString().hashCode());
 
         }
+
     }
 
+    ///just testing stuff
+    public static void testMe() {
+        Map<String, String> test = new HashMap<>();
+        test.put("ich", "du");
+        test.put("er", "du");
+        test.put("wir", "du");
+        Integer i = 0;
+        for (String test1 : test.keySet()) {
+            i++;
+        }
+    }
 
 }
