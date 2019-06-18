@@ -30,6 +30,10 @@ $(document).ready(function () {
                 let html = quill.root.innerHTML;
 
                 // build request
+                let visibility = "GROUP";
+                if (typeof currentVisibleButtonText !== 'undefined') {
+                    visibility = currentVisibleButtonText.name
+                }
                 let fullSubmissionPostRequest = {
                     groupId: groupId,
                     text: JSON.stringify(content),
@@ -37,7 +41,7 @@ $(document).ready(function () {
                     projectName: $('#projectName').text().trim(),
                     personal: personal,
                     fileRole: fileRole.toUpperCase(),
-                    visibility: currentVisibleButtonText.name
+                    visibility: visibility
                 };
 
                 // save request in database

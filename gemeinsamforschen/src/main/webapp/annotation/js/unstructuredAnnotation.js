@@ -3,9 +3,11 @@
  */
 
 let staticCategories = [];
+let items = {};
 $(document).ready(function () {
     getAnnotationCategories(function (categories) {
         buildAnnotationList(categories);
+        items = contextMenuOptions(categories);
         staticCategories = categories;
     });
     $('#missingAnnotation').hide();
@@ -21,34 +23,6 @@ $(document).ready(function () {
         saveButtonHandler();
     });
 
-
-    /**
-     * Context menu handler
-     */
-    $.contextMenu({
-        selector: '.context-menu-one',
-        callback: function (key, options) {
-
-            // handle the category click
-            handleCategoryClick(key);
-
-        },
-        items: {
-
-            "titel": {name: "Titel", icon: "edit"},
-            "recherche": {name: "Recherche", icon: "edit"},
-            "literaturverzeichnis": {name: "Literaturverzeichnis", icon: "edit"},
-            "forschungsfrage": {name: "Forschungsfrage", icon: "edit"},
-            "untersuchungskonzept": {name: "Untersuchungskonzept", icon: "edit"},
-            "methodik": {name: "Methodik", icon: "edit"},
-            "durchfuehrung": {name: "Durchführung", icon: "edit"},
-            "auswertung": {name: "Auswertung", icon: "edit"}
-
-
-
-        }
-    });
-
 });
 
 /**
@@ -60,6 +34,7 @@ $(document).ready(function () {
  */
 function handleCategorySelection(category, startCharacter, endCharacter) {
     // if highlighting is possible
+    category = category.toLowerCase();
     if (!isAlreadyHighlighted(startCharacter, endCharacter)) {
         toggleStatusbar(category);
         highlightText(category, startCharacter, endCharacter);
@@ -253,11 +228,32 @@ function deleteCategory(category) {
     for (let i = 0; i < textArrays.length; i++) {
         quill.formatText(textArrays[i].start, textArrays[i].end - textArrays[i].start, 'background', '#FFF');
     }
-    categoryLI.data('array', []);
+    categoryLI.data('array', null);
 
     $('.added-' + category).each(function () {
         $(this).toggleClass('added-' + category + ' not-added');
     });
 
     let test = category;
+}
+
+function contextMenuOptions(categories) {
+    let result = {};
+    for (let category in categories) {
+        if (categories.hasOwnProperty(category))
+            result[categories[category]] = {name: categories[category], icon: "edit"};
+    }
+
+    /**
+     * Context menu handler
+     */
+    $.contextMenu({
+        selector: '.context-menu-one',
+        callback: function (key, options) {
+            // handle the category click
+            handleCategoryClick(key);
+        },
+        items: result,
+    });
+    return result;
 }

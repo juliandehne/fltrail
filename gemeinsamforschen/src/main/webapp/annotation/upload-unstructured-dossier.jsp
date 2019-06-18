@@ -95,16 +95,6 @@
                     <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">Speichern
                     </button>
                 </div>
-                <!-- Just a dummy so far -->
-                <div class="row">
-                    <label>Alternativ bitte Datei wählen
-                        <jsp:include page="../taglibs/upload-file.jsp">
-                            <jsp:param name="fileRole" value="DOSSIER"/>
-                        </jsp:include>
-                    </label>
-                </div>
-                <!-- Just a dummy so far -->
-
             </div>
 
 

@@ -74,7 +74,7 @@
                         <div id="studentsWithoutGroup" class="alert alert-warning">
                             Es sind noch Studenten "gruppenlos".
                         </div>
-                        <div id="done" class="alert alert-success">
+                        <div id="taskCompleted" class="alert alert-success">
                             Gruppen wurden gespeichert.
                         </div>
 

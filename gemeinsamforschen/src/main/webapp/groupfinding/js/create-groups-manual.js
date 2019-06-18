@@ -1,7 +1,6 @@
 let manipulated=false;
 $(document).ready(function () {
     $('#studentsWithoutGroup').hide();
-    $('#done').hide();
     getAllGroups(function (allGroups) {
         groupsToTemplate(allGroups, function (done) {
             selectableButtons(done);
@@ -166,10 +165,7 @@ function saveNewGroups(groups) {
         },
         type: 'POST',
         success: function (response) {
-            $('#done').show();
-            setTimeout(function () {
-                document.location.href = "../project/tasks-docent.jsp?projectName=" + $('#projectName').html().trim();
-            }, 1000);
+            taskCompleted();
         },
         error: function (a) {
             //alert(a);
