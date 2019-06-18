@@ -532,7 +532,11 @@ CREATE TABLE `workrating`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='@Axel plz comment';
 
-
+--
+-- Indizes für die Tabelle `workrating`
+--
+ALTER TABLE `workrating`
+  ADD UNIQUE KEY `workrating_projectName_userEmail_fromPeer_uindex` (`projectName`,`userEmail`,`fromPeer`,`itemName`) USING BTREE;
 
 create table mappedtasks
 (
@@ -745,12 +749,6 @@ ALTER TABLE `tasks`
 ALTER TABLE `users`
     ADD PRIMARY KEY (`id`),
     ADD UNIQUE KEY `email` (`email`);
-
---
--- Indizes für die Tabelle `workrating`
---
-ALTER TABLE `workrating`
-    ADD UNIQUE KEY `workrating_projectName_userEmail_fromPeer_uindex` (`projectName`, `userEmail`, `fromPeer`);
 
 --
 -- AUTO_INCREMENT für exportierte Tabellen

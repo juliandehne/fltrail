@@ -33,6 +33,7 @@ import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.groupal.PGroupAlMatcher;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
 import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
+import unipotsdam.gf.modules.portfolio.service.PortfolioService;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
@@ -124,6 +125,7 @@ public class GFApplicationBinder extends AbstractBinder {
          */
         bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
         //bind(ExecutionProcess.class).to(IExecutionProcess.class);
+        bind(PortfolioService.class).to(IReflexionService.class);
         bindMore();
     }
 

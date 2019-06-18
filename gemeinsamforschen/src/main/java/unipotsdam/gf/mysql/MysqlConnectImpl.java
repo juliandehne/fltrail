@@ -148,6 +148,8 @@ public class MysqlConnectImpl implements MysqlConnect {
             ps.execute();
         } catch (SQLException ex) {
             printErrorMessage(statement, ex);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
