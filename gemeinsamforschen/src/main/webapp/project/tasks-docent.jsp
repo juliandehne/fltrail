@@ -63,7 +63,7 @@
                                     <div class="inCardSolver">
                                        {{if taskData.numberOfGroupsWithoutPresentation > 0 }}
                                         Anzahl an Gruppen ohne hochgeladene Präsentation:
-                                        ${taskData.numberOfGroupsWithoutPresentation}.
+                                        ${taskData.numberOfGroupsWithoutPresentation}. <br>
                                        {{/if}}
                                         {{if taskData.numberOfGroupReportsMissing > 0 }}
                                         Anzahl an Gruppen ohne hochgeladene Abgabe ${taskData.numberOfGroupReportsMissing}.

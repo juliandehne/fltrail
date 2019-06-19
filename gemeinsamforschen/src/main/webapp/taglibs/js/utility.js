@@ -33,6 +33,9 @@ $(document).ready(function () {
     $('#footerBack').click(function () {
         goBack();
     });
+    $('#backToTasks').on('click', function () {
+        changeLocationToTasks();
+    });
 });
 
 
@@ -40,14 +43,14 @@ $(document).ready(function () {
  * http://stackoverflow.com/a/10997390/11236
  */
 function updateURLParameter(url, param, paramVal) {
-    var newAdditionalURL = "";
-    var tempArray = url.split("?");
-    var baseURL = tempArray[0];
-    var additionalURL = tempArray[1];
-    var temp = "";
+    let newAdditionalURL = "";
+    let tempArray = url.split("?");
+    let baseURL = tempArray[0];
+    let additionalURL = tempArray[1];
+    let temp = "";
     if (additionalURL) {
         tempArray = additionalURL.split("&");
-        for (var i = 0; i < tempArray.length; i++) {
+        for (let i = 0; i < tempArray.length; i++) {
             if (tempArray[i].split('=')[0] != param) {
                 newAdditionalURL += temp + tempArray[i];
                 temp = "&";
@@ -55,7 +58,7 @@ function updateURLParameter(url, param, paramVal) {
         }
     }
 
-    var rows_txt = temp + "" + param + "=" + paramVal;
+    let rows_txt = temp + "" + param + "=" + paramVal;
     return baseURL + "?" + newAdditionalURL + rows_txt;
 }
 
@@ -283,16 +286,19 @@ function calculateHierachy(level) {
 
 /**
  * Use this function when page has a div with ID "taskCompleted"
- * @param isDocent
  */
 function taskCompleted() {
-    let isStudent = $('#isStudent').val();
     $('#taskCompleted').show();
     setTimeout(function () {
-        if (isStudent === "isDocent") {
-            document.location.href = "../project/tasks-docent.jsp?projectName=" + $('#projectName').html().trim();
-        } else {
-            document.location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
-        }
+        changeLocationToTasks();
     }, 1000);
+}
+
+function changeLocationToTasks() {
+    let whatRole = $('#isStudent').val();
+    if (whatRole === "isDocent") {
+        location.href = "../project/tasks-docent.jsp?projectName=" + $('#projectName').html().trim();
+    } else {
+        location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
+    }
 }

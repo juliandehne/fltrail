@@ -26,9 +26,6 @@ $(document).ready(function () {
             location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
         });
     });
-    $('#backToTasks').on('click', function () {
-        location.href = "../project/tasks-student.jsp?projectName=" + projectName;
-    });
     $('#btnSave').click(function () {
 
         if (quill.getText().length > 1) {

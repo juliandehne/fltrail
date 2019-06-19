@@ -4,6 +4,10 @@ let categories = [];
 $(document).ready(function () {
     getAnnotationCategories(function (response) {
         categories = response;
+        if (category.toUpperCase() === categories[categories.length - 1]) {
+            btnFinalize.show();
+            btnContinue.hide();
+        }
     });
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
     let category = getQueryVariable("category");
@@ -30,10 +34,6 @@ $(document).ready(function () {
     btnFinalize.on("click", function () {
         location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
     });
-    if (category.toUpperCase() === "AUSWERTUNG") {
-        btnFinalize.show();
-        btnContinue.hide();
-    }
 });
 
 function getFeedbackFor(fullSubmissionId, category) {   //if groupId == 0, you get the feedback for this category

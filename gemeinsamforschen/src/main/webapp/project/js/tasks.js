@@ -59,22 +59,18 @@ function handlePhases(object, result) {
             result.headLine = "Gruppenbildung";
             break;
         case "DossierFeedback":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-feedback";
             result.headLine = "Entwurfsphase";
             break;
         case "Execution":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-execution";
             result.headLine = "Durchführung";
             break;
         case "Assessment":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-assessment";
             result.headLine = "Bewertungsphase";
             break;
         case "Projectfinished":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-grades";
             result.headLine = "Projektabschluss";
             break;
@@ -188,6 +184,7 @@ function handleInfoTasks(object, result) {
                 " editiert werden."; // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
             break;
         case "CONTACT_GROUP_MEMBERS":
+            groupViewLink.toggleClass("disabled");
             result.infoText = "Sagen sie hallo zu ihren Gruppenmitgliedern über den Chat.";
             break;
         case "OPTIONAL_PORTFOLIO_ENTRY":

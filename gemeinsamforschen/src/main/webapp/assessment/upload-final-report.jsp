@@ -31,12 +31,6 @@
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
             Aufgaben</i></a>
     </div>
-    <script>
-        // muss eh refactorisiert werden @TODO #102
-        $('#backToTasks').click(function () {
-            location.href = "../project/tasks-student.jsp?projectName=" + getProjectName();
-        });
-    </script>
     <!-- go back to tasks end-->
 
     <!-- file upload -->

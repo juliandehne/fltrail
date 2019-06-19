@@ -15,9 +15,6 @@ $(document).ready(function () {
     getMyGroupId(function (groupId) {
         getFullSubmissionOfGroup(groupId, 0)
     });
-    $('#backToTasks').click(function () {
-        location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
-    });
     // set click listener to save button
     $('#btnSave').click(function () {
         saveButtonHandler();

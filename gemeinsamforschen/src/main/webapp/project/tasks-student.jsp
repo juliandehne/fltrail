@@ -119,7 +119,7 @@
                 <li class="nav-item active">
                     <a class="nav-link active" href="#projectChat" role="tab" data-toggle="tab">ProjektChat</a>
                 </li>
-                <li class="nav-item" disabled="true" id="liGroupWindow">
+                <li class="nav-item" id="liGroupWindow">
                     <a class="nav-link" href="#groupChat" role="tab" data-toggle="tab">Gruppenchat</a>
                 </li>
             </ul>

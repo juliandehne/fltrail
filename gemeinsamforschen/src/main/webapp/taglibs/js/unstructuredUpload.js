@@ -55,10 +55,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    $('#backToTasks').click(function () {
-        location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
-    });
     $('#btnBack').click(function () {
         // if there is text inside the textarea
         // show user alert message that the text will be lost
