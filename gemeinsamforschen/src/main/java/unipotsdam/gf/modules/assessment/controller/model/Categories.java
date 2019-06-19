@@ -5,7 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 public class Categories {
-    public static final List<String> workRatingCategories = Collections.unmodifiableList(
+    /**
+     * the categories are good, but not used at the moment
+     */
+  /*  public static final List<String> workRatingCategories = Collections.unmodifiableList(
             new ArrayList<String>() {{
                 add("responsibility");
                 add("partOfWork");
@@ -13,8 +16,11 @@ public class Categories {
                 add("communication");
                 add("autonomous");
             }}
-    );
+    );*/
 
+    /**
+     * TODO @Axel use enums for this and move it to different module
+     */
     public static final List<String> standardAnnotationCategories = Collections.unmodifiableList(
             new ArrayList<String>() {{
                 add("TITEL");

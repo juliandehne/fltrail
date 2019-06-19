@@ -7,7 +7,7 @@ import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.communication.Messages;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.project.Project;
@@ -110,14 +110,6 @@ public class PhasesImpl implements IPhases {
                 peerAssessmentProcess.startPeerAssessmentPhase(project);
                 break;
             case Assessment:
-                tasks = iPeerAssessment.allAssessmentsDone(project.getName());
-                if (tasks.size() < 1) {
-                    emailService.sendMessageToUsers(project, Messages.CourseEnds(project));
-                    iPeerAssessment.finalizeAssessment(project);
-                    saveState(project, changeToPhase);
-                } else {
-                    iPeerAssessment.assignMissingAssessmentTasks(project);
-                }
                 break;
             case GRADING:
                 break;

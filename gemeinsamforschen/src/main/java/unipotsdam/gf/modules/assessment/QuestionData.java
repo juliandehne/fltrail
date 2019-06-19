@@ -1,5 +1,8 @@
 package unipotsdam.gf.modules.assessment;
 
+/**
+ * this is the holder object for the internal group peer assessment
+ */
 public class QuestionData {
     private GroupWorkDimensions groupWorkDimensions;
     private String key;

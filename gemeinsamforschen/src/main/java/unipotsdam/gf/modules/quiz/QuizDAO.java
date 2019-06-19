@@ -1,11 +1,9 @@
 package unipotsdam.gf.modules.quiz;
 
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.modules.quiz.Quiz;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -177,4 +175,6 @@ public class QuizDAO {
         }
         connect.close();
     }
+
+
 }

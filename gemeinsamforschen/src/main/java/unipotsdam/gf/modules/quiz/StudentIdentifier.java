@@ -1,4 +1,4 @@
-package unipotsdam.gf.modules.assessment.controller.model;
+package unipotsdam.gf.modules.quiz;
 
 public class StudentIdentifier {
     public StudentIdentifier(String projectName, String userEmail) {

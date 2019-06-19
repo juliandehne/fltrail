@@ -6,13 +6,13 @@ import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.constraints.Constraints;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
-import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.TaskMapping;
 import unipotsdam.gf.process.tasks.TaskName;
 
@@ -165,18 +165,30 @@ public class AssessmentDAO {
         return result;
     }
 
-    public cheatCheckerMethods getAssessmentMethod(Project project) {
-        cheatCheckerMethods result = cheatCheckerMethods.none;
-        connect.connect();
+    /**
+     * at some point these might be set dynamically, not the case right now
+     * @param project
+     * @return
+     */
+    CheatCheckerMethods getAssessmentMethod(Project project) {
+        CheatCheckerMethods result = CheatCheckerMethods.variance;
+     /*   connect.connect();
         String mysqlRequest = "SELECT * FROM `assessmentmechanismselected` WHERE `projectName`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getName());
         if (vereinfachtesResultSet.next()) {
             String resultString = vereinfachtesResultSet.getString("cheatCheckerMethod");
-            result = cheatCheckerMethods.valueOf(resultString);
+            result = CheatCheckerMethods.valueOf(resultString);
         }
+        connect.close();*/
         return result;
     }
 
+    /**
+     * updated this TODO @Julian check if it works now
+     * @param project
+     * @param user
+     * @return
+     */
     public ArrayList<Map<String, Double>> getWorkRating(Project project, User user) {
         ArrayList<Map<String, Double>> result = new ArrayList<>();
 
@@ -187,12 +199,13 @@ public class AssessmentDAO {
         boolean next = vereinfachtesResultSet.next();
         while (next) {
             Map<String, Double> workRating = new HashMap<>();
-            for (String category : Categories.workRatingCategories) {
-                workRating.put(category, (double) vereinfachtesResultSet.getInt(category));
-            }
+                workRating.put(
+                        vereinfachtesResultSet.getString("itemName"),
+                        (double) vereinfachtesResultSet.getInt("rating"));
             result.add(workRating);
             next = vereinfachtesResultSet.next();
         }
+        connect.close();
         return result;
     }
 
@@ -254,16 +267,8 @@ public class AssessmentDAO {
         return result;
     }
 
-    public Boolean getContributionRating(Integer groupId, String fromStudent) {
-        connect.connect();
-        String mysqlRequest = "SELECT * FROM `contributionrating` WHERE `groupId`=? AND `fromPeer`=?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, groupId, fromStudent);
-        return vereinfachtesResultSet.next();
-    }
 
-
-    public void writeWorkRatingToDB(StudentIdentifier student, String fromStudent, Map<String, Integer> workRating) {
+/*    public void writeWorkRatingToDB(StudentIdentifier student, String fromStudent, Map<String, Integer> workRating) {
         connect.connect();
         String mysqlRequest =
                 "INSERT INTO `workrating`(`projectName`, `userEmail`, `fromPeer`, " + "`responsibility`, " + "`partOfWork`, " + "`cooperation`, " + "`communication`, " + "`autonomous`" + ") VALUES (?,?,?,?,?,?,?,?)";
@@ -271,7 +276,7 @@ public class AssessmentDAO {
                 fromStudent, workRating.get("responsibility"), workRating.get("partOfWork"),
                 workRating.get("cooperation"), workRating.get("communication"), workRating.get("autonomous"));
         connect.close();
-    }
+    }*/
 
     void writeContributionRatingToDB(
             Project project, String groupId, String user, Map<FileRole, Integer> contributionRating,
@@ -493,7 +498,10 @@ public class AssessmentDAO {
         TaskMapping result = new TaskMapping(null, null, null, null, project);
         connect.connect();
         String query =
-                "SELECT g.id as result from groups g " + " JOIN" + " projects p on g.projectName = p.name " + " where g.projectName = ? " + " AND (p.name, g.id, p.author) not in " + "    (SELECT cr.projectName, cr.groupId ,cr.fromTeacher from contributionrating cr " + "       WHERE cr.fromTeacher is not null" + "    )" + " LIMIT 1";
+                "SELECT g.id as result from groups g " + " JOIN" + " projects p on g.projectName = p.name "
+                        + " where g.projectName = ? "
+                        + " AND (p.name, g.id, p.author) not in "
+                        + "    (SELECT cr.projectName, cr.groupId ,cr.fromTeacher from contributionrating cr " + "       WHERE cr.fromTeacher is not null" + "    )" + " LIMIT 1";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
         if (vereinfachtesResultSet != null) {
             try {
@@ -508,4 +516,21 @@ public class AssessmentDAO {
         connect.close();
         return result;
     }
+
+   /* *//**
+     *
+     * @param project
+     * @return
+     *//*
+    public List<UserAssessmentData> getUserAssessmentsFromDB(Project project) {
+
+        // TODO @ Julian implement this
+        return null;
+    }
+
+    public HashMap<User,HashMap<String, String>> getInternalRatings(Project project, User user) {
+
+        // todo @ Julian implement this
+        return null;
+    }*/
 }

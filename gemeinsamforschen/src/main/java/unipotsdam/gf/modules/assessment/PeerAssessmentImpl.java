@@ -2,21 +2,13 @@ package unipotsdam.gf.modules.assessment;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
-import unipotsdam.gf.modules.assessment.controller.model.Contribution;
 import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
-import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.quiz.Quiz;
-import unipotsdam.gf.modules.quiz.QuizDAO;
-import unipotsdam.gf.modules.quiz.StudentAndQuiz;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
-import unipotsdam.gf.modules.assessment.controller.model.cheatCheckerMethods;
+import unipotsdam.gf.modules.assessment.controller.model.CheatCheckerMethods;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
-import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.process.constraints.ConstraintsMessages;
 import unipotsdam.gf.process.tasks.TaskMapper;
 
 import javax.inject.Inject;
@@ -31,9 +23,6 @@ public class PeerAssessmentImpl implements IPeerAssessment {
     private GroupDAO groupDAO;
 
     @Inject
-    private QuizDAO quizDAO;
-
-    @Inject
     private TaskMapper taskMapper;
 
     @Inject
@@ -41,34 +30,8 @@ public class PeerAssessmentImpl implements IPeerAssessment {
 
     @Override
     public void finalizeAssessment(Project project) {
-        cheatCheckerMethods method = assessmentDAO.getAssessmentMethod(project);
-        Map<User, Double> grading = calculateAssessment(project, method);
-        assessmentDAO.writeGradesToDB(project, grading);
-    }
-
-    @Override//returns one quiz
-    public Quiz getQuiz(String projectName, String quizId, String author) {
-        return new QuizDAO().getQuizByProjectQuizId(projectName, quizId, author);
-    }
-
-    @Override //returns all quizzes in the course
-    public ArrayList<Quiz> getQuiz(String projectName) {
-        return new QuizDAO().getQuizByProjectId(projectName);
-    }
-
-    @Override //returns all quizzes in the course
-    public ArrayList<Quiz> getQuiz(String projectName, String author) {
-        return new QuizDAO().getQuizByProjectIdAuthor(projectName, author);
-    }
-
-    @Override
-    public Map<StudentIdentifier, Double> getAssessmentForProject(String projectName) {
-        return null;
-    }
-
-    @Override
-    public Double getAssessmentForStudent(StudentIdentifier student) {
-        return assessmentDAO.getGradesFromDB(student);
+        //assessmentDAO.writeGradesToDB(project, grading);
+        // TODO implement
     }
 
     @Override
@@ -93,61 +56,8 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         return result;
     }
 
-    @Override
-    public void createQuiz(StudentAndQuiz studentAndQuiz) {
-        new QuizDAO().createQuiz(studentAndQuiz.getQuiz(), studentAndQuiz.getStudentIdentifier().getUserEmail(),
-                studentAndQuiz.getStudentIdentifier().getProjectName());
-    }
-
-    @Override
-    public void deleteQuiz(String quizId) {
-        new QuizDAO().deleteQuiz(quizId);
-    }
-
-    /**
-     * TODO @AXEL plz add comment what this does or delete
-     * @param project
-     * @param user
-     * @return
-     */
-    @Override
-    public String whatToRate(Project project, User user) {
-        Integer groupId = groupDAO.getGroupByStudent(project, user);
-        ArrayList<String> groupMembers = assessmentDAO.getStudentsByGroupAndProject(groupId);
-        for (String peer : groupMembers) {
-            if (!peer.equals(user.getEmail())) {
-                StudentIdentifier groupMember = new StudentIdentifier(project.getName(), peer);
-                if (!assessmentDAO.getWorkRating(groupMember, user.getEmail())) {
-                    return "workRating";
-                }
-            }
-        }
-        ArrayList<Integer> answers = quizDAO.getAnsweredQuizzes(project, user);
-        if (answers == null) {
-            return "quiz";
-        }
-        Integer groupToRate = taskMapper.getWhichGroupToRate(project, user);
-        if (!assessmentDAO.getContributionRating(groupToRate, user.getEmail())) {
-            return "contributionRating";
-        }
-        return "done";
-    }
-
-    @Override
-    public Map<StudentIdentifier, ConstraintsMessages> allAssessmentsDone(String projectName) {
-        Map<StudentIdentifier, ConstraintsMessages> result;
-        result = assessmentDAO.missingAssessments(projectName);
-        return result;
-    }
-
-    @Override
-    public void assignMissingAssessmentTasks(Project project) {
-
-    }
-
-    @Override
-    public Map<User, Double> calculateAssessment(ArrayList<Performance> totalPerformance) {
-        Map<User, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
+    private Map<User, Double> calculateAssessmentSuggestion(ArrayList<Performance> totalPerformance) {
+        //Map<User, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
         Map<User, Map<String, Double>> workRating = new HashMap<>();
         Map<User, Map<FileRole, Double>> contributionRating = new HashMap<>();
         for (Performance performance : totalPerformance) {
@@ -157,15 +67,15 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         Map<User, Double> workRateMean = new HashMap<>(mapToGrade(workRating));
         Map<User, Double> contributionMean = new HashMap<>(mapToGradeContribution(contributionRating));
         Map<User, Double> result = new HashMap<>();
-        for (User student : quizMean.keySet()) {
+        for (User student : workRating.keySet()) {
             double grade =
-                    (quizMean.get(student) + workRateMean.get(student) + contributionMean.get(student)) * 100 / 3.;
+                    (workRateMean.get(student) + contributionMean.get(student)) * 100 / 3.;
             result.put(student, grade);
         }
         return result;
     }
 
-    private Map<User, Double> calculateAssessment(Project project, cheatCheckerMethods method) {
+    private Map<User, Double> calculateSuggestions(Project project, CheatCheckerMethods method) {
         ArrayList<Performance> totalPerformance = new ArrayList<>();
         //get all students in projectID from DB
         List<String> students = assessmentDAO.getStudents(project.getName());
@@ -175,38 +85,22 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             Integer groupId;
             Performance performance = new Performance();
             groupId = groupDAO.getGroupByStudent(project, user);
-            Integer numberOfQuizzes = quizDAO.getQuizCount(project.getName());
+            /*   Integer numberOfQuizzes = quizDAO.getQuizCount(project.getName());
             List<Integer> answeredQuizzes = quizDAO.getAnsweredQuizzes(project, user);
             for (Integer i = answeredQuizzes.size(); i < numberOfQuizzes; i++) {
                 answeredQuizzes.add(0);
-            }
+            }*/
             ArrayList<Map<String, Double>> workRating = assessmentDAO.getWorkRating(project, user);
             ArrayList<Map<FileRole, Double>> contributionRating =
                     assessmentDAO.getContributionRating(groupId, true);
             performance.setProject(project);
             performance.setUser(user);
-            performance.setQuizAnswer(answeredQuizzes);
+            //performance.setQuizAnswer(answeredQuizzes);
             performance.setWorkRating(cheatChecker(workRating, method));
             performance.setContributionRating(cheatCheckerContributions(contributionRating, method));
             totalPerformance.add(performance);
         }
-        return calculateAssessment(totalPerformance);
-    }
-
-    private Map<User, Double> quizGrade(ArrayList<Performance> totalPerformance) {
-        double[] allAssessments = new double[totalPerformance.size()];
-        Map<User, Double> grading = new HashMap<>();
-
-        for (int i = 0; i < totalPerformance.size(); i++) {
-            for (Integer quiz : totalPerformance.get(i).getQuizAnswer()) {
-                allAssessments[i] += quiz;
-            }
-            allAssessments[i] = allAssessments[i] / totalPerformance.get(i).getQuizAnswer().size();
-        }
-        for (int i = 0; i < totalPerformance.size(); i++) {
-            grading.put(totalPerformance.get(i).getUser(), allAssessments[i]);
-        }
-        return grading;
+        return calculateAssessmentSuggestion(totalPerformance);
     }
 
     private Map<User, Double> mapToGradeContribution(Map<User, Map<FileRole, Double>> ratings) {
@@ -266,7 +160,7 @@ public class PeerAssessmentImpl implements IPeerAssessment {
     }
 
     private Map<FileRole, Double> cheatCheckerContributions(
-            ArrayList<Map<FileRole, Double>> contributionRatings, cheatCheckerMethods method) {
+            ArrayList<Map<FileRole, Double>> contributionRatings, CheatCheckerMethods method) {
         //convert ArrayList<Map<ContributionCategory, Double>> to ArrayList<Map<String, Double>>
         ArrayList<Map<String, Double>> ratings = new ArrayList<>();
         for (Map<FileRole, Double> rating : contributionRatings) {
@@ -287,7 +181,13 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         return result;
     }
 
-    private Map<String, Double> cheatChecker(ArrayList<Map<String, Double>> workRatings, cheatCheckerMethods method) {
+    /**
+     * schön
+     * @param workRatings
+     * @param method
+     * @return
+     */
+    private Map<String, Double> cheatChecker(ArrayList<Map<String, Double>> workRatings, CheatCheckerMethods method) {
         ArrayList<Map<String, Double>> oneExcludedMeans = new ArrayList<>();
         Map<String, Double> result;
         if (workRatings.size() > 1) {
@@ -302,11 +202,11 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             }
             oneExcludedMeans.add(meanOfWorkRatings(workRatings));
         }
-        if (method.equals(cheatCheckerMethods.median)) {
+        if (method.equals(CheatCheckerMethods.median)) {
             workRatings.sort(byMean);
             result = workRatings.get(workRatings.size() / 2); //in favor of student
         } else {
-            if (method.equals(cheatCheckerMethods.variance)) {
+            if (method.equals(CheatCheckerMethods.variance)) {
                 Map<String, Double> meanWorkRating = new HashMap<>(meanOfWorkRatings(oneExcludedMeans));
                 ArrayList<Map<String, Double>> elementwiseDeviation = new ArrayList<>();
                 for (Map<String, Double> rating : oneExcludedMeans) {
@@ -340,22 +240,8 @@ public class PeerAssessmentImpl implements IPeerAssessment {
     }
 
     @Override
-    public ArrayList<Performance> getTotalAssessment(StudentIdentifier userNameentifier) {
-        return null;
-    }
-
-    @Override
     public int meanOfAssessment(String ProjectId) {
         return 0;
-    }
-
-
-    @Override
-    public void postPeerRating(ArrayList<PeerRating> peerRatings, String projectName) {
-        for (PeerRating peer : peerRatings) {
-            StudentIdentifier student = new StudentIdentifier(projectName, peer.getToPeer());
-            assessmentDAO.writeWorkRatingToDB(student, peer.getFromPeer(), peer.getWorkRating());
-        }
     }
 
     @Override
@@ -368,23 +254,6 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             Project project, String groupId, String fromStudent, Map<FileRole, Integer> contributionRating, Boolean
             isStudent) {
         assessmentDAO.writeContributionRatingToDB(project, groupId, fromStudent, contributionRating, isStudent);
-    }
-
-    @Override
-    public void answerQuiz(Map<String, List<String>> questions, StudentIdentifier student) {
-        for (String question : questions.keySet()) {
-            Map<String, Boolean> whatAreAnswers =
-                    assessmentDAO.getAnswers(student.getProjectName(), question);
-            Map<String, Boolean> wasQuestionAnsweredCorrectly = new HashMap<>();
-            Boolean correct = true;
-            for (String studentAnswer : questions.get(question)) {
-                if (!whatAreAnswers.get(studentAnswer)) {
-                    correct = false;
-                }
-            }
-            wasQuestionAnsweredCorrectly.put(question, correct);
-            quizDAO.writeAnsweredQuiz(student, wasQuestionAnsweredCorrectly);
-        }
     }
 
     private Comparator<Map<String, Double>> byMean = (o1, o2) -> {
@@ -400,4 +269,31 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             return sumOfO1 > sumOfO2 ? -1 : 1;
         }
     };
+
+    /**
+     * GET THE DATA and suggestions, including the PROBLEM CASES
+     *  // TODO @ Julian implement this
+     *    // TODO @ Julian implement this
+     *      // TODO @ Julian implement this
+     *        // TODO @ Julian implement this
+     * @param project
+     * @return
+     */
+    public List<UserAssessmentData> getUserAssessmentsFromDB(Project project) {
+
+        CheatCheckerMethods method = assessmentDAO.getAssessmentMethod(project);
+
+        // get the internal rating aggregated
+
+        // get the  peer product rating
+
+        // get the docent product rating
+
+        // get the suggestopm
+        Map<User, Double> grading = calculateSuggestions(project, method);
+
+
+        // TODO @ Julian implement this
+        return null;
+    }
 }

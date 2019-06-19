@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.mysql.MysqlConnect;
 
 import javax.inject.Inject;

@@ -7,7 +7,7 @@ import org.junit.Test;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.quiz.Quiz;
@@ -15,10 +15,7 @@ import unipotsdam.gf.modules.quiz.StudentAndQuiz;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.PeerAssessmentProcess;
-import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -55,55 +52,6 @@ public class TestAddAssessment {
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
 
-    }
-
-    @Test
-    public void createQuiz() {
-        StudentAndQuiz studentAndQuiz = new StudentAndQuiz();
-        StudentIdentifier student = new StudentIdentifier(projectName, userName);
-        studentAndQuiz.setStudentIdentifier(student);
-        Quiz quiz = new Quiz();
-        ArrayList<String> correctAnswers = new ArrayList<>();
-        correctAnswers.add("1");
-        correctAnswers.add("2");
-        correctAnswers.add("3");
-        ArrayList<String> incorrectAnswers = new ArrayList<>();
-        incorrectAnswers.add("4");
-        incorrectAnswers.add("5");
-        incorrectAnswers.add("6");
-        quiz.setQuestion(quizId);
-        quiz.setIncorrectAnswers(incorrectAnswers);
-        quiz.setType("mc");
-        quiz.setCorrectAnswers(correctAnswers);
-        studentAndQuiz.setQuiz(quiz);
-        peer.createQuiz(studentAndQuiz);
-    }
-
-    @Test
-    public void getAllQuizzesInProject() {
-        peer.getQuiz(projectName);
-    }
-
-    @Test
-    public void getQuiz() {
-        peer.getQuiz(projectName, quizId, userName);
-    }
-
-    @Test
-    public void answerQuiz() {
-        Map<String, List<String>> questions = new HashMap<>();
-        StudentIdentifier student = new StudentIdentifier(projectName, userName);
-        List<String> answers = new ArrayList<>();
-        answers.add("1");
-        answers.add("2");
-        answers.add("3");
-        questions.put(quizId, answers);
-        peer.answerQuiz(questions, student);
-    }
-
-    @Test
-    public void deleteQuiz() {
-        peer.deleteQuiz(quizId);
     }
 
     @Test

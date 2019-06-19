@@ -351,8 +351,8 @@ function handleLinkedTasks(object, result) {
             }
             case "GIVE_FINAL_GRADES": {
                 result.solveTaskWith = "Vergeben Sie finale Noten!";
-                result.solveTaskWithLink = "redirect(\'../assessment/finale-grades.jsp?" +
-                    "projectName=" + object.projectName;
+                result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
+                    "projectName=" + object.projectName + "\')";;
                 break;
             }
             default:

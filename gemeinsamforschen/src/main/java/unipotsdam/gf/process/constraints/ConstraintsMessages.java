@@ -1,6 +1,6 @@
 package unipotsdam.gf.process.constraints;
 
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
+import unipotsdam.gf.modules.quiz.StudentIdentifier;
 
 public class ConstraintsMessages {
     private final Constraints constraint;
