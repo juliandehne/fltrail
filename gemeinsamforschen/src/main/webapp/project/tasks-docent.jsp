@@ -7,9 +7,9 @@
     <jsp:include page="../taglibs/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
-    <script src="js/inCardSolverHTML.js"></script>
     <script src="../assessment/js/assessmentService.js"></script>
     <script src="js/tasks.js"></script>
+    <script src="js/solve-inCardTasks.js"></script>
 </head>
 <body>
 <div id="flex-wrapper">

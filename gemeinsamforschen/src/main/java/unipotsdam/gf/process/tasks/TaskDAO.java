@@ -303,7 +303,8 @@ public class TaskDAO {
                 task.setTaskType(TaskType.LINKED);
                 Map<String, String> taskData = new HashMap<>();
                 taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, FileRole.DOSSIER));
-                taskData.put("category", "TITEL");
+                List<String> startCategory = submissionController.getAnnotationCategories(project);
+                taskData.put("category", startCategory.get(0));
                 task.setTaskData(taskData);
                 result = task;
                 break;

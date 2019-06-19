@@ -287,11 +287,8 @@ public class FileManagementService {
         User user = userDAO.getUserByEmail(userEmail);
         Project project = projectDAO.getProjectByName(projectName);
 
-        //delete old files
-        List<String> fileLocations = fileManagementDAO.getFileLocation(project, user, fileRole);
-        for (String fileLocation : fileLocations) {
-            deleteFile(fileLocation);
-        }
+        deleteFiles(project, user, fileRole);
+
         switch (fileRole) {
             case PRESENTATION:
                 uploadPPTX(user, project, inputStream, fileDetail);
@@ -309,6 +306,14 @@ public class FileManagementService {
                 //uploadFile(user, project, inputStream, fileDetail);
                 saveFile(user, project, inputStream, fileDetail, fileRole, FileType.PDF);
                 break;
+        }
+    }
+
+    //delete files from server and their meta data from DB
+    public void deleteFiles(Project project, User user, FileRole fileRole) {
+        List<String> fileLocations = fileManagementDAO.getFileLocation(project, user, fileRole);
+        for (String fileLocation : fileLocations) {
+            deleteFile(fileLocation);
         }
     }
 }
