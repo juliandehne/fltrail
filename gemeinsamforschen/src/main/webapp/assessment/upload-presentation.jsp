@@ -31,19 +31,13 @@
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
             Aufgaben</i></a>
     </div>
-    <script>
-        // muss eh refactorisiert werden @TODO #102
-        $('#backToTasks').click(function () {
-            location.href = "../project/tasks-student.jsp?projectName=" + getProjectName();
-        });
-    </script>
     <!-- go back to tasks end-->
 
     <!-- file upload -->
     <main>
-        <h2>Präsentation hochladen</h2>
         <div class="row group">
-            <div class="col span_content span_l_of_2">
+            <div class="col span_content span_2_of_2">
+                <h2>Präsentation hochladen</h2>
                 <div id="result"></div>
                 <script id="headerTemplate" type="text/x-jsrender">
                     <h2>{{:header}} anlegen</h2>
@@ -53,7 +47,6 @@
                         <jsp:param name="fileRole" value="PRESENTATION"/>
                     </jsp:include>
                     <p id="fileRole" hidden>PRESENTATION</p>
-                    </label>
                 </div>
             </div>
         </div> <!-- flex wrapper -->

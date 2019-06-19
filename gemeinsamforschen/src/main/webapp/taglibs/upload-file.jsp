@@ -11,7 +11,7 @@
     <button id="uploadSubmit" class="btn btn-primary">Upload File</button>
 </form>
 
-<div id="successUpload" class="alert alert-success">Die Datei wurde erfolgreich gespeichert.</div>
+<div id="taskCompleted" class="alert alert-success">Die Datei wurde erfolgreich gespeichert.</div>
 <div id="errorUpload" class="alert alert-warning">Ein Fehler ist beim Upload der Datei aufgetreten.</div>
 <!--end data upload-->
 

@@ -59,22 +59,18 @@ function handlePhases(object, result) {
             result.headLine = "Gruppenbildung";
             break;
         case "DossierFeedback":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-feedback";
             result.headLine = "Entwurfsphase";
             break;
         case "Execution":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-execution";
             result.headLine = "Durchführung";
             break;
         case "Assessment":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-assessment";
             result.headLine = "Bewertungsphase";
             break;
         case "Projectfinished":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-grades";
             result.headLine = "Projektabschluss";
             break;
@@ -188,6 +184,7 @@ function handleInfoTasks(object, result) {
                 " editiert werden."; // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
             break;
         case "CONTACT_GROUP_MEMBERS":
+            groupViewLink.toggleClass("disabled");
             result.infoText = "Sagen sie hallo zu ihren Gruppenmitgliedern über den Chat.";
             break;
         case "OPTIONAL_PORTFOLIO_ENTRY":
@@ -356,15 +353,15 @@ function handleFinishedTasks(object, result) {
                 result.inCardSolver = object.taskName;
                 break;
             case "GIVE_FEEDBACK":
-                if (object.taskData !== null) {
+                /*if (object.taskData !== null) {
                     result.infoText = "Sie können weiterhin ihr Feedback editieren";
                     result.solveTaskWith = "Geben Sie ein Feedback";
                     result.solveTaskWithLink = "redirect(\'../annotation/give-feedback.jsp?" +
                         "projectName=" + object.projectName +
                         "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
-                } else {
+                } else {*/
                     result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
-                }
+                //}
                 break;
             case "REEDIT_DOSSIER":
                 result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +

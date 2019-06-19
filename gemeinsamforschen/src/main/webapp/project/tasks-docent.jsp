@@ -63,7 +63,7 @@
                                     <div class="inCardSolver">
                                        {{if taskData.numberOfGroupsWithoutPresentation > 0 }}
                                         Anzahl an Gruppen ohne hochgeladene Präsentation:
-                                        ${taskData.numberOfGroupsWithoutPresentation}.
+                                        ${taskData.numberOfGroupsWithoutPresentation}. <br>
                                        {{/if}}
                                         {{if taskData.numberOfGroupReportsMissing > 0 }}
                                         Anzahl an Gruppen ohne hochgeladene Abgabe ${taskData.numberOfGroupReportsMissing}.
@@ -134,7 +134,7 @@
 
 
         </div> <!-- end span L of 2 -->
-        <div class="col span_chat right">
+        <div class="col span_s_of_2 right">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item active">
                     <a class="nav-link active" href="#projectChat" role="tab" data-toggle="tab">ProjektChat</a>
@@ -145,6 +145,17 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in active" id="projectChat">
                     <chat:chatWindow orientation="right" scope="project"/>
+                </div>
+                Wenn sie eingeloggt <a data-toggle='collapse' href='#chatCredentials' role='button'
+                                       aria-expanded='false' aria-controls='chatCredentials'>
+                <i class='fas fa-question'></i>
+            </a> sind, können sie Nachrichten an alle Projektteilnehmer senden oder eine Nachricht an ihre Gruppe
+                verfassen.
+                <div class='collapse' id='chatCredentials'>
+                    <div class='card card-body'>
+                        Um sich in den Chat einzuloggen, tragen sie die gleiche E-Mailadresse sowie das gleiche Passwort
+                        hier ein wie bei der Anmeldung.
+                    </div>
                 </div>
             </div>
 

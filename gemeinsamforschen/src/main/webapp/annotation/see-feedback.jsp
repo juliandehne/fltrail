@@ -57,20 +57,23 @@
             Aufgaben</i></a>
     </div>
     <main id="seeFeedback" class="">
+        <div class="row group">
+            <div class="col span_2_of_2">
+                <h3>Das Feedback für ihr <span class="fileRole"></span></h3>
 
-        <h3>Das Feedback für ihr <span class="fileRole"></span></h3>
+                <br>
+                <div class="three_rows">
+                    <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">&#xf053;</button>
 
-        <br>
-        <div class="three_rows">
-            <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">&#xf053;</button>
-
-            <h4 id="categoryHeadline" class="current-category"></h4>
-            <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">&#xf054;</button>
-            <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">&#xf00c;</button>
+                    <h4 id="categoryHeadline" class="current-category"></h4>
+                    <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">&#xf054;</button>
+                    <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">&#xf00c;</button>
+                </div>
+                <div id="editor"></div>
+                <h3>Zu diesem Teil gab es folgendes Feedback: </h3>
+                <div id="feedbackEditor"></div>
+            </div>
         </div>
-        <div id="editor"></div>
-        <h3>Zu diesem Teil gab es folgendes Feedback: </h3>
-        <div id="feedbackEditor"></div>
     </main>
     <jsp:include page="../taglibs/quillJsEditor.jsp">
         <jsp:param name="readOnly" value="true"/>

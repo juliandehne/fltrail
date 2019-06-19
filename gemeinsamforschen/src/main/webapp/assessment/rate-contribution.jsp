@@ -18,18 +18,12 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
 
-        <!-- go back to tasks -->
-        <div class="backlink">
-            <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
-                Aufgaben</i></a>
-        </div>
-        <script>
-            // muss eh refactorisiert werden @TODO #102
-            $('#backToTasks').click(function () {
-                location.href = "../project/tasks-student.jsp?projectName=" + getProjectName();
-            });
-        </script>
-        <!-- go back to tasks end-->
+    <!-- go back to tasks -->
+    <div class="backlink">
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
+            Aufgaben</i></a>
+    </div>
+    <!-- go back to tasks end-->
 
     <main>
         <div class="row group">
@@ -51,6 +45,7 @@
                     <label><input type="radio" name="${contributionRole}" value="2">    </label>
                     <label><input type="radio" name="${contributionRole}" value="1"> 1 (sehr gut)</label>
                     </div>
+
                 </script>
                 <button id="submit" class="btn btn-primary">Feedback hochladen</button>
                 <div id="done" class="alert alert-success">
@@ -63,7 +58,7 @@
         </div>
     </main>
 </div>
-        <jsp:include page="../taglibs/footer.jsp"/>
+<jsp:include page="../taglibs/footer.jsp"/>
 
 </body>
 

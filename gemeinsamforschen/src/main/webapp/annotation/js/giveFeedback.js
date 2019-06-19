@@ -15,6 +15,10 @@ let contributionFeedback = undefined;
 $(document).ready(function () {
     getAnnotationCategories(function (response) {
         categories = response;
+        if (category.toUpperCase() === categories[categories.length - 1]) {
+            btnFinalize.show();
+            btnContinue.hide();
+        }
     });
 
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
@@ -41,10 +45,6 @@ $(document).ready(function () {
             finalize();
         });
     });
-    if (category.toUpperCase() === "AUSWERTUNG") {
-        btnFinalize.show();
-        btnContinue.hide();
-    }
 
     addExistingContributionFeedback(fullSubmissionId, category);
     // connect to websocket on page ready
