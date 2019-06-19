@@ -34,7 +34,7 @@ $(document).ready(function () {
         goBack();
     });
     $('#backToTasks').on('click', function () {
-        changeLocationToTasks();
+        changeLocation();
     });
 });
 
@@ -290,16 +290,25 @@ function calculateHierachy(level) {
 function taskCompleted() {
     $('#taskCompleted').show();
     setTimeout(function () {
-        changeLocationToTasks();
+        changeLocation();
     }, 1000);
 }
 
-function changeLocationToTasks() {
+function changeLocation() {
     let whatRole = $('#isStudent').val();
+    let currentProjectName = $('#projectName').html().trim();
     if (whatRole === "isDocent") {
-        location.href = "../project/tasks-docent.jsp?projectName=" + $('#projectName').html().trim();
+        if (personal) {
+            location.href = `../portfolio/show-portfolio-docent.jsp?projectName=${currentProjectName}`
+        } else {
+            location.href = `../project/tasks-docent.jsp?projectName=${currentProjectName}`;
+        }
     } else {
-        location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
+        if (personal) {
+            location.href = `../portfolio/show-portfolio-student.jsp?projectName=${currentProjectName}`
+        } else {
+            location.href = `../project/tasks-student.jsp?projectName=${currentProjectName}`;
+        }
     }
 }
 

@@ -20,6 +20,11 @@ $(document).ready(function () {
     let projectName = $('#projectName').text().trim();
     studentTaskLocation = `${hierarchyLevel}project/tasks-student.jsp?projectName=${projectName}`;
     portfolioLocation = `${hierarchyLevel}portfolio/show-portfolio-student.jsp?projectName=${projectName}`;
+
+    if (personal) {
+        $('#backToTasks').html(`<i class="fas fa-chevron-circle-left"> Zurück zum Portfolio</i></a>`);
+    }
+
     setupPageContent();
     if (!personal) {
         getMyGroupId(function (groupId) {
