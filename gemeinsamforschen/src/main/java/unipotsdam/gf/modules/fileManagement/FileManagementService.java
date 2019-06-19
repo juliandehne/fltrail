@@ -33,20 +33,15 @@ import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static unipotsdam.gf.config.FileConfig.*;
+import static unipotsdam.gf.config.FileConfig.FOLDER_NAME;
 
 public class FileManagementService {
 
@@ -291,6 +286,12 @@ public class FileManagementService {
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Project project = projectDAO.getProjectByName(projectName);
+
+        //delete old files
+        List<String> fileLocations = fileManagementDAO.getFileLocation(project, user, fileRole);
+        for (String fileLocation : fileLocations) {
+            deleteFile(fileLocation);
+        }
         switch (fileRole) {
             case PRESENTATION:
                 uploadPPTX(user, project, inputStream, fileDetail);

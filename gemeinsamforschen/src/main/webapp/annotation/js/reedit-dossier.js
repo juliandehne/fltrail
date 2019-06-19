@@ -9,23 +9,6 @@ $(document).ready(function () {
     });
     let contribution = getQueryVariable("contribution");
     $('#fileRole').html(contribution[0] + contribution.substring(1, contribution.length).toLowerCase());
-    $('#finalize').on("click", function () {
-        let content = quill.getContents();
-        let html = quill.root.innerHTML;
-
-        // build request
-        let fullSubmissionPostRequest = {
-            groupId: groupId,
-            text: JSON.stringify(content),
-            html: html,
-            projectName: projectName,
-            fileRole: contribution.toUpperCase(),
-            visibility: 'GROUP'
-        };
-        updateFullSubmission(fullSubmissionPostRequest, true, function () {
-            location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
-        });
-    });
     $('#btnSave').click(function () {
 
         if (quill.getText().length > 1) {
@@ -41,9 +24,9 @@ $(document).ready(function () {
                 fileRole: contribution.toUpperCase(),
                 visibility: 'GROUP'
             };
-
+            let finalized = $('#finalizeReedit').prop("checked");
             // save request in database
-            updateFullSubmission(fullSubmissionPostRequest, false, function () {
+            updateFullSubmission(fullSubmissionPostRequest, finalized, function () {
 
                 // back to main page
                 location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();

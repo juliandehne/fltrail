@@ -353,15 +353,15 @@ function handleFinishedTasks(object, result) {
                 result.inCardSolver = object.taskName;
                 break;
             case "GIVE_FEEDBACK":
-                if (object.taskData !== null) {
+                /*if (object.taskData !== null) {
                     result.infoText = "Sie können weiterhin ihr Feedback editieren";
                     result.solveTaskWith = "Geben Sie ein Feedback";
                     result.solveTaskWithLink = "redirect(\'../annotation/give-feedback.jsp?" +
                         "projectName=" + object.projectName +
                         "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
-                } else {
+                } else {*/
                     result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
-                }
+                //}
                 break;
             case "REEDIT_DOSSIER":
                 result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +

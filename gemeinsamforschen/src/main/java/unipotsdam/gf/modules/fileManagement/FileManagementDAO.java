@@ -10,7 +10,9 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @ManagedBean
@@ -25,9 +27,7 @@ public class FileManagementDAO {
     private GroupDAO groupDAO;
 
     void writeFileMetaToDB(User user, Project project, String fileLocation, FileRole fileRole, String fileName) {
-
         Integer groupId = null;
-
         switch (fileRole) {
             case FINAL_REPORT:
             case PRESENTATION:
@@ -35,7 +35,6 @@ public class FileManagementDAO {
                 groupId = groupDAO.getGroupByStudent(project, user);
                 break;
         }
-
         connect.connect();
         if (groupId != null) {
             String mysqlRequest =
@@ -50,6 +49,20 @@ public class FileManagementDAO {
                     mysqlRequest, user.getEmail(), project.getName(), fileLocation, fileRole.toString(), fileName);
         }
         connect.close();
+    }
+
+    public List<String> getFileLocation(Project project, User user, FileRole fileRole) {
+        List<String> result = new ArrayList<>();
+        connect.connect();
+        String mysqlRequest =
+                "SELECT * FROM `largefilestorage` WHERE userEmail = ? AND projectName = ? AND filerole = ?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(
+                mysqlRequest, user.getEmail(), project.getName(), fileRole.toString());
+        while (vereinfachtesResultSet.next()) {
+            result.add(vereinfachtesResultSet.getString("fileLocation"));
+        }
+        connect.close();
+        return result;
     }
 
     Map<String, String> getListOfFiles(User user, Project project) {

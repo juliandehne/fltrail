@@ -202,7 +202,6 @@ table img {
 
 .checkbox input[type="checkbox"],
 .checkbox input[type="radio"] {
-    opacity: 0;
     z-index: 1;
     cursor: pointer;
 }

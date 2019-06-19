@@ -53,24 +53,23 @@
             Aufgaben</i></a>
     </div>
     <main id="seeFeedback" class="">
+        <div class="row group">
+            <div class="col span_2_of_2">
+                <h3>Hier können sie ihr <span id="fileRole"></span> überarbeiten</h3>
+                <br>
+                <div id="editor"></div>
+                <div style="display:flex;">
+                    <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
+                        <i class="far fa-save"></i> speichern
+                    </button>
+                    <label class="checkbox" for="finalizeReedit">
+                        Dies ist die finale Abgabe des Dossiers
+                        <input id="finalizeReedit" style="margin:2px 0 0 0" type="checkbox" title="finalisieren">
 
-        <h3>Hier können sie ihr <span id="fileRole"></span> überarbeiten</h3>
-
-        <br>
-        <div class="three_rows">
-            <label>
-                <button id="btnSave" type="button" class="btn btn-primary" title="weiter"><i
-                        class="far fa-arrow-alt-circle-right"></i></button>
-                Nächste Version des Dossiers speichern
-            </label>
-            <label>
-                <button id="finalize" type="button" class="btn btn-primary" title="finalisieren"><i
-                        class="far fa-calendar-check"></i></button>
-                Letzte Version des Dossiers speichern und erneutes Editieren Blocken
-            </label>
+                    </label>
+                </div>
+            </div>
         </div>
-        <div id="editor"></div>
-
     </main>
     <jsp:include page="../taglibs/quillJsEditor.jsp">
         <jsp:param name="readOnly" value="false"/>

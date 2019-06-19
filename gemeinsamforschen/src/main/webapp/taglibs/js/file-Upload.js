@@ -20,8 +20,8 @@ function uploadForm(projectName, fileRole){
         method: 'POST',
         type: 'POST',
         success: function(){
-            $('#successUpload').show();
             document.getElementById('loader').className = "loader-inactive";
+            taskCompleted();
         },
         error: function(){
             $('#errorUpload').show();
