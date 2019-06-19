@@ -58,13 +58,16 @@ public class TaskDAO {
 
     // fill the task with the general data
     private Task getGeneralTask(VereinfachtesResultSet vereinfachtesResultSet) {
-        Task task = new Task();
 
-        task.setImportance(Importance.valueOf(vereinfachtesResultSet.getString("importance")));
-        task.setUserEmail(vereinfachtesResultSet.getString("userEmail"));
-        task.setProjectName(vereinfachtesResultSet.getString("projectName"));
+
+        User user = new User(vereinfachtesResultSet.getString("userEmail"));
+        Project project = new Project(vereinfachtesResultSet.getString("projectName"));
+        Progress progress = Progress.valueOf(vereinfachtesResultSet.getString("progress"));
+        TaskName taskName = TaskName.valueOf(vereinfachtesResultSet.getString("taskName"));
+        Task task = new Task(taskName, user, project, progress);
+
         task.setGroupTask(vereinfachtesResultSet.getInt("groupTask"));
-        task.setProgress(Progress.valueOf(vereinfachtesResultSet.getString("progress")));
+        task.setImportance(Importance.valueOf(vereinfachtesResultSet.getString("importance")));
         try {
             task.setEventCreated(vereinfachtesResultSet.getTimestamp("created").getTime());
         } catch (Exception ignored) {
@@ -74,7 +77,7 @@ public class TaskDAO {
         } catch (Throwable ignored) {
         }
         task.setPhase(Phase.valueOf(vereinfachtesResultSet.getString("phase")));
-        task.setTaskName(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
+
         task.setHasRenderModel(false);
         TaskType[] taskTypes = getTaskModes(vereinfachtesResultSet).toArray(new TaskType[0]);
         task.setTaskType(taskTypes);
@@ -171,16 +174,11 @@ public class TaskDAO {
 
     private Task createUserDefault(
             Project project, User target, TaskName taskName, Phase phase, Importance importance, Progress progress) {
-        Task task = new Task();
-        task.setTaskName(taskName);
+        Task task = new Task(taskName, target, project, progress);
         task.setEventCreated(System.currentTimeMillis());
         task.setDeadline(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7));
-        task.setProjectName(project.getName());
-        task.setUserEmail(target.getEmail());
         task.setImportance(importance);
-        task.setProgress(progress);
         task.setGroupTask(0);
-        task.setTaskName(taskName);
         task.setPhase(phase);
         task.setTaskType(TaskType.INFO, TaskType.LINKED);
         return task;
@@ -357,14 +355,12 @@ public class TaskDAO {
                 List<Group> missingFeedbacks = constraints.checkWhichDossiersAreNotFinalized(project);
                 task.setTaskData(missingFeedbacks);  //frontendCheck if missingFeedbacks.size ==0
                 result = task;
-                Task waitingForDossiers = new Task();
-                waitingForDossiers.setUserEmail(user.getEmail());
-                waitingForDossiers.setProjectName(project.getName());
-                waitingForDossiers.setProgress(Progress.FINISHED);
-                waitingForDossiers.setTaskName(TaskName.WAITING_FOR_STUDENT_DOSSIERS);
+                Task waitingForDossiers = new Task(
+                        TaskName.WAITING_FOR_STUDENT_DOSSIERS, user, project, Progress.FINISHED);
                 updateForUser(waitingForDossiers);
                 break;
             }
+            case WAIT_FOR_GRADING:
             case WAIT_FOR_UPLOAD: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setHasRenderModel(true);
@@ -465,6 +461,11 @@ public class TaskDAO {
         connect.close();
     }
 
+    public void updateTeacherTask(Project project, TaskName taskName, Progress progress) {
+        User user = new User(projectDAO.getProjectByName(project.getName()).getAuthorEmail());
+        updateForUser(new Task(taskName, user, project, progress));
+    }
+
     /**
      * task needs to contain a user or a groupTask. Besides that it needs a projectName, TaskName and Progress
      *
@@ -545,7 +546,7 @@ public class TaskDAO {
     public void finishMemberTask(Project project, TaskName taskName) {
         java.util.List<User> members = userDAO.getUsersByProjectName(project.getName());
         for (User member : members) {
-            Task task = new Task(taskName, member.getEmail(), project.getName(), Progress.FINISHED);
+            Task task = new Task(taskName, member, project, Progress.FINISHED);
             updateForUser(task);
         }
     }

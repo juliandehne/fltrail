@@ -102,7 +102,7 @@ public class ExecutionProcess implements IExecutionProcess {
     }
 
     private void finishTaskAndStartNext(Project project, Object groupOrUser, TaskName finishedTaskName, TaskName newTaskName) {
-        Task newTask = new Task();
+        Task newTask = null;
         if (groupOrUser instanceof Group) {
             Group group = (Group) groupOrUser;
             Task finishedTask = taskDAO.createGroupTask(project, group.getId(), finishedTaskName, PHASE, Progress.FINISHED);

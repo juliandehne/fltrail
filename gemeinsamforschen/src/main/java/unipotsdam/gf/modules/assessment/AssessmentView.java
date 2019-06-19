@@ -50,11 +50,6 @@ public class AssessmentView {
     @Inject
     private GFContexts gfContexts;
 
-    @POST
-    @Path("/grading/start/projects/{projectName}")
-    public void startGrading(@PathParam("projectName") String projectName) {
-        peerAssessmentProcess.startGrading(new Project(projectName));
-    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -208,6 +203,19 @@ public class AssessmentView {
         Project project = new Project(projectName);
         User user = gfContexts.getUserFromSession(req);
         return peerAssessmentProcess.getNextUserToRateInternally(project, user);
+    }
+
+
+    @POST
+    @Path("/grading/start/projects/{projectName}")
+    public void startGrading(@PathParam("projectName") String projectName) {
+        peerAssessmentProcess.startGrading(new Project(projectName));
+    }
+
+    @POST
+    @Path("/gradingDocent/start/projects/{projectName}")
+    public void startGradingDocent(@PathParam("projectName") String projectName) {
+        peerAssessmentProcess.startDocentGrading(new Project(projectName));
     }
 
 

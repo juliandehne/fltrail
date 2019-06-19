@@ -74,7 +74,7 @@ public class AssessmentDAO {
     private int getNumberOfStudentsWithoutInternalAssesment(Project project) {
         int result = -1;
         connect.connect();
-        String query = "SELECT count(*) from groupuser currentUser" +
+        String query = "SELECT count(*) as result from groupuser currentUser" +
                 " JOIN groupuser feedbackedUser ON currentUser.groupId = feedbackedUser.groupId " +
                 " JOIN groups g on currentUser.groupId = g.id" +
                 " JOIN users us on us.email = feedbackedUser.userEmail " +
@@ -83,15 +83,27 @@ public class AssessmentDAO {
                 " AND (currentUser.userEmail, feedbackedUser.userEmail)" +
                 " not in( SELECT wr.fromPeer, wr.userEmail from workrating wr )";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
-        // TODO continue implement
+        vereinfachtesResultSet.next();
+        result = vereinfachtesResultSet.getInt("result");
         connect.close();
         return result;
     }
 
+    /**
+     * SELECT * from groups g where g.projectName = "assessmenttest3" AND (g.id, g.projectName) not in ( SELECT cr.groupId, cr.projectName from contributionrating cr )
+     * @param project
+     * @return
+     */
     private int getNumberOfGroupsWithoutExternalAssessment(Project project) {
         int result = -1;
         connect.connect();
-
+        String query = "SELECT count(*) as result from groups g " +
+                " where g.projectName = ? " +
+                " AND (g.id, g.projectName) not in " +
+                " (SELECT cr.groupId, cr.projectName from contributionrating cr )";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
+        vereinfachtesResultSet.next();
+        result = vereinfachtesResultSet.getInt("result");
         connect.close();
         return result;
     }

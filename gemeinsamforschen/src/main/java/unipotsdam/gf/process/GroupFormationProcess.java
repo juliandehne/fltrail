@@ -13,6 +13,7 @@ import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.Task;
@@ -48,18 +49,21 @@ public class GroupFormationProcess {
 
     /**
      * changes the group formation algorithm to the given.
+     *
      * @param groupFormationMechanism
      * @param project
      */
     public void setGroupFormationMechanism(GroupFormationMechanism groupFormationMechanism, Project project) {
-            projectDAO.setGroupFormationMechanism(groupFormationMechanism, project);
+        projectDAO.setGroupFormationMechanism(groupFormationMechanism, project);
     }
 
     // taskDAO.persistTeacherTask(project, TaskName.FORM_GROUPS_MANUALLY, Phase.GroupFormation);
+
     /**
      * this method can only be called to change the group formation to manual groups or single
+     *
      * @param groupFormationMechanism Manual or similarity of learning goals. others are going to be implemented
-     * @param project which project
+     * @param project                 which project
      */
     public void changeGroupFormationMechanism(GroupFormationMechanism groupFormationMechanism, Project project) {
         projectDAO.changeGroupFormationMechanism(groupFormationMechanism, project);
@@ -69,22 +73,25 @@ public class GroupFormationProcess {
      * this method is called if there are groups in the project
      * and if there groups are not handled manually
      * this method finalizes the groups
+     *
      * @param project which project
      */
-    public void finalize(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+    public void finalize(Project project)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
-        Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, project.getAuthorEmail(), project.getName(), Progress.FINISHED);
+        Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, new User(project.getAuthorEmail()), project,
+                Progress.FINISHED);
         taskDAO.updateForUser(task);
         // Der Dozent muss nicht mehr auf weitere Studierende warten
-        Task task2 = new Task(TaskName.WAIT_FOR_PARTICPANTS, project.getAuthorEmail(), project.getName(), Progress
-                .FINISHED);
+        Task task2 =
+                new Task(TaskName.WAIT_FOR_PARTICPANTS, new User(project.getAuthorEmail()), project, Progress.FINISHED);
         taskDAO.updateForUser(task2);
-        Task task3 = new Task(TaskName.EDIT_FORMED_GROUPS, project.getAuthorEmail(),project.getName(),
-                Progress.FINISHED);
+        Task task3 =
+                new Task(TaskName.EDIT_FORMED_GROUPS, new User(project.getAuthorEmail()), project, Progress.FINISHED);
         taskDAO.updateForUser(task3);
         // Die Studierenden müssen nicht mehr auf die Gruppenfindung warten
         taskDAO.finishMemberTask(project, TaskName.WAITING_FOR_GROUP);
-        taskDAO.persistMemberTask(project,  TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);
+        taskDAO.persistMemberTask(project, TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);
         project.setGroupWorkContext(profileDAO.getGroupWorkContext(project));
 
         saveGroups(getOrInitializeGroups(project).getGroups(), project);
@@ -100,6 +107,7 @@ public class GroupFormationProcess {
 
     /**
      * if there are no groups for project yet they are created via the gfm
+     *
      * @param project
      * @return
      * @throws WrongNumberOfParticipantsException
@@ -111,7 +119,7 @@ public class GroupFormationProcess {
         List<Group> groups1 = groupfinding.getGroups(project);
         Integer participantCount = projectDAO.getParticipantCount(project).getParticipants();
         Integer groupMemberCount = 0;       //if participant authenticates after groups were built
-        for (Group g : groups1){            //groups need to be recalculated
+        for (Group g : groups1) {            //groups need to be recalculated
             groupMemberCount += g.getMembers().size();
         }
         if (groups1 == null || groups1.isEmpty() || !groupMemberCount.equals(participantCount)) {
@@ -127,17 +135,19 @@ public class GroupFormationProcess {
 
     /**
      * overwrites existing groups with manual selection
+     *
      * @param groups
      * @param project
      * @throws RocketChatDownException
      * @throws UserDoesNotExistInRocketChatException
      */
-    public void saveGroups(List<Group> groups,Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public void saveGroups(List<Group> groups, Project project)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         groupfinding.deleteGroups(project);
         groupfinding.persistGroups(groups, project);
     }
 
-    public GroupFormationMechanism getGFMByProject(Project project){
+    public GroupFormationMechanism getGFMByProject(Project project) {
         return groupfinding.getGroupFormationMechanism(project);
     }
 }

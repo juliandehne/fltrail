@@ -68,20 +68,21 @@
                                         {{if taskData.numberOfGroupReportsMissing > 0 }}
                                         Anzahl an Gruppen ohne hochgeladene Abgabe ${taskData.numberOfGroupReportsMissing}.
                                        {{/if}}
-                                        <button id='startGradingButton' onClick="startGrading(getProjectName());">Bewertung abschließen</button>
+                                        <button id='startGradingButton' onClick="startGrading(getProjectName());">Upload Phase abschließen</button>
                                     </div>
                                 {{/if}}
                                  {{if inCardSolver=="WAIT_FOR_GRADING"}}
                                     <div class="inCardSolver">
                                         {{if taskData.numberOfGroupsWithoutExternalAssessment > 0 }}
                                         Anzahl an Gruppen ohne Bewertung durch Peers
-                                        bekommen: ${taskData.numberOfGroupsWithoutExternalAssessment} .
+                                        : ${taskData.numberOfGroupsWithoutExternalAssessment}
+                                        </br>
                                         {{/if}}
                                         {{if taskData.numberOfStudentsWithoutInternalAsssessment > 0 }}
-                                        Anzahl an Studierenden ohne Bewertung durch die Gruppe.
-                                        ${taskData.numberOfStudentsWithoutInternalAsssessment} .
+                                        Anzahl an Studierenden ohne Bewertung durch die Gruppe:
+                                        ${taskData.numberOfStudentsWithoutInternalAsssessment}
                                         {{/if}}
-                                        <button id='startGradingButton' onClick="startDocentGrading(getProjectName());">Bewertung abschließen</button>
+                                        <button id='startGradingButton' onClick="startDocentGrading(getProjectName());">Studentische Bewertung abschließen</button>
                                     </div>
                                 {{/if}}
                            {{/if}}
