@@ -84,19 +84,27 @@ public class PeerAssessmentProcess {
      *
      * @param contributionRatings
      * @param groupId
-     * @param projectName
-     * @param fromPeer
+     * @param project
+     * @param user fromPeer or fromTeacher
      */
     public void postContributionRating(
-            Map<FileRole, Integer> contributionRatings, String groupId, String projectName, String fromPeer) {
-        peer.postContributionRating(new Project(projectName), groupId, fromPeer, contributionRatings);
-        // finish task for user
-        taskDAO.updateForUser(new Task(TaskName.GIVE_EXTERNAL_ASSESSMENT, new User(fromPeer), new Project(projectName),
-                Progress.FINISHED));
-        // start internal evaluation task
-        taskDAO.persist(new Task(TaskName.GIVE_INTERNAL_ASSESSMENT, new User(fromPeer), new Project(projectName),
-                Progress.JUSTSTARTED));
-
+            Map<FileRole, Integer> contributionRatings, String groupId, Project project, String user, Boolean
+            isStudent) {
+        peer.postContributionRating(project, groupId, user, contributionRatings, isStudent);
+        if (isStudent) {
+            // finish task for user
+            taskDAO.updateForUser(
+                    new Task(TaskName.GIVE_EXTERNAL_ASSESSMENT, new User(user), project, Progress.FINISHED));
+            // start internal evaluation task
+            taskDAO.persist(new Task(TaskName.GIVE_INTERNAL_ASSESSMENT, new User(user), project,
+                    Progress.JUSTSTARTED));
+        } else {
+            if (assessmentDAO.getNextGroupToFeedbackForTeacher(project) == null) {
+                // if there are no more groups to rate products for the teacher
+                taskDAO.updateTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Progress.FINISHED);
+                taskDAO.persistTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Phase.GRADING);
+            }
+        }
     }
 
     /**
@@ -196,6 +204,8 @@ public class PeerAssessmentProcess {
         taskDAO.updateTeacherTask(project, TaskName.WAIT_FOR_GRADING, Progress.FINISHED);
 
         log.info("finished asessment process for project" + project.getName());
+
+        taskDAO.persistTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Phase.GRADING);
     }
 
 }

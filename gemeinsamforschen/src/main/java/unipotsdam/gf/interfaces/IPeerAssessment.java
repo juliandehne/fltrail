@@ -81,7 +81,7 @@ public interface IPeerAssessment {
     void postContributionRating(Project project,
                                 String groupId,
                                 String fromPeer,
-                                Map<FileRole, Integer> contributionRating);
+                                Map<FileRole, Integer> contributionRating, Boolean isStudent);
 
     /**
      * @param questions

@@ -91,7 +91,9 @@ public class AssessmentView {
     public void postContributionRating(
             Map<FileRole, Integer> contributionRatings, @PathParam("groupId") String groupId,
             @PathParam("projectName") String projectName, @PathParam("fromPeer") String fromPeer) {
-        peerAssessmentProcess.postContributionRating(contributionRatings, groupId, projectName, fromPeer);
+        Boolean isStudent = userDAO.getUserByEmail(fromPeer).getStudent();
+        peerAssessmentProcess.postContributionRating(contributionRatings, groupId, new Project(projectName), fromPeer,
+                isStudent);
     }
 
     @GET

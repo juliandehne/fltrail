@@ -375,6 +375,13 @@ public class TaskDAO {
                 result = task;
                 break;
             }
+            case GIVE_EXTERNAL_ASSESSMENT_TEACHER: {
+                Task task = getGeneralTask(vereinfachtesResultSet);
+                task.setTaskData(assessmentDAO.getNextGroupToFeedbackForTeacher(project));
+                result = task;
+                break;
+            }
+
             default: {
                 result = getGeneralTask(vereinfachtesResultSet);
             }

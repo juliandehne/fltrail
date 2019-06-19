@@ -43,12 +43,17 @@ public enum TaskName {
     // GRADING PHASE TASKS
     /////////////////////////////////////////////////////
 
+    // rate the contributions of the students
+    GIVE_EXTERNAL_ASSESSMENT_TEACHER,
+
     // shared tasks
+
+
     // execution phase
     CHOOSE_FITTING_COMPETENCES, CHOOSE_REFLEXION_QUESTIONS,
 
 
     // the docent waits for students to grade their peers
 
-    END
+    GIVE_FINAL_GRADES, END
 }

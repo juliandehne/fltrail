@@ -182,7 +182,7 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             }
             ArrayList<Map<String, Double>> workRating = assessmentDAO.getWorkRating(project, user);
             ArrayList<Map<FileRole, Double>> contributionRating =
-                    assessmentDAO.getContributionRating(groupId);
+                    assessmentDAO.getContributionRating(groupId, true);
             performance.setProject(project);
             performance.setUser(user);
             performance.setQuizAnswer(answeredQuizzes);
@@ -365,8 +365,9 @@ public class PeerAssessmentImpl implements IPeerAssessment {
 
     @Override
     public void postContributionRating(
-            Project project, String groupId, String fromStudent, Map<FileRole, Integer> contributionRating) {
-        assessmentDAO.writeContributionRatingToDB(project, groupId, fromStudent, contributionRating);
+            Project project, String groupId, String fromStudent, Map<FileRole, Integer> contributionRating, Boolean
+            isStudent) {
+        assessmentDAO.writeContributionRatingToDB(project, groupId, fromStudent, contributionRating, isStudent);
     }
 
     @Override

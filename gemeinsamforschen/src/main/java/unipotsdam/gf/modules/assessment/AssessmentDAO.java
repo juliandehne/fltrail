@@ -12,6 +12,7 @@ import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.constraints.Constraints;
 import unipotsdam.gf.process.constraints.ConstraintsMessages;
+import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.TaskMapping;
 import unipotsdam.gf.process.tasks.TaskName;
 
@@ -238,10 +239,14 @@ public class AssessmentDAO {
         return result;
     }
 
-    public ArrayList<Map<FileRole, Double>> getContributionRating(Integer groupId) {
+    public ArrayList<Map<FileRole, Double>> getContributionRating(Integer groupId, Boolean fromPeers) {
+        String fromSelector = " fromTeacher is null";
+        if (fromPeers) {
+           fromSelector = " fromPeer is null";
+        }
         ArrayList<Map<FileRole, Double>> result = new ArrayList<>();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `contributionrating` WHERE `groupId`=?";
+        String mysqlRequest = "SELECT * FROM `contributionrating` WHERE `groupId`=?" + fromSelector;
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, groupId);
         boolean next = vereinfachtesResultSet.next();
         while (next) {
@@ -276,11 +281,17 @@ public class AssessmentDAO {
     }
 
     public void writeContributionRatingToDB(
-            Project project, String groupId, String fromStudent, Map<FileRole, Integer> contributionRating) {
+            Project project, String groupId, String fromStudent, Map<FileRole, Integer> contributionRating,
+            Boolean isStudent) {
+        String columnOrigin = "`fromPeer`";
+        if (!isStudent) {
+            columnOrigin = "`fromTeacher`";
+        }
         connect.connect();
         for (FileRole contribution : contributionRating.keySet()) {
             String mysqlRequest =
-                    "INSERT INTO `contributionrating`(`projectName`, `groupId`, `fromPeer`, `filerole`, `rating`)" + " VALUES (?,?,?,?,?)";
+                    "INSERT INTO `contributionrating`(`projectName`, `groupId`, "+columnOrigin+", `filerole`, `rating`)" + " " +
+                            "VALUES (?,?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), groupId, fromStudent,
                     contribution.toString(), contributionRating.get(contribution));
         }
@@ -442,7 +453,8 @@ public class AssessmentDAO {
         stringBuilder.append("AND (currentUser.userEmail, feedbackedUser.userEmail) ");
         stringBuilder.append("not in( ");
         stringBuilder.append("SELECT wr.fromPeer, wr.userEmail ");
-        stringBuilder.append("from workrating wr ");
+        stringBuilder.append("from workrating wr  ");
+        stringBuilder.append(")");
         stringBuilder.append("ORDER BY us.id; ");
         String query = stringBuilder.toString();
         VereinfachtesResultSet vereinfachtesResultSet =
@@ -472,5 +484,32 @@ public class AssessmentDAO {
                     project.getName(), feedbackedUser.getEmail(), user.getEmail(), rating, key);
         }
         connect.close();
+    }
+
+    /**
+     * this returns the next group to rate contributions for the docent
+     * @param project
+     * @return
+     */
+    public TaskMapping getNextGroupToFeedbackForTeacher(Project project) {
+        TaskMapping result = null;
+        connect.connect();
+        String query =
+                "SELECT g.id as result from groups g "
+                        + "JOIN"
+                        + "projects p on g.projectName = p.name "
+                        + "where g.projectName = ? "
+                        + "AND (p.name, g.id, p.author) not in " +
+                        "    (SELECT cr.projectName, cr.groupId ,cr.fromTeacher from contributionrating cr " +
+                        "       WHERE cr.fromTeacher <> null"
+                        + "    )" +
+                        " LIMIT 1";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
+        if (vereinfachtesResultSet != null) {
+            vereinfachtesResultSet.next();
+            Integer groupId = vereinfachtesResultSet.getInt("result");
+            result.setObjectGroup(new Group(groupId));
+        }
+        return result;
     }
 }
