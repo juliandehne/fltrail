@@ -15,7 +15,7 @@ public class TaskOrder {
         result.add(TaskName.CONTACT_GROUP_MEMBERS);
         result.add(TaskName.WAITING_FOR_STUDENT_DOSSIERS);
         result.add(TaskName.UPLOAD_DOSSIER);
-        result.add(TaskName.OPTIONAL_PORTFOLIO_ENTRY);
+        result.add(TaskName.INTRODUCE_E_PORTFOLIO_STUDENT);
         result.add(TaskName.ANNOTATE_DOSSIER);
         result.add(TaskName.GIVE_FEEDBACK);
         result.add(TaskName.SEE_FEEDBACK);

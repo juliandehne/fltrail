@@ -9,17 +9,24 @@ let personal;
 let currentVisibility;
 let possibleVisibilities = [];
 
+let studentTaskLocation;
+let portfolioLocation;
+
 $(document).ready(function () {
     fileRole = $('#fileRole').html().trim();
     let personalString = $("#personal").html().trim();
     personal = personalString.toUpperCase() === 'TRUE';
+    hierarchyLevel = $('#hierarchyLevel').html().trim();
+    let projectName = $('#projectName').text().trim();
+    studentTaskLocation = `${hierarchyLevel}project/tasks-student.jsp?projectName=${projectName}`;
+    portfolioLocation = `${hierarchyLevel}portfolio/show-portfolio-student.jsp?projectName=${projectName}`;
     setupPageContent();
     if (!personal) {
         getMyGroupId(function (groupId) {
             getFullSubmissionOfGroup(groupId, 0)
         });
     }
-    hierarchyLevel = $('#hierarchyLevel').html().trim();
+
 
 
     $('#btnSave').click(function () {
@@ -47,18 +54,32 @@ $(document).ready(function () {
                 // save request in database
                 createFullSubmission(fullSubmissionPostRequest, function () {
 
+                    if (personal) {
+                        location.href = portfolioLocation;
+                    } else {
+                        location.href = studentTaskLocation;
+                    }
                     // back to main page
-                    location.href = hierarchyLevel + "project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
+
                 });
             } else {
                 alert("Ein Text wird benötigt");
             }
         });
     });
+    let backButton = $('#backToTasks');
+    if (personal) {
+        backButton.html(`<i class="fas fa-chevron-circle-left"> Zurück zum Portfolio`);
+    }
+    backButton.click(function () {
+        if (personal) {
+            location.href = portfolioLocation;
+        } else {
+            location.href = studentTaskLocation;
+        }
 
-    $('#backToTasks').click(function () {
-        location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').text().trim();
     });
+    //Deprecated
     $('#btnBack').click(function () {
         // if there is text inside the textarea
         // show user alert message that the text will be lost

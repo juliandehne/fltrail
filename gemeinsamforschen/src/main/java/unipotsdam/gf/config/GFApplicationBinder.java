@@ -10,7 +10,7 @@ import unipotsdam.gf.interfaces.IContributionFeedback;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
-import unipotsdam.gf.interfaces.IReflexionService;
+import unipotsdam.gf.interfaces.IPortfolioService;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
@@ -125,7 +125,7 @@ public class GFApplicationBinder extends AbstractBinder {
          */
         bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
         //bind(ExecutionProcess.class).to(IExecutionProcess.class);
-        bind(PortfolioService.class).to(IReflexionService.class);
+        bind(PortfolioService.class).to(IPortfolioService.class);
         bindMore();
     }
 

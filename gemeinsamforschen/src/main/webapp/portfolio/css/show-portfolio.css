@@ -2,3 +2,7 @@
     float: right;
     display: inline-flex;
 }
+
+h2 {
+    text-align: center;
+}

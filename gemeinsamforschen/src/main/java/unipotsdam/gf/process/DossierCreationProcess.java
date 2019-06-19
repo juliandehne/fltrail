@@ -87,7 +87,7 @@ public class DossierCreationProcess {
         taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
 
         Group group = groupDAO.getMyGroup(user, project);
-        reflexionProcess.startOptionalEPortfolioEntryTask(project, group);
+        reflexionProcess.startEPortfolioIntroduceTasks(project, group);
     }
 
     public FullSubmission updateSubmission(FullSubmissionPostRequest fullSubmissionPostRequest,

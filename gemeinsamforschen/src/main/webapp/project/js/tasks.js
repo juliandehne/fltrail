@@ -190,9 +190,12 @@ function handleInfoTasks(object, result) {
         case "CONTACT_GROUP_MEMBERS":
             result.infoText = "Sagen sie hallo zu ihren Gruppenmitgliedern über den Chat.";
             break;
-        case "OPTIONAL_PORTFOLIO_ENTRY":
+        case "INTRODUCE_E_PORTFOLIO_STUDENT":
             result.infoText = "Sie können hier ihr E-Portfolio beginnen. \n " +
                 "Am Ende des Projekts muss jede Gruppe ein gemeinsames Portfolio abgeben.";
+            break;
+        case "INTRODUCE_E_PORTFOLIO_DOCENT":
+            result.infoText = "Sie können hier die E-Portfolios der Studenten und Gruppen einsehen, wenn es für sie freigegeben ist.";
             break;
         case "UPLOAD_PRESENTATION":
             result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
@@ -310,12 +313,16 @@ function handleLinkedTasks(object, result) {
                     "projectName=" + object.projectName+"\')";
 
                 break;
-            case "OPTIONAL_PORTFOLIO_ENTRY":
-                result.solveTaskWith = "Erstelle einen Portfolio-Eintrag (optional)";
-                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
+            case "INTRODUCE_E_PORTFOLIO_STUDENT":
+                result.solveTaskWith = "Siehe dir das E-Portfolio an.";
+                result.solveTaskWithLink = "redirect(\'../portfolio/show-portfolio-student.jsp?" + $.param({
                     projectName: object.projectName,
-                    fileRole: "Portfolio",
-                    personal: "true"
+                }) + "\')";
+                break;
+            case "INTRODUCE_E_PORTFOLIO_DOCENT":
+                result.solveTaskWith = "Sehen Sie sich die bisherigen Einträge an!";
+                result.solveTaskWithLink = "redirect(\'../portfolio/show-portfolio-docent.jsp?" + $.param({
+                    projectName: object.projectName,
                 }) + "\')";
                 break;
            /* case "GIVE_ASSESSMENT":

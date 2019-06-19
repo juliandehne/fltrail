@@ -1,6 +1,6 @@
 package unipotsdam.gf.process;
 
-import unipotsdam.gf.interfaces.IReflexionService;
+import unipotsdam.gf.interfaces.IPortfolioService;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.process.phases.Phase;
@@ -14,9 +14,10 @@ import javax.inject.Inject;
 public class ReflexionProcess {
 
     @Inject
-    private IReflexionService reflexionService;
+    private IPortfolioService reflexionService;
 
-    public void startOptionalEPortfolioEntryTask(Project project, Group group) {
-        reflexionService.startOptionalPortfolioTask(project, group, Phase.DossierFeedback);
+    public void startEPortfolioIntroduceTasks(Project project, Group group) {
+        reflexionService.startDocentPortfolioTask(project, Phase.DossierFeedback);
+        reflexionService.startStudentPortfolioTask(project, group, Phase.DossierFeedback);
     }
 }

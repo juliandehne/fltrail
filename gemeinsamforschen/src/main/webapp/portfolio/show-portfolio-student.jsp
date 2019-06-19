@@ -37,6 +37,7 @@
             <div id="visibilityTemplateResult"></div>
             <script id="visibilityTemplate" type="text/x-jsrender">
                 <div></div>
+                    <button class="btn btn-primary" onclick="clickedCreatePrivatePortfolio()">Persönlichen Eintrag erstellen</button>
                     <h4>Wähle, welche Beiträge du sehen möchtest</h4>
                     <div class="dropdown">
                         <button class="dropbtn btn btn-primary" onclick="dropDownClick()">{{:currentVisibility.buttonText}}

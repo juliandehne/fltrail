@@ -61,3 +61,7 @@ function changeButtonText(clickedItem, callback) {
         callback();
     }
 }
+
+function clickedCreatePrivatePortfolio() {
+    location.href = `../annotation/upload-unstructured-dossier.jsp?projectName=${projectName}&fileRole=Portfolio&personal=true`;
+}

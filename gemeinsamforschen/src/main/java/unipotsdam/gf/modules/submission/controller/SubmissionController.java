@@ -140,16 +140,13 @@ public class SubmissionController implements ISubmission, HasProgress {
     }
 
     public List<FullSubmission> getPersonalSubmissions(User user, Project project, FileRole fileRole) {
-        List<FullSubmission> fullSubmissionList = null;
+        List<FullSubmission> fullSubmissionList = new ArrayList<>();
         connection.connect();
 
         String request = "SELECT * FROM fullsubmissions WHERE userEmail = ? AND projectName= ? AND fileRole = ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, user.getEmail(), project.getName(), fileRole);
 
         while (rs.next()) {
-            if (fullSubmissionList == null) {
-                fullSubmissionList = new ArrayList<>();
-            }
             fullSubmissionList.add(getFullSubmissionFromResultSet(rs));
         }
         connection.close();
@@ -160,7 +157,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         FullSubmission fullSubmission = null;
         connection.connect();
 
-        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ? AND fileRole = ?;";
+        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ? AND fileRole = ? AND userEmail = null;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName(), fileRole);
 
         if (rs.next()) {

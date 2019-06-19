@@ -14,8 +14,10 @@ function setupVisibilityButton() {
         visibility: 'DOCENT'
     };
     getPortfolioSubmissions(queryParams, function (response) {
+        let templateTempData = {};
         if (response.error) {
-            templateData.possibleButtons = response;
+            templateTempData.possibleButtons = response;
+            renderTemplate(templateTempData);
         } else {
             for (let element of response) {
                 let key = element.userEmail ? 'Student: ' + element.userEmail : 'Gruppe: ' + element.groupId;
@@ -30,13 +32,13 @@ function setupVisibilityButton() {
             for (name of possibleVisibleButtons) {
                 buttonData.push({name: name});
             }
-            templateData.possibleButtons = buttonData;
-            fillPortfolioEntries();
+            templateTempData.possibleButtons = buttonData;
+            fillPortfolioEntries(templateTempData);
         }
     });
 }
 
-function fillPortfolioEntries() {
+function fillPortfolioEntries(templateTempData) {
     templateData.currentVisibleButtonText = currentVisibleButtonText;
 
     let portfolioEntries = sortedPortfolioEntries[currentVisibleButtonText];
@@ -51,16 +53,20 @@ function fillPortfolioEntries() {
         }
         element.timestampDateTimeFormat = new Date(element.timestamp).toLocaleString();
     }
-    templateData.submissionList = portfolioEntries;
-    let tmpl = $.templates("#portfolioTemplate");
-    let html = tmpl.render(templateData);
-    $("#portfolioTemplateResult").html(html);
-
-
+    templateTempData.submissionList = portfolioEntries;
+    templateData = templateTempData;
+    renderTemplate(templateData);
 }
 
+function renderTemplate(templateTempData) {
+    let tmpl = $.templates("#portfolioTemplate");
+    let html = tmpl.render(templateTempData);
+    $("#portfolioTemplateResult").html(html);
+}
+
+
 function visibilityButtonPressed(pressedButton) {
-    changeButtonText(pressedButton, fillPortfolioEntries);
+    changeButtonText(pressedButton, fillPortfolioEntries(templateData));
 
 }
 

@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.portfolio.service;
 
-import unipotsdam.gf.interfaces.IReflexionService;
+import unipotsdam.gf.interfaces.IPortfolioService;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
@@ -17,26 +17,36 @@ import javax.inject.Inject;
 
 @ManagedBean
 @Resource
-public class PortfolioService implements IReflexionService {
+public class PortfolioService implements IPortfolioService {
 
     @Inject
     private TaskDAO taskDAO;
 
-    public void startOptionalPortfolioTask(Project project, Group group, Phase phase) {
+    public void startStudentPortfolioTask(Project project, Group group, Phase phase) {
         group.getMembers().forEach(target -> {
-            persistOptionalEntryTask(project, target, Progress.JUSTSTARTED, phase);
+            persistTask(project, target, Progress.JUSTSTARTED, TaskName.INTRODUCE_E_PORTFOLIO_STUDENT, phase);
         });
 
     }
 
-    public void finishOptionalPortfolioTask(Project project, Group group, Phase phase) {
+    public void finishStudentPortfolioTask(Project project, Group group, Phase phase) {
         group.getMembers().forEach(target -> {
-            persistOptionalEntryTask(project, target, Progress.FINISHED, phase);
+            persistTask(project, target, Progress.FINISHED, TaskName.INTRODUCE_E_PORTFOLIO_STUDENT, phase);
         });
     }
 
-    private void persistOptionalEntryTask(Project project, User target, Progress progress, Phase phase) {
-        Task task = taskDAO.createUserDefaultWithoutDeadline(project, target, TaskName.OPTIONAL_PORTFOLIO_ENTRY, phase, Importance.LOW, progress);
+    @Override
+    public void startDocentPortfolioTask(Project project, Phase phase) {
+        taskDAO.persistTeacherTask(project, TaskName.INTRODUCE_E_PORTFOLIO_DOCENT, phase);
+    }
+
+    @Override
+    public void finishDocentPortfolioTask(Project project, Phase phase) {
+        persistTask(project, new User(project.getAuthorEmail()), Progress.FINISHED, TaskName.INTRODUCE_E_PORTFOLIO_DOCENT, phase);
+    }
+
+    private void persistTask(Project project, User target, Progress progress, TaskName taskName, Phase phase) {
+        Task task = taskDAO.createUserDefaultWithoutDeadline(project, target, taskName, phase, Importance.LOW, progress);
         taskDAO.persist(task);
     }
 }

@@ -68,7 +68,6 @@
                             <br/>
                         {{/for}}
                     {{/if}}
-
             </script>
         </div> <!-- flex wrapper -->
     </main>
