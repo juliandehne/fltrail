@@ -68,8 +68,13 @@ function handlePhases(object, result) {
             break;
         case "Assessment":
             result.phase = "card-assessment";
-            result.headLine = "Bewertungsphase";
+            result.headLine = "Peer-Assessment Phase";
             break;
+        case "GRADING": {
+            result.phase = "card-assessment";
+            result.headLine = "Benotung";
+            break;
+        }
         case "Projectfinished":
             result.phase = "card-grades";
             result.headLine = "Projektabschluss";
@@ -197,6 +202,13 @@ function handleInfoTasks(object, result) {
         case "GIVE_INTERNAL_ASSESSMENT":
             result.infoText = "Bitte laden Sie die Gruppenarbeit ihres Gruppenmitglieds!";
             break;
+        case "GIVE_EXTERNAL_ASSESSMENT_TEACHER": {
+            result.infoText = "Bewerten Sie die einzelnen Gruppen!";
+            break;
+        }
+        case "GIVE_FINAL_GRADES": {
+            result.infoText = "Vergeben Sie finale Noten!";
+        }
         default:
             result.infoText = "";
     }
@@ -324,19 +336,28 @@ function handleLinkedTasks(object, result) {
                 }) + "\')";
                 break;*/
             case "GIVE_EXTERNAL_ASSESSMENT":
-                result.solveTaskWith = "Bewerten Sie die Ergebnisse ihrer Kommilitonen!";
-                result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
-                    "projectName=" + object.projectName+"&groupId="+result.taskData.objectGroup.id+"\')";
-
+                if (object.progress !== "FINISHED") {
+                    result.solveTaskWith = "Bewerten Sie die Ergebnisse ihrer Kommilitonen!";
+                    result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
+                        "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
+                }
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
                 result.solveTaskWith = "Bewerten Sie ihr Gruppenmitglied!";
                 result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName="+projectName+"\')";
                 break;
             case "GIVE_EXTERNAL_ASSESSMENT_TEACHER": {
-                result.solveTaskWith = "Bewerten Sie Gruppe "+object.taskData.objectGroup.id;
-                result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution-teacher.jsp?" +
-                    "projectName=" + object.projectName+"&groupId="+result.taskData.objectGroup.id+"\')";
+                if (object.progress !== "FINISHED") {
+                    result.solveTaskWith = "Bewerten Sie Gruppe " + object.taskData.objectGroup.id;
+                    result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution-teacher.jsp?" +
+                        "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
+                }
+                break;
+            }
+            case "GIVE_FINAL_GRADES": {
+                result.solveTaskWith = "Vergeben Sie finale Noten!";
+                result.solveTaskWithLink = "redirect(\'../assessment/finale-grades.jsp?" +
+                    "projectName=" + object.projectName;
                 break;
             }
             default:
@@ -377,9 +398,6 @@ function handleFinishedTasks(object, result) {
             case "UPLOAD_DOSSIER":
                 result.solveTaskWith = "";
                 result.solveTaskWithLink = "";
-                break;
-            case "WAIT_FOR_UPLOAD":
-
                 break;
 
         }
@@ -456,42 +474,6 @@ function fillObjectWithTasks(response) {
     return tempObject;
 }
 
-function redirect(url) {
-    location.href = url;
-}
-
-/**
- * TODO @Axel move this to better location
- */
-function closePhase(phase, projectName) {
-    let innerurl = '../rest/phases/' + phase + '/projects/' + projectName + '/end';
-    $.ajax({
-        url: innerurl,
-        headers: {
-            "Content-Type": "application/json",
-            "Cache-Control": "no-cache"
-        },
-        type: 'GET',
-        success: function () {
-            location.reload();
-        },
-        error: function (a) {
-        }
-
-
-    })
-}
-
-/**
- * TODO @Axel move this to better location
- */
-function initializeGroups(projectName) {
-    let projq = new RequestObj(1, "/group", "/all/projects/?", [projectName], []);
-    serverSide(projq, "GET", function (response) {
-        redirect("../groupfinding/create-groups-manual.jsp?projectName=" + projectName);
-    });
-}
-
 function countMissingStudents(object) {
     return object.taskData.participantCount.participantsNeeded - object.taskData.participantCount.participants;
 }
@@ -510,28 +492,4 @@ function waitForParticipantsInfoText(object) {
         }
     }
     return result
-}
-
-/**
- * TODO @Axel move this to better location
- */
-function resizeGroup() {
-    $.ajax({
-        url: '../rest/project/update/project/' + $('#projectName').html().trim() + '/groupSize/' + $('#userCount').val().trim(),
-        headers: {
-            "Cache-Control": "no-cache"
-        },
-        type: 'POST',
-        success: function (response) {
-            location.reload();
-        }
-    });
-}
-
-/**
- * TODO @Axel move this to better location or delete
- */
-function updateGroupSizeView() {
-    let userCount = parseInt($('#userCount').val().trim());
-    $('#groupSize').html(userCount * (userCount - 1));
 }

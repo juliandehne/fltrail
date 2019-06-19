@@ -119,6 +119,8 @@ public class PhasesImpl implements IPhases {
                     iPeerAssessment.assignMissingAssessmentTasks(project);
                 }
                 break;
+            case GRADING:
+                break;
             case Projectfinished:
                 closeProject();
                 break;
@@ -140,6 +142,8 @@ public class PhasesImpl implements IPhases {
             case Execution:
                 return Phase.Assessment;
             case Assessment:
+                return Phase.GRADING;
+            case GRADING:
                 return Phase.Projectfinished;
             default:
                 return Phase.Projectfinished;

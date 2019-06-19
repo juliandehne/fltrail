@@ -147,6 +147,7 @@ function viewToGroup(callback) {
 }
 
 function saveNewGroups(groups) {
+    loaderStart();
     let data = JSON.stringify(groups);
     //append "manipulated" to data
     let url = "../rest/group/projects/" + $('#projectName').html().trim()+"/groups/save";
@@ -162,10 +163,12 @@ function saveNewGroups(groups) {
         },
         type: 'POST',
         success: function (response) {
+            loaderStop();
             taskCompleted();
         },
         error: function (a) {
             //alert(a);
+            loaderStop();
             console.error(a);
         }
     });

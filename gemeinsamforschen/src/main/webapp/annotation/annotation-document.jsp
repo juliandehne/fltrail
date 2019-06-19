@@ -38,7 +38,7 @@
     <!-- js - annotation REST script -->
     <script src="js/annotationRest.js"></script>
     <!-- js - unstructuredRest -->
-    <script src="js/unstructuredRest.js"></script>
+        <script src="../taglibs/js/unstructuredRest.js"></script>
     <!-- js - annotationScript -->
     <script src="js/annotationScript.js"></script>
 

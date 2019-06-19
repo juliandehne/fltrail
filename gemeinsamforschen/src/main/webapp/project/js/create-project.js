@@ -46,6 +46,7 @@ $(document).ready(function () {
 
 // function that creates the project in the db
 function createNewProject(allTheTags) {
+    loaderStart();
     // again hiding the error messages
     errorMessages();
     // getting the data from the form fields
@@ -69,9 +70,11 @@ function createNewProject(allTheTags) {
                     } else {
                         sendGroupPreferences();
                     }
+                    loaderStop();
                 },
                 error: function (a) {
                     console.log(a);
+                    loaderStop();
                     return true;
                 }
             });

@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.assessment;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
@@ -73,15 +74,16 @@ public class AssessmentView {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("contributions/project/{projectName}")
+    @Path("/contributions/project/{projectName}/groupId/{groupId}")
     public List<FullContribution> getContributionsForProject(
-            @Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
+            @Context HttpServletRequest req, @PathParam("projectName") String projectName, @PathParam("groupId") String groupId) throws IOException {
         List<FullContribution> result;
         Project project = projectDAO.getProjectByName(projectName);
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
-        Integer groupId = peer.whichGroupToRate(project, user);
-        result = peer.getContributionsFromGroup(project, groupId);
+        //Integer groupId = peer.whichGroupToRate(project, user);
+        int groupIdParsed = Integer.parseInt(groupId);
+        result = peer.getContributionsFromGroup(project, groupIdParsed);
         return result;
     }
 
@@ -216,9 +218,9 @@ public class AssessmentView {
 
     @POST
     @Path("/gradingDocent/start/projects/{projectName}")
-    public void startGradingDocent(@PathParam("projectName") String projectName) {
+    public void startGradingDocent(@PathParam("projectName") String projectName)
+            throws RocketChatDownException, JAXBException, WrongNumberOfParticipantsException, UserDoesNotExistInRocketChatException, JsonProcessingException {
         peerAssessmentProcess.startDocentGrading(new Project(projectName));
     }
-
 
 }

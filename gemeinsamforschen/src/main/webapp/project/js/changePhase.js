@@ -22,6 +22,7 @@ $(document).ready(function () {
         }
     });
     $('#changePhase').on('click', function () {
+        loaderStart();
         let projectName = $('#projectName').html().trim();
         $.ajax({
             url: '../rest/phases/projects/' + projectName,
@@ -32,9 +33,10 @@ $(document).ready(function () {
             type: 'GET',
             success: function (response) {
                 changePhase(response);
+                loaderStop();
             },
             error: function (a) {
-
+                loaderStop();
             }
         });
     });

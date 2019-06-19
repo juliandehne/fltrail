@@ -1,7 +1,11 @@
 package unipotsdam.gf.process;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
@@ -11,10 +15,12 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.ws.rs.PathParam;
+import javax.xml.bind.JAXBException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +47,9 @@ public class PeerAssessmentProcess {
 
     @Inject
     private AssessmentDAO assessmentDAO;
+
+    @Inject
+    private PhasesImpl phases;
 
     private final static Logger log = LoggerFactory.getLogger(PeerAssessmentProcess.class);
 
@@ -99,12 +108,20 @@ public class PeerAssessmentProcess {
             taskDAO.persist(new Task(TaskName.GIVE_INTERNAL_ASSESSMENT, new User(user), project,
                     Progress.JUSTSTARTED));
         } else {
-            if (assessmentDAO.getNextGroupToFeedbackForTeacher(project) == null) {
+            if (assessmentDAO.getNextGroupToFeedbackForTeacher(project).getObjectGroup() == null) {
                 // if there are no more groups to rate products for the teacher
-                taskDAO.updateTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Progress.FINISHED);
-                taskDAO.persistTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Phase.GRADING);
+                giveFinalGrades(project);
             }
         }
+    }
+
+    /**
+     *
+     * @param project
+     */
+    public void giveFinalGrades(Project project) {
+        taskDAO.updateTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Progress.FINISHED);
+        taskDAO.persistTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Phase.GRADING);
     }
 
     /**
@@ -199,11 +216,14 @@ public class PeerAssessmentProcess {
      *
      * @param project
      */
-    public void startDocentGrading(Project project) {
+    public void startDocentGrading(Project project)
+            throws UserDoesNotExistInRocketChatException, JsonProcessingException, WrongNumberOfParticipantsException, RocketChatDownException, JAXBException {
         // update task for docent
         taskDAO.updateTeacherTask(project, TaskName.WAIT_FOR_GRADING, Progress.FINISHED);
-
         log.info("finished asessment process for project" + project.getName());
+
+        // tut nicht viel gerade
+        //phases.endPhase(Phase.Assessment, project);
 
         taskDAO.persistTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Phase.GRADING);
     }

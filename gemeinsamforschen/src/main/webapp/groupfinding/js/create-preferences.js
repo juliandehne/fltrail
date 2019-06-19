@@ -44,6 +44,7 @@ function printTags() {
 
 // he is added in compbase to the project
 function takesPartInProject() {
+    loaderStart();
     $('.cover').each(function () {
         $(this).fadeIn(100);
     });
@@ -105,10 +106,12 @@ function takesPartInProject() {
         success: function (response) {
             console.log(response);
             document.getElementById('loader').className = "loader-inactive";
+            loaderStop();
             location.href = "../project/tasks-student.jsp?projectName=" + projectName;
         },
         error: function (a) {
             console.log(a);
+            loaderStop();
         }
     });
     /*    } else {

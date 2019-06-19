@@ -8,6 +8,10 @@ $(document).ready(function () {
             btnFinalize.show();
             btnContinue.hide();
         }
+        if (category.toUpperCase() === categories[0]) {
+            //btnBack.css('visibility', 'hidden');
+            btnBack.hide()
+        }
     });
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
     let category = getQueryVariable("category");
@@ -20,10 +24,6 @@ $(document).ready(function () {
     getFeedbackFor(fullSubmissionId, category);
     let btnBack = $('#btnBack');
     btnBack.click(handleBackButtonClick);
-    if (category.toUpperCase() === "TITEL") {
-        //btnBack.css('visibility', 'hidden');
-        btnBack.hide()
-    }
 
     let btnContinue = $('#btnContinue');
     btnContinue.click(handleContinueButtonClick);
