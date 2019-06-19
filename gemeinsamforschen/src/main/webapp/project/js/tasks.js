@@ -68,11 +68,7 @@ function handlePhases(object, result) {
             break;
         case "Assessment":
             result.phase = "card-assessment";
-            result.headLine = "Peer-Assessment Phase";
-            break;
-        case "GRADING": {
-            result.phase = "card-assessment";
-            result.headLine = "Benotung";
+            result.headLine = "Bewertungsphase";
             break;
         }
         case "Projectfinished":
@@ -399,6 +395,11 @@ function handleFinishedTasks(object, result) {
                 result.solveTaskWith = "";
                 result.solveTaskWithLink = "";
                 break;
+            case "WAIT_FOR_UPLOAD":
+                break;
+            case "GIVE_EXTERNAL_ASSESSMENT_TEACHER" : {
+                // ev. implementieren
+            }
 
         }
         if (object.taskName.includes("CLOSE")) {
