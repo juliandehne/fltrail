@@ -6,6 +6,7 @@ import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -55,43 +56,48 @@ public class AssessmentDAO {
         String fileRole2 = FileRole.FINAL_REPORT.name();
         int reportCount = getNumberOfSubmittedFiles(project, fileRole2);
         assessmentProgress.setNumberOfGroupReportsMissing(numberOfGroups - reportCount);
-        
+
         int nEA = getNumberOfGroupsWithoutExternalAssessment(project);
         assessmentProgress.setNumberOfGroupsWithoutExternalAssessment(nEA);
 
         int nSIA = getNumberOfStudentsWithoutInternalAssesment(project);
-        assessmentProgress
-                .setNumberOfStudentsWithoutInternalAsssessment(nSIA);
+        assessmentProgress.setNumberOfStudentsWithoutInternalAsssessment(nSIA);
 
         return assessmentProgress;
     }
 
     /**
      * SELECT count(*) from groupuser currentUser JOIN groupuser feedbackedUser ON currentUser.groupId = feedbackedUser.groupId JOIN groups g on currentUser.groupId = g.id JOIN users us on us.email = feedbackedUser.userEmail WHERE g.projectName = "assessmenttest3" AND currentUser.userEmail <> feedbackedUser.userEmail AND (currentUser.userEmail, feedbackedUser.userEmail) not in( SELECT wr.fromPeer, wr.userEmail from workrating wr ) ORDER BY us.id
+     *
      * @param project
      * @return
      */
     private int getNumberOfStudentsWithoutInternalAssesment(Project project) {
         int result = -1;
         connect.connect();
-        String query = "SELECT count(*) from groupuser currentUser" +
-                " JOIN groupuser feedbackedUser ON currentUser.groupId = feedbackedUser.groupId " +
-                " JOIN groups g on currentUser.groupId = g.id" +
-                " JOIN users us on us.email = feedbackedUser.userEmail " +
-                " WHERE g.projectName = ? " +
-                " AND currentUser.userEmail <> feedbackedUser.userEmail" +
-                " AND (currentUser.userEmail, feedbackedUser.userEmail)" +
-                " not in( SELECT wr.fromPeer, wr.userEmail from workrating wr )";
+        String query =
+                "SELECT count(*) as result from groupuser currentUser" + " JOIN groupuser feedbackedUser ON currentUser.groupId = feedbackedUser.groupId " + " JOIN groups g on currentUser.groupId = g.id" + " JOIN users us on us.email = feedbackedUser.userEmail " + " WHERE g.projectName = ? " + " AND currentUser.userEmail <> feedbackedUser.userEmail" + " AND (currentUser.userEmail, feedbackedUser.userEmail)" + " not in( SELECT wr.fromPeer, wr.userEmail from workrating wr )";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
-        // TODO continue implement
+        vereinfachtesResultSet.next();
+        result = vereinfachtesResultSet.getInt("result");
         connect.close();
         return result;
     }
 
+    /**
+     * SELECT * from groups g where g.projectName = "assessmenttest3" AND (g.id, g.projectName) not in ( SELECT cr.groupId, cr.projectName from contributionrating cr )
+     *
+     * @param project
+     * @return
+     */
     private int getNumberOfGroupsWithoutExternalAssessment(Project project) {
         int result = -1;
         connect.connect();
-
+        String query =
+                "SELECT count(*) as result from groups g " + " where g.projectName = ? " + " AND (g.id, g.projectName) not in " + " (SELECT cr.groupId, cr.projectName from contributionrating cr )";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
+        vereinfachtesResultSet.next();
+        result = vereinfachtesResultSet.getInt("result");
         connect.close();
         return result;
     }
@@ -159,18 +165,30 @@ public class AssessmentDAO {
         return result;
     }
 
-    public cheatCheckerMethods getAssessmentMethod(Project project) {
-        cheatCheckerMethods result = cheatCheckerMethods.none;
-        connect.connect();
+    /**
+     * at some point these might be set dynamically, not the case right now
+     * @param project
+     * @return
+     */
+    CheatCheckerMethods getAssessmentMethod(Project project) {
+        CheatCheckerMethods result = CheatCheckerMethods.variance;
+     /*   connect.connect();
         String mysqlRequest = "SELECT * FROM `assessmentmechanismselected` WHERE `projectName`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getName());
         if (vereinfachtesResultSet.next()) {
             String resultString = vereinfachtesResultSet.getString("cheatCheckerMethod");
-            result = cheatCheckerMethods.valueOf(resultString);
+            result = CheatCheckerMethods.valueOf(resultString);
         }
+        connect.close();*/
         return result;
     }
 
+    /**
+     * updated this TODO @Julian check if it works now
+     * @param project
+     * @param user
+     * @return
+     */
     public ArrayList<Map<String, Double>> getWorkRating(Project project, User user) {
         ArrayList<Map<String, Double>> result = new ArrayList<>();
 
@@ -181,12 +199,13 @@ public class AssessmentDAO {
         boolean next = vereinfachtesResultSet.next();
         while (next) {
             Map<String, Double> workRating = new HashMap<>();
-            for (String category : Categories.workRatingCategories) {
-                workRating.put(category, (double) vereinfachtesResultSet.getInt(category));
-            }
+                workRating.put(
+                        vereinfachtesResultSet.getString("itemName"),
+                        (double) vereinfachtesResultSet.getInt("rating"));
             result.add(workRating);
             next = vereinfachtesResultSet.next();
         }
+        connect.close();
         return result;
     }
 
@@ -226,10 +245,14 @@ public class AssessmentDAO {
         return result;
     }
 
-    public ArrayList<Map<FileRole, Double>> getContributionRating(Integer groupId) {
+    public ArrayList<Map<FileRole, Double>> getContributionRating(Integer groupId, Boolean fromPeers) {
+        String fromSelector = " fromTeacher is null";
+        if (fromPeers) {
+            fromSelector = " fromPeer is null";
+        }
         ArrayList<Map<FileRole, Double>> result = new ArrayList<>();
         connect.connect();
-        String mysqlRequest = "SELECT * FROM `contributionrating` WHERE `groupId`=?";
+        String mysqlRequest = "SELECT * FROM `contributionrating` WHERE `groupId`=?" + fromSelector;
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, groupId);
         boolean next = vereinfachtesResultSet.next();
         while (next) {
@@ -244,16 +267,8 @@ public class AssessmentDAO {
         return result;
     }
 
-    public Boolean getContributionRating(Integer groupId, String fromStudent) {
-        connect.connect();
-        String mysqlRequest = "SELECT * FROM `contributionrating` WHERE `groupId`=? AND `fromPeer`=?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, groupId, fromStudent);
-        return vereinfachtesResultSet.next();
-    }
 
-
-    public void writeWorkRatingToDB(StudentIdentifier student, String fromStudent, Map<String, Integer> workRating) {
+/*    public void writeWorkRatingToDB(StudentIdentifier student, String fromStudent, Map<String, Integer> workRating) {
         connect.connect();
         String mysqlRequest =
                 "INSERT INTO `workrating`(`projectName`, `userEmail`, `fromPeer`, " + "`responsibility`, " + "`partOfWork`, " + "`cooperation`, " + "`communication`, " + "`autonomous`" + ") VALUES (?,?,?,?,?,?,?,?)";
@@ -261,16 +276,27 @@ public class AssessmentDAO {
                 fromStudent, workRating.get("responsibility"), workRating.get("partOfWork"),
                 workRating.get("cooperation"), workRating.get("communication"), workRating.get("autonomous"));
         connect.close();
-    }
+    }*/
 
-    public void writeContributionRatingToDB(
-            Project project, String groupId, String fromStudent, Map<FileRole, Integer> contributionRating) {
+    void writeContributionRatingToDB(
+            Project project, String groupId, String user, Map<FileRole, Integer> contributionRating,
+            Boolean isStudent) {
+        String columnOrigin = "`fromPeer`";
+        if (!isStudent) {
+            columnOrigin = "`fromTeacher`";
+        }
         connect.connect();
         for (FileRole contribution : contributionRating.keySet()) {
             String mysqlRequest =
-                    "INSERT INTO `contributionrating`(`projectName`, `groupId`, `fromPeer`, `filerole`, `rating`)" + " VALUES (?,?,?,?,?)";
-            connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), groupId, fromStudent,
-                    contribution.toString(), contributionRating.get(contribution));
+                    "INSERT INTO `contributionrating`(`projectName`, `groupId`, `filerole`, `rating`," + columnOrigin + ")" + "VALUES (?,?,?,?,?)";
+            String projectName = project.getName();
+            Integer groupIdParsed = null;
+            if (groupId != null) {
+                groupIdParsed = Integer.parseInt(groupId);
+            }
+            String fileRole = contribution.toString();
+            Integer rating = contributionRating.get(contribution);
+            connect.issueInsertOrDeleteStatement(mysqlRequest, projectName, groupIdParsed, fileRole, rating, user);
         }
         connect.close();
     }
@@ -387,24 +413,24 @@ public class AssessmentDAO {
     /**
      * This method gets the next user that has not been given feedback yet from the group
      * needs to be tested with at least 3-4 users in a group and more then one group
-     SELECT  us.email, us.name
-     from groupuser currentUser
-     JOIN groupuser feedbackedUser
-     ON currentUser.groupId = feedbackedUser.groupId
-     JOIN groups g
-     on currentUser.groupId = g.id
-     JOIN users us
-     on us.email = feedbackedUser.userEmail
-     WHERE
-     currentUser.userEmail = "sx2@sx2.com"
-     AND g.projectName = "assessmenttest2"
-     AND currentUser.userEmail <> feedbackedUser.userEmail
-     AND (currentUser.userEmail, feedbackedUser.userEmail)
-     not in(
-     SELECT wr.fromPeer, wr.userEmail
-     from workrating wr
-     )
-     ORDER BY us.id
+     * SELECT  us.email, us.name
+     * from groupuser currentUser
+     * JOIN groupuser feedbackedUser
+     * ON currentUser.groupId = feedbackedUser.groupId
+     * JOIN groups g
+     * on currentUser.groupId = g.id
+     * JOIN users us
+     * on us.email = feedbackedUser.userEmail
+     * WHERE
+     * currentUser.userEmail = "sx2@sx2.com"
+     * AND g.projectName = "assessmenttest2"
+     * AND currentUser.userEmail <> feedbackedUser.userEmail
+     * AND (currentUser.userEmail, feedbackedUser.userEmail)
+     * not in(
+     * SELECT wr.fromPeer, wr.userEmail
+     * from workrating wr
+     * )
+     * ORDER BY us.id
      *
      * @param user
      * @param project
@@ -430,7 +456,8 @@ public class AssessmentDAO {
         stringBuilder.append("AND (currentUser.userEmail, feedbackedUser.userEmail) ");
         stringBuilder.append("not in( ");
         stringBuilder.append("SELECT wr.fromPeer, wr.userEmail ");
-        stringBuilder.append("from workrating wr ");
+        stringBuilder.append("from workrating wr  ");
+        stringBuilder.append(")");
         stringBuilder.append("ORDER BY us.id; ");
         String query = stringBuilder.toString();
         VereinfachtesResultSet vereinfachtesResultSet =
@@ -455,10 +482,55 @@ public class AssessmentDAO {
 
             int rating = Integer.parseInt(data.get(key));
             connect.issueInsertOrDeleteStatement(
-                    "INSERT IGNORE INTO `workrating` (projectName, userEmail, fromPeer, rating, itemName)" +
-                            " values (?,?,?,?,?)",
+                    "INSERT IGNORE INTO `workrating` (projectName, userEmail, fromPeer, rating, itemName)" + " values (?,?,?,?,?)",
                     project.getName(), feedbackedUser.getEmail(), user.getEmail(), rating, key);
         }
         connect.close();
     }
+
+    /**
+     * this returns the next group to rate contributions for the docent
+     *
+     * @param project
+     * @return
+     */
+    public TaskMapping getNextGroupToFeedbackForTeacher(Project project) {
+        TaskMapping result = new TaskMapping(null, null, null, null, project);
+        connect.connect();
+        String query =
+                "SELECT g.id as result from groups g " + " JOIN" + " projects p on g.projectName = p.name "
+                        + " where g.projectName = ? "
+                        + " AND (p.name, g.id, p.author) not in "
+                        + "    (SELECT cr.projectName, cr.groupId ,cr.fromTeacher from contributionrating cr " + "       WHERE cr.fromTeacher is not null" + "    )" + " LIMIT 1";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
+        if (vereinfachtesResultSet != null) {
+            try {
+                if (vereinfachtesResultSet.next()) {
+                    Integer groupId = vereinfachtesResultSet.getInt("result");
+                    result.setObjectGroup(new Group(groupId));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        connect.close();
+        return result;
+    }
+
+   /* *//**
+     *
+     * @param project
+     * @return
+     *//*
+    public List<UserAssessmentData> getUserAssessmentsFromDB(Project project) {
+
+        // TODO @ Julian implement this
+        return null;
+    }
+
+    public HashMap<User,HashMap<String, String>> getInternalRatings(Project project, User user) {
+
+        // todo @ Julian implement this
+        return null;
+    }*/
 }

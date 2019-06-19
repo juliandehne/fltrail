@@ -74,7 +74,7 @@ function safeContributionRating() {
 
 function prepareContributionRating() {
     $.ajax({
-        url: '../rest/assessment/contributions/project/' + getProjectName(),
+        url: '../rest/assessment/contributions/project/' + getProjectName()+ "/groupId/"+groupId,
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"

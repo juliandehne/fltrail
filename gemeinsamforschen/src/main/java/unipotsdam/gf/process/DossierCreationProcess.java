@@ -63,7 +63,7 @@ public class DossierCreationProcess {
      * @param project the project that is about to get updated to next phase (to dossierFeedback-phase)
      */
     public void start(Project project) {
-        Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, project.getAuthorEmail(), project.getName(),
+        Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, new User(project.getAuthorEmail()), project,
                 Progress.FINISHED);
         taskDAO.updateForUser(task);
 
@@ -80,7 +80,7 @@ public class DossierCreationProcess {
      */
     public void notifyAboutSubmission(User user, Project project) {
         // this completes the upload task
-        Task task = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(), Progress.INPROGRESS);
+        Task task = new Task(TaskName.UPLOAD_DOSSIER, user, project, Progress.INPROGRESS);
         taskDAO.updateForGroup(task);
 
         // this triggers the annotate task
@@ -111,10 +111,10 @@ public class DossierCreationProcess {
         submissionController.markAsFinal(fullSubmission, true);
 
         // mark annotate task as finished in db
-        Task taskUpload = new Task(TaskName.UPLOAD_DOSSIER, user.getEmail(), project.getName(),
+        Task taskUpload = new Task(TaskName.UPLOAD_DOSSIER, user, project,
                 Progress.FINISHED);
         taskDAO.updateForGroup(taskUpload);
-        Task taskAnnotate = new Task(TaskName.ANNOTATE_DOSSIER, user.getEmail(), project.getName(),
+        Task taskAnnotate = new Task(TaskName.ANNOTATE_DOSSIER, user, project,
                 Progress.FINISHED);
         taskDAO.updateForGroup(taskAnnotate);
         taskDAO.persistTaskGroup(project, user, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
@@ -135,11 +135,7 @@ public class DossierCreationProcess {
     }
 
     public void createCloseFeedBackPhaseTask(Project project, User user) {
-        Task task = new Task();
-        task.setUserEmail(user.getEmail());
-        task.setProjectName(project.getName());
-        task.setProgress(Progress.FINISHED);
-        task.setTaskName(TaskName.REEDIT_DOSSIER);
+        Task task = new Task(TaskName.REEDIT_DOSSIER, user, project, Progress.FINISHED);
         taskDAO.updateForGroup(task);
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE, Phase.DossierFeedback);
     }
@@ -147,11 +143,7 @@ public class DossierCreationProcess {
     public void finishPhase(Project project) {
 
         User user = userDAO.getUserByEmail(project.getAuthorEmail());
-        Task task = new Task();
-        task.setUserEmail(user.getEmail());
-        task.setProjectName(project.getName());
-        task.setProgress(Progress.FINISHED);
-        task.setTaskName(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
+        Task task = new Task(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE, user, project, Progress.FINISHED );
         taskDAO.updateForUser(task);
 
         //todo: implement communication stuff

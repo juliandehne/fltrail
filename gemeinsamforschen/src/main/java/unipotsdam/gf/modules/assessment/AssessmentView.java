@@ -1,23 +1,19 @@
 package unipotsdam.gf.modules.assessment;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
-import unipotsdam.gf.modules.assessment.controller.model.PeerRating;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.fileManagement.FileRole;
-import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyData;
-import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.PeerAssessmentProcess;
-import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
@@ -50,19 +46,6 @@ public class AssessmentView {
     @Inject
     private GFContexts gfContexts;
 
-    @POST
-    @Path("/grading/start/projects/{projectName}")
-    public void startGrading(@PathParam("projectName") String projectName) {
-        peerAssessmentProcess.startGrading(new Project(projectName));
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/peerRating/project/{projectName}")
-    public void postPeerRating(ArrayList<PeerRating> peerRatings, @PathParam("projectName") String projectName)
-            throws IOException {
-        peer.postPeerRating(peerRatings, projectName);
-    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -78,15 +61,17 @@ public class AssessmentView {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("contributions/project/{projectName}")
+    @Path("/contributions/project/{projectName}/groupId/{groupId}")
     public List<FullContribution> getContributionsForProject(
-            @Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
+            @Context HttpServletRequest req, @PathParam("projectName") String projectName,
+            @PathParam("groupId") String groupId) throws IOException {
         List<FullContribution> result;
         Project project = projectDAO.getProjectByName(projectName);
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
-        Integer groupId = peer.whichGroupToRate(project, user);
-        result = peer.getContributionsFromGroup(project, groupId);
+        //Integer groupId = peer.whichGroupToRate(project, user);
+        int groupIdParsed = Integer.parseInt(groupId);
+        result = peer.getContributionsFromGroup(project, groupIdParsed);
         return result;
     }
 
@@ -96,36 +81,11 @@ public class AssessmentView {
     public void postContributionRating(
             Map<FileRole, Integer> contributionRatings, @PathParam("groupId") String groupId,
             @PathParam("projectName") String projectName, @PathParam("fromPeer") String fromPeer) {
-        peerAssessmentProcess.postContributionRating(contributionRatings, groupId, projectName, fromPeer);
+        Boolean isStudent = userDAO.getUserByEmail(fromPeer).getStudent();
+        peerAssessmentProcess
+                .postContributionRating(contributionRatings, groupId, new Project(projectName), fromPeer, isStudent);
     }
 
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    @Path("/whatToRate/project/{projectName}/student/{userName}")
-    public String whatToRate(
-            @Context HttpServletRequest req, @PathParam("projectName") String projectName,
-            @PathParam("userName") String userName) throws IOException {
-        Project project = new Project(projectName);
-        String userEmail = gfContexts.getUserEmail(req);
-        User user = new User(userEmail);
-        return peer.whatToRate(project, user);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/get/project/{projectName}")
-    public Map<StudentIdentifier, Double> getAssessmentForProject(@PathParam("projectName") String projectName) {
-        return peer.getAssessmentForProject(projectName);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/get/project/{projectName}/student/{studentEmail}")
-    public Double getAssessmentForStudent(
-            @PathParam("projectName") String projectName, @PathParam("studentEmail") String studentEmail) {
-        StudentIdentifier student = new StudentIdentifier(projectName, studentEmail);
-        return peer.getAssessmentForStudent(student);
-    }
 
     ////////////////////////////////funktioniert///////////////////////////////////////////
     //todo: is unnecessary I guess. finalizing should just happen when phase ends
@@ -145,18 +105,6 @@ public class AssessmentView {
         return peer.meanOfAssessment(ProjectId);
     }  ///////////////////////////////return 0//////////////////////////////////
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/total/project/{projectName}/student/{student}")
-    public ArrayList<Performance> getTotalAssessment(
-            @PathParam("projectName") String ProjectId, @PathParam("student") String student) {
-        StudentIdentifier userNameentifier = new StudentIdentifier(ProjectId, student);
-        return getTotalAssessment(userNameentifier);
-    }  //////////dummy/////////////funktioniert wie geplant//////////////////////////////////
-
-    private ArrayList<Performance> getTotalAssessment(StudentIdentifier userNameentifier) {
-        return peer.getTotalAssessment(userNameentifier);
-    }  /////////dummy/////////////funktioniert wie geplant//////////////////////////////////
 
     /**
      * get the survey questions
@@ -191,24 +139,36 @@ public class AssessmentView {
     @Path("/save/projects/{projectName}/context/{context}/user/{userFeedbacked}")
     public void saveInternalAssessment(
             HashMap<String, String> data, @PathParam("projectName") String projectName,
-            @PathParam("context") String context, @PathParam("userFeedbacked") String userFeedbacked, @Context
-            HttpServletRequest req)
-            throws Exception {
-            Project project = new Project(projectName);
-            User user = gfContexts.getUserFromSession(req);
-            User feedbackedUser = new User(userFeedbacked);
-            peerAssessmentProcess.persistInternalAssessment(project, user, feedbackedUser, data);
+            @PathParam("context") String context, @PathParam("userFeedbacked") String userFeedbacked,
+            @Context HttpServletRequest req) throws Exception {
+        Project project = new Project(projectName);
+        User user = gfContexts.getUserFromSession(req);
+        User feedbackedUser = new User(userFeedbacked);
+        peerAssessmentProcess.persistInternalAssessment(project, user, feedbackedUser, data);
     }
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/nextGroupMemberToRate/projects/{projectName}")
-    public User getNextGroupMemberToRateInternally(@PathParam("projectName") String projectName, @Context
-            HttpServletRequest req) throws IOException {
+    public User getNextGroupMemberToRateInternally(
+            @PathParam("projectName") String projectName, @Context HttpServletRequest req) throws IOException {
         Project project = new Project(projectName);
         User user = gfContexts.getUserFromSession(req);
         return peerAssessmentProcess.getNextUserToRateInternally(project, user);
     }
 
+
+    @POST
+    @Path("/grading/start/projects/{projectName}")
+    public void startGrading(@PathParam("projectName") String projectName) {
+        peerAssessmentProcess.startGrading(new Project(projectName));
+    }
+
+    @POST
+    @Path("/gradingDocent/start/projects/{projectName}")
+    public void startGradingDocent(@PathParam("projectName") String projectName)
+            throws RocketChatDownException, JAXBException, WrongNumberOfParticipantsException, UserDoesNotExistInRocketChatException, JsonProcessingException {
+        peerAssessmentProcess.startDocentGrading(new Project(projectName));
+    }
 
 }

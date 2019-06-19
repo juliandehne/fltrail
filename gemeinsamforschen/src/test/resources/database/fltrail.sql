@@ -109,9 +109,10 @@ CREATE TABLE `contributionrating`
 (
     `projectName` varchar(200) NOT NULL,
     `userName`    varchar(100) NULL,
-    `fromPeer`    varchar(100) NOT NULL,
-    `groupId`     int,
-    `fileRole`    varchar(100),
+    `fromPeer`    varchar(100) NULL,
+    `groupId`     int NULL,
+    `fileRole`    varchar(100) NOT NULL,
+    `fromTeacher` varchar(100),
     `rating`      int not NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='Holds the quantitative peer assessment regarding the uploads.';

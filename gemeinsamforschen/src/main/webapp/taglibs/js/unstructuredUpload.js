@@ -67,19 +67,6 @@ $(document).ready(function () {
             }
         });
     });
-    let backButton = $('#backToTasks');
-    if (personal) {
-        backButton.html(`<i class="fas fa-chevron-circle-left"> Zurück zum Portfolio`);
-    }
-    backButton.click(function () {
-        if (personal) {
-            location.href = portfolioLocation;
-        } else {
-            location.href = studentTaskLocation;
-        }
-
-    });
-    //Deprecated
     $('#btnBack').click(function () {
         // if there is text inside the textarea
         // show user alert message that the text will be lost

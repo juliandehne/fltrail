@@ -295,9 +295,9 @@ footer {
 
 
 .card.current {
-    -webkit-box-shadow: 15px 15px 8px -8px rgba(100, 90, 100, 0.62);
-    -moz-box-shadow: 15px 15px 8px -8px rgba(100, 90, 100, 0.62);
-    box-shadow: 15px 15px 8px -8px rgba(100, 90, 100, 0.62);
+    -webkit-box-shadow: 18px 18px 8px -8px rgba(100, 90, 100, 0.42);
+    -moz-box-shadow: 18px 18px 8px -8px rgba(100, 90, 100, 0.42);
+    box-shadow: 18px 18px 8px -8px rgba(100, 90, 100, 0.42);
 }
 
 .grouptask:before {
@@ -445,10 +445,10 @@ h3.phase-heading.card-feedback{
     color: #6576B8;
 }
 h3.phase-heading.card-execution{
-    color: #009ACC;
+    color: #e8c858;
 }
 h3.phase-heading.card-assessment{
-    color:#F1D16A;
+    color: #896369;
 }
 h3.phase-heading.card-grades{
     color: #CCCBCB;
@@ -472,9 +472,6 @@ a:visited {
 /* lists */
 
 .complex-list li {
-
-
-
 }
 
 .complex-list li.label button,

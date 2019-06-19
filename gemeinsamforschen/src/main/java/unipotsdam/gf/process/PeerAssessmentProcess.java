@@ -1,17 +1,26 @@
 package unipotsdam.gf.process;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import unipotsdam.gf.exceptions.RocketChatDownException;
+import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
+import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
+import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.ws.rs.PathParam;
+import javax.xml.bind.JAXBException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +48,14 @@ public class PeerAssessmentProcess {
     @Inject
     private AssessmentDAO assessmentDAO;
 
+    @Inject
+    private PhasesImpl phases;
+
+    private final static Logger log = LoggerFactory.getLogger(PeerAssessmentProcess.class);
+
     /**
      * start THE PEER ASSESSMENT PHASE
+     *
      * @param project
      */
     public void startPeerAssessmentPhase(Project project) {
@@ -48,11 +63,14 @@ public class PeerAssessmentProcess {
         taskDAO.persistTaskForAllGroups(project, UPLOAD_PRESENTATION, Phase.Assessment);
         // distribute teacher tasks
         taskDAO.persistTeacherTask(project, TaskName.WAIT_FOR_UPLOAD, Phase.Assessment);
+
+        log.info("started peer assessment phase for project" + project.getName());
     }
 
     /**
      * this action is triggered by the file API if assessment relevant actions have
      * been taken
+     *
      * @param fileRole
      * @param userFromSession
      * @param project
@@ -72,25 +90,43 @@ public class PeerAssessmentProcess {
 
     /**
      * this is triggered if a peer rated one of the products
+     *
      * @param contributionRatings
      * @param groupId
-     * @param projectName
-     * @param fromPeer
+     * @param project
+     * @param user fromPeer or fromTeacher
      */
-    public void postContributionRating(Map<FileRole, Integer> contributionRatings,
-                                       String groupId,
-                                        String projectName,
-                                      String fromPeer) {
-        peer.postContributionRating(new Project(projectName), groupId, fromPeer, contributionRatings);
-        // finish task for user
-        taskDAO.updateForUser(new Task(TaskName.GIVE_EXTERNAL_ASSESSMENT, fromPeer, projectName, Progress.FINISHED));
-        // start internal evaluation task
-        taskDAO.persist(new Task(TaskName.GIVE_INTERNAL_ASSESSMENT, fromPeer, projectName, Progress.JUSTSTARTED));
+    public void postContributionRating(
+            Map<FileRole, Integer> contributionRatings, String groupId, Project project, String user, Boolean
+            isStudent) {
+        peer.postContributionRating(project, groupId, user, contributionRatings, isStudent);
+        if (isStudent) {
+            // finish task for user
+            taskDAO.updateForUser(
+                    new Task(TaskName.GIVE_EXTERNAL_ASSESSMENT, new User(user), project, Progress.FINISHED));
+            // start internal evaluation task
+            taskDAO.persist(new Task(TaskName.GIVE_INTERNAL_ASSESSMENT, new User(user), project,
+                    Progress.JUSTSTARTED));
+        } else {
+            if (assessmentDAO.getNextGroupToFeedbackForTeacher(project).getObjectGroup() == null) {
+                // if there are no more groups to rate products for the teacher
+                giveFinalGrades(project);
+            }
+        }
+    }
 
+    /**
+     *
+     * @param project
+     */
+    public void giveFinalGrades(Project project) {
+        taskDAO.updateTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Progress.FINISHED);
+        taskDAO.persistTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Phase.GRADING);
     }
 
     /**
      * this is triggered if a presentation has been uploaded for a group
+     *
      * @param userFromSession
      * @param project
      */
@@ -106,6 +142,7 @@ public class PeerAssessmentProcess {
 
     /**
      * this is triggered if the final report has been uploaded
+     *
      * @param userFromSession
      * @param project
      */
@@ -115,16 +152,50 @@ public class PeerAssessmentProcess {
         // update the task for all the group members
         taskDAO.updateGroupTask(
                 new GroupTask(TaskName.UPLOAD_FINAL_REPORT, groupByStudent, Progress.FINISHED, project));
-        // set new tasks
 
     }
 
 
     /**
+     * this is called if a student rated the group work of a fellow student
+     *
+     * @param project
+     * @param user
+     * @param feedbackedUser
+     * @param data
+     */
+    public void persistInternalAssessment(
+            Project project, User user, User feedbackedUser, HashMap<String, String> data) {
+        assessmentDAO.persistInternalAssessment(project, user, feedbackedUser, data);
+        User nextUserToRateInternally = getNextUserToRateInternally(project, user);
+        if (nextUserToRateInternally == null) {
+            taskDAO.updateForUser(new Task(TaskName.GIVE_INTERNAL_ASSESSMENT, user, project, Progress.FINISHED));
+            taskDAO.persist(project, user, TaskName.WAIT_FOR_GRADING, Phase.Assessment);
+        }
+    }
+
+    /**
+     * this produces the next user in a group to be rated for group work
+     *
+     * @param project
+     * @param user
+     * @return
+     */
+    public User getNextUserToRateInternally(Project project, User user) {
+        return assessmentDAO.getNextGroupMemberToFeedback(user, project);
+    }
+
+    /**
      * TODO @Julian rename to start student assessments
+     *
      * @param project
      */
     public void startGrading(Project project) {
+
+        // change tasks for docent
+
+        taskDAO.updateTeacherTask(project, TaskName.WAIT_FOR_UPLOAD, Progress.FINISHED);
+        taskDAO.persistTeacherTask(project, TaskName.WAIT_FOR_GRADING, Phase.Assessment);
 
         // set assessment tasks for students
         taskDAO.persistMemberTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT, Phase.Assessment);
@@ -135,43 +206,26 @@ public class PeerAssessmentProcess {
         for (User user : usersByProjectName) {
             taskMapper.persistTaskMapping(project, user, TaskName.GIVE_EXTERNAL_ASSESSMENT);
         }
-    }
 
-    /**
-     * this is called if a student rated the group work of a fellow student
-     * @param project
-     * @param user
-     * @param feedbackedUser
-     * @param data
-     */
-    public void persistInternalAssessment(
-            Project project, User user, User feedbackedUser, HashMap<String, String> data) {
-         assessmentDAO.persistInternalAssessment(project, user, feedbackedUser, data);
-        User nextUserToRateInternally = getNextUserToRateInternally(project, user);
-        if (nextUserToRateInternally == null) {
-             taskDAO.updateForUser(new Task(TaskName.GIVE_INTERNAL_ASSESSMENT, project, Progress.FINISHED));
-             taskDAO.persist(project, user, TaskName.WAIT_FOR_GRADING, Phase.Assessment);
-         }
-    }
-
-    /**
-     * this produces the next user in a group to be rated for group work
-     * @param project
-     * @param user
-     * @return
-     */
-    public User getNextUserToRateInternally(Project project, User user) {
-        return assessmentDAO.getNextGroupMemberToFeedback(user, project);
+        log.info("finished uploading files for assessement for project" + project.getName());
     }
 
     /**
      * this starts the grading 'phase'
      * should be visualized as such in the UI but is treated here as a subphase
+     *
      * @param project
      */
-    public void startDocentGrading(Project project){
+    public void startDocentGrading(Project project)
+            throws UserDoesNotExistInRocketChatException, JsonProcessingException, WrongNumberOfParticipantsException, RocketChatDownException, JAXBException {
         // update task for docent
-        taskDAO.updateForUser(new Task(TaskName.WAIT_FOR_UPLOAD, project, Progress.FINISHED));
+        taskDAO.updateTeacherTask(project, TaskName.WAIT_FOR_GRADING, Progress.FINISHED);
+        log.info("finished asessment process for project" + project.getName());
+
+        // tut nicht viel gerade
+        //phases.endPhase(Phase.Assessment, project);
+
+        taskDAO.persistTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Phase.GRADING);
     }
 
 }

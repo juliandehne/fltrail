@@ -15,6 +15,14 @@ let contributionFeedback = undefined;
 $(document).ready(function () {
     getAnnotationCategories(function (response) {
         categories = response;
+        if (category.toUpperCase() === categories[categories.length - 1]) {
+            btnFinalize.show();
+            btnContinue.hide();
+        }
+        if (category.toUpperCase() === categories[0]) {
+            //btnBack.css('visibility', 'hidden');
+            btnBack.hide()
+        }
     });
 
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
@@ -25,10 +33,6 @@ $(document).ready(function () {
     prepareFeedbackMenu(category);
     let btnBack = $('#btnBack');
     btnBack.click(handleBackButtonClick);
-    if (category.toUpperCase() === "TITEL") {
-        //btnBack.css('visibility', 'hidden');
-        btnBack.hide()
-    }
 
     let btnContinue = $('#btnContinue');
     btnContinue.click(handleContinueButtonClick);
@@ -41,10 +45,6 @@ $(document).ready(function () {
             finalize();
         });
     });
-    if (category.toUpperCase() === "AUSWERTUNG") {
-        btnFinalize.show();
-        btnContinue.hide();
-    }
 
     addExistingContributionFeedback(fullSubmissionId, category);
     // connect to websocket on page ready

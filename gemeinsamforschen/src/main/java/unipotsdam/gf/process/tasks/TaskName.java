@@ -30,7 +30,6 @@ public enum TaskName {
     // the docent waits for students to upload presentation
     WAIT_FOR_UPLOAD,
 
-
     // student gives assessment to other group
     GIVE_EXTERNAL_ASSESSMENT,
 
@@ -43,12 +42,16 @@ public enum TaskName {
     // GRADING PHASE TASKS
     /////////////////////////////////////////////////////
 
+    // rate the contributions of the students
+    GIVE_EXTERNAL_ASSESSMENT_TEACHER,
+
     // shared tasks
+
     // execution phase
     CHOOSE_FITTING_COMPETENCES, CHOOSE_REFLEXION_QUESTIONS,
 
 
     // the docent waits for students to grade their peers
 
-    END
+    GIVE_FINAL_GRADES, END
 }

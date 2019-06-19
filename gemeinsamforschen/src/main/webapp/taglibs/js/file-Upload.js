@@ -8,7 +8,7 @@ $(document).ready(function () {
     });
 });
 function uploadForm(projectName, fileRole){
-    document.getElementById('loader').className = "loader";
+    loaderStart();
     let data = new FormData($('#uploadForm')[0]);
     $.ajax({
         url: "../rest/fileStorage/"+fileRole+"/projectName/"+projectName,
@@ -20,12 +20,12 @@ function uploadForm(projectName, fileRole){
         method: 'POST',
         type: 'POST',
         success: function(){
-            $('#successUpload').show();
-            document.getElementById('loader').className = "loader-inactive";
+            loaderStop();
+            taskCompleted();
         },
         error: function(){
             $('#errorUpload').show();
-            document.getElementById('loader').className = "loader-inactive";
+            loaderStop();
         }
     });
 }

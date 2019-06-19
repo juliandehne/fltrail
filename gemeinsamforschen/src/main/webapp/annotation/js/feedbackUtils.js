@@ -1,9 +1,4 @@
 function prepareFeedbackMenu(category) {
-
-    $('#backToTasks').on('click', function () {
-        location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
-    });
-
     let startCharacter;
     let endCharacter;
 // fetch full submission from database

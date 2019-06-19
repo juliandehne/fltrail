@@ -59,22 +59,18 @@ function handlePhases(object, result) {
             result.headLine = "Gruppenbildung";
             break;
         case "DossierFeedback":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-feedback";
             result.headLine = "Entwurfsphase";
             break;
         case "Execution":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-execution";
             result.headLine = "Durchführung";
             break;
         case "Assessment":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-assessment";
             result.headLine = "Bewertungsphase";
             break;
         case "Projectfinished":
-            groupViewLink.toggleClass("disabled");
             result.phase = "card-grades";
             result.headLine = "Projektabschluss";
             break;
@@ -188,6 +184,7 @@ function handleInfoTasks(object, result) {
                 " editiert werden."; // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
             break;
         case "CONTACT_GROUP_MEMBERS":
+            groupViewLink.toggleClass("disabled");
             result.infoText = "Sagen sie hallo zu ihren Gruppenmitgliedern über den Chat.";
             break;
         case "INTRODUCE_E_PORTFOLIO_STUDENT":
@@ -203,6 +200,13 @@ function handleInfoTasks(object, result) {
         case "GIVE_INTERNAL_ASSESSMENT":
             result.infoText = "Bitte laden Sie die Gruppenarbeit ihres Gruppenmitglieds!";
             break;
+        case "GIVE_EXTERNAL_ASSESSMENT_TEACHER": {
+            result.infoText = "Bewerten Sie die einzelnen Gruppen!";
+            break;
+        }
+        case "GIVE_FINAL_GRADES": {
+            result.infoText = "Vergeben Sie finale Noten!";
+        }
         default:
             result.infoText = "";
     }
@@ -334,15 +338,30 @@ function handleLinkedTasks(object, result) {
                 }) + "\')";
                 break;*/
             case "GIVE_EXTERNAL_ASSESSMENT":
-                result.solveTaskWith = "Bewerten Sie die Ergebnisse ihrer Kommilitonen!";
-                result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
-                    "projectName=" + object.projectName+"&groupId="+result.taskData.objectGroup.id+"\')";
-
+                if (object.progress !== "FINISHED") {
+                    result.solveTaskWith = "Bewerten Sie die Ergebnisse ihrer Kommilitonen!";
+                    result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
+                        "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
+                }
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
                 result.solveTaskWith = "Bewerten Sie ihr Gruppenmitglied!";
                 result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName="+projectName+"\')";
                 break;
+            case "GIVE_EXTERNAL_ASSESSMENT_TEACHER": {
+                if (object.progress !== "FINISHED") {
+                    result.solveTaskWith = "Bewerten Sie Gruppe " + object.taskData.objectGroup.id;
+                    result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution-teacher.jsp?" +
+                        "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
+                }
+                break;
+            }
+            case "GIVE_FINAL_GRADES": {
+                result.solveTaskWith = "Vergeben Sie finale Noten!";
+                result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
+                    "projectName=" + object.projectName + "\')";;
+                break;
+            }
             default:
                 result.solveTaskWith = null;
 
@@ -363,15 +382,15 @@ function handleFinishedTasks(object, result) {
                 result.inCardSolver = object.taskName;
                 break;
             case "GIVE_FEEDBACK":
-                if (object.taskData !== null) {
+                /*if (object.taskData !== null) {
                     result.infoText = "Sie können weiterhin ihr Feedback editieren";
                     result.solveTaskWith = "Geben Sie ein Feedback";
                     result.solveTaskWithLink = "redirect(\'../annotation/give-feedback.jsp?" +
                         "projectName=" + object.projectName +
                         "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
-                } else {
+                } else {*/
                     result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
-                }
+                //}
                 break;
             case "REEDIT_DOSSIER":
                 result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +
@@ -383,8 +402,10 @@ function handleFinishedTasks(object, result) {
                 result.solveTaskWithLink = "";
                 break;
             case "WAIT_FOR_UPLOAD":
-
                 break;
+            case "GIVE_EXTERNAL_ASSESSMENT_TEACHER" : {
+                // ev. implementieren
+            }
 
         }
         if (object.taskName.includes("CLOSE")) {
@@ -460,42 +481,6 @@ function fillObjectWithTasks(response) {
     return tempObject;
 }
 
-function redirect(url) {
-    location.href = url;
-}
-
-/**
- * TODO @Axel move this to better location
- */
-function closePhase(phase, projectName) {
-    let innerurl = '../rest/phases/' + phase + '/projects/' + projectName + '/end';
-    $.ajax({
-        url: innerurl,
-        headers: {
-            "Content-Type": "application/json",
-            "Cache-Control": "no-cache"
-        },
-        type: 'GET',
-        success: function () {
-            location.reload();
-        },
-        error: function (a) {
-        }
-
-
-    })
-}
-
-/**
- * TODO @Axel move this to better location
- */
-function initializeGroups(projectName) {
-    let projq = new RequestObj(1, "/group", "/all/projects/?", [projectName], []);
-    serverSide(projq, "GET", function (response) {
-        redirect("../groupfinding/create-groups-manual.jsp?projectName=" + projectName);
-    });
-}
-
 function countMissingStudents(object) {
     return object.taskData.participantCount.participantsNeeded - object.taskData.participantCount.participants;
 }
@@ -514,28 +499,4 @@ function waitForParticipantsInfoText(object) {
         }
     }
     return result
-}
-
-/**
- * TODO @Axel move this to better location
- */
-function resizeGroup() {
-    $.ajax({
-        url: '../rest/project/update/project/' + $('#projectName').html().trim() + '/groupSize/' + $('#userCount').val().trim(),
-        headers: {
-            "Cache-Control": "no-cache"
-        },
-        type: 'POST',
-        success: function (response) {
-            location.reload();
-        }
-    });
-}
-
-/**
- * TODO @Axel move this to better location or delete
- */
-function updateGroupSizeView() {
-    let userCount = parseInt($('#userCount').val().trim());
-    $('#groupSize').html(userCount * (userCount - 1));
 }

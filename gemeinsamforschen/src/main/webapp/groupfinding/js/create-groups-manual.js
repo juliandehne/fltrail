@@ -25,9 +25,6 @@ $(document).ready(function () {
         });
         selectableButtons(true);  //i have no clue why this needs to be called twice, but it seems necessary
     });
-    $('#backToTasks').on('click',function(){
-        location.href="../project/tasks-docent.jsp?projectName="+$('#projectName').html().trim();
-    });
     $('#deselectStudents').on('click',function(){
         $('.student-button.active').each(function(){
             $(this).toggleClass('active');
@@ -150,6 +147,7 @@ function viewToGroup(callback) {
 }
 
 function saveNewGroups(groups) {
+    loaderStart();
     let data = JSON.stringify(groups);
     //append "manipulated" to data
     let url = "../rest/group/projects/" + $('#projectName').html().trim()+"/groups/save";
@@ -165,10 +163,12 @@ function saveNewGroups(groups) {
         },
         type: 'POST',
         success: function (response) {
+            loaderStop();
             taskCompleted();
         },
         error: function (a) {
             //alert(a);
+            loaderStop();
             console.error(a);
         }
     });

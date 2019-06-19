@@ -2,7 +2,6 @@ package unipotsdam.gf.modules.assessment;
 
 import org.junit.Test;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.StudentIdentifier;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 

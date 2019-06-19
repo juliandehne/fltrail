@@ -16,6 +16,7 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <script src="js/tasks.js"></script>
+    <script src="js/solve-inCardTasks.js"></script>
 </head>
 <body>
 <div id="flex-wrapper">
@@ -114,12 +115,12 @@
             </div>
         </script>
     </div>
-        <div class="col span_chat right">
+        <div class="col span_s_of_2 right">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item active">
                     <a class="nav-link active" href="#projectChat" role="tab" data-toggle="tab">ProjektChat</a>
                 </li>
-                <li class="nav-item" disabled="true" id="liGroupWindow">
+                <li class="nav-item" id="liGroupWindow">
                     <a class="nav-link" href="#groupChat" role="tab" data-toggle="tab">Gruppenchat</a>
                 </li>
             </ul>
@@ -131,6 +132,17 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="groupChat">
                     <chat:chatWindow orientation="right" scope="group"/>
+                </div>
+                Wenn sie eingeloggt <a data-toggle='collapse' href='#chatCredentials' role='button'
+                                       aria-expanded='false' aria-controls='chatCredentials'>
+                <i class='fas fa-question'></i>
+            </a> sind, können sie Nachrichten an alle Projektteilnehmer senden oder eine Nachricht an ihre Gruppe
+                verfassen.
+                <div class='collapse' id='chatCredentials'>
+                    <div class='card card-body'>
+                        Um sich in den Chat einzuloggen, tragen sie die gleiche E-Mailadresse sowie das gleiche Passwort
+                        hier ein wie bei der Anmeldung.
+                    </div>
                 </div>
             </div>
 

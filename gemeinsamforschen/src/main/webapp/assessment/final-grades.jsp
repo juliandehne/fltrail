@@ -37,18 +37,9 @@
     <main>
         <div class="row group">
             <div class="col span_content span_2_of_2">
-                <h2>Abschlussbericht hochladen</h2>
+                <h2>Abschließende Noten vergeben</h2>
 
-                <div id="result"></div>
-                <script id="headerTemplate" type="text/x-jsrender">
-                    <h2>{{:header}} anlegen</h2>
-                </script>
-                <div class="row">
-                    <jsp:include page="../taglibs/upload-file.jsp">
-                        <jsp:param name="fileRole" value="FINAL_REPORT"/>
-                    </jsp:include>
-                    <p id="fileRole" hidden>FINAL_REPORT</p>
-                </div>
+
             </div>
         </div> <!-- flex wrapper -->
     </main>

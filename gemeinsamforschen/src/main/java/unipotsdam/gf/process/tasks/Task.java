@@ -1,10 +1,17 @@
 package unipotsdam.gf.process.tasks;
 
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.phases.Phase;
+
+import javax.inject.Inject;
 
 public class Task {
     // as in "Feedback"
+
+    @Inject
+    protected ProjectDAO projectDAO;
 
     private TaskType[] taskType;
 
@@ -26,11 +33,6 @@ public class Task {
     private String projectName;
     private Progress progress;
 
-    public Task(TaskName taskName, Project project, Progress progress) {
-        this.taskName = taskName;
-        this.projectName = project.getName();
-        this.progress = progress;
-    }
 
     public String getUserEmail() {
         return userEmail;
@@ -48,20 +50,12 @@ public class Task {
         this.projectName = projectName;
     }
 
-
-    public Task() {
-    }
-
-    public Task(TaskName taskName, String userEmail, String projectName, Progress progress) {
+    public Task(TaskName taskName, User user, Project project, Progress progress) {
         this.taskName = taskName;
-        this.userEmail = userEmail;
-        this.projectName = projectName;
-        this.progress = progress;
-    }
-
-    public Task(TaskName taskName, String projectName, Progress progress) {
-        this.taskName = taskName;
-        this.projectName = projectName;
+        if (user != null) {
+            this.userEmail = user.getEmail();
+        }
+        this.projectName = project.getName();
         this.progress = progress;
     }
 

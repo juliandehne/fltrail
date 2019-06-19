@@ -27,10 +27,16 @@ public class TaskOrder {
         result.add(TaskName.WAIT_FOR_REFLECTION);
         result.add(TaskName.CLOSE_EXECUTION_PHASE);
         result.add(TaskName.UPLOAD_PRESENTATION);
+        result.add(TaskName.WAIT_FOR_UPLOAD);
         result.add(TaskName.UPLOAD_FINAL_REPORT);
         result.add(TaskName.GIVE_EXTERNAL_ASSESSMENT);
+        result.add(TaskName.GIVE_INTERNAL_ASSESSMENT);
         result.add(TaskName.COLLECT_RESULTS_FOR_ASSESSMENT);
         result.add(TaskName.WAIT_FOR_PEER_ASSESSMENTS);
+        result.add(TaskName.WAIT_FOR_GRADING);
+        result.add(TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER);
+        result.add(TaskName.GIVE_FINAL_GRADES);
+        result.add(TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER);
         result.add(TaskName.FINALIZE_ASSESSMENT);
         result.add(TaskName.CLOSE_ASSESSMENT_PHASE);
         result.add(TaskName.END);

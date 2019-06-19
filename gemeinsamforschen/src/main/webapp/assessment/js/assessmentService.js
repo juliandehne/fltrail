@@ -10,7 +10,12 @@ function startGrading(project) {
 }
 
 function startDocentGrading(project) {
-    // TODO implement
+    window.console.log("starting assessment for project: "+ project);
+    let requestObj = new RequestObj(1, "/assessment", "/gradingDocent/start/projects/?",[project],[], "")
+    serverSide(requestObj, 'POST', function (response) {
+        // yeah it worked
+        location.reload(true);
+    });
 }
 
 function getAssessmentForStudent(studentEmail, callback) {
