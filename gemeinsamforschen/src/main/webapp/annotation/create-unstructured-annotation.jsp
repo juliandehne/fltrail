@@ -63,7 +63,9 @@
                 <div class="leftcontent-text context-menu-one" id="editor"></div>
                 <div class="leftcontent-buttons">
                     <div class="leftcontent-buttons-save">
-                        <button id="btnSave" type="button" class="btn btn-primary">Speichern</button>
+                        <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
+                            <i class="far fa-save"></i> speichern
+                        </button>
                     </div>
                 </div>
             </div>

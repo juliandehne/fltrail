@@ -73,15 +73,16 @@ public class AssessmentView {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("contributions/project/{projectName}")
+    @Path("/contributions/project/{projectName}/groupId/{groupId}")
     public List<FullContribution> getContributionsForProject(
-            @Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
+            @Context HttpServletRequest req, @PathParam("projectName") String projectName, @PathParam("groupId") String groupId) throws IOException {
         List<FullContribution> result;
         Project project = projectDAO.getProjectByName(projectName);
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
-        Integer groupId = peer.whichGroupToRate(project, user);
-        result = peer.getContributionsFromGroup(project, groupId);
+        //Integer groupId = peer.whichGroupToRate(project, user);
+        int groupIdParsed = Integer.parseInt(groupId);
+        result = peer.getContributionsFromGroup(project, groupIdParsed);
         return result;
     }
 

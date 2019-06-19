@@ -15,6 +15,10 @@ import unipotsdam.gf.modules.quiz.StudentAndQuiz;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.PeerAssessmentProcess;
+import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -29,6 +33,9 @@ public class TestAddAssessment {
 
     @Inject
     private IGroupFinding groupFinding;
+
+    @Inject
+    private TaskDAO taskDAO;
 
     @Inject
     private PeerAssessmentProcess peerAssessmentProcess;
@@ -142,31 +149,35 @@ public class TestAddAssessment {
         connect.close();
     }
 
-
-
     @Test
     public void quickstartAssessmentPhase() {
-
         Project project = new Project("assessmenttest3");
         List<Group> groups = groupFinding.getGroups(project);
         assertFalse(groups.isEmpty());
 
         peerAssessmentProcess.startPeerAssessmentPhase(project);
         //peerAssessmentProcess.startGrading(project);
-
-
     }
 
     @Test
     public void quickstartGradingPhase() {
-
         Project project = new Project("Meine Güte");
         List<Group> groups = groupFinding.getGroups(project);
         assertFalse(groups.isEmpty());
+        peerAssessmentProcess.startGrading(project);
+    }
 
+    @Test
+    public void quickstartDocentGradingPhase() {
+        Project project = new Project("assessmenttest3");
+        List<Group> groups = groupFinding.getGroups(project);
+        assertFalse(groups.isEmpty());
+
+        //peerAssessmentProcess.startDocentGrading(project);
         peerAssessmentProcess.startGrading(project);
 
-
+        //taskDAO.updateTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Progress.FINISHED);
+        //taskDAO.persistTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Phase.GRADING);
     }
 
 

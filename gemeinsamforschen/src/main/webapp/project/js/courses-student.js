@@ -294,6 +294,7 @@ function linkToRegister(projectName, linkUrl){
 }
 
 function loginProject(projectName) {
+    loaderStart();
     let password = $('#projectPassword').val();
     let url = "../rest/project/login/" + projectName + "?password=" + password;
     if (projectName === "") {
@@ -305,6 +306,7 @@ function loginProject(projectName) {
             Accept: "text/plain; charset=utf-8",
             contentType: "text/plain",
             success: function (response) {
+                loaderStop();
                 if (response === "wrong password") {   //if response !== project missing and not wrong password, its the projectName
                     document.getElementById('projectWrongPassword').style.display="block";
                 }else{
@@ -312,6 +314,7 @@ function loginProject(projectName) {
                 }
             },
             error: function (a) {
+                loaderStop();
                 console.log(a);
             }
         });

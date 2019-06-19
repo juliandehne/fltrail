@@ -16,6 +16,7 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <script src="js/tasks.js"></script>
+    <script src="js/solve-inCardTasks.js"></script>
 </head>
 <body>
 <div id="flex-wrapper">

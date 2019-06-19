@@ -302,3 +302,11 @@ function changeLocationToTasks() {
         location.href = "../project/tasks-student.jsp?projectName=" + $('#projectName').html().trim();
     }
 }
+
+function loaderStart() {
+    document.getElementById('loader').className = "loader";
+}
+
+function loaderStop() {
+    document.getElementById('loader').className = "loader-inactive";
+}

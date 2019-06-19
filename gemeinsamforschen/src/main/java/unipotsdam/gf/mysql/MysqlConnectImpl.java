@@ -2,6 +2,7 @@ package unipotsdam.gf.mysql;
 
 import ch.vorburger.exec.ManagedProcessException;
 import com.mysql.jdbc.Statement;
+import org.apache.tools.mail.ErrorInQuitException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFDatabaseConfig;
@@ -141,15 +142,20 @@ public class MysqlConnectImpl implements MysqlConnect {
     }
 
 
+    /**
+     * TODO @Julian ERROR wiedr rausnehmen bei deployment
+     * @param statement
+     * @param args
+     */
     @Override
     public void issueInsertOrDeleteStatement(final String statement, final Object... args) {
         PreparedStatement ps = addParameters(statement, false, args);
         try {
             ps.execute();
         } catch (SQLException ex) {
-            printErrorMessage(statement, ex);
+            throw new Error(ex);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Error(e);
         }
     }
 
