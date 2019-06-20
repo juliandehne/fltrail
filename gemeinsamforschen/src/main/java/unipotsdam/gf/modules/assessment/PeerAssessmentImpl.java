@@ -279,7 +279,7 @@ public class PeerAssessmentImpl implements IPeerAssessment {
      * @param project
      * @return
      */
-    public List<UserAssessmentData> getUserAssessmentsFromDB(Project project) {
+    public List<UserPeerAssessmentData> getUserAssessmentsFromDB(Project project) {
 
         CheatCheckerMethods method = assessmentDAO.getAssessmentMethod(project);
 
