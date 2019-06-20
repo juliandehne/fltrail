@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.assessment;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
@@ -15,6 +16,7 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.PeerAssessmentProcess;
 import unipotsdam.gf.session.GFContexts;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -22,6 +24,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -166,6 +169,28 @@ public class AssessmentView {
     public void startGradingDocent(@PathParam("projectName") String projectName)
             throws RocketChatDownException, JAXBException, WrongNumberOfParticipantsException, UserDoesNotExistInRocketChatException, JsonProcessingException {
         peerAssessmentProcess.startDocentGrading(new Project(projectName));
+    }
+
+    @GET
+    @Path("/grades/project/{projectName}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
+    public UserAssessmentDataHolder getGradesForProject(@PathParam("projectName") String projectName) {
+        // dummy implementierung
+        PodamFactoryImpl podamFactory = new PodamFactoryImpl();
+        ArrayList<UserPeerAssessmentData> result = new ArrayList<UserPeerAssessmentData>();
+        for (int i=0;i<10;i++) {
+            UserPeerAssessmentData elem = podamFactory.manufacturePojo(UserPeerAssessmentData.class);
+            result.add(elem);
+        }
+        UserAssessmentDataHolder userAssessmentDataHolder = new UserAssessmentDataHolder(result);
+        return userAssessmentDataHolder;
+    }
+
+    @POST
+    @Path("/grades/project/{projectName}/sendData")
+    public void sendData(@PathParam("projectName") String projectName, UserAssessmentDataHolder userAssessmentDataHolder) {
+            // todo persist in db
+        System.out.println("ist angekommen");
     }
 
 }
