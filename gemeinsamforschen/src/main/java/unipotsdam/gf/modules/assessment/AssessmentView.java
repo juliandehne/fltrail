@@ -184,8 +184,7 @@ public class AssessmentView {
     @POST
     @Path("/grades/project/{projectName}/sendData")
     public void sendData(@PathParam("projectName") String projectName, UserAssessmentDataHolder userAssessmentDataHolder) {
-            // todo persist in db
-        System.out.println("ist angekommen");
+         peerAssessmentProcess.saveGrades(new Project(projectName), userAssessmentDataHolder);
     }
 
 }

@@ -312,11 +312,11 @@ public class AssessmentDAO {
         connect.close();
     }
 
-    public Double getGradesFromDB(StudentIdentifier student) {
+    public Double getGradesFromDB(Project project, User user) {
         connect.connect();
         String mysqlRequest = "SELECT * FROM `grades` WHERE `projectName`=? AND `userEmail`=?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, student.getProjectName(), student.getUserEmail());
+                connect.issueSelectStatement(mysqlRequest, project.getName(), user.getEmail());
         vereinfachtesResultSet.next();
         return vereinfachtesResultSet.getDouble("grade");
     }
@@ -601,5 +601,23 @@ public class AssessmentDAO {
             Double rating = vereinfachtesResultSet.getDouble("avg(rating2)");
             result.put(user, rating);
         }
+    }
+
+    /**
+     * save grades in db
+     * @param project
+     * @param userAssessmentDataHolder
+     */
+    public void saveGrades(Project project, UserAssessmentDataHolder userAssessmentDataHolder) {
+        // delete old grades in project
+        connect.connect();
+        connect.issueInsertOrDeleteStatement("DELETE from grades where projectName = ?", project.getName());
+        // persist new ones
+        List<UserPeerAssessmentData> data = userAssessmentDataHolder.getData();
+        for (UserPeerAssessmentData datum : data) {
+            connect.issueInsertOrDeleteStatement("INSERT IGNORE INTO `grades` (projectName, userName, grade)" +
+                    "values (?,?,?)", project.getName(), datum.getUser().getEmail(), datum.getFinalRating() );
+        }
+        connect.close();
     }
 }

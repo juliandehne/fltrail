@@ -8,6 +8,7 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -384,8 +385,11 @@ public class TaskDAO {
                 task.setTaskData(assessmentDAO.getNextGroupToFeedbackForTeacher(project));
                 result = task;
                 break;
-            }
-
+            }case END_STUDENT:
+                Task task = getGeneralTask(vereinfachtesResultSet);
+                task.setTaskData(assessmentDAO.getGradesFromDB(project, user));
+                result = task;
+                break;
             default: {
                 result = getGeneralTask(vereinfachtesResultSet);
             }
