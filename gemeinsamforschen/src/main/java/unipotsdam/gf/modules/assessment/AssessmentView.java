@@ -6,7 +6,6 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyData;
 import unipotsdam.gf.modules.project.Project;
@@ -23,7 +22,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -109,14 +107,13 @@ public class AssessmentView {
     /**
      * get the survey questions
      *
-     * @param projectId
-     * @return
-     * @throws Exception
+     * @param projectId Id of project you are looking for
+     * @return questions to rate group members in JSON format
      */
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/data/project/{projectId}")
-    public SurveyData getInternalAssessmentQuestions(@PathParam("projectId") String projectId) throws Exception {
+    public SurveyData getInternalAssessmentQuestions(@PathParam("projectId") String projectId) {
         InternalAssessmentQuestions internalAssessmentQuestions = new InternalAssessmentQuestions();
         SurveyData questionsInSurveyJSFormat = internalAssessmentQuestions.getQuestionsInSurveyJSFormat();
         return questionsInSurveyJSFormat;

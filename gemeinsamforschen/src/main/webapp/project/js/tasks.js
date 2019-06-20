@@ -318,7 +318,7 @@ function handleLinkedTasks(object, result) {
 
                 break;
             case "INTRODUCE_E_PORTFOLIO_STUDENT":
-                result.solveTaskWith = "Siehe dir das E-Portfolio an.";
+                result.solveTaskWith = "Sieh dir das E-Portfolio an.";
                 result.solveTaskWithLink = "redirect(\'../portfolio/show-portfolio-student.jsp?" + $.param({
                     projectName: object.projectName,
                 }) + "\')";
@@ -402,11 +402,14 @@ function handleFinishedTasks(object, result) {
                 result.solveTaskWithLink = "";
                 break;
             case "WAIT_FOR_UPLOAD":
+                result.infoText = "Jede Gruppe hat einen abschließenden Report und eine Präsentation hochgeladen.";
                 break;
-            case "GIVE_EXTERNAL_ASSESSMENT_TEACHER" : {
-                // ev. implementieren
-            }
-
+            case "GIVE_EXTERNAL_ASSESSMENT_TEACHER" :
+                result.infoText = "Sie haben die Arbeit einer anderen Gruppe bewertet.";
+                break;
+            case "GIVE_INTERNAL_ASSESSMENT":
+                result.infoText = "Sie haben ihre Gruppenmitglieder bewertet.";
+                break;
         }
         if (object.taskName.includes("CLOSE")) {
             result.infoText = object.phase;

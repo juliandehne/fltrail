@@ -297,15 +297,23 @@ function taskCompleted() {
 function changeLocation() {
     let whatRole = $('#isStudent').val();
     let currentProjectName = $('#projectName').html().trim();
-    if (whatRole === "isDocent") {
-        if (personal) {
-            location.href = `../portfolio/show-portfolio-docent.jsp?projectName=${currentProjectName}`
+    if (typeof personal !== "undefined") {
+        if (whatRole === "isDocent") {
+            if (personal) {
+                location.href = `../portfolio/show-portfolio-docent.jsp?projectName=${currentProjectName}`
+            } else {
+                location.href = `../project/tasks-docent.jsp?projectName=${currentProjectName}`;
+            }
         } else {
-            location.href = `../project/tasks-docent.jsp?projectName=${currentProjectName}`;
+            if (personal) {
+                location.href = `../portfolio/show-portfolio-student.jsp?projectName=${currentProjectName}`
+            } else {
+                location.href = `../project/tasks-student.jsp?projectName=${currentProjectName}`;
+            }
         }
     } else {
-        if (personal) {
-            location.href = `../portfolio/show-portfolio-student.jsp?projectName=${currentProjectName}`
+        if (whatRole === "isDocent") {
+            location.href = `../project/tasks-docent.jsp?projectName=${currentProjectName}`;
         } else {
             location.href = `../project/tasks-student.jsp?projectName=${currentProjectName}`;
         }

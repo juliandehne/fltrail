@@ -64,9 +64,13 @@
                                        {{if taskData.numberOfGroupsWithoutPresentation > 0 }}
                                         Anzahl an Gruppen ohne hochgeladene Präsentation:
                                         ${taskData.numberOfGroupsWithoutPresentation}. <br>
+                                        {{else}}
+                                        Jede Gruppe hat eine Präsentation hochgeladen. <br>
                                        {{/if}}
                                         {{if taskData.numberOfGroupReportsMissing > 0 }}
                                         Anzahl an Gruppen ohne hochgeladene Abgabe ${taskData.numberOfGroupReportsMissing}.
+                                        {{else}}
+                                        Jede Gruppe hat einen abschließenden Report hochgeladen. <br>
                                        {{/if}}
                                         <button id='startGradingButton' onClick="startGrading(getProjectName());">Upload Phase abschließen</button>
                                     </div>

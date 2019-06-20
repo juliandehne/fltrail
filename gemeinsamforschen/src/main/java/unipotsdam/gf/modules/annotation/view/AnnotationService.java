@@ -1,14 +1,8 @@
 package unipotsdam.gf.modules.annotation.view;
 
 import io.dropwizard.jersey.PATCH;
-import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.model.*;
-import unipotsdam.gf.modules.group.GroupDAO;
-import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.DossierCreationProcess;
-import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -28,24 +22,6 @@ public class AnnotationService {
 
     @Inject
     AnnotationController controller;
-
-    @Inject
-    private IGroupFinding groupFinding;
-
-    @Inject
-    private GFContexts gfContexts;
-
-    @Inject
-    private ProjectDAO projectDAO;
-
-    @Inject
-    private UserDAO userDAO;
-
-    @Inject
-    private GroupDAO groupDAO;
-
-    @Inject
-    private DossierCreationProcess dossierCreationProcess;
 
     @POST
     public Response createAnnotation(AnnotationPostRequest request) {
