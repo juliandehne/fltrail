@@ -164,7 +164,7 @@ public class AssessmentView {
 
     @GET
     @Path("/grades/project/{projectName}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_HTML})
+    @Produces(MediaType.APPLICATION_JSON)
     public UserAssessmentDataHolder getGradesForProject(@PathParam("projectName") String projectName) {
         // dummy implementierung
         PodamFactoryImpl podamFactory = new PodamFactoryImpl();

@@ -3,10 +3,8 @@ package unipotsdam.gf.modules.assessment;
 import unipotsdam.gf.modules.user.User;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.HashMap;
 
 /**
- * TODO Ev. wegschmeißen, mal schauen, was da abgeht
  * Dient der Kommunikation mit der FINAL GRADES Seite des Dozenten
  */
 @XmlRootElement

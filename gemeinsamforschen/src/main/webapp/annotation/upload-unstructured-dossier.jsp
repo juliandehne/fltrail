@@ -31,8 +31,6 @@
     <!-- css - upload-unstructured -->
     <link rel="stylesheet" type="text/css" href="../taglibs/css/unstructured-upload.css">
     <link rel="stylesheet" type="text/css" href="../taglibs/css/visibilityButton.css">
-
-    <script src="../taglibs/js/utility.js"></script>
     <!-- js - unstructuredUpload -->
     <script src="../taglibs/js/unstructuredUpload.js"></script>
     <!-- js - unstructuredRest -->

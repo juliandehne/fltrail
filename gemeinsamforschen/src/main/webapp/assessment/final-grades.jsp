@@ -9,14 +9,9 @@
     <jsp:include page="../taglibs/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
-    <!-- js - jQuery validation plugin -->
-    <script src="../libs/jquery/jqueryValidate.js"></script>
-    <!-- js - jQuery ui position -->
-    <script src="../libs/jquery/jqueryUI.js" type="text/javascript"></script>
-    <script src="../taglibs/js/utility.js"></script>
-
-    <!-- jsrender -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
+    <script src="js/final-grades.js"></script>
+    <link href="css/datatables.min.css" rel="stylesheet">
+    <script type="text/javascript" src="js/datatables.min.js"></script>
 </head>
 
 <body>
@@ -37,21 +32,82 @@
         <div class="row group">
             <div class="col span_content span_2_of_2">
                 <h2>Abschließende Noten vergeben</h2>
+                <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <table id="tableGrades" class="table table-striped table-sm" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th class="th-sm">
+                                Name
+                            </th>
+                            <th class="th-sm">
+                                E-Mail
+                            </th>
+                            <th class="th-sm">
+                                Produktbewertung durch Peers
+                            </th>
+                            <th class="th-sm">
+                                Produktbewertung durch Sie
+                            </th>
+                            <th class="th-sm">
+                                Gruppenarbeitsbewertung
+                            </th>
+                            <th class="th-sm">
+                                vorgeschlagene Note
+                            </th>
+                            <td><a id="takeSuggested" style="cursor:pointer; font-size: 15px;"><i
+                                    class="fas fa-arrow-right"></i></a></td>
+                            <th class="th-sm">
+                                Endnote
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="allGradesOfAllStudents">
 
-                <h1>Baustelle, hier wird gerade entwickelt</h1>
-                <table id="allGradesOfAllStudents">
-
-                </table>
+                        </tbody>
+                    </table>
+                </div>
                 <script id="gradesOfOneStudentTemplate" type="text/x-jQuery-tmpl">
-
+                <tr class="grading">
+                        <td>
+                            ${name}
+                        </td>
+                        <td>
+                            ${userEmail}
+                        </td>
+                        <td>
+                            ${productPeer}
+                        </td>
+                        <td>
+                            ${productDocent}
+                        </td>
+                        <td>
+                            ${workRating}
+                        </td>
+                        <td>
+                            ${suggested}
+                        </td>
+                        <td></td>
+                        <td>
+                            <input id="final_${email}" value="${suggested}" size="4">
+                        </td>
+                    </tr>
                 </script>
+                <div style="display:flex;" id="divForSaving">
+                    <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
+                        <i class="far fa-save"></i> speichern
+                    </button>
+                    <label class="checkbox" for="finalizeReedit">
+                        Dies ist die finale Benotung der Studierenden
+                        <input id="finalizeReedit" style="margin:2px 0 0 0" type="checkbox" title="finalisieren">
+
+                    </label>
+                </div>
             </div>
         </div>
     </main>
 
     <jsp:include page="../taglibs/footer.jsp"/>
 </body>
-
 
 
 </html>
