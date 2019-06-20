@@ -1,7 +1,8 @@
 package unipotsdam.gf.modules.assessment;
 
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import unipotsdam.gf.modules.assessment.controller.model.*;
+import unipotsdam.gf.modules.assessment.controller.model.CheatCheckerMethods;
+import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -462,8 +463,7 @@ public class AssessmentDAO {
         String query = stringBuilder.toString();
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, user.getEmail(), project.getName());
-        if (vereinfachtesResultSet != null) {
-            vereinfachtesResultSet.next();
+        if (vereinfachtesResultSet.next()) {
             String userEmail = vereinfachtesResultSet.getString("email");
             String name = vereinfachtesResultSet.getString("name");
             result = new User(userEmail);

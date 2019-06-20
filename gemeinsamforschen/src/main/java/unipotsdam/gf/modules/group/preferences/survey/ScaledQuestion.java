@@ -8,6 +8,7 @@ public class ScaledQuestion extends Question {
 
     public ScaledQuestion(
             LocalizedText minRateDescription, LocalizedText maxRateDescription) {
+        this.type = "rating";
         this.minRateDescription = minRateDescription;
         this.maxRateDescription = maxRateDescription;
     }
@@ -20,7 +21,7 @@ public class ScaledQuestion extends Question {
         /*minRateDescription.setDefaultText("I don't agree at all");
         maxRateDescription.setDefaultText("I fully agree");
         minRateDescription.setDe("Ich stimme überhaupt nicht zu");
-        maxRateDescription.setDe("Ich stimmve voll zu");*/
+        maxRateDescription.setDe("Ich stimme voll zu");*/
     }
 
     public ScaledQuestion(LocalizedText titel) {
