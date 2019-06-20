@@ -99,10 +99,7 @@ public class PeerAssessmentProcess {
             taskDAO.updateForUser(
                     new Task(TaskName.GIVE_EXTERNAL_ASSESSMENT, new User(user), project, Progress.FINISHED));
             // start internal evaluation task
-            Task task = new Task(TaskName.GIVE_INTERNAL_ASSESSMENT, new User(user), project,
-                    Progress.JUSTSTARTED);
-            task.setTaskType(TaskType.LINKED);
-            taskDAO.persist(task);
+            taskDAO.createUserDefault(project, new User(user), TaskName.GIVE_INTERNAL_ASSESSMENT, Phase.Assessment, Progress.JUSTSTARTED);
         } else {
             if (assessmentDAO.getNextGroupToFeedbackForTeacher(project).getObjectGroup() == null) {
                 // if there are no more groups to rate products for the teacher

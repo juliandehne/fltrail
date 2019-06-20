@@ -105,9 +105,9 @@ function handleTaskType(object, result) {
 
 function handleInfoTasks(object, result) {
 
-   /* if (object.hasRenderModel) {
-        result.inCardSolver = object.taskName;
-    }*/
+    /* if (object.hasRenderModel) {
+         result.inCardSolver = object.taskName;
+     }*/
     switch (object.taskName) {
         case "WAIT_FOR_PARTICPANTS":
             result.infoText = waitForParticipantsInfoText(object);
@@ -198,15 +198,20 @@ function handleInfoTasks(object, result) {
             result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
             break;
         case "GIVE_INTERNAL_ASSESSMENT":
-            result.infoText = "Bitte laden Sie die Gruppenarbeit ihres Gruppenmitglieds!";
+            result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihres Gruppenmitglieds!";
             break;
-        case "GIVE_EXTERNAL_ASSESSMENT_TEACHER": {
+        case "GIVE_EXTERNAL_ASSESSMENT":
+            result.infoText = "Bewerten Sie eine andere Gruppe!";
+            break;
+        case "WAIT_FOR_GRADING":
+            result.infoText = "Ihr Dozent und andere Peers bewerten sie nun!";
+            break;
+        case "GIVE_EXTERNAL_ASSESSMENT_TEACHER":
             result.infoText = "Bewerten Sie die einzelnen Gruppen!";
             break;
-        }
-        case "GIVE_FINAL_GRADES": {
+        case "GIVE_FINAL_GRADES":
             result.infoText = "Vergeben Sie finale Noten!";
-        }
+            break;
         default:
             result.infoText = "";
     }
@@ -308,13 +313,13 @@ function handleLinkedTasks(object, result) {
             case "UPLOAD_PRESENTATION":
                 result.solveTaskWith = "Presentation hochladen";
                 result.solveTaskWithLink = "redirect(\'../assessment/upload-presentation.jsp?" +
-                    "projectName=" + object.projectName+"\')";
+                    "projectName=" + object.projectName + "\')";
 
                 break;
             case "UPLOAD_FINAL_REPORT":
                 result.solveTaskWith = "Abschlussbericht hochladen";
                 result.solveTaskWithLink = "redirect(\'../assessment/upload-final-report.jsp?" +
-                    "projectName=" + object.projectName+"\')";
+                    "projectName=" + object.projectName + "\')";
 
                 break;
             case "INTRODUCE_E_PORTFOLIO_STUDENT":
@@ -329,24 +334,24 @@ function handleLinkedTasks(object, result) {
                     projectName: object.projectName,
                 }) + "\')";
                 break;
-           /* case "GIVE_ASSESSMENT":
-                result.solveTaskWith = "Bewerten";
-                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
-                    projectName: object.projectName,
-                    contributionCategory: "Portfolio",
-                    personal: "true"
-                }) + "\')";
-                break;*/
+            /* case "GIVE_ASSESSMENT":
+                 result.solveTaskWith = "Bewerten";
+                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
+                     projectName: object.projectName,
+                     contributionCategory: "Portfolio",
+                     personal: "true"
+                 }) + "\')";
+                 break;*/
             case "GIVE_EXTERNAL_ASSESSMENT":
                 if (object.progress !== "FINISHED") {
-                    result.solveTaskWith = "Bewerten Sie die Ergebnisse ihrer Kommilitonen!";
+                    result.solveTaskWith = "Kommilitonen bewerten!";
                     result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
                         "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
                 }
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
-                result.solveTaskWith = "Bewerten Sie ihr Gruppenmitglied!";
-                result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName="+projectName+"\')";
+                result.solveTaskWith = "Gruppenmitglied bewerten!";
+                result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName=" + projectName + "\')";
                 break;
             case "GIVE_EXTERNAL_ASSESSMENT_TEACHER": {
                 if (object.progress !== "FINISHED") {
@@ -359,7 +364,8 @@ function handleLinkedTasks(object, result) {
             case "GIVE_FINAL_GRADES": {
                 result.solveTaskWith = "Vergeben Sie finale Noten!";
                 result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
-                    "projectName=" + object.projectName + "\')";;
+                    "projectName=" + object.projectName + "\')";
+                ;
                 break;
             }
             default:
@@ -389,7 +395,7 @@ function handleFinishedTasks(object, result) {
                         "projectName=" + object.projectName +
                         "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
                 } else {*/
-                    result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
+                result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
                 //}
                 break;
             case "REEDIT_DOSSIER":
@@ -409,6 +415,12 @@ function handleFinishedTasks(object, result) {
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
                 result.infoText = "Sie haben ihre Gruppenmitglieder bewertet.";
+                break;
+            case "UPLOAD_FINAL_REPORT":
+                result.infoText = "Ihre Gruppe hat einen Abschlussbericht hochgeladen.";
+                break;
+            case "UPLOAD_PRESENTATION":
+                result.infoText = "Ihre Gruppe hat eine Präsentation hochgeladen.";
                 break;
         }
         if (object.taskName.includes("CLOSE")) {
