@@ -70,7 +70,7 @@ function handlePhases(object, result) {
             result.phase = "card-assessment";
             result.headLine = "Bewertungsphase";
             break;
-        case "Projectfinished":
+        case "GRADING":
             result.phase = "card-grades";
             result.headLine = "Projektabschluss";
             break;
@@ -208,6 +208,9 @@ function handleInfoTasks(object, result) {
             break;
         case "GIVE_EXTERNAL_ASSESSMENT_TEACHER":
             result.infoText = "Bewerten Sie die einzelnen Gruppen!";
+            break;
+        case "CLOSE_PEER_ASSESSMENTS_PHASE":
+
             break;
         case "GIVE_FINAL_GRADES":
             result.infoText = "Vergeben Sie finale Noten!";
@@ -361,11 +364,14 @@ function handleLinkedTasks(object, result) {
                 }
                 break;
             }
+            case "CLOSE_PEER_ASSESSMENTS_PHASE":
+                result.solveTaskWith = "Studentische Bewertung abschließen";
+                result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
+                break;
             case "GIVE_FINAL_GRADES": {
                 result.solveTaskWith = "Vergeben Sie finale Noten!";
                 result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
                     "projectName=" + object.projectName + "\')";
-                ;
                 break;
             }
             default:
@@ -411,7 +417,7 @@ function handleFinishedTasks(object, result) {
                 result.infoText = "Jede Gruppe hat einen abschließenden Report und eine Präsentation hochgeladen.";
                 break;
             case "GIVE_EXTERNAL_ASSESSMENT_TEACHER" :
-                result.infoText = "Sie haben die Arbeit einer anderen Gruppe bewertet.";
+                result.infoText = "Sie haben die Arbeit der Studierenden bewertet.";
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
                 result.infoText = "Sie haben ihre Gruppenmitglieder bewertet.";
@@ -421,6 +427,9 @@ function handleFinishedTasks(object, result) {
                 break;
             case "UPLOAD_PRESENTATION":
                 result.infoText = "Ihre Gruppe hat eine Präsentation hochgeladen.";
+                break;
+            case "CLOSE_PEER_ASSESSMENTS_PHASE":
+                result.infoText = "Hier können Sie die Bewertung zwischen den Studierenden beenden und Ihre eigene starten.";
                 break;
         }
         if (object.taskName.includes("CLOSE")) {

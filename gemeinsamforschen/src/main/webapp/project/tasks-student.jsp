@@ -29,7 +29,7 @@
 
          <jsp:include page="../taglibs/timeLine.jsp"/>
 
-            <div class="col l_of_2 tasklist">
+        <div class="col span_l_of_2 tasklist">
 
             <%--    <div class="infotext ">
                 <p class="icon">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt

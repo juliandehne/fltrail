@@ -361,7 +361,7 @@ public class TaskDAO {
                 updateForUser(waitingForDossiers);
                 break;
             }
-            case WAIT_FOR_GRADING:
+            case CLOSE_PEER_ASSESSMENTS_PHASE:
             case WAIT_FOR_UPLOAD: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setHasRenderModel(true);
@@ -376,6 +376,9 @@ public class TaskDAO {
                 result = task;
                 break;
             }
+            case WAIT_FOR_GRADING:
+                result = getGeneralTask(vereinfachtesResultSet);
+                break;
             case GIVE_EXTERNAL_ASSESSMENT_TEACHER: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setTaskData(assessmentDAO.getNextGroupToFeedbackForTeacher(project));

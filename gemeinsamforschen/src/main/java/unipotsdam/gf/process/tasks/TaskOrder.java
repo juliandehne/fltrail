@@ -20,6 +20,7 @@ public class TaskOrder {
         result.add(TaskName.GIVE_FEEDBACK);
         result.add(TaskName.SEE_FEEDBACK);
         result.add(TaskName.REEDIT_DOSSIER);
+        result.add(TaskName.INTRODUCE_E_PORTFOLIO_DOCENT);
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
         result.add(TaskName.REFLECT_DOSSIER_CREATION);
         //end of execution phase
@@ -32,7 +33,7 @@ public class TaskOrder {
         result.add(TaskName.GIVE_EXTERNAL_ASSESSMENT);
         result.add(TaskName.GIVE_INTERNAL_ASSESSMENT);
         result.add(TaskName.COLLECT_RESULTS_FOR_ASSESSMENT);
-        result.add(TaskName.WAIT_FOR_PEER_ASSESSMENTS);
+        result.add(TaskName.CLOSE_PEER_ASSESSMENTS_PHASE);
         result.add(TaskName.WAIT_FOR_GRADING);
         result.add(TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER);
         result.add(TaskName.GIVE_FINAL_GRADES);

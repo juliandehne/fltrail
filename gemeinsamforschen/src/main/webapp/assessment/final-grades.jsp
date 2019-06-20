@@ -33,17 +33,21 @@
     </div>
     <!-- go back to tasks end-->
 
-    <!-- file upload -->
     <main>
         <div class="row group">
             <div class="col span_content span_2_of_2">
                 <h2>Abschließende Noten vergeben</h2>
 
+                <h1>Baustelle, hier wird gerade entwickelt</h1>
+                <table id="allGradesOfAllStudents">
 
+                </table>
+                <script id="gradesOfOneStudentTemplate" type="text/x-jQuery-tmpl">
+
+                </script>
             </div>
-        </div> <!-- flex wrapper -->
+        </div>
     </main>
-    <!-- end file upload upload -->
 
     <jsp:include page="../taglibs/footer.jsp"/>
 </body>

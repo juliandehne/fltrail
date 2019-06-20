@@ -227,7 +227,7 @@ footer {
     background-color:#9b667b;
 }
 .timeline li.phase6:before {
-    background-color:#f3a184;
+    background-color: #737373;
 }
 
 .timeline li.inactive:before {
@@ -451,7 +451,7 @@ h3.phase-heading.card-assessment{
     color: #896369;
 }
 h3.phase-heading.card-grades{
-    color: #CCCBCB;
+    color: #707070;
 }
 
 
@@ -540,11 +540,11 @@ body {
 }
 
 .phase5 {
-    color: #CCCBCB;
+    color: #9b667b;
 }
 
 .phase6 {
-    color: #9B667B;
+    color: #737373;
 }
 
 .inactive {

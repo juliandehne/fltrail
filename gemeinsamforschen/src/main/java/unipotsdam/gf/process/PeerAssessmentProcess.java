@@ -188,7 +188,7 @@ public class PeerAssessmentProcess {
         // change tasks for docent
 
         taskDAO.updateTeacherTask(project, TaskName.WAIT_FOR_UPLOAD, Progress.FINISHED);
-        taskDAO.persistTeacherTask(project, TaskName.WAIT_FOR_GRADING, Phase.Assessment);
+        taskDAO.persistTeacherTask(project, TaskName.CLOSE_PEER_ASSESSMENTS_PHASE, Phase.Assessment);
 
         // set assessment tasks for students
         taskDAO.persistMemberTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT, Phase.Assessment);
@@ -212,7 +212,7 @@ public class PeerAssessmentProcess {
     public void startDocentGrading(Project project)
             throws UserDoesNotExistInRocketChatException, JsonProcessingException, WrongNumberOfParticipantsException, RocketChatDownException, JAXBException {
         // update task for docent
-        taskDAO.updateTeacherTask(project, TaskName.WAIT_FOR_GRADING, Progress.FINISHED);
+        taskDAO.updateTeacherTask(project, TaskName.CLOSE_PEER_ASSESSMENTS_PHASE, Progress.FINISHED);
         log.info("finished asessment process for project" + project.getName());
 
         // tut nicht viel gerade

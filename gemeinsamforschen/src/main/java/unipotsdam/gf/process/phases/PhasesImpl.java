@@ -7,7 +7,6 @@ import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
-import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.communication.Messages;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.project.Project;
@@ -16,13 +15,11 @@ import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.IExecutionProcess;
 import unipotsdam.gf.process.PeerAssessmentProcess;
-import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.xml.bind.JAXBException;
-import java.util.Map;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -85,7 +82,6 @@ public class PhasesImpl implements IPhases {
     @Override
     public void endPhase(Phase currentPhase, Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         Phase changeToPhase = getNextPhase(currentPhase);
-        Map<StudentIdentifier, ConstraintsMessages> tasks;
         switch (currentPhase) {
             case GroupFormation:
                 // inform users about the formed groups, optionally giving them a hint on what happens next
@@ -110,6 +106,8 @@ public class PhasesImpl implements IPhases {
                 peerAssessmentProcess.startPeerAssessmentPhase(project);
                 break;
             case Assessment:
+                saveState(project, changeToPhase);
+                peerAssessmentProcess.startDocentGrading(project);
                 break;
             case GRADING:
                 break;

@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.assessment;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
@@ -16,7 +15,6 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.PeerAssessmentProcess;
 import unipotsdam.gf.session.GFContexts;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -162,13 +160,6 @@ public class AssessmentView {
     @Path("/grading/start/projects/{projectName}")
     public void startGrading(@PathParam("projectName") String projectName) {
         peerAssessmentProcess.startGrading(new Project(projectName));
-    }
-
-    @POST
-    @Path("/gradingDocent/start/projects/{projectName}")
-    public void startGradingDocent(@PathParam("projectName") String projectName)
-            throws RocketChatDownException, JAXBException, WrongNumberOfParticipantsException, UserDoesNotExistInRocketChatException, JsonProcessingException {
-        peerAssessmentProcess.startDocentGrading(new Project(projectName));
     }
 
     @GET

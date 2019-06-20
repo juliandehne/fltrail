@@ -75,18 +75,22 @@
                                         <button id='startGradingButton' onClick="startGrading(getProjectName());">Upload Phase abschließen</button>
                                     </div>
                                 {{/if}}
-                                 {{if inCardSolver=="WAIT_FOR_GRADING"}}
+                                 {{if inCardSolver=="CLOSE_PEER_ASSESSMENTS_PHASE"}}
                                     <div class="inCardSolver">
                                         {{if taskData.numberOfGroupsWithoutExternalAssessment > 0 }}
-                                        Anzahl an Gruppen ohne Bewertung durch Peers
-                                        : ${taskData.numberOfGroupsWithoutExternalAssessment}
-                                        </br>
+                                            Anzahl an Gruppen ohne Bewertung durch Peers
+                                            : ${taskData.numberOfGroupsWithoutExternalAssessment}
+                                            <br>
+                                        {{else}}
+                                            Alle Abgaben wurden von den Gruppen bewertet.
+                                            </br>
                                         {{/if}}
                                         {{if taskData.numberOfStudentsWithoutInternalAsssessment > 0 }}
-                                        Anzahl an Studierenden ohne Bewertung durch die Gruppe:
-                                        ${taskData.numberOfStudentsWithoutInternalAsssessment}
+                                            Anzahl an Studierenden ohne Bewertung durch die Gruppe:
+                                            ${taskData.numberOfStudentsWithoutInternalAsssessment}
+                                        {{else}}
+                                            Alle Studierenden haben sich gegenseitig bewertet
                                         {{/if}}
-                                        <button id='startGradingButton' onClick="startDocentGrading(getProjectName());">Studentische Bewertung abschließen</button>
                                     </div>
                                 {{/if}}
                            {{/if}}
@@ -117,7 +121,7 @@
                     {{if timeFrame}}
                         <p style="text-align:center;">{{html timeFrame}}</p>
                     {{else}}
-            <div class="card ${phase} row">
+            <div class="card ${phase}">
 
                     <div class="col span_s_of_2 icon ${taskType}"></div>
                     <div class="col span_l_of_2">
@@ -132,6 +136,7 @@
                         {{/if}}
                     {{/if}}
                     </div>
+                    <div style="clear:left"></div>
             </div>
             {{/if}}
         </script>
