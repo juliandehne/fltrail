@@ -279,21 +279,43 @@ public class PeerAssessmentImpl implements IPeerAssessment {
      * @param project
      * @return
      */
+    @Override
     public List<UserPeerAssessmentData> getUserAssessmentsFromDB(Project project) {
-
-        CheatCheckerMethods method = assessmentDAO.getAssessmentMethod(project);
+        List<UserPeerAssessmentData> result = new ArrayList<>();
 
         // get the internal rating aggregated
 
         // get the  peer product rating
+        HashMap<User, Double> peerProductRatings = assessmentDAO.getPeerProductRatings(project);
 
         // get the docent product rating
+        HashMap<User, Double> docentProductRatings = assessmentDAO.getDocentProductRatings(project);
 
-        // get the suggestopm
-        Map<User, Double> grading = calculateSuggestions(project, method);
+        // get the internal ratings
+        HashMap<User, Double> groupRating = assessmentDAO.getGroupRating(project);
 
+        // get the suggestedRating
+        HashMap<User, Double> suggestedRating = new HashMap<>();
+        for (User user : peerProductRatings.keySet()) {
+            Double productOverallSuggestion = ((peerProductRatings.get(user) + docentProductRatings.get(user)) / 2);
+            Double overallSuggestion = (productOverallSuggestion + groupRating.get(user)) / 2;
+            suggestedRating.put(user, overallSuggestion);
+        }
+
+        // get the problem flags @Axel TODO implement
+
+
+        for (User user : suggestedRating.keySet()) {
+            UserPeerAssessmentData userPeerAssessmentData = new UserPeerAssessmentData();
+            userPeerAssessmentData.setDocentProductRating(docentProductRatings.get(user));
+            userPeerAssessmentData.setGroupProductRating(peerProductRatings.get(user));
+            userPeerAssessmentData.setGroupWorkRating(groupRating.get(user));
+            userPeerAssessmentData.setSuggestedRating(suggestedRating.get(user));
+            // set flags, too
+            result.add(userPeerAssessmentData);
+        }
 
         // TODO @ Julian implement this
-        return null;
+        return result;
     }
 }

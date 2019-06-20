@@ -1,5 +1,6 @@
 package unipotsdam.gf.interfaces;
 
+import unipotsdam.gf.modules.assessment.UserPeerAssessmentData;
 import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -32,4 +33,5 @@ public interface IPeerAssessment {
                                 String fromPeer,
                                 Map<FileRole, Integer> contributionRating, Boolean isStudent);
 
+    List<UserPeerAssessmentData> getUserAssessmentsFromDB(Project project);
 }

@@ -174,6 +174,10 @@ public class AssessmentView {
             result.add(elem);
         }
         UserAssessmentDataHolder userAssessmentDataHolder = new UserAssessmentDataHolder(result);
+
+        // comment this in if you feel ready for it
+        //userAssessmentDataHolder.setData(peer.getUserAssessmentsFromDB(new Project(projectName)));
+
         return userAssessmentDataHolder;
     }
 
