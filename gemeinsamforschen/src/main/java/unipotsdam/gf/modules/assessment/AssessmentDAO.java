@@ -517,20 +517,89 @@ public class AssessmentDAO {
         return result;
     }
 
-   /* *//**
-     *
-     * @param project
-     * @return
-     *//*
-    public List<UserAssessmentData> getUserAssessmentsFromDB(Project project) {
+    /**
+     * SELECT user, avg(rating2) from
+     *   (SELECT gu.userEmail as user, cr.rating as rating2, cr.projectName, fromTeacher from contributionrating cr
+     *   join groupuser gu on gu.groupId = cr.groupId
+     * union
+     * SELECT ucr.userName as user, ucr.rating as rating2, ucr.projectName, fromTeacher from contributionrating ucr
+     *   WHERE ucr.groupId is null) as T
+     * WHERE projectName = "assessmenttest3"
+     * and fromTeacher is null
+     * group by user, rating2
+     */
+    public HashMap<User, Double> getPeerProductRatings(Project project) {
+        HashMap<User, Double> result = new HashMap<>();
+        connect.connect();
 
-        // TODO @ Julian implement this
-        return null;
+        String query = "SELECT user, avg(rating2) from " +
+                " (SELECT gu.userEmail as user, cr.rating as rating2, cr.projectName, fromTeacher from " +
+                        "contributionrating cr " +
+                        "join groupuser gu on gu.groupId = cr.groupId " +
+                        "union " +
+                        "SELECT ucr.userName as user, ucr.rating as rating2, ucr.projectName, fromTeacher from " +
+                                "contributionrating ucr " +
+                        "WHERE ucr.groupId is null) as T " +
+        "WHERE projectName = ? " +
+        "and fromTeacher is null " +
+        "group by user, rating2 ";
+        convertResultSetToUserRatingMap(project, result, query);
+        connect.close();
+
+        return result;
     }
 
-    public HashMap<User,HashMap<String, String>> getInternalRatings(Project project, User user) {
+    /**
+     * SELECT gu.userEmail, avg(rating) as rating2 from contributionrating cr
+     *   join groupuser gu on gu.groupId = cr.groupId
+     * where cr.projectName = "assessmenttest3"
+     * and cr.fromPeer is null
+     * group by userEmail
+     * @param project
+     * @return
+     */
+    public HashMap<User, Double> getDocentProductRatings(Project project) {
+        HashMap<User, Double> result = new HashMap<>();
+        connect.connect();
+        String query = "SELECT gu.userEmail, avg(rating) as rating2 from contributionrating cr" +
+                "  join groupuser gu on gu.groupId = cr.groupId"
+                + "where cr.projectName = ? "
+                + "and cr.fromPeer is null"
+                + "group by userEmail ";
+        convertResultSetToUserRatingMap(project, result, query);
+        connect.close();
 
-        // todo @ Julian implement this
-        return null;
-    }*/
+        return result;
+    }
+
+    /**
+     * SELECT pu.userEmail, avg(rating) as rating2 from workrating wr
+     *   join projectuser pu on pu.projectName = wr.projectName
+     * where wr.projectName = "assessmenttest3"
+     *       and wr.userEmail = pu.userEmail
+     * group by userEmail
+     * @param project
+     * @return
+     */
+    public HashMap<User, Double> getGroupRating(Project project) {
+        HashMap<User, Double> result = new HashMap<>();
+        connect.connect();
+        String query = "SELECT pu.userEmail, avg(rating) as rating2 from workrating wr" +
+                "   join projectuser pu on pu.projectName = wr.projectName" +
+                "  where wr.projectName = ?" +
+                "   and wr.userEmail = pu.userEmail" +
+                "  group by userEmail ";
+        convertResultSetToUserRatingMap(project, result, query);
+        connect.close();
+        return result;
+    }
+
+    public void convertResultSetToUserRatingMap(Project project, HashMap<User, Double> result, String query) {
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
+        while (vereinfachtesResultSet.next()) {
+            User user = new User(vereinfachtesResultSet.getString("user"));
+            Double rating = vereinfachtesResultSet.getDouble("avg(rating2)");
+            result.put(user, rating);
+        }
+    }
 }

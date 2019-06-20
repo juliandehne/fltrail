@@ -5,21 +5,21 @@ import java.util.ArrayList;
 
 @XmlRootElement
 public class UserAssessmentDataHolder {
-    private ArrayList<UserPeerAssessmentData> data;
+    private java.util.List<UserPeerAssessmentData> data;
     private Boolean isFinal;
 
     public UserAssessmentDataHolder() {
     }
 
-    public UserAssessmentDataHolder(ArrayList<UserPeerAssessmentData> data) {
+    public UserAssessmentDataHolder(java.util.List<UserPeerAssessmentData> data) {
         this.data = data;
     }
 
-    public ArrayList<UserPeerAssessmentData> getData() {
+    public java.util.List<UserPeerAssessmentData> getData() {
         return data;
     }
 
-    public void setData(ArrayList<UserPeerAssessmentData> data) {
+    public void setData(java.util.List<UserPeerAssessmentData> data) {
         this.data = data;
     }
 
