@@ -53,5 +53,7 @@ public enum TaskName {
 
     // the docent waits for students to grade their peers
 
-    GIVE_FINAL_GRADES, END
+    GIVE_FINAL_GRADES,
+    END_DOCENT,
+    END_STUDENT
 }

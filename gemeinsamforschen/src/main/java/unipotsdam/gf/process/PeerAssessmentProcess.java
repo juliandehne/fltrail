@@ -8,6 +8,7 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
+import unipotsdam.gf.modules.assessment.UserAssessmentDataHolder;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
@@ -108,14 +109,6 @@ public class PeerAssessmentProcess {
         }
     }
 
-    /**
-     *
-     * @param project
-     */
-    public void giveFinalGrades(Project project) {
-        taskDAO.updateTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Progress.FINISHED);
-        taskDAO.persistTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Phase.GRADING);
-    }
 
     /**
      * this is triggered if a presentation has been uploaded for a group
@@ -221,4 +214,26 @@ public class PeerAssessmentProcess {
         taskDAO.persistTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Phase.GRADING);
     }
 
+    /**
+     *
+     * @param project
+     */
+    public void giveFinalGrades(Project project) {
+        taskDAO.updateTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Progress.FINISHED);
+        taskDAO.persistTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Phase.GRADING);
+    }
+
+    /**
+     *
+     * @param project
+     * @param userAssessmentDataHolder
+     */
+    public void saveGrades(Project project, UserAssessmentDataHolder userAssessmentDataHolder) {
+        assessmentDAO.saveGrades(project, userAssessmentDataHolder);
+        if (userAssessmentDataHolder.getFinal()) {
+            taskDAO.updateTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Progress.FINISHED);
+            taskDAO.persistTeacherTask(project, TaskName.END_DOCENT, Phase.GRADING);
+            taskDAO.persistMemberTask(project, TaskName.END_STUDENT, Phase.GRADING);
+        }
+    }
 }

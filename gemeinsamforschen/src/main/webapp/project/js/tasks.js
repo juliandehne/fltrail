@@ -215,6 +215,13 @@ function handleInfoTasks(object, result) {
         case "GIVE_FINAL_GRADES":
             result.infoText = "Vergeben Sie finale Noten!";
             break;
+        case "END_DOCENT": {
+            result.infoText = "Das Projekt ist beendet!";
+            break;
+        } case "END_STUDENT": {
+            result.infoText = "Das Projekt ist beendet! Sie haben eine " + object.taskData.grade + " erreicht.";
+            break;
+        }
         default:
             result.infoText = "";
     }
@@ -373,6 +380,12 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
                     "projectName=" + object.projectName + "\')";
                 break;
+            }
+            case "END_DOCENT": {
+                result.solveTaskWith = "Zur Notenübersicht!";
+                result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
+                    "final=true" +
+                    "projectName=" + object.projectName + "\')";
             }
             default:
                 result.solveTaskWith = null;

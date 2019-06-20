@@ -272,10 +272,6 @@ public class PeerAssessmentImpl implements IPeerAssessment {
 
     /**
      * GET THE DATA and suggestions, including the PROBLEM CASES
-     *  // TODO @ Julian implement this
-     *    // TODO @ Julian implement this
-     *      // TODO @ Julian implement this
-     *        // TODO @ Julian implement this
      * @param project
      * @return
      */
