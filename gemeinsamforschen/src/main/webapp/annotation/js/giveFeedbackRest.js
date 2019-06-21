@@ -98,20 +98,10 @@ function getContributionFeedback(fullSubmissionId, fullSubmissionPartCategory, g
 function finalize() {
     getMyGroupId(function (groupId) {
         let projectName = decodeURI(getProjectName());
-        let url = baseUrl + "/finalize?" + $.param({
-            projectName: projectName,
-            groupId: groupId
-        });
-        $.ajax({
-            url: url,
-            type: "POST",
-            success: function () {
-                location.href = "../project/tasks-student.jsp?projectName=" + getProjectName()
-            },
-            error: function (a) {
-                console.error(a);
-            }
-        });
+        let requObj = new RequestObj(1, "/contributionfeedback", "/finalize/projects/?/groups/?", [projectName, groupId],[])
+        serverSide(requObj, "POST", function () {
+           location.href = "../project/tasks-student.jsp?projectName=" + getProjectName()
+        })
     });
 }
 

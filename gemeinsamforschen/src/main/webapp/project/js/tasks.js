@@ -125,7 +125,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Erstellen Sie die Gruppen.";
             break;
         case "CLOSE_GROUP_FINDING_PHASE":
-            result.infoText = "Gehen Sie zur nächsten Phase über.";
+            result.infoText = "Gehen Sie zur nächsten Phase über. Dies fixiert die Gruppen.";
             break;
         case "WAITING_FOR_GROUP":
             result.infoText = "Die Arbeitsgruppen werden gebildet. Sie werden informiert, wenn es so weit" +

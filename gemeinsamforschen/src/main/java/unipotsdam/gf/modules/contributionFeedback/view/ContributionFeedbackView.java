@@ -94,9 +94,9 @@ public class ContributionFeedbackView {
     }
 
     @POST
-    @Path("/finalize/")
+    @Path("/finalize/projects/{projectName}/groups/{groupId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response finalizeFeedback(@QueryParam("groupId") int groupId, @QueryParam("projectName") String projectName) {
+    public Response finalizeFeedback(@PathParam("groupId") int groupId, @PathParam("projectName") String projectName) {
         contributionFeedbackService.endFeedback(projectName, groupId);
         Project project = projectDAO.getProjectByName(projectName);
         dossierCreationProcess.createSeeFeedBackTask(project, groupId);
