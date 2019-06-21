@@ -363,30 +363,28 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWith = "Gruppenmitglied bewerten!";
                 result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName=" + projectName + "\')";
                 break;
-            case "GIVE_EXTERNAL_ASSESSMENT_TEACHER": {
+            case "GIVE_EXTERNAL_ASSESSMENT_TEACHER":
                 if (object.progress !== "FINISHED") {
                     result.solveTaskWith = "Bewerten Sie Gruppe " + object.taskData.objectGroup.id;
                     result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution-teacher.jsp?" +
                         "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
                 }
                 break;
-            }
             case "CLOSE_PEER_ASSESSMENTS_PHASE":
                 result.solveTaskWith = "Studentische Bewertung abschließen";
                 result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 break;
-            case "GIVE_FINAL_GRADES": {
+            case "GIVE_FINAL_GRADES":
                 result.solveTaskWith = "Vergeben Sie finale Noten!";
                 result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
                     "projectName=" + object.projectName + "\')";
                 break;
-            }
-            case "END_DOCENT": {
+            case "END_DOCENT":
                 result.solveTaskWith = "Zur Notenübersicht!";
                 result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
-                    "final=true" +
+                    "final=true&" +
                     "projectName=" + object.projectName + "\')";
-            }
+                break;
             default:
                 result.solveTaskWith = null;
 

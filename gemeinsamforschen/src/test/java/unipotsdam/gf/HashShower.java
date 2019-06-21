@@ -1,7 +1,5 @@
 package unipotsdam.gf;
 
-import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,13 +11,14 @@ public class HashShower {
                 .reduce((s, s2) -> s + s2);
         System.out.println(reduce.get().substring(0, reduce.get().length() - 1));
         */
-
+        System.out.println("context: peerassessmenttest5, Hash: " + "peerassessmenttest5".hashCode());
+/*
         GroupWorkContext[] values = GroupWorkContext.values();
         for (GroupWorkContext value : values) {
             System.out.println("context: " + value + ", Hash: "+ value.toString().hashCode());
 
         }
-
+*/
     }
 
     ///just testing stuff

@@ -53,6 +53,7 @@ function createNewProject(allTheTags) {
     let project = getProjectValues();
     // create the project
     if (allTheTags.length !== 5 && $('input[name=gfm]:checked').val() === "Basierend auf Lernzielen") {
+        loaderStop();
         document.getElementById('tagHelper').className = "alert alert-warning";
         $('#exactNumberOfTags').show();
     } else {
