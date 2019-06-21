@@ -40,7 +40,8 @@ public class TaskOrder {
         result.add(TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER);
         result.add(TaskName.FINALIZE_ASSESSMENT);
         result.add(TaskName.CLOSE_ASSESSMENT_PHASE);
-        result.add(TaskName.END);
+        result.add(TaskName.END_DOCENT);
+        result.add(TaskName.END_STUDENT);
         this.orderedTasks = result;
     }
     public TaskName getNextTask(TaskName taskName){
