@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.assessment;
 
-import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
@@ -22,7 +21,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,16 +165,17 @@ public class AssessmentView {
     @Produces(MediaType.APPLICATION_JSON)
     public UserAssessmentDataHolder getGradesForProject(@PathParam("projectName") String projectName) {
         // dummy implementierung
-        PodamFactoryImpl podamFactory = new PodamFactoryImpl();
+        /*PodamFactoryImpl podamFactory = new PodamFactoryImpl();
         ArrayList<UserPeerAssessmentData> result = new ArrayList<UserPeerAssessmentData>();
         for (int i=0;i<10;i++) {
             UserPeerAssessmentData elem = podamFactory.manufacturePojo(UserPeerAssessmentData.class);
             result.add(elem);
         }
         UserAssessmentDataHolder userAssessmentDataHolder = new UserAssessmentDataHolder(result);
-
+*/
         // comment this in if you feel ready for it
-        //userAssessmentDataHolder.setData(peer.getUserAssessmentsFromDB(new Project(projectName)));
+        UserAssessmentDataHolder userAssessmentDataHolder = new UserAssessmentDataHolder();
+        userAssessmentDataHolder.setData(peer.getUserAssessmentsFromDB(new Project(projectName)));
 
         return userAssessmentDataHolder;
     }

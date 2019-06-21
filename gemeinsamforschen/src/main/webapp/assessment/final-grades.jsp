@@ -32,6 +32,9 @@
         <div class="row group">
             <div class="col span_content span_2_of_2">
                 <h2>Abschließende Noten vergeben</h2>
+                <div class="alert alert-success" id="taskCompleted">
+                    Die Zensuren wurden gespeichert.
+                </div>
                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
                     <table id="tableGrades" class="table table-striped table-sm" cellspacing="0" width="100%">
                         <thead>
@@ -67,28 +70,28 @@
                     </table>
                 </div>
                 <script id="gradesOfOneStudentTemplate" type="text/x-jQuery-tmpl">
-                <tr class="grading">
-                        <td>
+                <tr class="grading" id="grades_${userEmail}">
+                        <td name="name">
                             ${name}
                         </td>
-                        <td>
+                        <td name="userEmail">
                             ${userEmail}
                         </td>
-                        <td>
+                        <td name="productPeer">
                             ${productPeer}
                         </td>
-                        <td>
+                        <td name="productDocent">
                             ${productDocent}
                         </td>
-                        <td>
+                        <td name="workRating">
                             ${workRating}
                         </td>
-                        <td>
+                        <td name="suggested" id="suggested_${userEmail}">
                             ${suggested}
                         </td>
                         <td></td>
-                        <td>
-                            <input id="final_${email}" value="${suggested}" size="4">
+                        <td name="finalMark">
+                            <input id="markFor_${userEmail}" value="${finalMark}" size="4">
                         </td>
                     </tr>
                 </script>
@@ -96,9 +99,9 @@
                     <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
                         <i class="far fa-save"></i> speichern
                     </button>
-                    <label class="checkbox" for="finalizeReedit">
+                    <label class="checkbox" for="finalizeGrading">
                         Dies ist die finale Benotung der Studierenden
-                        <input id="finalizeReedit" style="margin:2px 0 0 0" type="checkbox" title="finalisieren">
+                        <input id="finalizeGrading" style="margin:2px 0 0 0" type="checkbox" title="finalisieren">
 
                     </label>
                 </div>

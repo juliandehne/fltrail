@@ -52,7 +52,8 @@ function createNewProject(allTheTags) {
     // getting the data from the form fields
     let project = getProjectValues();
     // create the project
-    if (allTheTags.length !== 5) {
+    if (allTheTags.length !== 5 && $('input[name=gfm]:checked').val() === "Basierend auf Lernzielen") {
+        document.getElementById('tagHelper').className = "alert alert-warning";
         $('#exactNumberOfTags').show();
     } else {
         if (project) {
@@ -132,11 +133,6 @@ function getProjectValues() {
     if (description === "") {
         $('#projectDescriptionMissing').show();
         return false;
-    }
-    if (allTheTags.length !== 5) {
-        document.getElementById('tagHelper').className = "alert alert-warning";
-    } else {
-        document.getElementById('tagHelper').className = "";
     }
     let time = new Date().getTime();
     let selectedCategories = [];
