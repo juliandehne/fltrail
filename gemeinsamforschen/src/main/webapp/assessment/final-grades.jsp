@@ -32,6 +32,9 @@
         <div class="row group">
             <div class="col span_content span_2_of_2">
                 <h2>Abschließende Noten vergeben</h2>
+                <div class="alert alert-success" id="taskCompleted">
+                    Die Zensuren wurden gespeichert.
+                </div>
                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
                     <table id="tableGrades" class="table table-striped table-sm" cellspacing="0" width="100%">
                         <thead>
@@ -87,8 +90,8 @@
                             ${suggested}
                         </td>
                         <td></td>
-                        <td name="final">
-                            <input id="final_${userEmail}" value="${suggested}" size="4">
+                        <td name="finalMark">
+                            <input id="markFor_${userEmail}" value="${finalMark}" size="4">
                         </td>
                     </tr>
                 </script>

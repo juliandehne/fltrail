@@ -10,9 +10,17 @@ $(document).ready(function () {
         let tableEntries = $('#allGradesOfAllStudents').find('tr');
         tableEntries.each(function () {
             let userEmail = $(this).attr("id").substring("grades_".length);
-            $('#final_' + userEmail).val($('#suggested_' + userEmail).html().trim());
+            $('#markFor_' + userEmail).val($('#suggested_' + userEmail).html().trim());
+        })
+    });
+    $('#btnSave').on('click', function () {
+        loaderStart();
+        saveGrades(projectName, function () {
+            loaderStop();
+            taskCompleted();
         })
     })
+
 });
 
 function writeGradesToView(projectName, callback) {
@@ -24,6 +32,7 @@ function writeGradesToView(projectName, callback) {
         },
         type: 'GET',
         success: function (response) {
+            //gradesData = response;
             let tmplObject = fillObjectWithGrades(response);
             $('#gradesOfOneStudentTemplate').tmpl(tmplObject).appendTo('#allGradesOfAllStudents');
             callback();
@@ -47,6 +56,12 @@ function fillObjectWithGrades(data) {
     for (let student in grades) {
         let result;
         if (grades.hasOwnProperty(student)) {
+            let finalMark;
+            if (grades[student].finalRating === null) {
+                finalMark = 0;
+            } else {
+                finalMark = grades[student].finalRating;
+            }
             result = {
                 name: grades[student].user.name,
                 userEmail: grades[student].user.email,
@@ -54,7 +69,7 @@ function fillObjectWithGrades(data) {
                 productDocent: Number.parseFloat(grades[student].docentProductRating).toFixed(2),
                 workRating: Number.parseFloat(grades[student].groupWorkRating).toFixed(2),
                 suggested: Number.parseFloat(grades[student].suggestedRating).toFixed(2),
-                finalMark: Number.parseFloat(grades[student].finalRating).toFixed(2),
+                finalMark: Number.parseFloat(finalMark).toFixed(2),
             };
         }
         resultList.push(result);
@@ -66,12 +81,12 @@ function saveGrades(projectName, callback) {
     let data = viewToUserPeerAssessmentData();
     $.ajax({
         url: '../rest/assessment/grades/project/' + projectName + '/sendData',
+        type: 'POST',
         headers: {
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         },
-        type: 'POST',
-        data: data,
+        data: JSON.stringify(data),
         success: function () {
             callback();
         },
@@ -82,6 +97,7 @@ function saveGrades(projectName, callback) {
 
 function viewToUserPeerAssessmentData() {
     let grades = [];
+    let result = {};
     $('#allGradesOfAllStudents').children().each(function () {     //the TRs
         let UserPeerAssessmentData = {};
         let user = {};
@@ -101,18 +117,17 @@ function viewToUserPeerAssessmentData() {
             if ($(this).attr("name") === "workRating") {
                 UserPeerAssessmentData.groupWorkRating = $(this).html().trim();
             }
-            if ($(this).attr("name") === "workRating") {
-                UserPeerAssessmentData.groupWorkRating = $(this).html().trim();
+            if ($(this).attr("name") === "suggested") {
+                UserPeerAssessmentData.suggestedRating = $(this).html().trim();
+            }
+            if ($(this).attr("name") === "finalMark") {
+                UserPeerAssessmentData.finalRating = $(this).find("input").val();
             }
         });
-        if (members.length !== 0) {
-            groups.push({
-                chatRoomId: chatRoomId,
-                id: "",
-                members: members,
-            })
-        }
+        UserPeerAssessmentData.user = user;
         grades.push(UserPeerAssessmentData);
     });
-    callback(grades);
+    result.data = grades;
+    result.final = $('#finalizeGrading').prop("checked");
+    return result;
 }

@@ -2,9 +2,9 @@ package unipotsdam.gf.modules.assessment;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
+import unipotsdam.gf.modules.assessment.controller.model.CheatCheckerMethods;
 import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
 import unipotsdam.gf.modules.assessment.controller.model.Performance;
-import unipotsdam.gf.modules.assessment.controller.model.CheatCheckerMethods;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
@@ -308,10 +308,9 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             userPeerAssessmentData.setGroupWorkRating(groupRating.get(user));
             userPeerAssessmentData.setSuggestedRating(suggestedRating.get(user));
             // set flags, too
+            userPeerAssessmentData.setUser(user);
             result.add(userPeerAssessmentData);
         }
-
-        // TODO @ Julian implement this
         return result;
     }
 }

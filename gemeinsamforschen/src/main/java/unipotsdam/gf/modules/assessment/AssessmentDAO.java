@@ -532,7 +532,7 @@ public class AssessmentDAO {
         HashMap<User, Double> result = new HashMap<>();
         connect.connect();
 
-        String query = "SELECT user, avg(rating2) from " +
+        String query = "SELECT user as userEmail, avg(rating2) as avgGrade from " +
                 " (SELECT gu.userEmail as user, cr.rating as rating2, cr.projectName, fromTeacher from " +
                         "contributionrating cr " +
                         "join groupuser gu on gu.groupId = cr.groupId " +
@@ -561,11 +561,11 @@ public class AssessmentDAO {
     public HashMap<User, Double> getDocentProductRatings(Project project) {
         HashMap<User, Double> result = new HashMap<>();
         connect.connect();
-        String query = "SELECT gu.userEmail, avg(rating) as rating2 from contributionrating cr" +
-                "  join groupuser gu on gu.groupId = cr.groupId"
+        String query = "SELECT gu.userEmail, avg(rating) as avgGrade from contributionrating cr " +
+                "join groupuser gu on gu.groupId = cr.groupId "
                 + "where cr.projectName = ? "
-                + "and cr.fromPeer is null"
-                + "group by userEmail ";
+                + "and cr.fromPeer is null "
+                + "group by userEmail;";
         convertResultSetToUserRatingMap(project, result, query);
         connect.close();
 
@@ -584,7 +584,7 @@ public class AssessmentDAO {
     public HashMap<User, Double> getGroupRating(Project project) {
         HashMap<User, Double> result = new HashMap<>();
         connect.connect();
-        String query = "SELECT pu.userEmail, avg(rating) as rating2 from workrating wr" +
+        String query = "SELECT pu.userEmail, avg(rating) as avgGrade from workrating wr" +
                 "   join projectuser pu on pu.projectName = wr.projectName" +
                 "  where wr.projectName = ?" +
                 "   and wr.userEmail = pu.userEmail" +
@@ -597,8 +597,8 @@ public class AssessmentDAO {
     public void convertResultSetToUserRatingMap(Project project, HashMap<User, Double> result, String query) {
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
         while (vereinfachtesResultSet.next()) {
-            User user = new User(vereinfachtesResultSet.getString("user"));
-            Double rating = vereinfachtesResultSet.getDouble("avg(rating2)");
+            User user = new User(vereinfachtesResultSet.getString("userEmail"));
+            Double rating = vereinfachtesResultSet.getDouble("avgGrade");
             result.put(user, rating);
         }
     }
