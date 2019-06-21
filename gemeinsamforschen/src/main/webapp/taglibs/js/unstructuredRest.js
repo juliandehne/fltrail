@@ -64,7 +64,9 @@ function getFullSubmission(id, responseHandler, errorHandler) {
         },
         error: function () {
             // handle the error
-            errorHandler();
+            if (errorHandler) {
+                errorHandler();
+            }
         }
     })
 }

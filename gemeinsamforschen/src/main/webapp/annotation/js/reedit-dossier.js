@@ -17,6 +17,7 @@ $(document).ready(function () {
 
             // build request
             let fullSubmissionPostRequest = {
+                id: fullSubmissionId,
                 groupId: groupId,
                 text: JSON.stringify(content),
                 html: html,

@@ -45,6 +45,9 @@ public class TagUtilities {
         try {
             query = decode(request.getQueryString(), "UTF-8");
             String result;
+            if (!query.contains(searchString)) {
+                return null;
+            }
             int ampersandPosition = query.indexOf('&');
             int queryParameterValuePosition = query.indexOf(searchString) + searchString.length() + 1;
             if (ampersandPosition != -1) {

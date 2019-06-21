@@ -30,7 +30,7 @@
 
     <main>
         <div class="row group">
-            <div class="col span_content span_2_of_2">
+            <div class="col span_content span_l_of_2">
                 <h2>Abschließende Noten vergeben</h2>
                 <div class="alert alert-success" id="taskCompleted">
                     Die Zensuren wurden gespeichert.
@@ -46,15 +46,18 @@
                                 E-Mail
                             </th>
                             <th class="th-sm">
-                                Produktbewertung durch Peers
+                                (Average)
+                                Produkte (Studierende)
                             </th>
                             <th class="th-sm">
-                                Produktbewertung durch Sie
+                                Produkte (Sie)
                             </th>
                             <th class="th-sm">
-                                Gruppenarbeitsbewertung
+                                (Average)
+                                Gruppenarbeit
                             </th>
                             <th class="th-sm">
+                                (Average)
                                 vorgeschlagene Note
                             </th>
                             <td><a id="takeSuggested" style="cursor:pointer; font-size: 15px;"><i
@@ -70,28 +73,30 @@
                     </table>
                 </div>
                 <script id="gradesOfOneStudentTemplate" type="text/x-jQuery-tmpl">
-                <tr class="grading" id="grades_${userEmail}">
+                <tr class="grading" id="grades_${userId}">
                         <td name="name">
                             ${name}
                         </td>
                         <td name="userEmail">
                             ${userEmail}
                         </td>
-                        <td name="productPeer">
+                        <td name="productPeer" class="${levelOfAgreement}">
                             ${productPeer}
                         </td>
-                        <td name="productDocent">
+                        <td name="productDocent" class="${levelOfAgreement}">
                             ${productDocent}
                         </td>
-                        <td name="workRating">
+                        <td name="workRating" style="display:flex;">
                             ${workRating}
+                            <i class="fas ${beyondStdDeviation}"></i>
                         </td>
-                        <td name="suggested" id="suggested_${userEmail}">
+                        <td name="suggested" id="suggested_${userId}">
                             ${suggested}
                         </td>
                         <td></td>
                         <td name="finalMark">
-                            <input id="markFor_${userEmail}" value="${finalMark}" size="4">
+                            <input id="markFor_${userId}" value="${finalMark}" size="4" class="unsavedFinalMark">
+                            <p class="savedFinalMark">${finalMark}</p>
                         </td>
                     </tr>
                 </script>
@@ -104,6 +109,21 @@
                         <input id="finalizeGrading" style="margin:2px 0 0 0" type="checkbox" title="finalisieren">
 
                     </label>
+                </div>
+            </div>
+            <div class="col span_content span_s_of_2" style="margin-top: 15%;">
+                <h4>Legende</h4>
+                <div style="display: block;">
+                    <div style="display: flex; margin-bottom: 5px;">
+                        <i class="fas fa-arrow-up"></i> Dieser Student wurde von seinen Peers unüblich gut bewertet.
+                    </div>
+                    <div style="display: flex; margin-bottom: 5px;">
+                        <i class="fas fa-arrow-down"></i> Dieser Student wurde von seinen Peers unüblich schlecht
+                        bewertet.
+                    </div>
+                    <div style="display: flex; margin-bottom: 5px;">
+                        <i class="fas fa-check"></i> Dieser Student wurde von seinen Peers ausgeglichen bewertet.
+                    </div>
                 </div>
             </div>
         </div>

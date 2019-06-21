@@ -148,7 +148,7 @@ CREATE TABLE `fullsubmissions`
 CREATE TABLE `grades`
 (
     `projectName` varchar(200) NOT NULL,
-    `userName`    varchar(100) NOT NULL,
+    `userEmail`    varchar(100) NOT NULL,
     `grade`       double       NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='Shows the grades that are calculated for a given student';

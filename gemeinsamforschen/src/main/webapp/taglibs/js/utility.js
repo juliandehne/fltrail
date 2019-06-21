@@ -261,14 +261,17 @@ function getFullSubmissionOfGroup(groupId, version) {
             "Cache-Control": "no-cache"
         },
         success: function (fullSubmission) {
-            //set content in Quill here
-            quill.setContents(JSON.parse(fullSubmission.text));
+            setQuillContentFromFullSubmission(fullSubmission);
             fullSubmissionId = fullSubmission.id;
         },
         error: function () {
 
         }
     })
+}
+
+function setQuillContentFromFullSubmission(fullSubmission) {
+    quill.setContents(JSON.parse(fullSubmission.text));
 }
 
 function calculateHierachy(level) {

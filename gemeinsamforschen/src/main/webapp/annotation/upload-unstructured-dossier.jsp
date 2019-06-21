@@ -13,6 +13,10 @@
     if (Strings.isNullOrEmpty(personalString)) {
         personalString = "false";
     }
+    String fullSubmissionId = tu.getParamterFromQuery("fullSubmissionId", request);
+    if (Strings.isNullOrEmpty(fullSubmissionId)) {
+        fullSubmissionId = "";
+    }
 %>
 
 <!DOCTYPE html>
@@ -63,6 +67,7 @@
                     <div></div>
                     <h2>{{:header}} anlegen</h2>
 
+
                 </script>
                 <div id="visibilityTemplateResult"></div>
                 <script id="visibilityTemplate" type="text/x-jsrender">
@@ -79,6 +84,7 @@
                             </div>
                         </div>
                     {{/if}}
+
                 </script>
 
                 <br>
@@ -96,10 +102,10 @@
             </div>
 
 
-        <%--    <div class="col span_chat">
-                <chat:chatWindow orientation="right" scope="project"/>
-                <chat:chatWindow orientation="right" scope="group"/>
-            </div>--%>
+            <%--    <div class="col span_chat">
+                    <chat:chatWindow orientation="right" scope="project"/>
+                    <chat:chatWindow orientation="right" scope="group"/>
+                </div>--%>
         </div> <!-- flex wrapper -->
     </main>
     <jsp:include page="../taglibs/footer.jsp"/>
@@ -107,8 +113,12 @@
         <jsp:param name="readOnly" value="false"/>
     </jsp:include>
 
+        <p id="fullSubmissionId" hidden><%=tu.printMe(fullSubmissionId)%>
+        </p>
         <p id="fileRole" hidden><%= tu.printMe(fileRole)%>
+        </p>
     <p id="personal" hidden><%= tu.printMe(personalString)%>
+    </p>
 </body>
 
 </html>

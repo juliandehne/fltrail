@@ -594,6 +594,16 @@ public class AssessmentDAO {
         return result;
     }
 
+    public HashMap<User, Double> getFinalRating(Project project) {
+        HashMap<User, Double> result = new HashMap<>();
+        connect.connect();
+        String query = "SELECT userEmail, grade as avgGrade from grades g " +
+                "WHERE projectName = ?";
+        convertResultSetToUserRatingMap(project, result, query);
+        connect.close();
+        return result;
+    }
+
     public void convertResultSetToUserRatingMap(Project project, HashMap<User, Double> result, String query) {
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
         while (vereinfachtesResultSet.next()) {
@@ -615,7 +625,7 @@ public class AssessmentDAO {
         // persist new ones
         List<UserPeerAssessmentData> data = userAssessmentDataHolder.getData();
         for (UserPeerAssessmentData datum : data) {
-            connect.issueInsertOrDeleteStatement("INSERT IGNORE INTO `grades` (projectName, userName, grade)" +
+            connect.issueInsertOrDeleteStatement("INSERT IGNORE INTO `grades` (projectName, userEmail, grade)" +
                     "values (?,?,?)", project.getName(), datum.getUser().getEmail(), datum.getFinalRating() );
         }
         connect.close();
