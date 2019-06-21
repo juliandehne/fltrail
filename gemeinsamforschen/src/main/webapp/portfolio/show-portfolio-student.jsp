@@ -68,7 +68,11 @@
                         }
                     }).setContents({{:text}});
                     {{:scriptEnd}}
-                    <h4 class="creation-information">{{:userEmail}} - {{:timestampDateTimeFormat}}</h4>
+                    <h4 class="creation-information">
+                    {{if editable}}
+                        <a href="../annotation/upload-unstructured-dossier.jsp?projectName={{:projectName}}&fullSubmissionId={{:id}}&fileRole=Portfolio&personal=true">Editieren</a> -
+                    {{/if}}
+                    {{:userEmail}} - {{:timestampDateTimeFormat}}</h4>
                     <br/>
                 {{/for}}
                 {{if error}}

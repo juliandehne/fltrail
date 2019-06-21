@@ -1,8 +1,10 @@
 let projectName;
 let possibleVisibilities = [];
 let currentVisibleButton;
+let userEmail;
 $(document).ready(function () {
     projectName = $('#projectName').html().trim();
+    userEmail = $('#userEmail').html().trim();
     setupVisibilityButton();
 });
 
@@ -29,20 +31,22 @@ function fillPortfolioEntries() {
     };
     getPortfolioSubmissions(queryParams, function (response) {
         let data = {};
-
         data.scriptBegin = '<script>';
         data.scriptEnd = '</script>';
-        for (let element of response) {
-            element.scriptBegin = data.scriptBegin;
-            element.scriptEnd = data.scriptEnd;
-            element.timestampDateTimeFormat = new Date(element.timestamp).toLocaleString();
-        }
-        data.submissionList = response;
-        data.error = response.error;
-        let tmpl = $.templates("#portfolioTemplate");
-        let html = tmpl.render(data);
-        $("#portfolioTemplateResult").html(html);
+        getMyGroupId(function (groupId) {
+            for (let element of response) {
+                element.scriptBegin = data.scriptBegin;
+                element.scriptEnd = data.scriptEnd;
+                element.timestampDateTimeFormat = new Date(element.timestamp).toLocaleString();
+                element.editable = element.userEmail === userEmail || element.userEmail == null && element.groupId === groupId;
+            }
+            data.submissionList = response;
+            data.error = response.error;
+            let tmpl = $.templates("#portfolioTemplate");
+            let html = tmpl.render(data);
+            $("#portfolioTemplateResult").html(html);
 
+        });
     });
 }
 

@@ -1,5 +1,6 @@
 package unipotsdam.gf.process;
 
+import unipotsdam.gf.config.ModuleAvailabilityConfig;
 import unipotsdam.gf.interfaces.IPortfolioService;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
@@ -17,7 +18,9 @@ public class ReflexionProcess {
     private IPortfolioService reflexionService;
 
     public void startEPortfolioIntroduceTasks(Project project, Group group) {
-        reflexionService.startDocentPortfolioTask(project, Phase.DossierFeedback);
-        reflexionService.startStudentPortfolioTask(project, group, Phase.DossierFeedback);
+        if (ModuleAvailabilityConfig.E_PORTFOLIO_MODULE_ENABLED) {
+            reflexionService.startStudentPortfolioTask(project, group, Phase.DossierFeedback);
+            reflexionService.startDocentPortfolioTask(project, Phase.DossierFeedback);
+        }
     }
 }

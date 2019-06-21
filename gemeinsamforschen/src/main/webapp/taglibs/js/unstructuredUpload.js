@@ -4,38 +4,36 @@
 let groupId = 0;
 let fileRole;
 let hierarchyLevel;
-let fullSubmissionId = "";
+let fullSubmissionId;
 let personal;
 let currentVisibility;
 let possibleVisibilities = [];
-
-let studentTaskLocation;
-let portfolioLocation;
+let isPortfolioEntry;
 
 $(document).ready(function () {
     fileRole = $('#fileRole').html().trim();
     let personalString = $("#personal").html().trim();
     personal = personalString.toUpperCase() === 'TRUE';
+    isPortfolioEntry = fileRole.toUpperCase() === 'PORTFOLIO';
     hierarchyLevel = $('#hierarchyLevel').html().trim();
-    let projectName = $('#projectName').text().trim();
-    studentTaskLocation = `${hierarchyLevel}project/tasks-student.jsp?projectName=${projectName}`;
-    portfolioLocation = `${hierarchyLevel}portfolio/show-portfolio-student.jsp?projectName=${projectName}`;
+    fullSubmissionId = $('#fullSubmissionId').html().trim();
 
-    if (personal) {
+    if (isPortfolioEntry) {
         $('#backToTasks').html(`<i class="fas fa-chevron-circle-left"> Zurück zum Portfolio</i></a>`);
     }
-
     setupPageContent();
-    if (!personal) {
-        getMyGroupId(function (groupId) {
-            getFullSubmissionOfGroup(groupId, 0)
-        });
+
+    if (fullSubmissionId !== '') {
+        getFullSubmission(fullSubmissionId, setQuillContentFromFullSubmission);
+    } else {
+        if (!personal) {
+            getMyGroupId(function (groupId) {
+                getFullSubmissionOfGroup(groupId, 0)
+            });
+        }
     }
 
-
-
     $('#btnSave').click(function () {
-
         getMyGroupId(function (groupId) {
             if (quill.getText().length > 1) {
                 let content = quill.getContents();
@@ -47,6 +45,7 @@ $(document).ready(function () {
                     visibility = currentVisibleButtonText.name
                 }
                 let fullSubmissionPostRequest = {
+                    id: fullSubmissionId,
                     groupId: groupId,
                     text: JSON.stringify(content),
                     html: html,
@@ -55,18 +54,8 @@ $(document).ready(function () {
                     fileRole: fileRole.toUpperCase(),
                     visibility: visibility
                 };
-
                 // save request in database
-                createFullSubmission(fullSubmissionPostRequest, function () {
-
-                    if (personal) {
-                        location.href = portfolioLocation;
-                    } else {
-                        location.href = studentTaskLocation;
-                    }
-                    // back to main page
-
-                });
+                createFullSubmission(fullSubmissionPostRequest, redirectToPreviousPage)
             } else {
                 alert("Ein Text wird benötigt");
             }
@@ -93,6 +82,15 @@ $(document).ready(function () {
     });
 
 });
+
+function redirectToPreviousPage() {
+    let projectName = $('#projectName').text().trim();
+    if (isPortfolioEntry) {
+        location.href = `${hierarchyLevel}portfolio/show-portfolio-student.jsp?projectName=${projectName}`;
+    } else {
+        location.href = `${hierarchyLevel}project/tasks-student.jsp?projectName=${projectName}`;
+    }
+}
 
 function setupPageContent() {
     populateHeaderTemplate();

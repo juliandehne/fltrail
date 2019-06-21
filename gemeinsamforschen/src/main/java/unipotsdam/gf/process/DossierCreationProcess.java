@@ -175,7 +175,7 @@ public class DossierCreationProcess {
         fspr.setFileRole(fullSubmission.getFileRole());
         fspr.setText(fullSubmission.getText());
         fspr.setProjectName(project.getName());
-        fspr.setGroupdId(groupId);
+        fspr.setGroupId(groupId);
         fspr.setVisibility(Visibility.GROUP);
         submissionController.addFullSubmission(fspr, 1);
         taskDAO.persistTaskGroup(project, groupId, TaskName.REEDIT_DOSSIER, Phase.DossierFeedback);

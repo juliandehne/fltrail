@@ -17,6 +17,7 @@ public class FullSubmissionPostRequest {
     private String html;
     private String projectName;
     private FileRole fileRole;
+    private String id;
 
     // have to be set in backend
     private String userEMail;
@@ -30,7 +31,7 @@ public class FullSubmissionPostRequest {
         return groupId;
     }
 
-    public void setGroupdId(Integer groupId) {
+    public void setGroupId(Integer groupId) {
         this.groupId = groupId;
     }
 
@@ -88,6 +89,14 @@ public class FullSubmissionPostRequest {
 
     public void setVisibility(Visibility visibility) {
         this.visibility = visibility;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
