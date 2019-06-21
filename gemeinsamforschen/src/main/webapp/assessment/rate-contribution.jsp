@@ -28,7 +28,7 @@
     <main>
         <div class="row group">
             <div class="col span_content span_l_of_2">
-                <h2>Bewerte Gruppe <span id="groupId"></span></h2>
+                <h1>Bewerte Gruppe <span id="groupId"></span></h1>
                 <div id="listOfContributions">
                 </div>
                 <script id="contributionTemplate" type="text/x-jQuery-tmpl">

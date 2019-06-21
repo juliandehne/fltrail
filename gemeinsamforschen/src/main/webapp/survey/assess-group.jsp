@@ -15,7 +15,7 @@
 <body>
 <div id="theTextPageGer">
     <div class="row group">
-        <h2>Bewertung Ihrer Gruppe</h2>
+        <h1>Bewertung Ihrer Gruppe</h1>
         <br>
         <p> Vielen Dank für Ihre Zeit und Ihr Interesse an dieser Studie bis zum Ende teil zu nehmen.
             Hier bewerten Sie die Teamfähigkeit Ihrer Gruppenmitglieder.<br>
@@ -29,7 +29,7 @@
 </div>
 <div id="theTextPageEn" class="collapse">
     <div class="row group">
-        <h2>Assess your group</h2>
+        <h1>Assess your group</h1>
         <br>
         <p> Thanks a lot for your time and your interest to participate in this study.
             Here you can evaluate your group members by meanings of their skills to work in a team.<br>
@@ -42,7 +42,7 @@
 </div>
 <div class="row group">
     <div id="groupAssessment">
-        <h2>under Construction</h2>
+        <h1>under Construction</h1>
         <div id="ifUserIsSet">
             <jsp:include page="../assessment/assess-work-body.jsp"/>
         </div>

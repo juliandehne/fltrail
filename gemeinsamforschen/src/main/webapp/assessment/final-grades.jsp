@@ -31,7 +31,7 @@
     <main>
         <div class="row group">
             <div class="col span_content span_l_of_2">
-                <h2>Abschließende Noten vergeben</h2>
+                <h1>Abschließende Noten vergeben</h1>
                 <div class="alert alert-success" id="taskCompleted">
                     Die Zensuren wurden gespeichert.
                 </div>

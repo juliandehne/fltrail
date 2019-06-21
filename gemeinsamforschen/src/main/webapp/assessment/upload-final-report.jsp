@@ -36,7 +36,7 @@
     <main>
         <div class="row group">
             <div class="col span_content span_2_of_2">
-                <h2>Abschlussbericht hochladen</h2>
+                <h1>Abschlussbericht hochladen</h1>
 
                 <div id="result"></div>
                 <script id="headerTemplate" type="text/x-jsrender">

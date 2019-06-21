@@ -36,7 +36,7 @@
     <main>
         <div class="row group">
             <div class="col span_content span_2_of_2">
-                <h2>Präsentation hochladen</h2>
+                <h1>Präsentation hochladen</h1>
                 <div id="result"></div>
                 <script id="headerTemplate" type="text/x-jsrender">
                     <h2>{{:header}} anlegen</h2>
