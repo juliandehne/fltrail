@@ -86,9 +86,8 @@
                         <td name="productDocent" class="${levelOfAgreement}">
                             ${productDocent}
                         </td>
-                        <td name="workRating" style="display:flex;">
+                        <td name="workRating" style="display:flex;" class="fas ${beyondStdDeviation}">
                             ${workRating}
-                            <i class="fas ${beyondStdDeviation}"></i>
                         </td>
                         <td name="suggested" id="suggested_${userId}">
                             ${suggested}

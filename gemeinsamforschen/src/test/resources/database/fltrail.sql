@@ -617,7 +617,7 @@ ALTER TABLE `fullsubmissions`
 -- Indizes für die Tabelle `grades`
 --
 ALTER TABLE `grades`
-    ADD UNIQUE KEY `grades_projectName_userName_uindex` (`projectName`, `userName`);
+    ADD UNIQUE KEY `grades_projectName_userEmail_uindex` (`projectName`, `userEmail`);
 
 --
 -- Indizes für die Tabelle `groupfindingmechanismselected`

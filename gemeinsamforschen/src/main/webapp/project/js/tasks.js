@@ -113,9 +113,8 @@ function handleInfoTasks(object, result) {
             result.infoText = waitForParticipantsInfoText(object);
             switch (object.taskData.gfm) {
                 case "UserProfilStrategy":
-                    if (countMissingStudents(object) > 0) {
                         result.inCardSolver = "resizeGroup";
-                    }
+
                     break;
             }
             break;
