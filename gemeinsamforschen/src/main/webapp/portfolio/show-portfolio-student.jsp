@@ -31,6 +31,10 @@
     <jsp:include page="../taglibs/Menu.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <div class="backlink">
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
+            Aufgaben</i></a>
+    </div>
     <main>
         <div class="row group">
             <h1>E-Portfolio</h1>
@@ -50,6 +54,7 @@
                             {{/for}}
                         </div>
                     </div>
+
 
             </script>
             <h3>Einträge</h3>
@@ -78,6 +83,7 @@
                 {{if error}}
                     <h1>Keine Einträge gefunden</h1>
                 {{/if}}
+
 
             </script>
 
