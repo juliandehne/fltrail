@@ -57,16 +57,27 @@
             <div class="col span_2_of_2">
                 <h3>Hier können sie ihr <span id="fileRole"></span> überarbeiten</h3>
                 <br>
-                <div id="editor"></div>
+                <div id="editor" style="border:solid 1px"></div>
                 <div style="display:flex;">
                     <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
                         <i class="far fa-save"></i> speichern
                     </button>
                     <label class="checkbox" for="finalizeReedit">
-                        Dies ist die finale Abgabe des Dossiers
+                        Dies ist die finale
+                        <a data-toggle='collapse' href='#whatIs' role='button'
+                           aria-expanded='false' aria-controls='whatIs'>
+                            <i class='fas fa-question'></i>
+                        </a>
+                        Abgabe des Dossiers
                         <input id="finalizeReedit" style="margin:2px 0 0 0" type="checkbox" title="finalisieren">
-
                     </label>
+                </div>
+
+                <div class='collapse' id='whatIs'>
+                    <div class='card card-body'>
+                        Bestätigen sie hier, wenn dies die Version ihres Dossiers ist, die später bewertet werden
+                        soll.
+                    </div>
                 </div>
             </div>
         </div>

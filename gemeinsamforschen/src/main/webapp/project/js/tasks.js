@@ -218,7 +218,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Das Projekt ist beendet!";
             break;
         } case "END_STUDENT": {
-            result.infoText = "Das Projekt ist beendet! Sie haben eine " + object.taskData.grade + " erreicht.";
+        result.infoText = "Das Projekt ist beendet! Sie haben eine " + object.taskData + " erreicht.";
             break;
         }
         default:
@@ -257,7 +257,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../annotation/reedit-dossier.jsp?fullsubmissionid=" + object.taskData.fullSubmissionId + "&projectName=" + object.projectName + "&contribution=DOSSIER\')";
                 break;
             case "CREATE_QUIZ":
-                result.solveTaskWith = "Erstelle ein Quiz";
+                result.solveTaskWith = "Erstelle Quiz";
                 result.solveTaskWithLink = "redirect(\'../assessment/create-quiz.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "CLOSE_EXECUTION_PHASE":
@@ -265,11 +265,11 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 break;
             case "WRITE_EJOURNAL":
-                result.solveTaskWith = "Lege ein EJournal an";
+                result.solveTaskWith = "Erstelle EJournal";
                 result.solveTaskWithLink = "redirect(\'../journal/create-journal.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "ANNOTATE_DOSSIER":
-                result.solveTaskWith = "Annotiere das Dossier";
+                result.solveTaskWith = "Annotiere Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?" + $.param({
                     projectName: object.projectName,
                     submissionId: object.taskData.fullSubmissionId,
@@ -277,11 +277,11 @@ function handleLinkedTasks(object, result) {
                 }) + "\')";
                 break;
             case "FINALIZE_DOSSIER":
-                result.solveTaskWith = "Finalisiere das Dossier";
+                result.solveTaskWith = "Finalisiere Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?projectName=" + object.projectName + "&submissionId=" + object.taskData.fullSubmissionId + "\')";
                 break;
             case "FINALIZE_EJOURNAL":
-                result.solveTaskWith = "Finalisiere dein EJournal";
+                result.solveTaskWith = "Finalisiere EJournal";
                 result.solveTaskWithLink = "redirect(\'../journal/edit-description.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "CLOSE_DOSSIER_FEEDBACK_PHASE":
@@ -302,7 +302,7 @@ function handleLinkedTasks(object, result) {
                 break;
             case "GIVE_FEEDBACK":
                 if (object.taskData !== null) {
-                    result.solveTaskWith = "Geben Sie ein Feedback";
+                    result.solveTaskWith = "Gib Feedback";
                     result.solveTaskWithLink = "redirect(\'../annotation/give-feedback.jsp?" +
                         "projectName=" + object.projectName +
                         "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
@@ -311,7 +311,7 @@ function handleLinkedTasks(object, result) {
                 break;
             case "SEE_FEEDBACK":
                 if (object.taskData !== null) {
-                    result.solveTaskWith = "zum Feedback";
+                    result.solveTaskWith = "Feedback sehen";
                     result.solveTaskWithLink = "redirect(\'../annotation/see-feedback.jsp?" +
                         "projectName=" + object.projectName +
                         "&fullSubmissionId=" + object.taskData.fullSubmissionId +
@@ -320,7 +320,7 @@ function handleLinkedTasks(object, result) {
                 }
                 break;
             case "UPLOAD_PRESENTATION":
-                result.solveTaskWith = "Presentation hochladen";
+                result.solveTaskWith = "Präsentation hochladen";
                 result.solveTaskWithLink = "redirect(\'../assessment/upload-presentation.jsp?" +
                     "projectName=" + object.projectName + "\')";
 
@@ -332,13 +332,13 @@ function handleLinkedTasks(object, result) {
 
                 break;
             case "INTRODUCE_E_PORTFOLIO_STUDENT":
-                result.solveTaskWith = "Sieh dir das E-Portfolio an.";
+                result.solveTaskWith = "E-Portfolio annsehen";
                 result.solveTaskWithLink = "redirect(\'../portfolio/show-portfolio-student.jsp?" + $.param({
                     projectName: object.projectName,
                 }) + "\')";
                 break;
             case "INTRODUCE_E_PORTFOLIO_DOCENT":
-                result.solveTaskWith = "Sehen Sie sich die bisherigen Einträge an!";
+                result.solveTaskWith = "Bisherigen Einträge";
                 result.solveTaskWithLink = "redirect(\'../portfolio/show-portfolio-docent.jsp?" + $.param({
                     projectName: object.projectName,
                 }) + "\')";
@@ -353,18 +353,18 @@ function handleLinkedTasks(object, result) {
                  break;*/
             case "GIVE_EXTERNAL_ASSESSMENT":
                 if (object.progress !== "FINISHED") {
-                    result.solveTaskWith = "Kommilitonen bewerten!";
+                    result.solveTaskWith = "Kommilitonen bewerten";
                     result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
                         "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
                 }
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
-                result.solveTaskWith = "Gruppenmitglied bewerten!";
+                result.solveTaskWith = "Gruppenarbeit bewerten";
                 result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName=" + projectName + "\')";
                 break;
             case "GIVE_EXTERNAL_ASSESSMENT_TEACHER":
                 if (object.progress !== "FINISHED") {
-                    result.solveTaskWith = "Bewerten Sie Gruppe " + object.taskData.objectGroup.id;
+                    result.solveTaskWith = "Bewerte Gruppe";
                     result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution-teacher.jsp?" +
                         "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
                 }
@@ -374,12 +374,12 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 break;
             case "GIVE_FINAL_GRADES":
-                result.solveTaskWith = "Vergeben Sie finale Noten!";
+                result.solveTaskWith = "Noten vergeben";
                 result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
                     "projectName=" + object.projectName + "\')";
                 break;
             case "END_DOCENT":
-                result.solveTaskWith = "Zur Notenübersicht!";
+                result.solveTaskWith = "Zur Notenübersicht";
                 result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
                     "final=true&" +
                     "projectName=" + object.projectName + "\')";
@@ -430,7 +430,7 @@ function handleFinishedTasks(object, result) {
                 result.infoText = "Sie haben die Arbeit der Studierenden bewertet.";
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
-                result.infoText = "Sie haben ihre Gruppenmitglieder bewertet.";
+                result.infoText = "Sie haben die Arbeit ihrer Gruppenmitglieder bewertet.";
                 break;
             case "UPLOAD_FINAL_REPORT":
                 result.infoText = "Ihre Gruppe hat einen Abschlussbericht hochgeladen.";

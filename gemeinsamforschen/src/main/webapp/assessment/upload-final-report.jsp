@@ -47,6 +47,13 @@
                         <jsp:param name="fileRole" value="FINAL_REPORT"/>
                     </jsp:include>
                     <p id="fileRole" hidden>FINAL_REPORT</p>
+                    <div class="alert alert-warning" id="divFinalContribution" style="display:flex;">
+                        <label>
+                            Finale Abgabe
+                            <input id="finalContribution" type="checkbox">
+                        </label>
+                        <p>Die Präsentation ist eine finale Abgabe. Sie wird hiermit zur Bewertung freigegeben.</p>
+                    </div>
                 </div>
             </div>
         </div> <!-- flex wrapper -->

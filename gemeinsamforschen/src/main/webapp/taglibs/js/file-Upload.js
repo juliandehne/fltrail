@@ -1,10 +1,14 @@
 $(document).ready(function () {
     $('#successUpload').hide();
     $('#errorUpload').hide();
-
+    $('#divFinalContribution').hide();
     $('#uploadSubmit').on('click', function (event) {
         event.preventDefault();
-        uploadForm($('#projectName').html().trim(), $('#uploadFileRole').html().trim());
+        if ($('#finalContribution').prop('checked')) {
+            uploadForm($('#projectName').html().trim(), $('#uploadFileRole').html().trim());
+        } else {
+            $('#divFinalContribution').show();
+        }
     });
 });
 function uploadForm(projectName, fileRole){

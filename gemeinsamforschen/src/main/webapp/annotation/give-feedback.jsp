@@ -72,7 +72,10 @@
                 </div>
                 <div id="editor"></div>
                 <h3>Gib dein Feedback ein.</h3>
-                <div id="feedbackEditor"></div>
+                <div id="feedbackEditor" style="border: solid 1px;"></div>
+                <button id="btnContinueBot" type="button" class="btn btn-primary" title="weiter">
+                    weiter
+                </button>
             </div>
         </div>
     </main>
