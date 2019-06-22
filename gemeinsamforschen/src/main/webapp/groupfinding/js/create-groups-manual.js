@@ -53,7 +53,8 @@ function groupsToTemplate(allGroups, callback) {
     let groupTmplObject = [];
     for (let group = 0; group < allGroups.length; group++) {
         groupTmplObject.push({
-            groupName: "group" + group,
+            groupId: (group + 1),
+            groupName: "Gruppe " + (group + 1),
             groupMember: allGroups[group].members,
             chatRoomId: allGroups[group].chatRoomId,
         });
@@ -178,7 +179,8 @@ function openNewGroup(callback) {
     let groupTmplObject = [];
     let nextGroup = $('#groupsInProject').children().length;
     groupTmplObject.push({
-        groupName: "group" + nextGroup,
+        groupId: nextGroup,
+        groupName: "Gruppe " + nextGroup,
         groupMember: [],
         chatRoomId: "",
     });
@@ -188,6 +190,17 @@ function openNewGroup(callback) {
 }
 
 function allowDrop(ev){
+    let target = ev.target;
+    if (target.nodeName === "SPAN" || target.nodeName === "P") {
+        target = target.parentElement;
+    }
+    if (target.nodeName === "BUTTON") {
+        target = target.parentElement;
+    }
+    if (target.nodeName === "LI") {
+        target = target.parentElement;
+    }
+    $(target).attr('style', 'border:solid 2px;');
     ev.preventDefault();
 }
 
@@ -195,6 +208,9 @@ function dropContent(ev){
     ev.preventDefault();
     let data = ev.dataTransfer.getData("text");
     let target = ev.target;
+    if (target.nodeName === "SPAN" || target.nodeName === "P") {
+        target = target.parentElement;
+    }
     if (target.nodeName === "BUTTON"){
         target=target.parentElement;
     }
@@ -202,9 +218,25 @@ function dropContent(ev){
         target=target.parentElement;
     }
     manipulated=true;
+    $(target).attr('style', 'border:none;');
     $(target).append(document.getElementById(data));
 }
 
 function allowDrag(ev){
     ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function cleanMarker(ev) {
+    let target = ev.target;
+    if (target.nodeName === "SPAN" || target.nodeName === "P") {
+        target = target.parentElement;
+    }
+    if (target.nodeName === "BUTTON") {
+        target = target.parentElement;
+    }
+    if (target.nodeName === "LI") {
+        target = target.parentElement;
+    }
+    $(target).attr('style', 'border:none;');
+    ev.preventDefault();
 }
