@@ -20,8 +20,11 @@ public class GFRocketChatConfig {
     // public static final String ROCKET_CHAT_LINK_0 = "https://rocket.farm-test.rz.uni-potsdam.de";
     // public static final String ROCKET_CHAT_LINK = "https://rocket.farm-test.rz.uni-potsdam.de/";
 
-    public static final String ROCKET_CHAT_LINK_0 = "http://fleckenroller.cs.uni-potsdam.de:3000";
-    public static final String ROCKET_CHAT_LINK = "http://fleckenroller.cs.uni-potsdam.de:3000/";
+    //public static final String ROCKET_CHAT_LINK_0 = "http://fleckenroller.cs.uni-potsdam.de:3000";
+    //public static final String ROCKET_CHAT_LINK = "http://fleckenroller.cs.uni-potsdam.de:3000/";
+
+    public static final String ROCKET_CHAT_LINK_0 = "http://fleckenroller.cs.uni-potsdam.de/chat";
+    public static final String ROCKET_CHAT_LINK = "http://fleckenroller.cs.uni-potsdam.de/chat/";
 
     /**
      * username: fltrailadmin pw: GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F
