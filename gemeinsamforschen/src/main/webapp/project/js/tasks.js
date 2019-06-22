@@ -201,7 +201,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihrer Gruppenmitglieder!";
             let numOfMissing = object.taskData.numberOfMissing;
             if (numOfMissing && numOfMissing > 0) {
-                if (numOfMissing == 1) {
+                if (numOfMissing === 1) {
                     result.infoText+=" Es fehlt noch eine Bewertung."
                 } else {
                     result.infoText+=" Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."

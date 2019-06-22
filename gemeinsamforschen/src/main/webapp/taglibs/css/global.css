@@ -185,7 +185,14 @@ footer {
 .timeline li {
     line-height: 1em;
     margin-bottom: 1em;
+}
 
+.timeline li a{
+    margin-left:1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    resize: horizontal;
 }
 
 .timeline ul {

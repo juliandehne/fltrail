@@ -12,12 +12,22 @@ function listFilesOfGroup(projectName){
         success: function(response){
             let tmplObject=[];
             let count=1;
+            let fileName;
+            let length = 0;
+            let stringEnding;
             for (let key in response){
                 if (response.hasOwnProperty(key))
+                    length = response[key].length;
+                    stringEnding = "";
+                    if (length > 15){
+                        length = 15;
+                        stringEnding = "..."
+                    }
+                    fileName = response[key].substring(0, length)+stringEnding;
                 tmplObject.push({
                     fileCount: count,
                     fileLocation: key,
-                    fileName: response[key]
+                    fileName: fileName
                 });
                 count++;
             }
