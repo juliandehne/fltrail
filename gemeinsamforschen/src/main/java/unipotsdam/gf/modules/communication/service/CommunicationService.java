@@ -106,9 +106,7 @@ public class CommunicationService implements ICommunication {
 
         RequestBodyEntity body =
                 unirestService.post(ROCKET_CHAT_API_LINK + "groups.create").headers(headerMap).body(bodyMap);
-
-        HttpEntity entity = body.getEntity();
-
+        //HttpEntity entity = body.getEntity();
         HttpResponse<Map> response = body.asObject(Map.class);
 
         if (isBadRequest(response)) {
@@ -158,14 +156,13 @@ public class CommunicationService implements ICommunication {
         return String.join("-", group.getProjectName(), String.valueOf(group.getId()));
     }
 
-    @Override
-    public boolean deleteChatRoom(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    boolean deleteChatRoom(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         // TODO: maybe add lock for getChatRoomName, so synchronized access doesn't create errors while deleting
         //loginUser(ADMIN_USER);
 
         Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this).build();
         HashMap<String, String> bodyMap = new HashMap<>();
-        bodyMap.put("roomId", roomId);
+        addRoomIdToParamMap(roomId, bodyMap);
 
         HttpResponse<Map> response =
                 unirestService.post(ROCKET_CHAT_API_LINK + "groups.delete").headers(headerMap).body(bodyMap)
@@ -181,6 +178,10 @@ public class CommunicationService implements ICommunication {
         groupDAO.clearChatRoomIdOfGroup(roomId);
 
         return true;
+    }
+
+    private void addRoomIdToParamMap(String roomId, Map<String, String> bodyMap) {
+        bodyMap.put("roomId", specialFreeName(roomId));
     }
 
     @Override
@@ -205,7 +206,8 @@ public class CommunicationService implements ICommunication {
         }
         Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this).build();
         Map<String, String> bodyMap = new HashMap<>();
-        bodyMap.put("roomId", roomId);
+        //bodyMap.put("roomId", specialFreeName(roomId));
+        addRoomIdToParamMap(roomId, bodyMap);
         bodyMap.put("userId", student.getRocketChatUserId());
 
         String groupUrl = addUser ? "groups.invite" : "groups.kick";
@@ -228,8 +230,14 @@ public class CommunicationService implements ICommunication {
         return false;
     }
 
-    @Override
-    public String getChatRoomName(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    /**
+     * api: https://rocket.chat/docs/developer-guides/rest-api/groups/info/
+     * get information about the chat room
+     *
+     * @param roomId chat room id
+     * @return chat room information
+     */
+    String getChatRoomName(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 
         //loginUser(ADMIN_USER);
 
@@ -336,11 +344,11 @@ public class CommunicationService implements ICommunication {
      * @throws RocketChatDownException
      * @throws UserDoesNotExistInRocketChatException
      */
-    public String getChatRoomLink(String userEmail, String projectName)
+    public String getGroupChatRoomLink(String userEmail, String projectName)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 
         //loginUser(ADMIN_USER);
-        String chatRoomId = groupDAO.getGroupChatRoomId(new User(userEmail), specialFreeName(projectName));
+        String chatRoomId = groupDAO.getGroupChatRoomId(new User(userEmail), projectName);
         if (chatRoomId.isEmpty()) {
             return Strings.EMPTY;
         }
@@ -465,6 +473,15 @@ public class CommunicationService implements ICommunication {
     }
 
     private String specialFreeName(String name) {
-        return String.valueOf(name.hashCode());
+        String result =  String.valueOf(name.hashCode());
+        return result;
+    }
+
+    /**
+     * TODO implement
+     * @param user
+     */
+    public void logout(User user) {
+
     }
 }

@@ -2,6 +2,10 @@ $(document).ready(function () {
     $('#headLineProject').html($('#projectName').html());
     $('#taskCompleted').hide();
     $('#logout').click(function () {
+
+        // logout rocket chat
+        //Meteor.logout();
+        //
         $.ajax({
             url: '../rest/logout/user',
             type: 'POST',

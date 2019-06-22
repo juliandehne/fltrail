@@ -90,7 +90,7 @@ public class CommunicationServiceTest {
     public void tearDown() {
         createdChatRooms.forEach(createdChatRoom -> {
             try {
-                iCommunication.deleteChatRoom(createdChatRoom);
+                ((CommunicationService)iCommunication).deleteChatRoom(createdChatRoom);
             } catch (RocketChatDownException e) {
                 e.printStackTrace();
             } catch (UserDoesNotExistInRocketChatException e) {
@@ -167,10 +167,10 @@ public class CommunicationServiceTest {
         assertNotNull(chatRoomId);
         assertFalse(chatRoomId.isEmpty());
 
-        String actualChatRoomName = iCommunication.getChatRoomName(chatRoomId);
+        String actualChatRoomName = ((CommunicationService)iCommunication).getChatRoomName(chatRoomId);
         assertEquals(expectedChatRoomName, actualChatRoomName);
 
-        String nonExistingChatRoomName = iCommunication.getChatRoomName("1");
+        String nonExistingChatRoomName = ((CommunicationService)iCommunication).getChatRoomName("1");
         assertTrue(nonExistingChatRoomName.isEmpty());
 
         createdChatRooms.add(chatRoomId);
@@ -190,7 +190,7 @@ public class CommunicationServiceTest {
         iCommunication.createChatRoom(group, false);
         groupDAO.update(group);
 
-        String chatRoomLink = iCommunication.getChatRoomLink(ADMIN_USER.getEmail(), projectId);
+        String chatRoomLink = iCommunication.getGroupChatRoomLink(ADMIN_USER.getEmail(), projectId);
         assertNotNull(chatRoomLink);
         assertFalse(chatRoomLink.isEmpty());
         String expectedUrl = ROCKET_CHAT_ROOM_LINK + projectId + "-" + group.getId() + "?layout=embedded";
@@ -244,7 +244,7 @@ public class CommunicationServiceTest {
         assertFalse(chatRoomId.isEmpty());
         assertTrue(iCommunication.exists(chatRoomId));
 
-        assertTrue(iCommunication.deleteChatRoom(chatRoomId));
+        assertTrue(((CommunicationService)iCommunication).deleteChatRoom(chatRoomId));
         assertFalse(iCommunication.exists(chatRoomId));
     }
 
