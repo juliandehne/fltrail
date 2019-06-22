@@ -99,7 +99,7 @@ public class TestAddAssessment {
 
     @Test
     public void quickstartAssessmentPhase() {
-        Project project = new Project("test7");
+        Project project = new Project("ljhlkjhl");
         List<Group> groups = groupFinding.getGroups(project);
         assertFalse(groups.isEmpty());
 

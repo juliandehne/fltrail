@@ -168,6 +168,7 @@ public class AssessmentDAO {
 
     /**
      * at some point these might be set dynamically, not the case right now
+     *
      * @param project
      * @return
      */
@@ -186,6 +187,7 @@ public class AssessmentDAO {
 
     /**
      * updated this TODO @Julian check if it works now
+     *
      * @param project
      * @param user
      * @return
@@ -200,9 +202,8 @@ public class AssessmentDAO {
         boolean next = vereinfachtesResultSet.next();
         while (next) {
             Map<String, Double> workRating = new HashMap<>();
-                workRating.put(
-                        vereinfachtesResultSet.getString("itemName"),
-                        (double) vereinfachtesResultSet.getInt("rating"));
+            workRating.put(vereinfachtesResultSet.getString("itemName"),
+                    (double) vereinfachtesResultSet.getInt("rating"));
             result.add(workRating);
             next = vereinfachtesResultSet.next();
         }
@@ -498,10 +499,7 @@ public class AssessmentDAO {
         TaskMapping result = new TaskMapping(null, null, null, null, project);
         connect.connect();
         String query =
-                "SELECT g.id as result from groups g " + " JOIN" + " projects p on g.projectName = p.name "
-                        + " where g.projectName = ? "
-                        + " AND (p.name, g.id, p.author) not in "
-                        + "    (SELECT cr.projectName, cr.groupId ,cr.fromTeacher from contributionrating cr " + "       WHERE cr.fromTeacher is not null" + "    )" + " LIMIT 1";
+                "SELECT g.id as result from groups g " + " JOIN" + " projects p on g.projectName = p.name " + " where g.projectName = ? " + " AND (p.name, g.id, p.author) not in " + "    (SELECT cr.projectName, cr.groupId ,cr.fromTeacher from contributionrating cr " + "       WHERE cr.fromTeacher is not null" + "    )" + " LIMIT 1";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
         if (vereinfachtesResultSet != null) {
             try {
@@ -519,11 +517,11 @@ public class AssessmentDAO {
 
     /**
      * SELECT user, avg(rating2) from
-     *   (SELECT gu.userEmail as user, cr.rating as rating2, cr.projectName, fromTeacher from contributionrating cr
-     *   join groupuser gu on gu.groupId = cr.groupId
+     * (SELECT gu.userEmail as user, cr.rating as rating2, cr.projectName, fromTeacher from contributionrating cr
+     * join groupuser gu on gu.groupId = cr.groupId
      * union
      * SELECT ucr.userName as user, ucr.rating as rating2, ucr.projectName, fromTeacher from contributionrating ucr
-     *   WHERE ucr.groupId is null) as T
+     * WHERE ucr.groupId is null) as T
      * WHERE projectName = "assessmenttest3"
      * and fromTeacher is null
      * group by user, rating2
@@ -532,17 +530,8 @@ public class AssessmentDAO {
         HashMap<User, Double> result = new HashMap<>();
         connect.connect();
 
-        String query = "SELECT user as userEmail, avg(rating2) as avgGrade from " +
-                " (SELECT gu.userEmail as user, cr.rating as rating2, cr.projectName, fromTeacher from " +
-                        "contributionrating cr " +
-                        "join groupuser gu on gu.groupId = cr.groupId " +
-                        "union " +
-                        "SELECT ucr.userName as user, ucr.rating as rating2, ucr.projectName, fromTeacher from " +
-                                "contributionrating ucr " +
-                        "WHERE ucr.groupId is null) as T " +
-        "WHERE projectName = ? " +
-        "and fromTeacher is null " +
-        "group by user, rating2 ";
+        String query =
+                "SELECT user as userEmail, avg(rating2) as avgGrade from " + " (SELECT gu.userEmail as user, cr.rating as rating2, cr.projectName, fromTeacher from " + "contributionrating cr " + "join groupuser gu on gu.groupId = cr.groupId " + "union " + "SELECT ucr.userName as user, ucr.rating as rating2, ucr.projectName, fromTeacher from " + "contributionrating ucr " + "WHERE ucr.groupId is null) as T " + "WHERE projectName = ? " + "and fromTeacher is null " + "group by user, rating2 ";
         convertResultSetToUserRatingMap(project, result, query);
         connect.close();
 
@@ -551,21 +540,19 @@ public class AssessmentDAO {
 
     /**
      * SELECT gu.userEmail, avg(rating) as rating2 from contributionrating cr
-     *   join groupuser gu on gu.groupId = cr.groupId
+     * join groupuser gu on gu.groupId = cr.groupId
      * where cr.projectName = "assessmenttest3"
      * and cr.fromPeer is null
      * group by userEmail
+     *
      * @param project
      * @return
      */
     public HashMap<User, Double> getDocentProductRatings(Project project) {
         HashMap<User, Double> result = new HashMap<>();
         connect.connect();
-        String query = "SELECT gu.userEmail, avg(rating) as avgGrade from contributionrating cr " +
-                "join groupuser gu on gu.groupId = cr.groupId "
-                + "where cr.projectName = ? "
-                + "and cr.fromPeer is null "
-                + "group by userEmail;";
+        String query =
+                "SELECT gu.userEmail, avg(rating) as avgGrade from contributionrating cr " + "join groupuser gu on gu.groupId = cr.groupId " + "where cr.projectName = ? " + "and cr.fromPeer is null " + "group by userEmail;";
         convertResultSetToUserRatingMap(project, result, query);
         connect.close();
 
@@ -574,21 +561,19 @@ public class AssessmentDAO {
 
     /**
      * SELECT pu.userEmail, avg(rating) as rating2 from workrating wr
-     *   join projectuser pu on pu.projectName = wr.projectName
+     * join projectuser pu on pu.projectName = wr.projectName
      * where wr.projectName = "assessmenttest3"
-     *       and wr.userEmail = pu.userEmail
+     * and wr.userEmail = pu.userEmail
      * group by userEmail
+     *
      * @param project
      * @return
      */
     public HashMap<User, Double> getGroupRating(Project project) {
         HashMap<User, Double> result = new HashMap<>();
         connect.connect();
-        String query = "SELECT pu.userEmail, avg(rating) as avgGrade from workrating wr" +
-                "   join projectuser pu on pu.projectName = wr.projectName" +
-                "  where wr.projectName = ?" +
-                "   and wr.userEmail = pu.userEmail" +
-                "  group by userEmail ";
+        String query =
+                "SELECT pu.userEmail, avg(rating) as avgGrade from workrating wr" + "   join projectuser pu on pu.projectName = wr.projectName" + "  where wr.projectName = ?" + "   and wr.userEmail = pu.userEmail" + "  group by userEmail ";
         convertResultSetToUserRatingMap(project, result, query);
         connect.close();
         return result;
@@ -597,8 +582,7 @@ public class AssessmentDAO {
     public HashMap<User, Double> getFinalRating(Project project) {
         HashMap<User, Double> result = new HashMap<>();
         connect.connect();
-        String query = "SELECT userEmail, grade as avgGrade from grades g " +
-                "WHERE projectName = ?";
+        String query = "SELECT userEmail, grade as avgGrade from grades g " + "WHERE projectName = ?";
         convertResultSetToUserRatingMap(project, result, query);
         connect.close();
         return result;
@@ -615,6 +599,7 @@ public class AssessmentDAO {
 
     /**
      * save grades in db
+     *
      * @param project
      * @param userAssessmentDataHolder
      */
@@ -625,10 +610,30 @@ public class AssessmentDAO {
         // persist new ones
         List<UserPeerAssessmentData> data = userAssessmentDataHolder.getData();
         for (UserPeerAssessmentData datum : data) {
-            connect.issueInsertOrDeleteStatement("INSERT IGNORE INTO `grades` (projectName, userEmail, grade)" +
-                    "values (?,?,?)", project.getName(), datum.getUser().getEmail(), datum.getFinalRating() );
+            connect.issueInsertOrDeleteStatement(
+                    "INSERT IGNORE INTO `grades` (projectName, userEmail, grade)" + "values (?,?,?)", project.getName(),
+                    datum.getUser().getEmail(), datum.getFinalRating());
         }
         connect.close();
+    }
+
+    /**
+     * select count(*) as result from groupuser gu1 join groupuser gu2 on gu1.groupId = gu2.groupId join groups g on gu1.groupId = g.id where gu1.userEmail = "a8@a8.com" and g.projectName = "ljhlkjhl" and gu1.userEmail <> gu2.userEmail
+     *
+     * @param project
+     * @param user
+     * @return
+     */
+    public InternalPeerAssessmentProgress getInternalPeerAssessmentProgress(Project project, User user) {
+        connect.connect();
+        String query =
+                "select count(*) as result from groupuser gu1" + " join groupuser gu2 on gu1.groupId = gu2.groupId " + " join groups g on gu1.groupId = g.id" + " where gu1.userEmail = ? and g.projectName = ?" + " and gu1.userEmail <> gu2.userEmail";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(query, user.getEmail(), project.getName());
+        vereinfachtesResultSet.next();
+        int result = vereinfachtesResultSet.getInt("result");
+        connect.close();
+        return new InternalPeerAssessmentProgress(result);
     }
 
 

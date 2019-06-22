@@ -197,7 +197,15 @@ function handleInfoTasks(object, result) {
             result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
             break;
         case "GIVE_INTERNAL_ASSESSMENT":
-            result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihres Gruppenmitglieds!";
+            result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihrer Gruppenmitglieder!";
+            let numOfMissing = object.taskData.numberOfMissing;
+            if (numOfMissing && numOfMissing > 0) {
+                if (numOfMissing == 1) {
+                    result.infoText+=" Es fehlt noch eine Bewertung."
+                } else {
+                    result.infoText+=" Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."
+                }
+            }
             break;
         case "GIVE_EXTERNAL_ASSESSMENT":
             result.infoText = "Bewerten Sie eine andere Gruppe!";
@@ -265,7 +273,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 break;
             case "WRITE_EJOURNAL":
-                result.solveTaskWith = "Lege ein EJournal an";
+                result.solveTaskWith = "Lege ein E-Journal an";
                 result.solveTaskWithLink = "redirect(\'../journal/create-journal.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "ANNOTATE_DOSSIER":
