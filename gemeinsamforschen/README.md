@@ -59,7 +59,7 @@ after this only login on rocketchat will be:
 
 fleckenroller.cs.uni-potsdam.de:3000
 1. open console
-1. Meteor.loginWithPassword('fltrailadmin', 'GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10');
+1. Meteor.loginWithPassword('fltrailadmin', 'GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F');
 
 ### Enable cors and personal access
 

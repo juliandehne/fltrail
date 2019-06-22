@@ -54,7 +54,7 @@ public class ChatWindow extends SimpleTagSupport {
                 // scope is group
                 String projectChatRoomLink = null;
                 try {
-                    projectChatRoomLink = communicationService.getChatRoomLink(userEmail.toString(), projectName);
+                    projectChatRoomLink = communicationService.getGroupChatRoomLink(userEmail.toString(), projectName);
                 } catch (RocketChatDownException | UserDoesNotExistInRocketChatException e) {
                     e.printStackTrace();
                 }

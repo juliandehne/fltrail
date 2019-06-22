@@ -57,8 +57,6 @@ public interface ICommunication {
 
     void deleteChatRoom(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
-    boolean deleteChatRoom(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
-
     /**
      * endpoint: https://rocket.chat/docs/developer-guides/rest-api/groups/invite/
      *
@@ -81,16 +79,6 @@ public interface ICommunication {
      */
     @Deprecated
     boolean setChatRoomTopic(String roomId, String topic);
-
-
-    /**
-     * api: https://rocket.chat/docs/developer-guides/rest-api/groups/info/
-     * get information about the chat room
-     *
-     * @param roomId chat room id
-     * @return chat room information
-     */
-    String getChatRoomName(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     boolean exists(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
@@ -116,12 +104,10 @@ public interface ICommunication {
     boolean registerUser(User user)
             throws RocketChatDownException, UserExistsInRocketChatException;
 
-    String getChatRoomLink(String userEmail, String projectId)
+    String getGroupChatRoomLink(String userEmail, String projectId)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
     String getProjectChatRoomLink(String projectName);
-
-
 
     void delete(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 

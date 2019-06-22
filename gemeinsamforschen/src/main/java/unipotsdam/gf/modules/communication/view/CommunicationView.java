@@ -32,7 +32,7 @@ public class CommunicationView {
     @Inject
     private ICommunication communicationService;
 
-    @GET
+/*    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/info/{roomId}")
     public Response getChatRoomInformation(@PathParam("roomId") String roomId)
@@ -44,7 +44,7 @@ public class CommunicationView {
         }
         log.trace("getChatRoomInformationResponse: {}", chatRoomName);
         return Response.ok(chatRoomName).build();
-    }
+    }*/
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -75,7 +75,7 @@ public class CommunicationView {
     }
 
 
-    @POST
+   /* @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/removeUser/{roomId}")
@@ -101,7 +101,7 @@ public class CommunicationView {
                             .build();
         }
         return response;
-    }
+    }*/
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
