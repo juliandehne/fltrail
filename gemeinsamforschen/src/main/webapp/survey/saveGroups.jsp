@@ -24,7 +24,7 @@
 <div class="row group" id="naviPagi">
     <button class="btn btn-secondary" id="backToSurvey" onclick="history.back(-1)" />Zurück zum Survey</button>
     <div class="alert alert-info" id="authenticationPanel">
-        <label>Bitte geben sie das Passwort zur Gruppenbildung ein
+        <label>Bitte geben Sie das Passwort zur Gruppenbildung ein
             <input id="password" class="form-control">
         </label>
         <button class="btn btn-primary" id="btnBuildGroups">Gruppen bilden</button>
