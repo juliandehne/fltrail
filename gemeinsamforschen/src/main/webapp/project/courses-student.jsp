@@ -53,12 +53,14 @@
                 <p>
                     ${projectDescription}
                 </p>
+                {{if projectTags[0]}}
                 <label>Stichworte:</label>
                 <div class='tags'>
                     {{each(i) projectTags}}
                     <span class='tag'>${projectTags[i]}</span>
                     {{/each}}
                 </div>
+                {{/if}}
                 {{if isSearching}}
                 {{if passwordRequired}}
                 <div style="margin-top:25px;">

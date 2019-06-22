@@ -138,7 +138,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Annotieren Sie ihr Dossier.";
             break;
         case "GIVE_FEEDBACK":
-            result.infoText = "[STUDENT] Geben Sie ein Feedback .....";
+            result.infoText = "Geben Sie ein Feedback ";
             if (object.taskData === null) {
                 result.infoText += "nachdem ein weiterer Teilnehmer ein Dossier abgegeben hat."
             }

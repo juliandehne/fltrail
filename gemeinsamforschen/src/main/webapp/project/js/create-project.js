@@ -121,7 +121,7 @@ function getProjectValues() {
     let password = $("#passwordProject").val().trim();
     //allTheTags = $("#tagsProject").tagsInput('items');
     //allTheTags = $("#tagsProject").val();
-    let reguexp = /^[a-zA-Z0-9äüöÄÜÖ ]+$/;
+    let reguexp = /^[a-zA-Z0-9äüöÄÜÖß ]+$/;
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
         return false;
