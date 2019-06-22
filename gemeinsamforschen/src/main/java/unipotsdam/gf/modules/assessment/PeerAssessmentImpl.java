@@ -298,9 +298,19 @@ public class PeerAssessmentImpl implements IPeerAssessment {
 
         // get the suggestedRating
         HashMap<User, Double> suggestedRating = new HashMap<>();
-        for (User user : peerProductRatings.keySet()) {
-            Double productOverallSuggestion = ((peerProductRatings.get(user) + docentProductRatings.get(user)) / 2);
-            Double overallSuggestion = (productOverallSuggestion + groupRating.get(user)) / 2;
+        for (User user : docentProductRatings.keySet()) {
+            Double productOverallSuggestion;
+            if (peerProductRatings.get(user) != null) {
+                productOverallSuggestion = ((peerProductRatings.get(user) + docentProductRatings.get(user)) / 2);
+            } else {
+                productOverallSuggestion = docentProductRatings.get(user);
+            }
+            Double overallSuggestion;
+            if (groupRating.get(user) != null) {
+                overallSuggestion = (productOverallSuggestion + groupRating.get(user)) / 2;
+            } else {
+                overallSuggestion = productOverallSuggestion;
+            }
             suggestedRating.put(user, overallSuggestion);
         }
 

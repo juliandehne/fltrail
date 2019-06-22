@@ -67,15 +67,8 @@ function fillObjectWithGrades(data) {
             } else {
                 finalMark = grades[student].finalRating;
             }
-            let productPeer = Number.parseFloat(grades[student].groupProductRating).toFixed(2);
             let productDocent = Number.parseFloat(grades[student].docentProductRating).toFixed(2);
-            let levelOfAgreement = "alert-success";
-            if ((productPeer + 0.5 < productDocent) || (productPeer - 0.5 > productDocent)) {
-                levelOfAgreement = "alert-warning";
-            }
-            if ((productPeer + 0.9 < productDocent) || (productPeer - 0.9 > productDocent)) {
-                levelOfAgreement = "alert-danger";
-            }
+
             let beyondStdDeviation = "fa-check";
             if (grades[student].beyondStdDeviation < 0) {
                 beyondStdDeviation = "fa-arrow-down";
@@ -83,6 +76,25 @@ function fillObjectWithGrades(data) {
                 if (grades[student].beyondStdDeviation > 0)
                     beyondStdDeviation = "fa-arrow-up";
             }
+            let workRating = 0;
+            let suggested = productDocent;
+            if (grades[student].groupWorkRating !== null) {
+                workRating = Number.parseFloat(grades[student].groupWorkRating).toFixed(2);
+                suggested = Number.parseFloat(grades[student].suggestedRating).toFixed(2)
+            }
+            let levelOfAgreement = "";
+            let productPeer = 0;
+            if (grades[student].groupProductRating !== null) {
+                productPeer = Number.parseFloat(grades[student].groupProductRating).toFixed(2);
+                levelOfAgreement = "alert-success";
+                if ((productPeer + 0.5 < productDocent) || (productPeer - 0.5 > productDocent)) {
+                    levelOfAgreement = "alert-warning";
+                }
+                if ((productPeer + 0.9 < productDocent) || (productPeer - 0.9 > productDocent)) {
+                    levelOfAgreement = "alert-danger";
+                }
+            }
+
             result = {
                 levelOfAgreement: levelOfAgreement,
                 userId: grades[student].user.id,
@@ -90,9 +102,9 @@ function fillObjectWithGrades(data) {
                 userEmail: grades[student].user.email,
                 productPeer: productPeer,
                 productDocent: productDocent,
-                workRating: Number.parseFloat(grades[student].groupWorkRating).toFixed(2),
+                workRating: workRating,
                 beyondStdDeviation: beyondStdDeviation,
-                suggested: Number.parseFloat(grades[student].suggestedRating).toFixed(2),
+                suggested: suggested,
                 finalMark: Number.parseFloat(finalMark).toFixed(2),
             };
         }

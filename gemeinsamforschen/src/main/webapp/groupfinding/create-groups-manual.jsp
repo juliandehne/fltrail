@@ -55,7 +55,7 @@
 
     <div class="row group">
 
-        <h2>Gruppeneinteilung</h2>
+        <h1>Gruppeneinteilung</h1>
 
         <div class="info-message">
             <p>Wählen Sie die Studenten an, die sie verschieben wollen. Dann die Gruppe,

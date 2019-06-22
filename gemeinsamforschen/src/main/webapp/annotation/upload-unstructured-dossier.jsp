@@ -65,7 +65,7 @@
                 <div id="headerTemplateResult"></div>
                 <script id="headerTemplate" type="text/x-jsrender">
                     <div></div>
-                    <h2>{{:header}} anlegen</h2>
+                    <h1>{{:header}} anlegen</h1>
 
 
                 </script>

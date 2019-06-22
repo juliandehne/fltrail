@@ -31,7 +31,7 @@
     <main>
         <div class="row group">
             <div class="col span_content span_l_of_2">
-                <h2>Abschließende Noten vergeben</h2>
+                <h1>Abschließende Noten vergeben</h1>
                 <div class="alert alert-success" id="taskCompleted">
                     Die Zensuren wurden gespeichert.
                 </div>
@@ -86,9 +86,8 @@
                         <td name="productDocent" class="${levelOfAgreement}">
                             ${productDocent}
                         </td>
-                        <td name="workRating" style="display:flex;">
+                        <td name="workRating" style="display:flex;" class="fas ${beyondStdDeviation}">
                             ${workRating}
-                            <i class="fas ${beyondStdDeviation}"></i>
                         </td>
                         <td name="suggested" id="suggested_${userId}">
                             ${suggested}

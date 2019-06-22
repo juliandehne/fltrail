@@ -59,7 +59,7 @@
     <main id="seeFeedback" class="">
         <div class="row group">
             <div class="col span_2_of_2">
-                <h3>Das Feedback für ihr <span class="fileRole"></span></h3>
+                <h1>Feedback für ihr <span class="fileRole"></span></h1>
 
                 <br>
                 <div class="three_rows">

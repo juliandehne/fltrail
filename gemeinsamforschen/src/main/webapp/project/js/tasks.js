@@ -60,7 +60,7 @@ function handlePhases(object, result) {
             break;
         case "DossierFeedback":
             result.phase = "card-feedback";
-            result.headLine = "Entwurfsphase";
+            result.headLine = "Entwurf";
             break;
         case "Execution":
             result.phase = "card-execution";
@@ -68,7 +68,7 @@ function handlePhases(object, result) {
             break;
         case "Assessment":
             result.phase = "card-assessment";
-            result.headLine = "Bewertungsphase";
+            result.headLine = "Bewertung";
             break;
         case "GRADING":
             result.phase = "card-grades";
@@ -113,9 +113,8 @@ function handleInfoTasks(object, result) {
             result.infoText = waitForParticipantsInfoText(object);
             switch (object.taskData.gfm) {
                 case "UserProfilStrategy":
-                    if (countMissingStudents(object) > 0) {
                         result.inCardSolver = "resizeGroup";
-                    }
+
                     break;
             }
             break;
