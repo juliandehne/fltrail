@@ -67,19 +67,25 @@
                             <i class="far fa-save"></i> speichern
                         </button>
                     </div>
+                    <div class="alert alert-waring" id="divSaveForReal">
+                        <p>
+                            <label>Möchten Sie wirklich ihre Annotationen speichern?
+                                <input type="checkbox" value="true" id="saveForReal">sicher
+                            </label>
+                        </p>
+                    </div>
                 </div>
             </div>
 
             <div class="col span_content span_s_of_2">
                 <div class="infobox dossier">
-                    <p>Ordne allen Textteilen passende Kategorien zu. Markiere den Text, klicke auf die rechte Mousetaste
+                    <p>Ordne allen Textteilen passende Kategorien zu. Markiere den Text, klicke auf die rechte Maustaste
                         und wähle die passende Kategorie.</p>
 
                 </div>
                 <div id="missingAnnotation" class="alert alert-warning"></div>
                 <ol id="annotations">
                     <script id="annotationTemplate" type="text/x-jsrender">
-
                     {{for categories}}
                         <li class="spacing">
                         <div class="row group">

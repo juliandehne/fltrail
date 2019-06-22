@@ -52,7 +52,7 @@
                     <p>Ihr Feedback wurde erfolgreich gespeichert. Vielen Dank.</p>
                 </div>
                 <div id="missingFeedback" class="alert alert-warning">
-                    <p>Stellen sie sicher alle Beiträge der Gruppe bewertet zu haben.</p>
+                    <p>Stellen Sie sicher alle Beiträge der Gruppe bewertet zu haben.</p>
                 </div>
             </div>
         </div>

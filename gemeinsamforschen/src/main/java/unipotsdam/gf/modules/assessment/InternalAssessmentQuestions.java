@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class InternalAssessmentQuestions {
 
     private ArrayList<QuestionData> getTheQuestions() {
-        String coop1 = "Wie gut habt ihr euch im Team gegenseitig ergänzt und beide gemeinsam zum Erfolg beigetragen?";
+        String coop1 = "Wie gut habt Ihr euch im Team gegenseitig ergänzt und beide gemeinsam zum Erfolg beigetragen?";
         LocalizedText coop1Min = new LocalizedText("good addendum", "hohe Ergänzung");
         LocalizedText coop1Max = new LocalizedText("bad addendum", "schwache Ergänzung");
         String verstaendnis1 = "Wie oft hat dieses Teammitglied Fragen gestellt, wenn Dinge unklar waren?";

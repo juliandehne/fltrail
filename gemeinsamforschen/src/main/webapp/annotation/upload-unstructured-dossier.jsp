@@ -93,7 +93,7 @@
                 <br>
                 <div class="upload-text" id="documentText">
                     <label for="editor">Texteingabe</label>
-                    <div id="editor"></div>
+                    <div id="editor" style="border:solid 1px"></div>
                 </div>
 
                 <div class="document-text-buttons">
@@ -105,7 +105,7 @@
             </div>
             <div class="col span span_s_of_2">
                 <div class="infobox dossier">
-                    <p>Erstellen sie ein Dossier
+                    <p>Erstellen Sie ein Dossier
                         <a data-toggle='collapse' href='#whatIs' role='button'
                            aria-expanded='false' aria-controls='whatIs'>
                             <i class='fas fa-question'></i>
@@ -114,7 +114,7 @@
                     </p>
                     <div class='collapse' id='whatIs'>
                         <div class='card card-body'>
-                            Ein Dossier ist eine Aktensammlung für ihr Projekt. Der Dozent hat dabei
+                            Ein Dossier ist eine Aktensammlung für Ihr Projekt. Der Dozent hat dabei
                             festelegt, dass die rechts sichtbaren Kategorien mindestens mit enthalten sein müssen.
                             Nachdem Sie hier all ihre Textbausteine verfasst haben, kann ihre Gruppe ihren Beitrag
                             lesen und editieren. Dieser Vorgang endet, wenn ein Mitglied ihrer Gruppe mit Hilfe

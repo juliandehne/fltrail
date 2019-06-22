@@ -52,7 +52,7 @@
                     Geben Sie eine Beschreibung für Ihr Projekt an.
                 </div>
                 <div class="alert alert-danger" role="alert" style="width:475px" id="projectIsMissing">
-                    Tragen sie einen Projektnamen ein.
+                    Tragen Sie einen Projektnamen ein.
                 </div>
                 <div class="form-group infotext">
                     <input class="form-control" name="name" placeholder="Name" id="nameProject">
@@ -111,7 +111,7 @@
 
                 <h3>Tags </h3>
                 <div id="tagHelper" class="alert alert-warning" style="width:475px;">
-                    Fügen sie zudem 5 Tags zu ihrem Projekt hinzu, welche ihr Projekt inhaltlich umreißen.
+                    Fügen Sie zudem 5 Tags zu ihrem Projekt hinzu, welche Ihr Projekt inhaltlich umreißen.
                 </div>
                 <div class="form-group">
                     <input class="tags" data-role="tags" name="Tags" placeholder="Tags" id="tagsProject">
@@ -120,7 +120,7 @@
 
                 <div>
                     <h3>Bestandteile der studentischen Arbeit</h3>
-                    <p>Bestimmen sie welche Abschnitte sie in der studentischen Ausarbeitung sehen wollen:</p>
+                    <p>Bestimmen Sie welche Abschnitte Sie in der studentischen Ausarbeitung sehen wollen:</p>
                     <ul id="categoryList">
 
                     </ul>

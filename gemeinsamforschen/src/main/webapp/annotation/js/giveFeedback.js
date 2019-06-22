@@ -15,9 +15,16 @@ let contributionFeedback = undefined;
 $(document).ready(function () {
     getAnnotationCategories(function (response) {
         categories = response;
+        let btnContinueBot = $('#btnContinueBot');
+        btnContinueBot.click(handleContinueButtonClick);
         if (category.toUpperCase() === categories[categories.length - 1]) {
             btnFinalize.show();
             btnContinue.hide();
+            btnContinueBot.on("click", function () {
+                saveContributionFeedback(function () {
+                    finalize();
+                });
+            });
         }
         if (category.toUpperCase() === categories[0]) {
             //btnBack.css('visibility', 'hidden');
@@ -49,6 +56,7 @@ $(document).ready(function () {
     addExistingContributionFeedback(fullSubmissionId, category);
     // connect to websocket on page ready
     connect(fullSubmissionId, category);
+    quillFeedback.focus();
 });
 
 function addExistingContributionFeedback(fullSubmissionId, category) {

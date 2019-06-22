@@ -68,7 +68,7 @@
                 </div>
                 <div class="alert alert-warning span_s_of_2" style="margin-left:auto;">
                     <p>Wählen Sie die Studenten an, die sie verschieben wollen. Dann die Gruppe,
-                        in die die Studenten verschoben werden sollen und klicken sie auf "Personen verchieben".</p>
+                        in die die Studenten verschoben werden sollen und klicken Sie auf "Personen verchieben".</p>
                 </div>
             </div>
 
