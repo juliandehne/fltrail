@@ -371,6 +371,12 @@ public class TaskDAO {
                 result = task;
                 break;
             }
+            case GIVE_INTERNAL_ASSESSMENT: {
+                Task task = getGeneralTask(vereinfachtesResultSet);
+                task.setTaskData(assessmentDAO.getInternalPeerAssessmentProgress(project, user));
+                result = task;
+                break;
+            }
             case GIVE_EXTERNAL_ASSESSMENT: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setTaskData(assessmentDAO.getTargetGroupForAssessment(new User(task.getUserEmail())));
