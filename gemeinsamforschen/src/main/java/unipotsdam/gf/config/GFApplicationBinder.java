@@ -39,8 +39,6 @@ import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.quiz.QuizDAO;
-import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
-import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -84,7 +82,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(PhasesImpl.class).to(IPhases.class);
         bind(GFContext.class).to(GFContext.class);
         bind(ManagementImpl.class).to(Management.class);
-        bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(AssessmentDAO.class).to(AssessmentDAO.class);
         bind(GFContexts.class).to(GFContexts.class);
