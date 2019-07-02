@@ -38,7 +38,7 @@
                                <p class="task-info">${infoText}</p>
                            {{/if}}
                            {{if solveTaskWith}}
-                               <button class='primary' onClick='${solveTaskWithLink}'>${solveTaskWith}</button>
+                               <button class='primary' onClick='${solveTaskWithLink}'><i class="fas fa-link"></i> ${solveTaskWith}</button>
                            {{/if}}
                            {{if inCardSolver}}
                                 {{if inCardSolver=="resizeGroup"}}
@@ -131,7 +131,7 @@
                             <p style="color:gray;">
                                 Die Arbeitsgruppen wurden gebildet. Unter diesem
                                 <a style="cursor:pointer;" id="groupView">Link</a>
-                                können sie die Gruppen sehen.
+                                können Sie die Gruppen sehen.
                             </p>
                         {{/if}}
                     {{/if}}
@@ -155,14 +155,14 @@
                 <div role="tabpanel" class="tab-pane fade in active" id="projectChat">
                     <chat:chatWindow orientation="right" scope="project"/>
                 </div>
-                Wenn sie eingeloggt <a data-toggle='collapse' href='#chatCredentials' role='button'
+                Wenn Sie eingeloggt <a data-toggle='collapse' href='#chatCredentials' role='button'
                                        aria-expanded='false' aria-controls='chatCredentials'>
                 <i class='fas fa-question'></i>
-            </a> sind, können sie Nachrichten an alle Projektteilnehmer senden oder eine Nachricht an ihre Gruppe
+            </a> sind, können Sie Nachrichten an alle Projektteilnehmer senden oder eine Nachricht an ihre Gruppe
                 verfassen.
                 <div class='collapse' id='chatCredentials'>
                     <div class='card card-body'>
-                        Um sich in den Chat einzuloggen, tragen sie die gleiche E-Mailadresse sowie das gleiche Passwort
+                        Um sich in den Chat einzuloggen, tragen Sie die gleiche E-Mailadresse sowie das gleiche Passwort
                         hier ein wie bei der Anmeldung.
                     </div>
                 </div>

@@ -53,6 +53,7 @@ function createNewProject(allTheTags) {
     let project = getProjectValues();
     // create the project
     if (allTheTags.length !== 5 && $('input[name=gfm]:checked').val() === "Basierend auf Lernzielen") {
+        loaderStop();
         document.getElementById('tagHelper').className = "alert alert-warning";
         $('#exactNumberOfTags').show();
     } else {
@@ -120,7 +121,7 @@ function getProjectValues() {
     let password = $("#passwordProject").val().trim();
     //allTheTags = $("#tagsProject").tagsInput('items');
     //allTheTags = $("#tagsProject").val();
-    let reguexp = /^[a-zA-Z0-9äüöÄÜÖ ]+$/;
+    let reguexp = /^[a-zA-Z0-9äüöÄÜÖß ]+$/;
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
         return false;

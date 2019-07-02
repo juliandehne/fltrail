@@ -28,7 +28,7 @@
     <main>
         <div class="row group">
             <div class="col span_content span_1_of_2">
-                <h2>Bewerte Gruppe <span id="groupId"></span></h2>
+                <h1>Bewerte Gruppe <span id="groupId"></span></h1>
                 <div id="listOfContributions">
                 </div>
                 <script id="contributionTemplate" type="text/x-jQuery-tmpl">
@@ -52,7 +52,7 @@
                     <p>Ihr Feedback wurde erfolgreich gespeichert. Vielen Dank.</p>
                 </div>
                 <div id="missingFeedback" class="alert alert-warning">
-                    <p>Stellen sie sicher alle Beiträge der Gruppe bewertet zu haben.</p>
+                    <p>Stellen Sie sicher alle Beiträge der Gruppe bewertet zu haben.</p>
                 </div>
             </div>
         </div>

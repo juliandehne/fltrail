@@ -59,11 +59,6 @@ public class DummyCommunicationService implements ICommunication {
     }
 
     @Override
-    public boolean deleteChatRoom(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
-        return true;
-    }
-
-    @Override
     public boolean addUserToChatRoom(User user, String roomId)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         return false;
@@ -80,10 +75,6 @@ public class DummyCommunicationService implements ICommunication {
         return true;
     }
 
-    @Override
-    public String getChatRoomName(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
-        return null;
-    }
 
     @Override
     public boolean exists(String roomId) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
@@ -101,7 +92,7 @@ public class DummyCommunicationService implements ICommunication {
     }
 
     @Override
-    public String getChatRoomLink(String userEmail, String projectId)
+    public String getGroupChatRoomLink(String userEmail, String projectId)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         return null;
     }

@@ -36,16 +36,24 @@
     <main>
         <div class="row group">
             <div class="col span_content span_2_of_2">
-                <h2>Präsentation hochladen</h2>
+                <h1>Präsentation hochladen</h1>
                 <div id="result"></div>
                 <script id="headerTemplate" type="text/x-jsrender">
                     <h2>{{:header}} anlegen</h2>
+
                 </script>
                 <div class="row">
                     <jsp:include page="../taglibs/upload-file.jsp">
                         <jsp:param name="fileRole" value="PRESENTATION"/>
                     </jsp:include>
                     <p id="fileRole" hidden>PRESENTATION</p>
+                    <div class="alert alert-warning" id="divFinalContribution" style="display:flex;">
+                        <label>
+                            Finale Abgabe
+                            <input id="finalContribution" type="checkbox">
+                        </label>
+                        <p>Die Präsentation ist eine finale Abgabe. Sie wird hiermit zur Bewertung freigegeben.</p>
+                    </div>
                 </div>
             </div>
         </div> <!-- flex wrapper -->
@@ -54,7 +62,6 @@
 
     <jsp:include page="../taglibs/footer.jsp"/>
 </body>
-
 
 
 </html>

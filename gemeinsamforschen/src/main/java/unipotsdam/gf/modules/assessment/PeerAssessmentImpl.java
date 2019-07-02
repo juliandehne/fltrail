@@ -9,6 +9,7 @@ import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.tasks.TaskMapper;
 
 import javax.inject.Inject;
@@ -27,6 +28,9 @@ public class PeerAssessmentImpl implements IPeerAssessment {
 
     @Inject
     private AnnotationController annotationController;
+
+    @Inject
+    private UserDAO userDAO;
 
     @Override
     public void finalizeAssessment(Project project) {
@@ -290,25 +294,46 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         // get the internal ratings
         HashMap<User, Double> groupRating = assessmentDAO.getGroupRating(project);
 
+        HashMap<User, Double> finalRating = assessmentDAO.getFinalRating(project);
+
         // get the suggestedRating
         HashMap<User, Double> suggestedRating = new HashMap<>();
-        for (User user : peerProductRatings.keySet()) {
-            Double productOverallSuggestion = ((peerProductRatings.get(user) + docentProductRatings.get(user)) / 2);
-            Double overallSuggestion = (productOverallSuggestion + groupRating.get(user)) / 2;
+        for (User user : docentProductRatings.keySet()) {
+            Double productOverallSuggestion;
+            if (peerProductRatings.get(user) != null) {
+                productOverallSuggestion = ((peerProductRatings.get(user) + docentProductRatings.get(user)) / 2);
+            } else {
+                productOverallSuggestion = docentProductRatings.get(user);
+            }
+            Double overallSuggestion;
+            if (groupRating.get(user) != null) {
+                overallSuggestion = (productOverallSuggestion + groupRating.get(user)) / 2;
+            } else {
+                overallSuggestion = productOverallSuggestion;
+            }
             suggestedRating.put(user, overallSuggestion);
         }
 
-        // get the problem flags @Axel TODO implement
+        List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
+        HashMap<User, User> userMap = new HashMap<>();
+        usersByProjectName.forEach(user -> userMap.put(user, user));
 
 
         for (User user : suggestedRating.keySet()) {
             UserPeerAssessmentData userPeerAssessmentData = new UserPeerAssessmentData();
+
+            // get the problem flags
+            /* todo @Axel Ich muss da später drüber nachdenken. Jetzt mach ich erstmal kleine issues
+            ArrayList<Map<String, Double>> workRating = assessmentDAO.getWorkRating(project, user);
+            cheatChecker(workRating, CheatCheckerMethods.variance);
+*/
             userPeerAssessmentData.setDocentProductRating(docentProductRatings.get(user));
             userPeerAssessmentData.setGroupProductRating(peerProductRatings.get(user));
             userPeerAssessmentData.setGroupWorkRating(groupRating.get(user));
             userPeerAssessmentData.setSuggestedRating(suggestedRating.get(user));
+            userPeerAssessmentData.setFinalRating(finalRating.get(user));
             // set flags, too
-            userPeerAssessmentData.setUser(user);
+            userPeerAssessmentData.setUser(userMap.get(user));
             result.add(userPeerAssessmentData);
         }
         return result;

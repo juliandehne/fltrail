@@ -36,7 +36,7 @@
     <main>
         <div class="row group">
             <div class="col span_content span_2_of_2">
-                <h2>Abschlussbericht hochladen</h2>
+                <h1>Abschlussbericht hochladen</h1>
 
                 <div id="result"></div>
                 <script id="headerTemplate" type="text/x-jsrender">
@@ -47,6 +47,13 @@
                         <jsp:param name="fileRole" value="FINAL_REPORT"/>
                     </jsp:include>
                     <p id="fileRole" hidden>FINAL_REPORT</p>
+                    <div class="alert alert-warning" id="divFinalContribution" style="display:flex;">
+                        <label>
+                            Finale Abgabe
+                            <input id="finalContribution" type="checkbox">
+                        </label>
+                        <p>Die Präsentation ist eine finale Abgabe. Sie wird hiermit zur Bewertung freigegeben.</p>
+                    </div>
                 </div>
             </div>
         </div> <!-- flex wrapper -->

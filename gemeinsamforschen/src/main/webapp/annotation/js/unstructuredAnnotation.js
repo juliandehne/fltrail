@@ -19,7 +19,7 @@ $(document).ready(function () {
     $('#btnSave').click(function () {
         saveButtonHandler();
     });
-
+    $('#divSaveForReal').hide();
 });
 
 /**
@@ -130,58 +130,61 @@ function addSelectionDataToList(startCharacter, endCharacter, category) {
  */
 function saveButtonHandler() {
     // show alert message
-    if (window.confirm("Möchten Sie wirklich ihre Annotationen speichern?")) {
-        // declare array of promises
-        let promises = [];
-        let categoriesSent = [];
-        $('#annotations').find('.category-card').each(function () {
-            let array = $(this).data('array');
-            if (array != null) {
+    /*
+    let checkSaveForReal = $('#saveForReal');
+    if (checkSaveForReal.prop('checked')!==true){
+        $('#divSaveForReal').show();
+    }else {*/
+    // declare array of promises
+    let promises = [];
+    let categoriesSent = [];
+    $('#annotations').find('.category-card').each(function () {
+        let array = $(this).data('array');
+        if (array != null) {
 
-                // initialize the post request
-                let category = $(this).attr('id').toUpperCase();
-                let submissionPartPostRequest = {
-                    groupId: groupId,
-                    fullSubmissionId: fullSubmissionId,
-                    category: category,
-                    body: []
+            // initialize the post request
+            let category = $(this).attr('id').toUpperCase();
+            let submissionPartPostRequest = {
+                groupId: groupId,
+                fullSubmissionId: fullSubmissionId,
+                category: category,
+                body: []
+            };
+
+            // iterate over the array
+            for (let i = 0; i < array.length; i++) {
+
+                // initialize a body element
+                let submissionPartBodyElement = {
+                    text: $('#documentText').text().slice(array[i].start, array[i].end),
+                    startCharacter: array[i].start,
+                    endCharacter: array[i].end
                 };
 
-                // iterate over the array
-                for (let i = 0; i < array.length; i++) {
-
-                    // initialize a body element
-                    let submissionPartBodyElement = {
-                        text: $('#documentText').text().slice(array[i].start, array[i].end),
-                        startCharacter: array[i].start,
-                        endCharacter: array[i].end
-                    };
-
-                    // store the body element in the post request
-                    submissionPartPostRequest.body.push(submissionPartBodyElement);
-                }
-
-                // send the post request to the back-end and save promise
-                promises.push(createSubmissionPart(submissionPartPostRequest, function (response) {
-                    console.log(`send ${response.category} 's post request to back-end`);
-                }));
-                categoriesSent.push(category);
+                // store the body element in the post request
+                submissionPartPostRequest.body.push(submissionPartBodyElement);
             }
-        });
 
-        $.when.apply($, promises).then(function () {
-            if (categoriesSent.length === staticCategories.length) {
-                finalizeDossier(fullSubmissionId);
-            } else {
-                let missingAnnotation = $('#missingAnnotation');
-                missingAnnotation.show();
-                missingAnnotation.text("Sie haben noch nicht alle Kategorien markiert");
-            }
-        });
+            // send the post request to the back-end and save promise
+            promises.push(createSubmissionPart(submissionPartPostRequest, function (response) {
+                console.log(`send ${response.category} 's post request to back-end`);
+            }));
+            categoriesSent.push(category);
+        }
+    });
 
-        // redirect user to project page after saving
-        // location.href="projects-student.jsp" + getUserEmail() + "&projectName=" + getProjectIdFromUrl();
-    }
+    $.when.apply($, promises).then(function () {
+        if (categoriesSent.length === staticCategories.length) {
+            finalizeDossier(fullSubmissionId);
+        } else {
+            let missingAnnotation = $('#missingAnnotation');
+            missingAnnotation.show();
+            missingAnnotation.text("Sie haben noch nicht alle Kategorien markiert");
+        }
+    });
+
+    // redirect user to project page after saving
+    // location.href="projects-student.jsp" + getUserEmail() + "&projectName=" + getProjectIdFromUrl();
 }
 
 

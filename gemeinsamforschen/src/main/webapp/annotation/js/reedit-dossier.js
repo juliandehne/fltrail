@@ -38,5 +38,5 @@ $(document).ready(function () {
         // fetch user and text
 
     });
-
+    quill.focus();
 });

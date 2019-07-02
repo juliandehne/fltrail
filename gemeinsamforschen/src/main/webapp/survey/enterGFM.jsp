@@ -53,7 +53,7 @@
 <div id="welcomeTextHolder" class="collapse in"></div>
 <script id="welcomeTextTemplate" type="text/x-jQuery-tmpl">
        <div class="row group">
-           <h2>${welcomeTitle}</h2>
+           <h1>${welcomeTitle}</h2>
             ${welcomeText}
             <button id="welcomeNextButton" class="btn btn-primary right">${buttonLabel}</button>
        </div>

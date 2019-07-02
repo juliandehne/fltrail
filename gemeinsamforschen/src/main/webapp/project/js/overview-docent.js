@@ -88,7 +88,7 @@ function getProjects(userName) {
                 $('.search').each(function () {
                     $(this).hide();
                 });
-                $('#introduction').html("Um ein Projekt zu öffnen, drücken sie oben links auf \"Projekt erstellen\".")
+                $('#introduction').html("Um ein Projekt zu öffnen, drücken Sie oben links auf \"Projekt erstellen\".")
             }
         },
         error: function (a) {

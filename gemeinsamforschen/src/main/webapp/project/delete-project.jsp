@@ -26,7 +26,7 @@
 </jsp:include>
 <main>
     <div class="col span_2_of_2">
-        <h2>Löschen eines Projekts</h2>
+        <h1>Löschen eines Projekts</h1>
         <p style="margin-left:10px;">Bestätigen Sie das Löschen des Projekts durch Eingabe des Projektnamens:</p>
         <input class="form-control" type="text" id="projectNameInput" name="Project" required
                placeholder="Projekt1" autofocus

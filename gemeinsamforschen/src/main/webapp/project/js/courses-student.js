@@ -87,10 +87,10 @@ function updateStatus(projectName) {
                     statusField.html("Ihr Dozent ordnet Sie nun einer Gruppe zu.");
                     break;
                 case "DossierFeedback":
-                    statusField.html("Geben sie wenigstens einem Gruppenmitglied Feedback und erstellen sie ein Dossier in Ihrer Gruppe.");
+                    statusField.html("Geben Sie wenigstens einem Gruppenmitglied Feedback und erstellen sie ein Dossier in Ihrer Gruppe.");
                     break;
                 case "Execution":
-                    statusField.html("Forschen Sie zu Ihrer Forschungsfrage und reflektieren Sie ihr Vorgehen mit dem Journal");
+                    statusField.html("Forschen Sie zu Ihrer Forschungsfrage und reflektieren Sie Ihr Vorgehen mit dem Journal");
                     break;
                 case "Assessment":
                     statusField.html("Nehmen Sie die Bewertungen vor.");
@@ -203,7 +203,7 @@ function getMyProjects(userName) {
                     $(this).hide();
                 });
 
-                $('#introduction').show().html("Um sich in einen Kurs einzutragen wählen sie oben links" +
+                $('#introduction').show().html("Um sich in einen Kurs einzutragen wählen Sie oben links" +
                     "<a href=\"courses-student.jsp?all=true\"> \"suche Kurs\"</a>.")
             }
         },

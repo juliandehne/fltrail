@@ -60,7 +60,7 @@ function handlePhases(object, result) {
             break;
         case "DossierFeedback":
             result.phase = "card-feedback";
-            result.headLine = "Entwurfsphase";
+            result.headLine = "Entwurf";
             break;
         case "Execution":
             result.phase = "card-execution";
@@ -68,7 +68,7 @@ function handlePhases(object, result) {
             break;
         case "Assessment":
             result.phase = "card-assessment";
-            result.headLine = "Bewertungsphase";
+            result.headLine = "Bewertung";
             break;
         case "GRADING":
             result.phase = "card-grades";
@@ -113,9 +113,8 @@ function handleInfoTasks(object, result) {
             result.infoText = waitForParticipantsInfoText(object);
             switch (object.taskData.gfm) {
                 case "UserProfilStrategy":
-                    if (countMissingStudents(object) > 0) {
                         result.inCardSolver = "resizeGroup";
-                    }
+
                     break;
             }
             break;
@@ -126,20 +125,21 @@ function handleInfoTasks(object, result) {
             result.infoText = "Erstellen Sie die Gruppen.";
             break;
         case "CLOSE_GROUP_FINDING_PHASE":
-            result.infoText = "Gehen Sie zur nächsten Phase über.";
+            result.infoText = "Gehen Sie zur nächsten Phase über. Dies fixiert die Gruppen.";
             break;
         case "WAITING_FOR_GROUP":
             result.infoText = "Die Arbeitsgruppen werden gebildet. Sie werden informiert, wenn es so weit" +
                 " ist.";
             break;
         case "UPLOAD_DOSSIER":
-            result.infoText = "Legen sie ein Dossier an.";
+            result.infoText = "Legen Sie ein Dossier an.";
             break;
         case "ANNOTATE_DOSSIER":
-            result.infoText = "Annotieren Sie ihr Dossier.";
+            result.infoText = "Markieren Sie in ihrem Dossier Teile für das Feedback. \n" +
+                "Dies finalisiert die Einreichung Ihres Dossiers.";
             break;
         case "GIVE_FEEDBACK":
-            result.infoText = "[STUDENT] Geben Sie ein Feedback .....";
+            result.infoText = "Geben Sie ein Feedback ";
             if (object.taskData === null) {
                 result.infoText += "nachdem ein weiterer Teilnehmer ein Dossier abgegeben hat."
             }
@@ -152,7 +152,7 @@ function handleInfoTasks(object, result) {
                 " geben sich gegenseitig Feedback.";
             break;
         case "REEDIT_DOSSIER":
-            result.infoText = "Basierend auf dem Feedback können sie nun ihr Dossier überarbeiten";
+            result.infoText = "Basierend auf dem Feedback können Sie nun Ihr Dossier überarbeiten";
             break;
         case "CLOSE_DOSSIER_FEEDBACK_PHASE":
             let count = object.taskData.length;
@@ -185,26 +185,34 @@ function handleInfoTasks(object, result) {
             break;
         case "CONTACT_GROUP_MEMBERS":
             groupViewLink.toggleClass("disabled");
-            result.infoText = "Sagen sie hallo zu ihren Gruppenmitgliedern über den Chat.";
+            result.infoText = "Sagen Sie hallo zu ihren Gruppenmitgliedern über den Chat.";
             break;
         case "INTRODUCE_E_PORTFOLIO_STUDENT":
-            result.infoText = "Sie können hier ihr E-Portfolio beginnen. \n " +
+            result.infoText = "Sie können hier Ihr E-Portfolio beginnen. \n " +
                 "Am Ende des Projekts muss jede Gruppe ein gemeinsames Portfolio abgeben.";
             break;
         case "INTRODUCE_E_PORTFOLIO_DOCENT":
-            result.infoText = "Sie können hier die E-Portfolios der Studenten und Gruppen einsehen, wenn es für sie freigegeben ist.";
+            result.infoText = "Sie können hier die E-Portfolios der Studenten und Gruppen einsehen, wenn es für Sie freigegeben ist.";
             break;
         case "UPLOAD_PRESENTATION":
             result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
             break;
         case "GIVE_INTERNAL_ASSESSMENT":
-            result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihres Gruppenmitglieds!";
+            result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihrer Gruppenmitglieder!";
+            let numOfMissing = object.taskData.numberOfMissing;
+            if (numOfMissing && numOfMissing > 0) {
+                if (numOfMissing == 1) {
+                    result.infoText+=" Es fehlt noch eine Bewertung."
+                } else {
+                    result.infoText+=" Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."
+                }
+            }
             break;
         case "GIVE_EXTERNAL_ASSESSMENT":
             result.infoText = "Bewerten Sie eine andere Gruppe!";
             break;
         case "WAIT_FOR_GRADING":
-            result.infoText = "Ihr Dozent und andere Peers bewerten sie nun!";
+            result.infoText = "Ihr Dozent und andere Peers bewerten Sie nun!";
             break;
         case "GIVE_EXTERNAL_ASSESSMENT_TEACHER":
             result.infoText = "Bewerten Sie die einzelnen Gruppen!";
@@ -219,7 +227,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Das Projekt ist beendet!";
             break;
         } case "END_STUDENT": {
-            result.infoText = "Das Projekt ist beendet! Sie haben eine " + object.taskData.grade + " erreicht.";
+        result.infoText = "Das Projekt ist beendet! Sie haben eine " + object.taskData + " erreicht.";
             break;
         }
         default:
@@ -250,7 +258,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 break;
             case "UPLOAD_DOSSIER":
-                result.solveTaskWith = "Bearbeite / Erstelle Dossier";
+                result.solveTaskWith = "Erstelle Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&fileRole=Dossier" + "\')";
                 break;
             case "REEDIT_DOSSIER":
@@ -258,7 +266,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../annotation/reedit-dossier.jsp?fullsubmissionid=" + object.taskData.fullSubmissionId + "&projectName=" + object.projectName + "&contribution=DOSSIER\')";
                 break;
             case "CREATE_QUIZ":
-                result.solveTaskWith = "Erstelle ein Quiz";
+                result.solveTaskWith = "Erstelle Quiz";
                 result.solveTaskWithLink = "redirect(\'../assessment/create-quiz.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "CLOSE_EXECUTION_PHASE":
@@ -266,11 +274,11 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 break;
             case "WRITE_EJOURNAL":
-                result.solveTaskWith = "Lege ein EJournal an";
+                result.solveTaskWith = "Erstelle E-Journal";
                 result.solveTaskWithLink = "redirect(\'../journal/create-journal.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "ANNOTATE_DOSSIER":
-                result.solveTaskWith = "Annotiere das Dossier";
+                result.solveTaskWith = "Annotiere Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?" + $.param({
                     projectName: object.projectName,
                     submissionId: object.taskData.fullSubmissionId,
@@ -278,11 +286,11 @@ function handleLinkedTasks(object, result) {
                 }) + "\')";
                 break;
             case "FINALIZE_DOSSIER":
-                result.solveTaskWith = "Finalisiere das Dossier";
+                result.solveTaskWith = "Finalisiere Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?projectName=" + object.projectName + "&submissionId=" + object.taskData.fullSubmissionId + "\')";
                 break;
             case "FINALIZE_EJOURNAL":
-                result.solveTaskWith = "Finalisiere dein EJournal";
+                result.solveTaskWith = "Finalisiere EJournal";
                 result.solveTaskWithLink = "redirect(\'../journal/edit-description.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "CLOSE_DOSSIER_FEEDBACK_PHASE":
@@ -303,7 +311,7 @@ function handleLinkedTasks(object, result) {
                 break;
             case "GIVE_FEEDBACK":
                 if (object.taskData !== null) {
-                    result.solveTaskWith = "Geben Sie ein Feedback";
+                    result.solveTaskWith = "Gib Feedback";
                     result.solveTaskWithLink = "redirect(\'../annotation/give-feedback.jsp?" +
                         "projectName=" + object.projectName +
                         "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
@@ -312,7 +320,7 @@ function handleLinkedTasks(object, result) {
                 break;
             case "SEE_FEEDBACK":
                 if (object.taskData !== null) {
-                    result.solveTaskWith = "zum Feedback";
+                    result.solveTaskWith = "Feedback sehen";
                     result.solveTaskWithLink = "redirect(\'../annotation/see-feedback.jsp?" +
                         "projectName=" + object.projectName +
                         "&fullSubmissionId=" + object.taskData.fullSubmissionId +
@@ -321,7 +329,7 @@ function handleLinkedTasks(object, result) {
                 }
                 break;
             case "UPLOAD_PRESENTATION":
-                result.solveTaskWith = "Presentation hochladen";
+                result.solveTaskWith = "Präsentation hochladen";
                 result.solveTaskWithLink = "redirect(\'../assessment/upload-presentation.jsp?" +
                     "projectName=" + object.projectName + "\')";
 
@@ -333,13 +341,13 @@ function handleLinkedTasks(object, result) {
 
                 break;
             case "INTRODUCE_E_PORTFOLIO_STUDENT":
-                result.solveTaskWith = "Sieh dir das E-Portfolio an.";
+                result.solveTaskWith = "E-Portfolio annsehen";
                 result.solveTaskWithLink = "redirect(\'../portfolio/show-portfolio-student.jsp?" + $.param({
                     projectName: object.projectName,
                 }) + "\')";
                 break;
             case "INTRODUCE_E_PORTFOLIO_DOCENT":
-                result.solveTaskWith = "Sehen Sie sich die bisherigen Einträge an!";
+                result.solveTaskWith = "Bisherigen Einträge";
                 result.solveTaskWithLink = "redirect(\'../portfolio/show-portfolio-docent.jsp?" + $.param({
                     projectName: object.projectName,
                 }) + "\')";
@@ -354,39 +362,37 @@ function handleLinkedTasks(object, result) {
                  break;*/
             case "GIVE_EXTERNAL_ASSESSMENT":
                 if (object.progress !== "FINISHED") {
-                    result.solveTaskWith = "Kommilitonen bewerten!";
+                    result.solveTaskWith = "Kommilitonen bewerten";
                     result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
                         "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
                 }
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
-                result.solveTaskWith = "Gruppenmitglied bewerten!";
+                result.solveTaskWith = "Gruppenarbeit bewerten";
                 result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName=" + projectName + "\')";
                 break;
-            case "GIVE_EXTERNAL_ASSESSMENT_TEACHER": {
+            case "GIVE_EXTERNAL_ASSESSMENT_TEACHER":
                 if (object.progress !== "FINISHED") {
-                    result.solveTaskWith = "Bewerten Sie Gruppe " + object.taskData.objectGroup.id;
+                    result.solveTaskWith = "Bewerte Gruppe";
                     result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution-teacher.jsp?" +
                         "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
                 }
                 break;
-            }
             case "CLOSE_PEER_ASSESSMENTS_PHASE":
                 result.solveTaskWith = "Studentische Bewertung abschließen";
                 result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 break;
-            case "GIVE_FINAL_GRADES": {
-                result.solveTaskWith = "Vergeben Sie finale Noten!";
+            case "GIVE_FINAL_GRADES":
+                result.solveTaskWith = "Noten vergeben";
                 result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
                     "projectName=" + object.projectName + "\')";
                 break;
-            }
-            case "END_DOCENT": {
-                result.solveTaskWith = "Zur Notenübersicht!";
+            case "END_DOCENT":
+                result.solveTaskWith = "Zur Notenübersicht";
                 result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
-                    "final=true" +
+                    "final=true&" +
                     "projectName=" + object.projectName + "\')";
-            }
+                break;
             default:
                 result.solveTaskWith = null;
 
@@ -408,7 +414,7 @@ function handleFinishedTasks(object, result) {
                 break;
             case "GIVE_FEEDBACK":
                 /*if (object.taskData !== null) {
-                    result.infoText = "Sie können weiterhin ihr Feedback editieren";
+                    result.infoText = "Sie können weiterhin Ihr Feedback editieren";
                     result.solveTaskWith = "Geben Sie ein Feedback";
                     result.solveTaskWithLink = "redirect(\'../annotation/give-feedback.jsp?" +
                         "projectName=" + object.projectName +
@@ -419,7 +425,7 @@ function handleFinishedTasks(object, result) {
                 break;
             case "REEDIT_DOSSIER":
                 result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +
-                    "Warten sie nun auf die nächste Phase.";
+                    "Warten Sie nun auf die nächste Phase.";
                 break;
             case "ANNOTATE_DOSSIER":
             case "UPLOAD_DOSSIER":
@@ -433,7 +439,7 @@ function handleFinishedTasks(object, result) {
                 result.infoText = "Sie haben die Arbeit der Studierenden bewertet.";
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
-                result.infoText = "Sie haben ihre Gruppenmitglieder bewertet.";
+                result.infoText = "Sie haben die Arbeit ihrer Gruppenmitglieder bewertet.";
                 break;
             case "UPLOAD_FINAL_REPORT":
                 result.infoText = "Ihre Gruppe hat einen Abschlussbericht hochgeladen.";
@@ -459,6 +465,19 @@ function handleFinishedTasks(object, result) {
     }
 }
 
+function handleInProgressTasks(object, result) {
+    if (object.progress === "INPROGRESS") {
+        switch (object.taskName) {
+            case "UPLOAD_DOSSIER":
+                result.infoText = "Für Ihre Gruppe wurde ein Dossier angelegt. Sie können es noch überarbeiten.";
+                result.solveTaskWith = "Bearbeite Dossier";
+                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&fileRole=Dossier" + "\')";
+                break;
+        }
+    }
+
+}
+
 function fitObjectInTmpl(object) {
     let result = {
         taskType: "",
@@ -479,7 +498,7 @@ function fitObjectInTmpl(object) {
     handleInfoTasks(object, result);
     handleLinkedTasks(object, result);
     handleFinishedTasks(object, result);
-
+    handleInProgressTasks(object, result);
     return result;
 }
 

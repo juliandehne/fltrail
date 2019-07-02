@@ -63,7 +63,7 @@ let groupViewLoginEN = [{
 }];
 
 let groupViewLoginDE = [{
-    enterEmail: "Bitte geben sie ihre Email hier ein:",
+    enterEmail: "Bitte geben Sie ihre Email hier ein:",
     submit: "bestätigen",
     emailDoesntExist: "Diese Email existiert nicht. Bitte nehmen Sie an der Umfrage teil."
 }];
@@ -98,7 +98,7 @@ function noGroupsMessageDE(participantsNeeded) {
     let noGroupsDE = [{
         noGroupsYet: "Es wurden noch keine Gruppen gebildet.",
         participantsMissing: messageParticipantsNeededDE(participantsNeeded),
-        comeBackAfterMail: "Kommen sie auf diese Seite zurück nachdem sie eine E-Mail bekommen haben.",
+        comeBackAfterMail: "Kommen Sie auf diese Seite zurück nachdem sie eine E-Mail bekommen haben.",
     }];
     return noGroupsDE;
 }
@@ -111,5 +111,5 @@ function messageParticipantsNeededEN(participantsNeeded) {
     return "There are " + participantsNeeded + " participants missing to create groups.";
 }
 
-let surveyJSTitleDE = "Bitte füllen Sie ihr Profil aus!";
+let surveyJSTitleDE = "Bitte füllen Sie Ihr Profil aus!";
 let surveyJSTitleEN = "Please complete your profile!";

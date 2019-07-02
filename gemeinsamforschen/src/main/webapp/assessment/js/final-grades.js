@@ -1,16 +1,21 @@
 $(document).ready(function () {
     let projectName = $('#projectName').html().trim();
+
     writeGradesToView(projectName, function () {
         modelTable();
+        if (getQueryVariable("final") === "true") {
+            $('#divForSaving').hide();
+            $('.unsavedFinalMark').hide();
+        } else {
+            $('.savedFinalMark').hide();
+        }
     });
-    if (getQueryVariable("final") === "true") {
-        $('#divForSaving').hide();
-    }
     $('#takeSuggested').on('click', function () {
         let tableEntries = $('#allGradesOfAllStudents').find('tr');
         tableEntries.each(function () {
-            let userEmail = $(this).attr("id").substring("grades_".length);
-            $('#markFor_' + userEmail).val($('#suggested_' + userEmail).html().trim());
+            let userId = $(this).attr("id").substring("grades_".length);
+            $('#markFor_' + userId).val($('#suggested_' + userId).html().trim());
+
         })
     });
     $('#btnSave').on('click', function () {
@@ -62,13 +67,44 @@ function fillObjectWithGrades(data) {
             } else {
                 finalMark = grades[student].finalRating;
             }
+            let productDocent = Number.parseFloat(grades[student].docentProductRating).toFixed(2);
+
+            let beyondStdDeviation = "fa-check";
+            if (grades[student].beyondStdDeviation < 0) {
+                beyondStdDeviation = "fa-arrow-down";
+            } else {
+                if (grades[student].beyondStdDeviation > 0)
+                    beyondStdDeviation = "fa-arrow-up";
+            }
+            let workRating = 0;
+            let suggested = productDocent;
+            if (grades[student].groupWorkRating !== null) {
+                workRating = Number.parseFloat(grades[student].groupWorkRating).toFixed(2);
+                suggested = Number.parseFloat(grades[student].suggestedRating).toFixed(2)
+            }
+            let levelOfAgreement = "";
+            let productPeer = 0;
+            if (grades[student].groupProductRating !== null) {
+                productPeer = Number.parseFloat(grades[student].groupProductRating).toFixed(2);
+                levelOfAgreement = "alert-success";
+                if ((productPeer + 0.5 < productDocent) || (productPeer - 0.5 > productDocent)) {
+                    levelOfAgreement = "alert-warning";
+                }
+                if ((productPeer + 0.9 < productDocent) || (productPeer - 0.9 > productDocent)) {
+                    levelOfAgreement = "alert-danger";
+                }
+            }
+
             result = {
+                levelOfAgreement: levelOfAgreement,
+                userId: grades[student].user.id,
                 name: grades[student].user.name,
                 userEmail: grades[student].user.email,
-                productPeer: Number.parseFloat(grades[student].groupProductRating).toFixed(2),
-                productDocent: Number.parseFloat(grades[student].docentProductRating).toFixed(2),
-                workRating: Number.parseFloat(grades[student].groupWorkRating).toFixed(2),
-                suggested: Number.parseFloat(grades[student].suggestedRating).toFixed(2),
+                productPeer: productPeer,
+                productDocent: productDocent,
+                workRating: workRating,
+                beyondStdDeviation: beyondStdDeviation,
+                suggested: suggested,
                 finalMark: Number.parseFloat(finalMark).toFixed(2),
             };
         }
