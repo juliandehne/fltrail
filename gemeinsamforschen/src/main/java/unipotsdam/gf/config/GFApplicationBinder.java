@@ -41,6 +41,8 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.quiz.QuizDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.modules.wizard.Wizard;
+import unipotsdam.gf.modules.wizard.WizardDao;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -116,6 +118,8 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(PeerAssessmentImpl.class).to(IPeerAssessment.class);
         bind(QuizDAO.class).to(QuizDAO.class);
         bind(Task.class).to(Task.class);
+        bind(WizardDao.class).to(WizardDao.class);
+        bind(Wizard.class).to(Wizard.class);
 
         /*
          * TODO: @Martin comment in for your development
