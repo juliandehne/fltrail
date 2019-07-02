@@ -129,12 +129,6 @@ function addSelectionDataToList(startCharacter, endCharacter, category) {
  * Iterate over the category cards and send each post request to the back-end
  */
 function saveButtonHandler() {
-    // show alert message
-    /*
-    let checkSaveForReal = $('#saveForReal');
-    if (checkSaveForReal.prop('checked')!==true){
-        $('#divSaveForReal').show();
-    }else {*/
     // declare array of promises
     let promises = [];
     let categoriesSent = [];

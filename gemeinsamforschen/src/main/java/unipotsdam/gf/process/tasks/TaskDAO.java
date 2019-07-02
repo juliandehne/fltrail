@@ -1,5 +1,6 @@
 package unipotsdam.gf.process.tasks;
 
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -8,7 +9,6 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -31,6 +31,8 @@ import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
 
 @ManagedBean
 public class TaskDAO {
+
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SubmissionController.class);
 
 
     @Inject
@@ -540,8 +542,8 @@ public class TaskDAO {
         persist(project, groupId, taskName, phase, TaskType.LINKED);
     }
 
-    public void persistTaskGroup(Project project, Integer groupId, TaskName taskName, Phase phase) {
-        persist(project, groupId, taskName, phase, TaskType.LINKED);
+    public void persistTaskGroup(Project project, Integer groupId, TaskName taskName, Phase phase, TaskType taskType) {
+        persist(project, groupId, taskName, phase, taskType);
     }
 
     public void persist(Project project, Integer groupId, TaskName taskName, Phase phase, TaskType linked) {
@@ -570,6 +572,25 @@ public class TaskDAO {
             Task task = new Task(taskName, member, project, Progress.FINISHED);
             updateForUser(task);
         }
+    }
+
+    public void addTaskType(Task task, TaskType taskType) {
+        boolean contains = false;
+        int position = 0;
+        for (TaskType containedTaskType : task.getTaskType()) {
+            if (containedTaskType == taskType) {
+                contains = true;
+            }
+            position++;
+        }
+        if (contains) {
+            log.info("taskType was already contained in Task.");
+            return;
+        }
+        connect.connect();
+        String query = "UPDATE tasks set taskMode" + position + " = ? where projectName = ? AND taskName = ? AND groupTask = ? and userEmail = ?";
+        connect.issueUpdateStatement(query, taskType, task.getProjectName(), task.getTaskName(), task.getGroupTask(), task.getUserEmail());
+        connect.close();
     }
 
 }

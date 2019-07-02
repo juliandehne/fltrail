@@ -93,7 +93,7 @@
                 <br>
                 <div class="upload-text" id="documentText">
                     <label for="editor">Texteingabe</label>
-                    <div id="editor" style="border:solid 1px"></div>
+                    <div id="editor"></div>
                 </div>
 
                 <div class="document-text-buttons">

@@ -152,7 +152,7 @@ function handleInfoTasks(object, result) {
                 " geben sich gegenseitig Feedback.";
             break;
         case "REEDIT_DOSSIER":
-            result.infoText = "Basierend auf dem Feedback können Sie nun Ihr Dossier überarbeiten";
+            result.infoText = "Sobald Sie ein Feedback bekommen haben, können Sie hier Ihr Dossier überarbeiten.";
             break;
         case "CLOSE_DOSSIER_FEEDBACK_PHASE":
             let count = object.taskData.length;
@@ -262,6 +262,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&fileRole=Dossier" + "\')";
                 break;
             case "REEDIT_DOSSIER":
+                result.infoText = "Basierend auf dem erhaltenen Feedback, können Sie nun Ihr Dossier überarbeiten.";
                 result.solveTaskWith = "Überarbeite Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/reedit-dossier.jsp?fullsubmissionid=" + object.taskData.fullSubmissionId + "&projectName=" + object.projectName + "&contribution=DOSSIER\')";
                 break;

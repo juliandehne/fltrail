@@ -96,11 +96,12 @@ public class ContributionFeedbackView {
     @POST
     @Path("/finalize/projects/{projectName}/groups/{groupId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response finalizeFeedback(@PathParam("groupId") int groupId, @PathParam("projectName") String projectName) {
+    public Response finalizeFeedback(@Context HttpServletRequest req, @PathParam("groupId") int groupId, @PathParam("projectName") String projectName) throws IOException {
         contributionFeedbackService.endFeedback(projectName, groupId);
         Project project = projectDAO.getProjectByName(projectName);
-        dossierCreationProcess.createSeeFeedBackTask(project, groupId);
-        dossierCreationProcess.createReeditDossierTask(project, groupId);
+        String userEmail = gfContexts.getUserEmail(req);
+        User user = userDAO.getUserByEmail(userEmail);
+        dossierCreationProcess.createSeeFeedBackTask(project, groupId, user);
         return Response.ok().build();
     }
 

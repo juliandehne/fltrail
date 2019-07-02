@@ -1119,5 +1119,9 @@ main.groups-manual{
   padding-top: 10px;
 }
 
-
+#editor {
+    border: solid 1px;
+    height: 500px;
+    overflow: hidden;
+}
 
