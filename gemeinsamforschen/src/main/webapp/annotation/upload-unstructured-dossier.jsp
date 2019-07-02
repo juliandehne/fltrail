@@ -43,7 +43,7 @@
     <script src="../taglibs/js/unstructuredRest.js"></script>
 
     <script src="../taglibs/js/visibilityButton.js"></script>
-    <script src="js/unstructuredAnnotation.js"></script>
+    <script src="js/upload-unstructured-dossier.js"></script>
 
     <!-- jsrender -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>

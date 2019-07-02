@@ -206,16 +206,6 @@ function handleCategoryClick(key) {
     }
 }
 
-function buildAnnotationList(categories) {
-    let data = {categories: []};
-    categories.forEach(function (category) {
-        data.categories.push({name: category, nameLower: category.toLowerCase()})
-    });
-    let tmpl = $.templates("#annotationTemplate");
-    let html = tmpl.render(data);
-    $("#annotations").html(html);
-}
-
 function deleteCategory(category) {
     let categoryLI = $('#' + category);
     let textArrays = categoryLI.data('array');
