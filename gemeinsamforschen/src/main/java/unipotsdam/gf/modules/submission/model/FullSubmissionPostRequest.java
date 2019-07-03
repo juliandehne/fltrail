@@ -13,17 +13,25 @@ public class FullSubmissionPostRequest {
     // variables
     private Integer groupId;
     private boolean personal;
+    private String header;
     private String text;
     private String html;
     private String projectName;
     private FileRole fileRole;
     private String id;
-
     // have to be set in backend
     private String userEMail;
     private Visibility visibility;
 
     public FullSubmissionPostRequest() {
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 
     // methods

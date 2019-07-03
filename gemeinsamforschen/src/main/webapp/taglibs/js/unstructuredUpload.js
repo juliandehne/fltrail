@@ -24,7 +24,10 @@ $(document).ready(function () {
     setupPageContent();
 
     if (fullSubmissionId !== '') {
-        getFullSubmission(fullSubmissionId, setQuillContentFromFullSubmission);
+        getFullSubmission(fullSubmissionId, function (fullSubmission) {
+            $('#ownTitle').val(fullSubmission.header)
+            setQuillContentFromFullSubmission(fullSubmission);
+        });
     } else {
         if (!personal) {
             getMyGroupId(function (groupId) {
@@ -45,6 +48,7 @@ $(document).ready(function () {
                     visibility = currentVisibleButtonText.name
                 }
                 let fullSubmissionPostRequest = {
+                    header: $('#ownTitle').text().trim(),
                     id: fullSubmissionId,
                     groupId: groupId,
                     text: JSON.stringify(content),

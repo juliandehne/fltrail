@@ -124,14 +124,27 @@
                     <ul id="categoryList">
 
                     </ul>
+                    <ul style="margin-bottom: 5px;" id="ownCategoryList">
+                        <li class="LIOwnCategory">
+                            <input type="checkbox"
+                                   onclick="$('#ownCategoryTemplate').tmpl({}).appendTo('#ownCategoryList');">
+                            <input type="text" class="category">
+                        </li>
+                    </ul>
                     <script id="categoryTemplate" type="text/x-jQuery-tmpl">
                         <li>
                             <label>
                                 <input type="checkbox" class="category" value="${category}">
-                                <span>${category}</span>
+                                <span>${categoryName}</span>
                             </label>
                         </li>
 
+                    </script>
+                    <script id="ownCategoryTemplate" type="text/x-jQuery-tmpl">
+                        <li class="LIOwnCategory">
+                            <input type="checkbox" onclick="$('#ownCategoryTemplate').tmpl({}).appendTo('#ownCategoryList');">
+                            <input type="text" class="category">
+                        </li>
                     </script>
                 </div>
                 <div class="form-group">

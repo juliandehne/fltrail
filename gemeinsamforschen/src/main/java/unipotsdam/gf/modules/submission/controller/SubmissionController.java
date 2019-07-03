@@ -62,12 +62,13 @@ public class SubmissionController implements ISubmission, HasProgress {
         }
 
         String request = String.join(" ", requestCommand.trim(),
-                "fullsubmissions (`id`, `version`, `groupId`, `text`, `projectName`, `fileRole`, `userEmail`, `visibility`) VALUES (?,?,?,?,?,?,?,?);");
+                "fullsubmissions (`id`, `version`, `groupId`, `header`, `text`, `projectName`, `fileRole`, `userEmail`, `visibility`) VALUES (?,?,?,?,?,?,?,?,?);");
 
         connection.connect();
         // build and execute request
         connection.issueInsertOrDeleteStatement(request, uuid, version,
                 fullSubmissionPostRequest.getGroupId(),
+                fullSubmissionPostRequest.getHeader(),
                 fullSubmissionPostRequest.getText(),
                 fullSubmissionPostRequest.getProjectName(),
                 fullSubmissionPostRequest.getFileRole().toString(),
@@ -452,12 +453,13 @@ public class SubmissionController implements ISubmission, HasProgress {
         long timestamp = rs.getTimestamp("timestamp").getTime();
         Integer groupId = rs.getInt("groupId");
         String userEmail = rs.getString("userEmail");
+        String header = rs.getString("header");
         String text = rs.getString("text");
         String projectName = rs.getString("projectName");
         FileRole fileRole = FileRole.valueOf(rs.getString("fileRole"));
         Visibility visibility = Visibility.valueOf(rs.getString("visibility"));
 
-        return new FullSubmission(id, timestamp, groupId, userEmail, text, fileRole, projectName, visibility);
+        return new FullSubmission(id, timestamp, groupId, userEmail, header, text, fileRole, projectName, visibility);
 
     }
 

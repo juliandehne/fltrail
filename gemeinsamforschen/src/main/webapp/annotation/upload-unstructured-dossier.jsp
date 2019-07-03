@@ -92,6 +92,9 @@
 
                 <br>
                 <div class="upload-text" id="documentText">
+                    <label for="ownTitle">Titel</label>
+                    <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;"
+                           placeholder="mein Titel">
                     <label for="editor">Texteingabe</label>
                     <div id="editor"></div>
                 </div>

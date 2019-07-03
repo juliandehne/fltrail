@@ -15,6 +15,7 @@ $(document).ready(function () {
             $('#bpLI').hide();
         }
     });
+
     // hide the different error messages
     errorMessages();
     // add the tagsinput lib
@@ -34,7 +35,10 @@ $(document).ready(function () {
         let tmplObject = [];
         for (let b in response) {
             if (response.hasOwnProperty(b)) {
-                tmplObject.push({category: response[b]});
+                tmplObject.push({
+                    categoryName: response[b][0] + response[b].substring(1).toLowerCase(),
+                    category: response[b]
+                });
             }
         }
         $('#categoryTemplate').tmpl(tmplObject).appendTo('#categoryList');
@@ -139,6 +143,12 @@ function getProjectValues() {
     let selectedCategories = [];
     $("input:checked[class*='category']").each(function () {
         selectedCategories.push($(this).val());
+    });
+    $(".LIOwnCategory").each(function () {
+        let nodeOfInterest = $(this).find('input:checked');
+        if (nodeOfInterest.length > 0) {
+            selectedCategories.push($(this).find('input[type*=text]').val());
+        }
     });
     if (selectedCategories.length === 0) {
         stop();
