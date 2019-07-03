@@ -1,12 +1,9 @@
 package unipotsdam.gf.modules.assessment;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.assessment.controller.model.CheatCheckerMethods;
 import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
-import unipotsdam.gf.modules.assessment.controller.model.Performance;
 import unipotsdam.gf.modules.fileManagement.FileRole;
-import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -21,22 +18,10 @@ public class PeerAssessmentImpl implements IPeerAssessment {
     private AssessmentDAO assessmentDAO;
 
     @Inject
-    private GroupDAO groupDAO;
-
-    @Inject
     private TaskMapper taskMapper;
 
     @Inject
-    private AnnotationController annotationController;
-
-    @Inject
     private UserDAO userDAO;
-
-    @Override
-    public void finalizeAssessment(Project project) {
-        //assessmentDAO.writeGradesToDB(project, grading);
-        // TODO implement
-    }
 
     @Override
     public List<FullContribution> getContributionsFromGroup(Project project, Integer groupId) {
@@ -45,9 +30,7 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             FullContribution fullContribution = assessmentDAO.getContribution(project, groupId, role);
             switch (role) {
                 case DOSSIER:
-                    /**
-                     * @AXEL ev. text der contribution später wieder hinzufügen
-                     */
+                    //todo in case of interest, include text Contributions
                     //fullContribution.setTextOfContribution(annotationController.getFinishedDossier(project, groupId));
                     break;
                 case PORTFOLIO:
@@ -60,52 +43,49 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         return result;
     }
 
-    private Map<User, Double> calculateAssessmentSuggestion(ArrayList<Performance> totalPerformance) {
-        //Map<User, Double> quizMean = new HashMap<>(quizGrade(totalPerformance));
-        Map<User, Map<String, Double>> workRating = new HashMap<>();
-        Map<User, Map<FileRole, Double>> contributionRating = new HashMap<>();
-        for (Performance performance : totalPerformance) {
-            workRating.put(performance.getUser(), performance.getWorkRating());
-            contributionRating.put(performance.getUser(), performance.getContributionRating());
+    private Map<String, Double> meanOfWorkRatings(ArrayList<Map<String, Double>> workRatings) {
+        HashMap<String, Double> mean = new HashMap<>();
+        Double size = (double) workRatings.size();
+        for (Object o : workRatings.get(0).entrySet()) {
+            Map.Entry pair = (Map.Entry) o;
+            mean.put((String) pair.getKey(), 0.0);
         }
-        Map<User, Double> workRateMean = new HashMap<>(mapToGrade(workRating));
-        Map<User, Double> contributionMean = new HashMap<>(mapToGradeContribution(contributionRating));
-        Map<User, Double> result = new HashMap<>();
-        for (User student : workRating.keySet()) {
-            double grade =
-                    (workRateMean.get(student) + contributionMean.get(student)) * 100 / 3.;
-            result.put(student, grade);
+        for (Map<String, Double> rating : workRatings) {
+            for (Object o : rating.entrySet()) {
+                Map.Entry pair = (Map.Entry) o;
+                Double value = (double) pair.getValue();
+                mean.put((String) pair.getKey(), value / size + mean.get(pair.getKey()));
+            }
+        }
+        return mean;
+    }
+
+
+    //todo: its not used yet but nice to have for future. final-grades.jsp
+    /*
+    private Map<FileRole, Double> cheatCheckerContributions(
+            ArrayList<Map<FileRole, Double>> contributionRatings, CheatCheckerMethods method) {
+        //convert ArrayList<Map<ContributionCategory, Double>> to ArrayList<Map<String, Double>>
+        ArrayList<Map<String, Double>> ratings = new ArrayList<>();
+        for (Map<FileRole, Double> rating : contributionRatings) {
+            Map<String, Double> markForContribution = new HashMap<>();
+            for (FileRole fileRole : rating.keySet()) {
+                markForContribution.put(fileRole.toString(), rating.get(fileRole));
+            }
+            ratings.add(markForContribution);
+        }
+
+        Map<String, Double> unparsedSolution = cheatChecker(ratings, method);
+        Map<FileRole, Double> result = new HashMap<>();
+
+        //convert ArrayList<Map<String, Double>> back to ArrayList<Map<FileRole, Double>>
+        assert unparsedSolution != null;
+        for (String key : unparsedSolution.keySet()) {
+            result.put(FileRole.valueOf(key), unparsedSolution.get(key));
         }
         return result;
     }
 
-    private Map<User, Double> calculateSuggestions(Project project, CheatCheckerMethods method) {
-        ArrayList<Performance> totalPerformance = new ArrayList<>();
-        //get all students in projectID from DB
-        List<String> students = assessmentDAO.getStudents(project.getName());
-        //for each student
-        for (String student : students) {
-            User user = new User(student);
-            Integer groupId;
-            Performance performance = new Performance();
-            groupId = groupDAO.getGroupByStudent(project, user);
-            /*   Integer numberOfQuizzes = quizDAO.getQuizCount(project.getName());
-            List<Integer> answeredQuizzes = quizDAO.getAnsweredQuizzes(project, user);
-            for (Integer i = answeredQuizzes.size(); i < numberOfQuizzes; i++) {
-                answeredQuizzes.add(0);
-            }*/
-            ArrayList<Map<String, Double>> workRating = assessmentDAO.getWorkRating(project, user);
-            ArrayList<Map<FileRole, Double>> contributionRating =
-                    assessmentDAO.getContributionRating(groupId, true);
-            performance.setProject(project);
-            performance.setUser(user);
-            //performance.setQuizAnswer(answeredQuizzes);
-            performance.setWorkRating(cheatChecker(workRating, method));
-            performance.setContributionRating(cheatCheckerContributions(contributionRating, method));
-            totalPerformance.add(performance);
-        }
-        return calculateAssessmentSuggestion(totalPerformance);
-    }
 
     private Map<User, Double> mapToGradeContribution(Map<User, Map<FileRole, Double>> ratings) {
         //convert Map<User, Map<ContributionCategory, Double>> to Map<User, Map<String, Double>>
@@ -127,7 +107,7 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         for (User student : ratings.keySet()) {
             if (ratings.get(student) != null) {
                 allAssessments = sumOfDimensions(ratings.get(student));
-                Double countDimensions = (double) ratings.get(student).size();
+                double countDimensions = (double) ratings.get(student).size();
                 grading.put(student, (allAssessments - 1) / (countDimensions * 4));
             } else {
                 grading.put(student, 0.);
@@ -145,51 +125,19 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         }
         return sumOfDimensions;
     }
-
-    private Map<String, Double> meanOfWorkRatings(ArrayList<Map<String, Double>> workRatings) {
-        HashMap<String, Double> mean = new HashMap<>();
-        Double size = (double) workRatings.size();
-        for (Object o : workRatings.get(0).entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
-            mean.put((String) pair.getKey(), 0.0);
-        }
-        for (Map<String, Double> rating : workRatings) {
-            for (Object o : rating.entrySet()) {
-                Map.Entry pair = (Map.Entry) o;
-                Double value = (double) pair.getValue();
-                mean.put((String) pair.getKey(), value / size + mean.get(pair.getKey()));
-            }
-        }
-        return mean;
-    }
-
-    private Map<FileRole, Double> cheatCheckerContributions(
-            ArrayList<Map<FileRole, Double>> contributionRatings, CheatCheckerMethods method) {
-        //convert ArrayList<Map<ContributionCategory, Double>> to ArrayList<Map<String, Double>>
-        ArrayList<Map<String, Double>> ratings = new ArrayList<>();
-        for (Map<FileRole, Double> rating : contributionRatings) {
-            Map<String, Double> markForContribution = new HashMap<>();
-            for (FileRole fileRole : rating.keySet()) {
-                markForContribution.put(fileRole.toString(), rating.get(fileRole));
-            }
-            ratings.add(markForContribution);
-        }
-
-        Map<String, Double> unparsedSolution = cheatChecker(ratings, method);
-        Map<FileRole, Double> result = new HashMap<>();
-
-        //convert ArrayList<Map<String, Double>> back to ArrayList<Map<FileRole, Double>>
-        for (String key : unparsedSolution.keySet()) {
-            result.put(FileRole.valueOf(key), unparsedSolution.get(key));
-        }
-        return result;
-    }
+    */
 
     /**
-     * schön
-     * @param workRatings
-     * @param method
-     * @return
+     * Calculates one out of 3 possible summaries of workRatings.
+     * @param workRatings A List, where each element stands for one rating of a student. For example student1 got
+     *                    four numerical feedbacks to his group work skills, then workRatings is of size 4.
+     *                    For each gradeable item of work skills, the inner map carries the name of the skill
+     *                    and a Double which shows the grade.
+     * @param method "none" calculates just the average of all entries.
+     *               "median" takes the median of the workRatings where entries are sorted by average
+     *               "variance" excludes the student with the highest standard deviation to the remaining data.
+     *               Afterwards it calculates the mean of remaining data.
+     * @return For every dimension of workSkills there is one entry in the result map.
      */
     private Map<String, Double> cheatChecker(ArrayList<Map<String, Double>> workRatings, CheatCheckerMethods method) {
         ArrayList<Map<String, Double>> oneExcludedMeans = new ArrayList<>();
@@ -235,17 +183,12 @@ public class PeerAssessmentImpl implements IPeerAssessment {
                     }
                 }
                 result = oneExcludedMeans.get(key);  //gets set of rates with highest deviation in data
-                //so without the cheater
+                //so without the greatest bias
             } else {            //without cheatChecking
                 result = meanOfWorkRatings(workRatings);
             }
         }
         return result;
-    }
-
-    @Override
-    public int meanOfAssessment(String ProjectId) {
-        return 0;
     }
 
     @Override
@@ -276,8 +219,8 @@ public class PeerAssessmentImpl implements IPeerAssessment {
 
     /**
      * GET THE DATA and suggestions, including the PROBLEM CASES
-     * @param project
-     * @return
+     * @param project of interest
+     * @return List of students with all kinds of marks
      */
     @Override
     public List<UserPeerAssessmentData> getUserAssessmentsFromDB(Project project) {
@@ -294,7 +237,16 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         // get the internal ratings
         HashMap<User, Double> groupRating = assessmentDAO.getGroupRating(project);
 
+        // if there are final grades in DB, get them here
         HashMap<User, Double> finalRating = assessmentDAO.getFinalRating(project);
+
+        // get quiz answers   todo: in case of reimplementing quizzes: This is of interest.
+        /*   Integer numberOfQuizzes = quizDAO.getQuizCount(project.getName());
+            List<Integer> answeredQuizzes = quizDAO.getAnsweredQuizzes(project, user);
+            for (Integer i = answeredQuizzes.size(); i < numberOfQuizzes; i++) {
+                answeredQuizzes.add(0);
+            //performance.setQuizAnswer(answeredQuizzes);
+            }*/
 
         // get the suggestedRating
         HashMap<User, Double> suggestedRating = new HashMap<>();
@@ -323,10 +275,10 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             UserPeerAssessmentData userPeerAssessmentData = new UserPeerAssessmentData();
 
             // get the problem flags
-            /* todo @Axel Ich muss da später drüber nachdenken. Jetzt mach ich erstmal kleine issues
             ArrayList<Map<String, Double>> workRating = assessmentDAO.getWorkRating(project, user);
-            cheatChecker(workRating, CheatCheckerMethods.variance);
-*/
+            userPeerAssessmentData.setBeyondStdDeviation(setDeviationFlag(workRating));
+            userPeerAssessmentData.setCleanedGroupWorkRating(average(cheatChecker(workRating, CheatCheckerMethods.variance)));
+
             userPeerAssessmentData.setDocentProductRating(docentProductRatings.get(user));
             userPeerAssessmentData.setGroupProductRating(peerProductRatings.get(user));
             userPeerAssessmentData.setGroupWorkRating(groupRating.get(user));
@@ -337,5 +289,41 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             result.add(userPeerAssessmentData);
         }
         return result;
+    }
+
+    private Integer setDeviationFlag(ArrayList<Map<String, Double>> workRating) {
+        if (workRating == null || workRating.size() == 0) {
+            return null;
+        }
+        Map<String, Double> cleanedMarks = cheatChecker(workRating, CheatCheckerMethods.variance);
+        Map<String, Double> averagedMarks = cheatChecker(workRating, CheatCheckerMethods.none);
+        Double cleanedAvrg = 0.;
+        if (cleanedMarks != null)
+            cleanedAvrg = average(cleanedMarks);
+        Double averagedAvrg = 0.;
+        if (averagedMarks != null)
+            averagedAvrg = average(averagedMarks);
+        int result = 0;
+        if (cleanedAvrg + 0.3 < averagedAvrg) {
+            result = -1;
+        }
+        if (cleanedAvrg - 0.3 > averagedAvrg) {
+            result = 1;
+        }
+
+        return result;
+    }
+
+    private Double average(Map<String, Double> map) {
+        if (map != null && map.size() > 0) {
+            Double result = 0.;
+            for (String itemName : map.keySet()) {
+                result += map.get(itemName);
+            }
+            result = result / map.size();
+            return result;
+        } else {
+            return null;
+        }
     }
 }

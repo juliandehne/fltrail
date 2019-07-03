@@ -91,7 +91,7 @@
                                         {{else}}
                                             Alle Studierenden haben sich gegenseitig bewertet
                                         {{/if}}
-                                        <button onClick="closePhase('Assessment', \'getProjectName()\');" class="btn btn-primary"><i class="fas fa-link"></i> Studentische Bewertung abschließen </button>
+                                        <button onClick="closePhase('Assessment', getProjectName());" class="btn btn-primary"><i class="fas fa-link"></i> Studentische Bewertung abschließen </button>
                                     </div>
                                 {{/if}}
                            {{/if}}

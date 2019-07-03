@@ -14,7 +14,7 @@ $(document).ready(function () {
         let tableEntries = $('#allGradesOfAllStudents').find('tr');
         tableEntries.each(function () {
             let userId = $(this).attr("id").substring("grades_".length);
-            $('#markFor_' + userId).val($('#suggested_' + userId).html().trim());
+            $('#markFor_' + userId).val($('#suggested_' + userId).find('.collapse.in').html().trim());
 
         })
     });
@@ -67,25 +67,36 @@ function fillObjectWithGrades(data) {
             } else {
                 finalMark = grades[student].finalRating;
             }
-            let productDocent = Number.parseFloat(grades[student].docentProductRating).toFixed(2);
+            let productDocent = parseFloat(Number.parseFloat(grades[student].docentProductRating).toFixed(2));
 
             let beyondStdDeviation = "fa-check";
-            if (grades[student].beyondStdDeviation < 0) {
-                beyondStdDeviation = "fa-arrow-down";
-            } else {
-                if (grades[student].beyondStdDeviation > 0)
-                    beyondStdDeviation = "fa-arrow-up";
-            }
+            if (grades[student].beyondStdDeviation != null)
+                if (grades[student].beyondStdDeviation < 0) {
+                    beyondStdDeviation = "fa-arrow-down";
+                } else {
+                    if (grades[student].beyondStdDeviation > 0)
+                        beyondStdDeviation = "fa-arrow-up";
+                }
             let workRating = 0;
-            let suggested = productDocent;
+            let suggested = parseFloat(Number.parseFloat(grades[student].suggestedRating).toFixed(2));
+            let cleanedSuggested = 0;
+            let countValidEntries = 1; //docentProductRating always happens.
+
             if (grades[student].groupWorkRating !== null) {
-                workRating = Number.parseFloat(grades[student].groupWorkRating).toFixed(2);
-                suggested = Number.parseFloat(grades[student].suggestedRating).toFixed(2)
+                workRating = parseFloat(Number.parseFloat(grades[student].groupWorkRating).toFixed(2));
+            }
+            let cleanedWorkRating = 0;
+            if (grades[student].cleanedGroupWorkRating !== null) {
+                cleanedWorkRating = parseFloat(Number.parseFloat(grades[student].cleanedGroupWorkRating).toFixed(2));
+                cleanedSuggested += cleanedWorkRating;
+                countValidEntries++;
             }
             let levelOfAgreement = "";
             let productPeer = 0;
             if (grades[student].groupProductRating !== null) {
-                productPeer = Number.parseFloat(grades[student].groupProductRating).toFixed(2);
+                productPeer = parseFloat(Number.parseFloat(grades[student].groupProductRating).toFixed(2));
+                cleanedSuggested += productPeer;
+                countValidEntries++;
                 levelOfAgreement = "alert-success";
                 if ((productPeer + 0.5 < productDocent) || (productPeer - 0.5 > productDocent)) {
                     levelOfAgreement = "alert-warning";
@@ -94,17 +105,20 @@ function fillObjectWithGrades(data) {
                     levelOfAgreement = "alert-danger";
                 }
             }
-
+            cleanedSuggested += productDocent;
+            cleanedSuggested = parseFloat(Number.parseFloat(cleanedSuggested / countValidEntries).toFixed(2));
             result = {
                 levelOfAgreement: levelOfAgreement,
                 userId: grades[student].user.id,
                 name: grades[student].user.name,
                 userEmail: grades[student].user.email,
+                cleanedWorkRating: cleanedWorkRating,
                 productPeer: productPeer,
                 productDocent: productDocent,
                 workRating: workRating,
                 beyondStdDeviation: beyondStdDeviation,
                 suggested: suggested,
+                cleanedSuggested: cleanedSuggested,
                 finalMark: Number.parseFloat(finalMark).toFixed(2),
             };
         }

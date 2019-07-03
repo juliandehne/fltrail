@@ -375,7 +375,7 @@ function handleLinkedTasks(object, result) {
             case "GIVE_EXTERNAL_ASSESSMENT_TEACHER":
                 if (object.progress !== "FINISHED") {
                     result.solveTaskWith = "Bewerte Gruppe";
-                    result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution-teacher.jsp?" +
+                    result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
                         "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
                 }
                 break;

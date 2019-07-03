@@ -1,8 +1,5 @@
 package unipotsdam.gf.modules.assessment;
 
-import unipotsdam.gf.exceptions.RocketChatDownException;
-import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
-import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -19,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -61,11 +57,9 @@ public class AssessmentView {
     @Path("/contributions/project/{projectName}/groupId/{groupId}")
     public List<FullContribution> getContributionsForProject(
             @Context HttpServletRequest req, @PathParam("projectName") String projectName,
-            @PathParam("groupId") String groupId) throws IOException {
+            @PathParam("groupId") String groupId) {
         List<FullContribution> result;
         Project project = projectDAO.getProjectByName(projectName);
-        String userEmail = gfContexts.getUserEmail(req);
-        User user = userDAO.getUserByEmail(userEmail);
         //Integer groupId = peer.whichGroupToRate(project, user);
         int groupIdParsed = Integer.parseInt(groupId);
         result = peer.getContributionsFromGroup(project, groupIdParsed);
@@ -83,26 +77,6 @@ public class AssessmentView {
                 .postContributionRating(contributionRatings, groupId, new Project(projectName), fromPeer, isStudent);
     }
 
-
-    ////////////////////////////////funktioniert///////////////////////////////////////////
-    //todo: is unnecessary I guess. finalizing should just happen when phase ends
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/finalize/project/{projectName}")
-    public String calculateAssessment(@PathParam("projectName") String projectName) {
-        Project project = new Project(projectName);
-        peer.finalizeAssessment(project);
-        return "successfully finalized " + projectName;
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/mean/project/{projectName}")
-    public int meanOfAssessment(@PathParam("projectName") String ProjectId) {
-        return peer.meanOfAssessment(ProjectId);
-    }  ///////////////////////////////return 0//////////////////////////////////
-
-
     /**
      * get the survey questions
      *
@@ -114,21 +88,15 @@ public class AssessmentView {
     @Path("/data/project/{projectId}")
     public SurveyData getInternalAssessmentQuestions(@PathParam("projectId") String projectId) {
         InternalAssessmentQuestions internalAssessmentQuestions = new InternalAssessmentQuestions();
-        SurveyData questionsInSurveyJSFormat = internalAssessmentQuestions.getQuestionsInSurveyJSFormat();
-        return questionsInSurveyJSFormat;
+        return internalAssessmentQuestions.getQuestionsInSurveyJSFormat();
     }
 
     /**
      * save the answers a user has given in a survey
      *
-     * @param data
-     * @param projectName
-     * @param req
-     * @throws RocketChatDownException
-     * @throws UserDoesNotExistInRocketChatException
-     * @throws WrongNumberOfParticipantsException
-     * @throws JAXBException
-     * @throws IOException
+     * @param data keys are groupWork skills and values are string encoded integers from 1 to 5
+     * @param projectName of interest
+     * @param req context to get userCredentials
      */
     @POST
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

@@ -21,10 +21,10 @@ public class TaskMapper {
 
     /**
      *
-     * @param tasks
-     * @param task
-     * @param howMany
-     * @return
+     * @param tasks represent all groups in a project that have task "GIVE_FEEDBACK"
+     * @param task represents the student / group itself
+     * @param howMany how many groups shall get feedbacked by student / group
+     * @return list of all groups that shall be feedbacked by student/group
      */
     public List<Integer> groupToFeedback(List<Task> tasks, Task task, int howMany) {
         List<Integer> result = new ArrayList<>();
@@ -37,13 +37,14 @@ public class TaskMapper {
 
     /**
      * WARNING. CALLING THIS METHOD SEQUENTIALLY
-     * ASSUMES THAT SQL WILL ALWAYS RETURN THE DATA IN THE SAME ORDER
+     * ASSUMES THAT SQL WILL ALWAYS RETURN THE DATA IN THE SAME ORDER (because of SQL "ORDER BY id")
      * THIS IS NOT DEFINED FOR A STREAM
-     * @param project
-     * @param user
+     * gets all groups in a project, looks for group of user and returns the following groupId. In case
+     * the user group is last in this cycle, it will return the first element of the list.
+     * @param project of interest
+     * @param user of interest
      * @return the id of the group that is rated
      */
-    @Deprecated
     public Integer getWhichGroupToRate(Project project, User user) {
         Integer result;
         List<Integer> groups = new ArrayList<>();
@@ -59,10 +60,10 @@ public class TaskMapper {
 
     /**
      * returns the groupId the user is in and a list of groupIds of the project is filled
-     * @param project
-     * @param user
-     * @param groups
-     * @return
+     * @param project of interest
+     * @param user of interest
+     * @param groups list of groupIds of the project
+     * @return groupId of user in project
      */
     private Integer buildGroupIndexes(Project project, User user, List<Integer> groups) {
         connect.connect();
@@ -76,10 +77,8 @@ public class TaskMapper {
         String mysqlRequest2 = "SELECT DISTINCT id FROM `groups` WHERE `projectName`=? ORDER BY id ASC";
         VereinfachtesResultSet vereinfachtesResultSet2 =
                 connect.issueSelectStatement(mysqlRequest2, project.getName());
-        boolean next = vereinfachtesResultSet2.next();
-        while (next) {
+        while (vereinfachtesResultSet2.next()) {
             groups.add(vereinfachtesResultSet2.getInt("id"));
-            next = vereinfachtesResultSet2.next();
         }
         connect.close();
         return groupId;

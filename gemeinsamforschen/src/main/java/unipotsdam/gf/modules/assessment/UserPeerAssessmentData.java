@@ -14,6 +14,7 @@ public class UserPeerAssessmentData {
     private Double groupWorkRating;
     //beyondStdDeviation is positive if groupWorkRating is too high, negative if it's too low, zero otherwise
     private Integer beyondStdDeviation;
+    private Double cleanedGroupWorkRating;
     // not really used at the moment
     private Double selfAssessment;
     private Double docentProductRating;
@@ -31,6 +32,14 @@ public class UserPeerAssessmentData {
 
     public Integer getBeyondStdDeviation() {
         return beyondStdDeviation;
+    }
+
+    public Double getCleanedGroupWorkRating() {
+        return cleanedGroupWorkRating;
+    }
+
+    public void setCleanedGroupWorkRating(Double cleanedGroupWorkRating) {
+        this.cleanedGroupWorkRating = cleanedGroupWorkRating;
     }
 
     public void setBeyondStdDeviation(Integer beyondStdDeviation) {

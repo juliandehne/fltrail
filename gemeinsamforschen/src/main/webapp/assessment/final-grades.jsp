@@ -86,11 +86,31 @@
                         <td name="productDocent" class="${levelOfAgreement}">
                             ${productDocent}
                         </td>
-                        <td name="workRating" style="display:flex;" class="fas ${beyondStdDeviation}">
-                            ${workRating}
+                        <td name="workRating" style="display:flex;">
+                            <a data-toggle='collapse' href='.cleaned' role='button'
+                                       aria-expanded='false' aria-controls='cleaned'>
+                                       <div class='collapse in cleaned'>
+                                <i class='fas ${beyondStdDeviation}'></i>
+                            </div>
+                            <div class='collapse cleaned'>
+                                <i class='fas fa-check'></i>
+                            </div>
+
+                            </a>
+                            <div class='collapse cleaned'>
+                                ${cleanedWorkRating}
+                            </div>
+                            <div class='collapse in cleaned'>
+                                ${workRating}
+                            </div>
                         </td>
                         <td name="suggested" id="suggested_${userId}">
-                            ${suggested}
+                            <div class='collapse cleaned'>
+                                ${cleanedSuggested}
+                            </div>
+                            <div class='collapse in cleaned'>
+                                ${suggested}
+                            </div>
                         </td>
                         <td></td>
                         <td name="finalMark">
@@ -123,6 +143,10 @@
                     <div style="display: flex; margin-bottom: 5px;">
                         <i class="fas fa-check"></i> Dieser Student wurde von seinen Peers ausgeglichen bewertet.
                     </div>
+                    <label>
+                        Klicken sie auf das entsprechende Symbol in der Tabelle um die Bewertungen der Studierenden
+                        um Ausreißer zu bereinigen.
+                    </label>
                 </div>
             </div>
         </div>

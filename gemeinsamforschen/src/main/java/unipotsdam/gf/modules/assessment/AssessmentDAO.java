@@ -200,13 +200,26 @@ public class AssessmentDAO {
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, project.getName(), user.getEmail());
         boolean next = vereinfachtesResultSet.next();
+        String feedbackStudent = "";
+        if (next)
+            feedbackStudent = vereinfachtesResultSet.getString("fromPeer");
+        Map<String, Double> workRating = new HashMap<>();
         while (next) {
-            Map<String, Double> workRating = new HashMap<>();
-            workRating.put(vereinfachtesResultSet.getString("itemName"),
+            Map<String, Double> workRatingNew = new HashMap<>();
+            workRatingNew.put(vereinfachtesResultSet.getString("itemName"),
                     (double) vereinfachtesResultSet.getInt("rating"));
-            result.add(workRating);
+            if (!feedbackStudent.equals(vereinfachtesResultSet.getString("fromPeer"))) {
+                feedbackStudent = vereinfachtesResultSet.getString("fromPeer");
+                result.add(workRating);
+                workRating = workRatingNew;
+            } else {
+                workRating.put(vereinfachtesResultSet.getString("itemName"),
+                        (double) vereinfachtesResultSet.getInt("rating"));
+            }
             next = vereinfachtesResultSet.next();
         }
+        if (workRating.size() > 0)
+            result.add(workRating);
         connect.close();
         return result;
     }
@@ -573,7 +586,10 @@ public class AssessmentDAO {
         HashMap<User, Double> result = new HashMap<>();
         connect.connect();
         String query =
-                "SELECT pu.userEmail, avg(rating) as avgGrade from workrating wr" + "   join projectuser pu on pu.projectName = wr.projectName" + "  where wr.projectName = ?" + "   and wr.userEmail = pu.userEmail" + "  group by userEmail ";
+                "SELECT pu.userEmail, avg(rating) as avgGrade from workrating wr" +
+                        "   join projectuser pu on pu.projectName = wr.projectName" +
+                        "  where wr.projectName = ?" + "   and wr.userEmail = pu.userEmail" +
+                        "  group by userEmail ";
         convertResultSetToUserRatingMap(project, result, query);
         connect.close();
         return result;
@@ -582,7 +598,7 @@ public class AssessmentDAO {
     public HashMap<User, Double> getFinalRating(Project project) {
         HashMap<User, Double> result = new HashMap<>();
         connect.connect();
-        String query = "SELECT userEmail, grade as avgGrade from grades g " + "WHERE projectName = ?";
+        String query = "SELECT userEmail, grade as avgGrade from grades g WHERE projectName = ?";
         convertResultSetToUserRatingMap(project, result, query);
         connect.close();
         return result;
