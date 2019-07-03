@@ -380,8 +380,8 @@ function handleLinkedTasks(object, result) {
                 }
                 break;
             case "CLOSE_PEER_ASSESSMENTS_PHASE":
-                result.solveTaskWith = "Studentische Bewertung abschließen";
-                result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
+                result.solveTaskWith = "";
+                result.solveTaskWithLink = "";
                 break;
             case "GIVE_FINAL_GRADES":
                 result.solveTaskWith = "Noten vergeben";

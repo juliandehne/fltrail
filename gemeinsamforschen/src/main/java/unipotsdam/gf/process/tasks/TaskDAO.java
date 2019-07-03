@@ -576,7 +576,7 @@ public class TaskDAO {
 
     public void addTaskType(Task task, TaskType taskType) {
         boolean contains = false;
-        int position = 0;
+        int position = 1;
         for (TaskType containedTaskType : task.getTaskType()) {
             if (containedTaskType == taskType) {
                 contains = true;

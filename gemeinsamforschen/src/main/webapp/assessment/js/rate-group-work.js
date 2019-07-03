@@ -10,7 +10,9 @@ $(document).ready(function () {
     projectName = getQueryVariable("projectName");
 
     // get the user to feedback
-    getWhomToRate(projectName);
+    getWhomToRate(projectName, function (userFeedbacked) {
+        $('#taskTemplate').tmpl(userFeedbacked).appendTo('#taskTemplateDiv');
+    });
 
 
     // getting the survey items from the server
@@ -30,20 +32,21 @@ $(document).ready(function () {
 function sendDataToServer(survey) {
     //var resultAsString = JSON.stringify(survey.data);
     //alert(resultAsString); //send Ajax request to your web server.
-    let dataReq = new RequestObj(1, "/assessment", "/save/projects/?/context/FL/user/?", [projectName, userFeedbacked.email], [], survey.data);
-    serverSide(dataReq, "POST", function () {
-        //log.warn(a);
-        // bestätigung, dass es gut funktioniert hat und dann zurückbutton anbieten
-        // this here is a dummy
-        location.href = "../project/tasks-student.jsp?projectName=" + projectName;
-    })
+    getWhomToRate(projectName, function (userFeedbacked) {
+        let dataReq = new RequestObj(1, "/assessment", "/save/projects/?/context/FL/user/?", [projectName, userFeedbacked.email], [], survey.data);
+        serverSide(dataReq, "POST", function () {
+            //log.warn(a);
+            // bestätigung, dass es gut funktioniert hat und dann zurückbutton anbieten
+            // this here is a dummy
+            location.href = "../project/tasks-student.jsp?projectName=" + projectName;
+        })
+    });
 }
 
-function getWhomToRate(projectName) {
+function getWhomToRate(projectName, callback) {
     let dataReq = new RequestObj(1, "/assessment", "/nextGroupMemberToRate/projects/?", [projectName], [], []);
     serverSide(dataReq, "GET", function (response) {
-        userFeedbacked = response;
+        callback(response);
         // dynamic data
-        $('#taskTemplate').tmpl(userFeedbacked).appendTo('#taskTemplateDiv');
     });
 }

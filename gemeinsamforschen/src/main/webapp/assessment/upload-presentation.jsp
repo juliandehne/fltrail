@@ -50,9 +50,10 @@
                     <div class="alert alert-warning" id="divFinalContribution" style="display:flex;">
                         <label>
                             Finale Abgabe
-                            <input id="finalContribution" type="checkbox">
+                            <input style="margin-top:2px;" id="finalContribution" type="checkbox">
                         </label>
-                        <p>Die Präsentation ist eine finale Abgabe. Sie wird hiermit zur Bewertung freigegeben.</p>
+                        <p style="margin-top: 2px;"> Die Präsentation ist eine finale Abgabe. Sie wird hiermit zur
+                            Bewertung freigegeben.</p>
                     </div>
                 </div>
             </div>

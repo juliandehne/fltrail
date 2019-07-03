@@ -72,7 +72,7 @@
                                         {{else}}
                                         Jede Gruppe hat einen abschließenden Report hochgeladen. <br>
                                        {{/if}}
-                                        <button id='startGradingButton' onClick="startGrading(getProjectName());">Upload Phase abschließen</button>
+                                        <button id='startGradingButton' class='btn btn-primary' onClick="startGrading(getProjectName());">Upload Phase abschließen</button>
                                     </div>
                                 {{/if}}
                                  {{if inCardSolver=="CLOSE_PEER_ASSESSMENTS_PHASE"}}
@@ -91,6 +91,7 @@
                                         {{else}}
                                             Alle Studierenden haben sich gegenseitig bewertet
                                         {{/if}}
+                                        <button onClick="closePhase('Assessment', \'getProjectName()\');" class="btn btn-primary"><i class="fas fa-link"></i> Studentische Bewertung abschließen </button>
                                     </div>
                                 {{/if}}
                            {{/if}}
