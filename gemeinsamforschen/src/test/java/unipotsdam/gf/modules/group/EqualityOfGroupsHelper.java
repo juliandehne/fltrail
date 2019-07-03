@@ -1,4 +1,4 @@
-package unipotsdam.gf;
+package unipotsdam.gf.modules.group;
 
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;

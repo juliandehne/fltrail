@@ -1,4 +1,4 @@
-package unipotsdam.gf;
+package unipotsdam.gf.modules.group;
 
 
 public class CheckEqualityOfGroups {

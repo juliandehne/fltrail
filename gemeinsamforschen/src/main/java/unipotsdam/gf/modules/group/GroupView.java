@@ -5,7 +5,6 @@ import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IGroupFinding;
-import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
@@ -214,7 +213,8 @@ public class GroupView {
             @PathParam("projectId") String projectId, @PathParam("userId") String userId, PreferenceData preferenceData)
             throws Exception {
 
-        new CompBaseMatcher().sendPreferenceData(projectId, userId, preferenceData);
+        //new CompBaseMatcher().sendPreferenceData(projectId, userId, preferenceData);
+        groupFormationProcess.sendCompBaseUserData(new Project(projectId), new User(userId), preferenceData);
         return Response.ok().entity("Lernziele werden verarbeitet").build();
     }
 

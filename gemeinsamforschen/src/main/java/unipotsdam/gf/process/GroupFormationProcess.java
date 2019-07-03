@@ -10,6 +10,8 @@ import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupData;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
+import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -22,6 +24,8 @@ import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
 import java.util.List;
 
@@ -149,5 +153,15 @@ public class GroupFormationProcess {
 
     public GroupFormationMechanism getGFMByProject(Project project) {
         return groupfinding.getGroupFormationMechanism(project);
+    }
+
+    /**
+     * COMPBASE data for group matching alg 1
+     * @param preferenceData
+     * @throws Exception
+     */
+    public void sendCompBaseUserData(Project project, User user, PreferenceData preferenceData)
+            throws Exception {
+        new CompBaseMatcher().sendPreferenceData(project.getName(), user.getEmail(), preferenceData);
     }
 }
