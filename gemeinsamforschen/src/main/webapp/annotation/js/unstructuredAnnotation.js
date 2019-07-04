@@ -47,7 +47,7 @@ function handleCategorySelection(category, startCharacter, endCharacter) {
 }
 
 function highlightText(category, startCharacter, endCharacter) {
-    let color = $('.added-' + category).css('background-color');
+    let color = $('#' + category).css('background-color');
     let length = endCharacter - startCharacter;
     quill.formatText(startCharacter, length, 'background', color);
 }
@@ -83,7 +83,12 @@ function isAlreadyHighlighted(startCharacter, endCharacter) {
 function toggleStatusbar(category) {
     let categoryTag = $('#' + category);
     if (!categoryTag.hasClass('added-' + category)) {
-        categoryTag.toggleClass("not-added added-" + category);
+        categoryTag.toggleClass("not-added");
+        let r = (Math.abs(category.hashCode() * 3 % 200) + 55).toString(16);
+        let g = (Math.abs(category.hashCode() * 43 % 200) + 55).toString(16);
+        let b = (Math.abs(category.hashCode() * 101 % 200) + 55).toString(16);
+        categoryTag.css("background-color", "#" + r + g + b);
+        categoryTag.css("color", "#EEE");
     }
 }
 
@@ -214,11 +219,8 @@ function deleteCategory(category) {
     }
     categoryLI.data('array', null);
 
-    $('.added-' + category).each(function () {
-        $(this).toggleClass('added-' + category + ' not-added');
-    });
-
-    let test = category;
+    categoryLI.toggleClass('not-added');
+    categoryLI.css("background-color", "#FFF");
 }
 
 function contextMenuOptions(categories) {

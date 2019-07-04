@@ -1,7 +1,6 @@
 package unipotsdam.gf.modules.submission.view;
 
 import com.itextpdf.text.DocumentException;
-import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -155,7 +154,7 @@ public class SubmissionService {
     public Response getSubmissionPart(@PathParam("id") String fullSubmissionId, @PathParam("category") String category) {
         // get submission part from database based by id
         SubmissionPart submissionPart = submissionController.getSubmissionPart(fullSubmissionId,
-                Category.valueOf(category.toUpperCase()));
+                category.toUpperCase());
 
         if (submissionPart != null) {
             return Response.ok(submissionPart).build();

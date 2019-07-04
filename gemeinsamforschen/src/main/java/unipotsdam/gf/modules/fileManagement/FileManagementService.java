@@ -107,7 +107,7 @@ public class FileManagementService {
     }
 
     public void saveStringAsPDF(User user, Project project, FullSubmissionPostRequest fullSubmissionPostRequest) throws IOException, DocumentException {
-        String fileName = fullSubmissionPostRequest.getFileRole() + "_" + user.getEmail() + ".pdf";
+        String fileName = fullSubmissionPostRequest.getHeader() + "_" + user.getEmail() + ".pdf";
         String categoryString = fullSubmissionPostRequest.getFileRole().toString();
         FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name(categoryString).fileName(fileName);
         saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(), FileRole.DOSSIER, FileType.HTML);

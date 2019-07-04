@@ -67,7 +67,7 @@ public interface ISubmission {
      * @param category         The category of the submission
      * @return The returned submission part
      */
-    SubmissionPart getSubmissionPart(String fullSubmissionId, Category category);
+    SubmissionPart getSubmissionPart(String fullSubmissionId, String category);
 
     /**
      * Get all submission parts based on an id

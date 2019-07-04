@@ -4,5 +4,5 @@ $(document).ready(function () {
         buildAnnotationList(categories);
     });
 
-    let titel = $('#ownTitle').val();
+    let title = $('#ownTitle').val();
 });

@@ -25,7 +25,7 @@ $(document).ready(function () {
 
     if (fullSubmissionId !== '') {
         getFullSubmission(fullSubmissionId, function (fullSubmission) {
-            $('#ownTitle').val(fullSubmission.header)
+            $('#ownTitle').val(fullSubmission.header);
             setQuillContentFromFullSubmission(fullSubmission);
         });
     } else {
@@ -47,8 +47,12 @@ $(document).ready(function () {
                 if (typeof currentVisibleButtonText !== 'undefined') {
                     visibility = currentVisibleButtonText.name
                 }
+                let header = "";
+                if ($('#ownTitle').val() != null) {
+                    header = $('#ownTitle').val().trim();
+                }
                 let fullSubmissionPostRequest = {
-                    header: $('#ownTitle').text().trim(),
+                    header: header,
                     id: fullSubmissionId,
                     groupId: groupId,
                     text: JSON.stringify(content),

@@ -254,7 +254,7 @@ public class SubmissionController implements ISubmission, HasProgress {
                                 "INSERT IGNORE INTO submissionpartbodyelements (`fullSubmissionId`, `category`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?);";
                         connection.issueInsertOrDeleteStatement(requestElement0,
                                 submissionPartPostRequest.getFullSubmissionId(),
-                                submissionPartPostRequest.getCategory().toString().toUpperCase(),
+                                submissionPartPostRequest.getCategory().toUpperCase(),
                                 element.getStartCharacter(), element.getEndCharacter());
                     }
 
@@ -268,7 +268,7 @@ public class SubmissionController implements ISubmission, HasProgress {
 
                     int startCharacter = element.getStartCharacter();
                     String fullSubmissionId = submissionPartPostRequest.getFullSubmissionId();
-                    Category category = submissionPartPostRequest.getCategory();
+                    String category = submissionPartPostRequest.getCategory();
                     int endCharacter = element.getEndCharacter();
                     connection.issueUpdateStatement(requestElement1, startCharacter, fullSubmissionId, category,
                             endCharacter);
@@ -313,7 +313,7 @@ public class SubmissionController implements ISubmission, HasProgress {
     }
 
     @Override
-    public SubmissionPart getSubmissionPart(String fullSubmissionId, Category category) {
+    public SubmissionPart getSubmissionPart(String fullSubmissionId, String category) {
 
         connection.connect();
 
@@ -579,7 +579,7 @@ public class SubmissionController implements ISubmission, HasProgress {
      * 1 if we found a similar element on the right side and -1 if we found a similar element on the left side.
      */
     private int numOfSimilarBodyElements(
-            String fullSubmissionId, Category category, int startCharacter, int endCharacter) {
+            String fullSubmissionId, String category, int startCharacter, int endCharacter) {
 
         // build and execute request
         String request =
@@ -632,7 +632,7 @@ public class SubmissionController implements ISubmission, HasProgress {
      * @return Returns true if overlapping boundaries have been found
      */
     private boolean hasOverlappingBoundaries(
-            String fullSubmissionId, Category category, SubmissionPartBodyElement element) {
+            String fullSubmissionId, String category, SubmissionPartBodyElement element) {
 
         // initialize start and end character
         int start = element.getStartCharacter();

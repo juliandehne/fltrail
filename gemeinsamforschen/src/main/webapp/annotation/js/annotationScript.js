@@ -572,56 +572,9 @@ function getDarkUserColor(userEmail, category) {
 }
 
 function generateCategoryBasedColor(userEmail, category) {
-    let category_r, category_g, category_b;
-    let categorymap = {
-        TITEL: {
-            r: "ba",
-            g: "68",
-            b: "c8",
-        },
-        RECHERCHE: {
-            r: "79",
-            g: "86",
-            b: "cb",
-        },
-        LITERATURVERZEICHNIS: {
-            r: "4d",
-            g: "d0",
-            b: "e1",
-        },
-        FORSCHUNGSFRAGE: {
-            r: "81",
-            g: "c7",
-            b: "84",
-        },
-        UNTERSUCHUNGSKONZEPT: {
-            r: "dc",
-            g: "e7",
-            b: "75",
-        },
-        METHODIK: {
-            r: "ff",
-            g: "d5",
-            b: "4f",
-        },
-        DURCHFUEHRUNG: {
-            r: "ff",
-            g: "8a",
-            b: "65",
-        },
-        AUSWERTUNG: {
-            r: "a1",
-            g: "88",
-            b: "7f",
-        },
-    };
-    category_r = categorymap[category].r;
-    category_g = categorymap[category].g;
-    category_b = categorymap[category].b;
-
-    let r = parseInt(category_r, 16) + (userEmail.hashCode() * userEmail.hashCode() * userEmail.hashCode()) % 31;
-    let g = parseInt(category_g, 16) + (userEmail.hashCode() * userEmail.hashCode()) % 31;
-    let b = parseInt(category_b, 16) + userEmail.hashCode() % 31;
+    let r = (Math.abs(category.hashCode() * 3 % 200) + 55).toString(16);
+    let g = (Math.abs(category.hashCode() * 43 % 200) + 55).toString(16);
+    let b = (Math.abs(category.hashCode() * 101 % 200) + 55).toString(16);
     let r_d = r - 50;
     let g_d = g - 50;
     let b_d = b - 50;
@@ -915,19 +868,7 @@ function selectText() {
 
 }
 
-String.prototype.hashCode = function () {
-    let hash = 0, i, chr;
-    if (this.length === 0) return hash;
-    for (i = 0; i < this.length; i++) {
-        chr = this.charCodeAt(i);
-        hash = ((hash << 5) - hash) + chr;
-        hash |= 0; // Convert to 32bit integer
-    }
-    return hash;
-};
-
 function getFeedbackName() {
-    // TODO: should Text "Gib der Gruppe eine Rückmeldung für das Dossier." have a name in it? (Groups doesn't have a name)
     $.ajax({
         url: "../rest/annotations/feedbackTarget/projectName/" + $('#projectName').html().trim(),
         headers: {

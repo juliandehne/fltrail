@@ -266,6 +266,7 @@ function getFullSubmissionOfGroup(groupId, version) {
         },
         success: function (fullSubmission) {
             setQuillContentFromFullSubmission(fullSubmission);
+            $('#ownTitle').val(fullSubmission.header);
             fullSubmissionId = fullSubmission.id;
         },
         error: function () {
@@ -334,3 +335,13 @@ function loaderStart() {
 function loaderStop() {
     document.getElementById('loader').className = "loader-inactive";
 }
+
+String.prototype.hashCode = function () {
+    let hash = 0;
+    for (let i = 0; i < this.length; i++) {
+        let character = this.charCodeAt(i);
+        hash = ((hash << 5) - hash) + character;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+};
