@@ -491,7 +491,7 @@ CREATE TABLE `tasks`
     `importance`  varchar(100)      DEFAULT NULL,
     `progress`    varchar(100)      DEFAULT NULL,
     `phase`       varchar(100)      DEFAULT NULL,
-    `created`     timestamp    NULL DEFAULT NULL,
+    `created`     BIGINT(20)   NOT NULL,
     `due`         timestamp    NULL DEFAULT NULL,
     `taskMode2`   varchar(100)      DEFAULT NULL,
     `taskMode3`   varchar(100)      DEFAULT NULL,

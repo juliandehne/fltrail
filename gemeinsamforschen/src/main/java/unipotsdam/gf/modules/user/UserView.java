@@ -87,14 +87,7 @@ public class UserView {
             return registrationError();
         }
 
-        try {
-            projectCreationProcess.authenticateUser(user, req);
-        } catch (UserDoesNotExistInRocketChatException e) {
-            loginError();
-        } catch (RocketChatDownException e) {
-            e.printStackTrace();
-            return registrationError();
-        }
+        projectCreationProcess.authenticateUser(user, req);
         user = fillUserFields(user);
         gfContexts.updateUserSessionWithStatus(req, user);
 
@@ -137,8 +130,6 @@ public class UserView {
             } else {
                 return loginMistake();
             }
-        } catch (UserDoesNotExistInRocketChatException | RocketChatDownException e) {
-            return loginError();
         } finally {
             log.debug("exited login");
         }

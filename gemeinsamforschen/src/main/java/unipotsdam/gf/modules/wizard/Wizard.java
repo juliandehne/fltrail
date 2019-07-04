@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.wizard;
 
+import org.apache.catalina.startup.Tomcat;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
@@ -8,21 +9,30 @@ import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
+import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
+import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.compbase.ConceptImporter;
+import unipotsdam.gf.modules.wizard.compbase.TomcatConceptImporter;
 import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.*;
+import java.util.stream.Collectors;
 
+@Singleton
 public class Wizard {
+
+    private final TomcatConceptImporter concepts;
 
     @Inject
     WizardDao wizardDao;
@@ -48,7 +58,14 @@ public class Wizard {
     @Inject
     GroupDAO groupDAO;
 
+    @Inject
+    Management management;
+
     PodamFactoryImpl factory = new PodamFactoryImpl();
+
+    public Wizard() {
+        this.concepts = new TomcatConceptImporter();
+    }
 
     /**
      * closes all previous tasks
@@ -79,9 +96,11 @@ public class Wizard {
             previousTasksNotInThisPhase.addAll(taskNames);
         }
         // removing all tasks that have been dealt with in previous phases and have been simulated already
-        previousTasks.removeAll(previousTasksNotInThisPhase);
-
-        for (TaskName name : previousTasksNotInThisPhase) {
+        if (previousTasks != null) {
+            previousTasks.removeAll(previousTasksNotInThisPhase);
+        }
+        // previous tasks only contains tasks in this phase now
+        for (TaskName name : previousTasks) {
             switch (name) {
                 case WAIT_FOR_PARTICPANTS: {
                     createStudents(project);
@@ -168,23 +187,25 @@ public class Wizard {
     }
 
     public List<TaskName> getPreviousTasks(TaskName taskName) {
-        if (taskName.equals(TaskName.WAIT_FOR_PARTICPANTS)) {
-            return null;
-        }
+        /*if (taskName.equals(TaskName.WAIT_FOR_PARTICPANTS)) {
+            return ;
+        }*/
         TaskOrder taskOrder = new TaskOrder();
         List<TaskName> orderedTasks = taskOrder.getOrderedTasks();
-        return orderedTasks.subList(0, orderedTasks.indexOf(taskName) - 1);
+        int i = orderedTasks.indexOf(taskName);
+        return orderedTasks.subList(0, i +1);
     }
 
     public void createStudents(Project project) throws Exception {
         ArrayList<User> students = new ArrayList<>();
+        Random random = new Random();
         for (int i = 0; i < 30; i++) {
             try {
                 User user = factory.manufacturePojo(User.class);
                 user.setStudent(true);
-                String uuid = UUID.randomUUID().toString();
-                user.setRocketChatUsername("student" + uuid.hashCode());
-                user.setEmail("student" + uuid.hashCode() + "@stuff.com");
+
+                user.setRocketChatUsername("studentwizard" + random.nextInt(1000000));
+                user.setEmail("studentwizard" + random.nextInt(1000000) + "@stuff.com");
                 user.setPassword("egal");
                 projectCreationProcess.deleteUser(user);
                 projectCreationProcess.createUser(user);
@@ -196,12 +217,20 @@ public class Wizard {
             }
         }
         for (User student : students) {
-            projectCreationProcess.studentEntersProject(project, student);
-            // mock groupal data generation in case manual group formation is tested
-            createMockDataForGroupal(project, student);
-            // mock compbase data is generated
-            createMockDataForCompBase(project, student);
+            GroupFormationMechanism groupMechanismSelected =
+                    management.getProjectConfiguration(project).getGroupMechanismSelected();
+            switch (groupMechanismSelected) {
+                case UserProfilStrategy:
+                    // mock compbase data is generated
+                    createMockDataForCompBase(project, student);
+                    break;
+                case LearningGoalStrategy:
+                    // mock groupal data generation in case manual group formation is tested
+                    createMockDataForGroupal(project, student);
+                    break;
+            }
         }
+        groupFormationProcess.getOrInitializeGroups(project);
     }
 
     /**
@@ -216,7 +245,7 @@ public class Wizard {
         // if not persist new ones
         preferenceData.setTagsSelected(tags);
         String prefix = "Ich interessiere mich für ";
-        List<String> concepts = ConceptImporter.getNumberedConcepts(5);
+        List<String> concepts = this.concepts.getNumberedConcepts(5);
         for (int i = 0; i < 5; i++) {
             String competence = prefix + concepts.get(i);
             preferenceData.getCompetences().add(competence);
@@ -230,7 +259,7 @@ public class Wizard {
         List<String> tags = projectDAO.getTags(project);
 
         if (tags == null || tags.isEmpty()) {
-            tags = ConceptImporter.getNumberedConcepts(5);
+            tags = concepts.getNumberedConcepts(5);
             projectDAO.persistTagsForWizard(project, tags);
         }
         return result;
@@ -245,7 +274,7 @@ public class Wizard {
         HashMap<String, String> data = new HashMap<>();
         Random random = new Random();
         for (int i = 0; i < 20 ; i++) {
-            int questionId = random.nextInt(27);
+            int questionId = random.nextInt(26) + 1;
             int rating = random.nextInt(4) + 1;
             data.put(questionId + "", rating + "");
         }
@@ -295,7 +324,19 @@ public class Wizard {
 
     public List<WizardProject> getProjects() {
         List<WizardProject> projects = wizardDao.getProjects();
-        return projects;
+        List<WizardProject> collected = projects.stream().filter(wizardProject -> notInGroupWorkContext(wizardProject))
+                .collect(Collectors.toList());
+        return collected;
+    }
+
+    private boolean notInGroupWorkContext(WizardProject wizardProject) {
+        GroupWorkContext[] values = GroupWorkContext.values();
+        for (GroupWorkContext value : values) {
+            if (value.toString().equals(wizardProject.getName())) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 

@@ -28,7 +28,7 @@ public class WizardDao {
                 " SELECT p.name, p.phase, t.taskName FROM projects " +
                 " p join tasks t on p.name = t.projectName" +
                 " where t.progress = ? " +
-                " Group By p.phase ORDER by t.created ASC " ;
+                " Group By p.phase, p.name ORDER by t.created ASC " ;
         List<WizardProject> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Progress.JUSTSTARTED);
         while (vereinfachtesResultSet.next()) {

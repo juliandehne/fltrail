@@ -99,8 +99,7 @@ public class ProjectCreationProcess {
 
     }
 
-    public Boolean authenticateUser(User user, HttpServletRequest req)
-            throws UserDoesNotExistInRocketChatException, RocketChatDownException {
+    public Boolean authenticateUser(User user, HttpServletRequest req) {
         RocketChatUser isLoggedIn = null;
         try {
             isLoggedIn = iCommunication.loginUser(user);

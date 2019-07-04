@@ -5,5 +5,4 @@ public class CompbaseConfig {
 
     public static final String COMPBASE_LOCAL = "http://localhost:8080/competence-base";
 
-    public static final String CONCEPT_FILE_FOR_WIZARD = "SentiWS_v2.0_Positive.csv";
 }
