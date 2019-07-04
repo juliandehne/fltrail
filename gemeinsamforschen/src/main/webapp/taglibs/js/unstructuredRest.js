@@ -53,7 +53,7 @@ function updateFullSubmission(fullSubmissionPostRequest, finalize, responseHandl
  * @param errorHandler The error handler
  */
 function getFullSubmission(id, responseHandler, errorHandler) {
-    let url = baseSubmissionUrl + "full/" + id;
+    let url = `../rest/submissions/full/${id}`;
     $.ajax({
         url: url,
         type: "GET",
@@ -196,6 +196,24 @@ function getPortfolioSubmissions(queryParams, callback) {
             let response = [];
             response.error = true;
             callback(response);
+        }
+    })
+}
+
+function updatePortfolioSubmission(fullSubmissionPostRequest, callback) {
+    let url = `../rest/submissions/portfolio/${fullSubmissionPostRequest.id}`;
+    let data = JSON.stringify(fullSubmissionPostRequest);
+    $.ajax({
+        url: url,
+        type: "PUT",
+        data: data,
+        contentType: "application/json",
+        success: function (response) {
+            // handle the response
+            callback(response);
+        },
+        error: function (response) {
+            console.error(`Error while updating portfolio entry! ${response}`);
         }
     })
 }

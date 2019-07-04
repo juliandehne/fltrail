@@ -23,6 +23,8 @@
     <script src="../taglibs/js/unstructuredRest.js"></script>
     <script src="js/portfolio-docent.js"></script>
     <script src="../taglibs/js/visibilityButton.js"></script>
+    <script src="../taglibs/js/apiClient/contributionFeedbackClient.js"></script>
+    <script src="js/portfolio-shared.js"></script>
 
 </head>
 
@@ -56,24 +58,11 @@
                             </div>
                         </div>
                         <h3>Einträge</h3>
-                        {{for submissionList}}
-                            <br/>
-                            <div id="editor-{{:id}}"></div>
-                            {{:scriptBegin}}
-                            new Quill('#editor-{{:id}}', {
-                                theme: 'snow',
-                                readOnly: true,
-                                "modules": {
-                                    "toolbar": false
-                                }
-                            }).setContents({{:text}});
-                            {{:scriptEnd}}
-                            <h4 class="creation-information">{{:creator}} - {{:timestampDateTimeFormat}}</h4>
-                            <br/>
-                        {{/for}}
+                        {{include tmpl="#portfolioEntryTemplate"/}}
                     {{/if}}
 
             </script>
+            <jsp:include page="portfolio-commentary-template.jsp"/>
         </div> <!-- flex wrapper -->
     </main>
     <jsp:include page="../taglibs/footer.jsp"/>

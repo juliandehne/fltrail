@@ -23,15 +23,7 @@ $(document).ready(function () {
     }
     setupPageContent();
 
-    if (fullSubmissionId !== '') {
-        getFullSubmission(fullSubmissionId, setQuillContentFromFullSubmission);
-    } else {
-        if (!personal) {
-            getMyGroupId(function (groupId) {
-                getFullSubmissionOfGroup(groupId, 0)
-            });
-        }
-    }
+
 
     $('#btnSave').click(function () {
         getMyGroupId(function (groupId) {
@@ -41,8 +33,8 @@ $(document).ready(function () {
 
                 // build request
                 let visibility = "GROUP";
-                if (typeof currentVisibleButtonText !== 'undefined') {
-                    visibility = currentVisibleButtonText.name
+                if (typeof currentVisibility !== 'undefined') {
+                    visibility = currentVisibility.name
                 }
                 let fullSubmissionPostRequest = {
                     id: fullSubmissionId,
@@ -54,8 +46,13 @@ $(document).ready(function () {
                     fileRole: fileRole.toUpperCase(),
                     visibility: visibility
                 };
-                // save request in database
-                createFullSubmission(fullSubmissionPostRequest, redirectToPreviousPage)
+                if (isPortfolioEntry && fullSubmissionId !== '') {
+                    updatePortfolioSubmission(fullSubmissionPostRequest, redirectToPreviousPage);
+                } else {
+                    // save request in database
+                    createFullSubmission(fullSubmissionPostRequest, redirectToPreviousPage)
+                }
+
             } else {
                 alert("Ein Text wird benötigt");
             }
@@ -103,7 +100,24 @@ function setupPageContent() {
         } else {
             currentVisibility = possibleVisibilities['GROUP'];
         }
-        populateTextFields();
+        // TODO: refactor as async await function, so the call for populate textfield don't have to be here twice
+        if (fullSubmissionId !== '') {
+            getFullSubmission(fullSubmissionId, function (fullSubmission) {
+                setQuillContentFromFullSubmission(fullSubmission);
+                currentVisibility = possibleVisibilities[fullSubmission.visibility];
+                populateTextFields();
+            });
+        } else {
+            if (!personal) {
+                getMyGroupId(function (groupId) {
+                    getFullSubmissionOfGroup(groupId, 0);
+                    populateTextFields();
+                });
+            }
+        }
+    });
+    getAnnotationCategories(function (categories) {
+        buildAnnotationList(categories);
     });
 }
 

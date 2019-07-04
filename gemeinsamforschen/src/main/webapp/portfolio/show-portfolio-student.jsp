@@ -23,6 +23,8 @@
     <script src="../taglibs/js/unstructuredRest.js"></script>
     <script src="js/portfolio-student.js"></script>
     <script src="../taglibs/js/visibilityButton.js"></script>
+    <script src="../taglibs/js/apiClient/contributionFeedbackClient.js"></script>
+    <script src="js/portfolio-shared.js"></script>
 
 </head>
 
@@ -56,37 +58,15 @@
                     </div>
 
 
+
             </script>
             <h3>Einträge</h3>
             <div id="portfolioTemplateResult"></div>
+
             <script id="portfolioTemplate" type="text/x-jsrender">
-                <div></div>
-                {{for submissionList}}
-                    <br/>
-                    <div id="editor-{{:id}}"></div>
-                    {{:scriptBegin}}
-                    new Quill('#editor-{{:id}}', {
-                        theme: 'snow',
-                        readOnly: true,
-                        "modules": {
-                            "toolbar": false
-                        }
-                    }).setContents({{:text}});
-                    {{:scriptEnd}}
-                    <h4 class="creation-information">
-                    {{if editable}}
-                        <a href="../annotation/upload-unstructured-dossier.jsp?projectName={{:projectName}}&fullSubmissionId={{:id}}&fileRole=Portfolio&personal=true">Editieren</a> -
-                    {{/if}}
-                    {{:userEmail}} - {{:timestampDateTimeFormat}}</h4>
-                    <br/>
-                {{/for}}
-                {{if error}}
-                    <h1>Keine Einträge gefunden</h1>
-                {{/if}}
-
-
+                {{include tmpl="#portfolioEntryTemplate"/}}
             </script>
-
+            <jsp:include page="portfolio-commentary-template.jsp"/>
         </div> <!-- flex wrapper -->
     </main>
     <jsp:include page="../taglibs/footer.jsp"/>

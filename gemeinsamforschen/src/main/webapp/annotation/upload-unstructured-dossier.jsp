@@ -43,7 +43,8 @@
     <script src="../taglibs/js/unstructuredRest.js"></script>
 
     <script src="../taglibs/js/visibilityButton.js"></script>
-    <script src="js/unstructuredAnnotation.js"></script>
+
+    <script src="../taglibs/js/annotationUtils.js"></script>
 
     <!-- jsrender -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
@@ -66,10 +67,10 @@
         <div class="row group">
             <div class="col span_content span_l_of_2">
                 <div id="headerTemplateResult"></div>
+                <!-- TODO: rebuild as one template-->
                 <script id="headerTemplate" type="text/x-jsrender">
                     <div></div>
                     <h1>{{:header}} anlegen</h1>
-
                 </script>
                 <div id="visibilityTemplateResult"></div>
                 <script id="visibilityTemplate" type="text/x-jsrender">
@@ -86,8 +87,6 @@
                             </div>
                         </div>
                     {{/if}}
-
-
                 </script>
 
                 <br>
@@ -103,41 +102,46 @@
                     </button>
                 </div>
             </div>
-            <div class="col span span_s_of_2">
-                <div class="infobox dossier">
-                    <p>Erstellen Sie ein Dossier
-                        <a data-toggle='collapse' href='#whatIs' role='button'
-                           aria-expanded='false' aria-controls='whatIs'>
-                            <i class='fas fa-question'></i>
-                        </a>
-                        mit den folgenden Kategorien.
-                    </p>
-                    <div class='collapse' id='whatIs'>
-                        <div class='card card-body'>
-                            Ein Dossier ist eine Aktensammlung für Ihr Projekt. Der Dozent hat dabei
-                            festelegt, dass die rechts sichtbaren Kategorien mindestens mit enthalten sein müssen.
-                            Nachdem Sie hier all ihre Textbausteine verfasst haben, kann ihre Gruppe ihren Beitrag
-                            lesen und editieren. Dieser Vorgang endet, wenn ein Mitglied ihrer Gruppe mit Hilfe
-                            der nächsten Aufgabe den Textbausteinen die Kategorien zuordnet.
-                        </div>
-                    </div>
-                </div>
-                <ol id="annotations">
-                    <script id="annotationTemplate" type="text/x-jsrender">
-                    {{for categories}}
-                        <li class="spacing">
-                        <div class="row group">
-                            <div id="{{>nameLower}}" class="category-card not-added col span_content">
-                                <p>{{>name}}</p>
+            <div id="annotationTemplateResult"></div>
+            <script id="annotationTemplate" type="text/x-jsrender">
+                <div/>
+                {{if fileRole != "Portfolio"}}
+                    <div class="col span span_s_of_2">
+                        <div class="infobox dossier">
+                            <p>Erstellen Sie ein Dossier
+                                <a data-toggle='collapse' href='#whatIs' role='button'
+                                   aria-expanded='false' aria-controls='whatIs'>
+                                    <i class='fas fa-question'></i>
+                                </a>
+                                mit den folgenden Kategorien.
+                            </p>
+                            <div class='collapse' id='whatIs'>
+                                <div class='card card-body'>
+                                    Ein Dossier ist eine Aktensammlung für Ihr Projekt. Der Dozent hat dabei
+                                    festelegt, dass die rechts sichtbaren Kategorien mindestens mit enthalten sein müssen.
+                                    Nachdem Sie hier all ihre Textbausteine verfasst haben, kann ihre Gruppe ihren Beitrag
+                                    lesen und editieren. Dieser Vorgang endet, wenn ein Mitglied ihrer Gruppe mit Hilfe
+                                    der nächsten Aufgabe den Textbausteinen die Kategorien zuordnet.
+                                </div>
                             </div>
                         </div>
-                        </li>
-                    {{/for}}
+                        <ol id="annotations">
+                            {{for categories}}
+                                <li class="spacing">
+                                <div class="row group">
+                                    <div id="{{>nameLower}}" class="category-card not-added col span_content">
+                                        <p>{{>name}}</p>
+                                    </div>
+                                </div>
+                                </li>
+                            {{/for}}
+                        </ol>
+                    </div>
+                {{/if}}
 
 
-                    </script>
-                </ol>
-            </div>
+            </script>
+
             <div style="clear:left"></div>
             <%--    <div class="col span_chat">
                     <chat:chatWindow orientation="right" scope="project"/>

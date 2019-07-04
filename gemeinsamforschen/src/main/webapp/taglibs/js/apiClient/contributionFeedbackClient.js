@@ -18,8 +18,8 @@ function createContributionFeedback(contributionFeedback, responseHandler) {
         success: function (response) {
             responseHandler(response);
         },
-        error: function (response) {
-            console.error(response)
+        error: function () {
+            console.error("Error while creating contributionFeedback");
         }
     });
 }
@@ -95,12 +95,33 @@ function getContributionFeedback(fullSubmissionId, fullSubmissionPartCategory, g
     });
 }
 
+async function getAllContributionFeedback(fullSubmissionId) {
+    let url = baseUrl + '?' + $.param({
+        fullSubmissionId: fullSubmissionId,
+    });
+    let contributionFeedbacks;
+    try {
+        contributionFeedbacks = await $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json",
+        });
+        for (let element of contributionFeedbacks) {
+            //element.text = JSON.parse(element.text);
+        }
+    } catch (error) {
+    }
+    return contributionFeedbacks;
+
+}
+
+
 function finalize() {
     getMyGroupId(function (groupId) {
         let projectName = decodeURI(getProjectName());
-        let requObj = new RequestObj(1, "/contributionfeedback", "/finalize/projects/?/groups/?", [projectName, groupId],[])
+        let requObj = new RequestObj(1, "/contributionfeedback", "/finalize/projects/?/groups/?", [projectName, groupId], [])
         serverSide(requObj, "POST", function () {
-           location.href = "../project/tasks-student.jsp?projectName=" + getProjectName()
+            location.href = "../project/tasks-student.jsp?projectName=" + getProjectName()
         })
     });
 }

@@ -132,6 +132,14 @@ public class SubmissionController implements ISubmission, HasProgress {
         return fullSubmission;
     }
 
+    @Override
+    public void updateFullSubmissionTextAndVisibility(FullSubmissionPostRequest fullSubmission) {
+        connection.connect();
+        String request = "UPDATE fullsubmissions set text = ?, visibility = ? where id = ?";
+        connection.issueUpdateStatement(request, fullSubmission.getText(), fullSubmission.getVisibility().name(), fullSubmission.getId());
+        connection.close();
+    }
+
     public List<FullSubmission> getPersonalSubmissions(User user, Project project, FileRole fileRole) {
         List<FullSubmission> fullSubmissionList = new ArrayList<>();
         connection.connect();

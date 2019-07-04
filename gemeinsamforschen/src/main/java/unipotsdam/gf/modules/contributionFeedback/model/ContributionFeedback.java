@@ -10,6 +10,8 @@ public class ContributionFeedback {
     private String fullSubmissionId;
     private String fullSubmissionPartCategory;
     private String text;
+    private String userEmail;
+    private long timestamp;
 
     public ContributionFeedback() {
     }
@@ -24,6 +26,12 @@ public class ContributionFeedback {
         this.fullSubmissionId = fullSubmissionId;
         this.fullSubmissionPartCategory = fullSubmissionPartCategory;
         this.text = text;
+    }
+
+    public ContributionFeedback(String id, int groupId, String fullSubmissionId, String fullSubmissionPartCategory, String text, String userEmail, long timestamp) {
+        this(id, groupId, fullSubmissionId, fullSubmissionPartCategory, text);
+        this.userEmail = userEmail;
+        this.timestamp = timestamp;
     }
 
     public String getId() {
@@ -64,5 +72,21 @@ public class ContributionFeedback {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }
