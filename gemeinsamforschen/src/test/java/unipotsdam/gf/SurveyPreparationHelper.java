@@ -3,6 +3,7 @@ package unipotsdam.gf;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.GroupAlConfig;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
@@ -57,7 +58,8 @@ public class SurveyPreparationHelper {
         // importing items
         //String itemExample = "groupfindingitems_beispiel.xls";
         //String itemExample = "groupfindingitems_selected.xls";
-        String itemExample = "groupfindingitems_selected_final1.xls";
+
+        String itemExample = GroupAlConfig.GROUPFINDING_ITEM_FILE;
         ItemWriter itemWriter = new ItemWriter(itemExample);
         itemWriter.writeItems();
 

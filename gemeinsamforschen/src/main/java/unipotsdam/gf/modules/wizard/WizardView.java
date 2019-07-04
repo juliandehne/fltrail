@@ -29,13 +29,15 @@ public class WizardView {
 
     @POST
     @Path("/projects/{projectName}/task/{taskName}")
-    public void doTaskSpell(@PathParam("projectName") String projectName, @PathParam("taskName") String taskName) {
+    public void doTaskSpell(@PathParam("projectName") String projectName, @PathParam("taskName") String taskName)
+            throws Exception {
         wizard.doSpells(TaskName.valueOf(taskName), new Project(projectName));
     }
 
     @POST
     @Path("/projects/{projectName}/phase/{phase}")
-    public void doPhaseSpell(@PathParam("projectName") String projectName, @PathParam("phase") String phase) {
+    public void doPhaseSpell(@PathParam("projectName") String projectName, @PathParam("phase") String phase)
+            throws Exception {
         wizard.doSpells(Phase.valueOf(phase), new Project(projectName));
     }
 

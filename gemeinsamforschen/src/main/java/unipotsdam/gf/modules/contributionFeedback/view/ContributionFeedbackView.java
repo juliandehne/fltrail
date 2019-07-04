@@ -81,8 +81,10 @@ public class ContributionFeedbackView {
         if (contributionFeedback.getGroupId() == 0) {
             Response.status(Response.Status.BAD_REQUEST).entity("groupId was not defined").build();
         }
-        return Response.ok(contributionFeedbackService.saveContributionFeedback(contributionFeedback)).build();
+        ContributionFeedback contributionFeedback1 = dossierCreationProcess.saveFeedback(contributionFeedback);
+        return Response.ok(contributionFeedback1).build();
     }
+
 
     @PUT
     @Path("{id}")
@@ -97,12 +99,10 @@ public class ContributionFeedbackView {
     @Path("/finalize/projects/{projectName}/groups/{groupId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response finalizeFeedback(@PathParam("groupId") int groupId, @PathParam("projectName") String projectName) {
-        contributionFeedbackService.endFeedback(projectName, groupId);
-        Project project = projectDAO.getProjectByName(projectName);
-        dossierCreationProcess.createSeeFeedBackTask(project, groupId);
-        dossierCreationProcess.createReeditDossierTask(project, groupId);
+        dossierCreationProcess.saveFinalFeedback(groupId, new Project(projectName));
         return Response.ok().build();
     }
+
 
     @GET
     @Path("/feedbackTarget/projectName/{projectName}")

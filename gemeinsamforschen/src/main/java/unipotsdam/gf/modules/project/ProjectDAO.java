@@ -273,4 +273,13 @@ public class ProjectDAO {
         connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), user.getEmail());
         connect.close();
     }
+
+    public void persistTagsForWizard(Project project, List<String> tags) {
+        connect.connect();
+        String request = "INSERT INTO tags (`projectName`, `tag`) values (?,?)";
+        for (String tag : tags) {
+            connect.issueInsertOrDeleteStatement(request, project.getName(), tag);
+        }
+        connect.close();
+    }
 }

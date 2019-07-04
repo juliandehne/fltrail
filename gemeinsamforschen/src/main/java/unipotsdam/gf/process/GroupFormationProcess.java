@@ -16,6 +16,7 @@ import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserProfile;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.Task;
@@ -27,6 +28,7 @@ import javax.inject.Singleton;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
+import java.util.HashMap;
 import java.util.List;
 
 @Singleton
@@ -163,5 +165,16 @@ public class GroupFormationProcess {
     public void sendCompBaseUserData(Project project, User user, PreferenceData preferenceData)
             throws Exception {
         new CompBaseMatcher().sendPreferenceData(project.getName(), user.getEmail(), preferenceData);
+    }
+
+    /**
+     * make sure that keys in this match existing profilequestion ids (current range 1-28)
+     * @param data
+     * @param user
+     * @param project
+     */
+    public void sendGroupAlDataToServer(HashMap<String, String> data, User user, Project project) {
+        UserProfile userProfile = new UserProfile(data, user, project.getName());
+        profileDAO.save(userProfile, null);
     }
 }

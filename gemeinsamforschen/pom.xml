@@ -24,9 +24,6 @@
                 <version>2.12</version>
                 <configuration>
                     <junitArtifactName>junit:junit</junitArtifactName>
-                    <encoding>UTF-8</encoding>
-                    <inputEncoding>UTF-8</inputEncoding>
-                    <outputEncoding>UTF-8</outputEncoding>
                     <argLine>-Xms256m -Xmx512m -ea
                         -Dfile.encoding=UTF-8</argLine>
                 </configuration>
@@ -327,5 +324,13 @@
             <artifactId>jsoup</artifactId>
             <version>1.12.1</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>4.0</version>
+        </dependency>
+
     </dependencies>
 </project>
