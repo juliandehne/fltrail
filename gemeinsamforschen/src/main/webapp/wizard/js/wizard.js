@@ -1,14 +1,37 @@
+let projectList = [];
+let selectedProject = "";
+
 $(document).ready(function () {
 
-    let requestObj = new RequestObj(1, "/project","/all",[],[])
+    let requestObj = new RequestObj(1, "/wizard","/projects",[],[])
     serverSide(requestObj, "GET", function (response) {
-
-        let menuItem = "<a class=\"dropdown-item\" role=\"presentation\" href=\"#\">First Item</a>";
+        projectList = response;
+        for (let i = 0 ; i < response.length; i++)
+        {
+            let menuItem = "<a class=\"dropdown-item\" role=\"presentation\" id=\"project_"+i+"\">"+response[i].name+"</a>";
+            $("#dropdownContainer").append(menuItem);
+            $("#project_"+i).click(function () {
+                updateView(projectList[i]);
+            });
+        }
     });
 });
 
 function updateView(project) {
+    selectedProject = project;
     // getProgressFrom DB
-
+    $("#projectButtonText").text(project.name);
     // update ui: disable buttons
+    $("#createStudents").unbind();
+    $("#createStudents").click(function () {
+        doSpell(selectedProject.name, "WAIT_FOR_PARTICPANTS");
+    });
+    $("button").removeAttr("disabled");
+}
+
+function doSpell(project, taskName) {
+    let requestObj = new RequestObj(1, "/wizard", "/projects/?/task/?", [project, taskName], [])
+    serverSide(requestObj, "POST", function (response) {
+        //console.log()
+    });
 }

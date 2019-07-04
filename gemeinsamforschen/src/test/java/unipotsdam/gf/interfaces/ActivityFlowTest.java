@@ -22,8 +22,6 @@ import unipotsdam.gf.modules.group.GroupfindingCriteria;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectConfiguration;
-import unipotsdam.gf.modules.researchreport.ResearchReport;
-import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
@@ -52,8 +50,7 @@ public class ActivityFlowTest {
     private final User teacher = factory.manufacturePojo(User.class);
     @Inject
     Management management;
-    @Inject
-    ResearchReportManagement researchReportManagement;
+
     @Inject
     IPhases phases;
     @Inject
@@ -71,7 +68,6 @@ public class ActivityFlowTest {
     public void setUp() {
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
         locator.inject(this);
-        researchReportManagement = Mockito.spy(researchReportManagement);
         phases = Mockito.spy(phases);
         iCommunication = Mockito.spy(iCommunication);
 
@@ -81,7 +77,8 @@ public class ActivityFlowTest {
     }
 
     @Test
-    public void activityPlayer() throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+    public void activityPlayer()
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         // register teacher
         loginTeacher();
 
@@ -134,17 +131,8 @@ public class ActivityFlowTest {
         }
     }
 
-    public void uploadDossiers() throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-
-
-        for (User student : students) {
-            // persist dossiers
-            ResearchReport researchReport = factory.manufacturePojo(ResearchReport.class);
-            researchReportManagement.createResearchReport(researchReport, project, student);
-        }
-
-        // students give feedback
-
+    public void uploadDossiers()
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
 
         // students upload updated dossier
         ArrayList<User> students2 = students;
@@ -156,8 +144,6 @@ public class ActivityFlowTest {
             // if only one time upload is intended and feedback is not incorporated into a final dossier
             // you should change this test to reflect only one time upload
             // i.e. removing one student above to reflect no compliance
-            ResearchReport researchReport = factory.manufacturePojo(ResearchReport.class);
-            researchReportManagement.createFinalResearchReport(researchReport, project, student);
         }
 
         // docent finishes phase

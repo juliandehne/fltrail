@@ -9,6 +9,7 @@ import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
+import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
@@ -21,6 +22,7 @@ import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Wizard {
 
@@ -295,7 +297,19 @@ public class Wizard {
 
     public List<WizardProject> getProjects() {
         List<WizardProject> projects = wizardDao.getProjects();
-        return projects;
+        List<WizardProject> collected = projects.stream().filter(wizardProject -> notInGroupWorkContext(wizardProject))
+                .collect(Collectors.toList());
+        return collected;
+    }
+
+    private boolean notInGroupWorkContext(WizardProject wizardProject) {
+        GroupWorkContext[] values = GroupWorkContext.values();
+        for (GroupWorkContext value : values) {
+            if (value.toString().equals(wizardProject.getName())) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 

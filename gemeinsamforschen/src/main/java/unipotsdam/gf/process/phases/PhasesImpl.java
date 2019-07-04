@@ -65,10 +65,10 @@ public class PhasesImpl implements IPhases {
     @Inject
     private EmailService emailService;
 
-    private static Map<Phase, ArrayList<TaskName>> phaseMap;
+    private static Map<Phase, ArrayList<TaskName>> phaseMap = getPhaseMap();
 
 
-    public static synchronized Map<Phase, ArrayList<TaskName>> getPhaseMap() {
+    private static synchronized Map<Phase, ArrayList<TaskName>> getPhaseMap() {
         if (phaseMap == null){
             try {
                 phaseMap = getPhaseTaskMap();
@@ -178,146 +178,146 @@ public class PhasesImpl implements IPhases {
 
     private static Map<Phase, ArrayList<TaskName>> getPhaseTaskMap()
             throws InstantiationException, IllegalAccessException {
-        HashMap<Phase, ArrayList<TaskName>> phaseMap = new HashMap<Phase, ArrayList<TaskName>>();
+        HashMap<Phase, ArrayList<TaskName>> phaseMapTMP = new HashMap<Phase, ArrayList<TaskName>>();
         TaskName[] values = TaskName.values();
         for (TaskName value : values) {
             switch (value) {
                 case WAIT_FOR_GRADING:
-                    updateValueInMap(phaseMap, Phase.Assessment, value);
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
                     break;
                 case GIVE_FEEDBACK:
-                    updateValueInMap(phaseMap, Phase.DossierFeedback, value);
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
                 case WAIT_FOR_PARTICPANTS:
-                    updateValueInMap(phaseMap, Phase.GroupFormation, value);
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
                     break;
                 case CHOOSE_REFLEXION_QUESTIONS:
-                    updateValueInMap(phaseMap, Phase.Assessment, value);
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
                     break;
                 case GIVE_EXTERNAL_ASSESSMENT:
-                    updateValueInMap(phaseMap, Phase.Assessment, value);
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
                     break;
                 case UPLOAD_DOSSIER:
-                    updateValueInMap(phaseMap, Phase.DossierFeedback, value);
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
                 case GIVE_INTERNAL_ASSESSMENT:
-                    updateValueInMap(phaseMap, Phase.Assessment, value);
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
                     break;
                 case CLOSE_GROUP_FINDING_PHASE:
-                    updateValueInMap(phaseMap, Phase.GroupFormation, value);
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
                     break;
                 case CHOOSE_FITTING_COMPETENCES:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case GIVE_EXTERNAL_ASSESSMENT_TEACHER:
-                    updateValueInMap(phaseMap, Phase.GRADING, value);
+                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
                     break;
                 case SEE_FEEDBACK:
-                    updateValueInMap(phaseMap, Phase.DossierFeedback, value);
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
                 case REEDIT_DOSSIER:
-                    updateValueInMap(phaseMap, Phase.DossierFeedback, value);
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
                 case WAIT_FOR_UPLOAD:
-                    updateValueInMap(phaseMap, Phase.Assessment, value);
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
                     break;
                 case ANNOTATE_DOSSIER:
-                    updateValueInMap(phaseMap, Phase.DossierFeedback, value);
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
                 case WAITING_FOR_GROUP:
-                    updateValueInMap(phaseMap, Phase.GroupFormation, value);
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
                     break;
                 case UPLOAD_PRESENTATION:
-                    updateValueInMap(phaseMap, Phase.Assessment, value);
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
                     break;
                 case ANSWER_REFLEXION_QUESTIONS:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case CLOSE_DOSSIER_FEEDBACK_PHASE:
-                    updateValueInMap(phaseMap, Phase.DossierFeedback, value);
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
                 case CLOSE_PEER_ASSESSMENTS_PHASE:
-                    updateValueInMap(phaseMap, Phase.Assessment, value);
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
                     break;
                 case WAITING_FOR_STUDENT_DOSSIERS:
-                    updateValueInMap(phaseMap, Phase.DossierFeedback, value);
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
                 case COLLECT_RESULTS_FOR_ASSESSMENT:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case END_STUDENT:
-                    updateValueInMap(phaseMap, Phase.GRADING, value);
+                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
                     break;
                 case GIVE_FINAL_GRADES:
-                    updateValueInMap(phaseMap, Phase.GRADING, value);
+                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
                     break;
                 case END_EXECUTION_PHASE:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case UPLOAD_FINAL_REPORT:
-                    updateValueInMap(phaseMap, Phase.Assessment, value);
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
                     break;
                 case CLOSE_EXECUTION_PHASE:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case INTRODUCE_E_PORTFOLIO_DOCENT:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case INTRODUCE_E_PORTFOLIO_STUDENT:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case END_DOCENT:
-                    updateValueInMap(phaseMap, Phase.GRADING, value);
+                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
                     break;
                 case WAIT_FOR_REFLECTION:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case CONTACT_GROUP_MEMBERS:
-                    updateValueInMap(phaseMap, Phase.GroupFormation, value);
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
                     break;
                 case CREATE_LEARNING_GOAL_DIARY:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case EDIT_FORMED_GROUPS:
-                    updateValueInMap(phaseMap, Phase.GroupFormation, value);
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
                     break;
                 case FINALIZE_ASSESSMENT:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case CLOSE_ASSESSMENT_PHASE:
-                    updateValueInMap(phaseMap, Phase.Assessment, value);
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
                     break;
                 case REFLECT_DOSSIER_CREATION:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case WAIT_FOR_EXECUTION_PHASE_END:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case CREATE_QUIZ:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case EDIT_FEEDBACK:
-                    updateValueInMap(phaseMap, Phase.DossierFeedback, value);
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
                 case WRITE_EJOURNAL:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case FINALIZE_DOSSIER:
-                    updateValueInMap(phaseMap, Phase.DossierFeedback, value);
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
                 case FINALIZE_EJOURNAL:
-                    updateValueInMap(phaseMap, Phase.Execution, value);
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case FORM_GROUPS_MANUALLY:
-                    updateValueInMap(phaseMap, Phase.GroupFormation, value);
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
                     break;
             }
         }
 
-        return phaseMap;
+        return phaseMapTMP;
     }
 
     @Override
@@ -327,7 +327,7 @@ public class PhasesImpl implements IPhases {
 
     @Override
     public Phase getCorrespondingPhase(TaskName taskName) {
-        for (Phase phase : phaseMap.keySet()) {
+        for (Phase phase : getPhaseMap().keySet()) {
             if (phaseMap.get(phase).contains(taskName)) {
                 return phase;
             }
