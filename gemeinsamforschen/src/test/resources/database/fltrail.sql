@@ -110,10 +110,10 @@ CREATE TABLE `contributionrating`
     `projectName` varchar(200) NOT NULL,
     `userName`    varchar(100) NULL,
     `fromPeer`    varchar(100) NULL,
-    `groupId`     int NULL,
+    `groupId`     int          NULL,
     `fileRole`    varchar(100) NOT NULL,
     `fromTeacher` varchar(100),
-    `rating`      int not NULL
+    `rating`      int          not NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='Holds the quantitative peer assessment regarding the uploads.';
 
@@ -128,7 +128,7 @@ CREATE TABLE `fullsubmissions`
     `id`            varchar(120) NOT NULL,
     `version`       int(11)      NOT NULL,
     `timestamp`     timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `groupId`       int(11)      NOT NULL,
+    `groupId`       int(11),
     `text`          mediumtext   NOT NULL,
     `projectName`   varchar(200) NOT NULL,
     `feedbackGroup` int(11)               DEFAULT NULL,
@@ -148,7 +148,7 @@ CREATE TABLE `fullsubmissions`
 CREATE TABLE `grades`
 (
     `projectName` varchar(200) NOT NULL,
-    `userEmail`    varchar(100) NOT NULL,
+    `userEmail`   varchar(100) NOT NULL,
     `grade`       double       NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='Shows the grades that are calculated for a given student';
@@ -220,7 +220,7 @@ CREATE TABLE `journals`
 
 CREATE TABLE `largefilestorage`
 (
-    `id`           int(11) NOT NULL,
+    `id`           int(11)      NOT NULL,
     `groupId`      int(11),
     `userEmail`    varchar(255),
     `projectName`  varchar(100) NOT NULL,
@@ -525,11 +525,11 @@ CREATE TABLE `users`
 
 CREATE TABLE `workrating`
 (
-    `projectName`    varchar(200) NOT NULL,
-    `userEmail`      varchar(100) NOT NULL,
-    `fromPeer`       varchar(100) NOT NULL,
-    `rating`         int          NOT NULL,
-    `itemName`       varchar(100) NOT NULL
+    `projectName` varchar(200) NOT NULL,
+    `userEmail`   varchar(100) NOT NULL,
+    `fromPeer`    varchar(100) NOT NULL,
+    `rating`      int          NOT NULL,
+    `itemName`    varchar(100) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='@Axel plz comment';
 
@@ -537,23 +537,20 @@ CREATE TABLE `workrating`
 -- Indizes für die Tabelle `workrating`
 --
 ALTER TABLE `workrating`
-  ADD UNIQUE KEY `workrating_projectName_userEmail_fromPeer_uindex` (`projectName`,`userEmail`,`fromPeer`,`itemName`) USING BTREE;
+    ADD UNIQUE KEY `workrating_projectName_userEmail_fromPeer_uindex` (`projectName`, `userEmail`, `fromPeer`, `itemName`) USING BTREE;
 
 create table mappedtasks
 (
-  id            int auto_increment
-    primary key,
-  subjectEmail  varchar(200) null,
-  groupObjectId int          null,
-  objectEmail   varchar(200) null,
-  taskname      varchar(200) null,
-  projectName   varchar(200) null
+    id            int auto_increment
+        primary key,
+    subjectEmail  varchar(200) null,
+    groupObjectId int          null,
+    objectEmail   varchar(200) null,
+    taskname      varchar(200) null,
+    projectName   varchar(200) null
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8
-  comment 'This table holds the task mapping i.e. which user should give feedback to which groups products';
-
-
-
+    comment 'This table holds the task mapping i.e. which user should give feedback to which groups products';
 
 
 
