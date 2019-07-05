@@ -14,9 +14,16 @@ $(document).ready(function () {
         if (quill.getText().length > 1) {
             let content = quill.getContents();
             let html = quill.root.innerHTML;
-
+            let header = "";
+            let ownTitle = $('#ownTitle');
+            if (ownTitle.is("input")) {
+                header = ownTitle.val();
+            } else {
+                header = ownTitle.html();
+            }
             // build request
             let fullSubmissionPostRequest = {
+                header: header,
                 id: fullSubmissionId,
                 groupId: groupId,
                 text: JSON.stringify(content),

@@ -13,11 +13,12 @@ let categories = [];
 let contributionFeedback = undefined;
 
 $(document).ready(function () {
+
     getAnnotationCategories(function (response) {
         categories = response;
         let btnContinueBot = $('#btnContinueBot');
         btnContinueBot.click(handleContinueButtonClick);
-        if (category.toUpperCase() === categories[categories.length - 1]) {
+        if (category.toUpperCase() === categories[categories.length - 1].toUpperCase()) {
             btnFinalize.show();
             btnContinue.hide();
             btnContinueBot.on("click", function () {

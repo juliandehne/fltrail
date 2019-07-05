@@ -25,7 +25,7 @@ $(document).ready(function () {
 
     if (fullSubmissionId !== '') {
         getFullSubmission(fullSubmissionId, function (fullSubmission) {
-            $('#ownTitle').val(fullSubmission.header);
+            setHeader(fullSubmission.header);
             setQuillContentFromFullSubmission(fullSubmission);
         });
     } else {
@@ -48,8 +48,11 @@ $(document).ready(function () {
                     visibility = currentVisibleButtonText.name
                 }
                 let header = "";
-                if ($('#ownTitle').val() != null) {
-                    header = $('#ownTitle').val().trim();
+                let ownTitle = $('#ownTitle');
+                if (ownTitle.is("input")) {
+                    header = ownTitle.val();
+                } else {
+                    header = ownTitle.html();
                 }
                 let fullSubmissionPostRequest = {
                     header: header,

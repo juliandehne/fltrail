@@ -266,7 +266,7 @@ function getFullSubmissionOfGroup(groupId, version) {
         },
         success: function (fullSubmission) {
             setQuillContentFromFullSubmission(fullSubmission);
-            $('#ownTitle').val(fullSubmission.header);
+            setHeader(fullSubmission.header);
             fullSubmissionId = fullSubmission.id;
         },
         error: function () {
@@ -345,3 +345,12 @@ String.prototype.hashCode = function () {
     }
     return hash;
 };
+
+function setHeader(header) {
+    let ownTitle = $('#ownTitle');
+    if (ownTitle.is("input")) {
+        ownTitle.val(header);
+    } else {
+        ownTitle.html(header);
+    }
+}

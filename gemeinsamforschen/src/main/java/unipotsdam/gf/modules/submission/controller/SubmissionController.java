@@ -479,7 +479,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         long timestamp = rs.getTimestamp("timestamp").getTime();
         String userEmail = rs.getString("groupId");
         String fullSubmissionId = rs.getString("fullSubmissionId");
-        Category category = Category.valueOf(rs.getString("category").toUpperCase());
+        String category = rs.getString("category").toUpperCase();
 
         // build body and iterate over result set
         ArrayList<SubmissionPartBodyElement> body = new ArrayList<>();
@@ -531,8 +531,8 @@ public class SubmissionController implements ISubmission, HasProgress {
 
                 // build submission part with empty body
                 tmpPart = new SubmissionPart(rs.getTimestamp("timestamp").getTime(), rs.getString("userEmail"),
-                        rs.getString("fullSubmissionId"), Category.valueOf(tmpCategory),
-                        new ArrayList<SubmissionPartBodyElement>());
+                        rs.getString("fullSubmissionId"), tmpCategory,
+                        new ArrayList<>());
             }
 
             // initialize body variables

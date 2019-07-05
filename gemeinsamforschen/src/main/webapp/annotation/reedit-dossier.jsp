@@ -55,7 +55,8 @@
     <main id="seeFeedback" class="">
         <div class="row group">
             <div class="col span_2_of_2">
-                <h3>Hier können Sie Ihr <span id="fileRole"></span> überarbeiten</h3>
+                <h2>Hier können Sie Ihr <span id="fileRole"></span> überarbeiten</h2>
+                <h3 id="ownTitle"></h3>
                 <br>
                 <div id="editor"></div>
                 <div style="display:flex;">

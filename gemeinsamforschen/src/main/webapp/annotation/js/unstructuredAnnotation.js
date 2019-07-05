@@ -84,10 +84,10 @@ function toggleStatusbar(category) {
     let categoryTag = $('#' + category);
     if (!categoryTag.hasClass('added-' + category)) {
         categoryTag.toggleClass("not-added");
-        let r = (Math.abs(category.hashCode() * 3 % 200) + 55).toString(16);
-        let g = (Math.abs(category.hashCode() * 43 % 200) + 55).toString(16);
-        let b = (Math.abs(category.hashCode() * 101 % 200) + 55).toString(16);
-        categoryTag.css("background-color", "#" + r + g + b);
+        let r = (Math.abs(category.hashCode() * 3 % 200) + 55);
+        let g = (Math.abs(category.hashCode() * 43 % 200) + 55);
+        let b = (Math.abs(category.hashCode() * 101 % 200) + 55);
+        categoryTag.css("background-color", "rgb(" + r + "," + g + "," + b + ")");
         categoryTag.css("color", "#EEE");
     }
 }
