@@ -260,13 +260,19 @@ public class SubmissionService {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("userEmail not found in context").build();
         }
         Project project = new Project(projectName);
-        User user = new User(userEmail);
+        User user = userDAO.getUserByEmail(userEmail);
         Integer groupId = groupDAO.getMyGroupId(user, project);
 
         List<FullSubmission> fullSubmissionList = new ArrayList<>();
 
         switch (visibility) {
             case DOCENT:
+                if (user.getStudent()) {
+                    fullSubmissionList = submissionController.getDocentViewableSubmissions(user, project, FileRole.PORTFOLIO);
+                } else {
+                    fullSubmissionList = submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
+                }
+                break;
             case PUBLIC:
                 fullSubmissionList = submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
                 break;
