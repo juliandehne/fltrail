@@ -45,6 +45,7 @@
     <script src="../taglibs/js/visibilityButton.js"></script>
 
     <script src="../taglibs/js/annotationUtils.js"></script>
+    <script src="../taglibs/js/apiClient/reflectionQuestionClient.js"></script>
 
     <!-- jsrender -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
@@ -70,7 +71,7 @@
                 <!-- TODO: rebuild as one template-->
                 <script id="headerTemplate" type="text/x-jsrender">
                     <div></div>
-                    <h1>{{:header}} anlegen</h1>
+                    <h1>{{:header}}</h1>
                 </script>
                 <div id="visibilityTemplateResult"></div>
                 <script id="visibilityTemplate" type="text/x-jsrender">
@@ -88,7 +89,14 @@
                         </div>
                     {{/if}}
                 </script>
+                <div id="reflectionQuestionTemplateResult"></div>
+                <script id="reflectionQuestionTemplate" type="text/x-jsrender">
+                    <div></div>
+                    {{if fileRole == "Reflection_Question"}}
+                        <h2> Reflexionsfrage: {{:reflectionQuestion}} </h2>
+                    {{/if}}
 
+                </script>
                 <br>
                 <div class="upload-text" id="documentText">
                     <label for="editor">Texteingabe</label>
@@ -105,7 +113,7 @@
             <div id="annotationTemplateResult"></div>
             <script id="annotationTemplate" type="text/x-jsrender">
                 <div/>
-                {{if fileRole != "Portfolio"}}
+                {{if fileRole == "Dossier"}}
                     <div class="col span span_s_of_2">
                         <div class="infobox dossier">
                             <p>Erstellen Sie ein Dossier

@@ -1,12 +1,14 @@
 package unipotsdam.gf.modules.submission.view;
 
 import com.itextpdf.text.DocumentException;
+import unipotsdam.gf.interfaces.IReflectionQuestion;
 import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
@@ -67,6 +69,9 @@ public class SubmissionService {
     @Inject
     private GroupDAO groupDAO;
 
+    @Inject
+    private IReflectionQuestion reflectionQuestionService;
+
     @POST
     @Path("/full")
     public Response addFullSubmission(@Context HttpServletRequest req,
@@ -96,6 +101,9 @@ public class SubmissionService {
                 break;
             case PORTFOLIO:
                 break;
+            case REFLECTION_QUESTION:
+                ReflectionQuestion reflectionQuestion = new ReflectionQuestion(fullSubmissionPostRequest.getReflectionQuestionId());
+                reflectionQuestionService.saveAnswerReference(fullSubmission, reflectionQuestion);
         }
         return Response.ok(fullSubmission).build();
     }

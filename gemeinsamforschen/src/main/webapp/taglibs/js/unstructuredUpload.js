@@ -9,14 +9,19 @@ let personal;
 let currentVisibility;
 let possibleVisibilities = [];
 let isPortfolioEntry;
+let isReflectionQuestion;
+let projectName;
+let reflectionQuestionId;
 
 $(document).ready(function () {
     fileRole = $('#fileRole').html().trim();
     let personalString = $("#personal").html().trim();
     personal = personalString.toUpperCase() === 'TRUE';
     isPortfolioEntry = fileRole.toUpperCase() === 'PORTFOLIO';
+    isReflectionQuestion = fileRole.toUpperCase() === 'REFLECTION_QUESTION';
     hierarchyLevel = $('#hierarchyLevel').html().trim();
     fullSubmissionId = $('#fullSubmissionId').html().trim();
+    projectName = $('#projectName').html().trim();
 
     if (isPortfolioEntry) {
         $('#backToTasks').html(`<i class="fas fa-chevron-circle-left"> Zurück zum Portfolio</i></a>`);
@@ -36,15 +41,17 @@ $(document).ready(function () {
                 if (typeof currentVisibility !== 'undefined') {
                     visibility = currentVisibility.name
                 }
+                // TODO: separate everything completely, so the frontend template is the same for everyone, but everything else isn't
                 let fullSubmissionPostRequest = {
                     id: fullSubmissionId,
                     groupId: groupId,
                     text: JSON.stringify(content),
                     html: html,
-                    projectName: $('#projectName').text().trim(),
+                    projectName: projectName,
                     personal: personal,
                     fileRole: fileRole.toUpperCase(),
-                    visibility: visibility
+                    visibility: visibility,
+                    reflectionQuestionId: reflectionQuestionId
                 };
                 if (isPortfolioEntry && fullSubmissionId !== '') {
                     updatePortfolioSubmission(fullSubmissionPostRequest, redirectToPreviousPage);
@@ -91,6 +98,9 @@ function redirectToPreviousPage() {
 
 function setupPageContent() {
     populateHeaderTemplate();
+    if (isReflectionQuestion) {
+        populateReflectionQuestionTemplate();
+    }
     getVisibilities(personal, function (response) {
         Object.entries(response).forEach(([name, buttonText]) => {
             possibleVisibilities[name] = {name: name, buttonText: buttonText};
@@ -123,10 +133,32 @@ function setupPageContent() {
 
 function populateHeaderTemplate() {
     let data = {};
-    data.header = fileRole === "Portfolio" ? "Portfolio-Eintrag" : fileRole;
+    let headerSubject = fileRole;
+    let activityVerb = 'anlegen';
+    switch (fileRole) {
+        case "Portfolio":
+            headerSubject = 'Portfolio-Eintrag';
+            break;
+        case "Reflection_Question":
+            headerSubject = 'Reflexionsfrage';
+            activityVerb = 'beantworten';
+    }
+    data.header = `${headerSubject} ${activityVerb}`;
     let tmpl = $.templates("#headerTemplate");
     let html = tmpl.render(data);
     $("#headerTemplateResult").html(html);
+}
+
+function populateReflectionQuestionTemplate() {
+    let data = {};
+    data.fileRole = fileRole;
+    getNextReflectionQuestion(projectName, function (response) {
+        reflectionQuestionId = response.id;
+        data.reflectionQuestion = response.question;
+        let tmpl = $.templates("#reflectionQuestionTemplate");
+        let html = tmpl.render(data);
+        $("#reflectionQuestionTemplateResult").html(html);
+    });
 }
 
 function populateTextFields() {
