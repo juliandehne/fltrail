@@ -52,12 +52,12 @@ function calculateLastCategory(current) {
 function highlightQuillText(startIndex, endIndex, category) {
     let categoryColor = colorOfCategory(category);
     let length = endIndex - startIndex;
-    quill.formatText(startIndex, length, 'background', categoryColor);
+    quill.formatText(startIndex, length, 'background-color', categoryColor);
 }
 
 function colorOfCategory(category) {
-    let r = (Math.abs(category.hashCode() * 3 % 200) + 55);
-    let g = (Math.abs(category.hashCode() * 43 % 200) + 55);
-    let b = (Math.abs(category.hashCode() * 101 % 200) + 55);
+    let r = (Math.abs(category.hashCode() * 3 % 181) + 60);
+    let g = (Math.abs(category.hashCode() * 43 % 181) + 60);
+    let b = (Math.abs(category.hashCode() * 101 % 181) + 60);
     return 'rgb(' + r + ',' + g + ',' + b + ')';
 }

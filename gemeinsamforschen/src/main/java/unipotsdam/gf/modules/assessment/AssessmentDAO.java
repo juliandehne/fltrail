@@ -143,15 +143,15 @@ public class AssessmentDAO {
         connect.close();
     }
 
-    public TaskMapping getTargetGroupForAssessment(User subject) {
+    public TaskMapping getTargetGroupForAssessment(User subject, Project project) {
         TaskMapping result;
         connect.connect();
 
-        String query = "SELECT * from mappedtasks where subjectEmail = ? and taskname = ?";
+        String query = "SELECT * from mappedtasks where subjectEmail = ? and taskname = ? and projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(query, subject.getEmail(), TaskName.GIVE_EXTERNAL_ASSESSMENT.name());
-        if (vereinfachtesResultSet != null) {
-            boolean next = vereinfachtesResultSet.next();
+                connect.issueSelectStatement(query, subject.getEmail(), TaskName.GIVE_EXTERNAL_ASSESSMENT.name(),
+                        project.getName());
+        if (vereinfachtesResultSet.next()) {
             int groupObjectId = vereinfachtesResultSet.getInt("groupObjectId");
             String subjectEmail = vereinfachtesResultSet.getString("subjectEmail");
             String objectEmail = vereinfachtesResultSet.getString("objectEmail");
@@ -411,7 +411,8 @@ public class AssessmentDAO {
         FullContribution result = null;
         connect.connect();
         String sqlStatement =
-                "SELECT * FROM `largefilestorage` lfs " + "WHERE groupId=? AND " + "lfs.projectName=? AND lfs.filerole=?;";
+                "SELECT * FROM `largefilestorage` lfs WHERE groupId=? AND " +
+                        "lfs.projectName=? AND lfs.filerole=?;";
         VereinfachtesResultSet selectResultSet =
                 connect.issueSelectStatement(sqlStatement, groupId, project.getName(), role);
         if (selectResultSet != null && selectResultSet.next()) {
@@ -456,25 +457,23 @@ public class AssessmentDAO {
         connect.connect();
 
         // SELF JOIN YEAH YEAH YEAH
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT  us.email, us.name  from groupuser currentUser ");
-        stringBuilder.append("JOIN groupuser feedbackedUser ");
-        stringBuilder.append("ON currentUser.groupId = feedbackedUser.groupId ");
-        stringBuilder.append("JOIN groups g ");
-        stringBuilder.append("on currentUser.groupId = g.id ");
-        stringBuilder.append("JOIN users us ");
-        stringBuilder.append("on us.email = feedbackedUser.userEmail ");
-        stringBuilder.append("WHERE ");
-        stringBuilder.append("currentUser.userEmail = ? ");
-        stringBuilder.append("AND g.projectName = ? ");
-        stringBuilder.append("AND currentUser.userEmail <> feedbackedUser.userEmail ");
-        stringBuilder.append("AND (currentUser.userEmail, feedbackedUser.userEmail) ");
-        stringBuilder.append("not in( ");
-        stringBuilder.append("SELECT wr.fromPeer, wr.userEmail ");
-        stringBuilder.append("from workrating wr  ");
-        stringBuilder.append(")");
-        stringBuilder.append("ORDER BY us.id; ");
-        String query = stringBuilder.toString();
+        String query = "SELECT  us.email, us.name  from groupuser currentUser " +
+                "JOIN groupuser feedbackedUser " +
+                "ON currentUser.groupId = feedbackedUser.groupId " +
+                "JOIN groups g " +
+                "on currentUser.groupId = g.id " +
+                "JOIN users us " +
+                "on us.email = feedbackedUser.userEmail " +
+                "WHERE " +
+                "currentUser.userEmail = ? " +
+                "AND g.projectName = ? " +
+                "AND currentUser.userEmail <> feedbackedUser.userEmail " +
+                "AND (currentUser.userEmail, feedbackedUser.userEmail) " +
+                "not in( " +
+                "SELECT wr.fromPeer, wr.userEmail " +
+                "from workrating wr  " +
+                ")" +
+                "ORDER BY us.id; ";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, user.getEmail(), project.getName());
         if (vereinfachtesResultSet.next()) {

@@ -165,10 +165,10 @@ function viewToUserPeerAssessmentData() {
                 UserPeerAssessmentData.docentProductRating = $(this).html().trim();
             }
             if ($(this).attr("name") === "workRating") {
-                UserPeerAssessmentData.groupWorkRating = $(this).html().trim();
+                UserPeerAssessmentData.groupWorkRating = $(this).find('.collapse.in').html().trim();
             }
             if ($(this).attr("name") === "suggested") {
-                UserPeerAssessmentData.suggestedRating = $(this).html().trim();
+                UserPeerAssessmentData.suggestedRating = $(this).find('.collapse.in').html().trim();
             }
             if ($(this).attr("name") === "finalMark") {
                 UserPeerAssessmentData.finalRating = $(this).find("input").val();

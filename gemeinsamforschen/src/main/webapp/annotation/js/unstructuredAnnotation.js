@@ -84,11 +84,11 @@ function toggleStatusbar(category) {
     let categoryTag = $('#' + category);
     if (!categoryTag.hasClass('added-' + category)) {
         categoryTag.toggleClass("not-added");
-        let r = (Math.abs(category.hashCode() * 3 % 200) + 55);
-        let g = (Math.abs(category.hashCode() * 43 % 200) + 55);
-        let b = (Math.abs(category.hashCode() * 101 % 200) + 55);
+        let r = (Math.abs(category.hashCode() * 3 % 181) + 60);
+        let g = (Math.abs(category.hashCode() * 43 % 181) + 60);
+        let b = (Math.abs(category.hashCode() * 101 % 181) + 60);
         categoryTag.css("background-color", "rgb(" + r + "," + g + "," + b + ")");
-        categoryTag.css("color", "#EEE");
+        categoryTag.css("color", "#FFF");
     }
 }
 

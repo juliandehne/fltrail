@@ -3,6 +3,7 @@ package unipotsdam.gf.process.tasks;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
+import unipotsdam.gf.modules.assessment.InternalPeerAssessmentProgress;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -20,11 +21,9 @@ import unipotsdam.gf.process.phases.Phase;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
@@ -260,6 +259,7 @@ public class TaskDAO {
             result.add(resultSetToTask(user, project, vereinfachtesResultSet));
         }
         connect.close();
+        result = result.stream().filter(Objects::nonNull).collect(Collectors.toCollection(ArrayList::new));
         TaskOrder taskOrder = new TaskOrder();
         result.sort(taskOrder.byName);
         return result;
@@ -375,13 +375,19 @@ public class TaskDAO {
             }
             case GIVE_INTERNAL_ASSESSMENT: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
-                task.setTaskData(assessmentDAO.getInternalPeerAssessmentProgress(project, user));
+                InternalPeerAssessmentProgress ipap = assessmentDAO.getInternalPeerAssessmentProgress(project, user);
+                if (ipap.getNumberOfMissing() > 0) {
+                    task.setTaskData(ipap);
+                } else {
+                    result = null;
+                    break;
+                }
                 result = task;
                 break;
             }
             case GIVE_EXTERNAL_ASSESSMENT: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
-                task.setTaskData(assessmentDAO.getTargetGroupForAssessment(new User(task.getUserEmail())));
+                task.setTaskData(assessmentDAO.getTargetGroupForAssessment(new User(task.getUserEmail()), project));
                 result = task;
                 break;
             }
@@ -393,11 +399,23 @@ public class TaskDAO {
                 task.setTaskData(assessmentDAO.getNextGroupToFeedbackForTeacher(project));
                 result = task;
                 break;
-            }case END_STUDENT:
+            }
+            case END_STUDENT: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setTaskData(assessmentDAO.getGradesFromDB(project, user));
                 result = task;
                 break;
+            }
+            case CONTACT_GROUP_MEMBERS: {
+                Task task = getGeneralTask(vereinfachtesResultSet);
+                Group myGroup = groupDAO.getMyGroup(user, project);
+                if (myGroup.getMembers().size() < 2) {
+                    result = null;
+                    break;
+                }
+                result = task;
+                break;
+            }
             default: {
                 result = getGeneralTask(vereinfachtesResultSet);
             }

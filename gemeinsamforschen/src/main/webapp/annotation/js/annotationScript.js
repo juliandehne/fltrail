@@ -572,9 +572,9 @@ function getDarkUserColor(userEmail, category) {
 }
 
 function generateCategoryBasedColor(userEmail, category) {
-    let r = (Math.abs(category.hashCode() * 3 % 200) + 55).toString(16);
-    let g = (Math.abs(category.hashCode() * 43 % 200) + 55).toString(16);
-    let b = (Math.abs(category.hashCode() * 101 % 200) + 55).toString(16);
+    let r = (Math.abs(category.hashCode() * 3 % 181) + 60);
+    let g = (Math.abs(category.hashCode() * 43 % 181) + 60);
+    let b = (Math.abs(category.hashCode() * 101 % 181) + 60);
     let r_d = r - 50;
     let g_d = g - 50;
     let b_d = b - 50;

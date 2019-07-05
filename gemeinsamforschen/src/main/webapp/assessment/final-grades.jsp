@@ -87,6 +87,12 @@
                             ${productDocent}
                         </td>
                         <td name="workRating" style="display:flex;">
+                            <div class='collapse cleaned'>
+                                ${cleanedWorkRating}
+                            </div>
+                            <div class='collapse in cleaned'>
+                                ${workRating}
+                            </div>
                             <a data-toggle='collapse' href='.cleaned' role='button'
                                        aria-expanded='false' aria-controls='cleaned'>
                                        <div class='collapse in cleaned'>
@@ -97,12 +103,6 @@
                             </div>
 
                             </a>
-                            <div class='collapse cleaned'>
-                                ${cleanedWorkRating}
-                            </div>
-                            <div class='collapse in cleaned'>
-                                ${workRating}
-                            </div>
                         </td>
                         <td name="suggested" id="suggested_${userId}">
                             <div class='collapse cleaned'>
