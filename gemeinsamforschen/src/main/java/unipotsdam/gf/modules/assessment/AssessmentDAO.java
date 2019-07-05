@@ -46,7 +46,16 @@ public class AssessmentDAO {
         AssessmentProgress assessmentProgress = new AssessmentProgress();
         //assessmentProgress.setNumberOfGroupsWithoutPresentation(3);
 
-        int numberOfGroups = groupDAO.getGroupsByProjectName(project.getName()).size();
+        List<Group> groups = groupDAO.getGroupsByProjectName(project.getName());
+        //check how many groups just have one member
+        /* if necessary for anything
+        int numberOfSingletons = 0;
+        for (Group group: groups){
+            if (group.getMembers().size()==1){
+                numberOfSingletons++;
+            }
+        }*/
+        int numberOfGroups = groups.size();
 
         // get number of submitted Presentation Files
         String fileRole = FileRole.PRESENTATION.name();
@@ -77,8 +86,15 @@ public class AssessmentDAO {
         int result = -1;
         connect.connect();
         String query =
-                "SELECT count(*) as result from groupuser currentUser" + " JOIN groupuser feedbackedUser ON currentUser.groupId = feedbackedUser.groupId " + " JOIN groups g on currentUser.groupId = g.id" + " JOIN users us on us.email = feedbackedUser.userEmail " + " WHERE g.projectName = ? " + " AND currentUser.userEmail <> feedbackedUser.userEmail" + " AND (currentUser.userEmail, feedbackedUser.userEmail)" + " not in( SELECT wr.fromPeer, wr.userEmail from workrating wr )";
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
+                "SELECT count(*) as result from groupuser currentUser" +
+                        " JOIN groupuser feedbackedUser ON currentUser.groupId = feedbackedUser.groupId " +
+                        " JOIN groups g on currentUser.groupId = g.id" +
+                        " JOIN users us on us.email = feedbackedUser.userEmail " +
+                        " WHERE g.projectName = ? " +
+                        " AND currentUser.userEmail <> feedbackedUser.userEmail" +
+                        " AND (currentUser.userEmail, feedbackedUser.userEmail)" +
+                        " not in( SELECT wr.fromPeer, wr.userEmail from workrating wr WHERE projectName= ? )";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName(), project.getName());
         vereinfachtesResultSet.next();
         result = vereinfachtesResultSet.getInt("result");
         connect.close();
