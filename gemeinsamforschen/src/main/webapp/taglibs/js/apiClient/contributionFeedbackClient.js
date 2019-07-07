@@ -106,9 +106,6 @@ async function getAllContributionFeedback(fullSubmissionId) {
             type: "GET",
             dataType: "json",
         });
-        for (let element of contributionFeedbacks) {
-            //element.text = JSON.parse(element.text);
-        }
     } catch (error) {
     }
     return contributionFeedbacks;

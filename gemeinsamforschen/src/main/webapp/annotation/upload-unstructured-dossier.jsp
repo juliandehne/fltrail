@@ -93,7 +93,7 @@
                 <script id="reflectionQuestionTemplate" type="text/x-jsrender">
                     <div></div>
                     {{if fileRole == "Reflection_Question"}}
-                        <h2> Reflexionsfrage: {{:reflectionQuestion}} </h2>
+                        <h2> Frage {{:currentReflectionQuestionCounter}} von {{:totalQuestions}}: {{:question}} </h2>
                     {{/if}}
 
                 </script>

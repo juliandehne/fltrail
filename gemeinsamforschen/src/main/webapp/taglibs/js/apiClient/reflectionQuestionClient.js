@@ -13,3 +13,18 @@ function getNextReflectionQuestion(projectName, responseHandler) {
         }
     });
 }
+
+async function getReflectionQuestions(projectName) {
+    let url = `../rest/reflectionquestion/projects/${projectName}/bulk`;
+    let reflectionQuestions;
+    try {
+        reflectionQuestions = await $.ajax({
+            url: url,
+            type: "GET",
+            dataType: "json"
+        });
+    } catch (e) {
+        console.error(`Error while getting reflection questions! ${e.toString()}`);
+    }
+    return reflectionQuestions;
+}
