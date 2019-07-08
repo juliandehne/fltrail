@@ -72,9 +72,7 @@ public class PhasesImpl implements IPhases {
         if (phaseMap == null){
             try {
                 phaseMap = getPhaseTaskMap();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
@@ -85,25 +83,6 @@ public class PhasesImpl implements IPhases {
     public PhasesImpl() {
     }
 
-
-    /*Optionen für die Constraints:
-    Gesucht ist ein Objekt, welches man an den Dozenten übergibt, in dem die fehlenden Abgaben codiert sind
-
-    Als Map<StudentIdentifier, class Constraints>
-        + Immer wenn etwas nicht erfüllt wurde, speichert man es hier ab
-        - Jedes Interface bräuchte eine Funktion, die diese Datenstruktur bedient
-        - einige nutzlose Daten müssten mitgeschliffen werden
-        - Die variable wird immer wieder neu erzeugt und so sollte alles in der DB gespeichert sein!?
-    Constraints als Enum
-        + Die Funktionen der Interfaces checken ob dieser Constraint überall gilt
-        - Jedes Interface muss eine Funktion schreiben, die jeden Studenten untersucht.
-            Sinnvoller wäre nur die Studenten zurück zu geben, die die Constraint nicht erfüllen
-        - Enums können glaube keine Werte als Default tragen
-    Map<StudentIdentifier, String>
-        + Wenn Map keine Elemente trägt, ist alles erfüllt.
-        + zurück zu geben vom Interface wäre die Kennung (StudentIdentifier) und was fehlt (Constraint)
-        - Keine Default Werte
-    */
 
     @Override
     public void endPhase(Phase currentPhase, Project project)

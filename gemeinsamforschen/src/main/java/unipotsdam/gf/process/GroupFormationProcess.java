@@ -26,6 +26,7 @@ import unipotsdam.gf.process.tasks.TaskName;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
 import java.util.HashMap;
@@ -108,6 +109,22 @@ public class GroupFormationProcess {
         }
 
 
+    }
+
+    public void testForSingleGroups(Group[] groups, String isManipulated, Project project) {
+        if (isManipulated != null && isManipulated.equals("true")){
+            boolean isSingleUser =true;
+            for (Group group: groups) {
+                if (group.getMembers().size()>1){
+                    isSingleUser = false;
+                }
+            }
+            if (isSingleUser){
+                projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.SingleUser, project);
+            }else{
+                projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
+            }
+        }
     }
 
 

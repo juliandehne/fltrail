@@ -150,26 +150,6 @@ public class GroupView {
         return new GroupData(groupfinding.getGroups(user, context1));
     }
 
-    /**
-     * find out if this is used by learning goal
-     */
-/*    @Deprecated
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/projects/{projectName}")
-    public void saveGroups(@PathParam("projectName") String projectName, Group[] groups) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
-        Project project = new Project(projectName);
-        groupFormationProcess.saveGroups(Arrays.asList(groups), project);
-    }
-
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/projects/{projectName}/groups")
-    public void persistGroups(@PathParam("projectName") String  projectName, GroupData data) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
-        Project project = new Project(projectName);
-        groupFormationProcess.saveGroups(data.getGroups(), project);
-    }*/
-
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}/groups/save")
@@ -180,23 +160,13 @@ public class GroupView {
         Project project = projectDAO.getProjectByName(projectName);
         project.setGroupWorkContext(profileDAO.getGroupWorkContext(project));
         // wenn gruppen aussehen wie einzelarbeit, dann wird hier umgeschaltet
-        if (isManipulated != null && isManipulated.equals("true")){
-            boolean isSingleUser =true;
-            for (Group group: groups) {
-                if (group.getMembers().size()>1){
-                    isSingleUser = false;
-                }
-            }
-            if (isSingleUser){
-                projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.SingleUser, project);
-            }else{
-                projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
-            }
-        }
+        groupFormationProcess.testForSingleGroups(groups, isManipulated, project);
         // normaler Prozess hier weiter
         groupFormationProcess.saveGroups(Arrays.asList(groups), project);
         //groupFormationProcess.finalize(project);
     }
+
+
 
     /**
      * needed for the learning goal algorithm
