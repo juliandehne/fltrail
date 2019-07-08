@@ -4,8 +4,16 @@ import ch.vorburger.exec.ManagedProcessException;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
 
-import java.io.*;
-import java.sql.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class UpdateDB {
 
@@ -32,6 +40,10 @@ public class UpdateDB {
         System.out.println(new java.io.File( "." ).getCanonicalPath());
         updateDB.runScript(new FileReader("src/test/resources/database/db.sql"));
         updateDB.runScript(new FileReader("src/test/resources/database/fltrail.sql"));
+        MysqlConnectImpl mysqlConnectImpl = new MysqlConnectImpl();
+        PredefinedDataInsertionHelper dataInsertionHelper = new PredefinedDataInsertionHelper(mysqlConnectImpl);
+        dataInsertionHelper.saveLearningGoals("src/test/resources/reflectionQuestions/learningGoalsStore.json");
+        dataInsertionHelper.saveReflecionQuestions("src/test/resources/reflectionQuestions/reflectionQuestionsStore.json");
         //updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
     }
 

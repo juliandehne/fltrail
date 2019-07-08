@@ -29,7 +29,7 @@ public class TaskOrder {
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
         result.add(TaskName.REFLECT_DOSSIER_CREATION);
         //end of execution phase
-        result.add(TaskName.ANSWER_REFLEXION_QUESTIONS);
+        result.add(TaskName.ANSWER_REFLECTION_QUESTIONS);
         result.add(TaskName.WAIT_FOR_REFLECTION);
         result.add(TaskName.CLOSE_EXECUTION_PHASE);
         result.add(TaskName.UPLOAD_PRESENTATION);

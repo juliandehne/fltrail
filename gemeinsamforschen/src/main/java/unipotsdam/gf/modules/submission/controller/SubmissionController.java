@@ -132,11 +132,33 @@ public class SubmissionController implements ISubmission, HasProgress {
         return fullSubmission;
     }
 
+    @Override
+    public void updateFullSubmissionTextAndVisibility(FullSubmissionPostRequest fullSubmission) {
+        connection.connect();
+        String request = "UPDATE fullsubmissions set text = ?, visibility = ? where id = ?";
+        connection.issueUpdateStatement(request, fullSubmission.getText(), fullSubmission.getVisibility().name(), fullSubmission.getId());
+        connection.close();
+    }
+
     public List<FullSubmission> getPersonalSubmissions(User user, Project project, FileRole fileRole) {
         List<FullSubmission> fullSubmissionList = new ArrayList<>();
         connection.connect();
 
         String request = "SELECT * FROM fullsubmissions WHERE userEmail = ? AND projectName= ? AND fileRole = ? ORDER BY timestamp DESC;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, user.getEmail(), project.getName(), fileRole);
+
+        while (rs.next()) {
+            fullSubmissionList.add(getFullSubmissionFromResultSet(rs));
+        }
+        connection.close();
+        return fullSubmissionList;
+    }
+
+    public List<FullSubmission> getDocentViewableSubmissions(User user, Project project, FileRole fileRole) {
+        List<FullSubmission> fullSubmissionList = new ArrayList<>();
+        connection.connect();
+
+        String request = "SELECT * FROM fullsubmissions WHERE userEmail = ? AND projectName= ? AND fileRole = ? AND visibility = 'DOCENT' ORDER BY timestamp DESC;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, user.getEmail(), project.getName(), fileRole);
 
         while (rs.next()) {

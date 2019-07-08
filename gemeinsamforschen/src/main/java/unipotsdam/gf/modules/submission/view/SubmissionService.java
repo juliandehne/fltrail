@@ -1,14 +1,22 @@
 package unipotsdam.gf.modules.submission.view;
 
 import com.itextpdf.text.DocumentException;
+import unipotsdam.gf.interfaces.IReflectionQuestion;
 import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.SubmissionResponse;
+import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -16,7 +24,14 @@ import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -50,6 +65,9 @@ public class SubmissionService {
 
     @Inject
     private GroupDAO groupDAO;
+
+    @Inject
+    private IReflectionQuestion reflectionQuestionService;
 
     @POST
     @Path("/full")
@@ -216,13 +234,19 @@ public class SubmissionService {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("userEmail not found in context").build();
         }
         Project project = new Project(projectName);
-        User user = new User(userEmail);
+        User user = userDAO.getUserByEmail(userEmail);
         Integer groupId = groupDAO.getMyGroupId(user, project);
 
         List<FullSubmission> fullSubmissionList = new ArrayList<>();
 
         switch (visibility) {
             case DOCENT:
+                if (user.getStudent()) {
+                    fullSubmissionList = submissionController.getDocentViewableSubmissions(user, project, FileRole.PORTFOLIO);
+                } else {
+                    fullSubmissionList = submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
+                }
+                break;
             case PUBLIC:
                 fullSubmissionList = submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
                 break;
@@ -237,6 +261,21 @@ public class SubmissionService {
             return Response.status(Response.Status.NOT_FOUND).entity("No portfolio entries found").build();
         }
         return Response.ok(fullSubmissionList).build();
+    }
+
+    @PUT
+    @Path("portfolio/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePortfolioEntry(@Context HttpServletRequest request, @PathParam("id") String id, FullSubmissionPostRequest fullSubmissionPostRequest) {
+        if (fullSubmissionPostRequest == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("fullSubmissionPostRequest is null").build();
+        }
+        if (id == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("id is null").build();
+        }
+        submissionController.updateFullSubmissionTextAndVisibility(fullSubmissionPostRequest);
+
+        return Response.ok().build();
     }
 
 }

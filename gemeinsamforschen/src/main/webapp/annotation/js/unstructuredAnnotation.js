@@ -212,16 +212,6 @@ function handleCategoryClick(key) {
     }
 }
 
-function buildAnnotationList(categories) {
-    let data = {categories: []};
-    categories.forEach(function (category) {
-        data.categories.push({name: category, nameLower: category.toLowerCase()})
-    });
-    let tmpl = $.templates("#annotationTemplate");
-    let html = tmpl.render(data);
-    $("#annotations").html(html);
-}
-
 function deleteCategory(category) {
     let categoryLI = $('#' + category);
     let textArrays = categoryLI.data('array');
@@ -244,16 +234,21 @@ function contextMenuOptions(categories) {
             result[categories[category]] = {name: categories[category], icon: "edit"};
     }
 
-    /**
-     * Context menu handler
-     */
-    $.contextMenu({
-        selector: '.context-menu-one',
-        callback: function (key, options) {
-            // handle the category click
-            handleCategoryClick(key);
-        },
-        items: result,
-    });
+    try {
+        /**
+         * Context menu handler
+         */
+        $.contextMenu({
+            selector: '.context-menu-one',
+            callback: function (key, options) {
+                // handle the category click
+                handleCategoryClick(key);
+            },
+            items: result,
+        });
+    } catch (e) {
+        console.log('No context menu found')
+    }
+
     return result;
 }

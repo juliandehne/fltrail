@@ -11,6 +11,7 @@ import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.interfaces.IPortfolioService;
+import unipotsdam.gf.interfaces.IReflectionQuestion;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
@@ -55,7 +56,9 @@ import unipotsdam.gf.process.ReflexionProcess;
 import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.PhasesImpl;
-import unipotsdam.gf.process.tasks.*;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskMapper;
 import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 

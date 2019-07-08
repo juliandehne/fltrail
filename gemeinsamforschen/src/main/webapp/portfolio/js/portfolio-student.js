@@ -2,14 +2,18 @@ let projectName;
 let possibleVisibilities = [];
 let currentVisibleButton;
 let userEmail;
-$(document).ready(function () {
+let currentPortfolioEntries;
+let currentTemplateData;
+let quillNewComment;
+
+$(document).ready(async function () {
     projectName = $('#projectName').html().trim();
     userEmail = $('#userEmail').html().trim();
     setupVisibilityButton();
 });
 
 function setupVisibilityButton() {
-    getVisibilities(true, function (response) {
+    getVisibilities(true, async function (response) {
         Object.entries(response).forEach(([name, buttonText]) => {
             possibleVisibilities[name] = {name: name, buttonText: buttonText};
         });
@@ -20,38 +24,41 @@ function setupVisibilityButton() {
         let tmpl = $.templates("#visibilityTemplate");
         let html = tmpl.render(data);
         $("#visibilityTemplateResult").html(html);
-        fillPortfolioEntries();
+        await fillPortfolioEntriesAndFeedback();
     });
 }
 
-function fillPortfolioEntries() {
+async function fillPortfolioEntriesAndFeedback() {
     let queryParams = {
         projectName: projectName,
         visibility: currentVisibleButton.name
     };
     getPortfolioSubmissions(queryParams, function (response) {
+        currentPortfolioEntries = [];
         let data = {};
-        data.scriptBegin = '<script>';
-        data.scriptEnd = '</script>';
-        getMyGroupId(function (groupId) {
-            for (let element of response) {
-                element.scriptBegin = data.scriptBegin;
-                element.scriptEnd = data.scriptEnd;
-                element.timestampDateTimeFormat = new Date(element.timestamp).toLocaleString();
-                element.editable = element.userEmail === userEmail || element.userEmail == null && element.groupId === groupId;
+        getMyGroupId(async function (groupId) {
+            for (let fullSubmission of response) {
+                fillWithExtraTemplateData(fullSubmission, groupId, userEmail);
+                await addContributionFeedback(fullSubmission, groupId);
+                currentPortfolioEntries[fullSubmission.id] = fullSubmission;
             }
-            data.submissionList = response;
+            data.submissionList = Object.values(currentPortfolioEntries);
             data.error = response.error;
-            let tmpl = $.templates("#portfolioTemplate");
-            let html = tmpl.render(data);
-            $("#portfolioTemplateResult").html(html);
-
+            currentTemplateData = data;
+            renderPortfolioContent(data);
         });
     });
 }
 
+
+function renderPortfolioContent(data) {
+    let tmpl = $.templates("#portfolioTemplate");
+    let html = tmpl.render(data);
+    $("#portfolioTemplateResult").html(html);
+}
+
 function visibilityButtonPressed(pressedButton) {
-    changeButtonText(pressedButton, fillPortfolioEntries);
+    changeButtonText(pressedButton, fillPortfolioEntriesAndFeedback);
 }
 
 function changeButtonText(clickedItem, callback) {
@@ -64,6 +71,29 @@ function changeButtonText(clickedItem, callback) {
     if (callback) {
         callback();
     }
+}
+
+function clickedWantToComment(fullSubmissionId) {
+    currentPortfolioEntries[fullSubmissionId].wantToComment = true;
+    renderPortfolioContent(currentTemplateData);
+}
+
+function saveComment(fullSubmissionId) {
+    let contents = quillNewComment.getContents();
+    getMyGroupId(function (groupId) {
+        let contributionFeedbackRequest = {
+            userEmail: userEmail,
+            fullSubmissionId: fullSubmissionId,
+            text: JSON.stringify(contents),
+            groupId: groupId
+        };
+        createContributionFeedback(contributionFeedbackRequest, async function () {
+            currentPortfolioEntries[fullSubmissionId].wantToComment = false;
+            currentPortfolioEntries[fullSubmissionId].contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmissionId);
+            renderPortfolioContent(currentTemplateData);
+        });
+
+    });
 }
 
 function clickedCreatePrivatePortfolio() {

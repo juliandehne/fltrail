@@ -91,13 +91,13 @@ CREATE TABLE `categoriesselected`
 
 CREATE TABLE `contributionfeedback`
 (
-    `id`                         varchar(120) CHARACTER SET utf8 NOT NULL,
-    `fullsubmissionId`           varchar(120) CHARACTER SET utf8 DEFAULT NULL,
-    `fullSubmissionPartCategory` varchar(120) CHARACTER SET utf8 DEFAULT NULL,
-    `text`                       mediumtext CHARACTER SET utf8,
-    `groupId`                    int(11)                         NOT NULL
+    `id`                         varchar(120) NOT NULL,
+    `fullsubmissionId`           varchar(120) DEFAULT NULL,
+    `fullSubmissionPartCategory` varchar(120) DEFAULT NULL,
+    `text`                       mediumtext,
+    `groupId`                    int(11)      NOT NULL
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = latin1 COMMENT ='This table saves feedback for contributions';
+  DEFAULT CHARSET = utf8 COMMENT ='This table saves feedback for contributions';
 
 -- --------------------------------------------------------
 
@@ -108,12 +108,12 @@ CREATE TABLE `contributionfeedback`
 CREATE TABLE `contributionrating`
 (
     `projectName` varchar(200) NOT NULL,
-    `userName`    varchar(100) NULL,
-    `fromPeer`    varchar(100) NULL,
-    `groupId`     int NULL,
+    `userName`    varchar(100) DEFAULT NULL,
+    `fromPeer`    varchar(100) DEFAULT NULL,
+    `groupId`     int(11)      DEFAULT NULL,
     `fileRole`    varchar(100) NOT NULL,
-    `fromTeacher` varchar(100),
-    `rating`      int not NULL
+    `fromTeacher` varchar(100) DEFAULT NULL,
+    `rating`      int(11)      NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='Holds the quantitative peer assessment regarding the uploads.';
 
@@ -128,7 +128,7 @@ CREATE TABLE `fullsubmissions`
     `id`            varchar(120) NOT NULL,
     `version`       int(11)      NOT NULL,
     `timestamp`     timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `groupId`       int(11)      NOT NULL,
+    `groupId`       int(11)               DEFAULT NULL,
     `text`          mediumtext   NOT NULL,
     `projectName`   varchar(200) NOT NULL,
     `feedbackGroup` int(11)               DEFAULT NULL,
@@ -148,7 +148,7 @@ CREATE TABLE `fullsubmissions`
 CREATE TABLE `grades`
 (
     `projectName` varchar(200) NOT NULL,
-    `userEmail`    varchar(100) NOT NULL,
+    `userEmail`   varchar(100) NOT NULL,
     `grade`       double       NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='Shows the grades that are calculated for a given student';
@@ -220,15 +220,44 @@ CREATE TABLE `journals`
 
 CREATE TABLE `largefilestorage`
 (
-    `id`           int(11) NOT NULL,
-    `groupId`      int(11),
-    `userEmail`    varchar(255),
+    `id`           int(11)      NOT NULL,
+    `groupId`      int(11)      DEFAULT NULL,
+    `userEmail`    varchar(255) DEFAULT NULL,
     `projectName`  varchar(100) NOT NULL,
     `filelocation` varchar(100) NOT NULL,
     `filerole`     varchar(100) NOT NULL,
     `filename`     varchar(100) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `learninggoalstore`
+--
+
+CREATE TABLE `learninggoalstore`
+(
+    `text` varchar(400) NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8 COMMENT ='saves predefined learning goals';
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `mappedtasks`
+--
+
+CREATE TABLE `mappedtasks`
+(
+    `id`            int(11) NOT NULL,
+    `subjectEmail`  varchar(200) DEFAULT NULL,
+    `groupObjectId` int(11)      DEFAULT NULL,
+    `objectEmail`   varchar(200) DEFAULT NULL,
+    `taskname`      varchar(200) DEFAULT NULL,
+    `projectName`   varchar(200) DEFAULT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8 COMMENT ='This table holds the task mapping i.e. which user should give feedback to which groups products';
 
 -- --------------------------------------------------------
 
@@ -423,6 +452,37 @@ CREATE TABLE `quiz`
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `reflectionquestions`
+--
+
+CREATE TABLE `reflectionquestions`
+(
+    `id`               varchar(400) NOT NULL,
+    `learningGoalId`   varchar(400) NOT NULL,
+    `question`         varchar(400) NOT NULL,
+    `userEmail`        varchar(255) NOT NULL,
+    `fullSubmissionId` varchar(120) DEFAULT NULL,
+    `projectName`      varchar(100) NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8 COMMENT ='holds all reflection questions students have to answer or had answered';
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `reflectionquestionsstore`
+--
+
+CREATE TABLE `reflectionquestionsstore`
+(
+    `id`           varchar(400) NOT NULL,
+    `question`     varchar(400) NOT NULL,
+    `learningGoal` varchar(400) NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8 COMMENT ='holds all predefined reflection questions.';
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `submissionpartbodyelements`
 --
 
@@ -525,37 +585,13 @@ CREATE TABLE `users`
 
 CREATE TABLE `workrating`
 (
-    `projectName`    varchar(200) NOT NULL,
-    `userEmail`      varchar(100) NOT NULL,
-    `fromPeer`       varchar(100) NOT NULL,
-    `rating`         int          NOT NULL,
-    `itemName`       varchar(100) NOT NULL
+    `projectName` varchar(200) NOT NULL,
+    `userEmail`   varchar(100) NOT NULL,
+    `fromPeer`    varchar(100) NOT NULL,
+    `rating`      int(11)      NOT NULL,
+    `itemName`    varchar(100) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='@Axel plz comment';
-
---
--- Indizes für die Tabelle `workrating`
---
-ALTER TABLE `workrating`
-  ADD UNIQUE KEY `workrating_projectName_userEmail_fromPeer_uindex` (`projectName`,`userEmail`,`fromPeer`,`itemName`) USING BTREE;
-
-create table mappedtasks
-(
-  id            int auto_increment
-    primary key,
-  subjectEmail  varchar(200) null,
-  groupObjectId int          null,
-  objectEmail   varchar(200) null,
-  taskname      varchar(200) null,
-  projectName   varchar(200) null
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  comment 'This table holds the task mapping i.e. which user should give feedback to which groups products';
-
-
-
-
-
 
 --
 -- Indizes der exportierten Tabellen
@@ -654,6 +690,19 @@ ALTER TABLE `largefilestorage`
     ADD KEY `largefilestorage_users_email_fk` (`userEmail`);
 
 --
+-- Indizes für die Tabelle `learninggoalstore`
+--
+ALTER TABLE `learninggoalstore`
+    ADD PRIMARY KEY (`text`),
+    ADD UNIQUE KEY `learningGoalStore_text_uindex` (`text`);
+
+--
+-- Indizes für die Tabelle `mappedtasks`
+--
+ALTER TABLE `mappedtasks`
+    ADD PRIMARY KEY (`id`);
+
+--
 -- Indizes für die Tabelle `peerassessmentworkproperties`
 --
 ALTER TABLE `peerassessmentworkproperties`
@@ -714,6 +763,22 @@ ALTER TABLE `quiz`
     ADD KEY `quiz_projects_name_fk` (`projectName`);
 
 --
+-- Indizes für die Tabelle `reflectionquestions`
+--
+ALTER TABLE `reflectionquestions`
+    ADD PRIMARY KEY (`id`),
+    ADD UNIQUE KEY `reflexionquestions_fullSubmissionId_uindex` (`fullSubmissionId`),
+    ADD KEY `reflexionquestions_users_email_fk` (`userEmail`),
+    ADD KEY `reflexionquestions_projects_name_fk` (`projectName`);
+
+--
+-- Indizes für die Tabelle `reflectionquestionsstore`
+--
+ALTER TABLE `reflectionquestionsstore`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `reflectionquestionsstore_learninggoalstore_text_fk` (`learningGoal`);
+
+--
 -- Indizes für die Tabelle `submissionpartbodyelements`
 --
 ALTER TABLE `submissionpartbodyelements`
@@ -752,6 +817,12 @@ ALTER TABLE `users`
     ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indizes für die Tabelle `workrating`
+--
+ALTER TABLE `workrating`
+    ADD UNIQUE KEY `workrating_projectName_userEmail_fromPeer_uindex` (`projectName`, `userEmail`, `fromPeer`, `itemName`) USING BTREE;
+
+--
 -- AUTO_INCREMENT für exportierte Tabellen
 --
 
@@ -765,6 +836,12 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT für Tabelle `largefilestorage`
 --
 ALTER TABLE `largefilestorage`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT für Tabelle `mappedtasks`
+--
+ALTER TABLE `mappedtasks`
     MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -910,6 +987,20 @@ ALTER TABLE `projectuser`
 --
 ALTER TABLE `quiz`
     ADD CONSTRAINT `quiz_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `reflectionquestions`
+--
+ALTER TABLE `reflectionquestions`
+    ADD CONSTRAINT `reflexionquestions_fullsubmissions_id_fk` FOREIGN KEY (`fullSubmissionId`) REFERENCES `fullsubmissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `reflexionquestions_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+    ADD CONSTRAINT `reflexionquestions_users_email_fk` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `reflectionquestionsstore`
+--
+ALTER TABLE `reflectionquestionsstore`
+    ADD CONSTRAINT `reflectionquestionsstore_learninggoalstore_text_fk` FOREIGN KEY (`learningGoal`) REFERENCES `learninggoalstore` (`text`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `surveyitemsselected`

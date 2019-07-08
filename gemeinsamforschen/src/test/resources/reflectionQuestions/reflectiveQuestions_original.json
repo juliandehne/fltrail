@@ -1,0 +1,1454 @@
+{
+  "columns": [
+    "c",
+    "l",
+    "x"
+  ],
+  "data": [
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können das Anwendungspotential reflektieren"
+        },
+        {
+          "question": "Wie lassen sich die Ergebnisse auf andere Bereiche übertragen?",
+          "id": "Wie lassen sich die Ergebnisse auf andere Bereiche übertragen?S. können das Anwendungspotential reflektieren"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1380",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können das Anwendungspotential reflektieren"
+            }
+          },
+          {
+            "id": "1381",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Wie lassen sich die Ergebnisse auf andere Bereiche übertragen?",
+              "id": "Wie lassen sich die Ergebnisse auf andere Bereiche übertragen?S. können das Anwendungspotential reflektieren"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können methodische Grenzen reflektieren"
+        },
+        {
+          "question": "Welche Schwierigkeiten ergaben sich beim Forschungsprozess?",
+          "id": "Welche Schwierigkeiten ergaben sich beim Forschungsprozess?S. können methodische Grenzen reflektieren"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1378",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können methodische Grenzen reflektieren"
+            }
+          },
+          {
+            "id": "1379",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Welche Schwierigkeiten ergaben sich beim Forschungsprozess?",
+              "id": "Welche Schwierigkeiten ergaben sich beim Forschungsprozess?S. können methodische Grenzen reflektieren"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können den wissenschaftlichen Ertrag reflektieren"
+        },
+        {
+          "question": "Was bringen uns die Ergebnisse?",
+          "id": "Was bringen uns die Ergebnisse?S. können den wissenschaftlichen Ertrag reflektieren"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1376",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Was bringen uns die Ergebnisse?",
+              "id": "Was bringen uns die Ergebnisse?S. können den wissenschaftlichen Ertrag reflektieren"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1374",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können den wissenschaftlichen Ertrag reflektieren"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können Forschungsergebnisse darstellen"
+        },
+        {
+          "question": "Entspricht der Bericht wissenschaftlichen Formalia?",
+          "id": "Entspricht der Bericht wissenschaftlichen Formalia?S. können Forschungsergebnisse darstellen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1364",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können Forschungsergebnisse darstellen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1373",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Entspricht der Bericht wissenschaftlichen Formalia?",
+              "id": "Entspricht der Bericht wissenschaftlichen Formalia?S. können Forschungsergebnisse darstellen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können Forschungsergebnisse darstellen"
+        },
+        {
+          "question": "Ist die Präsentation gut aufgebaut?",
+          "id": "Ist die Präsentation gut aufgebaut?S. können Forschungsergebnisse darstellen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1364",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können Forschungsergebnisse darstellen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1372",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Ist die Präsentation gut aufgebaut?",
+              "id": "Ist die Präsentation gut aufgebaut?S. können Forschungsergebnisse darstellen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können Forschungsergebnisse darstellen"
+        },
+        {
+          "question": "Ist ein roter Faden erkennbar?",
+          "id": "Ist ein roter Faden erkennbar?S. können Forschungsergebnisse darstellen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1364",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können Forschungsergebnisse darstellen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1368",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Ist ein roter Faden erkennbar?",
+              "id": "Ist ein roter Faden erkennbar?S. können Forschungsergebnisse darstellen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können Forschungsergebnisse darstellen"
+        },
+        {
+          "question": "Welche Themen konnte ich aufgreifen/Welche Aspekte bleiben offen?",
+          "id": "Welche Themen konnte ich aufgreifen/Welche Aspekte bleiben offen?S. können Forschungsergebnisse darstellen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1364",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können Forschungsergebnisse darstellen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1369",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Welche Themen konnte ich aufgreifen/Welche Aspekte bleiben offen?",
+              "id": "Welche Themen konnte ich aufgreifen/Welche Aspekte bleiben offen?S. können Forschungsergebnisse darstellen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können Forschungsergebnisse darstellen"
+        },
+        {
+          "question": "Ist die Darstellung übersichtlich und verständlich?",
+          "id": "Ist die Darstellung übersichtlich und verständlich?S. können Forschungsergebnisse darstellen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1364",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können Forschungsergebnisse darstellen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1367",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Ist die Darstellung übersichtlich und verständlich?",
+              "id": "Ist die Darstellung übersichtlich und verständlich?S. können Forschungsergebnisse darstellen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können Forschungsergebnisse darstellen"
+        },
+        {
+          "question": "Inwiefern lässt sich anhand der Ergebnisse die Forschungsfrage beantworten?",
+          "id": "Inwiefern lässt sich anhand der Ergebnisse die Forschungsfrage beantworten?S. können Forschungsergebnisse darstellen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1364",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können Forschungsergebnisse darstellen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1371",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Inwiefern lässt sich anhand der Ergebnisse die Forschungsfrage beantworten?",
+              "id": "Inwiefern lässt sich anhand der Ergebnisse die Forschungsfrage beantworten?S. können Forschungsergebnisse darstellen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. wählen eine passende Forschungsmethode"
+        },
+        {
+          "question": "Ist diese Methode mit den verfügbaren Mitteln zu realiseren?",
+          "id": "Ist diese Methode mit den verfügbaren Mitteln zu realiseren?S. wählen eine passende Forschungsmethode"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1362",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Ist diese Methode mit den verfügbaren Mitteln zu realiseren?",
+              "id": "Ist diese Methode mit den verfügbaren Mitteln zu realiseren?S. wählen eine passende Forschungsmethode"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1357",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. wählen eine passende Forschungsmethode"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. wählen eine passende Forschungsmethode"
+        },
+        {
+          "question": "Sind die Methoden dazu adäquat?",
+          "id": "Sind die Methoden dazu adäquat?S. wählen eine passende Forschungsmethode"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1361",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Sind die Methoden dazu adäquat?",
+              "id": "Sind die Methoden dazu adäquat?S. wählen eine passende Forschungsmethode"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1357",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. wählen eine passende Forschungsmethode"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. wählen eine passende Forschungsmethode"
+        },
+        {
+          "question": "Kann ich diese Frage mit den mir verfügbaren Mitteln beantworten?",
+          "id": "Kann ich diese Frage mit den mir verfügbaren Mitteln beantworten?S. wählen eine passende Forschungsmethode"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1360",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Kann ich diese Frage mit den mir verfügbaren Mitteln beantworten?",
+              "id": "Kann ich diese Frage mit den mir verfügbaren Mitteln beantworten?S. wählen eine passende Forschungsmethode"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1357",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. wählen eine passende Forschungsmethode"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. erstellen wissenschaftliche Fragestellungen"
+        },
+        {
+          "question": "Ist die Fragestellung für das Thema relevant?",
+          "id": "Ist die Fragestellung für das Thema relevant?S. erstellen wissenschaftliche Fragestellungen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1348",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. erstellen wissenschaftliche Fragestellungen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1353",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Ist die Fragestellung für das Thema relevant?",
+              "id": "Ist die Fragestellung für das Thema relevant?S. erstellen wissenschaftliche Fragestellungen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. erstellen wissenschaftliche Fragestellungen"
+        },
+        {
+          "question": "Kann ich diese Frage mit den mir verfügbaren Mitteln beantworten?",
+          "id": "Kann ich diese Frage mit den mir verfügbaren Mitteln beantworten?S. erstellen wissenschaftliche Fragestellungen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1348",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. erstellen wissenschaftliche Fragestellungen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1354",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Kann ich diese Frage mit den mir verfügbaren Mitteln beantworten?",
+              "id": "Kann ich diese Frage mit den mir verfügbaren Mitteln beantworten?S. erstellen wissenschaftliche Fragestellungen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können Aufgaben untereinander aufteilen"
+        },
+        {
+          "question": "Eine letzte Frage?",
+          "id": "Eine letzte Frage?S. können Aufgaben untereinander aufteilen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1347",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Eine letzte Frage?",
+              "id": "Eine letzte Frage?S. können Aufgaben untereinander aufteilen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1340",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können Aufgaben untereinander aufteilen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können Aufgaben untereinander aufteilen"
+        },
+        {
+          "question": "Können Abgabefristen eingehalten werden?",
+          "id": "Können Abgabefristen eingehalten werden?S. können Aufgaben untereinander aufteilen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1346",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Können Abgabefristen eingehalten werden?",
+              "id": "Können Abgabefristen eingehalten werden?S. können Aufgaben untereinander aufteilen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1340",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können Aufgaben untereinander aufteilen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können Aufgaben untereinander aufteilen"
+        },
+        {
+          "question": "Ist ein roter Faden erkennbar?",
+          "id": "Ist ein roter Faden erkennbar?S. können Aufgaben untereinander aufteilen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1340",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können Aufgaben untereinander aufteilen"
+            }
+          },
+          {
+            "id": "1342",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Ist ein roter Faden erkennbar?",
+              "id": "Ist ein roter Faden erkennbar?S. können Aufgaben untereinander aufteilen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können Aufgaben untereinander aufteilen"
+        },
+        {
+          "question": "Ist die Verteilung der Aufgaben gerecht?",
+          "id": "Ist die Verteilung der Aufgaben gerecht?S. können Aufgaben untereinander aufteilen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1340",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können Aufgaben untereinander aufteilen"
+            }
+          },
+          {
+            "id": "1341",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Ist die Verteilung der Aufgaben gerecht?",
+              "id": "Ist die Verteilung der Aufgaben gerecht?S. können Aufgaben untereinander aufteilen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. sich in einer Gruppe absprechen"
+        },
+        {
+          "question": "Sind die Interessen aller Gruppenmitglieder mehr oder minder berücksichtigt?",
+          "id": "Sind die Interessen aller Gruppenmitglieder mehr oder minder berücksichtigt?S. sich in einer Gruppe absprechen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1336",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. sich in einer Gruppe absprechen"
+            }
+          },
+          {
+            "id": "1339",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Sind die Interessen aller Gruppenmitglieder mehr oder minder berücksichtigt?",
+              "id": "Sind die Interessen aller Gruppenmitglieder mehr oder minder berücksichtigt?S. sich in einer Gruppe absprechen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können recherchierte Literatur beurteilen"
+        },
+        {
+          "question": "Sind Widersprüche zu erkennen? ",
+          "id": "Sind Widersprüche zu erkennen? S. können recherchierte Literatur beurteilen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1329",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Sind Widersprüche zu erkennen? ",
+              "id": "Sind Widersprüche zu erkennen? S. können recherchierte Literatur beurteilen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1325",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können recherchierte Literatur beurteilen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können recherchierte Literatur beurteilen"
+        },
+        {
+          "question": "Sind meine Ressourcen inhaltlich relevant?",
+          "id": "Sind meine Ressourcen inhaltlich relevant?S. können recherchierte Literatur beurteilen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1328",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Sind meine Ressourcen inhaltlich relevant?",
+              "id": "Sind meine Ressourcen inhaltlich relevant?S. können recherchierte Literatur beurteilen"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1325",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können recherchierte Literatur beurteilen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können recherchierte Literatur beurteilen"
+        },
+        {
+          "question": "Verwende ich seriöse, zitierfähige Quellen?",
+          "id": "Verwende ich seriöse, zitierfähige Quellen?S. können recherchierte Literatur beurteilen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1325",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können recherchierte Literatur beurteilen"
+            }
+          },
+          {
+            "id": "1327",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Verwende ich seriöse, zitierfähige Quellen?",
+              "id": "Verwende ich seriöse, zitierfähige Quellen?S. können recherchierte Literatur beurteilen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können mit fachspezifischen Datenbanken umgehen"
+        },
+        {
+          "question": "Welche Datenbank ist für meine Forschungszwecke geeignet?",
+          "id": "Welche Datenbank ist für meine Forschungszwecke geeignet?S. können mit fachspezifischen Datenbanken umgehen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1322",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können mit fachspezifischen Datenbanken umgehen"
+            }
+          },
+          {
+            "id": "1324",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Welche Datenbank ist für meine Forschungszwecke geeignet?",
+              "id": "Welche Datenbank ist für meine Forschungszwecke geeignet?S. können mit fachspezifischen Datenbanken umgehen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können Mindmaps erstellen"
+        },
+        {
+          "question": "Die Mindmap ist für mich und andere verständlich?",
+          "id": "Die Mindmap ist für mich und andere verständlich?S. können Mindmaps erstellen"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          },
+          {
+            "id": "1320",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können Mindmaps erstellen"
+            }
+          },
+          {
+            "id": "1321",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Die Mindmap ist für mich und andere verständlich?",
+              "id": "Die Mindmap ist für mich und andere verständlich?S. können Mindmaps erstellen"
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können ihre Ideen niederschreiben"
+        },
+        {
+          "question": "Sind meine Ideen für andere nachvollziehbar?",
+          "id": "Sind meine Ideen für andere nachvollziehbar?S. können ihre Ideen niederschreiben"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1317",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können ihre Ideen niederschreiben"
+            }
+          },
+          {
+            "id": "1318",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Sind meine Ideen für andere nachvollziehbar?",
+              "id": "Sind meine Ideen für andere nachvollziehbar?S. können ihre Ideen niederschreiben"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können ihre Gedanken sortieren"
+        },
+        {
+          "question": "Sind meine Vorstellungen realisierbar?",
+          "id": "Sind meine Vorstellungen realisierbar?S. können ihre Gedanken sortieren"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1312",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können ihre Gedanken sortieren"
+            }
+          },
+          {
+            "id": "1316",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Sind meine Vorstellungen realisierbar?",
+              "id": "Sind meine Vorstellungen realisierbar?S. können ihre Gedanken sortieren"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          }
+        ],
+        "relationships": []
+      }
+    },
+    {
+      "row": [
+        {
+          "printableName": "Wissenschaft trägt Verantwortung",
+          "id": "25",
+          "requirement": ""
+        },
+        {
+          "compulsory": "false",
+          "id": "S. können ihre Gedanken sortieren"
+        },
+        {
+          "question": "Passt das zum Kursthema?",
+          "id": "Passt das zum Kursthema?S. können ihre Gedanken sortieren"
+        }
+      ],
+      "graph": {
+        "nodes": [
+          {
+            "id": "1312",
+            "labels": [
+              "Competence"
+            ],
+            "properties": {
+              "compulsory": "false",
+              "id": "S. können ihre Gedanken sortieren"
+            }
+          },
+          {
+            "id": "1315",
+            "labels": [
+              "ReflectiveQuestion"
+            ],
+            "properties": {
+              "question": "Passt das zum Kursthema?",
+              "id": "Passt das zum Kursthema?S. können ihre Gedanken sortieren"
+            }
+          },
+          {
+            "id": "1239",
+            "labels": [
+              "CourseContext"
+            ],
+            "properties": {
+              "printableName": "Wissenschaft trägt Verantwortung",
+              "id": "25",
+              "requirement": ""
+            }
+          }
+        ],
+        "relationships": []
+      }
+    }
+  ],
+  "stats": {
+    "contains_updates": false,
+    "nodes_created": 0,
+    "nodes_deleted": 0,
+    "properties_set": 0,
+    "relationships_created": 0,
+    "relationship_deleted": 0,
+    "labels_added": 0,
+    "labels_removed": 0,
+    "indexes_added": 0,
+    "indexes_removed": 0,
+    "constraints_added": 0,
+    "constraints_removed": 0
+  }
+}

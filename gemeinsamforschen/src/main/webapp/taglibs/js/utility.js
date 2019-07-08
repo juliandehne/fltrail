@@ -304,7 +304,7 @@ function taskCompleted() {
 function changeLocation() {
     let whatRole = $('#isStudent').val();
     let currentProjectName = $('#projectName').html().trim();
-    if (typeof personal !== "undefined") {
+    if (typeof fileRole !== "undefined" && fileRole.toUpperCase() === "PORTFOLIO") {
         if (whatRole === "isDocent") {
             if (personal) {
                 location.href = `../portfolio/show-portfolio-docent.jsp?projectName=${currentProjectName}`
