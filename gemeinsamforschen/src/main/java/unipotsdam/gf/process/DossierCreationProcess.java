@@ -4,6 +4,7 @@ import com.itextpdf.text.DocumentException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IContributionFeedback;
+import unipotsdam.gf.interfaces.IReflectionQuestion;
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -65,7 +66,7 @@ public class DossierCreationProcess {
     private IContributionFeedback contributionFeedbackService;
 
     @Inject
-    private ReflectionQuestionService reflectionQuestionService;
+    private IReflectionQuestion reflectionQuestionService;
 
 
     /**

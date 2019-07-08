@@ -40,6 +40,8 @@ import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.quiz.QuizDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionService;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.Wizard;
@@ -81,6 +83,9 @@ public class GFApplicationBinder extends AbstractBinder {
             log.trace("Rocket Chat is not online. Removing chat capabilities");
         }
 
+        bind(ReflectionQuestionService.class).to(IReflectionQuestion.class);
+        bind(ReflectionQuestionDAO.class).to(ReflectionQuestionDAO.class);
+        ///bind(ReflectionQuestionService.class).to(ReflectionQuestionService.class);
         bind(EmailService.class).to(EmailService.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(PeerAssessmentProcess.class).to(PeerAssessmentProcess.class);
