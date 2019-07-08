@@ -11,6 +11,8 @@ import unipotsdam.gf.modules.fileManagement.FileType;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionService;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
@@ -62,6 +64,9 @@ public class DossierCreationProcess {
     @Inject
     private IContributionFeedback contributionFeedbackService;
 
+    @Inject
+    private ReflectionQuestionService reflectionQuestionService;
+
 
     /**
      * start the Dossier Phase
@@ -109,6 +114,9 @@ public class DossierCreationProcess {
                 break;
             case PORTFOLIO:
                 break;
+            case REFLECTION_QUESTION:
+                ReflectionQuestion reflectionQuestion = new ReflectionQuestion(fullSubmissionPostRequest.getReflectionQuestionId());
+                reflectionQuestionService.saveAnswerReference(fullSubmission, reflectionQuestion);
         }
         return fullSubmission;
     }
