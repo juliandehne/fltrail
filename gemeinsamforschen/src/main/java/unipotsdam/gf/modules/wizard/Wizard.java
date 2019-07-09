@@ -238,14 +238,17 @@ public class Wizard {
      * @param project
      * @param student
      */
-    private void createMockDataForCompBase(Project project, User student) throws Exception {
+    public void createMockDataForCompBase(Project project, User student) throws Exception {
         PreferenceData preferenceData = factory.manufacturePojo(PreferenceData.class);
         // check if tags were persisted for this project
         ArrayList<String> tags = getOrPersistTags(project);
         // if not persist new ones
-        preferenceData.setTagsSelected(tags);
-        String prefix = "Ich interessiere mich für ";
+        String prefix = "Studierende interessieren sich für ";
+        preferenceData.getTagsSelected().add(prefix + tags.get(1));
+        preferenceData.getTagsSelected().add(prefix + tags.get(2));
+
         List<String> concepts = this.concepts.getNumberedConcepts(5);
+        preferenceData.getCompetences().clear();
         for (int i = 0; i < 5; i++) {
             String competence = prefix + concepts.get(i);
             preferenceData.getCompetences().add(competence);
@@ -262,6 +265,7 @@ public class Wizard {
             tags = concepts.getNumberedConcepts(5);
             projectDAO.persistTagsForWizard(project, tags);
         }
+        result.addAll(tags);
         return result;
     }
 

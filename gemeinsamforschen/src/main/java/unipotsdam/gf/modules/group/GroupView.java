@@ -188,5 +188,4 @@ public class GroupView {
         return Response.ok().entity("Lernziele werden verarbeitet").build();
     }
 
-
 }
