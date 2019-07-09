@@ -1121,5 +1121,46 @@ main.groups-manual{
   padding-top: 10px;
 }
 
+/* CHAT */
+
+.span-chat {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 305px;
+}
+
+.span-chat .tab-content {
+    background-color:#fff;
+}
+
+
+.inCardSolver {
+    padding-top: 10px;
+}
+
+.span-chat .nav {
+    padding-bottom:0;
+    background: #075f8b;
+}
+
+.span-chat .nav-pills > li {
+    background-color: grey;
+}
+
+.span-chat .nav > li > a:link {
+    color:#075f8b;
+}
+
+.span-chat .nav > li.active > a:link {
+    color:#fff;
+    background:transparent;
+    border:none;
+}
+
+
+.span-chat .nav-pills > li.active {
+    background-color:#075f8b;
+}
 
 
