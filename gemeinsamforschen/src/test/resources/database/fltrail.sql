@@ -129,6 +129,7 @@ CREATE TABLE `fullsubmissions`
     `version`       int(11)      NOT NULL,
     `timestamp`     timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     `groupId`       int(11)               DEFAULT NULL,
+    `header`        varchar(100) NOT NULL,
     `text`          mediumtext   NOT NULL,
     `projectName`   varchar(200) NOT NULL,
     `feedbackGroup` int(11)               DEFAULT NULL,
@@ -238,7 +239,7 @@ CREATE TABLE `largefilestorage`
 
 CREATE TABLE `learninggoalstore`
 (
-    `text` varchar(400) NOT NULL
+    `text` varchar(250) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='saves predefined learning goals';
 
@@ -457,9 +458,9 @@ CREATE TABLE `quiz`
 
 CREATE TABLE `reflectionquestions`
 (
-    `id`               varchar(400) NOT NULL,
-    `learningGoalId`   varchar(400) NOT NULL,
-    `question`         varchar(400) NOT NULL,
+    `id`               varchar(100) NOT NULL,
+    `learningGoalId`   varchar(100) NOT NULL,
+    `question`         varchar(100) NOT NULL,
     `userEmail`        varchar(255) NOT NULL,
     `fullSubmissionId` varchar(120) DEFAULT NULL,
     `projectName`      varchar(100) NOT NULL
@@ -474,9 +475,9 @@ CREATE TABLE `reflectionquestions`
 
 CREATE TABLE `reflectionquestionsstore`
 (
-    `id`           varchar(400) NOT NULL,
-    `question`     varchar(400) NOT NULL,
-    `learningGoal` varchar(400) NOT NULL
+    `id`           varchar(100) NOT NULL,
+    `question`     varchar(250) NOT NULL,
+    `learningGoal` varchar(250) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='holds all predefined reflection questions.';
 
@@ -688,13 +689,6 @@ ALTER TABLE `largefilestorage`
     ADD PRIMARY KEY (`id`),
     ADD KEY `largefilestorage_projects_name_fk` (`projectName`),
     ADD KEY `largefilestorage_users_email_fk` (`userEmail`);
-
---
--- Indizes für die Tabelle `learninggoalstore`
---
-ALTER TABLE `learninggoalstore`
-    ADD PRIMARY KEY (`text`),
-    ADD UNIQUE KEY `learningGoalStore_text_uindex` (`text`);
 
 --
 -- Indizes für die Tabelle `mappedtasks`
@@ -987,20 +981,6 @@ ALTER TABLE `projectuser`
 --
 ALTER TABLE `quiz`
     ADD CONSTRAINT `quiz_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `reflectionquestions`
---
-ALTER TABLE `reflectionquestions`
-    ADD CONSTRAINT `reflexionquestions_fullsubmissions_id_fk` FOREIGN KEY (`fullSubmissionId`) REFERENCES `fullsubmissions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `reflexionquestions_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
-    ADD CONSTRAINT `reflexionquestions_users_email_fk` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints der Tabelle `reflectionquestionsstore`
---
-ALTER TABLE `reflectionquestionsstore`
-    ADD CONSTRAINT `reflectionquestionsstore_learninggoalstore_text_fk` FOREIGN KEY (`learningGoal`) REFERENCES `learninggoalstore` (`text`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `surveyitemsselected`

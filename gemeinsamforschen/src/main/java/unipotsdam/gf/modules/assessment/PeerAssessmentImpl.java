@@ -192,8 +192,8 @@ public class PeerAssessmentImpl implements IPeerAssessment {
     }
 
     @Override
-    public Integer whichGroupToRate(Project project, User user) {
-        return taskMapper.getWhichGroupToRate(project, user);
+    public Integer whichGroupToRate(Project project, Integer groupId) {
+        return taskMapper.getWhichGroupToRate(project, groupId);
     }
 
     @Override

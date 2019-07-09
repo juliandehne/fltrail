@@ -42,13 +42,11 @@ public class TaskMapper {
      * gets all groups in a project, looks for group of user and returns the following groupId. In case
      * the user group is last in this cycle, it will return the first element of the list.
      * @param project of interest
-     * @param user of interest
      * @return the id of the group that is rated
      */
-    public Integer getWhichGroupToRate(Project project, User user) {
+    public Integer getWhichGroupToRate(Project project, Integer groupId) {
         Integer result;
-        List<Integer> groups = new ArrayList<>();
-        Integer groupId = buildGroupIndexes(project, user, groups);
+        List<Integer> groups = buildGroupIndexes(project);
         // every user gets the next group in the cycle
         if (groups.indexOf(groupId) + 1 == groups.size()) {
             result = groups.get(0);
@@ -61,33 +59,25 @@ public class TaskMapper {
     /**
      * returns the groupId the user is in and a list of groupIds of the project is filled
      * @param project of interest
-     * @param user of interest
-     * @param groups list of groupIds of the project
+
      * @return groupId of user in project
      */
-    private Integer buildGroupIndexes(Project project, User user, List<Integer> groups) {
+    private List<Integer> buildGroupIndexes(Project project) {
         connect.connect();
-        String mysqlRequest1 = "SELECT groupId FROM `groupuser` gu JOIN groups g on " +
-                "gu.groupid=g.id AND g.projectName=? WHERE `userEmail`=?";
-        VereinfachtesResultSet vereinfachtesResultSet1 =
-                connect.issueSelectStatement(mysqlRequest1, project.getName(), user.getEmail());
-        vereinfachtesResultSet1.next();
-        Integer groupId = vereinfachtesResultSet1.getInt("groupId");
-
+        List<Integer> result = new ArrayList<>();
         String mysqlRequest2 = "SELECT DISTINCT id FROM `groups` WHERE `projectName`=? ORDER BY id ASC";
         VereinfachtesResultSet vereinfachtesResultSet2 =
                 connect.issueSelectStatement(mysqlRequest2, project.getName());
         while (vereinfachtesResultSet2.next()) {
-            groups.add(vereinfachtesResultSet2.getInt("id"));
+            result.add(vereinfachtesResultSet2.getInt("id"));
         }
         connect.close();
-        return groupId;
+        return result;
     }
 
-    public void persistTaskMapping(Project project, User user, TaskName taskName) {
+    public void persistTaskMapping(Project project, User user, Integer groupId, TaskName taskName) {
         Integer groupResult;
-        List<Integer> groups = new ArrayList<>();
-        Integer groupId = buildGroupIndexes(project, user, groups);
+        List<Integer> groups = buildGroupIndexes(project);
         // every user gets the next group in the cycle
         if (groups.indexOf(groupId) + 1 == groups.size()) {
             groupResult = groups.get(0);

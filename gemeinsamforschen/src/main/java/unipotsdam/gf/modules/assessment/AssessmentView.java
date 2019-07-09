@@ -3,6 +3,7 @@ package unipotsdam.gf.modules.assessment;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
 import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyData;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
@@ -39,6 +40,9 @@ public class AssessmentView {
     @Inject
     private GFContexts gfContexts;
 
+    @Inject
+    private GroupDAO groupDAO;
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -48,7 +52,8 @@ public class AssessmentView {
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Project project = projectDAO.getProjectByName(projectName);
-        return peer.whichGroupToRate(project, user);
+        Integer groupId = groupDAO.getMyGroupId(user, project);
+        return peer.whichGroupToRate(project, groupId);
     }
 
     @GET

@@ -4,9 +4,9 @@ import com.itextpdf.text.DocumentException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IContributionFeedback;
+import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IReflectionQuestion;
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
-import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.fileManagement.FileType;
@@ -14,7 +14,6 @@ import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionService;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
@@ -217,13 +216,12 @@ public class DossierCreationProcess {
         //peerAssessmentProcess.startPeerAssessmentPhase(project);
     }
 
-    public void createSeeFeedBackTask(Project project, Integer groupId, User user) {
+    public void createSeeFeedBackTask(Project project, Integer groupId) {
         Integer feedbackedgroup = submissionController.getFeedbackedgroup(project, groupId);
-        int feedbackGroup = peerAssessment.whichGroupToRate(project, user);
+        int feedbackGroup = peerAssessment.whichGroupToRate(project, groupId);
         ArrayList<Task> reeditDossierTasks = taskDAO.getTasksWithTaskName(feedbackGroup, project, TaskName.REEDIT_DOSSIER);
-        Task task;
         if (reeditDossierTasks.size() != 0) {
-            task = reeditDossierTasks.get(0);
+            Task task = reeditDossierTasks.get(0);
             taskDAO.addTaskType(task, TaskType.LINKED);
         }
         taskDAO.persistTaskGroup(project, feedbackedgroup, TaskName.SEE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);

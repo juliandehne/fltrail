@@ -1,7 +1,6 @@
 package unipotsdam.gf.modules.wizard.compbase;
 
 import com.opencsv.CSVReader;
-import unipotsdam.gf.config.CompbaseConfig;
 
 import java.io.*;
 import java.util.ArrayList;

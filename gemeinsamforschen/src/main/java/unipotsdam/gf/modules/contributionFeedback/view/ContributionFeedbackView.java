@@ -14,14 +14,7 @@ import unipotsdam.gf.session.GFContexts;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -103,9 +96,7 @@ public class ContributionFeedbackView {
     @Path("/finalize/projects/{projectName}/groups/{groupId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response finalizeFeedback(@PathParam("groupId") int groupId, @PathParam("projectName") String projectName) {
-        String userEmail = gfContexts.getUserEmail(req);
-        User user = userDAO.getUserByEmail(userEmail);
-        dossierCreationProcess.saveFinalFeedback(groupId, new Project(projectName), user);
+        dossierCreationProcess.saveFinalFeedback(groupId, new Project(projectName));
         return Response.ok().build();
     }
 
