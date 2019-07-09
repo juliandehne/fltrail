@@ -15,11 +15,21 @@ import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.IExecutionProcess;
 import unipotsdam.gf.process.PeerAssessmentProcess;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.util.CollectionUtil;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.xml.bind.JAXBException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import static unipotsdam.gf.util.CollectionUtil.*;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -55,32 +65,28 @@ public class PhasesImpl implements IPhases {
     @Inject
     private EmailService emailService;
 
+    private static Map<Phase, ArrayList<TaskName>> phaseMap = getPhaseMap();
+
+
+    private static synchronized Map<Phase, ArrayList<TaskName>> getPhaseMap() {
+        if (phaseMap == null){
+            try {
+                phaseMap = getPhaseTaskMap();
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return phaseMap;
+    }
 
 
     public PhasesImpl() {
     }
 
-    /*Optionen für die Constraints:
-    Gesucht ist ein Objekt, welches man an den Dozenten übergibt, in dem die fehlenden Abgaben codiert sind
-
-    Als Map<StudentIdentifier, class Constraints>
-        + Immer wenn etwas nicht erfüllt wurde, speichert man es hier ab
-        - Jedes Interface bräuchte eine Funktion, die diese Datenstruktur bedient
-        - einige nutzlose Daten müssten mitgeschliffen werden
-        - Die variable wird immer wieder neu erzeugt und so sollte alles in der DB gespeichert sein!?
-    Constraints als Enum
-        + Die Funktionen der Interfaces checken ob dieser Constraint überall gilt
-        - Jedes Interface muss eine Funktion schreiben, die jeden Studenten untersucht.
-            Sinnvoller wäre nur die Studenten zurück zu geben, die die Constraint nicht erfüllen
-        - Enums können glaube keine Werte als Default tragen
-    Map<StudentIdentifier, String>
-        + Wenn Map keine Elemente trägt, ist alles erfüllt.
-        + zurück zu geben vom Interface wäre die Kennung (StudentIdentifier) und was fehlt (Constraint)
-        - Keine Default Werte
-    */
 
     @Override
-    public void endPhase(Phase currentPhase, Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+    public void endPhase(Phase currentPhase, Project project)
+            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         Phase changeToPhase = getNextPhase(currentPhase);
         switch (currentPhase) {
             case GroupFormation:
@@ -149,6 +155,197 @@ public class PhasesImpl implements IPhases {
         connect.close();
     }
 
+    private static Map<Phase, ArrayList<TaskName>> getPhaseTaskMap()
+            throws InstantiationException, IllegalAccessException {
+        HashMap<Phase, ArrayList<TaskName>> phaseMapTMP = new HashMap<Phase, ArrayList<TaskName>>();
+        TaskName[] values = TaskName.values();
+        for (TaskName value : values) {
+            switch (value) {
+                case WAIT_FOR_GRADING:
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
+                    break;
+                case GIVE_FEEDBACK:
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
+                    break;
+                case WAIT_FOR_PARTICPANTS:
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
+                    break;
+                case CHOOSE_REFLEXION_QUESTIONS:
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
+                    break;
+                case GIVE_EXTERNAL_ASSESSMENT:
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
+                    break;
+                case UPLOAD_DOSSIER:
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
+                    break;
+                case GIVE_INTERNAL_ASSESSMENT:
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
+                    break;
+                case CLOSE_GROUP_FINDING_PHASE:
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
+                    break;
+                case CHOOSE_FITTING_COMPETENCES:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case GIVE_EXTERNAL_ASSESSMENT_TEACHER:
+                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
+                    break;
+                case SEE_FEEDBACK:
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
+                    break;
+                case REEDIT_DOSSIER:
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
+                    break;
+                case WAIT_FOR_UPLOAD:
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
+                    break;
+                case ANNOTATE_DOSSIER:
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
+                    break;
+                case WAITING_FOR_GROUP:
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
+                    break;
+                case UPLOAD_PRESENTATION:
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
+                    break;
+                case ANSWER_REFLEXION_QUESTIONS:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case CLOSE_DOSSIER_FEEDBACK_PHASE:
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
+                    break;
+                case CLOSE_PEER_ASSESSMENTS_PHASE:
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
+                    break;
+                case WAITING_FOR_STUDENT_DOSSIERS:
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
+                    break;
+                case COLLECT_RESULTS_FOR_ASSESSMENT:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case END_STUDENT:
+                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
+                    break;
+                case GIVE_FINAL_GRADES:
+                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
+                    break;
+                case END_EXECUTION_PHASE:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case UPLOAD_FINAL_REPORT:
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
+                    break;
+                case CLOSE_EXECUTION_PHASE:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case INTRODUCE_E_PORTFOLIO_DOCENT:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case INTRODUCE_E_PORTFOLIO_STUDENT:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case END_DOCENT:
+                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
+                    break;
+                case WAIT_FOR_REFLECTION:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case CONTACT_GROUP_MEMBERS:
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
+                    break;
+                case CREATE_LEARNING_GOAL_DIARY:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case EDIT_FORMED_GROUPS:
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
+                    break;
+                case FINALIZE_ASSESSMENT:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case CLOSE_ASSESSMENT_PHASE:
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
+                    break;
+                case REFLECT_DOSSIER_CREATION:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case WAIT_FOR_EXECUTION_PHASE_END:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case CREATE_QUIZ:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case EDIT_FEEDBACK:
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
+                    break;
+                case WRITE_EJOURNAL:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case FINALIZE_DOSSIER:
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
+                    break;
+                case FINALIZE_EJOURNAL:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case FORM_GROUPS_MANUALLY:
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
+                    break;
+            }
+        }
+
+        return phaseMapTMP;
+    }
+
+    @Override
+    public java.util.List<TaskName> getTaskNames(Phase phase) {
+        return phaseMap.get(phase);
+    }
+
+    @Override
+    public Phase getCorrespondingPhase(TaskName taskName) {
+        for (Phase phase : getPhaseMap().keySet()) {
+            if (phaseMap.get(phase).contains(taskName)) {
+                return phase;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public TaskName getLastTask(Phase phase) {
+        switch (phase) {
+            case GRADING:
+                return TaskName.END_DOCENT;
+            case DossierFeedback:
+                return TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE;
+            case Execution:
+                return TaskName.CLOSE_EXECUTION_PHASE;
+            case Assessment:
+                return TaskName.CLOSE_ASSESSMENT_PHASE;
+            case GroupFormation:
+                return TaskName.CLOSE_GROUP_FINDING_PHASE;
+            case Projectfinished:
+                return TaskName.END_DOCENT;
+        }
+        return null;
+    }
+
+    @Override
+    public java.util.List<Phase> getPreviousPhases(Phase phase) {
+        ArrayList<Phase> phases = new ArrayList<>();
+        phases.add(Phase.GroupFormation);
+        phases.add(Phase.DossierFeedback);
+        phases.add(Phase.Execution);
+        phases.add(Phase.Assessment);
+        phases.add(Phase.GRADING);
+        if (phase.equals(Phase.GroupFormation)) {
+            return new ArrayList<>();
+        }
+        return phases.subList(0, phases.indexOf(phase) -1);
+    }
 
 
 }

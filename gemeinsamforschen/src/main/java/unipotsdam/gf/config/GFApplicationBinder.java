@@ -11,6 +11,7 @@ import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.interfaces.IPortfolioService;
+import unipotsdam.gf.interfaces.IReflectionQuestion;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
@@ -39,10 +40,12 @@ import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.quiz.QuizDAO;
-import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
-import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionService;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.modules.wizard.Wizard;
+import unipotsdam.gf.modules.wizard.WizardDao;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -55,7 +58,9 @@ import unipotsdam.gf.process.ReflexionProcess;
 import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.PhasesImpl;
-import unipotsdam.gf.process.tasks.*;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskMapper;
 import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 
@@ -78,13 +83,15 @@ public class GFApplicationBinder extends AbstractBinder {
             log.trace("Rocket Chat is not online. Removing chat capabilities");
         }
 
+        bind(ReflectionQuestionService.class).to(IReflectionQuestion.class);
+        bind(ReflectionQuestionDAO.class).to(ReflectionQuestionDAO.class);
+        ///bind(ReflectionQuestionService.class).to(ReflectionQuestionService.class);
         bind(EmailService.class).to(EmailService.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(PeerAssessmentProcess.class).to(PeerAssessmentProcess.class);
         bind(PhasesImpl.class).to(IPhases.class);
         bind(GFContext.class).to(GFContext.class);
         bind(ManagementImpl.class).to(Management.class);
-        bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(AssessmentDAO.class).to(AssessmentDAO.class);
         bind(GFContexts.class).to(GFContexts.class);
@@ -119,6 +126,8 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(PeerAssessmentImpl.class).to(IPeerAssessment.class);
         bind(QuizDAO.class).to(QuizDAO.class);
         bind(Task.class).to(Task.class);
+        bind(WizardDao.class).to(WizardDao.class);
+        bind(Wizard.class).to(Wizard.class);
 
         /*
          * TODO: @Martin comment in for your development

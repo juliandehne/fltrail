@@ -109,6 +109,11 @@ public class ProjectView {
         return iManagement.getProjectsStudent(user);
     }
 
+    /**
+     * TODO this is irritating, as it suggesting all projects but only
+     * produces the ones with groupfindins phase
+     * @return
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all")

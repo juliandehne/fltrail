@@ -11,13 +11,26 @@ public enum TaskName {
     // Student Tasks
     UPLOAD_DOSSIER, GIVE_FEEDBACK, SEE_FEEDBACK, CREATE_QUIZ, WRITE_EJOURNAL, ANNOTATE_DOSSIER, FINALIZE_DOSSIER,
     FINALIZE_EJOURNAL, REEDIT_DOSSIER,
-    //execution phase
-    CREATE_LEARNING_GOAL_DIARY, COLLECT_RESULTS_FOR_ASSESSMENT, WAIT_FOR_EXECUTION_PHASE_END,
 
-    EDIT_FORMED_GROUPS, CONTACT_GROUP_MEMBERS, ASSESSMENT, WAITING_FOR_STUDENT_DOSSIERS, EDIT_FEEDBACK,
+    ///////////////////////////////////
+    // EXECUTION PHASE  tasks
+    ////////////////////////////////////
+
+    ///////////////////////////////////
+    // STUDENT EXECUTION PHASE  tasks
+    ////////////////////////////////////
+    WAIT_FOR_LEARNING_GOALS, WORK_ON_LEARNING_GOALS, UPLOAD_LEARNING_GOAL_RESULT, ANSWER_REFLECTION_QUESTIONS, COLLECT_RESULTS_FOR_ASSESSMENT, WAIT_FOR_EXECUTION_PHASE_END,
+    ///////////////////////////////////
+    // DOCENT EXECUTION PHASE  tasks
+    ////////////////////////////////////
+    CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS, END_LEARNING_GOAL_PERIOD,
+
+    EDIT_FORMED_GROUPS, CONTACT_GROUP_MEMBERS, WAITING_FOR_STUDENT_DOSSIERS, EDIT_FEEDBACK,
+
+    //ASSESSMENT,
 
     // Student ePortfolio Tasks
-    INTRODUCE_E_PORTFOLIO_STUDENT, REFLECT_DOSSIER_CREATION, ANSWER_REFLEXION_QUESTIONS,
+    INTRODUCE_E_PORTFOLIO_STUDENT, REFLECT_DOSSIER_CREATION, ANSWER_REFLEXION_QUESTIONS, CREATE_LEARNING_GOAL_DIARY,
 
     ///////////////////////////////////
     // ASSESSMENT PHASE  tasks
@@ -38,6 +51,7 @@ public enum TaskName {
 
     // students wait for their grades to be done
     WAIT_FOR_GRADING,
+
     /////////////////////////////////////////////////////
     // GRADING PHASE TASKS
     /////////////////////////////////////////////////////

@@ -1,13 +1,22 @@
 package unipotsdam.gf.modules.submission.view;
 
 import com.itextpdf.text.DocumentException;
+import unipotsdam.gf.interfaces.IReflectionQuestion;
+import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.SubmissionResponse;
+import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -15,7 +24,14 @@ import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -48,10 +64,10 @@ public class SubmissionService {
     private GFContexts gfContexts;
 
     @Inject
-    private FileManagementService fileManagementService;
+    private GroupDAO groupDAO;
 
     @Inject
-    private GroupDAO groupDAO;
+    private IReflectionQuestion reflectionQuestionService;
 
     @POST
     @Path("/full")
@@ -64,25 +80,8 @@ public class SubmissionService {
         Project project = new Project(fullSubmissionPostRequest.getProjectName());
 
 
-        if (fullSubmissionPostRequest.isPersonal()) {
-            fullSubmissionPostRequest.setUserEMail(userEmail);
-        }
-
-        final FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
-        fileManagementService.deleteFiles(project, user, fullSubmission.getFileRole());
-        switch (fullSubmission.getFileRole()) {
-            case DOSSIER:
-                try {
-                    fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest);
-                } catch (DocumentException | IOException e) {
-                    e.printStackTrace();
-                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while converting to pdf").build();
-                }
-                dossierCreationProcess.notifyAboutSubmission(user, project);
-                break;
-            case PORTFOLIO:
-                break;
-        }
+        final FullSubmission fullSubmission = dossierCreationProcess.addDossier(fullSubmissionPostRequest, userEmail,
+                user, project);
         return Response.ok(fullSubmission).build();
     }
 
@@ -125,18 +124,15 @@ public class SubmissionService {
     @Path("/full/update")
     public Response updateFullSubmission(@Context HttpServletRequest req,
                                          FullSubmissionPostRequest fullSubmissionPostRequest,
-                                         @QueryParam("finalize") Boolean finalize) throws IOException, DocumentException {
-        // save full submission request in database and return the new full submission
-
-        final FullSubmission fullSubmission;
+                                         @QueryParam("finalize") Boolean finalize)
+            throws IOException, DocumentException {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         User user = userDAO.getUserByEmail(userEmail);
-        fileManagementService.deleteFiles(new Project(fullSubmissionPostRequest.getProjectName()), user, fullSubmissionPostRequest.getFileRole());
-        fullSubmission = dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, user,
+
+        // save full submission request in database and return the new full submissiom
+        final FullSubmission fullSubmission = dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, user,
                 new Project(fullSubmissionPostRequest.getProjectName()), finalize);
-        if (finalize) {
-            dossierCreationProcess.createCloseFeedBackPhaseTask(new Project(fullSubmission.getProjectName()), user);
-        }
+
         return Response.ok(fullSubmission).build();
     }
 
@@ -145,7 +141,6 @@ public class SubmissionService {
     public Response addSubmissionPart(SubmissionPartPostRequest submissionPartPostRequest) {
         // save submission part request in the database and return the new submission part
         SubmissionPart submissionPart = submissionController.addSubmissionPart(submissionPartPostRequest);
-
         return Response.ok(submissionPart).build();
     }
 
@@ -206,14 +201,7 @@ public class SubmissionService {
     public void finalize(@PathParam("submissionId") String submissionId, @PathParam("projectId") String projectId,
                          @Context HttpServletRequest req) {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
-        FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
-        switch (fullSubmission.getFileRole()) {
-            case DOSSIER:
-                dossierCreationProcess.finalizeDossier(fullSubmission, new User(userEmail), new Project(projectId));
-                break;
-            case PORTFOLIO:
-                break;
-        }
+        dossierCreationProcess.finalizeDossier(submissionId, projectId, userEmail);
     }
 
     @GET
@@ -247,13 +235,19 @@ public class SubmissionService {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("userEmail not found in context").build();
         }
         Project project = new Project(projectName);
-        User user = new User(userEmail);
+        User user = userDAO.getUserByEmail(userEmail);
         Integer groupId = groupDAO.getMyGroupId(user, project);
 
         List<FullSubmission> fullSubmissionList = new ArrayList<>();
 
         switch (visibility) {
             case DOCENT:
+                if (user.getStudent()) {
+                    fullSubmissionList = submissionController.getDocentViewableSubmissions(user, project, FileRole.PORTFOLIO);
+                } else {
+                    fullSubmissionList = submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
+                }
+                break;
             case PUBLIC:
                 fullSubmissionList = submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
                 break;
@@ -268,6 +262,21 @@ public class SubmissionService {
             return Response.status(Response.Status.NOT_FOUND).entity("No portfolio entries found").build();
         }
         return Response.ok(fullSubmissionList).build();
+    }
+
+    @PUT
+    @Path("portfolio/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updatePortfolioEntry(@Context HttpServletRequest request, @PathParam("id") String id, FullSubmissionPostRequest fullSubmissionPostRequest) {
+        if (fullSubmissionPostRequest == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("fullSubmissionPostRequest is null").build();
+        }
+        if (id == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("id is null").build();
+        }
+        submissionController.updateFullSubmissionTextAndVisibility(fullSubmissionPostRequest);
+
+        return Response.ok().build();
     }
 
 }

@@ -230,16 +230,21 @@ function contextMenuOptions(categories) {
             result[categories[category]] = {name: categories[category], icon: "edit"};
     }
 
-    /**
-     * Context menu handler
-     */
-    $.contextMenu({
-        selector: '.context-menu-one',
-        callback: function (key, options) {
-            // handle the category click
-            handleCategoryClick(key);
-        },
-        items: result,
-    });
+    try {
+        /**
+         * Context menu handler
+         */
+        $.contextMenu({
+            selector: '.context-menu-one',
+            callback: function (key, options) {
+                // handle the category click
+                handleCategoryClick(key);
+            },
+            items: result,
+        });
+    } catch (e) {
+        console.log('No context menu found')
+    }
+
     return result;
 }

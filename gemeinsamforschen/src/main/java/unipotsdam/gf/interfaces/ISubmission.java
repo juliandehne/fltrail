@@ -1,7 +1,11 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.annotation.model.Category;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
 
 import java.util.ArrayList;
 
@@ -43,6 +47,9 @@ public interface ISubmission {
      * @return The full submission
      */
     FullSubmission getFullSubmission(String fullSubmissionId, Integer version);
+
+
+    void updateFullSubmissionTextAndVisibility(FullSubmissionPostRequest fullSubmissionPostRequest);
 
     /**
      * Checks if a full submission id already exists in the database

@@ -5,6 +5,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class TaskOrder {
+    public List<TaskName> getOrderedTasks() {
+        return orderedTasks;
+    }
+
     private List<TaskName> orderedTasks;
 
     public TaskOrder(){
@@ -12,6 +16,7 @@ public class TaskOrder {
         result.add(TaskName.WAIT_FOR_PARTICPANTS);
         result.add(TaskName.WAITING_FOR_GROUP);
         result.add(TaskName.CLOSE_GROUP_FINDING_PHASE);
+        // end of group finding phase
         result.add(TaskName.CONTACT_GROUP_MEMBERS);
         result.add(TaskName.WAITING_FOR_STUDENT_DOSSIERS);
         result.add(TaskName.UPLOAD_DOSSIER);
@@ -24,7 +29,7 @@ public class TaskOrder {
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
         result.add(TaskName.REFLECT_DOSSIER_CREATION);
         //end of execution phase
-        result.add(TaskName.ANSWER_REFLEXION_QUESTIONS);
+        result.add(TaskName.ANSWER_REFLECTION_QUESTIONS);
         result.add(TaskName.WAIT_FOR_REFLECTION);
         result.add(TaskName.CLOSE_EXECUTION_PHASE);
         result.add(TaskName.UPLOAD_PRESENTATION);

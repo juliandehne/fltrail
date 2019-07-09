@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Resource
@@ -19,17 +18,18 @@ public class ContributionFeedbackDAO {
     @Inject
     private MysqlConnect connect;
 
-    public String persist(ContributionFeedback contributionFeedback) {
+    public ContributionFeedback persist(ContributionFeedback contributionFeedback) {
         connect.connect();
         String uuid = UUID.randomUUID().toString();
-
+        int groupId = contributionFeedback.getGroupId();
+        String groupIdString = groupId == 0 ? null : String.valueOf(contributionFeedback.getGroupId());
         String mysqlRequest =
-                "INSERT INTO contributionFeedback (`id`, `groupId`, `fullSubmissionId`, `fullSubmissionPartCategory`,`text`) values (?,?,?,?,?)";
-        connect.issueInsertOrDeleteStatement(mysqlRequest, uuid, contributionFeedback.getGroupId(), contributionFeedback.getFullSubmissionId(),
-                contributionFeedback.getFullSubmissionPartCategory(), contributionFeedback.getText());
+                "INSERT INTO contributionFeedback (`id`, `groupId`, `fullSubmissionId`, `fullSubmissionPartCategory`,`text`,`userEmail`) values (?,?,?,?,?,?)";
+        connect.issueInsertOrDeleteStatement(mysqlRequest, uuid, groupIdString, contributionFeedback.getFullSubmissionId(),
+                contributionFeedback.getFullSubmissionPartCategory(), contributionFeedback.getText(), contributionFeedback.getUserEmail());
 
         connect.close();
-        return uuid;
+        return findOneById(uuid);
     }
 
     public ContributionFeedback findOneById(String id) {
@@ -42,26 +42,21 @@ public class ContributionFeedbackDAO {
         return contributionFeedback;
     }
 
-    public List<ContributionFeedback> findAllByFullSubmissionId(String fullSubmissionId) {
+    public List<ContributionFeedback> findAll(String fullSubmissionId) {
         connect.connect();
-        String query = "SELECT * FROM contributionfeedback WHERE fullSubmissionId = ?";
+        String query = "SELECT * FROM contributionfeedback WHERE fullSubmissionId = ? ORDER BY timestamp DESC";
 
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, fullSubmissionId);
-        ArrayList<ContributionFeedback> contributionFeedbacks = null;
+        ArrayList<ContributionFeedback> contributionFeedbacks = new ArrayList<>();
 
         while (vereinfachtesResultSet.next()) {
-            if (Objects.isNull(contributionFeedbacks)) {
-                contributionFeedbacks = new ArrayList<>();
-            }
             contributionFeedbacks.add(convertResultSet(vereinfachtesResultSet));
         }
         connect.close();
         return contributionFeedbacks;
     }
 
-    public ContributionFeedback findOneByFullSubmissionIdAndFullSubmissionPartCategoryAndGroupId(String fullSubmissionId,
-                                                                                                 String fullSubmissionPartCategory,
-                                                                                                 int groupId) {
+    public ContributionFeedback findOneBy(String fullSubmissionId, String fullSubmissionPartCategory, int groupId) {
         connect.connect();
         String query = "SELECT * FROM contributionfeedback WHERE fullSubmissionId = ? and fullSubmissionPartCategory = ? and groupId = ?";
 
@@ -96,8 +91,10 @@ public class ContributionFeedbackDAO {
         String fullSubmissionId = resultSet.getString("fullSubmissionId");
         String fullSubmissionPartCategory = resultSet.getString("fullSubmissionPartCategory");
         String text = resultSet.getString("text");
+        String userEmail = resultSet.getString("userEmail");
+        long timestamp = resultSet.getTimestamp("timestamp").getTime();
 
-        return new ContributionFeedback(id, groupId, fullSubmissionId, fullSubmissionPartCategory, text);
+        return new ContributionFeedback(id, groupId, fullSubmissionId, fullSubmissionPartCategory, text, userEmail, timestamp);
     }
 
     private ContributionFeedback getContributionFeedback(VereinfachtesResultSet vereinfachtesResultSet) {

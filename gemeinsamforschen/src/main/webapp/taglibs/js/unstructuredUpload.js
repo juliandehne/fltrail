@@ -9,30 +9,39 @@ let personal;
 let currentVisibility;
 let possibleVisibilities = [];
 let isPortfolioEntry;
+let isReflectionQuestion;
+let projectName;
+let reflectionQuestionId;
+let reflectionQuestions;
+let reflectionQuestionTemplateData = {};
 
-$(document).ready(function () {
+$(document).ready(async function () {
     fileRole = $('#fileRole').html().trim();
     let personalString = $("#personal").html().trim();
     personal = personalString.toUpperCase() === 'TRUE';
     isPortfolioEntry = fileRole.toUpperCase() === 'PORTFOLIO';
+    isReflectionQuestion = fileRole.toUpperCase() === 'REFLECTION_QUESTION';
     hierarchyLevel = $('#hierarchyLevel').html().trim();
     fullSubmissionId = $('#fullSubmissionId').html().trim();
+    projectName = $('#projectName').html().trim();
 
     if (isPortfolioEntry) {
         $('#backToTasks').html(`<i class="fas fa-chevron-circle-left"> Zurück zum Portfolio</i></a>`);
     }
-    setupPageContent();
+    await setupPageContent();
 
-    if (fullSubmissionId !== '') {
-        getFullSubmission(fullSubmissionId, function (fullSubmission) {
-            setHeader(fullSubmission.header);
-            setQuillContentFromFullSubmission(fullSubmission);
-        });
-    } else {
-        if (!personal) {
-            getMyGroupId(function (groupId) {
-                getFullSubmissionOfGroup(groupId, 0)
+    if(!isPortfolioEntry ){
+        if (fullSubmissionId !== '') {
+            getFullSubmission(fullSubmissionId, function (fullSubmission) {
+                setHeader(fullSubmission.header);
+                setQuillContentFromFullSubmission(fullSubmission);
             });
+        } else {
+            if (!personal) {
+                getMyGroupId(function (groupId) {
+                    getFullSubmissionOfGroup(groupId, 0)
+                });
+            }
         }
     }
 
@@ -44,8 +53,8 @@ $(document).ready(function () {
 
                 // build request
                 let visibility = "GROUP";
-                if (typeof currentVisibleButtonText !== 'undefined') {
-                    visibility = currentVisibleButtonText.name
+                if (typeof currentVisibility !== 'undefined') {
+                    visibility = currentVisibility.name
                 }
                 let header = "";
                 let ownTitle = $('#ownTitle');
@@ -54,19 +63,26 @@ $(document).ready(function () {
                 } else {
                     header = ownTitle.html();
                 }
+                // TODO: separate everything completely, so the frontend template is the same for all pages, but functionality is separated per page
                 let fullSubmissionPostRequest = {
                     header: header,
                     id: fullSubmissionId,
                     groupId: groupId,
                     text: JSON.stringify(content),
                     html: html,
-                    projectName: $('#projectName').text().trim(),
+                    projectName: projectName,
                     personal: personal,
                     fileRole: fileRole.toUpperCase(),
-                    visibility: visibility
+                    visibility: visibility,
+                    reflectionQuestionId: reflectionQuestionId
                 };
-                // save request in database
-                createFullSubmission(fullSubmissionPostRequest, redirectToPreviousPage)
+                if (isPortfolioEntry && fullSubmissionId !== '') {
+                    updatePortfolioSubmission(fullSubmissionPostRequest, handleNextAction);
+                } else {
+                    // save request in database
+                    createFullSubmission(fullSubmissionPostRequest, handleNextAction)
+                }
+
             } else {
                 alert("Ein Text wird benötigt");
             }
@@ -77,7 +93,7 @@ $(document).ready(function () {
         // show user alert message that the text will be lost
         if (window.confirm("Möchten Sie zur vorherigen Seite zurückkehren? \nIhr bisheriger Text wird nicht gespeichert.")) {
             // clear textarea
-            quill.setText("");
+            quill.setContents(null);
 
             // jump to previous page
             //window.history.back();
@@ -94,17 +110,22 @@ $(document).ready(function () {
 
 });
 
-function redirectToPreviousPage() {
+function handleNextAction() {
     let projectName = $('#projectName').text().trim();
-    if (isPortfolioEntry) {
+    if (isReflectionQuestion && Array.isArray(reflectionQuestions) && reflectionQuestions.length > 0) {
+        renderReflectionQuestionTemplate();
+    } else if (isPortfolioEntry) {
         location.href = `${hierarchyLevel}portfolio/show-portfolio-student.jsp?projectName=${projectName}`;
     } else {
         location.href = `${hierarchyLevel}project/tasks-student.jsp?projectName=${projectName}`;
     }
 }
 
-function setupPageContent() {
+async function setupPageContent() {
     populateHeaderTemplate();
+    if (isReflectionQuestion) {
+        await setupAndRenderReflectionQuestionsTemplate();
+    }
     getVisibilities(personal, function (response) {
         Object.entries(response).forEach(([name, buttonText]) => {
             possibleVisibilities[name] = {name: name, buttonText: buttonText};
@@ -114,16 +135,62 @@ function setupPageContent() {
         } else {
             currentVisibility = possibleVisibilities['GROUP'];
         }
-        populateTextFields();
+        // TODO: refactor as async await function, so the call for populate textfield don't have to be here twice
+        if (fullSubmissionId !== '') {
+            getFullSubmission(fullSubmissionId, function (fullSubmission) {
+                setQuillContentFromFullSubmission(fullSubmission);
+                currentVisibility = possibleVisibilities[fullSubmission.visibility];
+                populateTextFields();
+            });
+        } else {
+            if (!personal) {
+                getMyGroupId(function (groupId) {
+                    getFullSubmissionOfGroup(groupId, 0);
+                    populateTextFields();
+                });
+            }
+        }
+    });
+    getAnnotationCategories(function (categories) {
+        buildAnnotationList(categories);
     });
 }
 
 function populateHeaderTemplate() {
     let data = {};
-    data.header = fileRole === "Portfolio" ? "Portfolio-Eintrag" : fileRole;
+    let headerSubject = fileRole;
+    let activityVerb = 'anlegen';
+    switch (fileRole) {
+        case "Portfolio":
+            headerSubject = 'Portfolio-Eintrag';
+            break;
+        case "Reflection_Question":
+            headerSubject = 'Reflexionsfrage';
+            activityVerb = 'beantworten';
+    }
+    data.header = `${headerSubject} ${activityVerb}`;
     let tmpl = $.templates("#headerTemplate");
     let html = tmpl.render(data);
     $("#headerTemplateResult").html(html);
+}
+
+async function setupAndRenderReflectionQuestionsTemplate() {
+    reflectionQuestions = await getReflectionQuestions(projectName);
+    reflectionQuestionTemplateData.fileRole = fileRole;
+    reflectionQuestionTemplateData.totalQuestions = reflectionQuestions.length;
+    renderReflectionQuestionTemplate();
+}
+
+function renderReflectionQuestionTemplate() {
+    quill.setContents(null);
+    quill.setSelection(0);
+    let nextReflectionQuestion = reflectionQuestions.shift();
+    reflectionQuestionTemplateData.question = nextReflectionQuestion.question;
+    reflectionQuestionTemplateData.currentReflectionQuestionCounter = reflectionQuestionTemplateData.currentReflectionQuestionCounter ? ++reflectionQuestionTemplateData.currentReflectionQuestionCounter : 1;
+    reflectionQuestionId = nextReflectionQuestion.id;
+    let tmpl = $.templates("#reflectionQuestionTemplate");
+    let html = tmpl.render(reflectionQuestionTemplateData);
+    $("#reflectionQuestionTemplateResult").html(html);
 }
 
 function populateTextFields() {

@@ -19,6 +19,8 @@ public class FullSubmissionPostRequest {
     private String projectName;
     private FileRole fileRole;
     private String id;
+    private String reflectionQuestionId;
+
     // have to be set in backend
     private String userEMail;
     private Visibility visibility;
@@ -107,6 +109,14 @@ public class FullSubmissionPostRequest {
         this.id = id;
     }
 
+    public String getReflectionQuestionId() {
+        return reflectionQuestionId;
+    }
+
+    public void setReflectionQuestionId(String reflectionQuestionId) {
+        this.reflectionQuestionId = reflectionQuestionId;
+    }
+
     @Override
     public String toString() {
         return "FullSubmissionPostRequest{" +
@@ -116,6 +126,10 @@ public class FullSubmissionPostRequest {
                 ", html='" + html + '\'' +
                 ", projectName='" + projectName + '\'' +
                 ", fileRole=" + fileRole +
+                ", id='" + id + '\'' +
+                ", reflectionQuestionId='" + reflectionQuestionId + '\'' +
+                ", userEMail='" + userEMail + '\'' +
+                ", visibility=" + visibility +
                 '}';
     }
 }

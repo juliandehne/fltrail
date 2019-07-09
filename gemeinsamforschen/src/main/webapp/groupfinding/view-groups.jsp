@@ -15,7 +15,7 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <script src="js/view-groups.js"></script>
-    &lt;%&ndash;<link rel="stylesheet" href="css/create-groups-manual.css">&ndash;%&gt;
+    <link rel="stylesheet" href="css/create-groups-manual.css">
 </head>
 <body>
 <div id="flex-wrapper">

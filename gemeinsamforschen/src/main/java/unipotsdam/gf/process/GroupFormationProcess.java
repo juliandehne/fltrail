@@ -10,10 +10,13 @@ import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupData;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
+import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserProfile;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.Task;
@@ -22,7 +25,11 @@ import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
+import java.util.HashMap;
 import java.util.List;
 
 @Singleton
@@ -104,6 +111,22 @@ public class GroupFormationProcess {
 
     }
 
+    public void testForSingleGroups(Group[] groups, String isManipulated, Project project) {
+        if (isManipulated != null && isManipulated.equals("true")){
+            boolean isSingleUser =true;
+            for (Group group: groups) {
+                if (group.getMembers().size()>1){
+                    isSingleUser = false;
+                }
+            }
+            if (isSingleUser){
+                projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.SingleUser, project);
+            }else{
+                projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
+            }
+        }
+    }
+
 
     /**
      * if there are no groups for project yet they are created via the gfm
@@ -149,5 +172,26 @@ public class GroupFormationProcess {
 
     public GroupFormationMechanism getGFMByProject(Project project) {
         return groupfinding.getGroupFormationMechanism(project);
+    }
+
+    /**
+     * COMPBASE data for group matching alg 1
+     * @param preferenceData
+     * @throws Exception
+     */
+    public void sendCompBaseUserData(Project project, User user, PreferenceData preferenceData)
+            throws Exception {
+        new CompBaseMatcher().sendPreferenceData(project.getName(), user.getEmail(), preferenceData);
+    }
+
+    /**
+     * make sure that keys in this match existing profilequestion ids (current range 1-28)
+     * @param data
+     * @param user
+     * @param project
+     */
+    public void sendGroupAlDataToServer(HashMap<String, String> data, User user, Project project) {
+        UserProfile userProfile = new UserProfile(data, user, project.getName());
+        profileDAO.save(userProfile, null);
     }
 }

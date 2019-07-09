@@ -71,7 +71,7 @@ public class TaskDAO {
         task.setGroupTask(vereinfachtesResultSet.getInt("groupTask"));
         task.setImportance(Importance.valueOf(vereinfachtesResultSet.getString("importance")));
         try {
-            task.setEventCreated(vereinfachtesResultSet.getTimestamp("created").getTime());
+            task.setEventCreated(vereinfachtesResultSet.getLong("created"));
         } catch (Exception ignored) {
         }
         try {
@@ -238,10 +238,10 @@ public class TaskDAO {
                 e.printStackTrace();
             }
         }
-        Timestamp creationTime = new Timestamp(task.getEventCreated());
+        //Timestamp creationTime = new Timestamp(task.getEventCreated());
         Timestamp deadline = new Timestamp(task.getDeadline());
         connect.issueInsertOrDeleteStatement(query, task.getUserEmail(), task.getProjectName(), task.getTaskName(),
-                task.getGroupTask(), task.getImportance(), task.getProgress(), task.getPhase(), creationTime,
+                task.getGroupTask(), task.getImportance(), task.getProgress(), task.getPhase(), task.getEventCreated(),
                 deadline, task.getTaskType()[0].toString(), taskMode2, taskMode3);
         connect.close();
     }

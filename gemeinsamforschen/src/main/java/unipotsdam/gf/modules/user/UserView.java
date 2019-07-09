@@ -87,14 +87,7 @@ public class UserView {
             return registrationError();
         }
 
-        try {
-            projectCreationProcess.authenticateUser(user, req);
-        } catch (UserDoesNotExistInRocketChatException e) {
-            loginError();
-        } catch (RocketChatDownException e) {
-            e.printStackTrace();
-            return registrationError();
-        }
+        projectCreationProcess.authenticateUser(user, req);
         user = fillUserFields(user);
         gfContexts.updateUserSessionWithStatus(req, user);
 
@@ -135,10 +128,8 @@ public class UserView {
                 gfContexts.updateUserSessionWithStatus(req, user);
                 return redirectToProjectPage(user);
             } else {
-                return loginError();
+                return loginMistake();
             }
-        } catch (UserDoesNotExistInRocketChatException | RocketChatDownException e) {
-            return loginError();
         } finally {
             log.debug("exited login");
         }
@@ -171,6 +162,11 @@ public class UserView {
 
     private Response loginError() throws URISyntaxException {
         String existsUrl = "../index.jsp?loginError=true";
+        return forwardToLocation(existsUrl);
+    }
+
+    private Response loginMistake() throws URISyntaxException {
+        String existsUrl = "../index.jsp?userExists=false";
         return forwardToLocation(existsUrl);
     }
 

@@ -23,13 +23,16 @@ public class ExecutionProcess implements IExecutionProcess {
     private TaskDAO taskDAO;
 
     public void start(Project project) {
-        taskDAO.persistTeacherTask(project, TaskName.CHOOSE_FITTING_COMPETENCES, PHASE);
-        taskDAO.persistTaskForAllGroups(project, TaskName.CREATE_LEARNING_GOAL_DIARY, PHASE);
+        taskDAO.persistTeacherTask(project, TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS, PHASE);
+        taskDAO.persistTaskForAllGroups(project, TaskName.WAIT_FOR_LEARNING_GOALS, PHASE);
     }
 
-    public void finishCreateLearningGoalDiaryAndStartNext(Project project, Group group) {
-        finishTaskAndStartNext(project, group, TaskName.CREATE_LEARNING_GOAL_DIARY, TaskName.CHOOSE_FITTING_COMPETENCES);
+    public void finishCreatingLearningGoals(Project project, User user) {
+        finishTaskAndStartNext(project, user, TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS, TaskName.END_LEARNING_GOAL_PERIOD);
+
     }
+
+    // TODO: rework everything here according to new structure of visio
 
     public void finishChooseFittingCompetences(Project project, Group group) {
         finishTaskAndStartNext(project, group, TaskName.CHOOSE_FITTING_COMPETENCES, TaskName.CHOOSE_REFLEXION_QUESTIONS);
@@ -47,10 +50,10 @@ public class ExecutionProcess implements IExecutionProcess {
         if (docentTask == null || docentTask.getProgress() != Progress.FINISHED) {
             GroupTask task = taskDAO.createGroupTask(project, group.getId(), finishedTaskName, PHASE, Progress.FINISHED);
             taskDAO.updateGroupTask(task);
-            return;
+
         }
 
-        finishTaskAndStartNext(project, group, finishedTaskName, TaskName.ANSWER_REFLEXION_QUESTIONS);
+        //finishTaskAndStartNext(project, group, finishedTaskName, TaskName.ANSWER_REFLEXION_QUESTIONS);
     }
 
     public void finishChooseReflexionQuestionsDocent(Project project, User user) {
@@ -66,7 +69,7 @@ public class ExecutionProcess implements IExecutionProcess {
         }
         groupsTask.forEach(task -> {
             int groupId = task.getGroupTask();
-            GroupTask answerTask = taskDAO.createGroupTask(project, groupId, TaskName.ANSWER_REFLEXION_QUESTIONS, PHASE, Progress.JUSTSTARTED);
+            GroupTask answerTask = taskDAO.createGroupTask(project, groupId, TaskName.ANSWER_REFLECTION_QUESTIONS, PHASE, Progress.JUSTSTARTED);
             taskDAO.updateGroupTask(answerTask);
         });
 
@@ -74,7 +77,7 @@ public class ExecutionProcess implements IExecutionProcess {
     }
 
     public void finishAnswerReflexionQuestion(Project project, Group group) {
-        finishTaskAndStartNext(project, group, TaskName.ANSWER_REFLEXION_QUESTIONS, TaskName.COLLECT_RESULTS_FOR_ASSESSMENT);
+        finishTaskAndStartNext(project, group, TaskName.ANSWER_REFLECTION_QUESTIONS, TaskName.COLLECT_RESULTS_FOR_ASSESSMENT);
     }
 
     public void finishCollectResultsForAssessment(Project project, Group group) {

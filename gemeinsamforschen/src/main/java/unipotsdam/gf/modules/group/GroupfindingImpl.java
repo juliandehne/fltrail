@@ -36,12 +36,6 @@ public class GroupfindingImpl implements IGroupFinding {
 
 
     @Override
-    public void selectGroupfindingCriteria(
-            GroupfindingCriteria groupfindingCriteria, Project project) {
-        //
-    }
-
-    @Override
     public GroupFormationMechanism getGFM(Project project) {
         return groupDAO.getGroupFormationMechanism(project);
     }
@@ -88,10 +82,6 @@ public class GroupfindingImpl implements IGroupFinding {
         return groupDAO.getMyGroupId(user, project);
     }
 
-    @Override
-    public void formGroups(GroupFormationMechanism groupFindingMechanism) {
-        // TODO implement for othermechanisms
-    }
 
     public ArrayList<String> getStudentsInSameGroup(Project project, User user) {
         return groupDAO.getStudentsInSameGroupAs(project, user);
@@ -110,26 +100,6 @@ public class GroupfindingImpl implements IGroupFinding {
             for (Group group : groupsByProjectName) {
                 iCommunication.deleteChatRoom(group);
             }
-        }
-    }
-
-    @Override
-    public List<Group> createRandomGroups(Project project)
-            throws WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
-        return randomGroupAlgorithm.calculateGroups(project);
-    }
-
-    /**
-     * after this groups should not be touched by the system
-     *
-     * @param project
-     */
-    @Override
-    public void finalizeGroups(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
-        // create group chat rooms
-        List<Group> groups = getGroups(project);
-        for (Group group : groups) {
-            iCommunication.createChatRoom(group, false);
         }
     }
 

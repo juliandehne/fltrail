@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.contributionFeedback.view;
 
+import com.google.common.base.Strings;
 import unipotsdam.gf.interfaces.IContributionFeedback;
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
 import unipotsdam.gf.modules.group.Group;
@@ -13,11 +14,19 @@ import unipotsdam.gf.session.GFContexts;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @Path("/contributionfeedback")
@@ -50,23 +59,18 @@ public class ContributionFeedbackView {
         return Response.ok(contributionFeedback).build();
     }
 
+    //TODO: Maybe rework to PathParam with path /fullSubmissionId/{fullSubmissionId} and the other get and put to /id/{id}
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getContributionFeedback(@QueryParam("fullSubmissionId") String fullSubmissionId,
-                                            @QueryParam("fullSubmissionPartCategory") String fullSubmissionPartCategory,
-                                            @QueryParam("groupId") int groupId) {
-        ContributionFeedback contributionFeedback;
-        if (groupId != 0) {
-            contributionFeedback = contributionFeedbackService.getContributionFeedback(fullSubmissionId,
-                    fullSubmissionPartCategory, groupId);
-        } else {
-            contributionFeedback = contributionFeedbackService.getContributionFeedback(fullSubmissionId,
-                    fullSubmissionPartCategory);
+    public Response getContributionFeedbackForFullSubmission(@QueryParam("fullSubmissionId") String fullSubmissionId) {
+        if (Strings.isNullOrEmpty(fullSubmissionId)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        if (Objects.isNull(contributionFeedback)) {
-            return Response.status(Response.Status.NO_CONTENT).build();
+        List<ContributionFeedback> contributionFeedbacks = contributionFeedbackService.getContributionFeedbacksForFullSubmission(fullSubmissionId);
+        if (Objects.isNull(contributionFeedbacks)) {
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.ok(contributionFeedback).build();
+        return Response.ok(contributionFeedbacks).build();
     }
 
     @POST
@@ -81,8 +85,10 @@ public class ContributionFeedbackView {
         if (contributionFeedback.getGroupId() == 0) {
             Response.status(Response.Status.BAD_REQUEST).entity("groupId was not defined").build();
         }
-        return Response.ok(contributionFeedbackService.saveContributionFeedback(contributionFeedback)).build();
+        ContributionFeedback contributionFeedback1 = dossierCreationProcess.saveFeedback(contributionFeedback);
+        return Response.ok(contributionFeedback1).build();
     }
+
 
     @PUT
     @Path("{id}")
@@ -96,14 +102,13 @@ public class ContributionFeedbackView {
     @POST
     @Path("/finalize/projects/{projectName}/groups/{groupId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response finalizeFeedback(@Context HttpServletRequest req, @PathParam("groupId") int groupId, @PathParam("projectName") String projectName) throws IOException {
-        contributionFeedbackService.endFeedback(projectName, groupId);
-        Project project = projectDAO.getProjectByName(projectName);
+    public Response finalizeFeedback(@PathParam("groupId") int groupId, @PathParam("projectName") String projectName) {
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
-        dossierCreationProcess.createSeeFeedBackTask(project, groupId, user);
+        dossierCreationProcess.saveFinalFeedback(groupId, new Project(projectName), user);
         return Response.ok().build();
     }
+
 
     @GET
     @Path("/feedbackTarget/projectName/{projectName}")
