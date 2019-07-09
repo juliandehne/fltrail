@@ -41,7 +41,7 @@ public class Wizardtest {
 
     @Test
     public void testCompBase() throws Exception {
-        Project project = new Project("wizard11");
+        Project project = new Project("wizard16");
         User user = new User("studentwizard394294@stuff.com");
         wizard.createMockDataForCompBase(project, user);
 

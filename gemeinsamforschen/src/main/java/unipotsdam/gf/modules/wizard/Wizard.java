@@ -199,7 +199,7 @@ public class Wizard {
     public void createStudents(Project project) throws Exception {
         ArrayList<User> students = new ArrayList<>();
         Random random = new Random();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 12; i++) {
             try {
                 User user = factory.manufacturePojo(User.class);
                 user.setStudent(true);
@@ -222,11 +222,11 @@ public class Wizard {
             switch (groupMechanismSelected) {
                 case UserProfilStrategy:
                     // mock compbase data is generated
-                    createMockDataForCompBase(project, student);
+                    createMockDataForGroupal(project, student);
                     break;
                 case LearningGoalStrategy:
                     // mock groupal data generation in case manual group formation is tested
-                    createMockDataForGroupal(project, student);
+                    createMockDataForCompBase(project, student);
                     break;
             }
         }
@@ -244,6 +244,7 @@ public class Wizard {
         ArrayList<String> tags = getOrPersistTags(project);
         // if not persist new ones
         String prefix = "Studierende interessieren sich für ";
+        preferenceData.setTagsSelected(new ArrayList<>());
         preferenceData.getTagsSelected().add(prefix + tags.get(1));
         preferenceData.getTagsSelected().add(prefix + tags.get(2));
 

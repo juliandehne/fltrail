@@ -33,5 +33,6 @@ function doSpell(project, taskName) {
     let requestObj = new RequestObj(1, "/wizard", "/projects/?/task/?", [project, taskName], [])
     serverSide(requestObj, "POST", function (response) {
         //console.log()
+        alert("spell has been cast");
     });
 }

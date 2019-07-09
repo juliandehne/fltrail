@@ -21,29 +21,35 @@ public class CompBaseMatcher implements GroupFormationAlgorithm {
 
     @Override
     public List<Group> calculateGroups(Project project) {
+        ArrayList<Group> result = new ArrayList<>();
         Client client = ClientBuilder.newClient();
         StringBuilder builder = new StringBuilder();
         builder.append(compbaseURL);
         builder.append("/api2/groups/");
         builder.append(project.getName());
         String targetURL = builder.toString();
-        GroupData groupData = client.target(targetURL).request(MediaType.APPLICATION_JSON).get(GroupData.class);
-        List<LearningGroup> groups = groupData.getGroups();
-        ArrayList<Group> result = new ArrayList<>();
-        int i = 0;
-        for (LearningGroup group : groups) {
-            i++;
-            Group g = new Group();
-            g.setProjectName(project.getName());
-            g.setName(i+"");
-            List<String> users = group.getUsers();
-            for (String user : users) {
-                g.getMembers().add(new User(user));
+        try {
+            GroupData groupData = client.target(targetURL).request(MediaType.APPLICATION_JSON).get(GroupData.class);
+            List<LearningGroup> groups = groupData.getGroups();
+
+            int i = 0;
+            for (LearningGroup group : groups) {
+                i++;
+                Group g = new Group();
+                g.setProjectName(project.getName());
+                g.setName(i + "");
+                List<String> users = group.getUsers();
+                for (String user : users) {
+                    g.getMembers().add(new User(user));
+                }
+                result.add(g);
             }
-            result.add(g);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            client.close();
+            return result;
         }
-        client.close();
-        return result;
     }
 
     @Override
@@ -102,6 +108,8 @@ public class CompBaseMatcher implements GroupFormationAlgorithm {
         Response put = client.target(targetUrl).request(MediaType.TEXT_PLAIN)
                 .put(Entity.entity(preferenceData, MediaType.APPLICATION_JSON));
         if (put.getStatus() != 200) {
+            Object output = put.readEntity(String.class);
+            System.out.println(output);
             client.close();
             throw new CompbaseDownException();
         }

@@ -2,8 +2,6 @@ package unipotsdam.gf.assignments;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.modules.communication.view.CommunicationView;
-import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
