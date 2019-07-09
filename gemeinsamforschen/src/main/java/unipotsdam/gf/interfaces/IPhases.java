@@ -6,6 +6,7 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.xml.bind.JAXBException;
 
@@ -19,4 +20,12 @@ public interface IPhases {
 
 
     void saveState(Project project, Phase phase);
+
+    java.util.List<TaskName> getTaskNames(Phase phase);
+
+    Phase getCorrespondingPhase(TaskName taskName);
+
+    TaskName getLastTask(Phase phase);
+
+    java.util.List<Phase> getPreviousPhases(Phase phase);
 }

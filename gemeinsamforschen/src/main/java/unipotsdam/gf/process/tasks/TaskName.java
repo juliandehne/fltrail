@@ -25,10 +25,12 @@ public enum TaskName {
     ////////////////////////////////////
     CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS, END_LEARNING_GOAL_PERIOD,
 
-    EDIT_FORMED_GROUPS, CONTACT_GROUP_MEMBERS, ASSESSMENT, WAITING_FOR_STUDENT_DOSSIERS, EDIT_FEEDBACK,
+    EDIT_FORMED_GROUPS, CONTACT_GROUP_MEMBERS, WAITING_FOR_STUDENT_DOSSIERS, EDIT_FEEDBACK,
+
+    //ASSESSMENT,
 
     // Student ePortfolio Tasks
-    INTRODUCE_E_PORTFOLIO_STUDENT, REFLECT_DOSSIER_CREATION,
+    INTRODUCE_E_PORTFOLIO_STUDENT, REFLECT_DOSSIER_CREATION, ANSWER_REFLEXION_QUESTIONS, CREATE_LEARNING_GOAL_DIARY,
 
     ///////////////////////////////////
     // ASSESSMENT PHASE  tasks
@@ -49,6 +51,7 @@ public enum TaskName {
 
     // students wait for their grades to be done
     WAIT_FOR_GRADING,
+
     /////////////////////////////////////////////////////
     // GRADING PHASE TASKS
     /////////////////////////////////////////////////////

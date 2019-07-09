@@ -42,10 +42,10 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.quiz.QuizDAO;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionService;
-import unipotsdam.gf.modules.researchreport.DummyResearchReportManagement;
-import unipotsdam.gf.modules.researchreport.ResearchReportManagement;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.modules.wizard.Wizard;
+import unipotsdam.gf.modules.wizard.WizardDao;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -83,13 +83,15 @@ public class GFApplicationBinder extends AbstractBinder {
             log.trace("Rocket Chat is not online. Removing chat capabilities");
         }
 
+        bind(ReflectionQuestionService.class).to(IReflectionQuestion.class);
+        bind(ReflectionQuestionDAO.class).to(ReflectionQuestionDAO.class);
+        ///bind(ReflectionQuestionService.class).to(ReflectionQuestionService.class);
         bind(EmailService.class).to(EmailService.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(PeerAssessmentProcess.class).to(PeerAssessmentProcess.class);
         bind(PhasesImpl.class).to(IPhases.class);
         bind(GFContext.class).to(GFContext.class);
         bind(ManagementImpl.class).to(Management.class);
-        bind(DummyResearchReportManagement.class).to(ResearchReportManagement.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(AssessmentDAO.class).to(AssessmentDAO.class);
         bind(GFContexts.class).to(GFContexts.class);
@@ -124,6 +126,8 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(PeerAssessmentImpl.class).to(IPeerAssessment.class);
         bind(QuizDAO.class).to(QuizDAO.class);
         bind(Task.class).to(Task.class);
+        bind(WizardDao.class).to(WizardDao.class);
+        bind(Wizard.class).to(Wizard.class);
 
         /*
          * TODO: @Martin comment in for your development
@@ -131,8 +135,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
         //bind(ExecutionProcess.class).to(IExecutionProcess.class);
         bind(PortfolioService.class).to(IPortfolioService.class);
-        bind(ReflectionQuestionService.class).to(IReflectionQuestion.class);
-        bind(ReflectionQuestionDAO.class).to(ReflectionQuestionDAO.class);
         bindMore();
     }
 

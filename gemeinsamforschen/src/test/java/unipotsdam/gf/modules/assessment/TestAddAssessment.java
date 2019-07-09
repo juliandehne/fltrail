@@ -7,21 +7,23 @@ import org.junit.Test;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.group.GroupDAO;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.quiz.Quiz;
 import unipotsdam.gf.modules.quiz.StudentAndQuiz;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.PeerAssessmentProcess;
 import unipotsdam.gf.process.tasks.TaskDAO;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertFalse;
 
@@ -35,7 +37,19 @@ public class TestAddAssessment {
     private TaskDAO taskDAO;
 
     @Inject
+    private UserDAO userDAO;
+
+    @Inject
+    private GroupDAO groupDAO;
+
+    @Inject
     private PeerAssessmentProcess peerAssessmentProcess;
+
+    @Inject
+    private AssessmentDAO assessmentDAO;
+
+    @Inject
+    ProjectDAO projectDAO;
 
     @Inject
     private IPeerAssessment peer;
@@ -126,6 +140,36 @@ public class TestAddAssessment {
 
         //taskDAO.updateTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Progress.FINISHED);
         //taskDAO.persistTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Phase.GRADING);
+    }
+
+    @Test
+    public void testaddGrades() {
+        Project project = new Project("Forschen mit digitalen Medien");
+        List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
+        for (User user : usersByProjectName) {
+            for (User user1 : usersByProjectName) {
+                HashMap<String, String> rating = new HashMap<>();
+                Random random = new Random();
+                int i = 1 + random.nextInt(4);
+                rating.put("coop", i + "");
+                assessmentDAO.persistInternalAssessment(project, user, user1, rating);
+            }
+        }
+        List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
+        for (Group group : groupsByProjectName) {
+            for (User user : usersByProjectName) {
+                HashMap<FileRole, Integer> fileRoleIntegerHashMap = new HashMap<>();
+                Random random = new Random();
+                int i = 1 + random.nextInt(4);
+                fileRoleIntegerHashMap.put(FileRole.PRESENTATION, i);
+                fileRoleIntegerHashMap.put(FileRole.FINAL_REPORT, i);
+                assessmentDAO.writeContributionRatingToDB(project, group.getId()+"", user.getEmail(),
+                        fileRoleIntegerHashMap, true);
+                assessmentDAO.writeContributionRatingToDB(project, group.getId()+"", user.getEmail(),
+                        fileRoleIntegerHashMap, false);
+            }
+        }
+
     }
 
 

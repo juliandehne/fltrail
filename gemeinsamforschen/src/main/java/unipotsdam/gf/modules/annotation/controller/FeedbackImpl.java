@@ -3,7 +3,6 @@ package unipotsdam.gf.modules.annotation.controller;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.researchreport.ResearchReport;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
@@ -25,11 +24,6 @@ public class FeedbackImpl implements Feedback {
     TaskMapper taskMapper;
 
     @Override
-    public void assigningMissingFeedbackTasks(Project project) {
-
-    }
-
-    @Override
     public void specifyFeedbackTasks(List<Task> tasks) {
         for (Task task : tasks) {
             List<Integer> groupToFeedback = taskMapper.groupToFeedback(tasks, task, 1);
@@ -40,12 +34,6 @@ public class FeedbackImpl implements Feedback {
                 connection.close();
             }
         }
-    }
-
-
-    @Override
-    public ResearchReport getFeedbackTask(User student) {
-        return null;
     }
 
     public int getFeedBackTarget(Project project, User user) {

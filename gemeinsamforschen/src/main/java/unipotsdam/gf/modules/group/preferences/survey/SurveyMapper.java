@@ -14,6 +14,7 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.user.UserProfile;
+import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.session.GFContexts;
 
@@ -35,6 +36,9 @@ public class SurveyMapper {
 
 
     private Boolean isdebug = false;
+
+    @Inject
+    GroupFormationProcess groupFormationProcess;
 
     @Inject
     private ProfileDAO profileDAO;
@@ -159,8 +163,9 @@ public class SurveyMapper {
         // clean the data
         cleanData(data);
         // persist the answers
-        UserProfile userProfile = new UserProfile(data, user, project.getName());
-        profileDAO.save(userProfile, null);
+        /*UserProfile userProfile = new UserProfile(data, user, project.getName());
+        profileDAO.save(userProfile, null);*/
+        groupFormationProcess.sendGroupAlDataToServer(data, user, project);
 
     }
 

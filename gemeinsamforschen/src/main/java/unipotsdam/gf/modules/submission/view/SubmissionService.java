@@ -64,9 +64,6 @@ public class SubmissionService {
     private GFContexts gfContexts;
 
     @Inject
-    private FileManagementService fileManagementService;
-
-    @Inject
     private GroupDAO groupDAO;
 
     @Inject
@@ -83,28 +80,8 @@ public class SubmissionService {
         Project project = new Project(fullSubmissionPostRequest.getProjectName());
 
 
-        if (fullSubmissionPostRequest.isPersonal()) {
-            fullSubmissionPostRequest.setUserEMail(userEmail);
-        }
-
-        final FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
-        fileManagementService.deleteFiles(project, user, fullSubmission.getFileRole());
-        switch (fullSubmission.getFileRole()) {
-            case DOSSIER:
-                try {
-                    fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest);
-                } catch (DocumentException | IOException e) {
-                    e.printStackTrace();
-                    return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while converting to pdf").build();
-                }
-                dossierCreationProcess.notifyAboutSubmission(user, project);
-                break;
-            case PORTFOLIO:
-                break;
-            case REFLECTION_QUESTION:
-                ReflectionQuestion reflectionQuestion = new ReflectionQuestion(fullSubmissionPostRequest.getReflectionQuestionId());
-                reflectionQuestionService.saveAnswerReference(fullSubmission, reflectionQuestion);
-        }
+        final FullSubmission fullSubmission = dossierCreationProcess.addDossier(fullSubmissionPostRequest, userEmail,
+                user, project);
         return Response.ok(fullSubmission).build();
     }
 
@@ -147,18 +124,15 @@ public class SubmissionService {
     @Path("/full/update")
     public Response updateFullSubmission(@Context HttpServletRequest req,
                                          FullSubmissionPostRequest fullSubmissionPostRequest,
-                                         @QueryParam("finalize") Boolean finalize) throws IOException, DocumentException {
-        // save full submission request in database and return the new full submission
-
-        final FullSubmission fullSubmission;
+                                         @QueryParam("finalize") Boolean finalize)
+            throws IOException, DocumentException {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         User user = userDAO.getUserByEmail(userEmail);
-        fileManagementService.deleteFiles(new Project(fullSubmissionPostRequest.getProjectName()), user, fullSubmissionPostRequest.getFileRole());
-        fullSubmission = dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, user,
+
+        // save full submission request in database and return the new full submissiom
+        final FullSubmission fullSubmission = dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, user,
                 new Project(fullSubmissionPostRequest.getProjectName()), finalize);
-        if (finalize) {
-            dossierCreationProcess.createCloseFeedBackPhaseTask(new Project(fullSubmission.getProjectName()), user);
-        }
+
         return Response.ok(fullSubmission).build();
     }
 
@@ -167,7 +141,6 @@ public class SubmissionService {
     public Response addSubmissionPart(SubmissionPartPostRequest submissionPartPostRequest) {
         // save submission part request in the database and return the new submission part
         SubmissionPart submissionPart = submissionController.addSubmissionPart(submissionPartPostRequest);
-
         return Response.ok(submissionPart).build();
     }
 
@@ -227,14 +200,7 @@ public class SubmissionService {
     public void finalize(@PathParam("submissionId") String submissionId, @PathParam("projectId") String projectId,
                          @Context HttpServletRequest req) {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
-        FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
-        switch (fullSubmission.getFileRole()) {
-            case DOSSIER:
-                dossierCreationProcess.finalizeDossier(fullSubmission, new User(userEmail), new Project(projectId));
-                break;
-            case PORTFOLIO:
-                break;
-        }
+        dossierCreationProcess.finalizeDossier(submissionId, projectId, userEmail);
     }
 
     @GET

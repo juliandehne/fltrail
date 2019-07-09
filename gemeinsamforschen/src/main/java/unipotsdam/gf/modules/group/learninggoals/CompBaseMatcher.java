@@ -19,7 +19,6 @@ public class CompBaseMatcher implements GroupFormationAlgorithm {
 
     private static final String compbaseURL = CompbaseConfig.COMPBASE_URL;
 
-
     @Override
     public List<Group> calculateGroups(Project project) {
         Client client = ClientBuilder.newClient();
