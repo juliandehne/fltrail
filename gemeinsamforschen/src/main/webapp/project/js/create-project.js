@@ -70,16 +70,16 @@ function createNewProject(allTheTags) {
                 contentType: 'application/json',
                 type: 'POST',
                 data: JSON.stringify(project),
-                success: function (response) {
-                    if (response === "Project already exists") {
-                        $('#projectNameExists').show();
-                    } else {
-                        sendGroupPreferences();
-                    }
+                success: function () {
+                    sendGroupPreferences();
                     loaderStop();
                 },
-                error: function (a) {
-                    console.log(a);
+                error: function (xhr) {
+                    if (xhr.status === 409) {
+                        $('#projectNameExists').show();
+                    } else {
+                        console.log("Error: " + xhr.status);
+                    }
                     loaderStop();
                     return true;
                 }
@@ -128,15 +128,18 @@ function getProjectValues() {
     let reguexp = /^[a-zA-Z0-9äüöÄÜÖß ]+$/;
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
+        loaderStop();
         return false;
     }
     if (projectName === "") {           //project has no name, so abort function
         $('#projectIsMissing').show();
+        loaderStop();
         return false;
     }
     let description = $('#projectDescription').val();
     if (description === "") {
         $('#projectDescriptionMissing').show();
+        loaderStop();
         return false;
     }
     let time = new Date().getTime();

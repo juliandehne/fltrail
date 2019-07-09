@@ -23,7 +23,25 @@ public class Project {
     private String description;
     private Boolean isSurvey;
     private String[] categories;
+    private Integer groupSize;
 
+    public Project(String name, String password, Boolean active, String author, String[] tags, String[] categories, Integer groupSize) {
+        this.name = name;
+        this.password = password;
+        this.active = active;
+        this.authorEmail = author;
+        this.timecreated = System.currentTimeMillis();
+        // default starting at course creation if new
+        this.setPhase(Phase.GroupFormation);
+        this.tags = tags;
+        this.isSurvey = false;
+        this.categories = categories;
+        this.groupSize = groupSize;
+    }
+
+    public Integer getGroupSize() {
+        return groupSize;
+    }
 
     public Project(String name, String password, Boolean active, String author, String[] tags, String[] categories) {
         this.name = name;
@@ -36,6 +54,10 @@ public class Project {
         this.tags = tags;
         this.isSurvey = false;
         this.categories = categories;
+    }
+
+    public void setGroupSize(Integer groupSize) {
+        this.groupSize = groupSize;
     }
 
     public String[] getCategories() {

@@ -109,14 +109,14 @@ public class TaskDAO {
 
     private Task getTaskWaitForParticipants(VereinfachtesResultSet vereinfachtesResultSet) {
         Task task = getGeneralTask(vereinfachtesResultSet);
-        Project project = new Project();
-        project.setName(vereinfachtesResultSet.getString("projectName"));
+        Project project = projectDAO.getProjectByName(vereinfachtesResultSet.getString("projectName"));
         ProjectStatus projectStatus = projectDAO.getParticipantCount(project);
         projectStatus.setParticipantsNeeded(groupFinding.getMinNumberOfStudentsNeeded(project));
         Map<String, Object> taskData = new HashMap<>();
         taskData.put("participantCount", projectStatus);
         GroupFormationMechanism gfm = groupFinding.getGFM(project);
         taskData.put("gfm", gfm);
+        taskData.put("groupSize", project.getGroupSize());
         task.setTaskData(taskData);
         if (gfm.equals(GroupFormationMechanism.Manual)) {
             task.setTaskType(TaskType.LINKED);
@@ -387,7 +387,13 @@ public class TaskDAO {
             }
             case GIVE_EXTERNAL_ASSESSMENT: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
-                task.setTaskData(assessmentDAO.getTargetGroupForAssessment(new User(task.getUserEmail()), project));
+                TaskMapping taskMapping = assessmentDAO.getTargetGroupForAssessment(new User(task.getUserEmail()), project);
+                if (taskMapping == null) {
+                    result = null;
+                    break;
+                } else {
+                    task.setTaskData(taskMapping);
+                }
                 result = task;
                 break;
             }

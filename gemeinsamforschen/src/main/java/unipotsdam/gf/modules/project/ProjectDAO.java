@@ -13,6 +13,7 @@ import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.ws.rs.WebApplicationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,11 +27,14 @@ public class ProjectDAO {
     private MysqlConnect connect;
 
     public void persist(Project project, Integer groupSize) {
-        persist(project);
-        updateGroupSize(project, groupSize);
+        if (persist(project)) {
+            updateGroupSize(project, groupSize);
+        } else {
+            throw new WebApplicationException("Project already exists");
+        }
     }
 
-    public void persist(Project project) {
+    public Boolean persist(Project project) {
 
         if (!exists(project)) {
             java.sql.Timestamp timestamp = new java.sql.Timestamp(project.getTimecreated());
@@ -62,10 +66,11 @@ public class ProjectDAO {
                 connect.issueInsertOrDeleteStatement(
                         "INSERT INTO tags (`projectName`, `tag`) values (?,?)", project.getName(), tag);
             }
+            connect.close();
+            return true;
+        } else {
+            return false;
         }
-
-        connect.close();
-
 
     }
 
@@ -141,9 +146,11 @@ public class ProjectDAO {
         long timestamp = vereinfachtesResultSet.getLong("timecreated");
         String author = vereinfachtesResultSet.getString("author");
         String phase = vereinfachtesResultSet.getString("phase");
+        Integer groupSize = vereinfachtesResultSet.getInt("groupSize");
         String description = vereinfachtesResultSet.getString("description");
-
-        return new Project(id, password, active, timestamp, author, Phase.valueOf(phase), null, description);
+        Project project = new Project(id, password, active, timestamp, author, Phase.valueOf(phase), null, description);
+        project.setGroupSize(groupSize);
+        return project;
     }
 
     public java.util.List<String> getTags(Project project) {

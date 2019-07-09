@@ -2,10 +2,10 @@ package unipotsdam.gf.modules.project;
 
 
 import org.yaml.snakeyaml.util.UriEncoder;
-import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.annotation.ManagedBean;
@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 
@@ -40,17 +40,22 @@ public class ProjectView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/create")
-    public String createProject(@Context HttpServletRequest req, Project project, @QueryParam("groupSize") Integer groupSize)
-            throws IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public Response createProject(@Context HttpServletRequest req, Project project, @QueryParam("groupSize") Integer groupSize)
+            throws IOException {
         String userEmail = gfContexts.getUserEmail(req);
         User user = iManagement.getUserByEmail(userEmail);
         assert user != null;
         if (user == null) {
-            throw new IOException("NO user with this email exists in db");
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
         project.setName(UriEncoder.decode(project.getName()));
-        projectCreationProcess.createProject(project, user, groupSize);
-        return "success";
+        try {
+            projectCreationProcess.createProject(project, user, groupSize);
+        } catch (Exception e) {
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+
+        return Response.ok().build();
     }
 
     @POST

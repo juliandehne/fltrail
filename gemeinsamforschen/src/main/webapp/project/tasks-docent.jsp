@@ -44,11 +44,11 @@
                                 {{if inCardSolver=="resizeGroup"}}
                                 <div class="inCardSolver">
                                     <p>Sollten Sie sich für eine andere Gruppengröße entschieden haben, können sie dies hier ändern. </p>
-                                    <label>Präferierte Gruppengröße <input value='3' type='number' min='3' id='userCount' style='width:40px;' onchange='updateGroupSizeView()'></label>
+                                    <label>Präferierte Gruppengröße <input value='${groupSize}' type='number' min='3' id='userCount' style='width:40px;' onchange='updateGroupSizeView()'></label>
                                     <a data-toggle='collapse' href='#howToBuildGroups' role='button' aria-expanded='false' aria-controls='howToBuildGroups'>
                                         <i class='fas fa-question'></i>
                                     </a>
-                                    Mit dieser Gruppengröße benötigt das Projekt wenigstens <span id='groupSize'>6</span>
+                                    Mit dieser Gruppengröße benötigt das Projekt wenigstens <span id='groupSize'>${memberCount}</span>
                                     Teilnehmer um Gruppen bilden zu können.
                                     <div class='collapse' id='howToBuildGroups'>
                                         <div class='card card-body'>Es werden so viele Gruppen mit Ihrer präferierten

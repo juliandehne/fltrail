@@ -114,7 +114,8 @@ function handleInfoTasks(object, result) {
             switch (object.taskData.gfm) {
                 case "UserProfilStrategy":
                         result.inCardSolver = "resizeGroup";
-
+                    result.groupSize = object.taskData.groupSize;
+                    result.memberCount = object.taskData.groupSize * (object.taskData.groupSize - 1);
                     break;
             }
             break;
