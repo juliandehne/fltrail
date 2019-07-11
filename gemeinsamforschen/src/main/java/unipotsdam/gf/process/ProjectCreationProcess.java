@@ -84,7 +84,7 @@ public class ProjectCreationProcess {
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         // student enters project
         iManagement.register(user, project, null);
-        updateProjCreaProcTasks(project, user);
+        updateUserCreationTask(project, user);
     }
 
     public void createUser(User user)
@@ -122,27 +122,9 @@ public class ProjectCreationProcess {
     }
 
     public void deleteProject(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
-        // TODO implement
         iManagement.delete(project);
         iCommunication.deleteChatRoom(project);
     }
-
-    /*  */
-
-    /**
-     * STEP N
-     *
-     * @param project the project to delete
-     *//*
-    public void deleteProject(Project project) {
-        try {
-            iManagement.delete(project);
-        } catch (Exception e) {
-            throw new WebApplicationException("Project already exists");
-        }
-        //taskDao.createTaskWaitForParticipants(project, author);
-    }*/
-
 
     /**
      * the tasks are changed after user enters project
@@ -152,7 +134,7 @@ public class ProjectCreationProcess {
      * @throws RocketChatDownException
      * @throws UserDoesNotExistInRocketChatException
      */
-    public void updateProjCreaProcTasks(Project project, User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public void updateUserCreationTask(Project project, User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         // create info for student
         taskDao.createWaitingForGroupFormationTask(project, user);
 

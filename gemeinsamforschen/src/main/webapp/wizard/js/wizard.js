@@ -26,6 +26,9 @@ function updateView(project) {
     $("#createStudents").click(function () {
         doSpell(selectedProject.name, "WAIT_FOR_PARTICPANTS");
     });
+    $("#skipGroupPhase").click(function () {
+        doPhaseSpell(selectedProject.name, "GroupFormation");
+    });
     $("button").removeAttr("disabled");
 }
 
@@ -33,5 +36,14 @@ function doSpell(project, taskName) {
     let requestObj = new RequestObj(1, "/wizard", "/projects/?/task/?", [project, taskName], [])
     serverSide(requestObj, "POST", function (response) {
         //console.log()
+        alert("spell has been cast");
+    });
+}
+
+function doPhaseSpell(project, phase) {
+    let requestObj = new RequestObj(1, "/wizard", "/projects/?/phase/?", [project, phase], [])
+    serverSide(requestObj, "POST", function (response) {
+        //console.log()
+        alert("phase spell has been cast");
     });
 }

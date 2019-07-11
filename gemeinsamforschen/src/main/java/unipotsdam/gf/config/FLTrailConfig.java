@@ -6,6 +6,7 @@ public class FLTrailConfig {
     }
 
     public static Boolean rocketChatIsOnline = true;
+    public static Boolean wizardSimulatesFullAlgorithms = false;
 
 
 }

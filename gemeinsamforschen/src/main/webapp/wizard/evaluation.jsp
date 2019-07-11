@@ -35,7 +35,9 @@
             200px;">Studenten anlegen</button><span class="text-left" style="margin: 20px;">30 Studenten generieren und
                 anmelden lassen</span>
                 <div class="row">
-                    <div class="col" style="margin-top: 10px;"><button disabled class="btn btn-primary" type="button" style="width: 200px;">überspringen</button><span style="margin: 20px;">Gruppenfindungsphase überspringen</span></div>
+                    <div class="col" style="margin-top: 10px;"><button id="skipGroupPhase" disabled
+                                                                       class="btn btn-primary"
+                                                                        type="button" style="width: 200px;">überspringen</button><span style="margin: 20px;">Gruppenfindungsphase überspringen</span></div>
                 </div>
             </div>
         </div>

@@ -1,11 +1,8 @@
 package unipotsdam.gf.modules.wizard;
 
-import org.apache.catalina.startup.Tomcat;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
-import unipotsdam.gf.exceptions.RocketChatDownException;
-import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
-import unipotsdam.gf.exceptions.UserExistsInMysqlException;
-import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
+import unipotsdam.gf.config.FLTrailConfig;
+import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -17,8 +14,8 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.modules.wizard.compbase.ConceptImporter;
 import unipotsdam.gf.modules.wizard.compbase.TomcatConceptImporter;
+import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.process.phases.Phase;
@@ -61,6 +58,12 @@ public class Wizard {
     @Inject
     Management management;
 
+    @Inject
+    DossierCreationProcess dossierCreationProcess;
+
+    @Inject
+    IGroupFinding groupFinding;
+
     PodamFactoryImpl factory = new PodamFactoryImpl();
 
     public Wizard() {
@@ -74,12 +77,15 @@ public class Wizard {
      * @param project
      */
     public void doSpells(TaskName taskName, Project project) throws Exception {
-        // finish previous tasks
+
+        // get previous tasks including the current
         List<TaskName> previousTasks = getPreviousTasks(taskName);
-        if (previousTasks != null) {
-            for (TaskName previousTask : previousTasks) {
-                taskDAO.updateForAll(new Task(previousTask, null, project, Progress.FINISHED));
-            }
+
+        // finish previous tasks except the current
+        List<TaskName> previousTasksWithoutLast = previousTasks.subList(0, previousTasks.size() - 1);
+
+        for (TaskName previousTaskWL : previousTasksWithoutLast) {
+            taskDAO.updateForAll(new Task(previousTaskWL, null, project, Progress.FINISHED));
         }
 
         // simulate previous phases
@@ -96,14 +102,26 @@ public class Wizard {
             previousTasksNotInThisPhase.addAll(taskNames);
         }
         // removing all tasks that have been dealt with in previous phases and have been simulated already
-        if (previousTasks != null) {
-            previousTasks.removeAll(previousTasksNotInThisPhase);
-        }
+        previousTasks.removeAll(previousTasksNotInThisPhase);
+        // do simulations for previous dealts
+        simulatePreviousTasks(project, previousTasks);
+
+    }
+
+    public void simulatePreviousTasks(Project project, List<TaskName> previousTasks) throws Exception {
         // previous tasks only contains tasks in this phase now
         for (TaskName name : previousTasks) {
             switch (name) {
                 case WAIT_FOR_PARTICPANTS: {
-                    createStudents(project);
+                    ProjectStatus participantCount = projectDAO.getParticipantCount(project);
+                    if (participantCount.getParticipants() < 6) {
+                        createStudents(project);
+                    }
+                    break;
+                }
+                case CLOSE_GROUP_FINDING_PHASE: {
+                    groupFormationProcess.finalize(project);
+                    dossierCreationProcess.start(project);
                     break;
                 }
                 case UPLOAD_DOSSIER:
@@ -143,7 +161,6 @@ public class Wizard {
                     break;
             }
         }
-
     }
 
     public void doSpells(Phase phase, Project project) throws Exception {
@@ -158,6 +175,7 @@ public class Wizard {
         switch (previousPhase) {
             case GroupFormation:
                 createStudents(project);
+                groupFormationProcess.finalize(project);
                 break;
             case DossierFeedback: {
                 createDossiers(project);
@@ -169,7 +187,7 @@ public class Wizard {
             case Execution: {
 
             }
-            case Assessment:{
+            case Assessment: {
                 generatePresentationsForAllGroupsAndUploadThem(project);
                 generateFinalReportsForAllGroupsAndUploadThem(project);
                 externalPeerAssessments(project);
@@ -193,7 +211,7 @@ public class Wizard {
         TaskOrder taskOrder = new TaskOrder();
         List<TaskName> orderedTasks = taskOrder.getOrderedTasks();
         int i = orderedTasks.indexOf(taskName);
-        return orderedTasks.subList(0, i +1);
+        return orderedTasks.subList(0, i + 1);
     }
 
     public void createStudents(Project project) throws Exception {
@@ -216,25 +234,28 @@ public class Wizard {
                 // might have been a problem with UUID generation should not crash
             }
         }
-        for (User student : students) {
-            GroupFormationMechanism groupMechanismSelected =
-                    management.getProjectConfiguration(project).getGroupMechanismSelected();
-            switch (groupMechanismSelected) {
-                case UserProfilStrategy:
-                    // mock compbase data is generated
-                    createMockDataForCompBase(project, student);
-                    break;
-                case LearningGoalStrategy:
-                    // mock groupal data generation in case manual group formation is tested
-                    createMockDataForGroupal(project, student);
-                    break;
+        if (FLTrailConfig.wizardSimulatesFullAlgorithms) {
+            for (User student : students) {
+                GroupFormationMechanism groupMechanismSelected =
+                        management.getProjectConfiguration(project).getGroupMechanismSelected();
+                switch (groupMechanismSelected) {
+                    case UserProfilStrategy:
+                        // mock compbase data is generated
+                        createMockDataForGroupal(project, student);
+                        break;
+                    case LearningGoalStrategy:
+                        // mock groupal data generation in case manual group formation is tested
+                        createMockDataForCompBase(project, student);
+                        break;
+                }
             }
+        } else {
+            groupFormationProcess.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
         }
-        groupFormationProcess.getOrInitializeGroups(project);
+        //groupFormationProcess.getOrInitializeGroups(project);
     }
 
     /**
-     *
      * @param project
      * @param student
      */
@@ -244,6 +265,7 @@ public class Wizard {
         ArrayList<String> tags = getOrPersistTags(project);
         // if not persist new ones
         String prefix = "Studierende interessieren sich für ";
+        preferenceData.setTagsSelected(new ArrayList<>());
         preferenceData.getTagsSelected().add(prefix + tags.get(1));
         preferenceData.getTagsSelected().add(prefix + tags.get(2));
 
@@ -270,14 +292,13 @@ public class Wizard {
     }
 
     /**
-     *
      * @param project
      * @param user
      */
     private void createMockDataForGroupal(Project project, User user) {
         HashMap<String, String> data = new HashMap<>();
         Random random = new Random();
-        for (int i = 0; i < 20 ; i++) {
+        for (int i = 0; i < 20; i++) {
             int questionId = random.nextInt(26) + 1;
             int rating = random.nextInt(4) + 1;
             data.put(questionId + "", rating + "");

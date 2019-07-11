@@ -80,6 +80,7 @@ public class GroupView {
 
 
     /**
+     * this is serious shitty naming by me
      * @param name projectName
      * @param groupFindingMechanism Manual or similarity of learning goals. others will be implemented
      */

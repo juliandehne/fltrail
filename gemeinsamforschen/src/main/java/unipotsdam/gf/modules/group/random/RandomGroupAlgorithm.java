@@ -39,14 +39,14 @@ public class RandomGroupAlgorithm implements GroupFormationAlgorithm {
         } else {
             int numberOf3Groups = getNumberOf3Groups(numberOfUsers);
             //int numberOf4Groups = getNumberOf4Groups(numberOfUsers);
+            int numberOf3GroupMembers = numberOf3Groups * 3;
 
             Group group = new Group();
             int i = 1;
             group.setName(i + "");
             for (User user : usersByProjectName) {
-                if (numberOf3Groups > 0) {
-                    numberOf3Groups--;
-                    // TODO insert formula here for the correct groups
+                if (numberOf3GroupMembers > 0) {
+                    numberOf3GroupMembers--;
                     if (group.getMembers().size() == minGroupSize) {
                         result.add(group);
                         group = new Group();

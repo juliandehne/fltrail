@@ -39,11 +39,24 @@ public class ConceptImporter {
                 }
             } catch (IOException e) {
                 throw new Error("did not find the file:" + CONCEPT_FILE_FOR_WIZARD);
-            } return records.stream().map(x -> x.get(0)).collect(Collectors.toList());
+            }
+            List<String> result =
+                    records.stream().map(x -> x.get(0)).filter(x -> Character.isUpperCase(x.charAt(0))).collect
+                            (Collectors.toList());
+            return result;
         } else {
             return concepts;
         }
     }
+
+/*    private boolean checkUpperCase(String x) {
+        char[] chars = x.toCharArray();
+        char aChar = chars[1];
+        Character character = new Character(aChar);
+        int charType = Character.getType(character);
+        Boolean result = (charType == (int) Character.UPPERCASE_LETTER);
+        return result;
+    }*/
 
     public List<String> getNumberedConcepts(int number) {
         Random random = new Random();

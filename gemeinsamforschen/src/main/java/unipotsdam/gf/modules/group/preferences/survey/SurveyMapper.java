@@ -13,7 +13,6 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.modules.user.UserProfile;
 import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.session.GFContexts;
@@ -192,7 +191,7 @@ public class SurveyMapper {
         else {
             user = gfContexts.getUserFromSession(req);
             projectDAO.register(user, project);
-            projectCreationProcess.updateProjCreaProcTasks(project, user);
+            projectCreationProcess.updateUserCreationTask(project, user);
         }
         return user;
     }
