@@ -50,13 +50,17 @@ $(document).ready(function () {
 
 // function that creates the project in the db
 function createNewProject(allTheTags) {
+    let gfm = $('input[name=gfm]:checked').val();
+    if (typeof  gfm ==="undefined"){
+        return false;
+    }
     loaderStart();
     // again hiding the error messages
     errorMessages();
     // getting the data from the form fields
     let project = getProjectValues();
     // create the project
-    if (allTheTags.length !== 5 && $('input[name=gfm]:checked').val() === "Basierend auf Lernzielen") {
+    if (allTheTags.length !== 5 && gfm === "Basierend auf Lernzielen") {
         loaderStop();
         document.getElementById('tagHelper').className = "alert alert-warning";
         $('#exactNumberOfTags').show();
@@ -210,6 +214,9 @@ function sendGroupPreferences() {
         gfm = "LearningGoalStrategy";
     } else if (gfm === "Keine Gruppen") {
         gfm = "SingleUser";
+    }else{
+        loaderStop();
+        return false;
     }
 
     let localurl = "../rest/group/gfm/create/projects/" + projectName;
