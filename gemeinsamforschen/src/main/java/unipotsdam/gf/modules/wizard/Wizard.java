@@ -215,44 +215,45 @@ public class Wizard {
     }
 
     public void createStudents(Project project) throws Exception {
-        ArrayList<User> students = new ArrayList<>();
-        Random random = new Random();
-        for (int i = 0; i < 30; i++) {
-            try {
-                User user = factory.manufacturePojo(User.class);
-                user.setStudent(true);
+        if (projectDAO.getParticipantCount(project).getParticipants()  == 0) {
+            ArrayList<User> students = new ArrayList<>();
+            Random random = new Random();
+            for (int i = 0; i < 30; i++) {
+                try {
+                    User user = factory.manufacturePojo(User.class);
+                    user.setStudent(true);
 
-                user.setRocketChatUsername("studentwizard" + random.nextInt(1000000));
-                user.setEmail("studentwizard" + random.nextInt(1000000) + "@stuff.com");
-                user.setPassword("egal");
-                projectCreationProcess.deleteUser(user);
-                projectCreationProcess.createUser(user);
-                projectCreationProcess.studentEntersProject(project, user);
-                students.add(user);
-            } catch (Exception e) {
-                System.out.println(e);
-                // might have been a problem with UUID generation should not crash
-            }
-        }
-        if (FLTrailConfig.wizardSimulatesFullAlgorithms) {
-            for (User student : students) {
-                GroupFormationMechanism groupMechanismSelected =
-                        management.getProjectConfiguration(project).getGroupMechanismSelected();
-                switch (groupMechanismSelected) {
-                    case UserProfilStrategy:
-                        // mock compbase data is generated
-                        createMockDataForGroupal(project, student);
-                        break;
-                    case LearningGoalStrategy:
-                        // mock groupal data generation in case manual group formation is tested
-                        createMockDataForCompBase(project, student);
-                        break;
+                    user.setRocketChatUsername("studentwizard" + random.nextInt(1000000));
+                    user.setEmail("studentwizard" + random.nextInt(1000000) + "@stuff.com");
+                    user.setPassword("egal");
+                    projectCreationProcess.deleteUser(user);
+                    projectCreationProcess.createUser(user);
+                    projectCreationProcess.studentEntersProject(project, user);
+                    students.add(user);
+                } catch (Exception e) {
+                    System.out.println(e);
+                    // might have been a problem with UUID generation should not crash
                 }
             }
-        } else {
-            groupFormationProcess.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
+            if (FLTrailConfig.wizardSimulatesFullAlgorithms) {
+                for (User student : students) {
+                    GroupFormationMechanism groupMechanismSelected = management.getProjectConfiguration(project).getGroupMechanismSelected();
+                    switch (groupMechanismSelected) {
+                        case UserProfilStrategy:
+                            // mock compbase data is generated
+                            createMockDataForGroupal(project, student);
+                            break;
+                        case LearningGoalStrategy:
+                            // mock groupal data generation in case manual group formation is tested
+                            createMockDataForCompBase(project, student);
+                            break;
+                    }
+                }
+            } else {
+                groupFormationProcess.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
+            }
+            //groupFormationProcess.getOrInitializeGroups(project);
         }
-        //groupFormationProcess.getOrInitializeGroups(project);
     }
 
     /**

@@ -2,13 +2,16 @@ package unipotsdam.gf.modules.wizard;
 
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.MysqlUtil;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class WizardDao {
 
@@ -37,6 +40,38 @@ public class WizardDao {
             String phase = vereinfachtesResultSet.getString("phase");
             result.add(new WizardProject(project, taskName, phase));
         }
+        connect.close();
+        return result;
+    }
+
+    public List<TaskName> getWizardrelevantTaskStatus(Project project) {
+        ArrayList<TaskName> relevantTasks = new ArrayList<>();
+        relevantTasks.add(TaskName.UPLOAD_DOSSIER);
+        relevantTasks.add(TaskName.ANNOTATE_DOSSIER);
+        relevantTasks.add(TaskName.GIVE_FEEDBACK);
+        relevantTasks.add(TaskName.FINALIZE_DOSSIER);
+        relevantTasks.add(TaskName.UPLOAD_PRESENTATION);
+        relevantTasks.add(TaskName.UPLOAD_FINAL_REPORT);
+        relevantTasks.add(TaskName.GIVE_EXTERNAL_ASSESSMENT);
+        relevantTasks.add(TaskName.GIVE_INTERNAL_ASSESSMENT);
+        relevantTasks.add(TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER);
+
+        List<String> stringList = relevantTasks.stream().map(Enum::name).collect(Collectors.toList());
+
+        MysqlUtil mysqlUtil = new MysqlUtil();
+        String concatenatedString = mysqlUtil.createConcatenatedString(stringList);
+
+        String query = "SELECT * from tasks t" +
+                " where t.taskName in ("+concatenatedString+")" +
+                " and t.progress = ?" +
+                " and t.projectName = ? GROUP by (t.taskName)";
+
+        ArrayList<TaskName> result = new ArrayList<>();
+        connect.connect();
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(query, Progress.FINISHED.name(), project.getName());
+        while (vereinfachtesResultSet.next())
+            relevantTasks.add(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
         connect.close();
         return result;
     }

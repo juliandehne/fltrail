@@ -1,5 +1,10 @@
 let projectList = [];
 let selectedProject = "";
+const phases = new Enum('GroupFormation', 'DossierFeedback', 'Execution', 'Assessment', 'GRADING', 'Projectfinished');
+const taskNames = new Enum( "UPLOAD_DOSSIER", "ANNOTATE_DOSSIER","GIVE_FEEDBACK",
+                            "FINALIZE_DOSSIER", "UPLOAD_PRESENTATION", "UPLOAD_FINAL_REPORT",
+                            "GIVE_EXTERNAL_ASSESSMENT","GIVE_INTERNAL_ASSESSMENT",
+                            "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
 
 $(document).ready(function () {
 
@@ -26,10 +31,11 @@ function updateView(project) {
     $("#createStudents").click(function () {
         doSpell(selectedProject.name, "WAIT_FOR_PARTICPANTS");
     });
+    $("#skipGroupPhase").unbind();
     $("#skipGroupPhase").click(function () {
         doPhaseSpell(selectedProject.name, "GroupFormation");
     });
-    $("button").removeAttr("disabled");
+    updateState();
 }
 
 function doSpell(project, taskName) {
@@ -37,6 +43,7 @@ function doSpell(project, taskName) {
     serverSide(requestObj, "POST", function (response) {
         //console.log()
         alert("spell has been cast");
+        updateState();
     });
 }
 
@@ -45,5 +52,64 @@ function doPhaseSpell(project, phase) {
     serverSide(requestObj, "POST", function (response) {
         //console.log()
         alert("phase spell has been cast");
+        updateState();
     });
+}
+
+function updateState() {
+    $("button").removeAttr("disabled");
+    // update phase states
+    let requObj = new RequestObj(1, "/phases", "/projects/?/closed", [selectedProject.name], []);
+    serverSide(requObj, "GET", function (response) {
+        let groupfinding = phases.getName(phases.GroupFormation);
+        if (response.includes(groupfinding)) {
+            $('button.groupfindingButton').attr("disabled", true);
+        }
+        if (response.includes(phases.getName(phases.DossierFeedback))) {
+            $('button.dossierButton').attr("disabled", true);
+        }
+        if (response.includes(phases.getName(phases.Execution))) {
+            $('button.reflexionButton').attr("disabled", true);
+        }
+        if (response.includes(phases.getName(phases.Assessment))) {
+            $('button.assessmentButton').attr("disabled", true);
+        }
+    })
+    // update task states
+    let requObj2 = new RequestObj(1, "/wizard", "/projects/?/tasksFinished", [selectedProject.name],[]);
+    serverSide(requObj2, "GET", function (tasksfinished) {
+        if (tasksfinished.includes(taskNames.getName(taskNames.UPLOAD_DOSSIER))) {
+            $("#uploadDossierButton").attr("disabled", true);
+        }
+        if (tasksfinished.includes(taskNames.getName(taskNames.ANNOTATE_DOSSIER))) {
+            $("#annotateDossierButton").attr("disabled", true);
+        }
+        if (tasksfinished.includes(taskNames.getName(taskNames.GIVE_FEEDBACK))) {
+            $("#giveFeedbackButton").attr("disabled", true);
+
+        }
+        if (tasksfinished.includes(taskNames.getName(taskNames.FINALIZE_DOSSIER))) {
+            $("#finalizeDossierButton").attr("disabled", true);
+
+        }
+        if (tasksfinished.includes(taskNames.getName(taskNames.UPLOAD_PRESENTATION))) {
+            $("#uploadPresentationButton").attr("disabled", true);
+
+        }
+        if (tasksfinished.includes(taskNames.getName(taskNames.UPLOAD_FINAL_REPORT))) {
+            $("#uploadFinalReportButton").attr("disabled", true);
+
+        }
+        if (tasksfinished.includes(taskNames.getName(taskNames.GIVE_EXTERNAL_ASSESSMENT))) {
+            $("#externalPAButton").attr("disabled", true);
+
+        }
+        if (tasksfinished.includes(taskNames.getName(taskNames.GIVE_INTERNAL_ASSESSMENT))) {
+            $("#internalPAButton").attr("disabled", true);
+
+        }
+        if (tasksfinished.includes(taskNames.getName(taskNames.GIVE_EXTERNAL_ASSESSMENT_TEACHER))) {
+            $("#docentPAButton").attr("disabled", true);
+        }
+    })
 }

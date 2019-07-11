@@ -10,6 +10,7 @@ import unipotsdam.gf.config.GFDatabaseConfig;
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 @ManagedBean
@@ -160,6 +161,12 @@ public class MysqlConnectImpl implements MysqlConnect {
     }
 
     private void setParam(final PreparedStatement ps, final Object arg, final int i) throws SQLException {
+     /*   if (arg instanceof ArrayList) {
+            String collapsedString = "";
+            for (java.lang.Object elem : (ArrayList)arg) {
+                collapsedString += elem;
+            }
+        }*/
         if (arg instanceof String) {
             ps.setString(i, (String) arg);
         } else if (arg instanceof Integer) {

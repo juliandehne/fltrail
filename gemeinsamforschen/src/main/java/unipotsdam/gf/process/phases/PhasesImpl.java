@@ -344,7 +344,7 @@ public class PhasesImpl implements IPhases {
         if (phase.equals(Phase.GroupFormation)) {
             return new ArrayList<>();
         }
-        return phases.subList(0, phases.indexOf(phase) -1);
+        return phases.subList(0, phases.indexOf(phase));
     }
 
 
