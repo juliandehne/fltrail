@@ -15,6 +15,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * REST API for switching phases
@@ -59,6 +62,17 @@ public class PhaseView {
     @GET
     @Produces({MediaType.TEXT_PLAIN})
     public String getCurrentPhase(@PathParam("projectName") String projectName) {
-        return projectDAO.getProjectByName(projectName).getPhase().toString();
+        String result = projectDAO.getProjectByName(projectName).getPhase().toString();
+        return result;
+    }
+
+    @Path("/projects/{projectName}/closed")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public java.util.List<String> getClosedPhase(@PathParam("projectName") String projectName) {
+        Phase phase = projectDAO.getProjectByName(projectName).getPhase();
+        List<Phase> previousPhases = phases.getPreviousPhases(phase);
+        List<String> result =  previousPhases.stream().map(Enum::toString).collect(Collectors.toList());
+        return result;
     }
 }

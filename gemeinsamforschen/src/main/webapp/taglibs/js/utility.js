@@ -76,6 +76,7 @@ function goBack() {
     window.history.back();
 }
 
+// TODO move this somewhere else
 function checkAssessementPhase() {
     let userName = $('#userEmail').html().trim();
     let projectName = $('#projectName').html().trim();
