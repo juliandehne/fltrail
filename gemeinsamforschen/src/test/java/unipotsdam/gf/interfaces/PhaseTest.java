@@ -55,7 +55,7 @@ public class PhaseTest {
 
 
 
-    @Test
+  /*  @Test
     public void phase2() throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
         Project project = new Project();
         project.setName(projectName);
@@ -81,5 +81,5 @@ public class PhaseTest {
         Project project = new Project();
         project.setName(projectName);
         phases.endPhase(Phase.Assessment, project);
-    }
+    }*/
 }

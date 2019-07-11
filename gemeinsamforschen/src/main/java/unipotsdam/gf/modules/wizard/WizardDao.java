@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.wizard;
 
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlUtil;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
@@ -14,6 +15,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class WizardDao {
+
+    @Inject
+    ProjectDAO projectDAO;
 
     @Inject
     private MysqlConnect connect;
@@ -46,6 +50,8 @@ public class WizardDao {
 
     public List<TaskName> getWizardrelevantTaskStatus(Project project) {
         ArrayList<TaskName> relevantTasks = new ArrayList<>();
+        //relevantTasks.add(TaskName.WAITING_FOR_GROUP);
+        relevantTasks.add(TaskName.WAIT_FOR_PARTICPANTS);
         relevantTasks.add(TaskName.UPLOAD_DOSSIER);
         relevantTasks.add(TaskName.ANNOTATE_DOSSIER);
         relevantTasks.add(TaskName.GIVE_FEEDBACK);
@@ -73,6 +79,14 @@ public class WizardDao {
         while (vereinfachtesResultSet.next())
             relevantTasks.add(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
         connect.close();
+
+        /**
+         * we are currently not using INPROGRESS as a state, that is the reson for the workaround
+         */
+        if (projectDAO.getParticipantCount(project).getParticipants() > 5) {
+            result.add(TaskName.WAIT_FOR_PARTICPANTS);
+        }
+
         return result;
     }
 }

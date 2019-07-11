@@ -4,6 +4,7 @@ import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
@@ -40,7 +41,8 @@ public class ChatWindow extends SimpleTagSupport {
         String projectName = tu.getParamterFromQuery("projectName", request);
         Object userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL);
 
-        if (userEmail != null && !(request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) == null)) {
+        if (userEmail != null && !(request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) == null) &&
+                FLTrailConfig.rocketChatIsOnline) {
             /*
              * create project chatroom
              */

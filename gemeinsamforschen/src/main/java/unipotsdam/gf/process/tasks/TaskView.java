@@ -26,7 +26,7 @@ public class TaskView {
     @Path("/user/{userEmail}/project/{projectToken}")
     @Produces(MediaType.APPLICATION_JSON)
     public ArrayList<Task> getTasks(@PathParam("userEmail") String userEmail, @PathParam("projectToken") String projectToken)
-            throws UnsupportedEncodingException {
+            throws Exception {
         String user = java.net.URLDecoder.decode(userEmail, "UTF-8");
         return taskDAO.getTasks(new User(user), new Project(projectToken));
     }

@@ -78,23 +78,20 @@ public class Wizard {
      */
     public void doSpells(TaskName taskName, Project project) throws Exception {
 
+        // simulate previous tasks
+        Phase correspondingPhase2 = phases.getCorrespondingPhase(taskName);
+        simulatePreviousPhases(correspondingPhase2, project);
+
+        // simulate tasks in this phase
+        simulateTasksInThisPhase(taskName, project);
+    }
+
+    public void simulateTasksInThisPhase(TaskName taskName, Project project) throws Exception {
+        Phase correspondingPhase = phases.getCorrespondingPhase(taskName);
+
         // get previous tasks including the current
         List<TaskName> previousTasks = getPreviousTasks(taskName);
-
-        // finish previous tasks except the current
-        List<TaskName> previousTasksWithoutLast = previousTasks.subList(0, previousTasks.size() - 1);
-
-        for (TaskName previousTaskWL : previousTasksWithoutLast) {
-            taskDAO.updateForAll(new Task(previousTaskWL, null, project, Progress.FINISHED));
-        }
-
-        // simulate previous phases
-        Phase correspondingPhase = phases.getCorrespondingPhase(taskName);
         List<Phase> previousPhases = phases.getPreviousPhases(correspondingPhase);
-        for (Phase previousPhase : previousPhases) {
-            simulatePhase(project, previousPhase);
-        }
-
         // simulate current phase up to task
         HashSet<TaskName> previousTasksNotInThisPhase = new HashSet<>();
         for (Phase previousPhase : previousPhases) {
@@ -105,7 +102,12 @@ public class Wizard {
         previousTasks.removeAll(previousTasksNotInThisPhase);
         // do simulations for previous dealts
         simulatePreviousTasks(project, previousTasks);
+    }
 
+    public void doSpells(Phase phase, Project project) throws Exception {
+        simulatePreviousPhases(phase, project);
+        // simulate the current phase
+        simulatePhase(project, phase);
     }
 
     public void simulatePreviousTasks(Project project, List<TaskName> previousTasks) throws Exception {
@@ -117,11 +119,6 @@ public class Wizard {
                     if (participantCount.getParticipants() < 6) {
                         createStudents(project);
                     }
-                    break;
-                }
-                case CLOSE_GROUP_FINDING_PHASE: {
-                    groupFormationProcess.finalize(project);
-                    dossierCreationProcess.start(project);
                     break;
                 }
                 case UPLOAD_DOSSIER:
@@ -163,19 +160,11 @@ public class Wizard {
         }
     }
 
-    public void doSpells(Phase phase, Project project) throws Exception {
-        // do previous tasks and phases
-        TaskName lastTask = phases.getLastTask(phase);
-        doSpells(lastTask, project);
-        // simulate the current phase
-        simulatePhase(project, phase);
-    }
-
-    public void simulatePhase(Project project, Phase previousPhase) throws Exception {
-        switch (previousPhase) {
+    public void simulatePhase(Project project, Phase phase) throws Exception {
+        // phase will be ended as a call to phases, at the end in any case
+        switch (phase) {
             case GroupFormation:
                 createStudents(project);
-                groupFormationProcess.finalize(project);
                 break;
             case DossierFeedback: {
                 createDossiers(project);
@@ -202,9 +191,25 @@ public class Wizard {
 
             }
         }
+        // finish tasks in the corresponding phase
+        List<TaskName> taskNames = phases.getTaskNames(phase);
+        for (TaskName taskName : taskNames) {
+            taskDAO.updateForAll(new Task(taskName, null, project, Progress.FINISHED));
+        }
+        // finish phase this might duplicate finishing the tasks
+        phases.endPhase(phase, project, new User(project.getAuthorEmail()));
     }
 
-    public List<TaskName> getPreviousTasks(TaskName taskName) {
+
+    public void simulatePreviousPhases(Phase correspondingPhase, Project project) throws Exception {
+        List<Phase> previousPhases = phases.getPreviousPhases(correspondingPhase);
+        for (Phase previousPhase : previousPhases) {
+            simulatePhase(project, previousPhase);
+        }
+    }
+
+
+    private List<TaskName> getPreviousTasks(TaskName taskName) {
         /*if (taskName.equals(TaskName.WAIT_FOR_PARTICPANTS)) {
             return ;
         }*/

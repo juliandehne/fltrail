@@ -122,7 +122,7 @@ public class TestAddAssessment {
     }
 
     @Test
-    public void quickstartGradingPhase() {
+    public void quickstartGradingPhase() throws Exception {
         Project project = new Project("Meine Güte");
         List<Group> groups = groupFinding.getGroups(project);
         assertFalse(groups.isEmpty());
@@ -130,7 +130,7 @@ public class TestAddAssessment {
     }
 
     @Test
-    public void quickstartDocentGradingPhase() {
+    public void quickstartDocentGradingPhase() throws Exception {
         Project project = new Project("assessmenttest3");
         List<Group> groups = groupFinding.getGroups(project);
         assertFalse(groups.isEmpty());

@@ -51,6 +51,7 @@ public class GroupFormationProcess {
     private ICommunication iCommunication;
 
 
+
     /**
      * changes the group formation algorithm to the given.
      *
@@ -80,19 +81,18 @@ public class GroupFormationProcess {
      *
      * @param project which project
      */
-    public void finalize(Project project)
-            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+    public void finalize(Project project, User author) throws Exception {
+
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
-        Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, new User(project.getAuthorEmail()), project,
+        Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, author, project,
                 Progress.FINISHED);
         taskDAO.updateForUser(task);
         // Der Dozent muss nicht mehr auf weitere Studierende warten
         Task task2 =
-                new Task(TaskName.WAIT_FOR_PARTICPANTS, new User(project.getAuthorEmail()), project, Progress.FINISHED);
+                new Task(TaskName.WAIT_FOR_PARTICPANTS, author, project, Progress.FINISHED);
         taskDAO.updateForUser(task2);
         // Die Studierenden müssen nicht mehr auf die Gruppenfindung warten
         taskDAO.finishMemberTask(project, TaskName.WAITING_FOR_GROUP);
-        taskDAO.persistMemberTask(project, TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);
         project.setGroupWorkContext(profileDAO.getGroupWorkContext(project));
 
         saveGroups(getOrInitializeGroups(project).getGroups(), project);
@@ -102,6 +102,9 @@ public class GroupFormationProcess {
             iCommunication.createChatRoom(group, false);
         }
 
+        Task closeGroupTask = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, author, project,
+                Progress.FINISHED);
+        taskDAO.updateForUser(closeGroupTask);
 
     }
 

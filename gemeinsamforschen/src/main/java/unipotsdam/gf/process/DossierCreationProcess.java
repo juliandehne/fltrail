@@ -74,10 +74,7 @@ public class DossierCreationProcess {
      * @param project the project that is about to get updated to next phase (to dossierFeedback-phase)
      */
     public void start(Project project) {
-        Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, new User(project.getAuthorEmail()), project,
-                Progress.FINISHED);
-        taskDAO.updateForUser(task);
-
+        taskDAO.persistMemberTask(project, TaskName.CONTACT_GROUP_MEMBERS, Phase.DossierFeedback);
         // create a task, telling the docent to wait for students upload of dossiers
         taskDAO.persist(project, new User(project.getAuthorEmail()), TaskName.WAITING_FOR_STUDENT_DOSSIERS, Phase
                 .DossierFeedback, TaskType.INFO);
@@ -196,7 +193,10 @@ public class DossierCreationProcess {
         return feedback.getFeedBackTarget(project, user);
     }
 
-    public void finishPhase(Project project) {
+    public void finishPhase(Project project) throws Exception {
+
+        // finish contact group members tasks
+        taskDAO.updateForAll(new Task(TaskName.CONTACT_GROUP_MEMBERS, null, project, Progress.FINISHED));
 
         User user = userDAO.getUserByEmail(project.getAuthorEmail());
         Task task = new Task(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE, user, project, Progress.FINISHED );
