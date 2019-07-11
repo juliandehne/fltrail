@@ -51,6 +51,12 @@
             <version>2.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/de.sven-jacobs/loremipsum -->
+        <dependency>
+            <groupId>de.sven-jacobs</groupId>
+            <artifactId>loremipsum</artifactId>
+            <version>1.0</version>
+        </dependency>
 
 
         <!-- https://mvnrepository.com/artifact/javax.servlet.jsp/jsp-api -->

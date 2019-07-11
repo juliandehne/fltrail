@@ -26,12 +26,11 @@ public class WizardView {
     @Inject
     private ProjectDAO projectDAO;
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/projects")
     public java.util.List<WizardProject> getProjects() {
-       return wizard.getProjects();
+        return wizard.getProjects();
     }
 
     @POST
@@ -46,7 +45,6 @@ public class WizardView {
     @Path("/projects/{projectName}/phase/{phase}")
     public void doPhaseSpell(@PathParam("projectName") String projectName, @PathParam("phase") String phase)
             throws Exception {
-
         Project projectByName = projectDAO.getProjectByName(projectName);
         wizard.doSpells(Phase.valueOf(phase), projectByName);
     }

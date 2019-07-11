@@ -477,7 +477,7 @@ CREATE TABLE `reflectionquestions`
 
 CREATE TABLE `reflectionquestionsstore`
 (
-    `id`           varchar(100) NOT NULL,
+    `id`           varchar(200) NOT NULL,
     `question`     varchar(250) NOT NULL,
     `learningGoal` varchar(250) NOT NULL
 ) ENGINE = InnoDB

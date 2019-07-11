@@ -1,9 +1,12 @@
 package unipotsdam.gf.modules.wizard;
 
+import com.itextpdf.text.DocumentException;
+import de.svenjacobs.loremipsum.LoremIpsum;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
@@ -12,6 +15,9 @@ import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.submission.controller.SubmissionController;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.compbase.TomcatConceptImporter;
@@ -23,6 +29,7 @@ import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,42 +39,45 @@ public class Wizard {
     private final TomcatConceptImporter concepts;
 
     @Inject
-    WizardDao wizardDao;
+    private WizardDao wizardDao;
 
     @Inject
-    IPhases phases;
+    private IPhases phases;
 
     @Inject
-    TaskDAO taskDAO;
+    private TaskDAO taskDAO;
 
     @Inject
-    ProjectDAO projectDAO;
+    private ProjectDAO projectDAO;
 
     @Inject
-    ProjectCreationProcess projectCreationProcess;
+    private ProjectCreationProcess projectCreationProcess;
 
     @Inject
-    GroupFormationProcess groupFormationProcess;
+    private GroupFormationProcess groupFormationProcess;
 
     @Inject
     UserDAO userDAO;
 
     @Inject
-    GroupDAO groupDAO;
+    private GroupDAO groupDAO;
 
     @Inject
-    Management management;
+    private Management management;
 
     @Inject
-    DossierCreationProcess dossierCreationProcess;
+    private DossierCreationProcess dossierCreationProcess;
 
     @Inject
     IGroupFinding groupFinding;
 
-    PodamFactoryImpl factory = new PodamFactoryImpl();
+    private LoremIpsum loremIpsum;
+    private PodamFactoryImpl factory = new PodamFactoryImpl();
 
     public Wizard() {
+
         this.concepts = new TomcatConceptImporter();
+        this.loremIpsum = new LoremIpsum();
     }
 
     /**
@@ -312,10 +322,20 @@ public class Wizard {
         groupFormationProcess.sendGroupAlDataToServer(data, user, project);
     }
 
-    public void createDossiers(Project project) {
+    public void createDossiers(Project project) throws IOException, DocumentException {
         //List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
+            // add first submission
+            User representativUser = groupDAO.getRepresentativUser(group, project);
+            String text = loremIpsum.getWords(500);
+            FullSubmissionPostRequest submission = new FullSubmissionPostRequest(group, text, FileRole.DOSSIER, project);
+            FullSubmission fullSubmission =
+                    dossierCreationProcess.addDossier(submission, null, representativUser, project);
+            submission.setId(fullSubmission.getId());
+
+            // add finalized submission
+            dossierCreationProcess.updateSubmission(submission, representativUser, project, true);
 
         }
         // TODO implement
