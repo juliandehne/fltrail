@@ -49,7 +49,7 @@ public class WizardDao {
         relevantTasks.add(TaskName.UPLOAD_DOSSIER);
         relevantTasks.add(TaskName.ANNOTATE_DOSSIER);
         relevantTasks.add(TaskName.GIVE_FEEDBACK);
-        relevantTasks.add(TaskName.FINALIZE_DOSSIER);
+        relevantTasks.add(TaskName.REEDIT_DOSSIER);
         relevantTasks.add(TaskName.UPLOAD_PRESENTATION);
         relevantTasks.add(TaskName.UPLOAD_FINAL_REPORT);
         relevantTasks.add(TaskName.GIVE_EXTERNAL_ASSESSMENT);
