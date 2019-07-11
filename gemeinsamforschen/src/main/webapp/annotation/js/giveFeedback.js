@@ -86,6 +86,7 @@ function saveContributionFeedback(callback) {
     } else {
         getMyGroupId(function (groupId) {
             let contributionFeedbackRequest = {
+                userEmail: $('#userEmail').html().trim(),
                 groupId: groupId,
                 fullSubmissionId: fullSubmissionId,
                 fullSubmissionPartCategory: fullSubmissionPartCategory,

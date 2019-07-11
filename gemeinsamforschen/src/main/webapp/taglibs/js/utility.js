@@ -305,6 +305,12 @@ function taskCompleted() {
 function changeLocation() {
     let whatRole = $('#isStudent').val();
     let currentProjectName = $('#projectName').html().trim();
+    let fileRole = $('#fileRole');
+    if (fileRole.length) {
+        fileRole = fileRole.html().trim();
+    } else {
+        fileRole = "";
+    }
     if (typeof fileRole !== "undefined" && fileRole.toUpperCase() === "PORTFOLIO") {
         if (whatRole === "isDocent") {
             if (personal) {

@@ -95,6 +95,8 @@ CREATE TABLE `contributionfeedback`
     `fullsubmissionId`           varchar(120) DEFAULT NULL,
     `fullSubmissionPartCategory` varchar(120) DEFAULT NULL,
     `text`                       mediumtext,
+    `userEmail`                  varchar(255) NOT NULL,
+    `timestamp`                  TIMESTAMP NOT NULL,
     `groupId`                    int(11)      NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8 COMMENT ='This table saves feedback for contributions';

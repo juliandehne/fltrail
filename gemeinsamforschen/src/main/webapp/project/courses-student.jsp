@@ -24,7 +24,7 @@
 
         <div class="col span_content span_2_of_2 centered">
         <!-- filter-->
-            <h2 id="headLine">Projekt finden</h2>
+            <h3 id="headLine">Projekt finden</h3>
             <p id="introduction"></p>
             <!-- filter-->
             <div class="filter" id="projectDropdown" style="max-width: 500px;">
