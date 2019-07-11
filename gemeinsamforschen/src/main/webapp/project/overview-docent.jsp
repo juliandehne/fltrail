@@ -25,7 +25,7 @@
             <button class="primary" type="button" id="createProject">Projekt erstellen
             </button>
 
-            <h2 id="headLine">Projekt finden</h2>
+            <h3 id="headLine">Projekt finden</h3>
             <p id="introduction"></p>
             <!--<label class="container" id="selfMade">Selbst erstellt
                 <input type="checkbox" checked="checked">

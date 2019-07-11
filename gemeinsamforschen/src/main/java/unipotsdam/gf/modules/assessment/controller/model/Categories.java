@@ -18,19 +18,16 @@ public class Categories {
             }}
     );*/
 
-    /**
-     * TODO @Axel use enums for this and move it to different module
-     */
     public static final List<String> standardAnnotationCategories = Collections.unmodifiableList(
             new ArrayList<String>() {{
-                add("TITEL");
-                add("RECHERCHE");
-                add("LITERATURVERZEICHNIS");
-                add("FORSCHUNGSFRAGE");
-                add("UNTERSUCHUNGSKONZEPT");
-                add("METHODIK");
-                add("DURCHFUEHRUNG");
-                add("AUSWERTUNG");
+                add(EnumCategories.RECHERCHE.toString());
+                add(EnumCategories.LITERATURVERZEICHNIS.toString());
+                add(EnumCategories.FORSCHUNGSFRAGE.toString());
+                add(EnumCategories.UNTERSUCHUNGSKONZEPT.toString());
+                add(EnumCategories.METHODIK.toString());
+                add(EnumCategories.DURCHFUEHRUNG.toString());
+                add(EnumCategories.AUSWERTUNG.toString());
+
             }}
             /*
             new ArrayList<String>() {{

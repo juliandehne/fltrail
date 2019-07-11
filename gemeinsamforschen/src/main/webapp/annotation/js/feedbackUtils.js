@@ -6,7 +6,7 @@ function prepareFeedbackMenu(category) {
 
         // set text if student looks at peer review
         quill.setContents(JSON.parse(response.text));
-
+        setHeader(response.header);
         // fetch submission parts
         if (category !== undefined) {
             getSubmissionPart(getQueryVariable("fullSubmissionId"), category, function (response) {
@@ -50,13 +50,14 @@ function calculateLastCategory(current) {
 }
 
 function highlightQuillText(startIndex, endIndex, category) {
-    let categoryTag = $('#categoryColor');
-    let lowercaseCategory = category.toLowerCase();
-    if (!categoryTag.hasClass('added-') + lowercaseCategory) {
-        categoryTag.toggleClass('added-' + lowercaseCategory)
-    }
-    let categoryColor = categoryTag.css('background-color');
+    let categoryColor = colorOfCategory(category);
     let length = endIndex - startIndex;
-    quill.formatText(startIndex, length, 'background', categoryColor);
+    quill.formatText(startIndex, length, 'background-color', categoryColor);
 }
 
+function colorOfCategory(category) {
+    let r = (Math.abs(category.hashCode() * 3 % 181) + 60);
+    let g = (Math.abs(category.hashCode() * 43 % 181) + 60);
+    let b = (Math.abs(category.hashCode() * 101 % 181) + 60);
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
+}

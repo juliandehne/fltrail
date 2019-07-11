@@ -10,13 +10,7 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
-import unipotsdam.gf.modules.submission.model.Visibility;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -68,12 +62,13 @@ public class SubmissionController implements ISubmission, HasProgress {
         }
 
         String request = String.join(" ", requestCommand.trim(),
-                "fullsubmissions (`id`, `version`, `groupId`, `text`, `projectName`, `fileRole`, `userEmail`, `visibility`) VALUES (?,?,?,?,?,?,?,?);");
+                "fullsubmissions (`id`, `version`, `groupId`, `header`, `text`, `projectName`, `fileRole`, `userEmail`, `visibility`) VALUES (?,?,?,?,?,?,?,?,?);");
 
         connection.connect();
         // build and execute request
         connection.issueInsertOrDeleteStatement(request, uuid, version,
                 fullSubmissionPostRequest.getGroupId(),
+                fullSubmissionPostRequest.getHeader(),
                 fullSubmissionPostRequest.getText(),
                 fullSubmissionPostRequest.getProjectName(),
                 fullSubmissionPostRequest.getFileRole().toString(),
@@ -281,7 +276,7 @@ public class SubmissionController implements ISubmission, HasProgress {
                                 "INSERT IGNORE INTO submissionpartbodyelements (`fullSubmissionId`, `category`, `startCharacter`, `endCharacter`) VALUES (?,?,?,?);";
                         connection.issueInsertOrDeleteStatement(requestElement0,
                                 submissionPartPostRequest.getFullSubmissionId(),
-                                submissionPartPostRequest.getCategory().toString().toUpperCase(),
+                                submissionPartPostRequest.getCategory().toUpperCase(),
                                 element.getStartCharacter(), element.getEndCharacter());
                     }
 
@@ -295,7 +290,7 @@ public class SubmissionController implements ISubmission, HasProgress {
 
                     int startCharacter = element.getStartCharacter();
                     String fullSubmissionId = submissionPartPostRequest.getFullSubmissionId();
-                    Category category = submissionPartPostRequest.getCategory();
+                    String category = submissionPartPostRequest.getCategory();
                     int endCharacter = element.getEndCharacter();
                     connection.issueUpdateStatement(requestElement1, startCharacter, fullSubmissionId, category,
                             endCharacter);
@@ -340,7 +335,7 @@ public class SubmissionController implements ISubmission, HasProgress {
     }
 
     @Override
-    public SubmissionPart getSubmissionPart(String fullSubmissionId, Category category) {
+    public SubmissionPart getSubmissionPart(String fullSubmissionId, String category) {
 
         connection.connect();
 
@@ -480,12 +475,13 @@ public class SubmissionController implements ISubmission, HasProgress {
         long timestamp = rs.getTimestamp("timestamp").getTime();
         Integer groupId = rs.getInt("groupId");
         String userEmail = rs.getString("userEmail");
+        String header = rs.getString("header");
         String text = rs.getString("text");
         String projectName = rs.getString("projectName");
         FileRole fileRole = FileRole.valueOf(rs.getString("fileRole"));
         Visibility visibility = Visibility.valueOf(rs.getString("visibility"));
 
-        return new FullSubmission(id, timestamp, groupId, userEmail, text, fileRole, projectName, visibility);
+        return new FullSubmission(id, timestamp, groupId, userEmail, header, text, fileRole, projectName, visibility);
 
     }
 
@@ -505,7 +501,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         long timestamp = rs.getTimestamp("timestamp").getTime();
         String userEmail = rs.getString("groupId");
         String fullSubmissionId = rs.getString("fullSubmissionId");
-        Category category = Category.valueOf(rs.getString("category").toUpperCase());
+        String category = rs.getString("category").toUpperCase();
 
         // build body and iterate over result set
         ArrayList<SubmissionPartBodyElement> body = new ArrayList<>();
@@ -557,8 +553,8 @@ public class SubmissionController implements ISubmission, HasProgress {
 
                 // build submission part with empty body
                 tmpPart = new SubmissionPart(rs.getTimestamp("timestamp").getTime(), rs.getString("userEmail"),
-                        rs.getString("fullSubmissionId"), Category.valueOf(tmpCategory),
-                        new ArrayList<SubmissionPartBodyElement>());
+                        rs.getString("fullSubmissionId"), tmpCategory,
+                        new ArrayList<>());
             }
 
             // initialize body variables
@@ -605,7 +601,7 @@ public class SubmissionController implements ISubmission, HasProgress {
      * 1 if we found a similar element on the right side and -1 if we found a similar element on the left side.
      */
     private int numOfSimilarBodyElements(
-            String fullSubmissionId, Category category, int startCharacter, int endCharacter) {
+            String fullSubmissionId, String category, int startCharacter, int endCharacter) {
 
         // build and execute request
         String request =
@@ -658,7 +654,7 @@ public class SubmissionController implements ISubmission, HasProgress {
      * @return Returns true if overlapping boundaries have been found
      */
     private boolean hasOverlappingBoundaries(
-            String fullSubmissionId, Category category, SubmissionPartBodyElement element) {
+            String fullSubmissionId, String category, SubmissionPartBodyElement element) {
 
         // initialize start and end character
         int start = element.getStartCharacter();
@@ -739,7 +735,7 @@ public class SubmissionController implements ISubmission, HasProgress {
 
     public GroupFeedbackTaskData getFeedbackTaskData(Integer groupId, Project project) {
         connection.connect();
-        String query = "SELECT * from fullsubmissions where feedbackGroup = ? and projectName = ?";
+        String query = "SELECT * from fullsubmissions where feedbackGroup = ? and projectName = ? and version = 0";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, groupId,
                 project.getName());
         return resultSetToFeedback(groupId, vereinfachtesResultSet);

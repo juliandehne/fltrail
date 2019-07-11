@@ -1,7 +1,5 @@
 package unipotsdam.gf.modules.submission.model;
 
-import unipotsdam.gf.modules.annotation.model.Category;
-
 import java.util.ArrayList;
 
 /**
@@ -14,11 +12,11 @@ public class SubmissionPart {
     private long timestamp;
     private String userEmail;
     private String fullSubmissionId;
-    private Category category;
+    private String category;
     private ArrayList<SubmissionPartBodyElement> body;
 
     // constructor
-    public SubmissionPart(long timestamp, String userEmail, String fullSubmissionId, Category category, ArrayList<SubmissionPartBodyElement> body) {
+    public SubmissionPart(long timestamp, String userEmail, String fullSubmissionId, String category, ArrayList<SubmissionPartBodyElement> body) {
         this.timestamp = timestamp;
         this.userEmail = userEmail;
         this.fullSubmissionId = fullSubmissionId;
@@ -54,11 +52,11 @@ public class SubmissionPart {
         this.fullSubmissionId = fullSubmissionId;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

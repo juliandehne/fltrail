@@ -1,6 +1,10 @@
 let groupId;
 
 $(document).ready(function () {
+    Survey
+        .StylesManager
+        .applyTheme("default");
+
     $('#missingFeedback').hide();
     $('#done').hide();
 
@@ -16,39 +20,8 @@ $(document).ready(function () {
     });
 });
 
-/*function whichGroupToRate(callback) {
-    let projectName = $('#projectName').html().trim();
-    $.ajax({
-        url: '../rest/assessment/groupRate/project/' + projectName,
-        type: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-            "Cache-Control": "no-cache"
-        },
-        success: function (groupId) {
-            $('#groupId').html(groupId);
-            callback();
-        },
-        error: function () {
-
-        }
-    })
-}*/
-
-function safeContributionRating() {
-    let contributions = $('.contributionRating');
-    ///////initialize variables///////
-    let dataP = {};
-
-    ///////read values from html///////
-    for (let contribution = 0; contribution < contributions.length; contribution++) {
-        let checkbox = $("#" + contributions[contribution].id + " input:checked");
-        dataP[checkbox.attr('name')] = checkbox.val();
-    }
-    if (contributions.length>$("input:checked").length){
-        $('#missingFeedback').show();
-        return false;
-    }
+function safeContributionRating(survey) {
+    let dataP = survey.data;
     let fromPeer = $('#userEmail').html().trim();
     let groupId = getQueryVariable("groupId");
     let projectName = $('#projectName').html().trim();
@@ -61,10 +34,7 @@ function safeContributionRating() {
         },
         data: JSON.stringify(dataP),
         success: function () {
-            $('#done').show();
-            setTimeout(function () {
-                document.location.href = "../project/tasks-docent.jsp?projectName=" + $('#projectName').html().trim();
-            }, 1000);
+            taskCompleted();
         },
         error: function (a, b, c) {
 
@@ -81,33 +51,49 @@ function prepareContributionRating() {
         },
         type: 'GET',
         success: function (response) {
+            let surveyJSON ={
+                pages: [{
+                    name:"Internal Assessment",
+                    questions:[]
+                }],
+                title: "",
+            };
             for (let contribution in response) {
-                let tmplObject = getTmplObject(response[contribution]);
-                $('#contributionTemplate').tmpl(tmplObject).appendTo('#listOfContributions');
-                if(response.hasOwnProperty(contribution)) {
-                    if (response[contribution].textOfContribution != null){
-                        let editor = new Quill('#editor'+response[contribution].roleOfContribution,
-                            {
-                                readOnly: true
-                            });
-                        editor.setContent(response[contribution].textOfContribution);
-                    }
-                }
+                surveyJSON.pages[0].questions.push({
+                    isRequired: true,
+                    maxRateDescription: {
+                        de: "schlecht",
+                        en: "bad"
+                    },
+                    minRateDescription: {
+                        de: "sehr gut",
+                        en:"great"
+                    },
+                    name: response[contribution].roleOfContribution,
+                    title: {
+                        de: response[contribution].roleOfContribution,
+                        en: response[contribution].roleOfContribution
+                    },
+                    type: "rating"
+                });
+                surveyJSON.pages[0].questions.push({
+                    type: "html",
+                    html: "<a href='../rest/fileStorage/download/fileLocation/"+response[contribution].pathToFile+"'>" +
+                        "<i class='fa fa-paperclip'></i> download " +response[contribution].roleOfContribution+
+                        "</a>",
+                    name: "info",
+                })
             }
+            let survey = new Survey.Model(surveyJSON);
+            survey.locale = "de";
+            $("#surveyContainer").Survey({
+                model: survey,
+                onComplete: safeContributionRating,
+            });
         },
         error: function (a) {
 
         }
     });
 
-}
-
-function getTmplObject(contribution) {
-    let result = {
-        contributionRole: contribution.roleOfContribution,
-        contributionText: contribution.textOfContribution,
-        contributionFileName: contribution.nameOfFile,
-        contributionFilePath: "../rest/fileStorage/download/fileLocation/"+contribution.pathToFile,
-    };
-    return result;
 }

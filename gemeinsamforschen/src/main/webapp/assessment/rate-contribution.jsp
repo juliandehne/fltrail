@@ -8,6 +8,10 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <jsp:include page="../taglibs/quillJsDependencies.jsp"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href="https://surveyjs.azureedge.net/1.0.60/survey.css" type="text/css" rel="stylesheet"/>
+    <script src="https://surveyjs.azureedge.net/1.0.60/survey.jquery.min.js"></script>
+    <script type="text/javascript" src="../libs/jquery/jqueryTemplate.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/inscrybmde@1.11.3/dist/inscrybmde.min.css">
     <script src="js/rateContribution.js"></script>
 </head>
@@ -29,26 +33,11 @@
         <div class="row group">
             <div class="col span_content span_l_of_2">
                 <h1>Bewerte Gruppe <span id="groupId"></span></h1>
-                <div id="listOfContributions">
+                <div id="theSurvey">
+                    <div id="surveyContainer"></div>
+                    <div id="resultLink"></div>
                 </div>
-                <script id="contributionTemplate" type="text/x-jQuery-tmpl">
-                    <div class="contributionRating" id="${contributionRole}">
-                    <h3>${contributionRole}</h3>
-                    <h4>${contributionFileName}<a href="${contributionFilePath}"><i class="fas fa-paperclip"></i></a></h4>
-                    {{if contributionText != null}}
-                    <div id="editor${contributionRole}" class="ql-container ql-snow ql-disabled">
-                    </div>
-                    {{/if}}
-                    <label>(schlecht)5<input type="radio" name="${contributionRole}" value="5"></label>
-                    <label><input type="radio" name="${contributionRole}" value="4">    </label>
-                    <label><input type="radio" name="${contributionRole}" value="3">    </label>
-                    <label><input type="radio" name="${contributionRole}" value="2">    </label>
-                    <label><input type="radio" name="${contributionRole}" value="1"> 1 (sehr gut)</label>
-                    </div>
-
-                </script>
-                <button id="submit" class="btn btn-primary">Feedback hochladen</button>
-                <div id="done" class="alert alert-success">
+                <div id="taskCompleted" class="alert alert-success">
                     <p>Ihr Feedback wurde erfolgreich gespeichert. Vielen Dank.</p>
                 </div>
                 <div id="missingFeedback" class="alert alert-warning">

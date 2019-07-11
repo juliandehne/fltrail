@@ -55,21 +55,24 @@
     <main id="seeFeedback" class="">
         <div class="row group">
             <div class="col span_2_of_2">
-                <h3>Hier können Sie Ihr <span id="fileRole"></span> überarbeiten</h3>
+                <h2>Hier können Sie Ihr <span id="fileRole"></span> überarbeiten</h2>
+                <h3 id="ownTitle"></h3>
                 <br>
-                <div id="editor" style="border:solid 1px"></div>
+                <div id="editor"></div>
                 <div style="display:flex;">
                     <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
                         <i class="far fa-save"></i> speichern
                     </button>
                     <label class="checkbox" for="finalizeReedit">
-                        Dies ist die finale
+                        <div style="display:flex; width: 100%">
+                            <p style="margin-left: 13px;">Dies ist die finale
                         <a data-toggle='collapse' href='#whatIs' role='button'
                            aria-expanded='false' aria-controls='whatIs'>
                             <i class='fas fa-question'></i>
                         </a>
-                        Abgabe des Dossiers
-                        <input id="finalizeReedit" style="margin:2px 0 0 0" type="checkbox" title="finalisieren">
+                                Abgabe des Dossiers</p>
+                            <input id="finalizeReedit" style="margin:1px 0 0 0;" type="checkbox" title="finalisieren">
+                        </div>
                     </label>
                 </div>
 

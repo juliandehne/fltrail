@@ -36,7 +36,7 @@ function groupsToTemplate(allGroups, callback) {
     let groupTmplObject = [];
     for (let group = 0; group < allGroups.length; group++) {
         groupTmplObject.push({
-            groupName: "group" + group,
+            groupName: "Gruppe" + (group + 1),
             groupMember: allGroups[group].members,
             chatRoomId: allGroups[group].chatRoomId,
         });

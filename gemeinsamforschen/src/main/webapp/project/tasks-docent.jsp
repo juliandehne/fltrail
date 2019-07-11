@@ -44,11 +44,11 @@
                                 {{if inCardSolver=="resizeGroup"}}
                                 <div class="inCardSolver">
                                     <p>Sollten Sie sich für eine andere Gruppengröße entschieden haben, können sie dies hier ändern. </p>
-                                    <label>Präferierte Gruppengröße <input value='3' type='number' min='3' id='userCount' style='width:40px;' onchange='updateGroupSizeView()'></label>
+                                    <label>Präferierte Gruppengröße <input value='${groupSize}' type='number' min='3' id='userCount' style='width:40px;' onchange='updateGroupSizeView()'></label>
                                     <a data-toggle='collapse' href='#howToBuildGroups' role='button' aria-expanded='false' aria-controls='howToBuildGroups'>
                                         <i class='fas fa-question'></i>
                                     </a>
-                                    Mit dieser Gruppengröße benötigt das Projekt wenigstens <span id='groupSize'>6</span>
+                                    Mit dieser Gruppengröße benötigt das Projekt wenigstens <span id='groupSize'>${memberCount}</span>
                                     Teilnehmer um Gruppen bilden zu können.
                                     <div class='collapse' id='howToBuildGroups'>
                                         <div class='card card-body'>Es werden so viele Gruppen mit Ihrer präferierten
@@ -72,7 +72,7 @@
                                         {{else}}
                                         Jede Gruppe hat einen abschließenden Report hochgeladen. <br>
                                        {{/if}}
-                                        <button id='startGradingButton' onClick="startGrading(getProjectName());">Upload Phase abschließen</button>
+                                        <button id='startGradingButton' class='btn btn-primary' onClick="startGrading(getProjectName());">Upload Phase abschließen</button>
                                     </div>
                                 {{/if}}
                                  {{if inCardSolver=="CLOSE_PEER_ASSESSMENTS_PHASE"}}
@@ -91,6 +91,7 @@
                                         {{else}}
                                             Alle Studierenden haben sich gegenseitig bewertet
                                         {{/if}}
+                                        <button onClick="closePhase('Assessment', getProjectName());" class="btn btn-primary"><i class="fas fa-link"></i> Studentische Bewertung abschließen </button>
                                     </div>
                                 {{/if}}
                            {{/if}}
@@ -173,7 +174,7 @@
 
     </div>
 
-<jsp:include page="../taglibs/footer.jsp"/>
+    <jsp:include page="../taglibs/footer.jsp"/>
 </div>
 </body>
 </html>

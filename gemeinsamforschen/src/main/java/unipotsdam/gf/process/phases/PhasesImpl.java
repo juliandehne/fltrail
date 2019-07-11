@@ -15,21 +15,17 @@ import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.IExecutionProcess;
 import unipotsdam.gf.process.PeerAssessmentProcess;
-import unipotsdam.gf.process.tasks.Task;
 import unipotsdam.gf.process.tasks.TaskName;
-import unipotsdam.gf.util.CollectionUtil;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.xml.bind.JAXBException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static unipotsdam.gf.util.CollectionUtil.*;
+import static unipotsdam.gf.util.CollectionUtil.updateValueInMap;
 
 /**
  * Created by dehne on 31.05.2018.
@@ -254,44 +250,14 @@ public class PhasesImpl implements IPhases {
                 case CONTACT_GROUP_MEMBERS:
                     updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
                     break;
-                case CREATE_LEARNING_GOAL_DIARY:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case EDIT_FORMED_GROUPS:
-                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
-                    break;
-                case FINALIZE_ASSESSMENT:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
                 case CLOSE_ASSESSMENT_PHASE:
                     updateValueInMap(phaseMapTMP, Phase.Assessment, value);
-                    break;
-                case REFLECT_DOSSIER_CREATION:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case WAIT_FOR_EXECUTION_PHASE_END:
                     updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION:
                     updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case CREATE_QUIZ:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case EDIT_FEEDBACK:
-                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
-                    break;
-                case WRITE_EJOURNAL:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case FINALIZE_DOSSIER:
-                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
-                    break;
-                case FINALIZE_EJOURNAL:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case FORM_GROUPS_MANUALLY:
-                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
                     break;
             }
         }

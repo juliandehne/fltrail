@@ -25,9 +25,6 @@ import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
 import java.util.HashMap;
 import java.util.List;
@@ -93,9 +90,6 @@ public class GroupFormationProcess {
         Task task2 =
                 new Task(TaskName.WAIT_FOR_PARTICPANTS, new User(project.getAuthorEmail()), project, Progress.FINISHED);
         taskDAO.updateForUser(task2);
-        Task task3 =
-                new Task(TaskName.EDIT_FORMED_GROUPS, new User(project.getAuthorEmail()), project, Progress.FINISHED);
-        taskDAO.updateForUser(task3);
         // Die Studierenden müssen nicht mehr auf die Gruppenfindung warten
         taskDAO.finishMemberTask(project, TaskName.WAITING_FOR_GROUP);
         taskDAO.persistMemberTask(project, TaskName.CONTACT_GROUP_MEMBERS, Phase.GroupFormation);

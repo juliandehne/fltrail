@@ -1,7 +1,5 @@
 package unipotsdam.gf.modules.submission.model;
 
-import unipotsdam.gf.modules.annotation.model.Category;
-
 import java.util.ArrayList;
 
 /**
@@ -13,11 +11,11 @@ public class SubmissionPartPostRequest {
     // variables
     private Integer groupId;
     private String fullSubmissionId;
-    private Category category;
+    private String category;
     private ArrayList<SubmissionPartBodyElement> body;
 
     // constructors
-    public SubmissionPartPostRequest(Integer groupId, String fullSubmissionId, Category category, ArrayList<SubmissionPartBodyElement> body) {
+    public SubmissionPartPostRequest(Integer groupId, String fullSubmissionId, String category, ArrayList<SubmissionPartBodyElement> body) {
         this.groupId = groupId;
         this.fullSubmissionId = fullSubmissionId;
         this.category = category;
@@ -44,11 +42,11 @@ public class SubmissionPartPostRequest {
         this.fullSubmissionId = fullSubmissionId;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

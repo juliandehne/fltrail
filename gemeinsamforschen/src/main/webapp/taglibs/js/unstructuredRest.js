@@ -163,6 +163,16 @@ function getAnnotationCategories(callback) {
     })
 }
 
+function buildAnnotationList(categories) {
+    let data = {categories: []};
+    categories.forEach(function (category) {
+        data.categories.push({name: category, nameLower: category.toLowerCase()})
+    });
+    let tmpl = $.templates("#annotationTemplate");
+    let html = tmpl.render(data);
+    $("#annotations").html(html);
+}
+
 function getVisibilities(personal, callback) {
     let url = baseSubmissionUrl + "visibilities/personal/" + personal;
     $.ajax({

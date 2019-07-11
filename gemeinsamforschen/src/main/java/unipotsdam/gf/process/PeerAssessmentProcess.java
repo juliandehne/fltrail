@@ -190,7 +190,8 @@ public class PeerAssessmentProcess {
         // set assessment tasks for students
         List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
         for (User user : usersByProjectName) {
-            taskMapper.persistTaskMapping(project, user, TaskName.GIVE_EXTERNAL_ASSESSMENT);
+            Integer groupId = groupDAO.getMyGroupId(user, project);
+            taskMapper.persistTaskMapping(project, user, groupId, TaskName.GIVE_EXTERNAL_ASSESSMENT);
         }
 
         log.info("finished uploading files for assessement for project" + project.getName());

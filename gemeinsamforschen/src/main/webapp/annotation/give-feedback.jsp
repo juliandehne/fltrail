@@ -60,8 +60,8 @@
     <main id="seeFeedback" class="">
         <div class="row group">
             <div class="col span_2_of_2">
-                <h3>Feedback geben </h3>
-
+                <h2>Feedback geben </h2>
+                <h3 id="ownTitle"></h3>
                 <br>
                 <div class="three_rows">
                     <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">&#xf053;</button>

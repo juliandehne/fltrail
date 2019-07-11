@@ -4,7 +4,7 @@ let categories = [];
 $(document).ready(function () {
     getAnnotationCategories(function (response) {
         categories = response;
-        if (category.toUpperCase() === categories[categories.length - 1]) {
+        if (category.toUpperCase() === categories[categories.length - 1].toUpperCase()) {
             btnFinalize.show();
             btnContinue.hide();
         }

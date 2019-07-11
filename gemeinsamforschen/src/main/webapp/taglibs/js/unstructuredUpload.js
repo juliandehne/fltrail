@@ -30,6 +30,20 @@ $(document).ready(async function () {
     }
     await setupPageContent();
 
+    if(!isPortfolioEntry ){
+        if (fullSubmissionId !== '') {
+            getFullSubmission(fullSubmissionId, function (fullSubmission) {
+                setHeader(fullSubmission.header);
+                setQuillContentFromFullSubmission(fullSubmission);
+            });
+        } else {
+            if (!personal) {
+                getMyGroupId(function (groupId) {
+                    getFullSubmissionOfGroup(groupId, 0)
+                });
+            }
+        }
+    }
 
     $('#btnSave').click(function () {
         getMyGroupId(function (groupId) {
@@ -42,8 +56,16 @@ $(document).ready(async function () {
                 if (typeof currentVisibility !== 'undefined') {
                     visibility = currentVisibility.name
                 }
+                let header = "";
+                let ownTitle = $('#ownTitle');
+                if (ownTitle.is("input")) {
+                    header = ownTitle.val();
+                } else {
+                    header = ownTitle.html();
+                }
                 // TODO: separate everything completely, so the frontend template is the same for all pages, but functionality is separated per page
                 let fullSubmissionPostRequest = {
+                    header: header,
                     id: fullSubmissionId,
                     groupId: groupId,
                     text: JSON.stringify(content),

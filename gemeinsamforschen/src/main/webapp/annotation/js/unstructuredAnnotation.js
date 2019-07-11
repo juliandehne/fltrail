@@ -47,7 +47,7 @@ function handleCategorySelection(category, startCharacter, endCharacter) {
 }
 
 function highlightText(category, startCharacter, endCharacter) {
-    let color = $('.added-' + category).css('background-color');
+    let color = $('#' + category).css('background-color');
     let length = endCharacter - startCharacter;
     quill.formatText(startCharacter, length, 'background', color);
 }
@@ -83,7 +83,12 @@ function isAlreadyHighlighted(startCharacter, endCharacter) {
 function toggleStatusbar(category) {
     let categoryTag = $('#' + category);
     if (!categoryTag.hasClass('added-' + category)) {
-        categoryTag.toggleClass("not-added added-" + category);
+        categoryTag.toggleClass("not-added");
+        let r = (Math.abs(category.hashCode() * 3 % 181) + 60);
+        let g = (Math.abs(category.hashCode() * 43 % 181) + 60);
+        let b = (Math.abs(category.hashCode() * 101 % 181) + 60);
+        categoryTag.css("background-color", "rgb(" + r + "," + g + "," + b + ")");
+        categoryTag.css("color", "#FFF");
     }
 }
 
@@ -129,12 +134,6 @@ function addSelectionDataToList(startCharacter, endCharacter, category) {
  * Iterate over the category cards and send each post request to the back-end
  */
 function saveButtonHandler() {
-    // show alert message
-    /*
-    let checkSaveForReal = $('#saveForReal');
-    if (checkSaveForReal.prop('checked')!==true){
-        $('#divSaveForReal').show();
-    }else {*/
     // declare array of promises
     let promises = [];
     let categoriesSent = [];
@@ -220,11 +219,8 @@ function deleteCategory(category) {
     }
     categoryLI.data('array', null);
 
-    $('.added-' + category).each(function () {
-        $(this).toggleClass('added-' + category + ' not-added');
-    });
-
-    let test = category;
+    categoryLI.toggleClass('not-added');
+    categoryLI.css("background-color", "#FFF");
 }
 
 function contextMenuOptions(categories) {

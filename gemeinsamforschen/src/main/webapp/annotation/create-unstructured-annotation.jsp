@@ -59,7 +59,9 @@
         <div class="row group">
 
             <div class="col span_content span_l_of_2">
-                <h3>Dossier</h3>
+                <h2>Dossier</h2>
+
+                <h3 id="ownTitle"></h3>
                 <div class="leftcontent-text context-menu-one" id="editor"></div>
                 <div class="leftcontent-buttons">
                     <div class="leftcontent-buttons-save">

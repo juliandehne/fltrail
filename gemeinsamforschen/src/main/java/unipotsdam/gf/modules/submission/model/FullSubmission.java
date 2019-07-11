@@ -9,6 +9,7 @@ import unipotsdam.gf.modules.fileManagement.FileRole;
 public class FullSubmission {
 
     // variables
+    private String header;
     private String id;
     private long timestamp;
     private Integer groupId;
@@ -31,6 +32,28 @@ public class FullSubmission {
         this.fileRole = fileRole;
         this.projectName = projectName;
         this.visibility = visibility;
+    }
+
+    public FullSubmission(String id, long timestamp, Integer groupId, String userEmail, String header, String text, FileRole fileRole, String projectName, Visibility visibility) {
+        this.id = id;
+        this.timestamp = timestamp;
+        this.groupId = groupId;
+        this.userEmail = userEmail;
+        this.header = header;
+        this.text = text;
+        this.fileRole = fileRole;
+        this.projectName = projectName;
+        this.visibility = visibility;
+    }
+
+    ;
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 
     public FullSubmission(String submissionId) {

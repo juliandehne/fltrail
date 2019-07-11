@@ -43,6 +43,7 @@
     <script src="../taglibs/js/unstructuredRest.js"></script>
 
     <script src="../taglibs/js/visibilityButton.js"></script>
+    <script src="js/upload-unstructured-dossier.js"></script>
 
     <script src="../taglibs/js/annotationUtils.js"></script>
     <script src="../taglibs/js/apiClient/reflectionQuestionClient.js"></script>
@@ -99,8 +100,11 @@
                 </script>
                 <br>
                 <div class="upload-text" id="documentText">
+                    <label for="ownTitle">Titel</label>
+                    <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;"
+                           placeholder="mein Titel">
                     <label for="editor">Texteingabe</label>
-                    <div id="editor" style="border:solid 1px"></div>
+                    <div id="editor"></div>
                 </div>
 
                 <div class="document-text-buttons">

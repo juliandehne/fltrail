@@ -114,7 +114,8 @@ function handleInfoTasks(object, result) {
             switch (object.taskData.gfm) {
                 case "UserProfilStrategy":
                         result.inCardSolver = "resizeGroup";
-
+                    result.groupSize = object.taskData.groupSize;
+                    result.memberCount = object.taskData.groupSize * (object.taskData.groupSize - 1);
                     break;
             }
             break;
@@ -152,7 +153,7 @@ function handleInfoTasks(object, result) {
                 " geben sich gegenseitig Feedback.";
             break;
         case "REEDIT_DOSSIER":
-            result.infoText = "Basierend auf dem Feedback können Sie nun Ihr Dossier überarbeiten";
+            result.infoText = "Sobald Sie ein Feedback bekommen haben, können Sie hier Ihr Dossier überarbeiten.";
             break;
         case "CLOSE_DOSSIER_FEEDBACK_PHASE":
             let count = object.taskData.length;
@@ -179,10 +180,6 @@ function handleInfoTasks(object, result) {
         case "CLOSE_EXECUTION_PHASE":
             result.infoText = "Beenden Sie nun die Durchführungsphase.";
             break;
-        case "EDIT_FORMED_GROUPS":
-            result.infoText = "Die Gruppen wurden vom Algorithmus gebildet. Sie können noch manuell" +
-                " editiert werden."; // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
-            break;
         case "CONTACT_GROUP_MEMBERS":
             groupViewLink.toggleClass("disabled");
             result.infoText = "Sagen Sie hallo zu ihren Gruppenmitgliedern über den Chat.";
@@ -201,7 +198,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihrer Gruppenmitglieder!";
             let numOfMissing = object.taskData.numberOfMissing;
             if (numOfMissing && numOfMissing > 0) {
-                if (numOfMissing == 1) {
+                if (numOfMissing === 1) {
                     result.infoText+=" Es fehlt noch eine Bewertung."
                 } else {
                     result.infoText+=" Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."
@@ -262,6 +259,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&fileRole=Dossier" + "\')";
                 break;
             case "REEDIT_DOSSIER":
+                result.infoText = "Basierend auf dem erhaltenen Feedback, können Sie nun Ihr Dossier überarbeiten.";
                 result.solveTaskWith = "Überarbeite Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/reedit-dossier.jsp?fullsubmissionid=" + object.taskData.fullSubmissionId + "&projectName=" + object.projectName + "&contribution=DOSSIER\')";
                 break;
@@ -284,10 +282,6 @@ function handleLinkedTasks(object, result) {
                     submissionId: object.taskData.fullSubmissionId,
                     fileRole: "Dossier"
                 }) + "\')";
-                break;
-            case "FINALIZE_DOSSIER":
-                result.solveTaskWith = "Finalisiere Dossier";
-                result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?projectName=" + object.projectName + "&submissionId=" + object.taskData.fullSubmissionId + "\')";
                 break;
             case "FINALIZE_EJOURNAL":
                 result.solveTaskWith = "Finalisiere EJournal";
@@ -374,13 +368,13 @@ function handleLinkedTasks(object, result) {
             case "GIVE_EXTERNAL_ASSESSMENT_TEACHER":
                 if (object.progress !== "FINISHED") {
                     result.solveTaskWith = "Bewerte Gruppe";
-                    result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution-teacher.jsp?" +
+                    result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
                         "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
                 }
                 break;
             case "CLOSE_PEER_ASSESSMENTS_PHASE":
-                result.solveTaskWith = "Studentische Bewertung abschließen";
-                result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
+                result.solveTaskWith = "";
+                result.solveTaskWithLink = "";
                 break;
             case "GIVE_FINAL_GRADES":
                 result.solveTaskWith = "Noten vergeben";

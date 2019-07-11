@@ -137,7 +137,7 @@ public class Wizard {
                     generateFeedbacks(project);
                     break;
                 }
-                case FINALIZE_DOSSIER:
+                case REEDIT_DOSSIER:
                     createDossiers(project);
                     annotateDossiers(project);
                     generateFeedbacks(project);

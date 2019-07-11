@@ -86,11 +86,31 @@
                         <td name="productDocent" class="${levelOfAgreement}">
                             ${productDocent}
                         </td>
-                        <td name="workRating" style="display:flex;" class="fas ${beyondStdDeviation}">
-                            ${workRating}
+                        <td name="workRating" style="display:flex;">
+                            <div class='collapse cleaned'>
+                                ${cleanedWorkRating}
+                            </div>
+                            <div class='collapse in cleaned'>
+                                ${workRating}
+                            </div>
+                            <a data-toggle='collapse' href='.cleaned' role='button'
+                                       aria-expanded='false' aria-controls='cleaned'>
+                                       <div class='collapse in cleaned'>
+                                <i class='fas ${beyondStdDeviation}'></i>
+                            </div>
+                            <div class='collapse cleaned'>
+                                <i class='fas fa-check'></i>
+                            </div>
+
+                            </a>
                         </td>
                         <td name="suggested" id="suggested_${userId}">
-                            ${suggested}
+                            <div class='collapse cleaned'>
+                                ${cleanedSuggested}
+                            </div>
+                            <div class='collapse in cleaned'>
+                                ${suggested}
+                            </div>
                         </td>
                         <td></td>
                         <td name="finalMark">
@@ -110,7 +130,7 @@
                     </label>
                 </div>
             </div>
-            <div class="col span_content span_s_of_2" style="margin-top: 15%;">
+            <div class="col span_content span_s_of_2" style="margin-top: 15%;" id="iconLegend">
                 <h4>Legende</h4>
                 <div style="display: block;">
                     <div style="display: flex; margin-bottom: 5px;">
@@ -123,7 +143,22 @@
                     <div style="display: flex; margin-bottom: 5px;">
                         <i class="fas fa-check"></i> Dieser Student wurde von seinen Peers ausgeglichen bewertet.
                     </div>
+                    <label>
+                        Klicken sie auf das entsprechende Symbol in der Tabelle um die Bewertungen der Studierenden
+                        um Ausreißer zu bereinigen.
+                    </label>
                 </div>
+            </div>
+            <div id="contributionListDiv">
+                <h4 id="fileManagementHeader">Ergebnisse</h4>
+                <ul id="contributionList">
+                    <script id="contributionListTemplate" type="text/x-jQuery-tmpl">
+            <li>
+                <a id="${fileCount}" href="../rest/fileStorage/download/fileLocation/${fileLocation}">${fileName}</a>
+            </li>
+
+                    </script>
+                </ul>
             </div>
         </div>
     </main>

@@ -21,10 +21,10 @@ public class TaskMapper {
 
     /**
      *
-     * @param tasks
-     * @param task
-     * @param howMany
-     * @return
+     * @param tasks represent all groups in a project that have task "GIVE_FEEDBACK"
+     * @param task represents the student / group itself
+     * @param howMany how many groups shall get feedbacked by student / group
+     * @return list of all groups that shall be feedbacked by student/group
      */
     public List<Integer> groupToFeedback(List<Task> tasks, Task task, int howMany) {
         List<Integer> result = new ArrayList<>();
@@ -37,17 +37,16 @@ public class TaskMapper {
 
     /**
      * WARNING. CALLING THIS METHOD SEQUENTIALLY
-     * ASSUMES THAT SQL WILL ALWAYS RETURN THE DATA IN THE SAME ORDER
+     * ASSUMES THAT SQL WILL ALWAYS RETURN THE DATA IN THE SAME ORDER (because of SQL "ORDER BY id")
      * THIS IS NOT DEFINED FOR A STREAM
-     * @param project
-     * @param user
+     * gets all groups in a project, looks for group of user and returns the following groupId. In case
+     * the user group is last in this cycle, it will return the first element of the list.
+     * @param project of interest
      * @return the id of the group that is rated
      */
-    @Deprecated
-    public Integer getWhichGroupToRate(Project project, User user) {
+    public Integer getWhichGroupToRate(Project project, Integer groupId) {
         Integer result;
-        List<Integer> groups = new ArrayList<>();
-        Integer groupId = buildGroupIndexes(project, user, groups);
+        List<Integer> groups = buildGroupIndexes(project);
         // every user gets the next group in the cycle
         if (groups.indexOf(groupId) + 1 == groups.size()) {
             result = groups.get(0);
@@ -59,36 +58,26 @@ public class TaskMapper {
 
     /**
      * returns the groupId the user is in and a list of groupIds of the project is filled
-     * @param project
-     * @param user
-     * @param groups
-     * @return
-     */
-    private Integer buildGroupIndexes(Project project, User user, List<Integer> groups) {
-        connect.connect();
-        String mysqlRequest1 = "SELECT groupId FROM `groupuser` gu JOIN groups g on " +
-                "gu.groupid=g.id AND g.projectName=? WHERE `userEmail`=?";
-        VereinfachtesResultSet vereinfachtesResultSet1 =
-                connect.issueSelectStatement(mysqlRequest1, project.getName(), user.getEmail());
-        vereinfachtesResultSet1.next();
-        Integer groupId = vereinfachtesResultSet1.getInt("groupId");
+     * @param project of interest
 
+     * @return groupId of user in project
+     */
+    private List<Integer> buildGroupIndexes(Project project) {
+        connect.connect();
+        List<Integer> result = new ArrayList<>();
         String mysqlRequest2 = "SELECT DISTINCT id FROM `groups` WHERE `projectName`=? ORDER BY id ASC";
         VereinfachtesResultSet vereinfachtesResultSet2 =
                 connect.issueSelectStatement(mysqlRequest2, project.getName());
-        boolean next = vereinfachtesResultSet2.next();
-        while (next) {
-            groups.add(vereinfachtesResultSet2.getInt("id"));
-            next = vereinfachtesResultSet2.next();
+        while (vereinfachtesResultSet2.next()) {
+            result.add(vereinfachtesResultSet2.getInt("id"));
         }
         connect.close();
-        return groupId;
+        return result;
     }
 
-    public void persistTaskMapping(Project project, User user, TaskName taskName) {
+    public void persistTaskMapping(Project project, User user, Integer groupId, TaskName taskName) {
         Integer groupResult;
-        List<Integer> groups = new ArrayList<>();
-        Integer groupId = buildGroupIndexes(project, user, groups);
+        List<Integer> groups = buildGroupIndexes(project);
         // every user gets the next group in the cycle
         if (groups.indexOf(groupId) + 1 == groups.size()) {
             groupResult = groups.get(0);

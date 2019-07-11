@@ -1,4 +1,5 @@
 <%@ page import="unipotsdam.gf.process.phases.Phase" %>
+<%@ page import="unipotsdam.gf.session.GFContexts" %>
 <%@ page import="unipotsdam.gf.taglibs.TagUtilities" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%
@@ -6,6 +7,7 @@
     TagUtilities tu = new TagUtilities();
     String projectName = tu.getParamterFromQuery("projectName", request);
     Phase phase = tu.getPhase(projectName);
+    String isStudent = (String) request.getSession().getAttribute(GFContexts.ISSTUDENT);
 %>
 
 <div class="col span_timeline timeline span_s_of_2">
@@ -48,6 +50,7 @@
     <!-- end timeLine-->
 
     <!--begin data deletion and download-->
+    <%if (isStudent.equals("isStudent")) {%>
     <script src="../taglibs/js/fileStorage.js"></script>
     <div style="margin-top:50px;"></div>
     <h4 id="fileManagementHeader">Ergebnisse</h4>
@@ -64,7 +67,7 @@
     <div id="fileDeleted" class="alert alert-success">Die Datei wurde erfolgreich gelöscht.</div>
     <div id="errorDeletion" class="alert alert-warning">Ein Fehler ist aufgetreten beim Löschen der Datei.</div>
     <!--end data deletion and download-->
-
+    <%}%>
 </div>
 <%!
 

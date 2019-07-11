@@ -1,14 +1,15 @@
 package unipotsdam.gf.process.tasks;
 
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
+import unipotsdam.gf.modules.assessment.InternalPeerAssessmentProgress;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -20,17 +21,17 @@ import unipotsdam.gf.process.phases.Phase;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
 
 @ManagedBean
 public class TaskDAO {
+
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SubmissionController.class);
 
 
     @Inject
@@ -108,14 +109,14 @@ public class TaskDAO {
 
     private Task getTaskWaitForParticipants(VereinfachtesResultSet vereinfachtesResultSet) {
         Task task = getGeneralTask(vereinfachtesResultSet);
-        Project project = new Project();
-        project.setName(vereinfachtesResultSet.getString("projectName"));
+        Project project = projectDAO.getProjectByName(vereinfachtesResultSet.getString("projectName"));
         ProjectStatus projectStatus = projectDAO.getParticipantCount(project);
         projectStatus.setParticipantsNeeded(groupFinding.getMinNumberOfStudentsNeeded(project));
         Map<String, Object> taskData = new HashMap<>();
         taskData.put("participantCount", projectStatus);
         GroupFormationMechanism gfm = groupFinding.getGFM(project);
         taskData.put("gfm", gfm);
+        taskData.put("groupSize", project.getGroupSize());
         task.setTaskData(taskData);
         if (gfm.equals(GroupFormationMechanism.Manual)) {
             task.setTaskType(TaskType.LINKED);
@@ -258,6 +259,7 @@ public class TaskDAO {
             result.add(resultSetToTask(user, project, vereinfachtesResultSet));
         }
         connect.close();
+        result = result.stream().filter(Objects::nonNull).collect(Collectors.toCollection(ArrayList::new));
         TaskOrder taskOrder = new TaskOrder();
         result.sort(taskOrder.byName);
         return result;
@@ -373,13 +375,25 @@ public class TaskDAO {
             }
             case GIVE_INTERNAL_ASSESSMENT: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
-                task.setTaskData(assessmentDAO.getInternalPeerAssessmentProgress(project, user));
+                InternalPeerAssessmentProgress ipap = assessmentDAO.getInternalPeerAssessmentProgress(project, user);
+                if (ipap.getNumberOfMissing() > 0) {
+                    task.setTaskData(ipap);
+                } else {
+                    result = null;
+                    break;
+                }
                 result = task;
                 break;
             }
             case GIVE_EXTERNAL_ASSESSMENT: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
-                task.setTaskData(assessmentDAO.getTargetGroupForAssessment(new User(task.getUserEmail())));
+                TaskMapping taskMapping = assessmentDAO.getTargetGroupForAssessment(new User(task.getUserEmail()), project);
+                if (taskMapping == null) {
+                    result = null;
+                    break;
+                } else {
+                    task.setTaskData(taskMapping);
+                }
                 result = task;
                 break;
             }
@@ -391,11 +405,23 @@ public class TaskDAO {
                 task.setTaskData(assessmentDAO.getNextGroupToFeedbackForTeacher(project));
                 result = task;
                 break;
-            }case END_STUDENT:
+            }
+            case END_STUDENT: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setTaskData(assessmentDAO.getGradesFromDB(project, user));
                 result = task;
                 break;
+            }
+            case CONTACT_GROUP_MEMBERS: {
+                Task task = getGeneralTask(vereinfachtesResultSet);
+                Group myGroup = groupDAO.getMyGroup(user, project);
+                if (myGroup.getMembers().size() < 2) {
+                    result = null;
+                    break;
+                }
+                result = task;
+                break;
+            }
             default: {
                 result = getGeneralTask(vereinfachtesResultSet);
             }
@@ -540,8 +566,8 @@ public class TaskDAO {
         persist(project, groupId, taskName, phase, TaskType.LINKED);
     }
 
-    public void persistTaskGroup(Project project, Integer groupId, TaskName taskName, Phase phase) {
-        persist(project, groupId, taskName, phase, TaskType.LINKED);
+    public void persistTaskGroup(Project project, Integer groupId, TaskName taskName, Phase phase, TaskType taskType) {
+        persist(project, groupId, taskName, phase, taskType);
     }
 
     public void persist(Project project, Integer groupId, TaskName taskName, Phase phase, TaskType linked) {
@@ -570,6 +596,25 @@ public class TaskDAO {
             Task task = new Task(taskName, member, project, Progress.FINISHED);
             updateForUser(task);
         }
+    }
+
+    public void addTaskType(Task task, TaskType taskType) {
+        boolean contains = false;
+        int position = 1;
+        for (TaskType containedTaskType : task.getTaskType()) {
+            if (containedTaskType == taskType) {
+                contains = true;
+            }
+            position++;
+        }
+        if (contains) {
+            log.info("taskType was already contained in Task.");
+            return;
+        }
+        connect.connect();
+        String query = "UPDATE tasks set taskMode" + position + " = ? where projectName = ? AND taskName = ? AND groupTask = ? and userEmail = ?";
+        connect.issueUpdateStatement(query, taskType, task.getProjectName(), task.getTaskName(), task.getGroupTask(), task.getUserEmail());
+        connect.close();
     }
 
 }

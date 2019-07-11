@@ -148,15 +148,16 @@ public class SubmissionService {
     @Path("/full/{id}/category/{category}")
     public Response getSubmissionPart(@PathParam("id") String fullSubmissionId, @PathParam("category") String category) {
         // get submission part from database based by id
-        SubmissionPart submissionPart = submissionController.getSubmissionPart(fullSubmissionId, Category.valueOf(category.toUpperCase
-                ()));
+        SubmissionPart submissionPart = submissionController.getSubmissionPart(fullSubmissionId,
+                category.toUpperCase());
 
         if (submissionPart != null) {
             return Response.ok(submissionPart).build();
         } else {
             // declare response
             SubmissionResponse response = new SubmissionResponse();
-            response.setMessage("Submission part with the full submission id '" + fullSubmissionId + "' and the category '" + category.toUpperCase() + "' can't be found");
+            response.setMessage("Submission part with the full submission id '" + fullSubmissionId +
+                    "' and the category '" + category.toUpperCase() + "' can't be found");
 
             return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }

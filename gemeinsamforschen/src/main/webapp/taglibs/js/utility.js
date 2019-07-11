@@ -267,6 +267,7 @@ function getFullSubmissionOfGroup(groupId, version) {
         },
         success: function (fullSubmission) {
             setQuillContentFromFullSubmission(fullSubmission);
+            setHeader(fullSubmission.header);
             fullSubmissionId = fullSubmission.id;
         },
         error: function () {
@@ -305,6 +306,12 @@ function taskCompleted() {
 function changeLocation() {
     let whatRole = $('#isStudent').val();
     let currentProjectName = $('#projectName').html().trim();
+    let fileRole = $('#fileRole');
+    if (fileRole.length) {
+        fileRole = fileRole.html().trim();
+    } else {
+        fileRole = "";
+    }
     if (typeof fileRole !== "undefined" && fileRole.toUpperCase() === "PORTFOLIO") {
         if (whatRole === "isDocent") {
             if (personal) {
@@ -334,4 +341,23 @@ function loaderStart() {
 
 function loaderStop() {
     document.getElementById('loader').className = "loader-inactive";
+}
+
+String.prototype.hashCode = function () {
+    let hash = 0;
+    for (let i = 0; i < this.length; i++) {
+        let character = this.charCodeAt(i);
+        hash = ((hash << 5) - hash) + character;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+};
+
+function setHeader(header) {
+    let ownTitle = $('#ownTitle');
+    if (ownTitle.is("input")) {
+        ownTitle.val(header);
+    } else {
+        ownTitle.html(header);
+    }
 }

@@ -15,7 +15,15 @@
         theme: 'snow',
         readOnly: <%=readOnlyBoolean%>,
         "modules": {
-            "toolbar": <%=!readOnlyBoolean%>
+            <%if (!readOnlyBoolean){%>
+            "toolbar": [
+                [{header: [1, 2, false]}],
+                ['bold', 'italic', 'underline'],
+                ['image', 'code-block']
+            ]
+            <%}else{%>
+            "toolbar": false
+            <%}%>
         }
     });
 </script>

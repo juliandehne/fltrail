@@ -185,7 +185,14 @@ footer {
 .timeline li {
     line-height: 1em;
     margin-bottom: 1em;
+}
 
+.timeline li a{
+    margin-left:1em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    resize: horizontal;
 }
 
 .timeline ul {
@@ -1121,6 +1128,11 @@ main.groups-manual{
   padding-top: 10px;
 }
 
+#editor {
+    border: solid 1px;
+    height: 500px;
+    overflow: hidden;
+}
 /* CHAT */
 
 .span-chat {

@@ -13,11 +13,12 @@ let categories = [];
 let contributionFeedback = undefined;
 
 $(document).ready(function () {
+
     getAnnotationCategories(function (response) {
         categories = response;
         let btnContinueBot = $('#btnContinueBot');
         btnContinueBot.click(handleContinueButtonClick);
-        if (category.toUpperCase() === categories[categories.length - 1]) {
+        if (category.toUpperCase() === categories[categories.length - 1].toUpperCase()) {
             btnFinalize.show();
             btnContinue.hide();
             btnContinueBot.on("click", function () {
@@ -85,6 +86,7 @@ function saveContributionFeedback(callback) {
     } else {
         getMyGroupId(function (groupId) {
             let contributionFeedbackRequest = {
+                userEmail: $('#userEmail').html().trim(),
                 groupId: groupId,
                 fullSubmissionId: fullSubmissionId,
                 fullSubmissionPartCategory: fullSubmissionPartCategory,

@@ -27,7 +27,7 @@
 
         <div class="row group">
 
-             <jsp:include page="../taglibs/timeLine.jsp"/>
+            <jsp:include page="../taglibs/timeLine.jsp"/>
 
             <div class="col span_l_of_2 tasklist">
 
@@ -41,7 +41,7 @@
 
                 </div>
 
-                    <script id="taskTemplate" type="text/x-jQuery-tmpl">
+                <script id="taskTemplate" type="text/x-jQuery-tmpl">
                     <div></div>
                         {{if (current==true)}}
                             <h3 class="phase-heading ${phase} ">${headLine}</h3>
@@ -67,9 +67,10 @@
 
                             <div style="clear:left"></div>
                         </div>
-                    </script>
 
-                    <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
+                </script>
+
+                <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
                     <div></div>
                         {{if (current==true)}}
                             <h3 class="phase-heading ${phase} ">${headLine}</h3>
@@ -95,8 +96,14 @@
                     <div style="clear:left"></div>
                 </div>
                 {{/if}}
-            </script>
-                    <script id="inProgressTaskTemplate" type="text/x-jQuery-tmpl">
+
+
+
+
+
+
+                </script>
+                <script id="inProgressTaskTemplate" type="text/x-jQuery-tmpl">
                     <div></div>
                         {{if (current==true)}}
                             <h3 class="phase-heading ${phase} ">${headLine}</h3>
@@ -114,8 +121,14 @@
                    {{html timeFrame}}
                    </div>
                 </div>
-            </script>
-        </div>
+
+
+
+
+
+
+                </script>
+            </div>
 
         </div> <!-- end row -->
     </main>

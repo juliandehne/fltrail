@@ -15,6 +15,7 @@ $(document).ready(function () {
             $('#bpLI').hide();
         }
     });
+
     // hide the different error messages
     errorMessages();
     // add the tagsinput lib
@@ -34,7 +35,10 @@ $(document).ready(function () {
         let tmplObject = [];
         for (let b in response) {
             if (response.hasOwnProperty(b)) {
-                tmplObject.push({category: response[b]});
+                tmplObject.push({
+                    categoryName: response[b][0] + response[b].substring(1).toLowerCase(),
+                    category: response[b]
+                });
             }
         }
         $('#categoryTemplate').tmpl(tmplObject).appendTo('#categoryList');
@@ -66,16 +70,16 @@ function createNewProject(allTheTags) {
                 contentType: 'application/json',
                 type: 'POST',
                 data: JSON.stringify(project),
-                success: function (response) {
-                    if (response === "Project already exists") {
-                        $('#projectNameExists').show();
-                    } else {
-                        sendGroupPreferences();
-                    }
+                success: function () {
+                    sendGroupPreferences();
                     loaderStop();
                 },
-                error: function (a) {
-                    console.log(a);
+                error: function (xhr) {
+                    if (xhr.status === 409) {
+                        $('#projectNameExists').show();
+                    } else {
+                        console.log("Error: " + xhr.status);
+                    }
                     loaderStop();
                     return true;
                 }
@@ -124,21 +128,30 @@ function getProjectValues() {
     let reguexp = /^[a-zA-Z0-9äüöÄÜÖß ]+$/;
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
+        loaderStop();
         return false;
     }
     if (projectName === "") {           //project has no name, so abort function
         $('#projectIsMissing').show();
+        loaderStop();
         return false;
     }
     let description = $('#projectDescription').val();
     if (description === "") {
         $('#projectDescriptionMissing').show();
+        loaderStop();
         return false;
     }
     let time = new Date().getTime();
     let selectedCategories = [];
     $("input:checked[class*='category']").each(function () {
         selectedCategories.push($(this).val());
+    });
+    $(".LIOwnCategory").each(function () {
+        let nodeOfInterest = $(this).find('input:checked');
+        if (nodeOfInterest.length > 0) {
+            selectedCategories.push($(this).find('input[type*=text]').val());
+        }
     });
     if (selectedCategories.length === 0) {
         stop();

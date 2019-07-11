@@ -4,6 +4,7 @@ import com.itextpdf.text.DocumentException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IContributionFeedback;
+import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IReflectionQuestion;
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
@@ -13,7 +14,6 @@ import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionService;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
@@ -23,11 +23,7 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.WizardRelevant;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.Progress;
-import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskName;
-import unipotsdam.gf.process.tasks.TaskType;
+import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -58,6 +54,9 @@ public class DossierCreationProcess {
 
     @Inject
     private GroupDAO groupDAO;
+
+    @Inject
+    private IPeerAssessment peerAssessment;
 
     @Inject
     private ReflexionProcess reflexionProcess;
@@ -193,25 +192,6 @@ public class DossierCreationProcess {
         createReeditDossierTask(project, groupId);
     }
 
-
-    public void createSeeFeedBackTask(Project project, Integer groupId) {
-        Integer feedbackedgroup = submissionController.getFeedbackedgroup(project, groupId);
-        taskDAO.persistTaskGroup(project, feedbackedgroup, TaskName.SEE_FEEDBACK, Phase.DossierFeedback);
-    }
-
-    public void createReeditDossierTask(Project project, Integer groupId) {
-        String submissionId = submissionController.getFullSubmissionId(groupId, project, FileRole.DOSSIER);
-        FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
-        FullSubmissionPostRequest fspr = new FullSubmissionPostRequest();
-        fspr.setFileRole(fullSubmission.getFileRole());
-        fspr.setText(fullSubmission.getText());
-        fspr.setProjectName(project.getName());
-        fspr.setGroupId(groupId);
-        fspr.setVisibility(Visibility.GROUP);
-        submissionController.addFullSubmission(fspr, 1);
-        taskDAO.persistTaskGroup(project, groupId, TaskName.REEDIT_DOSSIER, Phase.DossierFeedback);
-    }
-
     public int getFeedBackTarget(Project project, User user) {
         return feedback.getFeedBackTarget(project, user);
     }
@@ -234,6 +214,31 @@ public class DossierCreationProcess {
         // add peer assessment tasks
         // note that this should be moved to another process later on
         //peerAssessmentProcess.startPeerAssessmentPhase(project);
+    }
+
+    public void createSeeFeedBackTask(Project project, Integer groupId) {
+        Integer feedbackedgroup = submissionController.getFeedbackedgroup(project, groupId);
+        int feedbackGroup = peerAssessment.whichGroupToRate(project, groupId);
+        ArrayList<Task> reeditDossierTasks = taskDAO.getTasksWithTaskName(feedbackGroup, project, TaskName.REEDIT_DOSSIER);
+        if (reeditDossierTasks.size() != 0) {
+            Task task = reeditDossierTasks.get(0);
+            taskDAO.addTaskType(task, TaskType.LINKED);
+        }
+        taskDAO.persistTaskGroup(project, feedbackedgroup, TaskName.SEE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);
+    }
+
+    public void createReeditDossierTask(Project project, Integer groupId) {
+        String submissionId = submissionController.getFullSubmissionId(groupId, project, FileRole.DOSSIER);
+        FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
+        FullSubmissionPostRequest fspr = new FullSubmissionPostRequest();
+        fspr.setFileRole(fullSubmission.getFileRole());
+        fspr.setText(fullSubmission.getText());
+        fspr.setProjectName(project.getName());
+        fspr.setHeader(fullSubmission.getHeader());
+        fspr.setGroupId(groupId);
+        fspr.setVisibility(Visibility.GROUP);
+        submissionController.addFullSubmission(fspr, 1);
+        taskDAO.persistTaskGroup(project, groupId, TaskName.REEDIT_DOSSIER, Phase.DossierFeedback, TaskType.INFO);
     }
 
     /**
@@ -269,8 +274,7 @@ public class DossierCreationProcess {
                 Progress.FINISHED);
         taskDAO.updateForGroup(taskAnnotate);
         taskDAO.persistTaskGroup(project, user, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
-
-
+        createReeditDossierTask(project, groupDAO.getMyGroupId(user, project));
         if (constraints.checkIfFeedbackCanBeDistributed(project)) {
             // create Task to give Feedback
             List<Group> groupsInProject = groupDAO.getGroupsByProjectName(project.getName());
