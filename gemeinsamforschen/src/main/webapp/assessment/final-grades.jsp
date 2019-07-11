@@ -130,7 +130,7 @@
                     </label>
                 </div>
             </div>
-            <div class="col span_content span_s_of_2" style="margin-top: 15%;">
+            <div class="col span_content span_s_of_2" style="margin-top: 15%;" id="iconLegend">
                 <h4>Legende</h4>
                 <div style="display: block;">
                     <div style="display: flex; margin-bottom: 5px;">
@@ -148,6 +148,17 @@
                         um Ausreißer zu bereinigen.
                     </label>
                 </div>
+            </div>
+            <div id="contributionListDiv">
+                <h4 id="fileManagementHeader">Ergebnisse</h4>
+                <ul id="contributionList">
+                    <script id="contributionListTemplate" type="text/x-jQuery-tmpl">
+            <li>
+                <a id="${fileCount}" href="../rest/fileStorage/download/fileLocation/${fileLocation}">${fileName}</a>
+            </li>
+
+                    </script>
+                </ul>
             </div>
         </div>
     </main>

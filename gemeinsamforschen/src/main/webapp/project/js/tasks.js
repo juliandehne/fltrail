@@ -180,10 +180,6 @@ function handleInfoTasks(object, result) {
         case "CLOSE_EXECUTION_PHASE":
             result.infoText = "Beenden Sie nun die Durchführungsphase.";
             break;
-        case "EDIT_FORMED_GROUPS":
-            result.infoText = "Die Gruppen wurden vom Algorithmus gebildet. Sie können noch manuell" +
-                " editiert werden."; // hier müsste noch ein Link eingefügt werden, zur manuellen Gruppenbildung
-            break;
         case "CONTACT_GROUP_MEMBERS":
             groupViewLink.toggleClass("disabled");
             result.infoText = "Sagen Sie hallo zu ihren Gruppenmitgliedern über den Chat.";
@@ -286,10 +282,6 @@ function handleLinkedTasks(object, result) {
                     submissionId: object.taskData.fullSubmissionId,
                     fileRole: "Dossier"
                 }) + "\')";
-                break;
-            case "FINALIZE_DOSSIER":
-                result.solveTaskWith = "Finalisiere Dossier";
-                result.solveTaskWithLink = "redirect(\'../annotation/create-unstructured-annotation.jsp?projectName=" + object.projectName + "&submissionId=" + object.taskData.fullSubmissionId + "\')";
                 break;
             case "FINALIZE_EJOURNAL":
                 result.solveTaskWith = "Finalisiere EJournal";

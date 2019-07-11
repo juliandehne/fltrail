@@ -5,30 +5,35 @@ $(document).ready(function () {
 
 });
 
-function listFilesOfGroup(projectName){
+function listFilesOfGroup(projectName) {
     $.ajax({
-        url: "../rest/fileStorage/listOfFiles/projectName/"+projectName,
+        url: "../rest/fileStorage/listOfFiles/projectName/" + projectName,
         type: 'GET',
-        success: function(response){
-            let tmplObject=[];
-            let count=1;
+        success: function (response) {
+            let tmplObject = [];
+            let count = 1;
             let fileName;
             let length = 0;
             let stringEnding;
-            for (let key in response){
-                if (response.hasOwnProperty(key))
-                    length = response[key].length;
+            for (let key in response) {
+                if (response.hasOwnProperty(key)) {
+                    length = response[key].fileName.length;
                     stringEnding = "";
-                    if (length > 15){
-                        length = 15;
+                    if (length > 20) {
+                        length = 20;
                         stringEnding = "..."
                     }
-                    fileName = response[key].substring(0, length)+stringEnding;
-                tmplObject.push({
-                    fileCount: count,
-                    fileLocation: key,
-                    fileName: fileName
-                });
+                    fileName = response[key].fileName.substring(0, length) + stringEnding;
+                    tmplObject.push({
+                        fileCount: count,
+                        fileLocation: response[key].fileLocation,
+                        fileName: fileName,
+                        group: response[key].group,
+                        projectName: response[key].projectName,
+                        userEmail: response[key].userEmail,
+                        fileRole: response[key].fileRole,
+                    });
+                }
                 count++;
             }
             if (count === 1) {
@@ -37,24 +42,24 @@ function listFilesOfGroup(projectName){
             $('#listOfFilesTemplate').tmpl(tmplObject).appendTo('#listOfFiles');
             prepareDeletion();
         },
-        error: function(a){
+        error: function (a) {
 
         }
     });
 }
 
-function prepareDeletion(){
+function prepareDeletion() {
     let linksForDeletion = $('.deleteFile');
-    linksForDeletion.each(function(){
-        $(this).on('click', function(){
+    linksForDeletion.each(function () {
+        $(this).on('click', function () {
             $.ajax({
-                url: "../rest/fileStorage/delete/fileLocation/"+$(this).attr('name'),
+                url: "../rest/fileStorage/delete/fileLocation/" + $(this).attr('name'),
                 dataType: "text",
                 type: 'DELETE',
-                success: function(){
+                success: function () {
                     $('#fileDeleted').show();
                 },
-                error: function(){
+                error: function () {
                     $('#errorDeletion').show();
                 }
             });

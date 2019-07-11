@@ -11,9 +11,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @ManagedBean
 @Resource
@@ -65,16 +63,26 @@ public class FileManagementDAO {
         return result;
     }
 
-    Map<String, String> getListOfFiles(User user, Project project) {
+    List<ContributionStorage> getListOfFiles(User user, Project project, boolean isAuthor) {
         connect.connect();
         String mysqlRequest =
-                "SELECT * FROM `largefilestorage` lfs JOIN `groupuser` gu " + "ON gu.userEmail=lfs.userEmail JOIN groups g on g.id=gu.groupId WHERE g.id " + "IN (SELECT gu2.groupId FROM `groupuser` gu2 WHERE gu2.userEmail=?) AND g.projectName=? " + "AND g.projectName=lfs.projectName";
+                "SELECT * FROM `largefilestorage` lfs JOIN `groupuser` gu " +
+                        "ON gu.userEmail=lfs.userEmail JOIN groups g on g.id=gu.groupId WHERE (g.id " +
+                        "IN (SELECT gu2.groupId FROM `groupuser` gu2 WHERE gu2.userEmail=?) OR ?) AND g.projectName=? " +
+                        "AND g.projectName=lfs.projectName";
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, user.getEmail(), project.getName());
+                connect.issueSelectStatement(mysqlRequest, user.getEmail(), isAuthor, project.getName());
         boolean next = vereinfachtesResultSet.next();
-        Map<String, String> result = new HashMap<>();
+        List<ContributionStorage> result = new ArrayList<>();
         while (next) {
-            result.put(vereinfachtesResultSet.getString("filelocation"), vereinfachtesResultSet.getString("fileName"));
+            ContributionStorage shuttle = new ContributionStorage();
+            shuttle.setFileLocation(vereinfachtesResultSet.getString("filelocation"));
+            shuttle.setFileName(vereinfachtesResultSet.getString("fileName"));
+            shuttle.setFileRole(FileRole.valueOf(vereinfachtesResultSet.getString("filerole")));
+            shuttle.setProjectName(project.getName());
+            shuttle.setUserEmail(vereinfachtesResultSet.getString("userEmail"));
+            shuttle.setGroup(groupDAO.getGroupByGroupId(vereinfachtesResultSet.getInt("groupId")));
+            result.add(shuttle);
             next = vereinfachtesResultSet.next();
         }
         connect.close();

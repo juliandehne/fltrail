@@ -2,13 +2,9 @@ package unipotsdam.gf.modules.fileManagement;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.tool.xml.exceptions.CssResolverException;
-import org.apache.catalina.manager.util.SessionUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.PeerAssessmentProcess;
 import unipotsdam.gf.session.GFContexts;
 
@@ -21,7 +17,6 @@ import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 
 @Path("/fileStorage")
 public class FileManagementView {
@@ -64,13 +59,13 @@ public class FileManagementView {
     @GET
     @Path("/listOfFiles/projectName/{projectName}")
     @Produces("application/json")
-    public Map<String, String> getListOfFiles(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
-        return fileManagementService.getListOfFiles(req, projectName);
+    public Response getListOfFiles(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
+        return Response.ok(fileManagementService.getListOfFiles(req, projectName)).build();
     }
 
     @DELETE
     @Path("/delete/fileLocation/{fileLocation}")
-    public Response deleteFile(@PathParam("fileLocation") String fileLocation) throws IOException {
+    public Response deleteFile(@PathParam("fileLocation") String fileLocation) {
         fileManagementService.deleteFile(fileLocation);
         //Respond that everything worked out
         return Response.ok("Data deletion successfull").build();

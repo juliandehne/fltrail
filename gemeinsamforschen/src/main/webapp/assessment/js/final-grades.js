@@ -6,6 +6,8 @@ $(document).ready(function () {
         if (getQueryVariable("final") === "true") {
             $('#divForSaving').hide();
             $('.unsavedFinalMark').hide();
+            $('#iconLegend').hide();
+            getContributions(projectName);
         } else {
             $('.savedFinalMark').hide();
         }
@@ -25,6 +27,7 @@ $(document).ready(function () {
             taskCompleted();
         })
     })
+
 
 });
 
@@ -180,4 +183,46 @@ function viewToUserPeerAssessmentData() {
     result.data = grades;
     result.final = $('#finalizeGrading').prop("checked");
     return result;
+}
+
+function getContributions(projectName) {
+    $.ajax({
+        url: "../rest/fileStorage/listOfFiles/projectName/" + projectName,
+        type: 'GET',
+        success: function (response) {
+            let tmplObject = [];
+            let count = 1;
+            let fileName;
+            let length = 0;
+            let stringEnding;
+            for (let key in response) {
+                if (response.hasOwnProperty(key)) {
+                    length = response[key].fileName.length;
+                    stringEnding = "";
+                    if (length > 20) {
+                        length = 20;
+                        stringEnding = "..."
+                    }
+                    fileName = response[key].fileName.substring(0, length) + stringEnding;
+                    tmplObject.push({
+                        fileCount: count,
+                        fileLocation: response[key].fileLocation,
+                        fileName: fileName,
+                        group: response[key].group,
+                        projectName: response[key].projectName,
+                        userEmail: response[key].userEmail,
+                        fileRole: response[key].fileRole,
+                    });
+                    count++;
+                }
+            }
+            if (count === 1) {
+                $('#fileManagementHeader').hide();
+            }
+            $('#contributionListTemplate').tmpl(tmplObject).appendTo('#contributionList');
+        },
+        error: function (a) {
+
+        }
+    });
 }

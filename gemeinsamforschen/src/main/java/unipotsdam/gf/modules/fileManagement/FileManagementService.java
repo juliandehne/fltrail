@@ -38,7 +38,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static unipotsdam.gf.config.FileConfig.FOLDER_NAME;
@@ -247,11 +246,12 @@ public class FileManagementService {
         return fileName;
     }
 
-    Map<String, String> getListOfFiles(HttpServletRequest req, String projectName) throws IOException {
+    List<ContributionStorage> getListOfFiles(HttpServletRequest req, String projectName) throws IOException {
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Project project = projectDAO.getProjectByName(projectName);
-        return fileManagementDAO.getListOfFiles(user, project);
+        boolean isAuthor = (userEmail.equals(project.getAuthorEmail()));
+        return fileManagementDAO.getListOfFiles(user, project, isAuthor);
     }
 
     void deleteFile(String fileLocation) {
