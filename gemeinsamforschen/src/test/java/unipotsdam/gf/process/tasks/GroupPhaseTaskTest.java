@@ -46,7 +46,7 @@ public class GroupPhaseTaskTest {
 
 
     @Before
-    public void setUp() throws IOException, SQLException, ManagedProcessException {
+    public void setUp() throws Exception {
         UpdateDB.main(new String[0]);
 
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());

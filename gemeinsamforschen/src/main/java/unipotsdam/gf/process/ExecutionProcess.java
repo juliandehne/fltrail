@@ -27,18 +27,18 @@ public class ExecutionProcess implements IExecutionProcess {
         taskDAO.persistTaskForAllGroups(project, TaskName.WAIT_FOR_LEARNING_GOALS, PHASE);
     }
 
-    public void finishCreatingLearningGoals(Project project, User user) {
+    public void finishCreatingLearningGoals(Project project, User user) throws Exception {
         finishTaskAndStartNext(project, user, TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS, TaskName.END_LEARNING_GOAL_PERIOD);
 
     }
 
     // TODO: rework everything here according to new structure of visio
 
-    public void finishChooseFittingCompetences(Project project, Group group) {
+    public void finishChooseFittingCompetences(Project project, Group group) throws Exception {
         finishTaskAndStartNext(project, group, TaskName.CHOOSE_FITTING_COMPETENCES, TaskName.CHOOSE_REFLEXION_QUESTIONS);
     }
 
-    public void finishChooseFittingCompetenceDocent(Project project, User user) {
+    public void finishChooseFittingCompetenceDocent(Project project, User user) throws Exception {
         finishTaskAndStartNext(project, user, TaskName.CHOOSE_FITTING_COMPETENCES, TaskName.CHOOSE_REFLEXION_QUESTIONS);
     }
 
@@ -56,7 +56,7 @@ public class ExecutionProcess implements IExecutionProcess {
         //finishTaskAndStartNext(project, group, finishedTaskName, TaskName.ANSWER_REFLEXION_QUESTIONS);
     }
 
-    public void finishChooseReflexionQuestionsDocent(Project project, User user) {
+    public void finishChooseReflexionQuestionsDocent(Project project, User user) throws Exception {
         finishTaskAndStartNext(project, user, TaskName.CHOOSE_REFLEXION_QUESTIONS, TaskName.WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION);
         List<Task> groupsTask = taskDAO.getTaskOfGroupsByProjectNameAndTaskNameAndPhase(project, TaskName.CHOOSE_REFLEXION_QUESTIONS, PHASE);
         if (groupsTask == null) {
@@ -76,11 +76,11 @@ public class ExecutionProcess implements IExecutionProcess {
 
     }
 
-    public void finishAnswerReflexionQuestion(Project project, Group group) {
+    public void finishAnswerReflexionQuestion(Project project, Group group) throws Exception {
         finishTaskAndStartNext(project, group, TaskName.ANSWER_REFLECTION_QUESTIONS, TaskName.COLLECT_RESULTS_FOR_ASSESSMENT);
     }
 
-    public void finishCollectResultsForAssessment(Project project, Group group) {
+    public void finishCollectResultsForAssessment(Project project, Group group) throws Exception {
         finishTaskAndStartNext(project, group, TaskName.COLLECT_RESULTS_FOR_ASSESSMENT, TaskName.WAIT_FOR_EXECUTION_PHASE_END);
         List<Task> groupsTask = taskDAO.getTaskOfGroupsByProjectNameAndTaskNameAndPhase(project, TaskName.COLLECT_RESULTS_FOR_ASSESSMENT, PHASE);
         boolean oneGroupNotFinished = groupsTask.stream().anyMatch(task -> task.getProgress() != Progress.FINISHED);
@@ -92,7 +92,7 @@ public class ExecutionProcess implements IExecutionProcess {
         taskDAO.persist(task);
     }
 
-    public void finishPhase(Project project) {
+    public void finishPhase(Project project) throws Exception {
         Task task = taskDAO.createUserDefault(project, new User(project.getAuthorEmail()), TaskName.END_EXECUTION_PHASE, PHASE, Progress.FINISHED);
         taskDAO.updateForUser(task);
     }
@@ -104,7 +104,8 @@ public class ExecutionProcess implements IExecutionProcess {
         return task.getProgress() == Progress.FINISHED;
     }
 
-    private void finishTaskAndStartNext(Project project, Object groupOrUser, TaskName finishedTaskName, TaskName newTaskName) {
+    private void finishTaskAndStartNext(Project project, Object groupOrUser, TaskName finishedTaskName, TaskName newTaskName)
+            throws Exception {
         Task newTask = null;
         if (groupOrUser instanceof Group) {
             Group group = (Group) groupOrUser;

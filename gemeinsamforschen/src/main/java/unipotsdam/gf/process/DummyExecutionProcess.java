@@ -31,7 +31,7 @@ public class DummyExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public void finishPhase(Project project) {
+    public void finishPhase(Project project) throws Exception {
         User user = userDAO.getUserByEmail(project.getAuthorEmail());
         Task task = new Task(TaskName.CLOSE_EXECUTION_PHASE, user, project, Progress.FINISHED );
         taskDAO.updateForUser(task);

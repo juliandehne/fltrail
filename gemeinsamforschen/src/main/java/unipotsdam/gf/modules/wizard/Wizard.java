@@ -1,9 +1,12 @@
 package unipotsdam.gf.modules.wizard;
 
+import com.itextpdf.text.DocumentException;
+import de.svenjacobs.loremipsum.LoremIpsum;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
@@ -12,6 +15,9 @@ import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.submission.controller.SubmissionController;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.compbase.TomcatConceptImporter;
@@ -23,6 +29,7 @@ import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,42 +39,45 @@ public class Wizard {
     private final TomcatConceptImporter concepts;
 
     @Inject
-    WizardDao wizardDao;
+    private WizardDao wizardDao;
 
     @Inject
-    IPhases phases;
+    private IPhases phases;
 
     @Inject
-    TaskDAO taskDAO;
+    private TaskDAO taskDAO;
 
     @Inject
-    ProjectDAO projectDAO;
+    private ProjectDAO projectDAO;
 
     @Inject
-    ProjectCreationProcess projectCreationProcess;
+    private ProjectCreationProcess projectCreationProcess;
 
     @Inject
-    GroupFormationProcess groupFormationProcess;
+    private GroupFormationProcess groupFormationProcess;
 
     @Inject
     UserDAO userDAO;
 
     @Inject
-    GroupDAO groupDAO;
+    private GroupDAO groupDAO;
 
     @Inject
-    Management management;
+    private Management management;
 
     @Inject
-    DossierCreationProcess dossierCreationProcess;
+    private DossierCreationProcess dossierCreationProcess;
 
     @Inject
     IGroupFinding groupFinding;
 
-    PodamFactoryImpl factory = new PodamFactoryImpl();
+    private LoremIpsum loremIpsum;
+    private PodamFactoryImpl factory = new PodamFactoryImpl();
 
     public Wizard() {
+
         this.concepts = new TomcatConceptImporter();
+        this.loremIpsum = new LoremIpsum();
     }
 
     /**
@@ -78,23 +88,20 @@ public class Wizard {
      */
     public void doSpells(TaskName taskName, Project project) throws Exception {
 
+        // simulate previous tasks
+        Phase correspondingPhase2 = phases.getCorrespondingPhase(taskName);
+        simulatePreviousPhases(correspondingPhase2, project);
+
+        // simulate tasks in this phase
+        simulateTasksInThisPhase(taskName, project);
+    }
+
+    public void simulateTasksInThisPhase(TaskName taskName, Project project) throws Exception {
+        Phase correspondingPhase = phases.getCorrespondingPhase(taskName);
+
         // get previous tasks including the current
         List<TaskName> previousTasks = getPreviousTasks(taskName);
-
-        // finish previous tasks except the current
-        List<TaskName> previousTasksWithoutLast = previousTasks.subList(0, previousTasks.size() - 1);
-
-        for (TaskName previousTaskWL : previousTasksWithoutLast) {
-            taskDAO.updateForAll(new Task(previousTaskWL, null, project, Progress.FINISHED));
-        }
-
-        // simulate previous phases
-        Phase correspondingPhase = phases.getCorrespondingPhase(taskName);
         List<Phase> previousPhases = phases.getPreviousPhases(correspondingPhase);
-        for (Phase previousPhase : previousPhases) {
-            simulatePhase(project, previousPhase);
-        }
-
         // simulate current phase up to task
         HashSet<TaskName> previousTasksNotInThisPhase = new HashSet<>();
         for (Phase previousPhase : previousPhases) {
@@ -105,7 +112,12 @@ public class Wizard {
         previousTasks.removeAll(previousTasksNotInThisPhase);
         // do simulations for previous dealts
         simulatePreviousTasks(project, previousTasks);
+    }
 
+    public void doSpells(Phase phase, Project project) throws Exception {
+        simulatePreviousPhases(phase, project);
+        // simulate the current phase
+        simulatePhase(project, phase);
     }
 
     public void simulatePreviousTasks(Project project, List<TaskName> previousTasks) throws Exception {
@@ -117,11 +129,6 @@ public class Wizard {
                     if (participantCount.getParticipants() < 6) {
                         createStudents(project);
                     }
-                    break;
-                }
-                case CLOSE_GROUP_FINDING_PHASE: {
-                    groupFormationProcess.finalize(project);
-                    dossierCreationProcess.start(project);
                     break;
                 }
                 case UPLOAD_DOSSIER:
@@ -163,19 +170,11 @@ public class Wizard {
         }
     }
 
-    public void doSpells(Phase phase, Project project) throws Exception {
-        // do previous tasks and phases
-        TaskName lastTask = phases.getLastTask(phase);
-        doSpells(lastTask, project);
-        // simulate the current phase
-        simulatePhase(project, phase);
-    }
-
-    public void simulatePhase(Project project, Phase previousPhase) throws Exception {
-        switch (previousPhase) {
+    public void simulatePhase(Project project, Phase phase) throws Exception {
+        // phase will be ended as a call to phases, at the end in any case
+        switch (phase) {
             case GroupFormation:
                 createStudents(project);
-                groupFormationProcess.finalize(project);
                 break;
             case DossierFeedback: {
                 createDossiers(project);
@@ -202,9 +201,25 @@ public class Wizard {
 
             }
         }
+        // finish tasks in the corresponding phase
+        List<TaskName> taskNames = phases.getTaskNames(phase);
+        for (TaskName taskName : taskNames) {
+            taskDAO.updateForAll(new Task(taskName, null, project, Progress.FINISHED));
+        }
+        // finish phase this might duplicate finishing the tasks
+        phases.endPhase(phase, project, new User(project.getAuthorEmail()));
     }
 
-    public List<TaskName> getPreviousTasks(TaskName taskName) {
+
+    public void simulatePreviousPhases(Phase correspondingPhase, Project project) throws Exception {
+        List<Phase> previousPhases = phases.getPreviousPhases(correspondingPhase);
+        for (Phase previousPhase : previousPhases) {
+            simulatePhase(project, previousPhase);
+        }
+    }
+
+
+    private List<TaskName> getPreviousTasks(TaskName taskName) {
         /*if (taskName.equals(TaskName.WAIT_FOR_PARTICPANTS)) {
             return ;
         }*/
@@ -307,10 +322,20 @@ public class Wizard {
         groupFormationProcess.sendGroupAlDataToServer(data, user, project);
     }
 
-    public void createDossiers(Project project) {
+    public void createDossiers(Project project) throws IOException, DocumentException {
         //List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
+            // add first submission
+            User representativUser = groupDAO.getRepresentativUser(group, project);
+            String text = loremIpsum.getWords(500);
+            FullSubmissionPostRequest submission = new FullSubmissionPostRequest(group, text, FileRole.DOSSIER, project);
+            FullSubmission fullSubmission =
+                    dossierCreationProcess.addDossier(submission, null, representativUser, project);
+            submission.setId(fullSubmission.getId());
+
+            // add finalized submission
+            dossierCreationProcess.updateSubmission(submission, representativUser, project, true);
 
         }
         // TODO implement

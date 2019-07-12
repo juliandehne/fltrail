@@ -1,6 +1,7 @@
 package unipotsdam.gf.core.database;
 
 import ch.vorburger.exec.ManagedProcessException;
+import unipotsdam.gf.SurveyPreparation;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
 
@@ -32,7 +33,7 @@ public class UpdateDB {
     private boolean fullLineDelimiter = false;
 
 
-    public static void main(String[] args) throws SQLException, ManagedProcessException, IOException {
+    public static void main(String[] args) throws Exception {
         MysqlConnect  mysqlConnect = new MysqlGeneralConnect();
         Connection connection = mysqlConnect.getConnection();
 
@@ -40,10 +41,15 @@ public class UpdateDB {
         System.out.println(new java.io.File( "." ).getCanonicalPath());
         updateDB.runScript(new FileReader("src/test/resources/database/db.sql"));
         updateDB.runScript(new FileReader("src/test/resources/database/fltrail.sql"));
-        MysqlConnectImpl mysqlConnectImpl = new MysqlConnectImpl();
-        PredefinedDataInsertionHelper dataInsertionHelper = new PredefinedDataInsertionHelper(mysqlConnectImpl);
-        dataInsertionHelper.saveLearningGoals("src/test/resources/reflectionQuestions/learningGoalsStore.json");
-        dataInsertionHelper.saveReflecionQuestions("src/test/resources/reflectionQuestions/reflectionQuestionsStore.json");
+
+        SurveyPreparation.main(null);
+
+
+        //MysqlConnectImpl mysqlConnectImpl = new MysqlConnectImpl();
+        //PredefinedDataInsertionHelper dataInsertionHelper = new PredefinedDataInsertionHelper(mysqlConnectImpl);
+        //dataInsertionHelper.saveLearningGoals("src/test/resources/reflectionQuestions/learningGoalsStore.json");
+        //dataInsertionHelper.saveReflecionQuestions("src/test/resources/reflectionQuestions/reflectionQuestionsStore" +
+               // ".json");
         //updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
     }
 

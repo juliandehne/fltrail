@@ -76,7 +76,7 @@ public class AssessmentView {
     @Path("/contributionRating/project/{projectName}/group/{groupId}/fromPeer/{fromPeer}")
     public void postContributionRating(
             Map<FileRole, Integer> contributionRatings, @PathParam("groupId") String groupId,
-            @PathParam("projectName") String projectName, @PathParam("fromPeer") String fromPeer) {
+            @PathParam("projectName") String projectName, @PathParam("fromPeer") String fromPeer) throws Exception {
         Boolean isStudent = userDAO.getUserByEmail(fromPeer).getStudent();
         peerAssessmentProcess
                 .postContributionRating(contributionRatings, groupId, new Project(projectName), fromPeer, isStudent);
@@ -129,7 +129,7 @@ public class AssessmentView {
 
     @POST
     @Path("/grading/start/projects/{projectName}")
-    public void startGrading(@PathParam("projectName") String projectName) {
+    public void startGrading(@PathParam("projectName") String projectName) throws Exception {
         peerAssessmentProcess.startGrading(new Project(projectName));
     }
 
@@ -155,7 +155,8 @@ public class AssessmentView {
 
     @POST
     @Path("/grades/project/{projectName}/sendData")
-    public void sendData(@PathParam("projectName") String projectName, UserAssessmentDataHolder userAssessmentDataHolder) {
+    public void sendData(@PathParam("projectName") String projectName, UserAssessmentDataHolder userAssessmentDataHolder)
+            throws Exception {
          peerAssessmentProcess.saveGrades(new Project(projectName), userAssessmentDataHolder);
     }
 

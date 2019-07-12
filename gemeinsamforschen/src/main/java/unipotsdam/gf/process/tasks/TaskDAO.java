@@ -247,7 +247,7 @@ public class TaskDAO {
     }
 
     // get all the tasks a user has in a specific project
-    public ArrayList<Task> getTasks(User user, Project project) {
+    public ArrayList<Task> getTasks(User user, Project project) throws Exception {
         connect.connect();
         String query = "Select * from tasks t where t.userEmail = ? AND t.projectName = ? OR t.groupTask IN " +
                 "(SELECT gu.groupId FROM groupuser gu JOIN groups g on gu.groupId = g.id and g.projectName=? " +
@@ -265,7 +265,8 @@ public class TaskDAO {
         return result;
     }
 
-    private Task resultSetToTask(User user, Project project, VereinfachtesResultSet vereinfachtesResultSet) {
+    private Task resultSetToTask(User user, Project project, VereinfachtesResultSet vereinfachtesResultSet)
+            throws Exception {
         int groupId = vereinfachtesResultSet.getInt("groupTask");
         if (groupId == 0) {
             return resultSetToUserTask(user, project, vereinfachtesResultSet);
@@ -330,7 +331,8 @@ public class TaskDAO {
         return result;
     }
 
-    private Task resultSetToUserTask(User user, Project project, VereinfachtesResultSet vereinfachtesResultSet) {
+    private Task resultSetToUserTask(User user, Project project, VereinfachtesResultSet vereinfachtesResultSet)
+            throws Exception {
         String taskName = vereinfachtesResultSet.getString("taskName");
         Task result;
         TaskName taskName1 = TaskName.valueOf(taskName);
@@ -442,7 +444,7 @@ public class TaskDAO {
         return result;
     }
 
-    public ArrayList<Task> getTasksWithTaskName(Project project, User user, TaskName taskname) {
+    public ArrayList<Task> getTasksWithTaskName(Project project, User user, TaskName taskname) throws Exception {
         connect.connect();
         String query = "Select * from tasks t where (t.userEmail = ? AND t.projectName = ? OR t.groupTask IN " +
                 "(SELECT gu.groupId FROM groupuser gu JOIN groups g on gu.groupId = g.id and g.projectName=? " +
@@ -500,7 +502,10 @@ public class TaskDAO {
         persist(task);
     }
 
-    public void updateForUser(Task task) {
+    public void updateForUser(Task task) throws Exception {
+        if (task.getUserEmail() == null) {
+            throw new Exception("needs user not null to work properly");
+        }
         connect.connect();
         String query = "UPDATE tasks set progress = ? where userEmail = ? AND projectName = ? AND taskName = ?";
         connect.issueUpdateStatement(
@@ -508,7 +513,7 @@ public class TaskDAO {
         connect.close();
     }
 
-    public void updateTeacherTask(Project project, TaskName taskName, Progress progress) {
+    public void updateTeacherTask(Project project, TaskName taskName, Progress progress) throws Exception {
         User user = new User(projectDAO.getProjectByName(project.getName()).getAuthorEmail());
         updateForUser(new Task(taskName, user, project, progress));
     }
@@ -590,7 +595,7 @@ public class TaskDAO {
     /*
      * if this takes long rewrite it as batch updateRocketChatUserName
      */
-    public void finishMemberTask(Project project, TaskName taskName) {
+    public void finishMemberTask(Project project, TaskName taskName) throws Exception {
         java.util.List<User> members = userDAO.getUsersByProjectName(project.getName());
         for (User member : members) {
             Task task = new Task(taskName, member, project, Progress.FINISHED);

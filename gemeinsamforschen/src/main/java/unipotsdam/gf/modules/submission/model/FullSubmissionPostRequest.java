@@ -2,6 +2,8 @@ package unipotsdam.gf.modules.submission.model;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.project.Project;
 
 /**
  * @author Sven Kästle
@@ -26,6 +28,14 @@ public class FullSubmissionPostRequest {
     private Visibility visibility;
 
     public FullSubmissionPostRequest() {
+    }
+
+    public FullSubmissionPostRequest(Group group, String text, FileRole fileRole, Project project) {
+        this.groupId = group.getId();
+        this.text = text;
+        this.fileRole = fileRole;
+        this.personal = false;
+        this.projectName = project.getName();
     }
 
     public String getHeader() {

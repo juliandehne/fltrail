@@ -10,6 +10,7 @@ import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.communication.Messages;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
@@ -80,16 +81,28 @@ public class PhasesImpl implements IPhases {
     }
 
 
+    /**
+     * erzwinge die Übergabe des Autoren, weil implizit dieser im Projekt verwendet wird bei dem
+     * Phasenwechsel
+     * @param currentPhase
+     * @param project the project to end the phase in
+     * @param author
+     * @throws RocketChatDownException
+     * @throws UserDoesNotExistInRocketChatException
+     * @throws WrongNumberOfParticipantsException
+     * @throws JAXBException
+     * @throws JsonProcessingException
+     */
     @Override
-    public void endPhase(Phase currentPhase, Project project)
-            throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+    public void endPhase(Phase currentPhase, Project project, User author) throws Exception {
+        project.setAuthorEmail(author.getEmail());
         Phase changeToPhase = getNextPhase(currentPhase);
         switch (currentPhase) {
             case GroupFormation:
                 // inform users about the formed groups, optionally giving them a hint on what happens next
                 emailService.sendMessageToUsers(project, Messages.GroupFormation(project));
+                groupFormationProcess.finalize(project, author);
                 saveState(project, changeToPhase);
-                groupFormationProcess.finalize(project);
                 dossierCreationProcess.start(project);
                 break;
             case DossierFeedback:
@@ -248,7 +261,7 @@ public class PhasesImpl implements IPhases {
                     updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case CONTACT_GROUP_MEMBERS:
-                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
                 case CLOSE_ASSESSMENT_PHASE:
                     updateValueInMap(phaseMapTMP, Phase.Assessment, value);

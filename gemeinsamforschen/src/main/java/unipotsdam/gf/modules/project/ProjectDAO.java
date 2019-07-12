@@ -123,7 +123,9 @@ public class ProjectDAO {
         boolean next = vereinfachtesResultSet.next();
         Project result = getProject(vereinfachtesResultSet, next);
         List<String> tags = getTags(result);
-        result.setTags(tags.toArray(new String[0]));
+        if (tags != null) {
+            result.setTags(tags.toArray(new String[0]));
+        }
         return result;
     }
 

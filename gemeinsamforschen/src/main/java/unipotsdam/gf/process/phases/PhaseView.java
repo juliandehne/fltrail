@@ -7,6 +7,7 @@ import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.modules.user.User;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -43,10 +44,10 @@ public class PhaseView {
     @Path("/{projectPhase}/projects/{projectName}/end")
     @GET
     public String endPhase(@PathParam("projectPhase") String projectPhase, @PathParam("projectName") String
-            projectName) throws RocketChatDownException, UserDoesNotExistInRocketChatException, WrongNumberOfParticipantsException, JAXBException, JsonProcessingException {
+            projectName) throws Exception {
         Phase phase = Phase.valueOf(projectPhase);
         Project project = projectDAO.getProjectByName(projectName);
-        phases.endPhase(phase, project);
+        phases.endPhase(phase, project, new User(project.getAuthorEmail()));
         // just hacked this for
         return "ok";
         //return Response.temporaryRedirect(new URI(".")).build();

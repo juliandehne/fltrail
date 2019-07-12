@@ -93,7 +93,7 @@ public class PeerAssessmentProcess {
      */
     public void postContributionRating(
             Map<FileRole, Integer> contributionRatings, String groupId, Project project, String user, Boolean
-            isStudent) {
+            isStudent) throws Exception {
         peer.postContributionRating(project, groupId, user, contributionRatings, isStudent);
         if (isStudent) {
             // finish task for user
@@ -151,7 +151,7 @@ public class PeerAssessmentProcess {
      * @param data
      */
     public void persistInternalAssessment(
-            Project project, User user, User feedbackedUser, HashMap<String, String> data) {
+            Project project, User user, User feedbackedUser, HashMap<String, String> data) throws Exception {
         assessmentDAO.persistInternalAssessment(project, user, feedbackedUser, data);
         User nextUserToRateInternally = getNextUserToRateInternally(project, user);
         if (nextUserToRateInternally == null) {
@@ -176,7 +176,7 @@ public class PeerAssessmentProcess {
      *
      * @param project
      */
-    public void startGrading(Project project) {
+    public void startGrading(Project project) throws Exception {
 
         // change tasks for docent
 
@@ -203,8 +203,7 @@ public class PeerAssessmentProcess {
      *
      * @param project
      */
-    public void startDocentGrading(Project project)
-            throws UserDoesNotExistInRocketChatException, JsonProcessingException, WrongNumberOfParticipantsException, RocketChatDownException, JAXBException {
+    public void startDocentGrading(Project project) throws Exception {
         // update task for docent
         taskDAO.updateTeacherTask(project, TaskName.CLOSE_PEER_ASSESSMENTS_PHASE, Progress.FINISHED);
         log.info("finished asessment process for project" + project.getName());
@@ -219,7 +218,7 @@ public class PeerAssessmentProcess {
      *
      * @param project
      */
-    public void giveFinalGrades(Project project) {
+    public void giveFinalGrades(Project project) throws Exception {
         taskDAO.updateTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Progress.FINISHED);
         taskDAO.persistTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Phase.GRADING);
     }
@@ -229,7 +228,7 @@ public class PeerAssessmentProcess {
      * @param project
      * @param userAssessmentDataHolder
      */
-    public void saveGrades(Project project, UserAssessmentDataHolder userAssessmentDataHolder) {
+    public void saveGrades(Project project, UserAssessmentDataHolder userAssessmentDataHolder) throws Exception {
         assessmentDAO.saveGrades(project, userAssessmentDataHolder);
         if (userAssessmentDataHolder.getFinal()) {
             taskDAO.updateTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Progress.FINISHED);

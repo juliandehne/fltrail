@@ -284,6 +284,24 @@ public class GroupDAO {
         }
         return uniqueGroups;
     }
+
+    public User getRepresentativUser(Group group, Project project) {
+        User user;
+        connect.connect();
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT pu.userEmail from groupuser gu ");
+        builder.append("join projectuser pu on pu.userEmail = groupuser.userEmail ");
+        builder.append("where gu.groupId = ? ");
+        builder.append("and pu.projectName = ? ");
+        builder.append("LIMIT 1");
+        String query = builder.toString();
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(query, group.getId(), project.getName());
+        vereinfachtesResultSet.next();
+        user = new User(vereinfachtesResultSet.getString("userEmail"));
+        connect.close();
+        return user;
+    }
 }
 
 

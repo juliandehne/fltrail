@@ -7,5 +7,5 @@ public interface IExecutionProcess {
 
     boolean isPhaseCompleted(Project project);
 
-    void finishPhase(Project project);
+    void finishPhase(Project project) throws Exception;
 }
