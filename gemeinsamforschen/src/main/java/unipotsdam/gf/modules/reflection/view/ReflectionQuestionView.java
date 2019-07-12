@@ -1,10 +1,11 @@
 package unipotsdam.gf.modules.reflection.view;
 
 import org.apache.commons.collections4.CollectionUtils;
-import unipotsdam.gf.interfaces.IReflectionQuestion;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
+import unipotsdam.gf.modules.reflection.model.ReflectionQuestionsStoreItem;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsStoreDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.session.GFContexts;
 
@@ -27,10 +28,10 @@ import java.util.Objects;
 public class ReflectionQuestionView {
 
     @Inject
-    private IReflectionQuestion reflectionQuestionService;
+    private ReflectionQuestionDAO reflectionQuestionDAO;
 
     @Inject
-    private ReflectionQuestionDAO reflectionQuestionDAO;
+    private ReflectionQuestionsStoreDAO questionsStoreDAO;
 
     @Inject
     private GFContexts gfContexts;
@@ -54,9 +55,8 @@ public class ReflectionQuestionView {
     @GET
     @Path("projects/{projectName}/next")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getNextReflectionQuestion(@Context HttpServletRequest req, @PathParam("projectName") String projectName) {
-        List<ReflectionQuestion> reflectionQuestions;
-        reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, "1", true);
+    public Response getNextUnansweredReflectionQuestion(@Context HttpServletRequest req, @PathParam("projectName") String projectName) {
+        List<ReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, "1", true);
 
         if (reflectionQuestions == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("user email was not in context").build();
@@ -67,6 +67,29 @@ public class ReflectionQuestionView {
         }
         return Response.ok(reflectionQuestions.get(0)).build();
     }
+
+    @GET
+    @Path("store/learninggoal/{learningGoal}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getLearningGoalReflectionQuestionFromStore(@PathParam("learningGoal") String learningGoal) {
+        List<ReflectionQuestionsStoreItem> questions = questionsStoreDAO.getLearningGoalSpecificQuestions(learningGoal);
+        if (CollectionUtils.isEmpty(questions)) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(questions).build();
+    }
+
+    @GET
+    @Path("store")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllReflectionQuestionFromStore() {
+        List<ReflectionQuestionsStoreItem> questions = questionsStoreDAO.getAllReflectionQuestions();
+        if (CollectionUtils.isEmpty(questions)) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(questions).build();
+    }
+
 
     private List<ReflectionQuestion> getUnansweredReflectionQuestions(HttpServletRequest req, String projectName, String learningGoalId, boolean onlyFirstEntry) {
         String userEmail;

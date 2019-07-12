@@ -121,6 +121,12 @@ footer {
     box-sizing: border-box;
 }
 
+.span_h_of_2 {
+    width: 55%;
+    padding: .5em;
+    box-sizing: border-box;
+}
+
 .span_timeline {
     max-width: 400px;
     width: 20%;

@@ -45,11 +45,10 @@ public class UpdateDB {
         SurveyPreparation.main(null);
 
 
-        //MysqlConnectImpl mysqlConnectImpl = new MysqlConnectImpl();
-        //PredefinedDataInsertionHelper dataInsertionHelper = new PredefinedDataInsertionHelper(mysqlConnectImpl);
-        //dataInsertionHelper.saveLearningGoals("src/test/resources/reflectionQuestions/learningGoalsStore.json");
-        //dataInsertionHelper.saveReflecionQuestions("src/test/resources/reflectionQuestions/reflectionQuestionsStore" +
-               // ".json");
+        MysqlConnectImpl mysqlConnectImpl = new MysqlConnectImpl();
+        PredefinedDataInsertionHelper dataInsertionHelper = new PredefinedDataInsertionHelper(mysqlConnectImpl);
+        dataInsertionHelper.saveLearningGoals("src/test/resources/reflectionQuestions/learningGoalsStore.json");
+        dataInsertionHelper.saveReflecionQuestions("src/test/resources/reflectionQuestions/reflectionQuestionsStore.json");
         //updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
     }
 

@@ -4,7 +4,15 @@ import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.healthchecks.HealthChecks;
-import unipotsdam.gf.interfaces.*;
+import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.interfaces.IContributionFeedback;
+import unipotsdam.gf.interfaces.IGroupFinding;
+import unipotsdam.gf.interfaces.IPeerAssessment;
+import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.interfaces.IPortfolioService;
+import unipotsdam.gf.interfaces.IReflection;
+import unipotsdam.gf.interfaces.IReflectionQuestion;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
@@ -17,7 +25,11 @@ import unipotsdam.gf.modules.contributionFeedback.service.ContributionFeedbackDA
 import unipotsdam.gf.modules.contributionFeedback.service.ContributionFeedbackService;
 import unipotsdam.gf.modules.fileManagement.FileManagementDAO;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
-import unipotsdam.gf.modules.group.*;
+import unipotsdam.gf.modules.group.BigGroupMatcher;
+import unipotsdam.gf.modules.group.GroupDAO;
+import unipotsdam.gf.modules.group.GroupFormationFactory;
+import unipotsdam.gf.modules.group.GroupfindingImpl;
+import unipotsdam.gf.modules.group.SingleGroupMatcher;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.groupal.PGroupAlMatcher;
@@ -29,15 +41,25 @@ import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.quiz.QuizDAO;
+import unipotsdam.gf.modules.reflection.service.LearningGoalStoreDAO;
+import unipotsdam.gf.modules.reflection.service.LearningGoalsDAO;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionService;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsStoreDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionService;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.Wizard;
 import unipotsdam.gf.modules.wizard.WizardDao;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
-import unipotsdam.gf.process.*;
+import unipotsdam.gf.process.DossierCreationProcess;
+import unipotsdam.gf.process.DummyExecutionProcess;
+import unipotsdam.gf.process.GroupFormationProcess;
+import unipotsdam.gf.process.IExecutionProcess;
+import unipotsdam.gf.process.PeerAssessmentProcess;
+import unipotsdam.gf.process.ProjectCreationProcess;
+import unipotsdam.gf.process.ReflexionProcess;
+import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.Task;
@@ -65,10 +87,7 @@ public class GFApplicationBinder extends AbstractBinder {
             bind(DummyCommunicationService.class).to(ICommunication.class);
             log.trace("Rocket Chat is not online. Removing chat capabilities");
         }
-
-        bind(ReflectionQuestionService.class).to(IReflectionQuestion.class);
-        bind(ReflectionQuestionDAO.class).to(ReflectionQuestionDAO.class);
-        ///bind(ReflectionQuestionService.class).to(ReflectionQuestionService.class);
+        // TODO: sort by phases for a better overview
         bind(EmailService.class).to(EmailService.class);
         bind(ManagementImpl.class).to(Management.class);
         bind(PeerAssessmentProcess.class).to(PeerAssessmentProcess.class);
@@ -119,6 +138,12 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
         //bind(ExecutionProcess.class).to(IExecutionProcess.class);
         bind(PortfolioService.class).to(IPortfolioService.class);
+        bind(ReflectionService.class).to(IReflectionQuestion.class);
+        bind(ReflectionQuestionDAO.class).to(ReflectionQuestionDAO.class);
+        bind(ReflectionQuestionsStoreDAO.class).to(ReflectionQuestionsStoreDAO.class);
+        bind(LearningGoalStoreDAO.class).to(LearningGoalStoreDAO.class);
+        bind(LearningGoalsDAO.class).to(LearningGoalsDAO.class);
+        bind(ReflectionService.class).to(IReflection.class);
         bindMore();
     }
 

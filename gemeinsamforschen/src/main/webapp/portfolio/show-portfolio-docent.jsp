@@ -10,7 +10,7 @@
     </jsp:include>
     <jsp:include page="../taglibs/quillJsDependencies.jsp"/>
 
-    <link rel="stylesheet" type="text/css" href="../taglibs/css/visibilityButton.css">
+    <link rel="stylesheet" type="text/css" href="../taglibs/css/dropDownButton.css">
     <link rel="stylesheet" type="text/css" href="css/show-portfolio.css">
 
     <!-- js - jQuery ui position -->
@@ -22,7 +22,7 @@
     <!-- js - unstructuredRest -->
     <script src="../taglibs/js/unstructuredRest.js"></script>
     <script src="js/portfolio-docent.js"></script>
-    <script src="../taglibs/js/visibilityButton.js"></script>
+    <script src="../taglibs/js/dropDownButton.js"></script>
     <script src="../taglibs/js/apiClient/contributionFeedbackClient.js"></script>
     <script src="js/portfolio-shared.js"></script>
 
@@ -48,7 +48,7 @@
                     {{else}}
                         <h4>Wähle, welche Beiträge du sehen möchtest</h4>
                         <div class="dropdown">
-                            <button class="dropbtn btn btn-primary" onclick="dropDownClick()">{{:currentVisibleButtonText}}
+                            <button class="dropbtn btn btn-primary" onclick='dropDownClick("myDropdown")'>{{:currentVisibleButtonText}}
                             <i class="fa fa-caret-down"></i>
                             </button>
                             <div class="dropdown-content" id="myDropdown">

@@ -36,13 +36,13 @@
     <link rel="stylesheet" type="text/css" href="css/unstructured-annotation.css">
     <link rel="stylesheet" type="text/css" href="css/annotationColorTheme.css">
     <link rel="stylesheet" type="text/css" href="../taglibs/css/unstructured-upload.css">
-    <link rel="stylesheet" type="text/css" href="../taglibs/css/visibilityButton.css">
+    <link rel="stylesheet" type="text/css" href="../taglibs/css/dropDownButton.css">
     <!-- js - unstructuredUpload -->
     <script src="../taglibs/js/unstructuredUpload.js"></script>
     <!-- js - unstructuredRest -->
     <script src="../taglibs/js/unstructuredRest.js"></script>
 
-    <script src="../taglibs/js/visibilityButton.js"></script>
+    <script src="../taglibs/js/dropDownButton.js"></script>
     <script src="js/upload-unstructured-dossier.js"></script>
 
     <script src="../taglibs/js/annotationUtils.js"></script>
@@ -79,7 +79,7 @@
                     <div></div>
                     {{if fileRole == "Portfolio"}}
                         <div class="dropdown">
-                            <button class="dropbtn btn btn-primary" onclick="dropDownClick()">Sichtbarkeit: {{:currentVisibility.buttonText}}
+                            <button class="dropbtn btn btn-primary" onclick='dropDownClick("myDropdown")'>Sichtbarkeit: {{:currentVisibility.buttonText}}
                                 <i class="fa fa-caret-down"></i>
                             </button>
                             <div class="dropdown-content" id="myDropdown">

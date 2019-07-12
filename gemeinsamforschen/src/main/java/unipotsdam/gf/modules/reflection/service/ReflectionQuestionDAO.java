@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @ManagedBean
 @Resource
@@ -32,6 +33,15 @@ public class ReflectionQuestionDAO {
         }
         connection.close();
         return reflectionQuestions;
+    }
+
+    public String persist(ReflectionQuestion question) {
+        connection.connect();
+        String uuid = UUID.randomUUID().toString();
+        String query = "INSERT INTO reflectionquestions (id, learningGoalId, question, userEmail, fullSubmissionId,projectName) values(?,?,?,?,?,?)";
+        connection.issueInsertOrDeleteStatement(query, uuid, question.getLearningGoalId(), question.getQuestion(), question.getUserEmail(), question.getFullSubmissionId(), question.getProjectName());
+        connection.close();
+        return uuid;
     }
 
     public List<ReflectionQuestion> getReflectionQuestions(Project project, User user, String learningGoalId) {

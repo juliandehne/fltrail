@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 12. Jul 2019 um 14:23
+-- Erstellungszeit: 10. Jun 2019 um 10:43
 -- Server-Version: 10.1.32-MariaDB
 -- PHP-Version: 7.2.5
 
@@ -206,6 +206,20 @@ CREATE TABLE `largefilestorage` (
   `filerole` varchar(100) NOT NULL,
   `filename` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `learninggoals`
+--
+
+CREATE TABLE `learninggoals`
+(
+    `id`          varchar(400) NOT NULL,
+    `text`        varchar(400) NOT NULL,
+    `projectName` varchar(255) NOT NULL
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8 COMMENT ='holds all learning goals';
 
 -- --------------------------------------------------------
 
@@ -634,6 +648,20 @@ ALTER TABLE `largefilestorage`
   ADD KEY `largefilestorage_users_email_fk` (`userEmail`);
 
 --
+-- Indizes für die Tabelle `learninggoals`
+--
+ALTER TABLE `learninggoals`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `learninggoals_projects_name_fk` (`projectName`);
+
+--
+-- Indizes für die Tabelle `learninggoalstore`
+--
+ALTER TABLE `learninggoalstore`
+    ADD PRIMARY KEY (`text`),
+    ADD UNIQUE KEY `learningGoalStore_text_uindex` (`text`);
+
+--
 -- Indizes für die Tabelle `mappedtasks`
 --
 ALTER TABLE `mappedtasks`
@@ -703,10 +731,11 @@ ALTER TABLE `quiz`
 -- Indizes für die Tabelle `reflectionquestions`
 --
 ALTER TABLE `reflectionquestions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `reflexionquestions_fullSubmissionId_uindex` (`fullSubmissionId`),
-  ADD KEY `reflexionquestions_users_email_fk` (`userEmail`),
-  ADD KEY `reflexionquestions_projects_name_fk` (`projectName`);
+    ADD PRIMARY KEY (`id`),
+    ADD UNIQUE KEY `reflexionquestions_fullSubmissionId_uindex` (`fullSubmissionId`),
+    ADD KEY `reflexionquestions_users_email_fk` (`userEmail`),
+    ADD KEY `reflexionquestions_projects_name_fk` (`projectName`),
+    ADD KEY `reflectionquestions_learninggoals_id_fk` (`learningGoalId`);
 
 --
 -- Indizes für die Tabelle `reflectionquestionsstore`
@@ -897,6 +926,12 @@ ALTER TABLE `groupuser`
 ALTER TABLE `largefilestorage`
   ADD CONSTRAINT `largefilestorage_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `largefilestorage_users_email_fk` FOREIGN KEY (`userEmail`) REFERENCES `users` (`email`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints der Tabelle `learninggoals`
+--
+ALTER TABLE `learninggoals`
+    ADD CONSTRAINT `learninggoals_projects_name_fk` FOREIGN KEY (`projectName`) REFERENCES `projects` (`name`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints der Tabelle `phasesselected`

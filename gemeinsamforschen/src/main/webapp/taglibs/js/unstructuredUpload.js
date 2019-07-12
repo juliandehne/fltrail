@@ -175,7 +175,7 @@ function populateHeaderTemplate() {
 }
 
 async function setupAndRenderReflectionQuestionsTemplate() {
-    reflectionQuestions = await getReflectionQuestions(projectName);
+    reflectionQuestions = await getUnansweredReflectionQuestions(projectName);
     reflectionQuestionTemplateData.fileRole = fileRole;
     reflectionQuestionTemplateData.totalQuestions = reflectionQuestions.length;
     renderReflectionQuestionTemplate();

@@ -1,0 +1,23 @@
+.pointer {
+    cursor: pointer;
+}
+
+.list-group {
+    max-height: 600px;
+    height: 600px;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.save-button {
+    align-self: end;
+}
+
+.group {
+    margin: 1% 0 1% 1.6%;
+}

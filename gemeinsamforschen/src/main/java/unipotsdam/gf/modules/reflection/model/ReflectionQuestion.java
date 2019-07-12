@@ -1,5 +1,8 @@
 package unipotsdam.gf.modules.reflection.model;
 
+import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
+
 public class ReflectionQuestion {
 
     private String id;
@@ -23,6 +26,13 @@ public class ReflectionQuestion {
         this.fullSubmissionId = fullSubmissionId;
         this.userEmail = userEmail;
         this.projectName = projectName;
+    }
+
+    public ReflectionQuestion(ReflectionQuestionsStoreItem questionsStoreItem, User user, Project project, LearningGoal learningGoal) {
+        this.question = questionsStoreItem.getQuestion();
+        this.userEmail = user.getEmail();
+        this.projectName = project.getName();
+        this.learningGoalId = learningGoal.getId();
     }
 
     public String getId() {
