@@ -215,7 +215,7 @@ CREATE TABLE `largefilestorage` (
 
 CREATE TABLE `learninggoals`
 (
-    `id`          varchar(400) NOT NULL,
+    `id`          varchar(200) NOT NULL,
     `text`        varchar(400) NOT NULL,
     `projectName` varchar(255) NOT NULL
 ) ENGINE = InnoDB
@@ -651,8 +651,8 @@ ALTER TABLE `largefilestorage`
 -- Indizes für die Tabelle `learninggoals`
 --
 ALTER TABLE `learninggoals`
-    ADD PRIMARY KEY (`id`),
-    ADD KEY `learninggoals_projects_name_fk` (`projectName`);
+    ADD PRIMARY KEY (`id`);
+
 
 --
 -- Indizes für die Tabelle `learninggoalstore`
