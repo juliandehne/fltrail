@@ -1,14 +1,17 @@
 package unipotsdam.gf.process.scheduler;
 
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.session.LockCronJob;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @WebListener
 public class Scheduler implements ServletContextListener {
@@ -49,7 +52,20 @@ public class Scheduler implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        org.quartz.Scheduler sched;
+        try {
+            sched = new StdSchedulerFactory().getScheduler();
+            JobDetail job = JobBuilder.newJob(LockCronJob.class).withIdentity("TaskLocker", "group1").build();
+            Trigger trigger = TriggerBuilder.newTrigger()
+                    .withIdentity("trigger1", "group1")
+                    .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMinutes(5).repeatForever())
+                    .build();
+            sched.start();
 
+            sched.scheduleJob(job, trigger);
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

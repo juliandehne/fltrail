@@ -1,37 +1,22 @@
 package unipotsdam.gf.modules.submission.view;
 
 import com.itextpdf.text.DocumentException;
-import unipotsdam.gf.interfaces.IReflectionQuestion;
-import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
-import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
-import unipotsdam.gf.modules.submission.model.SubmissionResponse;
-import unipotsdam.gf.modules.submission.model.Visibility;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
+import unipotsdam.gf.process.tasks.TaskName;
 import unipotsdam.gf.session.GFContexts;
+import unipotsdam.gf.session.Lock;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -39,7 +24,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author Sven Kästle
@@ -67,7 +51,8 @@ public class SubmissionService {
     private GroupDAO groupDAO;
 
     @Inject
-    private IReflectionQuestion reflectionQuestionService;
+    private Lock lock;
+
 
     @POST
     @Path("/full")
@@ -82,27 +67,20 @@ public class SubmissionService {
 
         final FullSubmission fullSubmission = dossierCreationProcess.addDossier(fullSubmissionPostRequest, userEmail,
                 user, project);
+        lock.deleteLockInDB(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId());
         return Response.ok(fullSubmission).build();
     }
 
     @GET
     @Path("/full/{id}")
     public Response getFullSubmission(@PathParam("id") String fullSubmissionId) {
-
         // get full submission from database based by id
-
         FullSubmission fullSubmission = submissionController.getFullSubmission(fullSubmissionId);
-
-        if (fullSubmission != null) {
-            return Response.ok(fullSubmission).build();
-        } else {
-            // declare response
-            SubmissionResponse response = new SubmissionResponse();
-            String message = String.format("Submission with the id '%s' can't be found", fullSubmissionId);
-            response.setMessage(message);
-
-            return Response.status(Response.Status.NOT_FOUND).entity(response).build();
+        if (lock.checkIfLocked(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId())) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
+        lock.lock(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId());
+        return Response.ok(fullSubmission).build();
     }
 
     @GET
@@ -113,10 +91,10 @@ public class SubmissionService {
                                       @QueryParam("version") Integer version) {
         Project project = new Project(projectName);
         FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project, fileRole, version);
-
-        if (Objects.isNull(fullSubmission)) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        if (lock.checkIfLocked(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId())) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
+        lock.lock(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId());
         return Response.ok(fullSubmission).build();
     }
 
@@ -129,10 +107,10 @@ public class SubmissionService {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         User user = userDAO.getUserByEmail(userEmail);
 
-        // save full submission request in database and return the new full submissiom
+        // save full submission request in database and return the new full submission
         final FullSubmission fullSubmission = dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, user,
                 new Project(fullSubmissionPostRequest.getProjectName()), finalize);
-
+        lock.deleteLockInDB(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId());
         return Response.ok(fullSubmission).build();
     }
 
