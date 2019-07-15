@@ -35,6 +35,30 @@ function updateView(project) {
     $("#skipGroupPhase").click(function () {
         doPhaseSpell(selectedProject.name, "GroupFormation");
     });
+
+    $("#uploadDossierButton").unbind();
+    $("#uploadDossierButton").click(function () {
+        doSpell(selectedProject.name, "UPLOAD_DOSSIER");
+    });
+
+    $("#annotateDossierButton").unbind();
+    $("#annotateDossierButton").click(function () {
+        doSpell(selectedProject.name, "ANNOTATE_DOSSIER");
+    });
+    $("#giveFeedbackButton").unbind();
+    $("#giveFeedbackButton").click(function () {
+        doSpell(selectedProject.name, "GIVE_FEEDBACK");
+    });
+    $("#finalizeDossierButton").unbind();
+    $("#finalizeDossierButton").click(function () {
+        doSpell(selectedProject.name, "REEDIT_DOSSIER");
+    });
+
+    $("#skipDossierPhase").unbind();
+    $("#skipDossierPhase").click(function () {
+        doPhaseSpell(selectedProject.name, "DossierFeedback");
+    });
+
     updateState();
 }
 

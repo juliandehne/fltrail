@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.wizard;
 
 import com.itextpdf.text.DocumentException;
 import de.svenjacobs.loremipsum.LoremIpsum;
+import org.codehaus.jackson.map.ObjectMapper;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.interfaces.IGroupFinding;
@@ -18,8 +19,10 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.modules.wizard.compbase.ConceptImporter;
 import unipotsdam.gf.modules.wizard.compbase.TomcatConceptImporter;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
@@ -70,6 +73,9 @@ public class Wizard {
 
     @Inject
     IGroupFinding groupFinding;
+
+    @Inject
+    SubmissionController submissionController;
 
     private LoremIpsum loremIpsum;
     private PodamFactoryImpl factory = new PodamFactoryImpl();
@@ -323,20 +329,29 @@ public class Wizard {
     }
 
     public void createDossiers(Project project) throws IOException, DocumentException {
-        //List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
-        List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
-        for (Group group : groupsByProjectName) {
-            // add first submission
-            User representativUser = groupDAO.getRepresentativUser(group, project);
-            String text = loremIpsum.getWords(500);
-            FullSubmissionPostRequest submission = new FullSubmissionPostRequest(group, text, FileRole.DOSSIER, project);
-            FullSubmission fullSubmission =
-                    dossierCreationProcess.addDossier(submission, null, representativUser, project);
-            submission.setId(fullSubmission.getId());
+        if (submissionController.getAllGroupsWithDossierUploaded(project).size() == 0) {
+            List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
+            for (Group group : groupsByProjectName) {
+                // add first submission
+                User representativUser = groupDAO.getRepresentativUser(group, project);
+                // we have to persist it in quill js style
+                String text = loremIpsum.getWords(500);
+              /*  HashMap<String, String> quillJsContents = new HashMap<>();
+                quillJsContents.put("insert", text);
+                ObjectMapper mapper = new ObjectMapper();
+                String quillText = mapper.writeValueAsString(quillJsContents);*/
 
-            // add finalized submission
-            dossierCreationProcess.updateSubmission(submission, representativUser, project, true);
-
+                String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).get();
+                FullSubmissionPostRequest submission =
+                        new FullSubmissionPostRequest(group, text, FileRole.DOSSIER, project, Visibility.PUBLIC,
+                                title);
+                // TODO @Axel ich verstehe noch nicht, warum FullSubmissionPostRequest sowohl ein Text als auch ein HMTL
+                // Feld hat
+                submission.setText(text);
+                FullSubmission fullSubmission =
+                        dossierCreationProcess.addDossier(submission, representativUser, project);
+                submission.setId(fullSubmission.getId());
+            }
         }
         // TODO implement
     }
@@ -346,11 +361,25 @@ public class Wizard {
     }
 
     public void generateFeedbacks(Project project) {
+        if (submissionController.getAllGroupsWithFinalizedFeedback(project).size() == 0) {
+
+        }
         // TODO implement
     }
 
-    public void finalizeDossiers(Project project) {
-        // TODO implement
+    public void finalizeDossiers(Project project) throws IOException, DocumentException {
+        if (submissionController.getAllGroupsWithFinalizedDossier(project).size() == 0) {
+            List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
+            for (Group group : groupsByProjectName) {
+                User representativUser = groupDAO.getRepresentativUser(group, project);
+                FullSubmission fullSubmissionBy =
+                        submissionController.getFullSubmissionBy(group.getId(), project, FileRole.DOSSIER, 0);
+                FullSubmissionPostRequest fullSubmissionPostRequest =
+                        new FullSubmissionPostRequest(group, fullSubmissionBy.getText(), fullSubmissionBy.getFileRole(),
+                                project, fullSubmissionBy.getVisibility(), fullSubmissionBy.getHeader());
+                dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, representativUser, project, true);
+            }
+        }
     }
 
     public void generatePresentationsForAllGroupsAndUploadThem(Project project) {

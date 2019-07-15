@@ -3,6 +3,7 @@
 
 <%--<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>--%>
 <%
+    // das hier ist ein Problem, wenn es keine Session gibt!! TODO
     TagUtilities tu = new TagUtilities();
     String fileRole = tu.getParamterFromQuery("fileRole", request);
     if (fileRole == null) {

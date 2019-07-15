@@ -116,11 +116,14 @@ public class ProjectDAO {
         return result;
     }
 
-    public Project getProjectByName(String name) {
+    public Project getProjectByName(String name) throws Exception {
         connect.connect();
         String mysqlRequest = "SELECT * FROM projects where name = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, name);
         boolean next = vereinfachtesResultSet.next();
+        if (!next) {
+            throw new Exception("Project does not exist");
+        }
         Project result = getProject(vereinfachtesResultSet, next);
         List<String> tags = getTags(result);
         if (tags != null) {
@@ -156,14 +159,16 @@ public class ProjectDAO {
     }
 
     public java.util.List<String> getTags(Project project) {
+        List<String> result = new ArrayList<>();
         connect.connect();
         String mysqlRequest = "SELECT t.tag from tags t where t.projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getName());
 
-        List<String> result = new ArrayList<>();
 
-        while (vereinfachtesResultSet.next()) {
-            result.add(vereinfachtesResultSet.getString("tag"));
+        if (vereinfachtesResultSet != null) {
+            while (vereinfachtesResultSet.next()) {
+                result.add(vereinfachtesResultSet.getString("tag"));
+            }
         }
         connect.close();
         return result;

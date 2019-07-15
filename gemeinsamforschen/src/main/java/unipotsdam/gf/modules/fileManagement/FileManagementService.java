@@ -249,7 +249,12 @@ public class FileManagementService {
     List<ContributionStorage> getListOfFiles(HttpServletRequest req, String projectName) throws IOException {
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
-        Project project = projectDAO.getProjectByName(projectName);
+        Project project = null;
+        try {
+            project = projectDAO.getProjectByName(projectName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         boolean isAuthor = (userEmail.equals(project.getAuthorEmail()));
         return fileManagementDAO.getListOfFiles(user, project, isAuthor);
     }
@@ -285,7 +290,12 @@ public class FileManagementService {
             throws IOException, CssResolverException, DocumentException {
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
-        Project project = projectDAO.getProjectByName(projectName);
+        Project project = null;
+        try {
+            project = projectDAO.getProjectByName(projectName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         deleteFiles(project, user, fileRole);
 

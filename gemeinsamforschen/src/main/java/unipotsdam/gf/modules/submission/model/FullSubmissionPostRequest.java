@@ -15,6 +15,7 @@ public class FullSubmissionPostRequest {
     // variables
     private Integer groupId;
     private boolean personal;
+    // TODO should this be named title?
     private String header;
     private String text;
     private String html;
@@ -30,12 +31,15 @@ public class FullSubmissionPostRequest {
     public FullSubmissionPostRequest() {
     }
 
-    public FullSubmissionPostRequest(Group group, String text, FileRole fileRole, Project project) {
+    public FullSubmissionPostRequest(Group group, String html, FileRole fileRole, Project project, Visibility
+            visibility, String header) {
         this.groupId = group.getId();
-        this.text = text;
+        this.html = html;
         this.fileRole = fileRole;
         this.personal = false;
         this.projectName = project.getName();
+        this.visibility = visibility;
+        this.header = header;
     }
 
     public String getHeader() {

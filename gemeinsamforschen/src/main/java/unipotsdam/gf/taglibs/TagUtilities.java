@@ -68,6 +68,11 @@ public class TagUtilities {
     }
 
     public Phase getPhase(String projectName) {
-        return projectDAO.getProjectByName(projectName).getPhase();
+        try {
+            return projectDAO.getProjectByName(projectName).getPhase();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

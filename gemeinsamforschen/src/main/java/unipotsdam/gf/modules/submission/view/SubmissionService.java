@@ -69,7 +69,7 @@ public class SubmissionService {
 
 
         final FullSubmission fullSubmission =
-                dossierCreationProcess.addDossier(fullSubmissionPostRequest, userEmail, user, project);
+                dossierCreationProcess.addDossier(fullSubmissionPostRequest, user, project);
         lock.deleteLockInDB(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId());
         return Response.ok(fullSubmission).build();
     }
@@ -98,12 +98,13 @@ public class SubmissionService {
             @QueryParam("version") Integer version) throws IOException {
         Project project = new Project(projectName);
         FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project, fileRole, version);
-        if (fullSubmission != null && lock.checkIfLocked(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId())) {
+
+        // kjhlkjhlkjhlkjlk
+        /* if (fullSubmission != null && lock.checkIfLocked(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId())) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
-        }
-        User userFromSession = gfContexts.getUserFromSession(req);
-        Group myGroup = groupDAO.getMyGroup(userFromSession, new Project(projectName));
-        lock.lock(TaskName.UPLOAD_DOSSIER, myGroup.getId());
+        }*/
+
+        lock.lock(TaskName.UPLOAD_DOSSIER, groupId);
         return Response.ok(fullSubmission).build();
     }
 

@@ -62,7 +62,7 @@ public class PhaseView {
     @Path("/projects/{projectName}")
     @GET
     @Produces({MediaType.TEXT_PLAIN})
-    public String getCurrentPhase(@PathParam("projectName") String projectName) {
+    public String getCurrentPhase(@PathParam("projectName") String projectName) throws Exception {
         String result = projectDAO.getProjectByName(projectName).getPhase().toString();
         return result;
     }
@@ -70,7 +70,7 @@ public class PhaseView {
     @Path("/projects/{projectName}/closed")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public java.util.List<String> getClosedPhase(@PathParam("projectName") String projectName) {
+    public java.util.List<String> getClosedPhase(@PathParam("projectName") String projectName) throws Exception {
         Phase phase = projectDAO.getProjectByName(projectName).getPhase();
         List<Phase> previousPhases = phases.getPreviousPhases(phase);
         List<String> result =  previousPhases.stream().map(Enum::toString).collect(Collectors.toList());

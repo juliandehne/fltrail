@@ -507,13 +507,13 @@ CREATE TABLE `tasklock` (
 --
 
 CREATE TABLE `tasks` (
-  `userEmail` varchar(255) NOT NULL,
+  `userEmail` varchar(255) NULL,
   `projectName` varchar(200) NOT NULL,
-  `taskName` varchar(100) DEFAULT NULL,
-  `groupTask` tinyint(4) DEFAULT NULL,
+  `taskName` varchar(100) NOT NULL,
+  `groupTask` int DEFAULT NULL,
   `importance` varchar(100) DEFAULT NULL,
-  `progress` varchar(100) DEFAULT NULL,
-  `phase` varchar(100) DEFAULT NULL,
+  `progress` varchar(100) NOT NULL,
+  `phase` varchar(100) NOT NULL,
   `created` bigint(20) NOT NULL,
   `due` timestamp NULL DEFAULT NULL,
   `taskMode2` varchar(100) DEFAULT NULL,
@@ -778,7 +778,8 @@ ALTER TABLE `tasklock`
 -- Indizes für die Tabelle `tasks`
 --
 ALTER TABLE `tasks`
-  ADD UNIQUE KEY `tasks_userEmail_projectName_taskName_uindex` (`userEmail`,`projectName`,`taskName`,`groupTask`),
+  ADD UNIQUE KEY `tasks_userEmail_projectName_taskName_groupTask_uindex` (`userEmail`,`projectName`,`taskName`,
+  `groupTask`),
   ADD KEY `tasks_projects_name_fk` (`projectName`);
 
 --
@@ -1000,3 +1001,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+

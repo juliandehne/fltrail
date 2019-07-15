@@ -88,20 +88,19 @@ public class DossierCreationProcess {
     /**
      *
      * add the initial dossier
-     * @param fullSubmissionPostRequest
-     * @param userEmail
+     * @param fullSubmissionPostRequest*
      * @param user
      * @param project
      * @return
      */
     @WizardRelevant
     public FullSubmission addDossier(
-            FullSubmissionPostRequest fullSubmissionPostRequest, String userEmail, User user, Project project) {
+            FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) {
         if (fullSubmissionPostRequest.isPersonal()) {
-            fullSubmissionPostRequest.setUserEMail(userEmail);
+            fullSubmissionPostRequest.setUserEMail(user.getEmail());
         }
 
-        final FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest);
+        final FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest, 0);
         fileManagementService.deleteFiles(project, user, fullSubmission.getFileRole());
         switch (fullSubmission.getFileRole()) {
             case DOSSIER:

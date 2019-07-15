@@ -45,10 +45,10 @@ public class SubmissionController implements ISubmission, HasProgress {
     @Inject
     private ProjectDAO projectDAO;
 
-    @Override
+ /*   @Override
     public FullSubmission addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest) {
         return addFullSubmission(fullSubmissionPostRequest, 0);
-    }
+    }*/
 
     @Override
     public FullSubmission addFullSubmission(FullSubmissionPostRequest fullSubmissionPostRequest, Integer version) {

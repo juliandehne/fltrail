@@ -109,7 +109,12 @@ public class TaskDAO {
 
     private Task getTaskWaitForParticipants(VereinfachtesResultSet vereinfachtesResultSet) {
         Task task = getGeneralTask(vereinfachtesResultSet);
-        Project project = projectDAO.getProjectByName(vereinfachtesResultSet.getString("projectName"));
+        Project project = null;
+        try {
+            project = projectDAO.getProjectByName(vereinfachtesResultSet.getString("projectName"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ProjectStatus projectStatus = projectDAO.getParticipantCount(project);
         projectStatus.setParticipantsNeeded(groupFinding.getMinNumberOfStudentsNeeded(project));
         Map<String, Object> taskData = new HashMap<>();
@@ -478,7 +483,12 @@ public class TaskDAO {
     }
 
     public void persistTeacherTask(Project project, TaskName taskName, Phase phase) {
-        User user = new User(projectDAO.getProjectByName(project.getName()).getAuthorEmail());
+        User user = null;
+        try {
+            user = new User(projectDAO.getProjectByName(project.getName()).getAuthorEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Task aDefault = createUserDefault(project, user, taskName, phase);
         ////////don't know yet if it should happen here//////////
         aDefault.setTaskType(TaskType.LINKED);

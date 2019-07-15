@@ -60,7 +60,8 @@ public class ProjectView {
 
     @POST
     @Path("/update/project/{projectName}/groupSize/{groupSize}")
-    public String updateGroupSize(@Context HttpServletRequest req, @PathParam("groupSize") Integer groupSize, @PathParam("projectName") String projectName){
+    public String updateGroupSize(@Context HttpServletRequest req, @PathParam("groupSize") Integer groupSize, @PathParam("projectName") String projectName)
+            throws Exception {
         Project project = projectDAO.getProjectByName(projectName);
         projectDAO.updateGroupSize(project, groupSize);
         return "success";
@@ -146,8 +147,7 @@ public class ProjectView {
     @Path("/login/{projectName}")
     public String register(
             @Context HttpServletRequest req, @PathParam("projectName") String projectName,
-            @QueryParam("password") String password)
-            throws IOException, RocketChatDownException, UserDoesNotExistInRocketChatException {
+            @QueryParam("password") String password) throws Exception {
         User user = gfContexts.getUserFromSession(req);
         Project project = projectDAO.getProjectByName(projectName);
         if (project == null) {

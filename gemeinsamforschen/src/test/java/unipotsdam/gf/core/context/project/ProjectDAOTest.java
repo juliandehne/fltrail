@@ -79,7 +79,7 @@ public class ProjectDAOTest {
     }
 
     @Test
-    public void testGetProjectById() {
+    public void testGetProjectById() throws Exception {
         projectDAO.persist(project);
         Project projectActual = projectDAO.getProjectByName(project.getName());
 

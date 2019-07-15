@@ -120,7 +120,7 @@ public class GroupView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/gfm/projects/{projectName}")
-    public Map<String, String> getGFM(@PathParam("projectName") String projectName) {
+    public Map<String, String> getGFM(@PathParam("projectName") String projectName) throws Exception {
         Project project = projectDAO.getProjectByName(projectName);
         GroupFormationMechanism gfm = groupFormationProcess.getGFMByProject(project);
         Map<String,String> result = new HashMap<>();
@@ -131,13 +131,14 @@ public class GroupView {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/get/projects/{projectName}")
-    public List<Group> getGroups(@PathParam("projectName") String projectName) {
+    public List<Group> getGroups(@PathParam("projectName") String projectName) throws Exception {
         return groupfinding.getGroups(projectDAO.getProjectByName(projectName));
     }
 
     @GET
     @Path("/get/groupId/projects/{projectName}")
-    public Integer getMyGroupId(@PathParam("projectName") String projectName, @Context HttpServletRequest req) {
+    public Integer getMyGroupId(@PathParam("projectName") String projectName, @Context HttpServletRequest req)
+            throws Exception {
         User user = new User((String) req.getSession().getAttribute("userEmail"));
         return groupfinding.getMyGroupId(user, projectDAO.getProjectByName(projectName));
     }
@@ -155,8 +156,7 @@ public class GroupView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/projects/{projectName}/groups/save")
     public void finalizeGroups(@PathParam("projectName") String  projectName, Group[] groups,
-                               @QueryParam("manipulated") String isManipulated)
-            throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+                               @QueryParam("manipulated") String isManipulated) throws Exception {
 
         Project project = projectDAO.getProjectByName(projectName);
         project.setGroupWorkContext(profileDAO.getGroupWorkContext(project));

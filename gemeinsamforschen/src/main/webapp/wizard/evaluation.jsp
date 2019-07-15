@@ -72,7 +72,8 @@
                         finalisieren Dossier</span></div>
                 </div>
                 <div class="row">
-                    <div class="col" style="margin-top: 10px;"><button disabled class="btn btn-primary dossierButton" type="button"
+                    <div class="col" style="margin-top: 10px;"><button id="skipDossierPhase" disabled
+                                                                        class="btn btn-primary dossierButton" type="button"
                                                                        style="width: 200px;">Phase
                         überspringen</button><span style="margin: 20px;">Phase überspringen</span></div>
                 </div>

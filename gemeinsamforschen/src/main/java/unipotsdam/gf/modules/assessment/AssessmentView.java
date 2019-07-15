@@ -48,7 +48,7 @@ public class AssessmentView {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/groupRate/project/{projectName}")
     public Integer whichGroupToRate(@PathParam("projectName") String projectName, @Context HttpServletRequest req)
-            throws IOException {
+            throws Exception {
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Project project = projectDAO.getProjectByName(projectName);
@@ -62,7 +62,7 @@ public class AssessmentView {
     @Path("/contributions/project/{projectName}/groupId/{groupId}")
     public List<FullContribution> getContributionsForProject(
             @Context HttpServletRequest req, @PathParam("projectName") String projectName,
-            @PathParam("groupId") String groupId) {
+            @PathParam("groupId") String groupId) throws Exception {
         List<FullContribution> result;
         Project project = projectDAO.getProjectByName(projectName);
         //Integer groupId = peer.whichGroupToRate(project, user);

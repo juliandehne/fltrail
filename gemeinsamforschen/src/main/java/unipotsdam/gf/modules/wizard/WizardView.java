@@ -3,14 +3,13 @@ package unipotsdam.gf.modules.wizard;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.process.phases.Phase;
+import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,11 +51,22 @@ public class WizardView {
     @GET
     @Path("/projects/{projectName}/tasksFinished")
     @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
-    public java.util.List<String> getFinishedRelevantTasks(@PathParam("projectName") String projectName) {
+    public java.util.List<String> getFinishedRelevantTasks(@PathParam("projectName") String projectName)
+            throws Exception {
 
         Project projectByName = projectDAO.getProjectByName(projectName);
         List<TaskName> wizardrelevantTaskStatus = wizardDao.getWizardrelevantTaskStatus(projectByName);
         return wizardrelevantTaskStatus.stream().map(Enum::name).collect(Collectors.toList());
+    }
+
+    @GET
+    @Path("/projects/{projectName}/state")
+    @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+    public HashMap<TaskName, Progress> getRelevantTasksStatus(@PathParam("projectName") String projectName)
+            throws Exception {
+        Project projectByName = projectDAO.getProjectByName(projectName);
+        HashMap<TaskName, Progress> wizardrelevantTaskStatus = wizardDao.getWizardrelevantTaskMap(projectByName);
+        return  wizardrelevantTaskStatus;
     }
 
 

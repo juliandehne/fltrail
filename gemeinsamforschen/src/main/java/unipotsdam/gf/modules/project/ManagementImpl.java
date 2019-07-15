@@ -136,7 +136,12 @@ public class ManagementImpl implements Management {
         List<Project> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, authorEmail);
         while (vereinfachtesResultSet.next()) {
-            Project project = projectDAO.getProjectByName(vereinfachtesResultSet.getString("name"));
+            Project project = null;
+            try {
+                project = projectDAO.getProjectByName(vereinfachtesResultSet.getString("name"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             result.add(project);
         }
         connect.close();
@@ -155,7 +160,11 @@ public class ManagementImpl implements Management {
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, user.getEmail());
         while (vereinfachtesResultSet.next()) {
             String project = vereinfachtesResultSet.getString("projectName");
-            result.add(projectDAO.getProjectByName(project));
+            try {
+                result.add(projectDAO.getProjectByName(project));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         connect.close();
         return result;
@@ -170,7 +179,11 @@ public class ManagementImpl implements Management {
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Phase.GroupFormation);
         while (vereinfachtesResultSet.next()) {
             String project = vereinfachtesResultSet.getString("name");
-            result.add(projectDAO.getProjectByName(project));
+            try {
+                result.add(projectDAO.getProjectByName(project));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         connect.close();
         return result;
@@ -191,7 +204,12 @@ public class ManagementImpl implements Management {
 
     @Override
     public Project getProjectByName(String projectName) {
-        return projectDAO.getProjectByName(projectName);
+        try {
+            return projectDAO.getProjectByName(projectName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

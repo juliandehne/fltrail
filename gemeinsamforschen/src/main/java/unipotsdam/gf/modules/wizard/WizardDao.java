@@ -11,6 +11,7 @@ import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,8 +50,55 @@ public class WizardDao {
     }
 
     public List<TaskName> getWizardrelevantTaskStatus(Project project) {
-        ArrayList<TaskName> relevantTasks = new ArrayList<>();
         //relevantTasks.add(TaskName.WAITING_FOR_GROUP);
+        String concatenatedString = getRelevantTaskList();
+        String query = "SELECT * from tasks t" +
+                " where t.taskName in ("+concatenatedString+")" +
+                " and t.progress = ?" +
+                " and t.projectName = ? GROUP by (t.taskName)";
+
+        ArrayList<TaskName> result = new ArrayList<>();
+        connect.connect();
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(query, Progress.FINISHED.name(), project.getName());
+        while (vereinfachtesResultSet.next())
+            result.add(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
+        connect.close();
+
+        /**
+         * we are currently rarely using INPROGRESS as a state, that is the reson for the workaround
+         */
+        if (projectDAO.getParticipantCount(project).getParticipants() > 5) {
+            result.add(TaskName.WAIT_FOR_PARTICPANTS);
+        }
+
+        return result;
+    }
+
+    public HashMap<TaskName, Progress> getWizardrelevantTaskMap(Project project) {
+        HashMap<TaskName, Progress> result = new HashMap<>();
+        //relevantTasks.add(TaskName.WAITING_FOR_GROUP);
+        String concatenatedString = getRelevantTaskList();
+
+        String query = "SELECT * from tasks t" +
+                " where t.taskName in ("+concatenatedString+")" +
+                " and t.projectName = ? GROUP by (t.taskName)";
+
+        connect.connect();
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(query, project.getName());
+        while (vereinfachtesResultSet.next()) {
+            String taskName = vereinfachtesResultSet.getString("taskName");
+            String progress = vereinfachtesResultSet.getString("t.progress");
+            result.put(TaskName.valueOf(taskName), Progress.valueOf(progress));
+        }
+        connect.close();
+
+        return result;
+    }
+
+    public String getRelevantTaskList() {
+        ArrayList<TaskName> relevantTasks = new ArrayList<>();
         relevantTasks.add(TaskName.WAIT_FOR_PARTICPANTS);
         relevantTasks.add(TaskName.UPLOAD_DOSSIER);
         relevantTasks.add(TaskName.ANNOTATE_DOSSIER);
@@ -65,28 +113,6 @@ public class WizardDao {
         List<String> stringList = relevantTasks.stream().map(Enum::name).collect(Collectors.toList());
 
         MysqlUtil mysqlUtil = new MysqlUtil();
-        String concatenatedString = mysqlUtil.createConcatenatedString(stringList);
-
-        String query = "SELECT * from tasks t" +
-                " where t.taskName in ("+concatenatedString+")" +
-                " and t.progress = ?" +
-                " and t.projectName = ? GROUP by (t.taskName)";
-
-        ArrayList<TaskName> result = new ArrayList<>();
-        connect.connect();
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(query, Progress.FINISHED.name(), project.getName());
-        while (vereinfachtesResultSet.next())
-            relevantTasks.add(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
-        connect.close();
-
-        /**
-         * we are currently not using INPROGRESS as a state, that is the reson for the workaround
-         */
-        if (projectDAO.getParticipantCount(project).getParticipants() > 5) {
-            result.add(TaskName.WAIT_FOR_PARTICPANTS);
-        }
-
-        return result;
+        return mysqlUtil.createConcatenatedString(stringList);
     }
 }

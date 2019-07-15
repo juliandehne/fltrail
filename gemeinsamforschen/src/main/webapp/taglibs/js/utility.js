@@ -277,7 +277,17 @@ function getFullSubmissionOfGroup(groupId, version) {
 }
 
 function setQuillContentFromFullSubmission(fullSubmission) {
-    quill.setContents(JSON.parse(fullSubmission.text));
+    let text = fullSubmission.text;
+    if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
+    replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+    replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+        //the json is ok
+        let content = JSON.parse(text);
+        quill.setContents(content);
+    }else{
+        quill.setText(text);
+    }
+
 }
 
 function calculateHierachy(level) {

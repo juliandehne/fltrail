@@ -290,7 +290,7 @@ public class GroupDAO {
         connect.connect();
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT pu.userEmail from groupuser gu ");
-        builder.append("join projectuser pu on pu.userEmail = groupuser.userEmail ");
+        builder.append("join projectuser pu on pu.userEmail = gu.userEmail ");
         builder.append("where gu.groupId = ? ");
         builder.append("and pu.projectName = ? ");
         builder.append("LIMIT 1");

@@ -20,8 +20,8 @@ public interface ISubmission {
      *
      * @param request The full submission post request
      * @return The new full submission
-     */
-    FullSubmission addFullSubmission(FullSubmissionPostRequest request);
+     *//*
+    FullSubmission addFullSubmission(FullSubmissionPostRequest request);*/
 
     /**
      * Store the full submission text in the database

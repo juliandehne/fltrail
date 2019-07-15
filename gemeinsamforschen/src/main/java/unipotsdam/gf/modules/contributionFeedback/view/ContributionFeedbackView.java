@@ -104,7 +104,8 @@ public class ContributionFeedbackView {
     @GET
     @Path("/feedbackTarget/projectName/{projectName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getFeedBackTarget(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
+    public Response getFeedBackTarget(@Context HttpServletRequest req, @PathParam("projectName") String projectName)
+            throws Exception {
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Project project = projectDAO.getProjectByName(projectName);
