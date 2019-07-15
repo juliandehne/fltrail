@@ -1,8 +1,10 @@
 package unipotsdam.gf.modules.submission.view;
 
+import ch.qos.logback.core.util.ContextUtil;
 import com.itextpdf.text.DocumentException;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
@@ -11,6 +13,7 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 import unipotsdam.gf.session.Lock;
 
@@ -56,8 +59,8 @@ public class SubmissionService {
 
     @POST
     @Path("/full")
-    public Response addFullSubmission(@Context HttpServletRequest req,
-                                      FullSubmissionPostRequest fullSubmissionPostRequest) {
+    public Response addFullSubmission(
+            @Context HttpServletRequest req, FullSubmissionPostRequest fullSubmissionPostRequest) {
         // save full submission request in database and return the new full submission
 
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
@@ -65,45 +68,50 @@ public class SubmissionService {
         Project project = new Project(fullSubmissionPostRequest.getProjectName());
 
 
-        final FullSubmission fullSubmission = dossierCreationProcess.addDossier(fullSubmissionPostRequest, userEmail,
-                user, project);
+        final FullSubmission fullSubmission =
+                dossierCreationProcess.addDossier(fullSubmissionPostRequest, userEmail, user, project);
         lock.deleteLockInDB(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId());
         return Response.ok(fullSubmission).build();
     }
 
     @GET
     @Path("/full/{id}")
-    public Response getFullSubmission(@PathParam("id") String fullSubmissionId) {
+    public Response getFullSubmission(@PathParam("id") String fullSubmissionId)
+            throws IOException {
         // get full submission from database based by id
         FullSubmission fullSubmission = submissionController.getFullSubmission(fullSubmissionId);
-        if (lock.checkIfLocked(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId())) {
+        if (fullSubmission != null && lock.checkIfLocked(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId())) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
+        /*User userFromSession = gfContexts.getUserFromSession(req);
+        Group myGroup = groupDAO.getMyGroup(userFromSession, new Project(projectName));
+        */
         lock.lock(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId());
         return Response.ok(fullSubmission).build();
     }
 
     @GET
     @Path("/full/groupId/{groupId}/project/{projectName}/fileRole/{fileRole}")
-    public Response getFullSubmission(@PathParam("projectName") String projectName,
-                                      @PathParam("groupId") Integer groupId,
-                                      @PathParam("fileRole") FileRole fileRole,
-                                      @QueryParam("version") Integer version) {
+    public Response getFullSubmission(
+            @Context HttpServletRequest req, @PathParam("projectName") String projectName,
+            @PathParam("groupId") Integer groupId, @PathParam("fileRole") FileRole fileRole,
+            @QueryParam("version") Integer version) throws IOException {
         Project project = new Project(projectName);
         FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project, fileRole, version);
-        if (lock.checkIfLocked(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId())) {
+        if (fullSubmission != null && lock.checkIfLocked(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId())) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        lock.lock(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId());
+        User userFromSession = gfContexts.getUserFromSession(req);
+        Group myGroup = groupDAO.getMyGroup(userFromSession, new Project(projectName));
+        lock.lock(TaskName.UPLOAD_DOSSIER, myGroup.getId());
         return Response.ok(fullSubmission).build();
     }
 
     @POST
     @Path("/full/update")
-    public Response updateFullSubmission(@Context HttpServletRequest req,
-                                         FullSubmissionPostRequest fullSubmissionPostRequest,
-                                         @QueryParam("finalize") Boolean finalize)
-            throws IOException, DocumentException {
+    public Response updateFullSubmission(
+            @Context HttpServletRequest req, FullSubmissionPostRequest fullSubmissionPostRequest,
+            @QueryParam("finalize") Boolean finalize) throws IOException, DocumentException {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         User user = userDAO.getUserByEmail(userEmail);
 
@@ -124,18 +132,20 @@ public class SubmissionService {
 
     @GET
     @Path("/full/{id}/category/{category}")
-    public Response getSubmissionPart(@PathParam("id") String fullSubmissionId, @PathParam("category") String category) {
+    public Response getSubmissionPart(
+            @PathParam("id") String fullSubmissionId, @PathParam("category") String category) {
         // get submission part from database based by id
-        SubmissionPart submissionPart = submissionController.getSubmissionPart(fullSubmissionId,
-                category.toUpperCase());
+        SubmissionPart submissionPart =
+                submissionController.getSubmissionPart(fullSubmissionId, category.toUpperCase());
 
         if (submissionPart != null) {
             return Response.ok(submissionPart).build();
         } else {
             // declare response
             SubmissionResponse response = new SubmissionResponse();
-            response.setMessage("Submission part with the full submission id '" + fullSubmissionId +
-                    "' and the category '" + category.toUpperCase() + "' can't be found");
+            response.setMessage(
+                    "Submission part with the full submission id '" + fullSubmissionId + "' and the category '" + category
+                            .toUpperCase() + "' can't be found");
 
             return Response.status(Response.Status.NOT_FOUND).entity(response).build();
         }
@@ -162,7 +172,8 @@ public class SubmissionService {
     @Path("/project/{projectName}")
     public Response getSubmissionPartsByProjectId(@PathParam("projectName") String projectName) {
         // get submission project representation from database based by project id
-        ArrayList<SubmissionProjectRepresentation> representations = submissionController.getSubmissionPartsByProjectId(projectName);
+        ArrayList<SubmissionProjectRepresentation> representations =
+                submissionController.getSubmissionPartsByProjectId(projectName);
 
         if (representations.size() > 0) {
             return Response.ok(representations).build();
@@ -176,8 +187,9 @@ public class SubmissionService {
 
     @POST
     @Path("/id/{submissionId}/projects/{projectId}/finalize")
-    public void finalize(@PathParam("submissionId") String submissionId, @PathParam("projectId") String projectId,
-                         @Context HttpServletRequest req) {
+    public void finalize(
+            @PathParam("submissionId") String submissionId, @PathParam("projectId") String projectId,
+            @Context HttpServletRequest req) {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         dossierCreationProcess.finalizeDossier(submissionId, projectId, userEmail);
     }
@@ -205,12 +217,15 @@ public class SubmissionService {
     @GET
     @Path("portfolio")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPortfolioEntries(@Context HttpServletRequest req, @QueryParam("projectName") String projectName, @QueryParam("visibility") Visibility visibility) {
+    public Response getPortfolioEntries(
+            @Context HttpServletRequest req, @QueryParam("projectName") String projectName,
+            @QueryParam("visibility") Visibility visibility) {
         String userEmail;
         try {
             userEmail = gfContexts.getUserEmail(req);
         } catch (IOException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("userEmail not found in context").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("userEmail not found in context")
+                    .build();
         }
         Project project = new Project(projectName);
         User user = userDAO.getUserByEmail(userEmail);
@@ -221,16 +236,20 @@ public class SubmissionService {
         switch (visibility) {
             case DOCENT:
                 if (user.getStudent()) {
-                    fullSubmissionList = submissionController.getDocentViewableSubmissions(user, project, FileRole.PORTFOLIO);
+                    fullSubmissionList =
+                            submissionController.getDocentViewableSubmissions(user, project, FileRole.PORTFOLIO);
                 } else {
-                    fullSubmissionList = submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
+                    fullSubmissionList =
+                            submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
                 }
                 break;
             case PUBLIC:
-                fullSubmissionList = submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
+                fullSubmissionList =
+                        submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO, visibility);
                 break;
             case GROUP:
-                fullSubmissionList = submissionController.getGroupSubmissions(project, groupId, FileRole.PORTFOLIO, visibility);
+                fullSubmissionList =
+                        submissionController.getGroupSubmissions(project, groupId, FileRole.PORTFOLIO, visibility);
                 break;
             case PERSONAL:
                 fullSubmissionList = submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO);
@@ -245,7 +264,9 @@ public class SubmissionService {
     @PUT
     @Path("portfolio/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updatePortfolioEntry(@Context HttpServletRequest request, @PathParam("id") String id, FullSubmissionPostRequest fullSubmissionPostRequest) {
+    public Response updatePortfolioEntry(
+            @Context HttpServletRequest request, @PathParam("id") String id,
+            FullSubmissionPostRequest fullSubmissionPostRequest) {
         if (fullSubmissionPostRequest == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("fullSubmissionPostRequest is null").build();
         }

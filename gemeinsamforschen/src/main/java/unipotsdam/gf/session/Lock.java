@@ -15,6 +15,11 @@ public class Lock {
     MysqlConnect connection;
 
 
+    /**
+     * TODO @Axel this should take a group and not the group id,
+     * @param taskName
+     * @param groupId
+     */
     public void lock(TaskName taskName, Integer groupId) {
         lockTaskInDB(taskName, groupId);
     }

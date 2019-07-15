@@ -67,7 +67,6 @@ public class DossierCreationProcess {
     @Inject
     private IReflectionQuestion reflectionQuestionService;
 
-
     /**
      * start the Dossier Phase
      *
