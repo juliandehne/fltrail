@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.wizard;
 
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import de.svenjacobs.loremipsum.LoremIpsum;
 import org.codehaus.jackson.map.ObjectMapper;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
@@ -73,6 +74,9 @@ public class Wizard {
 
     @Inject
     SubmissionController submissionController;
+
+    @Inject
+    PeerAssessmentSimulation peerAssessmentSimulation;
 
     private LoremIpsum loremIpsum;
     private PodamFactoryImpl factory = new PodamFactoryImpl();
@@ -382,6 +386,7 @@ public class Wizard {
     }
 
     public void finalizeDossiers(Project project) throws Exception {
+        // TODO implement
         if (submissionController.getAllGroupsWithFinalizedDossier(project).size() == 0) {
             List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
             for (Group group : groupsByProjectName) {
@@ -407,24 +412,25 @@ public class Wizard {
         phases.endPhase(Phase.Execution, project, new User(project.getAuthorEmail()));
     }
 
-    public void generatePresentationsForAllGroupsAndUploadThem(Project project) {
-        // TODO implement
+    public void generatePresentationsForAllGroupsAndUploadThem(Project project)
+            throws CssResolverException, DocumentException, IOException {
+        peerAssessmentSimulation.generatePresentationsForAllGroupsAndUploadThem(project);
     }
 
-    public void generateFinalReportsForAllGroupsAndUploadThem(Project project) {
-        // TODO implement
+    public void generateFinalReportsForAllGroupsAndUploadThem(Project project) throws IOException, DocumentException {
+        peerAssessmentSimulation.generateFinalReportsForAllGroupsAndUploadThem(project);
     }
 
-    public void externalPeerAssessments(Project project) {
-        // TODO implement
+    public void externalPeerAssessments(Project project) throws Exception {
+        peerAssessmentSimulation.externalPeerAssessments(project);
     }
 
-    public void internalPeerAssessments(Project project) {
-        // TODO implement
+    public void internalPeerAssessments(Project project) throws Exception {
+        peerAssessmentSimulation.internalPeerAssessments(project);
     }
 
-    public void docentAssessments(Project project) {
-        // TODO implement
+    public void docentAssessments(Project project) throws Exception {
+        peerAssessmentSimulation.docentAssessments(project);
     }
 
     public List<WizardProject> getProjects() {
