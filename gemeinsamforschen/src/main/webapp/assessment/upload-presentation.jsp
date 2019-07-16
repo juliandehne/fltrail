@@ -34,6 +34,11 @@
 
     <!-- file upload -->
     <main>
+        <div id="unauthorized" hidden class="alert alert-warning unauthorized">
+            <p>
+                Ein anderes Gruppenmitglied lädt gerade eine Datei hoch.
+            </p>
+        </div>
         <div class="row group">
             <div class="col span_content span_2_of_2">
                 <h1>Präsentation hochladen</h1>

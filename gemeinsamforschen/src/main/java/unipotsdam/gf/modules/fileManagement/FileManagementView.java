@@ -4,9 +4,14 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.PeerAssessmentProcess;
+import unipotsdam.gf.process.tasks.TaskName;
 import unipotsdam.gf.session.GFContexts;
+import unipotsdam.gf.session.Lock;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +35,12 @@ public class FileManagementView {
     @Inject
     private GFContexts gfContexts;
 
+    @Inject
+    private Lock lock;
+
+    @Inject
+    private GroupDAO groupDAO;
+
     @POST
     @Path("/{fileRole}/projectName/{projectName}")
     @Produces("application/json")
@@ -38,6 +49,9 @@ public class FileManagementView {
                                @PathParam("fileRole") FileRole fileRole,
                                @FormDataParam("file") InputStream inputStream, @FormDataParam("file") FormDataContentDisposition fileDetail
     ) throws IOException, CssResolverException, DocumentException {
+        String userEmail = gfContexts.getUserEmail(req);
+        Group myGroup = groupDAO.getMyGroup(new User(userEmail), new Project(projectName));
+        lock.deleteLockInDB(TaskName.UPLOAD_PRESENTATION, myGroup);
         fileManagementService.uploadFile1(req, projectName, fileRole, inputStream, fileDetail);
         assessmentProcess.fileHasBeenUploaded(fileRole, gfContexts.getUserFromSession(req), new Project(projectName));
         return Response.ok().build();
@@ -69,5 +83,16 @@ public class FileManagementView {
         fileManagementService.deleteFile(fileLocation);
         //Respond that everything worked out
         return Response.ok("Data deletion successfull").build();
+    }
+
+    @GET
+    @Path("/isOccupied/project/{projectName}")
+    public Response isOccupied(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
+        String userEmail = gfContexts.getUserEmail(req);
+        Group myGroup = groupDAO.getMyGroup(new User(userEmail), new Project(projectName));
+        if (lock.lock(TaskName.UPLOAD_PRESENTATION, myGroup)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        return Response.ok().build();
     }
 }
