@@ -98,9 +98,6 @@ public class SubmissionService {
         if (fullSubmission != null && lock.lock(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()))) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        /*User userFromSession = gfContexts.getUserFromSession(req);
-        Group myGroup = groupDAO.getMyGroup(userFromSession, new Project(projectName));
-        */
         assert fullSubmission != null;
         lock.lock(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()));
         return Response.ok(fullSubmission).build();
@@ -114,6 +111,7 @@ public class SubmissionService {
             @QueryParam("version") Integer version) {
         Project project = new Project(projectName);
         FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project, fileRole, version);
+        //needed for ANNOTATE_DOSSIER, UPLOAD_DOSSIER, REEDIT_DOSSIER, GIVE_FEEDBACK, SEE_FEEDBACK
         if (fullSubmission != null && lock.lock(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()))) {
             return Response.status(Response.Status.UNAUTHORIZED).entity(fullSubmission).build();
         }

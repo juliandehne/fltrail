@@ -13,6 +13,7 @@
     <script src="../libs/jquery/jqueryValidate.js"></script>
     <!-- js - jQuery ui position -->
     <script src="../libs/jquery/jqueryUI.js" type="text/javascript"></script>
+    <script src="js/upload-final-report.js" type="text/javascript"></script>
 
     <!-- jsrender -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
@@ -34,6 +35,11 @@
 
     <!-- file upload -->
     <main>
+        <div id="unauthorized" hidden class="alert alert-warning unauthorized">
+            <p>
+                Ein anderes Gruppenmitglied lädt gerade eine Datei hoch.
+            </p>
+        </div>
         <div class="row group">
             <div class="col span_content span_2_of_2">
                 <h1>Abschlussbericht hochladen</h1>
