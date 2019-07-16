@@ -190,7 +190,7 @@ public class Wizard {
                 break;
             }
             case Execution: {
-
+                finalizeReflection(project);
             }
             case Assessment: {
                 generatePresentationsForAllGroupsAndUploadThem(project);
@@ -223,7 +223,6 @@ public class Wizard {
             simulatePhase(project, previousPhase);
         }
     }
-
 
     private List<TaskName> getPreviousTasks(TaskName taskName) {
         /*if (taskName.equals(TaskName.WAIT_FOR_PARTICPANTS)) {
@@ -354,6 +353,7 @@ public class Wizard {
     }
 
     public void annotateDossiers(Project project) {
+        //if (submissionController.get)
         // TODO implement
     }
 
@@ -364,7 +364,7 @@ public class Wizard {
         // TODO implement
     }
 
-    public void finalizeDossiers(Project project) throws IOException, DocumentException {
+    public void finalizeDossiers(Project project) throws Exception {
         if (submissionController.getAllGroupsWithFinalizedDossier(project).size() == 0) {
             List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
             for (Group group : groupsByProjectName) {
@@ -377,6 +377,17 @@ public class Wizard {
                 dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, representativUser, project, true);
             }
         }
+        if (project.getAuthorEmail() == null) {
+            throw new Exception("no author set!!");
+        }
+        phases.endPhase(Phase.DossierFeedback, project, new User(project.getAuthorEmail()));
+    }
+
+    public void finalizeReflection(Project project) throws Exception {
+        if (project.getAuthorEmail() == null) {
+            throw new Exception("no author set!!");
+        }
+        phases.endPhase(Phase.Execution, project, new User(project.getAuthorEmail()));
     }
 
     public void generatePresentationsForAllGroupsAndUploadThem(Project project) {

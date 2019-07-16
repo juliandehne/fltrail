@@ -54,13 +54,14 @@ public class WizardDao {
         String concatenatedString = getRelevantTaskList();
         String query = "SELECT * from tasks t" +
                 " where t.taskName in ("+concatenatedString+")" +
-                " and t.progress = ?" +
+                " and (t.progress = ?" +
+                " or t.progress = ?)" +
                 " and t.projectName = ? GROUP by (t.taskName)";
 
         ArrayList<TaskName> result = new ArrayList<>();
         connect.connect();
         VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(query, Progress.FINISHED.name(), project.getName());
+                connect.issueSelectStatement(query, Progress.FINISHED.name(), Progress.INPROGRESS.name(), project.getName());
         while (vereinfachtesResultSet.next())
             result.add(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
         connect.close();
