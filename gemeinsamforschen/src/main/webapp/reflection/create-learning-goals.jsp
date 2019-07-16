@@ -26,6 +26,10 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <main>
+        <div class="backlink">
+            <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
+                Aufgaben</i></a>
+        </div>
         <div id="creationTemplateResult"></div>
         <script id="creationTemplate" type="text/x-jsrender">
             <div/>
@@ -59,7 +63,8 @@
                             </div>
                         {{/if}}
                         {{if choseReflectionQuestion}}
-                            <button type="button" onClick='saveButtonPressed()' class="btn btn-primary col pull-right" id="saveButton">Speichern</button>
+                            <button type="button" onClick='addAdditionalLearningGoalPressed()' class="btn btn-primary col pull-right" id="saveButton">Weiteres Lernziel hinzufügen</button>
+                            <button type="button" onClick='saveButtonPressed()' class="btn btn-primary col pull-right" id="saveButton">Speichern und Beenden</button>
                         {{/if}}
                 </div>
             </div>
