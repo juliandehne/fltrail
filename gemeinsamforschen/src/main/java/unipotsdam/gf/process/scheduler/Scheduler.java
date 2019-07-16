@@ -11,17 +11,23 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @WebListener
 public class Scheduler implements ServletContextListener {
 
     private final Project project;
     private final EmailService emailService;
+    private org.quartz.Scheduler sched;
+    //private boolean shutDownLocker=false;
 
     private ScheduledExecutorService scheduler;
 
     public Scheduler() {
+        try {
+            this.sched = new StdSchedulerFactory().getScheduler();
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
         emailService = null;
         project = null;
     }
@@ -35,7 +41,7 @@ public class Scheduler implements ServletContextListener {
     public void start(ServletContextEvent servletContextEvent) {
         scheduler = Executors.newSingleThreadScheduledExecutor();
         //scheduler.schedule(new SendMails(project, emailService), 21 , TimeUnit.DAYS);
-        scheduler.schedule(new SendMails(project, emailService), 2 , TimeUnit.MINUTES);
+        //scheduler.schedule(new SendMails(project, emailService), 2 , TimeUnit.MINUTES);
     }
 
 
@@ -52,16 +58,13 @@ public class Scheduler implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        org.quartz.Scheduler sched;
         try {
-            sched = new StdSchedulerFactory().getScheduler();
             JobDetail job = JobBuilder.newJob(LockCronJob.class).withIdentity("TaskLocker", "group1").build();
             Trigger trigger = TriggerBuilder.newTrigger()
                     .withIdentity("trigger1", "group1")
                     .withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMinutes(5).repeatForever())
                     .build();
             sched.start();
-
             sched.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
             e.printStackTrace();
@@ -70,6 +73,11 @@ public class Scheduler implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        try {
+            sched.shutdown();
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
         //scheduler.shutdownNow();
     }
 }

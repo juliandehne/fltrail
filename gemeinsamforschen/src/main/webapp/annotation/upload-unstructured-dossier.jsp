@@ -55,6 +55,7 @@
 </head>
 
 <body>
+
 <div id="flex-wrapper">
     <jsp:include page="../taglibs/Menu.jsp">
         <jsp:param name="hierarchy" value="1"/>
@@ -66,6 +67,12 @@
             Aufgaben</i></a>
     </div>
     <main>
+        <div id="unauthorized" hidden class="alert alert-warning unauthorized">
+            <p>
+                Gerade wird dieses Dossier von einem Mitglied Ihrer Gruppe bearbeitet.<br>
+                Bitte versuchen Sie es in Kürze erneut.
+            </p>
+        </div>
         <div class="row group">
             <div class="col span_content span_l_of_2">
                 <div id="headerTemplateResult"></div>

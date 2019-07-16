@@ -62,8 +62,15 @@ function getFullSubmission(id, responseHandler, errorHandler) {
             // handle the response
             responseHandler(response);
         },
-        error: function () {
+        error: function (a, b, c) {
             // handle the error
+            if (c === "Unauthorized") {
+                let fullSubmission = a.responseJSON;
+                setQuillContentFromFullSubmission(fullSubmission);
+                setHeader(fullSubmission.header);
+                $("main").addClass("block");
+                $('#unauthorized').attr("hidden", false);
+            }
             if (errorHandler) {
                 errorHandler();
             }

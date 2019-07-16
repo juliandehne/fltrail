@@ -1,10 +1,8 @@
 package unipotsdam.gf.modules.submission.view;
 
-import ch.qos.logback.core.util.ContextUtil;
 import com.itextpdf.text.DocumentException;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.fileManagement.FileRole;
-import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
@@ -13,7 +11,6 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.tasks.TaskName;
-import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 import unipotsdam.gf.session.Lock;
 
@@ -70,23 +67,23 @@ public class SubmissionService {
 
         final FullSubmission fullSubmission =
                 dossierCreationProcess.addDossier(fullSubmissionPostRequest, user, project);
-        lock.deleteLockInDB(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId());
+        lock.deleteLockInDB(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()));
         return Response.ok(fullSubmission).build();
     }
 
     @GET
     @Path("/full/{id}")
-    public Response getFullSubmission(@PathParam("id") String fullSubmissionId)
-            throws IOException {
+    public Response getFullSubmission(@PathParam("id") String fullSubmissionId) {
         // get full submission from database based by id
         FullSubmission fullSubmission = submissionController.getFullSubmission(fullSubmissionId);
-        if (fullSubmission != null && lock.checkIfLocked(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId())) {
+        if (fullSubmission != null && lock.lock(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()))) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
         /*User userFromSession = gfContexts.getUserFromSession(req);
         Group myGroup = groupDAO.getMyGroup(userFromSession, new Project(projectName));
         */
-        lock.lock(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId());
+        assert fullSubmission != null;
+        lock.lock(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()));
         return Response.ok(fullSubmission).build();
     }
 
@@ -95,16 +92,13 @@ public class SubmissionService {
     public Response getFullSubmission(
             @Context HttpServletRequest req, @PathParam("projectName") String projectName,
             @PathParam("groupId") Integer groupId, @PathParam("fileRole") FileRole fileRole,
-            @QueryParam("version") Integer version) throws IOException {
+            @QueryParam("version") Integer version) {
         Project project = new Project(projectName);
         FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project, fileRole, version);
-
-        // kjhlkjhlkjhlkjlk
-        /* if (fullSubmission != null && lock.checkIfLocked(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId())) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
-        }*/
-
-        lock.lock(TaskName.UPLOAD_DOSSIER, groupId);
+        if (fullSubmission != null && lock.lock(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()))) {
+            return Response.status(Response.Status.UNAUTHORIZED).entity(fullSubmission).build();
+        }
+        lock.lock(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(groupId));
         return Response.ok(fullSubmission).build();
     }
 
@@ -119,7 +113,7 @@ public class SubmissionService {
         // save full submission request in database and return the new full submission
         final FullSubmission fullSubmission = dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, user,
                 new Project(fullSubmissionPostRequest.getProjectName()), finalize);
-        lock.deleteLockInDB(TaskName.UPLOAD_DOSSIER, fullSubmission.getGroupId());
+        lock.deleteLockInDB(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()));
         return Response.ok(fullSubmission).build();
     }
 
@@ -278,5 +272,4 @@ public class SubmissionService {
 
         return Response.ok().build();
     }
-
 }
