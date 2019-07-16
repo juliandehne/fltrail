@@ -19,6 +19,7 @@ public class FullSubmission {
     private String projectName;
     private Visibility visibility;
 
+
     public FullSubmission(String id, long timestamp, Integer groupId, String text, FileRole fileRole, String projectName, Visibility visibility) {
         this(id, timestamp, groupId, null, text, fileRole, projectName, visibility);
     }

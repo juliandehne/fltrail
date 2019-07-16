@@ -33,7 +33,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -307,7 +313,7 @@ public class FileManagementService {
                 //this can just be used for PDFs and PPTX, so: todo replace this with docx interface
                 saveFile(user, project, inputStream, fileDetail, FileRole.DOSSIER, FileType.UNKNOWN);
                 break;
-            case LEARNINGGOALS:
+            case LEARNING_GOAL_RESULT:
                 break;
             case EXTRA:
                 // seems not to be implemented TODO @Axel

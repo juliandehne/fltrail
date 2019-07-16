@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.reflection.view;
 
 import unipotsdam.gf.interfaces.IReflection;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
-import unipotsdam.gf.modules.reflection.model.LearningGoalResult;
+import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -28,11 +28,11 @@ public class GeneralReflectionView {
             return Response.status(Response.Status.BAD_REQUEST).entity("LearningGoalRequest was null").build();
         }
 
-        LearningGoalResult learningGoalResult = reflectionService.createLearningGoalWithQuestions(learningGoalRequest);
+        LearningGoalRequestResult learningGoalRequestResult = reflectionService.createLearningGoalWithQuestions(learningGoalRequest);
 
-        if (Objects.isNull(learningGoalResult)) {
+        if (Objects.isNull(learningGoalRequestResult)) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while saving learningGoal and reflection questions.").build();
         }
-        return Response.ok(learningGoalResult).build();
+        return Response.ok(learningGoalRequestResult).build();
     }
 }

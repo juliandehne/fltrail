@@ -5,7 +5,8 @@ import unipotsdam.gf.interfaces.IReflection;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.LearningGoal;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
-import unipotsdam.gf.modules.reflection.model.LearningGoalResult;
+import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
+import unipotsdam.gf.modules.reflection.model.LearningGoalStudentResult;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -26,7 +27,10 @@ public class ReflectionService implements IReflection {
     @Inject
     private UserDAO userDAO;
 
-    public LearningGoalResult createLearningGoalWithQuestions(LearningGoalRequest learningGoalRequest) {
+    @Inject
+    private LearningGoalStudentResultsDAO learningGoalStudentResultsDAO;
+
+    public LearningGoalRequestResult createLearningGoalWithQuestions(LearningGoalRequest learningGoalRequest) {
         Project project = new Project(learningGoalRequest.getProjectName());
         LearningGoal learningGoal = new LearningGoal(learningGoalRequest.getLearningGoal(), project);
         String learningGoalUuid = learningGoalsDAO.persist(learningGoal);
@@ -35,17 +39,27 @@ public class ReflectionService implements IReflection {
         }
         learningGoal.setId(learningGoalUuid);
         List<User> users = userDAO.getUsersByProjectName(learningGoalRequest.getProjectName());
-        LearningGoalResult learningGoalResult = new LearningGoalResult();
-        learningGoalResult.setLearningGoal(learningGoal);
+        LearningGoalRequestResult learningGoalRequestResult = new LearningGoalRequestResult();
+        learningGoalRequestResult.setLearningGoal(learningGoal);
         users.forEach(user -> {
             learningGoalRequest.getReflectionQuestions().forEach(storeItem -> {
                 ReflectionQuestion reflectionQuestion = new ReflectionQuestion(storeItem, user, project, learningGoal);
                 String questionUuid = reflectionQuestionDAO.persist(reflectionQuestion);
                 reflectionQuestion.setId(questionUuid);
-                learningGoalResult.getReflectionQuestions().add(reflectionQuestion);
+                learningGoalRequestResult.getReflectionQuestions().add(reflectionQuestion);
             });
         });
-        return learningGoalResult;
+        return learningGoalRequestResult;
+    }
+
+    public LearningGoalStudentResult saveStudentResult(LearningGoalStudentResult studentResult, User user) {
+        if (Strings.isNullOrEmpty(user.getEmail())) {
+            return null;
+        }
+        studentResult.setUserEmail(user.getEmail());
+        String uuid = learningGoalStudentResultsDAO.persist(studentResult);
+        studentResult.setId(uuid);
+        return studentResult;
     }
 
 }

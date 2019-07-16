@@ -1,4 +1,4 @@
-let learningGoals = [];
+let createLearningGoals = [];
 let reflectionQuestions = [];
 let currentLearningGoal;
 let chosenReflectionQuestions = [];
