@@ -12,7 +12,6 @@ public class LockCronJob implements Job {
 
     private MysqlConnect connection = new MysqlConnectImpl();
 
-
     @Override
     public void execute(JobExecutionContext jobExecutionContext) {
         deleteLockInDB();

@@ -1175,4 +1175,15 @@ main.groups-manual{
     background-color:#075f8b;
 }
 
+.block {
+    opacity: 70%;
+    background-color: #AAA;
+    pointer-events: none;
+    user-select: none;
+}
 
+.unauthorized {
+    position: absolute;
+    margin-left: 30%;
+    margin-top: 20%;
+}

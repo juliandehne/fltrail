@@ -270,8 +270,14 @@ function getFullSubmissionOfGroup(groupId, version) {
             setHeader(fullSubmission.header);
             fullSubmissionId = fullSubmission.id;
         },
-        error: function () {
-
+        error: function (a, b, c) {
+            if (c === "Unauthorized") {
+                let fullSubmission = a.responseJSON;
+                setQuillContentFromFullSubmission(fullSubmission);
+                setHeader(fullSubmission.header);
+                $("main").addClass("block");
+                $('#unauthorized').attr("hidden", false);
+            }
         }
     })
 }

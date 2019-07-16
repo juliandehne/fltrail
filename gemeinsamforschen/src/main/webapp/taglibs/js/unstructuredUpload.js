@@ -30,21 +30,6 @@ $(document).ready(async function () {
     }
     await setupPageContent();
 
-    if(!isPortfolioEntry ){
-        if (fullSubmissionId !== '') {
-            getFullSubmission(fullSubmissionId, function (fullSubmission) {
-                setHeader(fullSubmission.header);
-                setQuillContentFromFullSubmission(fullSubmission);
-            });
-        } else {
-            if (!personal) {
-                getMyGroupId(function (groupId) {
-                    getFullSubmissionOfGroup(groupId, 0)
-                });
-            }
-        }
-    }
-
     $('#btnSave').click(function () {
         getMyGroupId(function (groupId) {
             if (quill.getText().length > 1) {
@@ -141,6 +126,9 @@ async function setupPageContent() {
                 setQuillContentFromFullSubmission(fullSubmission);
                 currentVisibility = possibleVisibilities[fullSubmission.visibility];
                 populateTextFields();
+                setHeader(fullSubmission.header);
+            }, function (error) {
+
             });
         } else {
             if (!personal) {
