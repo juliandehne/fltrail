@@ -134,7 +134,8 @@
                         generiert</span></div>
                 </div>
                 <div class="row">
-                    <div class="col" style="margin-top: 10px;"><button disabled class="btn btn-primary assessmentButton" type="button"
+                    <div class="col" style="margin-top: 10px;"><button disabled id="finishAssessmentAndGradingButton"
+                                                                       class="btn btn-primary assessmentButton" type="button"
                                                                        style="width: 200px;">Phase
                         überspringen</button><span style="margin: 20px;">Phase überspringen</span></div>
                 </div>

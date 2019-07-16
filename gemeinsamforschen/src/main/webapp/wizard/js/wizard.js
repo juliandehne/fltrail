@@ -59,6 +59,37 @@ function updateView(project) {
         doPhaseSpell(selectedProject.name, "DossierFeedback");
     });
 
+
+    $("#uploadPresentationButton").unbind();
+    $("#uploadPresentationButton").click(function () {
+        doSpell(selectedProject.name, "UPLOAD_PRESENTATION");
+    });
+
+    $("#uploadFinalReportButton").unbind();
+    $("#uploadFinalReportButton").click(function () {
+        doSpell(selectedProject.name, "UPLOAD_FINAL_REPORT");
+    });
+
+    $("#externalPAButton").unbind();
+    $("#externalPAButton").click(function () {
+        doSpell(selectedProject.name, "GIVE_EXTERNAL_ASSESSMENT");
+    });
+
+    $("#internalPAButton").unbind();
+    $("#internalPAButton").click(function () {
+        doSpell(selectedProject.name, "GIVE_INTERNAL_ASSESSMENT");
+    });
+
+    $("#docentPAButton").unbind();
+    $("#docentPAButton").click(function () {
+        doSpell(selectedProject.name, "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
+    });
+
+    $("#finishAssessmentAndGradingButton").unbind();
+    $("#finishAssessmentAndGradingButton").click(function () {
+        doSpell(selectedProject.name, "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
+    });
+
     updateState();
 }
 
