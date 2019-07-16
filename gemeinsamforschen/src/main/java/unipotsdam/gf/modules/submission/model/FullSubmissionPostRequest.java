@@ -23,6 +23,7 @@ public class FullSubmissionPostRequest {
     private FileRole fileRole;
     private String id;
     private String reflectionQuestionId;
+    private String learningGoalId;
 
     // have to be set in backend
     private String userEMail;
@@ -131,11 +132,20 @@ public class FullSubmissionPostRequest {
         this.reflectionQuestionId = reflectionQuestionId;
     }
 
+    public String getLearningGoalId() {
+        return learningGoalId;
+    }
+
+    public void setLearningGoalId(String learningGoalId) {
+        this.learningGoalId = learningGoalId;
+    }
+
     @Override
     public String toString() {
         return "FullSubmissionPostRequest{" +
                 "groupId=" + groupId +
                 ", personal=" + personal +
+                ", header='" + header + '\'' +
                 ", text='" + text + '\'' +
                 ", html='" + html + '\'' +
                 ", projectName='" + projectName + '\'' +
@@ -144,6 +154,7 @@ public class FullSubmissionPostRequest {
                 ", reflectionQuestionId='" + reflectionQuestionId + '\'' +
                 ", userEMail='" + userEMail + '\'' +
                 ", visibility=" + visibility +
+                ", learningGoalId='" + learningGoalId + '\'' +
                 '}';
     }
 }

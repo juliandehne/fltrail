@@ -3,12 +3,12 @@ package unipotsdam.gf.modules.reflection.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LearningGoalResult {
+public class LearningGoalRequestResult {
 
     private LearningGoal learningGoal;
     private List<ReflectionQuestion> reflectionQuestions;
 
-    public LearningGoalResult() {
+    public LearningGoalRequestResult() {
         reflectionQuestions = new ArrayList<>();
     }
 

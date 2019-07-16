@@ -73,12 +73,30 @@ function reflectionQuestionChosen(reflectionQuestionId) {
 }
 
 function saveButtonPressed() {
+    save(changeLocation);
+}
+
+function addAdditionalLearningGoalPressed() {
+    save(function () {
+        delete learningGoals[currentLearningGoal.text];
+        currentLearningGoal = undefined;
+        reflectionQuestions = [];
+        chosenReflectionQuestions = [];
+        templateData.learningGoals = Object.values(learningGoals).sort(sortAlphabetically);
+        templateData.choseReflectionQuestion = false;
+        delete templateData.reflectionQuestions;
+        renderTemplate();
+    });
+}
+
+function save(callback) {
+    delete currentLearningGoal.custom;
     let learningGoalRequest = {
         learningGoal: currentLearningGoal,
         reflectionQuestions: Object.values(chosenReflectionQuestions),
         projectName: projectName
     };
-    saveLearningGoalAndReflectionQuestions(learningGoalRequest, changeLocation);
+    saveLearningGoalAndReflectionQuestions(learningGoalRequest, callback);
 }
 
 function addCustomLearningGoal() {

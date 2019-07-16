@@ -12,7 +12,6 @@ import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.interfaces.IPortfolioService;
 import unipotsdam.gf.interfaces.IReflection;
-import unipotsdam.gf.interfaces.IReflectionQuestion;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.controller.FeedbackImpl;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
@@ -41,7 +40,12 @@ import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.quiz.QuizDAO;
-import unipotsdam.gf.modules.reflection.service.*;
+import unipotsdam.gf.modules.reflection.service.LearningGoalStoreDAO;
+import unipotsdam.gf.modules.reflection.service.LearningGoalStudentResultsDAO;
+import unipotsdam.gf.modules.reflection.service.LearningGoalsDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsStoreDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionService;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.PeerAssessmentSimulation;
@@ -136,12 +140,12 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
         //bind(ExecutionProcess.class).to(IExecutionProcess.class);
         bind(PortfolioService.class).to(IPortfolioService.class);
-        bind(ReflectionQuestionService.class).to(IReflectionQuestion.class);
         bind(ReflectionQuestionDAO.class).to(ReflectionQuestionDAO.class);
         bind(ReflectionQuestionsStoreDAO.class).to(ReflectionQuestionsStoreDAO.class);
         bind(LearningGoalStoreDAO.class).to(LearningGoalStoreDAO.class);
         bind(LearningGoalsDAO.class).to(LearningGoalsDAO.class);
         bind(ReflectionService.class).to(IReflection.class);
+        bind(LearningGoalStudentResultsDAO.class).to(LearningGoalStudentResultsDAO.class);
         bindMore();
     }
 
