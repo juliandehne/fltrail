@@ -5,6 +5,7 @@
 let staticCategories = [];
 let items = {};
 $(document).ready(function () {
+    handleLocker("ANNOTATE_DOSSIER");
     getAnnotationCategories(function (categories) {
         buildAnnotationList(categories);
         items = contextMenuOptions(categories);

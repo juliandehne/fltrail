@@ -241,7 +241,7 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         connection.issueInsertOrDeleteStatement(request, submissionPartPostRequest.getGroupId(),
                 submissionPartPostRequest.getFullSubmissionId(),
-                submissionPartPostRequest.getCategory().toString().toUpperCase());
+                submissionPartPostRequest.getCategory().toUpperCase());
 
 
         for (SubmissionPartBodyElement element : submissionPartPostRequest.getBody()) {
@@ -633,16 +633,12 @@ public class SubmissionController implements ISubmission, HasProgress {
                     } else {
                         return 1;
                     }
-
                 }
             } else {
-
                 return count;
             }
         }
-
         return 0;
-
     }
 
     /**

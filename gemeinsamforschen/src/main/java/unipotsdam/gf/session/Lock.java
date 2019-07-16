@@ -20,10 +20,10 @@ public class Lock {
      */
     public synchronized boolean lock(TaskName taskName, Group group) {
         if (checkIfLocked(taskName, group.getId())) {
-            return false;
+            return true;
         } else {
             lockTaskInDB(taskName, group.getId());
-            return true;
+            return false;
         }
     }
 

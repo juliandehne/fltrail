@@ -5,7 +5,6 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlUtil;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.TaskName;
 
@@ -52,16 +51,17 @@ public class WizardDao {
     public List<TaskName> getWizardrelevantTaskStatus(Project project) {
         //relevantTasks.add(TaskName.WAITING_FOR_GROUP);
         String concatenatedString = getRelevantTaskList();
-        String query = "SELECT * from tasks t" +
+        String query = "SELECT t.taskName from tasks t" +
                 " where t.taskName in ("+concatenatedString+")" +
                 " and (t.progress = ?" +
                 " or t.progress = ?)" +
-                " and t.projectName = ? GROUP by (t.taskName)";
+                " and t.projectName = ?" +
+                " and t.taskName not in (SELECT t2.taskName from tasks t2 where t2.progress = ?)" +
+                " GROUP by (t.taskName)";
 
         ArrayList<TaskName> result = new ArrayList<>();
         connect.connect();
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(query, Progress.FINISHED.name(), Progress.INPROGRESS.name(), project.getName());
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, Progress.FINISHED.name(), Progress.INPROGRESS.name(), project.getName(), Progress.JUSTSTARTED.name());
         while (vereinfachtesResultSet.next())
             result.add(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
         connect.close();

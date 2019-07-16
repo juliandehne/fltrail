@@ -17,12 +17,9 @@ import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.Visibility;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.modules.wizard.compbase.ConceptImporter;
 import unipotsdam.gf.modules.wizard.compbase.TomcatConceptImporter;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
@@ -352,7 +349,27 @@ public class Wizard {
         // TODO implement
     }
 
-    public void annotateDossiers(Project project) {
+    public void annotateDossiers(Project project) throws IOException {
+        List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
+        for (Group group : groupsByProjectName) {
+            Task annotateDossierTask = taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.ANNOTATE_DOSSIER);
+            if (annotateDossierTask == null || annotateDossierTask.getProgress() != Progress.FINISHED) {
+                FullSubmission fullSubmission = submissionController.getFullSubmissionBy(group.getId(), project, FileRole.DOSSIER);
+                List<String> annotationCategories = submissionController.getAnnotationCategories(project);
+                for (String category : annotationCategories) {
+                    String annotation = loremIpsum.getWords(10);
+                    annotation = convertTextToQuillJs(annotation);
+                    ArrayList<SubmissionPartBodyElement> spbe = new ArrayList<>();
+                    spbe.add(new SubmissionPartBodyElement(annotation, 0, 2));
+                    SubmissionPartPostRequest sppr =
+                            new SubmissionPartPostRequest(group.getId(), fullSubmission.getId(), category, spbe);
+                    submissionController.addSubmissionPart(sppr);
+                }
+                assert annotateDossierTask != null;
+                annotateDossierTask.setProgress(Progress.FINISHED);
+                taskDAO.updateGroupTask(annotateDossierTask, group.getId());
+            }
+        }
         //if (submissionController.get)
         // TODO implement
     }

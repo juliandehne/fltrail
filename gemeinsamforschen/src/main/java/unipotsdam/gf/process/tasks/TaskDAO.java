@@ -436,14 +436,14 @@ public class TaskDAO {
         return result;
     }
 
-    public ArrayList<Task> getTasksWithTaskName(Integer groupId, Project project, TaskName taskname) {
+    public Task getTasksWithTaskName(Integer groupId, Project project, TaskName taskname) {
         connect.connect();
         String query = "Select * from tasks t where t.groupTask = ? AND t.projectName = ? AND t.taskName= ? ORDER BY created DESC";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, groupId, project.getName(), taskname.toString());
-        ArrayList<Task> result = new ArrayList<>();
-        while (vereinfachtesResultSet.next()) { //an empty userEmail includes groupTasks and excludes userTasks
-            result.add(resultSetToTask(groupId, project, vereinfachtesResultSet));
+        Task result = null;
+        if (vereinfachtesResultSet.next()) { //an empty userEmail includes groupTasks and excludes userTasks
+            result = resultSetToTask(groupId, project, vereinfachtesResultSet);
         }
         connect.close();
         return result;

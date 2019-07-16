@@ -86,11 +86,13 @@ public class FileManagementView {
     }
 
     @GET
-    @Path("/isOccupied/project/{projectName}")
-    public Response isOccupied(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
+    @Path("/isOccupied/project/{projectName}/task/{taskName}")
+    public Response isOccupied(@Context HttpServletRequest req,
+                               @PathParam("projectName") String projectName,
+                               @PathParam("taskName") TaskName taskName) throws IOException {
         String userEmail = gfContexts.getUserEmail(req);
         Group myGroup = groupDAO.getMyGroup(new User(userEmail), new Project(projectName));
-        if (lock.lock(TaskName.UPLOAD_PRESENTATION, myGroup)) {
+        if (lock.lock(taskName, myGroup)) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
         return Response.ok().build();
