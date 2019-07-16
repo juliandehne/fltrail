@@ -8,6 +8,7 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import com.itextpdf.tool.xml.exceptions.CssResolverException;
+import com.itextpdf.tool.xml.exceptions.NotImplementedException;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
@@ -107,9 +108,19 @@ public class FileManagementService {
 
     public void saveStringAsPDF(User user, Project project, FullSubmissionPostRequest fullSubmissionPostRequest) throws IOException, DocumentException {
         String fileName = fullSubmissionPostRequest.getHeader() + "_" + user.getEmail() + ".pdf";
-        String categoryString = fullSubmissionPostRequest.getFileRole().toString();
-        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name(categoryString).fileName(fileName);
-        saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(), FileRole.DOSSIER, FileType.HTML);
+        FileRole categoryString = fullSubmissionPostRequest.getFileRole();
+        String content =  fullSubmissionPostRequest.getHtml();
+        uploadFile(user, project, fileName, categoryString, content, FileType.HTML);
+    }
+
+
+    public void uploadFile(User user, Project project, String fileName, FileRole fileRole, String content, FileType
+            fileType)
+            throws IOException, DocumentException {
+        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name
+                (fileRole.name())
+                .fileName(fileName);
+        saveStringAsPDF(user, project, content , builder.build(), fileRole, fileType);
     }
 
     private String saveHTMLAsPDF(InputStream inputStream, String filenameWithoutExtension) throws IOException, DocumentException {
@@ -270,22 +281,14 @@ public class FileManagementService {
 
     }
 
-    public void uploadPPTX(User user, Project project, InputStream inputStream, FormDataContentDisposition
-            fileDetail
-    ) throws IOException, CssResolverException, DocumentException {
+    private void uploadPPTX(
+            User user, Project project, InputStream inputStream, FormDataContentDisposition fileDetail) throws IOException, CssResolverException, DocumentException {
         //get the PDF Version of the InputStream and Write Meta into DB
         saveFile(user, project, inputStream, fileDetail, FileRole.PRESENTATION, FileType.UNKNOWN);
     }
 
-    public void uploadFile(User user, Project project, InputStream inputStream, FormDataContentDisposition
-            fileDetail){
-        //todo implement
-        //return Response.ok("Data upload successfull").build();
-    }
-
-    public void uploadFile1(
-            HttpServletRequest req, String projectName,
-            FileRole fileRole, InputStream inputStream,
+    void uploadFile1(
+            HttpServletRequest req, String projectName, FileRole fileRole, InputStream inputStream,
             FormDataContentDisposition fileDetail)
             throws IOException, CssResolverException, DocumentException {
         String userEmail = gfContexts.getUserEmail(req);
@@ -297,6 +300,12 @@ public class FileManagementService {
             e.printStackTrace();
         }
 
+        uploadFile(fileRole, inputStream, fileDetail, user, project);
+    }
+
+    private void uploadFile(
+            FileRole fileRole, InputStream inputStream, FormDataContentDisposition fileDetail, User user,
+            Project project) throws IOException, CssResolverException, DocumentException {
         deleteFiles(project, user, fileRole);
 
         switch (fileRole) {
@@ -311,7 +320,7 @@ public class FileManagementService {
                 break;
             case EXTRA:
                 // seems not to be implemented TODO @Axel
-                uploadFile(user, project, inputStream, fileDetail);
+                throw new NotImplementedException();
             default:
                 //uploadFile(user, project, inputStream, fileDetail);
                 saveFile(user, project, inputStream, fileDetail, fileRole, FileType.PDF);
