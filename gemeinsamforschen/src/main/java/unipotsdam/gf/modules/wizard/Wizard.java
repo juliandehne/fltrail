@@ -336,10 +336,7 @@ public class Wizard {
                 User representativUser = groupDAO.getRepresentativUser(group, project);
                 // we have to persist it in quill js style
                 String text = loremIpsum.getWords(500);
-              /*  HashMap<String, String> quillJsContents = new HashMap<>();
-                quillJsContents.put("insert", text);
-                ObjectMapper mapper = new ObjectMapper();
-                String quillText = mapper.writeValueAsString(quillJsContents);*/
+                text = convertTextToQuillJs(text);
 
                 String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).get();
                 FullSubmissionPostRequest submission =
@@ -417,6 +414,19 @@ public class Wizard {
             }
         }
         return true;
+    }
+
+    public static String convertTextToQuillJs(String text) throws IOException {
+        HashMap<String, String> quillJsContents = new HashMap<>();
+        quillJsContents.put("insert", text);
+        ArrayList<HashMap<String, String>> lArray = new ArrayList<>();
+        lArray.add(quillJsContents);
+        lArray.add(quillJsContents);
+        HashMap<String, ArrayList<HashMap<String,String>>> lObject = new HashMap<>();
+        lObject.put("ops", lArray);
+        ObjectMapper mapper = new ObjectMapper();
+        text = mapper.writeValueAsString(lObject);
+        return text;
     }
 }
 
