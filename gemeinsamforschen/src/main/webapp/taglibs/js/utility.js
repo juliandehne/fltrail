@@ -278,15 +278,17 @@ function getFullSubmissionOfGroup(groupId, version) {
 
 function setQuillContentFromFullSubmission(fullSubmission) {
     let text = fullSubmission.text;
-    if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
+    let content = JSON.parse(text);
+    quill.setContents(content);
+   /* if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
     replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
     replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
         //the json is ok
         let content = JSON.parse(text);
-        quill.setContents(content);
-    }else{
+    quill.setContents(content);
+   /* }else{
         quill.setText(text);
-    }
+    }*/
 
 }
 

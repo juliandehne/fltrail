@@ -91,6 +91,12 @@ function updatePhaseState() {
         let groupfinding = phases.getName(phases.GroupFormation);
         if (response.includes(groupfinding)) {
             $('button.groupfindingButton').attr("disabled", true);
+            $('#testStudentDisplay').empty();
+            let getTestStudObj = new RequestObj(1, "/wizard", "/projects/?/teststudent", [selectedProject.name], []);
+            serverSide(getTestStudObj, "GET", function (user) {
+                $('#testStudentDisplay').append("Email für Teststudent lautet: " + user.email +
+                    " und Passwort lautet \"egal\" ");
+            })
         }
         if (response.includes(phases.getName(phases.DossierFeedback))) {
             $('button.dossierButton').attr("disabled", true);

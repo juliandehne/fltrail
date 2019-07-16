@@ -1,19 +1,21 @@
 package unipotsdam.gf;
 
+import de.svenjacobs.loremipsum.LoremIpsum;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
 import org.junit.Test;
 import unipotsdam.gf.config.GFApplicationBinder;
-import unipotsdam.gf.core.database.TestGFApplicationBinder;
-import unipotsdam.gf.modules.group.Group;
-import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.wizard.Wizard;
 import unipotsdam.gf.modules.wizard.compbase.ConceptImporter;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
@@ -51,5 +53,13 @@ public class Wizardtest {
         boolean empty = wizard10.isEmpty();
         assertFalse(empty);*/
 
+    }
+
+    @Test
+    public void generateCorrectQuillContent() throws IOException {
+        LoremIpsum loremIpsum = new LoremIpsum();
+        String text = loremIpsum.getWords(500);
+        String s = Wizard.convertTextToQuillJs(text);
+        System.out.println(s);
     }
 }
