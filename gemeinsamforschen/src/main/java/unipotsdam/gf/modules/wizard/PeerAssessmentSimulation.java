@@ -72,14 +72,21 @@ public class PeerAssessmentSimulation {
 
     public void generatePresentationsForAllGroupsAndUploadThem(Project project)
             throws CssResolverException, DocumentException, IOException {
+        peerAssessmentProcess.startPeerAssessmentPhase(project);
+
         FileRole fileRole = FileRole.PRESENTATION;
         createMissingFiles(project, fileRole);
+        taskDAO.updateForAll(new Task(TaskName.UPLOAD_PRESENTATION, null, project, Progress.FINISHED));
     }
 
-    public void generateFinalReportsForAllGroupsAndUploadThem(Project project) throws IOException, DocumentException {
+    public void generateFinalReportsForAllGroupsAndUploadThem(Project project) throws Exception {
         FileRole fileRole = FileRole.FINAL_REPORT;
         createMissingFiles(project, fileRole);
         taskDAO.updateForAll(new Task(TaskName.UPLOAD_FINAL_REPORT, null, project, Progress.FINISHED));
+        // start the student assessment process
+        if (!wizardDao.getWizardrelevantTaskStatus(project).contains(TaskName.GIVE_EXTERNAL_ASSESSMENT)) {
+            peerAssessmentProcess.startStudentAssessments(project);
+        }
     }
 
     private void createMissingFiles(Project project, FileRole fileRole) throws IOException, DocumentException {
@@ -94,20 +101,25 @@ public class PeerAssessmentSimulation {
 
     public void externalPeerAssessments(Project project) throws Exception {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
-        Random random = new Random();
         for (Group group : groupsByProjectName) {
             Integer groupToRate = peer.whichGroupToRate(project, group.getId());
             List<User> members = group.getMembers();
             for (User member : members) {
-                Map<FileRole, Integer> contributionRating = new HashMap<>();
-                FileRole[] values = FileRole.values();
-                for (FileRole value : values) {
-                    contributionRating.put(value, random.nextInt(4) + 1);
-                }
+                Map<FileRole, Integer> contributionRating = generateContributionRatings();
                 peerAssessmentProcess
                         .postContributionRating(contributionRating, groupToRate + "", project, member.getEmail(), true);
             }
         }
+    }
+
+    public Map<FileRole, Integer> generateContributionRatings() {
+        Map<FileRole, Integer> contributionRating = new HashMap<>();
+        FileRole[] values = FileRole.values();
+        for (FileRole value : values) {
+            Random random = new Random();
+            contributionRating.put(value, random.nextInt(4) + 1);
+        }
+        return contributionRating;
     }
 
     public void internalPeerAssessments(Project project) throws Exception {
@@ -142,13 +154,9 @@ public class PeerAssessmentSimulation {
 
     public void docentAssessments(Project project) throws Exception {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
-        Random random = new Random();
+
         for (Group group : groupsByProjectName) {
-            Map<FileRole, Integer> contributionRating = new HashMap<>();
-            FileRole[] values = FileRole.values();
-            for (FileRole value : values) {
-                contributionRating.put(value, random.nextInt(4) + 1);
-            }
+            Map<FileRole, Integer> contributionRating = generateContributionRatings();
             peerAssessmentProcess
                     .postContributionRating(contributionRating, group.getId() + "", project, project.getAuthorEmail(),
                             false);

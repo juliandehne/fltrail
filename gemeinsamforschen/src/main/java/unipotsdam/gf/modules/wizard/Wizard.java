@@ -113,7 +113,8 @@ public class Wizard {
 
         // get previous tasks including the current
         List<TaskName> previousTasks = getPreviousTasks(taskName);
-        List<Phase> previousPhases = phases.getFinishedPhases(correspondingPhase, project);
+        //List<Phase> previousPhases = phases.getFinishedPhases(correspondingPhase, project);
+        List<Phase> previousPhases = phases.getPreviousPhases(correspondingPhase);
         // simulate current phase up to task
         HashSet<TaskName> previousTasksNotInThisPhase = new HashSet<>();
         for (Phase previousPhase : previousPhases) {
@@ -424,7 +425,7 @@ public class Wizard {
         peerAssessmentSimulation.generatePresentationsForAllGroupsAndUploadThem(project);
     }
 
-    public void generateFinalReportsForAllGroupsAndUploadThem(Project project) throws IOException, DocumentException {
+    public void generateFinalReportsForAllGroupsAndUploadThem(Project project) throws Exception {
         peerAssessmentSimulation.generateFinalReportsForAllGroupsAndUploadThem(project);
     }
 
