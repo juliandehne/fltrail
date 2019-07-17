@@ -146,19 +146,12 @@ public class DossierCreationProcess {
         return fullSubmission;
     }
 
-    /**
-     * finalize dossier
-     * @param submissionId
-     * @param projectId
-     * @param userEmail
-     */
     public void finalizeDossier(
-            String submissionId, String projectId,
-            String userEmail) {
-        FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
+            FullSubmission fullSubmission, Project project,
+            User user) {
         switch (fullSubmission.getFileRole()) {
             case DOSSIER:
-                finalizeDossier(fullSubmission, new User(userEmail), new Project(projectId));
+                finalizeDossier(fullSubmission, user, project);
                 break;
             case PORTFOLIO:
                 break;

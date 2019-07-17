@@ -56,12 +56,14 @@ public class WizardDao {
                 " and (t.progress = ?" +
                 " or t.progress = ?)" +
                 " and t.projectName = ?" +
-                " and t.taskName not in (SELECT t2.taskName from tasks t2 where t2.progress = ?)" +
+                " and t.taskName not in (SELECT t2.taskName from tasks t2 where t2.progress = ? AND t2.projectName = ?)" +
                 " GROUP by (t.taskName)";
 
         ArrayList<TaskName> result = new ArrayList<>();
         connect.connect();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, Progress.FINISHED.name(), Progress.INPROGRESS.name(), project.getName(), Progress.JUSTSTARTED.name());
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query,
+                Progress.FINISHED.name(), Progress.INPROGRESS.name(), project.getName(),
+                Progress.JUSTSTARTED.name(), project.getName());
         while (vereinfachtesResultSet.next())
             result.add(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
         connect.close();

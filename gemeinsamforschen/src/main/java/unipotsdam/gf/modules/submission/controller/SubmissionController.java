@@ -167,7 +167,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         FullSubmission fullSubmission = null;
         connection.connect();
 
-        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ? AND fileRole = ? AND userEmail = null;";
+        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ? AND fileRole = ?";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName(), fileRole);
 
         if (rs.next()) {

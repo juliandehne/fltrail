@@ -6,6 +6,7 @@ import de.svenjacobs.loremipsum.LoremIpsum;
 import org.codehaus.jackson.map.ObjectMapper;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.FLTrailConfig;
+import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -78,6 +79,9 @@ public class Wizard {
     @Inject
     PeerAssessmentSimulation peerAssessmentSimulation;
 
+    @Inject
+    Feedback feedback;
+
     private LoremIpsum loremIpsum;
     private PodamFactoryImpl factory = new PodamFactoryImpl();
 
@@ -108,7 +112,7 @@ public class Wizard {
 
         // get previous tasks including the current
         List<TaskName> previousTasks = getPreviousTasks(taskName);
-        List<Phase> previousPhases = phases.getPreviousPhases(correspondingPhase);
+        List<Phase> previousPhases = phases.getFinishedPhases(correspondingPhase, project);
         // simulate current phase up to task
         HashSet<TaskName> previousTasksNotInThisPhase = new HashSet<>();
         for (Phase previousPhase : previousPhases) {
@@ -219,7 +223,7 @@ public class Wizard {
 
 
     public void simulatePreviousPhases(Phase correspondingPhase, Project project) throws Exception {
-        List<Phase> previousPhases = phases.getPreviousPhases(correspondingPhase);
+        List<Phase> previousPhases = phases.getFinishedPhases(correspondingPhase, project);
         for (Phase previousPhase : previousPhases) {
             simulatePhase(project, previousPhase);
         }
@@ -353,34 +357,39 @@ public class Wizard {
         // TODO implement
     }
 
-    public void annotateDossiers(Project project) throws IOException {
+    public void annotateDossiers(Project project) {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
+            User representativUser = groupDAO.getRepresentativUser(group, project);
             Task annotateDossierTask = taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.ANNOTATE_DOSSIER);
             if (annotateDossierTask == null || annotateDossierTask.getProgress() != Progress.FINISHED) {
                 FullSubmission fullSubmission = submissionController.getFullSubmissionBy(group.getId(), project, FileRole.DOSSIER);
                 List<String> annotationCategories = submissionController.getAnnotationCategories(project);
+                int startCharacter = 0;
                 for (String category : annotationCategories) {
-                    String annotation = loremIpsum.getWords(10);
-                    annotation = convertTextToQuillJs(annotation);
                     ArrayList<SubmissionPartBodyElement> spbe = new ArrayList<>();
-                    spbe.add(new SubmissionPartBodyElement(annotation, 0, 2));
+                    spbe.add(
+                            new SubmissionPartBodyElement(
+                                    "",
+                                    startCharacter,
+                                    startCharacter + fullSubmission.getText().length() / annotationCategories.size() - 1));
                     SubmissionPartPostRequest sppr =
                             new SubmissionPartPostRequest(group.getId(), fullSubmission.getId(), category, spbe);
                     submissionController.addSubmissionPart(sppr);
+                    startCharacter = startCharacter + fullSubmission.getText().length() / annotationCategories.size();
                 }
-                assert annotateDossierTask != null;
-                annotateDossierTask.setProgress(Progress.FINISHED);
-                taskDAO.updateGroupTask(annotateDossierTask, group.getId());
+                dossierCreationProcess.finalizeDossier(fullSubmission, project, representativUser);
             }
         }
         //if (submissionController.get)
-        // TODO implement
     }
 
     public void generateFeedbacks(Project project) {
-        if (submissionController.getAllGroupsWithFinalizedFeedback(project).size() == 0) {
-
+        List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
+        for (Group group : groupsByProjectName) {
+            User representativUser = groupDAO.getRepresentativUser(group, project);
+            int feedbackTarget = feedback.getFeedBackTarget(project, representativUser);
+            //if feedbackTarget has no "seeFeedback" task, group writes a feedback
         }
         // TODO implement
     }
