@@ -7,6 +7,7 @@ import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.InternalAssessmentQuestions;
 import unipotsdam.gf.modules.assessment.QuestionData;
+import unipotsdam.gf.modules.fileManagement.FileManagementDAO;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.fileManagement.FileType;
@@ -18,7 +19,10 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.compbase.ConceptImporter;
 import unipotsdam.gf.process.PeerAssessmentProcess;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
 import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -54,7 +58,12 @@ public class PeerAssessmentSimulation {
     private IPeerAssessment peer;
 
     @Inject
+    private FileManagementDAO fileManagementDAO;
+
+    @Inject
     private FileManagementService fileManagementService;
+
+
 
     public PeerAssessmentSimulation() {
         this.conceptImporter = new ConceptImporter();
@@ -63,39 +72,54 @@ public class PeerAssessmentSimulation {
 
     public void generatePresentationsForAllGroupsAndUploadThem(Project project)
             throws CssResolverException, DocumentException, IOException {
-        List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
-        for (Group group : groupsByProjectName) {
-            User representativUser = groupDAO.getRepresentativUser(group, project);
-            FileRole fileRole = FileRole.PRESENTATION;
-            generateFile(project, representativUser, fileRole);
+        peerAssessmentProcess.startPeerAssessmentPhase(project);
+
+        FileRole fileRole = FileRole.PRESENTATION;
+        createMissingFiles(project, fileRole);
+        taskDAO.updateForAll(new Task(TaskName.UPLOAD_PRESENTATION, null, project, Progress.FINISHED));
+    }
+
+    public void generateFinalReportsForAllGroupsAndUploadThem(Project project) throws Exception {
+        FileRole fileRole = FileRole.FINAL_REPORT;
+        createMissingFiles(project, fileRole);
+        taskDAO.updateForAll(new Task(TaskName.UPLOAD_FINAL_REPORT, null, project, Progress.FINISHED));
+        // start the student assessment process
+        if (!wizardDao.getWizardrelevantTaskStatus(project).contains(TaskName.GIVE_EXTERNAL_ASSESSMENT)) {
+            peerAssessmentProcess.startStudentAssessments(project);
         }
     }
 
-    public void generateFinalReportsForAllGroupsAndUploadThem(Project project) throws IOException, DocumentException {
+    private void createMissingFiles(Project project, FileRole fileRole) throws IOException, DocumentException {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
             User representativUser = groupDAO.getRepresentativUser(group, project);
-            FileRole fileRole = FileRole.FINAL_REPORT;
-            generateFile(project, representativUser, fileRole);
+            if (!fileManagementDAO.fileExists(project, fileRole, group)) {
+                generateFile(project, representativUser, fileRole);
+            }
         }
     }
 
     public void externalPeerAssessments(Project project) throws Exception {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
-        Random random = new Random();
         for (Group group : groupsByProjectName) {
             Integer groupToRate = peer.whichGroupToRate(project, group.getId());
             List<User> members = group.getMembers();
             for (User member : members) {
-                Map<FileRole, Integer> contributionRating = new HashMap<>();
-                FileRole[] values = FileRole.values();
-                for (FileRole value : values) {
-                    contributionRating.put(value, random.nextInt(4) + 1);
-                }
+                Map<FileRole, Integer> contributionRating = generateContributionRatings();
                 peerAssessmentProcess
                         .postContributionRating(contributionRating, groupToRate + "", project, member.getEmail(), true);
             }
         }
+    }
+
+    public Map<FileRole, Integer> generateContributionRatings() {
+        Map<FileRole, Integer> contributionRating = new HashMap<>();
+        FileRole[] values = FileRole.values();
+        for (FileRole value : values) {
+            Random random = new Random();
+            contributionRating.put(value, random.nextInt(4) + 1);
+        }
+        return contributionRating;
     }
 
     public void internalPeerAssessments(Project project) throws Exception {
@@ -130,13 +154,9 @@ public class PeerAssessmentSimulation {
 
     public void docentAssessments(Project project) throws Exception {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
-        Random random = new Random();
+
         for (Group group : groupsByProjectName) {
-            Map<FileRole, Integer> contributionRating = new HashMap<>();
-            FileRole[] values = FileRole.values();
-            for (FileRole value : values) {
-                contributionRating.put(value, random.nextInt(4) + 1);
-            }
+            Map<FileRole, Integer> contributionRating = generateContributionRatings();
             peerAssessmentProcess
                     .postContributionRating(contributionRating, group.getId() + "", project, project.getAuthorEmail(),
                             false);
@@ -150,7 +170,9 @@ public class PeerAssessmentSimulation {
         // html content as string
         String content = loremIpsum.getWords(300);
         String wrapper = "<!DOCTYPE html><html lang=\"en\"><body><span>" + content + "</span></body></html>";
+        fileManagementService.deleteFiles(project, representativUser, fileRole);
         fileManagementService.uploadFile(representativUser, project, fileName, fileRole, wrapper, FileType.HTML);
         peerAssessmentProcess.fileHasBeenUploaded(fileRole, representativUser, project);
+
     }
 }
