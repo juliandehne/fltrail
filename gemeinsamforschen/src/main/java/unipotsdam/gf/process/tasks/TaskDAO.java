@@ -21,7 +21,11 @@ import unipotsdam.gf.process.phases.Phase;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -143,6 +147,19 @@ public class TaskDAO {
         return task;
     }
 
+    public List<Task> getTaskForProjectWithoutProgress(Project project, TaskName taskName, Progress progress) {
+        connect.connect();
+        String query = "Select * from tasks t where AND t.projectName = ? AND t.taskName= ? and progess != ? ORDER BY created DESC";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(query, project.getName(), taskName.toString(), progress.name());
+        ArrayList<Task> result = new ArrayList<>();
+        while (vereinfachtesResultSet.next()) {
+            result.add(getGeneralTask(vereinfachtesResultSet));
+        }
+        connect.close();
+        return result;
+    }
+
     public List<Task> getTaskOfGroupsByProjectNameAndTaskNameAndPhase(Project project, TaskName taskName, Phase phase) {
         connect.connect();
         String query = "Select * from tasks where groupTask != 0 and projectName = ? and phase = ? and taskName = ?";
@@ -160,7 +177,7 @@ public class TaskDAO {
     }
 
     /**
-     * TODO  refactor reduce overloading by introducing
+     * TODO  refactor reduce overloading by introducing builder?
      * @param project
      * @param target
      * @param taskName
@@ -564,16 +581,12 @@ public class TaskDAO {
 
     public void persistMemberTask(Project project, TaskName taskName, Phase phase) {
         List<User> members = userDAO.getUsersByProjectName(project.getName());
-        for (User member : members) {
-            persist(project, member, taskName, phase);
-        }
+        members.forEach(member -> persist(project, member, taskName, phase));
     }
 
     public void persistTaskForAllGroups(Project project, TaskName taskName, Phase phase) {
         List<Group> groups = groupFinding.getGroups(project);
-        for (Group group : groups) {
-            persist(project, group.getId(), taskName, phase, TaskType.LINKED);
-        }
+        groups.forEach(group -> persist(project, group.getId(), taskName, phase, TaskType.LINKED));
     }
 
     public void persistTaskGroup(Project project, User user, TaskName taskName, Phase phase) {
@@ -606,7 +619,7 @@ public class TaskDAO {
      * if this takes long rewrite it as batch updateRocketChatUserName
      */
     public void finishMemberTask(Project project, TaskName taskName) throws Exception {
-        java.util.List<User> members = userDAO.getUsersByProjectName(project.getName());
+        List<User> members = userDAO.getUsersByProjectName(project.getName());
         for (User member : members) {
             Task task = new Task(taskName, member, project, Progress.FINISHED);
             updateForUser(task);

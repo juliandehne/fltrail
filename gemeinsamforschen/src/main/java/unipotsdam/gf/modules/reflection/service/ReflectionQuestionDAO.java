@@ -21,20 +21,6 @@ public class ReflectionQuestionDAO {
     @Inject
     public MysqlConnect connection;
 
-    private List<ReflectionQuestion> getQuestions(String query, Project project, User user, String learningGoalId) {
-        connection.connect();
-
-        VereinfachtesResultSet rs = connection.issueSelectStatement(query, project.getName(), user.getEmail(), learningGoalId);
-
-        ArrayList<ReflectionQuestion> reflectionQuestions = new ArrayList<>();
-        while (rs.next()) {
-            ReflectionQuestion reflectionQuestion = convertResultSet(rs);
-            reflectionQuestions.add(reflectionQuestion);
-        }
-        connection.close();
-        return reflectionQuestions;
-    }
-
     public String persist(ReflectionQuestion question) {
         connection.connect();
         String uuid = UUID.randomUUID().toString();
@@ -64,6 +50,17 @@ public class ReflectionQuestionDAO {
         connection.close();
     }
 
+    public ReflectionQuestion findBy(String id) {
+        connection.connect();
+        String query = "SELECT * FROM reflectionquestions WHERE id = ?";
+        VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, id);
+        ReflectionQuestion reflectionQuestion = null;
+        if (resultSet.next()) {
+            reflectionQuestion = convertResultSet(resultSet);
+        }
+        return reflectionQuestion;
+    }
+
 
     private ReflectionQuestion convertResultSet(VereinfachtesResultSet resultSet) {
         String id = resultSet.getString("id");
@@ -75,6 +72,20 @@ public class ReflectionQuestionDAO {
 
         return new ReflectionQuestion(id, learningGoalId, question, fullSubmissionId, userEmail, projectName);
 
+    }
+
+    private List<ReflectionQuestion> getQuestions(String query, Project project, User user, String learningGoalId) {
+        connection.connect();
+
+        VereinfachtesResultSet rs = connection.issueSelectStatement(query, project.getName(), user.getEmail(), learningGoalId);
+
+        ArrayList<ReflectionQuestion> reflectionQuestions = new ArrayList<>();
+        while (rs.next()) {
+            ReflectionQuestion reflectionQuestion = convertResultSet(rs);
+            reflectionQuestions.add(reflectionQuestion);
+        }
+        connection.close();
+        return reflectionQuestions;
     }
 
 }

@@ -204,8 +204,7 @@ create table tasklock
     timeStamp timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
     constraint id
         unique (id)
-)
-    charset = latin1;
+);
 
 create table users
 (
@@ -378,10 +377,11 @@ create table largefilestorage
 
 create table learninggoals
 (
-    id          varchar(200) not null
+    id          varchar(200)         not null
         primary key,
-    text        varchar(400) not null,
-    projectName varchar(255) not null,
+    text        varchar(400)         not null,
+    projectName varchar(255)         not null,
+    finished    tinyint(1) default 0 null,
     constraint learninggoals_projects_name_fk
         foreign key (projectName) references projects (name)
             on update cascade on delete cascade
