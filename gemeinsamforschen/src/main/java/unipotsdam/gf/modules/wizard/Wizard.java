@@ -78,6 +78,7 @@ public class Wizard {
     @Inject
     PeerAssessmentSimulation peerAssessmentSimulation;
 
+
     private LoremIpsum loremIpsum;
     private PodamFactoryImpl factory = new PodamFactoryImpl();
 
@@ -142,26 +143,19 @@ public class Wizard {
                     createDossiers(project);
                     break;
                 case ANNOTATE_DOSSIER:
-                    createDossiers(project);
                     annotateDossiers(project);
                     break;
                 case GIVE_FEEDBACK: {
-                    createDossiers(project);
-                    annotateDossiers(project);
                     generateFeedbacks(project);
                     break;
                 }
                 case REEDIT_DOSSIER:
-                    createDossiers(project);
-                    annotateDossiers(project);
-                    generateFeedbacks(project);
                     finalizeDossiers(project);
                     break;
                 case UPLOAD_PRESENTATION:
                     generatePresentationsForAllGroupsAndUploadThem(project);
                     break;
                 case UPLOAD_FINAL_REPORT:
-                    generatePresentationsForAllGroupsAndUploadThem(project);
                     generateFinalReportsForAllGroupsAndUploadThem(project);
                     break;
                 case GIVE_EXTERNAL_ASSESSMENT:

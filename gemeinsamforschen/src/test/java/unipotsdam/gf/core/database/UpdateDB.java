@@ -37,14 +37,15 @@ public class UpdateDB {
         MysqlConnect  mysqlConnect = new MysqlGeneralConnect();
         Connection connection = mysqlConnect.getConnection();
 
+        // update db
         UpdateDB updateDB = new UpdateDB(connection, true, false);
         System.out.println(new java.io.File( "." ).getCanonicalPath());
         updateDB.runScript(new FileReader("src/test/resources/database/db.sql"));
         updateDB.runScript(new FileReader("src/test/resources/database/fltrail.sql"));
-
+        // add questions for groupal matcher
         SurveyPreparation.main(null);
 
-
+        // add date for reflexion questions
         MysqlConnectImpl mysqlConnectImpl = new MysqlConnectImpl();
         PredefinedDataInsertionHelper dataInsertionHelper = new PredefinedDataInsertionHelper(mysqlConnectImpl);
         dataInsertionHelper.saveLearningGoals("src/test/resources/reflectionQuestions/learningGoalsStore.json");
