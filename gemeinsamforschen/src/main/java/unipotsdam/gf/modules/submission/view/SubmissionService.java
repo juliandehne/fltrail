@@ -5,6 +5,7 @@ import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.user.User;
@@ -52,6 +53,9 @@ public class SubmissionService {
 
     @Inject
     private Lock lock;
+
+    @Inject
+    private ProjectDAO projectDAO;
 
 
     @POST
@@ -181,9 +185,12 @@ public class SubmissionService {
     @Path("/id/{submissionId}/projects/{projectId}/finalize")
     public void finalize(
             @PathParam("submissionId") String submissionId, @PathParam("projectId") String projectId,
-            @Context HttpServletRequest req) {
+            @Context HttpServletRequest req) throws Exception {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
-        dossierCreationProcess.finalizeDossier(submissionId, projectId, userEmail);
+        User user = userDAO.getUserByEmail(userEmail);
+        Project project = projectDAO.getProjectByName(projectId);
+        FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
+        dossierCreationProcess.finalizeDossier(fullSubmission, project, user);
     }
 
     @GET

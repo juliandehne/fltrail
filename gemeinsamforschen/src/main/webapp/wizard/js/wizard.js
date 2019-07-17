@@ -94,15 +94,15 @@ function updateView(project) {
 }
 
 function doSpell(project, taskName) {
-    let requestObj = new RequestObj(1, "/wizard", "/projects/?/task/?", [project, taskName], [])
-    serverSide(requestObj, "POST", function (response) {
+    let requestObj = new RequestObj(1, "/wizard", "/projects/?/task/?", [project, taskName], []);
+    serverSide(requestObj, "POST", function () {
         //console.log()
         updateState();
     });
 }
 
 function doPhaseSpell(project, phase) {
-    let requestObj = new RequestObj(1, "/wizard", "/projects/?/phase/?", [project, phase], [])
+    let requestObj = new RequestObj(1, "/wizard", "/projects/?/phase/?", [project, phase], []);
     serverSide(requestObj, "POST", function (response) {
         //console.log()
         updateState();
