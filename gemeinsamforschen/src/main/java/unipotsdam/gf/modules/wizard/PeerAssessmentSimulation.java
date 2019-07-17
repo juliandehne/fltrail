@@ -3,7 +3,6 @@ package unipotsdam.gf.modules.wizard;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import de.svenjacobs.loremipsum.LoremIpsum;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.InternalAssessmentQuestions;
@@ -23,7 +22,6 @@ import unipotsdam.gf.process.tasks.TaskDAO;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 public class PeerAssessmentSimulation {
@@ -95,8 +93,7 @@ public class PeerAssessmentSimulation {
                     contributionRating.put(value, random.nextInt(4) + 1);
                 }
                 peerAssessmentProcess
-                        .postContributionRating(contributionRating, groupToRate + "", project, member.getEmail(),
-                                true);
+                        .postContributionRating(contributionRating, groupToRate + "", project, member.getEmail(), true);
             }
         }
     }
@@ -106,7 +103,7 @@ public class PeerAssessmentSimulation {
         for (User user : usersByProjectName) {
             doInternalAssessment(user, project);
         }
-        
+
     }
 
     private void doInternalAssessment(User user, Project project) throws Exception {
@@ -121,13 +118,13 @@ public class PeerAssessmentSimulation {
 
     }
 
-    private void generateInternalFakeData(HashMap<String,String> data) {
+    private void generateInternalFakeData(HashMap<String, String> data) {
         InternalAssessmentQuestions internalAssessmentQuestions = new InternalAssessmentQuestions();
         ArrayList<QuestionData> theQuestions = internalAssessmentQuestions.getTheQuestions();
         Random random = new Random();
         for (QuestionData theQuestion : theQuestions) {
             int rating = random.nextInt(4) + 1;
-            data.put(theQuestion.getKey(), rating+"");
+            data.put(theQuestion.getKey(), rating + "");
         }
     }
 

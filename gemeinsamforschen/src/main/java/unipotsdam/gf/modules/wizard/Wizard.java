@@ -196,6 +196,7 @@ public class Wizard {
             }
             case Execution: {
                 finalizeReflection(project);
+                break;
             }
             case Assessment: {
                 generatePresentationsForAllGroupsAndUploadThem(project);
@@ -225,7 +226,10 @@ public class Wizard {
     public void simulatePreviousPhases(Phase correspondingPhase, Project project) throws Exception {
         List<Phase> previousPhases = phases.getFinishedPhases(correspondingPhase, project);
         for (Phase previousPhase : previousPhases) {
-            simulatePhase(project, previousPhase);
+            // todo wieder rausnehmen
+            if (!previousPhase.equals(Phase.DossierFeedback)) {
+                simulatePhase(project, previousPhase);
+            }
         }
     }
 
@@ -354,7 +358,7 @@ public class Wizard {
                 submission.setId(fullSubmission.getId());
             }
         }
-        // TODO implement
+
     }
 
     public void annotateDossiers(Project project) {
