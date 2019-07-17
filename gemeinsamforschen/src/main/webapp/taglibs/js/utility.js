@@ -379,3 +379,23 @@ function setHeader(header) {
         ownTitle.html(header);
     }
 }
+
+//expects a <main> in the html and a <div id="unauthorized"> with an explanation.
+function handleLocker(taskName) {
+    $.ajax({
+        url: '../rest/fileStorage/isOccupied/project/' + $('#projectName').text().trim() + '/task/' + taskName,
+        type: 'GET',
+        headers: {
+            "Cache-Control": "no-cache"
+        },
+        success: function () {
+
+        },
+        error: function (a, b, c) {
+            if (c === "Unauthorized") {
+                $("main").addClass("block");
+                $('#unauthorized').attr("hidden", false);
+            }
+        }
+    });
+}

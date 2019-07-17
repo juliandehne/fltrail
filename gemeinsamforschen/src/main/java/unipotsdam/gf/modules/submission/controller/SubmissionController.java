@@ -167,7 +167,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         FullSubmission fullSubmission = null;
         connection.connect();
 
-        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ? AND fileRole = ? AND userEmail = null;";
+        String request = "SELECT * FROM fullsubmissions WHERE groupId = ? AND projectName= ? AND fileRole = ?";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName(), fileRole);
 
         if (rs.next()) {
@@ -241,7 +241,7 @@ public class SubmissionController implements ISubmission, HasProgress {
 
         connection.issueInsertOrDeleteStatement(request, submissionPartPostRequest.getGroupId(),
                 submissionPartPostRequest.getFullSubmissionId(),
-                submissionPartPostRequest.getCategory().toString().toUpperCase());
+                submissionPartPostRequest.getCategory().toUpperCase());
 
 
         for (SubmissionPartBodyElement element : submissionPartPostRequest.getBody()) {
@@ -633,16 +633,12 @@ public class SubmissionController implements ISubmission, HasProgress {
                     } else {
                         return 1;
                     }
-
                 }
             } else {
-
                 return count;
             }
         }
-
         return 0;
-
     }
 
     /**

@@ -262,6 +262,20 @@ public class PhasesImpl implements IPhases {
     }
 
     @Override
+    public java.util.List<Phase> getFinishedPhases(Phase phase, Project project) {
+        ArrayList<Phase> phases = new ArrayList<>();
+        phases.add(Phase.GroupFormation);
+        phases.add(Phase.DossierFeedback);
+        phases.add(Phase.Execution);
+        phases.add(Phase.Assessment);
+        phases.add(Phase.GRADING);
+        if (phase.equals(Phase.GroupFormation)) {
+            return new ArrayList<>();
+        }
+        return phases.subList(phases.indexOf(project.getPhase()), phases.indexOf(phase));
+    }
+
+    @Override
     public List<Phase> getPreviousPhases(Phase phase) {
         ArrayList<Phase> phases = new ArrayList<>();
         phases.add(Phase.GroupFormation);

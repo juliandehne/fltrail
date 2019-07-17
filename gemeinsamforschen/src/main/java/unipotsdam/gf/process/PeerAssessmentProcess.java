@@ -172,11 +172,10 @@ public class PeerAssessmentProcess {
     }
 
     /**
-     * TODO @Julian rename to start student assessments
-     *
+
      * @param project
      */
-    public void startGrading(Project project) throws Exception {
+    public void startStudentAssessments(Project project) throws Exception {
 
         // change tasks for docent
 

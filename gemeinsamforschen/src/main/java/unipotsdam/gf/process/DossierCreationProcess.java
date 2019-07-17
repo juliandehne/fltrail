@@ -22,11 +22,7 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.WizardRelevant;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.Progress;
-import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskName;
-import unipotsdam.gf.process.tasks.TaskType;
+import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -155,19 +151,12 @@ public class DossierCreationProcess {
         return fullSubmission;
     }
 
-    /**
-     * finalize dossier
-     * @param submissionId
-     * @param projectId
-     * @param userEmail
-     */
     public void finalizeDossier(
-            String submissionId, String projectId,
-            String userEmail) {
-        FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
+            FullSubmission fullSubmission, Project project,
+            User user) {
         switch (fullSubmission.getFileRole()) {
             case DOSSIER:
-                finalizeDossier(fullSubmission, new User(userEmail), new Project(projectId));
+                finalizeDossier(fullSubmission, user, project);
                 break;
             case PORTFOLIO:
                 break;
@@ -226,10 +215,9 @@ public class DossierCreationProcess {
     public void createSeeFeedBackTask(Project project, Integer groupId) {
         Integer feedbackedgroup = submissionController.getFeedbackedgroup(project, groupId);
         int feedbackGroup = peerAssessment.whichGroupToRate(project, groupId);
-        ArrayList<Task> reeditDossierTasks = taskDAO.getTasksWithTaskName(feedbackGroup, project, TaskName.REEDIT_DOSSIER);
-        if (reeditDossierTasks.size() != 0) {
-            Task task = reeditDossierTasks.get(0);
-            taskDAO.addTaskType(task, TaskType.LINKED);
+        Task reeditDossierTasks = taskDAO.getTasksWithTaskName(feedbackGroup, project, TaskName.REEDIT_DOSSIER);
+        if (reeditDossierTasks != null) {
+            taskDAO.addTaskType(reeditDossierTasks, TaskType.LINKED);
         }
         taskDAO.persistTaskGroup(project, feedbackedgroup, TaskName.SEE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);
     }
@@ -287,7 +275,7 @@ public class DossierCreationProcess {
             List<Group> groupsInProject = groupDAO.getGroupsByProjectName(project.getName());
             List<Task> allFeedbackTasks = new ArrayList<>();
             for (Group group : groupsInProject) {
-                Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.GIVE_FEEDBACK).get(0);
+                Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.GIVE_FEEDBACK);
                 if (!allFeedbackTasks.contains(giveFeedbackTask1))
                     allFeedbackTasks.add(giveFeedbackTask1);
             }

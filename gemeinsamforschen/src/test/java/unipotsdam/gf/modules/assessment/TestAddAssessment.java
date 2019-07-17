@@ -13,8 +13,6 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.quiz.Quiz;
-import unipotsdam.gf.modules.quiz.StudentAndQuiz;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -118,7 +116,7 @@ public class TestAddAssessment {
         assertFalse(groups.isEmpty());
 
         peerAssessmentProcess.startPeerAssessmentPhase(project);
-        //peerAssessmentProcess.startGrading(project);
+        //peerAssessmentProcess.startStudentAssessments(project);
     }
 
     @Test
@@ -126,7 +124,7 @@ public class TestAddAssessment {
         Project project = new Project("Meine Güte");
         List<Group> groups = groupFinding.getGroups(project);
         assertFalse(groups.isEmpty());
-        peerAssessmentProcess.startGrading(project);
+        peerAssessmentProcess.startStudentAssessments(project);
     }
 
     @Test
@@ -136,7 +134,7 @@ public class TestAddAssessment {
         assertFalse(groups.isEmpty());
 
         //peerAssessmentProcess.startDocentGrading(project);
-        peerAssessmentProcess.startGrading(project);
+        peerAssessmentProcess.startStudentAssessments(project);
 
         //taskDAO.updateTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Progress.FINISHED);
         //taskDAO.persistTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Phase.GRADING);

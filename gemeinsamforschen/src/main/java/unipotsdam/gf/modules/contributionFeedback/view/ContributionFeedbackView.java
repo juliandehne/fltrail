@@ -18,7 +18,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,6 +59,21 @@ public class ContributionFeedbackView {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         List<ContributionFeedback> contributionFeedbacks = contributionFeedbackService.getContributionFeedbacksForFullSubmission(fullSubmissionId);
+        if (Objects.isNull(contributionFeedbacks)) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(contributionFeedbacks).build();
+    }
+
+    @GET
+    @Path("/id/{id}/category/{category}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getContributionFeedbackForCategoryInSubmission(
+            @PathParam("id") String fullSubmissionId,
+            @PathParam("category") String category
+    ) {
+        ContributionFeedback contributionFeedbacks =
+                contributionFeedbackService.getContributionFeedback(fullSubmissionId, category);
         if (Objects.isNull(contributionFeedbacks)) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }

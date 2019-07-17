@@ -5,14 +5,9 @@ import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
-import unipotsdam.gf.modules.submission.model.SubmissionResponse;
-import unipotsdam.gf.modules.submission.model.Visibility;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -22,14 +17,7 @@ import unipotsdam.gf.session.Lock;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -66,6 +54,9 @@ public class SubmissionService {
     @Inject
     private Lock lock;
 
+    @Inject
+    private ProjectDAO projectDAO;
+
 
     @POST
     @Path("/full")
@@ -95,11 +86,6 @@ public class SubmissionService {
     public Response getFullSubmission(@PathParam("id") String fullSubmissionId) {
         // get full submission from database based by id
         FullSubmission fullSubmission = submissionController.getFullSubmission(fullSubmissionId);
-        if (fullSubmission != null && lock.lock(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()))) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
-        }
-        assert fullSubmission != null;
-        lock.lock(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()));
         return Response.ok(fullSubmission).build();
     }
 
@@ -111,14 +97,9 @@ public class SubmissionService {
             @QueryParam("version") Integer version) {
         Project project = new Project(projectName);
         FullSubmission fullSubmission = submissionController.getFullSubmissionBy(groupId, project, fileRole, version);
-        //needed for ANNOTATE_DOSSIER, UPLOAD_DOSSIER, REEDIT_DOSSIER, GIVE_FEEDBACK, SEE_FEEDBACK
-        if (fullSubmission != null && lock.lock(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()))) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity(fullSubmission).build();
-        }
         if (fullSubmission == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("No submission found!").build();
         }
-        lock.lock(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(groupId));
         return Response.ok(fullSubmission).build();
     }
 
@@ -204,9 +185,12 @@ public class SubmissionService {
     @Path("/id/{submissionId}/projects/{projectId}/finalize")
     public void finalize(
             @PathParam("submissionId") String submissionId, @PathParam("projectId") String projectId,
-            @Context HttpServletRequest req) {
+            @Context HttpServletRequest req) throws Exception {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
-        dossierCreationProcess.finalizeDossier(submissionId, projectId, userEmail);
+        User user = userDAO.getUserByEmail(userEmail);
+        Project project = projectDAO.getProjectByName(projectId);
+        FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
+        dossierCreationProcess.finalizeDossier(fullSubmission, project, user);
     }
 
     @GET

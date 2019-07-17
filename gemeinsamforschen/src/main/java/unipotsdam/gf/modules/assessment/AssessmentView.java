@@ -127,10 +127,16 @@ public class AssessmentView {
     }
 
 
+    /**
+     *  * TODO @Julian rename to start student assessments
+     *      *
+     * @param projectName
+     * @throws Exception
+     */
     @POST
     @Path("/grading/start/projects/{projectName}")
     public void startGrading(@PathParam("projectName") String projectName) throws Exception {
-        peerAssessmentProcess.startGrading(new Project(projectName));
+        peerAssessmentProcess.startStudentAssessments(new Project(projectName));
     }
 
     @GET

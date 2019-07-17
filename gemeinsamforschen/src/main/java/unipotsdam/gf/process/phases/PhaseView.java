@@ -1,12 +1,8 @@
 package unipotsdam.gf.process.phases;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import unipotsdam.gf.exceptions.RocketChatDownException;
-import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
-import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
+import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.user.User;
 
 import javax.inject.Inject;
@@ -15,8 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,17 +57,15 @@ public class PhaseView {
     @GET
     @Produces({MediaType.TEXT_PLAIN})
     public String getCurrentPhase(@PathParam("projectName") String projectName) throws Exception {
-        String result = projectDAO.getProjectByName(projectName).getPhase().toString();
-        return result;
+        return projectDAO.getProjectByName(projectName).getPhase().toString();
     }
 
     @Path("/projects/{projectName}/closed")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public java.util.List<String> getClosedPhase(@PathParam("projectName") String projectName) throws Exception {
-        Phase phase = projectDAO.getProjectByName(projectName).getPhase();
-        List<Phase> previousPhases = phases.getPreviousPhases(phase);
-        List<String> result =  previousPhases.stream().map(Enum::toString).collect(Collectors.toList());
-        return result;
+        Project project = projectDAO.getProjectByName(projectName);
+        List<Phase> previousPhases = phases.getPreviousPhases(project.getPhase());
+        return previousPhases.stream().map(Enum::toString).collect(Collectors.toList());
     }
 }

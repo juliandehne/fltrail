@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.fileManagement;
 
+import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
@@ -95,4 +96,18 @@ public class FileManagementDAO {
         connect.issueInsertOrDeleteStatement(mysqlRequest, fileLocation);
         connect.close();
     }
+
+    public Boolean fileExists(Project project, FileRole fileRole, Group group) {
+        Boolean result2 = false;
+
+        connect.connect();
+        String request = "SELECT * from largefilestorage where groupId =? and projectName = ? and filerole = ?";
+        VereinfachtesResultSet resultSET =
+                connect.issueSelectStatement(request, group.getId(), project.getName(), fileRole.name());
+        if (resultSET != null) {
+            result2 = resultSET.next();
+        }
+        connect.close();
+        return result2;
+    };
 }

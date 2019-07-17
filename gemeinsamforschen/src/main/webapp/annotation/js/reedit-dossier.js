@@ -3,6 +3,7 @@ let fullSubmissionId = "";
 let fileRole;
 let projectName;
 $(document).ready(function () {
+    handleLocker("REEDIT_DOSSIER");
     projectName = $('#projectName').text().trim();
     getMyGroupId(function (groupId) {
         getFullSubmissionOfGroup(groupId, 1)

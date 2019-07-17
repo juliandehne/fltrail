@@ -32,10 +32,10 @@ public class FullSubmissionPostRequest {
     public FullSubmissionPostRequest() {
     }
 
-    public FullSubmissionPostRequest(Group group, String html, FileRole fileRole, Project project, Visibility
+    public FullSubmissionPostRequest(Group group, String text, FileRole fileRole, Project project, Visibility
             visibility, String header) {
         this.groupId = group.getId();
-        this.html = html;
+        this.text = text;
         this.fileRole = fileRole;
         this.personal = false;
         this.projectName = project.getName();

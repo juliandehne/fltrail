@@ -59,19 +59,50 @@ function updateView(project) {
         doPhaseSpell(selectedProject.name, "DossierFeedback");
     });
 
+
+    $("#uploadPresentationButton").unbind();
+    $("#uploadPresentationButton").click(function () {
+        doSpell(selectedProject.name, "UPLOAD_PRESENTATION");
+    });
+
+    $("#uploadFinalReportButton").unbind();
+    $("#uploadFinalReportButton").click(function () {
+        doSpell(selectedProject.name, "UPLOAD_FINAL_REPORT");
+    });
+
+    $("#externalPAButton").unbind();
+    $("#externalPAButton").click(function () {
+        doSpell(selectedProject.name, "GIVE_EXTERNAL_ASSESSMENT");
+    });
+
+    $("#internalPAButton").unbind();
+    $("#internalPAButton").click(function () {
+        doSpell(selectedProject.name, "GIVE_INTERNAL_ASSESSMENT");
+    });
+
+    $("#docentPAButton").unbind();
+    $("#docentPAButton").click(function () {
+        doSpell(selectedProject.name, "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
+    });
+
+    $("#finishAssessmentAndGradingButton").unbind();
+    $("#finishAssessmentAndGradingButton").click(function () {
+        doSpell(selectedProject.name, "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
+    });
+
     updateState();
 }
 
 function doSpell(project, taskName) {
-    let requestObj = new RequestObj(1, "/wizard", "/projects/?/task/?", [project, taskName], [])
-    serverSide(requestObj, "POST", function (response) {
+    let requestObj = new RequestObj(1, "/wizard", "/projects/?/task/?", [project, taskName], []);
+    serverSide(requestObj, "POST", function () {
         //console.log()
         updateState();
     });
 }
 
 function doPhaseSpell(project, phase) {
-    let requestObj = new RequestObj(1, "/wizard", "/projects/?/phase/?", [project, phase], [])
+    let requestObj = new RequestObj(1, "/wizard", "/projects/?/phase/?", [project, phase], []);
     serverSide(requestObj, "POST", function (response) {
         //console.log()
         updateState();
