@@ -7,6 +7,7 @@ import unipotsdam.gf.modules.reflection.model.LearningGoalStudentResult;
 import unipotsdam.gf.modules.reflection.service.LearningGoalStoreDAO;
 import unipotsdam.gf.modules.reflection.service.LearningGoalStudentResultsDAO;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.process.IExecutionProcess;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.annotation.ManagedBean;
@@ -36,6 +37,8 @@ public class LearningGoalView {
     @Inject
     private IReflection reflectionService;
 
+    private IExecutionProcess executionProcess;
+
     @Inject
     private GFContexts gfContexts;
 
@@ -56,19 +59,20 @@ public class LearningGoalView {
     @Path("result")
     @Produces(MediaType.APPLICATION_JSON)
     public Response saveLearningGoalStudentResult(@Context HttpServletRequest req, LearningGoalStudentResult learningGoalStudentResult) {
-        User user;
         try {
-            user = new User(gfContexts.getUserEmail(req));
+            if (Objects.isNull(learningGoalStudentResult)) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("entity was null").build();
+            }
+            User user = new User(gfContexts.getUserEmail(req));
+            LearningGoalStudentResult newLearningGoal = executionProcess.uploadLearningGoalResult(learningGoalStudentResult, user);
+            if (newLearningGoal == null) {
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("user email was null or empty").build();
+            }
+            return Response.ok(newLearningGoal).build();
         } catch (IOException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("The user Email was not in the context").build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while processing the saving of result").build();
         }
-        if (Objects.isNull(learningGoalStudentResult)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("entity was null").build();
-        }
-        LearningGoalStudentResult newLearningGoal = reflectionService.saveStudentResult(learningGoalStudentResult, user);
-        if (newLearningGoal == null) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("user email was null or empty").build();
-        }
-        return Response.ok(newLearningGoal).build();
     }
 }

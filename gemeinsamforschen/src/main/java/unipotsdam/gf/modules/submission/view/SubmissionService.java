@@ -64,21 +64,21 @@ public class SubmissionService {
             @Context HttpServletRequest req, FullSubmissionPostRequest fullSubmissionPostRequest) {
         // save full submission request in database and return the new full submission
 
-        String userEmail = null;
+        String userEmail;
         try {
             userEmail = gfContexts.getUserEmail(req);
+            User user = userDAO.getUserByEmail(userEmail);
+            Project project = new Project(fullSubmissionPostRequest.getProjectName());
+
+
+            final FullSubmission fullSubmission = dossierCreationProcess.addDossier(fullSubmissionPostRequest, user, project);
+            lock.deleteLockInDB(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()));
+            return Response.ok(fullSubmission).build();
         } catch (IOException e) {
             e.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).entity("user email is not in context").build();
         }
-        User user = userDAO.getUserByEmail(userEmail);
-        Project project = new Project(fullSubmissionPostRequest.getProjectName());
 
-
-        final FullSubmission fullSubmission =
-                dossierCreationProcess.addDossier(fullSubmissionPostRequest, user, project);
-        lock.deleteLockInDB(TaskName.UPLOAD_DOSSIER, groupDAO.getGroupByGroupId(fullSubmission.getGroupId()));
-        return Response.ok(fullSubmission).build();
     }
 
     @GET

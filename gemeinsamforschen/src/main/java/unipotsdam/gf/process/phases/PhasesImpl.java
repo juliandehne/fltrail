@@ -24,6 +24,7 @@ import javax.inject.Singleton;
 import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static unipotsdam.gf.util.CollectionUtil.updateValueInMap;
@@ -81,11 +82,103 @@ public class PhasesImpl implements IPhases {
     }
 
 
+    private static Map<Phase, ArrayList<TaskName>> getPhaseTaskMap()
+            throws InstantiationException, IllegalAccessException {
+        HashMap<Phase, ArrayList<TaskName>> phaseMapTMP = new HashMap<>();
+        TaskName[] values = TaskName.values();
+        for (TaskName value : values) {
+            switch (value) {
+                case WAIT_FOR_PARTICPANTS:
+                case CLOSE_GROUP_FINDING_PHASE:
+                case WAITING_FOR_GROUP:
+                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
+                    break;
+                case GIVE_FEEDBACK:
+                case UPLOAD_DOSSIER:
+                case SEE_FEEDBACK:
+                case REEDIT_DOSSIER:
+                case ANNOTATE_DOSSIER:
+                case CLOSE_DOSSIER_FEEDBACK_PHASE:
+                case WAITING_FOR_STUDENT_DOSSIERS:
+                case CONTACT_GROUP_MEMBERS:
+                case INTRODUCE_E_PORTFOLIO_DOCENT:
+                case INTRODUCE_E_PORTFOLIO_STUDENT:
+                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
+                    break;
+                case WAIT_FOR_LEARNING_GOALS:
+                case WORK_ON_LEARNING_GOAL:
+                case UPLOAD_LEARNING_GOAL_RESULT:
+                case ANSWER_REFLECTION_QUESTIONS:
+                case CHOOSE_ASSESSMENT_MATERIAL:
+                case COLLECT_RESULTS_FOR_ASSESSMENT:
+                case WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION:
+                case CLOSE_EXECUTION_PHASE:
+                case WAIT_FOR_EXECUTION_PHASE_END:
+                case WAIT_FOR_REFLECTION_QUESTIONS_ANSWERS:
+                case WAIT_FOR_LEARNING_GOAL_RESULTS:
+                case END_LEARNING_GOAL_PERIOD:
+                case START_LEARNING_GOAL_PERIOD:
+                case CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS:
+                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
+                    break;
+                case WAIT_FOR_GRADING:
+                case CHOOSE_REFLEXION_QUESTIONS:
+                case GIVE_EXTERNAL_ASSESSMENT:
+                case GIVE_INTERNAL_ASSESSMENT:
+                case WAIT_FOR_UPLOAD:
+                case UPLOAD_PRESENTATION:
+                case CLOSE_PEER_ASSESSMENTS_PHASE:
+                case UPLOAD_FINAL_REPORT:
+                case CLOSE_ASSESSMENT_PHASE:
+                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
+                    break;
+                case GIVE_EXTERNAL_ASSESSMENT_TEACHER:
+                case END_STUDENT:
+                case GIVE_FINAL_GRADES:
+                case END_DOCENT:
+                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
+                    break;
+            }
+        }
+
+        return phaseMapTMP;
+    }
+
+    private void closeProject() {
+        // TODO implement
+    }
+
+    private Phase getNextPhase(Phase phase) {
+        switch (phase) {
+            case GroupFormation:
+                return Phase.DossierFeedback;
+            case DossierFeedback:
+                return Phase.Execution;
+            case Execution:
+                return Phase.Assessment;
+            case Assessment:
+                return Phase.GRADING;
+            case GRADING:
+            default:
+                return Phase.Projectfinished;
+        }
+    }
+
+    @Override
+    public void saveState(Project project, Phase phase) {
+        assert project.getName() != null;
+        connect.connect();
+        String mysqlRequest = "UPDATE `projects` SET `phase`=? WHERE name=? LIMIT 1";
+        connect.issueUpdateStatement(mysqlRequest, phase.name(), project.getName());
+        connect.close();
+    }
+
     /**
      * erzwinge die Übergabe des Autoren, weil implizit dieser im Projekt verwendet wird bei dem
      * Phasenwechsel
+     *
      * @param currentPhase
-     * @param project the project to end the phase in
+     * @param project      the project to end the phase in
      * @param author
      * @throws RocketChatDownException
      * @throws UserDoesNotExistInRocketChatException
@@ -129,157 +222,13 @@ public class PhasesImpl implements IPhases {
             case Projectfinished:
                 closeProject();
                 break;
-            default: {
-            }
-        }
-    }
-
-    private void closeProject() {
-        // TODO implement
-    }
-
-    private Phase getNextPhase(Phase phase) {
-        switch (phase) {
-            case GroupFormation:
-                return Phase.DossierFeedback;
-            case DossierFeedback:
-                return Phase.Execution;
-            case Execution:
-                return Phase.Assessment;
-            case Assessment:
-                return Phase.GRADING;
-            case GRADING:
-                return Phase.Projectfinished;
             default:
-                return Phase.Projectfinished;
+                break;
         }
     }
 
     @Override
-    public void saveState(Project project, Phase phase) {
-        assert project.getName() != null;
-        connect.connect();
-        String mysqlRequest = "UPDATE `projects` SET `phase`=? WHERE name=? LIMIT 1";
-        connect.issueUpdateStatement(mysqlRequest, phase.name(), project.getName());
-        connect.close();
-    }
-
-    private static Map<Phase, ArrayList<TaskName>> getPhaseTaskMap()
-            throws InstantiationException, IllegalAccessException {
-        HashMap<Phase, ArrayList<TaskName>> phaseMapTMP = new HashMap<Phase, ArrayList<TaskName>>();
-        TaskName[] values = TaskName.values();
-        for (TaskName value : values) {
-            switch (value) {
-                case WAIT_FOR_GRADING:
-                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
-                    break;
-                case GIVE_FEEDBACK:
-                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
-                    break;
-                case WAIT_FOR_PARTICPANTS:
-                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
-                    break;
-                case CHOOSE_REFLEXION_QUESTIONS:
-                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
-                    break;
-                case GIVE_EXTERNAL_ASSESSMENT:
-                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
-                    break;
-                case UPLOAD_DOSSIER:
-                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
-                    break;
-                case GIVE_INTERNAL_ASSESSMENT:
-                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
-                    break;
-                case CLOSE_GROUP_FINDING_PHASE:
-                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
-                    break;
-                case CHOOSE_FITTING_COMPETENCES:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case GIVE_EXTERNAL_ASSESSMENT_TEACHER:
-                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
-                    break;
-                case SEE_FEEDBACK:
-                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
-                    break;
-                case REEDIT_DOSSIER:
-                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
-                    break;
-                case WAIT_FOR_UPLOAD:
-                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
-                    break;
-                case ANNOTATE_DOSSIER:
-                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
-                    break;
-                case WAITING_FOR_GROUP:
-                    updateValueInMap(phaseMapTMP, Phase.GroupFormation, value);
-                    break;
-                case UPLOAD_PRESENTATION:
-                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
-                    break;
-                case ANSWER_REFLEXION_QUESTIONS:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case CLOSE_DOSSIER_FEEDBACK_PHASE:
-                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
-                    break;
-                case CLOSE_PEER_ASSESSMENTS_PHASE:
-                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
-                    break;
-                case WAITING_FOR_STUDENT_DOSSIERS:
-                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
-                    break;
-                case COLLECT_RESULTS_FOR_ASSESSMENT:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case END_STUDENT:
-                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
-                    break;
-                case GIVE_FINAL_GRADES:
-                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
-                    break;
-                case END_EXECUTION_PHASE:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case UPLOAD_FINAL_REPORT:
-                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
-                    break;
-                case CLOSE_EXECUTION_PHASE:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case INTRODUCE_E_PORTFOLIO_DOCENT:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case INTRODUCE_E_PORTFOLIO_STUDENT:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case END_DOCENT:
-                    updateValueInMap(phaseMapTMP, Phase.GRADING, value);
-                    break;
-                case WAIT_FOR_REFLECTION:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case CONTACT_GROUP_MEMBERS:
-                    updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
-                    break;
-                case CLOSE_ASSESSMENT_PHASE:
-                    updateValueInMap(phaseMapTMP, Phase.Assessment, value);
-                    break;
-                case WAIT_FOR_EXECUTION_PHASE_END:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-                case WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION:
-                    updateValueInMap(phaseMapTMP, Phase.Execution, value);
-                    break;
-            }
-        }
-
-        return phaseMapTMP;
-    }
-
-    @Override
-    public java.util.List<TaskName> getTaskNames(Phase phase) {
+    public List<TaskName> getTaskNames(Phase phase) {
         return phaseMap.get(phase);
     }
 
@@ -327,7 +276,7 @@ public class PhasesImpl implements IPhases {
     }
 
     @Override
-    public java.util.List<Phase> getPreviousPhases(Phase phase) {
+    public List<Phase> getPreviousPhases(Phase phase) {
         ArrayList<Phase> phases = new ArrayList<>();
         phases.add(Phase.GroupFormation);
         phases.add(Phase.DossierFeedback);
