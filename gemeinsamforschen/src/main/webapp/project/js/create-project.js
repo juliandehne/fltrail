@@ -52,6 +52,7 @@ $(document).ready(function () {
 function createNewProject(allTheTags) {
     let gfm = $('input[name=gfm]:checked').val();
     if (typeof  gfm ==="undefined"){
+        $('#groupMechanismMissing').show();
         return false;
     }
     loaderStart();
@@ -96,6 +97,7 @@ function errorMessages() {
     $("#nameProject").focus();
     $('#projectNameExists').hide();
     $('#projectIsMissing').hide();
+    $('#groupMechanismMissing').hide();
     $('#exactNumberOfTags').hide();
     $('#specialChars').hide();
     $('#projectDescriptionMissing').hide();
@@ -215,6 +217,7 @@ function sendGroupPreferences() {
     } else if (gfm === "Keine Gruppen") {
         gfm = "SingleUser";
     }else{
+        $('#groupMechanismMissing').show();
         loaderStop();
         return false;
     }

@@ -1,8 +1,10 @@
 package unipotsdam.gf.modules.assessment;
 
+import unipotsdam.gf.modules.fileManagement.ContributionStorage;
 import unipotsdam.gf.modules.user.User;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * Dient der Kommunikation mit der FINAL GRADES Seite des Dozenten
@@ -10,6 +12,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class UserPeerAssessmentData {
     private User user;
+    private Integer groupId;
+    private List<ContributionStorage> files;
     private Double groupProductRating;
     private Double groupWorkRating;
     //beyondStdDeviation is positive if groupWorkRating is too high, negative if it's too low, zero otherwise
@@ -28,6 +32,22 @@ public class UserPeerAssessmentData {
         this.user = user;
         this.groupProductRating = groupProductRating;
         this.groupWorkRating = groupWorkRating;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
+    }
+
+    public List<ContributionStorage> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<ContributionStorage> files) {
+        this.files = files;
     }
 
     public Integer getBeyondStdDeviation() {

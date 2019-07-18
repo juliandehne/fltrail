@@ -8,7 +8,7 @@ const taskNames = new Enum( "WAIT_FOR_PARTICPANTS", "UPLOAD_DOSSIER", "ANNOTATE_
 
 $(document).ready(function () {
 
-    let requestObj = new RequestObj(1, "/wizard","/projects",[],[])
+    let requestObj = new RequestObj(1, "/wizard", "/projects", [], []);
     serverSide(requestObj, "GET", function (response) {
         projectList = response;
         for (let i = 0 ; i < response.length; i++)
@@ -94,6 +94,7 @@ function updateView(project) {
 }
 
 function doSpell(project, taskName) {
+    loaderStart();
     let requestObj = new RequestObj(1, "/wizard", "/projects/?/task/?", [project, taskName], []);
     serverSide(requestObj, "POST", function () {
         //console.log()
@@ -102,6 +103,7 @@ function doSpell(project, taskName) {
 }
 
 function doPhaseSpell(project, phase) {
+    loaderStart();
     let requestObj = new RequestObj(1, "/wizard", "/projects/?/phase/?", [project, phase], []);
     serverSide(requestObj, "POST", function (response) {
         //console.log()
@@ -185,6 +187,7 @@ function updateTaskStates() {
         if (tasksfinished.includes(taskNames.getName(taskNames.GIVE_EXTERNAL_ASSESSMENT_TEACHER))) {
             $("#docentPAButton").attr("disabled", true);
         }
+        loaderStop();
         alert("Spell has been cast. Simulation has run my friend.")
     })
 }

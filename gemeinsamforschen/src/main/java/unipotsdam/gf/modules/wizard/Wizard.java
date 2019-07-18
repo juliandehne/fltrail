@@ -222,10 +222,7 @@ public class Wizard {
     public void simulatePreviousPhases(Phase correspondingPhase, Project project) throws Exception {
         List<Phase> previousPhases = phases.getFinishedPhases(correspondingPhase, project);
         for (Phase previousPhase : previousPhases) {
-            // todo wieder rausnehmen
-            if (!previousPhase.equals(Phase.DossierFeedback)) {
-                simulatePhase(project, previousPhase);
-            }
+            simulatePhase(project, previousPhase);
         }
     }
 

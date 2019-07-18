@@ -53,7 +53,10 @@ function writeGradesToView(projectName, callback) {
 function modelTable() {
     $('#tableGrades').DataTable({
         "scrollY": "50vh",
+        dom: 'Bfrtip',
+        select: true,
         "scrollCollapse": true,
+        paging: false,
     });
     $('.dataTables_length').addClass('bs-select');
 }
@@ -61,8 +64,18 @@ function modelTable() {
 function fillObjectWithGrades(data) {
     let grades = data.data;
     let resultList = [];
+    let fileCount = 0;
     for (let student in grades) {
         let result;
+        let files = [];
+        for (let i = 0; i < grades[student].files.length; i++) {
+            files.push({
+                fileCount: fileCount,
+                filePath: grades[student].files[i].fileLocation,
+                fileName: grades[student].files[i].fileName
+            });
+            fileCount++;
+        }
         if (grades.hasOwnProperty(student)) {
             let finalMark;
             if (grades[student].finalRating === null) {
@@ -101,16 +114,18 @@ function fillObjectWithGrades(data) {
                 cleanedSuggested += productPeer;
                 countValidEntries++;
                 levelOfAgreement = "alert-success";
-                if ((productPeer + 0.5 < productDocent) || (productPeer - 0.5 > productDocent)) {
+                if ((productPeer + 0.3 < productDocent) || (productPeer - 0.3 > productDocent)) {
                     levelOfAgreement = "alert-warning";
                 }
-                if ((productPeer + 0.9 < productDocent) || (productPeer - 0.9 > productDocent)) {
+                if ((productPeer + 0.7 < productDocent) || (productPeer - 0.7 > productDocent)) {
                     levelOfAgreement = "alert-danger";
                 }
             }
             cleanedSuggested += productDocent;
             cleanedSuggested = parseFloat(Number.parseFloat(cleanedSuggested / countValidEntries).toFixed(2));
             result = {
+                groupId: grades[student].groupId,
+                files: files,
                 levelOfAgreement: levelOfAgreement,
                 userId: grades[student].user.id,
                 name: grades[student].user.name,
@@ -132,25 +147,30 @@ function fillObjectWithGrades(data) {
 
 function saveGrades(projectName, callback) {
     let data = viewToUserPeerAssessmentData();
-    $.ajax({
-        url: '../rest/assessment/grades/project/' + projectName + '/sendData',
-        type: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "Cache-Control": "no-cache"
-        },
-        data: JSON.stringify(data),
-        success: function () {
-            callback();
-        },
-        error: function () {
-        }
-    });
+    if (data !== null) {
+        $.ajax({
+            url: '../rest/assessment/grades/project/' + projectName + '/sendData',
+            type: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache"
+            },
+            data: JSON.stringify(data),
+            success: function () {
+                callback();
+            },
+            error: function () {
+            }
+        });
+    } else {
+        loaderStop();
+    }
 }
 
 function viewToUserPeerAssessmentData() {
     let grades = [];
     let result = {};
+    let notFinal = false;
     $('#allGradesOfAllStudents').children().each(function () {     //the TRs
         let UserPeerAssessmentData = {};
         let user = {};
@@ -175,6 +195,9 @@ function viewToUserPeerAssessmentData() {
             }
             if ($(this).attr("name") === "finalMark") {
                 UserPeerAssessmentData.finalRating = $(this).find("input").val();
+                if (UserPeerAssessmentData.finalRating === "0.00") {
+                    notFinal = true;
+                }
             }
         });
         UserPeerAssessmentData.user = user;
@@ -182,6 +205,10 @@ function viewToUserPeerAssessmentData() {
     });
     result.data = grades;
     result.final = $('#finalizeGrading').prop("checked");
+    if (notFinal && result.final) {
+        $('#gradeMissing').attr('hidden', false);
+        return null;
+    }
     return result;
 }
 

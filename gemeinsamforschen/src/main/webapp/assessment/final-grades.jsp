@@ -30,11 +30,16 @@
 
     <main>
         <div class="row group">
-            <div class="col span_content span_l_of_2">
+            <div class="col span_content span_2_of_2">
                 <h1>Abschließende Noten vergeben</h1>
                 <div class="alert alert-success" id="taskCompleted">
                     Die Zensuren wurden gespeichert.
                 </div>
+                <div class="alert alert-warning" id="gradeMissing" hidden>
+                    Bevor Sie die Zensuren final speichern können, müssen alle Studenten eine Zensur erhalten haben.
+                    Bitte überprüfen Sie dies.
+                </div>
+
                 <div class="table-wrapper-scroll-y my-custom-scrollbar">
                     <table id="tableGrades" class="table table-striped table-sm" cellspacing="0" width="100%">
                         <thead>
@@ -76,6 +81,21 @@
                 <tr class="grading" id="grades_${userId}">
                         <td name="name">
                             ${name}
+                            <a data-toggle='collapse' href="#${name}" role='button'
+                               aria-expanded='false' aria-controls='${name}'>
+                                <i class="fas fa-ellipsis-h"></i>
+                            </a>
+                            <div class='collapse' id="${name}" style='position: absolute;'>
+                                <div class='card card-body'>
+                                <ul>
+                                {{each files}}
+                                    <li>
+                                    <a href="../rest/fileStorage/download/fileLocation/${filePath}">${fileName}</a>
+                                    </li>
+                                {{/each}}
+                                </ul>
+                                </div>
+                            </div>
                         </td>
                         <td name="userEmail">
                             ${userEmail}
@@ -148,17 +168,6 @@
                         um Ausreißer zu bereinigen.
                     </label>
                 </div>
-            </div>
-            <div id="contributionListDiv">
-                <h4 id="fileManagementHeader">Ergebnisse</h4>
-                <ul id="contributionList">
-                    <script id="contributionListTemplate" type="text/x-jQuery-tmpl">
-            <li>
-                <a id="${fileCount}" href="../rest/fileStorage/download/fileLocation/${fileLocation}">${fileName}</a>
-            </li>
-
-                    </script>
-                </ul>
             </div>
         </div>
     </main>

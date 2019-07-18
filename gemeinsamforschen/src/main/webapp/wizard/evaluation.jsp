@@ -7,6 +7,7 @@
     <title>fltrailwizard</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="../libs/css/styles.css">
     <script type="application/javascript" src="assets/js/jquery.min.js"></script>
     <script type="application/javascript" src="../taglibs/js/enum.js"></script>
     <script type="application/javascript" src="../taglibs/js/utility.js"></script>
@@ -15,6 +16,12 @@
 </head>
 
 <body>
+<div class="loader-inactive" id="loader">
+    <div class="sk-cube1 sk-cube"></div>
+    <div class="sk-cube2 sk-cube"></div>
+    <div class="sk-cube4 sk-cube"></div>
+    <div class="sk-cube3 sk-cube"></div>
+</div>
 <div class="row">
     <div class="col">
         <h1>Projektauswahl</h1>
