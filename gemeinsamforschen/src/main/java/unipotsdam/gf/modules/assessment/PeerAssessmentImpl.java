@@ -237,6 +237,7 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         // get the internal rating aggregated
 
         // get the  peer product rating
+
         HashMap<User, Double> peerProductRatings = assessmentDAO.getPeerProductRatings(project);
 
         // get the docent product rating

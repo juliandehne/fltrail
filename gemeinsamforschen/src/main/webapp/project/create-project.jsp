@@ -157,6 +157,9 @@
                                 <input type="text" class="category">
                             </li>
                         </ul>
+                        <div class="alert alert-warning" id="noSpecialCharacters" hidden>
+                            <p>Verwenden Sie hier keine Umlaute oder Sonderzeichen.</p>
+                        </div>
                         <script id="categoryTemplate" type="text/x-jQuery-tmpl">
                         <li>
                             <label>

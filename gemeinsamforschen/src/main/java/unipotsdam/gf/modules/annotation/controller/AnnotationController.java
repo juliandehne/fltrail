@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.annotation.controller;
 
 import unipotsdam.gf.interfaces.IAnnotation;
 import unipotsdam.gf.modules.annotation.model.*;
+import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
@@ -9,6 +10,7 @@ import unipotsdam.gf.process.tasks.Task;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class AnnotationController implements IAnnotation {
@@ -205,8 +207,14 @@ public class AnnotationController implements IAnnotation {
     }
 
     public void setAnnotationCategories(Project project) {
+        List<String> categories;
+        if (project.getCategories().size() == 0) {
+            categories = Categories.standardAnnotationCategories;
+        } else {
+            categories = project.getCategories();
+        }
         connection.connect();
-        for (String category : project.getCategories()) {
+        for (String category : categories) {
             String query = "INSERT INTO `categoriesselected`(`projectName`, `categorySelected`) VALUES (?,?)";
             connection.issueUpdateStatement(
                     query, project.getName(), category);
