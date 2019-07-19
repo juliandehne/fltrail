@@ -27,7 +27,6 @@ public class ContributionFeedbackDAO {
                 "INSERT INTO contributionFeedback (`id`, `groupId`, `fullSubmissionId`, `fullSubmissionPartCategory`,`text`,`userEmail`) values (?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, uuid, groupIdString, contributionFeedback.getFullSubmissionId(),
                 contributionFeedback.getFullSubmissionPartCategory(), contributionFeedback.getText(), contributionFeedback.getUserEmail());
-
         connect.close();
         return findOneById(uuid);
     }

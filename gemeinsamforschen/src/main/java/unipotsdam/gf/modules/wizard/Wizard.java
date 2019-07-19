@@ -9,6 +9,7 @@ import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -221,10 +222,7 @@ public class Wizard {
     public void simulatePreviousPhases(Phase correspondingPhase, Project project) throws Exception {
         List<Phase> previousPhases = phases.getFinishedPhases(correspondingPhase, project);
         for (Phase previousPhase : previousPhases) {
-            // todo wieder rausnehmen
-            if (!previousPhase.equals(Phase.DossierFeedback)) {
-                simulatePhase(project, previousPhase);
-            }
+            simulatePhase(project, previousPhase);
         }
     }
 
@@ -238,47 +236,17 @@ public class Wizard {
         return orderedTasks.subList(0, i + 1);
     }
 
-    public void createStudents(Project project) throws Exception {
-        if (projectDAO.getParticipantCount(project).getParticipants()  == 0) {
-            ArrayList<User> students = new ArrayList<>();
-            Random random = new Random();
-            for (int i = 0; i < 30; i++) {
-                try {
-                    User user = factory.manufacturePojo(User.class);
-                    user.setStudent(true);
-
-                    user.setRocketChatUsername("studentwizard" + random.nextInt(1000000));
-                    user.setEmail("studentwizard" + random.nextInt(1000000) + "@stuff.com");
-                    user.setPassword("egal");
-                    projectCreationProcess.deleteUser(user);
-                    projectCreationProcess.createUser(user);
-                    projectCreationProcess.studentEntersProject(project, user);
-                    students.add(user);
-                } catch (Exception e) {
-                    System.out.println(e);
-                    // might have been a problem with UUID generation should not crash
-                }
-            }
-            if (FLTrailConfig.wizardSimulatesFullAlgorithms) {
-                for (User student : students) {
-                    GroupFormationMechanism groupMechanismSelected = management.getProjectConfiguration(project).getGroupMechanismSelected();
-                    switch (groupMechanismSelected) {
-                        case UserProfilStrategy:
-                            // mock compbase data is generated
-                            createMockDataForGroupal(project, student);
-                            break;
-                        case LearningGoalStrategy:
-                            // mock groupal data generation in case manual group formation is tested
-                            createMockDataForCompBase(project, student);
-                            Thread.sleep(60000);
-                            break;
-                    }
-                }
-            } else {
-                groupFormationProcess.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
-            }
-            //groupFormationProcess.getOrInitializeGroups(project);
-        }
+    public static String convertTextToQuillJs(String text) throws IOException {
+        HashMap<String, String> quillJsContents = new HashMap<>();
+        quillJsContents.put("insert", text);
+        ArrayList<HashMap<String, String>> lArray = new ArrayList<>();
+        lArray.add(quillJsContents);
+        lArray.add(quillJsContents);
+        HashMap<String, ArrayList<HashMap<String, String>>> lObject = new HashMap<>();
+        lObject.put("ops", lArray);
+        ObjectMapper mapper = new ObjectMapper();
+        text = mapper.writeValueAsString(lObject);
+        return text;
     }
 
     /**
@@ -332,29 +300,46 @@ public class Wizard {
         groupFormationProcess.sendGroupAlDataToServer(data, user, project);
     }
 
-    public void createDossiers(Project project) throws IOException, DocumentException {
-        if (submissionController.getAllGroupsWithDossierUploaded(project).size() == 0) {
-            List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
-            for (Group group : groupsByProjectName) {
-                // add first submission
-                User representativUser = groupDAO.getRepresentativUser(group, project);
-                // we have to persist it in quill js style
-                String text = loremIpsum.getWords(500);
-                text = convertTextToQuillJs(text);
+    public void createStudents(Project project) throws Exception {
+        if (projectDAO.getParticipantCount(project).getParticipants() == 0) {
+            ArrayList<User> students = new ArrayList<>();
+            Random random = new Random();
+            for (int i = 0; i < 30; i++) {
+                try {
+                    User user = factory.manufacturePojo(User.class);
+                    user.setStudent(true);
 
-                String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).get();
-                FullSubmissionPostRequest submission =
-                        new FullSubmissionPostRequest(group, text, FileRole.DOSSIER, project, Visibility.PUBLIC,
-                                title);
-                // TODO @Axel ich verstehe noch nicht, warum FullSubmissionPostRequest sowohl ein Text als auch ein HMTL
-                // Feld hat
-                submission.setText(text);
-                FullSubmission fullSubmission =
-                        dossierCreationProcess.addDossier(submission, representativUser, project);
-                submission.setId(fullSubmission.getId());
+                    user.setRocketChatUsername("studentwizard" + random.nextInt(1000000));
+                    user.setEmail("studentwizard" + random.nextInt(1000000) + "@stuff.com");
+                    user.setPassword("egal");
+                    projectCreationProcess.deleteUser(user);
+                    projectCreationProcess.createUser(user);
+                    projectCreationProcess.studentEntersProject(project, user);
+                    students.add(user);
+                } catch (Exception e) {
+                    System.out.println(e);
+                    // might have been a problem with UUID generation should not crash
+                }
             }
+            if (FLTrailConfig.wizardSimulatesFullAlgorithms) {
+                for (User student : students) {
+                    GroupFormationMechanism groupMechanismSelected = management.getProjectConfiguration(project).getGroupMechanismSelected();
+                    switch (groupMechanismSelected) {
+                        case UserProfilStrategy:
+                            // mock compbase data is generated
+                            createMockDataForGroupal(project, student);
+                            break;
+                        case LearningGoalStrategy:
+                            // mock groupal data generation in case manual group formation is tested
+                            createMockDataForCompBase(project, student);
+                            break;
+                    }
+                }
+            } else {
+                groupFormationProcess.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
+            }
+            //groupFormationProcess.getOrInitializeGroups(project);
         }
-
     }
 
     public void annotateDossiers(Project project) {
@@ -384,34 +369,62 @@ public class Wizard {
         //if (submissionController.get)
     }
 
-    public void generateFeedbacks(Project project) {
+    public void createDossiers(Project project) throws IOException, DocumentException {
+        List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
+        for (Group group : groupsByProjectName) {
+            User representativUser = groupDAO.getRepresentativUser(group, project);
+            if (submissionController.getFullSubmissionBy(group.getId(), project, FileRole.DOSSIER) == null) {
+                String text = loremIpsum.getWords(500);
+                text = convertTextToQuillJs(text);
+                String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).get();
+                FullSubmissionPostRequest submission =
+                        new FullSubmissionPostRequest(group, text, FileRole.DOSSIER, project, Visibility.PUBLIC,
+                                title);
+                submission.setHtml(text);
+                FullSubmission fullSubmission =
+                        dossierCreationProcess.addDossier(submission, representativUser, project);
+                submission.setId(fullSubmission.getId());
+            }
+        }
+    }
+
+    public void generateFeedbacks(Project project) throws IOException {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
             User representativUser = groupDAO.getRepresentativUser(group, project);
             int feedbackTarget = feedback.getFeedBackTarget(project, representativUser);
-            //if feedbackTarget has no "seeFeedback" task, group writes a feedback
+            if (taskDAO.getTasksWithTaskName(feedbackTarget, project, TaskName.SEE_FEEDBACK) == null) {
+                //group writes a feedback
+                FullSubmission fullSubmission = submissionController.getFullSubmissionBy(feedbackTarget, project, FileRole.DOSSIER, 0);
+                List<String> annotationCategories = submissionController.getAnnotationCategories(project);
+                for (String category : annotationCategories) {
+                    String text = loremIpsum.getWords(20);
+                    text = convertTextToQuillJs(text);
+                    ContributionFeedback contributionFeedback = new ContributionFeedback(group.getId(), fullSubmission.getId(), category, text);
+                    contributionFeedback.setUserEmail(representativUser.getEmail());
+                    dossierCreationProcess.saveFeedback(contributionFeedback);
+                }
+                dossierCreationProcess.saveFinalFeedback(group.getId(), project);
+            }
         }
-        // TODO implement
     }
 
     public void finalizeDossiers(Project project) throws Exception {
-        // TODO implement
-        if (submissionController.getAllGroupsWithFinalizedDossier(project).size() == 0) {
-            List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
-            for (Group group : groupsByProjectName) {
-                User representativUser = groupDAO.getRepresentativUser(group, project);
-                FullSubmission fullSubmissionBy =
-                        submissionController.getFullSubmissionBy(group.getId(), project, FileRole.DOSSIER, 0);
-                FullSubmissionPostRequest fullSubmissionPostRequest =
-                        new FullSubmissionPostRequest(group, fullSubmissionBy.getText(), fullSubmissionBy.getFileRole(),
-                                project, fullSubmissionBy.getVisibility(), fullSubmissionBy.getHeader());
-                dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, representativUser, project, true);
-            }
+        List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
+        for (Group group : groupsByProjectName) {
+            User representativUser = groupDAO.getRepresentativUser(group, project);
+            FullSubmission fullSubmission =
+                    submissionController.getFullSubmissionBy(group.getId(), project, FileRole.DOSSIER, 1);
+            FullSubmissionPostRequest fullSubmissionPostRequest =
+                    new FullSubmissionPostRequest(group, fullSubmission.getText(), fullSubmission.getFileRole(),
+                            project, fullSubmission.getVisibility(), fullSubmission.getHeader());
+            fullSubmissionPostRequest.setHtml(fullSubmission.getText());
+            fullSubmissionPostRequest.setUserEMail(representativUser.getEmail());
+            dossierCreationProcess.updateSubmission(fullSubmissionPostRequest, representativUser, project, true);
         }
         if (project.getAuthorEmail() == null) {
             throw new Exception("no author set!!");
         }
-        phases.endPhase(Phase.DossierFeedback, project, new User(project.getAuthorEmail()));
     }
 
     public void finalizeReflection(Project project) throws Exception {
@@ -459,17 +472,8 @@ public class Wizard {
         return true;
     }
 
-    public static String convertTextToQuillJs(String text) throws IOException {
-        HashMap<String, String> quillJsContents = new HashMap<>();
-        quillJsContents.put("insert", text);
-        ArrayList<HashMap<String, String>> lArray = new ArrayList<>();
-        lArray.add(quillJsContents);
-        lArray.add(quillJsContents);
-        HashMap<String, ArrayList<HashMap<String,String>>> lObject = new HashMap<>();
-        lObject.put("ops", lArray);
-        ObjectMapper mapper = new ObjectMapper();
-        text = mapper.writeValueAsString(lObject);
-        return text;
+    public void finalizeDossierPhase(Project project) throws Exception {
+        phases.endPhase(Phase.DossierFeedback, project, new User(project.getAuthorEmail()));
     }
 }
 

@@ -7,6 +7,7 @@ public class LearningGoalRequest {
     private LearningGoalStoreItem learningGoal;
     private List<ReflectionQuestionsStoreItem> reflectionQuestions;
     private String projectName;
+    private boolean endTask;
 
 
     public LearningGoalStoreItem getLearningGoal() {
@@ -31,5 +32,13 @@ public class LearningGoalRequest {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public boolean isEndTask() {
+        return endTask;
+    }
+
+    public void setEndTask(boolean endTask) {
+        this.endTask = endTask;
     }
 }

@@ -47,7 +47,7 @@ public enum TaskName {
     //STUDENT:
     // how to trigger: teacher started phase "Entwurf"
     // how to solve: in the top menu, you can click E-Portfolio and write entries
-    //               task ends in phase "" after finalizing it todo: @Martin
+    //               task ends in phase "Durchführung" after finalizing it todo: @Martin
     INTRODUCE_E_PORTFOLIO_STUDENT,
     //STUDENT:
     // how to trigger: upload first version of dossier
@@ -67,40 +67,62 @@ public enum TaskName {
     // how to solve: after editing dossier, finalize it by clicking "finale Abgabe" and save.
     REEDIT_DOSSIER,
     //TEACHER:
-    // how to trigger: todo: @Martin
-    // how to solve: todo: @Martin
+    // how to trigger: after uploading dossier, e-portfolio is
+    // how to solve: in the top menu, you can click E-Portfolio and see entries of student and you can comment them
+    //                   task ends in phase "Durchführung" after finalizing it todo: @Martin
     INTRODUCE_E_PORTFOLIO_DOCENT,
     //TEACHER:
     // how to trigger: all students uploaded final second version of dossier
-    // how to solve: click button to end "Entwurf" and start "Durchfuhrung"
+    // how to solve: click button to end "Entwurf" and start "Durchführung"
     CLOSE_DOSSIER_FEEDBACK_PHASE,
 
 
     //Durchfuhrung
     ////////////////////////////////////////////////////////////
     //STUDENT:
-    // how to trigger: teacher started phase "Durchfuhrung"
-    // how to solve: answer reflection questions in E-Portfolio todo:@Martin
-    ANSWER_REFLECTION_QUESTIONS,
-    //TEACHER:
-    // how to trigger: teacher started phase "Durchfuhrung"
-    // how to solve: todo: @Martin
-    WAIT_FOR_REFLECTION,
-    //todo: @Martin  please also add these tasks to "TaskOrder". I am not sure if I sorted them correctly here
-    CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS,
-    CHOOSE_FITTING_COMPETENCES,
-    END_LEARNING_GOAL_PERIOD,
+    // how to trigger: start the execution phase
+    // how to solve: docent needs to solve CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS task
     WAIT_FOR_LEARNING_GOALS,
-    WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION,
-    CHOOSE_REFLEXION_QUESTIONS,
-    ANSWER_REFLEXION_QUESTIONS,
-    END_EXECUTION_PHASE,
+    // how to trigger: docent starts a learning goal period
+    // how to solve: docent ends learning goal period
+    WORK_ON_LEARNING_GOAL,
+    // how to trigger: docent ends learning goal period
+    // how to solve: click on "Lernziel-Ergebnisse hochladen" and save result
+    UPLOAD_LEARNING_GOAL_RESULT,
+    // how to trigger: save/upload learning goal results
+    // how to solve: click on "Reflexionsfragen beantworten" and answer all reflection questions
+    ANSWER_REFLECTION_QUESTIONS,
+    // how to trigger: docent ends the learning goal and  all learning goals are finished
+    // how to solve: click on "Wähle deine ... TODO: after implementation"
+    CHOOSE_ASSESSMENT_MATERIAL,
+    // how to trigger: choosing assessment material and save it
+    // how to solve: the docent finishes the execution phase
     WAIT_FOR_EXECUTION_PHASE_END,
-
     //TEACHER:
-    // how to trigger:todo: @Martin
-    // how to solve:  todo: @Martin
+    // how to trigger: start of the execution phase
+    // how to solve: click on "Lernziele und Reflexionziele erstellen"
+    CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS,
+    // how to trigger: the docent chose learning goals and reflection questions
+    // how to solve: click on "Lernzielarbeit beginnen"
+    START_LEARNING_GOAL_PERIOD,
+    // how to trigger: the docent started the work on the learning goal
+    // how to solve: click on "Lernzielarbeit beenden" // it is only possible after the learning goal period is over (maybe)
+    END_LEARNING_GOAL_PERIOD,
+    // how to trigger: the docent ends learning goal period
+    // how to solve: all students needs to upload learning goal
+    WAIT_FOR_LEARNING_GOAL_RESULTS,
+    // how to trigger: the docent ends learning goal period
+    // how to solve: all students needs to answer the reflection questions
+    WAIT_FOR_REFLECTION_QUESTIONS_ANSWERS,
+    // how to trigger: all learning goal results are uploaded and reflection questions are answered, all learning goals are finished
+    // how to solve: all students need to choose the material for assessment
+    WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION,
+    // how to trigger: all students chose the material for assessment
+    // how to solve: docent needs to click "Durchführungsphase beenden"
     CLOSE_EXECUTION_PHASE,
+
+    // is used in assessment, so temp here because dont know if it can be removed
+    CHOOSE_REFLEXION_QUESTIONS,
 
     //Bewertung
     ////////////////////////////////////////////////////////////

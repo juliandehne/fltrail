@@ -4,14 +4,32 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static unipotsdam.gf.process.tasks.TaskName.ANSWER_REFLECTION_QUESTIONS;
+import static unipotsdam.gf.process.tasks.TaskName.CLOSE_EXECUTION_PHASE;
+import static unipotsdam.gf.process.tasks.TaskName.COLLECT_RESULTS_FOR_ASSESSMENT;
+import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS;
+import static unipotsdam.gf.process.tasks.TaskName.END_LEARNING_GOAL_PERIOD;
+import static unipotsdam.gf.process.tasks.TaskName.START_LEARNING_GOAL_PERIOD;
+import static unipotsdam.gf.process.tasks.TaskName.UPLOAD_LEARNING_GOAL_RESULT;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_EXECUTION_PHASE_END;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_LEARNING_GOALS;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_LEARNING_GOAL_RESULTS;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION_QUESTIONS_ANSWERS;
+import static unipotsdam.gf.process.tasks.TaskName.WORK_ON_LEARNING_GOAL;
+
 public class TaskOrder {
-    public List<TaskName> getOrderedTasks() {
-        return orderedTasks;
-    }
-
     private List<TaskName> orderedTasks;
+    public Comparator<Task> byName = (o1, o2) -> {
+        if (o1.getTaskName().equals(o2.getTaskName())) {
+            return 0;
+        } else {
+            return orderedTasks.indexOf(o1.getTaskName()) > orderedTasks.indexOf(o2.getTaskName()) ? -1 : 1;
+        }
+    };
 
-    public TaskOrder(){
+
+    public TaskOrder() {
         List<TaskName> result = new ArrayList<>();
         result.add(TaskName.WAIT_FOR_PARTICPANTS);
         result.add(TaskName.WAITING_FOR_GROUP);
@@ -27,11 +45,21 @@ public class TaskOrder {
         result.add(TaskName.REEDIT_DOSSIER);
         result.add(TaskName.INTRODUCE_E_PORTFOLIO_DOCENT);
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
-        //end of execution phase
-        result.add(TaskName.ANSWER_REFLECTION_QUESTIONS);
-        result.add(TaskName.WAIT_FOR_REFLECTION);
-        result.add(TaskName.CLOSE_EXECUTION_PHASE);
-        //end of "Durchfuhrung"
+        //end of dossier phase
+        result.add(WAIT_FOR_LEARNING_GOALS);
+        result.add(CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
+        result.add(START_LEARNING_GOAL_PERIOD);
+        result.add(WORK_ON_LEARNING_GOAL);
+        result.add(UPLOAD_LEARNING_GOAL_RESULT);
+        result.add(ANSWER_REFLECTION_QUESTIONS);
+        result.add(WAIT_FOR_LEARNING_GOAL_RESULTS);
+        result.add(WAIT_FOR_REFLECTION_QUESTIONS_ANSWERS);
+        result.add(END_LEARNING_GOAL_PERIOD);
+        result.add(WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION);
+        result.add(COLLECT_RESULTS_FOR_ASSESSMENT);
+        result.add(WAIT_FOR_EXECUTION_PHASE_END);
+        result.add(CLOSE_EXECUTION_PHASE);
+        //end of execution
         result.add(TaskName.UPLOAD_PRESENTATION);
         result.add(TaskName.WAIT_FOR_UPLOAD);
         result.add(TaskName.UPLOAD_FINAL_REPORT);
@@ -51,19 +79,16 @@ public class TaskOrder {
 
         this.orderedTasks = result;
     }
-    public TaskName getNextTask(TaskName taskName){
-        return orderedTasks.get(orderedTasks.indexOf(taskName)+1);
+
+    public List<TaskName> getOrderedTasks() {
+        return orderedTasks;
     }
 
-    public TaskName getPreviousTask(TaskName taskName){
-        return orderedTasks.get(orderedTasks.indexOf(taskName)-1);
+    public TaskName getNextTask(TaskName taskName) {
+        return orderedTasks.get(orderedTasks.indexOf(taskName) + 1);
     }
 
-    public Comparator<Task> byName = (o1, o2) -> {
-        if (o1.getTaskName().equals(o2.getTaskName())) {
-            return 0;
-        } else {
-            return orderedTasks.indexOf(o1.getTaskName()) > orderedTasks.indexOf(o2.getTaskName()) ? -1 : 1;
-        }
-    };
+    public TaskName getPreviousTask(TaskName taskName) {
+        return orderedTasks.get(orderedTasks.indexOf(taskName) - 1);
+    }
 }

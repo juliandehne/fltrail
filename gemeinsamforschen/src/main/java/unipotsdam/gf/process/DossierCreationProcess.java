@@ -13,7 +13,6 @@ import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
@@ -59,13 +58,13 @@ public class DossierCreationProcess {
     private IPeerAssessment peerAssessment;
 
     @Inject
-    private ReflexionProcess reflexionProcess;
+    private PortfolioProcess portfolioProcess;
 
     @Inject
     private IContributionFeedback contributionFeedbackService;
 
     @Inject
-    private ReflectionQuestionDAO reflectionQuestionDAO;
+    private IExecutionProcess executionProcess;
 
     /**
      * start the Dossier Phase
@@ -98,6 +97,7 @@ public class DossierCreationProcess {
 
         final FullSubmission fullSubmission = submissionController.addFullSubmission(fullSubmissionPostRequest, 0);
         fileManagementService.deleteFiles(project, user, fullSubmission.getFileRole());
+        //TODO: this needs to be switched out of dossier creation process again
         switch (fullSubmission.getFileRole()) {
             case DOSSIER:
                 try {
@@ -110,8 +110,13 @@ public class DossierCreationProcess {
             case PORTFOLIO:
                 break;
             case REFLECTION_QUESTION:
-                ReflectionQuestion reflectionQuestion = new ReflectionQuestion(fullSubmissionPostRequest.getReflectionQuestionId());
-                reflectionQuestionDAO.saveAnswerReference(fullSubmission, reflectionQuestion);
+                try {
+                    ReflectionQuestion reflectionQuestion = new ReflectionQuestion(fullSubmissionPostRequest.getReflectionQuestionId());
+                    executionProcess.answerReflectionQuestion(fullSubmission, reflectionQuestion);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
         }
         return fullSubmission;
     }
@@ -245,7 +250,7 @@ public class DossierCreationProcess {
         taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
 
         Group group = groupDAO.getMyGroup(user, project);
-        reflexionProcess.startEPortfolioIntroduceTasks(project, group);
+        portfolioProcess.startEPortfolioIntroduceTasks(project, group);
     }
 
     /**

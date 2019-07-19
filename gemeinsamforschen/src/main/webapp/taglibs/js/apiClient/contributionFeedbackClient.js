@@ -77,11 +77,7 @@ function getContributionFeedbackById(id, responseHandler) {
  * @param responseHandler The response handler
  */
 function getContributionFeedback(fullSubmissionId, fullSubmissionPartCategory, groupId, responseHandler) {
-    let url = baseUrl + '?' + $.param({
-        fullSubmissionId: fullSubmissionId,
-        fullSubmissionPartCategory: fullSubmissionPartCategory,
-        groupId: groupId
-    });
+    let url = baseUrl + '/id/' + fullSubmissionId + '/category/' + fullSubmissionPartCategory;
     $.ajax({
         url: url,
         type: "GET",

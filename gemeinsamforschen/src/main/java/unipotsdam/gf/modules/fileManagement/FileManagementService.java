@@ -34,13 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -263,16 +257,14 @@ public class FileManagementService {
         return fileName;
     }
 
-    List<ContributionStorage> getListOfFiles(HttpServletRequest req, String projectName) throws IOException {
-        String userEmail = gfContexts.getUserEmail(req);
-        User user = userDAO.getUserByEmail(userEmail);
+    public List<ContributionStorage> getListOfFiles(User user, String projectName) {
         Project project = null;
         try {
             project = projectDAO.getProjectByName(projectName);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        boolean isAuthor = (userEmail.equals(project.getAuthorEmail()));
+        boolean isAuthor = (user.getEmail().equals(project.getAuthorEmail()));
         return fileManagementDAO.getListOfFiles(user, project, isAuthor);
     }
 

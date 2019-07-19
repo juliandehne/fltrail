@@ -3,7 +3,9 @@ package unipotsdam.gf.modules.assessment;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.CheatCheckerMethods;
 import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
+import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -22,6 +24,12 @@ public class PeerAssessmentImpl implements IPeerAssessment {
 
     @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private GroupDAO groupDAO;
+
+    @Inject
+    private FileManagementService fileManagementService;
 
     @Override
     public List<FullContribution> getContributionsFromGroup(Project project, Integer groupId) {
@@ -263,6 +271,7 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             } else {
                 overallSuggestion = productOverallSuggestion;
             }
+            //if (Math.round(overallSuggestion) < Math.round(overallSuggestion)){ }
             suggestedRating.put(user, overallSuggestion);
         }
 
@@ -284,6 +293,8 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             userPeerAssessmentData.setGroupWorkRating(groupRating.get(user));
             userPeerAssessmentData.setSuggestedRating(suggestedRating.get(user));
             userPeerAssessmentData.setFinalRating(finalRating.get(user));
+            userPeerAssessmentData.setGroupId(groupDAO.getMyGroup(user, project).getId());
+            userPeerAssessmentData.setFiles(fileManagementService.getListOfFiles(user, project.getName()));
             // set flags, too
             userPeerAssessmentData.setUser(userMap.get(user));
             result.add(userPeerAssessmentData);

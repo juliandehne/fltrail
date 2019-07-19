@@ -8,6 +8,7 @@ import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.PeerAssessmentProcess;
 import unipotsdam.gf.process.tasks.TaskName;
 import unipotsdam.gf.session.GFContexts;
@@ -40,6 +41,9 @@ public class FileManagementView {
 
     @Inject
     private GroupDAO groupDAO;
+
+    @Inject
+    private UserDAO userDAO;
 
     @POST
     @Path("/{fileRole}/projectName/{projectName}")
@@ -74,7 +78,9 @@ public class FileManagementView {
     @Path("/listOfFiles/projectName/{projectName}")
     @Produces("application/json")
     public Response getListOfFiles(@Context HttpServletRequest req, @PathParam("projectName") String projectName) throws IOException {
-        return Response.ok(fileManagementService.getListOfFiles(req, projectName)).build();
+        String userEmail = gfContexts.getUserEmail(req);
+        User user = userDAO.getUserByEmail(userEmail);
+        return Response.ok(fileManagementService.getListOfFiles(user, projectName)).build();
     }
 
     @DELETE

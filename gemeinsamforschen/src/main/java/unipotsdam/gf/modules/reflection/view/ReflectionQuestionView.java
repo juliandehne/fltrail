@@ -92,16 +92,16 @@ public class ReflectionQuestionView {
 
 
     private List<ReflectionQuestion> getUnansweredReflectionQuestions(HttpServletRequest req, String projectName, String learningGoalId, boolean onlyFirstEntry) {
-        String userEmail;
         try {
-            userEmail = gfContexts.getUserEmail(req);
+            String userEmail = gfContexts.getUserEmail(req);
+            User user = new User(userEmail);
+            Project project = new Project(projectName);
+            return reflectionQuestionDAO.getUnansweredQuestions(project, user, learningGoalId, onlyFirstEntry);
         } catch (IOException e) {
             e.getStackTrace();
             return null;
         }
-        User user = new User(userEmail);
-        Project project = new Project(projectName);
-        return reflectionQuestionDAO.getUnansweredQuestions(project, user, learningGoalId, onlyFirstEntry);
+
 
     }
 }

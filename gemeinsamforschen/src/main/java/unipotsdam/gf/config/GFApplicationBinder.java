@@ -58,8 +58,8 @@ import unipotsdam.gf.process.DummyExecutionProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.IExecutionProcess;
 import unipotsdam.gf.process.PeerAssessmentProcess;
+import unipotsdam.gf.process.PortfolioProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
-import unipotsdam.gf.process.ReflexionProcess;
 import unipotsdam.gf.process.SurveyProcess;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.PhasesImpl;
@@ -124,7 +124,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(FileManagementService.class).to(FileManagementService.class);
         bind(FileManagementDAO.class).to(FileManagementDAO.class);
         bind(AssessmentDAO.class).to(AssessmentDAO.class);
-        bind(ReflexionProcess.class).to(ReflexionProcess.class);
+        bind(PortfolioProcess.class).to(PortfolioProcess.class);
         bind(TaskMapper.class).to(TaskMapper.class);
         bind(PeerAssessmentImpl.class).to(IPeerAssessment.class);
         bind(QuizDAO.class).to(QuizDAO.class);

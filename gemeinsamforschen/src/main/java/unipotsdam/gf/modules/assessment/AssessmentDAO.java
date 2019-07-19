@@ -559,7 +559,9 @@ public class AssessmentDAO {
         connect.connect();
 
         String query =
-                "SELECT user as userEmail, avg(rating2) as avgGrade from " + " (SELECT gu.userEmail as user, cr.rating as rating2, cr.projectName, fromTeacher from " + "contributionrating cr " + "join groupuser gu on gu.groupId = cr.groupId " + "union " + "SELECT ucr.userName as user, ucr.rating as rating2, ucr.projectName, fromTeacher from " + "contributionrating ucr " + "WHERE ucr.groupId is null) as T " + "WHERE projectName = ? " + "and fromTeacher is null " + "group by user, rating2 ";
+                "SELECT * FROM (SELECT groupId, avg(rating) as avgGrade FROM `contributionrating` " +
+                        "WHERE projectName=? group By groupId) as T " +
+                        "JOIN groupuser gu on T.groupId = gu.groupId ";
         convertResultSetToUserRatingMap(project, result, query);
         connect.close();
 

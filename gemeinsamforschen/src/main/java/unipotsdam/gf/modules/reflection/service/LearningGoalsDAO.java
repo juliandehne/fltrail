@@ -1,7 +1,9 @@
 package unipotsdam.gf.modules.reflection.service;
 
+import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.LearningGoal;
 import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -23,4 +25,33 @@ public class LearningGoalsDAO {
         connection.close();
         return uuid;
     }
+
+    public LearningGoal getNextUnfinishedLearningGoal(Project project) {
+        connection.connect();
+        String query = "SELECT * FROM learninggoals where projectName = ? and finished = false LIMIT 1";
+        VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, project.getName());
+        LearningGoal learningGoal = null;
+        if (resultSet.next()) {
+            learningGoal = convertResultSet(resultSet);
+        }
+        connection.close();
+        return learningGoal;
+    }
+
+    public void finishLearningGoal(LearningGoal learningGoal) {
+        connection.connect();
+        String query = "UPDATE learninggoals SET `finished` = true WHERE id = ?";
+        connection.issueUpdateStatement(query, learningGoal.getId());
+        connection.close();
+    }
+
+    private LearningGoal convertResultSet(VereinfachtesResultSet resultSet) {
+        String id = resultSet.getString("id");
+        String text = resultSet.getString("text");
+        String projectName = resultSet.getString("projectName");
+        boolean finished = resultSet.getBoolean("finished");
+        return new LearningGoal(id, text, projectName, finished);
+    }
+
+
 }

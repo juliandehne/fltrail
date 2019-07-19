@@ -73,11 +73,11 @@ function reflectionQuestionChosen(reflectionQuestionId) {
 }
 
 function saveButtonPressed() {
-    save(changeLocation);
+    save(true, changeLocation);
 }
 
 function addAdditionalLearningGoalPressed() {
-    save(function () {
+    save(false, function () {
         delete learningGoals[currentLearningGoal.text];
         currentLearningGoal = undefined;
         reflectionQuestions = [];
@@ -89,12 +89,13 @@ function addAdditionalLearningGoalPressed() {
     });
 }
 
-function save(callback) {
+function save(isEndTask, callback) {
     delete currentLearningGoal.custom;
     let learningGoalRequest = {
         learningGoal: currentLearningGoal,
         reflectionQuestions: Object.values(chosenReflectionQuestions),
-        projectName: projectName
+        projectName: projectName,
+        endTask: isEndTask
     };
     saveLearningGoalAndReflectionQuestions(learningGoalRequest, callback);
 }

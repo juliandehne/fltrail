@@ -426,6 +426,9 @@ function handleFinishedTasks(object, result) {
                 result.solveTaskWith = "";
                 result.solveTaskWithLink = "";
                 break;
+            case "WAITING_FOR_STUDENT_DOSSIERS":
+                result.infoText = "Studierende haben Dossiers angelegt und sich gegenseitig Feedback gegeben";
+                break;
             case "WAIT_FOR_UPLOAD":
                 result.infoText = "Jede Gruppe hat einen abschließenden Report und eine Präsentation hochgeladen.";
                 break;
@@ -440,6 +443,9 @@ function handleFinishedTasks(object, result) {
                 break;
             case "UPLOAD_PRESENTATION":
                 result.infoText = "Ihre Gruppe hat eine Präsentation hochgeladen.";
+                break;
+            case "GIVE_FINAL_GRADES":
+                result.infoText = "Sie haben finale Noten vergeben.";
                 break;
             case "CLOSE_PEER_ASSESSMENTS_PHASE":
                 result.infoText = "Hier können Sie die Bewertung zwischen den Studierenden beenden und Ihre eigene starten.";
