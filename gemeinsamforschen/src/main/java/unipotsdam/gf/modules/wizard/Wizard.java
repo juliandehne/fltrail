@@ -270,6 +270,7 @@ public class Wizard {
                         case LearningGoalStrategy:
                             // mock groupal data generation in case manual group formation is tested
                             createMockDataForCompBase(project, student);
+                            Thread.sleep(60000);
                             break;
                     }
                 }

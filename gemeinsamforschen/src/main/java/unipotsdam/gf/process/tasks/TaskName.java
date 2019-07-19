@@ -162,4 +162,10 @@ public enum TaskName {
     // how to trigger: "Projektabschluss" was closed
     // how to solve: can't be solved
     END_DOCENT,
+
+
+    /// evaluation
+    EVALUATION_TECHNISCH,
+
+    EVALUATION_PROZESS,
 }

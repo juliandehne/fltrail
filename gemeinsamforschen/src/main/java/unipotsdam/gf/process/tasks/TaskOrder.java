@@ -46,6 +46,9 @@ public class TaskOrder {
         result.add(TaskName.CLOSE_ASSESSMENT_PHASE);
         result.add(TaskName.END_STUDENT);
         result.add(TaskName.END_DOCENT);
+        result.add(TaskName.EVALUATION_TECHNISCH);
+        result.add(TaskName.EVALUATION_PROZESS);
+
         this.orderedTasks = result;
     }
     public TaskName getNextTask(TaskName taskName){
