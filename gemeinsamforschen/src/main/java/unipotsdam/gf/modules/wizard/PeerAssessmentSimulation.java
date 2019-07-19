@@ -26,6 +26,7 @@ import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 public class PeerAssessmentSimulation {
@@ -64,8 +65,7 @@ public class PeerAssessmentSimulation {
     private FileManagementService fileManagementService;
 
 
-
-    public PeerAssessmentSimulation() {
+    public PeerAssessmentSimulation() throws UnsupportedEncodingException {
         this.conceptImporter = new ConceptImporter();
         this.loremIpsum = new LoremIpsum();
     }

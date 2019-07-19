@@ -1,7 +1,6 @@
 package unipotsdam.gf;
 
 import de.svenjacobs.loremipsum.LoremIpsum;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
@@ -14,11 +13,8 @@ import unipotsdam.gf.modules.wizard.compbase.ConceptImporter;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
-
-import static org.junit.Assert.assertFalse;
 
 public class Wizardtest {
 
@@ -33,7 +29,7 @@ public class Wizardtest {
     }
 
     @Test
-    public void testGeneratedConcepts() {
+    public void testGeneratedConcepts() throws UnsupportedEncodingException {
         ConceptImporter conceptImporter = new ConceptImporter();
         List<String> numberedConcepts = conceptImporter.getNumberedConcepts(5);
         for (String numberedConcept : numberedConcepts) {

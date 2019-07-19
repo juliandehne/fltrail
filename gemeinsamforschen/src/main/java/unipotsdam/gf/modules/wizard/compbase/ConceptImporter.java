@@ -16,7 +16,10 @@ public class ConceptImporter {
 
     private static final String CONCEPT_FILE_FOR_WIZARD = "SentiWS_v2.0_Positive.csv";
 
-    private List<String> getConcepts() {
+    public ConceptImporter() throws UnsupportedEncodingException {
+    }
+
+    private List<String> getConcepts() throws UnsupportedEncodingException {
         if (concepts == null) {
             java.util.List<java.util.List<String>> records = new ArrayList<>();
 
@@ -30,7 +33,7 @@ public class ConceptImporter {
                 }
             } else {
                 InputStream resourceAsStream = getClass().getClassLoader().getResourceAsStream(CONCEPT_FILE_FOR_WIZARD);
-                fileReader = new InputStreamReader(resourceAsStream);
+                fileReader = new InputStreamReader(resourceAsStream, "UTF8");
             }
             try (CSVReader csvReader = new CSVReader(fileReader)) {
                 String[] values = null;

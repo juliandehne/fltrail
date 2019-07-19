@@ -33,6 +33,7 @@ import unipotsdam.gf.process.tasks.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -87,7 +88,7 @@ public class Wizard {
     private LoremIpsum loremIpsum;
     private PodamFactoryImpl factory = new PodamFactoryImpl();
 
-    public Wizard() {
+    public Wizard() throws UnsupportedEncodingException {
 
         this.concepts = new TomcatConceptImporter();
         this.loremIpsum = new LoremIpsum();
