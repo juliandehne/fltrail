@@ -10,6 +10,8 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.reflection.model.LearningGoal;
+import unipotsdam.gf.modules.reflection.service.LearningGoalsDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -29,6 +31,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.joining;
 import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
 
@@ -61,6 +64,9 @@ public class TaskDAO {
 
     @Inject
     private ConstraintsImpl constraints;
+
+    @Inject
+    private LearningGoalsDAO learningGoalsDAO;
 
     // fill the task with the general data
     private Task getGeneralTask(VereinfachtesResultSet vereinfachtesResultSet) {
@@ -134,7 +140,7 @@ public class TaskDAO {
         return task;
     }
 
-    public Task getTaskByProjectNameAndUserEmailAndTaskNameAndPhase(Project project, User user, TaskName taskName, Phase phase) {
+    public Task getUserTask(Project project, User user, TaskName taskName, Phase phase) {
         connect.connect();
 
         String query = "Select * from tasks where userEmail = ? and projectName = ? and phase = ? and taskName = ?";
@@ -147,11 +153,36 @@ public class TaskDAO {
         return task;
     }
 
+    public Task getGroupTask(Project project, int groupId, TaskName taskName, Phase phase) {
+        connect.connect();
+
+        String query = "Select * from tasks where groupTask = ? and projectName = ? and phase = ? and taskName = ?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(query, groupId, project.getName(), phase.name(), taskName.name());
+        Task task = null;
+        if (resultSet.next()) {
+            task = getGeneralTask(resultSet);
+        }
+        connect.close();
+        return task;
+    }
+
     public List<Task> getTaskForProjectWithoutProgress(Project project, TaskName taskName, Progress progress) {
         connect.connect();
-        String query = "Select * from tasks t where AND t.projectName = ? AND t.taskName= ? and progess != ? ORDER BY created DESC";
+        String query = "Select * from tasks t where t.projectName = ? AND t.taskName = ? and t.progress <> ?";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, project.getName(), taskName.toString(), progress.name());
+        ArrayList<Task> result = new ArrayList<>();
+        while (vereinfachtesResultSet != null && vereinfachtesResultSet.next()) {
+            result.add(getGeneralTask(vereinfachtesResultSet));
+        }
+        connect.close();
+        return result;
+    }
+
+    public List<Task> getTaskForProjectByTaskName(Project project, TaskName taskName) {
+        connect.connect();
+        String query = "Select * from tasks t where t.projectName = ? AND t.taskName = ? ORDER BY created DESC";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName(), taskName.name());
         ArrayList<Task> result = new ArrayList<>();
         while (vereinfachtesResultSet.next()) {
             result.add(getGeneralTask(vereinfachtesResultSet));
@@ -178,6 +209,7 @@ public class TaskDAO {
 
     /**
      * TODO  refactor reduce overloading by introducing builder?
+     *
      * @param project
      * @param target
      * @param taskName
@@ -330,8 +362,10 @@ public class TaskDAO {
                 Map<String, String> taskData = new HashMap<>();
                 taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, FileRole.DOSSIER));
                 List<String> startCategory = submissionController.getAnnotationCategories(project);
-                taskData.put("category", startCategory.get(0));
-                task.setTaskData(taskData);
+                if (!startCategory.isEmpty()) {
+                    taskData.put("category", startCategory.get(0));
+                    task.setTaskData(taskData);
+                }
                 result = task;
                 break;
             }
@@ -446,6 +480,13 @@ public class TaskDAO {
                 result = task;
                 break;
             }
+            case UPLOAD_LEARNING_GOAL_RESULT:
+            case ANSWER_REFLECTION_QUESTIONS:
+                Task task = getGeneralTask(vereinfachtesResultSet);
+                LearningGoal learningGoal = learningGoalsDAO.getNextUnfinishedLearningGoal(project);
+                task.setTaskData(learningGoal);
+                result = task;
+                break;
             default: {
                 result = getGeneralTask(vereinfachtesResultSet);
             }
@@ -598,6 +639,7 @@ public class TaskDAO {
         persist(project, groupId, taskName, phase, taskType);
     }
 
+
     public void persist(Project project, Integer groupId, TaskName taskName, Phase phase, TaskType linked) {
         Task task = createGroupDefault(project, groupId, taskName, phase);
         task.setTaskType(linked);
@@ -610,9 +652,13 @@ public class TaskDAO {
         persist(task);
     }
 
-    public void persistFeedbackTask(Project project, GroupFeedbackTaskData groupFeedbackTaskData) {
-        // create task
-        persist(project, groupFeedbackTaskData.getTarget(), TaskName.GIVE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);
+    public void deleteIntermediateExecutionProcess(Project project, Phase phase) {
+        connect.connect();
+        List<TaskName> persistentExecutionTasks = TaskName.getPersistentExecutionTasks();
+        String joinedTaskNames = persistentExecutionTasks.stream().map(TaskName::name).collect(joining(",", "'", "'"));
+        String query = String.format("delete from tasks where projectname = ? and phase = ? and taskName not in (%s)", joinedTaskNames);
+        connect.issueInsertOrDeleteStatement(query, project.getName(), phase.name());
+        connect.close();
     }
 
     /*

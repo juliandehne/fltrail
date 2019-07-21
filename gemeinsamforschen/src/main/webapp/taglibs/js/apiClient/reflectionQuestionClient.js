@@ -1,5 +1,5 @@
-function getNextReflectionQuestion(projectName, responseHandler) {
-    let url = `../rest/reflectionquestion/projects/${projectName}/next`;
+function getNextReflectionQuestion(projectName, learningGoalId, responseHandler) {
+    let url = `../rest/reflectionquestion/projects/${projectName}/learninggoal/${learningGoalId}/next`;
     $.ajax({
         url: url,
         type: "GET",
@@ -14,8 +14,8 @@ function getNextReflectionQuestion(projectName, responseHandler) {
     });
 }
 
-async function getUnansweredReflectionQuestions(projectName) {
-    let url = `../rest/reflectionquestion/projects/${projectName}/bulk`;
+async function getUnansweredReflectionQuestions(projectName, learningGoalId) {
+    let url = `../rest/reflectionquestion/projects/${projectName}/learninggoal/${learningGoalId}/bulk`;
     let reflectionQuestions;
     try {
         reflectionQuestions = await $.ajax({

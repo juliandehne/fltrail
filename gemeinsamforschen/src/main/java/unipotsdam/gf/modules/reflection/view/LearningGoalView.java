@@ -37,6 +37,7 @@ public class LearningGoalView {
     @Inject
     private IReflection reflectionService;
 
+    @Inject
     private IExecutionProcess executionProcess;
 
     @Inject
@@ -72,6 +73,7 @@ public class LearningGoalView {
         } catch (IOException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("The user Email was not in the context").build();
         } catch (Exception e) {
+            System.out.println(e.getStackTrace());
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while processing the saving of result").build();
         }
     }

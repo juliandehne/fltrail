@@ -37,12 +37,12 @@ public class ReflectionQuestionView {
     private GFContexts gfContexts;
 
     @GET
-    @Path("projects/{projectName}/bulk")
+    @Path("projects/{projectName}/learninggoal/{learningGoalId}/bulk")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUnansweredReflectionQuestions(@Context HttpServletRequest req,
-                                                     @PathParam("projectName") String projectName) {
+                                                     @PathParam("projectName") String projectName,
+                                                     @PathParam("learningGoalId") String learningGoalId) {
 
-        String learningGoalId = "1";
         List<ReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, learningGoalId, false);
 
         if (Objects.isNull(reflectionQuestions)) {
@@ -53,10 +53,12 @@ public class ReflectionQuestionView {
     }
 
     @GET
-    @Path("projects/{projectName}/next")
+    @Path("projects/{projectName}/learninggoal/{learningGoalId}/next")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getNextUnansweredReflectionQuestion(@Context HttpServletRequest req, @PathParam("projectName") String projectName) {
-        List<ReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, "1", true);
+    public Response getNextUnansweredReflectionQuestion(@Context HttpServletRequest req,
+                                                        @PathParam("projectName") String projectName,
+                                                        @PathParam("learningGoalId") String learningGoalId) {
+        List<ReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, learningGoalId, true);
 
         if (reflectionQuestions == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("user email was not in context").build();

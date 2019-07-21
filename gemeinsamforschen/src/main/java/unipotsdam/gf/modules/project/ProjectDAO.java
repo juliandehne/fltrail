@@ -129,6 +129,7 @@ public class ProjectDAO {
         if (tags != null) {
             result.setTags(tags.toArray(new String[0]));
         }
+        connect.close();
         return result;
     }
 

@@ -54,7 +54,7 @@ import unipotsdam.gf.modules.wizard.WizardDao;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
 import unipotsdam.gf.process.DossierCreationProcess;
-import unipotsdam.gf.process.DummyExecutionProcess;
+import unipotsdam.gf.process.ExecutionProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.IExecutionProcess;
 import unipotsdam.gf.process.PeerAssessmentProcess;
@@ -137,8 +137,8 @@ public class GFApplicationBinder extends AbstractBinder {
         /*
          * TODO: @Martin comment in for your development
          */
-        bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
-        //bind(ExecutionProcess.class).to(IExecutionProcess.class);
+        //bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
+        bind(ExecutionProcess.class).to(IExecutionProcess.class);
         bind(PortfolioService.class).to(IPortfolioService.class);
         bind(ReflectionQuestionDAO.class).to(ReflectionQuestionDAO.class);
         bind(ReflectionQuestionsStoreDAO.class).to(ReflectionQuestionsStoreDAO.class);

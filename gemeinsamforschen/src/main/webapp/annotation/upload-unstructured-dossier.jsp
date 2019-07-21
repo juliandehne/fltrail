@@ -17,6 +17,10 @@
     if (Strings.isNullOrEmpty(fullSubmissionId)) {
         fullSubmissionId = "";
     }
+    String learningGoalId = tu.getParamterFromQuery("learningGoalId", request);
+    if (Strings.isNullOrEmpty(learningGoalId)) {
+        learningGoalId = "";
+    }
 %>
 
 <!DOCTYPE html>
@@ -80,6 +84,8 @@
                 <script id="headerTemplate" type="text/x-jsrender">
                     <div></div>
                     <h1>{{:header}}</h1>
+
+
                 </script>
                 <div id="visibilityTemplateResult"></div>
                 <script id="visibilityTemplate" type="text/x-jsrender">
@@ -103,16 +109,22 @@
                     {{if fileRole == "Reflection_Question"}}
                         <h2> Frage {{:currentReflectionQuestionCounter}} von {{:totalQuestions}}: {{:question}} </h2>
                     {{/if}}
-
                 </script>
                 <br>
-                <div class="upload-text" id="documentText">
-                    <label for="ownTitle">Titel</label>
-                    <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;"
-                           placeholder="mein Titel">
-                    <label for="editor">Texteingabe</label>
-                    <div id="editor"></div>
-                </div>
+                <div id="editorTitleTemplateResult"></div>
+                <script id="editorTitleTemplate" type="text/x-jsrender">
+                    <div/>
+                    {{if fileRole == "Dossier"}}
+                        <div class="upload-text" id="documentText">
+                            <label for="ownTitle">Titel</label>
+                            <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="mein Titel">
+                        </div>
+                    {{/if}}
+
+                </script>
+                <label for="editor">Texteingabe</label>
+                <div id="editor"></div>
+
 
                 <div class="document-text-buttons">
                     <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
@@ -158,7 +170,6 @@
                     </div>
                 {{/if}}
 
-
             </script>
 
             <div style="clear:left"></div>
@@ -175,6 +186,8 @@
 
     <p id="fullSubmissionId" hidden><%=tu.printMe(fullSubmissionId)%>
     </p>
+        <p id="learningGoalId" hidden><%=tu.printMe(learningGoalId)%>
+        </p>
     <p id="fileRole" hidden><%= tu.printMe(fileRole)%>
     </p>
     <p id="personal" hidden><%= tu.printMe(personalString)%>

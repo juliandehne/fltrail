@@ -71,7 +71,7 @@ public class QuizDAO {
         ArrayList<String> incorrectAnswers = new ArrayList<>();
         String answer;
         String oldQuestion = "";
-        Boolean correct;
+        boolean correct;
         String mcType = "";
         Quiz quiz;
         while (next) {
@@ -102,6 +102,7 @@ public class QuizDAO {
         }
         quiz = new Quiz(mcType, oldQuestion, correctAnswers, incorrectAnswers);
         result.add(quiz);
+        connect.close();
         return result;
     }
 
@@ -142,11 +143,12 @@ public class QuizDAO {
         connect.connect();
         String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectName`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
-        Boolean next = vereinfachtesResultSet.next();
+        boolean next = vereinfachtesResultSet.next();
         while (next) {
             result++;
             next = vereinfachtesResultSet.next();
         }
+        connect.close();
         return result;
     }
 

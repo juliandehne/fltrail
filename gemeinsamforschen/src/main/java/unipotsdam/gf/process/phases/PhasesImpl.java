@@ -39,35 +39,31 @@ import static unipotsdam.gf.util.CollectionUtil.updateValueInMap;
 @Singleton
 public class PhasesImpl implements IPhases {
 
+    private static Map<Phase, ArrayList<TaskName>> phaseMap = getPhaseMap();
+
     @Inject
     MysqlConnect connect;
-
     @Inject
     private IPeerAssessment iPeerAssessment;
-
     @Inject
     private ICommunication iCommunication;
-
     @Inject
     private IExecutionProcess iExecutionProcess;
-
     @Inject
     private DossierCreationProcess dossierCreationProcess;
-
     @Inject
     private GroupFormationProcess groupFormationProcess;
-
     @Inject
     private PeerAssessmentProcess peerAssessmentProcess;
-
     @Inject
     private EmailService emailService;
 
-    private static Map<Phase, ArrayList<TaskName>> phaseMap = getPhaseMap();
 
+    public PhasesImpl() {
+    }
 
     private static synchronized Map<Phase, ArrayList<TaskName>> getPhaseMap() {
-        if (phaseMap == null){
+        if (phaseMap == null) {
             try {
                 phaseMap = getPhaseTaskMap();
             } catch (InstantiationException | IllegalAccessException e) {
@@ -76,11 +72,6 @@ public class PhasesImpl implements IPhases {
         }
         return phaseMap;
     }
-
-
-    public PhasesImpl() {
-    }
-
 
     private static Map<Phase, ArrayList<TaskName>> getPhaseTaskMap()
             throws InstantiationException, IllegalAccessException {
@@ -105,7 +96,7 @@ public class PhasesImpl implements IPhases {
                 case INTRODUCE_E_PORTFOLIO_STUDENT:
                     updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
-                case WAIT_FOR_LEARNING_GOALS:
+                case WAIT_FOR_LEARNING_GOAL_TO_START:
                 case WORK_ON_LEARNING_GOAL:
                 case UPLOAD_LEARNING_GOAL_RESULT:
                 case ANSWER_REFLECTION_QUESTIONS:
@@ -114,8 +105,7 @@ public class PhasesImpl implements IPhases {
                 case WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION:
                 case CLOSE_EXECUTION_PHASE:
                 case WAIT_FOR_EXECUTION_PHASE_END:
-                case WAIT_FOR_REFLECTION_QUESTIONS_ANSWERS:
-                case WAIT_FOR_LEARNING_GOAL_RESULTS:
+                case WAIT_FOR_REFLECTION:
                 case END_LEARNING_GOAL_PERIOD:
                 case START_LEARNING_GOAL_PERIOD:
                 case CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS:
@@ -262,13 +252,8 @@ public class PhasesImpl implements IPhases {
     }
 
     @Override
-    public java.util.List<Phase> getFinishedPhases(Phase phase, Project project) {
-        ArrayList<Phase> phases = new ArrayList<>();
-        phases.add(Phase.GroupFormation);
-        phases.add(Phase.DossierFeedback);
-        phases.add(Phase.Execution);
-        phases.add(Phase.Assessment);
-        phases.add(Phase.GRADING);
+    public List<Phase> getFinishedPhases(Phase phase, Project project) {
+        ArrayList<Phase> phases = createPhaseList();
         if (phase.equals(Phase.GroupFormation)) {
             return new ArrayList<>();
         }
@@ -277,16 +262,21 @@ public class PhasesImpl implements IPhases {
 
     @Override
     public List<Phase> getPreviousPhases(Phase phase) {
+        ArrayList<Phase> phases = createPhaseList();
+        if (phase.equals(Phase.GroupFormation)) {
+            return new ArrayList<>();
+        }
+        return phases.subList(0, phases.indexOf(phase));
+    }
+
+    private ArrayList<Phase> createPhaseList() {
         ArrayList<Phase> phases = new ArrayList<>();
         phases.add(Phase.GroupFormation);
         phases.add(Phase.DossierFeedback);
         phases.add(Phase.Execution);
         phases.add(Phase.Assessment);
         phases.add(Phase.GRADING);
-        if (phase.equals(Phase.GroupFormation)) {
-            return new ArrayList<>();
-        }
-        return phases.subList(0, phases.indexOf(phase));
+        return phases;
     }
 
 

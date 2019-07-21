@@ -1,7 +1,11 @@
 package unipotsdam.gf.modules.annotation.controller;
 
 import unipotsdam.gf.interfaces.IAnnotation;
-import unipotsdam.gf.modules.annotation.model.*;
+import unipotsdam.gf.modules.annotation.model.Annotation;
+import unipotsdam.gf.modules.annotation.model.AnnotationBody;
+import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
+import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
+import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -84,25 +88,18 @@ public class AnnotationController implements IAnnotation {
         // build and execute request
         String request = "SELECT * FROM annotations WHERE id = ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, annotationId);
-
+        Annotation annotation = null;
         if (rs.next()) {
-
-             // save annotation
-            Annotation annotation = getAnnotationFromResultSet(rs);
-
-            // close connection
-            connection.close();
-
-            return annotation;
+            // save annotation
+            annotation = getAnnotationFromResultSet(rs);
         }
-        else {
-            // close connection
-            connection.close();
-            return null;
-        }
+
+        connection.close();
+
+        return annotation;
     }
 
-    public String getFinishedDossier(Project project, Integer groupId){
+    public String getFinishedDossier(Project project, Integer groupId) {
         connection.connect();
 
         // build and execute request
@@ -110,11 +107,12 @@ public class AnnotationController implements IAnnotation {
                 "AND gu.groupId=? WHERE projectname = ? AND finalized=1;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName());
 
-        if (rs!= null && rs.next()) {
-            return rs.getString("text");
-        }else{
-            return "random shit";
+        String text = null;
+        if (rs != null && rs.next()) {
+            text = rs.getString("text");
         }
+        connection.close();
+        return text;
     }
 
     @Override
@@ -152,29 +150,21 @@ public class AnnotationController implements IAnnotation {
         // build and execute request
         String request = "SELECT COUNT(*) > 0 AS `exists` FROM annotations WHERE id = ?;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, annotationId);
-
+        boolean exists = true;
         if (rs.next()) {
             // save the response
             int count = rs.getInt("exists");
-
-            // close connection
-            connection.close();
-
-            // return true if we found the id
-            if (count < 1) {
-                return false;
-            }
-            else {
-                return true;
-            }
+            // true if we found the id
+            exists = count >= 1;
         }
 
+        connection.close();
         // something happened
-        return true;
+        return exists;
 
     }
 
-    public void endFeedback(Task task){
+    public void endFeedback(Task task) {
         connection.connect();
         String query = "UPDATE tasks set progress = ? where groupTask = ? AND projectName = ? AND taskName = ?";
         connection.issueUpdateStatement(

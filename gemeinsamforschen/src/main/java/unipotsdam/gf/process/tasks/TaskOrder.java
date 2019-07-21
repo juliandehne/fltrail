@@ -5,17 +5,19 @@ import java.util.Comparator;
 import java.util.List;
 
 import static unipotsdam.gf.process.tasks.TaskName.ANSWER_REFLECTION_QUESTIONS;
+import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_ASSESSMENT_MATERIAL;
 import static unipotsdam.gf.process.tasks.TaskName.CLOSE_EXECUTION_PHASE;
 import static unipotsdam.gf.process.tasks.TaskName.COLLECT_RESULTS_FOR_ASSESSMENT;
 import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS;
 import static unipotsdam.gf.process.tasks.TaskName.END_LEARNING_GOAL_PERIOD;
+import static unipotsdam.gf.process.tasks.TaskName.PREVIOUS_LEARNING_GOAL_DONE;
 import static unipotsdam.gf.process.tasks.TaskName.START_LEARNING_GOAL_PERIOD;
 import static unipotsdam.gf.process.tasks.TaskName.UPLOAD_LEARNING_GOAL_RESULT;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_EXECUTION_PHASE_END;
-import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_LEARNING_GOALS;
-import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_LEARNING_GOAL_RESULTS;
-import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION_QUESTIONS_ANSWERS;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_LEARNING_GOAL_TO_START;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_OTHER_STUDENTS_FINISH_REFLECTION;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION;
 import static unipotsdam.gf.process.tasks.TaskName.WORK_ON_LEARNING_GOAL;
 
 public class TaskOrder {
@@ -46,15 +48,17 @@ public class TaskOrder {
         result.add(TaskName.INTRODUCE_E_PORTFOLIO_DOCENT);
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
         //end of dossier phase
-        result.add(WAIT_FOR_LEARNING_GOALS);
+        result.add(WAIT_FOR_LEARNING_GOAL_TO_START);
         result.add(CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
         result.add(START_LEARNING_GOAL_PERIOD);
+        result.add(END_LEARNING_GOAL_PERIOD);
         result.add(WORK_ON_LEARNING_GOAL);
+        result.add(WAIT_FOR_REFLECTION);
         result.add(UPLOAD_LEARNING_GOAL_RESULT);
         result.add(ANSWER_REFLECTION_QUESTIONS);
-        result.add(WAIT_FOR_LEARNING_GOAL_RESULTS);
-        result.add(WAIT_FOR_REFLECTION_QUESTIONS_ANSWERS);
-        result.add(END_LEARNING_GOAL_PERIOD);
+        result.add(WAIT_FOR_OTHER_STUDENTS_FINISH_REFLECTION);
+        result.add(PREVIOUS_LEARNING_GOAL_DONE);
+        result.add(CHOOSE_ASSESSMENT_MATERIAL);
         result.add(WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION);
         result.add(COLLECT_RESULTS_FOR_ASSESSMENT);
         result.add(WAIT_FOR_EXECUTION_PHASE_END);

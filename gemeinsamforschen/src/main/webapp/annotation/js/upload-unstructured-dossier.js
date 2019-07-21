@@ -1,6 +1,8 @@
 $(document).ready(function () {
-    handleLocker("UPLOAD_DOSSIER");
-    getAnnotationCategories(function (categories) {
-        buildAnnotationList(categories);
-    });
+    if (fileRole.toUpperCase() === 'DOSSIER') {
+        handleLocker("UPLOAD_DOSSIER");
+        getAnnotationCategories(function (categories) {
+            buildAnnotationList(categories);
+        });
+    }
 });

@@ -101,14 +101,12 @@ public class UserDAO {
         String mysqlRequest = "SELECT * FROM users where " + field + " = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, value);
         boolean next = vereinfachtesResultSet.next();
+        User user = null;
         if (next) {
-            User user = ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet);
-            connect.close();
-            return user;
-        } else {
-            connect.close();
-            return null;
+            user = ResultSetUtil.getUserFromResultSet(vereinfachtesResultSet);
         }
+        connect.close();
+        return user;
     }
 
     public User getUserById(String id) {

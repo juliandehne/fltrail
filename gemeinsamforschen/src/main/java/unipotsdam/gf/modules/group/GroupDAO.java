@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.group;
 
-import com.lowagie.text.html.HtmlEncoder;
 import org.apache.logging.log4j.util.Strings;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Project;
@@ -37,7 +36,7 @@ public class GroupDAO {
     public ArrayList<String> getStudentsInSameGroupAs(Project project, User user) {
         connect.connect();
         ArrayList<String> result = new ArrayList<>();
-        int groupId= getGroupByStudent(project, user);
+        int groupId = getGroupByStudent(project, user);
         String mysqlRequest = "SELECT * FROM `groupuser` WHERE `groupId`=?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, groupId);
         boolean next2 = vereinfachtesResultSet.next();
@@ -55,10 +54,10 @@ public class GroupDAO {
         Integer result;
         connect.connect();
         String mysqlRequest = "SELECT groupId FROM `groupuser` gu JOIN groups g WHERE g.`projectName`=? AND gu.groupid=g.id AND gu.userEmail=? ";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, project.getName(), user.getEmail());
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getName(), user.getEmail());
         vereinfachtesResultSet.next();
         result = vereinfachtesResultSet.getInt("groupId");
+        connect.close();
         return result;
     }
 
@@ -79,7 +78,7 @@ public class GroupDAO {
         connect.close();
     }
 
-    public void persistOriginalGroup(Group group, int groupId, GroupFormationMechanism groupFormationMechanism){
+    public void persistOriginalGroup(Group group, int groupId, GroupFormationMechanism groupFormationMechanism) {
         assert group.getProjectName() != null;
         connect.connect();
         for (User groupMember : group.getMembers()) {
@@ -161,7 +160,7 @@ public class GroupDAO {
         return uniqueGroups;
     }
 
-    public List<Group> getGroupsByContextUser(User user, GroupWorkContext context){
+    public List<Group> getGroupsByContextUser(User user, GroupWorkContext context) {
         connect.connect();
         String mysqlRequest = "SELECT p.name as projectName, gu.userEmail, gu.groupId, g.chatroomId  " +
                 "FROM `projects` p JOIN " +
@@ -200,7 +199,7 @@ public class GroupDAO {
             String projectName = vereinfachtesResultSet.getString("projectName");
             User user = userDAO.getUserByEmail(vereinfachtesResultSet.getString("userEmail"));
             String chatRoomId = null;
-            if(withRocketChatId) {
+            if (withRocketChatId) {
                 chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
             }
             ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
@@ -254,15 +253,15 @@ public class GroupDAO {
     }
 
     public void deleteGroups(Project project) {
-        String query ="DELETE gu FROM groupuser gu INNER JOIN groups g ON gu.groupId=g.id WHERE g.projectName = ?;";
-        String query2="DELETE FROM groups WHERE projectName=?;";
+        String query = "DELETE gu FROM groupuser gu INNER JOIN groups g ON gu.groupId=g.id WHERE g.projectName = ?;";
+        String query2 = "DELETE FROM groups WHERE projectName=?;";
         connect.connect();
         connect.issueInsertOrDeleteStatement(query, project.getName());
         connect.issueInsertOrDeleteStatement(query2, project.getName());
         connect.close();
     }
 
-    private List<Group> resultSetToGroupList(VereinfachtesResultSet vereinfachtesResultSet, Boolean withRocketChatId){
+    private List<Group> resultSetToGroupList(VereinfachtesResultSet vereinfachtesResultSet, Boolean withRocketChatId) {
         if (Objects.isNull(vereinfachtesResultSet)) {
             connect.close();
             return Collections.emptyList();

@@ -1,8 +1,12 @@
 package unipotsdam.gf.modules.group.preferences.database;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import unipotsdam.gf.modules.group.preferences.excel.ItemSet;
-import unipotsdam.gf.modules.group.preferences.groupal.request.*;
+import unipotsdam.gf.modules.group.preferences.groupal.request.Criterion;
+import unipotsdam.gf.modules.group.preferences.groupal.request.Participants;
+import unipotsdam.gf.modules.group.preferences.groupal.request.ParticipantsHolder;
+import unipotsdam.gf.modules.group.preferences.groupal.request.UsedCriteria;
+import unipotsdam.gf.modules.group.preferences.groupal.request.UsedCriterion;
+import unipotsdam.gf.modules.group.preferences.groupal.request.Value;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContextUtil;
 import unipotsdam.gf.modules.project.Project;
@@ -459,6 +463,7 @@ public class ProfileDAO {
         if (vereinfachtesResultSet.next()) {
             groupWorkContext = GroupWorkContext.valueOf(vereinfachtesResultSet.getString("context"));
         }
+        connect.close();
         return groupWorkContext;
     }
 }

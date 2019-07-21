@@ -47,3 +47,18 @@ function initializeGroups(projectName) {
 function redirect(url) {
     location.href = url;
 }
+
+function solveTask(taskName, projectName) {
+    let url = `../rest/tasks/solve/projects/${projectName}/task/${taskName}`;
+    $.ajax({
+        url: url,
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        type: 'POST',
+        success: function () {
+            location.reload();
+        }
+    });
+}

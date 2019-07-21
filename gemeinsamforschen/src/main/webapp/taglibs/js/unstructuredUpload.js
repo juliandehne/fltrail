@@ -108,6 +108,7 @@ function handleNextAction() {
 
 async function setupPageContent() {
     populateHeaderTemplate();
+    await populateTitleEditorTemplate();
     if (isReflectionQuestion) {
         await setupAndRenderReflectionQuestionsTemplate();
     }
@@ -162,8 +163,17 @@ function populateHeaderTemplate() {
     $("#headerTemplateResult").html(html);
 }
 
+async function populateTitleEditorTemplate() {
+    let data = {};
+    data.fileRole = fileRole;
+    let tmpl = $.templates('#editorTitleTemplate');
+    let html = tmpl.render(data);
+    $('#editorTitleTemplateResult').html(html)
+}
+
 async function setupAndRenderReflectionQuestionsTemplate() {
-    reflectionQuestions = await getUnansweredReflectionQuestions(projectName);
+    let learningGoalId = $('#learningGoalId').html().trim();
+    reflectionQuestions = await getUnansweredReflectionQuestions(projectName, learningGoalId);
     reflectionQuestionTemplateData.fileRole = fileRole;
     reflectionQuestionTemplateData.totalQuestions = reflectionQuestions.length;
     renderReflectionQuestionTemplate();

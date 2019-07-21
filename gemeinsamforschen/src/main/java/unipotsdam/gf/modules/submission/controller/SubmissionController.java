@@ -10,7 +10,13 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -200,7 +206,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         while (rs.next()) {
             fullSubmissionList.add(getFullSubmissionFromResultSet(rs));
         }
-
+        connection.close();
         return fullSubmissionList;
     }
 
@@ -212,7 +218,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         while (rs.next()) {
             fullSubmissionList.add(getFullSubmissionFromResultSet(rs));
         }
-
+        connection.close();
         return fullSubmissionList;
     }
 
