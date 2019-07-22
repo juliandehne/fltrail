@@ -24,8 +24,8 @@ body {
     height:100%;
 }
 
-.flex-wrapper {
-    flex: 1 0 auto;
+.flex-wrapper, #flex-wrapper {
+    flex: 1;
 }
 
 header {
