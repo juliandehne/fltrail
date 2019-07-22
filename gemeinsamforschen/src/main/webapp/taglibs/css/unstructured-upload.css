@@ -51,8 +51,8 @@
 }
 
 .upload-text label {
-    color: #000;
-    font-size: 1.2em;
+    color: #999;
+    font-size: 1em;
     margin-bottom: .5em;
 }
 
@@ -70,4 +70,16 @@ label.error {
     color: red;
 }
 
+.ql-toolbar.ql-snow {
+    border: 1px solid #ededed;
+    background: #ededed;
+}
+#editor {
+    background: #ededed;
+    padding: 5px;
+    border-color: #ededed;
+}
 
+.ql-editor {
+    background:#fff;
+}

@@ -63,8 +63,8 @@
 
     <!-- back-->
     <div class="backlink">
-        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
-            Aufgaben</i></a>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den
+            Aufgaben</a>
     </div>
     <main>
         <div id="unauthorized" hidden class="alert alert-warning unauthorized">
@@ -135,7 +135,7 @@
                                 mit den folgenden Kategorien.
                             </p>
                             <div class='collapse' id='whatIs'>
-                                <div class='card card-body'>
+                                <div class='card card-body tipp'>
                                     Ein Dossier ist eine Aktensammlung für Ihr Projekt. Der Dozent hat dabei
                                     festelegt, dass die rechts sichtbaren Kategorien mindestens mit enthalten sein müssen.
                                     Nachdem Sie hier all ihre Textbausteine verfasst haben, kann ihre Gruppe ihren Beitrag
@@ -147,11 +147,11 @@
                         <ol id="annotations">
                             {{for categories}}
                                 <li class="spacing">
-                                <div class="row group">
-                                    <div id="{{>nameLower}}" class="category-card not-added col span_content">
+
+                                    <div id="{{>nameLower}}" class="category-card not-added">
                                         <p>{{>name}}</p>
                                     </div>
-                                </div>
+
                                 </li>
                             {{/for}}
                         </ol>
@@ -169,9 +169,11 @@
         </div> <!-- flex wrapper -->
     </main>
     <jsp:include page="../taglibs/footer.jsp"/>
+
     <jsp:include page="../taglibs/quillJsEditor.jsp">
         <jsp:param name="readOnly" value="false"/>
     </jsp:include>
+
 
     <p id="fullSubmissionId" hidden><%=tu.printMe(fullSubmissionId)%>
     </p>

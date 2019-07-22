@@ -23,8 +23,8 @@
     <link rel="stylesheet" type="text/css" href="css/annotationColorTheme.css">
     <!-- js - jQuery validation plugin -->
     <script src="../libs/jquery/jqueryValidate.js"></script>
-    <!-- js - jQuery ui position -->
-    <script src="../libs/jquery/jqueryUI.js" type="text/javascript"></script>
+    <!-- js - jQuery ui position
+    <script src="../libs/jquery/jqueryUI.js" type="text/javascript"></script> -->
     <!-- js - contextMenu script -->
     <script src="../libs/jquery/jqueryContextMenu.js"
             type="text/javascript"></script>
@@ -53,44 +53,64 @@
     <!-- back-->
     <div class="backlink">
 
-        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
-            Aufgaben</i></a>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den
+            Aufgaben</a>
     </div>
     <main id="seeFeedback" class="">
-        <div class="row group">
-            <div class="col span_2_of_2">
-                <h1>Feedback für Ihr <span class="fileRole"></span></h1>
 
-                <br>
+            <div class="col span_2_of_2">
+                <h2>Feedback für Ihr <span class="fileRole"></span></h2>
+
                 <div class="three_rows">
-                    <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">&#xf053;</button>
+                    <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
 
                     <h4 id="categoryHeadline" class="current-category"></h4>
-                    <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">&#xf054;</button>
-                    <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">&#xf00c;</button>
+                    <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
+                    <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Senden</button>
                 </div>
                 <div id="editor"></div>
+            </div>
+
+            <div class="splitter-horizontal"></div>
+
+            <div class="reply-control">
                 <h3>Zu diesem Teil gab es folgendes Feedback: </h3>
                 <div id="feedbackEditor"></div>
             </div>
-        </div>
+
+        <jsp:include page="../taglibs/quillJsEditor.jsp">
+            <jsp:param name="readOnly" value="true"/>
+        </jsp:include>
+        <script>
+            const quillFeedback = new Quill('#feedbackEditor', {
+                theme: 'snow',
+                readOnly: true,
+                "modules": {
+                    "toolbar": false
+                }
+            });
+        </script>
+
+
+
     </main>
-    <jsp:include page="../taglibs/quillJsEditor.jsp">
-        <jsp:param name="readOnly" value="true"/>
-    </jsp:include>
-    <script>
-        const quillFeedback = new Quill('#feedbackEditor', {
-            theme: 'snow',
-            readOnly: true,
-            "modules": {
-                "toolbar": false
-            }
-        });
-    </script>
-    <jsp:include page="../taglibs/footer.jsp"/>
+
+
 
     <div style="height: 200px" id="categoryColor" class="hidden-category-field"></div>
 </div>
+
+<script type="text/javascript" src="../libs/jquery/jquery-resizable/src/jquery-resizable.js"></script>
+<script>
+    $(".span_2_of_2").resizable({
+        handleSelector: ".splitter-horizontal",
+        resizeHeight: false,
+
+    });
+
+
+</script>
+<jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

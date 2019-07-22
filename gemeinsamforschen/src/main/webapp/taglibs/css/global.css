@@ -68,8 +68,11 @@ main {
 .backlink {
     max-width: 1280px;
     margin: 0 auto;
-    height: 20px;
-    padding-left: 10px;
+    height: 30px;
+    font-weight: bold;
+}
+.backlink a:hover {
+    text-decoration: none;
 }
 
 footer {
@@ -276,6 +279,11 @@ footer {
     box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
 }
 
+.card.card-fnished {
+    box-shadow: 10px 10px 5px -12px #8c8a8c9e;
+    -webkit-box-shadow: 10px 10px 5px -12px rgba(140, 138, 140, 0.62);
+    -moz-box-shadow: 10px 10px 5px -12px rgba(140, 138, 140, 0.62);
+}
 
 .card.card-grouping{
     border-left:10px solid #1a3358;
@@ -431,6 +439,10 @@ h1 {
    /* max-width: 400px;*/
 }
 
+main h1 {
+    text-align:left;
+}
+
 h2 {
     font-family: spectral, georgia, serif;
     color: #075F8B;
@@ -468,6 +480,13 @@ h3.phase-heading.card-assessment{
 }
 h3.phase-heading.card-grades{
     color: #707070;
+}
+
+h3.phase-heading.finished:after {
+    content: " \f00c";
+    font-family:"Font Awesome 5 Free";
+    font-stle:normal;
+    font-weight:900;
 }
 
 
@@ -900,6 +919,24 @@ main.groups-manual{
     color: #333;
 }
 
+.upload-text #ownTitle {
+    padding: 10px 5px;
+    outline: 0;
+    border: 2px solid #065f8b;
+    border-width: 0 0 2px 0;
+    border-radius: 0px;
+    background: #fff;
+    color: #065f8b;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    min-width: 400px;
+    font-size: 1.5em;
+    box-sizing: border-box;
+    line-height: 1.5em;
+    margin-bottom: 2em;
+}
+
 .comment {
     -webkit-box-shadow: 0px 0px 2px 1px rgba(209, 209, 209, 1);
     -moz-box-shadow: 0px 0px 2px 1px rgba(209, 209, 209, 1);
@@ -1129,8 +1166,8 @@ main.groups-manual{
 }
 
 #editor {
-    border: solid 1px;
-    height: 500px;
+
+    min-height: 500px;
     overflow: hidden;
 }
 /* CHAT */
@@ -1187,3 +1224,39 @@ main.groups-manual{
     margin-left: 30%;
     margin-top: 20%;
 }
+
+/* TIpps */
+.tipp.card {
+    -webkit-box-shadow: 0px 0px 0px 0px #8c8a8c9e;
+    -moz-box-shadow: 0px 0px 0px 0px rgba(140, 138, 140, 0.62);
+    box-shadow: 0px 0px 0px 0px #8c8a8c9e;
+    max-width:95%;
+}
+
+/* Feedback reply control
+
+.reply-control {
+    position: fixed;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    bottom: 0;
+    min-height: 0;
+    right: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1475px;
+    width: 100%;
+    z-index: 400;
+    transition: height 250ms ease, background 250ms ease, transform 250ms ease, max-width 250ms ease;
+    background-color: #fff;
+    box-shadow: 0 -1px 40px #0000001f;
+
+}
+
+.splitter-horizontal {
+    flex: 0 0 auto;
+    background: url(../assets/vsizegrip.png) center center no-repeat;
+    cursor: col-resize;
+} */
