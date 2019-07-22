@@ -94,6 +94,9 @@
                                         <button onClick="closePhase('Assessment', getProjectName());" class="btn btn-primary"><i class="fas fa-link"></i> Studentische Bewertung abschließen </button>
                                     </div>
                                 {{/if}}
+                                {{if inCardSolver=="GIVE_EXTERNAL_ASSESSMENT_TEACHER"}}
+                                       Es fehlen noch ${taskData.progressData.numberNeeded} Gruppen.
+                                {{/if}}
                            {{/if}}
                            {{if helpLink}}
                                <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>

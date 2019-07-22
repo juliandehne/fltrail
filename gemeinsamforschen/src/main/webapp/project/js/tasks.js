@@ -372,7 +372,7 @@ function handleLinkedTasks(object, result) {
                 if (object.progress !== "FINISHED") {
                     result.solveTaskWith = "Bewerte Gruppe";
                     result.solveTaskWithLink = "redirect(\'../assessment/rate-contribution.jsp?" +
-                        "projectName=" + object.projectName + "&groupId=" + result.taskData.objectGroup.id + "\')";
+                        "projectName=" + object.projectName + "&groupId=" + result.taskData.taskMapping.objectGroup.id + "\')";
                 }
                 break;
             case "CLOSE_PEER_ASSESSMENTS_PHASE":
