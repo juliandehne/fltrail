@@ -576,7 +576,7 @@ create table tasks
   userEmail   varchar(255) not null,
   projectName varchar(200) not null,
   taskName    varchar(100) null,
-  groupTask   tinyint      null,
+  groupTask   bigint      null,
   importance  varchar(100) null,
   progress    varchar(100) null,
   phase       varchar(100) null,

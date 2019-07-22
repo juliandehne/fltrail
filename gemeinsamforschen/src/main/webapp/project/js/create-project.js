@@ -2,7 +2,6 @@ let allTheTags = [];
 let projectName = "";
 let gfm = "";
 let groupSize = 3;
-
 /**
  * Created by fides-WHK on 19.02.2018.
  */
@@ -51,7 +50,7 @@ $(document).ready(function () {
 // function that creates the project in the db
 function createNewProject(allTheTags) {
     let gfm = $('input[name=gfm]:checked').val();
-    if (typeof  gfm ==="undefined"){
+    if (typeof  gfm === "undefined") {
         $('#groupMechanismMissing').show();
         return false;
     }
@@ -127,6 +126,7 @@ function initSendButton(allTheTags) {
 
 // it returns false and shows errors if input is not valid
 function getProjectValues() {
+    let interruptFunction = false;
     projectName = $("#nameProject").val().trim();
     let password = $("#passwordProject").val().trim();
     //allTheTags = $("#tagsProject").tagsInput('items');
@@ -135,18 +135,18 @@ function getProjectValues() {
     if (!reguexp.test(projectName)) {
         $('#specialChars').show();
         loaderStop();
-        return false;
+        interruptFunction = true;
     }
     if (projectName === "") {           //project has no name, so abort function
         $('#projectIsMissing').show();
         loaderStop();
-        return false;
+        interruptFunction = true;
     }
     let description = $('#projectDescription').val();
     if (description === "") {
         $('#projectDescriptionMissing').show();
         loaderStop();
-        return false;
+        interruptFunction = true;
     }
     let time = new Date().getTime();
     let selectedCategories = [];
@@ -156,11 +156,21 @@ function getProjectValues() {
     $(".LIOwnCategory").each(function () {
         let nodeOfInterest = $(this).find('input:checked');
         if (nodeOfInterest.length > 0) {
-            selectedCategories.push($(this).find('input[type*=text]').val());
+            let ownCategory = $(this).find('input[type*=text]').val();
+            if (ownCategory.match(/^[A-Za-z]+$/)) {
+                selectedCategories.push(ownCategory);
+            } else {
+                $('#noSpecialCharacters').attr('hidden', false);
+                loaderStop();
+                interruptFunction = true;
+            }
         }
     });
     if (selectedCategories.length === 0) {
         stop();
+    }
+    if (interruptFunction) {
+        return false;
     }
 
     return {
@@ -216,7 +226,7 @@ function sendGroupPreferences() {
         gfm = "LearningGoalStrategy";
     } else if (gfm === "Keine Gruppen") {
         gfm = "SingleUser";
-    }else{
+    } else {
         $('#groupMechanismMissing').show();
         loaderStop();
         return false;

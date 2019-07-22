@@ -4,6 +4,7 @@ import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.process.phases.Phase;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,10 +23,10 @@ public class Project {
     private String[] tags;
     private String description;
     private Boolean isSurvey;
-    private String[] categories;
+    private List<String> categories;
     private Integer groupSize;
 
-    public Project(String name, String password, Boolean active, String author, String[] tags, String[] categories, Integer groupSize) {
+    public Project(String name, String password, Boolean active, String author, String[] tags, List<String> categories, Integer groupSize) {
         this.name = name;
         this.password = password;
         this.active = active;
@@ -43,7 +44,7 @@ public class Project {
         return groupSize;
     }
 
-    public Project(String name, String password, Boolean active, String author, String[] tags, String[] categories) {
+    public Project(String name, String password, Boolean active, String author, String[] tags, List<String> categories) {
         this.name = name;
         this.password = password;
         this.active = active;
@@ -60,7 +61,7 @@ public class Project {
         this.groupSize = groupSize;
     }
 
-    public String[] getCategories() {
+    public List<String> getCategories() {
         return categories;
     }
 
@@ -88,7 +89,7 @@ public class Project {
         this.isSurvey = false;
     }
 
-    public void setCategories(String[] categories) {
+    public void setCategories(List<String> categories) {
         this.categories = categories;
     }
 

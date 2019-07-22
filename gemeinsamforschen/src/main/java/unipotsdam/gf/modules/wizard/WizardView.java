@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.wizard;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
@@ -14,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Path("/wizard")
@@ -61,7 +61,7 @@ public class WizardView {
             throws Exception {
 
         Project projectByName = projectDAO.getProjectByName(projectName);
-        List<TaskName> wizardrelevantTaskStatus = wizardDao.getWizardrelevantTaskStatus(projectByName);
+        Set<TaskName> wizardrelevantTaskStatus = wizardDao.getWizardrelevantTaskStatus(projectByName);
         return wizardrelevantTaskStatus.stream().map(Enum::name).collect(Collectors.toList());
     }
 

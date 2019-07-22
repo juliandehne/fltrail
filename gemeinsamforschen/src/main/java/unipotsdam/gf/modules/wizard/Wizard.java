@@ -33,6 +33,7 @@ import unipotsdam.gf.process.tasks.*;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -87,7 +88,7 @@ public class Wizard {
     private LoremIpsum loremIpsum;
     private PodamFactoryImpl factory = new PodamFactoryImpl();
 
-    public Wizard() {
+    public Wizard() throws UnsupportedEncodingException {
 
         this.concepts = new TomcatConceptImporter();
         this.loremIpsum = new LoremIpsum();
@@ -141,7 +142,7 @@ public class Wizard {
                 case WAIT_FOR_PARTICPANTS: {
                     ProjectStatus participantCount = projectDAO.getParticipantCount(project);
                     if (participantCount.getParticipants() < 6) {
-                        createStudents(project);
+                        createStudents(project, participantCount);
                     }
                     break;
                 }
@@ -181,7 +182,8 @@ public class Wizard {
         // phase will be ended as a call to phases, at the end in any case
         switch (phase) {
             case GroupFormation:
-                createStudents(project);
+                ProjectStatus participantCount = projectDAO.getParticipantCount(project);
+                createStudents(project, participantCount);
                 break;
             case DossierFeedback: {
                 createDossiers(project);
@@ -300,46 +302,45 @@ public class Wizard {
         groupFormationProcess.sendGroupAlDataToServer(data, user, project);
     }
 
-    public void createStudents(Project project) throws Exception {
-        if (projectDAO.getParticipantCount(project).getParticipants() == 0) {
-            ArrayList<User> students = new ArrayList<>();
-            Random random = new Random();
-            for (int i = 0; i < 30; i++) {
-                try {
-                    User user = factory.manufacturePojo(User.class);
-                    user.setStudent(true);
+    public void createStudents(Project project, ProjectStatus participantCount) throws Exception {
+        ArrayList<User> students = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < 30 - participantCount.getParticipants(); i++) {
+            try {
+                User user = factory.manufacturePojo(User.class);
+                user.setStudent(true);
 
-                    user.setRocketChatUsername("studentwizard" + random.nextInt(1000000));
-                    user.setEmail("studentwizard" + random.nextInt(1000000) + "@stuff.com");
-                    user.setPassword("egal");
-                    projectCreationProcess.deleteUser(user);
-                    projectCreationProcess.createUser(user);
-                    projectCreationProcess.studentEntersProject(project, user);
-                    students.add(user);
-                } catch (Exception e) {
-                    System.out.println(e);
-                    // might have been a problem with UUID generation should not crash
-                }
+                user.setRocketChatUsername("studentwizard" + random.nextInt(1000000));
+                user.setEmail("studentwizard" + random.nextInt(1000000) + "@stuff.com");
+                user.setPassword("egal");
+                projectCreationProcess.deleteUser(user);
+                projectCreationProcess.createUser(user);
+                projectCreationProcess.studentEntersProject(project, user);
+                students.add(user);
+            } catch (Exception e) {
+                System.out.println(e);
+                // might have been a problem with UUID generation should not crash
             }
-            if (FLTrailConfig.wizardSimulatesFullAlgorithms) {
-                for (User student : students) {
-                    GroupFormationMechanism groupMechanismSelected = management.getProjectConfiguration(project).getGroupMechanismSelected();
-                    switch (groupMechanismSelected) {
-                        case UserProfilStrategy:
-                            // mock compbase data is generated
-                            createMockDataForGroupal(project, student);
-                            break;
-                        case LearningGoalStrategy:
-                            // mock groupal data generation in case manual group formation is tested
-                            createMockDataForCompBase(project, student);
-                            break;
-                    }
-                }
-            } else {
-                groupFormationProcess.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
-            }
-            //groupFormationProcess.getOrInitializeGroups(project);
         }
+        if (FLTrailConfig.wizardSimulatesFullAlgorithms) {
+            for (User student : students) {
+                GroupFormationMechanism groupMechanismSelected = management.getProjectConfiguration(project).getGroupMechanismSelected();
+                switch (groupMechanismSelected) {
+                    case UserProfilStrategy:
+                        // mock compbase data is generated
+                        createMockDataForGroupal(project, student);
+                        break;
+                    case LearningGoalStrategy:
+                        // mock groupal data generation in case manual group formation is tested
+                        createMockDataForCompBase(project, student);
+                        break;
+                }
+            }
+        } else {
+            groupFormationProcess.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
+        }
+        //groupFormationProcess.getOrInitializeGroups(project);
+
     }
 
     public void annotateDossiers(Project project) {
@@ -369,7 +370,7 @@ public class Wizard {
         //if (submissionController.get)
     }
 
-    public void createDossiers(Project project) throws IOException, DocumentException {
+    public void createDossiers(Project project) throws IOException {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
             User representativUser = groupDAO.getRepresentativUser(group, project);

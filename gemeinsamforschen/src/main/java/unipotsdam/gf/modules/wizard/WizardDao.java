@@ -3,16 +3,12 @@ package unipotsdam.gf.modules.wizard;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.mysql.MysqlUtil;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class WizardDao {
 
@@ -34,10 +30,10 @@ public class WizardDao {
         String mysqlRequest =
                 " SELECT p.name, p.phase, t.taskName FROM projects " +
                 " p join tasks t on p.name = t.projectName" +
-                " where t.progress = ? " +
+                        " where NOT t.progress = ? " +
                 " Group By p.phase, p.name ORDER by t.created ASC " ;
         List<WizardProject> result = new ArrayList<>();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Progress.JUSTSTARTED);
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Progress.FINISHED);
         while (vereinfachtesResultSet.next()) {
             String project = vereinfachtesResultSet.getString("name");
             String taskName = vereinfachtesResultSet.getString("taskName");
@@ -48,24 +44,24 @@ public class WizardDao {
         return result;
     }
 
-    public List<TaskName> getWizardrelevantTaskStatus(Project project) {
+    public Set<TaskName> getWizardrelevantTaskStatus(Project project) {
         //relevantTasks.add(TaskName.WAITING_FOR_GROUP);
-        String concatenatedString = getRelevantTaskList();
+        Set<TaskName> relevantTaskList = getRelevantTaskList();
         String query = "SELECT t.taskName from tasks t" +
-                " where t.taskName in ("+concatenatedString+")" +
-                " and (t.progress = ?" +
-                " or t.progress = ?)" +
-                " and t.projectName = ?" +
-                " and t.taskName not in (SELECT t2.taskName from tasks t2 where t2.progress = ? AND t2.projectName = ?)" +
-                " GROUP by (t.taskName)";
+                " WHERE t.progress= ? AND t.projectName = ? " +
+                "AND t.taskName NOT IN (SELECT t2.taskName from tasks t2 WHERE t2.progress<>? " +
+                "AND t2.projectName=?) group by t.taskName";
 
-        ArrayList<TaskName> result = new ArrayList<>();
+        Set<TaskName> result = new HashSet<>();
         connect.connect();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query,
-                Progress.FINISHED.name(), Progress.INPROGRESS.name(), project.getName(),
-                Progress.JUSTSTARTED.name(), project.getName());
-        while (vereinfachtesResultSet.next())
-            result.add(TaskName.valueOf(vereinfachtesResultSet.getString("taskName")));
+                Progress.FINISHED.name(), project.getName(), Progress.FINISHED.name(), project.getName());
+        while (vereinfachtesResultSet.next()) {
+            TaskName taskName = TaskName.valueOf(vereinfachtesResultSet.getString("taskName"));
+            if (relevantTaskList.contains(taskName)) {
+                result.add(taskName);
+            }
+        }
         connect.close();
 
         /**
@@ -81,27 +77,27 @@ public class WizardDao {
     public HashMap<TaskName, Progress> getWizardrelevantTaskMap(Project project) {
         HashMap<TaskName, Progress> result = new HashMap<>();
         //relevantTasks.add(TaskName.WAITING_FOR_GROUP);
-        String concatenatedString = getRelevantTaskList();
+        Set<TaskName> relevantTaskList = getRelevantTaskList();
 
         String query = "SELECT * from tasks t" +
-                " where t.taskName in ("+concatenatedString+")" +
-                " and t.projectName = ? GROUP by (t.taskName)";
+                " where and t.projectName = ? GROUP by (t.taskName)";
 
         connect.connect();
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, project.getName());
         while (vereinfachtesResultSet.next()) {
-            String taskName = vereinfachtesResultSet.getString("taskName");
-            String progress = vereinfachtesResultSet.getString("t.progress");
-            result.put(TaskName.valueOf(taskName), Progress.valueOf(progress));
+            TaskName taskName = TaskName.valueOf(vereinfachtesResultSet.getString("taskName"));
+            Progress progress = Progress.valueOf(vereinfachtesResultSet.getString("t.progress"));
+            if (relevantTaskList.contains(taskName))
+                result.put(taskName, progress);
         }
         connect.close();
 
         return result;
     }
 
-    public String getRelevantTaskList() {
-        ArrayList<TaskName> relevantTasks = new ArrayList<>();
+    public Set<TaskName> getRelevantTaskList() {
+        Set<TaskName> relevantTasks = new HashSet<>();
         relevantTasks.add(TaskName.WAIT_FOR_PARTICPANTS);
         relevantTasks.add(TaskName.UPLOAD_DOSSIER);
         relevantTasks.add(TaskName.ANNOTATE_DOSSIER);
@@ -113,9 +109,12 @@ public class WizardDao {
         relevantTasks.add(TaskName.GIVE_INTERNAL_ASSESSMENT);
         relevantTasks.add(TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER);
 
+        /*
         List<String> stringList = relevantTasks.stream().map(Enum::name).collect(Collectors.toList());
 
         MysqlUtil mysqlUtil = new MysqlUtil();
         return mysqlUtil.createConcatenatedString(stringList);
+        */
+        return relevantTasks;
     }
 }

@@ -25,7 +25,7 @@
         <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" required></div>
         <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password" required>
         </div>
-        <div class="form-group"><label>Bitte kein sensibeles Passwort verwenden!</label></div>
+        <div class="form-group"><label>Bitte kein sensibles Passwort verwenden!</label></div>
         <div class="form-group">
             <label>
                 <input id="is_Student" class="form-control" type="checkbox" value="false" name="isStudent">Dozierender
