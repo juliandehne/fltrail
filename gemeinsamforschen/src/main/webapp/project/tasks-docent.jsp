@@ -95,7 +95,11 @@
                                     </div>
                                 {{/if}}
                                 {{if inCardSolver=="GIVE_EXTERNAL_ASSESSMENT_TEACHER"}}
-                                       Es fehlen noch ${taskData.progressData.numberNeeded} Gruppen.
+                                       {{if taskData.progressData.numberNeeded == 1}}
+                                        Es fehlt noch eine Gruppe.
+                                        {{else}}
+                                        Es fehlen noch ${taskData.progressData.numberNeeded} Gruppen.
+                                        {{/if}}
                                 {{/if}}
                            {{/if}}
                            {{if helpLink}}
