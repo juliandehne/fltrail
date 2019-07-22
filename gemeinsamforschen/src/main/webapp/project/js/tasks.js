@@ -226,6 +226,9 @@ function handleInfoTasks(object, result) {
         } case "END_STUDENT": {
         result.infoText = "Das Projekt ist beendet! Sie haben eine " + object.taskData + " erreicht.";
             break;
+        } case "EVALUATION_TECHNISCH" : {
+            result.infoText = "Bitte bewerten Sie die verwendete Software Fl-Trail!";
+            break;
         }
         default:
             result.infoText = "";
@@ -386,6 +389,12 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../assessment/final-grades.jsp?" +
                     "final=true&" +
                     "projectName=" + object.projectName + "\')";
+                break;
+            case "EVALUATION_TECHNISCH":
+                result.solveTaskWith = "Zur Evaluation";
+                result.solveTaskWithLink = "redirect(\'../evaluation/evaluation_technical.jsp?" + $.param({
+                    projectName: object.projectName,
+                }) + "\')";
                 break;
             default:
                 result.solveTaskWith = null;

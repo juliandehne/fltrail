@@ -233,6 +233,7 @@ public class PeerAssessmentProcess {
             taskDAO.updateTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Progress.FINISHED);
             taskDAO.persistTeacherTask(project, TaskName.END_DOCENT, Phase.GRADING);
             taskDAO.persistMemberTask(project, TaskName.END_STUDENT, Phase.GRADING);
+            taskDAO.persistTeacherTask(project, TaskName.EVALUATION_TECHNISCH, Phase.GRADING);
         }
     }
 }
