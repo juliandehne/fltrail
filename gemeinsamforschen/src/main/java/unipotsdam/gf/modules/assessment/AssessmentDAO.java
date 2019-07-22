@@ -634,7 +634,12 @@ public class AssessmentDAO {
     public InternalPeerAssessmentProgress getInternalPeerAssessmentProgress(Project project, User user) {
         connect.connect();
         String query =
-                "select count(*) as result from groupuser gu1" + " join groupuser gu2 on gu1.groupId = gu2.groupId " + " join groups g on gu1.groupId = g.id" + " where gu1.userEmail = ? and g.projectName = ?" + " and gu1.userEmail <> gu2.userEmail";
+                "select count(gu1.userEmail) as result from groupuser gu1"
+                        + " join groupuser gu2 on gu1.groupId = gu2.groupId "
+                        + " join groups g on gu1.groupId = g.id"
+                        + " where gu1.userEmail = ? and g.projectName = ?"
+                        + " and gu1.userEmail <> gu2.userEmail and (gu1.userEmail, gu2.userEmail) not in"
+                        + " (SELECT wr.fromPeer, wr.userEmail from workrating wr where wr.projectName = g.projectName)";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, user.getEmail(), project.getName());
         vereinfachtesResultSet.next();
