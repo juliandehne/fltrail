@@ -95,6 +95,17 @@ function fillObjectWithGrades(data) {
                 }
             let workRating = 0;
             let suggested = parseFloat(Number.parseFloat(grades[student].suggestedRating).toFixed(2));
+            if (Math.trunc(suggested) === Math.trunc(suggested + 0.3)) {
+                // suggested = X.69 or less
+                suggested = Math.trunc(suggested) + 0.3;
+                if (Math.trunc(suggested) === Math.trunc(suggested + 0.7)) {
+                    //suggested = X.29 or less
+                    suggested = Math.trunc(suggested);
+                }
+            } else {
+                // suggested = X.7 or more
+                suggested = Math.trunc(suggested) + 0.7;
+            }
             let cleanedSuggested = 0;
             let countValidEntries = 1; //docentProductRating always happens.
 
@@ -123,6 +134,17 @@ function fillObjectWithGrades(data) {
             }
             cleanedSuggested += productDocent;
             cleanedSuggested = parseFloat(Number.parseFloat(cleanedSuggested / countValidEntries).toFixed(2));
+            if (Math.trunc(cleanedSuggested) === Math.trunc(cleanedSuggested + 0.3)) {
+                // suggested = X.69 or less
+                cleanedSuggested = Math.trunc(cleanedSuggested) + 0.3;
+                if (Math.trunc(cleanedSuggested) === Math.trunc(cleanedSuggested + 0.7)) {
+                    //suggested = X.29 or less
+                    cleanedSuggested = Math.trunc(cleanedSuggested);
+                }
+            } else {
+                // suggested = X.7 or more
+                cleanedSuggested = Math.trunc(cleanedSuggested) + 0.7;
+            }
             result = {
                 groupId: grades[student].groupId,
                 files: files,

@@ -4,12 +4,15 @@ import com.google.common.base.Strings;
 import unipotsdam.gf.interfaces.IContributionFeedback;
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
 import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.DossierCreationProcess;
+import unipotsdam.gf.process.tasks.TaskName;
 import unipotsdam.gf.session.GFContexts;
+import unipotsdam.gf.session.Lock;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -39,6 +42,12 @@ public class ContributionFeedbackView {
 
     @Inject
     private DossierCreationProcess dossierCreationProcess;
+
+    @Inject
+    private Lock lock;
+
+    @Inject
+    private GroupDAO groupDAO;
 
     @GET
     @Path("{id}")
@@ -111,6 +120,7 @@ public class ContributionFeedbackView {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response finalizeFeedback(@PathParam("groupId") int groupId, @PathParam("projectName") String projectName) {
         dossierCreationProcess.saveFinalFeedback(groupId, new Project(projectName));
+        lock.deleteLockInDB(TaskName.GIVE_FEEDBACK, groupDAO.getGroupByGroupId(groupId));
         return Response.ok().build();
     }
 
