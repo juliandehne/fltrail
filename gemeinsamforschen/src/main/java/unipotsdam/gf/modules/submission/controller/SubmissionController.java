@@ -837,7 +837,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, project.getName());
 
         while (vereinfachtesResultSet.next()) {
-            result.add(groupDAO.getGroupByGroupId(vereinfachtesResultSet.getInt("feedbackGroup")));
+            result.add(groupDAO.getGroupByGroupId(vereinfachtesResultSet.getInt("groupId")));
         }
         connection.close();
         return result;

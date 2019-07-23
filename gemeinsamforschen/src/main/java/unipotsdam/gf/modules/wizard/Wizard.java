@@ -91,7 +91,7 @@ public class Wizard {
      * closes all previous tasks
      *
      * @param taskName that is about to get closed
-     * @param project of interest
+     * @param project  of interest
      */
     void doSpells(TaskName taskName, Project project) throws Exception {
 
@@ -307,7 +307,8 @@ public class Wizard {
         }
         if (FLTrailConfig.wizardSimulatesFullAlgorithms) {
             for (User student : students) {
-                GroupFormationMechanism groupMechanismSelected = management.getProjectConfiguration(project).getGroupMechanismSelected();
+                GroupFormationMechanism groupMechanismSelected =
+                        management.getProjectConfiguration(project).getGroupMechanismSelected();
                 switch (groupMechanismSelected) {
                     case UserProfilStrategy:
                         // mock compbase data is generated
@@ -332,16 +333,14 @@ public class Wizard {
             User representativUser = groupDAO.getRepresentativUser(group, project);
             Task annotateDossierTask = taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.ANNOTATE_DOSSIER);
             if (annotateDossierTask == null || annotateDossierTask.getProgress() != Progress.FINISHED) {
-                FullSubmission fullSubmission = submissionController.getFullSubmissionBy(group.getId(), project, FileRole.DOSSIER);
+                FullSubmission fullSubmission =
+                        submissionController.getFullSubmissionBy(group.getId(), project, FileRole.DOSSIER);
                 List<String> annotationCategories = submissionController.getAnnotationCategories(project);
                 int startCharacter = 0;
                 for (String category : annotationCategories) {
                     ArrayList<SubmissionPartBodyElement> spbe = new ArrayList<>();
-                    spbe.add(
-                            new SubmissionPartBodyElement(
-                                    "",
-                                    startCharacter,
-                                    startCharacter + fullSubmission.getText().length() / annotationCategories.size() - 1));
+                    spbe.add(new SubmissionPartBodyElement("", startCharacter,
+                            startCharacter + fullSubmission.getText().length() / annotationCategories.size() - 1));
                     SubmissionPartPostRequest sppr =
                             new SubmissionPartPostRequest(group.getId(), fullSubmission.getId(), category, spbe);
                     submissionController.addSubmissionPart(sppr);
@@ -356,14 +355,14 @@ public class Wizard {
     private void createDossiers(Project project) throws IOException {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
-            if (submissionController.getFullSubmissionBy(group.getId(), project, FileRole.DOSSIER) == null) {
+            List<Group> allGroupsWithDossierUploaded = submissionController.getAllGroupsWithDossierUploaded(project);
+            if (!allGroupsWithDossierUploaded.contains(group)) {
                 User representativUser = groupDAO.getRepresentativUser(group, project);
                 String text = loremIpsum.getWords(500);
                 text = convertTextToQuillJs(text);
                 String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).get();
                 FullSubmissionPostRequest submission =
-                        new FullSubmissionPostRequest(group, text, FileRole.DOSSIER, project, Visibility.PUBLIC,
-                                title);
+                        new FullSubmissionPostRequest(group, text, FileRole.DOSSIER, project, Visibility.PUBLIC, title);
                 submission.setHtml(text);
                 FullSubmission fullSubmission =
                         dossierCreationProcess.addDossier(submission, representativUser, project);
@@ -379,12 +378,14 @@ public class Wizard {
             int feedbackTarget = feedback.getFeedBackTarget(project, representativUser);
             if (taskDAO.getTasksWithTaskName(feedbackTarget, project, TaskName.SEE_FEEDBACK) == null) {
                 //group writes a feedback
-                FullSubmission fullSubmission = submissionController.getFullSubmissionBy(feedbackTarget, project, FileRole.DOSSIER, 0);
+                FullSubmission fullSubmission =
+                        submissionController.getFullSubmissionBy(feedbackTarget, project, FileRole.DOSSIER, 0);
                 List<String> annotationCategories = submissionController.getAnnotationCategories(project);
                 for (String category : annotationCategories) {
                     String text = loremIpsum.getWords(20);
                     text = convertTextToQuillJs(text);
-                    ContributionFeedback contributionFeedback = new ContributionFeedback(group.getId(), fullSubmission.getId(), category, text);
+                    ContributionFeedback contributionFeedback =
+                            new ContributionFeedback(group.getId(), fullSubmission.getId(), category, text);
                     contributionFeedback.setUserEmail(representativUser.getEmail());
                     dossierCreationProcess.saveFeedback(contributionFeedback);
                 }
