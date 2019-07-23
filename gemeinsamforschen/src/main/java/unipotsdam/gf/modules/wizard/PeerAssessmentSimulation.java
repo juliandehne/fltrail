@@ -1,10 +1,8 @@
 package unipotsdam.gf.modules.wizard;
 
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import de.svenjacobs.loremipsum.LoremIpsum;
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.assessment.InternalAssessmentQuestions;
 import unipotsdam.gf.modules.assessment.QuestionData;
 import unipotsdam.gf.modules.fileManagement.FileManagementDAO;
@@ -14,7 +12,6 @@ import unipotsdam.gf.modules.fileManagement.FileType;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.compbase.ConceptImporter;
@@ -37,14 +34,9 @@ public class PeerAssessmentSimulation {
     @Inject
     private WizardDao wizardDao;
 
-    @Inject
-    private IPhases phases;
 
     @Inject
     private TaskDAO taskDAO;
-
-    @Inject
-    private ProjectDAO projectDAO;
 
     @Inject
     UserDAO userDAO;
@@ -70,8 +62,8 @@ public class PeerAssessmentSimulation {
         this.loremIpsum = new LoremIpsum();
     }
 
-    public void generatePresentationsForAllGroupsAndUploadThem(Project project)
-            throws CssResolverException, DocumentException, IOException {
+    void generatePresentationsForAllGroupsAndUploadThem(Project project)
+            throws DocumentException, IOException {
         peerAssessmentProcess.startPeerAssessmentPhase(project);
 
         FileRole fileRole = FileRole.PRESENTATION;
@@ -79,7 +71,7 @@ public class PeerAssessmentSimulation {
         taskDAO.updateForAll(new Task(TaskName.UPLOAD_PRESENTATION, null, project, Progress.FINISHED));
     }
 
-    public void generateFinalReportsForAllGroupsAndUploadThem(Project project) throws Exception {
+    void generateFinalReportsForAllGroupsAndUploadThem(Project project) throws Exception {
         FileRole fileRole = FileRole.FINAL_REPORT;
         createMissingFiles(project, fileRole);
         taskDAO.updateForAll(new Task(TaskName.UPLOAD_FINAL_REPORT, null, project, Progress.FINISHED));
@@ -99,7 +91,7 @@ public class PeerAssessmentSimulation {
         }
     }
 
-    public void externalPeerAssessments(Project project) throws Exception {
+    void externalPeerAssessments(Project project) throws Exception {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
             Integer groupToRate = peer.whichGroupToRate(project, group.getId());
@@ -112,7 +104,7 @@ public class PeerAssessmentSimulation {
         }
     }
 
-    public Map<FileRole, Integer> generateContributionRatings() {
+    private Map<FileRole, Integer> generateContributionRatings() {
         Map<FileRole, Integer> contributionRating = new HashMap<>();
         FileRole[] values = FileRole.values();
         for (FileRole value : values) {
@@ -122,7 +114,7 @@ public class PeerAssessmentSimulation {
         return contributionRating;
     }
 
-    public void internalPeerAssessments(Project project) throws Exception {
+    void internalPeerAssessments(Project project) throws Exception {
         List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
         for (User user : usersByProjectName) {
             doInternalAssessment(user, project);
@@ -152,7 +144,7 @@ public class PeerAssessmentSimulation {
         }
     }
 
-    public void docentAssessments(Project project) throws Exception {
+    void docentAssessments(Project project) throws Exception {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
 
         for (Group group : groupsByProjectName) {

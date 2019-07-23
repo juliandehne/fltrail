@@ -58,7 +58,6 @@ let Enum = function() {
     self.valueOf = function(name) {
         if (typeof name !== 'string') throw "Argument " + name.toString() +
         ' is of type ' + typeof name + ' but string is expected';
-        let names = [];
         for(let key of symbolToName.keys()) {
             if (symbolToName.get(key) == name) {
                 return key;

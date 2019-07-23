@@ -12,7 +12,7 @@
     <script src="js/solve-inCardTasks.js"></script>
 </head>
 <body>
-<div id="flex-wrapper">
+<div class="flex-wrapper">
 <jsp:include page="../taglibs/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
@@ -31,6 +31,7 @@
                   {{if (current==true)}}
                         <h3 class="phase-heading ${phase} ">${headLine}</h3>
                   {{/if}}
+
                   <div class="card ${phase}">
                        <div class="col span_s_of_2 icon ${taskType}"> </div>
                        <div class="col span_l_of_2" id="${taskName}">
@@ -124,25 +125,25 @@
              <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
                 <div></div>
                     {{if (current==true)}}
-                        <h3 class="phase-heading ${phase} ">${headLine}</h3>
+                        <h3 class="phase-heading finished ${phase} ">${headLine}</h3>
                     {{/if}}
                     {{if timeFrame}}
                         <p style="text-align:center;">{{html timeFrame}}</p>
                     {{else}}
-            <div class="card ${phase}">
+            <div class="card card-fnished ${phase}">
 
                     <div class="col span_s_of_2 icon ${taskType}"></div>
                     <div class="col span_l_of_2">
-                    <p style="color:gray;">${infoText}</p>
-                    {{if inCardSolver}}
-                        {{if inCardSolver=="WAIT_FOR_PARTICPANTS"}}
-                            <p style="color:gray;">
-                                Die Arbeitsgruppen wurden gebildet. Unter diesem
-                                <a style="cursor:pointer;" id="groupView">Link</a>
-                                können Sie die Gruppen sehen.
-                            </p>
+                        <p style="color:gray;">${infoText}</p>
+                        {{if inCardSolver}}
+                            {{if inCardSolver=="WAIT_FOR_PARTICPANTS"}}
+                                <p style="color:gray;">
+                                    Die Arbeitsgruppen wurden gebildet. Unter diesem
+                                    <a style="cursor:pointer;" id="groupView">Link</a>
+                                    können Sie die Gruppen sehen.
+                                </p>
+                            {{/if}}
                         {{/if}}
-                    {{/if}}
                     </div>
                     <div style="clear:left"></div>
             </div>
@@ -181,7 +182,8 @@
 
     </div>
 
-    <jsp:include page="../taglibs/footer.jsp"/>
+
 </div>
+<jsp:include page="../taglibs/footer.jsp"/>
 </body>
 </html>

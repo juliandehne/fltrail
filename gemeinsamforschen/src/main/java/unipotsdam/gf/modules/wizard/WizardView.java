@@ -71,15 +71,14 @@ public class WizardView {
     public HashMap<TaskName, Progress> getRelevantTasksStatus(@PathParam("projectName") String projectName)
             throws Exception {
         Project projectByName = projectDAO.getProjectByName(projectName);
-        HashMap<TaskName, Progress> wizardrelevantTaskStatus = wizardDao.getWizardrelevantTaskMap(projectByName);
-        return wizardrelevantTaskStatus;
+        return wizardDao.getWizardrelevantTaskMap(projectByName);
     }
 
 
     @GET
     @Path("/projects/{projectName}/teststudent")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public User getTestStudent(@PathParam("projectName") String projectName) throws Exception {
+    public User getTestStudent(@PathParam("projectName") String projectName) {
         List<User> usersByProjectName = userDAO.getUsersByProjectName(projectName);
         if (usersByProjectName != null  && usersByProjectName.size() > 0) {
             return usersByProjectName.iterator().next();

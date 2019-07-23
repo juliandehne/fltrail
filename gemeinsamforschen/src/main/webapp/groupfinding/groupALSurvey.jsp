@@ -39,7 +39,8 @@
     </div>
 </main>
 </div>
-<jsp:include page="../taglibs/footer.jsp"/>
 </div>
+<jsp:include page="../taglibs/footer.jsp"/>
+
 </body>
 </html>

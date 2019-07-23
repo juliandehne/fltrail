@@ -1,6 +1,7 @@
 package unipotsdam.gf.session;
 
 import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.tasks.TaskName;
@@ -18,37 +19,36 @@ public class Lock {
      * @param taskName represents the task, that is about to get blocked
      * @param group represents the group, which works on the task already
      */
-    public synchronized boolean lock(TaskName taskName, Group group) {
-        if (checkIfLocked(taskName, group.getId())) {
+    public synchronized boolean lock(TaskName taskName, Group group, User user) {
+        if (checkIfLocked(taskName, group.getId(), user.getEmail())) {
             return true;
         } else {
-            lockTaskInDB(taskName, group.getId());
+            lockTaskInDB(taskName, group.getId(), user.getEmail());
             return false;
         }
     }
 
-    private boolean checkIfLocked(TaskName taskName, Integer groupId) {
-        return isTaskLockedInDB(taskName, groupId);
+    private boolean checkIfLocked(TaskName taskName, Integer groupId, String userEmail) {
+        return isTaskLockedInDB(taskName, groupId, userEmail);
     }
 
-    private void lockTaskInDB(TaskName taskName, Integer groupId) {
+    private void lockTaskInDB(TaskName taskName, Integer groupId, String userEmail) {
         connection.connect();
 
         // build and execute request
-        String request = "REPLACE INTO tasklock (`taskName`, `groupId`) VALUES (?,?);";
-        connection.issueInsertOrDeleteStatement(request, taskName, groupId);
+        String request = "REPLACE INTO tasklock (`taskName`, `groupId`, `owner`) VALUES (?,?,?);";
+        connection.issueInsertOrDeleteStatement(request, taskName, groupId, userEmail);
         // close connection
         connection.close();
     }
 
-    private boolean isTaskLockedInDB(TaskName taskName, Integer groupId) {
+    private boolean isTaskLockedInDB(TaskName taskName, Integer groupId, String userEmail) {
         boolean result = false;
         connection.connect();
         // build and execute request
-        String request = "SELECT * FROM tasklock WHERE taskName= ? AND groupId = ?";
-        VereinfachtesResultSet vrs = connection.issueSelectStatement(request, taskName, groupId);
+        String request = "SELECT * FROM tasklock WHERE taskName= ? AND groupId = ? AND owner <> ?";
+        VereinfachtesResultSet vrs = connection.issueSelectStatement(request, taskName, groupId, userEmail);
         while (vrs.next()) {
-
             result = true;
         }
         // close connection

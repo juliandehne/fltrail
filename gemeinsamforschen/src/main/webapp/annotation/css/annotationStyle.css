@@ -231,23 +231,35 @@ ol#annotations {
 
 .three_rows {
     text-align: center;
-
-    border-bottom: 1px solid #dedede;
-
     padding-bottom: 1em;
-
     margin-bottom: 1em;
+    padding: 9px;
+    background-color: #ededed;
+    position: relative;
   }
 
 #btnBack, #btnContinue, #finalize {
     display: inline-block;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    border-radius: 50%;
-    width: 2em;
-    height: 2em;
+    font-weight:bold;
+    top: 0;
+    position: absolute;
+    height: 37px;
     line-height: .3em;
     text-indent:-1px;
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#btnContinue, #finalize {
+
+
+    right: 0;
+
+
+}
+
+#btnBack {
+    left:0;
+
 }
 
 #finalize {
@@ -307,14 +319,71 @@ ol#annotations {
     display: none;
 }
 
-#seeFeedback .ql-container.ql-snow {
+#seeFeedback .reply-control .ql-container.ql-snow {
     border-width:0px;
+    height: 80%;
+    resize: vertical;
+    overflow: auto;
+    background: #ededed;
+    border: 5px solid #edededed;
 }
 
 #seeFeedback .ql-editor {
-    padding:0;
+
+
 }
 
-.ql-editor {
+#seeFeedback .span_2_of_2 #editor {
+    height:auto;
+    min-height: 500px;
+    overflow: hidden;
+}
+
+.ql-toolbar.ql-snow {
+    background: #ededed;
+    border: 1px solid #ededed;
+}
+
+.reply-control .ql-editor {
     min-height: 100px;
+    background:#fff;
+}
+
+/*test */
+main#seeFeedback {
+    display:flex;
+    flex-direction:row;
+    overflow: hidden;
+}
+
+main#seeFeedback .span_2_of_2 {
+    flex: 0 0 auto;
+    min-width: 20%;
+    min-height: 500px;
+    width: auto;
+    float: none;
+    max-width: 80%;
+
+}
+
+main#seeFeedback .splitter-horizontal {
+    flex: 0 0 auto;
+    width: 18px;
+    background: url(../../libs/jquery/jquery-resizable/assets/vsizegrip.png) center center no-repeat #535353;
+    min-height: 200px;
+    cursor: col-resize;
+    -webkit-box-shadow: -4px 0px 3px 0px #00000061;
+
+    -moz-box-shadow: -4px 0px 3px 0px rgba(0,0,0,0.38);
+
+    box-shadow: -4px 0px 3px 0px #00000061;
+}
+
+main#seeFeedback .reply-control {
+    flex: 1 1 auto;
+    padding: 10px;
+    /*width: 100%;*/
+    min-height: 200px;
+    min-width: 200px !important;
+
 }
