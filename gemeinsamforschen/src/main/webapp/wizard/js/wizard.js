@@ -2,7 +2,7 @@ let projectList = [];
 let selectedProject = "";
 const phases = new Enum('GroupFormation', 'DossierFeedback', 'Execution', 'Assessment', 'GRADING', 'Projectfinished');
 const taskNames = new Enum( "WAIT_FOR_PARTICPANTS", "UPLOAD_DOSSIER", "ANNOTATE_DOSSIER","GIVE_FEEDBACK",
-                            "FINALIZE_DOSSIER", "UPLOAD_PRESENTATION", "UPLOAD_FINAL_REPORT",
+    "REEDIT_DOSSIER", "UPLOAD_PRESENTATION", "UPLOAD_FINAL_REPORT",
                             "GIVE_EXTERNAL_ASSESSMENT","GIVE_INTERNAL_ASSESSMENT",
                             "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
 

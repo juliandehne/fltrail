@@ -97,8 +97,9 @@ public class FileManagementView {
                                @PathParam("projectName") String projectName,
                                @PathParam("taskName") TaskName taskName) throws IOException {
         String userEmail = gfContexts.getUserEmail(req);
-        Group myGroup = groupDAO.getMyGroup(new User(userEmail), new Project(projectName));
-        if (lock.lock(taskName, myGroup)) {
+        User user = userDAO.getUserByEmail(userEmail);
+        Group myGroup = groupDAO.getMyGroup(user, new Project(projectName));
+        if (lock.lock(taskName, myGroup, user)) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
         return Response.ok().build();
