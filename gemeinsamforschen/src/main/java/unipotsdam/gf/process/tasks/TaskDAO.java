@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
 import unipotsdam.gf.modules.assessment.InternalPeerAssessmentProgress;
+import unipotsdam.gf.modules.assessment.ProgessAndTaskMapping;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -307,7 +308,7 @@ public class TaskDAO {
         TaskName taskName1 = TaskName.valueOf(taskName);
         switch (taskName1) {
             case ANNOTATE_DOSSIER: {
-                //finalizeDossierTask.setTaskType(TaskType.LINKED);
+                //finalizeDoassierTask.setTaskType(TaskType.LINKED);
                 result = getFinalizeDossierTask(vereinfachtesResultSet);
                 break;
             }
@@ -426,7 +427,9 @@ public class TaskDAO {
                 break;
             case GIVE_EXTERNAL_ASSESSMENT_TEACHER: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
-                task.setTaskData(assessmentDAO.getNextGroupToFeedbackForTeacher(project));
+                ProgessAndTaskMapping taskMappingAndProgress = assessmentDAO.getTaskMappingAndProgress(project);
+                task.setTaskData(taskMappingAndProgress);
+                //task.setTaskData(assessmentDAO.getNextGroupToFeedbackForTeacher(project));
                 result = task;
                 break;
             }
@@ -446,6 +449,7 @@ public class TaskDAO {
                 result = task;
                 break;
             }
+
             default: {
                 result = getGeneralTask(vereinfachtesResultSet);
             }
