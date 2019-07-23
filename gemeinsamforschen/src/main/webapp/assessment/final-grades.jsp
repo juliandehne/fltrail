@@ -48,6 +48,9 @@
                                 Name
                             </th>
                             <th class="th-sm">
+                                Gruppe
+                            </th>
+                            <th class="th-sm">
                                 E-Mail
                             </th>
                             <th class="th-sm">
@@ -96,6 +99,9 @@
                                 </ul>
                                 </div>
                             </div>
+                        </td>
+                        <td name="groupId">
+                            ${groupId}
                         </td>
                         <td name="userEmail">
                             ${userEmail}
