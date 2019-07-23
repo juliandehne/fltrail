@@ -7,7 +7,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.interfaces.Feedback;
-import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.interfaces.IPhases;
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -22,7 +21,6 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.compbase.TomcatConceptImporter;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
@@ -61,9 +59,6 @@ public class Wizard {
     private GroupFormationProcess groupFormationProcess;
 
     @Inject
-    UserDAO userDAO;
-
-    @Inject
     private GroupDAO groupDAO;
 
     @Inject
@@ -72,8 +67,6 @@ public class Wizard {
     @Inject
     private DossierCreationProcess dossierCreationProcess;
 
-    @Inject
-    IGroupFinding groupFinding;
 
     @Inject
     SubmissionController submissionController;
@@ -97,10 +90,10 @@ public class Wizard {
     /**
      * closes all previous tasks
      *
-     * @param taskName
-     * @param project
+     * @param taskName that is about to get closed
+     * @param project of interest
      */
-    public void doSpells(TaskName taskName, Project project) throws Exception {
+    void doSpells(TaskName taskName, Project project) throws Exception {
 
         // simulate previous tasks
         Phase correspondingPhase2 = phases.getCorrespondingPhase(taskName);
@@ -110,7 +103,7 @@ public class Wizard {
         simulateTasksInThisPhase(taskName, project);
     }
 
-    public void simulateTasksInThisPhase(TaskName taskName, Project project) throws Exception {
+    private void simulateTasksInThisPhase(TaskName taskName, Project project) throws Exception {
         Phase correspondingPhase = phases.getCorrespondingPhase(taskName);
 
         // get previous tasks including the current
@@ -129,13 +122,13 @@ public class Wizard {
         simulatePreviousTasks(project, previousTasks);
     }
 
-    public void doSpells(Phase phase, Project project) throws Exception {
+    void doSpells(Phase phase, Project project) throws Exception {
         simulatePreviousPhases(phase, project);
         // simulate the current phase
         simulatePhase(project, phase);
     }
 
-    public void simulatePreviousTasks(Project project, List<TaskName> previousTasks) throws Exception {
+    private void simulatePreviousTasks(Project project, List<TaskName> previousTasks) throws Exception {
         // previous tasks only contains tasks in this phase now
         for (TaskName name : previousTasks) {
             switch (name) {
@@ -178,7 +171,7 @@ public class Wizard {
         }
     }
 
-    public void simulatePhase(Project project, Phase phase) throws Exception {
+    private void simulatePhase(Project project, Phase phase) throws Exception {
         // phase will be ended as a call to phases, at the end in any case
         switch (phase) {
             case GroupFormation:
@@ -221,7 +214,7 @@ public class Wizard {
     }
 
 
-    public void simulatePreviousPhases(Phase correspondingPhase, Project project) throws Exception {
+    private void simulatePreviousPhases(Phase correspondingPhase, Project project) throws Exception {
         List<Phase> previousPhases = phases.getFinishedPhases(correspondingPhase, project);
         for (Phase previousPhase : previousPhases) {
             simulatePhase(project, previousPhase);
@@ -251,10 +244,6 @@ public class Wizard {
         return text;
     }
 
-    /**
-     * @param project
-     * @param student
-     */
     public void createMockDataForCompBase(Project project, User student) throws Exception {
         PreferenceData preferenceData = factory.manufacturePojo(PreferenceData.class);
         // check if tags were persisted for this project
@@ -276,21 +265,15 @@ public class Wizard {
     }
 
     private ArrayList<String> getOrPersistTags(Project project) {
-        ArrayList<String> result = new ArrayList<>();
         List<String> tags = projectDAO.getTags(project);
 
         if (tags == null || tags.isEmpty()) {
             tags = concepts.getNumberedConcepts(5);
             projectDAO.persistTagsForWizard(project, tags);
         }
-        result.addAll(tags);
-        return result;
+        return new ArrayList<>(tags);
     }
 
-    /**
-     * @param project
-     * @param user
-     */
     private void createMockDataForGroupal(Project project, User user) {
         HashMap<String, String> data = new HashMap<>();
         Random random = new Random();
@@ -302,7 +285,7 @@ public class Wizard {
         groupFormationProcess.sendGroupAlDataToServer(data, user, project);
     }
 
-    public void createStudents(Project project, ProjectStatus participantCount) throws Exception {
+    private void createStudents(Project project, ProjectStatus participantCount) throws Exception {
         ArrayList<User> students = new ArrayList<>();
         Random random = new Random();
         for (int i = 0; i < 30 - participantCount.getParticipants(); i++) {
@@ -343,7 +326,7 @@ public class Wizard {
 
     }
 
-    public void annotateDossiers(Project project) {
+    private void annotateDossiers(Project project) {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
             User representativUser = groupDAO.getRepresentativUser(group, project);
@@ -370,11 +353,11 @@ public class Wizard {
         //if (submissionController.get)
     }
 
-    public void createDossiers(Project project) throws IOException {
+    private void createDossiers(Project project) throws IOException {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
-            User representativUser = groupDAO.getRepresentativUser(group, project);
             if (submissionController.getFullSubmissionBy(group.getId(), project, FileRole.DOSSIER) == null) {
+                User representativUser = groupDAO.getRepresentativUser(group, project);
                 String text = loremIpsum.getWords(500);
                 text = convertTextToQuillJs(text);
                 String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).get();
@@ -389,7 +372,7 @@ public class Wizard {
         }
     }
 
-    public void generateFeedbacks(Project project) throws IOException {
+    private void generateFeedbacks(Project project) throws IOException {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
             User representativUser = groupDAO.getRepresentativUser(group, project);
@@ -410,7 +393,7 @@ public class Wizard {
         }
     }
 
-    public void finalizeDossiers(Project project) throws Exception {
+    private void finalizeDossiers(Project project) throws Exception {
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
             User representativUser = groupDAO.getRepresentativUser(group, project);
@@ -428,39 +411,37 @@ public class Wizard {
         }
     }
 
-    public void finalizeReflection(Project project) throws Exception {
+    private void finalizeReflection(Project project) throws Exception {
         if (project.getAuthorEmail() == null) {
             throw new Exception("no author set!!");
         }
         phases.endPhase(Phase.Execution, project, new User(project.getAuthorEmail()));
     }
 
-    public void generatePresentationsForAllGroupsAndUploadThem(Project project)
+    private void generatePresentationsForAllGroupsAndUploadThem(Project project)
             throws CssResolverException, DocumentException, IOException {
         peerAssessmentSimulation.generatePresentationsForAllGroupsAndUploadThem(project);
     }
 
-    public void generateFinalReportsForAllGroupsAndUploadThem(Project project) throws Exception {
+    private void generateFinalReportsForAllGroupsAndUploadThem(Project project) throws Exception {
         peerAssessmentSimulation.generateFinalReportsForAllGroupsAndUploadThem(project);
     }
 
-    public void externalPeerAssessments(Project project) throws Exception {
+    private void externalPeerAssessments(Project project) throws Exception {
         peerAssessmentSimulation.externalPeerAssessments(project);
     }
 
-    public void internalPeerAssessments(Project project) throws Exception {
+    private void internalPeerAssessments(Project project) throws Exception {
         peerAssessmentSimulation.internalPeerAssessments(project);
     }
 
-    public void docentAssessments(Project project) throws Exception {
+    private void docentAssessments(Project project) throws Exception {
         peerAssessmentSimulation.docentAssessments(project);
     }
 
     public List<WizardProject> getProjects() {
         List<WizardProject> projects = wizardDao.getProjects();
-        List<WizardProject> collected = projects.stream().filter(wizardProject -> notInGroupWorkContext(wizardProject))
-                .collect(Collectors.toList());
-        return collected;
+        return projects.stream().filter(this::notInGroupWorkContext).collect(Collectors.toList());
     }
 
     private boolean notInGroupWorkContext(WizardProject wizardProject) {

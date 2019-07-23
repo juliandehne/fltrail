@@ -105,7 +105,7 @@ function doSpell(project, taskName) {
 function doPhaseSpell(project, phase) {
     loaderStart();
     let requestObj = new RequestObj(1, "/wizard", "/projects/?/phase/?", [project, phase], []);
-    serverSide(requestObj, "POST", function (response) {
+    serverSide(requestObj, "POST", function () {
         //console.log()
         updateState();
     });
@@ -164,7 +164,7 @@ function updateTaskStates() {
             $("#giveFeedbackButton").attr("disabled", true);
 
         }
-        if (tasksfinished.includes(taskNames.getName(taskNames.FINALIZE_DOSSIER))) {
+        if (tasksfinished.includes(taskNames.getName(taskNames.REEDIT_DOSSIER))) {
             $("#finalizeDossierButton").attr("disabled", true);
 
         }

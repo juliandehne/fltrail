@@ -13,7 +13,7 @@ let categories = [];
 let contributionFeedback = undefined;
 
 $(document).ready(function () {
-
+    handleLocker("GIVE_FEEDBACK");
     getAnnotationCategories(function (response) {
         categories = response;
         let btnContinueBot = $('#btnContinueBot');
