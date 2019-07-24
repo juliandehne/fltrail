@@ -188,7 +188,13 @@ public enum TaskName {
     //TEACHER:
     // how to trigger: "Projektabschluss" was closed
     // how to solve: can't be solved
-    END_DOCENT;
+    END_DOCENT,
+
+
+    /// evaluation
+    EVALUATION_TECHNISCH,
+
+    EVALUATION_PROZESS;
 
     public static ArrayList<TaskName> getPersistentExecutionTasks() {
         ArrayList<TaskName> persistentTasks = new ArrayList<>();

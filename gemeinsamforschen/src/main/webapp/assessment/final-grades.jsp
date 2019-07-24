@@ -48,6 +48,9 @@
                                 Name
                             </th>
                             <th class="th-sm">
+                                Gruppe
+                            </th>
+                            <th class="th-sm">
                                 E-Mail
                             </th>
                             <th class="th-sm">
@@ -65,8 +68,10 @@
                                 (Average)
                                 vorgeschlagene Note
                             </th>
-                            <td><a id="takeSuggested" style="cursor:pointer; font-size: 15px;"><i
-                                    class="fas fa-arrow-right"></i></a></td>
+                            <th><a id="takeSuggested" style="cursor:pointer; font-size: 15px;"><i
+                                    class="fas fa-arrow-right"></i></a>
+                                übernehmen
+                            </th>
                             <th class="th-sm">
                                 Endnote
                             </th>
@@ -96,6 +101,9 @@
                                 </ul>
                                 </div>
                             </div>
+                        </td>
+                        <td name="groupId">
+                            ${groupId}
                         </td>
                         <td name="userEmail">
                             ${userEmail}

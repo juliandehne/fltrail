@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.submission.view;
 
-import com.itextpdf.text.DocumentException;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -107,7 +106,7 @@ public class SubmissionService {
     @Path("/full/update")
     public Response updateFullSubmission(
             @Context HttpServletRequest req, FullSubmissionPostRequest fullSubmissionPostRequest,
-            @QueryParam("finalize") Boolean finalize) throws IOException, DocumentException {
+            @QueryParam("finalize") Boolean finalize) throws Exception {
         String userEmail = (String) req.getSession().getAttribute(GFContexts.USEREMAIL);
         User user = userDAO.getUserByEmail(userEmail);
 

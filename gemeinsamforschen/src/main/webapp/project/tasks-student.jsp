@@ -47,7 +47,13 @@
                         {{/if}}
                         <div class="card ${phase} current">
                             <div class="col span_s_of_2 icon ${taskType}"></div>
-
+                                {{if inCardSolver=="CONTACT_GROUP_MEMBERS"}}
+                                    <p>
+                                        Sagen Sie hallo zu ihren
+                                         <a style="cursor:pointer;" class="groupView">Gruppenmitgliedern</a>
+                                         über den Chat.
+                                    </p>
+                                {{else}}
                             <div class="col span_l_of_2" id="${taskName}">
                                 {{if infoText}}
                                     <p class="task-info">${infoText}</p>
@@ -66,14 +72,13 @@
 
                             <div style="clear:left"></div>
                         </div>
-
-
+                    {{/if}}
                 </script>
 
                 <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
                     <div></div>
                         {{if (current==true)}}
-                            <h3 class="phase-heading ${phase} ">${headLine}</h3>
+                            <h3 class="phase-heading finished ${phase} ">${headLine}</h3>
                         {{/if}}
                         {{if timeFrame}}
                             <p style="text-align:center;">{{html timeFrame}}</p>
@@ -82,27 +87,27 @@
 
                         <div class="col span_s_of_2 icon ${taskType}"></div>
                         <div class="col span_l_of_2">
-                        <p style="color:gray;">${infoText}</p>
-                        {{if inCardSolver}}
-                            {{if inCardSolver=="WAITING_FOR_GROUP"}}
-                                <p style="color:gray;">
-                                    Die Arbeitsgruppen wurden gebildet. Unter diesem
-                                    <a style="cursor:pointer;" id="groupView">Link</a>
-                                    können Sie die Gruppen sehen.
-                                </p>
-                            {{/if}}
-                        {{/if}}
+                            <p style="color:gray;">${infoText}</p>
+                                {{if inCardSolver}}
+                                    {{if inCardSolver=="WAITING_FOR_GROUP"}}
+                                        <p style="color:gray;">
+                                            Die Arbeitsgruppen wurden gebildet. Unter diesem
+                                            <a style="cursor:pointer;" class="groupView">Link</a>
+                                            können Sie die Gruppen sehen.
+                                        </p>
+                                    {{/if}}
+                                    {{if inCardSolver=="CONTACT_GROUP_MEMBERS"}}
+                                        <p style="color:gray;">
+                                            Sagen Sie hallo zu ihren
+                                             <a style="cursor:pointer;" class="groupView">Gruppenmitgliedern</a>
+                                             über den Chat.
+                                        </p>
+                                    {{/if}}
+                                {{/if}}
                         </div>
                     <div style="clear:left"></div>
                 </div>
                 {{/if}}
-
-
-
-
-
-
-
                 </script>
                 <script id="inProgressTaskTemplate" type="text/x-jQuery-tmpl">
                     <div></div>
@@ -112,15 +117,18 @@
                 <div class="card ${phase}">
                    <div class="card-finished">
                         <div class="col span_s_of_2 icon ${taskType}"></div>
-                        <p class="icon">${infoText}<i class="fa fa-clock-o" aria-hidden="true"></i></p>
-                        {{if solveTaskWith}}
-                            <button class='primary' onClick='${solveTaskWithLink}'><i class="fas fa-link"></i> ${solveTaskWith}</button>
-                        {{/if}}
-                        {{if helpLink}}
-                            <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
-                        {{/if}}
-                   {{html timeFrame}}
+                        <div class="col span_l_of_2">
+                            <p class="task-info">${infoText}<i class="fa fa-clock-o" aria-hidden="true"></i></p>
+                            {{if solveTaskWith}}
+                                <button class='primary' onClick='${solveTaskWithLink}'><i class="fas fa-link"></i> ${solveTaskWith}</button>
+                            {{/if}}
+                            {{if helpLink}}
+                                <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
+                            {{/if}}
+                              {{html timeFrame}}
+                       </div>
                    </div>
+                   <div style="clear:left"></div>
                 </div>
 
 
@@ -167,7 +175,8 @@
 
     </div>
 
-    <jsp:include page="../taglibs/footer.jsp"/>
+
 </div>
+<jsp:include page="../taglibs/footer.jsp"/>
 </body>
 </html>

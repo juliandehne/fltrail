@@ -86,7 +86,7 @@
 .category-card {
     min-height: 30px;
     height: 100%;
-    width: 83%;
+
     border-radius: 0px;
     font-weight: bold;
     font-size: large;
@@ -126,7 +126,7 @@
 .not-added {
     border-style: solid;
     border-color: #ededed;
-    color: #ada3a3;;
+    color: #ada3a3 !important;
 }
 
 .titel {

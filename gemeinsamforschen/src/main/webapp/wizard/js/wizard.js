@@ -2,7 +2,7 @@ let projectList = [];
 let selectedProject = "";
 const phases = new Enum('GroupFormation', 'DossierFeedback', 'Execution', 'Assessment', 'GRADING', 'Projectfinished');
 const taskNames = new Enum( "WAIT_FOR_PARTICPANTS", "UPLOAD_DOSSIER", "ANNOTATE_DOSSIER","GIVE_FEEDBACK",
-                            "FINALIZE_DOSSIER", "UPLOAD_PRESENTATION", "UPLOAD_FINAL_REPORT",
+    "REEDIT_DOSSIER", "UPLOAD_PRESENTATION", "UPLOAD_FINAL_REPORT",
                             "GIVE_EXTERNAL_ASSESSMENT","GIVE_INTERNAL_ASSESSMENT",
                             "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
 
@@ -105,7 +105,7 @@ function doSpell(project, taskName) {
 function doPhaseSpell(project, phase) {
     loaderStart();
     let requestObj = new RequestObj(1, "/wizard", "/projects/?/phase/?", [project, phase], []);
-    serverSide(requestObj, "POST", function (response) {
+    serverSide(requestObj, "POST", function () {
         //console.log()
         updateState();
     });
@@ -164,7 +164,7 @@ function updateTaskStates() {
             $("#giveFeedbackButton").attr("disabled", true);
 
         }
-        if (tasksfinished.includes(taskNames.getName(taskNames.FINALIZE_DOSSIER))) {
+        if (tasksfinished.includes(taskNames.getName(taskNames.REEDIT_DOSSIER))) {
             $("#finalizeDossierButton").attr("disabled", true);
 
         }

@@ -12,6 +12,7 @@ import unipotsdam.gf.modules.fileManagement.FileType;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
@@ -44,6 +45,9 @@ public class DossierCreationProcess {
 
     @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private ProjectDAO projectDao;
 
     @Inject
     private ConstraintsImpl constraints;
@@ -81,8 +85,8 @@ public class DossierCreationProcess {
 
 
     /**
-     *
      * add the initial dossier
+     *
      * @param fullSubmissionPostRequest*
      * @param user
      * @param project
@@ -124,6 +128,7 @@ public class DossierCreationProcess {
 
     /**
      * update dossier by group
+     *
      * @param fullSubmissionPostRequest
      * @param user
      * @param project
@@ -133,7 +138,7 @@ public class DossierCreationProcess {
      * @throws DocumentException
      */
     public FullSubmission updateSubmission(FullSubmissionPostRequest fullSubmissionPostRequest,
-                                           User user, Project project, Boolean finalize) throws IOException, DocumentException {
+                                           User user, Project project, Boolean finalize) throws Exception {
         // delete old files
         fileManagementService.deleteFiles(new Project(fullSubmissionPostRequest.getProjectName()), user, fullSubmissionPostRequest.getFileRole());
         // write new ones
@@ -145,7 +150,8 @@ public class DossierCreationProcess {
         submissionController.markAsFinal(fullSubmission, finalize);
 
         if (finalize) {
-            createCloseFeedBackPhaseTask(new Project(fullSubmission.getProjectName()), user);
+            Project project1 = projectDao.getProjectByName(fullSubmission.getProjectName());
+            createCloseFeedBackPhaseTask(project1, user);
         }
 
         return fullSubmission;
@@ -165,6 +171,7 @@ public class DossierCreationProcess {
 
     /**
      * save feedback
+     *
      * @param contributionFeedback
      * @return
      */
@@ -175,6 +182,7 @@ public class DossierCreationProcess {
 
     /**
      * Feedback is persisted and tasks are created accordingly
+     *
      * @param groupId
      * @param project
      */
@@ -195,7 +203,7 @@ public class DossierCreationProcess {
         taskDAO.updateForAll(new Task(TaskName.CONTACT_GROUP_MEMBERS, null, project, Progress.FINISHED));
 
         User user = userDAO.getUserByEmail(project.getAuthorEmail());
-        Task task = new Task(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE, user, project, Progress.FINISHED );
+        Task task = new Task(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE, user, project, Progress.FINISHED);
         taskDAO.updateForUser(task);
 
         //todo: implement communication stuff
@@ -237,8 +245,8 @@ public class DossierCreationProcess {
     }
 
     /**
-     * @param user                      User who uploaded the Submission for his / her group
-     * @param project                   the project the submission was written for
+     * @param user    User who uploaded the Submission for his / her group
+     * @param project the project the submission was written for
      * @return the fullSubmission with correct ID
      */
     private void notifyAboutSubmission(User user, Project project) {
@@ -268,19 +276,26 @@ public class DossierCreationProcess {
         Task taskAnnotate = new Task(TaskName.ANNOTATE_DOSSIER, user, project,
                 Progress.FINISHED);
         taskDAO.updateForGroup(taskAnnotate);
-        taskDAO.persistTaskGroup(project, user, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
-        createReeditDossierTask(project, groupDAO.getMyGroupId(user, project));
-        if (constraints.checkIfFeedbackCanBeDistributed(project)) {
-            // create Task to give Feedback
-            List<Group> groupsInProject = groupDAO.getGroupsByProjectName(project.getName());
-            List<Task> allFeedbackTasks = new ArrayList<>();
-            for (Group group : groupsInProject) {
-                Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.GIVE_FEEDBACK);
-                if (!allFeedbackTasks.contains(giveFeedbackTask1))
-                    allFeedbackTasks.add(giveFeedbackTask1);
+        List<Group> groupsInProject = groupDAO.getGroupsByProjectName(project.getName());
+        if (groupsInProject.size() > 1) {
+            taskDAO.persistTaskGroup(project, user, TaskName.GIVE_FEEDBACK, Phase.DossierFeedback);
+            createReeditDossierTask(project, groupDAO.getMyGroupId(user, project));
+            if (constraints.checkIfFeedbackCanBeDistributed(project)) {
+                // create Task to give Feedback
+                List<Task> allFeedbackTasks = new ArrayList<>();
+                for (Group group : groupsInProject) {
+                    Task giveFeedbackTask1 = taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.GIVE_FEEDBACK);
+                    if (!allFeedbackTasks.contains(giveFeedbackTask1))
+                        allFeedbackTasks.add(giveFeedbackTask1);
+                }
+                //specifies user, who needs to give a feedback in DB
+                feedback.specifyFeedbackTasks(allFeedbackTasks);
             }
-            //specifies user, who needs to give a feedback in DB
-            feedback.specifyFeedbackTasks(allFeedbackTasks);
+        } else {
+            //There is just one group in the project
+
+            taskDAO.createGroupTask(project, groupDAO.getMyGroupId(user, project), TaskName.REEDIT_DOSSIER, Phase.DossierFeedback, Progress.FINISHED);
+            taskDAO.persistTeacherTask(project, TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE, Phase.DossierFeedback);
         }
     }
 

@@ -22,6 +22,7 @@ import unipotsdam.gf.modules.communication.service.EmailService;
 import unipotsdam.gf.modules.communication.service.UnirestService;
 import unipotsdam.gf.modules.contributionFeedback.service.ContributionFeedbackDAO;
 import unipotsdam.gf.modules.contributionFeedback.service.ContributionFeedbackService;
+import unipotsdam.gf.modules.evaluation.EvaluationDAO;
 import unipotsdam.gf.modules.fileManagement.FileManagementDAO;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.group.BigGroupMatcher;
@@ -61,6 +62,7 @@ import unipotsdam.gf.process.PeerAssessmentProcess;
 import unipotsdam.gf.process.PortfolioProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.process.SurveyProcess;
+import unipotsdam.gf.process.*;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.Task;
@@ -133,6 +135,8 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(Wizard.class).to(Wizard.class);
         bind(Lock.class).to(Lock.class);
         bind(PeerAssessmentSimulation.class).to(PeerAssessmentSimulation.class);
+        bind(EvaluationDAO.class).to(EvaluationDAO.class);
+        bind(ExecutionProcess.class).to(ExecutionProcess.class);
 
         /*
          * TODO: @Martin comment in for your development

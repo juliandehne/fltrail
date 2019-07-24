@@ -23,8 +23,8 @@
     <link rel="stylesheet" type="text/css" href="css/annotationColorTheme.css">
     <!-- js - jQuery validation plugin -->
     <script src="../libs/jquery/jqueryValidate.js"></script>
-    <!-- js - jQuery ui position -->
-    <script src="../libs/jquery/jqueryUI.js" type="text/javascript"></script>
+    <!-- js - jQuery ui position
+    <script src="../libs/jquery/jqueryUI.js" type="text/javascript"></script> -->
     <!-- js - contextMenu script -->
     <script src="../libs/jquery/jqueryContextMenu.js"
             type="text/javascript"></script>
@@ -43,7 +43,6 @@
     <script src="js/giveFeedback.js"></script>
         <script src="js/feedbackUtils.js"></script>
 
-
 </head>
 
 <body>
@@ -54,48 +53,84 @@
     <!-- back-->
     <div class="backlink">
 
-        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
-            Aufgaben</i></a>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den
+            Aufgaben</a>
     </div>
     <main id="seeFeedback" class="">
-        <div class="row group">
+        <div id="unauthorized" hidden class="alert alert-warning unauthorized">
+            <p>
+                Gerade von einem anderen Mitglied ein Feedback verfasst.<br>
+                Bitte versuchen Sie es in Kürze erneut.
+            </p>
+        </div>
             <div class="col span_2_of_2">
                 <h2>Feedback geben </h2>
-                <h3 id="ownTitle"></h3>
-                <br>
+                <h4>Dossier: <span id="ownTitle"></span></h4>
+
                 <div class="three_rows">
-                    <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">&#xf053;</button>
+                    <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
 
                     <h4 id="categoryHeadline" class="current-category"></h4>
-                    <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">&#xf054;</button>
-                    <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">&#xf00c;</button>
+                    <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
+                    <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Senden</button>
                 </div>
                 <div id="editor"></div>
-                <h3>Gib dein Feedback ein.</h3>
-                <div id="feedbackEditor" style="border: solid 1px;"></div>
-                <button id="btnContinueBot" type="button" class="btn btn-primary" title="weiter">
-                    weiter
-                </button>
-            </div>
-        </div>
-    </main>
-    <jsp:include page="../taglibs/quillJsEditor.jsp">
-        <jsp:param name="readOnly" value="true"/>
-    </jsp:include>
-    <script>
-        const quillFeedback = new Quill('#feedbackEditor', {
-            theme: 'snow',
-            readOnly: false,
-            "modules": {
-                "toolbar": true
-            }
-        });
-    </script>
 
-    <jsp:include page="../taglibs/footer.jsp"/>
+            </div>
+
+
+        <!-- feedback writing -->
+        <div class="splitter-horizontal"></div>
+        <div class="reply-control">
+
+            <label>Gib dein Feedback ein.</label>
+            <div id="feedbackEditor"></div>
+            <!-- <button id="btnContinueBot" type="button" class="btn btn-primary" title="weiter">
+                weiter
+            </button> -->
+        </div>
+
+        <jsp:include page="../taglibs/quillJsEditor.jsp">
+            <jsp:param name="readOnly" value="true"/>
+        </jsp:include>
+        <script>
+            const quillFeedback = new Quill('#feedbackEditor', {
+                theme: 'snow',
+                readOnly: false,
+                "modules": {
+                    "toolbar": true
+                }
+            });
+        </script>
+    </main>
+
+
+
+
 
     <div style="height: 200px" id="categoryColor" class="hidden-category-field"></div>
 </div>
+
+
+
+
+<!-- end feedback -->
+
+<script type="text/javascript" src="../libs/jquery/jquery-resizable/src/jquery-resizable.js"></script>
+<script>
+    $(".span_2_of_2").resizable({
+        handleSelector: ".splitter-horizontal",
+        resizeHeight: false,
+
+    });
+
+
+</script>
+
+
+
+
+<jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

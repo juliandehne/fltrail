@@ -54,7 +54,7 @@
     <!-- back-->
     <div class="backlink">
 
-        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den Aufgaben</i></a>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den Aufgaben</a>
     </div>
     <main>
         <div class="row group">
@@ -70,6 +70,9 @@
                             <i class="far fa-save"></i> speichern
                         </button>
                     </div>
+                    <button id="btnReedit" type="button" class="btn btn-primary" title="edit">
+                        <i class="fas fa-link"></i> bearbeiten
+                    </button>
                     <div class="alert alert-waring" id="divSaveForReal">
                         <p>
                             <label>Möchten Sie wirklich ihre Annotationen speichern?

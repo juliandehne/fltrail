@@ -36,3 +36,4 @@
 <link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/tagsinput/jquery.tagsinput.min.css">
 <script src="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/tagsinput/jquery.tagsinput.min.js"></script>
 <script type="text/javascript" src="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/jquery/jqueryTemplate.js"></script>
+

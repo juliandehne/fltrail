@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
 import unipotsdam.gf.modules.assessment.InternalPeerAssessmentProgress;
+import unipotsdam.gf.modules.assessment.ProgessAndTaskMapping;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -23,11 +24,7 @@ import unipotsdam.gf.process.phases.Phase;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -362,10 +359,8 @@ public class TaskDAO {
                 Map<String, String> taskData = new HashMap<>();
                 taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, FileRole.DOSSIER));
                 List<String> startCategory = submissionController.getAnnotationCategories(project);
-                if (!startCategory.isEmpty()) {
-                    taskData.put("category", startCategory.get(0));
-                    task.setTaskData(taskData);
-                }
+                taskData.put("category", startCategory.get(0));
+                task.setTaskData(taskData);
                 result = task;
                 break;
             }
@@ -414,7 +409,12 @@ public class TaskDAO {
             case CLOSE_DOSSIER_FEEDBACK_PHASE: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setHasRenderModel(true);
-                List<Group> missingFeedbacks = constraints.checkWhichDossiersAreNotFinalized(project);
+                List<Group> missingFeedbacks;
+                if (groupDAO.getGroupsByProjectName(project.getName()).size() > 1) {
+                    missingFeedbacks = constraints.checkWhichDossiersAreNotFinalized(project);
+                } else {
+                    missingFeedbacks = new ArrayList<>();
+                }
                 task.setTaskData(missingFeedbacks);  //frontendCheck if missingFeedbacks.size ==0
                 result = task;
                 Task waitingForDossiers = new Task(
@@ -460,7 +460,9 @@ public class TaskDAO {
                 break;
             case GIVE_EXTERNAL_ASSESSMENT_TEACHER: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
-                task.setTaskData(assessmentDAO.getNextGroupToFeedbackForTeacher(project));
+                ProgessAndTaskMapping taskMappingAndProgress = assessmentDAO.getTaskMappingAndProgress(project);
+                task.setTaskData(taskMappingAndProgress);
+                //task.setTaskData(assessmentDAO.getNextGroupToFeedbackForTeacher(project));
                 result = task;
                 break;
             }

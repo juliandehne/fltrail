@@ -580,3 +580,11 @@ create table workrating
 )
     comment 'Peers rate one another in different dimensions defined in "itemName". Its a part of assessment.';
 
+create table evaluationsus
+(
+  project    varchar(100) not null,
+  user       varchar(200) not null,
+  questionId varchar(100) not null,
+  rating     int          not null,
+  docent     tinyint(1)   not null
+);

@@ -263,7 +263,7 @@ public class SubmissionController implements ISubmission, HasProgress {
             switch (similarElements) {
                 // similar element on the left side
                 case -1:
-                    log.info("case -1");
+                    //log.info("case -1");
 
                     String requestElement =
                             "UPDATE submissionpartbodyelements SET endCharacter = ? WHERE fullSubmissionId = ? AND category = ? AND endCharacter = ?;";
@@ -274,7 +274,7 @@ public class SubmissionController implements ISubmission, HasProgress {
                     break;
                 // no similar element
                 case 0:
-                    log.info("case 0");
+                    //log.info("case 0");
 
                     if (!hasOverlappingBoundaries(submissionPartPostRequest.getFullSubmissionId(),
                             submissionPartPostRequest.getCategory(), element)) {
@@ -289,7 +289,7 @@ public class SubmissionController implements ISubmission, HasProgress {
                     break;
                 // similar element on the right side
                 case 1:
-                    log.info("case 1");
+                    //log.info("case 1");
 
                     String requestElement1 =
                             "UPDATE submissionpartbodyelements SET startCharacter = ? WHERE fullSubmissionId = ? AND category = ? AND startCharacter = ?;";
@@ -304,7 +304,7 @@ public class SubmissionController implements ISubmission, HasProgress {
                     break;
                 // similar elements on both sides
                 case 2:
-                    log.info("case 2");
+                    //log.info("case 2");
 
                     // fetch end character from right element
                     String requestElement2 =
@@ -843,7 +843,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, project.getName());
 
         while (vereinfachtesResultSet.next()) {
-            result.add(groupDAO.getGroupByGroupId(vereinfachtesResultSet.getInt("feedbackGroup")));
+            result.add(groupDAO.getGroupByGroupId(vereinfachtesResultSet.getInt("groupId")));
         }
         connection.close();
         return result;
