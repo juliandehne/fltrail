@@ -1,0 +1,55 @@
+{
+  "ops": [
+    {
+      "attributes": {
+        "underline": true
+      },
+      "insert": "Learning Goal"
+    },
+    {
+      "attributes": {
+        "header": 1
+      },
+      "insert": "\n"
+    },
+    {
+      "attributes": {
+        "underline": true
+      },
+      "insert": "result überschrift"
+    },
+    {
+      "attributes": {
+        "header": 2
+      },
+      "insert": "\n"
+    },
+    {
+      "insert": "learning goal result result\n"
+    },
+    {
+      "attributes": {
+        "underline": true
+      },
+      "insert": "reflection question überschrift"
+    },
+    {
+      "attributes": {
+        "header": 2
+      },
+      "insert": "\n"
+    },
+    {
+      "insert": "reflection question"
+    },
+    {
+      "attributes": {
+        "header": 3
+      },
+      "insert": "\n"
+    },
+    {
+      "insert": "reflection q answer\n\n"
+    }
+  ]
+}

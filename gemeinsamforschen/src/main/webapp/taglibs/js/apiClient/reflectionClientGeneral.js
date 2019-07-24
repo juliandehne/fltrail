@@ -16,12 +16,14 @@ function saveLearningGoalAndReflectionQuestions(learningGoalRequest, responseHan
     });
 }
 
-function chooseAssessmentMaterial(responseHandler) {
+function chooseAssessmentMaterial(assessmentHtml, responseHandler) {
     let projectName = $('#projectName').html().trim();
-    let url = `../rest/reflection/material/projects/${projectName}`;
+    let url = `../rest/reflection/material/chosen/projects/${projectName}`;
+    let data = JSON.stringify(assessmentHtml);
     $.ajax({
         url: url,
         type: "POST",
+        data: data,
         contentType: "application/json",
         success: function (response) {
             responseHandler(response);

@@ -13,9 +13,9 @@ class QuillArrayEntryObject {
 
     addUnderline() {
         if (!this.attributes) {
-            this.atrributes = {};
+            this.attributes = {};
         }
-        this.atrributes.underline = true;
+        this.attributes.underline = true;
         return this;
     }
 }

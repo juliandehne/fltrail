@@ -1,5 +1,9 @@
 package unipotsdam.gf.modules.reflection.view;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import unipotsdam.gf.modules.fileManagement.FileManagementService;
+import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.fileManagement.FileType;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.AssessmentSummary;
 import unipotsdam.gf.modules.reflection.model.LearningGoal;
@@ -59,6 +63,9 @@ public class GeneralReflectionView {
     @Inject
     private SubmissionController submissionController;
 
+    @Inject
+    private FileManagementService fileManagementService;
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -89,13 +96,15 @@ public class GeneralReflectionView {
     }
 
     @POST
-    @Path("/material/projects/{projectName}")
+    @Path("/material/chosen/projects/{projectName}")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response chooseMaterialForAssessment(@Context HttpServletRequest request, @PathParam("projectName") String projectName) {
+    public Response chooseMaterialForAssessment(@Context HttpServletRequest request, @PathParam("projectName") String projectName, String html) {
         try {
             User user = gfContexts.getUserFromSession(request);
             Project project = new Project(projectName);
+            FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("assessmentMaterial").fileName(FileRole.ASSESSMENT_MATERIAL + "_" + user.getEmail() + ".pdf");
+            fileManagementService.saveStringAsPDF(user, project, html, builder.build(), FileRole.ASSESSMENT_MATERIAL, FileType.HTML);
             executionProcess.chooseAssessmentMaterial(project, user);
             return Response.ok().build();
         } catch (IOException e) {

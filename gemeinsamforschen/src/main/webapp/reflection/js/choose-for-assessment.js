@@ -1,6 +1,7 @@
 let templateData = {};
 
 $(document).ready(function () {
+    //todo: add portfolio-entries
     getMaterialForAssessment(function (response) {
         templateData.data = response;
         templateData.extraData = {scriptBegin: "<script>", scriptEnd: "</script>"};
@@ -23,7 +24,7 @@ function clickReflectionQuestion(learningGoalIndex, reflectionQuestionIndex) {
 }
 
 function save() {
-    let chosenAnswersPerLearningGoal = [];
+    let quillJsObject = new QuillJsObject();
     templateData.data.forEach(function (entry) {
         let chosenQuestionAnswersTemp = [];
         entry.reflectionQuestionWithAnswers.forEach(function (questionAndAnswer) {
@@ -34,49 +35,58 @@ function save() {
                 });
             }
         });
-        chosenAnswersPerLearningGoal.push({
-            learningGoal: entry.learningGoal,
-            learningGoalStudentResult: entry.learningGoalStudentResult,
-            reflectionQuestionsWithAnswers: chosenQuestionAnswersTemp
-        });
-    });
 
-}
+        //todo: reimplement later in backend
 
-//reimplement in backend
-/*
         // learning goal
         let learningGoalHeading = new QuillArrayEntryObject();
         learningGoalHeading.insert = entry.learningGoal.text;
         learningGoalHeading.addUnderline();
         let learningGoalHeader = QuillArrayEntryObject.generateHeaderObject(1);
-        quillJsObject.addArrayEntryObject(learningGoalHeading,learningGoalHeader);
+        quillJsObject.addArrayEntryObjects(learningGoalHeading, learningGoalHeader);
 
         // learning goal result heading
         let learningGoalResultHeading = new QuillArrayEntryObject();
         learningGoalResultHeading.insert = "Lernziel-Ergebnis";
         learningGoalResultHeading.addUnderline();
         let learningGoalResultHeader = QuillArrayEntryObject.generateHeaderObject(2);
-        quillJsObject.addArrayEntryObject(learningGoalResultHeading,learningGoalResultHeader);
+        quillJsObject.addArrayEntryObjects(learningGoalResultHeading, learningGoalResultHeader);
 
         // learning goal result
-        quillJsObject.addArrayEntryObject(entry.learningGoalStudentResult.text);
+        quillJsObject.concatOpsArrays(JSON.parse(entry.learningGoalStudentResult.text).ops);
 
         if (chosenQuestionAnswersTemp.length > 0) {
-
             // reflection questions heading
             let reflectionQuestionHeadingText = new QuillArrayEntryObject();
             reflectionQuestionHeadingText.insert = "Reflexionsfragen";
             reflectionQuestionHeadingText.addUnderline();
             let reflectionQuestionHeadingObject = QuillArrayEntryObject.generateHeaderObject(2);
-
+            quillJsObject.addArrayEntryObjects(reflectionQuestionHeadingText, reflectionQuestionHeadingObject);
+            let counter = 1;
             for (let questionAndAnswer of chosenQuestionAnswersTemp) {
+                // reflecion question
+                let reflectionQuestion = new QuillArrayEntryObject();
+                reflectionQuestion.insert = `${counter}. ${questionAndAnswer.question.question}`;
+                //reflectionQuestion.addUnderline();
+                let reflectionQuestionHeader = QuillArrayEntryObject.generateHeaderObject(3);
+                quillJsObject.addArrayEntryObjects(reflectionQuestion, reflectionQuestionHeader);
 
+                // reflecion question answer
+                quillJsObject.concatOpsArrays(JSON.parse(questionAndAnswer.answer.text).ops);
+                counter++;
             }
+        }
 
+        quillJsObject.insertNewLine();
 
+    });
+    quill.setContents(quillJsObject);
+    let html = quill.root.innerHTML;
+    chooseAssessmentMaterial(html, function () {
+        changeLocation();
+    });
 
-         */
+}
 
 
 /*

@@ -15,6 +15,8 @@
     <script src="../taglibs/js/apiClient/reflectionClientGeneral.js"></script>
     <script src="../libs/bootstrap/js/bootstrap.min.js"></script>
     <script src="js/choose-for-assessment.js"></script>
+    <script src="../taglibs/js/quill/quillArrayEntryObject.js"></script>
+    <script src="../taglibs/js/quill/quillJsObject.js"></script>
 </head>
 
 <body>
