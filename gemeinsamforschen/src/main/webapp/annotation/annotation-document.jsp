@@ -55,6 +55,12 @@
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den Aufgaben</a>
     </div>
     <main id="seeFeedback" class="">
+        <div id="unauthorized" hidden class="alert alert-warning unauthorized">
+            <p>
+                Gerade wird dieses Dossier von einem Mitglied Ihrer Gruppe bearbeitet.<br>
+                Bitte versuchen Sie es in Kürze erneut.
+            </p>
+        </div>
         <div class="row group">
             <div class="col span_l_of_2">
 

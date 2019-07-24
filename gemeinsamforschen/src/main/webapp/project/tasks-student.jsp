@@ -47,7 +47,13 @@
                         {{/if}}
                         <div class="card ${phase} current">
                             <div class="col span_s_of_2 icon ${taskType}"></div>
-
+                                {{if inCardSolver=="CONTACT_GROUP_MEMBERS"}}
+                                    <p>
+                                        Sagen Sie hallo zu ihren
+                                         <a style="cursor:pointer;" class="groupView">Gruppenmitgliedern</a>
+                                         über den Chat.
+                                    </p>
+                                {{else}}
                             <div class="col span_l_of_2" id="${taskName}">
                                 {{if infoText}}
                                     <p class="task-info">${infoText}</p>
@@ -66,8 +72,7 @@
 
                             <div style="clear:left"></div>
                         </div>
-
-
+                    {{/if}}
                 </script>
 
                 <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
@@ -87,8 +92,15 @@
                                     {{if inCardSolver=="WAITING_FOR_GROUP"}}
                                         <p style="color:gray;">
                                             Die Arbeitsgruppen wurden gebildet. Unter diesem
-                                            <a style="cursor:pointer;" id="groupView">Link</a>
+                                            <a style="cursor:pointer;" class="groupView">Link</a>
                                             können Sie die Gruppen sehen.
+                                        </p>
+                                    {{/if}}
+                                    {{if inCardSolver=="CONTACT_GROUP_MEMBERS"}}
+                                        <p style="color:gray;">
+                                            Sagen Sie hallo zu ihren
+                                             <a style="cursor:pointer;" class="groupView">Gruppenmitgliedern</a>
+                                             über den Chat.
                                         </p>
                                     {{/if}}
                                 {{/if}}
@@ -96,13 +108,6 @@
                     <div style="clear:left"></div>
                 </div>
                 {{/if}}
-
-
-
-
-
-
-
                 </script>
                 <script id="inProgressTaskTemplate" type="text/x-jQuery-tmpl">
                     <div></div>

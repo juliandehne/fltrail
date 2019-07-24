@@ -57,7 +57,12 @@
             Aufgaben</a>
     </div>
     <main id="seeFeedback" class="">
-
+        <div id="unauthorized" hidden class="alert alert-warning unauthorized">
+            <p>
+                Gerade von einem anderen Mitglied ein Feedback verfasst.<br>
+                Bitte versuchen Sie es in Kürze erneut.
+            </p>
+        </div>
             <div class="col span_2_of_2">
                 <h2>Feedback geben </h2>
                 <h4>Dossier: <span id="ownTitle"></span></h4>

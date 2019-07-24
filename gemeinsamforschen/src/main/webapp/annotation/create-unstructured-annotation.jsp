@@ -70,6 +70,9 @@
                             <i class="far fa-save"></i> speichern
                         </button>
                     </div>
+                    <button id="btnReedit" type="button" class="btn btn-primary" title="edit">
+                        <i class="fas fa-link"></i> bearbeiten
+                    </button>
                     <div class="alert alert-waring" id="divSaveForReal">
                         <p>
                             <label>Möchten Sie wirklich ihre Annotationen speichern?

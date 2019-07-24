@@ -9,7 +9,7 @@ $(document).ready(function () {
     groupViewLink.toggleClass("disabled");
 
     fillTasks(projectName, userEmail, function () {
-        $('#groupView').on('click', function () {
+        $('.groupView').on('click', function () {
             location.href = "../groupfinding/view-groups.jsp?projectName=" + projectName;
         });
     });
@@ -113,7 +113,7 @@ function handleInfoTasks(object, result) {
             result.infoText = waitForParticipantsInfoText(object);
             switch (object.taskData.gfm) {
                 case "UserProfilStrategy":
-                        result.inCardSolver = "resizeGroup";
+                    result.inCardSolver = "RESIZE_GROUP";
                     result.groupSize = object.taskData.groupSize;
                     result.memberCount = object.taskData.groupSize * (object.taskData.groupSize - 1);
                     break;
@@ -182,7 +182,7 @@ function handleInfoTasks(object, result) {
             break;
         case "CONTACT_GROUP_MEMBERS":
             groupViewLink.toggleClass("disabled");
-            result.infoText = "Sagen Sie hallo zu ihren Gruppenmitgliedern über den Chat.";
+            result.infoText = "";
             break;
         case "INTRODUCE_E_PORTFOLIO_STUDENT":
             result.infoText = "Sie können hier Ihr E-Portfolio beginnen. \n " +
@@ -407,13 +407,11 @@ function handleFinishedTasks(object, result) {
     if (object.progress === "FINISHED") {
         switch (object.taskName) {
             case "WAIT_FOR_PARTICPANTS":
-                result.inCardSolver = object.taskName;
                 result.infoText = "Gruppen sind final gespeichert. \n" +
                     "Es sind " + object.taskData.participantCount.participants + " Studenten in diesem Projekt.";
                 break;
             case "WAITING_FOR_GROUP":
                 result.infoText = "";
-                result.inCardSolver = object.taskName;
                 break;
             case "GIVE_FEEDBACK":
                 /*if (object.taskData !== null) {

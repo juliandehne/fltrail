@@ -20,6 +20,11 @@ $(document).ready(function () {
     $('#btnSave').click(function () {
         saveButtonHandler();
     });
+    $('#btnReedit').click(function () {
+        document.location = changeLocationTo("annotation/upload-unstructured-dossier.jsp?" +
+            "projectName=" + getQueryVariable("projectName") + "&submissionId=" + getQueryVariable("submissionId") +
+            "&fileRole=" + getQueryVariable("fileRole"));
+    });
     $('#divSaveForReal').hide();
 });
 

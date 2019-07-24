@@ -42,7 +42,7 @@
                                <button class='primary' onClick='${solveTaskWithLink}'><i class="fas fa-link"></i> ${solveTaskWith}</button>
                            {{/if}}
                            {{if inCardSolver}}
-                                {{if inCardSolver=="resizeGroup"}}
+                                {{if inCardSolver=="RESIZE_GROUP"}}
                                 <div class="inCardSolver">
                                     <p>Sollten Sie sich für eine andere Gruppengröße entschieden haben, können sie dies hier ändern. </p>
                                     <label>Präferierte Gruppengröße <input value='${groupSize}' type='number' min='3' id='userCount' style='width:40px;' onchange='updateGroupSizeView()'></label>

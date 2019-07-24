@@ -1223,6 +1223,7 @@ main.groups-manual{
     position: absolute;
     margin-left: 30%;
     margin-top: 20%;
+    z-index: 100;
 }
 
 /* TIpps */
