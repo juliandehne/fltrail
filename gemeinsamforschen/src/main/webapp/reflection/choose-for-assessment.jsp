@@ -70,9 +70,9 @@
     </main>
 </div> <!-- flex wrapper -->
 <jsp:include page="../taglibs/footer.jsp"/>
-<div id="editor"></div>
+<div hidden id="editor"></div>
 <jsp:include page="../taglibs/quillJsEditor.jsp">
-    <jsp:param name="readOnly" value="false"/>
+    <jsp:param name="readOnly" value="true"/>
 </jsp:include>
 </body>
 
