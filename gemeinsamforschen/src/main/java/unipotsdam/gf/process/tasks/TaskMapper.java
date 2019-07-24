@@ -79,14 +79,15 @@ public class TaskMapper {
         Integer groupResult;
         List<Integer> groups = buildGroupIndexes(project);
         // every user gets the next group in the cycle
-        if (groups.indexOf(groupId) + 1 == groups.size()) {
-            groupResult = groups.get(0);
-        } else {
-            groupResult = groups.get(groups.indexOf(groupId) + 1);
+        if (groups.size() > 1) {
+            if (groups.indexOf(groupId) + 1 == groups.size()) {
+                groupResult = groups.get(0);
+            } else {
+                groupResult = groups.get(groups.indexOf(groupId) + 1);
+            }
+            Group group = new Group(project.getName());
+            group.setId(groupResult);
+            assessmentDAO.persistMapping(new TaskMapping(user, group, null, taskName, project));
         }
-        Group group = new Group(project.getName());
-        group.setId(groupResult);
-
-        assessmentDAO.persistMapping(new TaskMapping(user, group, null, taskName, project));
     }
 }

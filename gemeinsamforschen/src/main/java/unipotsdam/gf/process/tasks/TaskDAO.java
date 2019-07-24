@@ -22,11 +22,7 @@ import unipotsdam.gf.process.phases.Phase;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -381,7 +377,12 @@ public class TaskDAO {
             case CLOSE_DOSSIER_FEEDBACK_PHASE: {
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 task.setHasRenderModel(true);
-                List<Group> missingFeedbacks = constraints.checkWhichDossiersAreNotFinalized(project);
+                List<Group> missingFeedbacks;
+                if (groupDAO.getGroupsByProjectName(project.getName()).size() > 1) {
+                    missingFeedbacks = constraints.checkWhichDossiersAreNotFinalized(project);
+                } else {
+                    missingFeedbacks = new ArrayList<>();
+                }
                 task.setTaskData(missingFeedbacks);  //frontendCheck if missingFeedbacks.size ==0
                 result = task;
                 Task waitingForDossiers = new Task(

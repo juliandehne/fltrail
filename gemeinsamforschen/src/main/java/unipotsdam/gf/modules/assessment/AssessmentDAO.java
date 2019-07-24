@@ -69,7 +69,11 @@ public class AssessmentDAO {
         assessmentProgress.setNumberOfGroupReportsMissing(numberOfGroups - reportCount);
 
         int nEA = getNumberOfGroupsWithoutExternalAssessment(project);
-        assessmentProgress.setNumberOfGroupsWithoutExternalAssessment(nEA);
+        if (numberOfGroups > 1) {
+            assessmentProgress.setNumberOfGroupsWithoutExternalAssessment(nEA);
+        } else {
+            assessmentProgress.setNumberOfGroupsWithoutExternalAssessment(0);
+        }
 
         int nSIA = getNumberOfStudentsWithoutInternalAssesment(project);
         assessmentProgress.setNumberOfStudentsWithoutInternalAsssessment(nSIA);
