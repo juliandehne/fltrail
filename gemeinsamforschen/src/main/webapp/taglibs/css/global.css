@@ -1198,12 +1198,14 @@ main.groups-manual{
 }
 
 .span-chat .nav > li > a:link {
-    color:#075f8b;
+    background-color: #075f8b;
+    color: #888888;
 }
 
 .span-chat .nav > li.active > a:link {
-    color:#fff;
-    background:transparent;
+    background-color: #fff;
+    color: #075f8b;
+
     border:none;
 }
 
