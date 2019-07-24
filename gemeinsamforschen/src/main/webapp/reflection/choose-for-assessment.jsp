@@ -8,7 +8,9 @@
     <jsp:include page="../taglibs/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <jsp:include page="../taglibs/quillJsDependencies.jsp"/>
     <!-- jsrender -->
+    <link rel="stylesheet" type="text/css" href="css/choose-for-assessment.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
     <script src="../taglibs/js/apiClient/reflectionClientGeneral.js"></script>
     <script src="../libs/bootstrap/js/bootstrap.min.js"></script>
@@ -25,11 +27,51 @@
             <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
                 Aufgaben</i></a>
         </div>
-        <h1> Dies ist eine Dummyseite!</h1>
-        <button type="button" onClick='skip()' class="btn btn-primary" id="saveButton">Überspringen</button>
+
+        <div class="group">
+            <h1> Reflexionsfragen für Bewertung aussuchen </h1>
+
+            <div id="assessmentTemplateResult"></div>
+            <script id="assessmentTemplate" type="text/x-jsrender">
+                <div/>
+                <div class="col">
+                <b>Information: Klicke die Lernziele an, die du zur Bewertung einreichen möchtest.</b>
+                    {{for data}}
+                        <h2><u> Lernziel {{:#index + 1}}</u>: {{:learningGoal.text}}</h2>
+                            <div class="list-group" id="list-tab" role="tablist">
+                                {{for reflectionQuestionWithAnswers}}
+                                    <div class="row">
+                                        <h3>{{:question.question}}</h3>
+                                        <a class="list-group-item list-group-item-action pointer" id="list-item-{{:#view.parent.getIndex()}}-{{:#index}}" onClick='clickReflectionQuestion("{{:#view.parent.getIndex()}}", "{{:#index}}")' role="tab">
+                                            <div id="editor-{{:question.id}}"></div>
+                                        </a>
+                                        {{:#root.data.extraData.scriptBegin}}
+                                        new Quill('#editor-{{:question.id}}', {
+                                            theme: 'snow',
+                                            readOnly: true,
+                                            "modules": {
+                                                "toolbar": false
+                                            }
+                                        }).setContents({{:answer.text}});
+                                        {{:#root.data.extraData.scriptEnd}}
+                                    </div>
+                                {{/for}}
+                            </div>
+                            <br/>
+                    {{/for}}
+                </div>
+
+            </script>
+        </div>
+        <button type="button" onClick='skip()' class="btn btn-primary" id="skipButton">Überspringen</button>
+        <button type="button" onclick="save()" class="btn btn-primary" id="saveButton">Speichern</button>
     </main>
 </div> <!-- flex wrapper -->
 <jsp:include page="../taglibs/footer.jsp"/>
+<div id="editor"></div>
+<jsp:include page="../taglibs/quillJsEditor.jsp">
+    <jsp:param name="readOnly" value="false"/>
+</jsp:include>
 </body>
 
 </html>

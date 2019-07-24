@@ -473,7 +473,7 @@ create table learninggoalstudentresults
         foreign key (userEmail) references users (email)
             on update cascade on delete cascade
 )
-    comment 'holds all results from ';
+    comment 'holds all results from';
 
 alter table learninggoalstudentresults
     add primary key (id);

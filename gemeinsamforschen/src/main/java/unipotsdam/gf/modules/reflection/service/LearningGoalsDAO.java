@@ -8,6 +8,8 @@ import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @ManagedBean
@@ -36,6 +38,17 @@ public class LearningGoalsDAO {
         }
         connection.close();
         return learningGoal;
+    }
+
+    public List<LearningGoal> getLearningGoals(Project project) {
+        connection.connect();
+        String query = "Select * from learningGoals where projectName = ?";
+        VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, project.getName());
+        List<LearningGoal> learningGoals = new ArrayList<>();
+        while (resultSet.next()) {
+            learningGoals.add(convertResultSet(resultSet));
+        }
+        return learningGoals;
     }
 
     public void finishLearningGoal(LearningGoal learningGoal) {

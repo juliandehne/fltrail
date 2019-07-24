@@ -17,7 +17,7 @@
         "modules": {
             <%if (!readOnlyBoolean){%>
             "toolbar": [
-                [{header: [1, 2, false]}],
+                [{header: [1, 2, 3, false]}],
                 ['bold', 'italic', 'underline'],
                 ['image', 'code-block']
             ]

@@ -14,6 +14,20 @@ public class LearningGoalStudentResult {
     private String text;
     private Visibility visibility;
 
+    public LearningGoalStudentResult() {
+    }
+
+    public LearningGoalStudentResult(String id, String projectName, long creationDate, String learningGoalId, int groupId, String userEmail, String text, Visibility visibility) {
+        this.id = id;
+        this.projectName = projectName;
+        this.creationDate = creationDate;
+        this.learningGoalId = learningGoalId;
+        this.groupId = groupId;
+        this.userEmail = userEmail;
+        this.text = text;
+        this.visibility = visibility;
+    }
+
     public String getId() {
         return id;
     }
