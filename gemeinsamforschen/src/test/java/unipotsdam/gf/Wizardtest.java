@@ -10,6 +10,7 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.wizard.Wizard;
 import unipotsdam.gf.modules.wizard.compbase.ConceptImporter;
+import unipotsdam.gf.process.ExecutionProcess;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -17,6 +18,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class Wizardtest {
+
+    @Inject
+    ExecutionProcess executionProcess;
 
     @Inject
     Wizard wizard;
@@ -57,5 +61,10 @@ public class Wizardtest {
         String text = loremIpsum.getWords(500);
         String s = Wizard.convertTextToQuillJs(text);
         System.out.println(s);
+    }
+
+    @Test
+    public void quickStartReflectionPhase() {
+        executionProcess.start(new Project("qweqweqweqweqwqqqqq"));
     }
 }

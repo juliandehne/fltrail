@@ -54,14 +54,7 @@ import unipotsdam.gf.modules.wizard.Wizard;
 import unipotsdam.gf.modules.wizard.WizardDao;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
-import unipotsdam.gf.process.DossierCreationProcess;
-import unipotsdam.gf.process.DummyExecutionProcess;
-import unipotsdam.gf.process.GroupFormationProcess;
-import unipotsdam.gf.process.IExecutionProcess;
-import unipotsdam.gf.process.PeerAssessmentProcess;
-import unipotsdam.gf.process.PortfolioProcess;
-import unipotsdam.gf.process.ProjectCreationProcess;
-import unipotsdam.gf.process.SurveyProcess;
+import unipotsdam.gf.process.*;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.PhasesImpl;
 import unipotsdam.gf.process.tasks.Task;
@@ -135,6 +128,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(Lock.class).to(Lock.class);
         bind(PeerAssessmentSimulation.class).to(PeerAssessmentSimulation.class);
         bind(EvaluationDAO.class).to(EvaluationDAO.class);
+        bind(ExecutionProcess.class).to(ExecutionProcess.class);
 
         /*
          * TODO: @Martin comment in for your development
