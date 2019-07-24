@@ -1,6 +1,10 @@
 package unipotsdam.gf.process;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import unipotsdam.gf.interfaces.IReflection;
+import unipotsdam.gf.modules.fileManagement.FileManagementService;
+import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.fileManagement.FileType;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
@@ -67,6 +71,9 @@ public class ExecutionProcess implements IExecutionProcess {
 
     @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private FileManagementService fileManagementService;
 
     public void start(Project project) {
         taskDAO.persistTeacherTask(project, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS, PHASE);
@@ -170,8 +177,10 @@ public class ExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public void chooseAssessmentMaterial(Project project, User user) throws Exception {
+    public void chooseAssessmentMaterial(Project project, User user, String html) throws Exception {
         Project fullProject = projectDAO.getProjectByName(project.getName());
+        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("assessmentMaterial").fileName(FileRole.ASSESSMENT_MATERIAL + "_" + user.getEmail() + ".pdf");
+        fileManagementService.saveStringAsPDF(user, project, html, builder.build(), FileRole.ASSESSMENT_MATERIAL, FileType.HTML);
         finishTask(fullProject, user, CHOOSE_ASSESSMENT_MATERIAL);
         startNewTask(fullProject, user, WAIT_FOR_EXECUTION_PHASE_END, TaskType.INFO);
 

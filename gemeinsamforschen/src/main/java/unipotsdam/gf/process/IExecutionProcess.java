@@ -21,7 +21,7 @@ public interface IExecutionProcess {
 
     void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) throws Exception;
 
-    void chooseAssessmentMaterial(Project project, User user) throws Exception;
+    void chooseAssessmentMaterial(Project project, User user, String html) throws Exception;
 
     boolean isPhaseCompleted(Project project);
 

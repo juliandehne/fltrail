@@ -55,7 +55,7 @@ public class DummyExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public void chooseAssessmentMaterial(Project project, User user) throws Exception {
+    public void chooseAssessmentMaterial(Project project, User user, String html) throws Exception {
 
     }
 
