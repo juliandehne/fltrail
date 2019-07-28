@@ -188,7 +188,7 @@ function updateTaskStates() {
             $("#docentPAButton").attr("disabled", true);
         }
         loaderStop();
-        alert("Spell has been cast. Simulation has run my friend.")
+        //alert("Spell has been cast. Simulation has run my friend.")
     })
 }
 
