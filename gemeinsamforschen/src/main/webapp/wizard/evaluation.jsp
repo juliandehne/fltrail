@@ -94,8 +94,9 @@
     <div class="col">
         <h1>Reflexionsphase</h1>
         <div class="row">
-            <div class="col"><button disabled class="btn btn-primary reflexionButton" type="button"
-                                     style="width: 200px;">Phase
+            <div class="col">
+                <button disabled id="skipExecutionPhase" class="btn btn-primary reflexionButton" type="button"
+                        style="width: 200px;">Phase
                 überspringen</button><span
                     style="margin: 20px;">Die Reflexionsphase überspringen</span>
             </div>

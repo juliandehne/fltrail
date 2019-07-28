@@ -196,6 +196,10 @@ public class ExecutionProcess implements IExecutionProcess {
     public void finishPhase(Project project) throws Exception {
         Project fullProject = projectDAO.getProjectByName(project.getName());
         User docent = new User(fullProject.getAuthorEmail());
+        Task closeTask = taskDAO.getUserTask(project, docent, CLOSE_EXECUTION_PHASE, PHASE);
+        if (closeTask == null) {
+            return;
+        }
         finishTask(fullProject, docent, CLOSE_EXECUTION_PHASE);
         finishTaskForAllMember(project, WAIT_FOR_EXECUTION_PHASE_END);
     }

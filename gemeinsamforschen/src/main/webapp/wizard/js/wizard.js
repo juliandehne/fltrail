@@ -60,6 +60,11 @@ function updateView(project) {
     });
 
 
+    $("#skipExecutionPhase").unbind();
+    $("#skipExecutionPhase").click(function () {
+        doPhaseSpell(selectedProject.name, "Execution");
+    });
+
     $("#uploadPresentationButton").unbind();
     $("#uploadPresentationButton").click(function () {
         doSpell(selectedProject.name, "UPLOAD_PRESENTATION");
@@ -188,7 +193,7 @@ function updateTaskStates() {
             $("#docentPAButton").attr("disabled", true);
         }
         loaderStop();
-        //alert("Spell has been cast. Simulation has run my friend.")
+        alert("Spell has been cast. Simulation has run my friend.")
     })
 }
 
