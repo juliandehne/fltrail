@@ -196,13 +196,14 @@ public class PhasesImpl implements IPhases {
                 break;
             case Execution:
                 // check if the portfolios have been prepared for evaluation (relevant entries selected)
+                /*
                 iExecutionProcess.finishPhase(project);
                 if (!iExecutionProcess.isPhaseCompleted(project)) {
                     return;
                 }
                 saveState(project, changeToPhase);
                 peerAssessmentProcess.startPeerAssessmentPhase(project);
-                break;
+                break; */
             case Assessment:
                 saveState(project, changeToPhase);
                 peerAssessmentProcess.startDocentGrading(project);
