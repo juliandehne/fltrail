@@ -204,7 +204,7 @@ public class ExecutionProcess implements IExecutionProcess {
     public boolean isPhaseCompleted(Project project) {
         Task task = taskDAO.getUserTask(project, new User(project.getAuthorEmail()), TaskName.CLOSE_EXECUTION_PHASE, PHASE);
 
-        return task.getProgress() == Progress.FINISHED;
+        return task != null && task.getProgress() == Progress.FINISHED;
     }
 
     private void startNewTask(Project project, User user, TaskName taskName, TaskType... taskTypes) throws Exception {
