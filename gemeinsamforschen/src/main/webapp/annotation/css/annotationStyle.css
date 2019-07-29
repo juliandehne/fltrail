@@ -318,7 +318,7 @@ ol#annotations {
 .hidden-category-field {
     display: none;
 }
-
+#giveFeedback .reply-control .ql-container.ql-snow,
 #seeFeedback .reply-control .ql-container.ql-snow {
     border-width:0px;
     height: 80%;
@@ -328,11 +328,8 @@ ol#annotations {
     border: 5px solid #edededed;
 }
 
-#seeFeedback .ql-editor {
 
-
-}
-
+#giveFeedback .span_2_of_2 #editor,
 #seeFeedback .span_2_of_2 #editor {
     height:auto;
     min-height: 500px;
@@ -349,13 +346,13 @@ ol#annotations {
     background:#fff;
 }
 
-/*test */
+main#giveFeedback,
 main#seeFeedback {
     display:flex;
     flex-direction:row;
-    overflow: hidden;
+  /*  overflow: hidden; */
 }
-
+main#giveFeedback .span_2_of_2,
 main#seeFeedback .span_2_of_2 {
     flex: 0 0 auto;
     min-width: 20%;
@@ -365,7 +362,7 @@ main#seeFeedback .span_2_of_2 {
     max-width: 80%;
 
 }
-
+main#giveFeedback .splitter-horizontal,
 main#seeFeedback .splitter-horizontal {
     flex: 0 0 auto;
     width: 18px;
@@ -378,7 +375,7 @@ main#seeFeedback .splitter-horizontal {
 
     box-shadow: -4px 0px 3px 0px #00000061;
 }
-
+main#giveFeedback .reply-control,
 main#seeFeedback .reply-control {
     flex: 1 1 auto;
     padding: 10px;
@@ -386,4 +383,49 @@ main#seeFeedback .reply-control {
     min-height: 200px;
     min-width: 200px !important;
 
+}
+.btn_fullscreen {
+    position: absolute;
+    right: -10px;
+    top:-10px;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    font-family: "Font Awesome 5 Free";
+    font-size:0px;
+    font-style: normal;
+    font-weight: 900;
+}
+
+.btn_fullscreen:before {
+    content:"\f31e";
+    font-size:14px;
+}
+
+.fullscreen main#seeFeedback,
+.fullscreen main#giveFeedback{
+    position: fixed;
+    left: 0;
+    top: 30px;
+    width: 100%;
+    margin: 0;
+    flex-direction: row;
+    max-width: 40000000px;
+    height: 96vh;
+}
+
+.fullscreen .backlink {
+    display:none;
+}
+
+.fullscreen .btn_fullscreen {
+    background:red;
+    top:17px;
+    right:12px;
+
+}
+
+.fullscreen .btn_fullscreen:before {
+    content:"\f066";
+    font-size:14px;
 }

@@ -60,19 +60,20 @@
         <div class="row group">
 
             <div class="col span_content span_l_of_2">
-                <h2>Dossier</h2>
+
 
                 <h3 id="ownTitle"></h3>
                 <div class="leftcontent-text context-menu-one" id="editor"></div>
                 <div class="leftcontent-buttons">
                     <div class="leftcontent-buttons-save">
+                        <button id="btnReedit" type="button" class="btn" title="edit">
+                            <i class="fas fa-link"></i> bearbeiten
+                        </button>
                         <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
                             <i class="far fa-save"></i> speichern
                         </button>
                     </div>
-                    <button id="btnReedit" type="button" class="btn btn-primary" title="edit">
-                        <i class="fas fa-link"></i> bearbeiten
-                    </button>
+
                     <div class="alert alert-waring" id="divSaveForReal">
                         <p>
                             <label>Möchten Sie wirklich ihre Annotationen speichern?
@@ -90,20 +91,21 @@
 
                 </div>
                 <div id="missingAnnotation" class="alert alert-warning"></div>
-                <ol id="annotations">
+                <ol id="annotations" class="create">
                     <script id="annotationTemplate" type="text/x-jsrender">
                     {{for categories}}
                         <li class="spacing">
-                        <div class="row group">
-                            <div id="{{>nameLower}}" class="category-card not-added col span_content">
+
+                            <div id="{{>nameLower}}" class="category-card not-added ">
                                 <p>{{>name}}</p>
+                                <span class="delete-part">
+                                    <a onClick="deleteCategory('{{>nameLower}}');">
+                                        <p>X</p>
+                                    </a>
+                                </span>
                             </div>
-                            <div class="delete-part span_content">
-                                <a onClick="deleteCategory('{{>nameLower}}');">
-                                    <p>X</p>
-                                </a>
-                            </div>
-                        </div>
+
+
                         </li>
                     {{/for}}
                 </script>

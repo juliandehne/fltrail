@@ -24,7 +24,7 @@
 .document-text-buttons {
     margin-bottom: 15px;
     margin-top: 15px;
-    display: inline;
+    display: block;
 }
 
 .document-text-buttons-back {
@@ -51,7 +51,7 @@
 }
 
 .upload-text label {
-    color: #999;
+
     font-size: 1em;
     margin-bottom: .5em;
 }

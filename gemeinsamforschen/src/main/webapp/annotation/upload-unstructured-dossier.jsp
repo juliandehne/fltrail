@@ -83,7 +83,7 @@
                 <!-- TODO: rebuild as one template-->
                 <script id="headerTemplate" type="text/x-jsrender">
                     <div></div>
-                    <h1>{{:header}}</h1>
+                    <h3>{{:header}}</h3>
 
 
                 </script>
@@ -156,7 +156,7 @@
                                 </div>
                             </div>
                         </div>
-                        <ol id="annotations">
+                        <ul id="annotations">
                             {{for categories}}
                                 <li class="spacing">
 
@@ -166,7 +166,7 @@
 
                                 </li>
                             {{/for}}
-                        </ol>
+                        </ul>
                     </div>
                 {{/if}}
 

@@ -75,7 +75,12 @@
 
 .leftcontent-buttons-save {
     float: right;
-    margin: 20px;
+    margin: 20px 0 0 0;
+}
+
+.leftcontent-buttons-save #btnReedit {
+    float:left;
+    margin-right:10px;
 }
 
 .leftcontent-text {
@@ -106,12 +111,15 @@
     cursor: pointer;
     min-height: 30px;
     width: 10%;
-    height: 100%;
+
     font-weight: bold;
     font-size: large;
     overflow: hidden;
-    border: 1px solid #ededed;
-    margin: 1% 0 0 0;
+   display:inline-block;
+}
+.create .category-card p {
+    float:left;
+    width:90%;
 }
 
 .delete-part p {
