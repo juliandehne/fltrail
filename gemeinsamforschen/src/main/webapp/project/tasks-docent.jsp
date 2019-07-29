@@ -57,7 +57,7 @@
                                         zufällig auf die bestehenden Gruppen verteilt.
                                         </div>
                                     </div>
-                                    <button onClick='resizeGroup();'>speichern</button>
+                                    <button style="margin-top:20px;"  onClick='resizeGroup();'>speichern</button>
                                 </div>
                                 {{/if}}
                                 {{if inCardSolver=="WAIT_FOR_UPLOAD"}}
@@ -73,7 +73,7 @@
                                         {{else}}
                                         Jede Gruppe hat einen abschließenden Report hochgeladen. <br>
                                        {{/if}}
-                                        <button id='startGradingButton' class='btn btn-primary' onClick="startGrading(getProjectName());">Upload Phase abschließen</button>
+                                        <button id='startGradingButton' style="margin-top:20px;" class='btn btn-primary' onClick="startGrading(getProjectName());">Upload Phase abschließen</button>
                                     </div>
                                 {{/if}}
                                  {{if inCardSolver=="CLOSE_PEER_ASSESSMENTS_PHASE"}}
@@ -92,7 +92,7 @@
                                         {{else}}
                                             Alle Studierenden haben sich gegenseitig bewertet
                                         {{/if}}
-                                        <button onClick="closePhase('Assessment', getProjectName());" class="btn btn-primary"><i class="fas fa-link"></i> Studentische Bewertung abschließen </button>
+                                        <button style="margin-top:20px; margin-bottom:20px;" onClick="closePhase('Assessment', getProjectName());" class="btn btn-primary"><i class="fas fa-link"></i> Studentische Bewertung abschließen </button>
                                     </div>
                                 {{/if}}
                                 {{if inCardSolver=="GIVE_EXTERNAL_ASSESSMENT_TEACHER"}}
@@ -104,7 +104,7 @@
                                 {{/if}}
                            {{/if}}
                            {{if helpLink}}
-                               <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
+                               <div style="width:100%" style="margin-top:20px;"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
                            {{/if}}
                        </div>
                        {{if timeFrame}}

@@ -1281,3 +1281,12 @@ main.groups-manual{
 #divFinalContribution input[type=checkbox] {
     margin-top:-5px;
 }
+
+/*final grades */
+
+#iconLegend p {
+    display:inline-block;
+    width:33%;
+    padding: 3px;
+    background:#fff;
+}

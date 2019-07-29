@@ -158,7 +158,7 @@ function handleInfoTasks(object, result) {
         case "CLOSE_DOSSIER_FEEDBACK_PHASE":
             let count = object.taskData.length;
             if (count <= 3) {
-                result.infoText = "Es fehlen noch die Feedbacks der Gruppe/n ";
+                result.infoText = "<p>Es fehlen noch die Feedbacks der Gruppe/n </p> ";
                 for (let i = 0; i < object.taskData.length; i++) {
                     for (let j = 0; j < object.taskData[i].members.length; j++) {
                         result.infoText += object.taskData[i].members[j].name;

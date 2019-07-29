@@ -29,9 +29,48 @@
     <!-- go back to tasks end-->
 
     <main>
+
+
         <div class="row group">
             <div class="col span_content span_2_of_2">
-                <h1>Abschließende Noten vergeben</h1>
+                <h3>Abschließende Noten vergeben</h3>
+
+                <div class="row group">
+                    <div class="span_2_of_2" style="background:#ededed" >
+
+                            <label>Legende</label>
+                                <div id="iconLegend">
+
+                                    <p><i class="fas fa-arrow-up"></i> Dieser Student wurde von seinen Peers unüblich gut bewertet.</p>
+
+                                    <p><i class="fas fa-arrow-down"></i> Dieser Student wurde von seinen Peers unüblich schlecht  bewertet. </p>
+
+
+                                    <p> <i class="fas fa-check"></i> Dieser Student wurde von seinen Peers ausgeglichen bewertet.</p>
+
+                                </div>
+                                    <p style="font-weight:bold;"> Klicken sie auf das entsprechende Symbol in der Tabelle um die Bewertungen der Studierenden
+                                                    um Ausreißer zu bereinigen.
+                                    </p>
+                    </div>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div class="alert alert-success" id="taskCompleted">
                     Die Zensuren wurden gespeichert.
                 </div>
@@ -155,25 +194,6 @@
                         Dies ist die finale Benotung der Studierenden
                         <input id="finalizeGrading" style="margin:2px 0 0 0" type="checkbox" title="finalisieren">
 
-                    </label>
-                </div>
-            </div>
-            <div class="col span_content span_s_of_2" style="margin-top: 15%;" id="iconLegend">
-                <h4>Legende</h4>
-                <div style="display: block;">
-                    <div style="display: flex; margin-bottom: 5px;">
-                        <i class="fas fa-arrow-up"></i> Dieser Student wurde von seinen Peers unüblich gut bewertet.
-                    </div>
-                    <div style="display: flex; margin-bottom: 5px;">
-                        <i class="fas fa-arrow-down"></i> Dieser Student wurde von seinen Peers unüblich schlecht
-                        bewertet.
-                    </div>
-                    <div style="display: flex; margin-bottom: 5px;">
-                        <i class="fas fa-check"></i> Dieser Student wurde von seinen Peers ausgeglichen bewertet.
-                    </div>
-                    <label>
-                        Klicken sie auf das entsprechende Symbol in der Tabelle um die Bewertungen der Studierenden
-                        um Ausreißer zu bereinigen.
                     </label>
                 </div>
             </div>
