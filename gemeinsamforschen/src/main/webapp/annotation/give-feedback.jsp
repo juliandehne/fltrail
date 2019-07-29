@@ -57,6 +57,7 @@
             Aufgaben</a>
     </div>
     <main id="giveFeedback" class="">
+        <button class="btn_fullscreen btn btn-primary" type="button" title="fullscreen">resize</button>
         <div id="unauthorized" hidden class="alert alert-warning unauthorized">
             <p>
                 Gerade von einem anderen Mitglied ein Feedback verfasst.<br>
@@ -124,6 +125,13 @@
 
     });
 
+    $(".btn_fullscreen").click(function() {
+
+        // $("#flex-wrapper").addClass("fullscreen");
+        $(".btn_fullscreen").toggleClass("max");
+        $("#flex-wrapper").toggleClass("fullscreen");
+
+    });
 
 </script>
 

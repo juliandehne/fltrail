@@ -140,18 +140,21 @@ footer {
     margin: 0;
     padding: .5em;
     box-sizing: border-box;
+    background: #fff;
 }
 
 .span_s_of_2 {
     width: 25%;
     padding: .5em;
     box-sizing: border-box;
+    background: #fff;
 }
 
 .span_l_of_2 {
     width: 73.4%;
     padding: .5em;
     box-sizing: border-box;
+    background: #fff;
 }
 
 /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
@@ -205,11 +208,11 @@ footer {
     background-position: 5px;
 }
 
-.timeline#listOfFiles {
+.timeline #listOfFiles {
     backgrund-image:none;
 }
 
-.timeline#listOfFiles li:before {
+.timeline #listOfFiles li:before {
     display:none;
 }
 

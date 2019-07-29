@@ -326,6 +326,7 @@ ol#annotations {
     overflow: auto;
     background: #ededed;
     border: 5px solid #edededed;
+
 }
 
 
@@ -382,6 +383,11 @@ main#seeFeedback .reply-control {
     /*width: 100%;*/
     min-height: 200px;
     min-width: 200px !important;
+    position: sticky;
+    top: 50px;
+    z-index: 3;
+    align-self: flex-start;
+    margin-top: 58px;
 
 }
 .btn_fullscreen {
@@ -395,6 +401,7 @@ main#seeFeedback .reply-control {
     font-size:0px;
     font-style: normal;
     font-weight: 900;
+    z-index: 500000;
 }
 
 .btn_fullscreen:before {
@@ -406,12 +413,19 @@ main#seeFeedback .reply-control {
 .fullscreen main#giveFeedback{
     position: fixed;
     left: 0;
-    top: 30px;
+    top: 40px;
     width: 100%;
     margin: 0;
     flex-direction: row;
     max-width: 40000000px;
     height: 96vh;
+    overflow: scroll;
+    overflow-x:hidden;
+    background: #fff;
+    -webkit-box-shadow: -1px -6px 5px 0px #0000007a;
+    -moz-box-shadow: -1px -6px 5px 0px rgba(0,0,0,0.48);
+    box-shadow: -1px -6px 5px 0px #0000007a;
+    z-index:3000;
 }
 
 .fullscreen .backlink {
@@ -420,12 +434,17 @@ main#seeFeedback .reply-control {
 
 .fullscreen .btn_fullscreen {
     background:red;
-    top:17px;
+    top:5px;
     right:12px;
+    z-index:5;
 
 }
 
-.fullscreen .btn_fullscreen:before {
+.fullscreen .btn_fullscreen.max:before {
     content:"\f066";
     font-size:14px;
+}
+
+.fullscreen .replay-container {
+    margin-top: 25px;
 }

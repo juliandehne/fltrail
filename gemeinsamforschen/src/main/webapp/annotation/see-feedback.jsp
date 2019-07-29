@@ -111,7 +111,7 @@
     });
 
     $(".btn_fullscreen").click(function() {
-        console.log( "schnuuu." );
+
        // $("#flex-wrapper").addClass("fullscreen");
         $(".btn_fullscreen").toggleClass("max");
         $("#flex-wrapper").toggleClass("fullscreen");
