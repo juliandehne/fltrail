@@ -51,8 +51,8 @@
     </jsp:include>
     <!-- back-->
     <div class="row group nav">
-        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> zurück zu den
-            Aufgaben</i></a>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> zurück zu den
+            Aufgaben</a>
     </div>
     <main class="groups-manual">
 
@@ -60,17 +60,19 @@
 
             <h1>Gruppeneinteilung</h1>
 
-            <div style="display:flex;">
-                <div style=" height:50px; margin:auto;">
+            <div class="col span_l_of_2">
                     <button id="btnRelocate" class="spacer-horizontal primary">Personen verschieben</button>
                     <button id="openNewGroup" class="spacer-horizontal primary">Neue Gruppe öffnen</button>
                     <button id="deselectStudents" class="spacer-horizontal primary">Selektion aufheben</button>
-                </div>
-                <div class="alert alert-warning span_s_of_2" style="margin-left:auto;">
+            </div>
+            <div class="col span_s_of_2">
+                <div class="alert alert-warning">
                     <p>Wählen Sie die Studenten an, die sie verschieben wollen. Dann die Gruppe,
                         in die die Studenten verschoben werden sollen und klicken Sie auf "Personen verchieben".</p>
                 </div>
             </div>
+        </div>
+        <div class="row group">
 
             <div class="col span_content span_2_of_2">
                 <div style="...">
