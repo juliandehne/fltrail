@@ -209,11 +209,17 @@ footer {
 }
 
 .timeline #listOfFiles {
-    backgrund-image:none;
+    background-image:none;
 }
 
 .timeline #listOfFiles li:before {
     display:none;
+}
+
+.timeline #listOfFiles li a {
+    margin-left:0;
+    text-decoration:none;
+    font-weight:normal;
 }
 
 .timeline {

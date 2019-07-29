@@ -12,6 +12,7 @@
 
 <div class="col span_timeline timeline span_s_of_2">
     <!--begin timeLine -->
+    <h2 id="">Projektphase</h2>
     <ul>
         <% if (phase != null) {%>
             <% if (phase == Phase.GroupFormation) {%>
@@ -53,11 +54,11 @@
     <%if (isStudent.equals("isStudent")) {%>
     <script src="../taglibs/js/fileStorage.js"></script>
     <div style="margin-top:50px;"></div>
-    <h4 id="fileManagementHeader">Ergebnisse</h4>
+    <h2 id="fileManagementHeader">Ergebnisse</h2>
     <ul id="listOfFiles">
         <script id="listOfFilesTemplate" type="text/x-jQuery-tmpl">
             <li>
-                <a id="${fileCount}" href="../rest/fileStorage/download/fileLocation/${fileLocation}">${fileName}</a>
+                <a id="${fileCount}" href="../rest/fileStorage/download/fileLocation/${fileLocation}"><i class="fas fa-file-download">&nbsp;</i>${fileName}</a>
                 <!--<a name="${fileLocation}" class="deleteFile" style="cursor: pointer;"><i class="fa fa-trash" aria-hidden="true"></i></a>-->
                 <!-- use this comment for debugging deletion stuff -->
             </li>
