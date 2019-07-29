@@ -24,15 +24,15 @@
 
     <!-- go back to tasks -->
     <div class="backlink">
-        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
-            Aufgaben</i></a>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den
+            Aufgaben</a>
     </div>
     <!-- go back to tasks end-->
 
     <main>
         <div class="row group">
-            <div class="col span_content span_l_of_2">
-                <h1>Bewerte Gruppe <span id="groupId"></span></h1>
+            <div class="span_2_of_2 centered">
+                <h3>Bewerte Gruppe <span id="groupId"></span></h3>
                 <div id="theSurvey">
                     <div id="surveyContainer"></div>
                     <div id="resultLink"></div>

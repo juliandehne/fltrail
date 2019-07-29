@@ -30,9 +30,11 @@
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
             Aufgaben</i></a>
     </div>
+
+
     <div class="row group">
         <main class="projects">
-            <div class="col span_content span_2_of_2 centered">
+            <div class="span_2_of_2 centered">
                 <div id="taskTemplateDiv">
 
                 </div>
@@ -46,7 +48,8 @@
             </div>
         </main>
     </div>
-    <jsp:include page="../taglibs/footer.jsp"/>
+
 </div>
+<jsp:include page="../taglibs/footer.jsp"/>
 </body>
 </html>
