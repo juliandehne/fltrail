@@ -1252,30 +1252,26 @@ main.groups-manual{
     max-width:95%;
 }
 
-/* Feedback reply control
+/* upload Presentation */
 
-.reply-control {
-    position: fixed;
-    display: flex;
-    flex: 0 0 auto;
-    flex-direction: column;
-    bottom: 0;
-    min-height: 0;
-    right: 0;
-    left: 0;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1475px;
-    width: 100%;
-    z-index: 400;
-    transition: height 250ms ease, background 250ms ease, transform 250ms ease, max-width 250ms ease;
-    background-color: #fff;
-    box-shadow: 0 -1px 40px #0000001f;
-
+#uploadPresentation #uploadSubmit {
+    margin-top:20px;
 }
 
-.splitter-horizontal {
-    flex: 0 0 auto;
-    background: url(../assets/vsizegrip.png) center center no-repeat;
-    cursor: col-resize;
-} */
+#uploadPresentation #taskCompleted,
+#uploadPresentation #errorUpload,
+#taskCompleted #divFinalContribution {
+    margin-top:20px;
+}
+
+
+
+#divFinalContribution label,
+#uploadPresentation label,
+#taskCompleted label {
+    margin-right:5px;
+}
+
+#divFinalContribution input[type=checkbox] {
+    margin-top:-5px;
+}

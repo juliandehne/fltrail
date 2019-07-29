@@ -28,42 +28,43 @@
 
     <!-- go back to tasks -->
     <div class="backlink">
-        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
-            Aufgaben</i></a>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den
+            Aufgaben</a>
     </div>
     <!-- go back to tasks end-->
 
     <!-- file upload -->
-    <main>
+    <main id="uploadPresentation">
         <div id="unauthorized" hidden class="alert alert-warning unauthorized">
             <p>
                 Ein anderes Gruppenmitglied lädt gerade eine Datei hoch.
             </p>
         </div>
         <div class="row group">
-            <div class="col span_content span_2_of_2">
-                <h1>Abschlussbericht hochladen</h1>
+            <div class="col span_content span_l_of_2">
+                <h3>Abschlussbericht hochladen</h3>
 
                 <div id="result"></div>
                 <script id="headerTemplate" type="text/x-jsrender">
                     <h2>{{:header}} anlegen</h2>
                 </script>
-                <div class="row">
+
+                    <div class="alert alert-warning" id="divFinalContribution" style="display:flex;">
+                        <label>
+                            Finale Abgabe  </label>
+                        <input id="finalContribution" type="checkbox">
+
+
+                            Dieser Bericht ist die finale Abgabe ihrer Gruppe.
+                            Sie wird hiermit zur Bewertung freigegeben.
+
+                    </div>
                     <jsp:include page="../taglibs/upload-file.jsp">
                         <jsp:param name="fileRole" value="FINAL_REPORT"/>
                     </jsp:include>
                     <p id="fileRole" hidden>FINAL_REPORT</p>
-                    <div class="alert alert-warning" id="divFinalContribution" style="display:flex;">
-                        <label>
-                            Finale Abgabe
-                            <input style="margin-top:2px;" id="finalContribution" type="checkbox">
-                        </label>
-                        <p style="margin-top: 2px;">
-                            Dieser Bericht ist die finale Abgabe ihrer Gruppe.
-                            Sie wird hiermit zur Bewertung freigegeben.
-                        </p>
-                    </div>
-                </div>
+
+
             </div>
         </div> <!-- flex wrapper -->
     </main>
