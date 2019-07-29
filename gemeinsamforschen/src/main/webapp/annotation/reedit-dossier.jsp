@@ -52,28 +52,30 @@
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den
             Aufgaben</a>
     </div>
-    <main id="seeFeedback" class="">
+    <main id="reEdit" class="">
         <div class="row group">
             <div class="col span_2_of_2">
-                <h2>Hier können Sie Ihr <span id="fileRole"></span> überarbeiten</h2>
+
                 <h3 id="ownTitle"></h3>
+                <p>Hier können Sie Ihr <span id="fileRole"></span> überarbeiten</p>
                 <br>
                 <div id="editor"></div>
-                <div style="display:flex;">
+                <div class="leftcontent-buttons-next">
                     <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
                         <i class="far fa-save"></i> speichern
                     </button>
-                    <label class="checkbox" for="finalizeReedit">
-                        <div style="display:flex; width: 100%">
-                            <p style="margin-left: 13px;">Dies ist die finale
-                        <a data-toggle='collapse' href='#whatIs' role='button'
-                           aria-expanded='false' aria-controls='whatIs'>
-                            <i class='fas fa-question'></i>
-                        </a>
-                                Abgabe des Dossiers</p>
-                            <input id="finalizeReedit" style="margin:1px 0 0 0;" type="checkbox" title="finalisieren">
-                        </div>
-                    </label>
+
+
+                            <div class="checkbox" for="finalizeReedit">
+                                <input id="finalizeReedit" type="checkbox" title="finalisieren">Dies ist die finale
+                                    <a data-toggle='collapse' href='#whatIs' role='button'
+                                       aria-expanded='false' aria-controls='whatIs'>
+                                        <i class='fas fa-question'></i>
+                                    </a> Abgabe des Dossiers
+
+                            </div>
+
+
                 </div>
 
                 <div class='collapse' id='whatIs'>

@@ -195,6 +195,13 @@ ol#annotations {
     margin: 20px;
 }
 
+
+#reEdit .leftcontent-buttons-next #btnSave {
+
+        float:right;
+}
+
+
 .leftcontent-buttons-back {
     float: left;
     margin: 20px;
