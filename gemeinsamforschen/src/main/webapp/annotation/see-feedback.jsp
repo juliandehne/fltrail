@@ -57,9 +57,11 @@
             Aufgaben</a>
     </div>
     <main id="seeFeedback" class="">
+        <button class="btn_fullscreen btn btn-primary" type="button" title="fullscreen">resize</button>
+
 
             <div class="col span_2_of_2">
-                <h2>Feedback für Ihr <span class="fileRole"></span></h2>
+                <h3>Feedback für Ihr <span class="fileRole"></span></h3>
 
                 <div class="three_rows">
                     <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
@@ -107,6 +109,16 @@
         resizeHeight: false,
 
     });
+
+    $(".btn_fullscreen").click(function() {
+        console.log( "schnuuu." );
+       // $("#flex-wrapper").addClass("fullscreen");
+        $(".btn_fullscreen").toggleClass("max");
+        $("#flex-wrapper").toggleClass("fullscreen");
+
+    });
+
+
 
 
 </script>

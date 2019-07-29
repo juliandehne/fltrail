@@ -70,6 +70,7 @@ main {
     margin: 0 auto;
     height: 30px;
     font-weight: bold;
+    display:block;
 }
 .backlink a:hover {
     text-decoration: none;
@@ -202,6 +203,14 @@ footer {
     background-image:url("../img/line.png");
     background-repeat:repeat-y;
     background-position: 5px;
+}
+
+.timeline#listOfFiles {
+    backgrund-image:none;
+}
+
+.timeline#listOfFiles li:before {
+    display:none;
 }
 
 .timeline {
@@ -408,6 +417,10 @@ button + a {
 
 h3,h4 {
     color:#075f8b;
+}
+
+h3 {
+    margin-top:0;
 }
 
 body, p {

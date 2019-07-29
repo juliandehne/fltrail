@@ -15,7 +15,7 @@ $(document).ready(function () {
     });
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
     let category = getQueryVariable("category");
-    $('#categoryHeadline').html("Kategorie: " + category);
+    $('#categoryHeadline').html(category);
     let contribution = getQueryVariable("contribution");
     $('.fileRole').each(function () {
         $(this).html(contribution[0] + contribution.substring(1, contribution.length).toLowerCase());

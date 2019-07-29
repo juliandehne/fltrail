@@ -56,7 +56,7 @@
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den
             Aufgaben</a>
     </div>
-    <main id="seeFeedback" class="">
+    <main id="giveFeedback" class="">
         <div id="unauthorized" hidden class="alert alert-warning unauthorized">
             <p>
                 Gerade von einem anderen Mitglied ein Feedback verfasst.<br>
