@@ -13,7 +13,7 @@
     <script src="../libs/jquery/jqueryValidate.js"></script>
     <!-- js - jQuery ui position -->
     <script src="../libs/jquery/jqueryUI.js" type="text/javascript"></script>
-
+    <script src="js/upload-presentation.js"></script>
     <!-- jsrender -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
 </head>
@@ -50,9 +50,9 @@
 
                     <div class="alert alert-warning" id="divFinalContribution" style="display:flex;">
                         <label>
-                            Finale Abgabe </label>
+                            Finale Abgabe
                         <input id="finalContribution" type="checkbox">
-
+                        </label>
                         Die Präsentation ist eine finale Abgabe. Sie wird hiermit zur
                             Bewertung freigegeben.
                     </div>

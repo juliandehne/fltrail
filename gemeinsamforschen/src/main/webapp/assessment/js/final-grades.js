@@ -217,7 +217,10 @@ function viewToUserPeerAssessmentData() {
             }
             if ($(this).attr("name") === "finalMark") {
                 UserPeerAssessmentData.finalRating = $(this).find("input").val();
-                if (UserPeerAssessmentData.finalRating === "0.00") {
+                let finalGrade = parseInt(UserPeerAssessmentData.finalRating);
+                if (isNaN(finalGrade)) {
+                    notFinal = true;
+                } else if (parseInt(UserPeerAssessmentData.finalRating) < 1) {
                     notFinal = true;
                 }
             }

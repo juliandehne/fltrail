@@ -177,6 +177,7 @@ create table tasklock
     id        int auto_increment,
     taskName  varchar(100)                        not null,
     groupId   int                                 not null,
+    owner     varchar(255)                        not null,
     timeStamp timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
     constraint id
         unique (id)

@@ -5,7 +5,6 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.tasks.Progress;
@@ -63,7 +62,10 @@ public class WizardDao {
         //relevantTasks.add(TaskName.WAITING_FOR_GROUP);
         Set<TaskName> relevantTaskList = getRelevantTaskSet();
         String query =
-                "SELECT t.taskName from tasks t" + " WHERE t.progress= ? AND t.projectName = ? " + "AND t.taskName NOT IN (SELECT t2.taskName from tasks t2 WHERE t2.progress<>? " + "AND t2.projectName=?) group by t.taskName";
+                "SELECT t.taskName from tasks t" +
+                        " WHERE t.progress= ? AND t.projectName = ? " +
+                        "AND t.taskName NOT IN (SELECT t2.taskName from tasks t2 WHERE t2.progress<>? " +
+                        "AND t2.projectName=?) group by t.taskName";
 
         Set<TaskName> result = new HashSet<>();
         connect.connect();
@@ -91,19 +93,18 @@ public class WizardDao {
         return result;
     }
 
-    private Set<TaskName> correctDossierStatus(Project project, Set<TaskName> relevantTaskList) {
+    private void correctDossierStatus(Project project, Set<TaskName> relevantTaskList) {
         List<Group> allGroupsWithDossierUploaded = submissionController.getAllGroupsWithDossierUploaded(project);
-        HashSet<Integer> allUPloadedremovedDuplicates = allGroupsWithDossierUploaded.stream().map(x -> x.getId())
+        HashSet<Integer> allUpLoadedRemovedDuplicates = allGroupsWithDossierUploaded.stream().map(Group::getId)
                 .collect(Collectors.toCollection(HashSet::new));
         int existingGroupSize = groupDAO.getGroupsByProjectName(project.getName()).size();
-        if (allUPloadedremovedDuplicates.size() == existingGroupSize && existingGroupSize > 0) {
+        if (allUpLoadedRemovedDuplicates.size() == existingGroupSize && existingGroupSize > 0) {
             relevantTaskList.add(TaskName.UPLOAD_DOSSIER);
         }
-        return relevantTaskList;
     }
 
-    private Set<TaskName> correctAnnotationStatus(Project project, Set<TaskName> relevantTaskList) {
-        Boolean allAnnotated = true;
+    private void correctAnnotationStatus(Project project, Set<TaskName> relevantTaskList) {
+        boolean allAnnotated = true;
         List<Group> groupsByProjectName = groupDAO.getGroupsByProjectName(project.getName());
         for (Group group : groupsByProjectName) {
             Task annotateDossierTask = taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.ANNOTATE_DOSSIER);
@@ -114,10 +115,9 @@ public class WizardDao {
         if (!allAnnotated) {
             relevantTaskList.remove(TaskName.ANNOTATE_DOSSIER);
         }
-        return relevantTaskList;
     }
 
-    HashMap<TaskName, Progress> getWizardrelevantTaskMap(Project project) {
+    HashMap<TaskName, Progress> getWizardRelevantTaskMap(Project project) {
         HashMap<TaskName, Progress> result = new HashMap<>();
         //relevantTasks.add(TaskName.WAITING_FOR_GROUP);
         Set<TaskName> relevantTaskList = getRelevantTaskSet();

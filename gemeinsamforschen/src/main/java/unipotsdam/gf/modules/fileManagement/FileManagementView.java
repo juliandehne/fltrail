@@ -51,7 +51,8 @@ public class FileManagementView {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadFile(@Context HttpServletRequest req, @PathParam("projectName") String projectName,
                                @PathParam("fileRole") FileRole fileRole,
-                               @FormDataParam("file") InputStream inputStream, @FormDataParam("file") FormDataContentDisposition fileDetail
+                               @FormDataParam("file") InputStream inputStream,
+                               @FormDataParam("file") FormDataContentDisposition fileDetail
     ) throws IOException, CssResolverException, DocumentException {
         String userEmail = gfContexts.getUserEmail(req);
         Group myGroup = groupDAO.getMyGroup(new User(userEmail), new Project(projectName));

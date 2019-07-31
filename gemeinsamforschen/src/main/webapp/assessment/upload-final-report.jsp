@@ -51,9 +51,9 @@
 
                     <div class="alert alert-warning" id="divFinalContribution" style="display:flex;">
                         <label>
-                            Finale Abgabe  </label>
+                            Finale Abgabe
                         <input id="finalContribution" type="checkbox">
-
+                        </label>
 
                             Dieser Bericht ist die finale Abgabe ihrer Gruppe.
                             Sie wird hiermit zur Bewertung freigegeben.

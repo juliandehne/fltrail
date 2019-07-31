@@ -142,7 +142,7 @@ public class DossierCreationProcess {
         // delete old files
         fileManagementService.deleteFiles(new Project(fullSubmissionPostRequest.getProjectName()), user, fullSubmissionPostRequest.getFileRole());
         // write new ones
-        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName(fullSubmissionPostRequest.getFileRole() + "_" + user.getEmail() + ".pdf");
+        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("dossierUpload").fileName(fullSubmissionPostRequest.getHeader() + ".pdf");
         fileManagementService.saveStringAsPDF(user, project, fullSubmissionPostRequest.getHtml(), builder.build(),
                 FileRole.DOSSIER, FileType.HTML);
 

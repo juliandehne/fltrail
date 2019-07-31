@@ -7,7 +7,6 @@ const taskNames = new Enum( "WAIT_FOR_PARTICPANTS", "UPLOAD_DOSSIER", "ANNOTATE_
                             "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
 
 $(document).ready(function () {
-
     let requestObj = new RequestObj(1, "/wizard", "/projects", [], []);
     serverSide(requestObj, "GET", function (response) {
         projectList = response;
@@ -27,71 +26,75 @@ function updateView(project) {
     // getProgressFrom DB
     $("#projectButtonText").text(project.name);
     // update ui: disable buttons
-    $("#createStudents").unbind();
-    $("#createStudents").click(function () {
+    let btnCreateStudents = $("#createStudents");
+    btnCreateStudents.unbind();
+    btnCreateStudents.click(function () {
         doSpell(selectedProject.name, "WAIT_FOR_PARTICPANTS");
     });
-    $("#skipGroupPhase").unbind();
-    $("#skipGroupPhase").click(function () {
+    let btnSkipGroupPhase = $("#skipGroupPhase");
+    btnSkipGroupPhase.unbind();
+    btnSkipGroupPhase.click(function () {
         doPhaseSpell(selectedProject.name, "GroupFormation");
     });
-
-    $("#uploadDossierButton").unbind();
-    $("#uploadDossierButton").click(function () {
+    let btnUploadDossierButton = $("#uploadDossierButton");
+    btnUploadDossierButton.unbind();
+    btnUploadDossierButton.click(function () {
         doSpell(selectedProject.name, "UPLOAD_DOSSIER");
     });
-
-    $("#annotateDossierButton").unbind();
-    $("#annotateDossierButton").click(function () {
+    let btnAnnotateDossierButton = $("#annotateDossierButton");
+    btnAnnotateDossierButton.unbind();
+    btnAnnotateDossierButton.click(function () {
         doSpell(selectedProject.name, "ANNOTATE_DOSSIER");
     });
-    $("#giveFeedbackButton").unbind();
-    $("#giveFeedbackButton").click(function () {
+    let btnGiveFeedbackButton = $("#giveFeedbackButton");
+    btnGiveFeedbackButton.unbind();
+    btnGiveFeedbackButton.click(function () {
         doSpell(selectedProject.name, "GIVE_FEEDBACK");
     });
-    $("#finalizeDossierButton").unbind();
-    $("#finalizeDossierButton").click(function () {
+    let btnFinalizeDossierButton = $("#finalizeDossierButton");
+    btnFinalizeDossierButton.unbind();
+    btnFinalizeDossierButton.click(function () {
         doSpell(selectedProject.name, "REEDIT_DOSSIER");
     });
-
-    $("#skipDossierPhase").unbind();
-    $("#skipDossierPhase").click(function () {
+    let btnSkipDossierPhase = $("#skipDossierPhase");
+    btnSkipDossierPhase.unbind();
+    btnSkipDossierPhase.click(function () {
         doPhaseSpell(selectedProject.name, "DossierFeedback");
     });
 
-
-    $("#skipExecutionPhase").unbind();
-    $("#skipExecutionPhase").click(function () {
+    let btnSkipExecutionPhase = $("#skipExecutionPhase");
+    btnSkipExecutionPhase.unbind();
+    btnSkipExecutionPhase.click(function () {
         doPhaseSpell(selectedProject.name, "Execution");
     });
-
-    $("#uploadPresentationButton").unbind();
-    $("#uploadPresentationButton").click(function () {
+    let btnUploadPresentationButton = $("#uploadPresentationButton");
+    btnUploadPresentationButton.unbind();
+    btnUploadPresentationButton.click(function () {
         doSpell(selectedProject.name, "UPLOAD_PRESENTATION");
     });
-
-    $("#uploadFinalReportButton").unbind();
-    $("#uploadFinalReportButton").click(function () {
+    let btnUploadFinalReportButton = $("#uploadFinalReportButton");
+    btnUploadFinalReportButton.unbind();
+    btnUploadFinalReportButton.click(function () {
         doSpell(selectedProject.name, "UPLOAD_FINAL_REPORT");
     });
-
-    $("#externalPAButton").unbind();
-    $("#externalPAButton").click(function () {
+    let btnExternalPAButton = $("#externalPAButton");
+    btnExternalPAButton.unbind();
+    btnExternalPAButton.click(function () {
         doSpell(selectedProject.name, "GIVE_EXTERNAL_ASSESSMENT");
     });
-
-    $("#internalPAButton").unbind();
-    $("#internalPAButton").click(function () {
+    let btnInternalPAButton = $("#internalPAButton");
+    btnInternalPAButton.unbind();
+    btnInternalPAButton.click(function () {
         doSpell(selectedProject.name, "GIVE_INTERNAL_ASSESSMENT");
     });
-
-    $("#docentPAButton").unbind();
-    $("#docentPAButton").click(function () {
+    let btnDocentPAButton = $("#docentPAButton");
+    btnDocentPAButton.unbind();
+    btnDocentPAButton.click(function () {
         doSpell(selectedProject.name, "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
     });
-
-    $("#finishAssessmentAndGradingButton").unbind();
-    $("#finishAssessmentAndGradingButton").click(function () {
+    let btnFinishAssessmentAndGradingButton = $("#finishAssessmentAndGradingButton");
+    btnFinishAssessmentAndGradingButton.unbind();
+    btnFinishAssessmentAndGradingButton.click(function () {
         doSpell(selectedProject.name, "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
     });
 
@@ -145,6 +148,12 @@ function updatePhaseState() {
         if (response.includes(phases.getName(phases.Assessment))) {
             $('button.assessmentButton').attr("disabled", true);
         }
+        if (response.includes(phases.getName(phases.GRADING))) {
+            $('button.GRADING').attr("disabled", true);
+        }
+        if (response.includes(phases.getName(phases.Projectfinished))) {
+            $('button.Projectfinished').attr("disabled", true);
+        }
         // @TODO add this with promise behind the function call for readability
         updateTaskStates();
     })
@@ -196,4 +205,3 @@ function updateTaskStates() {
         alert("Spell has been cast. Simulation has run my friend.")
     })
 }
-

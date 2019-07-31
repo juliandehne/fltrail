@@ -36,92 +36,83 @@
                 <h3>Abschließende Noten vergeben</h3>
 
                 <div class="row group">
-                    <div class="span_2_of_2" style="background:#ededed" >
+                    <div class="span_2_of_2" style="background:#ededed">
 
-                            <label>Legende</label>
-                                <div id="iconLegend">
+                        <label>Legende</label>
+                        <div id="iconLegend">
 
-                                    <p><i class="fas fa-arrow-up"></i> Dieser Student wurde von seinen Peers unüblich gut bewertet.</p>
+                            <p><i class="fas fa-arrow-up"></i> Dieser Student wurde von seinen Peers unüblich gut
+                                bewertet.</p>
 
-                                    <p><i class="fas fa-arrow-down"></i> Dieser Student wurde von seinen Peers unüblich schlecht  bewertet. </p>
+                            <p><i class="fas fa-arrow-down"></i> Dieser Student wurde von seinen Peers unüblich schlecht
+                                bewertet. </p>
 
 
-                                    <p> <i class="fas fa-check"></i> Dieser Student wurde von seinen Peers ausgeglichen bewertet.</p>
+                            <p><i class="fas fa-check"></i> Dieser Student wurde von seinen Peers ausgeglichen bewertet.
+                            </p>
 
-                                </div>
-                                    <p style="font-weight:bold;"> Klicken sie auf das entsprechende Symbol in der Tabelle um die Bewertungen der Studierenden
-                                                    um Ausreißer zu bereinigen.
-                                    </p>
+                        </div>
+                        <p style="font-weight:bold;"> Klicken sie auf das entsprechende Symbol in der Tabelle um die
+                            Bewertungen der Studierenden
+                            um Ausreißer zu bereinigen.
+                        </p>
                     </div>
-                    </div>
-
                 </div>
 
+            </div>
 
 
+            <div class="alert alert-success" id="taskCompleted">
+                Die Zensuren wurden gespeichert.
+            </div>
+            <div class="alert alert-warning" id="gradeMissing" hidden>
+                Bevor Sie die Zensuren final speichern können, müssen alle Studenten eine Zensur erhalten haben.
+                Bitte überprüfen Sie dies.
+            </div>
 
+            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <table id="tableGrades" class="table table-striped table-sm" cellspacing="0" width="100%">
+                    <thead>
+                    <tr>
+                        <th class="th-sm">
+                            Name
+                        </th>
+                        <th class="th-sm">
+                            Gruppe
+                        </th>
+                        <th class="th-sm">
+                            E-Mail
+                        </th>
+                        <th class="th-sm">
+                            (Average)
+                            Produkte (Studierende)
+                        </th>
+                        <th class="th-sm">
+                            Produkte (Sie)
+                        </th>
+                        <th class="th-sm">
+                            (Average)
+                            Gruppenarbeit
+                        </th>
+                        <th class="th-sm">
+                            (Average)
+                            vorgeschlagene Note
+                        </th>
+                        <th><a id="takeSuggested" style="cursor:pointer; font-size: 15px;"><i
+                                class="fas fa-arrow-right"></i></a>
+                            übernehmen
+                        </th>
+                        <th class="th-sm">
+                            Endnote
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="allGradesOfAllStudents">
 
-
-
-
-
-
-
-
-
-
-
-                <div class="alert alert-success" id="taskCompleted">
-                    Die Zensuren wurden gespeichert.
-                </div>
-                <div class="alert alert-warning" id="gradeMissing" hidden>
-                    Bevor Sie die Zensuren final speichern können, müssen alle Studenten eine Zensur erhalten haben.
-                    Bitte überprüfen Sie dies.
-                </div>
-
-                <div class="table-wrapper-scroll-y my-custom-scrollbar">
-                    <table id="tableGrades" class="table table-striped table-sm" cellspacing="0" width="100%">
-                        <thead>
-                        <tr>
-                            <th class="th-sm">
-                                Name
-                            </th>
-                            <th class="th-sm">
-                                Gruppe
-                            </th>
-                            <th class="th-sm">
-                                E-Mail
-                            </th>
-                            <th class="th-sm">
-                                (Average)
-                                Produkte (Studierende)
-                            </th>
-                            <th class="th-sm">
-                                Produkte (Sie)
-                            </th>
-                            <th class="th-sm">
-                                (Average)
-                                Gruppenarbeit
-                            </th>
-                            <th class="th-sm">
-                                (Average)
-                                vorgeschlagene Note
-                            </th>
-                            <th><a id="takeSuggested" style="cursor:pointer; font-size: 15px;"><i
-                                    class="fas fa-arrow-right"></i></a>
-                                übernehmen
-                            </th>
-                            <th class="th-sm">
-                                Endnote
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody id="allGradesOfAllStudents">
-
-                        </tbody>
-                    </table>
-                </div>
-                <script id="gradesOfOneStudentTemplate" type="text/x-jQuery-tmpl">
+                    </tbody>
+                </table>
+            </div>
+            <script id="gradesOfOneStudentTemplate" type="text/x-jQuery-tmpl">
                 <tr class="grading" id="grades_${userId}">
                         <td name="name">
                             ${name}
@@ -185,17 +176,18 @@
                             <p class="savedFinalMark">${finalMark}</p>
                         </td>
                     </tr>
-                </script>
-                <div style="display:flex;" id="divForSaving">
-                    <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
-                        <i class="far fa-save"></i> speichern
-                    </button>
-                    <label class="checkbox" for="finalizeGrading">
-                        Dies ist die finale Benotung der Studierenden
-                        <input id="finalizeGrading" style="margin:2px 0 0 0" type="checkbox" title="finalisieren">
 
-                    </label>
-                </div>
+
+            </script>
+            <div style="display:flex;" id="divForSaving">
+                <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
+                    <i class="far fa-save"></i> speichern
+                </button>
+                <label class="checkbox" for="finalizeGrading">
+                    Dies ist die finale Benotung der Studierenden
+                    <input id="finalizeGrading" style="margin:2px 0 0 0" type="checkbox" title="finalisieren">
+
+                </label>
             </div>
         </div>
     </main>

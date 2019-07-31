@@ -534,3 +534,7 @@ fieldset .form-control {
     min-width: 400px;
     margin-bottom: 5px;
 }
+
+.btn-wizard {
+    width: 200px;
+}

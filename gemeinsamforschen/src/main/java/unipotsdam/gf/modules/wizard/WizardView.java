@@ -71,7 +71,7 @@ public class WizardView {
     public HashMap<TaskName, Progress> getRelevantTasksStatus(@PathParam("projectName") String projectName)
             throws Exception {
         Project projectByName = projectDAO.getProjectByName(projectName);
-        return wizardDao.getWizardrelevantTaskMap(projectByName);
+        return wizardDao.getWizardRelevantTaskMap(projectByName);
     }
 
 

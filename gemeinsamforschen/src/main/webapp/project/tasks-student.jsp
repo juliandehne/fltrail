@@ -130,13 +130,6 @@
                    </div>
                    <div style="clear:left"></div>
                 </div>
-
-
-
-
-
-
-
                 </script>
             </div>
 
