@@ -32,24 +32,12 @@ public class Performance {
         this.quizAnswer = quizAnswer;
     }
 
-    public Map<String, Double> getWorkRating() {
-        return workRating;
-    }
-
     public void setWorkRating(Map<String, Double> workRating) {
         this.workRating = workRating;
     }
 
 
     private Map<FileRole, Double> contributionRating;
-
-    public Performance(Project project, User user, List<Integer> quizAnswer, Map<String, Double> workRating, Map<FileRole, Double> contributionRating) {
-        this.project = project;
-        this.user = user;
-        this.quizAnswer = quizAnswer;
-        this.workRating = workRating;
-        this.contributionRating = contributionRating;
-    }
 
     @Override
     public String toString() {
@@ -66,10 +54,6 @@ public class Performance {
     private User user;
     private List<Integer> quizAnswer;
     private Map<String, Double> workRating;
-
-    public Map<FileRole, Double> getContributionRating() {
-        return contributionRating;
-    }
 
     public void setContributionRating(Map<FileRole, Double> contributionRating) {
         this.contributionRating = contributionRating;

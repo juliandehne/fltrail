@@ -16,8 +16,6 @@ public class AnnotationPatchRequest {
         this.comment = comment;
     }
 
-    public AnnotationPatchRequest() {}
-
     // methods
     public String getTitle() {
         return title;

@@ -11,17 +11,11 @@ public class GroupFormationFactory {
     @Inject
     RandomGroupAlgorithm randomGroupAlgorithm;
 
-    //@Inject
-    //GroupAlMatcher groupAlMatcher;
-
     @Inject
     PGroupAlMatcher pGroupAlMatcher;
 
     @Inject
     CompBaseMatcher compBaseMatcher;
-
-    @Inject
-    BigGroupMatcher bigGroupMatcher;
 
     @Inject
     SingleGroupMatcher singleGroupMatcher;

@@ -1,7 +1,6 @@
 package unipotsdam.gf.modules.fileManagement;
 
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import unipotsdam.gf.modules.group.Group;
@@ -53,7 +52,7 @@ public class FileManagementView {
                                @PathParam("fileRole") FileRole fileRole,
                                @FormDataParam("file") InputStream inputStream,
                                @FormDataParam("file") FormDataContentDisposition fileDetail
-    ) throws IOException, CssResolverException, DocumentException {
+    ) throws IOException, DocumentException {
         String userEmail = gfContexts.getUserEmail(req);
         Group myGroup = groupDAO.getMyGroup(new User(userEmail), new Project(projectName));
         lock.deleteLockInDB(TaskName.UPLOAD_PRESENTATION, myGroup);

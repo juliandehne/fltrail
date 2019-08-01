@@ -78,7 +78,7 @@ function fillObjectWithGrades(data) {
         }
         if (grades.hasOwnProperty(student)) {
             let finalMark;
-            if (grades[student].finalRating === null) {
+            if (grades[student].finalRating === undefined) {
                 finalMark = 0;
             } else {
                 finalMark = grades[student].finalRating;

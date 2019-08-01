@@ -16,7 +16,7 @@ public class ContributionFeedback {
     public ContributionFeedback() {
     }
 
-    public ContributionFeedback(String id, int groupId, String fullSubmissionId, String fullSubmissionPartCategory, String text) {
+    private ContributionFeedback(String id, int groupId, String fullSubmissionId, String fullSubmissionPartCategory, String text) {
         this(groupId, fullSubmissionId, fullSubmissionPartCategory, text);
         this.id = id;
     }
@@ -60,10 +60,6 @@ public class ContributionFeedback {
 
     public String getFullSubmissionPartCategory() {
         return fullSubmissionPartCategory;
-    }
-
-    public void setFullSubmissionPartCategory(String fullSubmissionPartCategory) {
-        this.fullSubmissionPartCategory = fullSubmissionPartCategory;
     }
 
     public String getText() {

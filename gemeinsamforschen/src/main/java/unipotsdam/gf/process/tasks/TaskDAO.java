@@ -114,14 +114,10 @@ public class TaskDAO {
         return taskTypes;
     }
 
-    private Task getTaskWaitForParticipants(VereinfachtesResultSet vereinfachtesResultSet) {
+    private Task getTaskWaitForParticipants(VereinfachtesResultSet vereinfachtesResultSet) throws Exception {
         Task task = getGeneralTask(vereinfachtesResultSet);
-        Project project = null;
-        try {
-            project = projectDAO.getProjectByName(vereinfachtesResultSet.getString("projectName"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Project project = projectDAO.getProjectByName(vereinfachtesResultSet.getString("projectName"));
+
         ProjectStatus projectStatus = projectDAO.getParticipantCount(project);
         projectStatus.setParticipantsNeeded(groupFinding.getMinNumberOfStudentsNeeded(project));
         Map<String, Object> taskData = new HashMap<>();
@@ -150,19 +146,6 @@ public class TaskDAO {
         return task;
     }
 
-    public Task getGroupTask(Project project, int groupId, TaskName taskName, Phase phase) {
-        connect.connect();
-
-        String query = "Select * from tasks where groupTask = ? and projectName = ? and phase = ? and taskName = ?";
-        VereinfachtesResultSet resultSet = connect.issueSelectStatement(query, groupId, project.getName(), phase.name(), taskName.name());
-        Task task = null;
-        if (resultSet.next()) {
-            task = getGeneralTask(resultSet);
-        }
-        connect.close();
-        return task;
-    }
-
     public List<Task> getTaskForProjectWithoutProgress(Project project, TaskName taskName, Progress progress) {
         connect.connect();
         String query = "Select * from tasks t where t.projectName = ? AND t.taskName = ? and t.progress <> ?";
@@ -176,7 +159,7 @@ public class TaskDAO {
         return result;
     }
 
-    public List<Task> getTaskForProjectByTaskName(Project project, TaskName taskName) {
+    List<Task> getTaskForProjectByTaskName(Project project, TaskName taskName) {
         connect.connect();
         String query = "Select * from tasks t where t.projectName = ? AND t.taskName = ? ORDER BY created DESC";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName(), taskName.name());
@@ -188,41 +171,15 @@ public class TaskDAO {
         return result;
     }
 
-    public List<Task> getTaskOfGroupsByProjectNameAndTaskNameAndPhase(Project project, TaskName taskName, Phase phase) {
-        connect.connect();
-        String query = "Select * from tasks where groupTask != 0 and projectName = ? and phase = ? and taskName = ?";
-        VereinfachtesResultSet resultSet = connect.issueSelectStatement(query, project.getName(), phase.name(), taskName.name());
-        ArrayList<Task> groupsTask = null;
-
-        while (resultSet.next()) {
-            if (groupsTask == null) {
-                groupsTask = new ArrayList<>();
-            }
-            groupsTask.add(getGeneralTask(resultSet));
-        }
-        connect.close();
-        return groupsTask;
-    }
-
-    /**
+    /*
      * TODO  refactor reduce overloading by introducing builder?
-     *
-     * @param project
-     * @param target
-     * @param taskName
-     * @param phase
-     * @return
      */
     private Task createUserDefault(Project project, User target, TaskName taskName, Phase phase) {
-        return createUserDefault(project, target, taskName, phase, Importance.MEDIUM);
+        return createUserDefault(project, target, taskName, phase, Importance.MEDIUM, Progress.JUSTSTARTED);
     }
 
     public Task createUserDefault(Project project, User target, TaskName taskName, Phase phase, Progress progress) {
         return createUserDefault(project, target, taskName, phase, Importance.MEDIUM, progress);
-    }
-
-    private Task createUserDefault(Project project, User target, TaskName taskName, Phase phase, Importance importance) {
-        return createUserDefault(project, target, taskName, phase, importance, Progress.JUSTSTARTED);
     }
 
     private Task createUserDefault(
@@ -298,7 +255,7 @@ public class TaskDAO {
     }
 
     // get all the tasks a user has in a specific project
-    public ArrayList<Task> getTasks(User user, Project project) throws Exception {
+    ArrayList<Task> getTasks(User user, Project project) throws Exception {
         connect.connect();
         String query = "Select * from tasks t where t.userEmail = ? AND t.projectName = ? OR t.groupTask IN " +
                 "(SELECT gu.groupId FROM groupuser gu JOIN groups g on gu.groupId = g.id and g.projectName=? " +
@@ -509,21 +466,6 @@ public class TaskDAO {
         return result;
     }
 
-    public ArrayList<Task> getTasksWithTaskName(Project project, User user, TaskName taskname) throws Exception {
-        connect.connect();
-        String query = "Select * from tasks t where (t.userEmail = ? AND t.projectName = ? OR t.groupTask IN " +
-                "(SELECT gu.groupId FROM groupuser gu JOIN groups g on gu.groupId = g.id and g.projectName=? " +
-                "AND gu.userEmail=?)) AND t.taskName= ? ORDER BY created DESC";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(query, user.getEmail(), project.getName(), project.getName(), user.getEmail(), taskname.toString());
-        ArrayList<Task> result = new ArrayList<>();
-        while (vereinfachtesResultSet.next()) {
-            result.add(resultSetToTask(user, project, vereinfachtesResultSet));
-        }
-        connect.close();
-        return result;
-    }
-
     private Task getFinalizeDossierTask(VereinfachtesResultSet vereinfachtesResultSet) {
         Task task = getGeneralTask(vereinfachtesResultSet);
         task.setTaskData(submissionController
@@ -603,7 +545,7 @@ public class TaskDAO {
         updateGroupTask(task, groupId);
     }
 
-    public void updateGroupTask(Task task, int groupId) {
+    private void updateGroupTask(Task task, int groupId) {
         connect.connect();
         String query = "UPDATE tasks SET `progress` = ? where groupTask = ? AND projectName = ? AND taskName = ?";
         connect.issueUpdateStatement(

@@ -44,7 +44,6 @@ public class ProjectView {
             throws IOException {
         String userEmail = gfContexts.getUserEmail(req);
         User user = iManagement.getUserByEmail(userEmail);
-        assert user != null;
         if (user == null) {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         }
@@ -110,16 +109,11 @@ public class ProjectView {
         return iManagement.getProjectsStudent(user);
     }
 
-    /**
-     * TODO this is irritating, as it suggesting all projects but only
-     * produces the ones with groupfindins phase
-     * @return
-     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/all")
-    public java.util.List<Project> getProjects() {
-        return iManagement.getAllProjects();
+    public java.util.List<Project> getJustStartedProjects() {
+        return iManagement.getJustStartedProjects();
     }
 
 

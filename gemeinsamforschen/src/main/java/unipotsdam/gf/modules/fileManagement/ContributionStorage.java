@@ -10,15 +10,7 @@ public class ContributionStorage {
     private String userEmail;
     private Group group;
 
-    public ContributionStorage() {
-    }
-
-    public ContributionStorage(String fileLocation, String fileName) {
-        this.fileLocation = fileLocation;
-        this.fileName = fileName;
-    }
-
-    public ContributionStorage(String projectName, String fileLocation, String fileName, FileRole fileRole, String userEmail, Group group) {
+    ContributionStorage(String projectName, String fileLocation, String fileName, FileRole fileRole, String userEmail, Group group) {
         this.projectName = projectName;
         this.fileLocation = fileLocation;
         this.fileName = fileName;

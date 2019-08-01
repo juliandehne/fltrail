@@ -2,7 +2,6 @@ package unipotsdam.gf.modules.communication.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
@@ -58,11 +57,11 @@ public class EmailService {
     }
 
 
-    public boolean informAboutMissingTasks(Map<StudentIdentifier, ConstraintsMessages> tasks, Project project) {
-        HashMap<StudentIdentifier, ConstraintsMessages> notSentEMailMap = new HashMap<>();
+    public boolean informAboutMissingTasks(Map<User, ConstraintsMessages> tasks, Project project) {
+        HashMap<User, ConstraintsMessages> notSentEMailMap = new HashMap<>();
         tasks.entrySet().stream().filter(entry -> {
             User user = new User();
-            user.setEmail(entry.getKey().getUserEmail());
+            user.setEmail(entry.getKey().getEmail());
             EMailMessage eMailMessage = new EMailMessage();
             eMailMessage.setSubject("Benachrichtigung über nicht erledigte Aufgaben im Projekt " + project.getName());
             eMailMessage.setBody(entry.getValue().toString());

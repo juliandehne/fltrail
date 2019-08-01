@@ -2,8 +2,8 @@
 
 function startGrading(project) {
     window.console.log("starting assessment for project: "+ project);
-    let requestObj = new RequestObj(1, "/assessment", "/grading/start/projects/?", [project], [], "");
-    serverSide(requestObj, 'POST', function (response) {
+    let requestObj = new RequestObj(1, "/assessment", "/studentAssessment/start/projects/?", [project], [], "");
+    serverSide(requestObj, 'POST', function () {
         // yeah it worked
         location.reload(true);
     });
@@ -13,7 +13,7 @@ function startDocentGrading(project) {
     window.console.log("starting assessment for project: "+ project);
     closePhase("Assessment", project);
     let requestObj = new RequestObj(1, "/assessment", "/gradingDocent/start/projects/?", [project], [], "");
-    serverSide(requestObj, 'POST', function (response) {
+    serverSide(requestObj, 'POST', function () {
         // yeah it worked
         location.reload(true);
     });
@@ -27,7 +27,7 @@ function getAssessmentForStudent(studentEmail, callback) {
             //alert("here is the TotalPerformance: " + data);
             callback();
         },
-        error: function (a, b, c) {
+        error: function (a) {
             alert('some error' + a);
         }
     })

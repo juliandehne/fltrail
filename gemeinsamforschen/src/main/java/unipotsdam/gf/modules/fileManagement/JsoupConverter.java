@@ -12,16 +12,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static unipotsdam.gf.modules.fileManagement.Util.IndentationLetterFormat.LETTER;
-import static unipotsdam.gf.modules.fileManagement.Util.IndentationLetterFormat.NUMBER;
-import static unipotsdam.gf.modules.fileManagement.Util.IndentationLetterFormat.ROMAN;
+import static unipotsdam.gf.modules.fileManagement.Util.IndentationLetterFormat.*;
 
-public class JsoupConverter {
+class JsoupConverter {
 
     private HashMap<Integer, String> nextIndentationLetterMap;
     private int lastSeenIndentationLevel = 0;
 
-    public JsoupConverter() {
+    JsoupConverter() {
         nextIndentationLetterMap = new HashMap<>();
         nextIndentationLetterMap.put(0, "1");
         nextIndentationLetterMap.put(1, "a");
@@ -35,7 +33,7 @@ public class JsoupConverter {
     }
 
 
-    public String convertElementsToTextNodes(List<Node> nodes) {
+    String convertElementsToTextNodes(List<Node> nodes) {
         String fullText = "";
         for (Node node : nodes) {
             if (!(node instanceof Element)) {

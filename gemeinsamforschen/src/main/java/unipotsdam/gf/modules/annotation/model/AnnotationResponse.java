@@ -9,11 +9,6 @@ public class AnnotationResponse {
     // variables
     private String message;
 
-    // constructors
-    public AnnotationResponse(String message) {
-        this.message = message;
-    }
-
     public AnnotationResponse() {
 
     }

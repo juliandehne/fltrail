@@ -1,14 +1,13 @@
 package unipotsdam.gf.modules.assessment;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
 
 @XmlRootElement
 public class UserAssessmentDataHolder {
     private java.util.List<UserPeerAssessmentData> data;
     private Boolean isFinal;
 
-    public UserAssessmentDataHolder() {
+    UserAssessmentDataHolder() {
     }
 
     public UserAssessmentDataHolder(java.util.List<UserPeerAssessmentData> data) {

@@ -1,26 +1,23 @@
 package unipotsdam.gf.session;
 
+import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.modules.quiz.Quiz;
-import unipotsdam.gf.modules.communication.model.chat.ChatRoom;
 
 public class GFContext {
     private Project project;
     private User user;
     private Phase phase;
     private ChatRoom chatRoom;
-    // could be quizState ....
-    private Quiz quiz;
+
 
     public GFContext(
-            Project project, User user, Phase phase, ChatRoom chatRoom, Quiz quiz) {
+            Project project, User user, Phase phase, ChatRoom chatRoom) {
         this.project = project;
         this.user = user;
         this.phase = phase;
         this.chatRoom = chatRoom;
-        this.quiz = quiz;
     }
 
     public Project getProject() {
@@ -55,14 +52,6 @@ public class GFContext {
         this.chatRoom = chatRoom;
     }
 
-    public Quiz getQuiz() {
-        return quiz;
-    }
-
-    public void setQuiz(Quiz quiz) {
-        this.quiz = quiz;
-    }
-
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("GFContext{");
@@ -70,7 +59,6 @@ public class GFContext {
         sb.append(", user=").append(user);
         sb.append(", phase=").append(phase);
         sb.append(", chatRoom=").append(chatRoom);
-        sb.append(", quiz=").append(quiz);
         sb.append('}');
         return sb.toString();
     }

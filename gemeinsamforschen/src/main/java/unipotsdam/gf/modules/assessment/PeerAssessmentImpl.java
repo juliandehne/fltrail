@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.assessment;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.CheatCheckerMethods;
-import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
+import unipotsdam.gf.modules.assessment.controller.model.Contribution;
 import unipotsdam.gf.modules.fileManagement.FileManagementService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -32,10 +32,10 @@ public class PeerAssessmentImpl implements IPeerAssessment {
     private FileManagementService fileManagementService;
 
     @Override
-    public List<FullContribution> getContributionsFromGroup(Project project, Integer groupId) {
-        List<FullContribution> result = new ArrayList<>();
+    public List<Contribution> getContributionsFromGroup(Project project, Integer groupId) {
+        List<Contribution> result = new ArrayList<>();
         for (FileRole role : FileRole.values()) {
-            FullContribution fullContribution = assessmentDAO.getContribution(project, groupId, role);
+            Contribution contribution = assessmentDAO.getContribution(project, groupId, role);
             switch (role) {
                 case DOSSIER:
                     //todo in case of interest, include text Contributions
@@ -44,8 +44,8 @@ public class PeerAssessmentImpl implements IPeerAssessment {
                 case PORTFOLIO:
                     break;
             }
-            if (fullContribution != null) {
-                result.add(fullContribution);
+            if (contribution != null) {
+                result.add(contribution);
             }
         }
         return result;

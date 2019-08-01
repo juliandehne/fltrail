@@ -6,7 +6,6 @@ public class AnnotationMessage {
     private String targetId;
     private Category targetCategory;
     private AnnotationMessageType type;
-    private String annotationId;
 
     public enum AnnotationMessageType {
         CREATE,
@@ -47,14 +46,6 @@ public class AnnotationMessage {
         this.type = type;
     }
 
-    public String getAnnotationId() {
-        return annotationId;
-    }
-
-    public void setAnnotationId(String annotationId) {
-        this.annotationId = annotationId;
-    }
-
     @Override
     public String toString() {
         return "AnnotationMessage{" +
@@ -62,7 +53,6 @@ public class AnnotationMessage {
                 ", targetId='" + targetId + '\'' +
                 ", targetCategory=" + targetCategory +
                 ", type=" + type +
-                ", annotationId='" + annotationId + '\'' +
                 '}';
     }
 

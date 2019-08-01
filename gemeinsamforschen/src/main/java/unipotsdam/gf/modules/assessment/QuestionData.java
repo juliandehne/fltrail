@@ -12,26 +12,26 @@ public class QuestionData {
     private LocalizedText minRating;
     private LocalizedText maxRating;
 
-    public LocalizedText getMinRating() {
-        return minRating;
-    }
-
-    public void setMinRating(LocalizedText minRating) {
-        this.minRating = minRating;
-    }
-
-    public LocalizedText getMaxRating() {
-        return maxRating;
-    }
-
-    public void setMaxRating(LocalizedText maxRating) {
-        this.maxRating = maxRating;
-    }
-
-    public QuestionData(GroupWorkDimensions groupWorkDimensions, String key, String question) {
+    QuestionData(GroupWorkDimensions groupWorkDimensions, String key, String question) {
         this.groupWorkDimensions = groupWorkDimensions;
         this.key = key;
         this.question = question;
+    }
+
+    LocalizedText getMinRating() {
+        return minRating;
+    }
+
+    void setMinRating(LocalizedText minRating) {
+        this.minRating = minRating;
+    }
+
+    LocalizedText getMaxRating() {
+        return maxRating;
+    }
+
+    void setMaxRating(LocalizedText maxRating) {
+        this.maxRating = maxRating;
     }
 
     public GroupWorkDimensions getGroupWorkDimensions() {

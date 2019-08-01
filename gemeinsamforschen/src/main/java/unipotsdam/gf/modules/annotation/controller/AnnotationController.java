@@ -1,16 +1,11 @@
 package unipotsdam.gf.modules.annotation.controller;
 
 import unipotsdam.gf.interfaces.IAnnotation;
-import unipotsdam.gf.modules.annotation.model.Annotation;
-import unipotsdam.gf.modules.annotation.model.AnnotationBody;
-import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
-import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
-import unipotsdam.gf.modules.annotation.model.Category;
+import unipotsdam.gf.modules.annotation.model.*;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.process.tasks.Task;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -99,22 +94,6 @@ public class AnnotationController implements IAnnotation {
         return annotation;
     }
 
-    public String getFinishedDossier(Project project, Integer groupId) {
-        connection.connect();
-
-        // build and execute request
-        String request = "SELECT * FROM fullsubmissions fs JOIN groupuser gu ON gu.userEmail=fs.user " +
-                "AND gu.groupId=? WHERE projectname = ? AND finalized=1;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, groupId, project.getName());
-
-        String text = null;
-        if (rs != null && rs.next()) {
-            text = rs.getString("text");
-        }
-        connection.close();
-        return text;
-    }
-
     @Override
     public ArrayList<Annotation> getAnnotations(String targetId, Category category) {
 
@@ -162,14 +141,6 @@ public class AnnotationController implements IAnnotation {
         // something happened
         return exists;
 
-    }
-
-    public void endFeedback(Task task) {
-        connection.connect();
-        String query = "UPDATE tasks set progress = ? where groupTask = ? AND projectName = ? AND taskName = ?";
-        connection.issueUpdateStatement(
-                query, task.getProgress().name(), task.getGroupTask(), task.getProjectName(), task.getTaskName());
-        connection.close();
     }
 
     /**

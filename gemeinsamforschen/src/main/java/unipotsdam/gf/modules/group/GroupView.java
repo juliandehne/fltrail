@@ -1,8 +1,6 @@
 package unipotsdam.gf.modules.group;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import unipotsdam.gf.exceptions.RocketChatDownException;
-import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
@@ -12,28 +10,15 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.GroupFormationProcess;
-import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Path("/group")
 public class GroupView {
@@ -49,9 +34,6 @@ public class GroupView {
 
     @Inject
     private ProfileDAO profileDAO;
-
-    @Inject
-    private GFContexts gfContexts;
 
 
     /**
