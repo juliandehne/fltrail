@@ -390,7 +390,7 @@ create table contributionfeedback
     text                       mediumtext                          null,
     userEmail                  varchar(255)                        not null,
     timestamp                  timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
-    groupId                    int                                 not null,
+    groupId                    int                                 null,
     constraint feedback_id_uindex
         unique (id),
     constraint contributionfeedback_groups_id_fk
