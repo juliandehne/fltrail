@@ -86,7 +86,8 @@ public class MysqlConnectImpl implements MysqlConnect {
 
 
     @Override
-    public VereinfachtesResultSet issueSelectStatement(final String statement, final Object... args) {
+    public VereinfachtesResultSet issueSelectStatement(String statement, final Object... args) {
+        //statement = statement.toLowerCase();
         try {
             PreparedStatement ps = addParameters(statement, false, args);
             ResultSet queryResult = ps.executeQuery();
@@ -98,7 +99,8 @@ public class MysqlConnectImpl implements MysqlConnect {
     }
 
     @Override
-    public int issueInsertStatementWithAutoincrement(final String sql, final Object... args) {
+    public int issueInsertStatementWithAutoincrement(String sql, final Object... args) {
+        //sql = sql.toLowerCase();
         PreparedStatement stmt = null;
         try {
             stmt = addParameters(sql, true, args);
