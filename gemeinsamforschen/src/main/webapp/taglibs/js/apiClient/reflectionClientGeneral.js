@@ -19,11 +19,10 @@ function saveLearningGoalAndReflectionQuestions(learningGoalRequest, responseHan
 function chooseAssessmentMaterial(assessmentHtml, responseHandler) {
     let projectName = $('#projectName').html().trim();
     let url = `../rest/reflection/material/chosen/projects/${projectName}`;
-    let data = JSON.stringify(assessmentHtml);
     $.ajax({
         url: url,
         type: "POST",
-        data: data,
+        data: assessmentHtml,
         contentType: "application/json",
         success: function (response) {
             responseHandler(response);

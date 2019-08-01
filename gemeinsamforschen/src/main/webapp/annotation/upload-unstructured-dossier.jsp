@@ -17,10 +17,6 @@
     if (Strings.isNullOrEmpty(fullSubmissionId)) {
         fullSubmissionId = "";
     }
-    String learningGoalId = tu.getParamterFromQuery("learningGoalId", request);
-    if (Strings.isNullOrEmpty(learningGoalId)) {
-        learningGoalId = "";
-    }
 %>
 
 <!DOCTYPE html>
@@ -188,8 +184,6 @@
 
     <p id="fullSubmissionId" hidden><%=tu.printMe(fullSubmissionId)%>
     </p>
-        <p id="learningGoalId" hidden><%=tu.printMe(learningGoalId)%>
-        </p>
     <p id="fileRole" hidden><%= tu.printMe(fileRole)%>
     </p>
     <p id="personal" hidden><%= tu.printMe(personalString)%>

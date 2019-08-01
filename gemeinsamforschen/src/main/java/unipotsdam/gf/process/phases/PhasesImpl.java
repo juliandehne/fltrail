@@ -96,18 +96,13 @@ public class PhasesImpl implements IPhases {
                 case INTRODUCE_E_PORTFOLIO_STUDENT:
                     updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
-                case WAIT_FOR_LEARNING_GOAL_TO_START:
-                case WORK_ON_LEARNING_GOAL:
-                case UPLOAD_LEARNING_GOAL_RESULT:
+                case SEE_PROGRESS_IN_REFLECTION_PHASE:
+                case WAIT_FOR_REFLECTION_QUESTION_CHOICE:
                 case ANSWER_REFLECTION_QUESTIONS:
                 case CHOOSE_ASSESSMENT_MATERIAL:
                 case COLLECT_RESULTS_FOR_ASSESSMENT:
-                case WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION:
                 case CLOSE_EXECUTION_PHASE:
                 case WAIT_FOR_EXECUTION_PHASE_END:
-                case WAIT_FOR_REFLECTION:
-                case END_LEARNING_GOAL_PERIOD:
-                case START_LEARNING_GOAL_PERIOD:
                 case CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS:
                     updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
@@ -127,6 +122,12 @@ public class PhasesImpl implements IPhases {
                 case GIVE_FINAL_GRADES:
                 case END_DOCENT:
                     updateValueInMap(phaseMapTMP, Phase.GRADING, value);
+                    break;
+
+
+                case EVALUATION_TECHNISCH:
+                    break;
+                case EVALUATION_PROZESS:
                     break;
             }
         }

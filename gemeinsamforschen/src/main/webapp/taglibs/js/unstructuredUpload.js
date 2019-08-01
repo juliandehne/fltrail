@@ -172,8 +172,7 @@ async function populateTitleEditorTemplate() {
 }
 
 async function setupAndRenderReflectionQuestionsTemplate() {
-    let learningGoalId = $('#learningGoalId').html().trim();
-    reflectionQuestions = await getUnansweredReflectionQuestions(projectName, learningGoalId);
+    reflectionQuestions = await getUnansweredReflectionQuestions(projectName);
     reflectionQuestionTemplateData.fileRole = fileRole;
     reflectionQuestionTemplateData.totalQuestions = reflectionQuestions.length;
     renderReflectionQuestionTemplate();

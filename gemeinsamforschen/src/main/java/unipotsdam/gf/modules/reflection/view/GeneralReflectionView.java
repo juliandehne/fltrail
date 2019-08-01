@@ -2,16 +2,11 @@ package unipotsdam.gf.modules.reflection.view;
 
 import com.google.common.base.Strings;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.reflection.model.AssessmentSummary;
-import unipotsdam.gf.modules.reflection.model.LearningGoal;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
-import unipotsdam.gf.modules.reflection.model.LearningGoalStudentResult;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestionAnswer;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestionWithAnswer;
-import unipotsdam.gf.modules.reflection.service.LearningGoalStudentResultsDAO;
-import unipotsdam.gf.modules.reflection.service.LearningGoalsDAO;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
@@ -47,12 +42,6 @@ public class GeneralReflectionView {
 
     @Inject
     private UserDAO userDAO;
-
-    @Inject
-    private LearningGoalsDAO learningGoalsDAO;
-
-    @Inject
-    private LearningGoalStudentResultsDAO learningGoalStudentResultsDAO;
 
     @Inject
     private ReflectionQuestionDAO reflectionQuestionDAO;
@@ -122,26 +111,23 @@ public class GeneralReflectionView {
             User user = gfContexts.getUserFromSession(request);
             Project project = new Project(projectName);
 
-            List<LearningGoal> learningGoals = learningGoalsDAO.getLearningGoals(project);
-            ArrayList<AssessmentSummary> summaryList = new ArrayList<>();
+            List<ReflectionQuestionWithAnswer> reflectionQuestionWithAnswers = new ArrayList<>();
             // if it will be to slow: reImplement on database level
-            learningGoals.forEach(learningGoal -> {
-                AssessmentSummary summary = new AssessmentSummary();
-                summary.setLearningGoal(learningGoal);
-                LearningGoalStudentResult studentResult = learningGoalStudentResultsDAO.findBy(project, user, learningGoal);
-                summary.setLearningGoalStudentResult(studentResult);
-                List<ReflectionQuestion> reflectionQuestions = reflectionQuestionDAO.getReflectionQuestions(project, user, learningGoal.getId());
-                reflectionQuestions.forEach(reflectionQuestion -> {
-                    FullSubmission fullSubmission = submissionController.getFullSubmission(reflectionQuestion.getFullSubmissionId());
-                    ReflectionQuestionAnswer answer = new ReflectionQuestionAnswer(fullSubmission);
-                    ReflectionQuestionWithAnswer reflectionQuestionWithAnswer = new ReflectionQuestionWithAnswer(reflectionQuestion, answer);
-                    summary.getReflectionQuestionWithAnswers().add(reflectionQuestionWithAnswer);
-                });
-                summaryList.add(summary);
+            List<ReflectionQuestion> reflectionQuestions = reflectionQuestionDAO.getReflectionQuestions(project, user);
+            reflectionQuestions.forEach(reflectionQuestion -> {
+                FullSubmission fullSubmission = submissionController.getFullSubmission(reflectionQuestion.getFullSubmissionId());
+                ReflectionQuestionAnswer answer = new ReflectionQuestionAnswer(fullSubmission);
+                ReflectionQuestionWithAnswer reflectionQuestionWithAnswer = new ReflectionQuestionWithAnswer(reflectionQuestion, answer);
+                reflectionQuestionWithAnswers.add(reflectionQuestionWithAnswer);
+
             });
-            return Response.ok(summaryList).build();
-        } catch (IOException e) {
+            return Response.ok(reflectionQuestionWithAnswers).build();
+        } catch (IOException ex) {
+            ex.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).entity("user email is not in context.").build();
+
         }
+
     }
+
 }

@@ -13,3 +13,7 @@
 .pointer {
     cursor: pointer;
 }
+
+.row {
+    margin: 20px auto !important;
+}

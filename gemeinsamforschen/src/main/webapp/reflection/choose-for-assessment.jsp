@@ -37,36 +37,36 @@
             <script id="assessmentTemplate" type="text/x-jsrender">
                 <div/>
                 <div class="col">
-                <b>Information: Klicke die Lernziele an, die du zur Bewertung einreichen möchtest.</b>
-                    {{for data}}
-                        <h2><u> Lernziel {{:#index + 1}}</u>: {{:learningGoal.text}}</h2>
-                            <div class="list-group" id="list-tab" role="tablist">
-                                {{for reflectionQuestionWithAnswers}}
-                                    <div class="row">
-                                        <h3>{{:question.question}}</h3>
-                                        <a class="list-group-item list-group-item-action pointer" id="list-item-{{:#view.parent.getIndex()}}-{{:#index}}" onClick='clickReflectionQuestion("{{:#view.parent.getIndex()}}", "{{:#index}}")' role="tab">
-                                            <div id="editor-{{:question.id}}"></div>
-                                        </a>
-                                        {{:#root.data.extraData.scriptBegin}}
-                                        new Quill('#editor-{{:question.id}}', {
-                                            theme: 'snow',
-                                            readOnly: true,
-                                            "modules": {
-                                                "toolbar": false
-                                            }
-                                        }).setContents({{:answer.text}});
-                                        {{:#root.data.extraData.scriptEnd}}
-                                    </div>
-                                {{/for}}
+                    <b>Information: Klicke die Reflexionsfragen an, die du zur Bewertung einreichen möchtest.</b>
+                    <div class="list-group" id="list-tab" role="tablist">
+                        {{for data}}
+                            <div class="row">
+                                <h3>{{:question.question}}</h3>
+                                <a class="list-group-item list-group-item-action pointer" id="list-item-{{:#index}}" onClick='clickReflectionQuestion("{{:#index}}")' role="tab">
+                                    <div id="editor-{{:question.id}}"></div>
+                                </a>
+                                {{:#root.data.extraData.scriptBegin}}
+                                new Quill('#editor-{{:question.id}}', {
+                                    theme: 'snow',
+                                    readOnly: true,
+                                    "modules": {
+                                        "toolbar": false
+                                    }
+                                }).setContents({{:answer.text}});
+                                {{:#root.data.extraData.scriptEnd}}
                             </div>
-                            <br/>
-                    {{/for}}
-                </div>
+                        {{/for}}
+                    </div>
+                    <br/>
+                    <div class="row">
+                        <button type="button" onclick="save()" class="btn btn-primary pull-right" id="saveButton">Speichern</button>
+                    </div>
 
+                </div>
             </script>
+
         </div>
-        <button type="button" onClick='skip()' class="btn btn-primary" id="skipButton">Überspringen</button>
-        <button type="button" onclick="save()" class="btn btn-primary" id="saveButton">Speichern</button>
+
     </main>
 </div> <!-- flex wrapper -->
 <jsp:include page="../taglibs/footer.jsp"/>
