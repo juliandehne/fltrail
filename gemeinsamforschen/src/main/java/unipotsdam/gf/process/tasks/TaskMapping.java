@@ -25,10 +25,6 @@ public class TaskMapping {
         return subject;
     }
 
-    public void setSubject(User subject) {
-        this.subject = subject;
-    }
-
     public Group getObjectGroup() {
         return objectGroup;
     }
@@ -39,10 +35,6 @@ public class TaskMapping {
 
     public User getObjectUser() {
         return objectUser;
-    }
-
-    public void setObjectUser(User objectUser) {
-        this.objectUser = objectUser;
     }
 
     public TaskName getTaskName() {

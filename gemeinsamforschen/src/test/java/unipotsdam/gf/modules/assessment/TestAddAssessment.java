@@ -6,22 +6,21 @@ import org.junit.Before;
 import org.junit.Test;
 import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.interfaces.IGroupFinding;
-import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.fileManagement.FileRole;
-import unipotsdam.gf.modules.group.GroupDAO;
-import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.PeerAssessmentProcess;
-import unipotsdam.gf.process.tasks.TaskDAO;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.assertFalse;
 
@@ -30,9 +29,6 @@ public class TestAddAssessment {
 
     @Inject
     private IGroupFinding groupFinding;
-
-    @Inject
-    private TaskDAO taskDAO;
 
     @Inject
     private UserDAO userDAO;
@@ -47,15 +43,6 @@ public class TestAddAssessment {
     private AssessmentDAO assessmentDAO;
 
     @Inject
-    ProjectDAO projectDAO;
-
-    @Inject
-    private IPeerAssessment peer;
-    private String userName = "Kevin";
-    private String projectName = "test a la test";
-    private String quizId = "Whats a good Test?";
-
-    @Inject
     private MysqlConnect connect;
 
     @Before
@@ -67,27 +54,7 @@ public class TestAddAssessment {
     }
 
     @Test
-    public void addTestAssessment() {
-        int[] quizAnswers = new int[5];
-        quizAnswers[0] = 0;
-        quizAnswers[1] = 1;
-        quizAnswers[2] = 0;
-        quizAnswers[3] = 1;
-        quizAnswers[4] = 1;
-        int[] workRating = new int[3];
-        workRating[0] = 5;      //Führungsqualität
-        workRating[1] = 1;      //Pünktlichkeit
-        workRating[2] = 4;      //Hilfsbereitschaft oder so
-
-        StudentIdentifier student = new StudentIdentifier("Spaß", "Haralf");
-        //Performance performance = new Performance(student, quizAnswers,"so ein toller Typ", workRating);
-        //Assessment assessment = new Assessment(student, performance);
-        //iPeerAssessment.addAssessmentDataToDB(assessment);
-    }
-
-    @Test
     public void meanOfAssessments() {
-        double Ergebnis = 0.0;
         double zwischenErgebnis = 0.0;
         double counter = 0.0;
         List<Double> results = new ArrayList<>();
@@ -146,10 +113,10 @@ public class TestAddAssessment {
         List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
         for (User user : usersByProjectName) {
             for (User user1 : usersByProjectName) {
-                HashMap<String, String> rating = new HashMap<>();
+                HashMap<String, Integer> rating = new HashMap<>();
                 Random random = new Random();
                 int i = 1 + random.nextInt(4);
-                rating.put("coop", i + "");
+                rating.put("coop", i);
                 assessmentDAO.persistInternalAssessment(project, user, user1, rating);
             }
         }

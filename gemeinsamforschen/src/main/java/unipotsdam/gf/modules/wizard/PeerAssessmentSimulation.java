@@ -126,7 +126,7 @@ public class PeerAssessmentSimulation {
         User nextUserToRateInternally = peerAssessmentProcess.getNextUserToRateInternally(project, user);
         // need different break condition then tasks
         if (nextUserToRateInternally != null) {
-            HashMap<String, String> data = new HashMap<>();
+            HashMap<String, Integer> data = new HashMap<>();
             generateInternalFakeData(data);
             peerAssessmentProcess.persistInternalAssessment(project, user, nextUserToRateInternally, data);
             doInternalAssessment(user, project);
@@ -134,13 +134,13 @@ public class PeerAssessmentSimulation {
 
     }
 
-    private void generateInternalFakeData(HashMap<String, String> data) {
+    private void generateInternalFakeData(HashMap<String, Integer> data) {
         InternalAssessmentQuestions internalAssessmentQuestions = new InternalAssessmentQuestions();
         ArrayList<QuestionData> theQuestions = internalAssessmentQuestions.getTheQuestions();
         Random random = new Random();
         for (QuestionData theQuestion : theQuestions) {
             int rating = random.nextInt(4) + 1;
-            data.put(theQuestion.getKey(), rating + "");
+            data.put(theQuestion.getKey(), rating);
         }
     }
 

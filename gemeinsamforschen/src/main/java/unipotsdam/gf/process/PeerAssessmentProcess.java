@@ -1,11 +1,7 @@
 package unipotsdam.gf.process;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.exceptions.RocketChatDownException;
-import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
-import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.AssessmentDAO;
 import unipotsdam.gf.modules.assessment.UserAssessmentDataHolder;
@@ -18,7 +14,6 @@ import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
-import javax.xml.bind.JAXBException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +46,7 @@ public class PeerAssessmentProcess {
     /**
      * start THE PEER ASSESSMENT PHASE
      *
-     * @param project
+     * @param project of interest
      */
     public void startPeerAssessmentPhase(Project project) {
         // distribute upload tasks
@@ -66,9 +61,9 @@ public class PeerAssessmentProcess {
      * this action is triggered by the file API if assessment relevant actions have
      * been taken
      *
-     * @param fileRole
-     * @param userFromSession
-     * @param project
+     * @param fileRole role of file like DOSSIER, PRESENTATION or so
+     * @param userFromSession currently logged in user
+     * @param project of interest
      */
     public void fileHasBeenUploaded(
             FileRole fileRole, User userFromSession, Project project) {
@@ -86,9 +81,9 @@ public class PeerAssessmentProcess {
     /**
      * this is triggered if a peer rated one of the products
      *
-     * @param contributionRatings
-     * @param groupId
-     * @param project
+     * @param contributionRatings is a map which connects the file, with an integer rating
+     * @param groupId that receives a rating
+     * @param project of interest
      * @param user fromPeer or fromTeacher
      */
     public void postContributionRating(
@@ -113,8 +108,8 @@ public class PeerAssessmentProcess {
     /**
      * this is triggered if a presentation has been uploaded for a group
      *
-     * @param userFromSession
-     * @param project
+     * @param userFromSession this user uploaded a report for his / her group
+     * @param project of interest
      */
     private void finishPresentationUpload(User userFromSession, Project project) {
         // get the group the user is in the project
@@ -129,8 +124,8 @@ public class PeerAssessmentProcess {
     /**
      * this is triggered if the final report has been uploaded
      *
-     * @param userFromSession
-     * @param project
+     * @param userFromSession this user uploaded a report for his / her group
+     * @param project of interest
      */
     private synchronized void finishReportUpload(User userFromSession, Project project) {
         // get the group the user is in the project
@@ -145,13 +140,13 @@ public class PeerAssessmentProcess {
     /**
      * this is called if a student rated the group work of a fellow student
      *
-     * @param project
-     * @param user
-     * @param feedbackedUser
-     * @param data
+     * @param project of interest
+     * @param user the user who rates another
+     * @param feedbackedUser the user who is rated here
+     * @param data a map which connects values (e.g. "compatibility", "punctual") with integer values
      */
     public void persistInternalAssessment(
-            Project project, User user, User feedbackedUser, HashMap<String, String> data) throws Exception {
+            Project project, User user, User feedbackedUser, HashMap<String, Integer> data) throws Exception {
         assessmentDAO.persistInternalAssessment(project, user, feedbackedUser, data);
         User nextUserToRateInternally = getNextUserToRateInternally(project, user);
         if (nextUserToRateInternally == null) {
@@ -163,17 +158,16 @@ public class PeerAssessmentProcess {
     /**
      * this produces the next user in a group to be rated for group work
      *
-     * @param project
-     * @param user
-     * @return
+     * @param project of interest
+     * @param user who will rate the next user
+     * @return the next user, who will receive a rating
      */
     public User getNextUserToRateInternally(Project project, User user) {
         return assessmentDAO.getNextGroupMemberToFeedback(user, project);
     }
 
     /**
-
-     * @param project
+     * @param project of interest
      */
     public void startStudentAssessments(Project project) throws Exception {
 
@@ -200,7 +194,7 @@ public class PeerAssessmentProcess {
      * this starts the grading 'phase'
      * should be visualized as such in the UI but is treated here as a subphase
      *
-     * @param project
+     * @param project of interest
      */
     public void startDocentGrading(Project project) throws Exception {
         // update task for docent
@@ -215,17 +209,17 @@ public class PeerAssessmentProcess {
 
     /**
      *
-     * @param project
+     * @param project of interest
      */
-    public void giveFinalGrades(Project project) throws Exception {
+    private void giveFinalGrades(Project project) throws Exception {
         taskDAO.updateTeacherTask(project, TaskName.GIVE_EXTERNAL_ASSESSMENT_TEACHER, Progress.FINISHED);
         taskDAO.persistTeacherTask(project, TaskName.GIVE_FINAL_GRADES, Phase.GRADING);
     }
 
     /**
      *
-     * @param project
-     * @param userAssessmentDataHolder
+     * @param project of interest
+     * @param userAssessmentDataHolder  holds all ratings, including the final mark. If marked as final, project is done
      */
     public void saveGrades(Project project, UserAssessmentDataHolder userAssessmentDataHolder) throws Exception {
         assessmentDAO.saveGrades(project, userAssessmentDataHolder);

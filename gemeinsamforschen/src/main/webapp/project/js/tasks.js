@@ -158,7 +158,7 @@ function handleInfoTasks(object, result) {
         case "CLOSE_DOSSIER_FEEDBACK_PHASE":
             let count = object.taskData.length;
             if (count <= 3) {
-                result.infoText = "<p>Es fehlen noch die Feedbacks der Gruppe/n </p> ";
+                result.infoText = "Es fehlen noch die Feedbacks der Gruppe/n ";
                 for (let i = 0; i < object.taskData.length; i++) {
                     for (let j = 0; j < object.taskData[i].members.length; j++) {
                         result.infoText += object.taskData[i].members[j].name;
@@ -368,13 +368,28 @@ function handleLinkedTasks(object, result) {
                 }) + "\')";
                 break;
             case "CLOSE_DOSSIER_FEEDBACK_PHASE":
+                let count = object.taskData.length;
                 result.taskData = object.taskData;
-                if (result.taskData.length === 0) {
+                if (count === 0) {
+                    result.infoText = "Alle Gruppen haben Feedback gegeben";
                     result.solveTaskWith = "Durchführungsphase starten";
                     result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 } else {
-                    if (result.taskData.length <= 3) {  //todo: probably its better to have a percentage of all participants as constraint
-
+                    if (count <= 3) {
+                        result.infoText = "Es fehlen noch die Feedbacks der Gruppe/n ";
+                        for (let i = 0; i < object.taskData.length; i++) {
+                            for (let j = 0; j < object.taskData[i].members.length; j++) {
+                                result.infoText += object.taskData[i].members[j].name;
+                                if (j < object.taskData[i].members.length - 1) {
+                                    result.infoText += ", "
+                                }
+                            }
+                            if (i < object.taskData.length - 1) {
+                                result.infoText += " und "
+                            }
+                        }
+                    } else {
+                        result.infoText = "Noch haben nicht alle Studenten ihren Peers ein Feedback gegeben.";
                     }
                 }
 

@@ -1,14 +1,13 @@
 package unipotsdam.gf.modules.project;
 
-import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.user.UserInterests;
-import unipotsdam.gf.modules.user.UserProfile;
+import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.modules.group.GroupDAO;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -171,7 +170,7 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public List<Project> getAllProjects() {
+    public List<Project> getJustStartedProjects() {
         connect.connect();
         String mysqlRequest =
                 "SELECT name FROM projects WHERE phase=?";

@@ -12,14 +12,10 @@ import java.util.HashMap;
 
 public class ProjectConfigurationDAO {
 
-
     @Inject
     MysqlConnect connect;
 
-    /**
-     * @param projectConfiguration
-     */
-    public void persistProjectConfiguration(ProjectConfiguration projectConfiguration, Project project) {
+    void persistProjectConfiguration(ProjectConfiguration projectConfiguration, Project project) {
 
         connect.connect();
 
@@ -68,7 +64,7 @@ public class ProjectConfigurationDAO {
         connect.close();
     }
 
-    public ProjectConfiguration loadProjectConfiguration(Project project) {
+    ProjectConfiguration loadProjectConfiguration(Project project) {
         connect.connect();
 
 
@@ -95,9 +91,8 @@ public class ProjectConfigurationDAO {
         }
         connect.close();
 
-        ProjectConfiguration projectConfiguration = new ProjectConfiguration(projectPhasesSelected, categorySelected,
+        return new ProjectConfiguration(projectPhasesSelected, categorySelected,
                 asmSelected, gfmSelected);
-        return projectConfiguration;
     }
 
     /**
@@ -105,12 +100,12 @@ public class ProjectConfigurationDAO {
      * of the fact that they all have two columns with the second being the selected attribute and the first being the
      * project id
      *
-     * @param connect
-     * @param selectionclass
-     * @param project
-     * @param table
-     * @param <T>
-     * @return
+     * @param connect connection to sql db
+     * @param selectionclass phase, category, groupFindingMechanism or assessmentMechanism
+     * @param project of interest
+     * @param table table name of selected class from above
+     * @param <T> Type of selected class from above
+     * @return all selected elements of class T of project in db
      */
     private <T extends Enum<T>> HashMap<T, Boolean> getSelectionFromTable(
             MysqlConnect connect, Class<T> selectionclass, Project project, String table) {

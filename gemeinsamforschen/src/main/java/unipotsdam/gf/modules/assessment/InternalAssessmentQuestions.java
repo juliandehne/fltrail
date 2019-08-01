@@ -92,7 +92,7 @@ public class InternalAssessmentQuestions {
         return result;
     }
 
-    public SurveyData getQuestionsInSurveyJSFormat() {
+    SurveyData getQuestionsInSurveyJSFormat() {
         SurveyData surveyData = new SurveyData();
         //surveyData.setTitle(new LocalizedText("Bewertung der Gruppenarbeit", "Bewertung der Gruppenarbeit" ));
         Page page = new Page();

@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.project;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.process.phases.Phase;
 
@@ -16,6 +17,7 @@ public class Project {
     private String name;
     private String password;
     private Boolean active;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Long timecreated; //timestamp macht zu viele Probleme
     // the id of the authorEmail (not the token)
     private String authorEmail;
@@ -155,11 +157,6 @@ public class Project {
         return phase;
     }
 
-    /**
-     * setting phase only with enum
-     *
-     * @param phase
-     */
     public void setPhase(Phase phase) {
         this.phase = phase;
     }
@@ -184,12 +181,8 @@ public class Project {
         return active;
     }
 
-    public Long getTimecreated() {
+    Long getTimecreated() {
         return timecreated;
-    }
-
-    public void setTimecreated(Long timecreated) {
-        this.timecreated = timecreated;
     }
 
     public String getDescription() {
@@ -218,10 +211,7 @@ public class Project {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Project{");
-        sb.append("name='").append(name).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "Project{name='" + name + "'}";
     }
 
     @Override

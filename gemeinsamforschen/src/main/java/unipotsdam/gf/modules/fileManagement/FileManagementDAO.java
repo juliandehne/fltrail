@@ -50,7 +50,7 @@ public class FileManagementDAO {
         connect.close();
     }
 
-    public List<String> getFileLocation(Project project, User user, FileRole fileRole) {
+    List<String> getFileLocation(Project project, User user, FileRole fileRole) {
         List<String> result = new ArrayList<>();
         connect.connect();
         String mysqlRequest =
@@ -76,13 +76,13 @@ public class FileManagementDAO {
         boolean next = vereinfachtesResultSet.next();
         List<ContributionStorage> result = new ArrayList<>();
         while (next) {
-            ContributionStorage shuttle = new ContributionStorage();
-            shuttle.setFileLocation(vereinfachtesResultSet.getString("filelocation"));
-            shuttle.setFileName(vereinfachtesResultSet.getString("fileName"));
-            shuttle.setFileRole(FileRole.valueOf(vereinfachtesResultSet.getString("filerole")));
-            shuttle.setProjectName(project.getName());
-            shuttle.setUserEmail(vereinfachtesResultSet.getString("userEmail"));
-            shuttle.setGroup(groupDAO.getGroupByGroupId(vereinfachtesResultSet.getInt("groupId")));
+            ContributionStorage shuttle = new ContributionStorage(
+                    project.getName(),
+                    vereinfachtesResultSet.getString("filelocation"),
+                    vereinfachtesResultSet.getString("fileName"),
+                    FileRole.valueOf(vereinfachtesResultSet.getString("filerole")),
+                    vereinfachtesResultSet.getString("userEmail"),
+                    groupDAO.getGroupByGroupId(vereinfachtesResultSet.getInt("groupId")));
             result.add(shuttle);
             next = vereinfachtesResultSet.next();
         }
@@ -98,7 +98,7 @@ public class FileManagementDAO {
     }
 
     public Boolean fileExists(Project project, FileRole fileRole, Group group) {
-        Boolean result2 = false;
+        boolean result2 = false;
 
         connect.connect();
         String request = "SELECT * from largefilestorage where groupId =? and projectName = ? and filerole = ?";
@@ -109,5 +109,5 @@ public class FileManagementDAO {
         }
         connect.close();
         return result2;
-    };
+    }
 }

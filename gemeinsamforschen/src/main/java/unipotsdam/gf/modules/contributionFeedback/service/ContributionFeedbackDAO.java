@@ -31,7 +31,7 @@ public class ContributionFeedbackDAO {
         return findOneById(uuid);
     }
 
-    public ContributionFeedback findOneById(String id) {
+    ContributionFeedback findOneById(String id) {
         connect.connect();
         String query = "SELECT * FROM contributionfeedback WHERE id = ?";
 
@@ -41,7 +41,7 @@ public class ContributionFeedbackDAO {
         return contributionFeedback;
     }
 
-    public List<ContributionFeedback> findAll(String fullSubmissionId) {
+    List<ContributionFeedback> findAll(String fullSubmissionId) {
         connect.connect();
         String query = "SELECT * FROM contributionfeedback WHERE fullSubmissionId = ? ORDER BY timestamp DESC";
 
@@ -55,7 +55,7 @@ public class ContributionFeedbackDAO {
         return contributionFeedbacks;
     }
 
-    public ContributionFeedback findOneBy(String fullSubmissionId, String fullSubmissionPartCategory, int groupId) {
+    ContributionFeedback findOneBy(String fullSubmissionId, String fullSubmissionPartCategory, int groupId) {
         connect.connect();
         String query = "SELECT * FROM contributionfeedback WHERE fullSubmissionId = ? and fullSubmissionPartCategory = ? and groupId = ?";
 
@@ -65,7 +65,7 @@ public class ContributionFeedbackDAO {
         return contributionFeedback;
     }
 
-    public ContributionFeedback getFeedbackFor(String fullSubmissionId, String fullSubmissionPartCategory) {
+    ContributionFeedback getFeedbackFor(String fullSubmissionId, String fullSubmissionPartCategory) {
         connect.connect();
         String query = "SELECT * FROM contributionfeedback WHERE fullSubmissionId = ? and fullSubmissionPartCategory = ?";
 

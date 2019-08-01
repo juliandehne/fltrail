@@ -23,11 +23,9 @@ public class CompBaseMatcher implements GroupFormationAlgorithm {
     public List<Group> calculateGroups(Project project) {
         ArrayList<Group> result = new ArrayList<>();
         Client client = ClientBuilder.newClient();
-        StringBuilder builder = new StringBuilder();
-        builder.append(compbaseURL);
-        builder.append("/api2/groups/");
-        builder.append(project.getName());
-        String targetURL = builder.toString();
+        String targetURL = compbaseURL +
+                "/api2/groups/" +
+                project.getName();
         try {
             GroupData groupData = client.target(targetURL).request(MediaType.APPLICATION_JSON).get(GroupData.class);
             List<LearningGroup> groups = groupData.getGroups();
@@ -48,8 +46,8 @@ public class CompBaseMatcher implements GroupFormationAlgorithm {
             e.printStackTrace();
         } finally {
             client.close();
-            return result;
         }
+        return result;
     }
 
     @Override
@@ -60,14 +58,12 @@ public class CompBaseMatcher implements GroupFormationAlgorithm {
     @Override
     public void addGroupRelevantData(Project project, User user, Object data) throws Exception {
         Client client = ClientBuilder.newClient();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(compbaseURL);
-        stringBuilder.append("/api2/user/");
-        stringBuilder.append(user.getEmail());
-        stringBuilder.append("/projects/");
-        stringBuilder.append(project.getName());
-        stringBuilder.append("/preferences");
-        String targetUrl = stringBuilder.toString();
+        String targetUrl = compbaseURL +
+                "/api2/user/" +
+                user.getEmail() +
+                "/projects/" +
+                project.getName() +
+                "/preferences";
         Response put = client.target(targetUrl).request(MediaType.TEXT_PLAIN)
                 .put(Entity.entity((PreferenceData)data, MediaType.APPLICATION_JSON));
         if (put.getStatus() != 200) {
@@ -90,21 +86,19 @@ public class CompBaseMatcher implements GroupFormationAlgorithm {
     /**
      * dont touch because is coded against compbase
      *
-     * @param projectId
-     * @param userId
-     * @param preferenceData
+     * @param projectId name of project of interest
+     * @param userId that is interested in something about the project
+     * @param preferenceData collected preferences
      */
     public void sendPreferenceData(String projectId, String userId, PreferenceData preferenceData)
             throws CompbaseDownException {
         Client client = ClientBuilder.newClient();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(compbaseURL);
-        stringBuilder.append("/api2/user/");
-        stringBuilder.append(userId);
-        stringBuilder.append("/projects/");
-        stringBuilder.append(projectId);
-        stringBuilder.append("/preferences");
-        String targetUrl = stringBuilder.toString();
+        String targetUrl = compbaseURL +
+                "/api2/user/" +
+                userId +
+                "/projects/" +
+                projectId +
+                "/preferences";
         Response put = client.target(targetUrl).request(MediaType.TEXT_PLAIN)
                 .put(Entity.entity(preferenceData, MediaType.APPLICATION_JSON));
         if (put.getStatus() != 200) {

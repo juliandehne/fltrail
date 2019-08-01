@@ -1,7 +1,6 @@
 package unipotsdam.gf.modules.assessment;
 
 import unipotsdam.gf.process.progress.ProgressData;
-import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.TaskMapping;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -14,7 +13,7 @@ public class ProgessAndTaskMapping {
     public ProgessAndTaskMapping() {
     }
 
-    public ProgessAndTaskMapping(TaskMapping taskMapping, ProgressData progressData) {
+    ProgessAndTaskMapping(TaskMapping taskMapping, ProgressData progressData) {
         this.taskMapping = taskMapping;
         this.progressData = progressData;
     }

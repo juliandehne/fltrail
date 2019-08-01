@@ -20,9 +20,6 @@ public class AnnotationPostRequest {
         this.body = body;
     }
 
-    public AnnotationPostRequest() {
-    }
-
     // methods
     public String getUserEmail() {
         return userEmail;

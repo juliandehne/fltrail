@@ -4,7 +4,6 @@ import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.communication.model.chat.ChatMessage;
@@ -107,7 +106,7 @@ public class DummyCommunicationService implements ICommunication {
     }
 
     public boolean informAboutMissingTasks(
-            Map<StudentIdentifier, ConstraintsMessages> tasks, Project project) {
+            Map<User, ConstraintsMessages> tasks, Project project) {
         return true;
     }
 

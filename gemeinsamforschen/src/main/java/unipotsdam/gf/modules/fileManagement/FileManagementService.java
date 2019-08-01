@@ -7,7 +7,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
-import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import com.itextpdf.tool.xml.exceptions.NotImplementedException;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -67,15 +66,15 @@ public class FileManagementService {
     }
 
     /**
-     * saving NOT PDF files is supported yes or no? TODO @Axel
-     * @param user
-     * @param project
-     * @param inputStream
-     * @param fileDetail
-     * @param fileRole
-     * @param fileType
-     * @throws IOException
-     * @throws DocumentException
+     * you can save pptx, html and pdf files atm with this
+     * @param user who uploads something
+     * @param project of interest
+     * @param inputStream the file that is about the be uploaded
+     * @param fileDetail meta data about the file
+     * @param fileRole DOSSIER, PRESENTATION or so
+     * @param fileType PDF, html-text oder pptx atm
+     * @throws IOException file not readable as html
+     * @throws DocumentException converting file to pdf failed
      */
     private void saveFile(
             User user, Project project, InputStream inputStream, FormDataContentDisposition fileDetail,
@@ -264,6 +263,7 @@ public class FileManagementService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        assert project != null;
         boolean isAuthor = (user.getEmail().equals(project.getAuthorEmail()));
         return fileManagementDAO.getListOfFiles(user, project, isAuthor);
     }
@@ -272,7 +272,7 @@ public class FileManagementService {
         try {
             Path path = Paths.get("." + File.separator + FOLDER_NAME + File.separator + fileLocation);
             Files.delete(path);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         fileManagementDAO.deleteMetaOfFile(fileLocation);
@@ -280,7 +280,7 @@ public class FileManagementService {
     }
 
     private void uploadPPTX(
-            User user, Project project, InputStream inputStream, FormDataContentDisposition fileDetail) throws IOException, CssResolverException, DocumentException {
+            User user, Project project, InputStream inputStream, FormDataContentDisposition fileDetail) throws IOException, DocumentException {
         //get the PDF Version of the InputStream and Write Meta into DB
         saveFile(user, project, inputStream, fileDetail, FileRole.PRESENTATION, FileType.UNKNOWN);
     }
@@ -288,7 +288,7 @@ public class FileManagementService {
     void uploadFile1(
             HttpServletRequest req, String projectName, FileRole fileRole, InputStream inputStream,
             FormDataContentDisposition fileDetail)
-            throws IOException, CssResolverException, DocumentException {
+            throws IOException, DocumentException {
         String userEmail = gfContexts.getUserEmail(req);
         User user = userDAO.getUserByEmail(userEmail);
         Project project = null;
@@ -303,7 +303,7 @@ public class FileManagementService {
 
     private void uploadFile(
             FileRole fileRole, InputStream inputStream, FormDataContentDisposition fileDetail, User user,
-            Project project) throws IOException, CssResolverException, DocumentException {
+            Project project) throws IOException, DocumentException {
         deleteFiles(project, user, fileRole);
 
         switch (fileRole) {

@@ -33,7 +33,7 @@ public class GroupDAO {
         this.connect = connect;
     }
 
-    public ArrayList<String> getStudentsInSameGroupAs(Project project, User user) {
+    ArrayList<String> getStudentsInSameGroupAs(Project project, User user) {
         connect.connect();
         ArrayList<String> result = new ArrayList<>();
         int groupId = getGroupByStudent(project, user);
@@ -78,7 +78,7 @@ public class GroupDAO {
         connect.close();
     }
 
-    public void persistOriginalGroup(Group group, int groupId, GroupFormationMechanism groupFormationMechanism) {
+    void persistOriginalGroup(Group group, int groupId, GroupFormationMechanism groupFormationMechanism) {
         assert group.getProjectName() != null;
         connect.connect();
         for (User groupMember : group.getMembers()) {
@@ -102,14 +102,6 @@ public class GroupDAO {
     public Boolean exists(Group group) {
         List<Group> existingGroups = getGroupsByProjectName(group.getProjectName());
         return existingGroups.contains(group);
-    }
-
-    public void addGroupMember(User groupMember, int groupId) {
-        // TODO: implement
-    }
-
-    public void deleteGroupMember(User groupMember, int groupId) {
-        // TODO: implement
     }
 
     public List<Group> getGroupsByProjectName(String projectName) {
@@ -151,7 +143,7 @@ public class GroupDAO {
         return group;
     }
 
-    public List<Group> getOriginalGroupsByProjectName(String projectName) {
+    List<Group> getOriginalGroupsByProjectName(String projectName) {
         connect.connect();
         String mysqlRequest = "SELECT * FROM originalgroups where projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
@@ -160,7 +152,7 @@ public class GroupDAO {
         return uniqueGroups;
     }
 
-    public List<Group> getGroupsByContextUser(User user, GroupWorkContext context) {
+    List<Group> getGroupsByContextUser(User user, GroupWorkContext context) {
         connect.connect();
         String mysqlRequest = "SELECT p.name as projectName, gu.userEmail, gu.groupId, g.chatroomId  " +
                 "FROM `projects` p JOIN " +
@@ -210,7 +202,7 @@ public class GroupDAO {
     }
 
     public GroupFormationMechanism getGroupFormationMechanism(Project project) {
-        GroupFormationMechanism groupFormationMechanism = null;
+        GroupFormationMechanism groupFormationMechanism;
         connect.connect();
         String query = "Select gfmSelected from groupfindingmechanismselected where projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName());
@@ -223,12 +215,11 @@ public class GroupDAO {
 
     public String getGroupChatRoomId(User user, String projectName) {
         connect.connect();
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT g.chatRoomId FROM groups g ");
-        stringBuilder.append("join groupuser gu on g.id=gu.groupId ");
-        stringBuilder.append("where g.projectName=? and gu.userEmail=?");
 
-        VereinfachtesResultSet resultSet = connect.issueSelectStatement(stringBuilder.toString(), projectName,
+        String stringBuilder = "SELECT g.chatRoomId FROM groups g " +
+                "join groupuser gu on g.id=gu.groupId " +
+                "where g.projectName=? and gu.userEmail=?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(stringBuilder, projectName,
                 user.getEmail());
         if (Objects.isNull(resultSet)) {
             connect.close();
@@ -252,7 +243,7 @@ public class GroupDAO {
         connect.close();
     }
 
-    public void deleteGroups(Project project) {
+    void deleteGroups(Project project) {
         String query = "DELETE gu FROM groupuser gu INNER JOIN groups g ON gu.groupId=g.id WHERE g.projectName = ?;";
         String query2 = "DELETE FROM groups WHERE projectName=?;";
         connect.connect();
@@ -287,13 +278,11 @@ public class GroupDAO {
     public User getRepresentativUser(Group group, Project project) {
         User user;
         connect.connect();
-        StringBuilder builder = new StringBuilder();
-        builder.append("SELECT pu.userEmail from groupuser gu ");
-        builder.append("join projectuser pu on pu.userEmail = gu.userEmail ");
-        builder.append("where gu.groupId = ? ");
-        builder.append("and pu.projectName = ? ");
-        builder.append("LIMIT 1");
-        String query = builder.toString();
+        String query = "SELECT pu.userEmail from groupuser gu " +
+                "join projectuser pu on pu.userEmail = gu.userEmail " +
+                "where gu.groupId = ? " +
+                "and pu.projectName = ? " +
+                "LIMIT 1";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, group.getId(), project.getName());
         vereinfachtesResultSet.next();

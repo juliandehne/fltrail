@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.communication.service;
 
-import ch.vorburger.exec.ManagedProcessException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.*;
@@ -11,7 +10,6 @@ import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.quiz.StudentIdentifier;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -20,25 +18,15 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.constraints.Constraints;
-import unipotsdam.gf.process.constraints.ConstraintsMessages;
 
 import javax.inject.Inject;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
-import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_ROOM_LINK;
-import static unipotsdam.gf.config.GFRocketChatConfig.TEST_USER;
+import static org.junit.Assert.*;
+import static unipotsdam.gf.config.GFRocketChatConfig.*;
 
 public class CommunicationServiceTest {
 
@@ -66,7 +54,7 @@ public class CommunicationServiceTest {
 
 
     @BeforeClass
-    public static void init() throws IOException, SQLException, ManagedProcessException {
+    public static void init() {
         //UpdateDB.updateTestDB();
     }
 
@@ -91,9 +79,7 @@ public class CommunicationServiceTest {
         createdChatRooms.forEach(createdChatRoom -> {
             try {
                 ((CommunicationService)iCommunication).deleteChatRoom(createdChatRoom);
-            } catch (RocketChatDownException e) {
-                e.printStackTrace();
-            } catch (UserDoesNotExistInRocketChatException e) {
+            } catch (RocketChatDownException | UserDoesNotExistInRocketChatException e) {
                 e.printStackTrace();
             }
         });
@@ -260,22 +246,6 @@ public class CommunicationServiceTest {
         emailService.sendSingleMessage(eMailMessage, user);
     }
 
-    @Test
-    @Ignore
-    public void informAboutMissingTasks() {
-        HashMap<StudentIdentifier, ConstraintsMessages> tasks = new HashMap<>();
-        Project project = new Project();
-        String projectId = "Projekt";
-        project.setName(projectId);
-        StudentIdentifier studentIdentifier = new StudentIdentifier();
-        studentIdentifier.setProjectName(projectId);
-        // Permalink for email-address: http://www.trashmail.de/index.php?search=javatest
-        studentIdentifier.setUserEmail("julian.dehne@web.de");
-        ConstraintsMessages constraintsMessages = new ConstraintsMessages(Constraints.QuizCount, studentIdentifier);
-        tasks.put(studentIdentifier, constraintsMessages);
-        boolean successful = emailService.informAboutMissingTasks(tasks, project);
-        assertTrue(successful);
-    }
 
     @Test
     @Ignore

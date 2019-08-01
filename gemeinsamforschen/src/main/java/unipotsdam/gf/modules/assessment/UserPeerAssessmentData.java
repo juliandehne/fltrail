@@ -25,13 +25,45 @@ public class UserPeerAssessmentData {
     private Double suggestedRating;
     private Double finalRating;
 
-    public UserPeerAssessmentData() {
+    UserPeerAssessmentData() {
     }
 
     public UserPeerAssessmentData(User user, Double groupProductRating, Double groupWorkRating) {
         this.user = user;
         this.groupProductRating = groupProductRating;
         this.groupWorkRating = groupWorkRating;
+    }
+
+    public Double getGroupProductRating() {
+        return groupProductRating;
+    }
+
+    void setGroupProductRating(Double groupProductRating) {
+        this.groupProductRating = groupProductRating;
+    }
+
+    public Double getGroupWorkRating() {
+        return groupWorkRating;
+    }
+
+    void setGroupWorkRating(Double groupWorkRating) {
+        this.groupWorkRating = groupWorkRating;
+    }
+
+    public Integer getBeyondStdDeviation() {
+        return beyondStdDeviation;
+    }
+
+    void setBeyondStdDeviation(Integer beyondStdDeviation) {
+        this.beyondStdDeviation = beyondStdDeviation;
+    }
+
+    public Double getCleanedGroupWorkRating() {
+        return cleanedGroupWorkRating;
+    }
+
+    void setCleanedGroupWorkRating(Double cleanedGroupWorkRating) {
+        this.cleanedGroupWorkRating = cleanedGroupWorkRating;
     }
 
     public Integer getGroupId() {
@@ -50,20 +82,12 @@ public class UserPeerAssessmentData {
         this.files = files;
     }
 
-    public Integer getBeyondStdDeviation() {
-        return beyondStdDeviation;
+    public Double getSelfAssessment() {
+        return selfAssessment;
     }
 
-    public Double getCleanedGroupWorkRating() {
-        return cleanedGroupWorkRating;
-    }
-
-    public void setCleanedGroupWorkRating(Double cleanedGroupWorkRating) {
-        this.cleanedGroupWorkRating = cleanedGroupWorkRating;
-    }
-
-    public void setBeyondStdDeviation(Integer beyondStdDeviation) {
-        this.beyondStdDeviation = beyondStdDeviation;
+    public void setSelfAssessment(Double selfAssessment) {
+        this.selfAssessment = selfAssessment;
     }
 
     public User getUser() {
@@ -74,36 +98,16 @@ public class UserPeerAssessmentData {
         this.user = user;
     }
 
-    public Double getGroupProductRating() {
-        return groupProductRating;
-    }
-
-    public void setGroupProductRating(Double groupProductRating) {
-        this.groupProductRating = groupProductRating;
-    }
-
-    public Double getGroupWorkRating() {
-        return groupWorkRating;
-    }
-
-    public void setGroupWorkRating(Double groupWorkRating) {
-        this.groupWorkRating = groupWorkRating;
-    }
-
-    public Double getSelfAssessment() {
-        return selfAssessment;
-    }
-
-    public void setSelfAssessment(Double selfAssessment) {
-        this.selfAssessment = selfAssessment;
-    }
-
     public Double getDocentProductRating() {
         return docentProductRating;
     }
 
-    public void setDocentProductRating(Double docentProductRating) {
+    void setDocentProductRating(Double docentProductRating) {
         this.docentProductRating = docentProductRating;
+    }
+
+    public Double getSuggestedRating() {
+        return suggestedRating;
     }
 
     public Double getFinalRating() {
@@ -114,11 +118,7 @@ public class UserPeerAssessmentData {
         this.finalRating = finalRating;
     }
 
-    public Double getSuggestedRating() {
-        return suggestedRating;
-    }
-
-    public void setSuggestedRating(Double suggestedRating) {
+    void setSuggestedRating(Double suggestedRating) {
         this.suggestedRating = suggestedRating;
     }
 }

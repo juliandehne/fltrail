@@ -10,7 +10,7 @@ import java.util.List;
 
 @XmlRootElement(name = "LearningGroup")
 public class LearningGroup {
-    List<String> users;
+    private List<String> users;
 
     public Integer getId() {
         return id;

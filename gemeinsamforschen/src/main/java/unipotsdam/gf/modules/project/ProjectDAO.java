@@ -74,7 +74,7 @@ public class ProjectDAO {
 
     }
 
-    public void updateGroupSize(Project project, Integer groupSize){
+    void updateGroupSize(Project project, Integer groupSize) {
         connect.connect();
         String mysqlRequest =
                 "UPDATE projects SET `groupSize` = ? WHERE name = ?";
@@ -124,25 +124,14 @@ public class ProjectDAO {
         if (!next) {
             throw new Exception("Project does not exist");
         }
-        Project result = getProject(vereinfachtesResultSet, next);
+        Project result = getProjectFromResultSet(vereinfachtesResultSet);
         List<String> tags = getTags(result);
         if (tags != null) {
+            assert result != null;
             result.setTags(tags.toArray(new String[0]));
         }
         connect.close();
         return result;
-    }
-
-
-    private Project getProject(VereinfachtesResultSet vereinfachtesResultSet, boolean next) {
-        if (next) {
-            Project project = getProjectFromResultSet(vereinfachtesResultSet);
-            connect.close();
-            return project;
-        } else {
-            connect.close();
-            return null;
-        }
     }
 
     private Project getProjectFromResultSet(VereinfachtesResultSet vereinfachtesResultSet) {
@@ -206,7 +195,7 @@ public class ProjectDAO {
         connect.close();
     }
 
-    public List<Project> getProjectsLike(String searchString) {
+    List<Project> getProjectsLike(String searchString) {
         ArrayList<Project> projects = new ArrayList<>();
         connect.connect();
         String mysqlRequest = "SELECT * from `projects` where name like ?";
@@ -219,7 +208,7 @@ public class ProjectDAO {
         return projects;
     }
 
-    public List<Project> getAllProjectsExceptStudents(User user) {
+    List<Project> getAllProjectsExceptStudents(User user) {
         ArrayList<Project> projects = new ArrayList<>();
         connect.connect();
         //get all projectNames with the Student in GroupFormation Phase

@@ -1,17 +1,17 @@
 package unipotsdam.gf.modules.assessment.controller.model;
 
-import java.nio.file.Path;
+import unipotsdam.gf.modules.fileManagement.FileRole;
 
 public class Contribution {
     private String pathToFile;
     private String nameOfFile;
 
-    @Override
-    public String toString() {
-        return "Contribution{" +
-                "pathToFile='" + pathToFile + '\'' +
-                ", nameOfFile='" + nameOfFile + '\'' +
-                '}';
+    private FileRole roleOfContribution;
+
+    public Contribution(String pathToFile, String nameOfFile, FileRole fileRole) {
+        this.pathToFile = pathToFile;
+        this.nameOfFile = nameOfFile;
+        this.roleOfContribution = fileRole;
     }
 
     public String getPathToFile() {
@@ -30,11 +30,19 @@ public class Contribution {
         this.nameOfFile = nameOfFile;
     }
 
-    public Contribution() {
+    public FileRole getRoleOfContribution() {
+        return roleOfContribution;
     }
 
-    public Contribution(String pathToFile, String nameOfFile) {
-        this.pathToFile = pathToFile;
-        this.nameOfFile = nameOfFile;
+    public void setRoleOfContribution(FileRole roleOfContribution) {
+        this.roleOfContribution = roleOfContribution;
+    }
+
+    @Override
+    public String toString() {
+        return "Contribution{" +
+                "pathToFile='" + pathToFile + '\'' +
+                ", nameOfFile='" + nameOfFile + '\'' +
+                '}';
     }
 }

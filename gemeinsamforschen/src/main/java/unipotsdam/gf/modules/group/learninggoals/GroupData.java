@@ -23,5 +23,5 @@ public class GroupData {
         this.groups = groups;
     }
 
-    List<LearningGroup> groups;
+    private List<LearningGroup> groups;
 }

@@ -2,7 +2,6 @@ package unipotsdam.gf.process.tasks;
 
 import com.google.common.base.Strings;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.IExecutionProcess;
@@ -11,11 +10,7 @@ import unipotsdam.gf.process.tasks.progress.TaskProgress;
 import unipotsdam.gf.process.tasks.progress.UserTaskProgress;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URLDecoder;
@@ -24,9 +19,6 @@ import java.util.List;
 
 @Path("/tasks")
 public class TaskView {
-
-    @Inject
-    private ProjectDAO projectDAO;
 
     @Inject
     private TaskDAO taskDAO;
@@ -43,7 +35,8 @@ public class TaskView {
     public ArrayList<Task> getTasks(@PathParam("userEmail") String userEmail, @PathParam("projectToken") String projectToken)
             throws Exception {
         String user = URLDecoder.decode(userEmail, "UTF-8");
-        return taskDAO.getTasks(new User(user), new Project(projectToken));
+        ArrayList<Task> tasks = taskDAO.getTasks(new User(user), new Project(projectToken));
+        return tasks;
     }
 
     @GET

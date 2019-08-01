@@ -20,9 +20,6 @@ public class AnnotationBody {
         this.endCharacter = endCharacter;
     }
 
-    public AnnotationBody() {
-    }
-
     // methods
     public String getTitle() {
         return title;
@@ -44,16 +41,8 @@ public class AnnotationBody {
         return startCharacter;
     }
 
-    public void setStartCharacter(int startCharacter) {
-        this.startCharacter = startCharacter;
-    }
-
     public int getEndCharacter() {
         return endCharacter;
-    }
-
-    public void setEndCharacter(int endCharacter) {
-        this.endCharacter = endCharacter;
     }
 
     @Override

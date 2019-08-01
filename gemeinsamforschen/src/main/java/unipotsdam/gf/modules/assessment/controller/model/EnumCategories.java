@@ -7,5 +7,5 @@ public enum EnumCategories {
     UNTERSUCHUNGSKONZEPT,
     METHODIK,
     DURCHFUEHRUNG,
-    AUSWERTUNG;
+    AUSWERTUNG
 }

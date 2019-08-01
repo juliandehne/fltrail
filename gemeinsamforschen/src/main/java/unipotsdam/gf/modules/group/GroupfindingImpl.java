@@ -1,19 +1,14 @@
 package unipotsdam.gf.modules.group;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
-import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
-import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.user.UserDAO;
 
 import javax.inject.Inject;
-import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +18,7 @@ public class GroupfindingImpl implements IGroupFinding {
     private GroupDAO groupDAO;
 
     @Inject
-    private UserDAO userDAO;
-
-    @Inject
     private ICommunication iCommunication;
-
-    @Inject
-    private RandomGroupAlgorithm randomGroupAlgorithm;
 
     @Inject
     private GroupFormationFactory groupFormationFactory;
@@ -66,10 +55,6 @@ public class GroupfindingImpl implements IGroupFinding {
     @Override
     public List<Group> getGroups(Project project) {
         return groupDAO.getGroupsByProjectName(project.getName());
-    }
-
-    public List<Group> getOriginalGroups(Project project) {
-        return groupDAO.getOriginalGroupsByProjectName(project.getName());
     }
 
     @Override

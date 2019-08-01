@@ -1,7 +1,7 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.assessment.UserPeerAssessmentData;
-import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
+import unipotsdam.gf.modules.assessment.controller.model.Contribution;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.project.Project;
 
@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public interface IPeerAssessment {
 
-    List<FullContribution> getContributionsFromGroup(Project project, Integer groupId);
+    List<Contribution> getContributionsFromGroup(Project project, Integer groupId);
 
     Integer whichGroupToRate(Project project, Integer groupId);
 

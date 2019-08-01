@@ -3,7 +3,6 @@ package unipotsdam.gf.modules.project;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserInterests;
-import unipotsdam.gf.modules.user.UserProfile;
 
 import java.io.FileInputStream;
 import java.util.List;
@@ -15,21 +14,21 @@ public interface Management {
     /**
      * delete a User in the database
      *
-     * @param user
+     * @param user who will be deleted
      */
     void delete(User user);
 
     /**
      * create a User in the database
      *
-     * @param user
+     * @param user that is about to be created
      */
     void create(User user);
 
     /**
      * create a Project in the database
      *
-     * @param project
+     * @param project that is about to be created
      */
     void create(Project project);
 
@@ -37,21 +36,21 @@ public interface Management {
     /**
      * create a Group in the database
      *
-     * @param group
+     * @param group a collection of students in a project, identified by a id
      */
     void create(Group group);
 
     /**
      * Delete a Project in the database
      *
-     * @param project
+     * @param project that is about to be deleted
      */
     void delete(Project project);
 
     /**
      * Update a User in the database
      *
-     * @param user
+     * @param user who's about to get an updated rocketChatName
      */
     void update(User user);
 
@@ -60,17 +59,17 @@ public interface Management {
     /**
      * Add an entry in the M:N table linking users and projects
      *
-     * @param user
-     * @param project
-     * @param interests
+     * @param user who logs into a project
+     * @param project a project which gets another participant
+     * @param interests unused and empty todo: delete
      */
     void register(User user, Project project, UserInterests interests);
 
     /**
      * Check if a user exists in the DB
      *
-     * @param user
-     * @return
+     * @param user of interest
+     * @return true if user exists in db
      */
     Boolean exists(User user);
 
@@ -92,7 +91,7 @@ public interface Management {
 
     List<Project> getProjectsStudent(User user);
 
-    List<Project> getAllProjects();
+    List<Project> getJustStartedProjects();
 
     String saveProfilePicture(FileInputStream fis, String userName);
 

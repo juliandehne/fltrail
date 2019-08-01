@@ -1,7 +1,7 @@
 package unipotsdam.gf.modules.assessment;
 
 import unipotsdam.gf.interfaces.IPeerAssessment;
-import unipotsdam.gf.modules.assessment.controller.model.FullContribution;
+import unipotsdam.gf.modules.assessment.controller.model.Contribution;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyData;
@@ -60,10 +60,10 @@ public class AssessmentView {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/contributions/project/{projectName}/groupId/{groupId}")
-    public List<FullContribution> getContributionsForProject(
+    public List<Contribution> getContributionsForProject(
             @Context HttpServletRequest req, @PathParam("projectName") String projectName,
             @PathParam("groupId") String groupId) throws Exception {
-        List<FullContribution> result;
+        List<Contribution> result;
         Project project = projectDAO.getProjectByName(projectName);
         //Integer groupId = peer.whichGroupToRate(project, user);
         int groupIdParsed = Integer.parseInt(groupId);
@@ -107,7 +107,7 @@ public class AssessmentView {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("/save/projects/{projectName}/context/{context}/user/{userFeedbacked}")
     public void saveInternalAssessment(
-            HashMap<String, String> data, @PathParam("projectName") String projectName,
+            HashMap<String, Integer> data, @PathParam("projectName") String projectName,
             @PathParam("context") String context, @PathParam("userFeedbacked") String userFeedbacked,
             @Context HttpServletRequest req) throws Exception {
         Project project = new Project(projectName);
@@ -128,14 +128,13 @@ public class AssessmentView {
 
 
     /**
-     *  * TODO @Julian rename to start student assessments
-     *      *
-     * @param projectName
-     * @throws Exception
+     * starts studentAssessment
+     * @param projectName of interest
+     * @throws Exception needs user not null to work properly
      */
     @POST
-    @Path("/grading/start/projects/{projectName}")
-    public void startGrading(@PathParam("projectName") String projectName) throws Exception {
+    @Path("/studentAssessment/start/projects/{projectName}")
+    public void startStudentAssessment(@PathParam("projectName") String projectName) throws Exception {
         peerAssessmentProcess.startStudentAssessments(new Project(projectName));
     }
 
