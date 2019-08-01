@@ -117,8 +117,8 @@ public class ExecutionProcess implements IExecutionProcess {
     @Override
     public void chooseAssessmentMaterial(Project project, User user, String html) throws Exception {
         Project fullProject = projectDAO.getProjectByName(project.getName());
-        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("assessmentMaterial").fileName(FileRole.ASSESSMENT_MATERIAL + "_" + user.getEmail() + ".pdf");
-        fileManagementService.saveStringAsPDF(user, project, html, builder.build(), FileRole.ASSESSMENT_MATERIAL, FileType.HTML);
+        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("assessmentMaterial").fileName(FileRole.PORTFOLIO + "_" + user.getEmail() + ".pdf");
+        fileManagementService.saveStringAsPDF(user, project, html, builder.build(), FileRole.PORTFOLIO, FileType.HTML);
         finishTask(fullProject, user, CHOOSE_ASSESSMENT_MATERIAL);
         startNewTask(fullProject, user, WAIT_FOR_EXECUTION_PHASE_END, false, TaskType.INFO);
     }

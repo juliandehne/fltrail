@@ -19,7 +19,7 @@ $(document).ready(async function () {
     fileRole = $('#fileRole').html().trim();
     let personalString = $("#personal").html().trim();
     personal = personalString.toUpperCase() === 'TRUE';
-    isPortfolioEntry = fileRole.toUpperCase() === 'PORTFOLIO';
+    isPortfolioEntry = fileRole.toUpperCase() === 'PORTFOLIO_ENTRY';
     isReflectionQuestion = fileRole.toUpperCase() === 'REFLECTION_QUESTION';
     hierarchyLevel = $('#hierarchyLevel').html().trim();
     fullSubmissionId = $('#fullSubmissionId').html().trim();
@@ -150,11 +150,11 @@ function populateHeaderTemplate() {
     let data = {};
     let headerSubject = fileRole;
     let activityVerb = 'anlegen';
-    switch (fileRole) {
-        case "Portfolio":
+    switch (fileRole.toUpperCase()) {
+        case "PORTFOLIO_ENTRY":
             headerSubject = 'Portfolio-Eintrag';
             break;
-        case "Reflection_Question":
+        case "REFLECTION_QUESTION":
             headerSubject = 'Reflexionsfrage';
             activityVerb = 'beantworten';
     }

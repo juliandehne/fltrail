@@ -97,5 +97,5 @@ function saveComment(fullSubmissionId) {
 }
 
 function clickedCreatePrivatePortfolio() {
-    location.href = `../annotation/upload-unstructured-dossier.jsp?projectName=${projectName}&fileRole=Portfolio&personal=true`;
+    location.href = `../annotation/upload-unstructured-dossier.jsp?projectName=${projectName}&fileRole=Portfolio_Entry&personal=true`;
 }

@@ -12,7 +12,11 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.tasks.TaskMapper;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PeerAssessmentImpl implements IPeerAssessment {
 
@@ -41,7 +45,7 @@ public class PeerAssessmentImpl implements IPeerAssessment {
                     //todo in case of interest, include text Contributions
                     //fullContribution.setTextOfContribution(annotationController.getFinishedDossier(project, groupId));
                     break;
-                case PORTFOLIO:
+                case PORTFOLIO_ENTRY:
                     break;
             }
             if (contribution != null) {

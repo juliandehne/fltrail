@@ -86,7 +86,7 @@
                 <div id="visibilityTemplateResult"></div>
                 <script id="visibilityTemplate" type="text/x-jsrender">
                     <div></div>
-                    {{if fileRole == "Portfolio"}}
+                    {{if fileRole.toUpperCase() == "PORTFOLIO_ENTRY"}}
                         <div class="dropdown">
                             <button class="dropbtn btn btn-primary" onclick='dropDownClick("myDropdown")'>Sichtbarkeit: {{:currentVisibility.buttonText}}
                                 <i class="fa fa-caret-down"></i>
@@ -102,7 +102,7 @@
                 <div id="reflectionQuestionTemplateResult"></div>
                 <script id="reflectionQuestionTemplate" type="text/x-jsrender">
                     <div></div>
-                    {{if fileRole == "Reflection_Question"}}
+                    {{if fileRole.toUpperCase() == "REFLECTION_QUESTION"}}
                         <h2> Frage {{:currentReflectionQuestionCounter}} von {{:totalQuestions}}: {{:question}} </h2>
                     {{/if}}
                 </script>
@@ -110,7 +110,7 @@
                 <div id="editorTitleTemplateResult"></div>
                 <script id="editorTitleTemplate" type="text/x-jsrender">
                     <div/>
-                    {{if fileRole == "Dossier"}}
+                    {{if fileRole.toUpperCase() == "DOSSIER"}}
                         <div class="upload-text" id="documentText">
                             <label for="ownTitle">Titel</label>
                             <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="mein Titel">
@@ -132,7 +132,7 @@
             <div id="annotationTemplateResult"></div>
             <script id="annotationTemplate" type="text/x-jsrender">
                 <div/>
-                {{if fileRole == "Dossier"}}
+                {{if fileRole.toUpperCase() == "DOSSIER"}}
                     <div class="col span span_s_of_2">
                         <div class="infobox dossier">
                             <p>Erstellen Sie ein Dossier
