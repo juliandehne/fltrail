@@ -126,7 +126,7 @@ async function setupPageContent() {
             getFullSubmission(fullSubmissionId, function (fullSubmission) {
                 setQuillContentFromFullSubmission(fullSubmission);
                 currentVisibility = possibleVisibilities[fullSubmission.visibility];
-                populateTextFields();
+                populateVisibilityButton();
                 setHeader(fullSubmission.header);
             }, function (error) {
 
@@ -135,8 +135,9 @@ async function setupPageContent() {
             if (!personal) {
                 getMyGroupId(function (groupId) {
                     getFullSubmissionOfGroup(groupId, 0);
-                    populateTextFields();
                 });
+            } else {
+                populateVisibilityButton();
             }
         }
     });
@@ -190,7 +191,7 @@ function renderReflectionQuestionTemplate() {
     $("#reflectionQuestionTemplateResult").html(html);
 }
 
-function populateTextFields() {
+function populateVisibilityButton() {
     let data = {};
     data.fileRole = fileRole;
     data.possibleVisibilities = Object.values(possibleVisibilities);
