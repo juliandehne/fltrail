@@ -1,3 +1,12 @@
+create table evaluationsus
+(
+    project    varchar(100) not null,
+    user       varchar(200) not null,
+    questionId varchar(100) not null,
+    rating     int          not null,
+    docent     tinyint(1)   not null
+);
+
 create table journals
 (
     id          varchar(100) not null
@@ -318,78 +327,25 @@ create table `groups`
 )
     comment 'the groups that are created';
 
-create table groupuser
-(
-    userEmail varchar(255) not null,
-    groupId   int          not null,
-    constraint groupuser_ibfk_1
-        foreign key (userEmail) references users (email)
-            on delete cascade,
-    constraint groupuser_ibfk_2
-        foreign key (groupId) references `groups` (id)
-            on delete cascade
-)
-    comment 'n x m table for group and user';
-
-create index groupId
-    on groupuser (groupId);
-
-create index userEmail
-    on groupuser (userEmail);
-
-create table largefilestorage
-(
-    id           int auto_increment
-        primary key,
-    groupId      int          null,
-    userEmail    varchar(255) null,
-    projectName  varchar(100) not null,
-    filelocation varchar(100) not null,
-    filerole     varchar(100) not null,
-    filename     varchar(100) not null,
-    constraint largefilestorage_projects_name_fk
-        foreign key (projectName) references projects (name)
-            on update cascade on delete cascade,
-    constraint largefilestorage_users_email_fk
-        foreign key (userEmail) references users (email)
-            on update cascade on delete cascade
-);
-
-create table learninggoals
-(
-    id          varchar(200)         not null
-        primary key,
-    text        varchar(400)         not null,
-    projectName varchar(255)         not null,
-    finished    tinyint(1) default 0 null,
-    constraint learninggoals_projects_name_fk
-        foreign key (projectName) references projects (name)
-            on update cascade on delete cascade
-)
-    comment 'holds all learning goals';
-
 create table fullsubmissions
 (
-    id             varchar(120)                        not null,
-    version        int                                 not null,
-    timestamp      timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
-    groupId        int                                 null,
-    header         varchar(100)                        null,
-    text           mediumtext                          not null,
-    projectName    varchar(200)                        not null,
-    feedbackGroup  int                                 null,
-    finalized      tinyint(1)                          null,
-    fileRole       varchar(200)                        not null,
-    userEmail      varchar(255)                        null,
-    visibility     varchar(200)                        not null,
-    learningGoalId varchar(200)                        null,
+    id            varchar(120)                        not null,
+    version       int                                 not null,
+    timestamp     timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    groupId       int                                 null,
+    header        varchar(100)                        null,
+    text          mediumtext                          not null,
+    projectName   varchar(200)                        not null,
+    feedbackGroup int                                 null,
+    finalized     tinyint(1)                          null,
+    fileRole      varchar(200)                        not null,
+    userEmail     varchar(255)                        null,
+    visibility    varchar(200)                        not null,
     constraint fullsubmissions_id_uindex
         unique (id),
     constraint fullsubmissions_groups_id_fk
         foreign key (groupId) references `groups` (id)
             on update cascade on delete cascade,
-    constraint fullsubmissions_learninggoals_id_fk
-        foreign key (learningGoalId) references learninggoals (id),
     constraint fullsubmissions_projects_name_fk
         foreign key (projectName) references projects (name)
             on update cascade on delete cascade,
@@ -448,6 +404,56 @@ create table contributionfeedback
 
 alter table contributionfeedback
     add primary key (id);
+
+create table groupuser
+(
+    userEmail varchar(255) not null,
+    groupId   int          not null,
+    constraint groupuser_ibfk_1
+        foreign key (userEmail) references users (email)
+            on delete cascade,
+    constraint groupuser_ibfk_2
+        foreign key (groupId) references `groups` (id)
+            on delete cascade
+)
+    comment 'n x m table for group and user';
+
+create index groupId
+    on groupuser (groupId);
+
+create index userEmail
+    on groupuser (userEmail);
+
+create table largefilestorage
+(
+    id           int auto_increment
+        primary key,
+    groupId      int          null,
+    userEmail    varchar(255) null,
+    projectName  varchar(100) not null,
+    filelocation varchar(100) not null,
+    filerole     varchar(100) not null,
+    filename     varchar(100) not null,
+    constraint largefilestorage_projects_name_fk
+        foreign key (projectName) references projects (name)
+            on update cascade on delete cascade,
+    constraint largefilestorage_users_email_fk
+        foreign key (userEmail) references users (email)
+            on update cascade on delete cascade
+);
+
+create table learninggoals
+(
+    id          varchar(200)         not null
+        primary key,
+    text        varchar(400)         not null,
+    projectName varchar(255)         not null,
+    finished    tinyint(1) default 0 null,
+    constraint learninggoals_projects_name_fk
+        foreign key (projectName) references projects (name)
+            on update cascade on delete cascade
+)
+    comment 'holds all learning goals';
 
 create table learninggoalstudentresults
 (
@@ -581,11 +587,3 @@ create table workrating
 )
     comment 'Peers rate one another in different dimensions defined in "itemName". Its a part of assessment.';
 
-create table evaluationsus
-(
-  project    varchar(100) not null,
-  user       varchar(200) not null,
-  questionId varchar(100) not null,
-  rating     int          not null,
-  docent     tinyint(1)   not null
-);

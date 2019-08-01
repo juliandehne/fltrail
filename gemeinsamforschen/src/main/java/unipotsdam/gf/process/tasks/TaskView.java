@@ -10,7 +10,10 @@ import unipotsdam.gf.process.tasks.progress.TaskProgress;
 import unipotsdam.gf.process.tasks.progress.UserTaskProgress;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.URLDecoder;
@@ -65,31 +68,5 @@ public class TaskView {
             taskProgressList.add(taskProgress);
         });
         return Response.ok(taskProgressList).build();
-    }
-
-    @POST
-    @Path("solve/projects/{projectName}/task/{taskName}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response changeTaskStatus(@PathParam("projectName") String projectName, @PathParam("taskName") TaskName taskName) {
-        if (Strings.isNullOrEmpty(projectName) || taskName == null) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Project name or task name empty or null").build();
-        }
-        Project project = new Project(projectName);
-        try {
-            switch (taskName) {
-                case START_LEARNING_GOAL_PERIOD:
-                    executionProcess.startLearningGoalPeriod(project);
-                    break;
-                case END_LEARNING_GOAL_PERIOD:
-                    executionProcess.finishLearningGoalPeriod(project);
-                    break;
-                default:
-                    return Response.status(Response.Status.NOT_IMPLEMENTED).entity("The status change for the task " + taskName.name() + "is not implemented yet.").build();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("error while progressing the status change").build();
-        }
-        return Response.ok().build();
     }
 }

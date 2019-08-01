@@ -14,8 +14,8 @@ function getNextReflectionQuestion(projectName, learningGoalId, responseHandler)
     });
 }
 
-async function getUnansweredReflectionQuestions(projectName, learningGoalId) {
-    let url = `../rest/reflectionquestion/projects/${projectName}/learninggoal/${learningGoalId}/bulk`;
+async function getUnansweredReflectionQuestions(projectName) {
+    let url = `../rest/reflectionquestion/projects/${projectName}/bulk`;
     let reflectionQuestions;
     try {
         reflectionQuestions = await $.ajax({

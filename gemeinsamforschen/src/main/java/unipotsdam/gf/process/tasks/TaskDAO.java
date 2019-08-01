@@ -24,11 +24,14 @@ import unipotsdam.gf.process.phases.Phase;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.joining;
 import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
 
@@ -439,7 +442,6 @@ public class TaskDAO {
                 result = task;
                 break;
             }
-            case UPLOAD_LEARNING_GOAL_RESULT:
             case ANSWER_REFLECTION_QUESTIONS:
                 Task task = getGeneralTask(vereinfachtesResultSet);
                 LearningGoal learningGoal = learningGoalsDAO.getNextUnfinishedLearningGoal(project);
@@ -594,15 +596,6 @@ public class TaskDAO {
         Task task = createUserDefault(project, user, finalizeDossier, dossierFeedback);
         task.setTaskType(linked);
         persist(task);
-    }
-
-    public void deleteIntermediateExecutionProcess(Project project, Phase phase) {
-        connect.connect();
-        List<TaskName> persistentExecutionTasks = TaskName.getPersistentExecutionTasks();
-        String joinedTaskNames = persistentExecutionTasks.stream().map(TaskName::name).collect(joining(",", "'", "'"));
-        String query = String.format("delete from tasks where projectname = ? and phase = ? and taskName not in (%s)", joinedTaskNames);
-        connect.issueInsertOrDeleteStatement(query, project.getName(), phase.name());
-        connect.close();
     }
 
     /*

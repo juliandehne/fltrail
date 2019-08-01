@@ -174,20 +174,11 @@ function handleInfoTasks(object, result) {
                 result.infoText = "Noch haben nicht alle Studenten ihren Peers ein Feedback gegeben.";
             }
             break;
-        case "WAIT_FOR_LEARNING_GOAL_TO_START":
-            result.infoText = "Warten Sie darauf, dass der Lehrende eine (weitere) Lernziel-Arbeitsperiode startet.";
-            break;
-        case "WORK_ON_LEARNING_GOAL":
-            result.infoText = "Arbeiten Sie am aktuellen Lernziel. Sie müssen am Ende ihre Ergebnisse hochladen."; //todo @martin: bitte hier noch das aktuelle Lernziel anzeigen
-            break;
-        case "UPLOAD_LEARNING_GOAL_RESULT":
-            result.infoText = "Bitte erstellen Sie einen Artikel um ihre Lernzielergebnisse darzustellen. Diese gehen in die Bewertung mit ein.";
+        case "WAIT_FOR_REFLECTION_QUESTION_CHOICE":
+            result.infoText = "Warten Sie darauf, dass der Lehrende Reflexionsfragen ausgewählt hat.";
             break;
         case "ANSWER_REFLECTION_QUESTIONS":
             result.infoText = "Bitte beantworten Sie die Reflexionsfragen.";
-            break;
-        case "WAIT_FOR_OTHER_STUDENTS_FINISH_REFLECTION":
-            result.infoText = "Warten Sie darauf, dass andere Studenten ebenfalls die Reflexionsfragen beantwortet haben.";
             break;
         case "CHOOSE_ASSESSMENT_MATERIAL":
             result.infoText = "Wählen Sie die Einträge aus, die Sie zur Bewertung einreichen möchten.";
@@ -201,17 +192,8 @@ function handleInfoTasks(object, result) {
         case "START_LEARNING_GOAL_PERIOD":
             result.infoText = "Starten Sie die Arbeit am Lernziel";
             break;
-        case "END_LEARNING_GOAL_PERIOD":
-            result.infoText = "Beenden Sie die Arbeit am aktuellen Lernziel um Ergebnisse und Antworten zu Reflexionsfragen zu erhalten";
-            break;
-        case "WAIT_FOR_REFLECTION":
-            result.infoText = "Warten Sie darauf, dass alle Lernenden die Lernziel-Ergebnisse hochgeladen und die Reflexionsfragen beantwortet haben";
-            break;
-        case "PREVIOUS_LEARNING_GOAL_DONE":
-            result.infoText = "Alle Lernziel-Ergebnisse des vorherigen Lernziels wurden hochgeladen und alle Reflexionsfragen beantwortet. Ein neues Lernziel ist vorhanden.";
-            break;
-        case "WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION":
-            result.infoText = "Warten Sie darauf, dass alle Lernenden das Material für die Bewertung ausgewählt haben";
+        case "SEE_PROGRESS_IN_REFLECTION_PHASE":
+            result.infoText = "Die Studierenden beantworten zur Zeit an ihren Aufgaben und beantworten die Reflexionsfragen.";
             break;
         case "CLOSE_EXECUTION_PHASE":
             result.infoText = "Beenden Sie nun die Durchführungsphase.";
@@ -309,16 +291,6 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWith = "Erstelle Quiz";
                 result.solveTaskWithLink = "redirect(\'../assessment/create-quiz.jsp?projectName=" + object.projectName + "\')";
                 break;
-            case "UPLOAD_LEARNING_GOAL_RESULT":
-                result.solveTaskWith = "Artikel erstellen";
-                //todo: dirty fix, fix later with by not loading taskdata on finished tasks
-                if (object.taskData && object.taskData.id) {
-                    result.solveTaskWithLink = "redirect(\'../reflection/upload-learning-goal-result.jsp?" + $.param({
-                        projectName: object.projectName,
-                        learningGoalId: object.taskData.id,
-                    }) + "\')";
-                }
-                break;
             case "ANSWER_REFLECTION_QUESTIONS":
                 result.solveTaskWith = "Reflexionsfragen beantworten";
                 //todo: dirty fix, fix later with by not loading taskdata on finished tasks
@@ -339,19 +311,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWith = "Lernziele und Reflexionsfragen erstellen/auswählen";
                 result.solveTaskWithLink = "redirect(\'../reflection/create-learning-goals.jsp?projectName=" + object.projectName + "\')";
                 break;
-            case "START_LEARNING_GOAL_PERIOD":
-                result.solveTaskWith = "Arbeit an Lernziel starten";
-                result.solveTaskWithLink = `solveTask("${object.taskName}","${object.projectName}")`;
-                break;
-            case "END_LEARNING_GOAL_PERIOD":
-                result.solveTaskWith = "Arbeit an Lernziel beenden"; //todo: add learning goal here
-                result.solveTaskWithLink = `solveTask("${object.taskName}","${object.projectName}")`;
-                break;
-            case "WAIT_FOR_REFLECTION":
-                result.solveTaskWith = "Fortschritt anzeigen";
-                result.solveTaskWithLink = ""; //todo: add some statistics page here
-                break;
-            case "WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION":
+            case "SEE_PROGRESS_IN_REFLECTION_PHASE":
                 result.solveTaskWith = "Fortschritt anzeigen";
                 result.solveTaskWithLink = ""; //todo: add some statistics page here
                 break;
