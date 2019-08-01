@@ -187,7 +187,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Warten Sie darauf, dass der Lehrende die Durchführungsphase beendet";
             break;
         case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS":
-            result.infoText = "Um die Durchführungsphase zu durchlaufen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
+            result.infoText = "Um die Durchführungsphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
             break;
         case "START_LEARNING_GOAL_PERIOD":
             result.infoText = "Starten Sie die Arbeit am Lernziel";
@@ -308,7 +308,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../reflection/choose-for-assessment.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS":
-                result.solveTaskWith = "Lernziele und Reflexionsfragen erstellen/auswählen";
+                result.solveTaskWith = "Auswahl treffen";
                 result.solveTaskWithLink = "redirect(\'../reflection/create-learning-goals.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "SEE_PROGRESS_IN_REFLECTION_PHASE":
