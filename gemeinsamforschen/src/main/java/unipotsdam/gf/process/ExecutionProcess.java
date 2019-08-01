@@ -12,7 +12,6 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
-import unipotsdam.gf.modules.reflection.service.LearningGoalsDAO;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
@@ -33,6 +32,7 @@ import static unipotsdam.gf.process.tasks.TaskName.ANSWER_REFLECTION_QUESTIONS;
 import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_ASSESSMENT_MATERIAL;
 import static unipotsdam.gf.process.tasks.TaskName.CLOSE_EXECUTION_PHASE;
 import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS;
+import static unipotsdam.gf.process.tasks.TaskName.INTRODUCE_E_PORTFOLIO_STUDENT;
 import static unipotsdam.gf.process.tasks.TaskName.SEE_PROGRESS_IN_REFLECTION_PHASE;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_EXECUTION_PHASE_END;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION_QUESTION_CHOICE;
@@ -56,9 +56,6 @@ public class ExecutionProcess implements IExecutionProcess {
 
     @Inject
     private ReflectionQuestionDAO reflectionQuestionDAO;
-
-    @Inject
-    private LearningGoalsDAO learningGoalsDAO;
 
     @Inject
     private UserDAO userDAO;
@@ -130,12 +127,14 @@ public class ExecutionProcess implements IExecutionProcess {
     public void finishPhase(Project project) throws Exception {
         Project fullProject = projectDAO.getProjectByName(project.getName());
         User docent = new User(fullProject.getAuthorEmail());
+        finishTask(fullProject, docent, TaskName.INTRODUCE_E_PORTFOLIO_DOCENT);
         Task closeTask = taskDAO.getUserTask(project, docent, CLOSE_EXECUTION_PHASE, PHASE);
         if (closeTask == null) {
             return;
         }
         finishTask(fullProject, docent, CLOSE_EXECUTION_PHASE);
         finishTaskForAllMember(project, WAIT_FOR_EXECUTION_PHASE_END);
+        finishTaskForAllMember(project, INTRODUCE_E_PORTFOLIO_STUDENT);
     }
 
     @Override

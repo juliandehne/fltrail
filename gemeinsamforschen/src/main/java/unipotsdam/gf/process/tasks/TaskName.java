@@ -47,7 +47,7 @@ public enum TaskName {
     //STUDENT:
     // how to trigger: teacher started phase "Entwurf"
     // how to solve: in the top menu, you can click E-Portfolio and write entries
-    //               task ends in phase "Durchführung" after finalizing it todo: @Martin
+    //               task ends in phase "Durchführung" after finalizing it
     INTRODUCE_E_PORTFOLIO_STUDENT,
     //STUDENT:
     // how to trigger: upload first version of dossier
@@ -69,7 +69,7 @@ public enum TaskName {
     //TEACHER:
     // how to trigger: after uploading dossier, e-portfolio is
     // how to solve: in the top menu, you can click E-Portfolio and see entries of student and you can comment them
-    //                   task ends in phase "Durchführung" after finalizing it todo: @Martin
+    //                   task ends in phase "Durchführung" after finalizing it
     INTRODUCE_E_PORTFOLIO_DOCENT,
     //TEACHER:
     // how to trigger: all students uploaded final second version of dossier
