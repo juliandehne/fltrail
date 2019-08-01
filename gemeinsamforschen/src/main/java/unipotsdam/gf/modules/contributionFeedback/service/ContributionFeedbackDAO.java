@@ -24,7 +24,7 @@ public class ContributionFeedbackDAO {
         int groupId = contributionFeedback.getGroupId();
         String groupIdString = groupId == 0 ? null : String.valueOf(contributionFeedback.getGroupId());
         String mysqlRequest =
-                "INSERT INTO contributionFeedback (`id`, `groupId`, `fullSubmissionId`, `fullSubmissionPartCategory`,`text`,`userEmail`) values (?,?,?,?,?,?)";
+                "INSERT INTO contributionfeedback (`id`, `groupId`, `fullSubmissionId`, `fullSubmissionPartCategory`,`text`,`userEmail`) values (?,?,?,?,?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, uuid, groupIdString, contributionFeedback.getFullSubmissionId(),
                 contributionFeedback.getFullSubmissionPartCategory(), contributionFeedback.getText(), contributionFeedback.getUserEmail());
         connect.close();
@@ -77,7 +77,7 @@ public class ContributionFeedbackDAO {
 
     public void update(ContributionFeedback contributionFeedback) {
         connect.connect();
-        String query = "UPDATE contributionFeedback SET `text` = ? WHERE fullSubmissionId = ? and groupId = ? and fullSubmissionPartCategory = ?";
+        String query = "UPDATE contributionfeedback SET `text` = ? WHERE fullSubmissionId = ? and groupId = ? and fullSubmissionPartCategory = ?";
 
         connect.issueUpdateStatement(query, contributionFeedback.getText(), contributionFeedback.getFullSubmissionId(),
                 contributionFeedback.getGroupId(), contributionFeedback.getFullSubmissionPartCategory());

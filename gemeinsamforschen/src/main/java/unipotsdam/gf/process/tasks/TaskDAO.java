@@ -234,7 +234,7 @@ public class TaskDAO {
 
         connect.connect();
         String query =
-                "INSERT IGNORE INTO fltrail.tasks (userEmail, projectName, taskName, " +
+                "INSERT IGNORE INTO tasks (userEmail, projectName, taskName, " +
                         "groupTask, importance, progress, phase, created, due, " +
                         "taskMode, taskMode2, taskMode3)" +
                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?, ?, ?)";
