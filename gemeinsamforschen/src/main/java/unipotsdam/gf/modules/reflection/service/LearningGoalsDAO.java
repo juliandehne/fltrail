@@ -30,7 +30,7 @@ public class LearningGoalsDAO {
 
     public LearningGoal getNextUnfinishedLearningGoal(Project project) {
         connection.connect();
-        String query = "SELECT * FROM learninggoals where projectName = ? and finished = false LIMIT 1";
+        String query = "SELECT * FROM learninggoals where projectName = ? LIMIT 1";
         VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, project.getName());
         LearningGoal learningGoal = null;
         if (resultSet.next()) {
@@ -51,19 +51,11 @@ public class LearningGoalsDAO {
         return learningGoals;
     }
 
-    public void finishLearningGoal(LearningGoal learningGoal) {
-        connection.connect();
-        String query = "UPDATE learninggoals SET `finished` = true WHERE id = ?";
-        connection.issueUpdateStatement(query, learningGoal.getId());
-        connection.close();
-    }
-
     private LearningGoal convertResultSet(VereinfachtesResultSet resultSet) {
         String id = resultSet.getString("id");
         String text = resultSet.getString("text");
         String projectName = resultSet.getString("projectName");
-        boolean finished = resultSet.getBoolean("finished");
-        return new LearningGoal(id, text, projectName, finished);
+        return new LearningGoal(id, text, projectName);
     }
 
 

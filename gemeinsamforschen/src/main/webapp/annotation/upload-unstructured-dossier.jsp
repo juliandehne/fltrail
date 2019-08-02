@@ -80,8 +80,6 @@
                 <script id="headerTemplate" type="text/x-jsrender">
                     <div></div>
                     <h3>{{:header}}</h3>
-
-
                 </script>
                 <div id="visibilityTemplateResult"></div>
                 <script id="visibilityTemplate" type="text/x-jsrender">

@@ -12,6 +12,8 @@ public interface IExecutionProcess {
 
     LearningGoalRequestResult saveLearningGoalsAndReflectionQuestions(LearningGoalRequest learningGoalRequest) throws Exception;
 
+    void endSavingLearningGoalsAndReflectionQuestions(Project project) throws Exception;
+
     void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) throws Exception;
 
     void chooseAssessmentMaterial(Project project, User user, String html) throws Exception;

@@ -14,6 +14,22 @@ function getLearningGoalsFromStore(responseHandler) {
     })
 }
 
+function getExisistingLearningGoals(projectName, responseHandler, errorHandler) {
+    let url = `../rest/learninggoal/projects/${projectName}`;
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            // handle the response
+            responseHandler(response);
+        },
+        error: function () {
+            errorHandler();
+        }
+    })
+}
+
 function saveLearningGoalResult(request, responseHandler) {
     let url = "../rest/learninggoal/result";
     let json = JSON.stringify(request);

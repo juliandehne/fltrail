@@ -11,7 +11,6 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.reflection.model.LearningGoal;
 import unipotsdam.gf.modules.reflection.service.LearningGoalsDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.User;
@@ -444,8 +443,6 @@ public class TaskDAO {
             }
             case ANSWER_REFLECTION_QUESTIONS:
                 Task task = getGeneralTask(vereinfachtesResultSet);
-                LearningGoal learningGoal = learningGoalsDAO.getNextUnfinishedLearningGoal(project);
-                task.setTaskData(learningGoal);
                 result = task;
                 break;
             default: {

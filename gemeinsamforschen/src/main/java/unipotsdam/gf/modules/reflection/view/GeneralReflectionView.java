@@ -49,6 +49,7 @@ public class GeneralReflectionView {
     @Inject
     private SubmissionController submissionController;
 
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -79,27 +80,18 @@ public class GeneralReflectionView {
     }
 
     @POST
-    @Path("/material/chosen/projects/{projectName}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response chooseMaterialForAssessment(@Context HttpServletRequest request, @PathParam("projectName") String projectName, String html) {
-        if (Strings.isNullOrEmpty(html)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("html was empty or null").build();
-        }
-
+    @Path("projects/{projectName}")
+    public Response endLearningGoalWithQuestion(@PathParam("projectName") String projectName) {
         if (Strings.isNullOrEmpty(projectName)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("project name was null or empty").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Project name is null or empty").build();
         }
-
         try {
-            User user = gfContexts.getUserFromSession(request);
             Project project = new Project(projectName);
-            executionProcess.chooseAssessmentMaterial(project, user, html);
+            executionProcess.endSavingLearningGoalsAndReflectionQuestions(project);
             return Response.ok().build();
-        } catch (IOException e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("user email is not in context.").build();
         } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while processing the request").build();
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while ending learning goal and reflection question choice").build();
         }
     }
 
@@ -129,5 +121,32 @@ public class GeneralReflectionView {
         }
 
     }
+
+    @POST
+    @Path("/material/chosen/projects/{projectName}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response chooseMaterialForAssessment(@Context HttpServletRequest request, @PathParam("projectName") String projectName, String html) {
+        if (Strings.isNullOrEmpty(html)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("html was empty or null").build();
+        }
+
+        if (Strings.isNullOrEmpty(projectName)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("project name was null or empty").build();
+        }
+
+        try {
+            User user = gfContexts.getUserFromSession(request);
+            Project project = new Project(projectName);
+            executionProcess.chooseAssessmentMaterial(project, user, html);
+            return Response.ok().build();
+        } catch (IOException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("user email is not in context.").build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while processing the request").build();
+        }
+    }
+
+
 
 }

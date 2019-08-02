@@ -29,17 +29,22 @@ public class DummyExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public LearningGoalRequestResult saveLearningGoalsAndReflectionQuestions(LearningGoalRequest learningGoalRequest) throws Exception {
+    public LearningGoalRequestResult saveLearningGoalsAndReflectionQuestions(LearningGoalRequest learningGoalRequest) {
         return null;
     }
 
     @Override
-    public void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) throws Exception {
+    public void endSavingLearningGoalsAndReflectionQuestions(Project project) {
 
     }
 
     @Override
-    public void chooseAssessmentMaterial(Project project, User user, String html) throws Exception {
+    public void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) {
+
+    }
+
+    @Override
+    public void chooseAssessmentMaterial(Project project, User user, String html) {
 
     }
 
@@ -51,7 +56,7 @@ public class DummyExecutionProcess implements IExecutionProcess {
     @Override
     public void finishPhase(Project project) throws Exception {
         User user = userDAO.getUserByEmail(project.getAuthorEmail());
-        Task task = new Task(TaskName.CLOSE_EXECUTION_PHASE, user, project, Progress.FINISHED );
+        Task task = new Task(TaskName.CLOSE_EXECUTION_PHASE, user, project, Progress.FINISHED);
         taskDAO.updateForUser(task);
     }
 }

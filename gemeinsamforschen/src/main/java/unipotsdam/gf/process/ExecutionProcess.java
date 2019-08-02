@@ -82,6 +82,7 @@ public class ExecutionProcess implements IExecutionProcess {
         return requestResult;
     }
 
+    @Override
     public void endSavingLearningGoalsAndReflectionQuestions(Project project) throws Exception {
         Project fullProject = projectDAO.getProjectByName(project.getName());
         User docent = new User(fullProject.getAuthorEmail());

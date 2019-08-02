@@ -217,9 +217,9 @@ function handleInfoTasks(object, result) {
             let numOfMissing = object.taskData.numberOfMissing;
             if (numOfMissing && numOfMissing > 0) {
                 if (numOfMissing === 1) {
-                    result.infoText+=" Es fehlt noch eine Bewertung."
+                    result.infoText += " Es fehlt noch eine Bewertung."
                 } else {
-                    result.infoText+=" Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."
+                    result.infoText += " Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."
                 }
             }
             break;
@@ -243,9 +243,10 @@ function handleInfoTasks(object, result) {
             break;
         }
         case "END_STUDENT": {
-        result.infoText = "Das Projekt ist beendet! Sie haben eine " + object.taskData + " erreicht.";
+            result.infoText = "Das Projekt ist beendet! Sie haben eine " + object.taskData + " erreicht.";
             break;
-        } case "EVALUATION_TECHNISCH" : {
+        }
+        case "EVALUATION_TECHNISCH" : {
             result.infoText = "Bitte bewerten Sie die verwendete Software Fl-Trail!";
             break;
         }
@@ -293,15 +294,12 @@ function handleLinkedTasks(object, result) {
                 break;
             case "ANSWER_REFLECTION_QUESTIONS":
                 result.solveTaskWith = "Reflexionsfragen beantworten";
-                //todo: dirty fix, fix later with by not loading taskdata on finished tasks
-                if (object.taskData && object.taskData.id) {
-                    result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
-                        projectName: object.projectName,
-                        fileRole: "Reflection_Question",
-                        personal: true,
-                        learningGoalId: object.taskData.id
-                    }) + "\')";
-                }
+                result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?" + $.param({
+                    projectName: object.projectName,
+                    fileRole: "Reflection_Question",
+                    personal: true,
+                }) + "\')";
+
                 break;
             case "CHOOSE_ASSESSMENT_MATERIAL":
                 result.solveTaskWith = "Einträge zur Bewertung auswählen";

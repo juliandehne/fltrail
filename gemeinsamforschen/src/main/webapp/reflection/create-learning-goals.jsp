@@ -66,6 +66,9 @@
                             <button type="button" onClick='addAdditionalLearningGoalPressed()' class="btn btn-primary col pull-right" id="saveButton">Weiteres Lernziel hinzufügen</button>
                             <button type="button" onClick='saveButtonPressed()' class="btn btn-primary col pull-right" id="saveButton">Speichern und Beenden</button>
                         {{/if}}
+                        {{if showExitButton}}
+                            <button type="button" onClick='exitButtonPressed()' class="btn btn-primary col pull-right" id="saveButton">Beenden</button>
+                        {{/if}}
                 </div>
             </div>
         </script>
