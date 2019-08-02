@@ -27,4 +27,10 @@ public class PerformanceUtil {
         long delta = System.currentTimeMillis() - beingTimed.get(label);
         updateMap(label, delta);
     }
+
+ /*   public static void printStats() {
+        for (PerformanceCandidates performanceCandidates : timed.keySet()) {
+            System.out.println(performanceCandidates + ": " + timed.get(performanceCandidates));
+        }
+    }*/
 }

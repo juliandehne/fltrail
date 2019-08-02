@@ -9,6 +9,9 @@ import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.modules.assessment.controller.model.Performance;
+import unipotsdam.gf.modules.performance.PerformanceCandidates;
+import unipotsdam.gf.modules.performance.PerformanceUtil;
 import unipotsdam.gf.modules.user.User;
 
 import javax.inject.Inject;
@@ -36,8 +39,20 @@ public class RocketChatPerformanceTest {
         String user = "hendrik11-" + offset;
         User dao = new User(user, "password", name + "@uni.com", true);
 
+        PerformanceUtil.start(PerformanceCandidates.CREATE_ROOM);
         communicationService.createEmptyChatRoom(name, false);
+        PerformanceUtil.stop(PerformanceCandidates.CREATE_ROOM);
+
+        PerformanceUtil.start(PerformanceCandidates.REGISTER_USER);
         communicationService.registerUser(dao);
+        PerformanceUtil.stop(PerformanceCandidates.REGISTER_USER);
+
+        PerformanceUtil.start(PerformanceCandidates.ADD_TO_ROOM);
         communicationService.addUserToChatRoom(dao, name);
+        PerformanceUtil.stop(PerformanceCandidates.ADD_TO_ROOM);
+
+        String s = PerformanceUtil.getStats().toString();
+        System.out.println(s);
+
     }
 }
