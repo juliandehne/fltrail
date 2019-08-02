@@ -33,7 +33,6 @@ import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_ASSESSMENT_MATERIAL;
 import static unipotsdam.gf.process.tasks.TaskName.CLOSE_EXECUTION_PHASE;
 import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS;
 import static unipotsdam.gf.process.tasks.TaskName.INTRODUCE_E_PORTFOLIO_STUDENT;
-import static unipotsdam.gf.process.tasks.TaskName.SEE_PROGRESS_IN_REFLECTION_PHASE;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_EXECUTION_PHASE_END;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION_QUESTION_CHOICE;
 
@@ -88,7 +87,6 @@ public class ExecutionProcess implements IExecutionProcess {
         User docent = new User(fullProject.getAuthorEmail());
         finishTask(fullProject, docent, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
         startNewTask(fullProject, docent, CLOSE_EXECUTION_PHASE, false);
-        startNewTask(fullProject, docent, SEE_PROGRESS_IN_REFLECTION_PHASE, false);
         taskDAO.persistMemberTask(fullProject, ANSWER_REFLECTION_QUESTIONS, PHASE);
 
         List<Group> groups = groupDAO.getGroupsByProjectName(project.getName());

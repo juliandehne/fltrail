@@ -192,11 +192,10 @@ function handleInfoTasks(object, result) {
         case "START_LEARNING_GOAL_PERIOD":
             result.infoText = "Starten Sie die Arbeit am Lernziel";
             break;
-        case "SEE_PROGRESS_IN_REFLECTION_PHASE":
-            result.infoText = "Die Studierenden beantworten zur Zeit an ihren Aufgaben und beantworten die Reflexionsfragen.";
-            break;
         case "CLOSE_EXECUTION_PHASE":
             result.infoText = "Beenden Sie nun die Durchführungsphase.";
+            result.taskData.numberOfMissingReflectionQuestions = result.taskData.userUnansweredReflectionQuestions.length;
+            result.taskData.numberOfMissingForAssessmentChosen = result.taskData.userUnchosenAssessmentMaterial.length;
             break;
         case "CONTACT_GROUP_MEMBERS":
             groupViewLink.toggleClass("disabled");
@@ -308,14 +307,6 @@ function handleLinkedTasks(object, result) {
             case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS":
                 result.solveTaskWith = "Auswahl treffen";
                 result.solveTaskWithLink = "redirect(\'../reflection/create-learning-goals.jsp?projectName=" + object.projectName + "\')";
-                break;
-            case "SEE_PROGRESS_IN_REFLECTION_PHASE":
-                result.solveTaskWith = "Fortschritt anzeigen";
-                result.solveTaskWithLink = ""; //todo: add some statistics page here
-                break;
-            case "CLOSE_EXECUTION_PHASE":
-                result.solveTaskWith = "Assessmentphase starten";
-                result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 break;
             case "ANNOTATE_DOSSIER":
                 result.solveTaskWith = "Annotiere Dossier";

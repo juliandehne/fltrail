@@ -96,9 +96,6 @@ public enum TaskName {
     // how to trigger: start of the execution phase
     // how to solve: click on "Lernziele und Reflexionziele erstellen"
     CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS,
-    // how to trigger: after learning goals and reflection questions are chosen, this is triggered
-    // how to solve: closing the reflection phase
-    SEE_PROGRESS_IN_REFLECTION_PHASE,
     // how to trigger: all students chose the material for assessment
     // how to solve: docent needs to click "Durchführungsphase beenden"
     CLOSE_EXECUTION_PHASE,

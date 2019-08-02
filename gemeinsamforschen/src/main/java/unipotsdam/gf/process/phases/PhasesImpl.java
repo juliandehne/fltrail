@@ -96,7 +96,6 @@ public class PhasesImpl implements IPhases {
                 case INTRODUCE_E_PORTFOLIO_STUDENT:
                     updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
-                case SEE_PROGRESS_IN_REFLECTION_PHASE:
                 case WAIT_FOR_REFLECTION_QUESTION_CHOICE:
                 case ANSWER_REFLECTION_QUESTIONS:
                 case CHOOSE_ASSESSMENT_MATERIAL:

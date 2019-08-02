@@ -11,6 +11,7 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
+import unipotsdam.gf.modules.reflection.model.ReflectionPhaseProgress;
 import unipotsdam.gf.modules.reflection.service.LearningGoalsDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.User;
@@ -151,8 +152,31 @@ public class TaskDAO {
     public List<Task> getTaskForProjectWithoutProgress(Project project, TaskName taskName, Progress progress) {
         connect.connect();
         String query = "Select * from tasks t where t.projectName = ? AND t.taskName = ? and t.progress <> ?";
+        return getTasks(project, taskName, progress, query);
+    }
+
+    public List<Task> getTaskForProjectWithProgress(Project project, TaskName taskName, Progress progress) {
+        connect.connect();
+        String query = "Select * from tasks t where t.projectName = ? AND t.taskName = ? and t.progress = ?";
+        return getTasks(project, taskName, progress, query);
+    }
+
+    private List<Task> getTasks(Project project, TaskName taskName, Progress progress, String query) {
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, project.getName(), taskName.toString(), progress.name());
+        ArrayList<Task> result = new ArrayList<>();
+        while (vereinfachtesResultSet != null && vereinfachtesResultSet.next()) {
+            result.add(getGeneralTask(vereinfachtesResultSet));
+        }
+        connect.close();
+        return result;
+    }
+
+    public List<Task> getTaskForProject(Project project, TaskName taskName) {
+        connect.connect();
+        String query = "Select * from tasks t where t.projectName = ? AND t.taskName = ? and t.progress = ?";
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(query, project.getName(), taskName.toString());
         ArrayList<Task> result = new ArrayList<>();
         while (vereinfachtesResultSet != null && vereinfachtesResultSet.next()) {
             result.add(getGeneralTask(vereinfachtesResultSet));
@@ -441,8 +465,27 @@ public class TaskDAO {
                 result = task;
                 break;
             }
-            case ANSWER_REFLECTION_QUESTIONS:
+            case ANSWER_REFLECTION_QUESTIONS: {
+                result = getGeneralTask(vereinfachtesResultSet);
+                break;
+            }
+
+            case CLOSE_EXECUTION_PHASE:
                 Task task = getGeneralTask(vereinfachtesResultSet);
+                List<Task> notAllReflectionQuestionAnswered = getTaskForProjectWithoutProgress(project, TaskName.ANSWER_REFLECTION_QUESTIONS, Progress.FINISHED);
+                List<User> userWithUnansweredReflectionQuestions = new ArrayList<>();
+                notAllReflectionQuestionAnswered.forEach(unansweredReflectionQuestion -> {
+                    User student = userDAO.getUserByEmail(unansweredReflectionQuestion.getUserEmail());
+                    userWithUnansweredReflectionQuestions.add(student);
+                });
+
+                List<Task> tasksMaterialChosen = getTaskForProjectWithProgress(project, TaskName.CHOOSE_ASSESSMENT_MATERIAL, Progress.FINISHED);
+                List<User> users = userDAO.getUsersByProjectName(project.getName());
+                List<User> userWithNoMaterialChosen = users.stream()
+                        .filter(student -> tasksMaterialChosen.stream().map(Task::getUserEmail).noneMatch(email -> student.getEmail().equals(email)))
+                        .collect(Collectors.toList());
+                ReflectionPhaseProgress progress = new ReflectionPhaseProgress(userWithUnansweredReflectionQuestions, userWithNoMaterialChosen);
+                task.setTaskData(progress);
                 result = task;
                 break;
             default: {
@@ -467,8 +510,7 @@ public class TaskDAO {
 
     private Task getFinalizeDossierTask(VereinfachtesResultSet vereinfachtesResultSet) {
         Task task = getGeneralTask(vereinfachtesResultSet);
-        task.setTaskData(submissionController
-                .getSubmissionData(task.getGroupTask(), new Project(task.getProjectName())));
+        task.setTaskData(submissionController.getSubmissionData(task.getGroupTask(), new Project(task.getProjectName())));
         return task;
     }
 

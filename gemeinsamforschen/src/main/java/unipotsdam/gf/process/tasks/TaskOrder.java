@@ -9,7 +9,6 @@ import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_ASSESSMENT_MATERIAL;
 import static unipotsdam.gf.process.tasks.TaskName.CLOSE_EXECUTION_PHASE;
 import static unipotsdam.gf.process.tasks.TaskName.COLLECT_RESULTS_FOR_ASSESSMENT;
 import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS;
-import static unipotsdam.gf.process.tasks.TaskName.SEE_PROGRESS_IN_REFLECTION_PHASE;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_EXECUTION_PHASE_END;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION_QUESTION_CHOICE;
 
@@ -47,7 +46,6 @@ public class TaskOrder {
         result.add(COLLECT_RESULTS_FOR_ASSESSMENT);
         result.add(WAIT_FOR_EXECUTION_PHASE_END);
         result.add(CLOSE_EXECUTION_PHASE);
-        result.add(SEE_PROGRESS_IN_REFLECTION_PHASE);
         //end of execution
         result.add(TaskName.UPLOAD_PRESENTATION);
         result.add(TaskName.WAIT_FOR_UPLOAD);
