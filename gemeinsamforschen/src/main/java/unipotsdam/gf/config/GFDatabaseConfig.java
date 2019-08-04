@@ -12,11 +12,11 @@ public class GFDatabaseConfig {
     //  Database credentials
 
     // dev details
-    //public static final String PASS = "";
-    //public static final String DB_NAME = "fltrail";
+    public static final String PASS = "";
+    public static final String DB_NAME = "fltrail";
 
     // prod details
-    public static final String PASS = "voyager";
-    public static final String DB_NAME = "fltrail_gf";
+    //public static final String PASS = "voyager";
+    //public static final String DB_NAME = "fltrail_gf";
     public static final String TEST_DB_NAME = "fltrail_test";
 }
