@@ -31,6 +31,11 @@ public class RocketChatPerformanceTest {
     }
 
     @Test
+    public void testBaseTime() {
+        System.out.println("base time tested");
+    }
+
+    @Test
     public void testEnterProject()
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, UserExistsInRocketChatException {
         long offset = new Random().nextLong();
