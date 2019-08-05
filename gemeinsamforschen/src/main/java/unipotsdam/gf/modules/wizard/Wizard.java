@@ -4,10 +4,13 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.tool.xml.exceptions.CssResolverException;
 import de.svenjacobs.loremipsum.LoremIpsum;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IPhases;
+import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
@@ -33,10 +36,14 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Singleton
 public class Wizard {
+
+    private final static Logger log = LoggerFactory.getLogger(Wizard.class);
 
     private final TomcatConceptImporter concepts;
 
@@ -286,25 +293,16 @@ public class Wizard {
     }
 
     private void createStudents(Project project, ProjectStatus participantCount) throws Exception {
-        ArrayList<User> students = new ArrayList<>();
         Random random = new Random();
-        for (int i = 0; i < 30 - participantCount.getParticipants(); i++) {
-            try {
-                User user = factory.manufacturePojo(User.class);
-                user.setStudent(true);
 
-                user.setRocketChatUsername("studentwizard" + random.nextInt(1000000));
-                user.setEmail("studentwizard" + random.nextInt(1000000) + "@stuff.com");
-                user.setPassword("egal");
-                projectCreationProcess.deleteUser(user);
-                projectCreationProcess.createUser(user);
-                projectCreationProcess.studentEntersProject(project, user);
-                students.add(user);
-            } catch (Exception e) {
-                System.out.println(e);
-                // might have been a problem with UUID generation should not crash
-            }
-        }
+        //IntStream.range(0, participantCount.getParticipants()).boxed().parallel().forEach(z->log.info(z.toString()));
+
+        int neededParticipantCount = 30 - participantCount.getParticipants();
+
+        // dont ask Axel
+        List<User> students = IntStream.rangeClosed(0, neededParticipantCount).boxed().parallel()
+                .map(x -> createUserParallel(project, random)).filter(Objects::nonNull).collect(Collectors.toList());
+
         if (FLTrailConfig.wizardSimulatesFullAlgorithms) {
             for (User student : students) {
                 GroupFormationMechanism groupMechanismSelected =
@@ -325,6 +323,25 @@ public class Wizard {
         }
         //groupFormationProcess.getOrInitializeGroups(project);
 
+    }
+
+    private User createUserParallel(Project project, Random random) {
+        try {
+            User user = factory.manufacturePojo(User.class);
+            user.setStudent(true);
+
+            user.setRocketChatUsername("studentwizard" + random.nextInt(1000000));
+            user.setEmail("studentwizard" + random.nextInt(1000000) + "@stuff.com");
+            user.setPassword("egal");
+            projectCreationProcess.deleteUser(user);
+            projectCreationProcess.createUser(user);
+            projectCreationProcess.studentEntersProject(project, user);
+            return user;
+        } catch (Exception e) {
+            System.out.println(e);
+            // might have been a problem with UUID generation should not crash
+        }
+        return null;
     }
 
     private void annotateDossiers(Project project) {

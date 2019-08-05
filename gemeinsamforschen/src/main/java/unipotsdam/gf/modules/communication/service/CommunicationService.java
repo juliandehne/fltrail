@@ -322,9 +322,12 @@ public class CommunicationService implements ICommunication {
         rocketChatRegister.put("pass", user.getPassword());
         rocketChatRegister.put("name", user.getName());
 
+        PerformanceUtil.start(PerformanceCandidates.ROCKET_REGISTER_USER_REQUEST);
+
         HttpResponse<RocketChatRegisterResponse> response =
                 unirestService.post(ROCKET_CHAT_API_LINK + "users.register").body(rocketChatRegister)
                         .asObject(RocketChatRegisterResponse.class);
+        PerformanceUtil.stop(PerformanceCandidates.ROCKET_REGISTER_USER_REQUEST);
 
         Boolean badRequest = isBadRequest(response);
         if (badRequest) {
@@ -339,7 +342,9 @@ public class CommunicationService implements ICommunication {
         }
 
         // updateRocketChatUserName user with rocket chat data
+        PerformanceUtil.start(PerformanceCandidates.ROCKET_REGISTER_USER_DAO);
         userDAO.updateRocketChatUserName(user);
+        PerformanceUtil.stop(PerformanceCandidates.ROCKET_REGISTER_USER_DAO);
         /**
          * TODO with higher rocket chat version a personal access tokens exist and this function can be used
          */
@@ -385,13 +390,16 @@ public class CommunicationService implements ICommunication {
     }
 
     private String createRocketChatUsername(User user) {
+        PerformanceUtil.start(PerformanceCandidates.ROCKET_CREATE_USER);
         // TODO: eventually add username to normal registration
         String possibleUsername = user.getName().replaceAll(" ", "");
         int counter = 1;
         while (userDAO.existsByRocketChatUsername(possibleUsername)) {
             possibleUsername = user.getName().replaceAll(" ", "") + counter;
             counter++;
+            System.out.println("rocket_create_user while loop executed");
         }
+        PerformanceUtil.stop(PerformanceCandidates.ROCKET_CREATE_USER);
         return possibleUsername;
     }
 
