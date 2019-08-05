@@ -1,7 +1,9 @@
 package unipotsdam.gf.modules.reflection.view;
 
 import com.google.common.base.Strings;
+import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.reflection.model.AssessmentMaterial;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
@@ -28,6 +30,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -111,9 +114,12 @@ public class GeneralReflectionView {
                 ReflectionQuestionAnswer answer = new ReflectionQuestionAnswer(fullSubmission);
                 ReflectionQuestionWithAnswer reflectionQuestionWithAnswer = new ReflectionQuestionWithAnswer(reflectionQuestion, answer);
                 reflectionQuestionWithAnswers.add(reflectionQuestionWithAnswer);
-
             });
-            return Response.ok(reflectionQuestionWithAnswers).build();
+
+            List<FullSubmission> fullSubmissions = submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
+            Collections.sort(fullSubmissions);
+            AssessmentMaterial assessmentMaterial = new AssessmentMaterial(reflectionQuestionWithAnswers, fullSubmissions);
+            return Response.ok(assessmentMaterial).build();
         } catch (IOException ex) {
             ex.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).entity("user email is not in context.").build();

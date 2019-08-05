@@ -36,16 +36,17 @@
         <div class="row group">
 
             <div class="col span_2_of_2">
-            <h3> Reflexionsfragen für Bewertung aussuchen </h3>
+                <h3> Reflexionsfragen und E-Portfolio-Einträge für Bewertung aussuchen </h3>
             <div id="assessmentTemplateResult"></div>
             <script id="assessmentTemplate" type="text/x-jsrender">
-
-                <p>Klicke die Reflexionsfragen an, die du zur Bewertung einreichen möchtest.</p>
+                <div/>
+                <p>Klicke die Reflexionsfragen und E-Portfolio-Einträge an, die du zur Bewertung einreichen möchtest.</p>
+                <h3>Reflexionsfragen</h3>
                 <div class="list-group" id="list-tab" role="tablist">
-                    {{for data}}
+                    {{for data.reflectionQuestionWithAnswerList}}
                         <div class="row">
                             <label>{{:question.question}}</label>
-                            <a class="list-group-item list-group-item-action pointer" id="list-item-{{:#index}}" onClick='clickReflectionQuestion("{{:#index}}")' role="tab">
+                            <a class="list-group-item list-group-item-action pointer" id="list-item-reflection-question-{{:#index}}" onClick='clickReflectionQuestion("{{:#index}}")' role="tab">
                                 <div id="editor-{{:question.id}}"></div>
                             </a>
                             {{:#root.data.extraData.scriptBegin}}
@@ -60,17 +61,35 @@
                         </div>
                     {{/for}}
                 </div>
+                {{if data.portfolioEntries.length > 0}}
+                    <h3>Portfolio-Einträge</h3>
+                {{/if}}
+                <div class="list-group" id="list-tab" role="tablist">
+                    {{for data.portfolioEntries}}
+                        <div class="row">
+                            <a class="list-group-item list-group-item-action pointer" id="list-item-portfolio-entry-{{:#index}}" onClick='clickPortfolioEntry("{{:#index}}")' role="tab">
+                                <div id="editor-{{:id}}"></div>
+                            </a>
+                            {{:#root.data.extraData.scriptBegin}}
+                            new Quill('#editor-{{:id}}', {
+                                theme: 'snow',
+                                readOnly: true,
+                                "modules": {
+                                    "toolbar": false
+                                }
+                            }).setContents({{:text}});
+                            {{:#root.data.extraData.scriptEnd}}
+                        </div>
+                    {{/for}}
+                </div>
                     <button type="button" onclick="save()" class="btn btn-primary pull-right" id="saveButton">Speichern</button>
-
             </script>
-
-
-
                 <div hidden id="editor"></div>
                 <jsp:include page="../taglibs/quillJsEditor.jsp">
                     <jsp:param name="readOnly" value="true"/>
                 </jsp:include>
             </div>
+        </div>
     </main>
 </div> <!-- flex wrapper -->
 

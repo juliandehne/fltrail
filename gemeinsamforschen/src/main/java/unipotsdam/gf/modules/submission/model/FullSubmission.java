@@ -6,7 +6,7 @@ import unipotsdam.gf.modules.fileManagement.FileRole;
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
  */
-public class FullSubmission {
+public class FullSubmission implements Comparable<FullSubmission> {
 
     // variables
     private String header;
@@ -140,4 +140,9 @@ public class FullSubmission {
                 '}';
     }
 
+
+    @Override
+    public int compareTo(FullSubmission other) {
+        return Long.compare(this.timestamp, other.timestamp);
+    }
 }
