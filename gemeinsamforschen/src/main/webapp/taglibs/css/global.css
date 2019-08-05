@@ -736,6 +736,60 @@ select:disabled ~ .select_arrow {
     border-top-color: #cccccc;
 }
 
+.fltrailselect {
+    cursor: pointer;
+    padding: 10px 5px;
+    outline: 0;
+    border: 2px solid #065f8b;
+    border-width: 0 0 2px 0;
+    border-radius: 0px;
+    background: #ffffff;
+    color: #065f8b;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    font-size: 1.5em;
+    line-height: 1.5em;
+    display: inline-block;
+}
+.fltrailselect:hover ~ .select_arrow,
+.fltrailselect:focus ~ .select_arrow {
+    border-color: #009acc;
+}
+
+.fltrailselect:disabled ~ .select_arrow {
+    border-top-color: #cccccc;
+}
+
+
+.fltrailselect button {
+    background: transparent;
+    position: relative;
+    padding: 0 40px 0 0;
+    color: #075f8b !important;
+}
+
+.fltrailselect button:hover,
+.fltrailselect button:active {
+    background-color:transparent;
+}
+
+.fltrailselect button:after {
+    content:"";
+    position: absolute;
+    top: 2px;
+    right: 20px;
+    width: 10px;
+    height: 10px;
+    border: solid #065f8b;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
 .search {
     display: inline-block;
     position: relative;
@@ -1058,6 +1112,12 @@ main.groups-manual{
     margin-bottom: .5em;
     float: left;
     margin-right: 1em;
+}
+
+.spacer-nofloat {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
 }
 
 /***custom checkmark ****/

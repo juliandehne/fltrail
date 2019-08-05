@@ -34,20 +34,24 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <div class="backlink">
-        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
-            Aufgaben</i></a>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> </i> Zurück zu den
+            Aufgaben</a>
     </div>
     <main>
         <div class="row group">
-            <h1>E-Portfolio</h1>
+
+            <div class="col span_2_of_2">
+
+            <h3>E-Portfolio</h3>
             <div id="visibilityTemplateResult"></div>
             <script id="visibilityTemplate" type="text/x-jsrender">
                 <div></div>
                     <button class="btn btn-primary" onclick="clickedCreatePrivatePortfolio()">Persönlichen Eintrag erstellen</button>
-                    <h4>Wähle, welche Beiträge du sehen möchtest</h4>
-                    <div class="dropdown">
-                        <button class="dropbtn btn btn-primary" onclick='dropDownClick("myDropdown")'>{{:currentVisibility.buttonText}}
-                            <i class="fa fa-caret-down"></i>
+                    <hr class="spacer-nofloat">
+                    <label>Wähle, welche Beiträge du sehen möchtest</label><br>
+                    <div class="dropdown fltrailselect">
+                        <button class="dropbtn" onclick='dropDownClick("myDropdown")'>{{:currentVisibility.buttonText}}
+
                         </button>
 
                         <div class="dropdown-content" id="myDropdown">
@@ -59,16 +63,25 @@
 
 
 
+
             </script>
-            <h3>Einträge</h3>
+                <hr class="spacer-nofloat" style="border-color:transparent">
+            <label>Einträge</label>
             <div id="portfolioTemplateResult"></div>
 
             <script id="portfolioTemplate" type="text/x-jsrender">
                 {{include tmpl="#portfolioEntryTemplate"/}}
             </script>
             <jsp:include page="portfolio-commentary-template.jsp"/>
-        </div> <!-- flex wrapper -->
+
+            </div> <!-- end 2 of 2 -->
+        </div><!-- end row -->
+
+
+
+
     </main>
+</div> <!-- flex wrapper -->
     <jsp:include page="../taglibs/footer.jsp"/>
 </body>
 

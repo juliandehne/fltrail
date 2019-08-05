@@ -85,9 +85,9 @@
                 <script id="visibilityTemplate" type="text/x-jsrender">
                     <div></div>
                     {{if fileRole.toUpperCase() == "PORTFOLIO_ENTRY"}}
-                        <div class="dropdown">
+                        <div class="dropdown fltrailselect">
                             <button class="dropbtn btn btn-primary" onclick='dropDownClick("myDropdown")'>Sichtbarkeit: {{:currentVisibility.buttonText}}
-                                <i class="fa fa-caret-down"></i>
+
                             </button>
                             <div class="dropdown-content" id="myDropdown">
                                 {{for possibleVisibilities}}
@@ -173,7 +173,7 @@
                 </div>--%>
         </div> <!-- flex wrapper -->
     </main>
-    <jsp:include page="../taglibs/footer.jsp"/>
+
 
     <jsp:include page="../taglibs/quillJsEditor.jsp">
         <jsp:param name="readOnly" value="false"/>
@@ -186,6 +186,7 @@
     </p>
     <p id="personal" hidden><%= tu.printMe(personalString)%>
     </p>
+ <jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>
