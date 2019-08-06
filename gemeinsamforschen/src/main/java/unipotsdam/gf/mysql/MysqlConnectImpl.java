@@ -108,8 +108,6 @@ public class MysqlConnectImpl implements MysqlConnect {
         return -1;
     }
 
-
-    @Override
     public void otherStatements(final String statement) {
         try {
             this.conn.createStatement().execute(statement);
@@ -117,7 +115,6 @@ public class MysqlConnectImpl implements MysqlConnect {
             printErrorMessage(statement, ex);
         }
     }
-
 
     @Override
     public Integer issueUpdateStatement(final String statement, final Object... args) {
