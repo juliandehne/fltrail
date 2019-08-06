@@ -2,8 +2,11 @@ package unipotsdam.gf.mysql;
 
 import ch.vorburger.exec.ManagedProcessException;
 
+import javax.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
+
 
 public interface MysqlConnect {
     abstract void connect();
