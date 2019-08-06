@@ -6,18 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
-import unipotsdam.gf.modules.annotation.model.Annotation;
-import unipotsdam.gf.modules.annotation.model.AnnotationBody;
-import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
-import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
-import unipotsdam.gf.modules.annotation.model.Category;
+import unipotsdam.gf.modules.annotation.model.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author Sven Kästle
@@ -129,9 +123,6 @@ public class AnnotationTest {
         AnnotationPostRequest annotationPostRequest = new AnnotationPostRequest("userEmail", "1", Category.TITEL, new AnnotationBody(title, comment, 1, 2));
         Annotation response = controller.addAnnotation(annotationPostRequest);
 
-        // receive the new annotation
-        Annotation getResponse = controller.getAnnotation(response.getId());
-
         // the annotation's title should be "title_testAlterAnnotation"
         assertEquals("The title of the annotation should be " + title + " but was " + response.getBody().getTitle(), title, response.getBody().getTitle());
 
@@ -164,13 +155,13 @@ public class AnnotationTest {
         controller.addAnnotation(request3);
 
         // receive the new annotations with targetId = -2
-        ArrayList<Annotation> getResponse = controller.getAnnotations(targetIds.get(1), Category.TITEL);
+        ArrayList<Annotation> getResponse = controller.getAnnotations(targetIds.get(1), "TITEL");
 
         // the size of the getResponse should be 2
         assertEquals("The size of the response should be 2 but was " + getResponse.size(), 2, getResponse.size());
 
         // receive the new annotations with targetId = -1
-        ArrayList<Annotation> getResponseNew = controller.getAnnotations(targetIds.get(0), Category.TITEL);
+        ArrayList<Annotation> getResponseNew = controller.getAnnotations(targetIds.get(0), "TITEL");
 
         // the size of the getResponse should be 1
         assertEquals("The size of the response should be 1 but was " + getResponseNew.size(), 1, getResponseNew.size());

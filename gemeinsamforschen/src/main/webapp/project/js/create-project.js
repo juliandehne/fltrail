@@ -105,8 +105,10 @@ function errorMessages() {
 
 function initTagsInput(allTheTags) {
     $(function () {
-        $('#tagsProject').tagsInput({
+        let tagsProject = $('#tagsProject');
+        tagsProject.tagsInput({
             width: '400px',
+            defaultText: 'Stichwort',
             onAddTag: function (tag) {
                 allTheTags.push(tag);
             },

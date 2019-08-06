@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.project;
 
-import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.process.phases.Phase;
@@ -11,13 +10,13 @@ import java.util.HashMap;
 public class ProjectConfiguration {
 
     private HashMap<Phase, Boolean> phasesSelected;
-    private HashMap<Category, Boolean> criteriaSelected;
+    private HashMap<String, Boolean> criteriaSelected;
     private AssessmentMechanism assessmentMechanismSelected;
     private GroupFormationMechanism groupMechanismSelected;
 
     ProjectConfiguration(
             HashMap<Phase, Boolean> phasesSelected,
-            HashMap<Category, Boolean> criteriaSelected,
+            HashMap<String, Boolean> criteriaSelected,
             AssessmentMechanism assessmentMechanismSelected,
             GroupFormationMechanism groupMechanismSelected) {
         this.phasesSelected = phasesSelected;
@@ -30,7 +29,7 @@ public class ProjectConfiguration {
         return phasesSelected;
     }
 
-    public HashMap<Category, Boolean> getCriteriaSelected() {
+    public HashMap<String, Boolean> getCriteriaSelected() {
         return criteriaSelected;
     }
 

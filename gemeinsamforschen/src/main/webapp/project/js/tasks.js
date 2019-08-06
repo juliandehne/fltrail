@@ -463,6 +463,10 @@ function handleFinishedTasks(object, result) {
                 result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
                 //}
                 break;
+            case "SEE_FEEDBACK":
+                result.infoText = "Sie erhielten Feedback zu Ihrem Dossier.";
+                result.solveTaskWith = "";
+                break;
             case "REEDIT_DOSSIER":
                 result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +
                     "Warten Sie nun auf die nächste Phase.";

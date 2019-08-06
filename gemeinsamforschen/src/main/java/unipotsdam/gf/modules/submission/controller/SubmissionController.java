@@ -727,7 +727,7 @@ public class SubmissionController implements ISubmission, HasProgress {
             FullSubmission fullSubmission = new FullSubmission(submissionId);
             fullSubmission.setProjectName(projectName);
             connection.close();
-            Category category = Category.valueOf(getAnnotationCategories(new Project(projectName)).get(0));
+            String category = getAnnotationCategories(new Project(projectName)).get(0);
             return new GroupFeedbackTaskData(targetGroupId, fullSubmission, category);
         } else
             return null;
