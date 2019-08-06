@@ -107,7 +107,6 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(LearningGoalStoreDAO.class).to(LearningGoalStoreDAO.class);
         bind(LearningGoalsDAO.class).to(LearningGoalsDAO.class);
         bind(ReflectionService.class).to(IReflection.class);
-        bind(LearningGoalStudentResultsDAO.class).to(LearningGoalStudentResultsDAO.class);
     }
 
     private void bindDossierFeedback() {
