@@ -75,8 +75,8 @@ function filterJournals() {
 }
 
 function loadJournals(data) {
-    for (var journal in data) {
-        var journalString = '<div class="journal-container">' +
+    for (let journal in data) {
+        let journalString = '<div class="journal-container">' +
             '<div class="journal-avatar">' +
             'getBild' +
             '</div>' +

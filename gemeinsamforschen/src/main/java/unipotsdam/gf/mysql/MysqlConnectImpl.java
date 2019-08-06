@@ -2,7 +2,6 @@ package unipotsdam.gf.mysql;
 
 import ch.vorburger.exec.ManagedProcessException;
 import com.mysql.jdbc.Statement;
-import org.apache.tools.mail.ErrorInQuitException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFDatabaseConfig;
@@ -10,7 +9,6 @@ import unipotsdam.gf.config.GFDatabaseConfig;
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Date;
 
 @ManagedBean
@@ -23,7 +21,7 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     private static final Logger log = LoggerFactory.getLogger(MysqlConnect.class);
 
-    public Connection conn = null;
+    protected Connection conn = null;
 
     private static String createConnectionString() {
 
@@ -36,15 +34,10 @@ public class MysqlConnectImpl implements MysqlConnect {
     public void connect() {
         try {
             conn = getConnection();
-        } catch (ManagedProcessException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ManagedProcessException | SQLException e) {
             e.printStackTrace();
         }
     }
-
-
-
 
     @Override
     public void close() {
@@ -60,7 +53,7 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     private PreparedStatement addParameters(final String statement, boolean returnGenerated, final Object[] args) {
         try {
-            PreparedStatement ps = null;
+            PreparedStatement ps;
 
             if (returnGenerated) {
                 ps = conn.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
@@ -77,7 +70,6 @@ public class MysqlConnectImpl implements MysqlConnect {
         } catch (SQLException ex) {
             printErrorMessage(statement, ex);
         } catch (Exception e) {
-            Boolean error = true;
             e.printStackTrace();
         }
         return null;
@@ -89,6 +81,7 @@ public class MysqlConnectImpl implements MysqlConnect {
     public VereinfachtesResultSet issueSelectStatement(final String statement, final Object... args) {
         try {
             PreparedStatement ps = addParameters(statement, false, args);
+            assert ps != null;
             ResultSet queryResult = ps.executeQuery();
             return new VereinfachtesResultSet(queryResult);
         } catch (SQLException ex) {
@@ -99,14 +92,14 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     @Override
     public int issueInsertStatementWithAutoincrement(final String sql, final Object... args) {
-        PreparedStatement stmt = null;
+        PreparedStatement stmt;
         try {
             stmt = addParameters(sql, true, args);
+            assert stmt != null;
             stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
             rs.next();
-            int auto_id = rs.getInt(1);
-            return auto_id;
+            return rs.getInt(1);
         } catch (SQLException e) {
             printErrorMessage(sql, e);
         }
@@ -128,6 +121,7 @@ public class MysqlConnectImpl implements MysqlConnect {
     public Integer issueUpdateStatement(final String statement, final Object... args) {
         PreparedStatement ps = addParameters(statement, false, args);
         try {
+            assert ps != null;
             return ps.executeUpdate();
         } catch (SQLException ex) {
             printErrorMessage(statement, ex);
@@ -144,19 +138,17 @@ public class MysqlConnectImpl implements MysqlConnect {
 
 
     /**
-     * TODO @Julian ERROR wiedr rausnehmen bei deployment
-     * @param statement
-     * @param args
+     * @param statement equals an SQL query where values for parameters are encoded with a "?"
+     * @param args values, that replace every "?" in order
      */
     @Override
     public void issueInsertOrDeleteStatement(final String statement, final Object... args) {
         PreparedStatement ps = addParameters(statement, false, args);
         try {
+            assert ps != null;
             ps.execute();
-        } catch (SQLException ex) {
-            throw new Error(ex);
         } catch (Exception e) {
-            throw new Error(e);
+            log.error(e.getMessage(), e.getCause());
         }
     }
 
@@ -201,7 +193,7 @@ public class MysqlConnectImpl implements MysqlConnect {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
             } catch (ClassNotFoundException ex) {
-                System.out.println(ex); //logger?
+                ex.printStackTrace();
             }
             return DriverManager.getConnection(createConnectionString());
 

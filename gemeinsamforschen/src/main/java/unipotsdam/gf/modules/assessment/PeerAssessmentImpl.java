@@ -38,7 +38,7 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             Contribution contribution = assessmentDAO.getContribution(project, groupId, role);
             switch (role) {
                 case DOSSIER:
-                    //todo in case of interest, include text Contributions
+                    //in case of interest, include text Contributions
                     //fullContribution.setTextOfContribution(annotationController.getFinishedDossier(project, groupId));
                     break;
                 case PORTFOLIO:
@@ -67,73 +67,6 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         }
         return mean;
     }
-
-
-    //todo: its not used yet but nice to have for future. final-grades.jsp
-    /*
-    private Map<FileRole, Double> cheatCheckerContributions(
-            ArrayList<Map<FileRole, Double>> contributionRatings, CheatCheckerMethods method) {
-        //convert ArrayList<Map<ContributionCategory, Double>> to ArrayList<Map<String, Double>>
-        ArrayList<Map<String, Double>> ratings = new ArrayList<>();
-        for (Map<FileRole, Double> rating : contributionRatings) {
-            Map<String, Double> markForContribution = new HashMap<>();
-            for (FileRole fileRole : rating.keySet()) {
-                markForContribution.put(fileRole.toString(), rating.get(fileRole));
-            }
-            ratings.add(markForContribution);
-        }
-
-        Map<String, Double> unparsedSolution = cheatChecker(ratings, method);
-        Map<FileRole, Double> result = new HashMap<>();
-
-        //convert ArrayList<Map<String, Double>> back to ArrayList<Map<FileRole, Double>>
-        assert unparsedSolution != null;
-        for (String key : unparsedSolution.keySet()) {
-            result.put(FileRole.valueOf(key), unparsedSolution.get(key));
-        }
-        return result;
-    }
-
-
-    private Map<User, Double> mapToGradeContribution(Map<User, Map<FileRole, Double>> ratings) {
-        //convert Map<User, Map<ContributionCategory, Double>> to Map<User, Map<String, Double>>
-        Map<User, Map<String, Double>> convertTo = new HashMap<>();
-        for (User user : ratings.keySet()) {
-            Map<String, Double> marksForContribution = new HashMap<>();
-            for (FileRole fileRole : ratings.get(user).keySet()) {
-                marksForContribution.put(fileRole.toString(), ratings.get(user).get(fileRole));
-            }
-            convertTo.put(user, marksForContribution);
-        }
-        return mapToGrade(convertTo);
-
-    }
-
-    private Map<User, Double> mapToGrade(Map<User, Map<String, Double>> ratings) {
-        Double allAssessments;
-        Map<User, Double> grading = new HashMap<>();
-        for (User student : ratings.keySet()) {
-            if (ratings.get(student) != null) {
-                allAssessments = sumOfDimensions(ratings.get(student));
-                double countDimensions = (double) ratings.get(student).size();
-                grading.put(student, (allAssessments - 1) / (countDimensions * 4));
-            } else {
-                grading.put(student, 0.);
-            }
-        }
-        return grading;
-    }
-
-    private Double sumOfDimensions(Map rating) {
-        Double sumOfDimensions = 0.;
-        for (Object o : rating.entrySet()) {
-            HashMap.Entry pair = (HashMap.Entry) o;
-            Double markForDimension = (Double) pair.getValue();
-            sumOfDimensions += markForDimension;
-        }
-        return sumOfDimensions;
-    }
-    */
 
     /**
      * Calculates one out of 3 possible summaries of workRatings.
@@ -248,14 +181,6 @@ public class PeerAssessmentImpl implements IPeerAssessment {
 
         // if there are final grades in DB, get them here
         HashMap<User, Double> finalRating = assessmentDAO.getFinalRating(project);
-
-        // get quiz answers   todo: in case of reimplementing quizzes: This is of interest.
-        /*   Integer numberOfQuizzes = quizDAO.getQuizCount(project.getName());
-            List<Integer> answeredQuizzes = quizDAO.getAnsweredQuizzes(project, user);
-            for (Integer i = answeredQuizzes.size(); i < numberOfQuizzes; i++) {
-                answeredQuizzes.add(0);
-            //performance.setQuizAnswer(answeredQuizzes);
-            }*/
 
         // get the suggestedRating
         HashMap<User, Double> suggestedRating = new HashMap<>();

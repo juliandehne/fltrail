@@ -7,11 +7,13 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
-import com.itextpdf.tool.xml.exceptions.NotImplementedException;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
+import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.codehaus.plexus.util.FileUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.htmlcleaner.HtmlCleaner;
@@ -86,8 +88,10 @@ public class FileManagementService {
             case HTML:
                 fileName = saveHTMLAsPDF(inputStream, fileNameWithoutExtension);
                 break;
-            case UNKNOWN:
+            case PPTX:
             case PDF:
+            case DOCX:
+            case UNKNOWN:
             default:
                 fileName = getDocumentFromFile(inputStream, fileNameWithoutExtension);
                 break;
@@ -173,6 +177,7 @@ public class FileManagementService {
         // Open new InputStreams using the recorded bytes
         InputStream inputStreamPPTX = new ByteArrayInputStream(baos.toByteArray());
         InputStream inputStreamPDF = new ByteArrayInputStream(baos.toByteArray());
+        InputStream inputStreamDOCX = new ByteArrayInputStream(baos.toByteArray());
 
         //convert pptx-InputStream to pdf-Document
         try {
@@ -182,9 +187,15 @@ public class FileManagementService {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             PdfWriter.getInstance(document, out);
         }
-        //if it was PDF-InputStream already, convert it to PDF-Document
+
         catch (Exception e) {
-            fileName = convertInputStreamToPDF(inputStreamPDF, fileNameWithoutExtension);
+            try {
+                //try to get PDF from DOCX
+                fileName = getDOCXToDocument(inputStreamDOCX, fileNameWithoutExtension);
+            } catch (Exception e1) {
+                //if it was PDF-InputStream already, convert it to PDF-Document
+                fileName = convertInputStreamToPDF(inputStreamPDF, fileNameWithoutExtension);
+            }
         }
 
         inputStream.close();
@@ -256,6 +267,22 @@ public class FileManagementService {
         return fileName;
     }
 
+    private String getDOCXToDocument(InputStream inputStream, String fileNameWithoutExtension) {
+        String fileName = fileNameWithoutExtension + ".pdf";
+        try {
+            XWPFDocument document = new XWPFDocument(inputStream);
+            PdfOptions options = PdfOptions.create();
+            FileOutputStream out = new FileOutputStream(
+                    //to be found in "C:/dev/apache-tomcat-7.0.88-windows-x64/apache-tomcat-7.0.88/bin/userFiles"
+                    FOLDER_NAME + fileName
+            );
+            PdfConverter.getInstance().convert(document, out, options);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return fileName;
+    }
+
     public List<ContributionStorage> getListOfFiles(User user, String projectName) {
         Project project = null;
         try {
@@ -311,14 +338,10 @@ public class FileManagementService {
                 uploadPPTX(user, project, inputStream, fileDetail);
                 break;
             case DOSSIER:
-                //this can just be used for PDFs and PPTX, so: todo replace this with docx interface
                 saveFile(user, project, inputStream, fileDetail, FileRole.DOSSIER, FileType.UNKNOWN);
                 break;
             case LEARNING_GOAL_RESULT:
                 break;
-            case EXTRA:
-                // seems not to be implemented TODO @Axel
-                throw new NotImplementedException();
             default:
                 //uploadFile(user, project, inputStream, fileDetail);
                 saveFile(user, project, inputStream, fileDetail, fileRole, FileType.PDF);

@@ -60,10 +60,10 @@ public class ContributionFeedbackView {
         return Response.ok(contributionFeedback).build();
     }
 
-    //TODO: Maybe rework to PathParam with path /fullSubmissionId/{fullSubmissionId} and the other get and put to /id/{id}
     @GET
+    @Path("/fullSubmissionId/{fullSubmissionId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getContributionFeedbackForFullSubmission(@QueryParam("fullSubmissionId") String fullSubmissionId) {
+    public Response getContributionFeedbackForFullSubmission(@PathParam("fullSubmissionId") String fullSubmissionId) {
         if (Strings.isNullOrEmpty(fullSubmissionId)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -90,8 +90,9 @@ public class ContributionFeedbackView {
     }
 
     @POST
+    @Path("/fullSubmissionId/{fullSubmissionId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response saveContributionFeedback(ContributionFeedback contributionFeedback) {
+    public Response saveContributionFeedback(ContributionFeedback contributionFeedback, @PathParam("fullSubmissionId") String fullSubmissionId) {
         if (Objects.isNull(contributionFeedback)) {
             Response.status(Response.Status.BAD_REQUEST).entity("contributionFeedback was null").build();
         }

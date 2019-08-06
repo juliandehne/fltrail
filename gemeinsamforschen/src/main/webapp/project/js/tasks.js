@@ -305,10 +305,6 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWith = "Überarbeite Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/reedit-dossier.jsp?fullsubmissionid=" + object.taskData.fullSubmissionId + "&projectName=" + object.projectName + "&contribution=DOSSIER\')";
                 break;
-            case "CREATE_QUIZ":
-                result.solveTaskWith = "Erstelle Quiz";
-                result.solveTaskWithLink = "redirect(\'../assessment/create-quiz.jsp?projectName=" + object.projectName + "\')";
-                break;
             case "UPLOAD_LEARNING_GOAL_RESULT":
                 result.solveTaskWith = "Artikel erstellen";
                 //todo: dirty fix, fix later with by not loading taskdata on finished tasks

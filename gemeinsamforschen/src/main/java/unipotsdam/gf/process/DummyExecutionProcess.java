@@ -30,32 +30,32 @@ public class DummyExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public void startLearningGoalPeriod(Project project) throws Exception {
+    public void startLearningGoalPeriod(Project project) {
 
     }
 
     @Override
-    public void finishLearningGoalPeriod(Project project) throws Exception {
+    public void finishLearningGoalPeriod(Project project) {
 
     }
 
     @Override
-    public LearningGoalRequestResult saveLearningGoalsAndReflectionQuestions(LearningGoalRequest learningGoalRequest) throws Exception {
+    public LearningGoalRequestResult saveLearningGoalsAndReflectionQuestions(LearningGoalRequest learningGoalRequest) {
         return null;
     }
 
     @Override
-    public LearningGoalStudentResult uploadLearningGoalResult(LearningGoalStudentResult studentResult, User user) throws Exception {
+    public LearningGoalStudentResult uploadLearningGoalResult(LearningGoalStudentResult studentResult, User user) {
         return null;
     }
 
     @Override
-    public void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) throws Exception {
+    public void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) {
 
     }
 
     @Override
-    public void chooseAssessmentMaterial(Project project, User user, String html) throws Exception {
+    public void chooseAssessmentMaterial(Project project, User user, String html) {
 
     }
 

@@ -252,21 +252,6 @@ public class AssessmentDAO {
         return vereinfachtesResultSet.getDouble("grade");
     }
 
-    public Map<String, Boolean> getAnswers(String projectName, String question) {
-        connect.connect();
-        Map<String, Boolean> result = new HashMap<>();
-        String mysqlRequest = "SELECT * FROM `quiz` WHERE `projectName`=? AND `question`=?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, projectName, question);
-        boolean next = vereinfachtesResultSet.next();
-        while (next) {
-            result.put(vereinfachtesResultSet.getString("answer"), vereinfachtesResultSet.getBoolean("correct"));
-            next = vereinfachtesResultSet.next();
-        }
-        connect.close();
-        return result;
-    }
-
     Contribution getContribution(Project project, Integer groupId, FileRole role) {
         Contribution result = null;
         connect.connect();
@@ -276,8 +261,8 @@ public class AssessmentDAO {
                 connect.issueSelectStatement(sqlStatement, groupId, project.getName(), role);
         if (selectResultSet != null && selectResultSet.next()) {
             result = new Contribution(
-                    selectResultSet.getString("filename"),
                     selectResultSet.getString("filelocation"),
+                    selectResultSet.getString("filename"),
                     role);
         }
         connect.close();

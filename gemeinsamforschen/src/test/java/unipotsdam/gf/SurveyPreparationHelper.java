@@ -16,12 +16,9 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class SurveyPreparationHelper {
-
+class SurveyPreparationHelper {
 
     @Inject
     ProfileDAO profileDAO;
@@ -32,16 +29,13 @@ public class SurveyPreparationHelper {
     @Inject
     ProjectDAO projectDAO;
 
-    private final GroupWorkContextUtil util;
 
-    public SurveyPreparationHelper() {
+    SurveyPreparationHelper() {
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
-
-        this.util = new GroupWorkContextUtil();
     }
 
-    public void prepareSurvey() throws Exception {
+    void prepareSurvey() throws Exception {
 
 
         // create dehne user
@@ -52,7 +46,7 @@ public class SurveyPreparationHelper {
             dehne.setStudent(false);
             dehne.setName("Julian Dehne");
             userDAO.persist(dehne);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         // importing items
@@ -66,7 +60,7 @@ public class SurveyPreparationHelper {
         GroupWorkContext[] values = GroupWorkContext.values();
         for (GroupWorkContext groupWorkContext : values) {
 
-            if (util.isSurveyContext(groupWorkContext) && !util.isGamingOrAutomatedGroupFormation(groupWorkContext)) {
+            if (GroupWorkContextUtil.isSurveyContext(groupWorkContext) && !GroupWorkContextUtil.isGamingOrAutomatedGroupFormation(groupWorkContext)) {
 
                 // creating survey projects
                 Project project = new Project(groupWorkContext.toString());
@@ -80,13 +74,12 @@ public class SurveyPreparationHelper {
                 // the persisted questions from the excel sheet (ITEMS for FL, based on FideS Team research)
                 List<ProfileQuestion> questions = profileDAO.getQuestions(groupWorkContext);
 
-                // todo find out mathematically if that works, how many iterations are needed and
-                persistselectedItems(project, questions);
+                persistSelectedItems(project, questions);
             }
         }
     }
 
-    private void persistselectedItems(Project someTest, List<ProfileQuestion> questions) {
+    private void persistSelectedItems(Project someTest, List<ProfileQuestion> questions) {
         //Collections.shuffle(questions);
         //int toRemove = questions.size() - 30;
         //List<ProfileQuestion> q2 = questions.subList(questions.size() - toRemove, questions.size());

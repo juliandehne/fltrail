@@ -56,8 +56,8 @@ function highlightQuillText(startIndex, endIndex, category) {
 }
 
 function colorOfCategory(category) {
-    let r = (Math.abs(category.hashCode() * 3 % 181) + 60);
-    let g = (Math.abs(category.hashCode() * 43 % 181) + 60);
-    let b = (Math.abs(category.hashCode() * 101 % 181) + 60);
+    let r = (Math.abs(category.toUpperCase().hashCode() * 3 % 181) + 60);
+    let g = (Math.abs(category.toUpperCase().hashCode() * 43 % 181) + 60);
+    let b = (Math.abs(category.toUpperCase().hashCode() * 101 % 181) + 60);
     return 'rgb(' + r + ',' + g + ',' + b + ')';
 }

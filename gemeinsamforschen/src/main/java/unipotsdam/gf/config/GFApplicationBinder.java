@@ -65,58 +65,37 @@ public class GFApplicationBinder extends AbstractBinder {
             bind(DummyCommunicationService.class).to(ICommunication.class);
             log.trace("Rocket Chat is not online. Removing chat capabilities");
         }
-        // TODO: sort by phases for a better overview
-        bind(EmailService.class).to(EmailService.class);
-        bind(ManagementImpl.class).to(Management.class);
-        bind(PeerAssessmentProcess.class).to(PeerAssessmentProcess.class);
-        bind(PhasesImpl.class).to(IPhases.class);
-        bind(GFContext.class).to(GFContext.class);
-        bind(ManagementImpl.class).to(Management.class);
-        bind(GroupfindingImpl.class).to(IGroupFinding.class);
-        bind(AssessmentDAO.class).to(AssessmentDAO.class);
-        bind(GFContexts.class).to(GFContexts.class);
-        bind(ProjectCreationProcess.class).to(ProjectCreationProcess.class);
-        bind(GroupFormationProcess.class).to(GroupFormationProcess.class);
-        bind(ConstraintsImpl.class).to(ConstraintsImpl.class);
-        bind(DossierCreationProcess.class).to(DossierCreationProcess.class);
-        bind(SubmissionController.class).to(SubmissionController.class);
-        bind(AnnotationController.class).to(AnnotationController.class);
-        bind(ProjectConfigurationDAO.class).to(ProjectConfigurationDAO.class);
-        bind(UserDAO.class).to(UserDAO.class);
-        bind(ProjectDAO.class).to(ProjectDAO.class);
-        bind(GroupDAO.class).to(GroupDAO.class);
-        bind(TaskDAO.class).to(TaskDAO.class);
-        bind(FeedbackImpl.class).to(Feedback.class);
-        bind(UnirestService.class).to(UnirestService.class);
-        bind(ProfileDAO.class).to(ProfileDAO.class);
-        bind(SurveyMapper.class).to(SurveyMapper.class);
-        //bind(GroupAlMatcher.class).to(GroupAlMatcher.class);
-        bind(PGroupAlMatcher.class).to(PGroupAlMatcher.class);
-        bind(CompBaseMatcher.class).to(CompBaseMatcher.class);
-        bind(BigGroupMatcher.class).to(BigGroupMatcher.class);
-        bind(GroupFormationFactory.class).to(GroupFormationFactory.class);
-        bind(RandomGroupAlgorithm.class).to(RandomGroupAlgorithm.class);
-        bind(SingleGroupMatcher.class).to(SingleGroupMatcher.class);
-        bind(SurveyProcess.class).to(SurveyProcess.class);
-        bind(FileManagementService.class).to(FileManagementService.class);
-        bind(FileManagementDAO.class).to(FileManagementDAO.class);
-        bind(AssessmentDAO.class).to(AssessmentDAO.class);
-        bind(PortfolioProcess.class).to(PortfolioProcess.class);
-        bind(TaskMapper.class).to(TaskMapper.class);
-        bind(PeerAssessmentImpl.class).to(IPeerAssessment.class);
-        bind(Task.class).to(Task.class);
+
+        bindUtility();
+
+        bindSurvey();
+
+        bindPhases();
+
+        bindWizard();
+
+    }
+
+    private void bindWizard() {
         bind(WizardDao.class).to(WizardDao.class);
         bind(Wizard.class).to(Wizard.class);
-        bind(Lock.class).to(Lock.class);
         bind(PeerAssessmentSimulation.class).to(PeerAssessmentSimulation.class);
-        bind(EvaluationDAO.class).to(EvaluationDAO.class);
-        bind(ExecutionProcess.class).to(ExecutionProcess.class);
+    }
 
-        /*
-         * TODO: @Martin comment in for your development
-         */
+    private void bindProjectFinished() {
+        bind(EvaluationDAO.class).to(EvaluationDAO.class);
+    }
+
+    private void bindAssessment() {
+        bind(PeerAssessmentProcess.class).to(PeerAssessmentProcess.class);
+        bind(AssessmentDAO.class).to(AssessmentDAO.class);
+        bind(PeerAssessmentImpl.class).to(IPeerAssessment.class);
+    }
+
+    private void bindExecution() {
         bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
         //bind(ExecutionProcess.class).to(IExecutionProcess.class);
+        bind(PortfolioProcess.class).to(PortfolioProcess.class);
         bind(PortfolioService.class).to(IPortfolioService.class);
         bind(ReflectionQuestionDAO.class).to(ReflectionQuestionDAO.class);
         bind(ReflectionQuestionsStoreDAO.class).to(ReflectionQuestionsStoreDAO.class);
@@ -124,15 +103,72 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(LearningGoalsDAO.class).to(LearningGoalsDAO.class);
         bind(ReflectionService.class).to(IReflection.class);
         bind(LearningGoalStudentResultsDAO.class).to(LearningGoalStudentResultsDAO.class);
-        bindMore();
     }
 
-    protected void bindMore() {
+    private void bindDossierFeedback() {
+        bind(DossierCreationProcess.class).to(DossierCreationProcess.class);
+        bind(ConstraintsImpl.class).to(ConstraintsImpl.class);
+        bind(SubmissionController.class).to(SubmissionController.class);    //holds portfolio and dossier stuff
+        bind(AnnotationController.class).to(AnnotationController.class);
+        bind(FeedbackImpl.class).to(Feedback.class);
+    }
+
+    private void bindGroupFinding() {
+        bind(ProjectCreationProcess.class).to(ProjectCreationProcess.class);
+        bind(GroupfindingImpl.class).to(IGroupFinding.class);
+        bind(GroupFormationProcess.class).to(GroupFormationProcess.class);
+        bind(PGroupAlMatcher.class).to(PGroupAlMatcher.class);
+        bind(CompBaseMatcher.class).to(CompBaseMatcher.class);
+        bind(BigGroupMatcher.class).to(BigGroupMatcher.class);
+        bind(GroupFormationFactory.class).to(GroupFormationFactory.class);
+        bind(RandomGroupAlgorithm.class).to(RandomGroupAlgorithm.class);
+        bind(SingleGroupMatcher.class).to(SingleGroupMatcher.class);
+    }
+
+    private void bindPhases() {
+        bind(PhasesImpl.class).to(IPhases.class);
+        bind(TaskMapper.class).to(TaskMapper.class);
+        bind(Task.class).to(Task.class);
+        bindGroupFinding();
+        bindDossierFeedback();
+        bindExecution();
+        bindAssessment();
+        bindProjectFinished();
+    }
+
+    private void bindSurvey() {
+        bind(SurveyMapper.class).to(SurveyMapper.class);
+        bind(SurveyProcess.class).to(SurveyProcess.class);
+    }
+
+    private void bindCommunication() {
+        bind(EmailService.class).to(EmailService.class);
+    }
+
+    private void bindUtility() {
+        bind(ManagementImpl.class).to(Management.class);
+        bind(GFContext.class).to(GFContext.class);
+        bind(GFContexts.class).to(GFContexts.class);
+        bind(UnirestService.class).to(UnirestService.class);
+        bind(FileManagementService.class).to(FileManagementService.class);
+        bind(Lock.class).to(Lock.class);
+        bindDBConnections();
+        bindCommunication();
+    }
+
+    protected void bindDBConnections() {
         bind(MysqlConnectImpl.class).to(MysqlConnect.class);
         bind(MysqlConnect.class).to(MysqlConnect.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(UnirestService.class).to(UnirestService.class);
         bind(ContributionFeedbackService.class).to(IContributionFeedback.class);
         bind(ContributionFeedbackDAO.class).to(ContributionFeedbackDAO.class);
+        bind(UserDAO.class).to(UserDAO.class);
+        bind(ProjectConfigurationDAO.class).to(ProjectConfigurationDAO.class);
+        bind(ProjectDAO.class).to(ProjectDAO.class);
+        bind(GroupDAO.class).to(GroupDAO.class);
+        bind(TaskDAO.class).to(TaskDAO.class);
+        bind(ProfileDAO.class).to(ProfileDAO.class);
+        bind(FileManagementDAO.class).to(FileManagementDAO.class);
     }
 }
