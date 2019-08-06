@@ -212,13 +212,15 @@ function handleInfoTasks(object, result) {
             result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
             break;
         case "GIVE_INTERNAL_ASSESSMENT":
-            result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihrer Gruppenmitglieder!";
-            let numOfMissing = object.taskData.numberOfMissing;
-            if (numOfMissing && numOfMissing > 0) {
-                if (numOfMissing === 1) {
-                    result.infoText += " Es fehlt noch eine Bewertung."
-                } else {
-                    result.infoText += " Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."
+            if (object.taskData != null) {
+                result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihrer Gruppenmitglieder!";
+                let numOfMissing = object.taskData.numberOfMissing;
+                if (numOfMissing && numOfMissing > 0) {
+                    if (numOfMissing === 1) {
+                        result.infoText += " Es fehlt noch eine Bewertung."
+                    } else {
+                        result.infoText += " Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."
+                    }
                 }
             }
             break;
@@ -478,6 +480,9 @@ function handleFinishedTasks(object, result) {
                 break;
             case "GIVE_EXTERNAL_ASSESSMENT_TEACHER" :
                 result.infoText = "Sie haben die Arbeit der Studierenden bewertet.";
+                break;
+            case "GIVE_EXTERNAL_ASSESSMENT":
+                result.infoText = "Sie haben die Abgaben einer anderen Gruppe bewertet.";
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
                 result.infoText = "Sie haben die Arbeit ihrer Gruppenmitglieder bewertet.";
