@@ -43,7 +43,7 @@ public class GFRocketChatConfig {
               "rocketChatPersonalAccessToken", "rocketChatUserId", false);*/
     public static final RocketChatUser ADMIN_USER = new RocketChatUser("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
             "julian.dehne@uni-potsdam.de",  "rocketChatUsername", "rocketChatAuthToken",
-            "rocketChatPersonalAccessToken", "SuFbpF3P9aYEo634W", false);
+            "c_K41JLX1nqsTnh2hT9iJk8Zo_NhSKPimt685ycJDG4", "wHNs42JEZCsYAqdE9", false);
 
 
 
