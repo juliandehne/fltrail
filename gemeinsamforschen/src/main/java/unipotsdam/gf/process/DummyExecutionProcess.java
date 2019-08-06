@@ -3,7 +3,6 @@ package unipotsdam.gf.process;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
-import unipotsdam.gf.modules.reflection.model.LearningGoalStudentResult;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
@@ -30,23 +29,13 @@ public class DummyExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public void startLearningGoalPeriod(Project project) {
-
-    }
-
-    @Override
-    public void finishLearningGoalPeriod(Project project) {
-
-    }
-
-    @Override
     public LearningGoalRequestResult saveLearningGoalsAndReflectionQuestions(LearningGoalRequest learningGoalRequest) {
         return null;
     }
 
     @Override
-    public LearningGoalStudentResult uploadLearningGoalResult(LearningGoalStudentResult studentResult, User user) {
-        return null;
+    public void endSavingLearningGoalsAndReflectionQuestions(Project project) {
+
     }
 
     @Override
@@ -67,7 +56,7 @@ public class DummyExecutionProcess implements IExecutionProcess {
     @Override
     public void finishPhase(Project project) throws Exception {
         User user = userDAO.getUserByEmail(project.getAuthorEmail());
-        Task task = new Task(TaskName.CLOSE_EXECUTION_PHASE, user, project, Progress.FINISHED );
+        Task task = new Task(TaskName.CLOSE_EXECUTION_PHASE, user, project, Progress.FINISHED);
         taskDAO.updateForUser(task);
     }
 }

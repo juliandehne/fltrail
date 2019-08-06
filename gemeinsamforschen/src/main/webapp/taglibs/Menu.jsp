@@ -29,12 +29,7 @@
             <% } else {%>
             <a class="nav-link"
                href="<%= hierarchyLevel%>project/overview-docent.jsp">Projekte</a>
-            <% if (projectName != null && ModuleAvailabilityConfig.E_PORTFOLIO_MODULE_ENABLED) {%>
-            <a class="nav-link"
-               href="<%=hierarchyLevel%>portfolio/show-portfolio-docent.jsp?projectName=<%=projectName%>">E-Portfolio</a>
             <% } %>
-            <% } %>
-
             <!--<a class="nav-link" href="<%= hierarchyLevel%>profile/profile.jsp?">Profil</a>-->
         </div>
         <div class="nav-group-right">

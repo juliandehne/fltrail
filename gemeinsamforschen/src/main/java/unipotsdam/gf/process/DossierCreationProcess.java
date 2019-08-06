@@ -23,7 +23,11 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.WizardRelevant;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.*;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.process.tasks.TaskType;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -111,7 +115,7 @@ public class DossierCreationProcess {
                 }
                 notifyAboutSubmission(user, project);
                 break;
-            case PORTFOLIO:
+            case PORTFOLIO_ENTRY:
                 break;
             case REFLECTION_QUESTION:
                 try {
@@ -164,7 +168,7 @@ public class DossierCreationProcess {
             case DOSSIER:
                 finalizeDossier(fullSubmission, user, project);
                 break;
-            case PORTFOLIO:
+            case PORTFOLIO_ENTRY:
                 break;
         }
     }

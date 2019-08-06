@@ -1,7 +1,5 @@
 package unipotsdam.gf.process.tasks;
 
-import java.util.ArrayList;
-
 public enum TaskName {
 
     //TEACHER:
@@ -49,7 +47,7 @@ public enum TaskName {
     //STUDENT:
     // how to trigger: teacher started phase "Entwurf"
     // how to solve: in the top menu, you can click E-Portfolio and write entries
-    //               task ends in phase "Durchführung" after finalizing it todo: @Martin
+    //               task ends in phase "Durchführung" after finalizing it
     INTRODUCE_E_PORTFOLIO_STUDENT,
     //STUDENT:
     // how to trigger: upload first version of dossier
@@ -71,7 +69,7 @@ public enum TaskName {
     //TEACHER:
     // how to trigger: after uploading dossier, e-portfolio is
     // how to solve: in the top menu, you can click E-Portfolio and see entries of student and you can comment them
-    //                   task ends in phase "Durchführung" after finalizing it todo: @Martin
+    //                   task ends in phase "Durchführung" after finalizing it
     INTRODUCE_E_PORTFOLIO_DOCENT,
     //TEACHER:
     // how to trigger: all students uploaded final second version of dossier
@@ -84,19 +82,10 @@ public enum TaskName {
     //STUDENT:
     // how to trigger: start the execution phase
     // how to solve: docent needs to solve CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS task and has to start learning goal period
-    WAIT_FOR_LEARNING_GOAL_TO_START,
-    // how to trigger: docent starts a learning goal period
-    // how to solve: docent ends learning goal period
-    WORK_ON_LEARNING_GOAL,
-    // how to trigger: docent ends learning goal period
-    // how to solve: click on "Lernziel-Ergebnisse hochladen" and save result
-    UPLOAD_LEARNING_GOAL_RESULT,
+    WAIT_FOR_REFLECTION_QUESTION_CHOICE,
     // how to trigger: save/upload learning goal results
     // how to solve: click on "Reflexionsfragen beantworten" and answer all reflection questions
     ANSWER_REFLECTION_QUESTIONS,
-    // how to trigger: after answering all reflection questions it is triggered, so student needs to wait for other students to finish task
-    // how to solve: all other students are finished answering questions
-    WAIT_FOR_OTHER_STUDENTS_FINISH_REFLECTION,
     // how to trigger: docent ends the learning goal and  all learning goals are finished
     // how to solve: click on "Wähle deine ... TODO: after implementation"
     CHOOSE_ASSESSMENT_MATERIAL,
@@ -107,21 +96,6 @@ public enum TaskName {
     // how to trigger: start of the execution phase
     // how to solve: click on "Lernziele und Reflexionziele erstellen"
     CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS,
-    // how to trigger: the docent chose learning goals and reflection questions
-    // how to solve: click on "Lernzielarbeit beginnen"
-    START_LEARNING_GOAL_PERIOD,
-    // how to trigger: the docent started the work on the learning goal
-    // how to solve: click on "Lernzielarbeit beenden" // it is only possible after the learning goal period is over (maybe)
-    END_LEARNING_GOAL_PERIOD,
-    // how to trigger: the docent ends learning goal period
-    // how to solve: all students needs to upload learning goal results and answer reflection questions
-    WAIT_FOR_REFLECTION,
-    // how to trigger: all students are done uploading learning goals and answering reflection questions and another learning goal is
-    // how to solve: it is solved automatically as it is only for information
-    PREVIOUS_LEARNING_GOAL_DONE,
-    // how to trigger: all learning goal results are uploaded and reflection questions are answered, all learning goals are finished
-    // how to solve: all students need to choose the material for assessment
-    WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION,
     // how to trigger: all students chose the material for assessment
     // how to solve: docent needs to click "Durchführungsphase beenden"
     CLOSE_EXECUTION_PHASE,
@@ -195,16 +169,4 @@ public enum TaskName {
     EVALUATION_TECHNISCH,
 
     EVALUATION_PROZESS;
-
-    public static ArrayList<TaskName> getPersistentExecutionTasks() {
-        ArrayList<TaskName> persistentTasks = new ArrayList<>();
-        persistentTasks.add(CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
-        persistentTasks.add(WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION);
-        persistentTasks.add(CHOOSE_ASSESSMENT_MATERIAL);
-        persistentTasks.add(WAIT_FOR_EXECUTION_PHASE_END);
-        persistentTasks.add(CLOSE_EXECUTION_PHASE);
-
-        return persistentTasks;
-
-    }
 }

@@ -9,12 +9,9 @@ import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.reflection.model.LearningGoal;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
-import unipotsdam.gf.modules.reflection.model.LearningGoalStudentResult;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
-import unipotsdam.gf.modules.reflection.service.LearningGoalsDAO;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
@@ -35,16 +32,9 @@ import static unipotsdam.gf.process.tasks.TaskName.ANSWER_REFLECTION_QUESTIONS;
 import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_ASSESSMENT_MATERIAL;
 import static unipotsdam.gf.process.tasks.TaskName.CLOSE_EXECUTION_PHASE;
 import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS;
-import static unipotsdam.gf.process.tasks.TaskName.END_LEARNING_GOAL_PERIOD;
-import static unipotsdam.gf.process.tasks.TaskName.PREVIOUS_LEARNING_GOAL_DONE;
-import static unipotsdam.gf.process.tasks.TaskName.START_LEARNING_GOAL_PERIOD;
-import static unipotsdam.gf.process.tasks.TaskName.UPLOAD_LEARNING_GOAL_RESULT;
-import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION;
+import static unipotsdam.gf.process.tasks.TaskName.INTRODUCE_E_PORTFOLIO_STUDENT;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_EXECUTION_PHASE_END;
-import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_LEARNING_GOAL_TO_START;
-import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_OTHER_STUDENTS_FINISH_REFLECTION;
-import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION;
-import static unipotsdam.gf.process.tasks.TaskName.WORK_ON_LEARNING_GOAL;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION_QUESTION_CHOICE;
 
 @ManagedBean
 public class ExecutionProcess implements IExecutionProcess {
@@ -67,9 +57,6 @@ public class ExecutionProcess implements IExecutionProcess {
     private ReflectionQuestionDAO reflectionQuestionDAO;
 
     @Inject
-    private LearningGoalsDAO learningGoalsDAO;
-
-    @Inject
     private UserDAO userDAO;
 
     @Inject
@@ -77,64 +64,37 @@ public class ExecutionProcess implements IExecutionProcess {
 
     public void start(Project project) {
         taskDAO.persistTeacherTask(project, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS, PHASE);
-        taskDAO.persistTaskForAllGroups(project, TaskName.WAIT_FOR_LEARNING_GOAL_TO_START, PHASE);
+        taskDAO.persistTaskForAllGroups(project, WAIT_FOR_REFLECTION_QUESTION_CHOICE, PHASE);
     }
 
     @Override
     public LearningGoalRequestResult saveLearningGoalsAndReflectionQuestions(LearningGoalRequest learningGoalRequest) throws Exception {
         LearningGoalRequestResult requestResult = reflectionService.createLearningGoalWithQuestions(learningGoalRequest);
-
         if (requestResult == null) {
             return null;
         }
 
         if (learningGoalRequest.isEndTask()) {
-            Project project = projectDAO.getProjectByName(learningGoalRequest.getProjectName());
-            User docent = new User(project.getAuthorEmail());
-            finishTask(project, docent, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
-            startNewTask(project, docent, START_LEARNING_GOAL_PERIOD);
+            Project project = new Project(learningGoalRequest.getProjectName());
+            endSavingLearningGoalsAndReflectionQuestions(project);
         }
         return requestResult;
     }
 
     @Override
-    public void startLearningGoalPeriod(Project project) throws Exception {
+    public void endSavingLearningGoalsAndReflectionQuestions(Project project) throws Exception {
         Project fullProject = projectDAO.getProjectByName(project.getName());
         User docent = new User(fullProject.getAuthorEmail());
-        finishTask(project, docent, START_LEARNING_GOAL_PERIOD);
-        startNewTask(project, docent, END_LEARNING_GOAL_PERIOD);
+        finishTask(fullProject, docent, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
+        startNewTask(fullProject, docent, CLOSE_EXECUTION_PHASE, false);
+        taskDAO.persistMemberTask(fullProject, ANSWER_REFLECTION_QUESTIONS, PHASE);
+
         List<Group> groups = groupDAO.getGroupsByProjectName(project.getName());
         groups.forEach(group -> {
-            GroupTask task = taskDAO.createGroupTask(project, group.getId(), WAIT_FOR_LEARNING_GOAL_TO_START, PHASE, Progress.FINISHED);
+            GroupTask task = taskDAO.createGroupTask(project, group.getId(), WAIT_FOR_REFLECTION_QUESTION_CHOICE, PHASE, Progress.FINISHED);
             taskDAO.updateGroupTask(task);
-            taskDAO.persistTaskGroup(project, group.getId(), WORK_ON_LEARNING_GOAL, PHASE, TaskType.INFO);
+            //taskDAO.persistTaskGroup(project, group.getId(), WORK_ON_LEARNING_GOAL, PHASE, TaskType.INFO);
         });
-    }
-
-    @Override
-    public void finishLearningGoalPeriod(Project project) throws Exception {
-        Project fullProject = projectDAO.getProjectByName(project.getName());
-        User docent = new User(fullProject.getAuthorEmail());
-        finishTask(fullProject, docent, END_LEARNING_GOAL_PERIOD);
-        List<Group> groups = groupDAO.getGroupsByProjectName(fullProject.getName());
-        groups.forEach(group -> {
-            GroupTask groupTask = new GroupTask(TaskName.WORK_ON_LEARNING_GOAL, group.getId(), Progress.FINISHED, fullProject);
-            taskDAO.updateGroupTask(groupTask);
-        });
-        taskDAO.persistMemberTask(fullProject, TaskName.UPLOAD_LEARNING_GOAL_RESULT, PHASE);
-        startNewTask(fullProject, docent, WAIT_FOR_REFLECTION);
-    }
-
-    @Override
-    public LearningGoalStudentResult uploadLearningGoalResult(LearningGoalStudentResult studentResult, User user) throws Exception {
-        LearningGoalStudentResult newStudentResult = reflectionService.saveStudentResult(studentResult, user);
-        if (newStudentResult == null) {
-            return null;
-        }
-        Project project = projectDAO.getProjectByName(studentResult.getProjectName());
-        finishTask(project, user, UPLOAD_LEARNING_GOAL_RESULT);
-        startNewTask(project, user, ANSWER_REFLECTION_QUESTIONS);
-        return newStudentResult;
     }
 
     @Override
@@ -145,63 +105,35 @@ public class ExecutionProcess implements IExecutionProcess {
         User user = new User(fullReflectionQuestion.getUserEmail());
         setTaskInProgress(project, user, ANSWER_REFLECTION_QUESTIONS);
 
-        List<ReflectionQuestion> reflectionQuestions = reflectionQuestionDAO.getUnansweredQuestions(project, user,
-                fullReflectionQuestion.getLearningGoalId(), true);
+        List<ReflectionQuestion> reflectionQuestions = reflectionQuestionDAO.getUnansweredQuestions(project, user, true);
 
         if (reflectionQuestions.isEmpty()) {
             finishTask(project, user, ANSWER_REFLECTION_QUESTIONS);
-            startNewTask(project, user, WAIT_FOR_OTHER_STUDENTS_FINISH_REFLECTION, TaskType.INFO);
-        }
-        List<Task> reflectionTasks = taskDAO.getTaskForProjectWithoutProgress(project, ANSWER_REFLECTION_QUESTIONS, Progress.FINISHED);
-        List<Task> learningGoalTasks = taskDAO.getTaskForProjectWithoutProgress(project, UPLOAD_LEARNING_GOAL_RESULT, Progress.FINISHED);
-        //TODO: maybe think about synchronizing here? Could be a problem if this is called from the last two students and both don't finish the phase
-        if (reflectionTasks.isEmpty() && learningGoalTasks.isEmpty()) {
-            User docent = new User(project.getAuthorEmail());
-            finishTask(project, docent, WAIT_FOR_REFLECTION);
-            learningGoalsDAO.finishLearningGoal(new LearningGoal(fullReflectionQuestion.getLearningGoalId()));
-            finishTaskForAllMember(project, WAIT_FOR_OTHER_STUDENTS_FINISH_REFLECTION);
-            LearningGoal learningGoal = learningGoalsDAO.getNextUnfinishedLearningGoal(project);
-            if (learningGoal == null) {
-                taskDAO.persistTeacherTask(project, TaskName.WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION, PHASE);
-                taskDAO.persistMemberTask(project, TaskName.CHOOSE_ASSESSMENT_MATERIAL, PHASE);
-            } else {
-                taskDAO.deleteIntermediateExecutionProcess(project, PHASE);
-                startNewTask(project, docent, TaskName.PREVIOUS_LEARNING_GOAL_DONE, TaskType.INFO);
-                finishTask(project, docent, PREVIOUS_LEARNING_GOAL_DONE);
-                taskDAO.persistMemberTask(project, PREVIOUS_LEARNING_GOAL_DONE, PHASE);
-                finishTaskForAllMember(project, PREVIOUS_LEARNING_GOAL_DONE);
-                taskDAO.persistTaskForAllGroups(project, TaskName.WAIT_FOR_LEARNING_GOAL_TO_START, PHASE);
-                startNewTask(project, docent, START_LEARNING_GOAL_PERIOD);
-            }
+            startNewTask(project, user, CHOOSE_ASSESSMENT_MATERIAL, true);
         }
     }
 
     @Override
     public void chooseAssessmentMaterial(Project project, User user, String html) throws Exception {
         Project fullProject = projectDAO.getProjectByName(project.getName());
-        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("assessmentMaterial").fileName(FileRole.ASSESSMENT_MATERIAL + "_" + user.getEmail() + ".pdf");
-        fileManagementService.saveStringAsPDF(user, project, html, builder.build(), FileRole.ASSESSMENT_MATERIAL, FileType.HTML);
+        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("assessmentMaterial").fileName(FileRole.PORTFOLIO + "_" + user.getEmail() + ".pdf");
+        fileManagementService.saveStringAsPDF(user, project, html, builder.build(), FileRole.PORTFOLIO, FileType.HTML);
         finishTask(fullProject, user, CHOOSE_ASSESSMENT_MATERIAL);
-        startNewTask(fullProject, user, WAIT_FOR_EXECUTION_PHASE_END, TaskType.INFO);
-
-        List<Task> tasks = taskDAO.getTaskForProjectWithoutProgress(fullProject, TaskName.CHOOSE_ASSESSMENT_MATERIAL, Progress.FINISHED);
-        if (tasks.isEmpty()) {
-            User docent = new User(fullProject.getAuthorEmail());
-            finishTask(fullProject, docent, WAIT_FOR_ASSESSMENT_MATERIAL_COMPILATION);
-            startNewTask(fullProject, docent, CLOSE_EXECUTION_PHASE);
-        }
+        startNewTask(fullProject, user, WAIT_FOR_EXECUTION_PHASE_END, false, TaskType.INFO);
     }
 
     @Override
     public void finishPhase(Project project) throws Exception {
         Project fullProject = projectDAO.getProjectByName(project.getName());
         User docent = new User(fullProject.getAuthorEmail());
+        finishTask(fullProject, docent, TaskName.INTRODUCE_E_PORTFOLIO_DOCENT);
         Task closeTask = taskDAO.getUserTask(project, docent, CLOSE_EXECUTION_PHASE, PHASE);
         if (closeTask == null) {
             return;
         }
         finishTask(fullProject, docent, CLOSE_EXECUTION_PHASE);
         finishTaskForAllMember(project, WAIT_FOR_EXECUTION_PHASE_END);
+        finishTaskForAllMember(project, INTRODUCE_E_PORTFOLIO_STUDENT);
     }
 
     @Override
@@ -211,10 +143,13 @@ public class ExecutionProcess implements IExecutionProcess {
         return task != null && task.getProgress() == Progress.FINISHED;
     }
 
-    private void startNewTask(Project project, User user, TaskName taskName, TaskType... taskTypes) throws Exception {
+    private void startNewTask(Project project, User user, TaskName taskName, boolean deadline, TaskType... taskTypes) throws Exception {
         Task newTask = taskDAO.createUserDefault(project, user, taskName, PHASE, Progress.JUSTSTARTED);
         if (taskTypes.length > 0) {
             newTask.setTaskType(taskTypes);
+        }
+        if (!deadline) {
+            newTask.setDeadline(0L);
         }
         Task existingTask = taskDAO.getUserTask(project, user, taskName, PHASE);
         if (existingTask == null) {

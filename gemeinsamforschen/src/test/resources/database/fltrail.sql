@@ -1,3 +1,12 @@
+create table evaluationsus
+(
+    project    varchar(100) not null,
+    user       varchar(200) not null,
+    questionId varchar(100) not null,
+    rating     int          not null,
+    docent     tinyint(1)   not null
+);
+
 create table journals
 (
     id          varchar(100) not null
@@ -318,6 +327,84 @@ create table `groups`
 )
     comment 'the groups that are created';
 
+create table fullsubmissions
+(
+    id            varchar(120)                        not null,
+    version       int                                 not null,
+    timestamp     timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    groupId       int                                 null,
+    header        varchar(100)                        null,
+    text          mediumtext                          not null,
+    projectName   varchar(200)                        not null,
+    feedbackGroup int                                 null,
+    finalized     tinyint(1)                          null,
+    fileRole      varchar(200)                        not null,
+    userEmail     varchar(255)                        null,
+    visibility    varchar(200)                        not null,
+    constraint fullsubmissions_id_uindex
+        unique (id),
+    constraint fullsubmissions_groups_id_fk
+        foreign key (groupId) references `groups` (id)
+            on update cascade on delete cascade,
+    constraint fullsubmissions_projects_name_fk
+        foreign key (projectName) references projects (name)
+            on update cascade on delete cascade,
+    constraint fullsubmissions_users_email_fk
+        foreign key (userEmail) references users (email)
+            on update cascade on delete cascade
+)
+    comment 'This holds the aggregated text of the dossier students should upload';
+
+create index fullsubmissions_contribution_category_fk
+    on fullsubmissions (fileRole);
+
+create index fullsubmissions_version_fk
+    on fullsubmissions (version);
+
+alter table fullsubmissions
+    add primary key (id);
+
+create table annotations
+(
+    id             varchar(120)                        not null
+        primary key,
+    timestamp      timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    userEmail      varchar(255)                        null,
+    targetId       varchar(120)                        null,
+    targetCategory varchar(30)                         not null,
+    title          varchar(120)                        null,
+    comment        varchar(400)                        null,
+    startCharacter int                                 null,
+    endCharacter   int                                 null,
+    constraint annotations_fullsubmissions_id_fk
+        foreign key (targetId) references fullsubmissions (id)
+            on update cascade on delete cascade
+)
+    comment 'Stores comments to a part of the dossier for a category such as RESEARCH';
+
+create table contributionfeedback
+(
+    id                         varchar(120)                        not null,
+    fullsubmissionId           varchar(120)                        null,
+    fullSubmissionPartCategory varchar(120)                        null,
+    text                       mediumtext                          null,
+    userEmail                  varchar(255)                        not null,
+    timestamp                  timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
+    groupId                    int                                 null,
+    constraint feedback_id_uindex
+        unique (id),
+    constraint contributionfeedback_groups_id_fk
+        foreign key (groupId) references `groups` (id)
+            on update cascade on delete cascade,
+    constraint feedback_fullsubmissions_id_fk
+        foreign key (fullsubmissionId) references fullsubmissions (id)
+            on update cascade on delete cascade
+)
+    comment 'This table saves feedback for contributions';
+
+alter table contributionfeedback
+    add primary key (id);
+
 create table groupuser
 (
     userEmail varchar(255) not null,
@@ -367,87 +454,6 @@ create table learninggoals
             on update cascade on delete cascade
 )
     comment 'holds all learning goals';
-
-create table fullsubmissions
-(
-    id             varchar(120)                        not null,
-    version        int                                 not null,
-    timestamp      timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
-    groupId        int                                 null,
-    header         varchar(100)                        null,
-    text           mediumtext                          not null,
-    projectName    varchar(200)                        not null,
-    feedbackGroup  int                                 null,
-    finalized      tinyint(1)                          null,
-    fileRole       varchar(200)                        not null,
-    userEmail      varchar(255)                        null,
-    visibility     varchar(200)                        not null,
-    learningGoalId varchar(200)                        null,
-    constraint fullsubmissions_id_uindex
-        unique (id),
-    constraint fullsubmissions_groups_id_fk
-        foreign key (groupId) references `groups` (id)
-            on update cascade on delete cascade,
-    constraint fullsubmissions_learninggoals_id_fk
-        foreign key (learningGoalId) references learninggoals (id),
-    constraint fullsubmissions_projects_name_fk
-        foreign key (projectName) references projects (name)
-            on update cascade on delete cascade,
-    constraint fullsubmissions_users_email_fk
-        foreign key (userEmail) references users (email)
-            on update cascade on delete cascade
-)
-    comment 'This holds the aggregated text of the dossier students should upload';
-
-create index fullsubmissions_contribution_category_fk
-    on fullsubmissions (fileRole);
-
-create index fullsubmissions_version_fk
-    on fullsubmissions (version);
-
-alter table fullsubmissions
-    add primary key (id);
-
-create table annotations
-(
-    id             varchar(120)                        not null
-        primary key,
-    timestamp      timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
-    userEmail      varchar(255)                        null,
-    targetId       varchar(120)                        null,
-    targetCategory varchar(30)                         not null,
-    title          varchar(120)                        null,
-    comment        varchar(400)                        null,
-    startCharacter int                                 null,
-    endCharacter   int                                 null,
-    constraint annotations_fullsubmissions_id_fk
-        foreign key (targetId) references fullsubmissions (id)
-            on update cascade on delete cascade
-)
-    comment 'Stores comments to a part of the dossier for a category such as RESEARCH';
-
-create table contributionfeedback
-(
-    id                         varchar(120)                        not null,
-    fullsubmissionId           varchar(120)                        null,
-    fullSubmissionPartCategory varchar(120)                        null,
-    text                       mediumtext                          null,
-    userEmail                  varchar(255)                        not null,
-    timestamp                  timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
-    groupId                    int                                 not null,
-    constraint feedback_id_uindex
-        unique (id),
-    constraint contributionfeedback_groups_id_fk
-        foreign key (groupId) references `groups` (id)
-            on update cascade on delete cascade,
-    constraint feedback_fullsubmissions_id_fk
-        foreign key (fullsubmissionId) references fullsubmissions (id)
-            on update cascade on delete cascade
-)
-    comment 'This table saves feedback for contributions';
-
-alter table contributionfeedback
-    add primary key (id);
 
 create table learninggoalstudentresults
 (
@@ -581,11 +587,3 @@ create table workrating
 )
     comment 'Peers rate one another in different dimensions defined in "itemName". Its a part of assessment.';
 
-create table evaluationsus
-(
-  project    varchar(100) not null,
-  user       varchar(200) not null,
-  questionId varchar(100) not null,
-  rating     int          not null,
-  docent     tinyint(1)   not null
-);

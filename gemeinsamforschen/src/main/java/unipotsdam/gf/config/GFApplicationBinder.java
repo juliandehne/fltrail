@@ -47,6 +47,8 @@ import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 import unipotsdam.gf.session.Lock;
 
+import static unipotsdam.gf.config.ModuleAvailabilityConfig.REFLECTION_MODULE_ENABLED;
+
 public class GFApplicationBinder extends AbstractBinder {
 
     private final static Logger log = LoggerFactory.getLogger(GFApplicationBinder.class);
@@ -93,8 +95,11 @@ public class GFApplicationBinder extends AbstractBinder {
     }
 
     private void bindExecution() {
-        bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
-        //bind(ExecutionProcess.class).to(IExecutionProcess.class);
+        if (REFLECTION_MODULE_ENABLED) {
+            bind(ExecutionProcess.class).to(IExecutionProcess.class);
+        } else {
+            bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
+        }
         bind(PortfolioProcess.class).to(PortfolioProcess.class);
         bind(PortfolioService.class).to(IPortfolioService.class);
         bind(ReflectionQuestionDAO.class).to(ReflectionQuestionDAO.class);

@@ -17,10 +17,6 @@
     if (Strings.isNullOrEmpty(fullSubmissionId)) {
         fullSubmissionId = "";
     }
-    String learningGoalId = tu.getParamterFromQuery("learningGoalId", request);
-    if (Strings.isNullOrEmpty(learningGoalId)) {
-        learningGoalId = "";
-    }
 %>
 
 <!DOCTYPE html>
@@ -84,16 +80,14 @@
                 <script id="headerTemplate" type="text/x-jsrender">
                     <div></div>
                     <h3>{{:header}}</h3>
-
-
                 </script>
                 <div id="visibilityTemplateResult"></div>
                 <script id="visibilityTemplate" type="text/x-jsrender">
                     <div></div>
-                    {{if fileRole == "Portfolio"}}
-                        <div class="dropdown">
+                    {{if fileRole.toUpperCase() == "PORTFOLIO_ENTRY"}}
+                        <div class="dropdown fltrailselect">
                             <button class="dropbtn btn btn-primary" onclick='dropDownClick("myDropdown")'>Sichtbarkeit: {{:currentVisibility.buttonText}}
-                                <i class="fa fa-caret-down"></i>
+
                             </button>
                             <div class="dropdown-content" id="myDropdown">
                                 {{for possibleVisibilities}}
@@ -106,7 +100,7 @@
                 <div id="reflectionQuestionTemplateResult"></div>
                 <script id="reflectionQuestionTemplate" type="text/x-jsrender">
                     <div></div>
-                    {{if fileRole == "Reflection_Question"}}
+                    {{if fileRole.toUpperCase() == "REFLECTION_QUESTION"}}
                         <h2> Frage {{:currentReflectionQuestionCounter}} von {{:totalQuestions}}: {{:question}} </h2>
                     {{/if}}
                 </script>
@@ -114,7 +108,7 @@
                 <div id="editorTitleTemplateResult"></div>
                 <script id="editorTitleTemplate" type="text/x-jsrender">
                     <div/>
-                    {{if fileRole == "Dossier"}}
+                    {{if fileRole.toUpperCase() == "DOSSIER"}}
                         <div class="upload-text" id="documentText">
                             <label for="ownTitle">Titel</label>
                             <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="mein Titel">
@@ -136,7 +130,7 @@
             <div id="annotationTemplateResult"></div>
             <script id="annotationTemplate" type="text/x-jsrender">
                 <div/>
-                {{if fileRole == "Dossier"}}
+                {{if fileRole.toUpperCase() == "DOSSIER"}}
                     <div class="col span span_s_of_2">
                         <div class="infobox dossier">
                             <p>Erstellen Sie ein Dossier
@@ -179,7 +173,7 @@
                 </div>--%>
         </div> <!-- flex wrapper -->
     </main>
-    <jsp:include page="../taglibs/footer.jsp"/>
+
 
     <jsp:include page="../taglibs/quillJsEditor.jsp">
         <jsp:param name="readOnly" value="false"/>
@@ -188,12 +182,11 @@
 
     <p id="fullSubmissionId" hidden><%=tu.printMe(fullSubmissionId)%>
     </p>
-        <p id="learningGoalId" hidden><%=tu.printMe(learningGoalId)%>
-        </p>
     <p id="fileRole" hidden><%= tu.printMe(fileRole)%>
     </p>
     <p id="personal" hidden><%= tu.printMe(personalString)%>
     </p>
+ <jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

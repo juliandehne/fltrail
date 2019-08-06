@@ -76,7 +76,43 @@
                                         <button id='startGradingButton' style="margin-top:20px;" class='btn btn-primary' onClick="startGrading(getProjectName());">Upload Phase abschließen</button>
                                     </div>
                                 {{/if}}
-                                 {{if inCardSolver=="CLOSE_PEER_ASSESSMENTS_PHASE"}}
+                                {{if inCardSolver=="CLOSE_EXECUTION_PHASE"}}
+                                    <div class="inCardSolver">
+                                        <p><u>Fortschritt Reflexionsfragen </u></p>
+                                        {{if taskData.numberOfMissingReflectionQuestions === 0}}
+                                            <p>Alle Studierende haben die Reflexionsfragen beantwortet.</p>
+                                        {{else}}
+                                            {{if taskData.numberOfMissingReflectionQuestions > 3}}
+                                                <p>Es müssen noch ${taskData.numberOfMissingReflectionQuestions} Studenten die Reflexionsfragen beantworten.</p>
+                                            {{else}}
+                                                <p>Es müssen folgende Studenten die Reflexionsfragen beantworten:</p>
+                                                <ul>
+                                                {{each taskData.userUnansweredReflectionQuestions}}
+                                                    <li> - ${name} (${email})</li>
+                                                {{/each}}
+                                                </ul>
+                                            {{/if}}
+                                        {{/if}}
+                                        <br/>
+                                        <p><u>Fortschritt Auswahl für Assessment </u></p>
+                                        {{if taskData.numberOfMissingForAssessmentChosen === 0}}
+                                            <p>Alle Studierende haben ihre Abgaben für das Assessment gewählt.</p>
+                                        {{else}}
+                                            {{if taskData.numberOfMissingForAssessmentChosen > 3}}
+                                                <p>Es müssen ${taskData.numberOfMissingForAssessmentChosen} Studenten ihre Auswahl <br/> fürs Assessment treffen.</p>
+                                            {{else}}
+                                                <p>Es müssen folgende Studenten die <br/> Auswahl fürs Assessment treffen:</p>
+                                                <ul>
+                                                {{each taskData.userUnchosenAssessmentMaterial}}
+                                                    <li> - ${name} (${email})</li>
+                                                {{/each}}
+                                                </ul>
+                                            {{/if}}
+                                        {{/if}}
+                                        <button style="margin-top:20px; margin-bottom:20px;" onClick="closePhase('Execution', getProjectName());" class="btn btn-primary"><i class="fas fa-link"></i> Durchführungsphase beenden </button>
+                                    </div>
+                                {{/if}}
+                                {{if inCardSolver=="CLOSE_PEER_ASSESSMENTS_PHASE"}}
                                     <div class="inCardSolver">
                                         {{if taskData.numberOfGroupsWithoutExternalAssessment > 0 }}
                                             Anzahl an Gruppen ohne Bewertung durch Peers

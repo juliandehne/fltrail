@@ -18,7 +18,7 @@
                     {{:scriptEnd}}
                     <h4 class="creation-information">
                     {{if editable}}
-                        <a href="../annotation/upload-unstructured-dossier.jsp?projectName={{:projectName}}&fullSubmissionId={{:id}}&fileRole=Portfolio&personal=true">Editieren</a> -
+                        <a href="../annotation/upload-unstructured-dossier.jsp?projectName={{:projectName}}&fullSubmissionId={{:id}}&fileRole=Portfolio_Entry&personal=true">Editieren</a> -
                     {{/if}}
                     <a class="pointer" onClick='clickedWantToComment("{{:id}}")'>Kommentieren</a> - {{:creator}} - {{:timestampDateTimeFormat}}</h4>
                     <br/>
@@ -68,9 +68,4 @@
                 {{if error}}
                     <h1>Keine Einträge gefunden</h1>
                 {{/if}}
-
-
-
-
-
 </script>

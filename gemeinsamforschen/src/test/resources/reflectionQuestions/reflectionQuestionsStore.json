@@ -1,110 +1,78 @@
 [
   {
     "question": "Wie lassen sich die Ergebnisse auf andere Bereiche übertragen?",
-    "learningGoal": "S. können das Anwendungspotential reflektieren"
+    "learningGoal": "Die Studierenden können das Anwendungspotential ihrer Arbeit reflektieren"
   },
   {
     "question": "Welche Schwierigkeiten ergaben sich beim Forschungsprozess?",
-    "learningGoal": "S. können methodische Grenzen reflektieren"
+    "learningGoal": "Die Studierenden können methodische Grenzen reflektieren"
   },
   {
     "question": "Was bringen uns die Ergebnisse?",
-    "learningGoal": "S. können den wissenschaftlichen Ertrag reflektieren"
+    "learningGoal": "Die Studierenden können den wissenschaftlichen Ertrag reflektieren"
   },
   {
     "question": "Entspricht der Bericht wissenschaftlichen Formalia?",
-    "learningGoal": "S. können Forschungsergebnisse darstellen"
-  },
-  {
-    "question": "Ist die Präsentation gut aufgebaut?",
-    "learningGoal": "S. können Forschungsergebnisse darstellen"
-  },
-  {
-    "question": "Ist ein roter Faden erkennbar?",
-    "learningGoal": "S. können Forschungsergebnisse darstellen"
+    "learningGoal": "Die Studierenden können Forschungsergebnisse darstellen"
   },
   {
     "question": "Welche Themen konnte ich aufgreifen/Welche Aspekte bleiben offen?",
-    "learningGoal": "S. können Forschungsergebnisse darstellen"
-  },
-  {
-    "question": "Ist die Darstellung übersichtlich und verständlich?",
-    "learningGoal": "S. können Forschungsergebnisse darstellen"
+    "learningGoal": "Die Studierenden können Forschungsergebnisse darstellen"
   },
   {
     "question": "Inwiefern lässt sich anhand der Ergebnisse die Forschungsfrage beantworten?",
-    "learningGoal": "S. können Forschungsergebnisse darstellen"
+    "learningGoal": "Die Studierenden können Forschungsergebnisse darstellen"
   },
   {
-    "question": "Ist diese Methode mit den verfügbaren Mitteln zu realiseren?",
-    "learningGoal": "S. wählen eine passende Forschungsmethode"
+    "question": "Konnte ich diese Frage mit den mir verfügbaren Mitteln beantworten?",
+    "learningGoal": "Die Studierenden wählen eine passende Forschungsmethode"
   },
   {
-    "question": "Sind die Methoden dazu adäquat?",
-    "learningGoal": "S. wählen eine passende Forschungsmethode"
+    "question": "Konnte ich diese Frage mit den mir verfügbaren Mitteln beantworten?",
+    "learningGoal": "Die Studierenden erstellen wissenschaftliche Fragestellungen"
   },
   {
-    "question": "Kann ich diese Frage mit den mir verfügbaren Mitteln beantworten?",
-    "learningGoal": "S. wählen eine passende Forschungsmethode"
+    "question": "Konnten Abgabefristen eingehalten werden?",
+    "learningGoal": "Die Studierenden können Aufgaben untereinander aufteilen"
   },
   {
-    "question": "Ist die Fragestellung für das Thema relevant?",
-    "learningGoal": "S. erstellen wissenschaftliche Fragestellungen"
+    "question": "War die Verteilung der Aufgaben gerecht?",
+    "learningGoal": "Die Studierenden können Aufgaben untereinander aufteilen"
   },
   {
-    "question": "Kann ich diese Frage mit den mir verfügbaren Mitteln beantworten?",
-    "learningGoal": "S. erstellen wissenschaftliche Fragestellungen"
+    "question": "Sind die Interessen aller Gruppenmitglieder mehr oder minder berücksichtigt worden?",
+    "learningGoal": "Die Studierenden können sich in einer Gruppe absprechen"
   },
   {
-    "question": "Eine letzte Frage?",
-    "learningGoal": "S. können Aufgaben untereinander aufteilen"
+    "question": "Waren Widersprüche zu erkennen?",
+    "learningGoal": "Die Studierenden können recherchierte Literatur beurteilen"
   },
   {
-    "question": "Können Abgabefristen eingehalten werden?",
-    "learningGoal": "S. können Aufgaben untereinander aufteilen"
-  },
-  {
-    "question": "Ist ein roter Faden erkennbar?",
-    "learningGoal": "S. können Aufgaben untereinander aufteilen"
-  },
-  {
-    "question": "Ist die Verteilung der Aufgaben gerecht?",
-    "learningGoal": "S. können Aufgaben untereinander aufteilen"
-  },
-  {
-    "question": "Sind die Interessen aller Gruppenmitglieder mehr oder minder berücksichtigt?",
-    "learningGoal": "S. sich in einer Gruppe absprechen"
-  },
-  {
-    "question": "Sind Widersprüche zu erkennen?",
-    "learningGoal": "S. können recherchierte Literatur beurteilen"
-  },
-  {
-    "question": "Sind meine Ressourcen inhaltlich relevant?",
-    "learningGoal": "S. können recherchierte Literatur beurteilen"
+    "question": "Waren meine Ressourcen inhaltlich relevant?",
+    "learningGoal": "Die Studierenden können recherchierte Literatur beurteilen"
   },
   {
     "question": "Verwende ich seriöse, zitierfähige Quellen?",
-    "learningGoal": "S. können recherchierte Literatur beurteilen"
+    "learningGoal": "Die Studierenden können recherchierte Literatur beurteilen"
   },
   {
     "question": "Welche Datenbank ist für meine Forschungszwecke geeignet?",
-    "learningGoal": "S. können mit fachspezifischen Datenbanken umgehen"
+    "learningGoal": "Die Studierenden können mit fachspezifischen Datenbanken umgehen"
   },
   {
     "question": "Die Mindmap ist für mich und andere verständlich?",
-    "learningGoal": "S. können Mindmaps erstellen"
+    "learningGoal": "Die Studierenden können Mindmaps erstellen"
   },
   {
-    "question": "Sind meine Ideen für andere nachvollziehbar?",
-    "learningGoal": "S. können ihre Ideen niederschreiben"
+    "question": "Waren meine Ideen für andere nachvollziehbar?",
+    "learningGoal": "Die Studierenden können ihre Ideen niederschreiben"
   },
   {
-    "question": "Sind meine Vorstellungen realisierbar?",
-    "learningGoal": "S. können ihre Gedanken sortieren"
+    "question": "Waren meine Vorstellungen realisierbar?",
+    "learningGoal": "Die Studierenden können ihre Gedanken sortieren"
   },
   {
-    "question": "Passt das zum Kursthema?",
-    "learningGoal": "S. können ihre Gedanken sortieren"
+    "question": "Passte das zum Kursthema?",
+    "learningGoal": "Die Studierenden können ihre Gedanken sortieren"
   }
 ]

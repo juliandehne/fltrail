@@ -19,14 +19,14 @@ $(document).ready(async function () {
     fileRole = $('#fileRole').html().trim();
     let personalString = $("#personal").html().trim();
     personal = personalString.toUpperCase() === 'TRUE';
-    isPortfolioEntry = fileRole.toUpperCase() === 'PORTFOLIO';
+    isPortfolioEntry = fileRole.toUpperCase() === 'PORTFOLIO_ENTRY';
     isReflectionQuestion = fileRole.toUpperCase() === 'REFLECTION_QUESTION';
     hierarchyLevel = $('#hierarchyLevel').html().trim();
     fullSubmissionId = $('#fullSubmissionId').html().trim();
     projectName = $('#projectName').html().trim();
 
     if (isPortfolioEntry) {
-        $('#backToTasks').html(`<i class="fas fa-chevron-circle-left"> Zurück zum Portfolio</i></a>`);
+        $('#backToTasks').html(`<i class="fas fa-chevron-circle-left"></i> Zurück zum Portfolio</a>`);
     }
     await setupPageContent();
 
@@ -126,7 +126,7 @@ async function setupPageContent() {
             getFullSubmission(fullSubmissionId, function (fullSubmission) {
                 setQuillContentFromFullSubmission(fullSubmission);
                 currentVisibility = possibleVisibilities[fullSubmission.visibility];
-                populateTextFields();
+                populateVisibilityButton();
                 setHeader(fullSubmission.header);
             }, function (error) {
 
@@ -135,8 +135,9 @@ async function setupPageContent() {
             if (!personal) {
                 getMyGroupId(function (groupId) {
                     getFullSubmissionOfGroup(groupId, 0);
-                    populateTextFields();
                 });
+            } else {
+                populateVisibilityButton();
             }
         }
     });
@@ -149,11 +150,11 @@ function populateHeaderTemplate() {
     let data = {};
     let headerSubject = fileRole;
     let activityVerb = 'anlegen';
-    switch (fileRole) {
-        case "Portfolio":
+    switch (fileRole.toUpperCase()) {
+        case "PORTFOLIO_ENTRY":
             headerSubject = 'Portfolio-Eintrag';
             break;
-        case "Reflection_Question":
+        case "REFLECTION_QUESTION":
             headerSubject = 'Reflexionsfrage';
             activityVerb = 'beantworten';
     }
@@ -172,8 +173,7 @@ async function populateTitleEditorTemplate() {
 }
 
 async function setupAndRenderReflectionQuestionsTemplate() {
-    let learningGoalId = $('#learningGoalId').html().trim();
-    reflectionQuestions = await getUnansweredReflectionQuestions(projectName, learningGoalId);
+    reflectionQuestions = await getUnansweredReflectionQuestions(projectName);
     reflectionQuestionTemplateData.fileRole = fileRole;
     reflectionQuestionTemplateData.totalQuestions = reflectionQuestions.length;
     renderReflectionQuestionTemplate();
@@ -191,7 +191,7 @@ function renderReflectionQuestionTemplate() {
     $("#reflectionQuestionTemplateResult").html(html);
 }
 
-function populateTextFields() {
+function populateVisibilityButton() {
     let data = {};
     data.fileRole = fileRole;
     data.possibleVisibilities = Object.values(possibleVisibilities);

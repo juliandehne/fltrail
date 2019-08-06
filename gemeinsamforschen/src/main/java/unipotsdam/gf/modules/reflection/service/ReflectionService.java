@@ -6,7 +6,6 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.LearningGoal;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
-import unipotsdam.gf.modules.reflection.model.LearningGoalStudentResult;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -26,9 +25,6 @@ public class ReflectionService implements IReflection {
 
     @Inject
     private UserDAO userDAO;
-
-    @Inject
-    private LearningGoalStudentResultsDAO learningGoalStudentResultsDAO;
 
     public LearningGoalRequestResult createLearningGoalWithQuestions(LearningGoalRequest learningGoalRequest) {
         Project project = new Project(learningGoalRequest.getProjectName());
@@ -50,16 +46,6 @@ public class ReflectionService implements IReflection {
             });
         });
         return learningGoalRequestResult;
-    }
-
-    public LearningGoalStudentResult saveStudentResult(LearningGoalStudentResult studentResult, User user) {
-        if (Strings.isNullOrEmpty(user.getEmail())) {
-            return null;
-        }
-        studentResult.setUserEmail(user.getEmail());
-        String uuid = learningGoalStudentResultsDAO.persist(studentResult);
-        studentResult.setId(uuid);
-        return studentResult;
     }
 
 }

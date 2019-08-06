@@ -7,17 +7,15 @@ public class LearningGoal {
     private String id;
     private String text;
     private String projectName;
-    private boolean finished = false;
 
     public LearningGoal(String id) {
         this.id = id;
     }
 
-    public LearningGoal(String id, String text, String projectName, boolean finished) {
+    public LearningGoal(String id, String text, String projectName) {
         this(id);
         this.text = text;
         this.projectName = projectName;
-        this.finished = finished;
     }
 
     public LearningGoal(LearningGoalStoreItem item, Project project) {
@@ -50,13 +48,5 @@ public class LearningGoal {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
-    }
-
-    public boolean isFinished() {
-        return finished;
-    }
-
-    public void setFinished(boolean finished) {
-        this.finished = finished;
     }
 }

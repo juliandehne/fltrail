@@ -19,11 +19,10 @@ function saveLearningGoalAndReflectionQuestions(learningGoalRequest, responseHan
 function chooseAssessmentMaterial(assessmentHtml, responseHandler) {
     let projectName = $('#projectName').html().trim();
     let url = `../rest/reflection/material/chosen/projects/${projectName}`;
-    let data = JSON.stringify(assessmentHtml);
     $.ajax({
         url: url,
         type: "POST",
-        data: data,
+        data: assessmentHtml,
         contentType: "application/json",
         success: function (response) {
             responseHandler(response);
@@ -47,6 +46,21 @@ function getMaterialForAssessment(responseHandler) {
         },
         error: function () {
             console.error("Error while getting assessment material");
+        }
+    });
+}
+
+function endLearningGoalAndReflectionQuestionChoice(projectName, responseHandler) {
+    let url = `../rest/reflection/projects/${projectName}`;
+    $.ajax({
+        url: url,
+        type: "POST",
+        contentType: "application/json",
+        success: function (response) {
+            responseHandler(response);
+        },
+        error: function () {
+            console.error("Error while ending reflection question and learning goal choice");
         }
     });
 }

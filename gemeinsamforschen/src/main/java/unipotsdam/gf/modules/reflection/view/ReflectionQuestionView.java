@@ -37,13 +37,12 @@ public class ReflectionQuestionView {
     private GFContexts gfContexts;
 
     @GET
-    @Path("projects/{projectName}/learninggoal/{learningGoalId}/bulk")
+    @Path("projects/{projectName}/bulk")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUnansweredReflectionQuestions(@Context HttpServletRequest req,
-                                                     @PathParam("projectName") String projectName,
-                                                     @PathParam("learningGoalId") String learningGoalId) {
+                                                     @PathParam("projectName") String projectName) {
 
-        List<ReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, learningGoalId, false);
+        List<ReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, false);
 
         if (Objects.isNull(reflectionQuestions)) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("user email was not in context").build();
@@ -58,7 +57,7 @@ public class ReflectionQuestionView {
     public Response getNextUnansweredReflectionQuestion(@Context HttpServletRequest req,
                                                         @PathParam("projectName") String projectName,
                                                         @PathParam("learningGoalId") String learningGoalId) {
-        List<ReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, learningGoalId, true);
+        List<ReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, true);
 
         if (reflectionQuestions == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("user email was not in context").build();
@@ -93,12 +92,12 @@ public class ReflectionQuestionView {
     }
 
 
-    private List<ReflectionQuestion> getUnansweredReflectionQuestions(HttpServletRequest req, String projectName, String learningGoalId, boolean onlyFirstEntry) {
+    private List<ReflectionQuestion> getUnansweredReflectionQuestions(HttpServletRequest req, String projectName, boolean onlyFirstEntry) {
         try {
             String userEmail = gfContexts.getUserEmail(req);
             User user = new User(userEmail);
             Project project = new Project(projectName);
-            return reflectionQuestionDAO.getUnansweredQuestions(project, user, learningGoalId, onlyFirstEntry);
+            return reflectionQuestionDAO.getUnansweredQuestions(project, user, onlyFirstEntry);
         } catch (IOException e) {
             e.getStackTrace();
             return null;

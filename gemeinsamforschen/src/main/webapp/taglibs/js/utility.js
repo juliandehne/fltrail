@@ -291,7 +291,7 @@ function changeLocation() {
     } else {
         fileRole = "";
     }
-    if (typeof fileRole !== "undefined" && fileRole.toUpperCase() === "PORTFOLIO") {
+    if (typeof fileRole !== "undefined" && fileRole.toUpperCase() === "PORTFOLIO_ENTRY") {
         if (whatRole === "isDocent") {
             if (personal) {
                 location.href = `../portfolio/show-portfolio-docent.jsp?projectName=${currentProjectName}`

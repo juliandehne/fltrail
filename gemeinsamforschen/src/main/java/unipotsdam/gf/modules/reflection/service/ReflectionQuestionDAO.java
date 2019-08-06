@@ -22,6 +22,10 @@ public class ReflectionQuestionDAO {
     public MysqlConnect connection;
 
     public String persist(ReflectionQuestion question) {
+        ReflectionQuestion reflectionQuestion = existReflectionQuestion(question.getProjectName(), question.getUserEmail(), question.getQuestion());
+        if (reflectionQuestion != null) {
+            return reflectionQuestion.getId();
+        }
         connection.connect();
         String uuid = UUID.randomUUID().toString();
         String query = "INSERT INTO reflectionquestions (id, learningGoalId, question, userEmail, fullSubmissionId,projectName) values(?,?,?,?,?,?)";
@@ -30,17 +34,18 @@ public class ReflectionQuestionDAO {
         return uuid;
     }
 
-    public List<ReflectionQuestion> getReflectionQuestions(Project project, User user, String learningGoalId) {
-        String query = "SELECT * FROM reflectionquestions WHERE projectName = ? and userEmail = ? and learningGoalId = ?";
-        return getQuestions(query, project, user, learningGoalId);
+    public List<ReflectionQuestion> getReflectionQuestions(Project project, User user) {
+        String query = "SELECT * FROM reflectionquestions WHERE projectName = ? and userEmail = ?";
+        return getQuestions(query, project, user);
     }
 
-    public List<ReflectionQuestion> getUnansweredQuestions(Project project, User user, String learningGoalId, boolean onlyFirstEntry) {
-        String query = "SELECT * FROM reflectionquestions WHERE projectName = ? and userEmail = ? and learningGoalId = ? and fullSubmissionId IS NULL";
+
+    public List<ReflectionQuestion> getUnansweredQuestions(Project project, User user, boolean onlyFirstEntry) {
+        String query = "SELECT * FROM reflectionquestions WHERE projectName = ? and userEmail = ? and fullSubmissionId IS NULL";
         if (onlyFirstEntry) {
             query = String.format("%s LIMIT 1", query.trim());
         }
-        return getQuestions(query, project, user, learningGoalId);
+        return getQuestions(query, project, user);
     }
 
     public void saveAnswerReference(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) {
@@ -74,10 +79,10 @@ public class ReflectionQuestionDAO {
 
     }
 
-    private List<ReflectionQuestion> getQuestions(String query, Project project, User user, String learningGoalId) {
+    private List<ReflectionQuestion> getQuestions(String query, Project project, User user) {
         connection.connect();
 
-        VereinfachtesResultSet rs = connection.issueSelectStatement(query, project.getName(), user.getEmail(), learningGoalId);
+        VereinfachtesResultSet rs = connection.issueSelectStatement(query, project.getName(), user.getEmail());
 
         ArrayList<ReflectionQuestion> reflectionQuestions = new ArrayList<>();
         while (rs.next()) {
@@ -86,6 +91,18 @@ public class ReflectionQuestionDAO {
         }
         connection.close();
         return reflectionQuestions;
+    }
+
+    private ReflectionQuestion existReflectionQuestion(String projectName, String userEmail, String question) {
+        connection.connect();
+        String query = "SELECT * FROM reflectionquestions WHERE projectName = ? and userEmail = ? and question = ?";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(query, projectName, userEmail, question);
+        ReflectionQuestion reflectionQuestion = null;
+        if (rs.next()) {
+            reflectionQuestion = convertResultSet(rs);
+        }
+        connection.close();
+        return reflectionQuestion;
     }
 
 }

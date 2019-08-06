@@ -15,9 +15,19 @@ function setupLearningGoalButton() {
             learningGoals[goal.text] = goal;
             learningGoals[goal.text].custom = false;
         }
-        templateData.learningGoals = Object.values(learningGoals).sort(sortAlphabetically);
         templateData.learningGoalButtonText = "Bitte wähle ein Lernziel aus.";
-        renderTemplate();
+        templateData.learningGoals = Object.values(learningGoals).sort(sortAlphabetically);
+        getExisistingLearningGoals(projectName, function (learningGoalsResponse) {
+            learningGoalsResponse.forEach((learningGoal) => {
+                delete learningGoalsResponse[learningGoal.text];
+            });
+            templateData.learningGoals = Object.values(learningGoals).sort(sortAlphabetically);
+            templateData.showExitButton = true;
+            renderTemplate();
+        }, function () {
+            renderTemplate();
+        });
+
     });
 }
 
@@ -85,8 +95,13 @@ function addAdditionalLearningGoalPressed() {
         templateData.learningGoals = Object.values(learningGoals).sort(sortAlphabetically);
         templateData.choseReflectionQuestion = false;
         delete templateData.reflectionQuestions;
+        templateData.showExitButton = true;
         renderTemplate();
     });
+}
+
+function exitButtonPressed() {
+    endLearningGoalAndReflectionQuestionChoice(projectName, changeLocation);
 }
 
 function save(isEndTask, callback) {
