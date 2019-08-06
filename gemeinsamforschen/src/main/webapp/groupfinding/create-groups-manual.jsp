@@ -60,17 +60,19 @@
 
             <h1>Gruppeneinteilung</h1>
 
-            <div class="col span_l_of_2">
-                    <button id="btnRelocate" class="spacer-horizontal primary">Personen verschieben</button>
-                    <button id="openNewGroup" class="spacer-horizontal primary">Neue Gruppe öffnen</button>
-                    <button id="deselectStudents" class="spacer-horizontal primary">Selektion aufheben</button>
-            </div>
-            <div class="col span_s_of_2">
-                <div class="alert alert-warning">
+            <div class="col span_l_of_2" style="margin-left:0; margin-bottom:0;">
+                <div class="alert alert-warning" style="margin-bottom:0;">
                     <p>Wählen Sie die Studenten an, die sie verschieben wollen. Dann die Gruppe,
                         in die die Studenten verschoben werden sollen und klicken Sie auf "Personen verchieben".</p>
                 </div>
             </div>
+
+            <div class="col span_l_of_2" style="margin-left:0; margin-top:0">
+                    <button id="btnRelocate" class="spacer-horizontal primary">Personen verschieben</button>
+                    <button id="openNewGroup" class="spacer-horizontal primary">Neue Gruppe öffnen</button>
+                    <button id="deselectStudents" class="spacer-horizontal primary">Selektion aufheben</button>
+            </div>
+
         </div>
         <div class="row group">
 
@@ -101,7 +103,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="primary" style="height:50px;" id="btnSave">Gruppen speichern</button>
+                <button type="button" class="primary pull-right" style="height:50px;" id="btnSave">Gruppen speichern</button>
             </div>
 
             <div class="col span_chat"></div>

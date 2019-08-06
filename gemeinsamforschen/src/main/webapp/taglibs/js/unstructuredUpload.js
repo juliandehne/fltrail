@@ -26,7 +26,7 @@ $(document).ready(async function () {
     projectName = $('#projectName').html().trim();
 
     if (isPortfolioEntry) {
-        $('#backToTasks').html(`<i class="fas fa-chevron-circle-left"> Zurück zum Portfolio</i></a>`);
+        $('#backToTasks').html(`<i class="fas fa-chevron-circle-left"></i> Zurück zum Portfolio</a>`);
     }
     await setupPageContent();
 

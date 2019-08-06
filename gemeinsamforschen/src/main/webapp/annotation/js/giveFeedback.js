@@ -1,12 +1,4 @@
-/*
-    TODO
-        show feedback page (could be this page):
-            - color feedback in user color
-            - color on mouseover with user color (nicht mehr, da wir nur noch ein feedback haben pro seite)
- */
 let categories = [];
-
-
 /**
  * This function will fire when the DOM is ready
  */

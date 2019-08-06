@@ -175,7 +175,7 @@
                             {{if inCardSolver=="WAIT_FOR_PARTICPANTS"}}
                                 <p style="color:gray;">
                                     Die Arbeitsgruppen wurden gebildet. Unter diesem
-                                    <a style="cursor:pointer;" id="groupView">Link</a>
+                                    <a style="cursor:pointer;" class="groupView">Link</a>
                                     können Sie die Gruppen sehen.
                                 </p>
                             {{/if}}

@@ -10,13 +10,7 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
-import unipotsdam.gf.modules.submission.model.Visibility;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -570,6 +564,7 @@ public class SubmissionController implements ISubmission, HasProgress {
 
             tmpElement = new SubmissionPartBodyElement(textPart, start, end);
 
+            assert tmpPart != null;
             tmpPart.getBody().add(tmpElement);
 
         } while (rs.next());
@@ -613,7 +608,7 @@ public class SubmissionController implements ISubmission, HasProgress {
         String request =
                 "SELECT COUNT(*) AS `count` FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND (endCharacter = ? OR startCharacter = ?);";
         VereinfachtesResultSet rs = connection
-                .issueSelectStatement(request, fullSubmissionId, category.toString().toUpperCase(), startCharacter,
+                .issueSelectStatement(request, fullSubmissionId, category.toUpperCase(), startCharacter,
                         endCharacter);
 
         if (rs.next()) {
@@ -627,7 +622,7 @@ public class SubmissionController implements ISubmission, HasProgress {
                 String requestSide =
                         "SELECT COUNT(*) AS `side` FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND endCharacter = ?;";
                 VereinfachtesResultSet rsSide = connection
-                        .issueSelectStatement(requestSide, fullSubmissionId, category.toString().toUpperCase(),
+                        .issueSelectStatement(requestSide, fullSubmissionId, category.toUpperCase(),
                                 startCharacter);
 
                 if (rsSide.next()) {
@@ -667,7 +662,7 @@ public class SubmissionController implements ISubmission, HasProgress {
                 "SELECT COUNT(*) > 0 AS `exists` FROM submissionpartbodyelements WHERE fullSubmissionId = ? AND category = ? AND (" + "(startCharacter <= ? AND ? <= endCharacter) OR " + // start character overlapping
                         "(startCharacter <= ? AND ? <= endCharacter));"; // end character overlapping
         VereinfachtesResultSet rs =
-                connection.issueSelectStatement(request, fullSubmissionId, category.toString(), start, start, end, end);
+                connection.issueSelectStatement(request, fullSubmissionId, category, start, start, end, end);
 
         return hasRow(rs);
     }
@@ -692,47 +687,16 @@ public class SubmissionController implements ISubmission, HasProgress {
         return data;
     }
 
-    public SubmissionRenderData getSubmissionData(User user, Project project) {
-        Integer groupId = groupDAO.getGroupByStudent(project, user);
-        return getSubmissionData(groupId, project);
-    }
-
     /**
      * if the submission is marked as final, the annotations cannot be updated anymore
      *
-     * @param fullSubmission
+     * @param fullSubmission which is about to be finalized
      */
     public void markAsFinal(FullSubmission fullSubmission, Boolean finalized) {
         connection.connect();
         String query = "update fullsubmissions set finalized = ? where id = ?";
         connection.issueUpdateStatement(query, finalized, fullSubmission.getId());
         connection.close();
-    }
-
-    /**
-     * link the full submission with a user who is supposed to give feedback to it.
-     * this creates a 1:1 relationship between user and submissions
-     * in case gorup work is selected the relationship should be with a group instead
-     *
-     * @param submissionOwner
-     * @param feedbackGiver
-     */
-    @Deprecated
-    public void updateFullSubmission(User submissionOwner, User feedbackGiver) {
-        connection.connect();
-        String query = "update RocketChatUserName fullsubmissions set feedbackUser = ? where user = ?";
-        connection.issueUpdateStatement(query, feedbackGiver.getEmail(), submissionOwner.getEmail());
-        connection.close();
-        // TODO implement linking submission with group
-    }
-
-    /**
-     * @param target
-     * @return
-     */
-    public GroupFeedbackTaskData getFeedbackTaskData(User target, Project project) {
-        Integer targetGroupId = groupDAO.getGroupByStudent(project, target);
-        return getFeedbackTaskData(targetGroupId, project);
     }
 
     public GroupFeedbackTaskData getFeedbackTaskData(Integer groupId, Project project) {
@@ -772,7 +736,7 @@ public class SubmissionController implements ISubmission, HasProgress {
     public int getFinalizedDossiersCount(Project project) {
         connection.connect();
 
-        Integer count = null;
+        int count;
         String query = "SELECT COUNT(*) from fullsubmissions where projectName = ? and finalized = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, project.getName(), true);
         vereinfachtesResultSet.next();
@@ -802,12 +766,12 @@ public class SubmissionController implements ISubmission, HasProgress {
     /**
      * get how many dossiers are needed
      *
-     * @param project
-     * @return
+     * @param project of interest
+     * @return number of needed dossiers in project, which equals number of groups minus dossiers written
      */
-    public int dossiersNeeded(Project project) {
+    private int dossiersNeeded(Project project) {
         GroupFormationMechanism groupFormationMechanism = groupDAO.getGroupFormationMechanism(project);
-        Integer result = 0;
+        int result = 0;
         switch (groupFormationMechanism) {
             case SingleUser:
                 ProjectStatus participantCount = projectDAO.getParticipantCount(project);
@@ -816,15 +780,14 @@ public class SubmissionController implements ISubmission, HasProgress {
             case LearningGoalStrategy:
             case UserProfilStrategy:
             case Manual:
-                int groupCount = groupDAO.getGroupsByProjectName(project.getName()).size();
-                result = groupCount;
+                result = groupDAO.getGroupsByProjectName(project.getName()).size();
                 break;
         }
         return result;
     }
 
 
-    public List<Group> getStrugglersWithSubmission(Project project) {
+    private List<Group> getStrugglersWithSubmission(Project project) {
         ArrayList<Group> struggles = new ArrayList<>();
         List<Group> groupsInProject = groupDAO.getGroupsByProjectName(project.getName());
         List<Group> groupsHaveGivenFeedback = getAllGroupsWithDossierUploaded(project);

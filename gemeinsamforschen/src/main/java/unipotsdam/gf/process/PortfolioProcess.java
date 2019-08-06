@@ -17,7 +17,7 @@ public class PortfolioProcess {
     @Inject
     private IPortfolioService portfolioService;
 
-    public void startEPortfolioIntroduceTasks(Project project, Group group) {
+    void startEPortfolioIntroduceTasks(Project project, Group group) {
         if (ModuleAvailabilityConfig.E_PORTFOLIO_MODULE_ENABLED) {
             portfolioService.startStudentPortfolioTask(project, group, Phase.DossierFeedback);
             portfolioService.startDocentPortfolioTask(project, Phase.DossierFeedback);

@@ -31,9 +31,6 @@ $(document).ready(function () {
         });
     });
 
-    $('#assessment').click(function () {
-        checkAssessementPhase();
-    });
     $('#footerBack').click(function () {
         goBack();
     });
@@ -74,42 +71,6 @@ function changeLocationTo(target) {
 
 function goBack() {
     window.history.back();
-}
-
-// TODO move this somewhere else
-function checkAssessementPhase() {
-    let userName = $('#userEmail').html().trim();
-    let projectName = $('#projectName').html().trim();
-    $.ajax({
-        url: '../rest/assessment/whatToRate/project/' + projectName + '/student/' + userName,
-        type: 'GET',
-        headers: {
-            "Content-Type": "application/json",
-            "Cache-Control": "no-cache"
-        },
-        success: function (phase) {
-            switch (phase) {
-                case "workRating": {
-                    changeLocationTo("finalAssessment.jsp");
-                    break;
-                }
-                case "quiz": {
-                    changeLocationTo("take-quiz.jsp");
-                    break;
-                }
-                case "contributionRating": {
-                    changeLocationTo("rate-contribution.jsp");
-                    break;
-                }
-                case "done": {
-                    changeLocationTo("projects-student.jsp");
-                    break;
-                }
-            }
-        },
-        error: function (a) {
-        }
-    });
 }
 
 function getUserEmail() {

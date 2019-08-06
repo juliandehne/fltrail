@@ -5,6 +5,11 @@
 let staticCategories = [];
 let items = {};
 $(document).ready(function () {
+    let fileRole = getQueryVariable("fileRole");
+    if (!fileRole) {
+        fileRole = "Unbekannt";
+    }
+    $('#fileRole').html(fileRole);
     handleLocker("ANNOTATE_DOSSIER");
     getAnnotationCategories(function (categories) {
         buildAnnotationList(categories);
@@ -88,11 +93,11 @@ function isAlreadyHighlighted(startCharacter, endCharacter) {
 
 function toggleStatusbar(category) {
     let categoryTag = $('#' + category);
-    if (!categoryTag.hasClass('added-' + category)) {
+    if (categoryTag.hasClass('not-added')) {
         categoryTag.toggleClass("not-added");
-        let r = (Math.abs(category.hashCode() * 3 % 181) + 60);
-        let g = (Math.abs(category.hashCode() * 43 % 181) + 60);
-        let b = (Math.abs(category.hashCode() * 101 % 181) + 60);
+        let r = (Math.abs(category.toUpperCase().hashCode() * 3 % 181) + 60);
+        let g = (Math.abs(category.toUpperCase().hashCode() * 43 % 181) + 60);
+        let b = (Math.abs(category.toUpperCase().hashCode() * 101 % 181) + 60);
         categoryTag.css("background-color", "rgb(" + r + "," + g + "," + b + ")");
         categoryTag.css("color", "#FFF");
     }
@@ -198,7 +203,7 @@ function saveButtonHandler() {
  */
 function finalizeDossier(submissionId) {
     let requestObj = new RequestObj(1, "/submissions", "/id/?/projects/?/finalize", [submissionId, $('#projectName').text().trim()]);
-    serverSide(requestObj, "POST", function (response) {
+    serverSide(requestObj, "POST", function () {
         location.href = "../project/tasks-student.jsp?projectName=" + getQueryVariable('projectName');
     })
 }
@@ -207,7 +212,6 @@ function finalizeDossier(submissionId) {
  * Handle the category click and start the saving event
  *
  * @param key The selected category
- * @param color
  */
 function handleCategoryClick(key) {
     let selection = quill.getSelection();
@@ -217,6 +221,8 @@ function handleCategoryClick(key) {
     }
 }
 
+// do not delete! it's used in create-unstructured-annotation.jsp onClick
+// noinspection JSUnusedGlobalSymbols
 function deleteCategory(category) {
     let categoryLI = $('#' + category);
     let textArrays = categoryLI.data('array');
@@ -242,7 +248,7 @@ function contextMenuOptions(categories) {
          */
         $.contextMenu({
             selector: '.context-menu-one',
-            callback: function (key, options) {
+            callback: function (key) {
                 // handle the category click
                 handleCategoryClick(key);
             },

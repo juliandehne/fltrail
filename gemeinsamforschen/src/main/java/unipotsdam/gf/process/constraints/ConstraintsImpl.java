@@ -1,13 +1,11 @@
 package unipotsdam.gf.process.constraints;
 
-import unipotsdam.gf.interfaces.IGroupFinding;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.tasks.ProjectStatus;
 
 import javax.inject.Inject;
@@ -20,13 +18,7 @@ public class ConstraintsImpl {
     ProjectDAO projectDAO;
 
     @Inject
-    IGroupFinding groupFinding;
-
-    @Inject
     GroupDAO groupDAO;
-
-    @Inject
-    UserDAO userDAO;
 
     @Inject
     private SubmissionController submissionController;
@@ -36,25 +28,16 @@ public class ConstraintsImpl {
     }
 
     /**
-     * groups can be formed if participantCount > numStudentsNeeded
-     */
-    public Boolean checkIfGroupsCanBeFormed(Project project) {
-        ProjectStatus participantCount = projectDAO.getParticipantCount(project);
-        int minNumberOfStudentsNeeded = groupFinding.getMinNumberOfStudentsNeeded(project);
-        return participantCount.getParticipants() >= minNumberOfStudentsNeeded;
-    }
-
-    /**
      * Feedback can be distributed if numFinalizedDossiers = numParticipants or
      * numFinalizedDossiers = numGroups (if Groupwork is selected)
      *
-     * @param project
-     * @return
+     * @param project of interest
+     * @return true if number of finalized dossiers equals the number of groups
      */
     public boolean checkIfFeedbackCanBeDistributed(Project project) {
         GroupFormationMechanism groupFormationMechanism = groupDAO.getGroupFormationMechanism(project);
         int numberOfFinalizedDossiers  = submissionController.getFinalizedDossiersCount(project);
-        Boolean result = false;
+        boolean result = false;
         switch (groupFormationMechanism) {
             case SingleUser:
                 ProjectStatus participantCount = projectDAO.getParticipantCount(project);

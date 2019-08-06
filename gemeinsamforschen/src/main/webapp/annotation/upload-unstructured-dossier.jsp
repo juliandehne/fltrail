@@ -85,9 +85,9 @@
                 <script id="visibilityTemplate" type="text/x-jsrender">
                     <div></div>
                     {{if fileRole.toUpperCase() == "PORTFOLIO_ENTRY"}}
-                        <div class="dropdown">
+                        <div class="dropdown fltrailselect">
                             <button class="dropbtn btn btn-primary" onclick='dropDownClick("myDropdown")'>Sichtbarkeit: {{:currentVisibility.buttonText}}
-                                <i class="fa fa-caret-down"></i>
+
                             </button>
                             <div class="dropdown-content" id="myDropdown">
                                 {{for possibleVisibilities}}
@@ -123,7 +123,8 @@
                 <div class="document-text-buttons">
                     <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
                     </button>--%>
-                    <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">Speichern
+                    <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">
+                        <i class="far fa-save"></i> Speichern
                     </button>
                 </div>
             </div>
@@ -141,7 +142,7 @@
                                 mit den folgenden Kategorien.
                             </p>
                             <div class='collapse' id='whatIs'>
-                                <div class='card card-body tipp'>
+                                <div class='card card-body card-whatIs'>
                                     Ein Dossier ist eine Aktensammlung für Ihr Projekt. Der Dozent hat dabei
                                     festelegt, dass die rechts sichtbaren Kategorien mindestens mit enthalten sein müssen.
                                     Nachdem Sie hier all ihre Textbausteine verfasst haben, kann ihre Gruppe ihren Beitrag
@@ -173,7 +174,7 @@
                 </div>--%>
         </div> <!-- flex wrapper -->
     </main>
-    <jsp:include page="../taglibs/footer.jsp"/>
+
 
     <jsp:include page="../taglibs/quillJsEditor.jsp">
         <jsp:param name="readOnly" value="false"/>
@@ -186,6 +187,7 @@
     </p>
     <p id="personal" hidden><%= tu.printMe(personalString)%>
     </p>
+ <jsp:include page="../taglibs/footer.jsp"/>
 </body>
 
 </html>

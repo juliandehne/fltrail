@@ -1,16 +1,6 @@
-<%@ page import="unipotsdam.gf.taglibs.TagUtilities" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%--<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>--%>
-<%
-    // das hier ist ein Problem, wenn es keine Session gibt!! TODO
-    TagUtilities tu = new TagUtilities();
-    String fileRole = tu.getParamterFromQuery("fileRole", request);
-    if (fileRole == null) {
-        fileRole = "Unbekannt";
-    }
-%>
-
 <!DOCTYPE html>
 <html>
 
@@ -111,11 +101,6 @@
                 </script>
                 </ol>
             </div>
-
-            <div class="col span_chat">
-                <chat:chatWindow orientation="right" scope="project"/>
-                <chat:chatWindow orientation="right" scope="group"/>
-            </div>
         </div>
     </main>
     <jsp:include page="../taglibs/quillJsEditor.jsp">
@@ -123,7 +108,7 @@
     </jsp:include>
     <jsp:include page="../taglibs/footer.jsp"/>
 </div>
-<p id="fileRole" hidden><%= tu.printMe(fileRole)%>
+<p id="fileRole" hidden></p>
 
 </body>
 

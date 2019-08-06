@@ -7,8 +7,8 @@
 
 <!--begin data upload-->
 <form id="uploadForm" method="POST" enctype="multipart/form-data">
-    <label>Select a file: <input type="file" name="file" size="45" accept=".pdf, .pptx"/></label>
-    <button id="uploadSubmit" class="btn btn-primary">Upload File</button>
+    <label>Select a file: <input type="file" name="file" size="45" accept=".pdf, .pptx, .docx"/></label>
+    <button id="uploadSubmit" class="btn btn-primary"><i class="far fa-save"></i> Upload File</button>
 </form>
 
 <div id="taskCompleted" class="alert alert-success">Die Datei wurde erfolgreich gespeichert.</div>

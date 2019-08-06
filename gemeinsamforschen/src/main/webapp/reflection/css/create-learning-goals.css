@@ -4,7 +4,6 @@
 
 .list-group {
     max-height: 600px;
-    height: 600px;
     overflow: scroll;
     overflow-x: hidden;
     overflow-y: auto;
@@ -18,6 +17,25 @@
     align-self: end;
 }
 
-.group {
-    margin: 1% 0 1% 1.6%;
+#creationTemplateResult {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+#creationTemplateResult .col{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+    padding: 0 10px 0 10px;
+}
+
+.btn_holder {
+    margin:10px 0 10px 0;
+}
+
+.btn_holder button {
+    width:100%;
 }
