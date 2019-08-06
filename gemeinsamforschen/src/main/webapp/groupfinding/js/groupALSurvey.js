@@ -9,6 +9,8 @@ $(document).ready(function () {
     // getting the survey items from the server
     let requ = new RequestObj(1, "/survey", "/data/project/?", [projectId], []);
     serverSide(requ, "GET", function (surveyJSON) {
+        surveyJSON.showProgressBar = "top";
+        surveyJSON.showQuestionNumbers = "off";
         let survey = new Survey.Model(surveyJSON);
         survey.locale = "de";
 

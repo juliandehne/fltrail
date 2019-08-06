@@ -68,7 +68,7 @@
 
                     <h4 id="categoryHeadline" class="current-category"></h4>
                     <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
-                    <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Senden</button>
+                    <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Beenden</button>
                 </div>
                 <div id="editor"></div>
             </div>

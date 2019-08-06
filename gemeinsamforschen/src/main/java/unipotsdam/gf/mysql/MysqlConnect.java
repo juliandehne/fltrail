@@ -17,8 +17,6 @@ public interface MysqlConnect {
 
     int issueInsertStatementWithAutoincrement(String sql, Object... args);
 
-    void otherStatements(String statement);
-
     Integer issueUpdateStatement(String statement, Object... args);
 
     void issueInsertOrDeleteStatement(String statement, Object... args);

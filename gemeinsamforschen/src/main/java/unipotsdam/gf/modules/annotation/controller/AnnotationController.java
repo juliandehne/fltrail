@@ -1,7 +1,10 @@
 package unipotsdam.gf.modules.annotation.controller;
 
 import unipotsdam.gf.interfaces.IAnnotation;
-import unipotsdam.gf.modules.annotation.model.*;
+import unipotsdam.gf.modules.annotation.model.Annotation;
+import unipotsdam.gf.modules.annotation.model.AnnotationBody;
+import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
+import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
 import unipotsdam.gf.modules.assessment.controller.model.Categories;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -95,7 +98,7 @@ public class AnnotationController implements IAnnotation {
     }
 
     @Override
-    public ArrayList<Annotation> getAnnotations(String targetId, Category category) {
+    public ArrayList<Annotation> getAnnotations(String targetId, String category) {
 
         // declare annotation ArrayList
         ArrayList<Annotation> annotations = new ArrayList<>();
@@ -106,7 +109,7 @@ public class AnnotationController implements IAnnotation {
 
         // build and execute request
         String request = "SELECT * FROM annotations WHERE targetId = ? AND targetCategory = ?;";
-        VereinfachtesResultSet rs = connection.issueSelectStatement(request, targetId, category.toString().toUpperCase());
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, targetId, category.toUpperCase());
 
         while (rs.next()) {
             annotations.add(getAnnotationFromResultSet(rs));
@@ -155,7 +158,7 @@ public class AnnotationController implements IAnnotation {
         long timestamp = rs.getTimestamp(2).getTime();
         String userEmail = rs.getString("userEmail");
         String targetId = rs.getString("targetId");
-        Category targetCategory = Category.valueOf(rs.getString("targetCategory"));
+        String targetCategory = rs.getString("targetCategory");
 
         // initialize new annotation body
         String title = rs.getString("title");

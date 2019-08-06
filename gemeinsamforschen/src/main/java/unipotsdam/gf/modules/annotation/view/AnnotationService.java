@@ -2,7 +2,10 @@ package unipotsdam.gf.modules.annotation.view;
 
 import io.dropwizard.jersey.PATCH;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
-import unipotsdam.gf.modules.annotation.model.*;
+import unipotsdam.gf.modules.annotation.model.Annotation;
+import unipotsdam.gf.modules.annotation.model.AnnotationPatchRequest;
+import unipotsdam.gf.modules.annotation.model.AnnotationPostRequest;
+import unipotsdam.gf.modules.annotation.model.AnnotationResponse;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -113,7 +116,7 @@ public class AnnotationService {
     public Response getAnnotations(@PathParam("id") String targetId, @PathParam("category") String category) {
 
         // receive the annotation
-        ArrayList<Annotation> annotations = controller.getAnnotations(targetId, Category.valueOf(category.toUpperCase()));
+        ArrayList<Annotation> annotations = controller.getAnnotations(targetId, category.toUpperCase());
 
         if (!annotations.isEmpty()) {
             return Response.ok(annotations).build();
