@@ -326,8 +326,9 @@ public class Wizard {
     }
 
     private User createUserParallel(Project project, Random random) {
+        User user = factory.manufacturePojo(User.class);
         try {
-            User user = factory.manufacturePojo(User.class);
+
             user.setStudent(true);
 
             user.setRocketChatUsername("studentwizard" + random.nextInt(1000000));
@@ -341,7 +342,7 @@ public class Wizard {
             System.out.println(e);
             // might have been a problem with UUID generation should not crash
         }
-        return null;
+        return user;
     }
 
     private void annotateDossiers(Project project) {
