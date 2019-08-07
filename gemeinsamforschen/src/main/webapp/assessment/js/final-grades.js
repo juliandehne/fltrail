@@ -1,6 +1,6 @@
 $(document).ready(function () {
     let projectName = $('#projectName').html().trim();
-
+    loaderStart();
     writeGradesToView(projectName, function () {
         modelTable();
         if (getQueryVariable("final") === "true") {
@@ -11,6 +11,7 @@ $(document).ready(function () {
         } else {
             $('.savedFinalMark').hide();
         }
+        loaderStop();
     });
     $('#print').on('click', function () {
         printToExcel()
@@ -303,5 +304,8 @@ function getContributions(projectName) {
 }
 
 function printToExcel() {
-
+    $.ajax({
+        url: "../rest/", //todo der richtige Link hier
+        type: 'GET'
+    });
 }

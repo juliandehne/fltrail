@@ -80,7 +80,7 @@
                 Die Noten wurden gespeichert.
             </div>
             <div class="alert alert-warning" id="gradeMissing" hidden>
-                Bevor Sie die Noten final speichern können, müssen alle Studenten eine Zensur erhalten haben.
+                Bevor Sie die Noten final speichern können, müssen alle Studenten eine Note erhalten haben.
                 Bitte überprüfen Sie dies.
             </div>
 
@@ -202,8 +202,10 @@
                     Dies ist die finale Benotung der Studierenden
                     <input id="finalizeGrading" style="margin-top:6px;" type="checkbox" title="finalisieren">
                 </label>
+                <div style="margin-left:65%;">
+                    <button title="print" id="print" class="btn btn-primary"><i class="fas fa-print"></i> print</button>
+                </div>
             </div>
-            <button title="print" id="print" style="cursor:pointer"><i class="fas fa-print"></i> print</button>
         </div>
     </main>
 

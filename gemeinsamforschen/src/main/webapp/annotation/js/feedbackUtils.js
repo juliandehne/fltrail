@@ -18,6 +18,9 @@ function prepareFeedbackMenu(category) {
                 }
                 let editor = $('#editor');
                 editor.data("body", body);
+                //for Scrolling to feedback-part. Does not scroll the editorField yet, just html.body
+                //let span = editor.find("div.ql-editor p span");
+                //$('html, body').animate({scrollTop: ($(span).position().top)},500);
             }, function () {
                 //error
             })
