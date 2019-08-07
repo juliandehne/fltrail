@@ -1,5 +1,10 @@
 package unipotsdam.gf.modules.assessment;
 
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.Contribution;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -17,10 +22,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import jxl.write.Number;
 
 @Path("/assessment")
 public class AssessmentView {
@@ -99,9 +108,9 @@ public class AssessmentView {
     /**
      * save the answers a user has given in a survey
      *
-     * @param data keys are groupWork skills and values are string encoded integers from 1 to 5
+     * @param data        keys are groupWork skills and values are string encoded integers from 1 to 5
      * @param projectName of interest
-     * @param req context to get userCredentials
+     * @param req         context to get userCredentials
      */
     @POST
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -129,6 +138,7 @@ public class AssessmentView {
 
     /**
      * starts studentAssessment
+     *
      * @param projectName of interest
      * @throws Exception needs user not null to work properly
      */
@@ -160,9 +170,115 @@ public class AssessmentView {
 
     @POST
     @Path("/grades/project/{projectName}/sendData")
-    public void sendData(@PathParam("projectName") String projectName, UserAssessmentDataHolder userAssessmentDataHolder)
+    public void sendData(
+            @PathParam("projectName") String projectName, UserAssessmentDataHolder userAssessmentDataHolder)
             throws Exception {
-         peerAssessmentProcess.saveGrades(new Project(projectName), userAssessmentDataHolder);
+        peerAssessmentProcess.saveGrades(new Project(projectName), userAssessmentDataHolder);
     }
+
+
+    @GET
+    @Path("/grades/project/{projectName}/excel")
+    @Produces("application/vnd.ms-excel")
+    public Response downloadExcelFile(@PathParam("projectName") String projectName) throws IOException, WriteException {
+
+        List<UserPeerAssessmentData> userAssessmentsFromDB = peer.getUserAssessmentsFromDB(new Project(projectName));
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        WritableWorkbook workbook = Workbook.createWorkbook(baos);
+
+        WritableSheet grades = workbook.createSheet("Grades", 1);
+
+        Label label = new Label(0, 0, "Name");
+        grades.addCell(label);
+
+        Label label1 = new Label(1, 0, "Email");
+        grades.addCell(label1);
+
+        Label label2 = new Label(2, 0, "Gruppe");
+        grades.addCell(label2);
+
+        Label label3 = new Label(3, 0, "Gruppenarbeit Peer Bewertung");
+        grades.addCell(label3);
+
+        Label label4 = new Label(4, 0, "Gruppenarbeit Produkte");
+        grades.addCell(label4);
+
+        Label label5 = new Label(5, 0, "Vorgeschlagenes Note");
+        grades.addCell(label5);
+
+        Label label6 = new Label(6, 0, "Finalisierte Note");
+        grades.addCell(label6);
+
+        Label label7 = new Label(7, 0, "Produktnote des Dozenten");
+        grades.addCell(label7);
+
+        int rowCount = 1;
+
+        for (UserPeerAssessmentData userPeerAssessmentData : userAssessmentsFromDB) {
+            String name = userPeerAssessmentData.getUser().getName();
+            if (name != null) {
+                Label nameCell = new Label(0, rowCount, name);
+                grades.addCell(nameCell);
+            }
+
+            String email = userPeerAssessmentData.getUser().getEmail();
+            if (email != null) {
+                Label emailCell = new Label(1, rowCount, email);
+                grades.addCell(emailCell);
+            }
+
+            Integer groupId = userPeerAssessmentData.getGroupId();
+            if (groupId != null) {
+                Number groupIdCell = new Number(2, rowCount, groupId);
+                grades.addCell(groupIdCell);
+            }
+
+            Double groupWorkRating = userPeerAssessmentData.getGroupWorkRating();
+            if (groupWorkRating != null) {
+                Number groupWorkRatingIdCell = new Number(3, rowCount, groupWorkRating);
+                grades.addCell(groupWorkRatingIdCell);
+            }
+
+            Double groupProductRating = userPeerAssessmentData.getGroupProductRating();
+            if (groupProductRating != null) {
+                Number groupProductRatingCell = new Number(4, rowCount, groupProductRating);
+                grades.addCell(groupProductRatingCell);
+            }
+
+            Double suggestedRating = userPeerAssessmentData.getSuggestedRating();
+            if (suggestedRating != null ) {
+                Number suggestedRatingCell = new Number(5, rowCount, suggestedRating);
+                grades.addCell(suggestedRatingCell);
+            }
+
+            Double finalRating = userPeerAssessmentData.getFinalRating();
+            if (finalRating != null) {
+                Number finalRatingCell = new Number(6, rowCount, finalRating);
+                grades.addCell(finalRatingCell);
+            }
+
+            final Double docentProductRating = userPeerAssessmentData.getDocentProductRating();
+            Number docentProductRatingCell = new Number(7, rowCount, docentProductRating);
+            grades.addCell(docentProductRatingCell);
+
+            rowCount++;
+        }
+
+        workbook.write();
+        workbook.close();
+
+        StreamingOutput streamingOutput = output -> {
+            output.write(baos.toByteArray());
+            output.flush();
+            output.close();
+        };
+
+        Response.ResponseBuilder responseBuilder = Response.ok(streamingOutput);
+        responseBuilder.header("Content-Disposition", "attachment; filename=\"grades.xls\"");
+        return responseBuilder.build();
+
+    }
+
 
 }
