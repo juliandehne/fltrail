@@ -13,7 +13,9 @@ $(document).ready(function () {
             location.href = "../groupfinding/view-groups.jsp?projectName=" + projectName;
         });
     });
+
 });
+
 
 function fillTasks(projectName, userEmail, callback) {
     $.ajax({

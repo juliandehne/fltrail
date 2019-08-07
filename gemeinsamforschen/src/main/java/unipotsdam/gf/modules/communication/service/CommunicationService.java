@@ -496,11 +496,24 @@ public class CommunicationService implements ICommunication {
         return result;
     }
 
-    /**
-     * TODO implement
-     * @param user
-     */
-    public void logout(User user) {
 
+    public void logout(RocketChatUser user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+
+        // the actual delete
+        Map<String, String> headerMap =
+                new RocketChatHeaderMapBuilder()
+                        .withRocketChatUserId(user.getRocketChatUserId())
+                        .withAuthTokenHeader(user.getRocketChatAuthToken()).build();
+        Map<String, String> bodyMap = new HashMap<>();
+        //bodyMap.put("userId", user.getRocketChatUserId());
+
+        HttpResponse<RocketChatSuccessResponse> response =
+                unirestService.post(ROCKET_CHAT_API_LINK + "logout")
+                        .headers(headerMap).body(bodyMap).asObject(RocketChatSuccessResponse.class);
+
+        Boolean badRequest = isBadRequest(response);
+        if (badRequest) {
+            log.error(response.getStatusText().toString());
+        }
     }
 }

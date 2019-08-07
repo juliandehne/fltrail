@@ -47,6 +47,16 @@ public class GFContexts {
         req.getSession().setAttribute(GFContexts.ROCKETCHATID, user.getRocketChatUserId());
     }
 
+    public RocketChatUser getRocketChatUserFromSession(HttpServletRequest req) {
+        RocketChatUser rocketChatUser = new RocketChatUser();
+        if (req.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) == null) {
+            return null;
+        }
+        rocketChatUser.setRocketChatAuthToken(req.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN).toString());
+        rocketChatUser.setRocketChatUserId(req.getSession().getAttribute(GFContexts.ROCKETCHATID).toString());
+        return rocketChatUser;
+    }
+
     public void updateUserWithEmail(HttpServletRequest req, User user) {
         log.debug("setting user email ssession:" + user.getEmail());
         if (req != null) {

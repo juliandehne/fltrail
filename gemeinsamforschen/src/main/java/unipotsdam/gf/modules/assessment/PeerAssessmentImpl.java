@@ -162,6 +162,8 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         }
     };
 
+
+
     /**
      * GET THE DATA and suggestions, including the PROBLEM CASES
      * @param project of interest
@@ -174,7 +176,6 @@ public class PeerAssessmentImpl implements IPeerAssessment {
         // get the internal rating aggregated
 
         // get the  peer product rating
-
         HashMap<User, Double> peerProductRatings = assessmentDAO.getPeerProductRatings(project);
 
         // get the docent product rating
