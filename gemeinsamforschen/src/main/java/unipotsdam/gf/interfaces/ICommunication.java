@@ -111,5 +111,7 @@ public interface ICommunication {
 
     void delete(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
 
+    public void logout(RocketChatUser user) throws RocketChatDownException, UserDoesNotExistInRocketChatException;
+
 
 }

@@ -11,11 +11,11 @@ public class Annotation {
     private long timestamp;
     private String userEmail;
     private String targetId;
-    private Category targetCategory;
+    private String targetCategory;
     private AnnotationBody body;
 
     // constructor
-    public Annotation(String id, long timestamp, String userEmail, String targetId, Category targetCategory, AnnotationBody body) {
+    public Annotation(String id, long timestamp, String userEmail, String targetId, String targetCategory, AnnotationBody body) {
         this.id = id;
         this.timestamp = timestamp;
         this.userEmail = userEmail;
@@ -49,11 +49,11 @@ public class Annotation {
         this.targetId = targetId;
     }
 
-    public Category getTargetCategory() {
+    public String getTargetCategory() {
         return targetCategory;
     }
 
-    public void setTargetCategory(Category targetCategory) {
+    public void setTargetCategory(String targetCategory) {
         this.targetCategory = targetCategory;
     }
 

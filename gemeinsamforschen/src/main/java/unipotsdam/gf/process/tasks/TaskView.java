@@ -38,8 +38,7 @@ public class TaskView {
     public ArrayList<Task> getTasks(@PathParam("userEmail") String userEmail, @PathParam("projectToken") String projectToken)
             throws Exception {
         String user = URLDecoder.decode(userEmail, "UTF-8");
-        ArrayList<Task> tasks = taskDAO.getTasks(new User(user), new Project(projectToken));
-        return tasks;
+        return taskDAO.getTasks(new User(user), new Project(projectToken));
     }
 
     @GET

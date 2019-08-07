@@ -5,10 +5,8 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.GFRocketChatConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
-import unipotsdam.gf.healthchecks.HealthChecks;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.LoginToken;
-import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.session.GFContexts;
 
@@ -28,6 +26,9 @@ import static java.util.Objects.isNull;
 public class CommunicationView {
 
     private static final Logger log = LoggerFactory.getLogger(CommunicationView.class);
+
+    @Inject
+    GFContexts gfContexts;
 
     @Inject
     private ICommunication communicationService;
@@ -125,15 +126,19 @@ public class CommunicationView {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/sso")
-    public LoginToken provideLoginToken(@Context HttpServletRequest req, Object payload)
+    public Response provideLoginToken(@Context HttpServletRequest req, Object payload)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         if (req.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) != null) {
             String token = getAuthToken(req);
-            return new LoginToken(token);
+            return Response.status(Response.Status.OK).entity(new LoginToken(token)).build();
         } else {
-            RocketChatUser user = communicationService.loginUser(GFRocketChatConfig.ADMIN_USER);
-            return new LoginToken(user.getRocketChatAuthToken());
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
+        /*else {
+            RocketChatUser user = communicationService.loginUser(GFRocketChatConfig.ADMIN_USER);
+            gfContexts.updateUserSessionWithRocketChat(req, user);
+            return new LoginToken(user.getRocketChatAuthToken());
+        }*/
     }
 
     private String getAuthToken(@Context HttpServletRequest req) {
@@ -143,9 +148,14 @@ public class CommunicationView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path("/login")
-    public String provideLoginHTML(@Context HttpServletRequest req) {
-        String rocketChatIntegration = "<script> window.parent.postMessage({event: 'login-with-token',loginToken:" +
-                " '" + getAuthToken(req) + "'}, '" + GFRocketChatConfig.ROCKET_CHAT_LINK_0 + "');</script>";
-        return rocketChatIntegration;
+    public Response provideLoginHTML(@Context HttpServletRequest req) {
+        if (gfContexts.getRocketChatUserFromSession(req) == null) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        } else {
+            String rocketChatIntegration = "<script> window.parent.postMessage({event: 'login-with-token',loginToken:" +
+                    " '" + getAuthToken(req) + "'}, '" + GFRocketChatConfig.ROCKET_CHAT_LINK_0 + "');</script>";
+
+            return Response.ok().entity(rocketChatIntegration).build();
+        }
     }
 }

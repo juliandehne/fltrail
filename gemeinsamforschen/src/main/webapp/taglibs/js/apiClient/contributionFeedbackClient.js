@@ -7,7 +7,7 @@ const baseUrl = "../rest/contributionfeedback";
  * @param responseHandler The response handler
  */
 function createContributionFeedback(contributionFeedback, responseHandler) {
-    let url = baseUrl;
+    let url = baseUrl + "/fullSubmissionId/" + contributionFeedback.fullSubmissionId;
     let json = JSON.stringify(contributionFeedback);
     $.ajax({
         url: url,
@@ -92,9 +92,7 @@ function getContributionFeedback(fullSubmissionId, fullSubmissionPartCategory, g
 }
 
 async function getAllContributionFeedback(fullSubmissionId) {
-    let url = baseUrl + '?' + $.param({
-        fullSubmissionId: fullSubmissionId,
-    });
+    let url = baseUrl + '/fullSubmissionId/' + fullSubmissionId;
     let contributionFeedbacks;
     try {
         contributionFeedbacks = await $.ajax({

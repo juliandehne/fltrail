@@ -1,20 +1,18 @@
 package unipotsdam.gf.process.tasks;
 
-import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.user.User;
 
 public class GroupFeedbackTaskData {
     private Integer targetGroupId;
     private String submissionId;
-    private Category category;
+    private String category;
 
 
     public GroupFeedbackTaskData() {
     }
 
 
-    public GroupFeedbackTaskData(Integer targetGroupId, FullSubmission fullSubmission, Category category) {
+    public GroupFeedbackTaskData(Integer targetGroupId, FullSubmission fullSubmission, String category) {
         this.targetGroupId = targetGroupId;
         this.fullSubmission = fullSubmission;
         this.category = category;
@@ -39,11 +37,11 @@ public class GroupFeedbackTaskData {
         this.submissionId = submissionId;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

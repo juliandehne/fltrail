@@ -96,7 +96,7 @@
                                 Quiz "Thermodynamik" ohne Fehler absolviert
                             </li>
                             <li class="list-group-item">
-                                Dossier vollständig hochgeladen
+                                Dossier vollständig verfasst
                             </li>
                         </ul>
                     </div>

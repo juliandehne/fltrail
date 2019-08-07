@@ -1,6 +1,6 @@
 $(document).ready(function () {
     let projectName = $('#projectName').html().trim();
-
+    loaderStart();
     writeGradesToView(projectName, function () {
         modelTable();
         if (getQueryVariable("final") === "true") {
@@ -11,6 +11,10 @@ $(document).ready(function () {
         } else {
             $('.savedFinalMark').hide();
         }
+        loaderStop();
+    });
+    $('#print').on('click', function () {
+        printToExcel()
     });
     $('#takeSuggested').on('click', function () {
         let tableEntries = $('#allGradesOfAllStudents').find('tr');
@@ -68,7 +72,9 @@ function fillObjectWithGrades(data) {
     for (let student in grades) {
         let result;
         let files = [];
+        // noinspection JSUnfilteredForInLoop
         for (let i = 0; i < grades[student].files.length; i++) {
+            // noinspection JSUnfilteredForInLoop
             files.push({
                 fileCount: fileCount,
                 filePath: grades[student].files[i].fileLocation,
@@ -78,7 +84,7 @@ function fillObjectWithGrades(data) {
         }
         if (grades.hasOwnProperty(student)) {
             let finalMark;
-            if (grades[student].finalRating === undefined) {
+            if (grades[student].finalRating === null) {
                 finalMark = 0;
             } else {
                 finalMark = grades[student].finalRating;
@@ -93,36 +99,45 @@ function fillObjectWithGrades(data) {
                     if (grades[student].beyondStdDeviation > 0)
                         beyondStdDeviation = "fa-arrow-up";
                 }
-            let workRating = 0;
+            let workRating = "fehlt";
             let suggested = parseFloat(Number.parseFloat(grades[student].suggestedRating).toFixed(2));
             if (Math.trunc(suggested) === Math.trunc(suggested + 0.3)) {
                 // suggested = X.69 or less
-                suggested = Math.trunc(suggested) + 0.3;
                 if (Math.trunc(suggested) === Math.trunc(suggested + 0.7)) {
                     //suggested = X.29 or less
                     suggested = Math.trunc(suggested);
+                } else {
+                    suggested = Math.trunc(suggested) + 0.3;
                 }
             } else {
                 // suggested = X.7 or more
                 suggested = Math.trunc(suggested) + 0.7;
             }
-            let cleanedSuggested = 0;
+            let cleanedSuggested = "fehlt";
             let countValidEntries = 1; //docentProductRating always happens.
 
             if (grades[student].groupWorkRating !== null) {
                 workRating = parseFloat(Number.parseFloat(grades[student].groupWorkRating).toFixed(2));
             }
-            let cleanedWorkRating = 0;
+            let cleanedWorkRating = "fehlt";
             if (grades[student].cleanedGroupWorkRating !== null) {
                 cleanedWorkRating = parseFloat(Number.parseFloat(grades[student].cleanedGroupWorkRating).toFixed(2));
-                cleanedSuggested += cleanedWorkRating;
+                if (isNaN(cleanedSuggested)) {
+                    cleanedSuggested = cleanedWorkRating;
+                } else {
+                    cleanedSuggested += cleanedWorkRating;
+                }
                 countValidEntries++;
             }
             let levelOfAgreement = "";
-            let productPeer = 0;
+            let productPeer = "fehlt";
             if (grades[student].groupProductRating !== null) {
                 productPeer = parseFloat(Number.parseFloat(grades[student].groupProductRating).toFixed(2));
-                cleanedSuggested += productPeer;
+                if (isNaN(cleanedSuggested)) {
+                    cleanedSuggested = productPeer;
+                } else {
+                    cleanedSuggested += productPeer;
+                }
                 countValidEntries++;
                 levelOfAgreement = "alert-success";
                 if ((productPeer + 0.3 < productDocent) || (productPeer - 0.3 > productDocent)) {
@@ -132,14 +147,23 @@ function fillObjectWithGrades(data) {
                     levelOfAgreement = "alert-danger";
                 }
             }
-            cleanedSuggested += productDocent;
-            cleanedSuggested = parseFloat(Number.parseFloat(cleanedSuggested / countValidEntries).toFixed(2));
+            if (isNaN(cleanedSuggested)) {
+                cleanedSuggested = productDocent;
+            } else {
+                cleanedSuggested += productDocent;
+            }
+            if (isNaN(cleanedWorkRating)) {
+                cleanedSuggested = suggested;
+            } else {
+                cleanedSuggested = parseFloat(Number.parseFloat(cleanedSuggested / countValidEntries).toFixed(2));
+            }
             if (Math.trunc(cleanedSuggested) === Math.trunc(cleanedSuggested + 0.3)) {
                 // suggested = X.69 or less
-                cleanedSuggested = Math.trunc(cleanedSuggested) + 0.3;
                 if (Math.trunc(cleanedSuggested) === Math.trunc(cleanedSuggested + 0.7)) {
                     //suggested = X.29 or less
                     cleanedSuggested = Math.trunc(cleanedSuggested);
+                } else {
+                    cleanedSuggested = Math.trunc(cleanedSuggested) + 0.3;
                 }
             } else {
                 // suggested = X.7 or more
@@ -276,5 +300,12 @@ function getContributions(projectName) {
         error: function (a) {
 
         }
+    });
+}
+
+function printToExcel() {
+    $.ajax({
+        url: "../rest/", //todo der richtige Link hier
+        type: 'GET'
     });
 }

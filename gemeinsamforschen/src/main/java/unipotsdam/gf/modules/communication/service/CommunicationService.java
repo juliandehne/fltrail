@@ -20,6 +20,8 @@ import unipotsdam.gf.modules.communication.model.rocketChat.RocketChatSuccessRes
 import unipotsdam.gf.modules.communication.util.RocketChatHeaderMapBuilder;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
+import unipotsdam.gf.modules.performance.PerformanceCandidates;
+import unipotsdam.gf.modules.performance.PerformanceUtil;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -198,8 +200,12 @@ public class CommunicationService implements ICommunication {
 
     private boolean modifyChatRoom(User user, String roomId, boolean addUser)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        PerformanceUtil.start(PerformanceCandidates.MODIFY_CHAT_ROOM);
+
         //loginUser(ADMIN_USER);
+        PerformanceUtil.start(PerformanceCandidates.LOGIN_USER);
         RocketChatUser student = loginUser(user);
+        PerformanceUtil.stop(PerformanceCandidates.LOGIN_USER);
 
         if (hasEmptyParameter(user.getRocketChatUsername(), roomId)) {
             return false;
@@ -212,6 +218,7 @@ public class CommunicationService implements ICommunication {
 
         String groupUrl = addUser ? "groups.invite" : "groups.kick";
 
+        PerformanceUtil.start(PerformanceCandidates.MODIFY_CHAT_ROOM_REQUEST);
         HttpResponse<Map> response =
                 unirestService.post(GFRocketChatConfig.ROCKET_CHAT_API_LINK + groupUrl).headers(headerMap).body(bodyMap)
                         .asObject(Map.class);
@@ -221,7 +228,11 @@ public class CommunicationService implements ICommunication {
         }
 
         Map responseMap = response.getBody();
-        return !responseMap.containsKey("error") && !responseMap.get("success").equals("false");
+        PerformanceUtil.stop(PerformanceCandidates.MODIFY_CHAT_ROOM_REQUEST);
+
+        boolean result = !responseMap.containsKey("error") && !responseMap.get("success").equals("false");
+        PerformanceUtil.stop(PerformanceCandidates.MODIFY_CHAT_ROOM);
+        return  result;
     }
 
     @Override
@@ -311,9 +322,12 @@ public class CommunicationService implements ICommunication {
         rocketChatRegister.put("pass", user.getPassword());
         rocketChatRegister.put("name", user.getName());
 
+        PerformanceUtil.start(PerformanceCandidates.ROCKET_REGISTER_USER_REQUEST);
+
         HttpResponse<RocketChatRegisterResponse> response =
                 unirestService.post(ROCKET_CHAT_API_LINK + "users.register").body(rocketChatRegister)
                         .asObject(RocketChatRegisterResponse.class);
+        PerformanceUtil.stop(PerformanceCandidates.ROCKET_REGISTER_USER_REQUEST);
 
         Boolean badRequest = isBadRequest(response);
         if (badRequest) {
@@ -328,7 +342,9 @@ public class CommunicationService implements ICommunication {
         }
 
         // updateRocketChatUserName user with rocket chat data
+        PerformanceUtil.start(PerformanceCandidates.ROCKET_REGISTER_USER_DAO);
         userDAO.updateRocketChatUserName(user);
+        PerformanceUtil.stop(PerformanceCandidates.ROCKET_REGISTER_USER_DAO);
         /**
          * TODO with higher rocket chat version a personal access tokens exist and this function can be used
          */
@@ -374,13 +390,16 @@ public class CommunicationService implements ICommunication {
     }
 
     private String createRocketChatUsername(User user) {
+        PerformanceUtil.start(PerformanceCandidates.ROCKET_CREATE_USER);
         // TODO: eventually add username to normal registration
         String possibleUsername = user.getName().replaceAll(" ", "");
         int counter = 1;
         while (userDAO.existsByRocketChatUsername(possibleUsername)) {
             possibleUsername = user.getName().replaceAll(" ", "") + counter;
             counter++;
+            System.out.println("rocket_create_user while loop executed");
         }
+        PerformanceUtil.stop(PerformanceCandidates.ROCKET_CREATE_USER);
         return possibleUsername;
     }
 
@@ -477,11 +496,24 @@ public class CommunicationService implements ICommunication {
         return result;
     }
 
-    /**
-     * TODO implement
-     * @param user
-     */
-    public void logout(User user) {
 
+    public void logout(RocketChatUser user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+
+        // the actual delete
+        Map<String, String> headerMap =
+                new RocketChatHeaderMapBuilder()
+                        .withRocketChatUserId(user.getRocketChatUserId())
+                        .withAuthTokenHeader(user.getRocketChatAuthToken()).build();
+        Map<String, String> bodyMap = new HashMap<>();
+        //bodyMap.put("userId", user.getRocketChatUserId());
+
+        HttpResponse<RocketChatSuccessResponse> response =
+                unirestService.post(ROCKET_CHAT_API_LINK + "logout")
+                        .headers(headerMap).body(bodyMap).asObject(RocketChatSuccessResponse.class);
+
+        Boolean badRequest = isBadRequest(response);
+        if (badRequest) {
+            log.error(response.getStatusText().toString());
+        }
     }
 }

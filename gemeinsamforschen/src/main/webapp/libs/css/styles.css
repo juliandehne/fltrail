@@ -181,6 +181,7 @@ table img {
     border: 1px solid #cccccc;
     border-radius: 3px;
     background-color: #fff;
+    z-index: 10;
     -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
     -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
     transition: border 0.15s ease-in-out, color 0.15s ease-in-out;

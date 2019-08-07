@@ -64,6 +64,7 @@
         <url-pattern>/assessment/*</url-pattern> <!-- either url-pattern or servlet-name is mandatory -->
         <url-pattern>/portfolio/*</url-pattern>
         <url-pattern>/reflection/*</url-pattern>
+        <url-pattern>/taglibs/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 

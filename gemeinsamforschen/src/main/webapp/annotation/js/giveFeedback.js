@@ -1,12 +1,4 @@
-/*
-    TODO
-        show feedback page (could be this page):
-            - color feedback in user color
-            - color on mouseover with user color (nicht mehr, da wir nur noch ein feedback haben pro seite)
- */
 let categories = [];
-
-
 /**
  * This function will fire when the DOM is ready
  */
@@ -14,6 +6,11 @@ let contributionFeedback = undefined;
 
 $(document).ready(function () {
     handleLocker("GIVE_FEEDBACK");
+    let btnBack = $('#btnBack');
+    btnBack.click(handleBackButtonClick);
+
+    let btnContinue = $('#btnContinue');
+    btnContinue.click(handleContinueButtonClick);
     getAnnotationCategories(function (response) {
         categories = response;
         let btnContinueBot = $('#btnContinueBot');
@@ -39,12 +36,6 @@ $(document).ready(function () {
     /*getFeedbackedGroup(function (response) {
     });*/
     prepareFeedbackMenu(category);
-    let btnBack = $('#btnBack');
-    btnBack.click(handleBackButtonClick);
-
-    let btnContinue = $('#btnContinue');
-    btnContinue.click(handleContinueButtonClick);
-
 
     let btnFinalize = $('#finalize');
     btnFinalize.hide();
@@ -129,10 +120,12 @@ function handleBackButtonClick() {
     if (!nextCategory) {
 
     } else {
-        location.href = "../annotation/give-feedback.jsp?" +
-            "projectName=" + getProjectName() +
-            "&fullSubmissionId=" + submissionId +
-            "&category=" + nextCategory;
+        saveContributionFeedback(function () {
+            location.href = "../annotation/give-feedback.jsp?" +
+                "projectName=" + getProjectName() +
+                "&fullSubmissionId=" + submissionId +
+                "&category=" + nextCategory;
+        });
     }
 }
 String.prototype.hashCode = function () {

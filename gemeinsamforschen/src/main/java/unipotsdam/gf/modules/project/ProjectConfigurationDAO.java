@@ -1,8 +1,8 @@
 package unipotsdam.gf.modules.project;
 
-import unipotsdam.gf.modules.annotation.model.Category;
 import unipotsdam.gf.modules.assessment.AssessmentMechanism;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.phases.Phase;
@@ -15,19 +15,21 @@ public class ProjectConfigurationDAO {
     @Inject
     MysqlConnect connect;
 
+    @Inject
+    SubmissionController submissionController;
+
     void persistProjectConfiguration(ProjectConfiguration projectConfiguration, Project project) {
 
         connect.connect();
 
         // persist Criteria
-        HashMap<Category, Boolean> criteriaSelected = projectConfiguration.getCriteriaSelected();
-        for (Category category : criteriaSelected.keySet()) {
+        HashMap<String, Boolean> criteriaSelected = projectConfiguration.getCriteriaSelected();
+        for (String category : criteriaSelected.keySet()) {
             Boolean criteriumSelected = criteriaSelected.get(category);
             if (criteriumSelected != null && criteriumSelected) {
                 String projectName = project.getName();
-                String categoryName = category.name();
                 String mysqlRequest = "insert INTO categoriesSelected (`projectName`,`categorySelected`) VALUES (?,?)";
-                connect.issueInsertOrDeleteStatement(mysqlRequest, projectName, categoryName);
+                connect.issueInsertOrDeleteStatement(mysqlRequest, projectName, category);
             }
         }
 
@@ -71,8 +73,10 @@ public class ProjectConfigurationDAO {
         HashMap<Phase, Boolean> projectPhasesSelected =
                 getSelectionFromTable(connect, Phase.class, project, "phasesSelected");
 
-        HashMap<Category, Boolean> categorySelected =
-                getSelectionFromTable(connect, Category.class, project, "categoriesSelected");
+        HashMap<String, Boolean> categorySelected = new HashMap<>();
+        for (String category : submissionController.getAnnotationCategories(project)) {
+            categorySelected.put(category, true);
+        }
         AssessmentMechanism asmSelected = AssessmentMechanism.PEER_ASSESSMENT;
         HashMap<AssessmentMechanism, Boolean> aMBHM = getSelectionFromTable(connect, AssessmentMechanism.class, project, "assessmentMechanismSelected");
         for (AssessmentMechanism am : aMBHM.keySet()){

@@ -17,7 +17,7 @@ public class ConstraintsMessages {
             case QuizCount:
                 return student.getEmail() + " hat noch kein Quiz erstellt.";
             case DossierMissing:
-                return student.getEmail() + " hat noch kein Dossier hochgeladen.";
+                return student.getEmail() + " hat noch kein Dossier verfasst.";
             case FeedbackCount:
                 return student.getEmail() + " hat noch nicht das erwartete Feedack gegeben.";
             case JournalCount:

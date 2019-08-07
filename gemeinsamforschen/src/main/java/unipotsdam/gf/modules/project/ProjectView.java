@@ -147,15 +147,25 @@ public class ProjectView {
         if (project == null) {
             return "project missing";
         }
-        /*
-        if (!project.getPassword().equals(password)) {
-            return "wrong password";
-        }
-        */
-        // TODO, this should not be called here
         projectCreationProcess.studentEntersProject(project, user);
 
         return "ok";
+    }
+
+    @GET
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Path("/login/{projectName}/password/{password}")
+    public Response checkPassword(
+            @Context HttpServletRequest req, @PathParam("projectName") String projectName,
+            @PathParam("password") String password) throws Exception {
+        Project project = projectDAO.getProjectByName(projectName);
+        if (project == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        if (!project.getPassword().equals(password)) {
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        return Response.ok().build();
     }
 
     @GET

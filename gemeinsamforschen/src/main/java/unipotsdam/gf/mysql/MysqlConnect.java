@@ -5,7 +5,6 @@ import ch.vorburger.exec.ManagedProcessException;
 import javax.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 @Singleton
 public interface MysqlConnect {
@@ -16,8 +15,6 @@ public interface MysqlConnect {
     VereinfachtesResultSet issueSelectStatement(String statement, Object... args);
 
     int issueInsertStatementWithAutoincrement(String sql, Object... args);
-
-    void otherStatements(String statement);
 
     Integer issueUpdateStatement(String statement, Object... args);
 

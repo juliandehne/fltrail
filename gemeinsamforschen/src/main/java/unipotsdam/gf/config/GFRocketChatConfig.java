@@ -23,8 +23,12 @@ public class GFRocketChatConfig {
     //public static final String ROCKET_CHAT_LINK_0 = "http://fleckenroller.cs.uni-potsdam.de:3000";
     //public static final String ROCKET_CHAT_LINK = "http://fleckenroller.cs.uni-potsdam.de:3000/";
 
-    public static final String ROCKET_CHAT_LINK_0 = "http://fleckenroller.cs.uni-potsdam.de/chat";
-    public static final String ROCKET_CHAT_LINK = "http://fleckenroller.cs.uni-potsdam.de/chat/";
+    //public static final String ROCKET_CHAT_LINK_0 = "http://fleckenroller.cs.uni-potsdam.de/chat";
+    //public static final String ROCKET_CHAT_LINK = "http://fleckenroller.cs.uni-potsdam.de/chat/";
+
+    public static final String ROCKET_CHAT_LINK_0 = "http://fl.soft.cs.uni-potsdam.de";
+    public static final String ROCKET_CHAT_LINK = "http://fl.soft.cs.uni-potsdam.de/";
+
 
     /**
      * username: fltrailadmin pw: GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F
@@ -43,7 +47,7 @@ public class GFRocketChatConfig {
               "rocketChatPersonalAccessToken", "rocketChatUserId", false);*/
     public static final RocketChatUser ADMIN_USER = new RocketChatUser("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
             "julian.dehne@uni-potsdam.de",  "rocketChatUsername", "rocketChatAuthToken",
-            "rocketChatPersonalAccessToken", "SuFbpF3P9aYEo634W", false);
+            "chY-tRPI4CN2Z5YZ-W0txHacDzINTjzu0do-9PzbHmy", "Amo7NRAah5JwSYX2y", false);
 
 
 

@@ -8,7 +8,7 @@ public class TestGFApplicationBinder extends GFApplicationBinder {
 
 
     @Override
-    protected void bindMore() {
+    protected void bindDBConnections() {
         bind(MysqlTestConnect.class).to(MysqlConnect.class);
     }
 }

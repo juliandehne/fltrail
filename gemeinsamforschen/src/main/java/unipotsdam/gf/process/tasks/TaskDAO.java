@@ -24,11 +24,7 @@ import unipotsdam.gf.process.phases.Phase;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -420,8 +416,7 @@ public class TaskDAO {
                 if (ipap.getNumberOfMissing() > 0) {
                     task.setTaskData(ipap);
                 } else {
-                    result = null;
-                    break;
+                    task.setTaskData(null);
                 }
                 result = task;
                 break;

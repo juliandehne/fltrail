@@ -60,13 +60,26 @@ public class SurveyMapper {
 
     private static final Logger log = LoggerFactory.getLogger(CommunicationView.class);
 
+    private static ScaledQuestion convertQuestion(ProfileQuestion question) {
+        ScaledQuestion scaledQuestion = new ScaledQuestion();
+        scaledQuestion.setName(question.getId() + "");
+        scaledQuestion.setTitle(new LocalizedText(question.getQuestion_en(), question.getQuestion()));
+        return scaledQuestion;
+    }
+
+    private void addGeneralQuestion(String name, LocalizedText nickname1, Page generalDetails) {
+        OpenQuestion openQuestion = new OpenQuestion();
+        openQuestion.setName(name);
+        openQuestion.setTitle(nickname1);
+        generalDetails.getQuestions().add(openQuestion);
+    }
+
     /**
      * generate the backing data for the survey
      *
-     * @param groupWorkContext
-     * @return
+     * @return data that fits into surveyJS
      */
-    public SurveyData getItemsFromDB(GroupWorkContext groupWorkContext, Project project) throws Exception {
+    SurveyData getItemsFromDB(GroupWorkContext groupWorkContext, Project project) throws Exception {
         SurveyData surveyData = new SurveyData(); // the result obj
         // the persisted questions from the excel sheet (ITEMS for FL, based on FideS Team research)
         HashMap<Project, List<ProfileQuestion>> questionMap = profileDAO.getSelectedQuestions(groupWorkContext);
@@ -79,8 +92,6 @@ public class SurveyMapper {
             // the general questions to create a profile (given that we are not running the survey as part of the normal
             // FL-Trail Mode
             LocalizedText nickname1 = new LocalizedText("Choose a nickname!", "Wählen Sie einen Nickname aus!");
-
-            LocalizedText nickname2 = new LocalizedText("Repeat your nickname!", "Wiederholen Sie den Nickname!");
 
             LocalizedText email1 =
                     new LocalizedText("Enter a valid email!", "Geben Sie eine valide Emailadresse " + "ein!");
@@ -130,20 +141,6 @@ public class SurveyMapper {
         return surveyData;
     }
 
-    private void addGeneralQuestion(String name, LocalizedText nickname1, Page generalDetails) {
-        OpenQuestion openQuestion = new OpenQuestion();
-        openQuestion.setName(name);
-        openQuestion.setTitle(nickname1);
-        generalDetails.getQuestions().add(openQuestion);
-    }
-
-    public static ScaledQuestion convertQuestion(ProfileQuestion question) {
-        ScaledQuestion scaledQuestion = new ScaledQuestion();
-        scaledQuestion.setName(question.getId() + "");
-        scaledQuestion.setTitle(new LocalizedText(question.getQuestion_en(), question.getQuestion()));
-        return scaledQuestion;
-    }
-
 /*    public void saveEvaluation(HashMap<String, String> data, String projectId, HttpServletRequest req) {
         User user = userDAO.getUserByEmail(req.getSession().getAttribute("userEmail").toString());
         UserProfile userProfile = new UserProfile(data, user, projectId);
@@ -170,13 +167,10 @@ public class SurveyMapper {
 
     /**
      * add survey user to project and save his responses
-     * @param data
-     * @param project
-     * @param req
-     * @return
-     * @throws RocketChatDownException
-     * @throws UserDoesNotExistInRocketChatException
-     * @throws IOException
+     * @param data which holds surveyJS information about user
+     * @param project of interest
+     * @return the user who is build by data
+     * @throws RocketChatDownException when rocketChat is down
      */
     private User registerUserInProject(HashMap<String, String> data, Project project, HttpServletRequest req)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException, IOException {
@@ -229,9 +223,6 @@ public class SurveyMapper {
      * after groups have been formed for a certain project, a new internal project is created for the next cohort
      * using the link
      * It is looked up based on the context set
-     *
-     * @param projectContext
-     * @return
      */
     public SurveyProject createNewProject(GroupWorkContext projectContext) {
         String randomId = UUID.randomUUID().toString();

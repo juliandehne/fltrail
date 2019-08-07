@@ -27,8 +27,8 @@
 </jsp:include>
 <div class="row group">
     <main>
-        <jsp:include page="../taglibs/timeLine.jsp"/>
-        <div class="col span_content span_1_of_2">
+        <div class="col span_content span_s_of_2"></div>
+        <div class="col span_content span_l_of_2">
             <h3>Geben Sie hier ihre Präferenzen ein!</h3>
             <!--fieldset>
                 <legend>Passwort</legend>
@@ -47,18 +47,22 @@
             <hr style="margin-top:-9px;">
             <p class="alert alert-warning" style="width:520px;">Wähle 2 der hier angegebenen Tags aus, die am ehesten zu
                 deiner Forschungsfrage passen.</p>
-            <div id="tags">
+            <div id="tags"></div>
+            <script id="tagTemplate" type="text/x-jQuery-tmpl">
+                 <div>
+                    <div class='checkbox checkbox-primary' >
+                    <input id='tag${tagCount}' class='checkbox' name='tag' type='checkbox' value='${tagText}' hidden>
+                    <label for='tag${tagCount}'>${tagText}</label>
+                    </div>
+                </div>
 
-            </div>
+            </script>
+
             <button class="btn btn-primary" id="studentFormSubmit">
                 eintragen
             </button>
             <div class="alert alert-warning" style="width:520px; margin-top: 10px;" role="alert">
                 Das Verarbeiten der Lernziele und das Gruppenmatching kann einen Moment dauern!
-            </div>
-            <div class="col span_chat">
-                <chat:chatWindow orientation="right" scope="project"/>
-                <chat:chatWindow orientation="right" scope="group"/>
             </div>
             <div class="cover"></div>
         </div>

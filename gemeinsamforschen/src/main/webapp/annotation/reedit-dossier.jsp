@@ -66,24 +66,25 @@
                     </button>
 
 
-                            <div class="checkbox" for="finalizeReedit">
-                                <input id="finalizeReedit" type="checkbox" title="finalisieren">Dies ist die finale
-                                    <a data-toggle='collapse' href='#whatIs' role='button'
-                                       aria-expanded='false' aria-controls='whatIs'>
-                                        <i class='fas fa-question'></i>
-                                    </a> Abgabe des Dossiers
-
+                    <div style="display: block">
+                        <div style="display: inline-flex;">
+                            <input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">
+                            <label for="finalizeReedit" style="margin-right:5px">Dies ist die finale
+                                <a data-toggle='collapse' href='#whatIs' role='button'
+                                   aria-expanded='false' aria-controls='whatIs'>
+                                    <i class='fas fa-question'></i>
+                                </a> Abgabe des Dossiers</label>
+                        </div>
+                        <div class='collapse' id='whatIs'>
+                            <div class='card card-body card-whatIs'>
+                                Bestätigen Sie hier, wenn dies die Version ihres Dossiers ist, die später bewertet
+                                werden soll.
                             </div>
-
-
-                </div>
-
-                <div class='collapse' id='whatIs'>
-                    <div class='card card-body'>
-                        Bestätigen Sie hier, wenn dies die Version ihres Dossiers ist, die später bewertet werden
-                        soll.
+                        </div>
                     </div>
                 </div>
+
+
             </div>
         </div>
     </main>

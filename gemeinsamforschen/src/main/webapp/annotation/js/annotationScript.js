@@ -275,16 +275,12 @@ $(document).ready(function () {
         // get id from edit modal
         let id = $('#annotation-edit-modal').data('id');
 
-        // delte annotation from server and from list
+        // delete annotation from server and from list
         deleteAnnotation(id, function () {
             // send delete request to websocket
             send("DELETE", id);
             // remove annotation from list
             $('#' + id).closest('.listelement').remove();
-            // remove highlighted text
-            // TODO: find out if it created a bug not to call this function here
-            //deleteHighlightedText();
-
             // hide and clear the modal
             $('#annotation-edit-modal').hide();
         })
@@ -507,7 +503,7 @@ function addHighlightedAnnotation(annotation) {
  * Restore the base text
  */
 function deleteHighlightedText(annotation) {
-    let annotationInformation = getAnnotationInformation(annotation)
+    let annotationInformation = getAnnotationInformation(annotation);
     let format = quill.getFormat(annotationInformation.startCharacter, annotationInformation.length);
     format.background = 'white';
     quill.formatText(annotationInformation.startCharacter, annotationInformation.length, format);
@@ -527,7 +523,6 @@ function getAnnotationInformation(annotation) {
  *
  * @param startCharacter The offset of the start character
  * @param endCharacter The offset of the end character
- * @param offset The calculated extra offset depending on already highlighted text
  */
 function addHighlightedSubmissionPart(startCharacter, endCharacter) {
     let length = endCharacter - startCharacter;
@@ -538,11 +533,6 @@ function addHighlightedSubmissionPart(startCharacter, endCharacter) {
         contents.ops[1] = {insert: "\n", attributes: format};
     }
     quill.setContents(contents);
-    if (getQueryVariable("seeFeedback") === "true") {
-        //TODO: find out, what to do here
-        //let deleteMe = document.getElementsByClassName('categoryText');
-        //deleteMe[0].className = 'feedbackText';
-    }
 }
 
 /**
@@ -572,9 +562,9 @@ function getDarkUserColor(userEmail, category) {
 }
 
 function generateCategoryBasedColor(userEmail, category) {
-    let r = (Math.abs(category.hashCode() * 3 % 181) + 60);
-    let g = (Math.abs(category.hashCode() * 43 % 181) + 60);
-    let b = (Math.abs(category.hashCode() * 101 % 181) + 60);
+    let r = (Math.abs(category.toUpperCase().hashCode() * 3 % 181) + 60);
+    let g = (Math.abs(category.toUpperCase().hashCode() * 43 % 181) + 60);
+    let b = (Math.abs(category.toUpperCase().hashCode() * 101 % 181) + 60);
     let r_d = r - 50;
     let g_d = g - 50;
     let b_d = b - 50;
@@ -714,23 +704,6 @@ function editAnnotationHandler(id) {
 }
 
 /**
- * Change title and comment from annotation by given annotation
- *
- * @param annotation The given altered annotation
- */
-function editAnnotationValues(annotation) {
-    // find annotation
-    let annotationElement = $('#' + annotation.id);
-
-    // set title and comment
-    annotationElement.find('.annotation-header-data-title').text(annotation.body.title);
-    annotationElement.find('.annotation-body-text').text(annotation.body.comment);
-
-    // handle drop down button
-    showAndHideToggleButtonById(annotation.id);
-}
-
-/**
  * Show or hide the drop down button for every annotation card.
  * Call this on page resize and after annotations GET
  */
@@ -761,34 +734,6 @@ function showAndHideToggleButton() {
 }
 
 /**
- * Show or hide the drop down button for a given annotation card.
- *
- * @param id The id of the annotation
- */
-function showAndHideToggleButtonById(id) {
-    // find annotation
-    let annotationElement = $('#' + id);
-    // find the comment element, clone and hide it
-    let comment = annotationElement.find('.annotation-body').children('p');
-    let clone = comment.clone()
-        .css({display: 'inline', width: 'auto', visibility: 'hidden'})
-        .appendTo('body');
-    let cloneWidth = clone.width();
-
-    // remove the element from the page
-    clone.remove();
-
-    // show drop down button only if text was truncated
-    if (cloneWidth > comment.width()) {
-        annotationElement.find('.annotation-header-toggle').show();
-        annotationElement.find('.annotation-header-data').css('width', 'calc(100% - 40px)');
-    } else {
-        annotationElement.find('.annotation-header-toggle').hide();
-        annotationElement.find('.annotation-header-data').css('width', '100%');
-    }
-}
-
-/**
  * Handle the annotation click and show the modal
  *
  */
@@ -800,7 +745,7 @@ function handleAnnotationClick() {
         let selectedText = quill.getText(selection.index, selection.length);
         if (selectedText.length > 0) {
             startCharacter = selection.index;
-            endCharacter = selection.index + selection.length
+            endCharacter = selection.index + selection.length;
             if (isAnnotationInRange(startCharacter, endCharacter)) {
                 // display annotation create modal
                 $('#annotation-create-modal').show();
@@ -858,14 +803,6 @@ function searchAnnotation() {
             $(this).css('display', 'none')
         }
     });
-}
-
-// TODO: find out where this function is used and why, maybe deletetable
-function selectText() {
-    let selection = quill.getSelection();
-    if (selection.length > 0) {
-    }
-
 }
 
 function getFeedbackName() {

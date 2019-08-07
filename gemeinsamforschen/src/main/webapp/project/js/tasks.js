@@ -13,7 +13,9 @@ $(document).ready(function () {
             location.href = "../groupfinding/view-groups.jsp?projectName=" + projectName;
         });
     });
+
 });
+
 
 function fillTasks(projectName, userEmail, callback) {
     $.ajax({
@@ -212,13 +214,15 @@ function handleInfoTasks(object, result) {
             result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
             break;
         case "GIVE_INTERNAL_ASSESSMENT":
-            result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihrer Gruppenmitglieder!";
-            let numOfMissing = object.taskData.numberOfMissing;
-            if (numOfMissing && numOfMissing > 0) {
-                if (numOfMissing === 1) {
-                    result.infoText += " Es fehlt noch eine Bewertung."
-                } else {
-                    result.infoText += " Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."
+            if (object.taskData != null) {
+                result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihrer Gruppenmitglieder!";
+                let numOfMissing = object.taskData.numberOfMissing;
+                if (numOfMissing && numOfMissing > 0) {
+                    if (numOfMissing === 1) {
+                        result.infoText += " Es fehlt noch eine Bewertung."
+                    } else {
+                        result.infoText += " Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."
+                    }
                 }
             }
             break;
@@ -246,7 +250,7 @@ function handleInfoTasks(object, result) {
             break;
         }
         case "EVALUATION_TECHNISCH" : {
-            result.infoText = "Bitte bewerten Sie die verwendete Software Fl-Trail!";
+            result.infoText = "Bitte bewerten Sie die verwendete Software FL-Trail!";
             break;
         }
 
@@ -286,10 +290,6 @@ function handleLinkedTasks(object, result) {
                 result.infoText = "Basierend auf dem erhaltenen Feedback, können Sie nun Ihr Dossier überarbeiten.";
                 result.solveTaskWith = "Überarbeite Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/reedit-dossier.jsp?fullsubmissionid=" + object.taskData.fullSubmissionId + "&projectName=" + object.projectName + "&contribution=DOSSIER\')";
-                break;
-            case "CREATE_QUIZ":
-                result.solveTaskWith = "Erstelle Quiz";
-                result.solveTaskWithLink = "redirect(\'../assessment/create-quiz.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "ANSWER_REFLECTION_QUESTIONS":
                 result.solveTaskWith = "Reflexionsfragen beantworten";
@@ -465,6 +465,10 @@ function handleFinishedTasks(object, result) {
                 result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
                 //}
                 break;
+            case "SEE_FEEDBACK":
+                result.infoText = "Sie erhielten Feedback zu Ihrem Dossier.";
+                result.solveTaskWith = "";
+                break;
             case "REEDIT_DOSSIER":
                 result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +
                     "Warten Sie nun auf die nächste Phase.";
@@ -482,6 +486,9 @@ function handleFinishedTasks(object, result) {
                 break;
             case "GIVE_EXTERNAL_ASSESSMENT_TEACHER" :
                 result.infoText = "Sie haben die Arbeit der Studierenden bewertet.";
+                break;
+            case "GIVE_EXTERNAL_ASSESSMENT":
+                result.infoText = "Sie haben die Abgaben einer anderen Gruppe bewertet.";
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
                 result.infoText = "Sie haben die Arbeit ihrer Gruppenmitglieder bewertet.";

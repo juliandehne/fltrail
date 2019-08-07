@@ -15,6 +15,8 @@ import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.session.GFContexts;
+import unipotsdam.gf.modules.performance.PerformanceCandidates;
+import unipotsdam.gf.modules.performance.PerformanceUtil;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -82,13 +84,16 @@ public class ProjectCreationProcess {
      */
     public void studentEntersProject(Project project, User user)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        PerformanceUtil.start(PerformanceCandidates.STUDENT_ENTERS_PROJECT);
         // student enters project
         iManagement.register(user, project, null);
         updateUserCreationTask(project, user);
+        PerformanceUtil.stop(PerformanceCandidates.STUDENT_ENTERS_PROJECT);
     }
 
     public void createUser(User user)
             throws UserExistsInMysqlException, RocketChatDownException, UserExistsInRocketChatException {
+        PerformanceUtil.start(PerformanceCandidates.CREATE_USER);
         if (iManagement.exists(user)) {
             throw new UserExistsInMysqlException();
         }
@@ -96,7 +101,7 @@ public class ProjectCreationProcess {
         iCommunication.registerUser(user);
         // create user in mysql
         iManagement.create(user);
-
+        PerformanceUtil.stop(PerformanceCandidates.CREATE_USER);
     }
 
     public Boolean authenticateUser(User user, HttpServletRequest req) {
@@ -117,8 +122,10 @@ public class ProjectCreationProcess {
     }
 
     public void deleteUser(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+        PerformanceUtil.start(PerformanceCandidates.DELETE_USER);
         iManagement.delete(user);
         iCommunication.delete(user);
+        PerformanceUtil.stop(PerformanceCandidates.DELETE_USER);
     }
 
     public void deleteProject(Project project) throws RocketChatDownException, UserDoesNotExistInRocketChatException {

@@ -77,14 +77,14 @@
                         </li>
                         <li>
                             <input type="radio" id="ml" name="gfm" value="per Hand">
-                            <label for="ml">nicht automatisiert</label>
-                            <div class='explanation icon'><p>Nachdem genug Studenten dem Projekt beigetreten sind
+                            <label for="ml">Nicht automatisiert</label>
+                            <div class='explanation icon'><p>Nachdem genug Studierende dem Projekt beigetreten sind,
                                 können Sie die Gruppen eigenständig zuordnen.</p></div>
                         </li>
                         <li id="bpLI">
                             <input type="radio" id="bp" name="gfm" value="Basierend auf Präferenzen">
                             <label for="bp">Basierend auf Persönlichkeitsmerkmalen</label>
-                            <div class='explanation icon'><p>Studenten beantworten Fragen zu Ihrer Persönlichkeit,
+                            <div class='explanation icon'><p>Studenten beantworten Fragen zu ihrer Persönlichkeit,
                                 wenn sie sich in das Projekt einschreiben wollen.
                                 Dabei werden Gruppen gebildet, deren Gruppenmitglieder synergieren
                                 während das Konfliktpotential minimiert wird.</p>
@@ -111,8 +111,6 @@
                             <div class='explanation icon'><p>Studenten arbeiten einzeln an ihren Projekten.</p></div>
                         </li>
                     </ul>
-
-
                     <h3>Projektbeschreibung</h3>
                     <div class="alert alert-info">
                         Mit dieser Beschreibung geben Sie einen Überblick über Ihr Projekt.
@@ -121,9 +119,9 @@
                         Geben Sie eine Beschreibung für Ihr Projekt an.
                     </div>
                     <textarea class="form-control infotext" rows="5" id="projectDescription"
-                              placeholder="meine Projektbeschreibung"></textarea>
+                              placeholder="Meine Projektbeschreibung"></textarea>
 
-                    <h3>Themen </h3>
+                    <h3 style="margin-top: 10px;">Themen </h3>
                     <div id="tagHelper" class="alert alert-warning">
                         <div class="alert alert-info">
                             Geben Sie 5 Stichwörter an, welche Ihr Projekt inhaltlich umreißen.<br>
@@ -135,7 +133,7 @@
                         Es müssen genau 5 Tags eingegeben werden.
                     </div>
                     <div class="form-group">
-                        <input class="tags" data-role="tags" name="Tags" placeholder="Tags" id="tagsProject">
+                        <input class="tags" data-role="tags" name="Tags" placeholder="Stichwort" id="tagsProject">
                     </div>
                     <%-- <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>--%>
 
@@ -153,8 +151,9 @@
                         <ul style="margin-bottom: 5px;" id="ownCategoryList">
                             <li class="LIOwnCategory">
                                 <input type="checkbox"
-                                       onclick="$('#ownCategoryTemplate').tmpl({}).appendTo('#ownCategoryList');">
-                                <input type="text" class="category">
+                                       onclick="$('#ownCategoryTemplate').tmpl({}).appendTo('#ownCategoryList');"
+                                       title="Bestandteil">
+                                <input type="text" class="category" title="Bestandteil">
                             </li>
                         </ul>
                         <div class="alert alert-warning" id="noSpecialCharacters" hidden>

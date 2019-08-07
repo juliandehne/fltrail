@@ -25,14 +25,11 @@ function printTags() {
         success: function (response) {
             let tagList = response;
             for (let i = 0; i < tagList.length; i++) {
-                let newInput = document.createElement("DIV");
-                newInput.innerHTML =
-                    "<div class='checkbox checkbox-primary' >"
-                    + "<input id='tag" + i + "' " + " class='styled' " + "name='tag'" + " type='checkbox' value='" + tagList[i] + "'>"
-                    + "<label for='tag" + i + "' " + ">" + tagList[i] + "</label>"
-                    + "</div>";
-                let div = document.getElementById('tags');
-                div.appendChild(newInput);
+                let tmplObject = {
+                    tagCount: i,
+                    tagText: tagList[i]
+                };
+                $('#tagTemplate').tmpl(tmplObject).appendTo('#tags');
             }
         },
         error: function (a) {
@@ -45,7 +42,8 @@ function printTags() {
 // he is added in compbase to the project
 function takesPartInProject() {
     loaderStart();
-    $('.cover').each(function () {
+    let cover = $('.cover');
+    cover.each(function () {
         $(this).fadeIn(100);
     });
     document.getElementById('loader').className = "loader";
@@ -66,7 +64,7 @@ function takesPartInProject() {
         $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
         document.getElementById('loader').className = "loader-inactive";
-        $('.cover').each(function () {
+        cover.each(function () {
             $(this).fadeOut(100);
         });
         return false;
@@ -75,7 +73,7 @@ function takesPartInProject() {
         $(".alert").css('background-color', 'lightcoral');
         allTheTags = [];
         document.getElementById('loader').className = "loader-inactive";
-        $('.cover').each(function () {
+        cover.each(function () {
             $(this).fadeOut(100);
         });
         return false;
@@ -89,8 +87,8 @@ function takesPartInProject() {
         "competences": [],
         "researchQuestions": [],
         //JSON object 'data' collects everything to send
-        "tagsSelected": dataTags                            //todo: this differs from the backend interface atm
-    };                                                      //todo: Julian needs to fix the backend =)
+        "tagsSelected": dataTags
+    };
     loginProject(projectName);
 
     let dataString = JSON.stringify(data);                     //to send correctly, data needs to be stringified

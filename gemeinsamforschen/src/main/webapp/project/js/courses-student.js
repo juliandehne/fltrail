@@ -252,8 +252,15 @@ function buttonHandler() {
     $('.project_Button').each(function () {
         $(this).on('click', function () {
             let projectName = $(this).attr('name');
-            linkToRegister(projectName, linkUrl);
-            updateStatus(projectName);
+            if (!checkPassword(projectName, $('#projectPassword').val(), function (response) {
+                if (response !== undefined) {
+                    linkToRegister(projectName, linkUrl);
+                    updateStatus(projectName);
+                }
+
+            })) {
+                document.getElementById('projectWrongPassword').style.display = "block";
+            }
         });
     });
 }
@@ -272,8 +279,6 @@ function linkToRegister(projectName, linkUrl){
             if (isSearching()){
                 switch (response.gfm){
                     case "Manual":
-                        loginProject(projectName);
-                        break;
                     case "SingleUser":
                         loginProject(projectName);
                         break;
@@ -295,8 +300,7 @@ function linkToRegister(projectName, linkUrl){
 
 function loginProject(projectName) {
     loaderStart();
-    let password = $('#projectPassword').val();
-    let url = "../rest/project/login/" + projectName + "?password=" + password;
+    let url = "../rest/project/login/" + projectName;
     if (projectName === "") {
         return false;
     } else {
@@ -305,13 +309,9 @@ function loginProject(projectName) {
             projectName: projectName,
             Accept: "text/plain; charset=utf-8",
             contentType: "text/plain",
-            success: function (response) {
+            success: function () {
                 loaderStop();
-                if (response === "wrong password") {   //if response !== project missing and not wrong password, its the projectName
-                    document.getElementById('projectWrongPassword').style.display="block";
-                }else{
-                    location.href = "tasks-student.jsp?projectName="+projectName;
-                }
+                location.href = "tasks-student.jsp?projectName=" + projectName;
             },
             error: function (a) {
                 loaderStop();
@@ -319,4 +319,21 @@ function loginProject(projectName) {
             }
         });
     }
+}
+
+function checkPassword(projectName, password, callback) {
+    if (password !== undefined) {
+        $.ajax({
+            url: "../rest/project/login/" + projectName + "/password/" + password,
+            Accept: "text/plain; charset=utf-8",
+            contentType: "text/plain",
+            success: function (response) {
+                callback(response);
+            },
+            error: function () {
+                return false;
+            }
+        });
+    }
+    callback();
 }

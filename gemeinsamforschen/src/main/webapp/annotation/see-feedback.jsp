@@ -60,25 +60,25 @@
         <button class="btn_fullscreen btn btn-primary" type="button" title="fullscreen">resize</button>
 
 
-            <div class="col span_2_of_2">
-                <h3>Feedback für Ihr <span class="fileRole"></span></h3>
+        <div class="col span_2_of_2">
+            <h3>Feedback für Ihr <span class="fileRole"></span></h3>
 
-                <div class="three_rows">
-                    <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
+            <div class="three_rows">
+                <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
 
-                    <h4 id="categoryHeadline" class="current-category"></h4>
-                    <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
-                    <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Senden</button>
-                </div>
-                <div id="editor"></div>
+                <h4 id="categoryHeadline" class="current-category"></h4>
+                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
+                <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Beenden</button>
             </div>
+            <div id="editor"></div>
+        </div>
 
-            <div class="splitter-horizontal"></div>
+        <div class="splitter-horizontal"></div>
 
-            <div class="reply-control">
-                <h3>Zu diesem Teil gab es folgendes Feedback: </h3>
-                <div id="feedbackEditor"></div>
-            </div>
+        <div class="reply-control">
+            <h3>Zu diesem Teil gab es folgendes Feedback: </h3>
+            <div id="feedbackEditor"></div>
+        </div>
 
         <jsp:include page="../taglibs/quillJsEditor.jsp">
             <jsp:param name="readOnly" value="true"/>
@@ -94,9 +94,7 @@
         </script>
 
 
-
     </main>
-
 
 
     <div style="height: 200px" id="categoryColor" class="hidden-category-field"></div>
@@ -110,15 +108,13 @@
 
     });
 
-    $(".btn_fullscreen").click(function() {
+    $(".btn_fullscreen").click(function () {
 
-       // $("#flex-wrapper").addClass("fullscreen");
+        // $("#flex-wrapper").addClass("fullscreen");
         $(".btn_fullscreen").toggleClass("max");
         $("#flex-wrapper").toggleClass("fullscreen");
 
     });
-
-
 
 
 </script>
