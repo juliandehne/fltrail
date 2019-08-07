@@ -248,7 +248,7 @@ function handleInfoTasks(object, result) {
             break;
         }
         case "EVALUATION_TECHNISCH" : {
-            result.infoText = "Bitte bewerten Sie die verwendete Software Fl-Trail!";
+            result.infoText = "Bitte bewerten Sie die verwendete Software FL-Trail!";
             break;
         }
 

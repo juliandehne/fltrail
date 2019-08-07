@@ -12,6 +12,9 @@ $(document).ready(function () {
             $('.savedFinalMark').hide();
         }
     });
+    $('#print').on('click', function () {
+        printToExcel()
+    });
     $('#takeSuggested').on('click', function () {
         let tableEntries = $('#allGradesOfAllStudents').find('tr');
         tableEntries.each(function () {
@@ -297,4 +300,8 @@ function getContributions(projectName) {
 
         }
     });
+}
+
+function printToExcel() {
+
 }

@@ -40,17 +40,31 @@
 
                         <label>Legende</label>
                         <div id="iconLegend">
-
-                            <p><i class="fas fa-arrow-up"></i> Dieser Student wurde von seinen Peers unüblich gut
-                                bewertet.</p>
-
-                            <p><i class="fas fa-arrow-down"></i> Dieser Student wurde von seinen Peers unüblich schlecht
-                                bewertet. </p>
-
-
-                            <p><i class="fas fa-check"></i> Dieser Student wurde von seinen Peers ausgeglichen bewertet.
-                            </p>
-
+                            <div id="colorLegend">
+                                <div class="alert-success">
+                                    <span>Gleich</span>
+                                </div>
+                                <div class="alert-warning">
+                                    <span>Ähnlich<br>(+- 0.3)</span>
+                                </div>
+                                <div class="alert-danger">
+                                    <span>Unterschiedlich<br>(+- 0.7)</span>
+                                </div>
+                            </div>
+                            <div>
+                                <p><i class="fas fa-arrow-up"></i> Dieser Student wurde von seinen Peers unüblich gut
+                                    bewertet.</p>
+                            </div>
+                            <div>
+                                <p><i class="fas fa-arrow-down"></i> Dieser Student wurde von seinen Peers unüblich
+                                    schlecht
+                                    bewertet. </p>
+                            </div>
+                            <div>
+                                <p><i class="fas fa-check"></i> Dieser Student wurde von seinen Peers ausgeglichen
+                                    bewertet.
+                                </p>
+                            </div>
                         </div>
                         <p style="font-weight:bold;"> Klicken sie auf das entsprechende Symbol in der Tabelle um die
                             Bewertungen der Studierenden
@@ -63,10 +77,10 @@
 
 
             <div class="alert alert-success" id="taskCompleted">
-                Die Zensuren wurden gespeichert.
+                Die Noten wurden gespeichert.
             </div>
             <div class="alert alert-warning" id="gradeMissing" hidden>
-                Bevor Sie die Zensuren final speichern können, müssen alle Studenten eine Zensur erhalten haben.
+                Bevor Sie die Noten final speichern können, müssen alle Studenten eine Zensur erhalten haben.
                 Bitte überprüfen Sie dies.
             </div>
 
@@ -178,17 +192,18 @@
                     </tr>
 
 
+
             </script>
             <div style="display:flex;" id="divForSaving">
                 <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
                     <i class="far fa-save"></i> speichern
                 </button>
-                <label class="checkbox" for="finalizeGrading">
+                <label for="finalizeGrading">
                     Dies ist die finale Benotung der Studierenden
-                    <input id="finalizeGrading" style="margin:2px 0 0 0" type="checkbox" title="finalisieren">
-
+                    <input id="finalizeGrading" style="margin-top:6px;" type="checkbox" title="finalisieren">
                 </label>
             </div>
+            <button title="print" id="print" style="cursor:pointer"><i class="fas fa-print"></i> print</button>
         </div>
     </main>
 

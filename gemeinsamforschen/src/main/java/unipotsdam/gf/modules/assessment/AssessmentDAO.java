@@ -249,7 +249,9 @@ public class AssessmentDAO {
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(mysqlRequest, project.getName(), user.getEmail());
         vereinfachtesResultSet.next();
-        return vereinfachtesResultSet.getDouble("grade");
+        Double result = vereinfachtesResultSet.getDouble("grade");
+        connect.close();
+        return result;
     }
 
     Contribution getContribution(Project project, Integer groupId, FileRole role) {

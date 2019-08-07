@@ -23,11 +23,7 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.WizardRelevant;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.Progress;
-import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskName;
-import unipotsdam.gf.process.tasks.TaskType;
+import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -306,6 +302,8 @@ public class DossierCreationProcess {
     private void createCloseFeedBackPhaseTask(Project project, User user) {
         Task task = new Task(TaskName.REEDIT_DOSSIER, user, project, Progress.FINISHED);
         taskDAO.updateForGroup(task);
+        Task task1 = new Task(TaskName.SEE_FEEDBACK, user, project, Progress.FINISHED);
+        taskDAO.updateForGroup(task1);
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE, Phase.DossierFeedback);
     }
 }

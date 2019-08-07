@@ -2,14 +2,14 @@
 
 /*fixed header */
 html {
-    height:100%;
+    height: 100%;
 }
 
 nav {
     cursor: pointer;
 }
 
-a.disabled{
+a.disabled {
     pointer-events: none;
 }
 
@@ -21,7 +21,7 @@ li.disabled {
 body {
     display: flex;
     flex-direction: column;
-    height:100%;
+    height: 100%;
 }
 
 .flex-wrapper, #flex-wrapper {
@@ -70,8 +70,9 @@ main {
     margin: 0 auto;
     height: 30px;
     font-weight: bold;
-    display:block;
+    display: block;
 }
+
 .backlink a:hover {
     text-decoration: none;
 }
@@ -92,7 +93,6 @@ footer {
     padding: 0px;
     margin: 0 auto !important;
     max-width: 1280px;
-
 
 }
 
@@ -194,8 +194,8 @@ footer {
     margin-bottom: 1em;
 }
 
-.timeline li a{
-    margin-left:1em;
+.timeline li a {
+    margin-left: 1em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -203,27 +203,27 @@ footer {
 }
 
 .timeline ul {
-    background-image:url("../img/line.png");
-    background-repeat:repeat-y;
+    background-image: url("../img/line.png");
+    background-repeat: repeat-y;
     background-position: 5px;
 }
 
 .timeline #listOfFiles {
-    background-image:none;
+    background-image: none;
 }
 
 .timeline #listOfFiles li:before {
-    display:none;
+    display: none;
 }
 
 .timeline #listOfFiles li a {
-    margin-left:0;
-    text-decoration:none;
-    font-weight:normal;
+    margin-left: 0;
+    text-decoration: none;
+    font-weight: normal;
 }
 
 .timeline {
-    padding:2em;
+    padding: 2em;
     box-sizing: border-box;
 }
 
@@ -239,35 +239,39 @@ footer {
 /*phases colors timeline */
 
 .timeline li.phase1:before {
-    background-color:#1a3358;
+    background-color: #1a3358;
 
 }
+
 .timeline li.phase2:before {
-    background-color:#6576b8;
+    background-color: #6576b8;
 }
+
 .timeline li.phase3:before {
-    background-color:#009acc;
+    background-color: #009acc;
 }
+
 .timeline li.phase4:before {
-    background-color:#f1d16a;
+    background-color: #f1d16a;
 }
+
 .timeline li.phase5:before {
-    background-color:#9b667b;
+    background-color: #9b667b;
 }
+
 .timeline li.phase6:before {
     background-color: #737373;
 }
 
 .timeline li.inactive:before {
-    background-color:#737373 !important;
+    background-color: #737373 !important;
 }
 
 /*tasklist */
 
 .tasklist {
-    max-width:400px;
+    max-width: 400px;
 }
-
 
 .infotext {
     max-width: 400px;
@@ -311,8 +315,8 @@ footer {
     -moz-box-shadow: 10px 10px 5px -12px rgba(140, 138, 140, 0.62);
 }
 
-.card.card-grouping{
-    border-left:10px solid #1a3358;
+.card.card-grouping {
+    border-left: 10px solid #1a3358;
 }
 
 /*
@@ -320,20 +324,21 @@ footer {
     border-left:10px solid #6576b8;
 } */
 
-.card.card-feedback{
-    border-left:10px solid #6576B8;
-}
-.card.card-execution{
-    border-left:10px solid #f1d16a;
-}
-.card.card-assessment{
-    border-left:10px solid #9b667b;
-}
-.card.card-grades{
-    border-left:10px solid #737373;
+.card.card-feedback {
+    border-left: 10px solid #6576B8;
 }
 
+.card.card-execution {
+    border-left: 10px solid #f1d16a;
+}
 
+.card.card-assessment {
+    border-left: 10px solid #9b667b;
+}
+
+.card.card-grades {
+    border-left: 10px solid #737373;
+}
 
 .card.current {
     -webkit-box-shadow: 18px 18px 8px -8px rgba(100, 90, 100, 0.42);
@@ -378,8 +383,8 @@ footer {
 
 .status.alert {
     background-color: #E0071C;
-    padding:0;
-    margin-bottom:0;
+    padding: 0;
+    margin-bottom: 0;
 }
 
 .status.alert:before {
@@ -432,12 +437,12 @@ button + a {
 
 /*type*/
 
-h3,h4 {
-    color:#075f8b;
+h3, h4 {
+    color: #075f8b;
 }
 
 h3 {
-    margin-top:0;
+    margin-top: 0;
 }
 
 body, p {
@@ -466,11 +471,11 @@ h1 {
     font-family: spectral, georgia, serif;
     color: #075F8B;
     text-align: center;
-   /* max-width: 400px;*/
+    /* max-width: 400px;*/
 }
 
 main h1 {
-    text-align:left;
+    text-align: left;
 }
 
 h2 {
@@ -499,26 +504,29 @@ h3.phase-heading {
 h3.phase-heading.card-grouping {
     color: #075F8B;
 }
-h3.phase-heading.card-feedback{
+
+h3.phase-heading.card-feedback {
     color: #6576B8;
 }
-h3.phase-heading.card-execution{
+
+h3.phase-heading.card-execution {
     color: #e8c858;
 }
-h3.phase-heading.card-assessment{
+
+h3.phase-heading.card-assessment {
     color: #896369;
 }
-h3.phase-heading.card-grades{
+
+h3.phase-heading.card-grades {
     color: #707070;
 }
 
 h3.phase-heading.finished:after {
     content: " \f00c";
-    font-family:"Font Awesome 5 Free";
-    font-stle:normal;
-    font-weight:900;
+    font-family: "Font Awesome 5 Free";
+    font-stle: normal;
+    font-weight: 900;
 }
-
 
 a:link {
     text-decoration: underline;
@@ -540,10 +548,10 @@ a:visited {
 }
 
 .complex-list li.label button,
-.complex-list li.label div{
+.complex-list li.label div {
     font-weight: 700;
     color: #000;
-    background-color:#ededed;
+    background-color: #ededed;
     font-size: 13px;
 }
 
@@ -559,15 +567,16 @@ a:visited {
 }
 
 .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
-    border-color:#ededed;
+    border-color: #ededed;
 }
 
 /* + overwrite bootstrap rules */
 .complex-list .list-group-item:last-child {
 
-    border-bottom-right-radius: 0 ;
+    border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
 }
+
 .complex-list .list-group-item:first-child {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
@@ -576,11 +585,9 @@ a:visited {
 .complex-list .list-group-item {
     border-width: 0 0 1px 0;
     padding: 1em .2em .7em 1em;
-    border-radius:0;
+    border-radius: 0;
     border-bottom: 1px solid #ededed;
 }
-
-
 
 /*colors*/
 
@@ -601,7 +608,7 @@ body {
 }
 
 .phase4 {
-    color:#F1D16A;
+    color: #F1D16A;
 }
 
 .phase5 {
@@ -618,23 +625,25 @@ body {
 
 header a:link,
 header a#logout,
-header a:visited{
+header a:visited {
     color: #fff !important;
     text-decoration: none;
-    font-weight:normal;
+    font-weight: normal;
 }
+
 header a:hover {
-    text-decoration:none;
+    text-decoration: none;
 }
 
 header a:active {
-    text-decoration:none;
+    text-decoration: none;
 }
 
 header .nav-group-left a {
-    display:inline-block;
-    margin-right:2em;
+    display: inline-block;
+    margin-right: 2em;
 }
+
 /*links and buttons */
 button, .btn {
     border: none;
@@ -642,12 +651,10 @@ button, .btn {
     display: block;
     padding: .8em;
     color: #075F8B;
-    border-radius:0;
+    border-radius: 0;
     font-size: 1em;
     line-height: 1;
 }
-
-
 
 .btn-success {
     background-color: #1a3358;
@@ -761,6 +768,7 @@ select:disabled ~ .select_arrow {
     line-height: 1.5em;
     display: inline-block;
 }
+
 .fltrailselect:hover ~ .select_arrow,
 .fltrailselect:focus ~ .select_arrow {
     border-color: #009acc;
@@ -769,7 +777,6 @@ select:disabled ~ .select_arrow {
 .fltrailselect:disabled ~ .select_arrow {
     border-top-color: #cccccc;
 }
-
 
 .fltrailselect button {
     background: transparent;
@@ -780,11 +787,11 @@ select:disabled ~ .select_arrow {
 
 .fltrailselect button:hover,
 .fltrailselect button:active {
-    background-color:transparent;
+    background-color: transparent;
 }
 
 .fltrailselect button:after {
-    content:"";
+    content: "";
     position: absolute;
     top: 2px;
     right: 20px;
@@ -867,11 +874,9 @@ select:disabled ~ .select_arrow {
 main.projects,
 main.create-project,
 main.project-overview,
-main.groups-manual{
-    padding:2em;
+main.groups-manual {
+    padding: 2em;
 }
-
-
 
 .projects .introduction {
     max-width: 400px;
@@ -885,11 +890,11 @@ main.groups-manual{
 }
 
 .projects h2 {
-    margin-top:2em;
+    margin-top: 2em;
 }
 
 #createProject {
-    text-align:center;
+    text-align: center;
 
 }
 
@@ -897,7 +902,7 @@ main.groups-manual{
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
-    padding-top:2em;
+    padding-top: 2em;
 
 }
 
@@ -918,7 +923,7 @@ main.groups-manual{
 
     margin: 0px 5px 0px 5px;
 
-    height:400px;
+    height: 400px;
     border-top: 10px solid #065f8b;
     padding: 5px;
     position: relative;
@@ -1143,7 +1148,7 @@ main.groups-manual{
     -ms-user-select: none;
     user-select: none;
     text-align: left;
-    font-weight:normal;
+    font-weight: normal;
     width: 200px;
     color: #065f8b;
     vertical-align: -2px;
@@ -1212,10 +1217,10 @@ main.groups-manual{
 
 .card-project .tag {
     background-color: #1a335880;
-    display:inline-block;
-    padding:.2em;
-    margin:.2em;
-    color:#fff;
+    display: inline-block;
+    padding: .2em;
+    margin: .2em;
+    color: #fff;
 }
 
 /*overwrite survey.js styles */
@@ -1252,13 +1257,14 @@ main.groups-manual{
 }
 
 .inCardSolver {
-  padding-top: 10px;
+    padding-top: 10px;
 }
 
 #editor {
     height: 500px;
     overflow: hidden;
 }
+
 /* CHAT */
 
 .span-chat {
@@ -1269,16 +1275,15 @@ main.groups-manual{
 }
 
 .span-chat .tab-content {
-    background-color:#fff;
+    background-color: #fff;
 }
-
 
 .inCardSolver {
     padding-top: 10px;
 }
 
 .span-chat .nav {
-    padding-bottom:0;
+    padding-bottom: 0;
     background: #075f8b;
 }
 
@@ -1295,12 +1300,11 @@ main.groups-manual{
     background-color: #fff;
     color: #075f8b;
 
-    border:none;
+    border: none;
 }
 
-
 .span-chat .nav-pills > li.active {
-    background-color:#075f8b;
+    background-color: #075f8b;
 }
 
 .block {
@@ -1320,32 +1324,39 @@ main.groups-manual{
 /* upload Presentation */
 
 #uploadPresentation #uploadSubmit {
-    margin-top:20px;
+    margin-top: 20px;
 }
 
 #uploadPresentation #taskCompleted,
 #uploadPresentation #errorUpload,
 #taskCompleted #divFinalContribution {
-    margin-top:20px;
+    margin-top: 20px;
 }
-
-
 
 #divFinalContribution label,
 #uploadPresentation label,
 #taskCompleted label {
-    margin-right:5px;
+    margin-right: 5px;
 }
 
 #divFinalContribution input[type=checkbox] {
-    margin-top:-5px;
+    margin-top: -5px;
 }
 
 /*final grades */
 
-#iconLegend p {
-    display:inline-block;
-    width:33%;
+#iconLegend div {
+    display: inline-flex;
+    width: 24%;
     padding: 3px;
-    background:#fff;
+}
+
+#iconLegend div div {
+    display: inline-flex;
+    width: 33%;
+    padding: 3px;
+}
+
+#iconLegend div p {
+    background: #fff;
 }
