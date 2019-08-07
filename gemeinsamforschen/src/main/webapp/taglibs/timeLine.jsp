@@ -8,6 +8,10 @@
     String projectName = tu.getParamterFromQuery("projectName", request);
     Phase phase = tu.getPhase(projectName);
     String isStudent = (String) request.getSession().getAttribute(GFContexts.ISSTUDENT);
+    // TODO build a taglib for this
+    if (isStudent == null) {
+        response.sendRedirect("../../index.jsp");
+    }
 %>
 
 <div class="col span_timeline timeline span_s_of_2">
@@ -51,7 +55,7 @@
     <!-- end timeLine-->
 
     <!--begin data deletion and download-->
-    <%if (isStudent.equals("isStudent")) {%>
+    <%if (isStudent!= null && isStudent.equals("isStudent")) {%>
     <script src="../taglibs/js/fileStorage.js"></script>
     <div style="margin-top:50px;"></div>
     <h2 id="fileManagementHeader">Ergebnisse</h2>
@@ -72,4 +76,6 @@
 </div>
 <%!
 
+
 %>
+

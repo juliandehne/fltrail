@@ -150,9 +150,9 @@
             <div role="tabpanel" class="tab-pane fade in active" id="projectChat">
                 <chat:chatWindow orientation="right" scope="project"/>
             </div>
-            <div role="tabpanel" class="tab-pane fade" id="groupChat">
+           <%-- <div role="tabpanel" class="tab-pane fade" id="groupChat">
                 <chat:chatWindow orientation="right" scope="group"/>
-            </div>
+            </div>--%>
             Wenn Sie eingeloggt <a data-toggle='collapse' href='#chatCredentials' role='button'
                                    aria-expanded='false' aria-controls='chatCredentials'>
             <i class='fas fa-question'></i>

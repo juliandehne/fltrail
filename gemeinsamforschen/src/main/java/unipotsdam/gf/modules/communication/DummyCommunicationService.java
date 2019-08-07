@@ -118,4 +118,10 @@ public class DummyCommunicationService implements ICommunication {
     public void delete(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 
     }
+
+    @Override
+    public void logout(RocketChatUser user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+
+    }
+
 }

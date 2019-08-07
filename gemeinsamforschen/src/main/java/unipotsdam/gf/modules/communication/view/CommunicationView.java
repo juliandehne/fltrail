@@ -30,6 +30,9 @@ public class CommunicationView {
     private static final Logger log = LoggerFactory.getLogger(CommunicationView.class);
 
     @Inject
+    GFContexts gfContexts;
+
+    @Inject
     private ICommunication communicationService;
 
 /*    @GET
@@ -125,15 +128,19 @@ public class CommunicationView {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/sso")
-    public LoginToken provideLoginToken(@Context HttpServletRequest req, Object payload)
+    public Response provideLoginToken(@Context HttpServletRequest req, Object payload)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         if (req.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) != null) {
             String token = getAuthToken(req);
-            return new LoginToken(token);
+            return Response.status(Response.Status.OK).entity(new LoginToken(token)).build();
         } else {
-            RocketChatUser user = communicationService.loginUser(GFRocketChatConfig.ADMIN_USER);
-            return new LoginToken(user.getRocketChatAuthToken());
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
+        /*else {
+            RocketChatUser user = communicationService.loginUser(GFRocketChatConfig.ADMIN_USER);
+            gfContexts.updateUserSessionWithRocketChat(req, user);
+            return new LoginToken(user.getRocketChatAuthToken());
+        }*/
     }
 
     private String getAuthToken(@Context HttpServletRequest req) {
