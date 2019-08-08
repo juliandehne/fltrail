@@ -1,5 +1,6 @@
 package unipotsdam.gf.process;
 
+import com.itextpdf.text.DocumentException;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
@@ -14,6 +15,8 @@ import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.util.List;
 
 public class DummyExecutionProcess implements IExecutionProcess {
 
@@ -44,7 +47,12 @@ public class DummyExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public void chooseAssessmentMaterial(Project project, User user, String html) {
+    public void selectPortfolioEntries(Project project, User user, List<FullSubmission> selectedPortfolioEntries) throws Exception {
+
+    }
+
+    @Override
+    public void saveGroupSubmission(Project project, int groupId, String html) throws IOException, DocumentException {
 
     }
 

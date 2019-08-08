@@ -19,6 +19,9 @@ public class FullSubmission implements Comparable<FullSubmission> {
     private String projectName;
     private Visibility visibility;
 
+    public FullSubmission() {
+    }
+
 
     public FullSubmission(String id, long timestamp, Integer groupId, String text, FileRole fileRole, String projectName, Visibility visibility) {
         this(id, timestamp, groupId, null, text, fileRole, projectName, visibility);
@@ -49,16 +52,16 @@ public class FullSubmission implements Comparable<FullSubmission> {
 
     ;
 
+    public FullSubmission(String submissionId) {
+        this.id = submissionId;
+    }
+
     public String getHeader() {
         return header;
     }
 
     public void setHeader(String header) {
         this.header = header;
-    }
-
-    public FullSubmission(String submissionId) {
-        this.id = submissionId;
     }
 
     // methods

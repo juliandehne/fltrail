@@ -31,6 +31,7 @@ public class FileManagementDAO {
             case FINAL_REPORT:
             case PRESENTATION:
             case DOSSIER:
+            case GROUP_PORTFOLIO:
                 groupId = groupDAO.getGroupByStudent(project, user);
                 break;
         }

@@ -42,34 +42,17 @@
             <div id="assessmentTemplateResult"></div>
             <script id="assessmentTemplate" type="text/x-jsrender">
                 <div/>
-                <p>Klicke die Reflexionsfragen und E-Portfolio-Einträge an, die du zur Bewertung einreichen möchtest.</p>
-                <h3>Reflexionsfragen</h3>
+                <p>Klicke auf die E-Portfolio-Einträge, die du von deinen Eintrgägen für die Gruppe zur Bewertung einreichen möchtest.</p>
+                <p>Es werden deine Einträge angezeigt, die du für die Gruppe oder öffentlich freigegeben hast</p>
+                {{if data.length === 0}}
+                    <h2> Keine Gruppeneinträge gefunden.</h2>
+                    <h2>Bitte markiere Portfolio-Einträge als Gruppeneinträge oder drücke überspringen, wenn du keine deiner Einträge einreichen willst.</h2>
+                {{else}}
                 <div class="list-group" id="list-tab" role="tablist">
-                    {{for data.reflectionQuestionWithAnswerList}}
+                    {{for data}}
                         <div class="row">
-                            <label>{{:question.question}}</label>
-                            <a class="list-group-item list-group-item-action pointer" id="list-item-reflection-question-{{:#index}}" onClick='clickReflectionQuestion("{{:#index}}")' role="tab">
-                                <div id="editor-{{:question.id}}"></div>
-                            </a>
-                            {{:#root.data.extraData.scriptBegin}}
-                            new Quill('#editor-{{:question.id}}', {
-                                theme: 'snow',
-                                readOnly: true,
-                                "modules": {
-                                    "toolbar": false
-                                }
-                            }).setContents({{:answer.text}});
-                            {{:#root.data.extraData.scriptEnd}}
-                        </div>
-                    {{/for}}
-                </div>
-                {{if data.portfolioEntries.length > 0}}
-                    <h3>Portfolio-Einträge</h3>
-                {{/if}}
-                <div class="list-group" id="list-tab" role="tablist">
-                    {{for data.portfolioEntries}}
-                        <div class="row">
-                            <a class="list-group-item list-group-item-action pointer" id="list-item-portfolio-entry-{{:#index}}" onClick='clickPortfolioEntry("{{:#index}}")' role="tab">
+                            <label for="list-item-{{:#index}}">{{:#index + 1}}. Eintrag</label>
+                            <a class="list-group-item list-group-item-action pointer" id="list-item-{{:#index}}" onClick='clickItem("{{:#index}}")' role="tab">
                                 <div id="editor-{{:id}}"></div>
                             </a>
                             {{:#root.data.extraData.scriptBegin}}
@@ -84,7 +67,8 @@
                         </div>
                     {{/for}}
                 </div>
-                    <button type="button" onclick="save()" class="btn btn-primary pull-right" id="saveButton">Speichern</button>
+                {{/if}}
+                    <button type="button" onclick="save()" class="btn btn-primary pull-right" id="saveButton">{{:extraData.buttonText}}</button>
             </script>
                 <div hidden id="editor"></div>
                 <jsp:include page="../taglibs/jsp/quillJsEditor.jsp">
