@@ -309,6 +309,10 @@ footer {
     position: absolute;
 }
 
+.card.readMe {
+    max-width: 100%;
+}
+
 .card.card-fnished {
     box-shadow: 10px 10px 5px -12px #8c8a8c9e;
     -webkit-box-shadow: 10px 10px 5px -12px rgba(140, 138, 140, 0.62);
@@ -625,7 +629,9 @@ body {
 
 header a:link,
 header a#logout,
+header a#readMe,
 header a:visited {
+    margin-right: 20px;
     color: #fff !important;
     text-decoration: none;
     font-weight: normal;
