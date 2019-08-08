@@ -5,7 +5,7 @@
 <html>
 
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">
+    <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed|Open+Sans+Condensed:300' rel='stylesheet'
@@ -15,7 +15,7 @@
 
 <body>
 <div id="flex-wrapper">
-<jsp:include page="../taglibs/Menu.jsp">
+    <jsp:include page="../taglibs/jsp/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
 <main>
@@ -108,7 +108,7 @@
     <div class="col span_chat"><chat:chatWindow orientation="right" scope="project"/> <chat:chatWindow
             orientation="right" scope="group"/></div>
 </main>
-<jsp:include page="../taglibs/footer.jsp"/>
+    <jsp:include page="../taglibs/jsp/footer.jsp"/>
 </div>
 </body>
 

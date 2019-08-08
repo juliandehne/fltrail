@@ -1,13 +1,13 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
+<%@ taglib uri="../taglibs/jsp/gemeinsamForschen.tld" prefix="chat" %>
 
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">
+    <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <script src="js/config.js"></script>
@@ -22,7 +22,7 @@
     <div class="sk-cube4 sk-cube"></div>
     <div class="sk-cube3 sk-cube"></div>
 </div>
-<jsp:include page="../taglibs/Menu.jsp">
+    <jsp:include page="../taglibs/jsp/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
 <div class="row group">
@@ -72,7 +72,7 @@
     </main>
 </div>
 </div>
-<jsp:include page="../taglibs/footer.jsp"/>
+<jsp:include page="../taglibs/jsp/footer.jsp"/>
 
 </body>
 </html>

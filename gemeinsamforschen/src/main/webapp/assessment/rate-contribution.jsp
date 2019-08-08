@@ -4,10 +4,10 @@
 <html>
 
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">
+    <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
-    <jsp:include page="../taglibs/quillJsDependencies.jsp"/>
+    <jsp:include page="../taglibs/jsp/quillJsDependencies.jsp"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href="https://surveyjs.azureedge.net/1.0.60/survey.css" type="text/css" rel="stylesheet"/>
     <script src="https://surveyjs.azureedge.net/1.0.60/survey.jquery.min.js"></script>
@@ -18,7 +18,7 @@
 
 <body>
 <div id="flex-wrapper">
-    <jsp:include page="../taglibs/Menu.jsp">
+    <jsp:include page="../taglibs/jsp/Menu.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
 
@@ -47,7 +47,7 @@
         </div>
     </main>
 </div>
-<jsp:include page="../taglibs/footer.jsp"/>
+<jsp:include page="../taglibs/jsp/footer.jsp"/>
 
 </body>
 

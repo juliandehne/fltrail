@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
+<%@ taglib uri="../taglibs/jsp/gemeinsamForschen.tld" prefix="chat" %>
 
 
 <!DOCTYPE html>
@@ -10,10 +10,10 @@
 <head>
     <%--<jsp:include page="../taglibs/omniDependencies.jsp">         <jsp:param name="hierarchy" value="1"/>     </jsp:include>--%>
 
-    <jsp:include page="../taglibs/omniDependencies.jsp">
+    <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
-    <jsp:include page="../taglibs/quillJsDependencies.jsp"/>
+    <jsp:include page="../taglibs/jsp/quillJsDependencies.jsp"/>
 
     <!-- css - contextMenu -->
     <link href="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.css" rel="stylesheet"
@@ -47,7 +47,7 @@
 
 <body>
 <div id="flex-wrapper">
-    <jsp:include page="../taglibs/Menu.jsp">
+    <jsp:include page="../taglibs/jsp/Menu.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <!-- back-->
@@ -91,7 +91,7 @@
             </button> -->
         </div>
 
-        <jsp:include page="../taglibs/quillJsEditor.jsp">
+        <jsp:include page="../taglibs/jsp/quillJsEditor.jsp">
             <jsp:param name="readOnly" value="true"/>
         </jsp:include>
         <script>
@@ -136,9 +136,7 @@
 </script>
 
 
-
-
-<jsp:include page="../taglibs/footer.jsp"/>
+<jsp:include page="../taglibs/jsp/footer.jsp"/>
 </body>
 
 </html>

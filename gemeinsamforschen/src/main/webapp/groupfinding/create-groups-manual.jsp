@@ -10,7 +10,7 @@
 
 <html>
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">
+    <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
 
@@ -46,7 +46,7 @@
 
 <body>
 <div id="flex-wrapper">
-    <jsp:include page="../taglibs/Menu.jsp">
+    <jsp:include page="../taglibs/jsp/Menu.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <!-- back-->
@@ -113,7 +113,7 @@
 
     </main>
 </div>
-    <jsp:include page="../taglibs/footer.jsp"/>
+<jsp:include page="../taglibs/jsp/footer.jsp"/>
 
 </body>
 </html>

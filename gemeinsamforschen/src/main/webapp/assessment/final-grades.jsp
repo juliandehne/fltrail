@@ -1,12 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
+<%@ taglib uri="../taglibs/jsp/gemeinsamForschen.tld" prefix="chat" %>
 
 <!DOCTYPE html>
 <html>
 
 <head>
     <!-- dependencies -->
-    <jsp:include page="../taglibs/omniDependencies.jsp">
+    <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <script src="js/final-grades.js"></script>
@@ -17,7 +17,7 @@
 <body>
 <div id="flex-wrapper">
     <!-- prints the menu -->
-    <jsp:include page="../taglibs/Menu.jsp">
+    <jsp:include page="../taglibs/jsp/Menu.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
 
@@ -209,7 +209,7 @@
         </div>
     </main>
 
-    <jsp:include page="../taglibs/footer.jsp"/>
+    <jsp:include page="../taglibs/jsp/footer.jsp"/>
 </body>
 
 

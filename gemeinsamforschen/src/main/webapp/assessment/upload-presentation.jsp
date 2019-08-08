@@ -1,12 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>
+<%@ taglib uri="../taglibs/jsp/gemeinsamForschen.tld" prefix="chat" %>
 
 <!DOCTYPE html>
 <html>
 
 <head>
     <!-- dependencies -->
-    <jsp:include page="../taglibs/omniDependencies.jsp">
+    <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <!-- js - jQuery validation plugin -->
@@ -21,7 +21,7 @@
 <body>
 <div id="flex-wrapper">
     <!-- prints the menu -->
-    <jsp:include page="../taglibs/Menu.jsp">
+    <jsp:include page="../taglibs/jsp/Menu.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
 
@@ -56,7 +56,7 @@
                         Die Präsentation ist eine finale Abgabe. Sie wird hiermit zur
                             Bewertung freigegeben.
                     </div>
-                    <jsp:include page="../taglibs/upload-file.jsp">
+                <jsp:include page="../taglibs/jsp/upload-file.jsp">
                         <jsp:param name="fileRole" value="PRESENTATION"/>
                     </jsp:include>
                     <p id="fileRole" hidden>PRESENTATION</p>
@@ -67,7 +67,7 @@
     </main>
     <!-- end file upload upload -->
 
-    <jsp:include page="../taglibs/footer.jsp"/>
+    <jsp:include page="../taglibs/jsp/footer.jsp"/>
 </body>
 
 

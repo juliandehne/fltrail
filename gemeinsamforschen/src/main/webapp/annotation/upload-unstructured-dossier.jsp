@@ -2,7 +2,7 @@
 <%@ page import="unipotsdam.gf.taglibs.TagUtilities" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%--<%@ taglib uri="../taglibs/gemeinsamForschen.tld" prefix="chat" %>--%>
+<%--<%@ taglib uri="../taglibs/jsp/gemeinsamForschen.tld" prefix="chat" %>--%>
 <%
     TagUtilities tu = new TagUtilities();
     String fileRole = tu.getParamterFromQuery("fileRole", request);
@@ -23,10 +23,10 @@
 <html>
 
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">
+    <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
-    <jsp:include page="../taglibs/quillJsDependencies.jsp"/>
+    <jsp:include page="../taglibs/jsp/quillJsDependencies.jsp"/>
     <!-- js - jQuery validation plugin -->
     <script src="../libs/jquery/jqueryValidate.js"></script>
     <!-- js - jQuery ui position -->
@@ -57,7 +57,7 @@
 <body>
 
 <div id="flex-wrapper">
-    <jsp:include page="../taglibs/Menu.jsp">
+    <jsp:include page="../taglibs/jsp/Menu.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
 
@@ -176,7 +176,7 @@
     </main>
 
 
-    <jsp:include page="../taglibs/quillJsEditor.jsp">
+    <jsp:include page="../taglibs/jsp/quillJsEditor.jsp">
         <jsp:param name="readOnly" value="false"/>
     </jsp:include>
 
@@ -187,7 +187,7 @@
     </p>
     <p id="personal" hidden><%= tu.printMe(personalString)%>
     </p>
- <jsp:include page="../taglibs/footer.jsp"/>
+    <jsp:include page="../taglibs/jsp/footer.jsp"/>
 </body>
 
 </html>

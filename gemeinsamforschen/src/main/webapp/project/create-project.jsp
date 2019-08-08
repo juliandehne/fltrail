@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projekterstellung</title>
-    <jsp:include page="../taglibs/omniDependencies.jsp">
+    <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <script src="../groupfinding/js/config.js"></script>
@@ -23,7 +23,7 @@
 
 <body>
 <div id="flex-wrapper">
-    <jsp:include page="../taglibs/Menu.jsp">
+    <jsp:include page="../taglibs/jsp/Menu.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <div class="row group">
@@ -193,7 +193,7 @@
         </div>
     </main>
 </div>
-    <jsp:include page="../taglibs/footer.jsp"/>
+<jsp:include page="../taglibs/jsp/footer.jsp"/>
 
 </body>
 

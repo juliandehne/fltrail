@@ -10,12 +10,7 @@ import unipotsdam.gf.modules.user.UserDAO;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -51,11 +46,10 @@ public class SessionExistsFilter implements Filter {
         HttpServletRequest request1 = (HttpServletRequest) request;
         log.debug("user session email in filter:" + request1.getSession().getAttribute(GFContexts.USEREMAIL));
         Object attribute = request1.getSession().getAttribute(GFContexts.USEREMAIL);
-
         if (attribute == null) {
             redirectToLogin(request, response);
             //request1.getSession().setAttribute(GFContexts.USEREMAIL, "vodkas@yolo.com");
-            chain.doFilter(request,response);
+            chain.doFilter(request, response);
         } else {
             final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
             locator.inject(this);
@@ -65,8 +59,8 @@ public class SessionExistsFilter implements Filter {
             }
             chain.doFilter(request, response);
         }
-    }
 
+    }
 
 
     @Override

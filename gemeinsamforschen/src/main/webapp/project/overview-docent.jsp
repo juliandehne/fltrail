@@ -5,7 +5,7 @@
 <html>
 
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">
+    <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <script src="js/overview-docent.js"></script>
@@ -13,7 +13,7 @@
 
 <body>
 <div class="flex-wrapper">
-    <jsp:include page="../taglibs/Menu.jsp">
+    <jsp:include page="../taglibs/jsp/Menu.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <div class="row group">
@@ -89,7 +89,7 @@
         </div>
     </main>
 </div>
-    <jsp:include page="../taglibs/footer.jsp"/>
+<jsp:include page="../taglibs/jsp/footer.jsp"/>
 
 </body>
 

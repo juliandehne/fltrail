@@ -7,6 +7,7 @@
     <title>fltrailwizard</title>
     <script type="application/javascript" src="assets/js/jquery.min.js"></script>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="../libs/css/styles.css">
     <script src="../taglibs/js/utility.js"></script>
@@ -182,8 +183,6 @@
 
 
 <div class="row"></div>
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

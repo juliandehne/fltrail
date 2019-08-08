@@ -56,7 +56,7 @@
 
     <!--begin data deletion and download-->
     <%if (isStudent!= null && isStudent.equals("isStudent")) {%>
-    <script src="../taglibs/js/fileStorage.js"></script>
+    <script src="../js/fileStorage.js"></script>
     <div style="margin-top:50px;"></div>
     <h2 id="fileManagementHeader">Ergebnisse</h2>
     <ul id="listOfFiles">

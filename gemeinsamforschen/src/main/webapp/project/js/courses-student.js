@@ -259,7 +259,9 @@ function buttonHandler() {
                 }
 
             })) {
-                document.getElementById('projectWrongPassword').style.display = "block";
+                $('#projectWrongPassword').css("display", function () {
+                    return "block";
+                });
             }
         });
     });
@@ -335,5 +337,5 @@ function checkPassword(projectName, password, callback) {
             }
         });
     }
-    callback();
+    callback(true);
 }

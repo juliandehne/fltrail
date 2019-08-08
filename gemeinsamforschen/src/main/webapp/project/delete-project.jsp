@@ -10,7 +10,7 @@
 
 <html>
 <head>
-    <jsp:include page="../taglibs/omniDependencies.jsp">
+    <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <script src="../groupfinding/js/config.js"></script>
@@ -21,7 +21,7 @@
 <body>
 <div id="flex-wrapper">
 <div class="loader-inactive" id="loader"></div>
-<jsp:include page="../taglibs/Menu.jsp">
+    <jsp:include page="../taglibs/jsp/Menu.jsp">
     <jsp:param name="hierarchy" value="1"/>
 </jsp:include>
 <main>
@@ -51,7 +51,7 @@
 </main>
 
 </div>
-<jsp:include page="../taglibs/footer.jsp"/>
+<jsp:include page="../taglibs/jsp/footer.jsp"/>
 </body>
 
 </html>
