@@ -37,6 +37,14 @@ $(document).ready(function () {
     $('#backToTasks').on('click', function () {
         changeLocation();
     });
+    $('#readMe').on('click', function () {
+        let whatRole = $('#isStudent').val();
+        if (whatRole === "isDocent") {
+            location.href = "../project/readMe-docent.jsp";
+        } else {
+            location.href = "../project/readMe-student.jsp";
+        }
+    });
 });
 
 
