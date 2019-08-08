@@ -9,6 +9,8 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <jsp:include page="../taglibs/jsp/quillJsDependencies.jsp"/>
+    <title>Dossier schreiben</title>
+
     <!-- css - unstructured-annotation -->
     <link rel="stylesheet" type="text/css" href="css/unstructured-annotation.css">
     <link rel="stylesheet" type="text/css" href="css/annotationColorTheme.css">

@@ -16,7 +16,7 @@
 
 <div class="col span_timeline timeline span_s_of_2">
     <!--begin timeLine -->
-    <h2 id="">Projektphase</h2>
+    <h2>Projektphase</h2>
     <ul>
         <% if (phase != null) {%>
             <% if (phase == Phase.GroupFormation) {%>
@@ -54,9 +54,10 @@
     </ul>
     <!-- end timeLine-->
 
+
     <!--begin data deletion and download-->
     <%if (isStudent!= null && isStudent.equals("isStudent")) {%>
-    <script src="../js/fileStorage.js"></script>
+    <script src="../taglibs/js/fileStorage.js"></script>
     <div style="margin-top:50px;"></div>
     <h2 id="fileManagementHeader">Ergebnisse</h2>
     <ul id="listOfFiles">

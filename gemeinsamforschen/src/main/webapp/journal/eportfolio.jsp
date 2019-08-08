@@ -9,6 +9,7 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>E-Portfolio</title>
     <script src="js/eportfolio.js"></script>
 
 </head>

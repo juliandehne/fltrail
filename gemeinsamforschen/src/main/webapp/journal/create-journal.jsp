@@ -11,6 +11,7 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Journal erstellen</title>
     <script src="js/create-journal.js"></script>
 </head>
 

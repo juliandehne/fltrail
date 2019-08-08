@@ -8,6 +8,8 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Portfolio</title>
+
     <jsp:include page="../taglibs/jsp/quillJsDependencies.jsp"/>
 
     <link rel="stylesheet" type="text/css" href="../taglibs/css/dropDownButton.css">

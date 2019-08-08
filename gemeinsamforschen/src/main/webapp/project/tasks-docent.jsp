@@ -7,6 +7,8 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Aufgaben</title>
+
     <script src="../assessment/js/assessmentService.js"></script>
     <script src="js/tasks.js"></script>
     <script src="js/solve-inCardTasks.js"></script>

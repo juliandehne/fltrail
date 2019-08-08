@@ -9,7 +9,10 @@
 <% String hierarchyLevel = request.getParameter("hierarchy");%>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>fltrail</title>
+<link rel="shortcut icon" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/img/favicon.ico"
+      type="image/x-icon"/>
+<link rel="icon" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/img/favicon.ico"
+      type="image/x-icon"/>
 <link href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/css/googleAPIS400-700.css" rel="stylesheet">
 <link href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/css/googleAPIS300-400-700.css" rel="stylesheet">
 

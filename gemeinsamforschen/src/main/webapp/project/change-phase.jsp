@@ -7,6 +7,7 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Phasenwechsel</title>
     <script src="js/changePhase.js"></script>
     <link href="css/changePhase.css" rel="stylesheet">
 </head>

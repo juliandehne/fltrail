@@ -8,6 +8,8 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Auswahl für Bewertung</title>
+
     <jsp:include page="../taglibs/jsp/quillJsDependencies.jsp"/>
     <!-- jsrender -->
     <link rel="stylesheet" type="text/css" href="css/choose-for-assessment.css"/>

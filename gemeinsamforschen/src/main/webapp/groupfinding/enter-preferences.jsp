@@ -10,6 +10,7 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Gruppenfindung</title>
     <script src="js/config.js"></script>
     <script src="js/create-preferences.js"></script>
 </head>

@@ -8,6 +8,8 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Projektübersicht</title>
+
     <script src="js/overview-docent.js"></script>
 </head>
 
