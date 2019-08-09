@@ -35,8 +35,6 @@
     <script src="../libs/jquery/jqueryRangy.js" type="text/javascript"></script>
     <!-- js - rangy TextRange Module -->
     <script src="../libs/jquery/jqueryRangyTextRange.js" type="text/javascript"></script>
-    <!-- js - annotation websocket script -->
-    <script src="js/annotationWebsocket.js"></script>
     <!-- js - annotation REST script -->
         <script src="../taglibs/js/apiClient/contributionFeedbackClient.js"></script>
         <script src="../taglibs/js/unstructuredRest.js"></script>
@@ -87,9 +85,6 @@
 
             <label>Gib dein Feedback ein.</label>
             <div id="feedbackEditor"></div>
-            <!-- <button id="btnContinueBot" type="button" class="btn btn-primary" title="weiter">
-                weiter
-            </button> -->
         </div>
 
         <jsp:include page="../taglibs/jsp/quillJsEditor.jsp">

@@ -271,7 +271,7 @@ function handleLinkedTasks(object, result) {
                     result.solveTaskWith = "Gruppen einsehen";
                     switch (object.taskData.gfm) {
                         default:
-                            result.solveTaskWithLink = "initializeGroups('" + object.projectName + "');";
+                            result.solveTaskWithLink = "loaderStart();initializeGroups('" + object.projectName + "');";
                             break;
                     }
                 } else {
