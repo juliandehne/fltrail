@@ -13,23 +13,30 @@ $(document).ready(function () {
     btnContinue.click(handleContinueButtonClick);
     getAnnotationCategories(function (response) {
         categories = response;
-        let btnContinueBot = $('#btnContinueBot');
-        btnContinueBot.click(handleContinueButtonClick);
         if (category.toUpperCase() === categories[categories.length - 1].toUpperCase()) {
             btnFinalize.show();
             btnContinue.hide();
-            btnContinueBot.on("click", function () {
-                saveContributionFeedback(function () {
-                    finalize();
-                });
-            });
         }
         if (category.toUpperCase() === categories[0]) {
             //btnBack.css('visibility', 'hidden');
             btnBack.hide()
         }
     });
+    $(document).keypress(function (event) {
+        if ($(document.activeElement) !== $('#editor')) {
+            let keycode = (event.keyCode ? event.keyCode : event.which);
+            if (keycode === 13) {
+                if (category.toUpperCase() === categories[categories.length - 1].toUpperCase()) {
+                    saveContributionFeedback(function () {
+                        finalize();
+                    });
+                } else {
+                    handleContinueButtonClick();
+                }
+            }
 
+        }
+    });
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
     let category = getQueryVariable("category");
     $('#categoryHeadline').html(category);
@@ -46,8 +53,6 @@ $(document).ready(function () {
     });
 
     addExistingContributionFeedback(fullSubmissionId, category);
-    // connect to websocket on page ready
-    connect(fullSubmissionId, category);
     quillFeedback.focus();
 });
 
