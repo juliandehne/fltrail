@@ -33,8 +33,6 @@
     <script src="../libs/jquery/jqueryRangy.js" type="text/javascript"></script>
     <!-- js - rangy TextRange Module -->
     <script src="../libs/jquery/jqueryRangyTextRange.js" type="text/javascript"></script>
-    <!-- js - annotation websocket script -->
-    <script src="js/annotationWebsocket.js"></script>
     <!-- js - annotation REST script -->
     <script src="js/annotationRest.js"></script>
     <!-- js - unstructuredRest -->
