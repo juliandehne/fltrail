@@ -24,10 +24,15 @@ import unipotsdam.gf.process.phases.Phase;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_PORTFOLIO_ENTRIES;
 import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
 
@@ -474,11 +479,7 @@ public class TaskDAO {
                     userWithUnansweredReflectionQuestions.add(student);
                 });
 
-                List<Task> tasksMaterialChosen = getTaskForProjectWithProgress(project, TaskName.CHOOSE_ASSESSMENT_MATERIAL, Progress.FINISHED);
-                List<User> users = userDAO.getUsersByProjectName(project.getName());
-                List<User> userWithNoMaterialChosen = users.stream()
-                        .filter(student -> tasksMaterialChosen.stream().map(Task::getUserEmail).noneMatch(email -> student.getEmail().equals(email)))
-                        .collect(Collectors.toList());
+                List<User> userWithNoMaterialChosen = getUsersWithUnfinishedTask(project, CHOOSE_PORTFOLIO_ENTRIES);
                 ReflectionPhaseProgress progress = new ReflectionPhaseProgress(userWithUnansweredReflectionQuestions, userWithNoMaterialChosen);
                 task.setTaskData(progress);
                 result = task;
@@ -488,6 +489,14 @@ public class TaskDAO {
             }
         }
         return result;
+    }
+
+    public List<User> getUsersWithUnfinishedTask(Project project, TaskName taskName) {
+        List<Task> tasksMaterialChosen = getTaskForProjectWithProgress(project, taskName, Progress.FINISHED);
+        List<User> users = userDAO.getUsersByProjectName(project.getName());
+        return users.stream()
+                .filter(student -> tasksMaterialChosen.stream().map(Task::getUserEmail).noneMatch(email -> student.getEmail().equals(email)))
+                .collect(Collectors.toList());
     }
 
     public Task getTasksWithTaskName(Integer groupId, Project project, TaskName taskname) {

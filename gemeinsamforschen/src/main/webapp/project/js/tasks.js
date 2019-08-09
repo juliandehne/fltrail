@@ -182,7 +182,7 @@ function handleInfoTasks(object, result) {
         case "ANSWER_REFLECTION_QUESTIONS":
             result.infoText = "Bitte beantworten Sie die Reflexionsfragen.";
             break;
-        case "CHOOSE_ASSESSMENT_MATERIAL":
+        case "CHOOSE_PORTFOLIO_ENTRIES":
             result.infoText = "Wählen Sie die Einträge aus, die Sie zur Bewertung einreichen möchten.";
             break;
         case "WAIT_FOR_EXECUTION_PHASE_END":
@@ -190,9 +190,6 @@ function handleInfoTasks(object, result) {
             break;
         case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS":
             result.infoText = "Um die Durchführungsphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
-            break;
-        case "START_LEARNING_GOAL_PERIOD":
-            result.infoText = "Starten Sie die Arbeit am Lernziel";
             break;
         case "CLOSE_EXECUTION_PHASE":
             result.infoText = "Beenden Sie nun die Durchführungsphase.";
@@ -303,7 +300,7 @@ function handleLinkedTasks(object, result) {
                 }) + "\')";
 
                 break;
-            case "CHOOSE_ASSESSMENT_MATERIAL":
+            case "CHOOSE_PORTFOLIO_ENTRIES":
                 result.solveTaskWith = "Einträge zur Bewertung auswählen";
                 result.solveTaskWithLink = "redirect(\'../reflection/choose-for-assessment.jsp?projectName=" + object.projectName + "\')";
                 break;

@@ -9,6 +9,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfConverter;
 import fr.opensagres.poi.xwpf.converter.pdf.PdfOptions;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
@@ -22,6 +23,8 @@ import org.htmlcleaner.SimpleHtmlSerializer;
 import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
+import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
@@ -35,7 +38,13 @@ import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -55,6 +64,9 @@ public class FileManagementService {
 
     @Inject
     private UserDAO userDAO;
+
+    @Inject
+    private GroupDAO groupDAO;
 
     @Inject
     private FileManagementDAO fileManagementDAO;
@@ -107,6 +119,19 @@ public class FileManagementService {
         }
         InputStream inputStream = IOUtils.toInputStream(fileContent);
         saveFile(user, project, inputStream, fileDetail, fileRole, fileType);
+    }
+
+    public void saveStringAsPDF(int groupId, Project project, String fileContent, FormDataContentDisposition fileDetail,
+                                FileRole fileRole, FileType fileType) throws Exception {
+        Group group = groupDAO.getGroupByGroupId(groupId);
+
+        if (group == null || CollectionUtils.isEmpty(group.getMembers())) {
+            throw new Exception("group not found");
+        }
+
+        User user = group.getMembers().get(0);
+        saveStringAsPDF(user, project, fileContent, fileDetail, fileRole, fileType);
+
     }
 
     public void saveStringAsPDF(User user, Project project, FullSubmissionPostRequest fullSubmissionPostRequest) throws IOException, DocumentException {

@@ -7,11 +7,16 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <jsp:include page="../taglibs/jsp/quillJsDependencies.jsp"/>
     <title>Aufgaben</title>
 
     <script src="../assessment/js/assessmentService.js"></script>
     <script src="js/tasks.js"></script>
     <script src="js/solve-inCardTasks.js"></script>
+    <script src="../taglibs/js/quill/quillFileGenerator.js"></script>
+    <script src="../taglibs/js/apiClient/reflectionClientGeneral.js"></script>
+    <script src="../taglibs/js/quill/quillArrayEntryObject.js"></script>
+    <script src="../taglibs/js/quill/quillJsObject.js"></script>
 </head>
 <body>
 <div class="flex-wrapper">
@@ -96,7 +101,7 @@
                                             {{/if}}
                                         {{/if}}
                                         <br/>
-                                        <p><u>Fortschritt Auswahl für Assessment </u></p>
+                                        <p><u>Fortschritt Auswahl der Portfolio-Einträge fürs Assessment </u></p>
                                         {{if taskData.numberOfMissingForAssessmentChosen === 0}}
                                             <p>Alle Studierende haben ihre Abgaben für das Assessment gewählt.</p>
                                         {{else}}
@@ -111,7 +116,7 @@
                                                 </ul>
                                             {{/if}}
                                         {{/if}}
-                                        <button style="margin-top:20px; margin-bottom:20px;" onClick="closePhase('Execution', getProjectName());" class="btn btn-primary"><i class="fas fa-link"></i> Durchführungsphase beenden </button>
+                                        <button style="margin-top:20px; margin-bottom:20px;" onClick="saveQuillFileAndClose('Execution', getProjectName());" class="btn btn-primary"><i class="fas fa-link"></i> Durchführungsphase beenden </button>
                                     </div>
                                 {{/if}}
                                 {{if inCardSolver=="CLOSE_PEER_ASSESSMENTS_PHASE"}}
@@ -223,5 +228,9 @@
 
 </div>
 <jsp:include page="../taglibs/jsp/footer.jsp"/>
+<div hidden id="editor"></div>
+<jsp:include page="../taglibs/jsp/quillJsEditor.jsp">
+    <jsp:param name="readOnly" value="true"/>
+</jsp:include>
 </body>
 </html>

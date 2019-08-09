@@ -1,17 +1,15 @@
 package unipotsdam.gf.modules.reflection.view;
 
 import com.google.common.base.Strings;
+import com.itextpdf.text.DocumentException;
 import unipotsdam.gf.modules.fileManagement.FileRole;
+import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.reflection.model.AssessmentMaterial;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
-import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
-import unipotsdam.gf.modules.reflection.model.ReflectionQuestionAnswer;
-import unipotsdam.gf.modules.reflection.model.ReflectionQuestionWithAnswer;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.IExecutionProcess;
@@ -29,10 +27,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Path("/reflection")
 public class GeneralReflectionView {
@@ -47,10 +44,10 @@ public class GeneralReflectionView {
     private UserDAO userDAO;
 
     @Inject
-    private ReflectionQuestionDAO reflectionQuestionDAO;
+    private SubmissionController submissionController;
 
     @Inject
-    private SubmissionController submissionController;
+    private GroupDAO groupDAO;
 
 
     @POST
@@ -99,44 +96,34 @@ public class GeneralReflectionView {
     }
 
     @GET
-    @Path("/material/choose/projects/{projectName}")
+    @Path("projects/{projectName}/portfolioentries")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getMaterialToChooseForAssessment(@Context HttpServletRequest request, @PathParam("projectName") String projectName) {
+    public Response getGroupPortfolioEntries(@Context HttpServletRequest request, @PathParam("projectName") String projectName) {
+        if (Strings.isNullOrEmpty(projectName)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Project name is null or empty").build();
+        }
+
         try {
             User user = gfContexts.getUserFromSession(request);
             Project project = new Project(projectName);
-
-            List<ReflectionQuestionWithAnswer> reflectionQuestionWithAnswers = new ArrayList<>();
-            // if it will be to slow: reImplement on database level
-            List<ReflectionQuestion> reflectionQuestions = reflectionQuestionDAO.getReflectionQuestions(project, user);
-            reflectionQuestions.forEach(reflectionQuestion -> {
-                FullSubmission fullSubmission = submissionController.getFullSubmission(reflectionQuestion.getFullSubmissionId());
-                ReflectionQuestionAnswer answer = new ReflectionQuestionAnswer(fullSubmission);
-                ReflectionQuestionWithAnswer reflectionQuestionWithAnswer = new ReflectionQuestionWithAnswer(reflectionQuestion, answer);
-                reflectionQuestionWithAnswers.add(reflectionQuestionWithAnswer);
-            });
-
-            List<FullSubmission> fullSubmissions = submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
-            Collections.sort(fullSubmissions);
-            AssessmentMaterial assessmentMaterial = new AssessmentMaterial(reflectionQuestionWithAnswers, fullSubmissions);
-            return Response.ok(assessmentMaterial).build();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            List<FullSubmission> portfolioEntries = submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
+            List<FullSubmission> groupEntries = portfolioEntries.stream()
+                    .filter(entry -> entry.getVisibility() == Visibility.GROUP || entry.getVisibility() == Visibility.PUBLIC)
+                    .sorted().collect(Collectors.toList());
+            return Response.ok(groupEntries).build();
+        } catch (IOException e) {
+            e.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).entity("user email is not in context.").build();
-
         }
-
     }
 
     @POST
-    @Path("/material/chosen/projects/{projectName}")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/projects/{projectName}/portfolioentries")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response chooseMaterialForAssessment(@Context HttpServletRequest request, @PathParam("projectName") String projectName, String html) {
-        if (Strings.isNullOrEmpty(html)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("html was empty or null").build();
+    public Response selectPortfolioEntries(@Context HttpServletRequest request, @PathParam("projectName") String projectName, List<FullSubmission> selectedPortfolioEntries) {
+        if (selectedPortfolioEntries == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("selectedPortfolioEntries was null").build();
         }
-
         if (Strings.isNullOrEmpty(projectName)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("project name was null or empty").build();
         }
@@ -144,7 +131,7 @@ public class GeneralReflectionView {
         try {
             User user = gfContexts.getUserFromSession(request);
             Project project = new Project(projectName);
-            executionProcess.chooseAssessmentMaterial(project, user, html);
+            executionProcess.selectPortfolioEntries(project, user, selectedPortfolioEntries);
             return Response.ok().build();
         } catch (IOException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("user email is not in context.").build();
@@ -153,6 +140,49 @@ public class GeneralReflectionView {
         }
     }
 
+    @GET
+    @Path("/projects/{projectName}/portfolioentries/selected")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getSelectedGroupPortfolioEntries(@Context HttpServletRequest request, @PathParam("projectName") String projectName) {
+        if (Strings.isNullOrEmpty(projectName)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("project name was null or empty").build();
+        }
+
+        Project project = new Project(projectName);
+        return Response.ok(submissionController.getSelectedGroupPortfolioEntries(project)).build();
+    }
+
+    @POST
+    @Path("/projects/{projectName}/save/group/{groupId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response saveGroupPortfolioEntries(@Context HttpServletRequest request,
+                                              @PathParam("projectName") String projectName, String html,
+                                              @PathParam("groupId") int groupId) {
+        if (Strings.isNullOrEmpty(html)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("html to save was null or empty").build();
+        }
+        if (Strings.isNullOrEmpty(projectName)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("project name was null or empty").build();
+        }
+
+        if (groupId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("groupId is 0.").build();
+        }
+
+        try {
+            Project project = new Project(projectName);
+            executionProcess.saveGroupSubmission(project, groupId, html);
+            return Response.ok().build();
+        } catch (IOException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("user email is not in context.").build();
+        } catch (DocumentException e) {
+            Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while saving the group submission as pdf").build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Unknown error happens while saving the document").build();
+        }
+        return Response.ok().build();
+    }
 
 
 }

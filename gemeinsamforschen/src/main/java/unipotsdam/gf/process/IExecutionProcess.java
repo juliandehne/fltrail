@@ -7,6 +7,8 @@ import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
 
+import java.util.List;
+
 public interface IExecutionProcess {
     void start(Project project);
 
@@ -16,7 +18,9 @@ public interface IExecutionProcess {
 
     void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) throws Exception;
 
-    void chooseAssessmentMaterial(Project project, User user, String html) throws Exception;
+    void selectPortfolioEntries(Project project, User user, List<FullSubmission> selectedPortfolioEntries) throws Exception;
+
+    void saveGroupSubmission(Project project, int groupId, String html) throws Exception;
 
     boolean isPhaseCompleted(Project project);
 

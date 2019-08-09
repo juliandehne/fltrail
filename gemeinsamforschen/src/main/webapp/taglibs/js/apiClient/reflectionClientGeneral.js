@@ -16,13 +16,14 @@ function saveLearningGoalAndReflectionQuestions(learningGoalRequest, responseHan
     });
 }
 
-function chooseAssessmentMaterial(assessmentHtml, responseHandler) {
+function selectGroupPortfolioEntries(portfolioEntries, responseHandler) {
     let projectName = $('#projectName').html().trim();
-    let url = `../rest/reflection/material/chosen/projects/${projectName}`;
+    let url = `../rest/reflection//projects/${projectName}/portfolioentries`;
+    let data = JSON.stringify(portfolioEntries);
     $.ajax({
         url: url,
         type: "POST",
-        data: assessmentHtml,
+        data: data,
         contentType: "application/json",
         success: function (response) {
             responseHandler(response);
@@ -33,9 +34,9 @@ function chooseAssessmentMaterial(assessmentHtml, responseHandler) {
     });
 }
 
-function getMaterialForAssessment(responseHandler) {
+function getGroupPortfolioEntries(responseHandler) {
     let projectName = $('#projectName').html().trim();
-    let url = `../rest/reflection/material/choose/projects/${projectName}`;
+    let url = `../rest/reflection/projects/${projectName}/portfolioentries`;
     $.ajax({
         url: url,
         type: "GET",
@@ -48,6 +49,36 @@ function getMaterialForAssessment(responseHandler) {
             console.error("Error while getting assessment material");
         }
     });
+}
+
+function getChosenGroupEntries(projectName, responseHandler) {
+    let url = `../rest/reflection//projects/${projectName}/portfolioentries/selected`;
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (response) {
+            responseHandler(response);
+        },
+        error: function () {
+            console.error("Error while getting chosenGroupEntries material");
+        }
+    });
+}
+
+async function saveGroupSelection(projectName, groupId, html) {
+    let url = `../rest/reflection//projects/${projectName}/save/group/${groupId}`;
+    try {
+        await $.ajax({
+            url: url,
+            type: "POST",
+            data: html,
+            contentType: "application/json",
+        });
+    } catch (e) {
+        console.error(`Error while getting reflection questions! ${e.toString()}`);
+    }
 }
 
 function endLearningGoalAndReflectionQuestionChoice(projectName, responseHandler) {
