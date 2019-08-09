@@ -223,7 +223,7 @@ footer {
 }
 
 .timeline {
-    padding: 2em;
+    padding: .5em;
     box-sizing: border-box;
 }
 
@@ -1275,8 +1275,8 @@ main.groups-manual {
 
 .span-chat {
     position: absolute;
-    bottom: 0;
-    right: 0;
+    top: 45px;
+    right: 20px;
     width: 305px;
 }
 
