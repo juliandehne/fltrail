@@ -2,7 +2,7 @@
 <%
     String fileRole = request.getParameter("fileRole");
 %>
-<script src="../js/file-Upload.js"></script>
+<script src="../taglibs/js/file-Upload.js"></script>
 <p hidden id="uploadFileRole"><%= fileRole%></p>
 
 <!--begin data upload-->
