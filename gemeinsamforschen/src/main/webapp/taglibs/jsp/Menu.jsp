@@ -33,6 +33,19 @@
             <!--<a class="nav-link" href="<%= hierarchyLevel%>profile/profile.jsp?">Profil</a>-->
         </div>
         <div class="nav-group-right">
+            <div class="btn-group">
+                <button class="btn btn-secondary btn-sm" type="button">
+                    <i class="fas fa-question"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu">
+                    ...
+                </div>
+            </div>
+            <a class="nav-link" id="readMe" style="cursor:pointer"><i class="fas fa-question"></i></a>
             <a class="nav-link" id="logout" style="cursor:pointer">Logout</a>
         </div>
     </div>

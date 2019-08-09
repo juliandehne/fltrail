@@ -94,11 +94,10 @@ public enum TaskName {
 
     //
     ANSWER_REFLECTION_QUESTIONS,
-
-    // how to trigger: docent ends the learning goal and  all learning goals are finished
-    // how to solve: click on "Wähle deine ... TODO: after implementation"
-    CHOOSE_ASSESSMENT_MATERIAL,
-    // how to trigger: choosing assessment material and save it
+    // how to trigger: if student has answered reflection questions
+    // how to solve: student selects portfolio entries for assessment
+    CHOOSE_PORTFOLIO_ENTRIES,
+    // how to trigger: student selects portfolio entries for assessment
     // how to solve: the docent finishes the execution phase
     WAIT_FOR_EXECUTION_PHASE_END,
     //TEACHER:

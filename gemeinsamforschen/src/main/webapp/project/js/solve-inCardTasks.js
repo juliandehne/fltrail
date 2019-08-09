@@ -36,6 +36,13 @@ function closePhase(phase, projectName) {
     })
 }
 
+async function saveQuillFileAndClose(phase, projectName) {
+    loaderStart();
+    await generatePortfolioEntryFile(projectName);
+    closePhase(phase, projectName);
+
+}
+
 function initializeGroups(projectName) {
     let projq = new RequestObj(1, "/group", "/all/projects/?", [projectName], []);
     serverSide(projq, "GET", function (response) {

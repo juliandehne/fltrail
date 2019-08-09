@@ -14,6 +14,8 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Aufgaben</title>
+
     <script src="js/tasks.js"></script>
     <script src="js/solve-inCardTasks.js"></script>
 </head>
@@ -36,6 +38,7 @@
                         ea rebum.
                     </p>
                 </div>--%>
+                <h1 style="text-align: center;margin-top:35px;margin-bottom: 50px;"><u>Aufgaben</u></h1>
                 <div id="listOfTasks">
 
                 </div>

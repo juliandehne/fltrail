@@ -14,6 +14,7 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Gruppenfindung</title>
     <script src="js/view-groups.js"></script>
     <link rel="stylesheet" href="css/create-groups-manual.css">
 </head>

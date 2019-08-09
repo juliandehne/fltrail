@@ -7,14 +7,16 @@ $(document).ready(function () {
             $('#divForSaving').hide();
             $('.unsavedFinalMark').hide();
             $('#iconLegend').hide();
+            $('#print').show();
             getContributions(projectName);
         } else {
             $('.savedFinalMark').hide();
+            $('#print').hide();
         }
         loaderStop();
     });
     $('#print').on('click', function () {
-        printToExcel()
+        location.href = "../rest/assessment/grades/project/" + projectName + "/excel";
     });
     $('#takeSuggested').on('click', function () {
         let tableEntries = $('#allGradesOfAllStudents').find('tr');
@@ -300,12 +302,5 @@ function getContributions(projectName) {
         error: function (a) {
 
         }
-    });
-}
-
-function printToExcel() {
-    $.ajax({
-        url: "../rest/", //todo der richtige Link hier
-        type: 'GET'
     });
 }

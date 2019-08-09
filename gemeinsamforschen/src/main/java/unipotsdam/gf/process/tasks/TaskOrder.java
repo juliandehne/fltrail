@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static unipotsdam.gf.process.tasks.TaskName.*;
+import static unipotsdam.gf.process.tasks.TaskName.ANSWER_REFLECTION_QUESTIONS;
+import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_PORTFOLIO_ENTRIES;
+import static unipotsdam.gf.process.tasks.TaskName.CLOSE_EXECUTION_PHASE;
+import static unipotsdam.gf.process.tasks.TaskName.COLLECT_RESULTS_FOR_ASSESSMENT;
+import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_EXECUTION_PHASE_END;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION_QUESTION_CHOICE;
 
 public class TaskOrder {
     private List<TaskName> orderedTasks;
@@ -38,7 +44,7 @@ public class TaskOrder {
         result.add(WIZARD_CREATE_PORTFOLIO);
         result.add(DOCENT_GIVE_PORTOLIO_FEEDBACK);
         result.add(ANSWER_REFLECTION_QUESTIONS);
-        result.add(CHOOSE_ASSESSMENT_MATERIAL);
+        result.add(CHOOSE_PORTFOLIO_ENTRIES);
         result.add(COLLECT_RESULTS_FOR_ASSESSMENT);
         result.add(WAIT_FOR_EXECUTION_PHASE_END);
         result.add(CLOSE_EXECUTION_PHASE);

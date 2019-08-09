@@ -98,7 +98,7 @@ public class PhasesImpl implements IPhases {
                     break;
                 case WAIT_FOR_REFLECTION_QUESTION_CHOICE:
                 case ANSWER_REFLECTION_QUESTIONS:
-                case CHOOSE_ASSESSMENT_MATERIAL:
+                case CHOOSE_PORTFOLIO_ENTRIES:
                 case COLLECT_RESULTS_FOR_ASSESSMENT:
                 case CLOSE_EXECUTION_PHASE:
                 case WAIT_FOR_EXECUTION_PHASE_END:

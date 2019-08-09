@@ -9,6 +9,7 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Finale Noten</title>
     <script src="js/final-grades.js"></script>
     <link href="css/datatables.min.css" rel="stylesheet">
     <script type="text/javascript" src="js/datatables.min.js"></script>
@@ -193,18 +194,20 @@
 
 
 
+
+
             </script>
-            <div style="display:flex;" id="divForSaving">
-                <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
-                    <i class="far fa-save"></i> speichern
-                </button>
-                <label for="finalizeGrading">
-                    Dies ist die finale Benotung der Studierenden
-                    <input id="finalizeGrading" style="margin-top:6px;" type="checkbox" title="finalisieren">
-                </label>
-                <div style="margin-left:65%;">
-                    <button title="print" id="print" class="btn btn-primary"><i class="fas fa-print"></i> print</button>
+            <div style="display:flex;">
+                <div id="divForSaving">
+                    <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
+                        <i class="far fa-save"></i> speichern
+                    </button>
+                    <label for="finalizeGrading">
+                        Dies ist die finale Benotung der Studierenden
+                        <input id="finalizeGrading" style="margin-top:6px;" type="checkbox" title="finalisieren">
+                    </label>
                 </div>
+                <button title="print" id="print" class="btn btn-primary"><i class="fas fa-print"></i> print</button>
             </div>
         </div>
     </main>

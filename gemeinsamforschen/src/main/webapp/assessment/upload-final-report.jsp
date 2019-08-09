@@ -9,6 +9,7 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Report hochladen</title>
     <!-- js - jQuery validation plugin -->
     <script src="../libs/jquery/jqueryValidate.js"></script>
     <!-- js - jQuery ui position -->

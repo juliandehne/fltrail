@@ -13,6 +13,7 @@ import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
+import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -29,7 +30,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 import static unipotsdam.gf.process.tasks.TaskName.ANSWER_REFLECTION_QUESTIONS;
-import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_ASSESSMENT_MATERIAL;
+import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_PORTFOLIO_ENTRIES;
 import static unipotsdam.gf.process.tasks.TaskName.CLOSE_EXECUTION_PHASE;
 import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS;
 import static unipotsdam.gf.process.tasks.TaskName.INTRODUCE_E_PORTFOLIO_STUDENT;
@@ -62,6 +63,9 @@ public class ExecutionProcess implements IExecutionProcess {
     @Inject
     private FileManagementService fileManagementService;
 
+    @Inject
+    private SubmissionController submissionController;
+
     public void start(Project project) {
         taskDAO.persistTeacherTask(project, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS, PHASE);
         taskDAO.persistTaskForAllGroups(project, WAIT_FOR_REFLECTION_QUESTION_CHOICE, PHASE);
@@ -93,7 +97,6 @@ public class ExecutionProcess implements IExecutionProcess {
         groups.forEach(group -> {
             GroupTask task = taskDAO.createGroupTask(project, group.getId(), WAIT_FOR_REFLECTION_QUESTION_CHOICE, PHASE, Progress.FINISHED);
             taskDAO.updateGroupTask(task);
-            //taskDAO.persistTaskGroup(project, group.getId(), WORK_ON_LEARNING_GOAL, PHASE, TaskType.INFO);
         });
     }
 
@@ -109,17 +112,22 @@ public class ExecutionProcess implements IExecutionProcess {
 
         if (reflectionQuestions.isEmpty()) {
             finishTask(project, user, ANSWER_REFLECTION_QUESTIONS);
-            startNewTask(project, user, CHOOSE_ASSESSMENT_MATERIAL, true);
+            startNewTask(project, user, CHOOSE_PORTFOLIO_ENTRIES, true);
         }
     }
 
     @Override
-    public void chooseAssessmentMaterial(Project project, User user, String html) throws Exception {
+    public void selectPortfolioEntries(Project project, User user, List<FullSubmission> selectedPortfolioEntries) throws Exception {
         Project fullProject = projectDAO.getProjectByName(project.getName());
-        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("assessmentMaterial").fileName(FileRole.PORTFOLIO + "_" + user.getEmail() + ".pdf");
-        fileManagementService.saveStringAsPDF(user, project, html, builder.build(), FileRole.PORTFOLIO, FileType.HTML);
-        finishTask(fullProject, user, CHOOSE_ASSESSMENT_MATERIAL);
+        selectedPortfolioEntries.forEach(selectedPortfolioEntry -> submissionController.markAsFinal(selectedPortfolioEntry, true));
+        finishTask(fullProject, user, CHOOSE_PORTFOLIO_ENTRIES);
         startNewTask(fullProject, user, WAIT_FOR_EXECUTION_PHASE_END, false, TaskType.INFO);
+    }
+
+    @Override
+    public void saveGroupSubmission(Project project, int groupId, String html) throws Exception {
+        FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("groupSubmissions").fileName(FileRole.GROUP_PORTFOLIO + "_group" + groupId + ".pdf");
+        fileManagementService.saveStringAsPDF(groupId, project, html, builder.build(), FileRole.GROUP_PORTFOLIO, FileType.HTML);
     }
 
     @Override

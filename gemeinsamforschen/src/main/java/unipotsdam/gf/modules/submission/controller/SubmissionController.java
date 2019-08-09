@@ -10,7 +10,13 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -24,6 +30,7 @@ import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -190,6 +197,20 @@ public class SubmissionController implements ISubmission, HasProgress {
         }
         connection.close();
         return fullSubmission;
+    }
+
+    public List<FullSubmission> getSelectedGroupPortfolioEntries(Project project) {
+        connection.connect();
+        String request = "SELECT * FROM fullsubmissions where projectName = ? and fileRole = ? and finalized = true and (visibility = ? OR visibility = ?)";
+
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, project.getName(), FileRole.PORTFOLIO_ENTRY.name(), Visibility.GROUP.name(), Visibility.PUBLIC.name());
+        List<FullSubmission> fullSubmissions = new ArrayList<>();
+        while (rs.next()) {
+            fullSubmissions.add(getFullSubmissionFromResultSet(rs));
+        }
+        connection.close();
+        Collections.sort(fullSubmissions);
+        return fullSubmissions;
     }
 
     public List<FullSubmission> getGroupSubmissions(Project project, int groupId, FileRole fileRole, Visibility visibility) {
@@ -688,7 +709,8 @@ public class SubmissionController implements ISubmission, HasProgress {
     }
 
     /**
-     * if the submission is marked as final, the annotations cannot be updated anymore
+     * if the submission is marked as final, the annotations cannot be updated anymore for DOSSIER
+     * also portfolio entries which are finalized are groupPortfolio entries for the assessment
      *
      * @param fullSubmission which is about to be finalized
      */

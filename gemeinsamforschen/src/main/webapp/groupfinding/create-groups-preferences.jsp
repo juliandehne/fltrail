@@ -8,8 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Gruppenfindung basierend auf psychometrischen Merkmalen wurde noch nicht implementiert. Klicken sie
-        auf zurück im browser</title>
+    <title>Gruppenfindung</title>
 </head>
 <body>
 <div id="flex-wrapper">

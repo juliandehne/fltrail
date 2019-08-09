@@ -13,6 +13,7 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Projekt löschen</title>
     <script src="../groupfinding/js/config.js"></script>
     <script src="js/deleteProject.js"></script>
 

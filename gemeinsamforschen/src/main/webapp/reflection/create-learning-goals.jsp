@@ -8,6 +8,7 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Lernziele erstellen</title>
     <!-- jsrender -->
     <link rel="stylesheet" type="text/css" href="../taglibs/css/dropDownButton.css">
     <link rel="stylesheet" type="text/css" href="css/create-learning-goals.css">

@@ -182,7 +182,7 @@ function handleInfoTasks(object, result) {
         case "ANSWER_REFLECTION_QUESTIONS":
             result.infoText = "Bitte beantworten Sie die Reflexionsfragen.";
             break;
-        case "CHOOSE_ASSESSMENT_MATERIAL":
+        case "CHOOSE_PORTFOLIO_ENTRIES":
             result.infoText = "Wählen Sie die Einträge aus, die Sie zur Bewertung einreichen möchten.";
             break;
         case "WAIT_FOR_EXECUTION_PHASE_END":
@@ -190,9 +190,6 @@ function handleInfoTasks(object, result) {
             break;
         case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS":
             result.infoText = "Um die Durchführungsphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
-            break;
-        case "START_LEARNING_GOAL_PERIOD":
-            result.infoText = "Starten Sie die Arbeit am Lernziel";
             break;
         case "CLOSE_EXECUTION_PHASE":
             result.infoText = "Beenden Sie nun die Durchführungsphase.";
@@ -224,6 +221,9 @@ function handleInfoTasks(object, result) {
                         result.infoText += " Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."
                     }
                 }
+            } else {
+                result = null;
+                return;
             }
             break;
         case "GIVE_EXTERNAL_ASSESSMENT":
@@ -300,7 +300,7 @@ function handleLinkedTasks(object, result) {
                 }) + "\')";
 
                 break;
-            case "CHOOSE_ASSESSMENT_MATERIAL":
+            case "CHOOSE_PORTFOLIO_ENTRIES":
                 result.solveTaskWith = "Einträge zur Bewertung auswählen";
                 result.solveTaskWithLink = "redirect(\'../reflection/choose-for-assessment.jsp?projectName=" + object.projectName + "\')";
                 break;
@@ -406,8 +406,13 @@ function handleLinkedTasks(object, result) {
                 }
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
-                result.solveTaskWith = "Gruppenarbeit bewerten";
-                result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName=" + projectName + "\')";
+                if (object.taskData != null) {
+                    result.solveTaskWith = "Gruppenarbeit bewerten";
+                    result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName=" + projectName + "\')";
+                } else {
+                    result = null;
+                    return;
+                }
                 break;
             case "GIVE_EXTERNAL_ASSESSMENT_TEACHER":
                 if (object.progress !== "FINISHED") {
@@ -491,7 +496,12 @@ function handleFinishedTasks(object, result) {
                 result.infoText = "Sie haben die Abgaben einer anderen Gruppe bewertet.";
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
-                result.infoText = "Sie haben die Arbeit ihrer Gruppenmitglieder bewertet.";
+                if (object.taskData != null) {
+                    result.infoText = "Sie haben die Arbeit ihrer Gruppenmitglieder bewertet.";
+                } else {
+                    result = null;
+                    return;
+                }
                 break;
             case "UPLOAD_FINAL_REPORT":
                 result.infoText = "Ihre Gruppe hat einen Abschlussbericht hochgeladen.";

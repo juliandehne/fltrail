@@ -91,7 +91,6 @@ public class ReflectionQuestionView {
         return Response.ok(questions).build();
     }
 
-
     private List<ReflectionQuestion> getUnansweredReflectionQuestions(HttpServletRequest req, String projectName, boolean onlyFirstEntry) {
         try {
             String userEmail = gfContexts.getUserEmail(req);
@@ -102,7 +101,5 @@ public class ReflectionQuestionView {
             e.getStackTrace();
             return null;
         }
-
-
     }
 }

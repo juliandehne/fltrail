@@ -7,6 +7,7 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Beschreibung bearbeiten</title>
     <script src="js/edit-description.js"></script>
 
 </head>

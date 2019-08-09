@@ -14,7 +14,7 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <jsp:include page="../taglibs/jsp/quillJsDependencies.jsp"/>
-
+    <title>Dossier vollenden</title>
     <!-- css - contextMenu -->
     <link href="https://swisnl.github.io/jQuery-contextMenu/dist/jquery.contextMenu.css" rel="stylesheet"
           type="text/css"/>

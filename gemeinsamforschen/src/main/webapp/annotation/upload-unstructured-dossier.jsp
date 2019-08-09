@@ -26,6 +26,7 @@
     <jsp:include page="../taglibs/jsp/omniDependencies.jsp">
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
+    <title>Dossier schreiben</title>
     <jsp:include page="../taglibs/jsp/quillJsDependencies.jsp"/>
     <!-- js - jQuery validation plugin -->
     <script src="../libs/jquery/jqueryValidate.js"></script>

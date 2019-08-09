@@ -26,6 +26,7 @@ public class ReflectionService implements IReflection {
     @Inject
     private UserDAO userDAO;
 
+    @Override
     public LearningGoalRequestResult createLearningGoalWithQuestions(LearningGoalRequest learningGoalRequest) {
         Project project = new Project(learningGoalRequest.getProjectName());
         LearningGoal learningGoal = new LearningGoal(learningGoalRequest.getLearningGoal(), project);
