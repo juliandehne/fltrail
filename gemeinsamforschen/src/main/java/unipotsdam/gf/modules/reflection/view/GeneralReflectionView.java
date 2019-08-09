@@ -2,14 +2,12 @@ package unipotsdam.gf.modules.reflection.view;
 
 import com.google.common.base.Strings;
 import com.itextpdf.text.DocumentException;
-import unipotsdam.gf.modules.fileManagement.FileRole;
-import unipotsdam.gf.modules.group.GroupDAO;
+import unipotsdam.gf.interfaces.IReflection;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.IExecutionProcess;
@@ -29,7 +27,6 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Path("/reflection")
 public class GeneralReflectionView {
@@ -47,7 +44,7 @@ public class GeneralReflectionView {
     private SubmissionController submissionController;
 
     @Inject
-    private GroupDAO groupDAO;
+    private IReflection reflectionService;
 
 
     @POST
@@ -106,11 +103,8 @@ public class GeneralReflectionView {
         try {
             User user = gfContexts.getUserFromSession(request);
             Project project = new Project(projectName);
-            List<FullSubmission> portfolioEntries = submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
-            List<FullSubmission> groupEntries = portfolioEntries.stream()
-                    .filter(entry -> entry.getVisibility() == Visibility.GROUP || entry.getVisibility() == Visibility.PUBLIC)
-                    .sorted().collect(Collectors.toList());
-            return Response.ok(groupEntries).build();
+
+            return Response.ok(reflectionService.getGroupAndPublicVisiblePortfolioEntriesByUser(user, project)).build();
         } catch (IOException e) {
             e.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).entity("user email is not in context.").build();

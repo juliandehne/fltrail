@@ -38,38 +38,39 @@
         <div class="row group">
 
             <div class="col span_2_of_2">
-                <h3> Reflexionsfragen und E-Portfolio-Einträge für Bewertung aussuchen </h3>
-            <div id="assessmentTemplateResult"></div>
-            <script id="assessmentTemplate" type="text/x-jsrender">
-                <div/>
-                <p>Klicke auf die E-Portfolio-Einträge, die du von deinen Eintrgägen für die Gruppe zur Bewertung einreichen möchtest.</p>
-                <p>Es werden deine Einträge angezeigt, die du für die Gruppe oder öffentlich freigegeben hast</p>
-                {{if data.length === 0}}
-                    <h2> Keine Gruppeneinträge gefunden.</h2>
-                    <h2>Bitte markiere Portfolio-Einträge als Gruppeneinträge oder drücke überspringen, wenn du keine deiner Einträge einreichen willst.</h2>
-                {{else}}
-                <div class="list-group" id="list-tab" role="tablist">
-                    {{for data}}
-                        <div class="row">
-                            <label for="list-item-{{:#index}}">{{:#index + 1}}. Eintrag</label>
-                            <a class="list-group-item list-group-item-action pointer" id="list-item-{{:#index}}" onClick='clickItem("{{:#index}}")' role="tab">
-                                <div id="editor-{{:id}}"></div>
-                            </a>
-                            {{:#root.data.extraData.scriptBegin}}
-                            new Quill('#editor-{{:id}}', {
-                                theme: 'snow',
-                                readOnly: true,
-                                "modules": {
-                                    "toolbar": false
-                                }
-                            }).setContents({{:text}});
-                            {{:#root.data.extraData.scriptEnd}}
+                <h3> E-Portfolio-Einträge für Bewertung einreichen </h3>
+                <div id="assessmentTemplateResult"></div>
+                <script id="assessmentTemplate" type="text/x-jsrender">
+                    <div/>
+                    <p>Klicke auf die E-Portfolio-Einträge, die du von deinen Eintrgägen für die Gruppe zur Bewertung einreichen möchtest.</p>
+                    <p>Es werden deine Einträge angezeigt, die du für die Gruppe oder öffentlich freigegeben hast</p>
+                    {{if data.length === 0}}
+                        <h2>Keine Gruppeneinträge gefunden.</h2>
+                        <h2>Bitte markiere Einträge für die Gruppe oder öffentlich sichtbar, um diese zur Gruppenbewertung einzureichen oder drücke überspringen, wenn du keine deiner Einträge einreichen möchtest.</h2>
+                    {{else}}
+                        <div class="list-group" id="list-tab" role="tablist">
+                            {{for data}}
+                                <div class="row">
+                                    <label for="list-item-{{:#index}}">{{:#index + 1}}. Eintrag</label>
+                                    <a class="list-group-item list-group-item-action pointer" id="list-item-{{:#index}}" onClick='clickItem("{{:#index}}")' role="tab">
+                                        <div id="editor-{{:id}}"></div>
+                                    </a>
+                                    {{:#root.data.extraData.scriptBegin}}
+                                        new Quill('#editor-{{:id}}', {
+                                            theme: 'snow',
+                                            readOnly: true,
+                                            "modules": {
+                                                "toolbar": false
+                                            }
+                                        }).setContents({{:text}});
+                                    {{:#root.data.extraData.scriptEnd}}
+                                </div>
+                            {{/for}}
                         </div>
-                    {{/for}}
-                </div>
-                {{/if}}
+                    {{/if}}
                     <button type="button" onclick="save()" class="btn btn-primary pull-right" id="saveButton">{{:extraData.buttonText}}</button>
-            </script>
+
+                </script>
                 <div hidden id="editor"></div>
                 <jsp:include page="../taglibs/jsp/quillJsEditor.jsp">
                     <jsp:param name="readOnly" value="true"/>
