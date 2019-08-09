@@ -51,6 +51,7 @@ public class ReflectionPhaseSimulation {
     @Inject
     private LearningGoalsDAO learningGoalsDAO;
 
+    @Inject
     private ReflectionQuestionDAO reflectionQuestionDAO;
 
     @Inject
@@ -79,7 +80,7 @@ public class ReflectionPhaseSimulation {
     public void simulateQuestionSelection(Project project) throws Exception {
 
         List<Task> taskForProject =
-                taskDAO.getTaskForProject(project, TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
+                taskDAO.getTaskForProjectByTaskName(project, TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
         if (taskForProject != null && taskForProject.size() > 0) {
             Task task = taskForProject.iterator().next();
             if (task.getProgress().equals(Progress.FINISHED)) {
@@ -101,14 +102,15 @@ public class ReflectionPhaseSimulation {
                     // it should finalize with the last:
                     learningGoalRequest.setEndTask(i == 9);
                     for (int z = 0; z < 3; z++) {
-                        List<ReflectionQuestionsStoreItem> learningGoalSpecificQuestions = reflectionQuestionsStoreDAO
+                        List<ReflectionQuestionsStoreItem> learningGoalSpecificQuestions =
+                                reflectionQuestionsStoreDAO
                                 .getLearningGoalSpecificQuestions(learningGoalStoreItem.getText());
-                        int questionIndex = random.nextInt(2);
+                        int questionIndex = random.nextInt(learningGoalSpecificQuestions.size());
+                        //
                         ReflectionQuestionsStoreItem reflectionQuestionsStoreItem =
                                 learningGoalSpecificQuestions.get(questionIndex);
                         reflectionQuestionsStoreItems.add(reflectionQuestionsStoreItem);
                         learningGoalRequest.getReflectionQuestions().add(reflectionQuestionsStoreItem);
-                        ;
                     }
                     iExecutionProcess.saveLearningGoalsAndReflectionQuestions(learningGoalRequest);
                 }
@@ -143,7 +145,7 @@ public class ReflectionPhaseSimulation {
                         .filter(entry -> entry.getVisibility() == Visibility.GROUP
                                 || entry.getVisibility() == Visibility.PUBLIC).sorted().collect(Collectors.toList());
                 Random random = new Random();
-                int numberselected = random.nextInt(2);
+                int numberselected = random.nextInt(groupEntries.size());
                 List<FullSubmission> fullSubmissions = groupEntries.subList(0, numberselected);
                 iExecutionProcess.selectPortfolioEntries(project, user, fullSubmissions);
             }
@@ -164,19 +166,21 @@ public class ReflectionPhaseSimulation {
             for (User user : usersByProjectName) {
                 List<ReflectionQuestion> reflectionQuestions =
                         reflectionQuestionDAO.getUnansweredQuestions(project, user, false);
-                for (ReflectionQuestion reflectionQuestion : reflectionQuestions) {
-                    Group myGroup = groupDAO.getMyGroup(user, project);
-                    String text = loremIpsum.getWords(500);
-                    text = convertTextToQuillJs(text);
-                    String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).get();
-                    FullSubmissionPostRequest submission =
-                            new FullSubmissionPostRequest(myGroup, text, rq, project, visibility, title);
-                    submission.setHtml(text);
-                    FullSubmission fullSubmission = dossierCreationProcess.addDossier(submission, user, project);
-                    submission.setId(fullSubmission.getId());
-                    iExecutionProcess.answerReflectionQuestion(fullSubmission, reflectionQuestion);
-                    // dossier creation processs is used as substitute -- needs refactoring
-                    //dossierCreationProcess.addDossier(submission, user, project);
+                if (reflectionQuestions != null) {
+                    for (ReflectionQuestion reflectionQuestion : reflectionQuestions) {
+                        Group myGroup = groupDAO.getMyGroup(user, project);
+                        String text = loremIpsum.getWords(500);
+                        text = convertTextToQuillJs(text);
+                        String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).get();
+                        FullSubmissionPostRequest submission =
+                                new FullSubmissionPostRequest(myGroup, text, rq, project, visibility, title);
+                        submission.setHtml(text);
+                        FullSubmission fullSubmission = dossierCreationProcess.addDossier(submission, user, project);
+                        submission.setId(fullSubmission.getId());
+                        iExecutionProcess.answerReflectionQuestion(fullSubmission, reflectionQuestion);
+                        // dossier creation processs is used as substitute -- needs refactoring
+                        //dossierCreationProcess.addDossier(submission, user, project);
+                    }
                 }
             }
         }

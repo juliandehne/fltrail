@@ -100,7 +100,7 @@ public class WizardDao {
     private void correctCreatePortfolioStatus(Project project, Set<TaskName> result) {
         List<FullSubmission> projectSubmissions =
                 submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO_ENTRY, Visibility.GROUP);
-        if (projectSubmissions != null || !projectSubmissions.isEmpty()) {
+        if (projectSubmissions != null && !projectSubmissions.isEmpty() && projectSubmissions.size() > 3) {
             result.add(TaskName.WIZARD_CREATE_PORTFOLIO);
         }
     }
