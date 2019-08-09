@@ -224,6 +224,9 @@ function handleInfoTasks(object, result) {
                         result.infoText += " Es fehlen noch " + object.taskData.numberOfMissing + " Bewertungen."
                     }
                 }
+            } else {
+                result = null;
+                return;
             }
             break;
         case "GIVE_EXTERNAL_ASSESSMENT":
@@ -406,8 +409,13 @@ function handleLinkedTasks(object, result) {
                 }
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
-                result.solveTaskWith = "Gruppenarbeit bewerten";
-                result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName=" + projectName + "\')";
+                if (object.taskData != null) {
+                    result.solveTaskWith = "Gruppenarbeit bewerten";
+                    result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName=" + projectName + "\')";
+                } else {
+                    result = null;
+                    return;
+                }
                 break;
             case "GIVE_EXTERNAL_ASSESSMENT_TEACHER":
                 if (object.progress !== "FINISHED") {
@@ -491,7 +499,12 @@ function handleFinishedTasks(object, result) {
                 result.infoText = "Sie haben die Abgaben einer anderen Gruppe bewertet.";
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
-                result.infoText = "Sie haben die Arbeit ihrer Gruppenmitglieder bewertet.";
+                if (object.taskData != null) {
+                    result.infoText = "Sie haben die Arbeit ihrer Gruppenmitglieder bewertet.";
+                } else {
+                    result = null;
+                    return;
+                }
                 break;
             case "UPLOAD_FINAL_REPORT":
                 result.infoText = "Ihre Gruppe hat einen Abschlussbericht hochgeladen.";

@@ -415,10 +415,10 @@ public class TaskDAO {
                 InternalPeerAssessmentProgress ipap = assessmentDAO.getInternalPeerAssessmentProgress(project, user);
                 if (ipap.getNumberOfMissing() > 0) {
                     task.setTaskData(ipap);
+                    result = task;
                 } else {
-                    task.setTaskData(null);
+                    result = null;
                 }
-                result = task;
                 break;
             }
             case GIVE_EXTERNAL_ASSESSMENT: {
