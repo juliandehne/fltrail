@@ -85,7 +85,16 @@ public enum TaskName {
     WAIT_FOR_REFLECTION_QUESTION_CHOICE,
     // how to trigger: save/upload learning goal results
     // how to solve: click on "Reflexionsfragen beantworten" and answer all reflection questions
+
+    //
+    WIZARD_CREATE_PORTFOLIO,
+
+    //
+    DOCENT_GIVE_PORTOLIO_FEEDBACK,
+
+    //
     ANSWER_REFLECTION_QUESTIONS,
+
     // how to trigger: docent ends the learning goal and  all learning goals are finished
     // how to solve: click on "Wähle deine ... TODO: after implementation"
     CHOOSE_ASSESSMENT_MATERIAL,
