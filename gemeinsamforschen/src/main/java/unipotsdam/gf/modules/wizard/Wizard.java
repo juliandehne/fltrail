@@ -450,6 +450,7 @@ public class Wizard {
         if (project.getAuthorEmail() == null) {
             throw new Exception("no author set!!");
         }
+        //phases.endPhase(Phase.DossierFeedback, project, new User(project.getAuthorEmail()));
     }
 
     private void finalizeReflection(Project project) throws Exception {

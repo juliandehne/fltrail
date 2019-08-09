@@ -80,10 +80,11 @@ public class ReflectionPhaseSimulation {
 
         List<Task> taskForProject =
                 taskDAO.getTaskForProject(project, TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
-        if (taskForProject.size() > 0) {
+        if (taskForProject != null && taskForProject.size() > 0) {
             Task task = taskForProject.iterator().next();
             if (task.getProgress().equals(Progress.FINISHED)) {
                 // mayb logging
+                System.out.println("hihi");
             } else {
                 List<LearningGoalStoreItem> allStoreGoals = learningGoalStoreDAO.getAllStoreGoals();
                 List<LearningGoalStoreItem> selectedLearningGoals = new ArrayList<>();
@@ -113,6 +114,11 @@ public class ReflectionPhaseSimulation {
                 }
             }
         }
+
+        /*else {
+            iExecutionProcess.start(project);
+            simulateQuestionSelection(project);
+        }*/
     }
 
     public void simulateCreatingPortfolioEntries(Project project) throws Exception {
