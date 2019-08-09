@@ -82,6 +82,9 @@ public class Wizard {
     PeerAssessmentSimulation peerAssessmentSimulation;
 
     @Inject
+    ReflectionPhaseSimulation reflectionPhaseSimulation;
+
+    @Inject
     Feedback feedback;
 
 
@@ -159,6 +162,20 @@ public class Wizard {
                 case REEDIT_DOSSIER:
                     finalizeDossiers(project);
                     break;
+                case WAIT_FOR_REFLECTION_QUESTION_CHOICE:
+                    reflectionPhaseSimulation.simulateQuestionSelection(project);
+                    break;
+                case WIZARD_CREATE_PORTFOLIO:
+                    reflectionPhaseSimulation.simulateCreatingPortfolioEntries(project);
+                    break;
+                case DOCENT_GIVE_PORTOLIO_FEEDBACK:
+                    reflectionPhaseSimulation.simulateDocentFeedback(project);
+                    break;
+                case CHOOSE_PORTFOLIO_ENTRIES:
+                    reflectionPhaseSimulation.simulateChooseingPortfolioEntries(project);
+                    break;
+                case ANSWER_REFLECTION_QUESTIONS:
+                    reflectionPhaseSimulation.simulateAnsweringReflectiveQuestions(project);
                 case UPLOAD_PRESENTATION:
                     generatePresentationsForAllGroupsAndUploadThem(project);
                     break;
@@ -193,6 +210,11 @@ public class Wizard {
                 break;
             }
             case Execution: {
+                reflectionPhaseSimulation.simulateQuestionSelection(project);
+                reflectionPhaseSimulation.simulateCreatingPortfolioEntries(project);
+                reflectionPhaseSimulation.simulateDocentFeedback(project);
+                reflectionPhaseSimulation.simulateChooseingPortfolioEntries(project);
+                reflectionPhaseSimulation.simulateAnsweringReflectiveQuestions(project);
                 finalizeReflection(project);
                 break;
             }

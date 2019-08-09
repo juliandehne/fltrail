@@ -33,6 +33,7 @@ import unipotsdam.gf.modules.reflection.service.*;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.PeerAssessmentSimulation;
+import unipotsdam.gf.modules.wizard.ReflectionPhaseSimulation;
 import unipotsdam.gf.modules.wizard.Wizard;
 import unipotsdam.gf.modules.wizard.WizardDao;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -82,6 +83,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(WizardDao.class).to(WizardDao.class);
         bind(Wizard.class).to(Wizard.class);
         bind(PeerAssessmentSimulation.class).to(PeerAssessmentSimulation.class);
+        bind(ReflectionPhaseSimulation.class).to(ReflectionPhaseSimulation.class);
     }
 
     private void bindProjectFinished() {

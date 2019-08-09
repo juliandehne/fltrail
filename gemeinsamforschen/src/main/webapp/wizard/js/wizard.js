@@ -63,36 +63,35 @@ function updateView(project) {
     });
 
     // execution phase
-
     let btnSelectQuestions = $("#selectQuestionsForProject");
-    btnUploadPresentationButton.unbind();
-    btnUploadPresentationButton.click(function () {
-        doSpell(selectedProject.name, taskNames.getName("WAIT_FOR_REFLECTION_QUESTION_CHOICE"));
+    btnSelectQuestions.unbind();
+    btnSelectQuestions.click(function () {
+        doSpell(selectedProject.name, taskNames.getName(taskNames.WAIT_FOR_REFLECTION_QUESTION_CHOICE));
     });
 
 
     let btnWriteEPortfolioEntries = $("#writeEPortfolioEntries");
     btnWriteEPortfolioEntries.unbind();
     btnWriteEPortfolioEntries.click(function () {
-        doSpell(selectedProject.name, taskNames.getName("WIZARD_CREATE_PORTFOLIO"));
+        doSpell(selectedProject.name, taskNames.getName(taskNames.getName(WIZARD_CREATE_PORTFOLIO)));
     });
 
     let btnGiveDocentFeedback = $("#giveFeedbackForReflexion");
     btnGiveDocentFeedback.unbind();
     btnGiveDocentFeedback.click(function () {
-        doSpell(selectedProject.name, taskNames.getName("DOCENT_GIVE_PORTOLIO_FEEDBACK"));
+        doSpell(selectedProject.name, taskNames.getName(taskNames.getName(DOCENT_GIVE_PORTOLIO_FEEDBACK)));
     });
 
     let btnAnswerQuestions = $("#answerQuestionsForProject");
     btnAnswerQuestions.unbind();
     btnAnswerQuestions.click(function () {
-        doSpell(selectedProject.name, taskNames.getName("ANSWER_REFLECTION_QUESTIONS"));
+        doSpell(selectedProject.name, taskNames.getName(taskNames.getName(ANSWER_REFLECTION_QUESTIONS)));
     });
 
     let btnSelectEntriesForAssessment = $("#selectEntriesForAssessment");
     btnSelectEntriesForAssessment.unbind();
     btnSelectEntriesForAssessment.click(function () {
-        doSpell(selectedProject.name, taskNames.getName("CHOOSE_ASSESSMENT_MATERIAL"));
+        doSpell(selectedProject.name, taskNames.getName(taskNames.getName(CHOOSE_ASSESSMENT_MATERIAL)));
     });
 
     let btnSkipExecutionPhase = $("#skipExecutionPhase");
