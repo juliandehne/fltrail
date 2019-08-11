@@ -211,7 +211,6 @@ function getPortfolioSubmissions(queryParams, callback) {
         },
         error: function () {
             let response = [];
-            response.error = true;
             callback(response);
         }
     })

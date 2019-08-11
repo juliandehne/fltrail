@@ -45,7 +45,7 @@
             <div id="portfolioTemplateResult"></div>
             <script id="portfolioTemplate" type="text/x-jsrender">
                 <div></div>
-                    {{if possibleButtons.error}}
+                    {{if possibleButtons.length === 0}}
                         <h2>Keine Einträge gefunden</h2>
                     {{else}}
                         <h4>Wähle, welche Beiträge du sehen möchtest</h4>

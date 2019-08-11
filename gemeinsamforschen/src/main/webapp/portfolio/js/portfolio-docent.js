@@ -12,19 +12,27 @@ $(document).ready(function () {
 });
 
 function setupVisibilityButton() {
-    let queryParams = {
+    let queryParamsDocent = {
         projectName: projectName,
         visibility: 'DOCENT'
     };
-    getPortfolioSubmissions(queryParams, async function (portfolioEntries) {
-        if (portfolioEntries.error) {
-            templateData.possibleButtons = portfolioEntries;
-            renderTemplate(templateData);
-        } else {
-            fillLocalPortfolioStorage(portfolioEntries);
-            templateData.possibleButtons = createButtonData();
-            await fillPortfolioEntries(templateData);
-        }
+    let queryParamsPublic = {
+        projectName: projectName,
+        visibility: 'PUBLIC'
+    }
+    getPortfolioSubmissions(queryParamsDocent, async function (portfolioEntriesDocent) {
+        getPortfolioSubmissions(queryParamsPublic, async function (portfolioEntriesPublic) {
+            if (portfolioEntriesDocent.length === 0 && portfolioEntriesPublic.length === 0) {
+                templateData.possibleButtons = [];
+                renderTemplate(templateData);
+            } else {
+                let allSubmissions = portfolioEntriesDocent.concat(portfolioEntriesPublic);
+                fillLocalPortfolioStorage(allSubmissions);
+                templateData.possibleButtons = createButtonData();
+                await fillPortfolioEntries(templateData);
+            }
+        })
+
     });
 }
 
