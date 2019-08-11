@@ -72,6 +72,8 @@ public class ReflectionPhaseSimulation {
     private final TomcatConceptImporter concepts;
     private LoremIpsum loremIpsum;
 
+    public static Boolean FEEDBACK_IMPLEMENTED = false;
+
     public ReflectionPhaseSimulation() throws UnsupportedEncodingException {
         loremIpsum = new LoremIpsum();
         this.concepts = new TomcatConceptImporter();
@@ -128,7 +130,6 @@ public class ReflectionPhaseSimulation {
     }
 
     public void simulateDocentFeedback(Project project) {
-
         //TODO implement
     }
 
@@ -145,7 +146,7 @@ public class ReflectionPhaseSimulation {
                         .filter(entry -> entry.getVisibility() == Visibility.GROUP
                                 || entry.getVisibility() == Visibility.PUBLIC).sorted().collect(Collectors.toList());
                 Random random = new Random();
-                int numberselected = random.nextInt(groupEntries.size());
+                int numberselected = random.nextInt(groupEntries.size() -1 );
                 List<FullSubmission> fullSubmissions = groupEntries.subList(0, numberselected);
                 iExecutionProcess.selectPortfolioEntries(project, user, fullSubmissions);
             }

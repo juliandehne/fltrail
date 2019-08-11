@@ -93,8 +93,15 @@ public class WizardDao {
         correctDossierStatus(project, result);
         correctAnnotationStatus(project, result);
         correctCreatePortfolioStatus(project, result);
+        correctPortfolioFeedback(project, result);
 
         return result;
+    }
+
+    private void correctPortfolioFeedback(Project project, Set<TaskName> result) {
+        if (!ReflectionPhaseSimulation.FEEDBACK_IMPLEMENTED) {
+            result.add(TaskName.DOCENT_GIVE_PORTOLIO_FEEDBACK);
+        }
     }
 
     private void correctCreatePortfolioStatus(Project project, Set<TaskName> result) {
