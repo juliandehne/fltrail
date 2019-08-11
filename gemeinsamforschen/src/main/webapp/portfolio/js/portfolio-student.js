@@ -4,6 +4,7 @@ let currentPortfolioEntries;
 let currentPortfolioTemplateData;
 let quillNewComment;
 let visibilityButtonTemplateData = {};
+const nameForAllEntries = "KEIN FILTER";
 
 $(document).ready(async function () {
     projectName = $('#projectName').html().trim();
@@ -15,7 +16,7 @@ function setupVisibilityButton() {
     getVisibilities(true, async function (response) {
 
         let possibleVisibilities = [];
-
+        possibleVisibilities.push({name: nameForAllEntries, buttonText: "Alle Einträge"});
         Object.entries(response).forEach(([name, buttonText]) => {
             possibleVisibilities.push({name: name, buttonText: buttonText});
         });
@@ -30,9 +31,10 @@ function setupVisibilityButton() {
 }
 
 async function fillPortfolioEntriesAndFeedback() {
+    let visibility = visibilityButtonTemplateData.currentVisibility.name;
     let queryParams = {
         projectName: projectName,
-        visibility: visibilityButtonTemplateData.currentVisibility.name
+        visibility: visibility === nameForAllEntries ? null : visibility
     };
     getPortfolioSubmissions(queryParams, function (response) {
         currentPortfolioEntries = [];
@@ -45,7 +47,7 @@ async function fillPortfolioEntriesAndFeedback() {
             }
             data.submissionList = currentPortfolioEntries;
             data.error = response.error;
-            fillWithTemplateMetadata(data)
+            fillWithTemplateMetadata(data);
             currentPortfolioTemplateData = data;
             renderPortfolioContent(data);
         });

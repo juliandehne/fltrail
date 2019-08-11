@@ -31,11 +31,8 @@
                                         }).setContents({{:text}});
                                     {{:#root.data.scriptEnd}}
                                 </div>
-
                             </div>
-
-                        </div
-                        >
+                        </div>
                     </a>
                 </div>
                 <div id="collapse-{{:id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{:id}}">
@@ -84,4 +81,5 @@
             </div>
         {{/for}}
     </div>
+
 </script>
