@@ -25,7 +25,6 @@ h2 {
 
 .panel-title {
     width: 95%;
-    /*padding: 12px 15px;*/
 }
 
 .panel-title .row {
@@ -35,16 +34,6 @@ h2 {
 .creation-date {
     font-size: 1.1em;
 }
-
-/*
-.btn h4 {
-    color: inherit;
-    text-align: left;
-    margin-left: 15px;
-    float: left;
-}
-
- */
 
 .creator-info {
     color: inherit;
@@ -60,15 +49,6 @@ h2 {
     float: right;
     margin-top: 0;
 }
-
-/*
-.btn h5 {
-    color: inherit;
-    text-align: right;
-    float: right;
-    margin-top: 5px;
-}
-*/
 
 i.fas.fa-chevron-down {
     font-size: 2.5em;
