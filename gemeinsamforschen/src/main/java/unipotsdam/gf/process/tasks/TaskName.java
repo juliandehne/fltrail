@@ -95,6 +95,7 @@ public enum TaskName {
     //TEACHER:
     // how to trigger: start of the execution phase
     // how to solve: click on "Lernziele und Reflexionziele erstellen"
+    // todo: rename after wizard merge (reflexion to reflection)
     CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS,
     // how to trigger: all students chose the material for assessment
     // how to solve: docent needs to click "Durchführungsphase beenden"
