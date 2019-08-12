@@ -1,5 +1,6 @@
 package unipotsdam.gf.modules.reflection.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LearningGoalRequest {
@@ -9,6 +10,9 @@ public class LearningGoalRequest {
     private String projectName;
     private boolean endTask;
 
+    public LearningGoalRequest() {
+        reflectionQuestions = new ArrayList<>();
+    }
 
     public LearningGoalStoreItem getLearningGoal() {
         return learningGoal;

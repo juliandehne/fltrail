@@ -85,9 +85,9 @@ function handleDeadlines(object, result) {
     if (object.deadline != null) {
         let daysLeft = Math.round((object.deadline - Date.now()) / 1000 / 60 / 60 / 24);
         if (daysLeft >= 1)
-            result.timeFrame = "<div class='status icon'><p>Noch " + daysLeft + " Tage Zeit</p></div>";
+            result.timeFrame = "<div class='status icon'><p>Diese Aufgabe musst Du noch erledigen</p></div>";
         else
-            result.timeFrame = "<div class='status alert icon'><p>Du bist zu spät.</p></div>";
+            result.timeFrame = "<div class='status alert icon'><p>Diese Aufgabe fehlt Dir noch. Beeil dich.</p></div>";
     } else {
         result.timeFrame = "";
     }
@@ -520,13 +520,12 @@ function handleFinishedTasks(object, result) {
             result.infoText = object.phase;
             let created = new Date(object.eventCreated);
             let deadline = new Date(object.deadline);
-            result.timeFrame = "<p>" + created.getDate() + "." + (created.getMonth() + 1) + "." + created.getFullYear() +
+            result.closedPhase = "<p>" + created.getDate() + "." + (created.getMonth() + 1) + "." + created.getFullYear() +
                 " bis " + deadline.getDate() + "." + (deadline.getMonth() + 1) + "." + deadline.getFullYear() + "</p>";
         } else {
-            result.timeFrame = "";
+            result.timeFrame = "<div class='icon finishedTask'><p>Du hast diese Aufgabe abgeschlossen.</p></div>";
         }
         result.taskProgress = "FINISHED";
-        result.taskType = "closed";
     }
 }
 
@@ -552,6 +551,7 @@ function fitObjectInTmpl(object) {
         solveTaskWith: "",
         helpLink: "",
         timeFrame: "",
+        closedPhase: "",
         taskData: object.taskData,
         taskProgress: object.progress,
         current: object.current,

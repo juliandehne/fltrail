@@ -29,6 +29,10 @@
         <jsp:include page="../taglibs/jsp/timeLine.jsp"/>
 
          <div class="col span_l_of_2 tasklist">
+             <div class="infobox dossier" style="margin-bottom:30px;" >
+                 <p> <label>Aufgabenliste</label><br>Hier sehen Sie eine Übersicht der Aufgaben, die die Studierenden gerade bearbeiten. Von hier aus steuern Sie die Projektphasen. Wenn Informationen über die einzelnen Projektphasen benötigen, gehen zu zum Hilfe-Menü oben rechts.</p>
+                 <hr>
+             </div>
             <div id="listOfTasks">
 
             </div>
@@ -36,6 +40,7 @@
              <script id="taskTemplate" type="text/x-jQuery-tmpl">
              <div></div>   <!-- Without this seemingly useless line, intelliJ does not recognise HTML code-->
                   {{if (current==true)}}
+                        <div id="angle-down"><i class="fas fa-angle-double-down"></i></div>
                         <h3 class="phase-heading ${phase} ">${headLine}</h3>
                   {{/if}}
 
@@ -157,26 +162,22 @@
                   </div> <!-- end card -->
                 </script>
 
-             <!-- <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
-            <div class="card-finished">
-                <h3 class="icon closed phase-heading ${phase} " {{if !timeFrame}}style="color:lightgray;"{{/if}}><span>${infoText}</span></h3>
-           <p style="text-align:center;">{{html timeFrame}}</p>
-            </div>
-        </script>-->
-
 
              <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
                 <div></div>
                     {{if (current==true)}}
+                        <div id="angle-down"><i class="fas fa-angle-double-down"></i></div>
                         <h3 class="phase-heading finished ${phase} ">${headLine}</h3>
                     {{/if}}
-                    {{if timeFrame}}
-                        <p style="text-align:center;">{{html timeFrame}}</p>
+                    {{if closedPhase}}
+                        {{html closedPhase}}
                     {{else}}
             <div class="card card-fnished ${phase}">
-
                     <div class="col span_s_of_2 icon ${taskType}"></div>
                     <div class="col span_l_of_2">
+                    {{if timeFrame}}
+                            {{html timeFrame}}
+                        {{/if}}
                         <p style="color:gray;">${infoText}</p>
                         {{if inCardSolver}}
                             {{if inCardSolver=="WAIT_FOR_PARTICPANTS"}}
@@ -195,37 +196,34 @@
 
 
         </div> <!-- end span L of 2 -->
+        <div class="span-chat">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item active">
+                    <a class="nav-link active" href="#projectChat" role="tab" data-toggle="tab">ProjektChat</a>
+                </li>
+            </ul>
 
-    </div><!-- end row -->
-</main>
-    <div class="span-chat">
-        <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item active">
-                <a class="nav-link active" href="#projectChat" role="tab" data-toggle="tab">ProjektChat</a>
-            </li>
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane fade in active" id="projectChat">
-                <chat:chatWindow orientation="right" scope="project"/>
-            </div>
-            Wenn Sie eingeloggt <a data-toggle='collapse' href='#chatCredentials' role='button'
-                                   aria-expanded='false' aria-controls='chatCredentials'>
-            <i class='fas fa-question'></i>
-        </a> sind, können Sie Nachrichten an alle Projektteilnehmer senden oder eine Nachricht an ihre Gruppe
-            verfassen.
-            <div class='collapse' id='chatCredentials'>
-                <div class='card card-body'>
-                    Um sich in den Chat einzuloggen, tragen Sie die gleiche E-Mailadresse sowie das gleiche Passwort
-                    hier ein wie bei der Anmeldung.
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="projectChat">
+                    <chat:chatWindow orientation="right" scope="project"/>
+                </div>
+                Wenn Sie eingeloggt <a data-toggle='collapse' href='#chatCredentials' role='button'
+                                       aria-expanded='false' aria-controls='chatCredentials'>
+                <i class='fas fa-question'></i>
+            </a> sind, können Sie Nachrichten an alle Projektteilnehmer senden oder eine Nachricht an ihre Gruppe
+                verfassen.
+                <div class='collapse' id='chatCredentials'>
+                    <div class='card card-body'>
+                        Um sich in den Chat einzuloggen, tragen Sie die gleiche E-Mailadresse sowie das gleiche Passwort
+                        hier ein wie bei der Anmeldung.
+                    </div>
                 </div>
             </div>
+
         </div>
-
-    </div>
-
-
+    </div><!-- end row -->
+</main>
 </div>
 <jsp:include page="../taglibs/jsp/footer.jsp"/>
 <div hidden id="editor"></div>

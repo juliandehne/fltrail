@@ -91,7 +91,8 @@
 .category-card {
     min-height: 30px;
     height: 100%;
-
+    width: 100%;
+    display: inline-flex;
     border-radius: 0px;
     font-weight: bold;
     font-size: large;
@@ -105,17 +106,22 @@
 
 .category-card p {
    text-align:center;
+    width:100%;
 }
 
 .delete-part {
+    margin-left: 1%;
     cursor: pointer;
     min-height: 30px;
-    width: 10%;
-
+    width: 24%;
+    background: Transparent no-repeat;
+    border: none;
+    outline: none;
     font-weight: bold;
     font-size: large;
     overflow: hidden;
    display:inline-block;
+    padding:.2em;
 }
 .create .category-card p {
     float:left;
@@ -132,9 +138,17 @@
 
 
 .not-added {
-    border-style: solid;
-    border-color: #ededed;
+    border: solid #ededed;
     color: #ada3a3 !important;
+}
+
+.btnCategory {
+    background: Transparent no-repeat;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    width: 75%;
+    padding:.2em;
 }
 
 .titel {

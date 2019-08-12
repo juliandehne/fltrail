@@ -18,6 +18,7 @@
 
     <script src="js/tasks.js"></script>
     <script src="js/solve-inCardTasks.js"></script>
+
 </head>
 <body>
 <div id="flex-wrapper">
@@ -38,17 +39,24 @@
                         ea rebum.
                     </p>
                 </div>--%>
-                <h1 style="text-align: center;margin-bottom: 15px;"><u>Aufgaben</u></h1>
-                <div id="listOfTasks">
+
+                    <div class="infobox dossier" style="margin-bottom:30px;" >
+                    <p> <label>Aufgabenliste</label><br>Hier siehst Du die Aufgaben, die Du erledigen musst, um eine Forschungsphase abzuschließen. Wenn Du Fragen zu den einzelnen Phasen hast, findest Du mehr Informationen über das Hilfe-Menü oben rechts.</p>
+                    <hr>
+                    </div>
+
+                    <div id="listOfTasks">
 
                 </div>
 
                 <script id="taskTemplate" type="text/x-jQuery-tmpl">
                     <div></div>
                         {{if (current==true)}}
+                            <div id="angle-down"><i class="fas fa-angle-double-down"></i></div>
                             <h3 class="phase-heading ${phase} ">${headLine}</h3>
                         {{/if}}
                         <div class="card ${phase} current">
+
                             <div class="col span_s_of_2 icon ${taskType}"></div>
                                 {{if inCardSolver=="CONTACT_GROUP_MEMBERS"}}
                                     <p>
@@ -81,15 +89,16 @@
                 <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
                     <div></div>
                         {{if (current==true)}}
+                        <div id="angle-down"><i class="fas fa-angle-double-down"></i></div>
                             <h3 class="phase-heading finished ${phase} ">${headLine}</h3>
                         {{/if}}
-                        {{if timeFrame}}
-                            <p style="text-align:center;">{{html timeFrame}}</p>
-                        {{else}}
-                <div class="card ${phase}">
+                        <div class="card ${phase}">
 
                         <div class="col span_s_of_2 icon ${taskType}"></div>
                         <div class="col span_l_of_2">
+                        {{if timeFrame}}
+                            {{html timeFrame}}
+                        {{/if}}
                             <p style="color:gray;">${infoText}</p>
                                 {{if inCardSolver}}
                                     {{if inCardSolver=="WAITING_FOR_GROUP"}}
@@ -115,6 +124,7 @@
                 <script id="inProgressTaskTemplate" type="text/x-jQuery-tmpl">
                     <div></div>
                         {{if (current==true)}}
+                             <div id="angle-down"><i class="fas fa-angle-double-down"></i></div>
                             <h3 class="phase-heading ${phase} ">${headLine}</h3>
                         {{/if}}
                 <div class="card ${phase}">

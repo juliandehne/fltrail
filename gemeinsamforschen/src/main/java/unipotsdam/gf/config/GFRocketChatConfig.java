@@ -26,9 +26,25 @@ public class GFRocketChatConfig {
     //public static final String ROCKET_CHAT_LINK_0 = "http://fleckenroller.cs.uni-potsdam.de/chat";
     //public static final String ROCKET_CHAT_LINK = "http://fleckenroller.cs.uni-potsdam.de/chat/";
 
-    public static final String ROCKET_CHAT_LINK_0 = "http://fl.soft.cs.uni-potsdam.de";
-    public static final String ROCKET_CHAT_LINK = "http://fl.soft.cs.uni-potsdam.de/";
 
+    // produktive Einstellungen
+    //public static final String ROCKET_CHAT_LINK_0 = "http://fl.soft.cs.uni-potsdam.de";
+    //public static final String ROCKET_CHAT_LINK = "http://fl.soft.cs.uni-potsdam.de/";
+
+    // Testeinstellungen
+    public static final String ROCKET_CHAT_LINK_0 = "http://fl-testing.soft.cs.uni-potsdam.de";
+    public static final String ROCKET_CHAT_LINK = "http://fl-testing.soft.cs.uni-potsdam.de/";
+
+
+    // produktive Einstellungen
+    /*public static final RocketChatUser ADMIN_USER = new RocketChatUser("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
+            "julian.dehne@uni-potsdam.de",  "rocketChatUsername", "rocketChatAuthToken",
+            "chY-tRPI4CN2Z5YZ-W0txHacDzINTjzu0do-9PzbHmy", "Amo7NRAah5JwSYX2y", false);
+    */
+    // Testeinstellungen
+    public static final RocketChatUser ADMIN_USER = new RocketChatUser("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
+            "julian.dehne@uni-potsdam.de",  "rocketChatUsername", "rocketChatAuthToken",
+            "9lmocCmfZmp0QZjxK3snZ7mAnwFZoIYT4TIS_zcKcoC", "8SvhAuKnkax6rumPn", false);
 
     /**
      * username: fltrailadmin pw: GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F
@@ -41,14 +57,6 @@ public class GFRocketChatConfig {
    public static final RocketChatUser TEST_USER = new RocketChatUser("student1", "egal",
             "student1@yolo.com", "student1", "",
             "", "6ofqfp8J9ynfvspBJ", false);
-
-    /* public static final User ADMIN_USER = new User("admin nachname", "passwort",
-              "email", "rocketChatUsername", "rocketChatAuthToken",
-              "rocketChatPersonalAccessToken", "rocketChatUserId", false);*/
-    public static final RocketChatUser ADMIN_USER = new RocketChatUser("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
-            "julian.dehne@uni-potsdam.de",  "rocketChatUsername", "rocketChatAuthToken",
-            "chY-tRPI4CN2Z5YZ-W0txHacDzINTjzu0do-9PzbHmy", "Amo7NRAah5JwSYX2y", false);
-
 
 
     /**

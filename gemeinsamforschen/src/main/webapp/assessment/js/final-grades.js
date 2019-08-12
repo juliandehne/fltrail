@@ -230,18 +230,44 @@ function viewToUserPeerAssessmentData() {
                 user.email = $(this).html().trim();
             }
             if ($(this).attr("name") === "productPeer") {
-                UserPeerAssessmentData.groupProductRating = $(this).html().trim();
+                let shuttle = $(this).html().trim();
+                if (isNaN(shuttle)) {
+                    UserPeerAssessmentData.groupProductRating = 0;
+                } else {
+                    UserPeerAssessmentData.groupProductRating = shuttle;
+                }
             }
             if ($(this).attr("name") === "productDocent") {
-                UserPeerAssessmentData.docentProductRating = $(this).html().trim();
+                let shuttle = $(this).html().trim();
+                if (isNaN(shuttle)) {
+                    UserPeerAssessmentData.docentProductRating = 0;
+                } else {
+                    UserPeerAssessmentData.docentProductRating = shuttle;
+                }
             }
             if ($(this).attr("name") === "workRating") {
-                UserPeerAssessmentData.groupWorkRating = $(this).find('.collapse.in').html().trim();
+                let shuttle = $(this).html().trim();
+                if (isNaN(shuttle)) {
+                    UserPeerAssessmentData.groupWorkRating = 0;
+                } else {
+                    UserPeerAssessmentData.groupWorkRating = shuttle;
+                }
             }
             if ($(this).attr("name") === "suggested") {
-                UserPeerAssessmentData.suggestedRating = $(this).find('.collapse.in').html().trim();
+                let shuttle = $(this).html().trim();
+                if (isNaN(shuttle)) {
+                    UserPeerAssessmentData.suggestedRating = 0;
+                } else {
+                    UserPeerAssessmentData.suggestedRating = shuttle;
+                }
             }
             if ($(this).attr("name") === "finalMark") {
+                let shuttle = $(this).find("input").val();
+                if (isNaN(shuttle)) {
+                    UserPeerAssessmentData.finalRating = 0;
+                } else {
+                    UserPeerAssessmentData.finalRating = shuttle;
+                }
                 UserPeerAssessmentData.finalRating = $(this).find("input").val();
                 let finalGrade = parseInt(UserPeerAssessmentData.finalRating);
                 if (isNaN(finalGrade)) {

@@ -240,7 +240,7 @@ ol#annotations {
     text-align: center;
     padding-bottom: 1em;
     margin-bottom: 1em;
-    padding: 9px;
+    padding: 11px;
     background-color: #ededed;
     position: relative;
   }
@@ -350,6 +350,7 @@ main#giveFeedback,
 main#seeFeedback {
     display:flex;
     flex-direction:row;
+    padding: 0 1em 0 1em;
   /*  overflow: hidden; */
 }
 main#giveFeedback .span_2_of_2,
@@ -359,7 +360,8 @@ main#seeFeedback .span_2_of_2 {
     min-height: 500px;
     width: auto;
     float: none;
-    max-width: 80%;
+    max-width: 70%;
+    padding-top:1em;
 
 }
 main#giveFeedback .splitter-horizontal,
