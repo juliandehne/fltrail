@@ -106,6 +106,7 @@
 
 .category-card p {
    text-align:center;
+    width:100%;
 }
 
 .delete-part {
@@ -120,6 +121,7 @@
     font-size: large;
     overflow: hidden;
    display:inline-block;
+    padding:.2em;
 }
 .create .category-card p {
     float:left;
@@ -146,6 +148,7 @@
     cursor: pointer;
     outline: none;
     width: 75%;
+    padding:.2em;
 }
 
 .titel {
