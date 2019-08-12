@@ -5,10 +5,10 @@ import java.util.HashMap;
 
 public enum Visibility {
 
-    PUBLIC("Öffentlich - Für alle sichtbar"),
-    DOCENT("Dozent - Für den Dozenten sichtbar"),
-    GROUP("Gruppe - Für die Gruppe sichtbar"),
-    PERSONAL("Persönlich - Für dich sichtbar");
+    PUBLIC("Öffentlich sichtbar"),
+    DOCENT("Für den Dozenten sichtbar"),
+    GROUP("Für die Gruppe sichtbar"),
+    PERSONAL("Nur für dich sichtbar");
 
     private String buttonText;
 

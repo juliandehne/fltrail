@@ -105,6 +105,7 @@ function clickedCreatePrivatePortfolio() {
     location.href = `../annotation/upload-unstructured-dossier.jsp?projectName=${projectName}&fileRole=Portfolio_Entry&personal=true`;
 }
 
-function editButtonPressed(fullSubmissionId) {
+function editButtonPressed(index) {
+    let fullSubmissionId = currentPortfolioEntries[index].id;
     location.href = `../annotation/upload-unstructured-dossier.jsp?projectName=${projectName}&fullSubmissionId=${fullSubmissionId}&fileRole=Portfolio_Entry&personal=true`
 }
