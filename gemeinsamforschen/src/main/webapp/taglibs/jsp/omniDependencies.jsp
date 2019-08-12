@@ -13,8 +13,15 @@
       type="image/x-icon"/>
 <link rel="icon" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/img/favicon.ico"
       type="image/x-icon"/>
+
+<!--
 <link href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/css/googleAPIS400-700.css" rel="stylesheet">
 <link href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/css/googleAPIS300-400-700.css" rel="stylesheet">
+-->
+<link href="https://fonts.googleapis.com/css?family=Muli:400,700&display=swaps" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Ovo&display=swap" rel="stylesheet">
+
+
 
 <link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>libs/bootstrap/css/bootstrap3.3.7.min.css">
 <link rel="stylesheet" href="<%=new TagUtilities().hierarchyToString(hierarchyLevel)%>taglibs/css/normalize.css">
