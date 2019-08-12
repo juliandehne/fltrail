@@ -26,8 +26,14 @@ public class GFRocketChatConfig {
     //public static final String ROCKET_CHAT_LINK_0 = "http://fleckenroller.cs.uni-potsdam.de/chat";
     //public static final String ROCKET_CHAT_LINK = "http://fleckenroller.cs.uni-potsdam.de/chat/";
 
-    public static final String ROCKET_CHAT_LINK_0 = "http://fl.soft.cs.uni-potsdam.de";
-    public static final String ROCKET_CHAT_LINK = "http://fl.soft.cs.uni-potsdam.de/";
+
+    // produktive Einstellungen
+    //public static final String ROCKET_CHAT_LINK_0 = "http://fl.soft.cs.uni-potsdam.de";
+    //public static final String ROCKET_CHAT_LINK = "http://fl.soft.cs.uni-potsdam.de/";
+
+    // Testeinstellungen
+    public static final String ROCKET_CHAT_LINK_0 = "http://fl-testing.soft.cs.uni-potsdam.de";
+    public static final String ROCKET_CHAT_LINK = "http://fl-testing.soft.cs.uni-potsdam.de/";
 
 
     /**
