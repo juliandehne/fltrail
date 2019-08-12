@@ -85,6 +85,14 @@ public enum TaskName {
     WAIT_FOR_REFLECTION_QUESTION_CHOICE,
     // how to trigger: save/upload learning goal results
     // how to solve: click on "Reflexionsfragen beantworten" and answer all reflection questions
+
+    //
+    WIZARD_CREATE_PORTFOLIO,
+
+    //
+    DOCENT_GIVE_PORTOLIO_FEEDBACK,
+
+    //
     ANSWER_REFLECTION_QUESTIONS,
     // how to trigger: if student has answered reflection questions
     // how to solve: student selects portfolio entries for assessment

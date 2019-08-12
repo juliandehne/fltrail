@@ -101,7 +101,7 @@
                                             {{/if}}
                                         {{/if}}
                                         <br/>
-                                        <p><u>Fortschritt Auswahl der Portfolio-Einträge fürs Assessment </u></p>
+                                        <p><u>Fortschritt Auswahl der Portfolio-<br>Einträge fürs Assessment </u></p>
                                         {{if taskData.numberOfMissingForAssessmentChosen === 0}}
                                             <p>Alle Studierende haben ihre Abgaben für das Assessment gewählt.</p>
                                         {{else}}

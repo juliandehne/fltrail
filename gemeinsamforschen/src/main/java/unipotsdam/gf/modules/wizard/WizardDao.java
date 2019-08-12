@@ -1,10 +1,13 @@
 package unipotsdam.gf.modules.wizard;
 
+import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.tasks.Progress;
@@ -89,8 +92,24 @@ public class WizardDao {
 
         correctDossierStatus(project, result);
         correctAnnotationStatus(project, result);
+        correctCreatePortfolioStatus(project, result);
+        correctPortfolioFeedback(project, result);
 
         return result;
+    }
+
+    private void correctPortfolioFeedback(Project project, Set<TaskName> result) {
+        if (!ReflectionPhaseSimulation.FEEDBACK_IMPLEMENTED) {
+            result.add(TaskName.DOCENT_GIVE_PORTOLIO_FEEDBACK);
+        }
+    }
+
+    private void correctCreatePortfolioStatus(Project project, Set<TaskName> result) {
+        List<FullSubmission> projectSubmissions =
+                submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO_ENTRY, Visibility.GROUP);
+        if (projectSubmissions != null && !projectSubmissions.isEmpty() && projectSubmissions.size() > 3) {
+            result.add(TaskName.WIZARD_CREATE_PORTFOLIO);
+        }
     }
 
     private void correctDossierStatus(Project project, Set<TaskName> relevantTaskList) {
@@ -144,6 +163,14 @@ public class WizardDao {
         relevantTasks.add(TaskName.ANNOTATE_DOSSIER);
         relevantTasks.add(TaskName.GIVE_FEEDBACK);
         relevantTasks.add(TaskName.REEDIT_DOSSIER);
+
+        // execution phase
+        relevantTasks.add(TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
+        relevantTasks.add(TaskName.WIZARD_CREATE_PORTFOLIO);
+        relevantTasks.add(TaskName.DOCENT_GIVE_PORTOLIO_FEEDBACK);
+        relevantTasks.add(TaskName.CHOOSE_PORTFOLIO_ENTRIES);
+        relevantTasks.add(TaskName.ANSWER_REFLECTION_QUESTIONS);
+        // assessment phase
         relevantTasks.add(TaskName.UPLOAD_PRESENTATION);
         relevantTasks.add(TaskName.UPLOAD_FINAL_REPORT);
         relevantTasks.add(TaskName.GIVE_EXTERNAL_ASSESSMENT);

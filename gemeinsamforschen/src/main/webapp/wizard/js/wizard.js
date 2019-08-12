@@ -1,10 +1,22 @@
 let projectList = [];
 let selectedProject = "";
 const phases = new Enum('GroupFormation', 'DossierFeedback', 'Execution', 'Assessment', 'GRADING', 'Projectfinished');
-const taskNames = new Enum( "WAIT_FOR_PARTICPANTS", "UPLOAD_DOSSIER", "ANNOTATE_DOSSIER","GIVE_FEEDBACK",
-    "REEDIT_DOSSIER", "UPLOAD_PRESENTATION", "UPLOAD_FINAL_REPORT",
-                            "GIVE_EXTERNAL_ASSESSMENT","GIVE_INTERNAL_ASSESSMENT",
-                            "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
+const taskNames = new Enum(
+    "WAIT_FOR_PARTICPANTS",
+    "UPLOAD_DOSSIER",
+    "ANNOTATE_DOSSIER",
+    "GIVE_FEEDBACK",
+    "REEDIT_DOSSIER",
+    "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS",
+    "ANSWER_REFLECTION_QUESTIONS",
+    "WIZARD_CREATE_PORTFOLIO",
+    "DOCENT_GIVE_PORTOLIO_FEEDBACK",
+    "CHOOSE_PORTFOLIO_ENTRIES",
+    "INTRODUCE_E_PORTFOLIO_STUDENT",
+    "UPLOAD_PRESENTATION",
+    "UPLOAD_FINAL_REPORT",
+    "GIVE_EXTERNAL_ASSESSMENT","GIVE_INTERNAL_ASSESSMENT",
+    "GIVE_EXTERNAL_ASSESSMENT_TEACHER");
 
 $(document).ready(function () {
     let requestObj = new RequestObj(1, "/wizard", "/projects", [], []);
@@ -62,11 +74,46 @@ function updateView(project) {
         doPhaseSpell(selectedProject.name, "DossierFeedback");
     });
 
+    // execution phase
+    let btnSelectQuestions = $("#selectQuestionsForProject");
+    btnSelectQuestions.unbind();
+    btnSelectQuestions.click(function () {
+        doSpell(selectedProject.name, taskNames.getName(taskNames.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS));
+    });
+
+
+    let btnWriteEPortfolioEntries = $("#writeEPortfolioEntries");
+    btnWriteEPortfolioEntries.unbind();
+    btnWriteEPortfolioEntries.click(function () {
+        doSpell(selectedProject.name, taskNames.getName(taskNames.WIZARD_CREATE_PORTFOLIO));
+    });
+
+    let btnGiveDocentFeedback = $("#giveFeedbackForReflexion");
+    btnGiveDocentFeedback.unbind();
+    btnGiveDocentFeedback.click(function () {
+        doSpell(selectedProject.name, taskNames.getName(taskNames.DOCENT_GIVE_PORTOLIO_FEEDBACK));
+    });
+
+    let btnAnswerQuestions = $("#answerQuestionsForProject");
+    btnAnswerQuestions.unbind();
+    btnAnswerQuestions.click(function () {
+        doSpell(selectedProject.name, taskNames.getName(taskNames.ANSWER_REFLECTION_QUESTIONS));
+    });
+
+    let btnSelectEntriesForAssessment = $("#selectEntriesForAssessment");
+    btnSelectEntriesForAssessment.unbind();
+    btnSelectEntriesForAssessment.click(function () {
+        doSpell(selectedProject.name, taskNames.getName(taskNames.CHOOSE_PORTFOLIO_ENTRIES));
+    });
+
     let btnSkipExecutionPhase = $("#skipExecutionPhase");
     btnSkipExecutionPhase.unbind();
     btnSkipExecutionPhase.click(function () {
         doPhaseSpell(selectedProject.name, "Execution");
     });
+
+    // end excution phase
+
     let btnUploadPresentationButton = $("#uploadPresentationButton");
     btnUploadPresentationButton.unbind();
     btnUploadPresentationButton.click(function () {
@@ -182,6 +229,33 @@ function updateTaskStates() {
             $("#finalizeDossierButton").attr("disabled", true);
 
         }
+        // execution phase
+
+        if (tasksfinished.includes(taskNames.getName(taskNames.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS))){
+            $("#selectQuestionsForProject").attr("disabled", true);
+        };
+
+
+        if (tasksfinished.includes(taskNames.getName(taskNames.WIZARD_CREATE_PORTFOLIO))){
+            $("#writeEPortfolioEntries").attr("disabled", true);
+        };
+
+        if (tasksfinished.includes( taskNames.getName(taskNames.DOCENT_GIVE_PORTOLIO_FEEDBACK))){
+            $("#giveFeedbackForReflexion").attr("disabled", true);
+        };
+
+        if (tasksfinished.includes( taskNames.getName(taskNames.ANSWER_REFLECTION_QUESTIONS))){
+            $("#answerQuestionsForProject").attr("disabled", true);
+        };
+
+        if (tasksfinished.includes( taskNames.getName(taskNames.CHOOSE_PORTFOLIO_ENTRIES))){
+            $("#selectEntriesForAssessment").attr("disabled", true);
+        };
+
+
+        // end execution phase
+
+
         if (tasksfinished.includes(taskNames.getName(taskNames.UPLOAD_PRESENTATION))) {
             $("#uploadPresentationButton").attr("disabled", true);
 

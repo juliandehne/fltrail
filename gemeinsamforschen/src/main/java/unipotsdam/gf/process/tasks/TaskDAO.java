@@ -173,7 +173,7 @@ public class TaskDAO {
         return result;
     }
 
-    public List<Task> getTaskForProject(Project project, TaskName taskName) {
+/*    public List<Task> getTaskForProject(Project project, TaskName taskName) {
         connect.connect();
         String query = "Select * from tasks t where t.projectName = ? AND t.taskName = ? and t.progress = ?";
         VereinfachtesResultSet vereinfachtesResultSet =
@@ -184,9 +184,9 @@ public class TaskDAO {
         }
         connect.close();
         return result;
-    }
+    }*/
 
-    List<Task> getTaskForProjectByTaskName(Project project, TaskName taskName) {
+    public List<Task> getTaskForProjectByTaskName(Project project, TaskName taskName) {
         connect.connect();
         String query = "Select * from tasks t where t.projectName = ? AND t.taskName = ? ORDER BY created DESC";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(query, project.getName(), taskName.name());
