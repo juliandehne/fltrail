@@ -351,9 +351,9 @@ footer {
 }
 
 .card.current {
-    -webkit-box-shadow: 18px 18px 8px -8px rgba(100, 90, 100, 0.42);
-    -moz-box-shadow: 18px 18px 8px -8px rgba(100, 90, 100, 0.42);
-    box-shadow: 18px 18px 8px -8px rgba(100, 90, 100, 0.42);
+    -webkit-box-shadow: 10px 10px 5px -8px #8c8a8c9e;
+    -moz-box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
+    box-shadow: 10px 10px 5px -8px #8c8a8c9e;
 }
 
 .grouptask:before {
@@ -485,7 +485,7 @@ h1 {
 }
 
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
-    font-weight:400 !important;
+    font-weight:bold !important;
     /*to overwrite bootstraps 500 which is wrong here*/
 }
 
