@@ -1,2 +1,3 @@
 - change Mysql-Connection in GFDatabaseConfig
 - change Rocket-Chat endpoint in GFRocketChatConfig
+- change admin user with token in GFRocketChatConfig
