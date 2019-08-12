@@ -382,6 +382,26 @@ footer {
     color: #fff;
 }
 
+.finishedTask:before {
+    content: "\f00c";
+    text-align: center;
+    display: block;
+    line-height: 2em;
+    font-size: 1.5em;
+    color: #fff;
+}
+
+.finishedTask {
+    position: absolute;
+
+    width: 3em;
+    height: 3em;
+    background: #075F8B;
+    border-radius: 50%;
+    right: -2em;
+    top: .2em;
+}
+
 .status {
     position: absolute;
 
@@ -421,6 +441,35 @@ footer {
 }
 
 .status:hover p {
+    display: block;
+    position: absolute;
+    background: #000;
+    top: -2em;
+    min-height: 3em;
+    left: 4em;
+    color: #fff;
+    width: 100px;
+    padding: 1em;
+}
+
+.finishedTask p {
+    display: none;
+}
+
+.finishedTask:hover p:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 12px 12px 12px 0;
+    border-color: transparent #000;
+    display: block;
+    width: 0;
+    z-index: 1;
+    left: -12px;
+    top: 20px;
+}
+
+.finishedTask:hover p {
     display: block;
     position: absolute;
     background: #000;
