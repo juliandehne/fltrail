@@ -29,6 +29,10 @@
         <jsp:include page="../taglibs/jsp/timeLine.jsp"/>
 
          <div class="col span_l_of_2 tasklist">
+             <div class="infobox dossier" style="margin-bottom:30px;" >
+                 <p> <label>Aufgabenliste</label><br>Hier sehen Sie eine Übersicht der Aufgaben, die die Studierenden gerade bearbeiten. Von hier aus steuern Sie die Projektphasen. Wenn Informationen über die einzelnen Projektphasen benötigen, gehen zu zum Hilfe-Menü oben rechts.</p>
+                 <hr>
+             </div>
             <div id="listOfTasks">
 
             </div>
@@ -36,6 +40,7 @@
              <script id="taskTemplate" type="text/x-jQuery-tmpl">
              <div></div>   <!-- Without this seemingly useless line, intelliJ does not recognise HTML code-->
                   {{if (current==true)}}
+                        <div id="angle-down"><i class="fas fa-angle-double-down"></i></div>
                         <h3 class="phase-heading ${phase} ">${headLine}</h3>
                   {{/if}}
 
@@ -159,6 +164,7 @@
 
              <!-- <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
             <div class="card-finished">
+                <div id="angle-down"><i class="fas fa-angle-double-down"></i></div>
                 <h3 class="icon closed phase-heading ${phase} " {{if !timeFrame}}style="color:lightgray;"{{/if}}><span>${infoText}</span></h3>
            <p style="text-align:center;">{{html timeFrame}}</p>
             </div>
@@ -168,6 +174,7 @@
              <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
                 <div></div>
                     {{if (current==true)}}
+                        <div id="angle-down"><i class="fas fa-angle-double-down"></i></div>
                         <h3 class="phase-heading finished ${phase} ">${headLine}</h3>
                     {{/if}}
                     {{if timeFrame}}

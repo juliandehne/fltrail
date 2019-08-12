@@ -1,0 +1,2 @@
+- change Mysql-Connection in GFDatabaseConfig
+- change Rocket-Chat endpoint in GFRocketChatConfig

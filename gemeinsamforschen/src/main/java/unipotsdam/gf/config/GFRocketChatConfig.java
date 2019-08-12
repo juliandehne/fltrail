@@ -33,7 +33,7 @@ public class GFRocketChatConfig {
 
     // Testeinstellungen
     public static final String ROCKET_CHAT_LINK_0 = "http://fl-testing.soft.cs.uni-potsdam.de";
-    public static final String ROCKET_CHAT_LINK = "http://fl-testing.soft.cs.uni-potsdam.dee/";
+    public static final String ROCKET_CHAT_LINK = "http://fl-testing.soft.cs.uni-potsdam.de/";
 
 
     /**
