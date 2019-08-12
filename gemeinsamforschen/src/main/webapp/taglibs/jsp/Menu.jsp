@@ -33,19 +33,45 @@
             <!--<a class="nav-link" href="<%= hierarchyLevel%>profile/profile.jsp?">Profil</a>-->
         </div>
         <div class="nav-group-right">
-            <div class="btn-group">
-                <button class="btn btn-secondary btn-sm" type="button">
+            <div class="btn-group" style="margin-right:20px;">
+                <button class="btn btn-primary btn-sm" type="button" id="readMe">
                     <i class="fas fa-question"></i>
                 </button>
-                <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split"
+                <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="sr-only">Toggle Dropdown</span>
+                    <i class="fas fa-caret-down"></i>
                 </button>
-                <div class="dropdown-menu">
-                    ...
+                <div class="dropdown-menu" style="background-color:#305D84;">
+                    <ul>
+                        <li>
+                            <button class="nav-link btn btn-primary" style="cursor:pointer; width:100%;"
+                                    id="readMeGruppenbildung">Gruppenbildung
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-link btn btn-primary" style="cursor:pointer; width:100%;"
+                                    id="readMeEntwurf">Entwurf
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-link btn btn-primary" style="cursor:pointer; width:100%;"
+                                    id="readMeDurchfuhrung">Durchführung
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-link btn btn-primary" style="cursor:pointer; width:100%;"
+                                    id="readMeBewertung">Bewertung
+                            </button>
+                        </li>
+                        <li>
+                            <button class="nav-link btn btn-primary" style="cursor:pointer; width:100%;"
+                                    id="readMeProjektabschluss">Projektabschluss
+                            </button>
+                        </li>
+                    </ul>
+
                 </div>
             </div>
-            <a class="nav-link" id="readMe" style="cursor:pointer"><i class="fas fa-question"></i></a>
             <a class="nav-link" id="logout" style="cursor:pointer">Logout</a>
         </div>
     </div>

@@ -50,6 +50,7 @@ header .nav-group-left {
 
 header .nav-group-right {
     float: right;
+    margin-left: 20px;
 }
 
 /*  SECTIONS  */

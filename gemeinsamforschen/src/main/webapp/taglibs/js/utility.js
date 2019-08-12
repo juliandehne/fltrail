@@ -45,6 +45,46 @@ $(document).ready(function () {
             location.href = "../project/readMe-student.jsp";
         }
     });
+    $('#readMeGruppenbildung').on('click', function () {
+        let whatRole = $('#isStudent').val();
+        if (whatRole === "isDocent") {
+            location.href = "../project/readMe-docent.jsp#Gruppenbildung";
+        } else {
+            location.href = "../project/readMe-student.jsp#Gruppenbildung";
+        }
+    });
+    $('#readMeEntwurf').on('click', function () {
+        let whatRole = $('#isStudent').val();
+        if (whatRole === "isDocent") {
+            location.href = "../project/readMe-docent.jsp#Entwurf";
+        } else {
+            location.href = "../project/readMe-student.jsp#Entwurf";
+        }
+    });
+    $('#readMeDurchfuhrung').on('click', function () {
+        let whatRole = $('#isStudent').val();
+        if (whatRole === "isDocent") {
+            location.href = "../project/readMe-docent.jsp#Durchfuhrung";
+        } else {
+            location.href = "../project/readMe-student.jsp#Durchfuhrung";
+        }
+    });
+    $('#readMeBewertung').on('click', function () {
+        let whatRole = $('#isStudent').val();
+        if (whatRole === "isDocent") {
+            location.href = "../project/readMe-docent.jsp#Bewertung";
+        } else {
+            location.href = "../project/readMe-student.jsp#Bewertung";
+        }
+    });
+    $('#readMeProjektabschluss').on('click', function () {
+        let whatRole = $('#isStudent').val();
+        if (whatRole === "isDocent") {
+            location.href = "../project/readMe-docent.jsp#Projektabschluss";
+        } else {
+            location.href = "../project/readMe-student.jsp#Projektabschluss";
+        }
+    });
 });
 
 

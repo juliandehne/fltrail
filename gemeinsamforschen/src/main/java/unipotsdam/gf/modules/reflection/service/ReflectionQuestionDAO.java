@@ -63,6 +63,7 @@ public class ReflectionQuestionDAO {
         if (resultSet.next()) {
             reflectionQuestion = convertResultSet(resultSet);
         }
+        connection.close();
         return reflectionQuestion;
     }
 

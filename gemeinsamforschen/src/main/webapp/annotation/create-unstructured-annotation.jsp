@@ -88,13 +88,13 @@
                     {{for categories}}
                         <li class="spacing">
 
-                            <div id="{{>nameLower}}" class="category-card not-added ">
-                                <p>{{>name}}</p>
-                                <span class="delete-part">
-                                    <a onClick="deleteCategory('{{>nameLower}}');">
-                                        <p>X</p>
-                                    </a>
-                                </span>
+                            <div id="{{>nameLower}}" class="category-card not-added">
+                                <button class="btnCategory" onClick="handleCategoryClick('{{>name}}')">
+                                    <p>{{>name}}</p>
+                                </button>
+                                <button class="delete-part" onClick="deleteCategory('{{>nameLower}}');">
+                                    <p>X</p>
+                                </button>
                             </div>
 
 
