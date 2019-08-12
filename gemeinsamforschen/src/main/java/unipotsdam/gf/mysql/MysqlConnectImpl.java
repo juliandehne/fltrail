@@ -200,7 +200,8 @@ public class MysqlConnectImpl implements MysqlConnect {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
-            throw new Error("could not connect to mysql");
+            log.error(ex.getMessage());
+            return null;
         }
     }
 

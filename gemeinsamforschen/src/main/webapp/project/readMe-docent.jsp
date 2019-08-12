@@ -45,21 +45,7 @@
 
                     </div>
                     <div class="col span_l_of_2">
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text
-                        dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text
-                        dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text
-                        dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text
-                        dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text
-                        dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text
-                        dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-
+                        Dieses Werkzeug kann Sie darin unterstützen forschendes Lernen (https://de.wikipedia.org/wiki/Forschendes_Lernen) in ihrem Kurs durchzuführen. Forschendes Lernen verfolgt das Ziel, dass die Studierenden eine längerfristige Perspektive auf ihr Fach und ihre Identität als Forscher(innen) entwickeln anstatt von Klausur zu Klausur zu denken. Daher wird mit den Studierenden der vollständige Forschungszyklus durchgespielt, der jedoch an einigen Stellen auf den pädagogischen Kontext angepasst wird. Da dies für Einsteiger sehr aufwändig erscheint, haben wir aus empirischen Studien haben einen Vorschlag für einen Ablauf erstellt. Dieser wird durch dieses Tool so passgenau unterstützt, dass sich der Aufwand für den Lehrenden auf ein Minimum reduziert:
                     </div>
                     <div style="clear:left"></div>
                 </div>
@@ -69,12 +55,7 @@
                     <div class="col span_s_of_2 icon infotask"></div>
 
                     <div class="col span_l_of_2">
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.<br>
+                        In der Gruppenbildungsphase werden die Studierende in Projektgruppen eingeteilt. Einzelarbeit wird zwar softwareseitig unterstützt, ist aber nicht empfohlen. Wie in richtigen Forschungsprojekten gehen wir davon aus, dass kooperatives Arbeiten gewünscht ist. Dabei können Sie als Dozierender wählen, ob sie die Gruppen homogen basierend auf ähnlichen thematischen Interessen oder heterogen mit einer optimalen Verteilung von Persönlichkeitsmerkmalen bilden lassen wollen. Das Werkzeug wird ihnen daraufhin optimierte Gruppen bilden, die Sie übernehmen können oder noch anpassen.
                     </div>
 
 
@@ -86,15 +67,8 @@
                     <div class="col span_s_of_2 icon infotask"></div>
 
                     <div class="col span_l_of_2">
-                        <img src="../taglibs/img/dossier-example.jpg">
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.v<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.v<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.v<br>
+                        <%--<img src="../taglibs/img/dossier-example.jpg">--%>
+                        Nach der Gruppenfindungsphase werden die Studierenden beauftragt ein Forschungsentwurf/Dossier zu erarbeiten. Je nach geplantem Kurs kann dies auch die finale Abgabe des Kurses sein, wodurch die späteren Module weggelassen werden können.  Die Studierende geben sich daraufhin Feedback zu den erarbeiteten Forschungskonzepten bezüglich üblicher Kategorien wie der Recherche, der gewählten Methodik etc. Diese Kategorien müssen sie schon zu Beginn bei der Projekterstellung festlegen. Dieses Feedback wird daraufhin eingearbeitet.
                     </div>
 
 
@@ -106,15 +80,8 @@
                     <div class="col span_s_of_2 icon infotask"></div>
 
                     <div class="col span_l_of_2">
-                        <img src="../taglibs/img/dossiers.jpg">
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.v<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.v<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.v<br>
+                        <%--<img src="../taglibs/img/dossiers.jpg">--%>
+                        Wir haben die Erfahrung gemacht, dass es für die Studierenden motivierend ist, wenn sie das erarbeitete Konzept auch in einem Projekt durchführen. Manchmal wird dies durch einen zweisemestrigen Kurs realisiert, oder durch eine Projektphase im Sommer.  Wenn dies geplant ist, sollten sie sich nicht zu lange mit der Dossiererstellung aufhalten. Da die Durchführung für die Fächer sehr unterschiedlich abläuft, haben wir hier keine spezifische Unterstützung implementiert. Es ist jedoch empirisch belegt, dass komplexe Prozesse wie die eines selbstgesteuerten Lernprojektes gut unterstützt werden können, indem die Reflexion mittels gezielter Fragen und Portfoliotechniken angeregt wird.
                     </div>
 
 
@@ -127,34 +94,28 @@
 
                     <div class="col span_l_of_2">
                         <img src="../taglibs/img/assessment.png">
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.v<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.v<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.v<br>
+
                     </div>
+                    Peer Assessment ist eine Technik, die sich darauf verlässt, dass
+                    Häufig haben Dozierende wenig Einblick in die Gruppenarbeit der Studierenden,
+                    so dass solche Techniken als hilfreich wahrgenommen werden.
+                    Wir haben Formeln entwickelt, die die Peer-Noten in zweierlei Hinsicht korrigieren.
+                    Zum einen wird ein zu großes Delta zu der Note des Dozierenden aufgezeigt,
+                    zum anderen werden Cheating oder anderer Bias  entdeckt und bestraft.
+                    Es wird analog zu der Gruppenphase nur eine Vorschlag für eine Notengebung für Sie als Dozent entwickelt,
+                    den Sie daraufhin übernehmen können oder auch nicht.
 
-
-                    <div style="clear:left"></div>
+                <div style="clear:left"></div>
                 </div>
 
-                <h3 class="phase-heading GRADING" id="Projektabschluss">Projektabschluss</h3>
+               <h3 class="phase-heading GRADING" id="Projektabschluss">Projektabschluss</h3>
                 <div class="card GRADING current readMe">
                     <div class="col span_s_of_2 icon infotask"></div>
 
                     <div class="col span_l_of_2">
-                        <img src="../taglibs/img/Notenscan.jpg">
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.v<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.v<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.Text dummy.<br>
-                        Text dummy.Text dummy.Text dummy.Text dummy.v<br>
+                        <%--<img src="../taglibs/img/Notenscan.jpg">--%>
+                        Das Projekt ist zu Ende und Sie können die finalen Noten der Studierenden als Excel-Sheet
+                        exportieren.
                     </div>
 
 

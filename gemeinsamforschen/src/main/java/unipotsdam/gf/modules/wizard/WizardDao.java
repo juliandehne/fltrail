@@ -48,7 +48,10 @@ public class WizardDao {
     public List<WizardProject> getProjects() {
         connect.connect();
         String mysqlRequest =
-                " SELECT p.name, p.phase, t.taskName FROM projects " + " p join tasks t on p.name = t.projectName" + " where NOT t.progress = ? " + " Group By p.phase, p.name ORDER by t.created ASC ";
+                " SELECT p.name, p.phase, t.taskName FROM projects "
+                        + " p join tasks t on p.name = t.projectName"
+                        + " where NOT t.progress = ? "
+                        + " Group By p.phase, p.name ORDER by t.created ASC ";
         List<WizardProject> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Progress.FINISHED);
         while (vereinfachtesResultSet.next()) {
