@@ -120,56 +120,59 @@
                 </button>
                 <span style="margin: 20px;">Die Reflexionsfragen, die die Studierenden beantworten sollen, werden
                 ausgewählt</span>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col">
-                <button disabled id="writeEPortfolioEntries" class="btn btn-primary reflexionButton btn-wizard">
-                    Einträge schreiben
-                </button>
-                <span style="margin: 20px;">E-Portfolio-Einträge für alle Studierende schreiben (persönlich und Gruppe)</span>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col">
-                <button disabled id="giveFeedbackForReflexion" class="btn btn-primary reflexionButton btn-wizard">
-                    Feedback generieren
-                </button>
-                <span style="margin: 20px;">Dozent gibt Feedback zu antworten von Reflexionsfragen</span>
-            </div>
-        </div>
+                <div class="row">
+                    <div class="col" style="margin-top: 10px;">
+                        <button disabled id="writeEPortfolioEntries" class="btn btn-primary reflexionButton btn-wizard">
+                            Einträge schreiben
+                        </button>
+                        <span style="margin: 20px;">E-Portfolio-Einträge für alle Studierende schreiben (persönlich und Gruppe)</span>
+                    </div>
+                </div>
 
-        <div class="row">
-            <div class="col">
-                <button disabled id="selectEntriesForAssessment" class="btn btn-primary reflexionButton btn-wizard">
-                    Auswahl treffen
-                </button>
-                <span style="margin: 20px;">die Auswahl der Studierende der Einträge für das Assessment wird
+                <div class="row">
+                    <div class="col" style="margin-top: 10px;">
+                        <button disabled id="giveFeedbackForReflexion"
+                                class="btn btn-primary reflexionButton btn-wizard">
+                            Feedback generieren
+                        </button>
+                        <span style="margin: 20px;">Dozent gibt Feedback zu Antworten von Reflexionsfragen</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col" style="margin-top: 10px;">
+                        <button disabled id="selectEntriesForAssessment"
+                                class="btn btn-primary reflexionButton btn-wizard">
+                            Auswahl treffen
+                        </button>
+                        <span style="margin: 20px;">die Auswahl der Studierende der Einträge für das Assessment wird
                 generiert</span>
-            </div>
-        </div>
+                    </div>
+                </div>
 
-        <div class="row">
-            <div class="col">
-                <button disabled id="answerQuestionsForProject" class="btn btn-primary reflexionButton btn-wizard">
-                    Fragen beantworten
-                </button>
-                <span style="margin: 20px;">Für die Reflexionsfragen, die die Studierenden beantworten sollen, werden
+                <div class="row">
+                    <div class="col" style="margin-top: 10px;">
+                        <button disabled id="answerQuestionsForProject"
+                                class="btn btn-primary reflexionButton btn-wizard">
+                            Fragen beantworten
+                        </button>
+                        <span style="margin: 20px;">Für die Reflexionsfragen, die die Studierenden beantworten sollen, werden
                 Antworten generiert</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col" style="margin-top: 10px;">
+                        <button disabled id="skipExecutionPhase" class="btn btn-primary reflexionButton btn-wizard">
+                            Phase überspringen
+                        </button>
+                        <span style="margin: 20px;">Die Reflexionsphase überspringen</span>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col">
-                <button disabled id="skipExecutionPhase" class="btn btn-primary reflexionButton btn-wizard">
-                    Phase überspringen
-                </button>
-                <span style="margin: 20px;">Die Reflexionsphase überspringen</span>
-            </div>
-        </div>
-
 
     </div>
 </div>

@@ -10,13 +10,7 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPart;
-import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
-import unipotsdam.gf.modules.submission.model.Visibility;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -29,11 +23,7 @@ import unipotsdam.gf.process.tasks.ProjectStatus;
 import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Sven Kästle
@@ -147,6 +137,23 @@ public class SubmissionController implements ISubmission, HasProgress {
         connection.connect();
 
         String request = "SELECT * FROM fullsubmissions WHERE userEmail = ? AND projectName= ? AND fileRole = ? ORDER BY timestamp DESC;";
+        VereinfachtesResultSet rs = connection.issueSelectStatement(request, user.getEmail(), project.getName(), fileRole);
+
+        while (rs.next()) {
+            fullSubmissionList.add(getFullSubmissionFromResultSet(rs));
+        }
+        connection.close();
+        return fullSubmissionList;
+    }
+
+    public List<FullSubmission> getAssessableSubmissions(User user, Project project, FileRole fileRole) {
+        List<FullSubmission> fullSubmissionList = new ArrayList<>();
+        connection.connect();
+
+        String request = "SELECT * FROM fullsubmissions f " +
+                "JOIN groupuser gu on f.groupId=gu.groupId and f.userEmail = ? " +
+                "WHERE gu.groupId=f.groupId AND projectName= ? " +
+                "AND fileRole = ? ORDER BY timestamp DESC;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(request, user.getEmail(), project.getName(), fileRole);
 
         while (rs.next()) {

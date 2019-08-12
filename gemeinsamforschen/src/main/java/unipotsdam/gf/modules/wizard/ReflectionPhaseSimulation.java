@@ -28,9 +28,7 @@ import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -38,7 +36,7 @@ import java.util.stream.Collectors;
 import static unipotsdam.gf.modules.wizard.Wizard.convertTextToQuillJs;
 
 public class ReflectionPhaseSimulation {
-    
+
     @Inject
     private IExecutionProcess iExecutionProcess;
 
@@ -83,20 +81,12 @@ public class ReflectionPhaseSimulation {
 
         List<Task> taskForProject =
                 taskDAO.getTaskForProjectByTaskName(project, TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
-        if (taskForProject != null && taskForProject.size() > 0) {
-            Task task = taskForProject.iterator().next();
-            if (task.getProgress().equals(Progress.FINISHED)) {
-                // mayb logging
-                System.out.println("hihi");
-            } else {
+        if (taskForProject.get(0).getProgress() != Progress.FINISHED) {
                 List<LearningGoalStoreItem> allStoreGoals = learningGoalStoreDAO.getAllStoreGoals();
-                List<LearningGoalStoreItem> selectedLearningGoals = new ArrayList<>();
-                List<ReflectionQuestionsStoreItem> reflectionQuestionsStoreItems = new ArrayList<>();
                 Random random = new Random();
                 for (int i = 0; i < 10; i++) {
                     int y = random.nextInt(allStoreGoals.size());
                     LearningGoalStoreItem learningGoalStoreItem = allStoreGoals.get(y);
-                    selectedLearningGoals.add(learningGoalStoreItem);
                     // create the request
                     LearningGoalRequest learningGoalRequest = new LearningGoalRequest();
                     learningGoalRequest.setLearningGoal(learningGoalStoreItem);
@@ -106,18 +96,18 @@ public class ReflectionPhaseSimulation {
                     for (int z = 0; z < 3; z++) {
                         List<ReflectionQuestionsStoreItem> learningGoalSpecificQuestions =
                                 reflectionQuestionsStoreDAO
-                                .getLearningGoalSpecificQuestions(learningGoalStoreItem.getText());
+                                        .getLearningGoalSpecificQuestions(learningGoalStoreItem.getText());
                         int questionIndex = random.nextInt(learningGoalSpecificQuestions.size());
                         //
                         ReflectionQuestionsStoreItem reflectionQuestionsStoreItem =
                                 learningGoalSpecificQuestions.get(questionIndex);
-                        reflectionQuestionsStoreItems.add(reflectionQuestionsStoreItem);
                         learningGoalRequest.getReflectionQuestions().add(reflectionQuestionsStoreItem);
                     }
                     iExecutionProcess.saveLearningGoalsAndReflectionQuestions(learningGoalRequest);
                 }
-            }
+
         }
+
 
         /*else {
             iExecutionProcess.start(project);
@@ -126,29 +116,27 @@ public class ReflectionPhaseSimulation {
     }
 
     public void simulateCreatingPortfolioEntries(Project project) throws Exception {
-            simulateSubmissions(project, FileRole.PORTFOLIO_ENTRY, Visibility.GROUP);
+        simulateSubmissions(project, FileRole.PORTFOLIO_ENTRY, Visibility.GROUP);
     }
 
     public void simulateDocentFeedback(Project project) {
         //TODO implement
     }
 
-    public void simulateChooseingPortfolioEntries(Project project) throws Exception {
-        List<FullSubmission> selectedGroupPortfolioEntries =
-                submissionController.getSelectedGroupPortfolioEntries(project);
-        if (selectedGroupPortfolioEntries == null || selectedGroupPortfolioEntries.isEmpty()) {
-            List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
-            for (User user : usersByProjectName) {
-                // TODO @Martin plz refactor this
-                List<FullSubmission> portfolioEntries =
-                        submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
-                List<FullSubmission> groupEntries = portfolioEntries.stream()
-                        .filter(entry -> entry.getVisibility() == Visibility.GROUP
-                                || entry.getVisibility() == Visibility.PUBLIC).sorted().collect(Collectors.toList());
+    public void simulateChoosingPortfolioEntries(Project project) throws Exception {
+        List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
+        for (User user : usersByProjectName) {
+            List<FullSubmission> portfolioEntries =
+                    submissionController.getAssessableSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
+            List<FullSubmission> groupEntries = portfolioEntries.stream()
+                    .filter(entry -> entry.getVisibility() == Visibility.GROUP
+                            || entry.getVisibility() == Visibility.PUBLIC).sorted().collect(Collectors.toList());
+            if (!groupEntries.isEmpty()) {
                 Random random = new Random();
-                int numberselected = random.nextInt(groupEntries.size() -1 );
+                int numberselected = random.nextInt(groupEntries.size() - 1);
                 List<FullSubmission> fullSubmissions = groupEntries.subList(0, numberselected);
                 iExecutionProcess.selectPortfolioEntries(project, user, fullSubmissions);
+
             }
         }
     }
@@ -156,15 +144,14 @@ public class ReflectionPhaseSimulation {
     public void simulateAnsweringReflectiveQuestions(Project project) throws Exception {
         FileRole rq = FileRole.REFLECTION_QUESTION;
         simulateSubmissions(project, rq, Visibility.DOCENT);
-        
+
     }
 
     private void simulateSubmissions(Project project, FileRole rq, Visibility visibility) throws Exception {
-        List<FullSubmission> projectSubmissions =
-                submissionController.getProjectSubmissions(project, rq, visibility);
-        if (projectSubmissions == null || projectSubmissions.isEmpty()) {
-            List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
-            for (User user : usersByProjectName) {
+        List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
+        for (User user : usersByProjectName) {
+            List<FullSubmission> assessableSubmissions = submissionController.getAssessableSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
+            if (assessableSubmissions == null || assessableSubmissions.isEmpty()) {
                 List<ReflectionQuestion> reflectionQuestions =
                         reflectionQuestionDAO.getUnansweredQuestions(project, user, false);
                 if (reflectionQuestions != null) {
@@ -185,6 +172,7 @@ public class ReflectionPhaseSimulation {
                 }
             }
         }
+
     }
 
 }

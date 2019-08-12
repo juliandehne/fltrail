@@ -10,7 +10,6 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IPhases;
-import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
@@ -36,7 +35,6 @@ import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -172,7 +170,7 @@ public class Wizard {
                     reflectionPhaseSimulation.simulateDocentFeedback(project);
                     break;
                 case CHOOSE_PORTFOLIO_ENTRIES:
-                    reflectionPhaseSimulation.simulateChooseingPortfolioEntries(project);
+                    reflectionPhaseSimulation.simulateChoosingPortfolioEntries(project);
                     break;
                 case ANSWER_REFLECTION_QUESTIONS:
                     reflectionPhaseSimulation.simulateAnsweringReflectiveQuestions(project);
@@ -213,7 +211,7 @@ public class Wizard {
                 reflectionPhaseSimulation.simulateQuestionSelection(project);
                 reflectionPhaseSimulation.simulateCreatingPortfolioEntries(project);
                 reflectionPhaseSimulation.simulateDocentFeedback(project);
-                reflectionPhaseSimulation.simulateChooseingPortfolioEntries(project);
+                reflectionPhaseSimulation.simulateChoosingPortfolioEntries(project);
                 reflectionPhaseSimulation.simulateAnsweringReflectiveQuestions(project);
                 finalizeReflection(project);
                 break;
