@@ -60,22 +60,23 @@
 
 
         <div class="col span_2_of_2">
-            <h3>Feedback für Ihr <span class="fileRole"></span></h3>
+            <label>Feedback für die Kategorie: <span id="categoryHeadline"></span> </label>
 
-            <div class="three_rows">
-                <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
 
-                <h4 id="categoryHeadline" class="current-category"></h4>
-                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
-                <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Beenden</button>
-            </div>
             <div id="editor"></div>
         </div>
 
         <div class="splitter-horizontal"></div>
 
         <div class="reply-control">
-            <h3>Zu diesem Teil gab es folgendes Feedback: </h3>
+            <label>Zu diesem Teil gab es folgendes Feedback: </label>
+            <div class="three_rows">
+                <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
+
+                <h4> Kategorie</h4>
+                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
+                <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Beenden</button>
+            </div>
             <div id="feedbackEditor"></div>
         </div>
 

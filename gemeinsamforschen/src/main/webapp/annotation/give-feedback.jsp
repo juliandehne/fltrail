@@ -64,16 +64,11 @@
             </p>
         </div>
             <div class="col span_2_of_2">
-                <h2>Feedback geben </h2>
-                <h4>Dossier: <span id="ownTitle"></span></h4>
 
-                <div class="three_rows">
-                    <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
+                <label>Dossier: <span id="ownTitle"></span> | Kategorie: <span id="categoryHeadline"></span> </label>
 
-                    <h4 id="categoryHeadline" class="current-category"></h4>
-                    <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
-                    <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Senden</button>
-                </div>
+
+
                 <div id="editor"></div>
 
             </div>
@@ -84,6 +79,13 @@
         <div class="reply-control">
 
             <label>Gib dein Feedback ein.</label>
+            <div class="three_rows">
+                <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
+
+                <h4> <!-- id="categoryHeadline" class="current-category" --> Hier Kategorie</h4>
+                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
+                <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Senden</button>
+            </div>
             <div id="feedbackEditor"></div>
         </div>
 

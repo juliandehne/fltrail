@@ -85,9 +85,9 @@ function handleDeadlines(object, result) {
     if (object.deadline != null) {
         let daysLeft = Math.round((object.deadline - Date.now()) / 1000 / 60 / 60 / 24);
         if (daysLeft >= 1)
-            result.timeFrame = "<div class='status icon'><p>Noch " + daysLeft + " Tage Zeit</p></div>";
+            result.timeFrame = "<div class='status icon'><p>Diese Aufgabe musst Du noch erledigen</p></div>";
         else
-            result.timeFrame = "<div class='status alert icon'><p>Du bist zu spät.</p></div>";
+            result.timeFrame = "<div class='status alert icon'><p>Diese Aufgabe fehlt Dir noch. Beeil dich.</p></div>";
     } else {
         result.timeFrame = "";
     }
