@@ -59,7 +59,7 @@
 
         <div class="row group">
 
-            <h1>Gruppeneinteilung</h1>
+            <h3>Gruppeneinteilung</h3>
 
             <div class="col span_l_of_2" style="margin-left:0; margin-bottom:0;">
                 <div class="alert alert-warning" style="margin-bottom:0;">

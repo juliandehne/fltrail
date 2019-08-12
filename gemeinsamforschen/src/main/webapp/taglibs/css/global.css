@@ -273,6 +273,11 @@ footer {
 .tasklist {
     max-width: 400px;
 }
+#angle-down {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.4em;
+}
 
 .infotext {
     max-width: 400px;
@@ -346,9 +351,9 @@ footer {
 }
 
 .card.current {
-    -webkit-box-shadow: 18px 18px 8px -8px rgba(100, 90, 100, 0.42);
-    -moz-box-shadow: 18px 18px 8px -8px rgba(100, 90, 100, 0.42);
-    box-shadow: 18px 18px 8px -8px rgba(100, 90, 100, 0.42);
+    -webkit-box-shadow: 10px 10px 5px -8px #8c8a8c9e;
+    -moz-box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
+    box-shadow: 10px 10px 5px -8px #8c8a8c9e;
 }
 
 .grouptask:before {
@@ -451,7 +456,7 @@ h3 {
 }
 
 body, p {
-    font-family: nunito, helvetica, arial, sans-serif;
+    font-family: muli, helvetica, arial, sans-serif;
     font-size: 13px;
     line-height: 1.2em;
 }
@@ -473,10 +478,15 @@ body, p {
 }
 
 h1 {
-    font-family: spectral, georgia, serif;
+    font-family: ovo, georgia, serif;
     color: #075F8B;
     text-align: center;
     /* max-width: 400px;*/
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-weight:bold !important;
+    /*to overwrite bootstraps 500 which is wrong here*/
 }
 
 main h1 {
@@ -484,7 +494,7 @@ main h1 {
 }
 
 h2 {
-    font-family: spectral, georgia, serif;
+    font-family: ovo, georgia, serif;
     color: #075F8B;
     text-align: left;
     font-size: 1.8em;
@@ -502,7 +512,7 @@ h4 {
 }
 
 h3.phase-heading {
-    font-family: spectral, georgia, serif;
+    font-family: ovo, georgia, serif;
     text-align: center;
 }
 
@@ -960,7 +970,7 @@ main.groups-manual {
     font-weight: bold;
     margin-block-start: 1em;
     margin-block-end: 1em;
-    font-family: nunito, helvetica, arial, sans-serif;
+    font-family: muli, helvetica, arial, sans-serif;
 }
 
 /*dossier*/
@@ -1234,7 +1244,7 @@ main.groups-manual {
 
 .sv_main {
 
-    font-family: nunito, helvetica, arial, sans-serif !important;
+    font-family: muli, helvetica, arial, sans-serif !important;
     font-size: 13px !important;
     line-height: 1.2em !important;
 }
@@ -1366,4 +1376,32 @@ main.groups-manual {
 
 #iconLegend div p {
     background: #fff;
+}
+
+/* global infoicon */
+
+.infobox.dossier p {
+    margin-left:2em;
+
+
+    margin-top:2em;
+}
+
+.infobox.dossier p label {
+    color:#000;
+}
+
+.infobox.dossier:before{
+
+    content: "\f129";
+    font-family: 'Font Awesome 5 Free' !important;
+    font-style: normal;
+    font-weight: 900;
+    width: 20px;
+    height: 40px;
+    display: inline-block;
+    position: absolute;
+    color: #000;
+    font-size: 2em;
+    margin-top: .2em;
 }
