@@ -82,7 +82,7 @@
             <div class="three_rows">
                 <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
 
-                <h4> <!-- id="categoryHeadline" class="current-category" --> Hier Kategorie</h4>
+                <h4> <!-- id="categoryHeadline" class="current-category" --> Kategorie</h4>
                 <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
                 <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Senden</button>
             </div>
