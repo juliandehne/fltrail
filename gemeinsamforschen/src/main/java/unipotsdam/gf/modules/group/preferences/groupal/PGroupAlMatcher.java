@@ -1,7 +1,7 @@
 package unipotsdam.gf.modules.group.preferences.groupal;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import unipotsdam.gf.config.GroupAlConfig;
+import unipotsdam.gf.config.GeneralConfig;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationAlgorithm;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
@@ -119,7 +119,7 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
         }
 
         //WebTarget webTarget = client.target(GroupAlConfig.GROUPAl_LOCAL_URL + groupsize);
-        WebTarget webTarget = client.target(GroupAlConfig.GROUPAl_URL + minGroupSize);
+        WebTarget webTarget = client.target(GeneralConfig.GROUPAl_URL + minGroupSize);
 
         // testing
         /*final String groupResults2 = webTarget.request(MediaType.APPLICATION_JSON)

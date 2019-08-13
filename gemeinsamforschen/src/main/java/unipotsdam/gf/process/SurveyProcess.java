@@ -3,7 +3,7 @@ package unipotsdam.gf.process;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.config.GroupAlConfig;
+import unipotsdam.gf.config.GeneralConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
@@ -105,7 +105,7 @@ public class SurveyProcess {
             } else {
                 log.debug("has a project");
                 List<User> usersByProjectName = userDAO.getUsersByProjectName(surveyProject.getName());
-                if (usersByProjectName.size() >= GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE &&
+                if (usersByProjectName.size() >= GeneralConfig.GROUPAL_SURVEY_COHORT_SIZE &&
                         surveyProject.getPhase() == Phase.GroupFormation) {
                     log.debug("has a project and it has sufficient participants");
                     formGroupsForSurvey(surveyProject);

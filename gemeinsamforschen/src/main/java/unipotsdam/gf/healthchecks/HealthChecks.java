@@ -4,7 +4,8 @@ import ch.vorburger.exec.ManagedProcessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.FLTrailConfig;
-import unipotsdam.gf.config.GroupAlConfig;
+
+import unipotsdam.gf.config.GeneralConfig;
 import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
 
@@ -84,7 +85,7 @@ public class HealthChecks {
     }
 
     public static Boolean isGroupAlOnline() {
-        boolean result = hostAvailabilityCheck(GroupAlConfig.GROUPAl_BASE_URL, 12345);
+        boolean result = hostAvailabilityCheck(GeneralConfig.GROUPAl_BASE_URL, 12345);
         return result;
     }
 }

@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.communication.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.config.GFMailConfig;
+import unipotsdam.gf.config.GeneralConfig;
 
 import javax.mail.Message;
 import javax.mail.Session;
@@ -31,9 +31,9 @@ public class EmailUtil {
 	      msg.addHeader("format", "flowed");
 	      msg.addHeader("Content-Transfer-Encoding", "8bit");
 
-	      msg.setFrom(new InternetAddress(GFMailConfig.EMAIL_ADRESS, "Julian Dehne"));
+	      msg.setFrom(new InternetAddress(GeneralConfig.EMAIL_ADRESS, "Julian Dehne"));
 
-	      msg.setReplyTo(InternetAddress.parse(GFMailConfig.EMAIL_ADRESS, false));
+	      msg.setReplyTo(InternetAddress.parse(GeneralConfig.EMAIL_ADRESS, false));
 
 	      msg.setSubject(subject, "UTF-8");
 

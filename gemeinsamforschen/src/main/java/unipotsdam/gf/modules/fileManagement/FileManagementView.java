@@ -67,7 +67,7 @@ public class FileManagementView {
     @Produces("application/pdf")
     public Response downloadPdfFile(@PathParam("fileLocation") String fileLocation) {
         // set file (and path) to be download
-        File file = FileManagementService.getPDFFile(fileLocation);
+        File file = fileManagementService.getPDFFile(fileLocation);
         Response.ResponseBuilder responseBuilder = Response.ok(file);
         String fileName = file.getName();
         responseBuilder.header("Content-Disposition", "attachment; filename=\"" + fileName);

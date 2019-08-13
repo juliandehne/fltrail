@@ -23,6 +23,7 @@ import org.htmlcleaner.SimpleHtmlSerializer;
 import org.htmlcleaner.TagNode;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
+import unipotsdam.gf.config.IConfig;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
@@ -51,9 +52,11 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
-import static unipotsdam.gf.config.FileConfig.FOLDER_NAME;
 
 public class FileManagementService {
+
+    @Inject
+    IConfig iConfig;
 
 
     @Inject
@@ -71,12 +74,12 @@ public class FileManagementService {
     @Inject
     private FileManagementDAO fileManagementDAO;
 
-    static File getPDFFile(String fileLocation) {
-        return new File(FOLDER_NAME + fileLocation);
+    File getPDFFile(String fileLocation) {
+        return new File(iConfig.getLargeFileStoragePath() + fileLocation);
     }
 
     private String getFullPath(String fileName) {
-        return FOLDER_NAME + fileName;
+        return iConfig.getLargeFileStoragePath() + fileName;
     }
 
     /**
@@ -94,7 +97,7 @@ public class FileManagementService {
             User user, Project project, InputStream inputStream, FormDataContentDisposition fileDetail,
             FileRole fileRole, FileType fileType) throws IOException, DocumentException {
         String fileNameWithoutExtension = UUID.randomUUID().toString();
-        FileUtils.mkdir(FOLDER_NAME);
+        FileUtils.mkdir(iConfig.getLargeFileStoragePath());
         String fileName;
         switch (fileType) {
             case HTML:
@@ -229,7 +232,7 @@ public class FileManagementService {
 
     private String convertInputStreamToPDF(InputStream inputStream, String fileNameWithoutExtension) {
         String fileName = fileNameWithoutExtension + ".pdf";
-        String qualifiedUploadFilePath = FOLDER_NAME + fileName;
+        String qualifiedUploadFilePath = iConfig.getLargeFileStoragePath() + fileName;
         try (OutputStream outputStream = new FileOutputStream(new File(qualifiedUploadFilePath))) {
 
             int read;
@@ -254,7 +257,7 @@ public class FileManagementService {
         String fileName = fileNameWithoutExtension + ".pdf";
         FileOutputStream out = new FileOutputStream(
                 //to be found in "C:/dev/apache-tomcat-7.0.88-windows-x64/apache-tomcat-7.0.88/bin/userFiles"
-                FOLDER_NAME + fileName
+                iConfig.getLargeFileStoragePath() + fileName
         );
         PdfWriter.getInstance(document, out);
         /////////bis hier
@@ -299,7 +302,7 @@ public class FileManagementService {
             PdfOptions options = PdfOptions.create();
             FileOutputStream out = new FileOutputStream(
                     //to be found in "C:/dev/apache-tomcat-7.0.88-windows-x64/apache-tomcat-7.0.88/bin/userFiles"
-                    FOLDER_NAME + fileName
+                    iConfig.getLargeFileStoragePath() + fileName
             );
             PdfConverter.getInstance().convert(document, out, options);
         } catch (IOException ex) {
@@ -322,7 +325,7 @@ public class FileManagementService {
 
     void deleteFile(String fileLocation) {
         try {
-            Path path = Paths.get("." + File.separator + FOLDER_NAME + File.separator + fileLocation);
+            Path path = Paths.get("." + File.separator + iConfig.getLargeFileStoragePath() + File.separator + fileLocation);
             Files.delete(path);
         } catch (Exception ignored) {
 

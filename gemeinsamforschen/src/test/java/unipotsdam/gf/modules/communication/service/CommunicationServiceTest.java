@@ -6,11 +6,13 @@ import org.junit.*;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.IConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.modules.communication.model.EMailMessage;
+import unipotsdam.gf.modules.communication.model.RocketChatUser;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Management;
@@ -26,9 +28,10 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static unipotsdam.gf.config.GFRocketChatConfig.*;
+
 
 public class CommunicationServiceTest {
+
 
     @Inject
     private ICommunication iCommunication;
@@ -52,6 +55,11 @@ public class CommunicationServiceTest {
     @Inject
     Management management;
 
+    @Inject
+    IConfig iConfig;
+
+    private RocketChatUser TEST_USER;
+    private RocketChatUser ADMIN_USER;
 
     @BeforeClass
     public static void init() {
@@ -71,6 +79,9 @@ public class CommunicationServiceTest {
         }
 
         createdChatRooms = new ArrayList<>();
+
+        TEST_USER = iConfig.TEST_USER();
+        ADMIN_USER = iConfig.ADMIN_USER();
 
     }
 
@@ -179,7 +190,7 @@ public class CommunicationServiceTest {
         String chatRoomLink = iCommunication.getGroupChatRoomLink(ADMIN_USER.getEmail(), projectId);
         assertNotNull(chatRoomLink);
         assertFalse(chatRoomLink.isEmpty());
-        String expectedUrl = ROCKET_CHAT_ROOM_LINK + projectId + "-" + group.getId() + "?layout=embedded";
+        String expectedUrl = iConfig.ROCKET_CHAT_ROOM_LINK() + projectId + "-" + group.getId() + "?layout=embedded";
         assertEquals(expectedUrl, chatRoomLink);
 
         createdChatRooms.add(group.getChatRoomId());

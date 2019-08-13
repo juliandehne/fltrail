@@ -6,7 +6,7 @@ import org.apache.http.HttpEntity;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.config.GFRocketChatConfig;
+import unipotsdam.gf.config.IConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.UserExistsInRocketChatException;
@@ -34,8 +34,7 @@ import javax.ws.rs.core.Response;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_API_LINK;
-import static unipotsdam.gf.config.GFRocketChatConfig.ROCKET_CHAT_ROOM_LINK;
+
 
 @Resource
 @ManagedBean
@@ -45,14 +44,23 @@ public class CommunicationService implements ICommunication {
     private final static Logger log = LoggerFactory.getLogger(CommunicationService.class);
 
     @Inject
+    IConfig iConfig;
+
+    @Inject
     private UnirestService unirestService;
     @Inject
     private UserDAO userDAO;
     @Inject
     private GroupDAO groupDAO;
 
-    public CommunicationService() {
+    String ROCKET_CHAT_API_LINK;
+    String ROCKET_CHAT_ROOM_LINK;
+    RocketChatUser admin;
 
+    public CommunicationService() {
+        ROCKET_CHAT_API_LINK = iConfig.ROCKET_CHAT_API_LINK();
+        ROCKET_CHAT_ROOM_LINK = iConfig.ROCKET_CHAT_ROOM_LINK();
+        admin = iConfig.ADMIN_USER();
     }
 
 /*    private static Boolean isUpdated;
@@ -98,7 +106,7 @@ public class CommunicationService implements ICommunication {
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         //loginUser(ADMIN_USER);
 
-        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this).build();
+        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this, admin).build();
         List<String> usernameList = member.stream().map(User::getRocketChatUsername).collect(Collectors.toList());
         HashMap<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("name", specialFreeName(name));
@@ -162,7 +170,7 @@ public class CommunicationService implements ICommunication {
         // TODO: maybe add lock for getChatRoomName, so synchronized access doesn't create errors while deleting
         //loginUser(ADMIN_USER);
 
-        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this).build();
+        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this, admin).build();
         HashMap<String, String> bodyMap = new HashMap<>();
         addRoomIdToParamMap(roomId, bodyMap);
 
@@ -210,7 +218,7 @@ public class CommunicationService implements ICommunication {
         if (hasEmptyParameter(user.getRocketChatUsername(), roomId)) {
             return false;
         }
-        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this).build();
+        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this, admin).build();
         Map<String, String> bodyMap = new HashMap<>();
         //bodyMap.put("roomId", specialFreeName(roomId));
         addRoomIdToParamMap(roomId, bodyMap);
@@ -220,7 +228,7 @@ public class CommunicationService implements ICommunication {
 
         PerformanceUtil.start(PerformanceCandidates.MODIFY_CHAT_ROOM_REQUEST);
         HttpResponse<Map> response =
-                unirestService.post(GFRocketChatConfig.ROCKET_CHAT_API_LINK + groupUrl).headers(headerMap).body(bodyMap)
+                unirestService.post(ROCKET_CHAT_API_LINK + groupUrl).headers(headerMap).body(bodyMap)
                         .asObject(Map.class);
 
         if (isBadRequest(response)) {
@@ -252,7 +260,7 @@ public class CommunicationService implements ICommunication {
 
         //loginUser(ADMIN_USER);
 
-        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this).build();
+        Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this, admin).build();
 
         HttpResponse<Map> response = unirestService.get(ROCKET_CHAT_API_LINK + "groups.info").headers(headerMap)
                 .queryString("roomId", roomId).asObject(Map.class);
@@ -474,7 +482,8 @@ public class CommunicationService implements ICommunication {
             try {
                 RocketChatUser rocketLeagueUser = loginUser(user);
                 // the actual delete
-                Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this).build();
+                Map<String, String> headerMap = new RocketChatHeaderMapBuilder().withRocketChatAdminAuth(this, admin)
+                        .build();
                 Map<String, String> bodyMap = new HashMap<>();
                 bodyMap.put("userId", rocketLeagueUser.getRocketChatUserId());
 

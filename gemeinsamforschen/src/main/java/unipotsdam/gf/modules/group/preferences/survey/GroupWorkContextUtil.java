@@ -1,6 +1,6 @@
 package unipotsdam.gf.modules.group.preferences.survey;
 
-import static unipotsdam.gf.config.GroupAlConfig.GROUPAL_SURVEY_COHORT_SIZE;
+import unipotsdam.gf.config.GeneralConfig;
 
 public class GroupWorkContextUtil {
     public static Boolean isSurveyContext(GroupWorkContext groupWorkContext) {
@@ -82,7 +82,7 @@ public class GroupWorkContextUtil {
             case dota_3:
             case dota_4:
             case dota_5:
-                return GROUPAL_SURVEY_COHORT_SIZE;
+                return GeneralConfig.GROUPAL_SURVEY_COHORT_SIZE;
             default:
                 return 2;
         }

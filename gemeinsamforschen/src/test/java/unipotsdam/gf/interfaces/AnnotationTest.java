@@ -4,7 +4,7 @@ import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.Before;
 import org.junit.Test;
-import unipotsdam.gf.core.database.TestGFApplicationBinder;
+import unipotsdam.gf.config.GFApplicationBinder;
 import unipotsdam.gf.modules.annotation.controller.AnnotationController;
 import unipotsdam.gf.modules.annotation.model.*;
 
@@ -26,7 +26,7 @@ public class AnnotationTest {
 
     @Before
     public void setUp() {
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
         locator.inject(this);
 
     }

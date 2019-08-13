@@ -2,6 +2,7 @@ package unipotsdam.gf.core.database;
 
 import ch.vorburger.exec.ManagedProcessException;
 import unipotsdam.gf.SurveyPreparation;
+import unipotsdam.gf.config.TestConfig;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
 
@@ -34,7 +35,8 @@ public class UpdateDB {
 
 
     public static void main(String[] args) throws Exception {
-        MysqlConnect  mysqlConnect = new MysqlGeneralConnect();
+        MysqlConnect  mysqlConnect = new MysqlConnectImpl();
+        ((MysqlConnectImpl) mysqlConnect).setiConfig(new TestConfig());
         Connection connection = mysqlConnect.getConnection();
 
         // update db
@@ -53,8 +55,9 @@ public class UpdateDB {
         //updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
     }
 
-    public static void updateTestDB() throws SQLException, ManagedProcessException, IOException {
-        MysqlConnect  mysqlConnect = new MysqlTestConnect();
+  /*  public static void updateTestDB() throws SQLException, ManagedProcessException, IOException {
+        MysqlConnect  mysqlConnect = new MysqlConnectImpl();
+        ((MysqlConnectImpl) mysqlConnect).setiConfig(new TestConfig());
         Connection connection = mysqlConnect.getConnection();
 
         UpdateDB updateDB = new UpdateDB(connection, true, false);
@@ -62,7 +65,7 @@ public class UpdateDB {
         updateDB.runScript(new FileReader("src/test/resources/database/test_db.sql"));
         updateDB.runScript(new FileReader("src/test/resources/database/fltrail.sql"));
         //updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
-    }
+    }*/
 
     public UpdateDB(Connection connection, boolean stopOnError, boolean autoCommit) {
         this.connection = connection;

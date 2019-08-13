@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 
 import static unipotsdam.gf.modules.wizard.Wizard.convertTextToQuillJs;
 
-public class ReflectionPhaseSimulation {
+public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
 
     @Inject
     private IExecutionProcess iExecutionProcess;
@@ -77,6 +77,7 @@ public class ReflectionPhaseSimulation {
         this.concepts = new TomcatConceptImporter();
     }
 
+    @Override
     public void simulateQuestionSelection(Project project) throws Exception {
 
         List<Task> taskForProject =
@@ -115,14 +116,17 @@ public class ReflectionPhaseSimulation {
         }*/
     }
 
+    @Override
     public void simulateCreatingPortfolioEntries(Project project) throws Exception {
         simulateSubmissions(project, FileRole.PORTFOLIO_ENTRY, Visibility.GROUP);
     }
 
+    @Override
     public void simulateDocentFeedback(Project project) {
         //TODO implement
     }
 
+    @Override
     public void simulateChoosingPortfolioEntries(Project project) throws Exception {
         List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
         for (User user : usersByProjectName) {
@@ -141,6 +145,7 @@ public class ReflectionPhaseSimulation {
         }
     }
 
+    @Override
     public void simulateAnsweringReflectiveQuestions(Project project) throws Exception {
         FileRole rq = FileRole.REFLECTION_QUESTION;
         simulateSubmissions(project, rq, Visibility.DOCENT);

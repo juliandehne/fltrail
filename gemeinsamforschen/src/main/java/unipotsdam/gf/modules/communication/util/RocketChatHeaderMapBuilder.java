@@ -11,8 +11,6 @@ import unipotsdam.gf.modules.performance.PerformanceUtil;
 import java.util.HashMap;
 import java.util.Map;
 
-import static unipotsdam.gf.config.GFRocketChatConfig.ADMIN_USER;
-
 public class RocketChatHeaderMapBuilder {
 
     private Map<String, String> headerMap;
@@ -31,7 +29,8 @@ public class RocketChatHeaderMapBuilder {
         return this;
     }
 
-    public RocketChatHeaderMapBuilder withRocketChatAdminAuth(CommunicationService communicationService)
+    public RocketChatHeaderMapBuilder withRocketChatAdminAuth(CommunicationService communicationService,
+                                                              RocketChatUser ADMIN_USER)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         RocketChatHeaderMapBuilder rocketChatHeaderMapBuilder = withAuthTokenHeader(ADMIN_USER.getRocketChatPersonalAccessToken());
 /*

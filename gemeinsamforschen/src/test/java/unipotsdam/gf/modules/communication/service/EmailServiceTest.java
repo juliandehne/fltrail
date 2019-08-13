@@ -10,12 +10,8 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
-import unipotsdam.gf.config.GFMailConfig;
-import unipotsdam.gf.exceptions.RocketChatDownException;
-import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
-import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.config.GeneralConfig;
 import unipotsdam.gf.modules.communication.Messages;
-import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
@@ -27,13 +23,11 @@ import javax.inject.Inject;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class EmailServiceTest {
 
     @Inject
     private EmailService emailService;
-
 
 
     @Inject
@@ -64,7 +58,6 @@ public class EmailServiceTest {
         locator.inject(this);
 
 
-
     }
 
     @After
@@ -78,14 +71,13 @@ public class EmailServiceTest {
         Project project = new Project();
         project.setName("Testprojekt");
         project.setGroupWorkContext(GroupWorkContext.dota_1);
-        emailService.sendSingleMessage(Messages.SurveyGroupFormation(project, "julian.dehne@web.de"), new User
-                (GFMailConfig
-                .EMAIL_ADRESS));
+        emailService.sendSingleMessage(Messages.SurveyGroupFormation(project, "julian.dehne@web.de"),
+                new User(GeneralConfig.EMAIL_ADRESS));
     }
 
     @Test
     public void convertEmailToAscii() {
-        String hello  = "hello";
+        String hello = "hello";
         String s = Messages.stringToAsciiEncode(hello);
         System.out.println(s);
     }
@@ -106,7 +98,7 @@ public class EmailServiceTest {
         ArrayList<User> users = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             User user = factory.manufacturePojo(User.class);
-            user.setEmail(GFMailConfig.EMAIL_ADRESS);
+            user.setEmail(GeneralConfig.EMAIL_ADRESS);
             management.create(user);
             management.register(user, project, null);
             users.add(user);
@@ -125,7 +117,6 @@ public class EmailServiceTest {
 
 
     }
-
 
 
 }

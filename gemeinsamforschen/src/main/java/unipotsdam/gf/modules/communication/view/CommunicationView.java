@@ -2,7 +2,7 @@ package unipotsdam.gf.modules.communication.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.config.GFRocketChatConfig;
+import unipotsdam.gf.config.IConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
@@ -32,6 +32,9 @@ public class CommunicationView {
 
     @Inject
     private ICommunication communicationService;
+
+    @Inject
+    IConfig iConfig;
 
 /*    @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -153,7 +156,7 @@ public class CommunicationView {
             return Response.status(Response.Status.UNAUTHORIZED).build();
         } else {
             String rocketChatIntegration = "<script> window.parent.postMessage({event: 'login-with-token',loginToken:" +
-                    " '" + getAuthToken(req) + "'}, '" + GFRocketChatConfig.ROCKET_CHAT_LINK_0 + "');</script>";
+                    " '" + getAuthToken(req) + "'}, '" + iConfig.ROCKET_CHAT_LINK_0() + "');</script>";
 
             return Response.ok().entity(rocketChatIntegration).build();
         }

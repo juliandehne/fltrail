@@ -9,7 +9,6 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
-import unipotsdam.gf.core.database.TestGFApplicationBinder;
 import unipotsdam.gf.core.database.UpdateDB;
 import unipotsdam.gf.exceptions.*;
 import unipotsdam.gf.interfaces.ICommunication;

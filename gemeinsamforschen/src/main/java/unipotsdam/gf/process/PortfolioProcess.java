@@ -1,6 +1,7 @@
 package unipotsdam.gf.process;
 
-import unipotsdam.gf.config.ModuleAvailabilityConfig;
+
+import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.interfaces.IPortfolioService;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.project.Project;
@@ -18,7 +19,7 @@ public class PortfolioProcess {
     private IPortfolioService portfolioService;
 
     void startEPortfolioIntroduceTasks(Project project, Group group) {
-        if (ModuleAvailabilityConfig.E_PORTFOLIO_MODULE_ENABLED) {
+        if (FLTrailConfig.E_PORTFOLIO_MODULE_ENABLED) {
             portfolioService.startStudentPortfolioTask(project, group, Phase.DossierFeedback);
             portfolioService.startDocentPortfolioTask(project, Phase.DossierFeedback);
         }

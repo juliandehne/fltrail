@@ -4,16 +4,22 @@ import ch.vorburger.exec.ManagedProcessException;
 import com.mysql.jdbc.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.config.GFDatabaseConfig;
+import unipotsdam.gf.config.IConfig;
+
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
+import javax.inject.Inject;
 import java.sql.*;
 import java.util.Date;
 
 @ManagedBean
 @Resource
 public class MysqlConnectImpl implements MysqlConnect {
+
+
+    @Inject
+    IConfig iConfig;
 
     public  MysqlConnectImpl() {
         //System.out.println("test");
@@ -23,11 +29,12 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     protected Connection conn = null;
 
-    private static String createConnectionString() {
+    private String createConnectionString() {
 
         String connString =
-                "jdbc:mysql://" + "localhost" + "/" + GFDatabaseConfig.DB_NAME + "?user=" + GFDatabaseConfig.USER + "&password=" + GFDatabaseConfig.PASS;
-        return String.format(connString, GFDatabaseConfig.DB_NAME);
+                "jdbc:mysql://" + "localhost" + "/" + iConfig.getDBName() + "?user=" + iConfig.getDBUserName() + "&password=" +
+                        iConfig.getDBPassword();
+        return String.format(connString, iConfig.getDBName());
     }
 
     @Override
@@ -207,5 +214,9 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     public void setConnection(Connection conn) {
         this.conn = conn;
+    }
+
+    public void setiConfig(IConfig iConfig) {
+        this.iConfig = iConfig;
     }
 }

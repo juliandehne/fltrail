@@ -32,10 +32,7 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.reflection.service.*;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.modules.wizard.PeerAssessmentSimulation;
-import unipotsdam.gf.modules.wizard.ReflectionPhaseSimulation;
-import unipotsdam.gf.modules.wizard.Wizard;
-import unipotsdam.gf.modules.wizard.WizardDao;
+import unipotsdam.gf.modules.wizard.*;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
 import unipotsdam.gf.process.*;
@@ -48,17 +45,20 @@ import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 import unipotsdam.gf.session.Lock;
 
-import static unipotsdam.gf.config.ModuleAvailabilityConfig.REFLECTION_MODULE_ENABLED;
+import static unipotsdam.gf.config.FLTrailConfig.REFLECTION_MODULE_ENABLED;
 
 public class GFApplicationBinder extends AbstractBinder {
 
     private final static Logger log = LoggerFactory.getLogger(GFApplicationBinder.class);
 
-    /**
-     * TODO replace DummyImplementation
-     */
     @Override
     protected void configure() {
+
+        if (FLTrailConfig.productionContext) {
+            bind(ProductionConfig.class).to(IConfig.class);
+        } else {
+            bind(TestConfig.class).to(IConfig.class);
+        }
 
         // check if rocket chat is online
         Boolean rocketOnline = HealthChecks.isRocketOnline();
@@ -83,7 +83,7 @@ public class GFApplicationBinder extends AbstractBinder {
         bind(WizardDao.class).to(WizardDao.class);
         bind(Wizard.class).to(Wizard.class);
         bind(PeerAssessmentSimulation.class).to(PeerAssessmentSimulation.class);
-        bind(ReflectionPhaseSimulation.class).to(ReflectionPhaseSimulation.class);
+
     }
 
     private void bindProjectFinished() {
@@ -99,8 +99,10 @@ public class GFApplicationBinder extends AbstractBinder {
     private void bindExecution() {
         if (REFLECTION_MODULE_ENABLED) {
             bind(ExecutionProcess.class).to(IExecutionProcess.class);
+            bind(ReflectionPhaseSimulation.class).to(IReflectionPhaseSimulation.class);
         } else {
             bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
+            bind(DummyReflectionPhasesimulation.class).to(IReflectionPhaseSimulation.class);
         }
         bind(PortfolioProcess.class).to(PortfolioProcess.class);
         bind(PortfolioService.class).to(IPortfolioService.class);

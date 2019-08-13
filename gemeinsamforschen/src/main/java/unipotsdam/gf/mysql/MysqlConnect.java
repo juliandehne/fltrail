@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 @Singleton
 public interface MysqlConnect {
-    abstract void connect();
+    void connect();
 
     void close();
 
