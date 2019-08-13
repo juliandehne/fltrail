@@ -119,7 +119,6 @@
                         </div>
                     <div style="clear:left"></div>
                 </div>
-                {{/if}}
                 </script>
                 <script id="inProgressTaskTemplate" type="text/x-jQuery-tmpl">
                     <div></div>

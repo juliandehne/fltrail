@@ -379,7 +379,7 @@ function handleLinkedTasks(object, result) {
 
                 break;
             case "INTRODUCE_E_PORTFOLIO_STUDENT":
-                result.solveTaskWith = "E-Portfolio annsehen";
+                result.solveTaskWith = "E-Portfolio ansehen";
                 result.solveTaskWithLink = "redirect(\'../portfolio/show-portfolio-student.jsp?" + $.param({
                     projectName: object.projectName,
                 }) + "\')";

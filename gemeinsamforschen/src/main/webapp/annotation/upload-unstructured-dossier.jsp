@@ -112,7 +112,7 @@
                     {{if fileRole.toUpperCase() == "DOSSIER"}}
                         <div class="upload-text" id="documentText">
                             <label for="ownTitle">Titel</label>
-                            <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="mein Titel">
+                            <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="Fügen Sie hier den Titel ein">
                         </div>
                     {{/if}}
 
@@ -130,6 +130,23 @@
                     <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">
                         <i class="far fa-save"></i> Speichern
                     </button>
+                    <div style="display: block">
+                        <div style="display: inline-flex;">
+                            <input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">
+                            <label for="finalizeReedit" style="margin-right:5px">Dies ist die erste Version
+                                <a data-toggle='collapse' href='#whatIsFirst' role='button'
+                                   aria-expanded='false' aria-controls='whatIsFirst'>
+                                    <i class='fas fa-question'></i>
+                                </a> des Gruppendossiers.</label>
+                        </div>
+                        <div class='collapse' id='whatIsFirst'>
+                            <div class='card card-body card-whatIs'>
+                                Hierzu werden Sie Feedback von anderen Projektteilnehmern bekommen und können es
+                                dann erneut bearbeiten.
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div id="annotationTemplateResult"></div>
@@ -172,11 +189,8 @@
             </script>
 
             <div style="clear:left"></div>
-            <%--    <div class="col span_chat">
-                    <chat:chatWindow orientation="right" scope="project"/>
-                    <chat:chatWindow orientation="right" scope="group"/>
-                </div>--%>
-        </div> <!-- flex wrapper -->
+
+        </div>
     </main>
 
 
