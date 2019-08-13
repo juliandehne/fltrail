@@ -1,14 +1,19 @@
-function fillWithExtraTemplateData(data, groupId, userEmail) {
-    data.scriptBegin = "<script>";
-    data.scriptEnd = "</script>";
-    data.editable = data.userEmail === userEmail || data.userEmail == null && data.groupId === groupId;
-    data.timestampDateTimeFormat = new Date(data.timestamp).toLocaleString();
-    if (data.userEmail) {
-        data.creator = data.userEmail;
+quillNewComment = [];
+
+function fillWithExtraTemplateData(fullSubmission, groupId, userEmail) {
+    fullSubmission.editable = fullSubmission.userEmail === userEmail || fullSubmission.userEmail == null && fullSubmission.groupId === groupId;
+    fullSubmission.timestampDateTimeFormat = new Date(fullSubmission.timestamp).toLocaleString();
+    if (fullSubmission.userEmail) {
+        fullSubmission.creator = fullSubmission.userEmail;
     } else {
-        data.creator = "Gruppe " + data.groupId;
+        fullSubmission.creator = "Gruppe " + fullSubmission.groupId;
     }
-    data.wantToComment = false;
+    fullSubmission.wantToComment = false;
+}
+
+function fillWithTemplateMetadata(templateData) {
+    templateData.scriptBegin = "<script>";
+    templateData.scriptEnd = "</script>";
 }
 
 async function getContributionFeedbackFromSubmission(fullSubmissionId, groupId) {

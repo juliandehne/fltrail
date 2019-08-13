@@ -92,13 +92,13 @@
                         <div id="angle-down"><i class="fas fa-angle-double-down"></i></div>
                             <h3 class="phase-heading finished ${phase} ">${headLine}</h3>
                         {{/if}}
-                        {{if timeFrame}}
-                            <p style="text-align:center;">{{html timeFrame}}</p>
-                        {{else}}
-                <div class="card ${phase}">
+                        <div class="card ${phase}">
 
                         <div class="col span_s_of_2 icon ${taskType}"></div>
                         <div class="col span_l_of_2">
+                        {{if timeFrame}}
+                            {{html timeFrame}}
+                        {{/if}}
                             <p style="color:gray;">${infoText}</p>
                                 {{if inCardSolver}}
                                     {{if inCardSolver=="WAITING_FOR_GROUP"}}
@@ -119,7 +119,6 @@
                         </div>
                     <div style="clear:left"></div>
                 </div>
-                {{/if}}
                 </script>
                 <script id="inProgressTaskTemplate" type="text/x-jQuery-tmpl">
                     <div></div>

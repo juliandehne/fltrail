@@ -238,9 +238,9 @@ ol#annotations {
 
 .three_rows {
     text-align: center;
-    padding-bottom: 1em;
-    margin-bottom: 1em;
-    padding: 11px;
+    line-height: 3em;
+    height: 38px;
+    border-bottom: 1px solid #fff;
     background-color: #ededed;
     position: relative;
   }

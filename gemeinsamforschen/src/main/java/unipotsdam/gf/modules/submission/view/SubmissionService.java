@@ -243,28 +243,33 @@ public class SubmissionService {
         Integer groupId = groupDAO.getMyGroupId(user, project);
 
         List<FullSubmission> fullSubmissionList = new ArrayList<>();
-
-        switch (visibility) {
-            case DOCENT:
-                if (user.getStudent()) {
-                    fullSubmissionList =
-                            submissionController.getDocentViewableSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
-                } else {
+        if (visibility == null) {
+            fullSubmissionList = submissionController.getAccessibleSubmissions(project, user, groupId, FileRole.PORTFOLIO_ENTRY);
+        } else {
+            switch (visibility) {
+                case DOCENT:
+                    if (user.getStudent()) {
+                        fullSubmissionList =
+                                submissionController.getDocentViewableSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
+                    } else {
+                        fullSubmissionList =
+                                submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO_ENTRY, visibility);
+                    }
+                    break;
+                case PUBLIC:
                     fullSubmissionList =
                             submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO_ENTRY, visibility);
-                }
-                break;
-            case PUBLIC:
-                fullSubmissionList =
-                        submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO_ENTRY, visibility);
-                break;
-            case GROUP:
-                fullSubmissionList =
-                        submissionController.getGroupSubmissions(project, groupId, FileRole.PORTFOLIO_ENTRY, visibility);
-                break;
-            case PERSONAL:
-                fullSubmissionList = submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
+                    break;
+                case GROUP:
+                    fullSubmissionList =
+                            submissionController.getGroupSubmissions(project, groupId, FileRole.PORTFOLIO_ENTRY, visibility);
+                    break;
+                case PERSONAL:
+                    fullSubmissionList = submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
+                    break;
+            }
         }
+
 
         if (fullSubmissionList.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).entity("No portfolio entries found").build();

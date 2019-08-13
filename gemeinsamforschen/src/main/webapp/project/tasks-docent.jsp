@@ -162,14 +162,6 @@
                   </div> <!-- end card -->
                 </script>
 
-             <!-- <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
-            <div class="card-finished">
-                <div id="angle-down"><i class="fas fa-angle-double-down"></i></div>
-                <h3 class="icon closed phase-heading ${phase} " {{if !timeFrame}}style="color:lightgray;"{{/if}}><span>${infoText}</span></h3>
-           <p style="text-align:center;">{{html timeFrame}}</p>
-            </div>
-        </script>-->
-
 
              <script id="finishedTaskTemplate" type="text/x-jQuery-tmpl">
                 <div></div>
@@ -177,13 +169,15 @@
                         <div id="angle-down"><i class="fas fa-angle-double-down"></i></div>
                         <h3 class="phase-heading finished ${phase} ">${headLine}</h3>
                     {{/if}}
-                    {{if timeFrame}}
-                        <p style="text-align:center;">{{html timeFrame}}</p>
+                    {{if closedPhase}}
+                        {{html closedPhase}}
                     {{else}}
             <div class="card card-fnished ${phase}">
-
                     <div class="col span_s_of_2 icon ${taskType}"></div>
                     <div class="col span_l_of_2">
+                    {{if timeFrame}}
+                            {{html timeFrame}}
+                        {{/if}}
                         <p style="color:gray;">${infoText}</p>
                         {{if inCardSolver}}
                             {{if inCardSolver=="WAIT_FOR_PARTICPANTS"}}

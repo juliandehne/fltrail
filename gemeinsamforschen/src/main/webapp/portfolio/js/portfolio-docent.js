@@ -4,6 +4,7 @@ let possibleVisibleButtons = [];
 let sortedPortfolioEntries = [];
 let templateData = {};
 let userEmail;
+
 $(document).ready(function () {
     projectName = $('#projectName').html().trim();
     userEmail = $('#userEmail').html().trim();
@@ -11,19 +12,27 @@ $(document).ready(function () {
 });
 
 function setupVisibilityButton() {
-    let queryParams = {
+    let queryParamsDocent = {
         projectName: projectName,
         visibility: 'DOCENT'
     };
-    getPortfolioSubmissions(queryParams, async function (response) {
-        if (response.error) {
-            templateData.possibleButtons = response;
-            renderTemplate(templateData);
-        } else {
-            fillLocalPortfolioStorage(response);
-            templateData.possibleButtons = createButtonData();
-            await fillPortfolioEntries(templateData);
-        }
+    let queryParamsPublic = {
+        projectName: projectName,
+        visibility: 'PUBLIC'
+    }
+    getPortfolioSubmissions(queryParamsDocent, async function (portfolioEntriesDocent) {
+        getPortfolioSubmissions(queryParamsPublic, async function (portfolioEntriesPublic) {
+            if (portfolioEntriesDocent.length === 0 && portfolioEntriesPublic.length === 0) {
+                templateData.possibleButtons = [];
+                renderTemplate(templateData);
+            } else {
+                let allSubmissions = portfolioEntriesDocent.concat(portfolioEntriesPublic);
+                fillLocalPortfolioStorage(allSubmissions);
+                templateData.possibleButtons = createButtonData();
+                await fillPortfolioEntries(templateData);
+            }
+        })
+
     });
 }
 
@@ -33,7 +42,7 @@ function fillLocalPortfolioStorage(fullSubmissions) {
         if (!sortedPortfolioEntries[key]) {
             sortedPortfolioEntries[key] = [];
         }
-        sortedPortfolioEntries[key][element.id] = element;
+        sortedPortfolioEntries[key].push(element);
     }
 }
 
@@ -58,6 +67,7 @@ async function fillPortfolioEntries(templateData) {
 
     }
     templateData.submissionList = portfolioEntries;
+    fillWithTemplateMetadata(templateData);
     renderTemplate(templateData);
 }
 
@@ -73,17 +83,9 @@ async function visibilityButtonPressed(pressedButton) {
     await fillPortfolioEntries(templateData)
 }
 
-function clickedWantToComment(fullSubmissionId) {
-    let portfolioEntries = sortedPortfolioEntries[currentVisibleButtonText];
-    portfolioEntries[fullSubmissionId].wantToComment = true;
-    sortedPortfolioEntries[currentVisibleButtonText] = portfolioEntries;
-    templateData.submissionList = Object.values(portfolioEntries);
-    renderTemplate(templateData);
-}
-
-function saveComment(fullSubmissionId) {
-    let contents = quillNewComment.getContents();
-
+function saveComment(index) {
+    let contents = quillNewComment[index].getContents();
+    let fullSubmissionId = sortedPortfolioEntries[currentVisibleButtonText][index].id;
     let contributionFeedbackRequest = {
         userEmail: userEmail,
         fullSubmissionId: fullSubmissionId,
@@ -91,10 +93,10 @@ function saveComment(fullSubmissionId) {
         groupId: 0
     };
     createContributionFeedback(contributionFeedbackRequest, async function () {
-        let portfolioEntry = sortedPortfolioEntries[currentVisibleButtonText][fullSubmissionId];
+        let portfolioEntry = sortedPortfolioEntries[currentVisibleButtonText][index];
         portfolioEntry.wantToComment = false;
         portfolioEntry.contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmissionId);
-        sortedPortfolioEntries[currentVisibleButtonText][fullSubmissionId] = portfolioEntry;
+        sortedPortfolioEntries[currentVisibleButtonText][index] = portfolioEntry;
         templateData.submissionList = Object.values(sortedPortfolioEntries[currentVisibleButtonText]);
         renderTemplate(templateData);
     });

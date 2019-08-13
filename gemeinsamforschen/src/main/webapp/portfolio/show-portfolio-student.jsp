@@ -39,7 +39,7 @@
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> </i> Zurück zu den
             Aufgaben</a>
     </div>
-    <main>
+    <main id="show_portfolio">
         <div class="row group">
 
             <div class="col span_2_of_2">
@@ -48,29 +48,22 @@
             <div id="visibilityTemplateResult"></div>
             <script id="visibilityTemplate" type="text/x-jsrender">
                 <div></div>
-                    <button class="btn btn-primary" onclick="clickedCreatePrivatePortfolio()">Persönlichen Eintrag erstellen</button>
-                    <hr class="spacer-nofloat">
-                    <label>Wähle, welche Beiträge du sehen möchtest</label><br>
+                    <button class="btn btn-primary" onclick="clickedCreatePrivatePortfolio()">Eintrag erstellen</button>
+                      <hr class="spacer-nofloat" style="border-color:transparent">
+                     <label>Einträge</label><br>
                     <div class="dropdown fltrailselect">
                         <button class="dropbtn" onclick='dropDownClick("myDropdown")'>{{:currentVisibility.buttonText}}
-
                         </button>
-
                         <div class="dropdown-content" id="myDropdown">
                             {{for possibleVisibilities}}
-                                <a id={{:name}} onclick='visibilityButtonPressed("{{:name}}")'>{{:buttonText}}</a>
+                                <a id={{:name}} onclick='visibilityButtonPressed("{{:#index}}")'>{{:buttonText}}</a>
                             {{/for}}
                         </div>
                     </div>
-
-
-
-
             </script>
-                <hr class="spacer-nofloat" style="border-color:transparent">
-            <label>Einträge</label>
-            <div id="portfolioTemplateResult"></div>
 
+
+            <div id="portfolioTemplateResult"></div>
             <script id="portfolioTemplate" type="text/x-jsrender">
                 {{include tmpl="#portfolioEntryTemplate"/}}
             </script>

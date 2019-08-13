@@ -379,7 +379,7 @@ function handleLinkedTasks(object, result) {
 
                 break;
             case "INTRODUCE_E_PORTFOLIO_STUDENT":
-                result.solveTaskWith = "E-Portfolio annsehen";
+                result.solveTaskWith = "E-Portfolio ansehen";
                 result.solveTaskWithLink = "redirect(\'../portfolio/show-portfolio-student.jsp?" + $.param({
                     projectName: object.projectName,
                 }) + "\')";
@@ -520,13 +520,12 @@ function handleFinishedTasks(object, result) {
             result.infoText = object.phase;
             let created = new Date(object.eventCreated);
             let deadline = new Date(object.deadline);
-            result.timeFrame = "<p>" + created.getDate() + "." + (created.getMonth() + 1) + "." + created.getFullYear() +
+            result.closedPhase = "<p>" + created.getDate() + "." + (created.getMonth() + 1) + "." + created.getFullYear() +
                 " bis " + deadline.getDate() + "." + (deadline.getMonth() + 1) + "." + deadline.getFullYear() + "</p>";
         } else {
-            result.timeFrame = "";
+            result.timeFrame = "<div class='icon finishedTask'><p>Du hast diese Aufgabe abgeschlossen.</p></div>";
         }
         result.taskProgress = "FINISHED";
-        result.taskType = "closed";
     }
 }
 
@@ -552,6 +551,7 @@ function fitObjectInTmpl(object) {
         solveTaskWith: "",
         helpLink: "",
         timeFrame: "",
+        closedPhase: "",
         taskData: object.taskData,
         taskProgress: object.progress,
         current: object.current,

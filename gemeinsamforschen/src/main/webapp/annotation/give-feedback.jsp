@@ -80,10 +80,10 @@
 
             <label>Gib dein Feedback ein.</label>
             <div class="three_rows">
-                <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
+                <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Vorherige</button>
 
-                <h4> <!-- id="categoryHeadline" class="current-category" --> Hier Kategorie</h4>
-                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
+                <label> <!-- id="categoryHeadline" class="current-category" --> Hier Kategorie</label>
+                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Nächste</button>
                 <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Senden</button>
             </div>
             <div id="feedbackEditor"></div>

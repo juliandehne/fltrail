@@ -197,10 +197,13 @@ function getVisibilities(personal, callback) {
 }
 
 function getPortfolioSubmissions(queryParams, callback) {
-    let url = baseSubmissionUrl + "portfolio?" + $.param({
-        projectName: queryParams.projectName,
-        visibility: queryParams.visibility
+    Object.keys(queryParams).forEach(key => {
+        if (queryParams[key] == null || queryParams === "") {
+            delete queryParams[key];
+        }
     });
+    let url = baseSubmissionUrl + "portfolio?" + $.param(queryParams);
+
     $.ajax({
         url: url,
         type: "GET",
@@ -211,7 +214,6 @@ function getPortfolioSubmissions(queryParams, callback) {
         },
         error: function () {
             let response = [];
-            response.error = true;
             callback(response);
         }
     })
