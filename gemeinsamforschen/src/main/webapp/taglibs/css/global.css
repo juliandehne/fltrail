@@ -304,9 +304,9 @@ footer {
     margin-bottom: 1em;
     box-sizing: border-box;
 
-    -webkit-box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
-    -moz-box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
-    box-shadow: 10px 10px 5px -8px rgba(140, 138, 140, 0.62);
+    box-shadow: 10px 10px 5px -12px #8c8a8c9e;
+    -webkit-box-shadow: 10px 10px 5px -12px rgba(140, 138, 140, 0.62);
+    -moz-box-shadow: 10px 10px 5px -12px rgba(140, 138, 140, 0.62);
 }
 
 .card.card-whatIs {
@@ -551,6 +551,10 @@ h2 {
     font-size: 1.8em;
     margin: 0.67em 0;
     /* max-width: 400px;*/
+}
+
+h3 {
+    font-size: 20px;
 }
 
 h4 {

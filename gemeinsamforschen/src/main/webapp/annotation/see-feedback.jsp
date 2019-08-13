@@ -71,10 +71,10 @@
         <div class="reply-control">
             <label>Zu diesem Teil gab es folgendes Feedback: </label>
             <div class="three_rows">
-                <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
+                <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Nächste</button>
 
-                <h4> Kategorie</h4>
-                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
+                <label> Kategorie</label>
+                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Vorherige</button>
                 <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Beenden</button>
             </div>
             <div id="feedbackEditor"></div>

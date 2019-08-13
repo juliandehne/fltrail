@@ -39,7 +39,7 @@
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> </i> Zurück zu den
             Aufgaben</a>
     </div>
-    <main>
+    <main id="show_portfolio">
         <div class="row group">
 
             <div class="col span_2_of_2">
@@ -49,8 +49,8 @@
             <script id="visibilityTemplate" type="text/x-jsrender">
                 <div></div>
                     <button class="btn btn-primary" onclick="clickedCreatePrivatePortfolio()">Eintrag erstellen</button>
-                    <hr class="spacer-nofloat">
-                    <label>Wähle, welche Beiträge du sehen möchtest</label><br>
+                      <hr class="spacer-nofloat" style="border-color:transparent">
+                     <label>Einträge</label><br>
                     <div class="dropdown fltrailselect">
                         <button class="dropbtn" onclick='dropDownClick("myDropdown")'>{{:currentVisibility.buttonText}}
                         </button>
@@ -61,8 +61,8 @@
                         </div>
                     </div>
             </script>
-                <hr class="spacer-nofloat" style="border-color:transparent">
-            <label>Einträge</label>
+
+
             <div id="portfolioTemplateResult"></div>
             <script id="portfolioTemplate" type="text/x-jsrender">
                 {{include tmpl="#portfolioEntryTemplate"/}}

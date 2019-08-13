@@ -102,7 +102,7 @@
                 <script id="reflectionQuestionTemplate" type="text/x-jsrender">
                     <div></div>
                     {{if fileRole.toUpperCase() == "REFLECTION_QUESTION"}}
-                        <h2> Frage {{:currentReflectionQuestionCounter}} von {{:totalQuestions}}: {{:question}} </h2>
+                        <h4> Frage {{:currentReflectionQuestionCounter}} von {{:totalQuestions}}: {{:question}} </h4>
                     {{/if}}
                 </script>
                 <br>
@@ -116,8 +116,11 @@
                         </div>
                     {{/if}}
 
-                </script>
+
+                {{if fileRole.toUpperCase() != "REFLECTION_QUESTION"}}
                 <label for="editor">Texteingabe</label>
+                {{/if}}
+                </script>
                 <div id="editor"></div>
 
 

@@ -16,11 +16,14 @@ h2 {
     background-color: inherit;
     cursor: none;
 
+
 }
 
 .btn-primary.panel-heading {
     padding-right: 15px;
-    padding-top: 15px
+    padding-top: 15px;
+    position:relative;
+    background-color:#ededed;
 }
 
 .panel-title {
@@ -41,6 +44,7 @@ h2 {
     margin-left: 15px;
     float: left;
     line-height: 1;
+    margin-left:30px;
 }
 
 .date-info {
@@ -48,6 +52,9 @@ h2 {
     text-align: right;
     float: right;
     margin-top: 0;
+    color: #999;
+    font-weight: normal !important;
+    font-size: .8em;
 }
 
 i.fas.fa-chevron-down {
@@ -55,7 +62,8 @@ i.fas.fa-chevron-down {
 }
 
 .iconGroup {
-    float: right;
+
+
 
 }
 
@@ -115,4 +123,85 @@ a:visited {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+}
+
+.accordion {
+    margin-top:5px;
+}
+
+.accordion .btn-primary.panel-heading {
+    background-color:#ededed;
+    color: #075f8b !important;
+}
+
+.panel-group .panel {
+    border:none;
+}
+
+.panel .iconGroup #editButton {
+    position: absolute;
+}
+
+.panel .iconGroup #editButton i.fas.fa-edit {
+    font-size: 1em;
+    color:#075f8b;
+}
+
+.iconGroup .fas.fa-chevron-down {
+    right: .5em;
+    font-size: 2em;
+    position: absolute;
+}
+
+.ql-editor {
+    padding-left:0;
+}
+
+.panel .btn-primary.panel-heading:hover {
+    background-color:#075f8b;
+}
+
+.panel .btn-primary.panel-heading:hover #editButton.btn-primary,
+.panel .btn-primary.panel-heading:hover .fas.fa-chevron-down,
+.panel .btn-primary.panel-heading:hover h4.creator-info,
+.panel .btn-primary.panel-heading:hover h5.date-info,
+.panel .btn-primary.panel-heading:hover p,
+.panel .btn-primary.panel-heading:hover #editButton i.fas.fa-edit
+{
+    background:transparent;
+    color:#fff;
+
+}
+
+.panel .btn-primary.panel-heading #editButton.btn-primary,
+.panel .btn-primary.panel-heading .fas.fa-chevron-down,
+.panel .btn-primary.panel-heading h4.creator-info,
+.panel .btn-primary.panel-heading p
+
+
+{
+    background:transparent;
+    color:#075f8b;
+
+}
+
+.well {
+    border: none;
+    -webkit-box-shadow: inset 0 0px 0px #000000d0;
+    box-shadow: inset 0 0px 0px #000000d0;
+    background-color: #ededed;
+    border-radius: 0;
+}
+
+.well .ql-editor {
+    background:#fff;
+    padding:.5em;
+}
+
+.well h4.creator-info {
+    margin-left:0;
+}
+
+#portfolioTemplateResult {
+    margin-top:10px;
 }
