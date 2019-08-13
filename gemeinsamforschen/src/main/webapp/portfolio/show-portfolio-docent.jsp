@@ -45,13 +45,12 @@
             <div id="portfolioTemplateResult"></div>
             <script id="portfolioTemplate" type="text/x-jsrender">
                 <div></div>
-                    {{if possibleButtons.error}}
+                    {{if possibleButtons.length === 0}}
                         <h2>Keine Einträge gefunden</h2>
                     {{else}}
                         <h4>Wähle, welche Beiträge du sehen möchtest</h4>
-                        <div class="dropdown">
-                            <button class="dropbtn btn btn-primary" onclick='dropDownClick("myDropdown")'>{{:currentVisibleButtonText}}
-                            <i class="fa fa-caret-down"></i>
+                        <div class="dropdown fltrailselect">
+                            <button class="dropbtn" onclick='dropDownClick("myDropdown")'>{{:currentVisibleButtonText}}
                             </button>
                             <div class="dropdown-content" id="myDropdown">
                                 {{for possibleButtons}}
@@ -59,7 +58,8 @@
                                 {{/for}}
                             </div>
                         </div>
-                        <h3>Einträge</h3>
+                        <hr class="spacer-nofloat" style="border-color:transparent">
+                        <label>Einträge</label>
                         {{include tmpl="#portfolioEntryTemplate"/}}
                     {{/if}}
 

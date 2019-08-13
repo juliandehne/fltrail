@@ -11,6 +11,108 @@ h2 {
     text-align: center;
 }
 
-.pointer {
+.panel-default > .panel-heading {
+    padding: 15px 15px;
+    background-color: inherit;
+    cursor: none;
+
+}
+
+.btn-primary.panel-heading {
+    padding-right: 15px;
+    padding-top: 15px
+}
+
+.panel-title {
+    width: 95%;
+}
+
+.panel-title .row {
+    clear: left;
+}
+
+.creation-date {
+    font-size: 1.1em;
+}
+
+.creator-info {
+    color: inherit;
+    text-align: left;
+    margin-left: 15px;
+    float: left;
+    line-height: 1;
+}
+
+.date-info {
+    color: inherit;
+    text-align: right;
+    float: right;
+    margin-top: 0;
+}
+
+i.fas.fa-chevron-down {
+    font-size: 2.5em;
+}
+
+.iconGroup {
+    float: right;
+
+}
+
+.iconItem {
+    display: block;
+}
+
+.iconGroup .iconItem:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.iconGroup .btn-primary {
+    padding: 0;
+    margin-left: 5px;
+}
+
+i.fas.fa-edit {
+    font-size: 1.5em;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+}
+
+.ql-container.ql-snow.ql-disabled {
+    border: none;
+}
+
+.pointer p {
     cursor: pointer;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.well {
+    float: right;
+    width: 75%;
+}
+
+.new-comment {
+    font-size: 20px;
+    margin-bottom: 0;
+    align-self: center;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }

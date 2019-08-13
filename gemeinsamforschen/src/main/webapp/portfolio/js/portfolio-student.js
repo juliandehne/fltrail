@@ -1,10 +1,10 @@
 let projectName;
-let possibleVisibilities = [];
-let currentVisibleButton;
 let userEmail;
 let currentPortfolioEntries;
-let currentTemplateData;
+let currentPortfolioTemplateData;
 let quillNewComment;
+let visibilityButtonTemplateData = {};
+const nameForAllEntries = "KEIN FILTER";
 
 $(document).ready(async function () {
     projectName = $('#projectName').html().trim();
@@ -14,24 +14,27 @@ $(document).ready(async function () {
 
 function setupVisibilityButton() {
     getVisibilities(true, async function (response) {
+
+        let possibleVisibilities = [];
+        possibleVisibilities.push({name: nameForAllEntries, buttonText: "Alle Einträge"});
         Object.entries(response).forEach(([name, buttonText]) => {
-            possibleVisibilities[name] = {name: name, buttonText: buttonText};
+            possibleVisibilities.push({name: name, buttonText: buttonText});
         });
-        currentVisibleButton = possibleVisibilities['PERSONAL'];
-        let data = {};
-        data.possibleVisibilities = Object.values(possibleVisibilities);
-        data.currentVisibility = currentVisibleButton;
+
+        visibilityButtonTemplateData.possibleVisibilities = possibleVisibilities;
+        visibilityButtonTemplateData.currentVisibility = possibleVisibilities[0];
         let tmpl = $.templates("#visibilityTemplate");
-        let html = tmpl.render(data);
+        let html = tmpl.render(visibilityButtonTemplateData);
         $("#visibilityTemplateResult").html(html);
         await fillPortfolioEntriesAndFeedback();
     });
 }
 
 async function fillPortfolioEntriesAndFeedback() {
+    let visibility = visibilityButtonTemplateData.currentVisibility.name;
     let queryParams = {
         projectName: projectName,
-        visibility: currentVisibleButton.name
+        visibility: visibility === nameForAllEntries ? null : visibility
     };
     getPortfolioSubmissions(queryParams, function (response) {
         currentPortfolioEntries = [];
@@ -40,11 +43,12 @@ async function fillPortfolioEntriesAndFeedback() {
             for (let fullSubmission of response) {
                 fillWithExtraTemplateData(fullSubmission, groupId, userEmail);
                 await addContributionFeedback(fullSubmission, groupId);
-                currentPortfolioEntries[fullSubmission.id] = fullSubmission;
+                currentPortfolioEntries.push(fullSubmission);
             }
-            data.submissionList = Object.values(currentPortfolioEntries);
+            data.submissionList = currentPortfolioEntries;
             data.error = response.error;
-            currentTemplateData = data;
+            fillWithTemplateMetadata(data);
+            currentPortfolioTemplateData = data;
             renderPortfolioContent(data);
         });
     });
@@ -57,29 +61,30 @@ function renderPortfolioContent(data) {
     $("#portfolioTemplateResult").html(html);
 }
 
-function visibilityButtonPressed(pressedButton) {
-    changeButtonText(pressedButton, fillPortfolioEntriesAndFeedback);
+function visibilityButtonPressed(index) {
+    changeButtonText(index, fillPortfolioEntriesAndFeedback);
 }
 
-function changeButtonText(clickedItem, callback) {
+function changeButtonText(index, callback) {
     let dropBtn = $('.dropbtn');
     let oldText = dropBtn.html();
-    let oldVisibility = currentVisibleButton;
-    currentVisibleButton = possibleVisibilities[clickedItem];
-    let newText = oldText.replace(oldVisibility.buttonText, currentVisibleButton.buttonText);
+    let oldVisibility = visibilityButtonTemplateData.currentVisibility;
+    visibilityButtonTemplateData.currentVisibility = visibilityButtonTemplateData.possibleVisibilities[index];
+    let newText = oldText.replace(oldVisibility.buttonText, visibilityButtonTemplateData.currentVisibility.buttonText);
     dropBtn.html(newText);
     if (callback) {
         callback();
     }
 }
 
-function clickedWantToComment(fullSubmissionId) {
-    currentPortfolioEntries[fullSubmissionId].wantToComment = true;
-    renderPortfolioContent(currentTemplateData);
+function clickedWantToComment(index) {
+    currentPortfolioEntries[index].wantToComment = true;
+    renderPortfolioContent(currentPortfolioTemplateData);
 }
 
-function saveComment(fullSubmissionId) {
-    let contents = quillNewComment.getContents();
+function saveComment(index) {
+    let contents = quillNewComment[index].getContents();
+    let fullSubmissionId = currentPortfolioEntries[index].id;
     getMyGroupId(function (groupId) {
         let contributionFeedbackRequest = {
             userEmail: userEmail,
@@ -88,9 +93,9 @@ function saveComment(fullSubmissionId) {
             groupId: groupId
         };
         createContributionFeedback(contributionFeedbackRequest, async function () {
-            currentPortfolioEntries[fullSubmissionId].wantToComment = false;
-            currentPortfolioEntries[fullSubmissionId].contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmissionId);
-            renderPortfolioContent(currentTemplateData);
+            currentPortfolioEntries[index].wantToComment = false;
+            currentPortfolioEntries[index].contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmissionId);
+            renderPortfolioContent(currentPortfolioTemplateData);
         });
 
     });
@@ -98,4 +103,9 @@ function saveComment(fullSubmissionId) {
 
 function clickedCreatePrivatePortfolio() {
     location.href = `../annotation/upload-unstructured-dossier.jsp?projectName=${projectName}&fileRole=Portfolio_Entry&personal=true`;
+}
+
+function editButtonPressed(index) {
+    let fullSubmissionId = currentPortfolioEntries[index].id;
+    location.href = `../annotation/upload-unstructured-dossier.jsp?projectName=${projectName}&fullSubmissionId=${fullSubmissionId}&fileRole=Portfolio_Entry&personal=true`
 }

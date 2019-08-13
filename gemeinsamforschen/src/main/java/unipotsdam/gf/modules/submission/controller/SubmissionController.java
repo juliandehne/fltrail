@@ -233,15 +233,27 @@ public class SubmissionController implements ISubmission, HasProgress {
     }
 
     public List<FullSubmission> getProjectSubmissions(Project project, FileRole fileRole, Visibility visibility) {
-        List<FullSubmission> fullSubmissionList = new ArrayList<>();
         connection.connect();
         String query = "SELECT * FROM fullsubmissions WHERE projectName= ? AND fileRole = ? and visibility = ? ORDER BY timestamp DESC;";
         VereinfachtesResultSet rs = connection.issueSelectStatement(query, project.getName(), fileRole.name(), visibility);
+        List<FullSubmission> fullSubmissionList = new ArrayList<>();
         while (rs.next()) {
             fullSubmissionList.add(getFullSubmissionFromResultSet(rs));
         }
         connection.close();
         return fullSubmissionList;
+    }
+
+    public List<FullSubmission> getAccessibleSubmissions(Project project, User user, int groupId, FileRole fileRole) {
+        connection.connect();
+        String query = "SELECT * FROM fullsubmissions WHERE projectname = ? and fileRole = ? and ((userEMail = ? and visibility = ?) or (groupId = ? and visibility = ?) or visibility = ?) order by timestamp desc;";
+        VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, project.getName(), fileRole.name(), user.getEmail(), Visibility.PERSONAL, groupId, Visibility.GROUP, Visibility.PUBLIC);
+        List<FullSubmission> fullSubmissions = new ArrayList<>();
+        while (resultSet.next()) {
+            fullSubmissions.add(getFullSubmissionFromResultSet(resultSet));
+        }
+        connection.close();
+        return fullSubmissions;
     }
 
     public String getFullSubmissionId(Integer groupId, Project project, FileRole fileRole) {
