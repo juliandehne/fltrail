@@ -59,10 +59,6 @@ public enum TaskName {
     // how to solve: read dossier of another group and feedback every annotated category.
     GIVE_FEEDBACK,
     //STUDENT:
-    // how to trigger: annotate first version of dossier AND wait for feedback
-    // how to solve: task can not be solved
-    SEE_FEEDBACK,
-    //STUDENT:
     // how to trigger: give feedback to another dossier AND annotate first version of own dossier
     // how to solve: after editing dossier, finalize it by clicking "finale Abgabe" and save.
     REEDIT_DOSSIER,

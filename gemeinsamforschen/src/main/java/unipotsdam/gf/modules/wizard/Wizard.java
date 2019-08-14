@@ -415,7 +415,7 @@ public class Wizard {
         for (Group group : groupsByProjectName) {
             User representativUser = groupDAO.getRepresentativUser(group, project);
             int feedbackTarget = feedback.getFeedBackTarget(project, representativUser);
-            if (taskDAO.getTasksWithTaskName(feedbackTarget, project, TaskName.SEE_FEEDBACK) == null) {
+            if (taskDAO.getTasksWithTaskName(group.getId(), project, TaskName.GIVE_FEEDBACK).getProgress() != Progress.FINISHED) {
                 //group writes a feedback
                 FullSubmission fullSubmission =
                         submissionController.getFullSubmissionBy(feedbackTarget, project, FileRole.DOSSIER, 0);

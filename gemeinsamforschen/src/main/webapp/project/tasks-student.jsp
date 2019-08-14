@@ -41,7 +41,12 @@
                 </div>--%>
 
                     <div class="infobox dossier" style="margin-bottom:30px;" >
-                    <p> <label>Aufgabenliste</label><br>Hier siehst Du die Aufgaben, die Du erledigen musst, um eine Forschungsphase abzuschließen. Wenn Du Fragen zu den einzelnen Phasen hast, findest Du mehr Informationen über das Hilfe-Menü oben rechts.</p>
+                        <p>
+                        <h3 style="margin-left: 20px;">Aufgabenliste</h3><br>
+                        Hier siehst Du die Aufgaben, die Du erledigen musst, um eine Forschungsphase abzuschließen.
+                        Wenn Du Fragen zu den einzelnen Phasen hast,
+                        findest Du mehr Informationen über das Hilfe-Menü oben rechts.
+                        </p>
                     <hr>
                     </div>
 
@@ -67,7 +72,7 @@
                                 {{else}}
                             <div class="col span_l_of_2" id="${taskName}">
                                 {{if infoText}}
-                                    <p class="task-info">${infoText}</p>
+                                    <p class="task-info">{{html infoText}}</p>
                                 {{/if}}
                                 {{if solveTaskWith}}
                                     <button class='primary' onClick='${solveTaskWithLink}'><i class="fas fa-link"></i> ${solveTaskWith}</button>
@@ -99,7 +104,7 @@
                         {{if timeFrame}}
                             {{html timeFrame}}
                         {{/if}}
-                            <p style="color:gray;">${infoText}</p>
+                            <p style="color:gray;">{{html infoText}}</p>
                                 {{if inCardSolver}}
                                     {{if inCardSolver=="WAITING_FOR_GROUP"}}
                                         <p style="color:gray;">
@@ -130,7 +135,7 @@
                    <div class="card-finished">
                         <div class="col span_s_of_2 icon ${taskType}"></div>
                         <div class="col span_l_of_2">
-                            <p class="task-info">${infoText}<i class="fa fa-clock-o" aria-hidden="true"></i></p>
+                            <p class="task-info">{{html infoText}}<i class="fa fa-clock-o" aria-hidden="true"></i></p>
                             {{if solveTaskWith}}
                                 <button class='primary' onClick='${solveTaskWithLink}'><i class="fas fa-link"></i> ${solveTaskWith}</button>
                             {{/if}}

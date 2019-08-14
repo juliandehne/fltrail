@@ -35,7 +35,7 @@
         <div class="nav-group-right">
             <div class="btn-group" style="margin-right:20px;">
                 <button class="btn btn-primary btn-sm" type="button" id="readMe">
-                    <i class="fas fa-question"></i>
+                    <i class="fas fa-question"></i> Hilfe
                 </button>
                 <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-toggle-split"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

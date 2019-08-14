@@ -12,7 +12,6 @@ import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.reflection.model.ReflectionPhaseProgress;
-import unipotsdam.gf.modules.reflection.service.LearningGoalsDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -24,17 +23,11 @@ import unipotsdam.gf.process.phases.Phase;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_PORTFOLIO_ENTRIES;
-import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
-import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
+import static unipotsdam.gf.process.tasks.TaskName.*;
 
 @ManagedBean
 public class TaskDAO {
@@ -65,9 +58,6 @@ public class TaskDAO {
 
     @Inject
     private ConstraintsImpl constraints;
-
-    @Inject
-    private LearningGoalsDAO learningGoalsDAO;
 
     // fill the task with the general data
     private Task getGeneralTask(VereinfachtesResultSet vereinfachtesResultSet) {
@@ -150,13 +140,13 @@ public class TaskDAO {
         return task;
     }
 
-    public List<Task> getTaskForProjectWithoutProgress(Project project, TaskName taskName, Progress progress) {
+    private List<Task> getTaskForProjectWithoutProgress(Project project, TaskName taskName, Progress progress) {
         connect.connect();
         String query = "Select * from tasks t where t.projectName = ? AND t.taskName = ? and t.progress <> ?";
         return getTasks(project, taskName, progress, query);
     }
 
-    public List<Task> getTaskForProjectWithProgress(Project project, TaskName taskName, Progress progress) {
+    private List<Task> getTaskForProjectWithProgress(Project project, TaskName taskName, Progress progress) {
         connect.connect();
         String query = "Select * from tasks t where t.projectName = ? AND t.taskName = ? and t.progress = ?";
         return getTasks(project, taskName, progress, query);
@@ -337,17 +327,6 @@ public class TaskDAO {
                 result = feedbackTask;
                 break;
             }
-            case SEE_FEEDBACK: {
-                Task task = getGeneralTask(vereinfachtesResultSet);
-                task.setTaskType(TaskType.LINKED);
-                Map<String, String> taskData = new HashMap<>();
-                taskData.put("fullSubmissionId", submissionController.getFullSubmissionId(groupId, project, FileRole.DOSSIER));
-                List<String> startCategory = submissionController.getAnnotationCategories(project);
-                taskData.put("category", startCategory.get(0));
-                task.setTaskData(taskData);
-                result = task;
-                break;
-            }
             case REEDIT_DOSSIER: {
                 result = getGeneralTask(vereinfachtesResultSet);
                 GroupFeedbackTaskData groupFeedbackTaskData = submissionController.getMyFeedback(groupId, project);
@@ -374,13 +353,6 @@ public class TaskDAO {
         switch (taskName1) {
             case WAIT_FOR_PARTICPANTS: {
                 result = getTaskWaitForParticipants(vereinfachtesResultSet);
-                break;
-            }
-            case SEE_FEEDBACK: {
-                Task feedbackTask = getGeneralTask(vereinfachtesResultSet);
-                feedbackTask.setTaskData(submissionController.getMyFeedback(user, project));
-                feedbackTask.setHasRenderModel(true);
-                result = feedbackTask;
                 break;
             }
             case WAITING_FOR_STUDENT_DOSSIERS: {
@@ -491,7 +463,7 @@ public class TaskDAO {
         return result;
     }
 
-    public List<User> getUsersWithUnfinishedTask(Project project, TaskName taskName) {
+    private List<User> getUsersWithUnfinishedTask(Project project, TaskName taskName) {
         List<Task> tasksMaterialChosen = getTaskForProjectWithProgress(project, taskName, Progress.FINISHED);
         List<User> users = userDAO.getUsersByProjectName(project.getName());
         return users.stream()

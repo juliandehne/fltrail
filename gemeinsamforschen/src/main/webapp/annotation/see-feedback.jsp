@@ -60,7 +60,7 @@
 
 
         <div class="col span_2_of_2">
-            <label>Feedback für die Kategorie: <span id="categoryHeadline"></span> </label>
+            <label>Feedback für die Kategorie: <span class="categoryHeadline"></span> </label>
 
 
             <div id="editor"></div>
@@ -71,10 +71,10 @@
         <div class="reply-control">
             <label>Zu diesem Teil gab es folgendes Feedback: </label>
             <div class="three_rows">
-                <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Nächste</button>
+                <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Zurück</button>
 
-                <label> Kategorie</label>
-                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Vorherige</button>
+                <h4><span class="categoryHeadline"></span></h4>
+                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
                 <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Beenden</button>
             </div>
             <div id="feedbackEditor"></div>

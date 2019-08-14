@@ -65,7 +65,7 @@
         </div>
             <div class="col span_2_of_2">
 
-                <label>Dossier: <span id="ownTitle"></span> | Kategorie: <span id="categoryHeadline"></span> </label>
+                <label>Dossier: <span id="ownTitle"></span> | Kategorie: <span class="categoryHeadline"></span> </label>
 
 
 
@@ -82,8 +82,8 @@
             <div class="three_rows">
                 <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Vorherige</button>
 
-                <label> <!-- id="categoryHeadline" class="current-category" --> Hier Kategorie</label>
-                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Nächste</button>
+                <h4><span class="categoryHeadline"></span></h4>
+                <button id="btnContinue" type="button" class="btn btn-primary" title="weiter">Weiter</button>
                 <button id="finalize" type="button" class="btn btn-primary" title="finalisieren">Senden</button>
             </div>
             <div id="feedbackEditor"></div>

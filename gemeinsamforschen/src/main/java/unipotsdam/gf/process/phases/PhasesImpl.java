@@ -86,7 +86,6 @@ public class PhasesImpl implements IPhases {
                     break;
                 case GIVE_FEEDBACK:
                 case UPLOAD_DOSSIER:
-                case SEE_FEEDBACK:
                 case REEDIT_DOSSIER:
                 case ANNOTATE_DOSSIER:
                 case CLOSE_DOSSIER_FEEDBACK_PHASE:

@@ -88,9 +88,9 @@ public class DossierCreationProcess {
      * add the initial dossier
      *
      * @param fullSubmissionPostRequest*
-     * @param user
-     * @param project
-     * @return
+     * @param user who wrote the dossier
+     * @param project for which the dossier is uploaded
+     * @return a object which holds all information about the dossier
      */
     @WizardRelevant
     public FullSubmission addDossier(
@@ -128,14 +128,6 @@ public class DossierCreationProcess {
 
     /**
      * update dossier by group
-     *
-     * @param fullSubmissionPostRequest
-     * @param user
-     * @param project
-     * @param finalize
-     * @return
-     * @throws IOException
-     * @throws DocumentException
      */
     public FullSubmission updateSubmission(FullSubmissionPostRequest fullSubmissionPostRequest,
                                            User user, Project project, Boolean finalize) throws Exception {
@@ -171,9 +163,6 @@ public class DossierCreationProcess {
 
     /**
      * save feedback
-     *
-     * @param contributionFeedback
-     * @return
      */
     @WizardRelevant
     public ContributionFeedback saveFeedback(ContributionFeedback contributionFeedback) {
@@ -182,14 +171,11 @@ public class DossierCreationProcess {
 
     /**
      * Feedback is persisted and tasks are created accordingly
-     *
-     * @param groupId
-     * @param project
      */
     @WizardRelevant
     public void saveFinalFeedback(int groupId, Project project) {
         contributionFeedbackService.endFeedback(project.getName(), groupId);
-        createSeeFeedBackTask(project, groupId);
+        linkReeditDossierTask(project, groupId);
         createReeditDossierTask(project, groupId);
     }
 
@@ -220,17 +206,15 @@ public class DossierCreationProcess {
         //peerAssessmentProcess.startPeerAssessmentPhase(project);
     }
 
-    public void createSeeFeedBackTask(Project project, Integer groupId) {
-        Integer feedbackedgroup = submissionController.getFeedbackedgroup(project, groupId);
+    private void linkReeditDossierTask(Project project, Integer groupId) {
         int feedbackGroup = peerAssessment.whichGroupToRate(project, groupId);
         Task reeditDossierTasks = taskDAO.getTasksWithTaskName(feedbackGroup, project, TaskName.REEDIT_DOSSIER);
         if (reeditDossierTasks != null) {
             taskDAO.addTaskType(reeditDossierTasks, TaskType.LINKED);
         }
-        taskDAO.persistTaskGroup(project, feedbackedgroup, TaskName.SEE_FEEDBACK, Phase.DossierFeedback, TaskType.LINKED);
     }
 
-    public void createReeditDossierTask(Project project, Integer groupId) {
+    private void createReeditDossierTask(Project project, Integer groupId) {
         String submissionId = submissionController.getFullSubmissionId(groupId, project, FileRole.DOSSIER);
         FullSubmission fullSubmission = submissionController.getFullSubmission(submissionId);
         FullSubmissionPostRequest fspr = new FullSubmissionPostRequest();
@@ -247,7 +231,6 @@ public class DossierCreationProcess {
     /**
      * @param user    User who uploaded the Submission for his / her group
      * @param project the project the submission was written for
-     * @return the fullSubmission with correct ID
      */
     private void notifyAboutSubmission(User user, Project project) {
         // this completes the upload task
@@ -302,8 +285,6 @@ public class DossierCreationProcess {
     private void createCloseFeedBackPhaseTask(Project project, User user) {
         Task task = new Task(TaskName.REEDIT_DOSSIER, user, project, Progress.FINISHED);
         taskDAO.updateForGroup(task);
-        Task task1 = new Task(TaskName.SEE_FEEDBACK, user, project, Progress.FINISHED);
-        taskDAO.updateForGroup(task1);
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE, Phase.DossierFeedback);
     }
 }

@@ -85,6 +85,14 @@ $(document).ready(function () {
             location.href = "../project/readMe-student.jsp#Projektabschluss";
         }
     });
+    $('#seeFeedback').on('click', function () {
+        getAnnotationCategories(function (categories) {
+            location.href = '../annotation/see-feedback.jsp?projectName=' + $('#projectName').html().trim() +
+                "&fullSubmissionId=" + fullSubmissionId + //todo: find fullSubmission from submissionService
+                "&category=" + categories[0] +
+                "&contribution=DOSSIER";
+        });
+    });
 });
 
 
