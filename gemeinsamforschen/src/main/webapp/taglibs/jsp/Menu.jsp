@@ -1,4 +1,4 @@
-<%@ page import="unipotsdam.gf.config.ModuleAvailabilityConfig" %>
+<%@ page import="unipotsdam.gf.config.FLTrailConfig" %>
 <%@ page import="unipotsdam.gf.session.GFContexts" %>
 <%@ page import="unipotsdam.gf.taglibs.TagUtilities" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -22,7 +22,7 @@
                href="<%= hierarchyLevel%>project/courses-student.jsp">Home</a>
             <a class="nav-link"
                href="<%= hierarchyLevel%>project/courses-student.jsp?all=true">Kurssuche</a>
-            <% if (projectName != null && ModuleAvailabilityConfig.E_PORTFOLIO_MODULE_ENABLED) {%>
+            <% if (projectName != null && FLTrailConfig.E_PORTFOLIO_MODULE_ENABLED) {%>
             <a class="nav-link"
                href="<%=hierarchyLevel%>portfolio/show-portfolio-student.jsp?projectName=<%=projectName%>">E-Portfolio</a>
             <% } %>
