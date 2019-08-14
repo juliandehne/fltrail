@@ -132,12 +132,19 @@
                     </button>
                     <div style="display: block">
                         <div style="display: inline-flex;">
-                            <input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">
-                            <label for="finalizeReedit" style="margin-right:5px">Dies ist die erste Version
+                            <label for="finalizeReedit" style="margin-right:5px">
+                                <sup>
                                 <a data-toggle='collapse' href='#whatIsFirst' role='button'
                                    aria-expanded='false' aria-controls='whatIsFirst'>
                                     <i class='fas fa-question'></i>
-                                </a> des Gruppendossiers.</label>
+                                </a>
+                                </sup>
+                                Dies ist die erste Version des Gruppendossiers.</label>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="finalizeReedit" checked>
+                                <label class="custom-control-label" for="finalizeReedit">finalisieren</label>
+                            </div>
+                            <%--<input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">--%>
                         </div>
                         <div class='collapse' id='whatIsFirst'>
                             <div class='card card-body card-whatIs'>
@@ -155,12 +162,13 @@
                 {{if fileRole.toUpperCase() == "DOSSIER"}}
                     <div class="col span span_s_of_2">
                         <div class="infobox dossier">
-                            <p>Erstellen Sie ein Dossier
+                            <p>
+                            <sup>
                                 <a data-toggle='collapse' href='#whatIs' role='button'
                                    aria-expanded='false' aria-controls='whatIs'>
                                     <i class='fas fa-question'></i>
                                 </a>
-                                mit den folgenden Kategorien.
+                                </sup>Erstellen Sie ein Dossier mit den folgenden Kategorien.
                             </p>
                             <div class='collapse' id='whatIs'>
                                 <div class='card card-body'>

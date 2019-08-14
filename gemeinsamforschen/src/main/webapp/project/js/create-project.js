@@ -52,6 +52,8 @@ function createNewProject(allTheTags) {
     let gfm = $('input[name=gfm]:checked').val();
     if (typeof  gfm === "undefined") {
         $('#groupMechanismMissing').show();
+        $('#groupMechanismMissing').get(0).scrollIntoView();
+        window.scrollBy(0, -50);
         return false;
     }
     loaderStart();
@@ -146,9 +148,12 @@ function getProjectValues() {
     }
     let description = $('#projectDescription').val();
     if (description === "") {
-        $('#projectDescriptionMissing').show();
+        let noProjectDescripton = $('#projectDescriptionMissing');
+        noProjectDescripton.show();
         loaderStop();
         interruptFunction = true;
+        noProjectDescripton.get(0).scrollIntoView();
+        window.scrollBy(0, -50);
     }
     let time = new Date().getTime();
     let selectedCategories = [];
@@ -232,6 +237,8 @@ function sendGroupPreferences() {
         gfm = "SingleUser";
     } else {
         $('#groupMechanismMissing').show();
+        $('#groupMechanismMissing').get(0).scrollIntoView();
+        window.scrollBy(0, -50);
         loaderStop();
         return false;
     }
