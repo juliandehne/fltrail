@@ -284,7 +284,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&fileRole=Dossier" + "\')";
                 break;
             case "REEDIT_DOSSIER":
-                result.infoText = "Basierend auf dem erhaltenen <a onClick='seeFeedBack();' style='cursor:pointer;'>Feedback</a>, können Sie nun Ihr Dossier überarbeiten.";
+                result.infoText = "Basierend auf dem erhaltenen <br><a onClick='seeFeedBack();' style='cursor:pointer; border: solid 1px;'><i class='fas fa-link'></i>Feedback</a>, können Sie nun Ihr Dossier überarbeiten.";
                 result.solveTaskWith = "Überarbeite Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/reedit-dossier.jsp?fullsubmissionid=" + object.taskData.fullSubmissionId + "&projectName=" + object.projectName + "&contribution=DOSSIER\')";
                 break;

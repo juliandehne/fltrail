@@ -137,11 +137,13 @@
                     <%-- <label>An Kurs selbst teilnehmen <input type="checkbox" id="Teilnehmer"></label>--%>
 
                     <div>
-                        <h3>Bestandteile der studentischen Arbeit</h3>
+
+                        <h3>Bestandteile des Projekts</h3>
                         <div class="alert alert-info">
-                            Innerhalb Ihres Projektes werden Studierende ein Forschungsdossier anfertigen. Dieses
-                            Dossier
-                            kann verschiedene Abschnitte beinhalten, mit denen die Studierenden dann arbeiten werden.
+                            In diesem Projekt erarbeiten Studierende eine Fragestellung, bzw. eine Projektaufgabe.
+                            Wählen Sie welche Teilschritte zur Beantwortung der Fragestellung, bzw. zur Vorbereitung des
+                            Projektes,
+                            die Studierenden erarbeiten sollen.
                         </div>
                         <p>Bestimmen Sie welche Abschnitte Sie in der studentischen Ausarbeitung sehen wollen:</p>
                         <ul id="categoryList">
