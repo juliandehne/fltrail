@@ -46,14 +46,12 @@ public class ReflectionService implements IReflection {
         List<User> users = userDAO.getUsersByProjectName(learningGoalRequest.getProjectName());
         LearningGoalRequestResult learningGoalRequestResult = new LearningGoalRequestResult();
         learningGoalRequestResult.setLearningGoal(learningGoal);
-        users.forEach(user -> {
-            learningGoalRequest.getReflectionQuestions().forEach(storeItem -> {
-                ReflectionQuestion reflectionQuestion = new ReflectionQuestion(storeItem, user, project, learningGoal);
-                String questionUuid = reflectionQuestionDAO.persist(reflectionQuestion);
-                reflectionQuestion.setId(questionUuid);
-                learningGoalRequestResult.getReflectionQuestions().add(reflectionQuestion);
-            });
-        });
+        users.forEach(user -> learningGoalRequest.getReflectionQuestions().forEach(storeItem -> {
+            ReflectionQuestion reflectionQuestion = new ReflectionQuestion(storeItem, user, project, learningGoal);
+            String questionUuid = reflectionQuestionDAO.persist(reflectionQuestion);
+            reflectionQuestion.setId(questionUuid);
+            learningGoalRequestResult.getReflectionQuestions().add(reflectionQuestion);
+        }));
         return learningGoalRequestResult;
     }
 

@@ -91,12 +91,12 @@ public class PhasesImpl implements IPhases {
                 case CLOSE_DOSSIER_FEEDBACK_PHASE:
                 case WAITING_FOR_STUDENT_DOSSIERS:
                 case CONTACT_GROUP_MEMBERS:
-                case INTRODUCE_E_PORTFOLIO_DOCENT:
-                case INTRODUCE_E_PORTFOLIO_STUDENT:
                     updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
                 case WAIT_FOR_REFLECTION_QUESTION_CHOICE:
                 case ANSWER_REFLECTION_QUESTIONS:
+                case INTRODUCE_E_PORTFOLIO_DOCENT:
+                case INTRODUCE_E_PORTFOLIO_STUDENT:
                 case WIZARD_CREATE_PORTFOLIO:
                 case DOCENT_GIVE_PORTOLIO_FEEDBACK:
                 case CHOOSE_PORTFOLIO_ENTRIES:

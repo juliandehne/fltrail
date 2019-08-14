@@ -4,7 +4,17 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static unipotsdam.gf.process.tasks.TaskName.*;
+import static unipotsdam.gf.process.tasks.TaskName.ANSWER_REFLECTION_QUESTIONS;
+import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_PORTFOLIO_ENTRIES;
+import static unipotsdam.gf.process.tasks.TaskName.CLOSE_EXECUTION_PHASE;
+import static unipotsdam.gf.process.tasks.TaskName.COLLECT_RESULTS_FOR_ASSESSMENT;
+import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS;
+import static unipotsdam.gf.process.tasks.TaskName.DOCENT_GIVE_PORTOLIO_FEEDBACK;
+import static unipotsdam.gf.process.tasks.TaskName.INTRODUCE_E_PORTFOLIO_DOCENT;
+import static unipotsdam.gf.process.tasks.TaskName.INTRODUCE_E_PORTFOLIO_STUDENT;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_EXECUTION_PHASE_END;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION_QUESTION_CHOICE;
+import static unipotsdam.gf.process.tasks.TaskName.WIZARD_CREATE_PORTFOLIO;
 
 public class TaskOrder {
     private List<TaskName> orderedTasks;
@@ -25,15 +35,15 @@ public class TaskOrder {
         result.add(TaskName.CONTACT_GROUP_MEMBERS);
         result.add(TaskName.WAITING_FOR_STUDENT_DOSSIERS);
         result.add(TaskName.UPLOAD_DOSSIER);
-        result.add(TaskName.INTRODUCE_E_PORTFOLIO_STUDENT);
         result.add(TaskName.ANNOTATE_DOSSIER);
         result.add(TaskName.GIVE_FEEDBACK);
         result.add(TaskName.REEDIT_DOSSIER);
-        result.add(TaskName.INTRODUCE_E_PORTFOLIO_DOCENT);
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);
         //end of dossier phase
         result.add(WAIT_FOR_REFLECTION_QUESTION_CHOICE);
         result.add(CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
+        result.add(INTRODUCE_E_PORTFOLIO_STUDENT);
+        result.add(INTRODUCE_E_PORTFOLIO_DOCENT);
         result.add(WIZARD_CREATE_PORTFOLIO);
         result.add(DOCENT_GIVE_PORTOLIO_FEEDBACK);
         result.add(ANSWER_REFLECTION_QUESTIONS);
