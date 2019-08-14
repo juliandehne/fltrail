@@ -111,8 +111,8 @@
                     <div/>
                     {{if fileRole.toUpperCase() == "DOSSIER"}}
                         <div class="upload-text" id="documentText">
-                            <label for="ownTitle">Titel</label>
-                            <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="Fügen Sie hier den Titel ein">
+                            <label for="ownTitle">Fragestellung / Projektaufgabe</label>
+                            <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="Fügen Sie hier Ihre Fragestellung / Projektaufgabe ein">
                         </div>
                     {{/if}}
 
