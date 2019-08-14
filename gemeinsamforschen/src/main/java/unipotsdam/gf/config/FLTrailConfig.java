@@ -6,9 +6,9 @@ public class FLTrailConfig {
     }
 
     // ob server oder nicht
-    public static Boolean productionContext = false;
+    public static Boolean productionContext = true;
 
-    public static Boolean rocketChatIsOnline = false;
+    public static Boolean rocketChatIsOnline = true;
     public static Boolean wizardSimulatesFullAlgorithms = false;
 
     // könne man zusammenfassen

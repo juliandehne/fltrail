@@ -38,12 +38,10 @@ import java.util.stream.Collectors;
 
 @Resource
 @ManagedBean
-@Singleton
 public class CommunicationService implements ICommunication {
 
     private final static Logger log = LoggerFactory.getLogger(CommunicationService.class);
 
-    @Inject
     IConfig iConfig;
 
     @Inject
@@ -53,11 +51,13 @@ public class CommunicationService implements ICommunication {
     @Inject
     private GroupDAO groupDAO;
 
-    String ROCKET_CHAT_API_LINK;
-    String ROCKET_CHAT_ROOM_LINK;
-    RocketChatUser admin;
+    private String ROCKET_CHAT_API_LINK;
+    private String ROCKET_CHAT_ROOM_LINK;
+    private RocketChatUser admin;
 
-    public CommunicationService() {
+    @Inject
+    public CommunicationService(IConfig iConfig) {
+        this.iConfig = iConfig;
         ROCKET_CHAT_API_LINK = iConfig.ROCKET_CHAT_API_LINK();
         ROCKET_CHAT_ROOM_LINK = iConfig.ROCKET_CHAT_ROOM_LINK();
         admin = iConfig.ADMIN_USER();
