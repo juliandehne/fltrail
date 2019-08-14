@@ -83,3 +83,7 @@ label.error {
 .ql-editor {
     background:#fff;
 }
+
+a:link {
+    text-decoration: none;
+}

@@ -167,10 +167,14 @@
                     <div role="tabpanel" class="tab-pane fade" id="groupChat">
                         <chat:chatWindow orientation="right" scope="group"/>
                     </div>
-                    Wenn Sie eingeloggt <a data-toggle='collapse' href='#chatCredentials' role='button'
+
+                    In dem Projektchat können Sie mit allen Teilnehmenden des Kurses reden, im Gruppenchat sind sie
+                    exklusiv in ihrer Gruppe.
+
+                  <%--  Wenn Sie eingeloggt <a data-toggle='collapse' href='#chatCredentials' role='button'
                                            aria-expanded='false' aria-controls='chatCredentials'>
-                    <i class='fas fa-question'></i>
-                </a> sind, können Sie Nachrichten an alle Projektteilnehmer senden oder eine Nachricht an ihre Gruppe
+                    <i class='fas fa-question'></i>--%>
+                <%--  </a> sind, können Sie Nachrichten an alle Projektteilnehmer senden oder eine Nachricht an ihre Gruppe
                     verfassen.
                     <div class='collapse' id='chatCredentials'>
                         <div class='card card-body'>
@@ -178,7 +182,7 @@
                             Passwort
                             hier ein, wie bei der Anmeldung.
                         </div>
-                    </div>
+                    </div>--%>
                 </div>
 
             </div>

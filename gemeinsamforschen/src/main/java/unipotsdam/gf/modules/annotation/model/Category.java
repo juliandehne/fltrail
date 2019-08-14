@@ -7,7 +7,7 @@ package unipotsdam.gf.modules.annotation.model;
 
 public enum Category {
     TITEL, RECHERCHE,
-    LITERATURVERZEICHNIS, FORSCHUNGSFRAGE,
+    LITERATURVERZEICHNIS,
     UNTERSUCHUNGSKONZEPT, METHODIK,
     DURCHFUEHRUNG, AUSWERTUNG
 }

@@ -5,10 +5,11 @@ $(document).ready(function () {
 
         // logout rocket chat
 
-
-        document.querySelector('iframe').contentWindow.postMessage({
-            externalCommand: 'logout'
-        }, '*');
+        if (document.querySelector('iframe')) {
+            document.querySelector('iframe').contentWindow.postMessage({
+                externalCommand: 'logout'
+            }, '*');
+        }
 
 
         //Meteor.logout();
@@ -92,7 +93,8 @@ $(document).ready(function () {
             location.href = "../info/readMe-student.jsp#Projektabschluss";
         }
     });
-});
+})
+;
 
 
 /**
