@@ -4,6 +4,13 @@ $(document).ready(function () {
     $('#logout').click(function () {
 
         // logout rocket chat
+
+
+        document.querySelector('iframe').contentWindow.postMessage({
+            externalCommand: 'logout'
+        }, '*');
+
+
         //Meteor.logout();
         //
         $.ajax({
@@ -266,9 +273,9 @@ function getFullSubmissionOfGroup(groupId, version, fileRole = $('#fileRole').ht
     let projectName = $('#projectName').html().trim();
     $.ajax({
         url: '../rest/submissions/full/groupId/' + groupId +
-            '/project/' + projectName +
-            '/fileRole/' + fileRole.toUpperCase() +
-            '?version=' + version,
+        '/project/' + projectName +
+        '/fileRole/' + fileRole.toUpperCase() +
+        '?version=' + version,
         type: 'GET',
         async: false,
         headers: {
@@ -287,9 +294,9 @@ function getFullSubmissionOfGroupToEditor(groupId, version, fileRole = $('#fileR
     let projectName = $('#projectName').html().trim();
     $.ajax({
         url: '../rest/submissions/full/groupId/' + groupId +
-            '/project/' + projectName +
-            '/fileRole/' + fileRole.toUpperCase() +
-            '?version=' + version,
+        '/project/' + projectName +
+        '/fileRole/' + fileRole.toUpperCase() +
+        '?version=' + version,
         type: 'GET',
         headers: {
             "Cache-Control": "no-cache"
