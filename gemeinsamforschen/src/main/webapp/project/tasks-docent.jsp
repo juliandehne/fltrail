@@ -30,7 +30,13 @@
 
          <div class="col span_l_of_2 tasklist">
              <div class="infobox dossier" style="margin-bottom:30px;" >
-                 <p> <label>Aufgabenliste</label><br>Hier sehen Sie eine Übersicht der Aufgaben, die die Studierenden gerade bearbeiten. Von hier aus steuern Sie die Projektphasen. Wenn Informationen über die einzelnen Projektphasen benötigen, gehen zu zum Hilfe-Menü oben rechts.</p>
+                 <p>
+                 <h3 style="margin-left: 20px;">Aufgabenliste</h3><br>
+                 Hier sehen Sie eine Übersicht der Aufgaben, die die Studierenden gerade bearbeiten.
+                 Von hier aus steuern Sie die Projektphasen.
+                 Wenn Sie Informationen über die einzelnen Projektphasen benötigen, gehen Sie zu zum Hilfe-Menü oben
+                 rechts.
+                 </p>
                  <hr>
              </div>
             <div id="listOfTasks">

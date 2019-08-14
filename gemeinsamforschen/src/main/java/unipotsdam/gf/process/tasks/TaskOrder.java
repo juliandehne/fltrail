@@ -28,7 +28,6 @@ public class TaskOrder {
         result.add(TaskName.INTRODUCE_E_PORTFOLIO_STUDENT);
         result.add(TaskName.ANNOTATE_DOSSIER);
         result.add(TaskName.GIVE_FEEDBACK);
-        result.add(TaskName.SEE_FEEDBACK);
         result.add(TaskName.REEDIT_DOSSIER);
         result.add(TaskName.INTRODUCE_E_PORTFOLIO_DOCENT);
         result.add(TaskName.CLOSE_DOSSIER_FEEDBACK_PHASE);

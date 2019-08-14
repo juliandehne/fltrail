@@ -45,6 +45,16 @@ ol#annotations {
     overflow: hidden;
 }
 
+.rightcontent {
+    float: right;
+    margin: 20px;
+}
+
+#reEdit .rightcontent #btnSave {
+
+    float: right;
+}
+
 #documentText {
     overflow: hidden;
     line-height:1.5em;

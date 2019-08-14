@@ -39,7 +39,7 @@ $(document).ready(function () {
     });
     let fullSubmissionId = getQueryVariable("fullSubmissionId");
     let category = getQueryVariable("category");
-    $('#categoryHeadline').html(category);
+    $('.categoryHeadline').html(category);
     /*getFeedbackedGroup(function (response) {
     });*/
     prepareFeedbackMenu(category);

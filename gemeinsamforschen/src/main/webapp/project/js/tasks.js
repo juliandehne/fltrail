@@ -147,9 +147,6 @@ function handleInfoTasks(object, result) {
                 result.infoText += "nachdem ein weiterer Teilnehmer ein Dossier abgegeben hat."
             }
             break;
-        case "SEE_FEEDBACK":
-            result.infoText = "Sie erhielten Feedback zu Ihrem Dossier.";
-            break;
         case "WAITING_FOR_STUDENT_DOSSIERS":
             result.infoText = "Studierende legen nun ein Dossier an und" +
                 " geben sich gegenseitig Feedback.";
@@ -287,7 +284,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&fileRole=Dossier" + "\')";
                 break;
             case "REEDIT_DOSSIER":
-                result.infoText = "Basierend auf dem erhaltenen Feedback, können Sie nun Ihr Dossier überarbeiten.";
+                result.infoText = "Basierend auf dem erhaltenen <a id='seeFeedback' style='cursor:pointer;'>Feedback</a>, können Sie nun Ihr Dossier überarbeiten.";
                 result.solveTaskWith = "Überarbeite Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/reedit-dossier.jsp?fullsubmissionid=" + object.taskData.fullSubmissionId + "&projectName=" + object.projectName + "&contribution=DOSSIER\')";
                 break;
@@ -355,16 +352,6 @@ function handleLinkedTasks(object, result) {
                         "&fullSubmissionId=" + object.taskData.fullSubmission.id + "&category=" + object.taskData.category + "\')";
                 }
 
-                break;
-            case "SEE_FEEDBACK":
-                if (object.taskData !== null) {
-                    result.solveTaskWith = "Feedback sehen";
-                    result.solveTaskWithLink = "redirect(\'../annotation/see-feedback.jsp?" +
-                        "projectName=" + object.projectName +
-                        "&fullSubmissionId=" + object.taskData.fullSubmissionId +
-                        "&category=" + object.taskData.category +
-                        "&contribution=DOSSIER\')";
-                }
                 break;
             case "UPLOAD_PRESENTATION":
                 result.solveTaskWith = "Präsentation hochladen";
@@ -469,10 +456,6 @@ function handleFinishedTasks(object, result) {
                 } else {*/
                 result.infoText = "Ihr Feedback wurde an die betreffende Gruppe übermittelt.";
                 //}
-                break;
-            case "SEE_FEEDBACK":
-                result.infoText = "Sie erhielten Feedback zu Ihrem Dossier.";
-                result.solveTaskWith = "";
                 break;
             case "REEDIT_DOSSIER":
                 result.infoText = "Ihre Gruppe hat eine finale Abgabe des Dossiers gespeichert. \n" +

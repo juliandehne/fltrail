@@ -56,36 +56,41 @@
     <main id="reEdit" class="">
         <div class="row group">
             <div class="col span_2_of_2">
+                <p>Hier können Sie Ihr <span id="fileRole"></span> überarbeiten</p>
 
                 <h3 id="ownTitle"></h3>
-                <p>Hier können Sie Ihr <span id="fileRole"></span> überarbeiten</p>
                 <br>
                 <div id="editor"></div>
-                <div class="leftcontent-buttons-next">
-                    <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
-                        <i class="far fa-save"></i> speichern
-                    </button>
+                <div>
+                    <div class="rightcontent-buttons-next">
+                        <button id="seeFeedback" type="button" class="btn btn-primary" title="Feedback sehen">
+                            Feedback ansehen
+                        </button>
+                    </div>
+                    <div class="leftcontent-buttons-next">
+                        <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
+                            <i class="far fa-save"></i> speichern
+                        </button>
 
 
-                    <div style="display: block">
-                        <div style="display: inline-flex;">
-                            <input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">
-                            <label for="finalizeReedit" style="margin-right:5px">Dies ist die finale
-                                <a data-toggle='collapse' href='#whatIs' role='button'
-                                   aria-expanded='false' aria-controls='whatIs'>
-                                    <i class='fas fa-question'></i>
-                                </a> Abgabe des Dossiers</label>
-                        </div>
-                        <div class='collapse' id='whatIs'>
-                            <div class='card card-body card-whatIs'>
-                                Bestätigen Sie hier, wenn dies die Version ihres Dossiers ist, die später bewertet
-                                werden soll.
+                        <div style="display: block">
+                            <div style="display: inline-flex;">
+                                <input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">
+                                <label for="finalizeReedit" style="margin-right:5px">Dies ist die finale
+                                    <a data-toggle='collapse' href='#whatIs' role='button'
+                                       aria-expanded='false' aria-controls='whatIs'>
+                                        <i class='fas fa-question'></i>
+                                    </a> Abgabe des Dossiers</label>
+                            </div>
+                            <div class='collapse' id='whatIs'>
+                                <div class='card card-body card-whatIs'>
+                                    Bestätigen Sie hier, wenn dies die Version ihres Dossiers ist, die später bewertet
+                                    werden soll.
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </main>

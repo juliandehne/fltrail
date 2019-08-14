@@ -71,7 +71,6 @@
             <div class="col span_l_of_2" style="margin-left:0; margin-top:0">
                     <button id="btnRelocate" class="spacer-horizontal primary">Personen verschieben</button>
                     <button id="openNewGroup" class="spacer-horizontal primary">Neue Gruppe öffnen</button>
-                    <button id="deselectStudents" class="spacer-horizontal primary">Selektion aufheben</button>
             </div>
 
         </div>
