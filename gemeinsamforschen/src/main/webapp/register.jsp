@@ -20,7 +20,7 @@
 <div class="login-clean">
     <form method="post" action="rest/user/create">
         <h2 class="sr-only">Login Formular</h2>
-        <div class="illustration"><img src="libs/img/fides-logo.svg"></div>
+        <div class="illustration"><img src="libs/img/FLTrail.png" style="width: 140%; margin-left:-20%"></div>
         <div class="form-group"><input class="form-control" name="name" placeholder="Name" required></div>
         <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" required></div>
         <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password" required>

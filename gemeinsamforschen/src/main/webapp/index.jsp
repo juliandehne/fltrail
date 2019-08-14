@@ -21,7 +21,7 @@
 <div class="login-clean">
     <form method="post" action="rest/user/exists">
         <h2 class="sr-only">Login Formular</h2>
-        <div class="illustration"><img src="libs/img/fides-logo.svg"></div>
+        <div class="illustration"><img src="libs/img/FLTrail.png" style="width: 140%; margin-left:-20%"></div>
         <div class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" autofocus>
         </div>
         <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password">
