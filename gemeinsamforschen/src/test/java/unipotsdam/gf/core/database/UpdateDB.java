@@ -48,8 +48,7 @@ public class UpdateDB {
         SurveyPreparation.main(null);
 
         // add date for reflexion questions
-        MysqlConnectImpl mysqlConnectImpl = new MysqlConnectImpl();
-        PredefinedDataInsertionHelper dataInsertionHelper = new PredefinedDataInsertionHelper(mysqlConnectImpl);
+        PredefinedDataInsertionHelper dataInsertionHelper = new PredefinedDataInsertionHelper(mysqlConnect);
         dataInsertionHelper.saveLearningGoals("src/test/resources/reflectionQuestions/learningGoalsStore.json");
         dataInsertionHelper.saveReflecionQuestions("src/test/resources/reflectionQuestions/reflectionQuestionsStore.json");
         //updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));

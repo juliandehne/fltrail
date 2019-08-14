@@ -28,6 +28,7 @@ public class TestConfig extends GeneralConfig {
     public static final String ROCKET_CHAT_LINK_0 = "http://fl-testing.soft.cs.uni-potsdam.de";
     public static final String ROCKET_CHAT_LINK = "http://fl-testing.soft.cs.uni-potsdam.de/";
 
+
     public static final RocketChatUser
             ADMIN_USER = new RocketChatUser("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
             "julian.dehne@uni-potsdam.de",  "rocketChatUsername", "rocketChatAuthToken",
