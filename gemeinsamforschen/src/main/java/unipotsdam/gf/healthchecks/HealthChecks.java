@@ -1,16 +1,11 @@
 package unipotsdam.gf.healthchecks;
 
 import ch.vorburger.exec.ManagedProcessException;
-import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.config.FLTrailConfig;
-import unipotsdam.gf.config.GeneralConfig;
-import unipotsdam.gf.config.TestConfig;
+import unipotsdam.gf.config.*;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
-
-import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
@@ -23,20 +18,23 @@ import java.time.Instant;
 
 public class HealthChecks {
 
-
-
-
-    private static Boolean rocketChatAvailable = null;
+    //private static Boolean rocketChatAvailable = null;
     private final static Logger log = LoggerFactory.getLogger(HealthChecks.class);
 
     public static synchronized Boolean isRocketOnline() {
+      /*  IConfig iConfig = null;
+        if (FLTrailConfig.productionContext) {
+            iConfig = new ProductionConfig();
+        } else {
+            iConfig = new TestConfig();
+        }
         if (rocketChatAvailable == null) {
             Instant timeForCheck = Instant.now();
-            rocketChatAvailable = hostAvailabilityCheck("fleckenroller.cs.uni-potsdam.de", 3000);
+            rocketChatAvailable = hostAvailabilityCheck(iConfig.ROCKET_CHAT_LINK_0(), 80);
             Duration timePassed = Duration.between(Instant.now(), timeForCheck);
             log.trace("Rock: " + timePassed.toString());
-        }
-        return rocketChatAvailable && FLTrailConfig.rocketChatIsOnline;
+        }*/
+        return  FLTrailConfig.rocketChatIsOnline;
     }
 
     private static Boolean compBaseAvailable = null;
@@ -71,7 +69,14 @@ public class HealthChecks {
         if (mySQLAvailable == null) {
             Instant timeForCheck = Instant.now();
             try {
-                MysqlConnectImpl mysqlConnect = new MysqlConnectImpl(new TestConfig());
+
+                IConfig iConfig = null;
+                if (FLTrailConfig.productionContext) {
+                    iConfig = new ProductionConfig();
+                } else {
+                    iConfig = new TestConfig();
+                }
+                MysqlConnect mysqlConnect = new MysqlConnectImpl(iConfig);
                 Connection connection = mysqlConnect.getConnection();
                 Boolean mySQLAvailable = connection != null;
                 if (mySQLAvailable) {

@@ -40,8 +40,9 @@ public class ChatWindow extends SimpleTagSupport {
         /*String token = request.getParameter("token"); */
         String projectName = tu.getParamterFromQuery("projectName", request);
         Object userEmail = request.getSession().getAttribute(GFContexts.USEREMAIL);
+        Object authToken = request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN);
 
-        if (userEmail != null && !(request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) == null) &&
+        if (userEmail != null && !(authToken == null) &&
                 FLTrailConfig.rocketChatIsOnline) {
             /*
              * create project chatroom
