@@ -30,7 +30,7 @@ public class PredefinedDataInsertionHelper {
         learningGoalStoreItems.forEach(learningGoalStoreDAO::persist);
     }
 
-    public void saveReflecionQuestions(String fileName) throws IOException {
+    public void saveReflectionQuestions(String fileName) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         InputStream inputStream = new FileInputStream(fileName);
         List<ReflectionQuestionsStoreItem> items = objectMapper.readValue(inputStream, new TypeReference<List<ReflectionQuestionsStoreItem>>() {

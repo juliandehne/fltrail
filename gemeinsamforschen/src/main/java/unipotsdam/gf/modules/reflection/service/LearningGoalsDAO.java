@@ -28,18 +28,6 @@ public class LearningGoalsDAO {
         return uuid;
     }
 
-    public LearningGoal getNextUnfinishedLearningGoal(Project project) {
-        connection.connect();
-        String query = "SELECT * FROM learninggoals where projectName = ? LIMIT 1";
-        VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, project.getName());
-        LearningGoal learningGoal = null;
-        if (resultSet.next()) {
-            learningGoal = convertResultSet(resultSet);
-        }
-        connection.close();
-        return learningGoal;
-    }
-
     public List<LearningGoal> getLearningGoals(Project project) {
         connection.connect();
         String query = "Select * from learningGoals where projectName = ?";
