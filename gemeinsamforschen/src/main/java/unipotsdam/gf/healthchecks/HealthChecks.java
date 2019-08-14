@@ -1,14 +1,16 @@
 package unipotsdam.gf.healthchecks;
 
 import ch.vorburger.exec.ManagedProcessException;
+import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.FLTrailConfig;
-
 import unipotsdam.gf.config.GeneralConfig;
-import unipotsdam.gf.modules.communication.service.CommunicationService;
+import unipotsdam.gf.config.TestConfig;
+import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
 
+import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
@@ -20,9 +22,12 @@ import java.time.Duration;
 import java.time.Instant;
 
 public class HealthChecks {
-    private final static Logger log = LoggerFactory.getLogger(HealthChecks.class);
+
+
+
 
     private static Boolean rocketChatAvailable = null;
+    private final static Logger log = LoggerFactory.getLogger(HealthChecks.class);
 
     public static synchronized Boolean isRocketOnline() {
         if (rocketChatAvailable == null) {
@@ -40,9 +45,9 @@ public class HealthChecks {
         if (compBaseAvailable == null) {
             Instant timeForCheck = Instant.now();
             Client client = ClientBuilder.newClient();
-            Response response =
-                    client.target("http://fleckenroller.cs.uni-potsdam.de/app/competence-database-prod/api1/competences")
-                            .request().get();
+            Response response = client.target(
+                    "http://fleckenroller.cs.uni-potsdam.de/app/competence-database-prod/api1/competences").request()
+                    .get();
             compBaseAvailable = response.getStatus() == 200;
             Duration timePassed = Duration.between(Instant.now(), timeForCheck);
             log.trace("Comp: " + timePassed.toString());
@@ -65,8 +70,8 @@ public class HealthChecks {
     public static Boolean isMysqlOnline() {
         if (mySQLAvailable == null) {
             Instant timeForCheck = Instant.now();
-            MysqlConnectImpl mysqlConnect = new MysqlConnectImpl();
             try {
+                MysqlConnectImpl mysqlConnect = new MysqlConnectImpl(new TestConfig());
                 Connection connection = mysqlConnect.getConnection();
                 Boolean mySQLAvailable = connection != null;
                 if (mySQLAvailable) {

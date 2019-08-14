@@ -25,6 +25,12 @@ public class MysqlConnectImpl implements MysqlConnect {
         //System.out.println("test");
     }
 
+    public  MysqlConnectImpl(IConfig iConfig) {
+        //System.out.println("test");
+        this.iConfig = iConfig;
+    }
+
+
     private static final Logger log = LoggerFactory.getLogger(MysqlConnect.class);
 
     protected Connection conn = null;
