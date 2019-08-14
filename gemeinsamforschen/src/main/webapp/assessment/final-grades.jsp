@@ -30,47 +30,49 @@
     <!-- go back to tasks end-->
 
     <main>
-
-
         <div class="row group">
             <div class="col span_content span_2_of_2">
                 <h3>Abschließende Noten vergeben</h3>
 
                 <div class="row group">
                     <div class="span_2_of_2" style="background:#ededed">
-
-                        <label>Legende</label>
-                        <div id="iconLegend">
-                            <div id="colorLegend">
-                                <div class="alert-success">
-                                    <span>Gleich</span>
+                        <div class="inProgressView">
+                            <label>Legende</label>
+                            <div id="iconLegend">
+                                <div id="colorLegend">
+                                    <div class="alert-success">
+                                        <span>Gleich</span>
+                                    </div>
+                                    <div class="alert-warning">
+                                        <span>Ähnlich<br>(+- 0.3)</span>
+                                    </div>
+                                    <div class="alert-danger">
+                                        <span>Unterschiedlich<br>(+- 0.7)</span>
+                                    </div>
                                 </div>
-                                <div class="alert-warning">
-                                    <span>Ähnlich<br>(+- 0.3)</span>
+                                <div>
+                                    <p><i class="fas fa-arrow-up"></i> Diese Person wurde von seinen Peers unüblich
+                                        gut
+                                        bewertet.</p>
                                 </div>
-                                <div class="alert-danger">
-                                    <span>Unterschiedlich<br>(+- 0.7)</span>
+                                <div>
+                                    <p><i class="fas fa-arrow-down"></i> Diese Person wurde von seinen Peers unüblich
+                                        schlecht
+                                        bewertet. </p>
+                                </div>
+                                <div>
+                                    <p><i class="fas fa-check"></i> Diese Person wurde von seinen Peers ausgeglichen
+                                        bewertet.
+                                    </p>
                                 </div>
                             </div>
-                            <div>
-                                <p><i class="fas fa-arrow-up"></i> Dieser Student wurde von seinen Peers unüblich gut
-                                    bewertet.</p>
-                            </div>
-                            <div>
-                                <p><i class="fas fa-arrow-down"></i> Dieser Student wurde von seinen Peers unüblich
-                                    schlecht
-                                    bewertet. </p>
-                            </div>
-                            <div>
-                                <p><i class="fas fa-check"></i> Dieser Student wurde von seinen Peers ausgeglichen
-                                    bewertet.
-                                </p>
-                            </div>
+                            <p style="font-weight:bold;"> Klicken sie auf das entsprechende Symbol in der Tabelle um die
+                                Bewertungen der Studierenden um Ausreißer zu bereinigen.
+                            </p>
+                            <p>
+                                <a id="takeSuggested" style="cursor:pointer; font-size: 15px;"><i
+                                        class="fas fa-arrow-right"></i> vorgeschlagene Noten übernehmen</a></p>
                         </div>
-                        <p style="font-weight:bold;"> Klicken sie auf das entsprechende Symbol in der Tabelle um die
-                            Bewertungen der Studierenden
-                            um Ausreißer zu bereinigen.
-                        </p>
                     </div>
                 </div>
 
@@ -81,7 +83,7 @@
                 Die Noten wurden gespeichert.
             </div>
             <div class="alert alert-warning" id="gradeMissing" hidden>
-                Bevor Sie die Noten final speichern können, müssen alle Studenten eine Note erhalten haben.
+                Bevor Sie die Noten final speichern können, müssen alle Studierenden eine Note erhalten haben.
                 Bitte überprüfen Sie dies.
             </div>
 
@@ -89,13 +91,13 @@
                 <table id="tableGrades" class="table table-striped table-sm" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th class="th-sm">
+                        <th class="th-sm" style="width: 25%;">
                             Name
                         </th>
-                        <th class="th-sm">
+                        <th class="th-sm" style="width: 10%;">
                             Gruppe
                         </th>
-                        <th class="th-sm">
+                        <th class="th-sm" style="width: 25%;">
                             E-Mail
                         </th>
                         <th class="th-sm">
@@ -112,10 +114,6 @@
                         <th class="th-sm">
                             (Average)
                             vorgeschlagene Note
-                        </th>
-                        <th><a id="takeSuggested" style="cursor:pointer; font-size: 15px;"><i
-                                class="fas fa-arrow-right"></i></a>
-                            übernehmen
                         </th>
                         <th class="th-sm">
                             Endnote
@@ -166,10 +164,12 @@
                             <div class='collapse in cleaned'>
                                 ${workRating}
                             </div>
+                            <div class="inProgressView">
                             <a data-toggle='collapse' href='.cleaned' role='button'
                                        aria-expanded='false' aria-controls='cleaned'>
-                                       <div class='collapse in cleaned'>
-                                <i class='fas ${beyondStdDeviation}'></i>
+                                  <div class='collapse in cleaned'>
+                                      <i class='fas ${beyondStdDeviation}'></i>
+                                  </div>
                             </div>
                             <div class='collapse cleaned'>
                                 <i class='fas fa-check'></i>
@@ -185,12 +185,12 @@
                                 ${suggested}
                             </div>
                         </td>
-                        <td></td>
                         <td name="finalMark">
                             <input id="markFor_${userId}" value="${finalMark}" size="4" class="unsavedFinalMark">
                             <p class="savedFinalMark">${finalMark}</p>
                         </td>
                     </tr>
+
 
 
 

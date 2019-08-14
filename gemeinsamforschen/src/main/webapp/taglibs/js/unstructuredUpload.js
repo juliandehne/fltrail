@@ -134,7 +134,7 @@ async function setupPageContent() {
         } else {
             if (!personal) {
                 getMyGroupId(function (groupId) {
-                    getFullSubmissionOfGroup(groupId, 0);
+                    getFullSubmissionOfGroupToEditor(groupId, 0);
                 });
             } else {
                 populateVisibilityButton();

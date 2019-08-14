@@ -43,9 +43,9 @@
                     <div class="infobox dossier" style="margin-bottom:30px;" >
                         <p>
                         <h3 style="margin-left: 20px;">Aufgabenliste</h3><br>
-                        Hier siehst Du die Aufgaben, die Du erledigen musst, um eine Forschungsphase abzuschließen.
-                        Wenn Du Fragen zu den einzelnen Phasen hast,
-                        findest Du mehr Informationen über das Hilfe-Menü oben rechts.
+                        Hier sehen Sie die Aufgaben, die Sie erledigen müssen, um eine Forschungsphase abzuschließen.
+                        Wenn Sie Fragen zu den einzelnen Phasen haben,
+                        finden Sie mehr Informationen über das Hilfe-Menü oben rechts.
                         </p>
                     <hr>
                     </div>
@@ -78,7 +78,7 @@
                                     <button class='primary' onClick='${solveTaskWithLink}'><i class="fas fa-link"></i> ${solveTaskWith}</button>
                                 {{/if}}
                                 {{if helpLink}}
-                                    <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
+                                    <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommen Sie Hilfe.</div>
                                 {{/if}}
                             </div>
 
@@ -140,7 +140,7 @@
                                 <button class='primary' onClick='${solveTaskWithLink}'><i class="fas fa-link"></i> ${solveTaskWith}</button>
                             {{/if}}
                             {{if helpLink}}
-                                <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
+                                <div style="width:100%"><a href='${helpLink}'>Hier</a> bekommen Sie Hilfe.</div>
                             {{/if}}
                               {{html timeFrame}}
                        </div>
@@ -176,7 +176,7 @@
                         <div class='card card-body'>
                             Um sich in den Chat einzuloggen, tragen Sie die gleiche E-Mailadresse sowie das gleiche
                             Passwort
-                            hier ein wie bei der Anmeldung.
+                            hier ein, wie bei der Anmeldung.
                         </div>
                     </div>
                 </div>

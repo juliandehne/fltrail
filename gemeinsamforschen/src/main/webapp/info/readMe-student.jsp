@@ -16,8 +16,8 @@
     </jsp:include>
     <title>Hilfe</title>
 
-    <script src="js/tasks.js"></script>
-    <script src="js/solve-inCardTasks.js"></script>
+    <script src="../project/js/tasks.js"></script>
+    <script src="../project/js/solve-inCardTasks.js"></script>
 </head>
 <body>
 <div id="flex-wrapper">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="col span_l_of_2">
                         Dieses Tool dient der Unterstützung von studentischen Forschungsprojekten. Es wird den Ablauf
-                        in ihrem Kurs vorstrukturieren.
+                        in Ihrem Kurs vorstrukturieren.
 
                     </div>
                     <div style="clear:left"></div>
@@ -57,7 +57,7 @@
                     <div class="col span_s_of_2 icon infotask"></div>
 
                     <div class="col span_l_of_2">
-                        In der Gruppenbildungsphase werden die Studierende in Projektgruppen eingeteilt.
+                        In der Gruppenbildungsphase werden die Studierenden in Projektgruppen eingeteilt.
                         Einzelarbeit wird zwar softwareseitig unterstützt, ist aber nicht empfohlen.
                         Wie in richtigen Forschungsprojekten gehen wir davon aus, dass kooperatives Arbeiten gewünscht ist.
                         Das Werkzeug wird daraufhin optimierte Arbeitsgruppen bilden.
@@ -75,7 +75,7 @@
                         Nach der Gruppenfindungsphase werden die Studierenden beauftragt ein Forschungsentwurf/Dossier zu erarbeiten.
                             In diesem plant ihr euer Projekt und die Methodik zur Beantwortung der gewählten
                             Forschungsfrage.
-                            Die Studierende geben sich daraufhin Feedback zu den erarbeiteten Forschungskonzepten
+                        Die Studierenden geben sich daraufhin Feedback zu den erarbeiteten Forschungskonzepten
                             bezüglich üblicher Kategorien wie der Recherche, der gewählten Methodik etc.
                     </div>
 
@@ -89,7 +89,12 @@
 
                     <div class="col span_l_of_2">
                         <%--<img src="../taglibs/img/dossiers.jpg">--%>
-                        Wir haben die Erfahrung gemacht, dass es für die Studierenden motivierend ist, wenn sie das erarbeitete Konzept auch in einem Projekt durchführen. Da die Durchführung für die Fächer sehr unterschiedlich abläuft, haben wir hier keine spezifische Unterstützung implementiert. Es ist jedoch empirisch belegt, dass komplexe Prozesse wie die eines selbstgesteuerten Lernprojektes gut unterstützt werden können, indem die Reflexion mittels gezielter Fragen und Portfoliotechniken angeregt wird.
+                        Wir haben die Erfahrung gemacht, dass es für Studierende motivierend ist, wenn sie das
+                        erarbeitete Konzept auch in einem Projekt durchführen. Da die Durchführung für die Fächer sehr
+                        unterschiedlich abläuft, haben wir hier keine spezifische Unterstützung implementiert. Es ist
+                        jedoch empirisch belegt, dass komplexe Prozesse wie die eines selbstgesteuerten Lernprojektes
+                        gut unterstützt werden können, indem die Reflexion mittels gezielter Fragen und
+                        Portfoliotechniken angeregt wird.
                     </div>
 
                     <div style="clear:left"></div>
@@ -101,7 +106,10 @@
 
                     <div class="col span_l_of_2">
                         <%--<img src="../taglibs/img/assessment.png">--%>
-                        In der Peer-Assessment-Phase werden Sie aufgefordert, ihre Kommilitonen zu bewerten.  Der Dozent wird ebenfalls eine Bewertung vornehmen. Für die finale Note wird dem Dozenten daraufhin eine kombinierte Note vorgeschlagen, die dieser übernehmen kann. Ob dieses Verfahren gewählt wird, wird in ihrem Kurs geklärt.
+                        In der Peer-Assessment-Phase werden Sie aufgefordert, Ihre Kommilitonen zu bewerten. Die
+                        dozierende Person wird ebenfalls eine Bewertung vornehmen. Für die finale Note wird der
+                        dozierenden Person daraufhin eine kombinierte Note vorgeschlagen, die sie übernehmen kann. Ob
+                        dieses Verfahren gewählt wird, wird in ihrem Kurs geklärt.
                     </div>
 
                     <div style="clear:left"></div>

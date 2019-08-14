@@ -162,7 +162,9 @@ function getProjectValues() {
             if (ownCategory.match(/^[A-Za-z]+$/)) {
                 selectedCategories.push(ownCategory);
             } else {
-                $('#noSpecialCharacters').attr('hidden', false);
+                let noSpeacialCharacters = $('#noSpecialCharacters');
+                noSpeacialCharacters.attr('hidden', false);
+                $('html, body').animate({scrollTop: (noSpeacialCharacters.offset().top)}, 'slow');
                 loaderStop();
                 interruptFunction = true;
             }

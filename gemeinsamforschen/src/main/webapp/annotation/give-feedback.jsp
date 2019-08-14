@@ -78,7 +78,7 @@
         <div class="splitter-horizontal"></div>
         <div class="reply-control">
 
-            <label>Gib dein Feedback ein.</label>
+            <label>Geben Sie Ihr Feedback ein.</label>
             <div class="three_rows">
                 <button id="btnBack" type="button" class="btn btn-primary" title="Zurück">Vorherige</button>
 

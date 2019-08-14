@@ -6,7 +6,7 @@ $(document).ready(function () {
     handleLocker("REEDIT_DOSSIER");
     projectName = $('#projectName').text().trim();
     getMyGroupId(function (groupId) {
-        getFullSubmissionOfGroup(groupId, 1)
+        getFullSubmissionOfGroupToEditor(groupId, 1)
     });
     let contribution = getQueryVariable("contribution");
     $('#fileRole').html(contribution[0] + contribution.substring(1, contribution.length).toLowerCase());

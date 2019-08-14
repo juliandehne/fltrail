@@ -42,11 +42,11 @@
                 <div id="assessmentTemplateResult"></div>
                 <script id="assessmentTemplate" type="text/x-jsrender">
                     <div/>
-                    <p>Klicke auf die E-Portfolio-Einträge, die du von deinen Eintrgägen für die Gruppe zur Bewertung einreichen möchtest.</p>
-                    <p>Es werden deine Einträge angezeigt, die du für die Gruppe oder öffentlich freigegeben hast</p>
+                    <p>Klicken Sie auf die E-Portfolio-Einträge, die Sie von Ihren Eintrgägen für die Gruppe zur Bewertung einreichen möchten.</p>
+                    <p>Es werden Einträge angezeigt, die Sie für die Gruppe oder öffentlich freigegeben haben</p>
                     {{if data.length === 0}}
                         <h2>Keine Gruppeneinträge gefunden.</h2>
-                        <h2>Bitte markiere Einträge für die Gruppe oder öffentlich sichtbar, um diese zur Gruppenbewertung einzureichen oder drücke überspringen, wenn du keine deiner Einträge einreichen möchtest.</h2>
+                        <h2>Bitte markieren Sie Einträge für die Gruppe oder öffentlich sichtbar, um diese zur Gruppenbewertung einzureichen oder drücken Sie überspringen, wenn Sie keine Ihrer Einträge einreichen möchten.</h2>
                     {{else}}
                         <div class="list-group" id="list-tab" role="tablist">
                             {{for data}}

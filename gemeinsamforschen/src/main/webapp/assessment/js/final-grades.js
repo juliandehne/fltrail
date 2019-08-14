@@ -6,7 +6,7 @@ $(document).ready(function () {
         if (getQueryVariable("final") === "true") {
             $('#divForSaving').hide();
             $('.unsavedFinalMark').hide();
-            $('#iconLegend').hide();
+            $('.inProgressView').hide();
             $('#print').show();
             getContributions(projectName);
         } else {

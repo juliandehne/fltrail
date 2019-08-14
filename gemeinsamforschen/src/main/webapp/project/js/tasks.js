@@ -85,9 +85,9 @@ function handleDeadlines(object, result) {
     if (object.deadline != null) {
         let daysLeft = Math.round((object.deadline - Date.now()) / 1000 / 60 / 60 / 24);
         if (daysLeft >= 1)
-            result.timeFrame = "<div class='status icon'><p>Diese Aufgabe musst Du noch erledigen</p></div>";
+            result.timeFrame = "<div class='status icon'><p>Diese Aufgabe müssen Sie noch erledigen</p></div>";
         else
-            result.timeFrame = "<div class='status alert icon'><p>Diese Aufgabe fehlt Dir noch. Beeil dich.</p></div>";
+            result.timeFrame = "<div class='status alert icon'><p>Diese Aufgabe fehlt Ihnen noch. Beeilen Sie sich.</p></div>";
     } else {
         result.timeFrame = "";
     }
@@ -170,11 +170,11 @@ function handleInfoTasks(object, result) {
                     }
                 }
             } else {
-                result.infoText = "Noch haben nicht alle Studenten ihren Peers ein Feedback gegeben.";
+                result.infoText = "Noch haben nicht alle Studierenden ihren Peers ein Feedback gegeben.";
             }
             break;
         case "WAIT_FOR_REFLECTION_QUESTION_CHOICE":
-            result.infoText = "Warten Sie darauf, dass der Lehrende Reflexionsfragen ausgewählt hat.";
+            result.infoText = "Warten Sie darauf, dass die dozierende Person Reflexionsfragen ausgewählt hat.";
             break;
         case "ANSWER_REFLECTION_QUESTIONS":
             result.infoText = "Bitte beantworten Sie die Reflexionsfragen.";
@@ -183,7 +183,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Wählen Sie die Einträge aus, die Sie zur Bewertung einreichen möchten.";
             break;
         case "WAIT_FOR_EXECUTION_PHASE_END":
-            result.infoText = "Warten Sie darauf, dass der Lehrende die Durchführungsphase beendet";
+            result.infoText = "Warten Sie darauf, dass die dozierende Person die Durchführungsphase beendet";
             break;
         case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS":
             result.infoText = "Um die Durchführungsphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
@@ -202,14 +202,14 @@ function handleInfoTasks(object, result) {
                 "Am Ende des Projekts muss jede Gruppe ein gemeinsames Portfolio abgeben.";
             break;
         case "INTRODUCE_E_PORTFOLIO_DOCENT":
-            result.infoText = "Sie können hier die E-Portfolios der Studenten und Gruppen einsehen, wenn es für Sie freigegeben ist.";
+            result.infoText = "Sie können hier die E-Portfolios der Studierenden und Gruppen einsehen, wenn sie für Sie freigegeben wurden.";
             break;
         case "UPLOAD_PRESENTATION":
-            result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für ihre Gruppe) hoch!";
+            result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für Ihre Gruppe) hoch!";
             break;
         case "GIVE_INTERNAL_ASSESSMENT":
             if (object.taskData != null) {
-                result.infoText = "Bitte bewerten Sie die Gruppenarbeit ihrer Gruppenmitglieder!";
+                result.infoText = "Bitte bewerten Sie die Gruppenarbeit Ihrer Gruppenmitglieder!";
                 let numOfMissing = object.taskData.numberOfMissing;
                 if (numOfMissing && numOfMissing > 0) {
                     if (numOfMissing === 1) {
@@ -227,7 +227,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Bewerten Sie eine andere Gruppe!";
             break;
         case "WAIT_FOR_GRADING":
-            result.infoText = "Ihr Dozent und andere Peers bewerten Sie nun!";
+            result.infoText = "Die dozierende Person und andere Peers bewerten Sie nun!";
             break;
         case "GIVE_EXTERNAL_ASSESSMENT_TEACHER":
             result.infoText = "Bewerten Sie die einzelnen Gruppen!";
@@ -264,7 +264,7 @@ function handleLinkedTasks(object, result) {
                 if (object.taskData.participantCount.participants >= object.taskData.participantCount.participantsNeeded) {
                     result.infoText = "Sehen Sie sich den Gruppenvorschlag des Algorithmus an oder " +
                         "warten Sie auf weitere Teilnehmer. Die Gruppen sind noch nicht final gespeichert.\n" +
-                        "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
+                        "Es sind bereits " + object.taskData.participantCount.participants + " Studierende eingetragen.";
                     result.solveTaskWith = "Gruppen einsehen";
                     switch (object.taskData.gfm) {
                         default:
@@ -284,7 +284,7 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWithLink = "redirect(\'../annotation/upload-unstructured-dossier.jsp?projectName=" + object.projectName + "&fileRole=Dossier" + "\')";
                 break;
             case "REEDIT_DOSSIER":
-                result.infoText = "Basierend auf dem erhaltenen <a id='seeFeedback' style='cursor:pointer;'>Feedback</a>, können Sie nun Ihr Dossier überarbeiten.";
+                result.infoText = "Basierend auf dem erhaltenen <a onClick='seeFeedBack();' style='cursor:pointer;'>Feedback</a>, können Sie nun Ihr Dossier überarbeiten.";
                 result.solveTaskWith = "Überarbeite Dossier";
                 result.solveTaskWithLink = "redirect(\'../annotation/reedit-dossier.jsp?fullsubmissionid=" + object.taskData.fullSubmissionId + "&projectName=" + object.projectName + "&contribution=DOSSIER\')";
                 break;
@@ -335,7 +335,7 @@ function handleLinkedTasks(object, result) {
                             }
                         }
                     } else {
-                        result.infoText = "Noch haben nicht alle Studenten ihren Peers ein Feedback gegeben.";
+                        result.infoText = "Noch haben nicht alle Studierenden ihren Peers ein Feedback gegeben.";
                     }
                 }
 
@@ -441,7 +441,7 @@ function handleFinishedTasks(object, result) {
         switch (object.taskName) {
             case "WAIT_FOR_PARTICPANTS":
                 result.infoText = "Gruppen sind final gespeichert. \n" +
-                    "Es sind " + object.taskData.participantCount.participants + " Studenten in diesem Projekt.";
+                    "Es sind " + object.taskData.participantCount.participants + " Studierende in diesem Projekt.";
                 break;
             case "WAITING_FOR_GROUP":
                 result.infoText = "";
@@ -506,7 +506,7 @@ function handleFinishedTasks(object, result) {
             result.closedPhase = "<p>" + created.getDate() + "." + (created.getMonth() + 1) + "." + created.getFullYear() +
                 " bis " + deadline.getDate() + "." + (deadline.getMonth() + 1) + "." + deadline.getFullYear() + "</p>";
         } else {
-            result.timeFrame = "<div class='icon finishedTask'><p>Du hast diese Aufgabe abgeschlossen.</p></div>";
+            result.timeFrame = "<div class='icon finishedTask'><p>Sie haben diese Aufgabe abgeschlossen.</p></div>";
         }
         result.taskProgress = "FINISHED";
     }
@@ -590,16 +590,16 @@ function countMissingStudents(object) {
 }
 
 function waitForParticipantsInfoText(object) {
-    let result = "Warten Sie auf die Anmeldungen der Studenten.\n" +
-        "Es sind bereits " + object.taskData.participantCount.participants + " Studenten eingetragen.";
+    let result = "Warten Sie auf die Anmeldungen der Studierenden.\n" +
+        "Es sind bereits " + object.taskData.participantCount.participants + " Studierende eingetragen.";
     if (object.taskData.participantCount.participants === 0) {
-        result = " Es gibt noch keine Teilnehmer.";
+        result = " Es hat sich noch niemand zu Ihrem Kurs angemeldet.";
     }
     if (countMissingStudents(object) > 0) {
         if (countMissingStudents(object) === 1) {
-            result += " Um Gruppen bilden zu können, fehlt noch ein Student.";
+            result += " Um Gruppen bilden zu können, fehlt noch ein Studierender.";
         } else {
-            result += " Um Gruppen bilden zu können, fehlen noch " + countMissingStudents(object) + " Studenten.";
+            result += " Um Gruppen bilden zu können, fehlen noch " + countMissingStudents(object) + " Studierende.";
         }
     }
     return result

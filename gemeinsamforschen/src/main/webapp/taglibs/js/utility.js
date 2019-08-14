@@ -40,58 +40,50 @@ $(document).ready(function () {
     $('#readMe').on('click', function () {
         let whatRole = $('#isStudent').val();
         if (whatRole === "isDocent") {
-            location.href = "../project/readMe-docent.jsp";
+            location.href = "../info/readMe-docent.jsp";
         } else {
-            location.href = "../project/readMe-student.jsp";
+            location.href = "../info/readMe-student.jsp";
         }
     });
     $('#readMeGruppenbildung').on('click', function () {
         let whatRole = $('#isStudent').val();
         if (whatRole === "isDocent") {
-            location.href = "../project/readMe-docent.jsp#Gruppenbildung";
+            location.href = "../info/readMe-docent.jsp#Gruppenbildung";
         } else {
-            location.href = "../project/readMe-student.jsp#Gruppenbildung";
+            location.href = "../info/readMe-student.jsp#Gruppenbildung";
         }
     });
     $('#readMeEntwurf').on('click', function () {
         let whatRole = $('#isStudent').val();
         if (whatRole === "isDocent") {
-            location.href = "../project/readMe-docent.jsp#Entwurf";
+            location.href = "../info/readMe-docent.jsp#Entwurf";
         } else {
-            location.href = "../project/readMe-student.jsp#Entwurf";
+            location.href = "../info/readMe-student.jsp#Entwurf";
         }
     });
     $('#readMeDurchfuhrung').on('click', function () {
         let whatRole = $('#isStudent').val();
         if (whatRole === "isDocent") {
-            location.href = "../project/readMe-docent.jsp#Durchfuhrung";
+            location.href = "../info/readMe-docent.jsp#Durchfuhrung";
         } else {
-            location.href = "../project/readMe-student.jsp#Durchfuhrung";
+            location.href = "../info/readMe-student.jsp#Durchfuhrung";
         }
     });
     $('#readMeBewertung').on('click', function () {
         let whatRole = $('#isStudent').val();
         if (whatRole === "isDocent") {
-            location.href = "../project/readMe-docent.jsp#Bewertung";
+            location.href = "../info/readMe-docent.jsp#Bewertung";
         } else {
-            location.href = "../project/readMe-student.jsp#Bewertung";
+            location.href = "../info/readMe-student.jsp#Bewertung";
         }
     });
     $('#readMeProjektabschluss').on('click', function () {
         let whatRole = $('#isStudent').val();
         if (whatRole === "isDocent") {
-            location.href = "../project/readMe-docent.jsp#Projektabschluss";
+            location.href = "../info/readMe-docent.jsp#Projektabschluss";
         } else {
-            location.href = "../project/readMe-student.jsp#Projektabschluss";
+            location.href = "../info/readMe-student.jsp#Projektabschluss";
         }
-    });
-    $('#seeFeedback').on('click', function () {
-        getAnnotationCategories(function (categories) {
-            location.href = '../annotation/see-feedback.jsp?projectName=' + $('#projectName').html().trim() +
-                "&fullSubmissionId=" + fullSubmissionId + //todo: find fullSubmission from submissionService
-                "&category=" + categories[0] +
-                "&contribution=DOSSIER";
-        });
     });
 });
 
@@ -270,9 +262,29 @@ function getMyGroupId(callback) {
     })
 }
 
-function getFullSubmissionOfGroup(groupId, version) {
+function getFullSubmissionOfGroup(groupId, version, fileRole = $('#fileRole').html().trim(), callback) {
     let projectName = $('#projectName').html().trim();
-    let fileRole = $('#fileRole').html().trim();
+    $.ajax({
+        url: '../rest/submissions/full/groupId/' + groupId +
+            '/project/' + projectName +
+            '/fileRole/' + fileRole.toUpperCase() +
+            '?version=' + version,
+        type: 'GET',
+        async: false,
+        headers: {
+            "Cache-Control": "no-cache"
+        },
+        success: function (fullSubmission) {
+            callback(fullSubmission);
+        },
+        error: function () {
+
+        }
+    });
+}
+
+function getFullSubmissionOfGroupToEditor(groupId, version, fileRole = $('#fileRole').html().trim()) {
+    let projectName = $('#projectName').html().trim();
     $.ajax({
         url: '../rest/submissions/full/groupId/' + groupId +
             '/project/' + projectName +
@@ -303,15 +315,15 @@ function setQuillContentFromFullSubmission(fullSubmission) {
     let text = fullSubmission.text;
     let content = JSON.parse(text);
     quill.setContents(content);
-   /* if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
-    replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
-    replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
-        //the json is ok
-        let content = JSON.parse(text);
-    quill.setContents(content);
-   /* }else{
-        quill.setText(text);
-    }*/
+    /* if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
+     replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+     replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+         //the json is ok
+         let content = JSON.parse(text);
+     quill.setContents(content);
+    /* }else{
+         quill.setText(text);
+     }*/
 
 }
 
@@ -415,4 +427,34 @@ function handleLocker(taskName) {
             }
         }
     });
+}
+
+async function seeFeedBack() {
+    getAnnotationCategories(function (categories) {
+        getMyGroupId(function (groupId) {
+            getFullSubmissionOfGroup(groupId, 0, "DOSSIER", function (fullSubmission) {
+                location.href = '../annotation/see-feedback.jsp?projectName=' + $('#projectName').html().trim() +
+                    "&fullSubmissionId=" + fullSubmission.id +
+                    "&category=" + categories[0] +
+                    "&contribution=DOSSIER";
+            });
+        });
+    });
+}
+
+
+function getAnnotationCategories(callback) {
+    let url = "../rest/submissions/categories/project/" + $('#projectName').html().trim();
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            // handle the response
+            callback(response);
+        },
+        error: function () {
+            console.log("error loading annotation categories");
+        }
+    })
 }

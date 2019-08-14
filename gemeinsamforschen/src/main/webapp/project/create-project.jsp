@@ -69,8 +69,8 @@
                     <ul>
                         <li id="lgLI">
                             <input type="radio" id="lg" name="gfm" value="Basierend auf Lernzielen">
-                            <label for="lg">Basierend auf Interessen der Studenten</label>
-                            <div class='explanation icon'><p>Studenten nennen Schlagworte, die ihre Interessen
+                            <label for="lg">Basierend auf Interessen der Studierenden</label>
+                            <div class='explanation icon'><p>Studierende nennen Schlagworte, die ihre Interessen
                                 bezüglich des Projekts betreffen.
                                 Dabei werden Gruppen gebildet, deren Gruppenmitglieder ähnliche Interessen
                                 vorweisen.</p></div>
@@ -84,7 +84,7 @@
                         <li id="bpLI">
                             <input type="radio" id="bp" name="gfm" value="Basierend auf Präferenzen">
                             <label for="bp">Basierend auf Persönlichkeitsmerkmalen</label>
-                            <div class='explanation icon'><p>Studenten beantworten Fragen zu ihrer Persönlichkeit,
+                            <div class='explanation icon'><p>Studierende beantworten Fragen zu ihrer Persönlichkeit,
                                 wenn sie sich in das Projekt einschreiben wollen.
                                 Dabei werden Gruppen gebildet, deren Gruppenmitglieder synergieren
                                 während das Konfliktpotential minimiert wird.</p>
@@ -92,14 +92,13 @@
                                                                        style="width:40px;"></label>
                                 <a data-toggle="collapse" href="#howToBuildGroups" role="button" aria-expanded="false"
                                    aria-controls="howToBuildGroups"><i class="fas fa-question"></i></a>
-                                Mit dieser Gruppengröße benötigt das Projekt wenigstens <span id="groupSize">6</span>
-                                Teilnehmer
-                                um Gruppen bilden zu können.
+                                Mit dieser Gruppengröße müssen wenigstens <span id="groupSize">6</span>
+                                Personen an dem Projekt teilnehmen um Gruppen bilden zu können.
                                 <div class="collapse" id="howToBuildGroups">
                                     <div class="card card-body">
                                         Es werden so viele Gruppen mit Ihrer präferierten Gruppengröße gebildet wie
                                         möglich.
-                                        Die verbleibenden Studenten werden dann zufällig auf die bestehenden Gruppen
+                                        Die verbleibenden Studierenden werden dann zufällig auf die bestehenden Gruppen
                                         verteilt.
                                     </div>
                                 </div>
@@ -108,7 +107,7 @@
                         <li>
                             <input type="radio" id="single" name="gfm" value="Keine Gruppen">
                             <label for="single">Einzelarbeit</label>
-                            <div class='explanation icon'><p>Studenten arbeiten einzeln an ihren Projekten.</p></div>
+                            <div class='explanation icon'><p>Studierende arbeiten einzeln an ihren Projekten.</p></div>
                         </li>
                     </ul>
                     <h3>Projektbeschreibung</h3>
@@ -157,7 +156,7 @@
                             </li>
                         </ul>
                         <div class="alert alert-warning" id="noSpecialCharacters" hidden>
-                            <p>Verwenden Sie hier keine Umlaute oder Sonderzeichen.</p>
+                            <p>Verwenden Sie hier keine Umlaute, Satzzichen oder Sonderzeichen.</p>
                         </div>
                         <script id="categoryTemplate" type="text/x-jQuery-tmpl">
                         <li>
@@ -166,19 +165,12 @@
                                 <span>${categoryName}</span>
                             </label>
                         </li>
-
-
-
-
                         </script>
                         <script id="ownCategoryTemplate" type="text/x-jQuery-tmpl">
                         <li class="LIOwnCategory">
                             <input type="checkbox" onclick="$('#ownCategoryTemplate').tmpl({}).appendTo('#ownCategoryList');">
                             <input type="text" class="category">
                         </li>
-
-
-
                         </script>
                     </div>
                     <div class="form-group">

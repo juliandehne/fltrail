@@ -84,7 +84,7 @@ function updateStatus(projectName) {
                     statusField.html("Der Kurs wurde gerade angelegt. Sie können sich nun anmelden.");
                     break;
                 case "GroupFormation":
-                    statusField.html("Ihr Dozent ordnet Sie nun einer Gruppe zu.");
+                    statusField.html("Die dozierende Person ordnet Sie nun einer Gruppe zu.");
                     break;
                 case "DossierFeedback":
                     statusField.html("Geben Sie wenigstens einem Gruppenmitglied Feedback und erstellen sie ein Dossier in Ihrer Gruppe.");

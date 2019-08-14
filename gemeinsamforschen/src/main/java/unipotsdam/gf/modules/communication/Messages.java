@@ -2,7 +2,6 @@ package unipotsdam.gf.modules.communication;
 
 
 import unipotsdam.gf.modules.communication.model.EMailMessage;
-import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContextUtil;
 import unipotsdam.gf.modules.project.Project;
 
@@ -58,7 +57,7 @@ public class Messages {
 
         StringBuilder message_de = new StringBuilder();
         message_de.append("Liebe Teilnehmenden,\n");
-        message_de.append("Danke für die Teilnahme an der Studie zur Gruppenfindung. Bitte füllt diesen " +
+        message_de.append("Danke für die Teilnahme an der Studie zur Gruppenfindung. Bitte füllen Sie diesen " +
                 "Evaluationsbogen" +
                 "aus:  ");
         message_de.append(surveyUrl);

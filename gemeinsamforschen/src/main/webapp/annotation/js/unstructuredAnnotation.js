@@ -19,7 +19,7 @@ $(document).ready(function () {
     $('#missingAnnotation').hide();
     // fetch the document text of the given id
     getMyGroupId(function (groupId) {
-        getFullSubmissionOfGroup(groupId, 0)
+        getFullSubmissionOfGroupToEditor(groupId, 0)
     });
     // set click listener to save button
     $('#btnSave').click(function () {

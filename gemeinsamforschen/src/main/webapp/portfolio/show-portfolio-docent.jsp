@@ -48,7 +48,7 @@
                     {{if possibleButtons.length === 0}}
                         <h2>Keine Einträge gefunden</h2>
                     {{else}}
-                        <h4>Wähle, welche Beiträge du sehen möchtest</h4>
+                        <h4>Wählen Sie, welche Beiträge Sie sehen möchten</h4>
                         <div class="dropdown fltrailselect">
                             <button class="dropbtn" onclick='dropDownClick("myDropdown")'>{{:currentVisibleButtonText}}
                             </button>

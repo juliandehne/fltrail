@@ -137,7 +137,7 @@
                                 class="btn btn-primary reflexionButton btn-wizard">
                             Feedback generieren
                         </button>
-                        <span style="margin: 20px;">Dozent gibt Feedback zu Antworten von Reflexionsfragen</span>
+                        <span style="margin: 20px;">Die dozierende Person gibt Feedback zu Antworten von Reflexionsfragen</span>
                     </div>
                 </div>
 
@@ -147,8 +147,7 @@
                                 class="btn btn-primary reflexionButton btn-wizard">
                             Auswahl treffen
                         </button>
-                        <span style="margin: 20px;">die Auswahl der Studierende der Einträge für das Assessment wird
-                generiert</span>
+                        <span style="margin: 20px;">Für die Auswahl der Studierenden Einträge für das Assessment generieren</span>
                     </div>
                 </div>
 
@@ -217,9 +216,9 @@
                     <div class="col" style="margin-top: 10px;">
                         <button disabled id="docentPAButton"
                                 class="btn btn-primary Projectfinished btn-wizard">
-                            Dozenten PAs generieren
+                            PAs der dozierenden Person generieren
                         </button>
-                        <span style="margin: 20px;">Es werden für alle Gruppen Bewertungen des Dozenten
+                        <span style="margin: 20px;">Es werden für alle Gruppen Bewertungen der dozierenden Person
                         generiert</span></div>
                 </div>
                 <div class="row">

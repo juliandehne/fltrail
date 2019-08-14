@@ -63,7 +63,7 @@
                 <div id="editor"></div>
                 <div>
                     <div class="rightcontent-buttons-next">
-                        <button id="seeFeedback" type="button" class="btn btn-primary" title="Feedback sehen">
+                        <button onClick="seeFeedBack();" type="button" class="btn btn-primary" title="Feedback sehen">
                             Feedback ansehen
                         </button>
                     </div>

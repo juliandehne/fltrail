@@ -1,10 +1,8 @@
 package unipotsdam.gf.modules.assessment;
 
 import jxl.Workbook;
-import jxl.write.Label;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
+import jxl.write.*;
+import jxl.write.Number;
 import unipotsdam.gf.interfaces.IPeerAssessment;
 import unipotsdam.gf.modules.assessment.controller.model.Contribution;
 import unipotsdam.gf.modules.fileManagement.FileRole;
@@ -24,12 +22,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import jxl.write.Number;
+import java.lang.Boolean;
 
 @Path("/assessment")
 public class AssessmentView {
@@ -210,7 +208,7 @@ public class AssessmentView {
         Label label6 = new Label(6, 0, "Finalisierte Note");
         grades.addCell(label6);
 
-        Label label7 = new Label(7, 0, "Produktnote des Dozenten");
+        Label label7 = new Label(7, 0, "Produktnote der dozierenden Person");
         grades.addCell(label7);
 
         int rowCount = 1;

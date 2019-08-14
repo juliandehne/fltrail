@@ -46,8 +46,9 @@
             </div>
             <h3>Tags</h3>
             <hr style="margin-top:-9px;">
-            <p class="alert alert-warning" style="width:520px;">Wähle 2 der hier angegebenen Tags aus, die am ehesten zu
-                deiner Forschungsfrage passen.</p>
+            <p class="alert alert-warning" style="width:520px;">Wählen Sie 2 der hier angegebenen Tags aus, die am
+                ehesten zu
+                Ihrer Forschungsfrage passen.</p>
             <div id="tags"></div>
             <script id="tagTemplate" type="text/x-jQuery-tmpl">
                  <div>

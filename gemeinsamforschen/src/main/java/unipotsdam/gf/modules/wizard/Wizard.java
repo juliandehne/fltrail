@@ -10,7 +10,6 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.interfaces.Feedback;
 import unipotsdam.gf.interfaces.IPhases;
-import unipotsdam.gf.interfaces.IReflection;
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;

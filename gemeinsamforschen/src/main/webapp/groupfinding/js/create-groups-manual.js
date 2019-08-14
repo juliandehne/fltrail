@@ -98,8 +98,9 @@ function relocateMember(callback) {
 }
 
 function viewToGroup(callback) {
-    if ($('#gruppenlos').children().length > 1) {
+    if ($('#gruppenlos ul').children().length > 1) {
         $('#studentsWithoutGroup').show();
+        $('html, body').animate({scrollTop: ($('#backToTasks').offset().top)}, 'slow');
         return null;
     }
     let groups = [];
@@ -178,7 +179,7 @@ function openNewGroup(callback) {
         groupMember: [],
         chatRoomId: "",
     });
-    $('#groupTemplate').tmpl(groupTmplObject).appendTo('#groupsInProject');
+    $('#groupTemplate').tmpl(groupTmplObject).prependTo('#groupsInProject');
     let done = true;
     callback(done);
 }

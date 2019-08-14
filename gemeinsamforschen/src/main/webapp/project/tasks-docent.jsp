@@ -67,11 +67,11 @@
                                     <a data-toggle='collapse' href='#howToBuildGroups' role='button' aria-expanded='false' aria-controls='howToBuildGroups'>
                                         <i class='fas fa-question'></i>
                                     </a>
-                                    Mit dieser Gruppengröße benötigt das Projekt wenigstens <span id='groupSize'>${memberCount}</span>
-                                    Teilnehmer um Gruppen bilden zu können.
+                                    Mit dieser Gruppengröße müssen wenigstens <span id='groupSize'>${memberCount}</span>
+                                    Personen dem Projekt beitreten um Gruppen bilden zu können.
                                     <div class='collapse' id='howToBuildGroups'>
                                         <div class='card card-body'>Es werden so viele Gruppen mit Ihrer präferierten
-                                        Gruppengröße gebildet wie möglich. Die verbleibenden Studenten werden dann
+                                        Gruppengröße gebildet wie möglich. Die verbleibenden Studierenden werden dann
                                         zufällig auf die bestehenden Gruppen verteilt.
                                         </div>
                                     </div>
@@ -101,9 +101,9 @@
                                             <p>Alle Studierende haben die Reflexionsfragen beantwortet.</p>
                                         {{else}}
                                             {{if taskData.numberOfMissingReflectionQuestions > 3}}
-                                                <p>Es müssen noch ${taskData.numberOfMissingReflectionQuestions} Studenten die Reflexionsfragen beantworten.</p>
+                                                <p>Es müssen noch ${taskData.numberOfMissingReflectionQuestions} Studierende die Reflexionsfragen beantworten.</p>
                                             {{else}}
-                                                <p>Es müssen folgende Studenten die Reflexionsfragen beantworten:</p>
+                                                <p>Folgende Studierenden müssen die Reflexionsfragen noch beantworten:</p>
                                                 <ul>
                                                 {{each taskData.userUnansweredReflectionQuestions}}
                                                     <li> - ${name} (${email})</li>
@@ -114,12 +114,12 @@
                                         <br/>
                                         <p><u>Fortschritt Auswahl der Portfolio-<br>Einträge fürs Assessment </u></p>
                                         {{if taskData.numberOfMissingForAssessmentChosen === 0}}
-                                            <p>Alle Studierende haben ihre Abgaben für das Assessment gewählt.</p>
+                                            <p>Alle Studierenden haben ihre Abgaben für das Assessment gewählt.</p>
                                         {{else}}
                                             {{if taskData.numberOfMissingForAssessmentChosen > 3}}
-                                                <p>Es müssen ${taskData.numberOfMissingForAssessmentChosen} Studenten ihre Auswahl <br/> fürs Assessment treffen.</p>
+                                                <p>Es müssen ${taskData.numberOfMissingForAssessmentChosen} Studierende ihre Auswahl <br/> fürs Assessment treffen.</p>
                                             {{else}}
-                                                <p>Es müssen folgende Studenten die <br/> Auswahl fürs Assessment treffen:</p>
+                                                <p>Es müssen folgende Studierenden die <br/> Auswahl fürs Assessment treffen:</p>
                                                 <ul>
                                                 {{each taskData.userUnchosenAssessmentMaterial}}
                                                     <li> - ${name} (${email})</li>
@@ -158,7 +158,7 @@
                                 {{/if}}
                            {{/if}}
                            {{if helpLink}}
-                               <div style="width:100%" style="margin-top:20px;"><a href='${helpLink}'>Hier</a> bekommst du Hilfe.</div>
+                               <div style="width:100%" style="margin-top:20px;"><a href='${helpLink}'>Hier</a> bekommen Sie Hilfe.</div>
                            {{/if}}
                        </div>
                        {{if timeFrame}}

@@ -163,8 +163,8 @@
                                 mit den folgenden Kategorien.
                             </p>
                             <div class='collapse' id='whatIs'>
-                                <div class='card card-body card-whatIs'>
-                                    Ein Dossier ist eine Aktensammlung für Ihr Projekt. Der Dozent hat dabei
+                                <div class='card card-body'>
+                                    Ein Dossier ist eine Aktensammlung für Ihr Projekt. Die dozierende Person hat dabei
                                     festelegt, dass die rechts sichtbaren Kategorien mindestens mit enthalten sein müssen.
                                     Nachdem Sie hier all ihre Textbausteine verfasst haben, kann ihre Gruppe ihren Beitrag
                                     lesen und editieren. Dieser Vorgang endet, wenn ein Mitglied ihrer Gruppe mit Hilfe
