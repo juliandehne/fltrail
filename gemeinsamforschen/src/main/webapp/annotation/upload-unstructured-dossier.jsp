@@ -17,6 +17,20 @@
     if (Strings.isNullOrEmpty(fullSubmissionId)) {
         fullSubmissionId = "";
     }
+
+    String placeHolderFileRole = "";
+    String fileRoleUpper = fileRole.toUpperCase();
+    if (fileRoleUpper.equals("DOSSIER")) {
+        placeHolderFileRole = "Ihr " + fileRole;
+    }
+    if (fileRoleUpper.equals("REFLECTION_QUESTION")) {
+        placeHolderFileRole = "Ihre Antwort zur Reflexionsfrage";
+    }
+    if (fileRoleUpper.equals("PORTFOLIO_ENTRY")) {
+        placeHolderFileRole = "Ihren Portfolio-Eintrag";
+    }
+
+    String placeholderText = "Fügen Sie hier " + placeHolderFileRole + " ein. Speichern Sie danach mit dem Button unten rechts.";
 %>
 
 <!DOCTYPE html>
@@ -87,7 +101,7 @@
                     <div></div>
                     {{if fileRole.toUpperCase() == "PORTFOLIO_ENTRY"}}
                         <div class="dropdown fltrailselect">
-                            <button class="dropbtn btn btn-primary" onclick='dropDownClick("myDropdown")'>Sichtbarkeit: {{:currentVisibility.buttonText}}
+                            <button class="dropbtn" onclick='dropDownClick("myDropdown")'>Sichtbarkeit: {{:currentVisibility.buttonText}}
 
                             </button>
                             <div class="dropdown-content" id="myDropdown">
@@ -109,52 +123,57 @@
                 <div id="editorTitleTemplateResult"></div>
                 <script id="editorTitleTemplate" type="text/x-jsrender">
                     <div/>
-                    {{if fileRole.toUpperCase() == "DOSSIER"}}
+                    {{if fileRole.toUpperCase() == "DOSSIER" || fileRole.toUpperCase() == "PORTFOLIO_ENTRY}}
                         <div class="upload-text" id="documentText">
-                            <label for="ownTitle">Fragestellung / Projektaufgabe</label>
-                            <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="Fügen Sie hier Ihre Fragestellung / Projektaufgabe ein">
+                            <label for="ownTitle">{{:label}}</label>
+                            <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="{{:placeholder}}">
                         </div>
                     {{/if}}
-
-
                 {{if fileRole.toUpperCase() != "REFLECTION_QUESTION"}}
                 <label for="editor">Texteingabe</label>
                 {{/if}}
                 </script>
                 <div id="editor"></div>
 
-
-                <div class="document-text-buttons">
-                    <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
-                    </button>--%>
-                    <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">
-                        <i class="far fa-save"></i> Speichern
-                    </button>
-                    <div style="display: block">
-                        <div style="display: inline-flex;">
-                            <label for="finalizeReedit" style="margin-right:5px">
-                                <sup>
-                                <a data-toggle='collapse' href='#whatIsFirst' role='button'
-                                   aria-expanded='false' aria-controls='whatIsFirst'>
-                                    <i class='fas fa-question'></i>
-                                </a>
-                                </sup>
-                                Dies ist die erste Version des Gruppendossiers.</label>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="finalizeReedit" checked>
-                                <label class="custom-control-label" for="finalizeReedit">finalisieren</label>
+                <div id="saveTemplateResult"></div>
+                <script id="saveTemplate" type="text/x-jsrender">
+                    <div class="document-text-buttons">
+                        <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
+                        </button>--%>
+                        <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">
+                            <i class="far fa-save"></i> Speichern
+                        </button>
+                        <div style="display: block">
+                            {{if fileRole.toUpperCase() == "DOSSIER"}}
+                            <div style="display: inline-flex;">
+                                <label for="finalizeReedit" style="margin-right:5px">
+                                    <sup>
+                                    <a data-toggle='collapse' href='#whatIsFirst' role='button'
+                                       aria-expanded='false' aria-controls='whatIsFirst'>
+                                        <i class='fas fa-question'></i>
+                                    </a>
+                                    </sup>
+                                    Dies ist die erste Version des Gruppendossiers.</label>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="finalizeReedit" checked>
+                                    <label class="custom-control-label" for="finalizeReedit">finalisieren</label>
+                                </div>
+                                <%--<input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">--%>
                             </div>
-                            <%--<input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">--%>
-                        </div>
-                        <div class='collapse' id='whatIsFirst'>
-                            <div class='card card-body card-whatIs'>
-                                Hierzu werden Sie Feedback von anderen Projektteilnehmern bekommen und können es
-                                dann erneut bearbeiten.
+                            {{/if}}
+                            <div class='collapse' id='whatIsFirst'>
+                                <div class='card card-body card-whatIs'>
+                                    Hierzu werden Sie Feedback von anderen Projektteilnehmern bekommen und können es
+                                    dann erneut bearbeiten.
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                </div>
+
+                </script>
+
+
             </div>
             <div id="annotationTemplateResult"></div>
             <script id="annotationTemplate" type="text/x-jsrender">
@@ -204,6 +223,7 @@
 
     <jsp:include page="../taglibs/jsp/quillJsEditor.jsp">
         <jsp:param name="readOnly" value="false"/>
+            <jsp:param name="placeholder" value="<%=placeholderText%>"/>
     </jsp:include>
 
 

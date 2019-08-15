@@ -22,6 +22,7 @@
                                     <h4 class="creator-info uppercase"> {{:creator}} </h4>
                                     <h5 class="date-info"> {{:timestampDateTimeFormat}}</h5>
                                     <div class="row">
+                                        <label for="editor-submission-{{:#getIndex()}}">{{:header}}</label>
                                         <div id="editor-submission-{{:#getIndex()}}"></div>
                                         {{:#root.data.scriptBegin}}
                                             new Quill('#editor-submission-{{:#getIndex()}}', {

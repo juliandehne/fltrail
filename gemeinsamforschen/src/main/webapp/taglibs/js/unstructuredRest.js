@@ -181,6 +181,7 @@ function getVisibilities(personal, callback) {
 }
 
 function getPortfolioSubmissions(queryParams, callback) {
+
     Object.keys(queryParams).forEach(key => {
         if (queryParams[key] == null || queryParams === "") {
             delete queryParams[key];
