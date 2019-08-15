@@ -10,7 +10,13 @@ import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.submission.model.*;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionPart;
+import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
+import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
+import unipotsdam.gf.modules.submission.model.SubmissionProjectRepresentation;
+import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.submission.view.SubmissionRenderData;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -23,7 +29,11 @@ import unipotsdam.gf.process.tasks.ProjectStatus;
 import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author Sven Kästle
@@ -246,8 +256,8 @@ public class SubmissionController implements ISubmission, HasProgress {
 
     public List<FullSubmission> getAccessibleSubmissions(Project project, User user, int groupId, FileRole fileRole) {
         connection.connect();
-        String query = "SELECT * FROM fullsubmissions WHERE projectname = ? and fileRole = ? and ((userEMail = ? and visibility = ?) or (groupId = ? and visibility = ?) or visibility = ?) order by timestamp desc;";
-        VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, project.getName(), fileRole.name(), user.getEmail(), Visibility.PERSONAL, groupId, Visibility.GROUP, Visibility.PUBLIC);
+        String query = "SELECT * FROM fullsubmissions WHERE projectname = ? and fileRole = ? and (userEMail = ? or (groupId = ? and visibility = ?) or visibility = ?) order by timestamp desc;";
+        VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, project.getName(), fileRole.name(), user.getEmail(), groupId, Visibility.GROUP, Visibility.PUBLIC);
         List<FullSubmission> fullSubmissions = new ArrayList<>();
         while (resultSet.next()) {
             fullSubmissions.add(getFullSubmissionFromResultSet(resultSet));
