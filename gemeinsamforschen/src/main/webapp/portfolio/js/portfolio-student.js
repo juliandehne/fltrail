@@ -41,7 +41,7 @@ async function fillPortfolioEntriesAndFeedback() {
         let data = {};
         getMyGroupId(async function (groupId) {
             for (let fullSubmission of response) {
-                fillWithExtraTemplateData(fullSubmission, groupId, userEmail);
+                fillWithExtraTemplateData(fullSubmission, groupId, userEmail, true);
                 await addContributionFeedback(fullSubmission, groupId);
                 currentPortfolioEntries.push(fullSubmission);
             }

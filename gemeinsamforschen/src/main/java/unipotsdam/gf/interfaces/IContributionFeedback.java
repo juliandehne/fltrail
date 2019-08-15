@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IContributionFeedback {
 
-    ContributionFeedback saveContributionFeedback(ContributionFeedback contributionFeedback);
+    ContributionFeedback saveContributionFeedback(ContributionFeedback contributionFeedback) throws Exception;
 
     ContributionFeedback getContributionFeedback(String id);
 

@@ -1,7 +1,7 @@
 quillNewComment = [];
 
-function fillWithExtraTemplateData(fullSubmission, groupId, userEmail) {
-    fullSubmission.editable = fullSubmission.userEmail === userEmail || fullSubmission.userEmail == null && fullSubmission.groupId === groupId;
+function fillWithExtraTemplateData(fullSubmission, groupId, userEmail, editable) {
+    fullSubmission.editable = fullSubmission.userEmail === userEmail && editable || fullSubmission.userEmail == null && fullSubmission.groupId === groupId;
     fullSubmission.timestampDateTimeFormat = new Date(fullSubmission.timestamp).toLocaleString();
     if (fullSubmission.userEmail) {
         fullSubmission.creator = fullSubmission.userEmail;

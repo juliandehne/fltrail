@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
-
+<link rel="stylesheet" type="text/css" href="css/show-portfolio.css">
 
 <script id="portfolioEntryTemplate" type="text/x-jsrender">
     <div></div>

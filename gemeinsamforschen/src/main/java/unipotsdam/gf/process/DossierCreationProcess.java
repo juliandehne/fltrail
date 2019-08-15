@@ -166,7 +166,7 @@ public class DossierCreationProcess {
      * save feedback
      */
     @WizardRelevant
-    public ContributionFeedback saveFeedback(ContributionFeedback contributionFeedback) {
+    public ContributionFeedback saveFeedback(ContributionFeedback contributionFeedback) throws Exception {
         return contributionFeedbackService.saveContributionFeedback(contributionFeedback);
     }
 

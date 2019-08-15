@@ -179,6 +179,9 @@ function handleInfoTasks(object, result) {
         case "ANSWER_REFLECTION_QUESTIONS":
             result.infoText = "Bitte beantworten Sie die Reflexionsfragen.";
             break;
+        case "LOOK_AT_REFLECTION_QUESTION_FEEDBACK":
+            result.infoText = "Der Lehrende hat zu (mindestens) einer Ihrer Antworten ein Feedback abgegeben.";
+            break;
         case "CHOOSE_PORTFOLIO_ENTRIES":
             result.infoText = "Wählen Sie die Einträge aus, die Sie zur Bewertung einreichen möchten.";
             break;
@@ -187,6 +190,9 @@ function handleInfoTasks(object, result) {
             break;
         case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS":
             result.infoText = "Um die Durchführungsphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
+            break;
+        case "FEEDBACK_REFLECTION_QUESTION_ANSWER":
+            result.infoText = "Ein Lernender hat (mindestens) eine Reflexionsfrage beantwortet. Geben Sie Feedback.";
             break;
         case "CLOSE_EXECUTION_PHASE":
             result.infoText = "Beenden Sie nun die Durchführungsphase.";
@@ -297,6 +303,10 @@ function handleLinkedTasks(object, result) {
                 }) + "\')";
 
                 break;
+            case "LOOK_AT_REFLECTION_QUESTION_FEEDBACK":
+                result.solveTaskWith = "Feedback ansehen";
+                result.solveTaskWithLink = `redirect('../portfolio/reflection-question-feedback-student.jsp?projectName=${object.projectName}')`;
+                break;
             case "CHOOSE_PORTFOLIO_ENTRIES":
                 result.solveTaskWith = "Einträge zur Bewertung auswählen";
                 result.solveTaskWithLink = "redirect(\'../reflection/choose-for-assessment.jsp?projectName=" + object.projectName + "\')";
@@ -304,6 +314,10 @@ function handleLinkedTasks(object, result) {
             case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS":
                 result.solveTaskWith = "Auswahl treffen";
                 result.solveTaskWithLink = "redirect(\'../reflection/create-learning-goals.jsp?projectName=" + object.projectName + "\')";
+                break;
+            case "FEEDBACK_REFLECTION_QUESTION_ANSWER":
+                result.solveTaskWith = "Antworten ansehen";
+                result.solveTaskWithLink = `redirect('../portfolio/reflection-question-feedback-docent.jsp?projectName=${object.projectName}')`;
                 break;
             case "ANNOTATE_DOSSIER":
                 result.solveTaskWith = "Annotiere Dossier";

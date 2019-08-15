@@ -82,6 +82,9 @@ public enum TaskName {
     // how to trigger: save/upload learning goal results
     // how to solve: click on "Reflexionsfragen beantworten" and answer all reflection questions
     ANSWER_REFLECTION_QUESTIONS,
+    // how to trigger: docent adds feedback to reflection question
+    // how to solve: docent closes execution phase
+    LOOK_AT_REFLECTION_QUESTION_FEEDBACK,
     // how to trigger: if student has answered reflection questions
     // how to solve: student selects portfolio entries for assessment
     CHOOSE_PORTFOLIO_ENTRIES,
@@ -96,6 +99,9 @@ public enum TaskName {
     // how to trigger: teacher starts execution phase
     // how to solve: closes "Execution" Phase
     INTRODUCE_E_PORTFOLIO_DOCENT,
+    // how to trigger: student answers reflection question
+    // how to solve: closes "Execution" Phase
+    FEEDBACK_REFLECTION_QUESTION_ANSWER,
     // how to trigger: all students chose the material for assessment
     // how to solve: docent needs to click "Durchführungsphase beenden"
     CLOSE_EXECUTION_PHASE,

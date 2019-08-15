@@ -2,7 +2,13 @@ package unipotsdam.gf.modules.contributionFeedback.service;
 
 import unipotsdam.gf.interfaces.IContributionFeedback;
 import unipotsdam.gf.modules.contributionFeedback.model.ContributionFeedback;
+import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.submission.controller.SubmissionController;
+import unipotsdam.gf.modules.submission.model.FullSubmission;
+import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.process.IExecutionProcess;
 import unipotsdam.gf.process.tasks.GroupTask;
 import unipotsdam.gf.process.tasks.Progress;
 import unipotsdam.gf.process.tasks.TaskDAO;
@@ -25,9 +31,26 @@ public class ContributionFeedbackService implements IContributionFeedback {
     @Inject
     private TaskDAO taskDAO;
 
+    @Inject
+    private SubmissionController submissionController;
+
+    @Inject
+    private UserDAO userDAO;
+
+    @Inject
+    private IExecutionProcess executionProcess;
+
     @Override
-    public ContributionFeedback saveContributionFeedback(ContributionFeedback contributionFeedback) {
-        return contributionFeedbackDAO.persist(contributionFeedback);
+    public ContributionFeedback saveContributionFeedback(ContributionFeedback contributionFeedback) throws Exception {
+        ContributionFeedback fullContribution = contributionFeedbackDAO.persist(contributionFeedback);
+        FullSubmission fullSubmission = submissionController.getFullSubmission(fullContribution.getFullSubmissionId());
+        if (fullSubmission.getFileRole() == FileRole.REFLECTION_QUESTION) {
+            User user = userDAO.getUserByEmail(fullContribution.getUserEmail());
+            if (!user.getStudent()) {
+                executionProcess.getDocentFeedback(fullSubmission);
+            }
+        }
+        return fullContribution;
     }
 
     @Override
@@ -57,7 +80,7 @@ public class ContributionFeedbackService implements IContributionFeedback {
 
     @Override
     public void endFeedback(String projectName, int groupId) {
-        GroupTask task = new GroupTask(TaskName.GIVE_FEEDBACK,groupId, Progress.FINISHED, new Project(projectName) );
+        GroupTask task = new GroupTask(TaskName.GIVE_FEEDBACK, groupId, Progress.FINISHED, new Project(projectName));
         taskDAO.updateGroupTask(task);
     }
 }

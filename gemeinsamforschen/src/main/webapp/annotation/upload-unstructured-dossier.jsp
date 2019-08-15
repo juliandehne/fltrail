@@ -123,7 +123,7 @@
                 <div id="editorTitleTemplateResult"></div>
                 <script id="editorTitleTemplate" type="text/x-jsrender">
                     <div/>
-                    {{if fileRole.toUpperCase() == "DOSSIER" || fileRole.toUpperCase() == "PORTFOLIO_ENTRY}}
+                    {{if fileRole.toUpperCase() == "DOSSIER" || fileRole.toUpperCase() == "PORTFOLIO_ENTRY"}}
                         <div class="upload-text" id="documentText">
                             <label for="ownTitle">{{:label}}</label>
                             <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="{{:placeholder}}">

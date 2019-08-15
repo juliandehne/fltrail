@@ -18,6 +18,8 @@ public interface IExecutionProcess {
 
     void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) throws Exception;
 
+    void getDocentFeedback(FullSubmission fullSubmission) throws Exception;
+
     void selectPortfolioEntries(Project project, User user, List<FullSubmission> selectedPortfolioEntries) throws Exception;
 
     void saveGroupSubmission(Project project, int groupId, String html) throws Exception;
