@@ -44,11 +44,7 @@ public enum TaskName {
     // how to solve: write first version of a dossier for your whole group.
     //               group can reedit first version until "ANNOTATE_DOSSIER" was finished.
     UPLOAD_DOSSIER,
-    //STUDENT:
-    // how to trigger: teacher started phase "Entwurf"
-    // how to solve: in the top menu, you can click E-Portfolio and write entries
-    //               task ends in phase "Durchführung" after finalizing it
-    INTRODUCE_E_PORTFOLIO_STUDENT,
+
     //STUDENT:
     // how to trigger: upload first version of dossier
     // how to solve: assign text to every annotation category.
@@ -63,10 +59,7 @@ public enum TaskName {
     // how to solve: after editing dossier, finalize it by clicking "finale Abgabe" and save.
     REEDIT_DOSSIER,
     //TEACHER:
-    // how to trigger: after uploading dossier, e-portfolio is
-    // how to solve: in the top menu, you can click E-Portfolio and see entries of student and you can comment them
-    //                   task ends in phase "Durchführung" after finalizing it
-    INTRODUCE_E_PORTFOLIO_DOCENT,
+
     //TEACHER:
     // how to trigger: all students uploaded final second version of dossier
     // how to solve: click button to end "Entwurf" and start "Durchführung"
@@ -79,17 +72,19 @@ public enum TaskName {
     // how to trigger: start the execution phase
     // how to solve: docent needs to solve CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS task and has to start learning goal period
     WAIT_FOR_REFLECTION_QUESTION_CHOICE,
-    // how to trigger: save/upload learning goal results
-    // how to solve: click on "Reflexionsfragen beantworten" and answer all reflection questions
-
-    //
+    // how to trigger: teacher started phase "Durchführung"
+    // how to solve: student chooses portfolio entries for assessment (finishes CHOOSE_PORTFOLIO_ENTRIES)
+    INTRODUCE_E_PORTFOLIO_STUDENT,
+    //todo @julian: can you please replace with introduce tasks? :)
     WIZARD_CREATE_PORTFOLIO,
-
     //
     DOCENT_GIVE_PORTOLIO_FEEDBACK,
-
-    //
+    // how to trigger: save/upload learning goal results
+    // how to solve: click on "Reflexionsfragen beantworten" and answer all reflection questions
     ANSWER_REFLECTION_QUESTIONS,
+    // how to trigger: docent adds feedback to reflection question
+    // how to solve: docent closes execution phase
+    LOOK_AT_REFLECTION_QUESTION_FEEDBACK,
     // how to trigger: if student has answered reflection questions
     // how to solve: student selects portfolio entries for assessment
     CHOOSE_PORTFOLIO_ENTRIES,
@@ -101,6 +96,12 @@ public enum TaskName {
     // how to solve: click on "Lernziele und Reflexionziele erstellen"
     // todo: rename after wizard merge (reflexion to reflection)
     CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS,
+    // how to trigger: teacher starts execution phase
+    // how to solve: closes "Execution" Phase
+    INTRODUCE_E_PORTFOLIO_DOCENT,
+    // how to trigger: student answers reflection question
+    // how to solve: closes "Execution" Phase
+    FEEDBACK_REFLECTION_QUESTION_ANSWER,
     // how to trigger: all students chose the material for assessment
     // how to solve: docent needs to click "Durchführungsphase beenden"
     CLOSE_EXECUTION_PHASE,

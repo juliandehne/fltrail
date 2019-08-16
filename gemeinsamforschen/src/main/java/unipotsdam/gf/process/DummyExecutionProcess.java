@@ -47,6 +47,11 @@ public class DummyExecutionProcess implements IExecutionProcess {
     }
 
     @Override
+    public void getDocentFeedback(FullSubmission fullSubmission) {
+
+    }
+
+    @Override
     public void selectPortfolioEntries(Project project, User user, List<FullSubmission> selectedPortfolioEntries) throws Exception {
 
     }

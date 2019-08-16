@@ -32,6 +32,8 @@ h2 {
 
 .panel-title .row {
     clear: left;
+    padding-top: 20px;
+
 }
 
 .creation-date {
@@ -41,14 +43,12 @@ h2 {
 .creator-info {
     color: inherit;
     text-align: left;
-    margin-left: 15px;
     float: left;
     line-height: 1;
     margin-left:30px;
 }
 
 .date-info {
-    color: inherit;
     text-align: right;
     float: right;
     margin-top: 0;
@@ -166,23 +166,28 @@ a:visited {
 .panel .btn-primary.panel-heading:hover h4.creator-info,
 .panel .btn-primary.panel-heading:hover h5.date-info,
 .panel .btn-primary.panel-heading:hover p,
+.panel .btn-primary.panel-heading:hover label,
 .panel .btn-primary.panel-heading:hover #editButton i.fas.fa-edit
 {
     background:transparent;
     color:#fff;
-
+    cursor: pointer;
 }
 
 .panel .btn-primary.panel-heading #editButton.btn-primary,
 .panel .btn-primary.panel-heading .fas.fa-chevron-down,
 .panel .btn-primary.panel-heading h4.creator-info,
-.panel .btn-primary.panel-heading p
-
-
+.panel .btn-primary.panel-heading p,
+.panel .btn-primary.panel-heading label
 {
     background:transparent;
     color:#075f8b;
 
+}
+
+.panel .btn-primary.panel-heading label {
+    display: flex;
+    text-decoration: underline;
 }
 
 .well {
@@ -192,6 +197,7 @@ a:visited {
     background-color: #ededed;
     border-radius: 0;
 }
+
 
 .well .ql-editor {
     background:#fff;

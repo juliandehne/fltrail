@@ -5,6 +5,6 @@ $(document).ready(function () {
             buildAnnotationList(categories);
         });
     }
-    //not recommended to change placeholder during runtime ... but it works =)
-    editor.__quill.root.dataset.placeholder = "Fügen Sie hier Ihr Dossier ein. Speichern Sie danach mit dem Button unten rechts.";
+
+
 });

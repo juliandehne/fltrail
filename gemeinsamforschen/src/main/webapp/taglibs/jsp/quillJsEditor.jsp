@@ -9,6 +9,8 @@
 <%
     String readOnlyString = request.getParameter("readOnly");
     boolean readOnlyBoolean = !Strings.isNullOrEmpty(readOnlyString) ? Boolean.valueOf(readOnlyString) : false;
+    String placeholder = request.getParameter("placeholder");
+    placeholder = placeholder == null ? "" : placeholder;
 %>
 <script>
     const quill = new Quill('#editor', {
@@ -24,6 +26,8 @@
             <%}else{%>
             "toolbar": false
             <%}%>
-        }
+
+        },
+        placeholder: "<%=placeholder%>"
     });
 </script>

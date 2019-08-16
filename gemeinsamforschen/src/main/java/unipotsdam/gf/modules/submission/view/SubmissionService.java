@@ -38,6 +38,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static unipotsdam.gf.modules.fileManagement.FileRole.PORTFOLIO_ENTRY;
+
 /**
  * @author Sven Kästle
  * skaestle@uni-potsdam.de
@@ -228,9 +230,8 @@ public class SubmissionService {
     @GET
     @Path("portfolio")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPortfolioEntries(
-            @Context HttpServletRequest req, @QueryParam("projectName") String projectName,
-            @QueryParam("visibility") Visibility visibility) {
+    public Response getPortfolioEntries(@Context HttpServletRequest req, @QueryParam("projectName") String projectName,
+                                        @QueryParam("visibility") Visibility visibility) {
         String userEmail;
         try {
             userEmail = gfContexts.getUserEmail(req);
@@ -244,32 +245,27 @@ public class SubmissionService {
 
         List<FullSubmission> fullSubmissionList = new ArrayList<>();
         if (visibility == null) {
-            fullSubmissionList = submissionController.getAccessibleSubmissions(project, user, groupId, FileRole.PORTFOLIO_ENTRY);
+            fullSubmissionList = submissionController.getAccessibleSubmissions(project, user, groupId, PORTFOLIO_ENTRY);
         } else {
             switch (visibility) {
                 case DOCENT:
                     if (user.getStudent()) {
-                        fullSubmissionList =
-                                submissionController.getDocentViewableSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
+                        fullSubmissionList = submissionController.getDocentViewableSubmissions(user, project, PORTFOLIO_ENTRY);
                     } else {
-                        fullSubmissionList =
-                                submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO_ENTRY, visibility);
+                        fullSubmissionList = submissionController.getProjectSubmissions(project, PORTFOLIO_ENTRY, visibility);
                     }
                     break;
                 case PUBLIC:
-                    fullSubmissionList =
-                            submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO_ENTRY, visibility);
+                    fullSubmissionList = submissionController.getProjectSubmissions(project, PORTFOLIO_ENTRY, visibility);
                     break;
                 case GROUP:
-                    fullSubmissionList =
-                            submissionController.getGroupSubmissions(project, groupId, FileRole.PORTFOLIO_ENTRY, visibility);
+                    fullSubmissionList = submissionController.getGroupSubmissions(project, groupId, PORTFOLIO_ENTRY, visibility);
                     break;
                 case PERSONAL:
-                    fullSubmissionList = submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
+                    fullSubmissionList = submissionController.getPersonalSubmissions(user, project, PORTFOLIO_ENTRY);
                     break;
             }
         }
-
 
         if (fullSubmissionList.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).entity("No portfolio entries found").build();
@@ -280,9 +276,8 @@ public class SubmissionService {
     @PUT
     @Path("portfolio/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updatePortfolioEntry(
-            @Context HttpServletRequest request, @PathParam("id") String id,
-            FullSubmissionPostRequest fullSubmissionPostRequest) {
+    public Response updatePortfolioEntry(@Context HttpServletRequest request, @PathParam("id") String id,
+                                         FullSubmissionPostRequest fullSubmissionPostRequest) {
         if (fullSubmissionPostRequest == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("fullSubmissionPostRequest is null").build();
         }

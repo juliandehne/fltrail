@@ -1,6 +1,5 @@
 package unipotsdam.gf.core.database;
 
-import ch.vorburger.exec.ManagedProcessException;
 import unipotsdam.gf.SurveyPreparation;
 import unipotsdam.gf.config.TestConfig;
 import unipotsdam.gf.mysql.MysqlConnect;
@@ -50,7 +49,7 @@ public class UpdateDB {
         // add date for reflexion questions
         PredefinedDataInsertionHelper dataInsertionHelper = new PredefinedDataInsertionHelper(mysqlConnect);
         dataInsertionHelper.saveLearningGoals("src/test/resources/reflectionQuestions/learningGoalsStore.json");
-        dataInsertionHelper.saveReflecionQuestions("src/test/resources/reflectionQuestions/reflectionQuestionsStore.json");
+        dataInsertionHelper.saveReflectionQuestions("src/test/resources/reflectionQuestions/reflectionQuestionsStore.json");
         //updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
     }
 

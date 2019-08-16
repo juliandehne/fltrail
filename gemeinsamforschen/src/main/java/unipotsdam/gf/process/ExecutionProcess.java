@@ -16,7 +16,6 @@ import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
-import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
 import unipotsdam.gf.process.tasks.GroupTask;
 import unipotsdam.gf.process.tasks.Progress;
@@ -33,7 +32,10 @@ import static unipotsdam.gf.process.tasks.TaskName.ANSWER_REFLECTION_QUESTIONS;
 import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_PORTFOLIO_ENTRIES;
 import static unipotsdam.gf.process.tasks.TaskName.CLOSE_EXECUTION_PHASE;
 import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS;
+import static unipotsdam.gf.process.tasks.TaskName.FEEDBACK_REFLECTION_QUESTION_ANSWER;
+import static unipotsdam.gf.process.tasks.TaskName.INTRODUCE_E_PORTFOLIO_DOCENT;
 import static unipotsdam.gf.process.tasks.TaskName.INTRODUCE_E_PORTFOLIO_STUDENT;
+import static unipotsdam.gf.process.tasks.TaskName.LOOK_AT_REFLECTION_QUESTION_FEEDBACK;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_EXECUTION_PHASE_END;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION_QUESTION_CHOICE;
 
@@ -58,9 +60,6 @@ public class ExecutionProcess implements IExecutionProcess {
     private ReflectionQuestionDAO reflectionQuestionDAO;
 
     @Inject
-    private UserDAO userDAO;
-
-    @Inject
     private FileManagementService fileManagementService;
 
     @Inject
@@ -69,6 +68,8 @@ public class ExecutionProcess implements IExecutionProcess {
     public void start(Project project) {
         taskDAO.persistTeacherTask(project, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS, PHASE);
         taskDAO.persistTaskForAllGroups(project, WAIT_FOR_REFLECTION_QUESTION_CHOICE, PHASE);
+        taskDAO.persistMemberTask(project, INTRODUCE_E_PORTFOLIO_STUDENT, PHASE);
+        taskDAO.persistTeacherTask(project, INTRODUCE_E_PORTFOLIO_DOCENT, PHASE);
     }
 
     @Override
@@ -110,10 +111,20 @@ public class ExecutionProcess implements IExecutionProcess {
 
         List<ReflectionQuestion> reflectionQuestions = reflectionQuestionDAO.getUnansweredQuestions(project, user, true);
 
+        User docent = new User(project.getAuthorEmail());
+        startNewTask(project, docent, FEEDBACK_REFLECTION_QUESTION_ANSWER, true);
+
         if (reflectionQuestions.isEmpty()) {
             finishTask(project, user, ANSWER_REFLECTION_QUESTIONS);
             startNewTask(project, user, CHOOSE_PORTFOLIO_ENTRIES, true);
         }
+    }
+
+    @Override
+    public void getDocentFeedback(FullSubmission fullSubmission) throws Exception {
+        User user = new User(fullSubmission.getUserEmail());
+        Project project = new Project(fullSubmission.getProjectName());
+        startNewTask(project, user, LOOK_AT_REFLECTION_QUESTION_FEEDBACK, true);
     }
 
     @Override
@@ -134,14 +145,17 @@ public class ExecutionProcess implements IExecutionProcess {
     public void finishPhase(Project project) throws Exception {
         Project fullProject = projectDAO.getProjectByName(project.getName());
         User docent = new User(fullProject.getAuthorEmail());
-        finishTask(fullProject, docent, TaskName.INTRODUCE_E_PORTFOLIO_DOCENT);
+        finishTask(fullProject, docent, INTRODUCE_E_PORTFOLIO_DOCENT);
         Task closeTask = taskDAO.getUserTask(project, docent, CLOSE_EXECUTION_PHASE, PHASE);
         if (closeTask == null) {
             return;
         }
         finishTask(fullProject, docent, CLOSE_EXECUTION_PHASE);
-        finishTaskForAllMember(project, WAIT_FOR_EXECUTION_PHASE_END);
-        finishTaskForAllMember(project, INTRODUCE_E_PORTFOLIO_STUDENT);
+        taskDAO.finishMemberTask(project, WAIT_FOR_EXECUTION_PHASE_END);
+        taskDAO.finishMemberTask(project, INTRODUCE_E_PORTFOLIO_STUDENT);
+        taskDAO.finishMemberTask(project, LOOK_AT_REFLECTION_QUESTION_FEEDBACK);
+        finishTask(fullProject, docent, INTRODUCE_E_PORTFOLIO_DOCENT);
+        finishTask(fullProject, docent, FEEDBACK_REFLECTION_QUESTION_ANSWER);
     }
 
     @Override
@@ -177,14 +191,5 @@ public class ExecutionProcess implements IExecutionProcess {
         taskDAO.updateForUser(taskToFinish);
     }
 
-    private void finishTaskForAllMember(Project project, TaskName taskName) {
-        List<User> members = userDAO.getUsersByProjectName(project.getName());
-        members.forEach(member -> {
-            try {
-                finishTask(project, member, taskName);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
+
 }

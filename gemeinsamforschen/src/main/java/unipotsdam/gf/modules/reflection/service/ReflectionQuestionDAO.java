@@ -39,6 +39,17 @@ public class ReflectionQuestionDAO {
         return getQuestions(query, project, user);
     }
 
+    public List<ReflectionQuestion> getAnsweredQuestions(Project project) {
+        String query = "SELECT * FROM reflectionquestions WHERE projectName = ? and fullSubmissionId IS NOT NULL";
+
+        return getQuestions(query, project);
+    }
+
+    public List<ReflectionQuestion> getAnsweredQuestionsFromUser(Project project, User user) {
+        String query = "SELECT * FROM reflectionquestions WHERE projectName = ? and userEmail = ? and fullSubmissionId IS NOT NULL";
+        return getQuestions(query, project, user);
+    }
+
 
     public List<ReflectionQuestion> getUnansweredQuestions(Project project, User user, boolean onlyFirstEntry) {
         String query = "SELECT * FROM reflectionquestions WHERE projectName = ? and userEmail = ? and fullSubmissionId IS NULL";
@@ -78,6 +89,20 @@ public class ReflectionQuestionDAO {
 
         return new ReflectionQuestion(id, learningGoalId, question, fullSubmissionId, userEmail, projectName);
 
+    }
+
+    private List<ReflectionQuestion> getQuestions(String query, Project project) {
+        connection.connect();
+
+        VereinfachtesResultSet rs = connection.issueSelectStatement(query, project.getName());
+
+        ArrayList<ReflectionQuestion> reflectionQuestions = new ArrayList<>();
+        while (rs.next()) {
+            ReflectionQuestion reflectionQuestion = convertResultSet(rs);
+            reflectionQuestions.add(reflectionQuestion);
+        }
+        connection.close();
+        return reflectionQuestions;
     }
 
     private List<ReflectionQuestion> getQuestions(String query, Project project, User user) {

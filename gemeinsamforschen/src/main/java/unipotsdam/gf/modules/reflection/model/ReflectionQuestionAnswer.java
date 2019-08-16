@@ -5,25 +5,17 @@ import unipotsdam.gf.modules.submission.model.FullSubmission;
 public class ReflectionQuestionAnswer {
 
     private String id;
-    private long timeStamp;
+    private long timestamp;
     private String text;
     private String projectName;
     private String userEmail;
-
-    public ReflectionQuestionAnswer(String id, long timeStamp, String text, String projectName, boolean finalized, String userEmail) {
-        this.id = id;
-        this.timeStamp = timeStamp;
-        this.text = text;
-        this.projectName = projectName;
-        this.userEmail = userEmail;
-    }
 
     public ReflectionQuestionAnswer() {
     }
 
     public ReflectionQuestionAnswer(FullSubmission fullSubmission) {
         this.id = fullSubmission.getId();
-        this.timeStamp = fullSubmission.getTimestamp();
+        this.timestamp = fullSubmission.getTimestamp();
         this.text = fullSubmission.getText();
         this.projectName = fullSubmission.getProjectName();
         this.userEmail = fullSubmission.getUserEmail();
@@ -37,12 +29,12 @@ public class ReflectionQuestionAnswer {
         this.id = id;
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getText() {

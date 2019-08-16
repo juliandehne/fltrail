@@ -11,9 +11,7 @@ public class FLTrailConfig {
     public static Boolean rocketChatIsOnline = true;
     public static Boolean wizardSimulatesFullAlgorithms = false;
 
-    // könne man zusammenfassen
-    public static final boolean E_PORTFOLIO_MODULE_ENABLED = false;
-    public static final boolean REFLECTION_MODULE_ENABLED = false;
+    public static final boolean REFLECTION_MODULE_ENABLED = true;
 
 
 }

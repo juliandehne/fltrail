@@ -18,10 +18,9 @@
     <!-- jsrender -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
 
-    <!-- js - unstructuredRest -->
-    <script src="../taglibs/js/unstructuredRest.js"></script>
-    <script src="js/portfolio-docent.js"></script>
-
+    <script src="js/reflection-question-feedback-docent.js"></script>
+    <script src="../taglibs/js/apiClient/reflectionQuestionClient.js"></script>
+    <script src="js/reflection-question-feedback-shared.js"></script>
 
 </head>
 

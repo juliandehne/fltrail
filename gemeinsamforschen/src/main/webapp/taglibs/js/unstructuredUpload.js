@@ -9,6 +9,7 @@ let personal;
 let currentVisibility;
 let possibleVisibilities = [];
 let isPortfolioEntry;
+let isDossier;
 let isReflectionQuestion;
 let projectName;
 let reflectionQuestionId;
@@ -21,6 +22,7 @@ $(document).ready(async function () {
     personal = personalString.toUpperCase() === 'TRUE';
     isPortfolioEntry = fileRole.toUpperCase() === 'PORTFOLIO_ENTRY';
     isReflectionQuestion = fileRole.toUpperCase() === 'REFLECTION_QUESTION';
+    isDossier = fileRole.toUpperCase() === 'DOSSIER';
     hierarchyLevel = $('#hierarchyLevel').html().trim();
     fullSubmissionId = $('#fullSubmissionId').html().trim();
     projectName = $('#projectName').html().trim();
@@ -144,6 +146,7 @@ async function setupPageContent() {
     getAnnotationCategories(function (categories) {
         buildAnnotationList(categories);
     });
+    setupSaveButtonLayout();
 }
 
 function populateHeaderTemplate() {
@@ -167,6 +170,13 @@ function populateHeaderTemplate() {
 async function populateTitleEditorTemplate() {
     let data = {};
     data.fileRole = fileRole;
+    if (isDossier) {
+        data.label = "Fragestellung / Projektaufgabe";
+        data.placeholder = "Fügen Sie hier Ihre Fragestellung / Projektaufgabe ein";
+    } else {
+        data.label = "Titel";
+        data.placeholder = "Fügen Sie einen Titel für Ihren Eintrag ein";
+    }
     let tmpl = $.templates('#editorTitleTemplate');
     let html = tmpl.render(data);
     $('#editorTitleTemplateResult').html(html)
@@ -177,6 +187,14 @@ async function setupAndRenderReflectionQuestionsTemplate() {
     reflectionQuestionTemplateData.fileRole = fileRole;
     reflectionQuestionTemplateData.totalQuestions = reflectionQuestions.length;
     renderReflectionQuestionTemplate();
+}
+
+function setupSaveButtonLayout() {
+    let data = {};
+    data.fileRole = fileRole;
+    let tmpl = $.templates('#saveTemplate');
+    let html = tmpl.render(data);
+    $('#saveTemplateResult').html(html);
 }
 
 function renderReflectionQuestionTemplate() {

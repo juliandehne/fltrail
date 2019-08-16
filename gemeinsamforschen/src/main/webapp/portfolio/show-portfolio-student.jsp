@@ -18,15 +18,14 @@
     <!-- js - jQuery ui position -->
     <script src="../libs/jquery/jqueryUI.js" type="text/javascript"></script>
 
-    <!-- jsrender -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
-
     <!-- js - unstructuredRest -->
     <script src="../taglibs/js/unstructuredRest.js"></script>
     <script src="js/portfolio-student.js"></script>
-    <script src="../taglibs/js/dropDownButton.js"></script>
-    <script src="../taglibs/js/apiClient/contributionFeedbackClient.js"></script>
     <script src="js/portfolio-shared.js"></script>
+    <script src="../taglibs/js/apiClient/contributionFeedbackClient.js"></script>
+    <script src="../taglibs/js/dropDownButton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.3/jsrender.min.js"></script>
+
 
 </head>
 
@@ -44,9 +43,9 @@
 
             <div class="col span_2_of_2">
 
-            <h3>E-Portfolio</h3>
-            <div id="visibilityTemplateResult"></div>
-            <script id="visibilityTemplate" type="text/x-jsrender">
+                <h3>E-Portfolio</h3>
+                <div id="visibilityTemplateResult"></div>
+                <script id="visibilityTemplate" type="text/x-jsrender">
                 <div></div>
                     <button class="btn btn-primary" onclick="clickedCreatePrivatePortfolio()">Eintrag erstellen</button>
                       <hr class="spacer-nofloat" style="border-color:transparent">
@@ -61,20 +60,14 @@
                         </div>
                     </div>
             </script>
-
-
             <div id="portfolioTemplateResult"></div>
             <script id="portfolioTemplate" type="text/x-jsrender">
                 {{include tmpl="#portfolioEntryTemplate"/}}
             </script>
-            <jsp:include page="portfolio-commentary-template.jsp"/>
+                <jsp:include page="submission-entries-template.jsp"/>
 
             </div> <!-- end 2 of 2 -->
         </div><!-- end row -->
-
-
-
-
     </main>
 </div> <!-- flex wrapper -->
 <jsp:include page="../taglibs/jsp/footer.jsp"/>

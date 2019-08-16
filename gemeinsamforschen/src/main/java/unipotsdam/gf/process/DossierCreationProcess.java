@@ -23,7 +23,11 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.WizardRelevant;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.*;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.process.tasks.TaskType;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -60,9 +64,6 @@ public class DossierCreationProcess {
 
     @Inject
     private IPeerAssessment peerAssessment;
-
-    @Inject
-    private PortfolioProcess portfolioProcess;
 
     @Inject
     private IContributionFeedback contributionFeedbackService;
@@ -165,7 +166,7 @@ public class DossierCreationProcess {
      * save feedback
      */
     @WizardRelevant
-    public ContributionFeedback saveFeedback(ContributionFeedback contributionFeedback) {
+    public ContributionFeedback saveFeedback(ContributionFeedback contributionFeedback) throws Exception {
         return contributionFeedbackService.saveContributionFeedback(contributionFeedback);
     }
 
@@ -239,9 +240,6 @@ public class DossierCreationProcess {
 
         // this triggers the annotate task
         taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
-
-        Group group = groupDAO.getMyGroup(user, project);
-        portfolioProcess.startEPortfolioIntroduceTasks(project, group);
     }
 
     /**

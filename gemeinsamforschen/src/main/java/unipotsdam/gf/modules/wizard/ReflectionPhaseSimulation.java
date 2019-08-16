@@ -37,6 +37,19 @@ import static unipotsdam.gf.modules.wizard.Wizard.convertTextToQuillJs;
 
 public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
 
+    public static Boolean FEEDBACK_IMPLEMENTED = false;
+
+    private final TomcatConceptImporter concepts;
+
+    @Inject
+    UserDAO userDAO;
+
+    @Inject
+    TaskDAO taskDAO;
+
+    @Inject
+    GroupDAO groupDAO;
+
     @Inject
     private IExecutionProcess iExecutionProcess;
 
@@ -58,19 +71,7 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
     @Inject
     private DossierCreationProcess dossierCreationProcess;
 
-    @Inject
-    UserDAO userDAO;
-
-    @Inject
-    TaskDAO taskDAO;
-
-    @Inject
-    GroupDAO groupDAO;
-
-    private final TomcatConceptImporter concepts;
     private LoremIpsum loremIpsum;
-
-    public static Boolean FEEDBACK_IMPLEMENTED = false;
 
     public ReflectionPhaseSimulation() throws UnsupportedEncodingException {
         loremIpsum = new LoremIpsum();
@@ -80,32 +81,35 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
     @Override
     public void simulateQuestionSelection(Project project) throws Exception {
 
-        List<Task> taskForProject =
-                taskDAO.getTaskForProjectByTaskName(project, TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
+        List<Task> taskForProject = taskDAO.getTaskForProjectByTaskName(project,
+                TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
         if (taskForProject.get(0).getProgress() != Progress.FINISHED) {
-                List<LearningGoalStoreItem> allStoreGoals = learningGoalStoreDAO.getAllStoreGoals();
-                Random random = new Random();
-                for (int i = 0; i < 10; i++) {
-                    int y = random.nextInt(allStoreGoals.size());
-                    LearningGoalStoreItem learningGoalStoreItem = allStoreGoals.get(y);
-                    // create the request
-                    LearningGoalRequest learningGoalRequest = new LearningGoalRequest();
-                    learningGoalRequest.setLearningGoal(learningGoalStoreItem);
-                    learningGoalRequest.setProjectName(project.getName());
-                    // it should finalize with the last:
-                    learningGoalRequest.setEndTask(i == 9);
-                    for (int z = 0; z < 3; z++) {
-                        List<ReflectionQuestionsStoreItem> learningGoalSpecificQuestions =
-                                reflectionQuestionsStoreDAO
-                                        .getLearningGoalSpecificQuestions(learningGoalStoreItem.getText());
-                        int questionIndex = random.nextInt(learningGoalSpecificQuestions.size());
-                        //
-                        ReflectionQuestionsStoreItem reflectionQuestionsStoreItem =
-                                learningGoalSpecificQuestions.get(questionIndex);
-                        learningGoalRequest.getReflectionQuestions().add(reflectionQuestionsStoreItem);
-                    }
-                    iExecutionProcess.saveLearningGoalsAndReflectionQuestions(learningGoalRequest);
+            List<LearningGoalStoreItem> allStoreGoals = learningGoalStoreDAO.getAllStoreGoals();
+            Random random = new Random();
+            for (int i = 0; i < 10; i++) {
+                int y = random.nextInt(allStoreGoals.size());
+                LearningGoalStoreItem learningGoalStoreItem = allStoreGoals.get(y);
+                allStoreGoals.remove(y);
+                // create the request
+                LearningGoalRequest learningGoalRequest = new LearningGoalRequest();
+                learningGoalRequest.setLearningGoal(learningGoalStoreItem);
+                learningGoalRequest.setProjectName(project.getName());
+                // it should finalize with the last:
+                learningGoalRequest.setEndTask(i == 9);
+                for (int z = 0; z < 3; z++) {
+                    List<ReflectionQuestionsStoreItem> learningGoalSpecificQuestions =
+                            reflectionQuestionsStoreDAO
+                                    .getLearningGoalSpecificQuestions(learningGoalStoreItem.getText());
+                    int questionIndex = random.nextInt(learningGoalSpecificQuestions.size());
+                    //
+                    ReflectionQuestionsStoreItem reflectionQuestionsStoreItem =
+                            learningGoalSpecificQuestions.get(questionIndex);
+                    String question = reflectionQuestionsStoreItem.getQuestion();
+                    reflectionQuestionsStoreItem.setQuestion(question + y + z);
+                    learningGoalRequest.getReflectionQuestions().add(reflectionQuestionsStoreItem);
                 }
+                iExecutionProcess.saveLearningGoalsAndReflectionQuestions(learningGoalRequest);
+            }
 
         }
 

@@ -60,3 +60,20 @@ function getAllStoreReflectionQuestions(responseHandler) {
         }
     })
 }
+
+function getAnsweredReflectionQuestions(projectName, responseHandler) {
+    let url = `../rest/reflectionquestion/projects/${projectName}/answered`;
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            // handle the response
+            responseHandler(response);
+        },
+        error: function () {
+            let response = [];
+            responseHandler(response);
+        }
+    })
+}
