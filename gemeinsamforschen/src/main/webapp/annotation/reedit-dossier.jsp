@@ -68,12 +68,48 @@
                         </button>
                     </div>
                     <div class="leftcontent-buttons-next">
-                        <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
+
+                        <div>
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="speichernDialog" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="speichernDialog">Finale Version des Dossiers
+                                                speichern</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Ihre Gruppe hat dann nicht nicht mehr die Möglichkeit diese Version des
+                                            Dossiers zu überarbeiten.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">schließen
+                                              </button>--%>
+                                            <button type="button" id="btnSave" class="btn btn-warning">final speichern</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Button trigger modal -->
+                            <button type="button" id="btnSave2" class="btn btn-primary">speichern
+                            </button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                     data-target="#exampleModal">
+                                final speichern
+                            </button>
+                        </div>
+
+
+
+                       <%-- <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
                             <i class="far fa-save"></i> speichern
-                        </button>
+                        </button>--%>
 
 
-                        <div style="display: block">
+                        <%--<div style="display: block">
                             <div style="display: inline-flex;">
                                 <input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">
                                 <label for="finalizeReedit" style="margin-right:5px">Dies ist die finale
@@ -88,7 +124,7 @@
                                     werden soll.
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
                 </div>
             </div>

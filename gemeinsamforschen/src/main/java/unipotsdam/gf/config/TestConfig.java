@@ -25,8 +25,8 @@ public class TestConfig extends GeneralConfig {
     //public static final String ROCKET_CHAT_LINK = "http://fleckenroller.cs.uni-potsdam.de/chat/";
 
     // Testeinstellungen
-    public static final String ROCKET_CHAT_LINK_0 = "http://fl-testing.soft.cs.uni-potsdam.de";
-    public static final String ROCKET_CHAT_LINK = "http://fl-testing.soft.cs.uni-potsdam.de/";
+    public static final String ROCKET_CHAT_LINK_0 = "https://fl-testing.soft.cs.uni-potsdam.de";
+    public static final String ROCKET_CHAT_LINK = "https://fl-testing.soft.cs.uni-potsdam.de/";
 
 
     public static final RocketChatUser

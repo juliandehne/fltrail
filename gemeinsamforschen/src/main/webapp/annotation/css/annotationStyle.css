@@ -459,3 +459,7 @@ main#seeFeedback .reply-control {
 .fullscreen .replay-container {
     margin-top: 25px;
 }
+
+.modal-backdrop{
+    display:none !important;
+}

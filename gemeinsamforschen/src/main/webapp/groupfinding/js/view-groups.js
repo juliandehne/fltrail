@@ -1,4 +1,5 @@
 $(document).ready(function () {
+
     $('#noGroupsYet').hide();
     $('#bisherKeineGruppen').hide();
     getAllGroups(function (allGroups) {
@@ -14,6 +15,10 @@ $(document).ready(function () {
             });
         }
     });
+
+    let userEmail = getUserEmail();
+    highlightAndFocusUserGroup(userEmail);
+    console.log(userEmail);
 });
 
 function getAllGroups(callback) {
@@ -57,3 +62,11 @@ function selectableButtons(done) {
         });
     }
 }
+
+function highlightAndFocusUserGroup(userEmail) {
+    //hiliter(userEmail, )
+    let elem = $('*:contains('+userEmail+')').parent().css("color", "red");;
+
+
+}
+

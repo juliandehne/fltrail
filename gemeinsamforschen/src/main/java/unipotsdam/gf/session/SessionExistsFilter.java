@@ -20,20 +20,14 @@ import java.io.IOException;
  * not applied to to a folder yet (because might lead to confusing experiences in debugging)
  */
 @ManagedBean
-public class SessionExistsFilter implements Filter {
+public class SessionExistsFilter extends FlTrailfilter implements Filter {
 
     private final static Logger log = LoggerFactory.getLogger(SessionExistsFilter.class);
 
     @Inject
     private UserDAO userDAO;
 
-    private void redirectToLogin(ServletRequest request, ServletResponse response) {
-        log.debug("redirecting user to login because user does not exist");
-        String loginJSP = "../index.jsp?session=false";
-        ((HttpServletResponse) response).setHeader("Location", loginJSP);
-        response.setContentType("text/html");
-        ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_FOUND); // SC_FOUND = 302
-    }
+
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -51,12 +45,6 @@ public class SessionExistsFilter implements Filter {
             //request1.getSession().setAttribute(GFContexts.USEREMAIL, "vodkas@yolo.com");
             chain.doFilter(request, response);
         } else {
-            final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
-            locator.inject(this);
-            User user = userDAO.getUserByEmail(attribute.toString());
-            if (user == null) {
-                redirectToLogin(request, response);
-            }
             chain.doFilter(request, response);
         }
 

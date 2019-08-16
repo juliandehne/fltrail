@@ -46,14 +46,12 @@
     <!-- back-->
     <div class="backlink">
 
-        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den Aufgaben</a>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den
+            Aufgaben</a>
     </div>
     <main>
         <div class="row group">
-
             <div class="col span_content span_l_of_2">
-
-
                 <h3 id="ownTitle"></h3>
                 <div class="leftcontent-text context-menu-one" id="editor"></div>
                 <div class="leftcontent-buttons">
@@ -65,7 +63,6 @@
                             <i class="far fa-save"></i> speichern
                         </button>
                     </div>
-
                     <div class="alert alert-waring" id="divSaveForReal">
                         <p>
                             <label>Möchten Sie wirklich ihre Annotationen speichern?
@@ -77,6 +74,42 @@
             </div>
 
             <div class="col span_content span_s_of_2">
+                <div>
+                    <script type="text/javascript">
+                        $(window).on('load',function(){
+                            $('#exampleModal').modal('show');
+                        });
+                    </script>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                         aria-labelledby="speichernDialog" >
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                               <%-- <div class="modal-header">
+                                    <h5 class="modal-title" id="speichernDialog">Anleitung zur Annotation</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>--%>
+                                <div class="modal-body">
+                                    <div class="infobox dossier">
+                                        <p>Ordne allen Textteilen passende Kategorien zu. Markiere den Text, klicke auf
+                                            die rechte Maustaste
+                                            und wähle die passende Kategorie. Es reicht, wenn dies ein Mitglied
+                                            ihrer Gruppe macht!</p>
+
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">schließen
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="infobox dossier">
                     <p>Ordne allen Textteilen passende Kategorien zu. Markiere den Text, klicke auf die rechte Maustaste
                         und wähle die passende Kategorie.</p>
@@ -87,7 +120,6 @@
                     <script id="annotationTemplate" type="text/x-jsrender">
                     {{for categories}}
                         <li class="spacing">
-
                             <div id="{{>nameLower}}" class="category-card not-added">
                                 <button class="btnCategory" onClick="handleCategoryClick('{{>name}}')">
                                     <p>{{>name}}</p>
@@ -96,11 +128,10 @@
                                     <p>X</p>
                                 </button>
                             </div>
-
-
                         </li>
                     {{/for}}
-                </script>
+
+                    </script>
                 </ol>
             </div>
         </div>

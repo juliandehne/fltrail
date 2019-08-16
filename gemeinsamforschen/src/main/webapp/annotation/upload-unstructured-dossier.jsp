@@ -81,6 +81,7 @@
                 <script id="headerTemplate" type="text/x-jsrender">
                     <div></div>
                     <h3>{{:header}}</h3>
+
                 </script>
                 <div id="visibilityTemplateResult"></div>
                 <script id="visibilityTemplate" type="text/x-jsrender">
@@ -97,6 +98,7 @@
                             </div>
                         </div>
                     {{/if}}
+
                 </script>
                 <div id="reflectionQuestionTemplateResult"></div>
                 <script id="reflectionQuestionTemplate" type="text/x-jsrender">
@@ -104,6 +106,7 @@
                     {{if fileRole.toUpperCase() == "REFLECTION_QUESTION"}}
                         <h4> Frage {{:currentReflectionQuestionCounter}} von {{:totalQuestions}}: {{:question}} </h4>
                     {{/if}}
+
                 </script>
                 <br>
                 <div id="editorTitleTemplateResult"></div>
@@ -120,6 +123,7 @@
                 {{if fileRole.toUpperCase() != "REFLECTION_QUESTION"}}
                 <label for="editor">Texteingabe</label>
                 {{/if}}
+
                 </script>
                 <div id="editor"></div>
 
@@ -127,11 +131,45 @@
                 <div class="document-text-buttons">
                     <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
                     </button>--%>
-                    <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">
-                        <i class="far fa-save"></i> Speichern
-                    </button>
+
+
+
+                    <div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="speichernDialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="speichernDialog">Finale Version des Dossiers
+                                            speichern</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Ihre Gruppe hat dann nicht nicht mehr die Möglichkeit diese Version des
+                                        Dossiers zu überarbeiten.
+                                    </div>
+                                    <div class="modal-footer">
+                                      <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">schließen
+                                        </button>--%>
+                                        <button type="button" id="btnSave" class="btn btn-warning">final speichern</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            speichern
+                        </button>
+                    </div>
+
+                    <%--   <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">
+                           <i class="far fa-save"></i> Speichern
+                       </button>--%>
+
                     <div style="display: block">
-                        <div style="display: inline-flex;">
+                        <%--<div style="display: inline-flex;">
                             <label for="finalizeReedit" style="margin-right:5px">
                                 <sup>
                                 <a data-toggle='collapse' href='#whatIsFirst' role='button'
@@ -144,8 +182,8 @@
                                 <input type="checkbox" class="custom-control-input" id="finalizeReedit" checked>
                                 <label class="custom-control-label" for="finalizeReedit">finalisieren</label>
                             </div>
-                            <%--<input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">--%>
-                        </div>
+                            &lt;%&ndash;<input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">&ndash;%&gt;
+                        </div>--%>
                         <div class='collapse' id='whatIsFirst'>
                             <div class='card card-body card-whatIs'>
                                 Hierzu werden Sie Feedback von anderen Projektteilnehmern bekommen und können es
@@ -193,6 +231,7 @@
                         </ul>
                     </div>
                 {{/if}}
+
 
             </script>
 

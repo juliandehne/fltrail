@@ -294,3 +294,18 @@ ol#annotations {
     padding: 0;
     margin-top: 2em;
 }
+
+.modal-backdrop{
+    display:none !important;
+}
+
+/*
+#dialog {
+    position: absolute;
+
+    width: 600px;
+    margin-left: -300px;
+
+    height: 400px;
+    margin-top: -200px;
+}*/
