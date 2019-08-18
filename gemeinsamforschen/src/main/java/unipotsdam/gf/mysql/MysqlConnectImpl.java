@@ -13,8 +13,7 @@ import javax.inject.Inject;
 import java.sql.*;
 import java.util.Date;
 
-@ManagedBean
-@Resource
+
 public class MysqlConnectImpl implements MysqlConnect {
 
 

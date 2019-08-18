@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@Singleton
+
 public interface MysqlConnect {
     void connect();
 

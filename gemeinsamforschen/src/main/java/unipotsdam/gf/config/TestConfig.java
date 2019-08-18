@@ -24,15 +24,26 @@ public class TestConfig extends GeneralConfig {
     //public static final String ROCKET_CHAT_LINK_0 = "http://fleckenroller.cs.uni-potsdam.de/chat";
     //public static final String ROCKET_CHAT_LINK = "http://fleckenroller.cs.uni-potsdam.de/chat/";
 
-    // Testeinstellungen
-    public static final String ROCKET_CHAT_LINK_0 = "https://fl-testing.soft.cs.uni-potsdam.de";
+    // Testeinstellungen (GERADE BUGGED) TODO wieder zurücksetzen sobald fl-testing wieder geht
+    /*public static final String ROCKET_CHAT_LINK_0 = "https://fl-testing.soft.cs.uni-potsdam.de";
     public static final String ROCKET_CHAT_LINK = "https://fl-testing.soft.cs.uni-potsdam.de/";
 
 
     public static final RocketChatUser
             ADMIN_USER = new RocketChatUser("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
             "julian.dehne@uni-potsdam.de",  "rocketChatUsername", "rocketChatAuthToken",
-            "9lmocCmfZmp0QZjxK3snZ7mAnwFZoIYT4TIS_zcKcoC", "8SvhAuKnkax6rumPn", false);
+            "9lmocCmfZmp0QZjxK3snZ7mAnwFZoIYT4TIS_zcKcoC", "8SvhAuKnkax6rumPn", false); */
+
+
+    // produktive Einstellungen
+    protected static String ROCKET_CHAT_LINK_0 = "http://fl.soft.cs.uni-potsdam.de";
+    protected static String ROCKET_CHAT_LINK = "http://fl.soft.cs.uni-potsdam.de/";
+
+
+    protected static RocketChatUser ADMIN_USER = new RocketChatUser("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
+            "julian.dehne@uni-potsdam.de",  "rocketChatUsername", "rocketChatAuthToken",
+            "chY-tRPI4CN2Z5YZ-W0txHacDzINTjzu0do-9PzbHmy", "Amo7NRAah5JwSYX2y", false);
+
 
     /**
      * username: fltrailadmin pw: GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F
