@@ -6,7 +6,7 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.LearningGoal;
 import unipotsdam.gf.modules.reflection.model.LearningGoalStoreItem;
 import unipotsdam.gf.modules.reflection.service.LearningGoalStoreDAO;
-import unipotsdam.gf.modules.reflection.service.LearningGoalsDAO;
+import unipotsdam.gf.modules.reflection.service.SelectedLearningGoalsDAO;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -28,7 +28,7 @@ public class LearningGoalView {
     private LearningGoalStoreDAO learningGoalStoreDAO;
 
     @Inject
-    private LearningGoalsDAO learningGoalsDAO;
+    private SelectedLearningGoalsDAO selectedLearningGoalsDAO;
 
     @GET
     @Path("store")
@@ -51,7 +51,7 @@ public class LearningGoalView {
             return Response.status(Response.Status.BAD_REQUEST).entity("Project Name was null or empty").build();
         }
         Project project = new Project(projectName);
-        List<LearningGoal> learningGoals = learningGoalsDAO.getLearningGoals(project);
+        List<LearningGoal> learningGoals = selectedLearningGoalsDAO.getLearningGoals(project);
         if (learningGoals.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND).entity("No learning goals were found in this project").build();
         }

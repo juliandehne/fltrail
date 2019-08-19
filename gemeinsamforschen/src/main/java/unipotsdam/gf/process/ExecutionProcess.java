@@ -12,7 +12,8 @@ import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
+import unipotsdam.gf.modules.reflection.model.ReflectionQuestionToAnswer;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsToAnswerDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
@@ -57,7 +58,7 @@ public class ExecutionProcess implements IExecutionProcess {
     private ProjectDAO projectDAO;
 
     @Inject
-    private ReflectionQuestionDAO reflectionQuestionDAO;
+    private ReflectionQuestionsToAnswerDAO reflectionQuestionsToAnswerDAO;
 
     @Inject
     private FileManagementService fileManagementService;
@@ -72,44 +73,36 @@ public class ExecutionProcess implements IExecutionProcess {
         taskDAO.persistTeacherTask(project, INTRODUCE_E_PORTFOLIO_DOCENT, PHASE);
     }
 
-    @Override
-    public LearningGoalRequestResult saveLearningGoalsAndReflectionQuestions(LearningGoalRequest learningGoalRequest) throws Exception {
-        LearningGoalRequestResult requestResult = reflectionService.createLearningGoalWithQuestions(learningGoalRequest);
-        if (requestResult == null) {
-            return null;
-        }
-
-        if (learningGoalRequest.isEndTask()) {
-            Project project = new Project(learningGoalRequest.getProjectName());
-            endSavingLearningGoalsAndReflectionQuestions(project);
-        }
-        return requestResult;
+    public LearningGoalRequestResult selectLearningGoalAndReflectionQuestions(LearningGoalRequest learningGoalRequest) {
+        return reflectionService.selectLearningGoalAndReflectionQuestion(learningGoalRequest);
     }
 
     @Override
-    public void endSavingLearningGoalsAndReflectionQuestions(Project project) throws Exception {
+    public void finalizeLearningGoalsAndReflectionQuestionsSelection(Project project) throws Exception {
+        reflectionService.persistReflectionQuestionsToAnswer(project);
+
         Project fullProject = projectDAO.getProjectByName(project.getName());
         User docent = new User(fullProject.getAuthorEmail());
-        finishTask(fullProject, docent, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
+        finishTask(project, docent, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
         startNewTask(fullProject, docent, CLOSE_EXECUTION_PHASE, false);
-        taskDAO.persistMemberTask(fullProject, ANSWER_REFLECTION_QUESTIONS, PHASE);
 
         List<Group> groups = groupDAO.getGroupsByProjectName(project.getName());
         groups.forEach(group -> {
             GroupTask task = taskDAO.createGroupTask(project, group.getId(), WAIT_FOR_REFLECTION_QUESTION_CHOICE, PHASE, Progress.FINISHED);
             taskDAO.updateGroupTask(task);
         });
+        taskDAO.persistMemberTask(fullProject, ANSWER_REFLECTION_QUESTIONS, PHASE);
     }
 
     @Override
     public void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) throws Exception {
         Project project = projectDAO.getProjectByName(fullSubmission.getProjectName());
-        reflectionQuestionDAO.saveAnswerReference(fullSubmission, reflectionQuestion);
-        ReflectionQuestion fullReflectionQuestion = reflectionQuestionDAO.findBy(reflectionQuestion.getId());
+        reflectionQuestionsToAnswerDAO.saveAnswerReference(fullSubmission, reflectionQuestion);
+        ReflectionQuestionToAnswer fullReflectionQuestion = reflectionQuestionsToAnswerDAO.findBy(reflectionQuestion.getId());
         User user = new User(fullReflectionQuestion.getUserEmail());
         setTaskInProgress(project, user, ANSWER_REFLECTION_QUESTIONS);
 
-        List<ReflectionQuestion> reflectionQuestions = reflectionQuestionDAO.getUnansweredQuestions(project, user, true);
+        List<ReflectionQuestion> reflectionQuestions = reflectionQuestionsToAnswerDAO.getUnansweredQuestions(project, user, true);
 
         User docent = new User(project.getAuthorEmail());
         startNewTask(project, docent, FEEDBACK_REFLECTION_QUESTION_ANSWER, true);
@@ -136,7 +129,7 @@ public class ExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public void saveGroupSubmission(Project project, int groupId, String html) throws Exception {
+    public void saveGroupSubmissionPdf(Project project, int groupId, String html) throws Exception {
         FormDataContentDisposition.FormDataContentDispositionBuilder builder = FormDataContentDisposition.name("groupSubmissions").fileName(FileRole.GROUP_PORTFOLIO + "_group" + groupId + ".pdf");
         fileManagementService.saveStringAsPDF(groupId, project, html, builder.build(), FileRole.GROUP_PORTFOLIO, FileType.HTML);
     }

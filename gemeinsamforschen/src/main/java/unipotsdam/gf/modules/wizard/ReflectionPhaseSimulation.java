@@ -10,9 +10,9 @@ import unipotsdam.gf.modules.reflection.model.LearningGoalStoreItem;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestionsStoreItem;
 import unipotsdam.gf.modules.reflection.service.LearningGoalStoreDAO;
-import unipotsdam.gf.modules.reflection.service.LearningGoalsDAO;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsStoreDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsToAnswerDAO;
+import unipotsdam.gf.modules.reflection.service.SelectedLearningGoalsDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
@@ -60,10 +60,10 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
     private ReflectionQuestionsStoreDAO reflectionQuestionsStoreDAO;
 
     @Inject
-    private LearningGoalsDAO learningGoalsDAO;
+    private SelectedLearningGoalsDAO selectedLearningGoalsDAO;
 
     @Inject
-    private ReflectionQuestionDAO reflectionQuestionDAO;
+    private ReflectionQuestionsToAnswerDAO reflectionQuestionsToAnswerDAO;
 
     @Inject
     private SubmissionController submissionController;
@@ -94,26 +94,21 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
                 LearningGoalRequest learningGoalRequest = new LearningGoalRequest();
                 learningGoalRequest.setLearningGoal(learningGoalStoreItem);
                 learningGoalRequest.setProjectName(project.getName());
-                // it should finalize with the last:
-                learningGoalRequest.setEndTask(i == 9);
                 for (int z = 0; z < 3; z++) {
                     List<ReflectionQuestionsStoreItem> learningGoalSpecificQuestions =
                             reflectionQuestionsStoreDAO
                                     .getLearningGoalSpecificQuestions(learningGoalStoreItem.getText());
                     int questionIndex = random.nextInt(learningGoalSpecificQuestions.size());
-                    //
                     ReflectionQuestionsStoreItem reflectionQuestionsStoreItem =
                             learningGoalSpecificQuestions.get(questionIndex);
                     String question = reflectionQuestionsStoreItem.getQuestion();
-                    reflectionQuestionsStoreItem.setQuestion(question + y + z);
+                    reflectionQuestionsStoreItem.setQuestion(question + String.format("(ID: %s%s)", y, z));
                     learningGoalRequest.getReflectionQuestions().add(reflectionQuestionsStoreItem);
                 }
-                iExecutionProcess.saveLearningGoalsAndReflectionQuestions(learningGoalRequest);
+                iExecutionProcess.selectLearningGoalAndReflectionQuestions(learningGoalRequest);
             }
-
+            iExecutionProcess.finalizeLearningGoalsAndReflectionQuestionsSelection(project);
         }
-
-
         /*else {
             iExecutionProcess.start(project);
             simulateQuestionSelection(project);
@@ -162,7 +157,7 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
             List<FullSubmission> assessableSubmissions = submissionController.getAssessableSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
             if (assessableSubmissions == null || assessableSubmissions.isEmpty()) {
                 List<ReflectionQuestion> reflectionQuestions =
-                        reflectionQuestionDAO.getUnansweredQuestions(project, user, false);
+                        reflectionQuestionsToAnswerDAO.getUnansweredQuestions(project, user, false);
                 if (reflectionQuestions != null) {
                     for (ReflectionQuestion reflectionQuestion : reflectionQuestions) {
                         Group myGroup = groupDAO.getMyGroup(user, project);

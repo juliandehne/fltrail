@@ -17,19 +17,17 @@
     align-self: end;
 }
 
-#creationTemplateResult {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
+.float-left {
+    float: left;
 }
 
-#creationTemplateResult .col{
-    display: flex;
-    flex-direction: column;
-    flex-basis: 100%;
-    flex: 1;
-    padding: 0 10px 0 10px;
+.float-right {
+    float: right;
+}
+
+.modal-footer {
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .btn_holder {
@@ -38,4 +36,162 @@
 
 .btn_holder button {
     width:100%;
+}
+
+/* from portfolio */
+
+.panel-default > .panel-heading {
+    padding: 15px 15px;
+    background-color: inherit;
+    cursor: none;
+}
+
+.btn-primary.panel-heading {
+    padding-right: 15px;
+    padding-top: 15px;
+    position: relative;
+    background-color: #ededed;
+}
+
+.panel-title {
+    width: 95%;
+}
+
+.panel-title .row {
+    clear: left;
+    padding-top: 20px;
+
+}
+
+i.fas.fa-chevron-down {
+    font-size: 2.5em;
+}
+
+.iconItem {
+    display: block;
+}
+
+.iconGroup .iconItem:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.iconGroup .btn-primary {
+    padding: 0;
+    margin-left: 5px;
+}
+
+i.fas.fa-edit {
+    font-size: 1.5em;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+}
+
+.ql-container.ql-snow.ql-disabled {
+    border: none;
+}
+
+.pointer p {
+    cursor: pointer;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.accordion {
+    margin-top: 5px;
+}
+
+.accordion .btn-primary.panel-heading {
+    background-color: #ededed;
+    color: #075f8b !important;
+}
+
+.panel-group .panel {
+    border: none;
+}
+
+.panel .iconGroup #editButton {
+    position: absolute;
+}
+
+.panel .iconGroup #editButton i.fas.fa-edit {
+    font-size: 1em;
+    color: #075f8b;
+}
+
+.iconGroup .fas.fa-chevron-down {
+    right: .5em;
+    font-size: 2em;
+    position: absolute;
+}
+
+.panel .btn-primary.panel-heading:hover {
+    background-color: #075f8b;
+}
+
+.panel .btn-primary.panel-heading:hover #editButton.btn-primary,
+.panel .btn-primary.panel-heading:hover .fas.fa-chevron-down,
+.panel .btn-primary.panel-heading:hover h4,
+.panel .btn-primary.panel-heading:hover h5,
+.panel .btn-primary.panel-heading:hover p,
+.panel .btn-primary.panel-heading:hover label,
+.panel .btn-primary.panel-heading:hover #editButton i.fas.fa-edit {
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+}
+
+.panel .btn-primary.panel-heading #editButton.btn-primary,
+.panel .btn-primary.panel-heading .fas.fa-chevron-down,
+.panel .btn-primary.panel-heading h4,
+.panel .btn-primary.panel-heading p,
+.panel .btn-primary.panel-heading label {
+    background: transparent;
+    color: #075f8b;
+
+}
+
+.panel .btn-primary.panel-heading label {
+    display: flex;
+    text-decoration: underline;
+}
+
+.well {
+    border: none;
+    -webkit-box-shadow: inset 0 0px 0px #000000d0;
+    box-shadow: inset 0 0px 0px #000000d0;
+    background-color: #ededed;
+    border-radius: 0;
+    width: 50%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.panel-body h3 {
+    text-align: center;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-lg {
+    margin-bottom: 15px;
 }

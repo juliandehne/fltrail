@@ -50,7 +50,7 @@ public class GeneralReflectionView {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createLearningGoalWithQuestions(@Context HttpServletRequest request, LearningGoalRequest learningGoalRequest) {
+    public Response selectLearningGoalWithQuestions(@Context HttpServletRequest request, LearningGoalRequest learningGoalRequest) {
         if (Objects.isNull(learningGoalRequest)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("LearningGoalRequest was null").build();
         }
@@ -59,10 +59,10 @@ public class GeneralReflectionView {
             User user = userDAO.getUserByEmail(docentEmail);
 
             if (user.getStudent()) {
-                return Response.status(Response.Status.BAD_REQUEST).entity("This should only be called by docents, not from students!").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity("This must only be called by docents, not from students!").build();
             }
 
-            LearningGoalRequestResult learningGoalRequestResult = executionProcess.saveLearningGoalsAndReflectionQuestions(learningGoalRequest);
+            LearningGoalRequestResult learningGoalRequestResult = executionProcess.selectLearningGoalAndReflectionQuestions(learningGoalRequest);
 
             if (Objects.isNull(learningGoalRequestResult)) {
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Error while saving learningGoal and reflection questions.").build();
@@ -76,15 +76,29 @@ public class GeneralReflectionView {
         }
     }
 
-    @POST
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("projects/{projectName}")
-    public Response endLearningGoalWithQuestion(@PathParam("projectName") String projectName) {
+    public Response getSelectedLearningGoalsWithQuestions(@PathParam("projectName") String projectName) {
+        if (Strings.isNullOrEmpty(projectName)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Project name is null or empty").build();
+        }
+
+        Project project = new Project(projectName);
+        List<LearningGoalRequestResult> learningGoalRequestResultList = reflectionService.getSelectedLearningGoalsAndReflectionQuestions(project);
+
+        return Response.ok(learningGoalRequestResultList).build();
+    }
+
+    @POST
+    @Path("projects/{projectName}/finish")
+    public Response finishLearningGoalWithQuestionSelection(@PathParam("projectName") String projectName) {
         if (Strings.isNullOrEmpty(projectName)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Project name is null or empty").build();
         }
         try {
             Project project = new Project(projectName);
-            executionProcess.endSavingLearningGoalsAndReflectionQuestions(project);
+            executionProcess.finalizeLearningGoalsAndReflectionQuestionsSelection(project);
             return Response.ok().build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -150,9 +164,9 @@ public class GeneralReflectionView {
     @POST
     @Path("/projects/{projectName}/save/group/{groupId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response saveGroupPortfolioEntries(@Context HttpServletRequest request,
-                                              @PathParam("projectName") String projectName, String html,
-                                              @PathParam("groupId") int groupId) {
+    public Response saveGroupPortfolioEntriesPdf(@Context HttpServletRequest request,
+                                                 @PathParam("projectName") String projectName, String html,
+                                                 @PathParam("groupId") int groupId) {
         if (Strings.isNullOrEmpty(html)) {
             return Response.status(Response.Status.BAD_REQUEST).entity("html to save was null or empty").build();
         }
@@ -166,7 +180,7 @@ public class GeneralReflectionView {
 
         try {
             Project project = new Project(projectName);
-            executionProcess.saveGroupSubmission(project, groupId, html);
+            executionProcess.saveGroupSubmissionPdf(project, groupId, html);
             return Response.ok().build();
         } catch (IOException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("user email is not in context.").build();

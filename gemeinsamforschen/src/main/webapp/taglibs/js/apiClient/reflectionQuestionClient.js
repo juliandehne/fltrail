@@ -29,7 +29,7 @@ async function getUnansweredReflectionQuestions(projectName) {
     return reflectionQuestions;
 }
 
-function getSpecificStoreReflectionQuestions(learningGoal, responseHandler) {
+function getSpecificStoreReflectionQuestions(learningGoal, responseHandler, errorHandler) {
     let url = `../rest/reflectionquestion/store/learninggoal/${learningGoal}`;
     $.ajax({
         url: url,
@@ -40,7 +40,7 @@ function getSpecificStoreReflectionQuestions(learningGoal, responseHandler) {
             responseHandler(response);
         },
         error: function () {
-            console.error("Error while getting learning goals from store");
+            errorHandler();
         }
     })
 }

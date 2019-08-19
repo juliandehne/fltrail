@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @ManagedBean
 @Resource
-public class LearningGoalsDAO {
+public class SelectedLearningGoalsDAO {
 
     @Inject
     private MysqlConnect connection;
@@ -22,7 +22,7 @@ public class LearningGoalsDAO {
     public String persist(LearningGoal learningGoal) {
         connection.connect();
         String uuid = UUID.randomUUID().toString();
-        String query = "INSERT INTO learninggoals (id,text,projectName) VALUES (?,?,?)";
+        String query = "INSERT INTO selectedlearninggoals (id,text,projectName) VALUES (?,?,?)";
         connection.issueInsertOrDeleteStatement(query, uuid, learningGoal.getText(), learningGoal.getProjectName());
         connection.close();
         return uuid;
@@ -30,7 +30,7 @@ public class LearningGoalsDAO {
 
     public List<LearningGoal> getLearningGoals(Project project) {
         connection.connect();
-        String query = "Select * from learningGoals where projectName = ?";
+        String query = "Select * from selectedlearninggoals where projectName = ?";
         VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, project.getName());
         List<LearningGoal> learningGoals = new ArrayList<>();
         while (resultSet.next()) {

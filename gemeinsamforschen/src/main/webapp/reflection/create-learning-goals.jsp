@@ -18,7 +18,7 @@
     <script src="../taglibs/js/apiClient/reflectionQuestionClient.js"></script>
     <script src="js/create-learning-goals.js"></script>
     <script src="../taglibs/js/apiClient/reflectionClientGeneral.js"></script>
-    <script src="../libs/bootstrap/js/bootstrap.min.js"></script>
+    <!--<script src="../libs/bootstrap/js/bootstrap.min.js"></script>-->
 </head>
 
 <body>
@@ -32,71 +32,117 @@
             Aufgaben</a>
     </div>
 
-    <main id="create-goals">
 
-        <div class="row group">
-
-            <div class="col span_2_of_2">
-                <h3> Lernziele und Reflexionsfragen erstellen </h3>
-                <div  id="creationTemplateResult"></div>
-                 <script id="creationTemplate" type="text/x-jsrender">
-
-
-                <div class="col">
-                    <label>Schritt 1 von 3: Lernziel auswählen</label>
-                    <div class="list-group" id="list-tab" role="tablist">
-                        {{for learningGoals}}
-                            <a class="list-group-item list-group-item-action pointer {{:active}}" id="list-{{:text}}" data-toggle="list" role="tab" onclick='learningGoalChosen("{{:text}}",{{:custom}})'>{{:text}}</a>
-                        {{/for}}
-                    </div>
-                    <input class="form-control" id="customLearningGoalField" placeholder="Benutzerdefiniertes Lernziel">
-                   <div class="btn_holder">
-                        <button type="button" onClick='addCustomLearningGoal()' class="btn btn-primary" id="saveButtonCustomLearningGoal()">Hinzufügen</button>
-                    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Lernziel und Reflexionsfragen auswählen</h4>
                 </div>
+                <div class="modal-body" role="document" aria-labelledby="myModalLabel">
+                    <div id="modalTemplateResult"></div>
+                    <script id="modalTemplate" type="text/x-jsrender">
+                        <div/>
+                            <label>Schritt {{:step}} von 3: {{:stepTitle}}</label>
 
-                {{if reflectionQuestions}}
-                    <div class="col">
-                        <label>Schritt 2 von 3: Reflexionsfragen auswählen</label>
-                        <div class="list-group" id="list-tab" role="tablist">
-                            {{for reflectionQuestions}}
-                                <a class="list-group-item list-group-item-action pointer {{:active}}" id="list-{{:id}}" data-toggle="list" role="tab" onclick='reflectionQuestionChosen("{{:id}}")'>{{:question}}</a>
-                            {{/for}}
-                        </div>
-                        <input class="form-control" id="customReflectionQuestion" placeholder="Benutzerdefinierte Frage">
-                          <div class="btn_holder">
-                                <button type="button" onClick='addCustomReflectionQuestion()' class="btn btn-primary" id="saveButtonCustomLearningGoal()">Hinzufügen</button>
-                           </div>
-                    </div>
-                {{/if}}
-                {{if choseReflectionQuestion}}
+                            {{if step == 1}}
+                                <div class="list-group" id="list-tab" role="tablist">
+                                    {{for learningGoals}}
+                                        <a class="list-group-item list-group-item-action pointer" id="list-{{:#index}}" data-toggle="list" role="tab" onclick='learningGoalChosen({{:#index}})'>{{:text}}</a>
+                                    {{/for}}
+                                </div>
+                                <input class="form-control" id="customLearningGoalField" placeholder="Benutzerdefiniertes Lernziel">
+                                <div class="btn_holder">
+                                    <button type="button" onClick='addCustomLearningGoal()' class="btn btn-primary" id="saveButtonCustomLearningGoal()">Hinzufügen</button>
+                                </div>
+                            {{/if}}
+                            {{if step == 2}}
+                                <br/><label>Ausgewählte Frage: {{:selectedLearningGoal.text}}</label>
+                                <div class="list-group" id="list-tab" role="tablist">
+                                    {{for reflectionQuestions}}
+                                        <a class="list-group-item list-group-item-action pointer" id="list-{{:#index}}" data-toggle="list" role="tab" onclick='reflectionQuestionChosen("{{:#index}}")'>{{:question}}</a>
+                                    {{/for}}
+                                </div>
+                                <input class="form-control" id="customReflectionQuestion" placeholder="Benutzerdefinierte Frage">
+                                <div class="btn_holder">
+                                       <button type="button" onClick='addCustomReflectionQuestion()' class="btn btn-primary" id="saveButtonCustomReflectionQuestion()">Hinzufügen</button>
+                                </div>
+                            {{/if}}
 
-                    <div class="col">
-                        <label>Schritt 3 von 3: Speichern und beenden</label>
-                        <div class="btn_holder">
-                        <button type="button" onClick='addAdditionalLearningGoalPressed()' class="btn btn-primary" id="saveButton">Weiteres Lernziel hinzufügen</button>
-                        </div>
-                        <div class="btn_holder">
-                        <button type="button" onClick='saveButtonPressed()' class="btn btn-primary" id="saveButton">Speichern und Beenden</button>
-                        </div>
-                    </div>
-                {{/if}}
-                {{if showExitButton}}
-                    <div class="col">
-                        <label>Letzer Schritt: Speichern sie alle breits erstellten Lernziele</label>
-                        <div class="btn_holder">
-                        <button type="button" onClick='exitButtonPressed()' class="btn btn-primary" id="saveButton">Beenden</button>
-                        </div>
-                     </div>
-                {{/if}}
+                            <div class="modal-footer">
+                                <button type="button" onclick="clickCancelButton()" class="btn btn-default float-left" data-dismiss="modal">Abbrechen</button>
+                                {{if step > 1}}
+                                    <button type="button" onclick="saveButtonClicked()" class="btn btn-primary float-right">Speichern</button>
+                                    <button type="button" onclick="clickBackButton()" class="btn btn-primary float-right">Zurück</button>
+                                {{else}}
+                                    <button type="button" onclick="clickNextButton()" class="btn btn-primary float-right">Weiter</button>
+                                {{/if}}
+                            </div>
+
+
+
+                    </script>
+                </div>
 
             </div>
         </div>
+    </div>
 
 
+    <main id="create-goals">
+        <!-- Button trigger modal -->
 
- </script>
+        <div class="row group">
+            <h1>Lernziele und Reflexionsfragen auswählen</h1>
+            <button type="button" onclick="setupModal()" class="btn btn-primary btn-lg" data-toggle="modal"
+                    data-target="#myModal">
+                Neues Lernziel und Reflexionsfragen hinzufügen
+            </button>
+        </div>
+        <div id="selectedLearningGoalResult"></div>
+        <script id="selectedLearningGoalTemplate" type="text/x-jsrender">
+                <div></div>
 
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    {{for selectedEntries}}
+                        <div class="panel panel-default">
+                            <div>
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{:learningGoal.id}}" aria-expanded="false" class="collapsed" aria-controls="collapse-{{:learningGoal.id}}">
+                                    <div class="btn btn-primary panel-heading" role="tab" id="heading-{{:learningGoal.id}}">
+                                        <div class="panel-title pointer">
+                                            <div class="row">
+                                                <h4>{{:learningGoal.text}}</h4>
+                                                <i class="fas fa-chevron-down"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div id="collapse-{{:learningGoal.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{:learningGoal.id}}">
+                                <div class="panel-body">
+                                    <h3>Reflexionsfragen</h3>
+                                    {{for reflectionQuestions}}
+                                        <div class="well">
+                                            <div class="row">
+                                                <h4>{{:#index + 1}}. {{:question}}</h4>
+                                            </div>
+                                        </div>
+                                    {{/for}}
+                                 </div>
+                            </div>
+                        </div>
+                    {{/for}}
+                </div>
+                {{if selectedEntries.length > 0}}
+                    <div class="row">
+                        <button onclick="endLearningGoalSelection()" class="btn btn-primary float-right">Auswahl abschließen</button>
+                    </div>
+                {{/if}}
+
+        </script>
     </main>
 </div> <!-- flex wrapper -->
 <jsp:include page="../taglibs/jsp/footer.jsp"/>

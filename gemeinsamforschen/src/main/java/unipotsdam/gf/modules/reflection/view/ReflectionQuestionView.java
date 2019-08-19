@@ -7,8 +7,8 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestionWithAnswer;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestionsStoreItem;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionDAO;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsStoreDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsToAnswerDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.session.GFContexts;
 
@@ -31,7 +31,7 @@ import java.util.Objects;
 public class ReflectionQuestionView {
 
     @Inject
-    private ReflectionQuestionDAO reflectionQuestionDAO;
+    private ReflectionQuestionsToAnswerDAO reflectionQuestionsToAnswerDAO;
 
     @Inject
     private ReflectionQuestionsStoreDAO questionsStoreDAO;
@@ -148,7 +148,7 @@ public class ReflectionQuestionView {
             String userEmail = gfContexts.getUserEmail(req);
             User user = new User(userEmail);
             Project project = new Project(projectName);
-            return reflectionQuestionDAO.getUnansweredQuestions(project, user, onlyFirstEntry);
+            return reflectionQuestionsToAnswerDAO.getUnansweredQuestions(project, user, onlyFirstEntry);
         } catch (IOException e) {
             e.getStackTrace();
             return null;

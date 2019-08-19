@@ -11,7 +11,11 @@ import java.util.List;
 
 public interface IReflection {
 
-    LearningGoalRequestResult createLearningGoalWithQuestions(LearningGoalRequest learningGoalRequest);
+    LearningGoalRequestResult selectLearningGoalAndReflectionQuestion(LearningGoalRequest learningGoalRequest);
+
+    List<LearningGoalRequestResult> getSelectedLearningGoalsAndReflectionQuestions(Project project);
+
+    void persistReflectionQuestionsToAnswer(Project project);
 
     List<FullSubmission> getGroupAndPublicVisiblePortfolioEntriesByUser(User user, Project project);
 

@@ -1,54 +1,24 @@
 package unipotsdam.gf.modules.reflection.model;
 
-import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.user.User;
+public class ReflectionQuestion extends ReflectionQuestionToAnswer {
 
-public class ReflectionQuestion {
-
-    private String id;
-    private String learningGoalId;
     private String question;
-    private String fullSubmissionId;
-    private String userEmail;
-    private String projectName;
 
     public ReflectionQuestion() {
     }
 
     public ReflectionQuestion(String id) {
-        this.id = id;
+        super(id);
     }
 
-    public ReflectionQuestion(String id, String learningGoalId, String question, String fullSubmissionId, String userEmail, String projectName) {
-        this.id = id;
-        this.learningGoalId = learningGoalId;
+    public ReflectionQuestion(String id, String learningGoalId, String selectedReflectionQuestionId, String fullSubmissionId, String userEmail, String projectName, String question) {
+        super(id, learningGoalId, selectedReflectionQuestionId, fullSubmissionId, userEmail, projectName);
         this.question = question;
-        this.fullSubmissionId = fullSubmissionId;
-        this.userEmail = userEmail;
-        this.projectName = projectName;
     }
 
-    public ReflectionQuestion(ReflectionQuestionsStoreItem questionsStoreItem, User user, Project project, LearningGoal learningGoal) {
-        this.question = questionsStoreItem.getQuestion();
-        this.userEmail = user.getEmail();
-        this.projectName = project.getName();
-        this.learningGoalId = learningGoal.getId();
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getLearningGoalId() {
-        return learningGoalId;
-    }
-
-    public void setLearningGoalId(String learningGoalId) {
-        this.learningGoalId = learningGoalId;
+    public ReflectionQuestion(ReflectionQuestionToAnswer questionToAnswer, String question) {
+        super(questionToAnswer);
+        this.question = question;
     }
 
     public String getQuestion() {
@@ -57,29 +27,5 @@ public class ReflectionQuestion {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public String getFullSubmissionId() {
-        return fullSubmissionId;
-    }
-
-    public void setFullSubmissionId(String fullSubmissionId) {
-        this.fullSubmissionId = fullSubmissionId;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
 }

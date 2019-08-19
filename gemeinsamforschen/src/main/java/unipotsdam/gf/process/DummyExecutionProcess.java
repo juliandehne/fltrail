@@ -32,14 +32,15 @@ public class DummyExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public LearningGoalRequestResult saveLearningGoalsAndReflectionQuestions(LearningGoalRequest learningGoalRequest) {
+    public LearningGoalRequestResult selectLearningGoalAndReflectionQuestions(LearningGoalRequest learningGoalRequest) {
         return null;
     }
 
     @Override
-    public void endSavingLearningGoalsAndReflectionQuestions(Project project) {
+    public void finalizeLearningGoalsAndReflectionQuestionsSelection(Project project) throws Exception {
 
     }
+
 
     @Override
     public void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) {
@@ -57,7 +58,7 @@ public class DummyExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public void saveGroupSubmission(Project project, int groupId, String html) throws IOException, DocumentException {
+    public void saveGroupSubmissionPdf(Project project, int groupId, String html) throws IOException, DocumentException {
 
     }
 

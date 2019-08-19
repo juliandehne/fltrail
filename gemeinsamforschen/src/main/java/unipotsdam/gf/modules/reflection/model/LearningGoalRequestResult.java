@@ -6,10 +6,15 @@ import java.util.List;
 public class LearningGoalRequestResult {
 
     private LearningGoal learningGoal;
-    private List<ReflectionQuestion> reflectionQuestions;
+    private List<SelectedReflectionQuestion> reflectionQuestions;
 
     public LearningGoalRequestResult() {
         reflectionQuestions = new ArrayList<>();
+    }
+
+    public LearningGoalRequestResult(LearningGoal learningGoal, List<SelectedReflectionQuestion> reflectionQuestions) {
+        this.learningGoal = learningGoal;
+        this.reflectionQuestions = reflectionQuestions;
     }
 
     public LearningGoal getLearningGoal() {
@@ -20,11 +25,11 @@ public class LearningGoalRequestResult {
         this.learningGoal = learningGoal;
     }
 
-    public List<ReflectionQuestion> getReflectionQuestions() {
+    public List<SelectedReflectionQuestion> getReflectionQuestions() {
         return reflectionQuestions;
     }
 
-    public void setReflectionQuestions(List<ReflectionQuestion> reflectionQuestions) {
+    public void setReflectionQuestions(List<SelectedReflectionQuestion> reflectionQuestions) {
         this.reflectionQuestions = reflectionQuestions;
     }
 }

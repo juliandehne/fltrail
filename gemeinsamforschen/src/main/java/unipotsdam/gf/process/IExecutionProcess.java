@@ -12,9 +12,9 @@ import java.util.List;
 public interface IExecutionProcess {
     void start(Project project);
 
-    LearningGoalRequestResult saveLearningGoalsAndReflectionQuestions(LearningGoalRequest learningGoalRequest) throws Exception;
+    LearningGoalRequestResult selectLearningGoalAndReflectionQuestions(LearningGoalRequest learningGoalRequest);
 
-    void endSavingLearningGoalsAndReflectionQuestions(Project project) throws Exception;
+    void finalizeLearningGoalsAndReflectionQuestionsSelection(Project project) throws Exception;
 
     void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) throws Exception;
 
@@ -22,7 +22,7 @@ public interface IExecutionProcess {
 
     void selectPortfolioEntries(Project project, User user, List<FullSubmission> selectedPortfolioEntries) throws Exception;
 
-    void saveGroupSubmission(Project project, int groupId, String html) throws Exception;
+    void saveGroupSubmissionPdf(Project project, int groupId, String html) throws Exception;
 
     boolean isPhaseCompleted(Project project);
 

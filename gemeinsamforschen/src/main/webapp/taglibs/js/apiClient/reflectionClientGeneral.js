@@ -1,4 +1,4 @@
-function saveLearningGoalAndReflectionQuestions(learningGoalRequest, responseHandler) {
+function selectLearningGoalAndReflectionQuestions(learningGoalRequest, responseHandler) {
     let url = "../rest/reflection";
     let json = JSON.stringify(learningGoalRequest);
     $.ajax({
@@ -12,6 +12,22 @@ function saveLearningGoalAndReflectionQuestions(learningGoalRequest, responseHan
         },
         error: function () {
             console.error("Error while saving learning goal and reflection questions");
+        }
+    });
+}
+
+function getSelectedLearningGoalsAndReflectionQuestions(projectName, responseHandler) {
+    let url = `../rest/reflection/projects/${projectName}`;
+    $.ajax({
+        url: url,
+        type: "GET",
+        dataType: "json",
+        contentType: "application/json",
+        success: function (response) {
+            responseHandler(response);
+        },
+        error: function () {
+            console.error("Error while getting selected learning goals");
         }
     });
 }
@@ -82,7 +98,7 @@ async function saveGroupSelection(projectName, groupId, html) {
 }
 
 function endLearningGoalAndReflectionQuestionChoice(projectName, responseHandler) {
-    let url = `../rest/reflection/projects/${projectName}`;
+    let url = `../rest/reflection/projects/${projectName}/finish`;
     $.ajax({
         url: url,
         type: "POST",
