@@ -58,7 +58,9 @@ public class TestConfig extends GeneralConfig {
 
 
     public TestConfig() {
-        log.info("using test config with " + ROCKET_CHAT_LINK);
+
+        //log.trace("using test config with " + ROCKET_CHAT_LINK)
+        ;
     }
 
     /**

@@ -31,7 +31,7 @@ public class ProductionConfig extends GeneralConfig implements IConfig {
 
 
     public ProductionConfig() {
-        log.info("using production config with " + ROCKET_CHAT_LINK);
+        //log.info("using production config with " + ROCKET_CHAT_LINK);
     }
 
     /**

@@ -28,7 +28,7 @@ public class StagingConfig extends GeneralConfig implements IConfig {
             "", "6ofqfp8J9ynfvspBJ", false);
 
     public StagingConfig() {
-        log.debug("using staging config with " + ROCKET_CHAT_LINK);
+        //log.debug("using staging config with " + ROCKET_CHAT_LINK);
     }
 
     @Override
