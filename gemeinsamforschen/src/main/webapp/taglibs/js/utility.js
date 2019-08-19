@@ -5,8 +5,7 @@ $(document).ready(function () {
 
         // logout rocket chat
 
-        /*
-        if (document.querySelector('iframe')) {
+       /* if (document.querySelector('iframe')) {
             document.querySelector('iframe').contentWindow.postMessage({
                 externalCommand: 'logout'
             }, '*');

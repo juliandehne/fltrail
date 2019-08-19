@@ -12,6 +12,7 @@ public interface IConfig {
     String getDBUserName();
     String getDBPassword();
     String getDBName();
+    String getDBURL();
 
     String ROCKET_CHAT_LINK_0();
     String ROCKET_CHAT_LINK();

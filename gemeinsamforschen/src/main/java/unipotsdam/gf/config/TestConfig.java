@@ -1,17 +1,27 @@
 package unipotsdam.gf.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unipotsdam.gf.modules.communication.model.RocketChatUser;
 
+import javax.inject.Singleton;
+
+@Singleton
 public class TestConfig extends GeneralConfig {
+
+    private final static Logger log = LoggerFactory.getLogger(TestConfig.class);
+
     //    public static final String COMPBASE_URL= "http://fleckenroller.cs.uni-potsdam.de/app/competence-database-prod";
     //    public static final String COMPBASE_LOCAL = "http://localhost:8080/competence-base";
     //    public static final String COMPBASE_URL = "http://localhost:8081/competence-base";
-    public static final String COMPBASE_URL= "https://apiup.uni-potsdam.de/endpoints/competenceAPI";
-    public static final String FOLDER_NAME = "userFilesFLTrail/";
+    private static final String COMPBASE_URL= "https://apiup.uni-potsdam.de/endpoints/competenceAPI";
+    private static final String FOLDER_NAME = "userFilesFLTrail/";
 
-    public static final String PASS = "";
-    public static final String DB_NAME = "fltrail";
-    public static final String USER = "root";
+    private static final String PASS = "";
+    private static final String DB_NAME = "fltrail";
+    private static final String USER = "root";
+
+    private final String DB_URL = "jdbc:mysql://localhost";
 
 
     //private static final String ROCKET_CHAT_LINK = "http://rocketchat.westeurope.cloudapp.azure.com/";
@@ -24,39 +34,32 @@ public class TestConfig extends GeneralConfig {
     //public static final String ROCKET_CHAT_LINK_0 = "http://fleckenroller.cs.uni-potsdam.de/chat";
     //public static final String ROCKET_CHAT_LINK = "http://fleckenroller.cs.uni-potsdam.de/chat/";
 
-    // Testeinstellungen (GERADE BUGGED) TODO wieder zurücksetzen sobald fl-testing wieder geht
-    /*public static final String ROCKET_CHAT_LINK_0 = "https://fl-testing.soft.cs.uni-potsdam.de";
-    public static final String ROCKET_CHAT_LINK = "https://fl-testing.soft.cs.uni-potsdam.de/";
+    // Testeinstellungen
+    private static final String ROCKET_CHAT_LINK_0 = "https://fl-testing.soft.cs.uni-potsdam.de";
+    private static final String ROCKET_CHAT_LINK = "https://fl-testing.soft.cs.uni-potsdam.de/";
 
 
-    public static final RocketChatUser
+    private static final RocketChatUser
             ADMIN_USER = new RocketChatUser("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
             "julian.dehne@uni-potsdam.de",  "rocketChatUsername", "rocketChatAuthToken",
-            "9lmocCmfZmp0QZjxK3snZ7mAnwFZoIYT4TIS_zcKcoC", "8SvhAuKnkax6rumPn", false); */
-
-
-    // produktive Einstellungen
-    protected static String ROCKET_CHAT_LINK_0 = "http://fl.soft.cs.uni-potsdam.de";
-    protected static String ROCKET_CHAT_LINK = "http://fl.soft.cs.uni-potsdam.de/";
-
-
-    protected static RocketChatUser ADMIN_USER = new RocketChatUser("fltrailadmin", "GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F",
-            "julian.dehne@uni-potsdam.de",  "rocketChatUsername", "rocketChatAuthToken",
-            "chY-tRPI4CN2Z5YZ-W0txHacDzINTjzu0do-9PzbHmy", "Amo7NRAah5JwSYX2y", false);
-
+            "9lmocCmfZmp0QZjxK3snZ7mAnwFZoIYT4TIS_zcKcoC", "8SvhAuKnkax6rumPn", false);
 
     /**
      * username: fltrailadmin pw: GEbCM1Rso6TUGGMKtGmg6c5EydMQEu61K9zdD10F
      */
 
-    public static final String ROCKET_CHAT_ROOM_LINK = ROCKET_CHAT_LINK + "group/";
+    private static final String ROCKET_CHAT_ROOM_LINK = ROCKET_CHAT_LINK + "group/";
 
-    public static final String ROCKET_CHAT_API_LINK = ROCKET_CHAT_LINK + "api/v1/";
+    private static final String ROCKET_CHAT_API_LINK = ROCKET_CHAT_LINK + "api/v1/";
 
-    public static final RocketChatUser TEST_USER = new RocketChatUser("student1", "egal",
+    private static final RocketChatUser TEST_USER = new RocketChatUser("student1", "egal",
             "student1@yolo.com", "student1", "",
             "", "6ofqfp8J9ynfvspBJ", false);
 
+
+    public TestConfig() {
+        log.info("using test config with " + ROCKET_CHAT_LINK);
+    }
 
     /**
      * curl -H "Content-type:application/json" \
@@ -118,5 +121,10 @@ public class TestConfig extends GeneralConfig {
     @Override
     public String getDBName() {
         return DB_NAME;
+    }
+
+    @Override
+    public String getDBURL() {
+        return DB_URL;
     }
 }
