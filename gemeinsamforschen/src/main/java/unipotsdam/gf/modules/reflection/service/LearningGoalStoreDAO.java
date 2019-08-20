@@ -36,6 +36,7 @@ public class LearningGoalStoreDAO {
         while (resultSet.next()) {
             learningGoals.add(convertResultSet(resultSet));
         }
+        connection.close();
         return learningGoals;
     }
 
