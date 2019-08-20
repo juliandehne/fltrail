@@ -93,6 +93,7 @@ public class PhasesImpl implements IPhases {
                 case CONTACT_GROUP_MEMBERS:
                     updateValueInMap(phaseMapTMP, Phase.DossierFeedback, value);
                     break;
+                case LOOK_AT_REFLECTION_QUESTION_FEEDBACK:
                 case WAIT_FOR_REFLECTION_QUESTION_CHOICE:
                 case ANSWER_REFLECTION_QUESTIONS:
                 case INTRODUCE_E_PORTFOLIO_DOCENT:
@@ -104,6 +105,8 @@ public class PhasesImpl implements IPhases {
                 case CLOSE_EXECUTION_PHASE:
                 case WAIT_FOR_EXECUTION_PHASE_END:
                 case CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS:
+                case SEE_LEARNING_GOAL_SELECTION_AGAIN:
+                case FEEDBACK_REFLECTION_QUESTION_ANSWER:
                     updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case WAIT_FOR_GRADING:
@@ -123,8 +126,6 @@ public class PhasesImpl implements IPhases {
                 case END_DOCENT:
                     updateValueInMap(phaseMapTMP, Phase.GRADING, value);
                     break;
-
-
                 case EVALUATION_TECHNISCH:
                     break;
                 case EVALUATION_PROZESS:

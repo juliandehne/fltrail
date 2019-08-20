@@ -7,7 +7,7 @@ const taskNames = new Enum(
     "ANNOTATE_DOSSIER",
     "GIVE_FEEDBACK",
     "REEDIT_DOSSIER",
-    "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS",
+    "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS",
     "ANSWER_REFLECTION_QUESTIONS",
     "WIZARD_CREATE_PORTFOLIO",
     "DOCENT_GIVE_PORTOLIO_FEEDBACK",
@@ -78,7 +78,7 @@ function updateView(project) {
     let btnSelectQuestions = $("#selectQuestionsForProject");
     btnSelectQuestions.unbind();
     btnSelectQuestions.click(function () {
-        doSpell(selectedProject.name, taskNames.getName(taskNames.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS));
+        doSpell(selectedProject.name, taskNames.getName(taskNames.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS));
     });
 
 
@@ -231,7 +231,7 @@ function updateTaskStates() {
         }
         // execution phase
 
-        if (tasksfinished.includes(taskNames.getName(taskNames.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS))){
+        if (tasksfinished.includes(taskNames.getName(taskNames.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS))) {
             $("#selectQuestionsForProject").attr("disabled", true);
         };
 

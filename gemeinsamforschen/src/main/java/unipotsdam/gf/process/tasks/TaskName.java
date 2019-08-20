@@ -70,7 +70,7 @@ public enum TaskName {
     ////////////////////////////////////////////////////////////
     //STUDENT:
     // how to trigger: start the execution phase
-    // how to solve: docent needs to solve CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS task and has to start learning goal period
+    // how to solve: docent needs to solve CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS task and has to start learning goal period
     WAIT_FOR_REFLECTION_QUESTION_CHOICE,
     // how to trigger: teacher started phase "Durchführung"
     // how to solve: student chooses portfolio entries for assessment (finishes CHOOSE_PORTFOLIO_ENTRIES)
