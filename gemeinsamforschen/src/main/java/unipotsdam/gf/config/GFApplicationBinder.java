@@ -81,7 +81,11 @@ public class GFApplicationBinder extends AbstractBinder {
     protected void configure() {
 
         if (FLTrailConfig.productionContext) {
-            bind(ProductionConfig.class).to(IConfig.class);
+            if (FLTrailConfig.staging) {
+                bind(StagingConfig.class).to(IConfig.class);
+            } else {
+                bind(ProductionConfig.class).to(IConfig.class);
+            }
         } else {
             bind(TestConfig.class).to(IConfig.class);
         }

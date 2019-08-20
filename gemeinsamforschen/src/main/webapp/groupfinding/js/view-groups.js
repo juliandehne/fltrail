@@ -65,7 +65,7 @@ function selectableButtons(done) {
 
 function highlightAndFocusUserGroup(userEmail) {
     //hiliter(userEmail, )
-    let elem = $('*:contains('+userEmail+')').parent().css("color", "red");;
+    let elem = $('*:contains('+userEmail+')').parent().scroll();
 
 
 }

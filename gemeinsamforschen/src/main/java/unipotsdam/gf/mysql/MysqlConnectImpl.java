@@ -13,8 +13,7 @@ import javax.inject.Inject;
 import java.sql.*;
 import java.util.Date;
 
-@ManagedBean
-@Resource
+
 public class MysqlConnectImpl implements MysqlConnect {
 
 
@@ -38,7 +37,7 @@ public class MysqlConnectImpl implements MysqlConnect {
     private String createConnectionString() {
 
         String connString =
-                "jdbc:mysql://" + "localhost" + "/" + iConfig.getDBName() + "?user=" + iConfig.getDBUserName() + "&password=" +
+                iConfig.getDBURL() + "/" + iConfig.getDBName() + "?user=" + iConfig.getDBUserName() + "&password=" +
                         iConfig.getDBPassword();
         return String.format(connString, iConfig.getDBName());
     }

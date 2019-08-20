@@ -1,6 +1,9 @@
 package unipotsdam.gf.core.database;
 
 import unipotsdam.gf.SurveyPreparation;
+import unipotsdam.gf.config.FLTrailConfig;
+import unipotsdam.gf.config.ProductionConfig;
+import unipotsdam.gf.config.StagingConfig;
 import unipotsdam.gf.config.TestConfig;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.MysqlConnectImpl;
@@ -35,13 +38,25 @@ public class UpdateDB {
 
     public static void main(String[] args) throws Exception {
         MysqlConnect  mysqlConnect = new MysqlConnectImpl();
-        ((MysqlConnectImpl) mysqlConnect).setiConfig(new TestConfig());
+        if (FLTrailConfig.productionContext) {
+            if (FLTrailConfig.staging) {
+                ((MysqlConnectImpl) mysqlConnect).setiConfig(new StagingConfig());
+            } else {
+                ((MysqlConnectImpl) mysqlConnect).setiConfig(new ProductionConfig());
+            }
+        } else {
+            ((MysqlConnectImpl) mysqlConnect).setiConfig(new TestConfig());
+        }
         Connection connection = mysqlConnect.getConnection();
 
         // update db
         UpdateDB updateDB = new UpdateDB(connection, true, false);
         System.out.println(new java.io.File( "." ).getCanonicalPath());
-        updateDB.runScript(new FileReader("src/test/resources/database/db.sql"));
+        if (FLTrailConfig.productionContext) {
+            updateDB.runScript(new FileReader("src/test/resources/database/productiondb.sql"));
+        } else {
+            updateDB.runScript(new FileReader("src/test/resources/database/db.sql"));
+        }
         updateDB.runScript(new FileReader("src/test/resources/database/fltrail.sql"));
         // add questions for groupal matcher
         SurveyPreparation.main(null);
