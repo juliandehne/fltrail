@@ -4,21 +4,20 @@ import com.google.common.base.Strings;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
-import unipotsdam.gf.process.IExecutionProcess;
-import unipotsdam.gf.process.tasks.progress.GroupTaskProgress;
-import unipotsdam.gf.process.tasks.progress.TaskProgress;
-import unipotsdam.gf.process.tasks.progress.UserTaskProgress;
+import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
-import java.util.List;
 
 @Path("/tasks")
 public class TaskView {
@@ -30,7 +29,7 @@ public class TaskView {
     private UserDAO userDAO;
 
     @Inject
-    private IExecutionProcess executionProcess;
+    private GFContexts gfContexts;
 
     @GET
     @Path("/user/{userEmail}/project/{projectToken}")
@@ -44,28 +43,22 @@ public class TaskView {
     @GET
     @Path("progress/projects/{projectName}/task/{taskName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getProgressForTask(@PathParam("projectName") String projectName, @PathParam("taskName") TaskName taskName) {
+    public Response getProgressForTask(@Context HttpServletRequest request, @PathParam("projectName") String projectName, @PathParam("taskName") TaskName taskName) {
         if (Strings.isNullOrEmpty(projectName) || taskName == null) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Project name or taskName was null or empty").build();
         }
-        Project project = new Project(projectName);
-        List<Task> tasks = taskDAO.getTaskForProjectByTaskName(project, taskName);
 
-        if (tasks.isEmpty()) {
-            return Response.status(Response.Status.NOT_FOUND).entity("No task with " + taskName.name() + "found").build();
-        }
-        ArrayList<TaskProgress> taskProgressList = new ArrayList<>();
-        tasks.forEach(task -> {
-            String userEmail = task.getUserEmail();
-            TaskProgress taskProgress;
-            if (Strings.isNullOrEmpty(userEmail)) {
-                taskProgress = new GroupTaskProgress(task, task.getGroupTask());
-            } else {
-                User user = userDAO.getUserByEmail(task.getUserEmail());
-                taskProgress = new UserTaskProgress(task, user);
+        try {
+            User user = gfContexts.getUserFromSession(request);
+            Project project = new Project(projectName);
+            Task task = taskDAO.getUserTask(project, user, taskName);
+            if (task == null) {
+                return Response.status(Response.Status.NOT_FOUND).entity("No task with " + taskName.name() + "found").build();
             }
-            taskProgressList.add(taskProgress);
-        });
-        return Response.ok(taskProgressList).build();
+            return Response.ok(task).build();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.BAD_REQUEST).entity("user not in session").build();
+        }
     }
 }

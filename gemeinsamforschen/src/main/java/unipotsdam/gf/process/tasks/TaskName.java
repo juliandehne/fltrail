@@ -95,12 +95,15 @@ public enum TaskName {
     // how to trigger: start of the execution phase
     // how to solve: click on "Lernziele und Reflexionziele erstellen"
     // todo: rename after wizard merge (reflexion to reflection)
-    CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS,
+    CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS,
+    // how to trigger: choose learning goals. Task just to see site again
+    // how to solve: close Execution phase
+    SEE_LEARNING_GOAL_SELECTION_AGAIN,
     // how to trigger: teacher starts execution phase
-    // how to solve: closes "Execution" Phase
+    // how to solve: close "Execution" Phase
     INTRODUCE_E_PORTFOLIO_DOCENT,
     // how to trigger: student answers reflection question
-    // how to solve: closes "Execution" Phase
+    // how to solve: close "Execution" Phase
     FEEDBACK_REFLECTION_QUESTION_ANSWER,
     // how to trigger: all students chose the material for assessment
     // how to solve: docent needs to click "Durchführungsphase beenden"

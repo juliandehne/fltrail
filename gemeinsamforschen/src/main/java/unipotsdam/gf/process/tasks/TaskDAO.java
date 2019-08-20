@@ -23,11 +23,17 @@ import unipotsdam.gf.process.phases.Phase;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static unipotsdam.gf.process.tasks.TaskName.*;
+import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_PORTFOLIO_ENTRIES;
+import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
+import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
 
 @ManagedBean
 public class TaskDAO {
@@ -132,6 +138,19 @@ public class TaskDAO {
 
         String query = "Select * from tasks where userEmail = ? and projectName = ? and phase = ? and taskName = ?";
         VereinfachtesResultSet resultSet = connect.issueSelectStatement(query, user.getEmail(), project.getName(), phase.name(), taskName.name());
+        Task task = null;
+        if (resultSet.next()) {
+            task = getGeneralTask(resultSet);
+        }
+        connect.close();
+        return task;
+    }
+
+    public Task getUserTask(Project project, User user, TaskName taskName) {
+        connect.connect();
+
+        String query = "Select * from tasks where userEmail = ? and projectName = ? and taskName = ?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(query, user.getEmail(), project.getName(), taskName.name());
         Task task = null;
         if (resultSet.next()) {
             task = getGeneralTask(resultSet);

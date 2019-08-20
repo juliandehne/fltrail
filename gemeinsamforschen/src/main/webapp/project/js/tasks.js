@@ -188,8 +188,11 @@ function handleInfoTasks(object, result) {
         case "WAIT_FOR_EXECUTION_PHASE_END":
             result.infoText = "Warten Sie darauf, dass die dozierende Person die Durchführungsphase beendet";
             break;
-        case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS":
+        case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS":
             result.infoText = "Um die Durchführungsphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
+            break;
+        case "SEE_LEARNING_GOAL_SELECTION_AGAIN":
+            result.infoText = "Sehen Sie sich Ihre Auswahl von Reflexionsfragen und Lernzielen noch einmal an.";
             break;
         case "FEEDBACK_REFLECTION_QUESTION_ANSWER":
             result.infoText = "Ein Lernender hat (mindestens) eine Reflexionsfrage beantwortet. Geben Sie Feedback.";
@@ -311,8 +314,12 @@ function handleLinkedTasks(object, result) {
                 result.solveTaskWith = "Einträge zur Bewertung auswählen";
                 result.solveTaskWithLink = "redirect(\'../reflection/choose-for-assessment.jsp?projectName=" + object.projectName + "\')";
                 break;
-            case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS":
+            case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS":
                 result.solveTaskWith = "Auswahl treffen";
+                result.solveTaskWithLink = "redirect(\'../reflection/create-learning-goals.jsp?projectName=" + object.projectName + "\')";
+                break;
+            case "SEE_LEARNING_GOAL_SELECTION_AGAIN":
+                result.solveTaskWith = "Auswahl anzeigen";
                 result.solveTaskWithLink = "redirect(\'../reflection/create-learning-goals.jsp?projectName=" + object.projectName + "\')";
                 break;
             case "FEEDBACK_REFLECTION_QUESTION_ANSWER":

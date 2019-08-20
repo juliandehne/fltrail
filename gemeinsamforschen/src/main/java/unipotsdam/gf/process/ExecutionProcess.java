@@ -32,11 +32,12 @@ import java.util.List;
 import static unipotsdam.gf.process.tasks.TaskName.ANSWER_REFLECTION_QUESTIONS;
 import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_PORTFOLIO_ENTRIES;
 import static unipotsdam.gf.process.tasks.TaskName.CLOSE_EXECUTION_PHASE;
-import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS;
+import static unipotsdam.gf.process.tasks.TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS;
 import static unipotsdam.gf.process.tasks.TaskName.FEEDBACK_REFLECTION_QUESTION_ANSWER;
 import static unipotsdam.gf.process.tasks.TaskName.INTRODUCE_E_PORTFOLIO_DOCENT;
 import static unipotsdam.gf.process.tasks.TaskName.INTRODUCE_E_PORTFOLIO_STUDENT;
 import static unipotsdam.gf.process.tasks.TaskName.LOOK_AT_REFLECTION_QUESTION_FEEDBACK;
+import static unipotsdam.gf.process.tasks.TaskName.SEE_LEARNING_GOAL_SELECTION_AGAIN;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_EXECUTION_PHASE_END;
 import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_REFLECTION_QUESTION_CHOICE;
 
@@ -67,7 +68,7 @@ public class ExecutionProcess implements IExecutionProcess {
     private SubmissionController submissionController;
 
     public void start(Project project) {
-        taskDAO.persistTeacherTask(project, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS, PHASE);
+        taskDAO.persistTeacherTask(project, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS, PHASE);
         taskDAO.persistTaskForAllGroups(project, WAIT_FOR_REFLECTION_QUESTION_CHOICE, PHASE);
         taskDAO.persistMemberTask(project, INTRODUCE_E_PORTFOLIO_STUDENT, PHASE);
         taskDAO.persistTeacherTask(project, INTRODUCE_E_PORTFOLIO_DOCENT, PHASE);
@@ -83,7 +84,8 @@ public class ExecutionProcess implements IExecutionProcess {
 
         Project fullProject = projectDAO.getProjectByName(project.getName());
         User docent = new User(fullProject.getAuthorEmail());
-        finishTask(project, docent, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
+        finishTask(project, docent, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS);
+        startNewTask(fullProject, docent, SEE_LEARNING_GOAL_SELECTION_AGAIN, false);
         startNewTask(fullProject, docent, CLOSE_EXECUTION_PHASE, false);
 
         List<Group> groups = groupDAO.getGroupsByProjectName(project.getName());

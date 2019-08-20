@@ -46,7 +46,7 @@ public class SelectedLearningGoalsDAO {
     public LearningGoal exists(LearningGoal learningGoal) {
         connection.connect();
         String query = "Select * from selectedlearninggoals where projectName = ? and text = ?";
-        VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, learningGoal.getProjectName(), learningGoal.getId());
+        VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, learningGoal.getProjectName(), learningGoal.getText());
         LearningGoal resultGoal = null;
         if (resultSet.next()) {
             resultGoal = convertResultSet(resultSet);

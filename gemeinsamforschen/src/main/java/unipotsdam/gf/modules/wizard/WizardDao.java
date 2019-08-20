@@ -16,7 +16,11 @@ import unipotsdam.gf.process.tasks.TaskDAO;
 import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class WizardDao {
@@ -168,7 +172,7 @@ public class WizardDao {
         relevantTasks.add(TaskName.REEDIT_DOSSIER);
 
         // execution phase
-        relevantTasks.add(TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
+        relevantTasks.add(TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS);
         relevantTasks.add(TaskName.WIZARD_CREATE_PORTFOLIO);
         relevantTasks.add(TaskName.DOCENT_GIVE_PORTOLIO_FEEDBACK);
         relevantTasks.add(TaskName.CHOOSE_PORTFOLIO_ENTRIES);

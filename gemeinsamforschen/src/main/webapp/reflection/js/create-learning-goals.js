@@ -7,11 +7,11 @@ $(document).ready(function () {
     resetModalTemplateData();
     $('#myModal').on('hide.bs.modal', resetModalTemplateData);
     renderSiteTemplate();
-    //setupLearningGoalButton();
 });
 
 function resetModalTemplateData() {
     modalTemplateData = {};
+    selectedReflectionQuestions = [];
 }
 
 function setupModal() {
@@ -165,10 +165,14 @@ function saveButtonClicked() {
 
 function renderSiteTemplate() {
     getSelectedLearningGoalsAndReflectionQuestions(projectName, function (response) {
-        let tmpl = $.templates('#selectedLearningGoalTemplate');
-        websiteTemplateData.selectedEntries = response;
-        let html = tmpl.render(websiteTemplateData);
-        $('#selectedLearningGoalResult').html(html);
+        getTaskInfo(projectName, "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS", function (task) {
+            websiteTemplateData.finished = task && task.progress === "FINISHED";
+            let tmpl = $.templates('#selectedLearningGoalTemplate');
+            websiteTemplateData.selectedEntries = response;
+            let html = tmpl.render(websiteTemplateData);
+            $('#selectedLearningGoalResult').html(html);
+        });
+
     });
 }
 

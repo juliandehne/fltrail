@@ -18,6 +18,7 @@
     <script src="../taglibs/js/apiClient/reflectionQuestionClient.js"></script>
     <script src="js/create-learning-goals.js"></script>
     <script src="../taglibs/js/apiClient/reflectionClientGeneral.js"></script>
+    <script src="../taglibs/js/apiClient/taskClient.js"></script>
     <!--<script src="../libs/bootstrap/js/bootstrap.min.js"></script>-->
 </head>
 
@@ -95,17 +96,19 @@
     <main id="create-goals">
         <!-- Button trigger modal -->
 
-        <div class="row group">
-            <h1>Lernziele und Reflexionsfragen auswählen</h1>
-            <button type="button" onclick="setupModal()" class="btn btn-primary btn-lg" data-toggle="modal"
-                    data-target="#myModal">
-                Neues Lernziel und Reflexionsfragen hinzufügen
-            </button>
-        </div>
+
         <div id="selectedLearningGoalResult"></div>
         <script id="selectedLearningGoalTemplate" type="text/x-jsrender">
                 <div></div>
-
+                <div class="row group">
+                    <h1>Lernziele und Reflexionsfragen auswählen</h1>
+                    {{if !finished}}
+                    <button type="button" onclick="setupModal()" class="btn btn-primary btn-lg" data-toggle="modal"
+                            data-target="#myModal">
+                        Neues Lernziel und Reflexionsfragen hinzufügen
+                    </button>
+                    {{/if}}
+                </div>
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                     {{for selectedEntries}}
                         <div class="panel panel-default">
@@ -116,7 +119,9 @@
                                             <div class="row">
                                                 <h4>{{:learningGoal.text}}</h4>
                                                 <i class="fas fa-chevron-down"></i>
-                                                <button class="btn btn-primary float-left" onclick='clickDeleteLearningGoalButton("{{:#index}}")'> <i class="fas fa-trash"></i></button>
+                                                {{if !#root.data.finished}}
+                                                    <button class="btn btn-primary float-left" onclick='clickDeleteLearningGoalButton("{{:#getIndex()}}")'> <i class="fas fa-trash"></i></button>
+                                                {{/if}}
                                             </div>
                                         </div>
                                     </div>
@@ -137,10 +142,12 @@
                         </div>
                     {{/for}}
                 </div>
-                {{if selectedEntries.length > 0}}
-                    <div class="row">
-                        <button onclick="endLearningGoalSelection()" class="btn btn-primary float-right">Auswahl abschließen</button>
-                    </div>
+                {{if !finished}}
+                    {{if selectedEntries.length > 0}}
+                        <div class="row">
+                            <button onclick="endLearningGoalSelection()" class="btn btn-primary float-right">Auswahl abschließen</button>
+                        </div>
+                    {{/if}}
                 {{/if}}
 
         </script>

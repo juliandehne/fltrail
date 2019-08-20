@@ -82,7 +82,7 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
     public void simulateQuestionSelection(Project project) throws Exception {
 
         List<Task> taskForProject = taskDAO.getTaskForProjectByTaskName(project,
-                TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS);
+                TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS);
         if (taskForProject.get(0).getProgress() != Progress.FINISHED) {
             List<LearningGoalStoreItem> allStoreGoals = learningGoalStoreDAO.getAllStoreGoals();
             Random random = new Random();

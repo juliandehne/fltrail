@@ -103,7 +103,7 @@ public class PhasesImpl implements IPhases {
                 case COLLECT_RESULTS_FOR_ASSESSMENT:
                 case CLOSE_EXECUTION_PHASE:
                 case WAIT_FOR_EXECUTION_PHASE_END:
-                case CREATE_LEARNING_GOALS_AND_CHOOSE_REFLEXION_QUESTIONS:
+                case CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS:
                     updateValueInMap(phaseMapTMP, Phase.Execution, value);
                     break;
                 case WAIT_FOR_GRADING:
