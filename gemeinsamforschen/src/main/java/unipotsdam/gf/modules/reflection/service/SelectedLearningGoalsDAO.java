@@ -20,6 +20,10 @@ public class SelectedLearningGoalsDAO {
     private MysqlConnect connection;
 
     public String persist(LearningGoal learningGoal) {
+        LearningGoal existsLearningGoal = exists(learningGoal);
+        if (existsLearningGoal != null) {
+            return existsLearningGoal.getId();
+        }
         connection.connect();
         String uuid = UUID.randomUUID().toString();
         String query = "INSERT INTO selectedlearninggoals (id,text,projectName) VALUES (?,?,?)";
@@ -37,6 +41,25 @@ public class SelectedLearningGoalsDAO {
             learningGoals.add(convertResultSet(resultSet));
         }
         return learningGoals;
+    }
+
+    public LearningGoal exists(LearningGoal learningGoal) {
+        connection.connect();
+        String query = "Select * from selectedlearninggoals where projectName = ? and text = ?";
+        VereinfachtesResultSet resultSet = connection.issueSelectStatement(query, learningGoal.getProjectName(), learningGoal.getId());
+        LearningGoal resultGoal = null;
+        if (resultSet.next()) {
+            resultGoal = convertResultSet(resultSet);
+        }
+        connection.close();
+        return resultGoal;
+    }
+
+    public void delete(LearningGoal learningGoal) {
+        connection.connect();
+        String query = "Delete from selectedlearninggoals where id = ?";
+        connection.issueInsertOrDeleteStatement(query, learningGoal.getId());
+        connection.close();
     }
 
     private LearningGoal convertResultSet(VereinfachtesResultSet resultSet) {

@@ -152,6 +152,8 @@ a:visited {
 .panel .btn-primary.panel-heading:hover h5,
 .panel .btn-primary.panel-heading:hover p,
 .panel .btn-primary.panel-heading:hover label,
+.panel .btn-primary.panel-heading:hover button,
+.panel .btn-primary.panel-heading:hover .fas.fa-trash,
 .panel .btn-primary.panel-heading:hover #editButton i.fas.fa-edit {
     background: transparent;
     color: #fff;
@@ -162,7 +164,9 @@ a:visited {
 .panel .btn-primary.panel-heading .fas.fa-chevron-down,
 .panel .btn-primary.panel-heading h4,
 .panel .btn-primary.panel-heading p,
-.panel .btn-primary.panel-heading label {
+.panel .btn-primary.panel-heading button,
+.panel .btn-primary.panel-heading label,
+.panel .btn-primary.panel-heading .fas.fa-trash {
     background: transparent;
     color: #075f8b;
 

@@ -66,6 +66,11 @@ public class ReflectionService implements IReflection {
     }
 
     @Override
+    public void deleteLearningGoalAndReflectionQuestion(LearningGoal learningGoal) {
+        selectedLearningGoalsDAO.delete(learningGoal);
+    }
+
+    @Override
     public List<LearningGoalRequestResult> getSelectedLearningGoalsAndReflectionQuestions(Project project) {
         List<LearningGoal> learningGoals = selectedLearningGoalsDAO.getLearningGoals(project);
         List<LearningGoalRequestResult> learningGoalRequestResultList = new ArrayList<>();

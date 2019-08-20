@@ -1,7 +1,6 @@
-let learningGoals = [];
-let reflectionQuestions = [];
 let selectedReflectionQuestions = [];
 let modalTemplateData = {};
+let websiteTemplateData = {};
 
 $(document).ready(function () {
     projectName = $('#projectName').html().trim();
@@ -167,10 +166,15 @@ function saveButtonClicked() {
 function renderSiteTemplate() {
     getSelectedLearningGoalsAndReflectionQuestions(projectName, function (response) {
         let tmpl = $.templates('#selectedLearningGoalTemplate');
-        let data = {};
-        data.selectedEntries = response;
-        let html = tmpl.render(data);
+        websiteTemplateData.selectedEntries = response;
+        let html = tmpl.render(websiteTemplateData);
         $('#selectedLearningGoalResult').html(html);
+    });
+}
+
+function clickDeleteLearningGoalButton(index) {
+    deleteLearningGoalAndReflectionQuestion(websiteTemplateData.selectedEntries[index].learningGoal.id, function (response) {
+        renderSiteTemplate();
     });
 }
 

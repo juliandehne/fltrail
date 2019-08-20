@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.itextpdf.text.DocumentException;
 import unipotsdam.gf.interfaces.IReflection;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.reflection.model.LearningGoal;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
@@ -16,6 +17,7 @@ import unipotsdam.gf.session.GFContexts;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -88,6 +90,18 @@ public class GeneralReflectionView {
         List<LearningGoalRequestResult> learningGoalRequestResultList = reflectionService.getSelectedLearningGoalsAndReflectionQuestions(project);
 
         return Response.ok(learningGoalRequestResultList).build();
+    }
+
+    @DELETE
+    @Path("/learninggoals/{learningGoalId}")
+    public Response deleteLearningGoalAndReflectionQuestions(@PathParam("learningGoalId") String learningGoalId) {
+        if (Strings.isNullOrEmpty(learningGoalId)) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("learning goal id is null or empty").build();
+        }
+
+        LearningGoal learningGoal = new LearningGoal(learningGoalId);
+        reflectionService.deleteLearningGoalAndReflectionQuestion(learningGoal);
+        return Response.ok().build();
     }
 
     @POST

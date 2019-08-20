@@ -1,6 +1,7 @@
 package unipotsdam.gf.interfaces;
 
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.reflection.model.LearningGoal;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestionWithAnswer;
@@ -12,6 +13,8 @@ import java.util.List;
 public interface IReflection {
 
     LearningGoalRequestResult selectLearningGoalAndReflectionQuestion(LearningGoalRequest learningGoalRequest);
+
+    void deleteLearningGoalAndReflectionQuestion(LearningGoal learningGoal);
 
     List<LearningGoalRequestResult> getSelectedLearningGoalsAndReflectionQuestions(Project project);
 

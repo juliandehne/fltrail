@@ -116,6 +116,7 @@
                                             <div class="row">
                                                 <h4>{{:learningGoal.text}}</h4>
                                                 <i class="fas fa-chevron-down"></i>
+                                                <button class="btn btn-primary float-left" onclick='clickDeleteLearningGoalButton("{{:#index}}")'> <i class="fas fa-trash"></i></button>
                                             </div>
                                         </div>
                                     </div>

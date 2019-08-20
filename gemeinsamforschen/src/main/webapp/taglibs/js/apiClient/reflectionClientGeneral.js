@@ -97,6 +97,21 @@ async function saveGroupSelection(projectName, groupId, html) {
     }
 }
 
+function deleteLearningGoalAndReflectionQuestion(learningGoalId, responseHandler) {
+    let url = `../rest/reflection/learninggoals/${learningGoalId}`;
+    $.ajax({
+        url: url,
+        type: "DELETE",
+        contentType: "application/json",
+        success: function (response) {
+            responseHandler(response);
+        },
+        error: function (response) {
+            console.error("Error while deleting learning goal");
+        }
+    });
+}
+
 function endLearningGoalAndReflectionQuestionChoice(projectName, responseHandler) {
     let url = `../rest/reflection/projects/${projectName}/finish`;
     $.ajax({
