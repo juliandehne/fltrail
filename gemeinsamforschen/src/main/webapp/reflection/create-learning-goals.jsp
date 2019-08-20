@@ -101,7 +101,7 @@
         <script id="selectedLearningGoalTemplate" type="text/x-jsrender">
                 <div></div>
                 <div class="row group">
-                    <h1>Lernziele und Reflexionsfragen auswählen</h1>
+                    <h1>{{if !finished}} Lernziele und Reflexionsfragen auswählen {{else}} Ausgewählte Lernziele und Reflexionsfragen {{/if}}</h1>
                     {{if !finished}}
                     <button type="button" onclick="setupModal()" class="btn btn-primary btn-lg" data-toggle="modal"
                             data-target="#myModal">
