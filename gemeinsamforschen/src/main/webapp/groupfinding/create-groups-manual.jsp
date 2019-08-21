@@ -51,7 +51,7 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <!-- back-->
-    <div class="row group nav">
+    <div class="backlink">
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> zurück zu den
             Aufgaben</a>
     </div>

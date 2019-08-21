@@ -28,6 +28,15 @@ public class FullSubmissionPostRequest {
     // have to be set in backend
     private String userEMail;
     private Visibility visibility;
+    private boolean finalized;
+
+    public boolean isFinalized() {
+        return finalized;
+    }
+
+    public void setFinalized(boolean finalized) {
+        this.finalized = finalized;
+    }
 
     public FullSubmissionPostRequest() {
     }

@@ -1,3 +1,6 @@
+let contributionPeerRating = false;
+let workPeerRating = false;
+
 $(document).ready(function () {
     let projectName = $('#projectName').html().trim();
     loaderStart();
@@ -12,6 +15,12 @@ $(document).ready(function () {
         } else {
             $('.savedFinalMark').hide();
             $('#print').hide();
+        }
+        if (!contributionPeerRating) {
+            $('.contributionPeerRating').hide();
+        }
+        if (!workPeerRating) {
+            $('.workPeerRating').hide();
         }
         loaderStop();
     });
@@ -189,6 +198,12 @@ function fillObjectWithGrades(data) {
             };
         }
         resultList.push(result);
+        if (result.workRating !== "fehlt") {
+            workPeerRating = true;
+        }
+        if (result.productPeer !== "fehlt") {
+            contributionPeerRating = true;
+        }
     }
     return resultList;
 }

@@ -147,26 +147,28 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        Ihre Gruppe hat dann nicht nicht mehr die Möglichkeit diese Version des
+                                        Ihre Gruppe hat dann nicht mehr die Möglichkeit diese Version des
                                         Dossiers zu überarbeiten.
                                     </div>
                                     <div class="modal-footer">
                                       <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">schließen
                                         </button>--%>
-                                        <button type="button" id="btnSave" class="btn btn-warning">final speichern</button>
+                                        <button type="button" id="btnFinalSave" class="btn btn-warning">final
+                                            speichern
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            speichern
+                            final speichern
                         </button>
                     </div>
 
-                    <%--   <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">
+                        <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">
                            <i class="far fa-save"></i> Speichern
-                       </button>--%>
+                        </button>
 
                     <div style="display: block">
                         <%--<div style="display: inline-flex;">
@@ -201,20 +203,19 @@
                     <div class="col span span_s_of_2">
                         <div class="infobox dossier">
                             <p>
-                            <sup>
                                 <a data-toggle='collapse' href='#whatIs' role='button'
                                    aria-expanded='false' aria-controls='whatIs'>
                                     <i class='fas fa-question'></i>
                                 </a>
-                                </sup>Erstellen Sie ein Dossier mit den folgenden Kategorien.
+                                Erstellen Sie ein Dossier mit den folgenden Kategorien.
                             </p>
                             <div class='collapse' id='whatIs'>
                                 <div class='card card-body'>
                                     Ein Dossier ist eine Aktensammlung für Ihr Projekt. Die dozierende Person hat dabei
-                                    festelegt, dass die rechts sichtbaren Kategorien mindestens mit enthalten sein müssen.
-                                    Nachdem Sie hier all ihre Textbausteine verfasst haben, kann ihre Gruppe ihren Beitrag
-                                    lesen und editieren. Dieser Vorgang endet, wenn ein Mitglied ihrer Gruppe mit Hilfe
-                                    der nächsten Aufgabe den Textbausteinen die Kategorien zuordnet.
+                                    festgelegt, dass die rechts sichtbaren Kategorien mindestens mit enthalten sein müssen.
+                                    Nachdem Sie hier all ihre Textbausteine verfasst haben, können Sie oder ihre Gruppe
+                                    ihren Beitrag lesen und editieren. Dieser Vorgang endet, wenn ein Mitglied ihrer
+                                    Gruppe mit Hilfe der nächsten Aufgabe den Textbausteinen die Kategorien zuordnet.
                                 </div>
                             </div>
                         </div>
