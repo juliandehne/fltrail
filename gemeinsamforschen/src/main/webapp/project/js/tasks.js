@@ -484,6 +484,7 @@ function handleFinishedTasks(object, result) {
                 break;
             case "ANNOTATE_DOSSIER":
             case "UPLOAD_DOSSIER":
+                result.infoText = "Ihre Gruppe hat ein Dossier entworfen.";
                 result.solveTaskWith = "";
                 result.solveTaskWithLink = "";
                 break;

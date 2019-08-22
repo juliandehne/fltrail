@@ -23,11 +23,7 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.WizardRelevant;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.Progress;
-import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskName;
-import unipotsdam.gf.process.tasks.TaskType;
+import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -110,7 +106,18 @@ public class DossierCreationProcess {
                 } catch (DocumentException | IOException e) {
                     e.printStackTrace();
                 }
-                notifyAboutSubmission(user, project);
+                if (fullSubmissionPostRequest.isFinalized()) {
+                    // this completes the upload task
+                    Task task = new Task(TaskName.UPLOAD_DOSSIER, user, project, Progress.FINISHED);
+                    taskDAO.updateForGroup(task);
+
+                    // this triggers the annotate task
+                    taskDAO.persistTaskGroup(project, user, TaskName.ANNOTATE_DOSSIER, Phase.DossierFeedback);
+                } else {
+                    // this completes the upload task
+                    Task task = new Task(TaskName.UPLOAD_DOSSIER, user, project, Progress.INPROGRESS);
+                    taskDAO.updateForGroup(task);
+                }
                 break;
             case PORTFOLIO_ENTRY:
                 break;

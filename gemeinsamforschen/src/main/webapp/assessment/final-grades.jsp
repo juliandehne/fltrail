@@ -24,8 +24,8 @@
 
     <!-- go back to tasks -->
     <div class="backlink">
-        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
-            Aufgaben</i></a>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> </i>Zurück zu den
+            Aufgaben</a>
     </div>
     <!-- go back to tasks end-->
 
@@ -39,7 +39,7 @@
                         <div class="inProgressView">
                             <label>Legende</label>
                             <div id="iconLegend">
-                                <div id="colorLegend">
+                                <div id="colorLegend" class="contributionPeerRating">
                                     <div class="alert-success">
                                         <span>Gleich</span>
                                     </div>
@@ -50,25 +50,28 @@
                                         <span>Unterschiedlich<br>(+- 0.7)</span>
                                     </div>
                                 </div>
-                                <div>
+                                <div class="workPeerRating">
                                     <p><i class="fas fa-arrow-up"></i> Diese Person wurde von seinen Peers unüblich
                                         gut
                                         bewertet.</p>
                                 </div>
-                                <div>
-                                    <p><i class="fas fa-arrow-down"></i> Diese Person wurde von seinen Peers unüblich
+                                <div class="workPeerRating">
+                                    <p><i class="fas fa-arrow-down"></i> Diese Person wurde von seinen Peers
+                                        unüblich
                                         schlecht
                                         bewertet. </p>
                                 </div>
-                                <div>
+                                <div class="workPeerRating">
                                     <p><i class="fas fa-check"></i> Diese Person wurde von seinen Peers ausgeglichen
                                         bewertet.
                                     </p>
                                 </div>
+                                <p style="font-weight:bold;" class="workPeerRating"> Klicken sie auf das entsprechende
+                                    Symbol in der
+                                    Tabelle um die
+                                    Bewertungen der Studierenden um Ausreißer zu bereinigen.
+                                </p>
                             </div>
-                            <p style="font-weight:bold;"> Klicken sie auf das entsprechende Symbol in der Tabelle um die
-                                Bewertungen der Studierenden um Ausreißer zu bereinigen.
-                            </p>
                             <p>
                                 <a id="takeSuggested" style="cursor:pointer; font-size: 15px;"><i
                                         class="fas fa-arrow-right"></i> vorgeschlagene Noten übernehmen</a></p>
@@ -100,14 +103,14 @@
                         <th class="th-sm" style="width: 25%;">
                             E-Mail
                         </th>
-                        <th class="th-sm">
+                        <th class="th-sm contributionPeerRating">
                             (Average)
                             Produkte (Studierende)
                         </th>
                         <th class="th-sm">
                             Produkte (Sie)
                         </th>
-                        <th class="th-sm">
+                        <th class="th-sm workPeerRating">
                             (Average)
                             Gruppenarbeit
                         </th>
@@ -151,19 +154,20 @@
                         <td name="userEmail">
                             ${userEmail}
                         </td>
-                        <td name="productPeer" class="${levelOfAgreement}">
+                        <td name="productPeer" class="${levelOfAgreement} contributionPeerRating">
                             ${productPeer}
                         </td>
                         <td name="productDocent" class="${levelOfAgreement}">
                             ${productDocent}
                         </td>
-                        <td name="workRating" style="display:flex;">
+                        <td name="workRating" style="display:flex;" class="workPeerRating">
                             <div class='collapse cleaned'>
                                 ${cleanedWorkRating}
                             </div>
                             <div class='collapse in cleaned'>
                                 ${workRating}
                             </div>
+                            {{if workRating!="fehlt"}}
                             <div class="inProgressView">
                             <a data-toggle='collapse' href='.cleaned' role='button'
                                        aria-expanded='false' aria-controls='cleaned'>
@@ -174,8 +178,8 @@
                             <div class='collapse cleaned'>
                                 <i class='fas fa-check'></i>
                             </div>
-
                             </a>
+                            {{/if}}
                         </td>
                         <td name="suggested" id="suggested_${userId}">
                             <div class='collapse cleaned'>
@@ -190,6 +194,7 @@
                             <p class="savedFinalMark">${finalMark}</p>
                         </td>
                     </tr>
+
 
 
 
