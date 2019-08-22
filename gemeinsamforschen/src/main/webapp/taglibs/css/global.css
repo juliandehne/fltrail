@@ -1461,3 +1461,19 @@ main.groups-manual {
     font-size: 2em;
     margin-top: .2em;
 }
+
+.modal-backdrop {
+    display: none !important;
+}
+
+.readMeDIV {
+    width: 10%;
+    padding: .5em;
+    background: #FFF;
+    box-sizing: border-box;
+}
+
+button:disabled {
+    background: #AAAAAA;
+    cursor: not-allowed;
+}

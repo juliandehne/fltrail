@@ -33,7 +33,7 @@
                     <p>Feedbackphase</p>
                 </div>
                 <div class="alert" id="Execution">
-                    <p>Durchführungsphase</p>
+                    <p>Projektsphase</p>
                 </div>
                 <div class="alert" id="Assessment">
                     <p>Bewertungsphase</p>

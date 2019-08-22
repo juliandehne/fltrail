@@ -39,7 +39,7 @@
                     <div id="resultLink"></div>
                 </div>
                 <div id="taskCompleted" class="alert alert-success">
-                    <p>Ihr Feedback wurde erfolgreich gespeichert. Vielen Dank.</p>
+                    <p>Die Bewertung wurde gespeichert.</p>
                 </div>
                 <div id="missingFeedback" class="alert alert-warning">
                     <p>Stellen Sie sicher alle Beiträge der Gruppe bewertet zu haben.</p>

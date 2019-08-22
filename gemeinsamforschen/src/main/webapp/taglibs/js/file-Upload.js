@@ -4,11 +4,7 @@ $(document).ready(function () {
     $('#divFinalContribution').hide();
     $('#uploadSubmit').on('click', function (event) {
         event.preventDefault();
-        if ($('#finalContribution').prop('checked')) {
-            uploadForm($('#projectName').html().trim(), $('#uploadFileRole').html().trim());
-        } else {
-            $('#divFinalContribution').show();
-        }
+        uploadForm($('#projectName').html().trim(), $('#uploadFileRole').html().trim());
     });
 });
 function uploadForm(projectName, fileRole){

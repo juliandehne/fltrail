@@ -28,7 +28,7 @@
         <div class="form-group"><label>Bitte kein sensibles Passwort verwenden!</label></div>
         <div class="form-group">
             <label>
-                <input id="is_Student" class="form-control" type="checkbox" value="false" name="isStudent">Dozierender
+                <input id="is_Student" class="form-control" type="checkbox" value="false" name="isStudent">Dozierend
             </label>
         </div>
         <div class="form-group">

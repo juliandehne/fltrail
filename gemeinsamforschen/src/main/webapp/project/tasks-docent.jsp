@@ -127,7 +127,7 @@
                                                 </ul>
                                             {{/if}}
                                         {{/if}}
-                                        <button style="margin-top:20px; margin-bottom:20px;" onClick="saveQuillFileAndClose('Execution', getProjectName());" class="btn btn-primary"><i class="fas fa-link"></i> Durchführungsphase beenden </button>
+                                        <button style="margin-top:20px; margin-bottom:20px;" onClick="saveQuillFileAndClose('Execution', getProjectName());" class="btn btn-primary"><i class="fas fa-link"></i> Projektsphase beenden </button>
                                     </div>
                                 {{/if}}
                                 {{if inCardSolver=="CLOSE_PEER_ASSESSMENTS_PHASE"}}

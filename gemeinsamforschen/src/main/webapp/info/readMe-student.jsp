@@ -31,7 +31,7 @@
                 <ul>
                     <li class="icon phase1"><a href="#Gruppenbildung">Gruppenbildung</a></li>
                     <li class="icon phase2 "><a href="#Entwurf">Entwurf</a></li>
-                    <li class="icon phase4"><a href="#Durchfuhrung">Durchführung</a></li>
+                    <li class="icon phase4"><a href="#Durchfuhrung">Projekt</a></li>
                     <li class="icon phase5"><a href="#Bewertung">Bewertung</a></li>
                     <li class="icon phase6"><a href="#Projektabschluss">Projektabschluss</a></li>
                 </ul>
@@ -40,8 +40,7 @@
             <div class="col span_l_of_2">
                 <h3 class="phase-heading card-draft">FL-Trail</h3>
                 <div class="card card-draft current readMe">
-                    <div class="col icon infotask"
-                         style="width:10%;padding:.5em;background:#FFF;box-sizing: border-box;">
+                    <div class="col icon infotask readMeDIV">
 
                     </div>
                     <div class="col span_l_of_2">
@@ -54,7 +53,7 @@
 
                 <h3 class="phase-heading card-grouping" id="Gruppenbildung">Gruppenbildung</h3>
                 <div class="card card-grouping current readMe">
-                    <div class="col span_s_of_2 icon infotask"></div>
+                    <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
                         In der Gruppenbildungsphase werden die Studierenden in Projektgruppen eingeteilt.
@@ -68,24 +67,27 @@
 
                 <h3 class="phase-heading card-feedback" id="Entwurf">Entwurf</h3>
                 <div class="card card-feedback current readMe">
-                    <div class="col span_s_of_2 icon infotask"></div>
+                    <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
                         <%--<img src="../taglibs/img/dossier-example.jpg">--%>
-                        Nach der Gruppenfindungsphase werden die Studierenden beauftragt ein Forschungsentwurf/Dossier zu erarbeiten.
-                            In diesem plant ihr euer Projekt und die Methodik zur Beantwortung der gewählten
-                            Forschungsfrage.
+                        Nach der Gruppenfindungsphase werden die Studierenden beauftragt ein Forschungsentwurf/Dossier
+                        zu erarbeiten. In diesem plant ihr euer Projekt und die Methodik zur Beantwortung der
+                        gewählten Forschungsfrage.<br>
                         Die Studierenden geben sich daraufhin Feedback zu den erarbeiteten Forschungskonzepten
                             bezüglich üblicher Kategorien wie der Recherche, der gewählten Methodik etc.
+                        Nachdem das Feedback erhalten wurde, kann der Forschungsentwurf erneut überarbeitet werden.
+                        Wenn diese Version veröffentlicht wird, ist das Ergebnis auch für die dozierende Person
+                        einsehbar und steht zur Bewertung offen.
                     </div>
 
 
                     <div style="clear:left"></div>
                 </div>
 
-                <h3 class="phase-heading card-execution" id="Durchfuhrung">Durchführung</h3>
+                <h3 class="phase-heading card-execution" id="Durchfuhrung">Projekt</h3>
                 <div class="card card-execution current readMe">
-                    <div class="col span_s_of_2 icon infotask"></div>
+                    <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
                         <%--<img src="../taglibs/img/dossiers.jpg">--%>
@@ -102,14 +104,21 @@
 
                 <h3 class="phase-heading card-assessment" id="Bewertung">Bewertung</h3>
                 <div class="card card-assessment current readMe">
-                    <div class="col span_s_of_2 icon infotask"></div>
+                    <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
                         <%--<img src="../taglibs/img/assessment.png">--%>
-                        In der Peer-Assessment-Phase werden Sie aufgefordert, Ihre Kommilitonen zu bewerten. Die
-                        dozierende Person wird ebenfalls eine Bewertung vornehmen. Für die finale Note wird der
-                        dozierenden Person daraufhin eine kombinierte Note vorgeschlagen, die sie übernehmen kann. Ob
-                        dieses Verfahren gewählt wird, wird in ihrem Kurs geklärt.
+                        Zunächst werden die Produkte Ihrer Gruppenarbeit hochgeladen. Zum Ersten als eine Präsentation,
+                        die zur Vorstellung Ihrer Forschung dienen soll und zum Zweiten ein finaler Report, der
+                        eine ausführliche Dokumentation Ihrer Arbeit beinhaltet.<br>
+                        Des Weiteren werden Sie in der Peer-Assessment-Phase aufgefordert, Ihre Kommilitonen zu
+                        bewerten.
+                        Hierbei werden Sie zunächst die Produkte einer anderen Gruppe bewerten und dann Aspekte
+                        der Teamarbeit Ihrer Gruppe von jedem Ihrer Gruppenmitglieder bewerten.
+                        Die dozierende Person wird ebenfalls eine Bewertung der Produkte vornehmen.
+                        Für die finale Note wird der dozierenden Person daraufhin eine kombinierte Note
+                        vorgeschlagen, die sie übernehmen kann. Ob dieses Verfahren gewählt wird,
+                        wird in ihrem Kurs geklärt.
                     </div>
 
                     <div style="clear:left"></div>
@@ -117,7 +126,7 @@
 
                 <h3 class="phase-heading GRADING" id="Projektabschluss">Projektabschluss</h3>
                 <div class="card GRADING current readMe">
-                    <div class="col span_s_of_2 icon infotask"></div>
+                    <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
                     <%--    <img src="../taglibs/img/Notenscan.jpg">
