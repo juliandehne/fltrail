@@ -76,9 +76,17 @@
     <filter-mapping>
         <filter-name>AnnotationAlreadyDoneFilter</filter-name>
         <url-pattern>/annotation/*</url-pattern>
-
     </filter-mapping>
-
+    
+    <listener>
+        <description>Logs the user out of rocket chat if rocket chat session is done</description>
+        <listener-class>unipotsdam.gf.session.RocketChatSessionListener</listener-class>
+    </listener>
+    
+    <listener>
+        <description>This is called on deploy or shutdown, to logout alle existing sessions</description>
+        <listener-class>unipotsdam.gf.session.TomcatListener</listener-class>
+    </listener>
 
     <filter>
         <filter-name>CorsFilter</filter-name>

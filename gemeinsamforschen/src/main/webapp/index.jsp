@@ -15,6 +15,7 @@
 
     <script src="libs/jquery/jquery.min.js"></script>
     <script src="libs/bootstrap/js/bootstrap.min.js"></script>
+    <script src="taglibs/js/rocketchat.js"></script>
 </head>
 
 <body>
@@ -45,8 +46,7 @@
                 if (!message.isEmpty()) {
                     try {
                         PrintWriter p = response.getWriter();
-                        p.println(
-                                "<div class=\"alert alert-danger\" role=\"alert\"> " + message + "</div>");
+                        p.println("<div class=\"alert alert-danger\" role=\"alert\"> " + message + "</div>");
                     } finally {
 
                     }
@@ -54,9 +54,22 @@
             %>
         </div>
         <a href="register.jsp" class="forgot">registrieren</a></form>
-
 </div>
 
-</body>
+<%--<%
+    Cookie[] array = request.getCookies();
+    for (int i = 0; i < array.length; i++) {
+        if (array[i].getName().equals("https://fl-testing.soft.cs.uni-potsdam.de")) {
+            //Deleting the cookie
+            array[i].setMaxAge(0);
+            response.addCookie(array[i]); //After this, although cookie will be not be visible from browser's memory
+            //but Cookie data will still be visible until you refresh this page.
+        }
+    }
+%>--%>
 
+<%--<iframe src="https://fl-testing.soft.cs.uni-potsdam.de" hidden></iframe>--%>
+
+
+</body>
 </html>

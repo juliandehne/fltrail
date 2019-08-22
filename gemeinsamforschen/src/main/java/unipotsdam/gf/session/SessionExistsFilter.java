@@ -24,10 +24,6 @@ public class SessionExistsFilter extends FlTrailfilter implements Filter {
 
     private final static Logger log = LoggerFactory.getLogger(SessionExistsFilter.class);
 
-    @Inject
-    private UserDAO userDAO;
-
-
 
     @Override
     public void init(FilterConfig filterConfig) {

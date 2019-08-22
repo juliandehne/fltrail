@@ -19,7 +19,7 @@ import java.util.List;
 public class CompBaseMatcher implements GroupFormationAlgorithm {
 
     @Inject
-    IConfig iConfig;
+    private IConfig iConfig;
 
     @Override
     public List<Group> calculateGroups(Project project) {
@@ -58,6 +58,7 @@ public class CompBaseMatcher implements GroupFormationAlgorithm {
     @Override
     public void addGroupRelevantData(Project project, User user, Object data) throws Exception {
         Client client = ClientBuilder.newClient();
+        String baseurl = iConfig.getCompBaseUrl();
         String targetUrl = iConfig.getCompBaseUrl() + "/api2/user/" + user.getEmail() + "/projects/" + project
                 .getName() + "/preferences";
         Response put = client.target(targetUrl).request(MediaType.TEXT_PLAIN)
@@ -89,6 +90,7 @@ public class CompBaseMatcher implements GroupFormationAlgorithm {
     public void sendPreferenceData(String projectId, String userId, PreferenceData preferenceData)
             throws CompbaseDownException {
         Client client = ClientBuilder.newClient();
+        String baseurl = iConfig.getCompBaseUrl();
         String targetUrl =
                 iConfig.getCompBaseUrl() + "/api2/user/" + userId + "/projects/" + projectId + "/preferences";
         Response put = client.target(targetUrl).request(MediaType.TEXT_PLAIN)

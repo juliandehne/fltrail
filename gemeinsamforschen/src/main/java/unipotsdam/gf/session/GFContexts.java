@@ -9,8 +9,10 @@ import unipotsdam.gf.modules.user.UserDAO;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Path;
 import java.io.IOException;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class GFContexts {
 
@@ -22,7 +24,6 @@ public class GFContexts {
     public static final String PROJECTNAME = "projectName";
     public static final String ROCKETCHATAUTHTOKEN = "rocketchatauthtoken";
     public static final String ROCKETCHATID = "rocketchatid";
-
 
     private final static Logger log = LoggerFactory.getLogger(GFContexts.class);
 
@@ -48,12 +49,21 @@ public class GFContexts {
     }
 
     public RocketChatUser getRocketChatUserFromSession(HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        RocketChatUser result = getRocketChatUserFromSession(session);
+        if (!TomcatListener.RocketChatUsersLoggedIn.contains(result)) {
+            TomcatListener.RocketChatUsersLoggedIn.add(result);
+        }
+        return result;
+    }
+
+    public RocketChatUser getRocketChatUserFromSession(HttpSession session) {
         RocketChatUser rocketChatUser = new RocketChatUser();
-        if (req.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) == null) {
+        if (session.getAttribute(GFContexts.ROCKETCHATAUTHTOKEN) == null) {
             return null;
         }
-        rocketChatUser.setRocketChatAuthToken(req.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN).toString());
-        rocketChatUser.setRocketChatUserId(req.getSession().getAttribute(GFContexts.ROCKETCHATID).toString());
+        rocketChatUser.setRocketChatAuthToken(session.getAttribute(GFContexts.ROCKETCHATAUTHTOKEN).toString());
+        rocketChatUser.setRocketChatUserId(session.getAttribute(GFContexts.ROCKETCHATID).toString());
         return rocketChatUser;
     }
 

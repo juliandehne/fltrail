@@ -2,6 +2,8 @@ package unipotsdam.gf.modules.communication.model;
 
 import unipotsdam.gf.modules.user.User;
 
+import java.util.Objects;
+
 public class RocketChatUser extends User {
     private String rocketChatAuthToken;
     // not in this version
@@ -46,5 +48,24 @@ public class RocketChatUser extends User {
 
     public void setRocketChatPersonalAccessToken(String rocketChatPersonalAccessToken) {
         this.rocketChatPersonalAccessToken = rocketChatPersonalAccessToken;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        if (!super.equals(o))
+            return false;
+        RocketChatUser that = (RocketChatUser) o;
+        return Objects.equals(getRocketChatAuthToken(), that.getRocketChatAuthToken()) && Objects
+                .equals(getRocketChatUserId(), that.getRocketChatUserId());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(super.hashCode(), getRocketChatAuthToken(), getRocketChatUserId());
     }
 }
