@@ -24,10 +24,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.Boolean;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.lang.Boolean;
 
 @Path("/assessment")
 public class AssessmentView {
@@ -196,10 +196,10 @@ public class AssessmentView {
         Label label2 = new Label(2, 0, "Gruppe");
         grades.addCell(label2);
 
-        Label label3 = new Label(3, 0, "Gruppenarbeit Peer Bewertung");
+        Label label3 = new Label(3, 0, "Zusammenarbeit Peer Bewertung");
         grades.addCell(label3);
 
-        Label label4 = new Label(4, 0, "Gruppenarbeit Produkte");
+        Label label4 = new Label(4, 0, "Produktenote Peer Bewertung");
         grades.addCell(label4);
 
         Label label5 = new Label(5, 0, "Vorgeschlagenes Note");
@@ -226,10 +226,10 @@ public class AssessmentView {
                 grades.addCell(emailCell);
             }
 
-            Integer groupId = userPeerAssessmentData.getGroupId();
-            if (groupId != null) {
-                Number groupIdCell = new Number(2, rowCount, groupId);
-                grades.addCell(groupIdCell);
+            String groupName = userPeerAssessmentData.getGroupName();
+            if (groupName != null) {
+                Label groupNameCell = new Label(2, rowCount, groupName);
+                grades.addCell(groupNameCell);
             }
 
             Double groupWorkRating = userPeerAssessmentData.getGroupWorkRating();

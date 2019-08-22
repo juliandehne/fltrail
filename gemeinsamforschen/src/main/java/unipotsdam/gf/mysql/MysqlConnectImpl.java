@@ -6,9 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.IConfig;
 
-
-import javax.annotation.ManagedBean;
-import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.sql.*;
 import java.util.Date;
@@ -94,7 +91,10 @@ public class MysqlConnectImpl implements MysqlConnect {
         //statement = statement.toLowerCase();
         try {
             PreparedStatement ps = addParameters(statement, false, args);
-            assert ps != null;
+            //assert ps != null;
+            if (ps == null) {
+                log.error("data for statement is corrupted: " + statement);
+            }
             ResultSet queryResult = ps.executeQuery();
             return new VereinfachtesResultSet(queryResult);
         } catch (SQLException ex) {

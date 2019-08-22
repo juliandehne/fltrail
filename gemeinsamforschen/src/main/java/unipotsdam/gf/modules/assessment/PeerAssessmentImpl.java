@@ -12,11 +12,7 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.tasks.TaskMapper;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PeerAssessmentImpl implements IPeerAssessment {
 
@@ -224,7 +220,7 @@ public class PeerAssessmentImpl implements IPeerAssessment {
             userPeerAssessmentData.setGroupWorkRating(groupRating.get(user));
             userPeerAssessmentData.setSuggestedRating(suggestedRating.get(user));
             userPeerAssessmentData.setFinalRating(finalRating.get(user));
-            userPeerAssessmentData.setGroupId(groupDAO.getMyGroup(user, project).getId());
+            userPeerAssessmentData.setGroupName(groupDAO.getMyGroup(user, project).getName());
             userPeerAssessmentData.setFiles(fileManagementService.getListOfFiles(user, project.getName()));
             // set flags, too
             userPeerAssessmentData.setUser(userMap.get(user));

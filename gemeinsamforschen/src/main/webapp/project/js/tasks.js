@@ -66,7 +66,7 @@ function handlePhases(object, result) {
             break;
         case "Execution":
             result.phase = "card-execution";
-            result.headLine = "Durchführung";
+            result.headLine = "Projekt";
             break;
         case "Assessment":
             result.phase = "card-assessment";
@@ -120,9 +120,6 @@ function handleInfoTasks(object, result) {
                     result.memberCount = object.taskData.groupSize * (object.taskData.groupSize - 1);
                     break;
             }
-            break;
-        case "UPLOAD_FINAL_REPORT":
-            result.infoText = "Bitte laden Sie den Abschlussbericht (stellvertretend für ihre Gruppe) hoch!";
             break;
         case "BUILD_GROUPS":
             result.infoText = "Erstellen Sie die Gruppen.";
@@ -186,10 +183,10 @@ function handleInfoTasks(object, result) {
             result.infoText = "Wählen Sie die Einträge aus, die Sie zur Bewertung einreichen möchten.";
             break;
         case "WAIT_FOR_EXECUTION_PHASE_END":
-            result.infoText = "Warten Sie darauf, dass die dozierende Person die Durchführungsphase beendet";
+            result.infoText = "Warten Sie darauf, dass die dozierende Person die Projektsphase beendet";
             break;
         case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS":
-            result.infoText = "Um die Durchführungsphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
+            result.infoText = "Um die Projektsphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
             break;
         case "SEE_LEARNING_GOAL_SELECTION_AGAIN":
             result.infoText = "Sehen Sie sich Ihre Auswahl von Reflexionsfragen und Lernzielen noch einmal an.";
@@ -198,7 +195,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Ein Lernender hat (mindestens) eine Reflexionsfrage beantwortet. Geben Sie Feedback.";
             break;
         case "CLOSE_EXECUTION_PHASE":
-            result.infoText = "Beenden Sie nun die Durchführungsphase.";
+            result.infoText = "Beenden Sie nun die Projektsphase.";
             result.taskData.numberOfMissingReflectionQuestions = result.taskData.userUnansweredReflectionQuestions.length;
             result.taskData.numberOfMissingForAssessmentChosen = result.taskData.userUnchosenAssessmentMaterial.length;
             break;
@@ -214,11 +211,16 @@ function handleInfoTasks(object, result) {
             result.infoText = "Sie können hier die E-Portfolios der Studierenden und Gruppen einsehen, wenn sie für Sie freigegeben wurden.";
             break;
         case "UPLOAD_PRESENTATION":
-            result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für Ihre Gruppe) hoch!";
+            result.infoText = "Stellen Sie die Ergebnisse Ihres Projekts in einer Präsentation dar." +
+                "Bitte laden Sie dann die Präsentation (stellvertretend für Ihre Gruppe) hoch!";
+            break;
+        case "UPLOAD_FINAL_REPORT":
+            result.infoText = "Erstellen Sie einen Abschlussbericht Ihrer Projektergebnissen." +
+                "Bitte laden Sie den Abschlussbericht (stellvertretend für ihre Gruppe) hoch!";
             break;
         case "GIVE_INTERNAL_ASSESSMENT":
             if (object.taskData != null) {
-                result.infoText = "Bitte bewerten Sie die Gruppenarbeit Ihrer Gruppenmitglieder!";
+                result.infoText = "Bitte bewerten Sie die Zusammenarbeit mit Ihren Gruppenmitgliedern!";
                 let numOfMissing = object.taskData.numberOfMissing;
                 if (numOfMissing && numOfMissing > 0) {
                     if (numOfMissing === 1) {
@@ -339,7 +341,7 @@ function handleLinkedTasks(object, result) {
                 result.taskData = object.taskData;
                 if (count === 0) {
                     result.infoText = "Alle Gruppen haben Feedback gegeben";
-                    result.solveTaskWith = "Durchführungsphase starten";
+                    result.solveTaskWith = "Projektsphase starten";
                     result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 } else {
                     if (count <= 3) {
@@ -415,7 +417,7 @@ function handleLinkedTasks(object, result) {
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
                 if (object.taskData != null) {
-                    result.solveTaskWith = "Gruppenarbeit bewerten";
+                    result.solveTaskWith = "Zusammenarbeit bewerten";
                     result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName=" + projectName + "\')";
                 } else {
                     result = null;

@@ -9,7 +9,6 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GroupfindingImpl implements IGroupFinding {
@@ -68,7 +67,7 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
 
-    public ArrayList<String> getStudentsInSameGroup(Project project, User user) {
+    public GroupData getStudentsInSameGroup(Project project, User user) {
         return groupDAO.getStudentsInSameGroupAs(project, user);
     }
 

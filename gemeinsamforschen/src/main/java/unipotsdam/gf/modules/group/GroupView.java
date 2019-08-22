@@ -9,6 +9,7 @@ import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
+import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.GroupFormationProcess;
 
 import javax.inject.Inject;
@@ -18,7 +19,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.bind.JAXBException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Path("/group")
 public class GroupView {
@@ -35,6 +39,9 @@ public class GroupView {
     @Inject
     private ProfileDAO profileDAO;
 
+    @Inject
+    private UserDAO userDAO;
+
 
     /**
      * initializes groups (should only be used in fl context)
@@ -49,13 +56,12 @@ public class GroupView {
         return groupFormationProcess.getOrInitializeGroups(project);
     }
 
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/project/{projectName}/student/{userName}")
-    public ArrayList<String> getStudentsInSameGroup(
+    public GroupData getStudentsInSameGroup(
             @PathParam("projectName") String projectName, @PathParam("userName") String userName){
-        User user = new User(userName);
+        User user = userDAO.getUserByEmail(userName);
         Project project = new Project(projectName);
         return groupfinding.getStudentsInSameGroup(project, user);
     }

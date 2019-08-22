@@ -33,13 +33,13 @@
     <main>
         <div class="row group">
             <div class="span_2_of_2 centered">
-                <h3>Bewerte Gruppe <span id="groupId"></span></h3>
+                <h3>Bewerte Gruppe <span id="groupName"></span></h3>
                 <div id="theSurvey">
                     <div id="surveyContainer"></div>
                     <div id="resultLink"></div>
                 </div>
                 <div id="taskCompleted" class="alert alert-success">
-                    <p>Ihr Feedback wurde erfolgreich gespeichert. Vielen Dank.</p>
+                    <p>Die Bewertung wurde gespeichert.</p>
                 </div>
                 <div id="missingFeedback" class="alert alert-warning">
                     <p>Stellen Sie sicher alle Beiträge der Gruppe bewertet zu haben.</p>

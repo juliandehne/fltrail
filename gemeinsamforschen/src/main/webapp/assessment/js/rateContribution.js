@@ -8,9 +8,23 @@ $(document).ready(function () {
     $('#missingFeedback').hide();
     $('#done').hide();
 
+    $.ajax({
+        url: "../rest/group/project/" + getQueryVariable("projectName") + "/student/" + $("#userEmail").html().trim(),
+        type: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        success: function (group) {
+            let groupName = group.groups[0].name;
+            $('#groupName').append(groupName);
+        },
+        error: function (a, b, c) {
+            alert(a);
+        }
+    });
+    groupId = getQueryVariable("groupId");
 
-    groupId=getQueryVariable("groupId");
-    $('#groupId').append(groupId);
     prepareContributionRating();
 
     //editor.style = "min-height: 100px";
@@ -52,11 +66,12 @@ function prepareContributionRating() {
         type: 'GET',
         success: function (response) {
             let surveyJSON ={
+                completedHtml: "<h3>Vielen Dank für die Bewertung</h3>",
                 pages: [{
                     name:"Internal Assessment",
                     questions:[]
                 }],
-                title: "",
+                title: "Abgaben",
             };
             for (let contribution in response) {
                 surveyJSON.pages[0].questions.push({

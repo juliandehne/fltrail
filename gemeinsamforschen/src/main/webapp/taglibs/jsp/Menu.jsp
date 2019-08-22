@@ -55,7 +55,7 @@
                         </li>
                         <li>
                             <button class="nav-link btn btn-primary" style="cursor:pointer; width:100%;"
-                                    id="readMeDurchfuhrung">Durchführung
+                                    id="readMeDurchfuhrung">Projekt
                             </button>
                         </li>
                         <li>

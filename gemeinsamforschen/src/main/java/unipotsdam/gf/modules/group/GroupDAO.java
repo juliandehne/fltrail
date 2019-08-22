@@ -33,21 +33,37 @@ public class GroupDAO {
         this.connect = connect;
     }
 
-    ArrayList<String> getStudentsInSameGroupAs(Project project, User user) {
+    GroupData getStudentsInSameGroupAs(Project project, User user) {
+        String groupName = "";
         connect.connect();
-        ArrayList<String> result = new ArrayList<>();
-        int groupId = getGroupByStudent(project, user);
-        String mysqlRequest = "SELECT * FROM `groupuser` WHERE `groupId`=?";
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, groupId);
-        boolean next2 = vereinfachtesResultSet.next();
-        while (next2) {
+        String mysqlRequest = "SELECT gu2.userEmail, g2.name FROM groupuser gu2 JOIN groups g2 ON g2.id = gu2.groupId" +
+                "WHERE gu2.groupId IN " +
+                "(SELECT groupId FROM groupuser gu JOIN groups g ON gu.groupId = g.id AND " +
+                "gu.userEmail = ? " +
+                "AND g.projectName = ?) " +
+                "AND userEmail!=?";
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(
+                mysqlRequest,
+                user.getEmail(),
+                project.getName(),
+                user.getEmail()
+        );
+        List<String> peers = new ArrayList<>();
+        while (vereinfachtesResultSet.next()) {
             String peer = vereinfachtesResultSet.getString("userEmail");
-            if (!peer.equals(user.getEmail()))
-                result.add(peer);
-            next2 = vereinfachtesResultSet.next();
+            peers.add(peer);
+            groupName = vereinfachtesResultSet.getString("name");
         }
         connect.close();
-        return result;
+        List<User> users = new ArrayList<>();
+        for (String peer : peers) {
+            users.add(userDAO.getUserByEmail(peer));
+        }
+        List<Group> groups = new ArrayList<>();
+        Group group = new Group(users, project.getName());
+        group.setName(groupName);
+        groups.add(group);
+        return new GroupData(groups);
     }
 
     public Integer getGroupByStudent(Project project, User user) {
@@ -66,9 +82,9 @@ public class GroupDAO {
         assert group.getProjectName() != null;
         connect.connect();
 
-        String mysqlRequestGroup = "INSERT INTO groups (`projectName`,`chatRoomId`) values (?,?)";
+        String mysqlRequestGroup = "INSERT INTO groups (`projectName`,`chatRoomId`, `name`) values (?,?,?)";
         int groupId = connect.issueInsertStatementWithAutoincrement(mysqlRequestGroup, group.getProjectName(),
-                group.getChatRoomId());
+                group.getChatRoomId(), group.getName());
 
         group.setId(groupId);
         for (User groupMember : group.getMembers()) {
@@ -196,6 +212,7 @@ public class GroupDAO {
             }
             ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
             Group group = new Group(vereinfachtesResultSet.getInt("groupId"), userList, projectName, chatRoomId);
+            group.setName(vereinfachtesResultSet.getString("name"));
             groups.add(group);
             next = vereinfachtesResultSet.next();
         }

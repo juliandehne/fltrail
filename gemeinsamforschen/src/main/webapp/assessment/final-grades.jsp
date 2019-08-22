@@ -112,7 +112,7 @@
                         </th>
                         <th class="th-sm workPeerRating">
                             (Average)
-                            Gruppenarbeit
+                            Zusammenarbeit
                         </th>
                         <th class="th-sm">
                             (Average)
@@ -148,8 +148,8 @@
                                 </div>
                             </div>
                         </td>
-                        <td name="groupId">
-                            ${groupId}
+                        <td name="groupName">
+                            ${groupName}
                         </td>
                         <td name="userEmail">
                             ${userEmail}

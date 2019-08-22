@@ -40,6 +40,7 @@ public class SelectedLearningGoalsDAO {
         while (resultSet.next()) {
             learningGoals.add(convertResultSet(resultSet));
         }
+        connection.close();
         return learningGoals;
     }
 
