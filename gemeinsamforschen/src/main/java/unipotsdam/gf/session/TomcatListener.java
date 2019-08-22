@@ -40,8 +40,8 @@ public class TomcatListener implements ServletContextListener {
         for (RocketChatUser user : RocketChatUsersLoggedIn) {
             try {
                 communication.logout(user);
-                RocketChatUsersLoggedIn.remove(user);
-                log.info("removed user " + user.getRocketChatAuthToken() + "from rocket chat session queue");
+         /*       RocketChatUsersLoggedIn.remove(user);
+                log.info("removed user " + user.getRocketChatAuthToken() + " from rocket chat session queue");*/
             } catch (RocketChatDownException e) {
                 e.printStackTrace();
             } catch (UserDoesNotExistInRocketChatException e) {

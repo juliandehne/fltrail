@@ -313,7 +313,9 @@ public class CommunicationService implements ICommunication {
         rocketChatUser.setRocketChatAuthToken(rocketChatLoginResponse.getAuthToken());
 
         // needed for logout during shutdown
-        TomcatListener.RocketChatUsersLoggedIn.add(rocketChatUser);
+        if (!TomcatListener.RocketChatUsersLoggedIn.contains(rocketChatUser)) {
+            TomcatListener.RocketChatUsersLoggedIn.add(rocketChatUser);
+        }
 
         return rocketChatUser;
     }
@@ -529,6 +531,7 @@ public class CommunicationService implements ICommunication {
         if (badRequest) {
             log.error(response.getStatusText().toString());
         } else {
+            log.info("removed user with token " + user.getRocketChatAuthToken() + "from session queue");
             TomcatListener.RocketChatUsersLoggedIn.remove(user);
         }
     }
