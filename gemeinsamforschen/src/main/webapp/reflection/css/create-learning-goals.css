@@ -189,6 +189,10 @@ a:visited {
     margin-right: auto;
 }
 
+.well h4 {
+    margin-bottom: 0;
+}
+
 .panel-body h3 {
     text-align: center;
     width: 50%;

@@ -11,9 +11,10 @@ import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
-import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
-import unipotsdam.gf.modules.reflection.model.ReflectionQuestionToAnswer;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsToAnswerDAO;
+import unipotsdam.gf.modules.reflection.model.ReflectionQuestionAnswerDB;
+import unipotsdam.gf.modules.reflection.model.SelectedReflectionQuestion;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionAnswersDAO;
+import unipotsdam.gf.modules.reflection.service.SelectedReflectionQuestionsDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
@@ -59,7 +60,10 @@ public class ExecutionProcess implements IExecutionProcess {
     private ProjectDAO projectDAO;
 
     @Inject
-    private ReflectionQuestionsToAnswerDAO reflectionQuestionsToAnswerDAO;
+    private ReflectionQuestionAnswersDAO reflectionQuestionAnswersDAO;
+
+    @Inject
+    private SelectedReflectionQuestionsDAO selectedReflectionQuestionsDAO;
 
     @Inject
     private FileManagementService fileManagementService;
@@ -80,8 +84,6 @@ public class ExecutionProcess implements IExecutionProcess {
 
     @Override
     public void finalizeLearningGoalsAndReflectionQuestionsSelection(Project project) throws Exception {
-        reflectionService.persistReflectionQuestionsToAnswer(project);
-
         Project fullProject = projectDAO.getProjectByName(project.getName());
         User docent = new User(fullProject.getAuthorEmail());
         finishTask(project, docent, CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS);
@@ -97,18 +99,19 @@ public class ExecutionProcess implements IExecutionProcess {
     }
 
     @Override
-    public void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) throws Exception {
+    public void answerReflectionQuestion(FullSubmission fullSubmission, SelectedReflectionQuestion reflectionQuestion) throws Exception {
+        //todo: check if a reflection question is selected first, it not return/throw exception
         Project project = projectDAO.getProjectByName(fullSubmission.getProjectName());
-        reflectionQuestionsToAnswerDAO.saveAnswerReference(fullSubmission, reflectionQuestion);
-        ReflectionQuestionToAnswer fullReflectionQuestion = reflectionQuestionsToAnswerDAO.findBy(reflectionQuestion.getId());
-        User user = new User(fullReflectionQuestion.getUserEmail());
+        ReflectionQuestionAnswerDB reflectionQuestionAnswer = new ReflectionQuestionAnswerDB(fullSubmission, reflectionQuestion);
+        String uuid = reflectionQuestionAnswersDAO.persist(reflectionQuestionAnswer);
+        reflectionQuestionAnswer.setId(uuid);
+        User user = new User(fullSubmission.getUserEmail());
         setTaskInProgress(project, user, ANSWER_REFLECTION_QUESTIONS);
-
-        List<ReflectionQuestion> reflectionQuestions = reflectionQuestionsToAnswerDAO.getUnansweredQuestions(project, user, true);
 
         User docent = new User(project.getAuthorEmail());
         startNewTask(project, docent, FEEDBACK_REFLECTION_QUESTION_ANSWER, true);
 
+        List<SelectedReflectionQuestion> reflectionQuestions = selectedReflectionQuestionsDAO.getUnansweredQuestions(project, user, true);
         if (reflectionQuestions.isEmpty()) {
             finishTask(project, user, ANSWER_REFLECTION_QUESTIONS);
             startNewTask(project, user, CHOOSE_PORTFOLIO_ENTRIES, true);

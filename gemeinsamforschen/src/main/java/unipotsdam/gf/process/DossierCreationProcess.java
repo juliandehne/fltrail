@@ -13,7 +13,7 @@ import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
-import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
+import unipotsdam.gf.modules.reflection.model.SelectedReflectionQuestion;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
@@ -23,7 +23,11 @@ import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.wizard.WizardRelevant;
 import unipotsdam.gf.process.constraints.ConstraintsImpl;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.*;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.process.tasks.TaskType;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -123,7 +127,7 @@ public class DossierCreationProcess {
                 break;
             case REFLECTION_QUESTION:
                 try {
-                    ReflectionQuestion reflectionQuestion = new ReflectionQuestion(fullSubmissionPostRequest.getReflectionQuestionId());
+                    SelectedReflectionQuestion reflectionQuestion = new SelectedReflectionQuestion(fullSubmissionPostRequest.getReflectionQuestionId());
                     executionProcess.answerReflectionQuestion(fullSubmission, reflectionQuestion);
                 } catch (Exception e) {
                     e.printStackTrace();

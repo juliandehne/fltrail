@@ -1,31 +1,35 @@
 package unipotsdam.gf.modules.reflection.model;
 
-public class ReflectionQuestion extends ReflectionQuestionToAnswer {
+public class ReflectionQuestion extends SelectedReflectionQuestion {
 
-    private String question;
+    private String fullSubmissionId;
+    private String projectName;
 
-    public ReflectionQuestion() {
+    public ReflectionQuestion(String id, String learningGoalId, String question, String projectName, String fullSubmissionId) {
+        super(id, learningGoalId, question);
+        this.projectName = projectName;
+        this.fullSubmissionId = fullSubmissionId;
     }
 
-    public ReflectionQuestion(String id) {
-        super(id);
+    public ReflectionQuestion(SelectedReflectionQuestion selectedReflectionQuestion, String projectName, String fullSubmissionId) {
+        super(selectedReflectionQuestion);
+        this.projectName = projectName;
+        this.fullSubmissionId = fullSubmissionId;
     }
 
-    public ReflectionQuestion(String id, String learningGoalId, String selectedReflectionQuestionId, String fullSubmissionId, String userEmail, String projectName, String question) {
-        super(id, learningGoalId, selectedReflectionQuestionId, fullSubmissionId, userEmail, projectName);
-        this.question = question;
+    public String getFullSubmissionId() {
+        return fullSubmissionId;
     }
 
-    public ReflectionQuestion(ReflectionQuestionToAnswer questionToAnswer, String question) {
-        super(questionToAnswer);
-        this.question = question;
+    public void setFullSubmissionId(String fullSubmissionId) {
+        this.fullSubmissionId = fullSubmissionId;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

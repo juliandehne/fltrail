@@ -1,18 +1,20 @@
 package unipotsdam.gf.modules.wizard;
 
 import de.svenjacobs.loremipsum.LoremIpsum;
+import org.apache.commons.collections4.CollectionUtils;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalStoreItem;
-import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestionsStoreItem;
+import unipotsdam.gf.modules.reflection.model.SelectedReflectionQuestion;
 import unipotsdam.gf.modules.reflection.service.LearningGoalStoreDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionAnswersDAO;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsStoreDAO;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsToAnswerDAO;
 import unipotsdam.gf.modules.reflection.service.SelectedLearningGoalsDAO;
+import unipotsdam.gf.modules.reflection.service.SelectedReflectionQuestionsDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
@@ -63,7 +65,10 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
     private SelectedLearningGoalsDAO selectedLearningGoalsDAO;
 
     @Inject
-    private ReflectionQuestionsToAnswerDAO reflectionQuestionsToAnswerDAO;
+    private SelectedReflectionQuestionsDAO selectedReflectionQuestionsDAO;
+
+    @Inject
+    private ReflectionQuestionAnswersDAO reflectionQuestionAnswersDAO;
 
     @Inject
     private SubmissionController submissionController;
@@ -151,32 +156,40 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
 
     }
 
-    private void simulateSubmissions(Project project, FileRole rq, Visibility visibility) throws Exception {
+    private void simulateSubmissions(Project project, FileRole fileRole, Visibility visibility) throws Exception {
         List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
         for (User user : usersByProjectName) {
-            List<FullSubmission> assessableSubmissions = submissionController.getAssessableSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
-            if (assessableSubmissions == null || assessableSubmissions.isEmpty()) {
-                List<ReflectionQuestion> reflectionQuestions =
-                        reflectionQuestionsToAnswerDAO.getUnansweredQuestions(project, user, false);
-                if (reflectionQuestions != null) {
-                    for (ReflectionQuestion reflectionQuestion : reflectionQuestions) {
-                        Group myGroup = groupDAO.getMyGroup(user, project);
-                        String text = loremIpsum.getWords(500);
-                        text = convertTextToQuillJs(text);
-                        String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).get();
-                        FullSubmissionPostRequest submission =
-                                new FullSubmissionPostRequest(myGroup, text, rq, project, visibility, title);
-                        submission.setHtml(text);
-                        FullSubmission fullSubmission = dossierCreationProcess.addDossier(submission, user, project);
-                        submission.setId(fullSubmission.getId());
-                        iExecutionProcess.answerReflectionQuestion(fullSubmission, reflectionQuestion);
-                        // dossier creation processs is used as substitute -- needs refactoring
-                        //dossierCreationProcess.addDossier(submission, user, project);
+            switch (fileRole) {
+                case PORTFOLIO_ENTRY:
+                    List<FullSubmission> assessableSubmissions = submissionController.getAssessableSubmissions(user, project, fileRole);
+                    if (CollectionUtils.isEmpty(assessableSubmissions)) {
+                        List<SelectedReflectionQuestion> reflectionQuestions = selectedReflectionQuestionsDAO.findBy(project);
+                        createEntries(project, user, reflectionQuestions, fileRole, visibility);
                     }
+                case REFLECTION_QUESTION:
+                    List<SelectedReflectionQuestion> unansweredQuestions = selectedReflectionQuestionsDAO.getUnansweredQuestions(project, user, false);
+                    createEntries(project, user, unansweredQuestions, fileRole, visibility);
+            }
+        }
+    }
+
+    private void createEntries(Project project, User user, List<SelectedReflectionQuestion> reflectionQuestions,
+                               FileRole fileRole, Visibility visibility) throws Exception {
+        if (reflectionQuestions != null) {
+            for (SelectedReflectionQuestion reflectionQuestion : reflectionQuestions) {
+                Group myGroup = groupDAO.getMyGroup(user, project);
+                String text = loremIpsum.getWords(500);
+                text = convertTextToQuillJs(text);
+                String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).orElse("Default");
+                FullSubmissionPostRequest submission =
+                        new FullSubmissionPostRequest(myGroup, text, fileRole, project, visibility, title);
+                submission.setHtml(text);
+                FullSubmission fullSubmission = dossierCreationProcess.addDossier(submission, user, project);
+                if (fileRole == FileRole.REFLECTION_QUESTION) {
+                    iExecutionProcess.answerReflectionQuestion(fullSubmission, reflectionQuestion);
                 }
             }
         }
-
     }
 
 }

@@ -16,6 +16,8 @@ import java.util.UUID;
 @Resource
 public class SelectedLearningGoalsDAO {
 
+    static final String DATABASE_NAME = "selectedlearninggoals";
+
     @Inject
     private MysqlConnect connection;
 
