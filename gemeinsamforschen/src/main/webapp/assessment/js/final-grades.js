@@ -181,7 +181,7 @@ function fillObjectWithGrades(data) {
                 cleanedSuggested = Math.trunc(cleanedSuggested) + 0.7;
             }
             result = {
-                groupId: grades[student].groupId,
+                groupName: grades[student].groupName,
                 files: files,
                 levelOfAgreement: levelOfAgreement,
                 userId: grades[student].user.id,

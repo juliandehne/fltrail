@@ -12,7 +12,7 @@ import java.util.List;
 @XmlRootElement
 public class UserPeerAssessmentData {
     private User user;
-    private Integer groupId;
+    private String groupName;
     private List<ContributionStorage> files;
     private Double groupProductRating;
     private Double groupWorkRating;
@@ -66,12 +66,12 @@ public class UserPeerAssessmentData {
         this.cleanedGroupWorkRating = cleanedGroupWorkRating;
     }
 
-    public Integer getGroupId() {
-        return groupId;
+    public String getGroupName() {
+        return groupName;
     }
 
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public List<ContributionStorage> getFiles() {

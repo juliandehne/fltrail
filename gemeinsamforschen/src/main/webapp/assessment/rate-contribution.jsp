@@ -33,7 +33,7 @@
     <main>
         <div class="row group">
             <div class="span_2_of_2 centered">
-                <h3>Bewerte Gruppe <span id="groupId"></span></h3>
+                <h3>Bewerte Gruppe <span id="groupName"></span></h3>
                 <div id="theSurvey">
                     <div id="surveyContainer"></div>
                     <div id="resultLink"></div>

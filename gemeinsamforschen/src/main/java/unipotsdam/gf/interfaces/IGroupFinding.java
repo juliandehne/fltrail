@@ -3,13 +3,12 @@ package unipotsdam.gf.interfaces;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.modules.group.Group;
+import unipotsdam.gf.modules.group.GroupData;
 import unipotsdam.gf.modules.group.GroupFormationAlgorithm;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.survey.GroupWorkContext;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
-
-import java.util.ArrayList;
 
 public interface IGroupFinding {
 
@@ -36,7 +35,7 @@ public interface IGroupFinding {
 
     Integer getMyGroupId(User user, Project project);
 
-    ArrayList<String> getStudentsInSameGroup(Project project, User user);
+    GroupData getStudentsInSameGroup(Project project, User user);
 
     int getMinNumberOfStudentsNeeded(Project project);
 

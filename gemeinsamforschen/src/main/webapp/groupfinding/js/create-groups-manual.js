@@ -113,7 +113,8 @@ function viewToGroup(callback) {
     }
     let groups = [];
     $('#groupsInProject').children().each(function () {     //the DIVs
-        if ($(this).attr("id").trim() !== "gruppenlos") {
+        let name = $(this).attr("id").trim();
+        if (name !== "gruppenlos") {
             let members = [];
             let chatRoomId = 0;
             $(this).children().each(function () {           //the ULs
@@ -142,6 +143,7 @@ function viewToGroup(callback) {
                 groups.push({
                     chatRoomId: chatRoomId,
                     id: "",
+                    name: name,
                     members: members,
                 })
             }

@@ -121,9 +121,6 @@ function handleInfoTasks(object, result) {
                     break;
             }
             break;
-        case "UPLOAD_FINAL_REPORT":
-            result.infoText = "Bitte laden Sie den Abschlussbericht (stellvertretend für ihre Gruppe) hoch!";
-            break;
         case "BUILD_GROUPS":
             result.infoText = "Erstellen Sie die Gruppen.";
             break;
@@ -214,11 +211,16 @@ function handleInfoTasks(object, result) {
             result.infoText = "Sie können hier die E-Portfolios der Studierenden und Gruppen einsehen, wenn sie für Sie freigegeben wurden.";
             break;
         case "UPLOAD_PRESENTATION":
-            result.infoText = "Bitte laden Sie die Präsentation (stellvertretend für Ihre Gruppe) hoch!";
+            result.infoText = "Stellen Sie die Ergebnisse Ihres Projekts in einer Präsentation dar." +
+                "Bitte laden Sie dann die Präsentation (stellvertretend für Ihre Gruppe) hoch!";
+            break;
+        case "UPLOAD_FINAL_REPORT":
+            result.infoText = "Erstellen Sie einen Abschlussbericht Ihrer Projektergebnissen." +
+                "Bitte laden Sie den Abschlussbericht (stellvertretend für ihre Gruppe) hoch!";
             break;
         case "GIVE_INTERNAL_ASSESSMENT":
             if (object.taskData != null) {
-                result.infoText = "Bitte bewerten Sie die Gruppenarbeit Ihrer Gruppenmitglieder!";
+                result.infoText = "Bitte bewerten Sie die Zusammenarbeit mit Ihren Gruppenmitgliedern!";
                 let numOfMissing = object.taskData.numberOfMissing;
                 if (numOfMissing && numOfMissing > 0) {
                     if (numOfMissing === 1) {
@@ -415,7 +417,7 @@ function handleLinkedTasks(object, result) {
                 break;
             case "GIVE_INTERNAL_ASSESSMENT":
                 if (object.taskData != null) {
-                    result.solveTaskWith = "Gruppenarbeit bewerten";
+                    result.solveTaskWith = "Zusammenarbeit bewerten";
                     result.solveTaskWithLink = "redirect(\'../assessment/rate-group-work.jsp?projectName=" + projectName + "\')";
                 } else {
                     result = null;
