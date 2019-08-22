@@ -100,7 +100,7 @@ public class WizardDao {
         correctDossierStatus(project, result);
         correctAnnotationStatus(project, result);
         correctCreatePortfolioStatus(project, result);
-        correctPortfolioFeedback(project, result);
+        //correctPortfolioFeedback(project, result);
 
         return result;
     }
