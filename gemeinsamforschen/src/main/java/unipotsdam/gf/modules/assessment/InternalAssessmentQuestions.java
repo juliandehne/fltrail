@@ -94,15 +94,15 @@ public class InternalAssessmentQuestions {
 
     SurveyData getQuestionsInSurveyJSFormat() {
         SurveyData surveyData = new SurveyData();
-        //surveyData.setTitle(new LocalizedText("Bewertung der Gruppenarbeit", "Bewertung der Gruppenarbeit" ));
+        //surveyData.setTitle(new LocalizedText("Bewertung der Zusammenarbeit", "Bewertung der Zusammenarbeit" ));
         Page page = new Page();
-        //page.setName("Bewertung der Gruppenarbeit");
+        //page.setName("Bewertung der Zusammenarbeit");
         int i = 0;
         for (QuestionData questionData : getTheQuestions()) {
             if (i == 4) {
                 surveyData.getPages().add(page);
                 page = new Page();
-                //page.setName("Bewertung der Gruppenarbeit");
+                //page.setName("Bewertung der Zusammenarbeit");
             }
             page.getQuestions().add(convert(questionData));
             i++;

@@ -12,13 +12,11 @@ $(document).ready(function () {
         }else{
             groupsToTemplate(allGroups, function (done) {
                 selectableButtons(done);
+                let userEmail = getUserEmail();
+                highlightAndFocusUserGroup(userEmail);
             });
         }
     });
-
-    let userEmail = getUserEmail();
-    highlightAndFocusUserGroup(userEmail);
-    console.log(userEmail);
 });
 
 function getAllGroups(callback) {
@@ -64,9 +62,10 @@ function selectableButtons(done) {
 }
 
 function highlightAndFocusUserGroup(userEmail) {
-    //hiliter(userEmail, )
-    let elem = $('*:contains('+userEmail+')').parent().scroll();
-
-
+    let elem = $("p:contains(" + userEmail + ")[name='userEmail']").parent().parent().parent();
+    elem.css("border", function () {
+        return "3px solid rgb(22, 113, 181)"
+    });
+    $('html, body').animate({scrollTop: ($(elem).offset().top)}, 'slow');
 }
 

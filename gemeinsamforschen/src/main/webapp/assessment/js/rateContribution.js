@@ -8,9 +8,23 @@ $(document).ready(function () {
     $('#missingFeedback').hide();
     $('#done').hide();
 
+    $.ajax({
+        url: "../rest/group/project/" + getQueryVariable("projectName") + "/student/" + $("#userEmail").html().trim(),
+        type: 'GET',
+        headers: {
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        },
+        success: function (group) {
+            let groupName = group.groups[0].name;
+            $('#groupName').append(groupName);
+        },
+        error: function (a, b, c) {
+            alert(a);
+        }
+    });
+    groupId = getQueryVariable("groupId");
 
-    groupId=getQueryVariable("groupId");
-    $('#groupId').append(groupId);
     prepareContributionRating();
 
     //editor.style = "min-height: 100px";
