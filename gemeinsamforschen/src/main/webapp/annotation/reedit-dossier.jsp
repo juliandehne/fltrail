@@ -88,7 +88,8 @@
                                         <div class="modal-footer">
                                             <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">schließen
                                               </button>--%>
-                                            <button type="button" id="btnSave" class="btn btn-warning">final speichern</button>
+                                            <button type="button" id="btnSave" class="btn btn-warning">veröffentlichen
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +99,7 @@
                             </button>
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                      data-target="#exampleModal">
-                                final speichern
+                                veröffentlichen
                             </button>
                         </div>
 

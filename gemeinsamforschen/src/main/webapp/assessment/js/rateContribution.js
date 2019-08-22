@@ -52,11 +52,12 @@ function prepareContributionRating() {
         type: 'GET',
         success: function (response) {
             let surveyJSON ={
+                completedHtml: "<h3>Vielen Dank für die Bewertung</h3>",
                 pages: [{
                     name:"Internal Assessment",
                     questions:[]
                 }],
-                title: "",
+                title: "Abgaben",
             };
             for (let contribution in response) {
                 surveyJSON.pages[0].questions.push({

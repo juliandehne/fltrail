@@ -28,7 +28,7 @@ public class GFLogout {
     public void logoutUser(@Context HttpServletRequest req)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
 
-        if (FLTrailConfig.rocketChatIsOnline) {
+   /*     if (FLTrailConfig.rocketChatIsOnline) {
             RocketChatUser rocketChatUserFromSession = gfContexts.getRocketChatUserFromSession(req);
             if (rocketChatUserFromSession != null) {
                 iCommunication.logout(rocketChatUserFromSession);
@@ -39,8 +39,7 @@ public class GFLogout {
         req.getSession().setAttribute(GFContexts.PROJECTNAME, null);
         req.getSession().setAttribute(GFContexts.ISSTUDENT, null);
         req.getSession().setAttribute(GFContexts.ROCKETCHATAUTHTOKEN, null);
-        req.getSession().setAttribute(GFContexts.ROCKETCHATID, null);
-
-
+        req.getSession().setAttribute(GFContexts.ROCKETCHATID, null);*/
+        req.getSession().invalidate();
     }
 }

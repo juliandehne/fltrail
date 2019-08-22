@@ -22,31 +22,31 @@
             <% if (phase == Phase.GroupFormation) {%>
         <li class="icon  phase1">Gruppenbildung</li>
         <li class="icon inactive  phase2 ">Entwurf</li>
-        <li class="icon inactive phase4">Durchführung</li>
+        <li class="icon inactive phase4">Projekt</li>
         <li class="icon inactive phase5">Bewertung</li>
         <li class="icon inactive phase6">Projektabschluss</li>
             <%} else if (phase == Phase.DossierFeedback) {%>
         <li class="icon closed phase1">Gruppenbildung</li>
         <li class="icon  phase2">Entwurf</li>
-        <li class="icon inactive phase4">Durchführung</li>
+        <li class="icon inactive phase4">Projekt</li>
         <li class="icon inactive phase5">Bewertung</li>
         <li class="icon inactive phase6">Projektabschluss</li>
             <%} else if (phase == Phase.Execution) {%>
         <li class="neutral icon closed phase1">Gruppenbildung</li>
         <li class="draft icon closed phase2">Entwurf</li>
-        <li class="icon phase4">Durchführung</li>
+        <li class="icon phase4">Projekt</li>
         <li class="icon inactive phase5">Bewertung</li>
         <li class="icon inactive phase6">Projektabschluss</li>
             <%} else if (phase == Phase.Assessment) {%>
         <li class="neutral icon closed phase1">Gruppenbildung</li>
         <li class="draft icon closed phase2">Entwurf</li>
-        <li class="icon closed phase4">Durchführung</li>
+        <li class="icon closed phase4">Projekt</li>
         <li class="icon phase5">Bewertung</li>
         <li class="icon inactive phase6">Projektabschluss</li>
         <%} else if (phase == Phase.GRADING) {%>
         <li class="icon closed phase1">Gruppenbildung</li>
         <li class="icon closed phase2">Entwurf</li>
-        <li class="icon closed phase4">Durchführung</li>
+        <li class="icon closed phase4">Projekt</li>
         <li class="icon closed phase5">Bewertung</li>
         <li class="icon phase6">Projektabschluss</li>
             <%}%>

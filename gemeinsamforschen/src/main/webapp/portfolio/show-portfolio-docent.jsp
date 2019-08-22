@@ -31,8 +31,8 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <div class="backlink">
-        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"> Zurück zu den
-            Aufgaben</i></a>
+        <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> Zurück zu den
+            Aufgaben</a>
     </div>
     <main>
         <jsp:include page="docent-submissions-template.jsp"/>

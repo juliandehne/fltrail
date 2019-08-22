@@ -76,27 +76,28 @@
             <div class="col span_content span_s_of_2">
                 <div>
                     <script type="text/javascript">
-                        $(window).on('load',function(){
+                        $(window).on('load', function () {
                             $('#exampleModal').modal('show');
                         });
                     </script>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                         aria-labelledby="speichernDialog" >
+                         aria-labelledby="speichernDialog">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                               <%-- <div class="modal-header">
-                                    <h5 class="modal-title" id="speichernDialog">Anleitung zur Annotation</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>--%>
+                                <%-- <div class="modal-header">
+                                     <h5 class="modal-title" id="speichernDialog">Anleitung zur Annotation</h5>
+                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                         <span aria-hidden="true">&times;</span>
+                                     </button>
+                                 </div>--%>
                                 <div class="modal-body">
                                     <div class="infobox dossier">
-                                        <p>Ordne allen Textteilen passende Kategorien zu. Markiere den Text, klicke auf
-                                            die rechte Maustaste
-                                            und wähle die passende Kategorie. Es reicht, wenn dies ein Mitglied
-                                            ihrer Gruppe macht!</p>
+                                        <p>
+                                            Ordne allen Textteilen der passenden Kategorie zu. Markiere den Text, klicke
+                                            auf die rechte Maustaste und wähle die passende Kategorie. Es reicht,
+                                            wenn dies <b>ein</b> Mitglied Ihrer Gruppe macht!
+                                        </p>
 
                                     </div>
                                 </div>
@@ -130,6 +131,7 @@
                             </div>
                         </li>
                     {{/for}}
+
 
                     </script>
                 </ol>

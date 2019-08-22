@@ -6,10 +6,7 @@ import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.interfaces.ICommunication;
 import unipotsdam.gf.interfaces.IGroupFinding;
-import unipotsdam.gf.modules.group.Group;
-import unipotsdam.gf.modules.group.GroupDAO;
-import unipotsdam.gf.modules.group.GroupData;
-import unipotsdam.gf.modules.group.GroupFormationMechanism;
+import unipotsdam.gf.modules.group.*;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.learninggoals.PreferenceData;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
@@ -50,6 +47,8 @@ public class GroupFormationProcess {
     @Inject
     private ICommunication iCommunication;
 
+    @Inject
+    private GroupFormationFactory groupFormationFactory;
 
 
     /**
@@ -84,12 +83,10 @@ public class GroupFormationProcess {
     public void finalize(Project project, User author) throws Exception {
 
         taskDAO.persistTeacherTask(project, TaskName.CLOSE_GROUP_FINDING_PHASE, Phase.GroupFormation);
-        Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, author, project,
-                Progress.FINISHED);
+        Task task = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, author, project, Progress.FINISHED);
         taskDAO.updateForUser(task);
         // Der Dozent muss nicht mehr auf weitere Studierende warten
-        Task task2 =
-                new Task(TaskName.WAIT_FOR_PARTICPANTS, author, project, Progress.FINISHED);
+        Task task2 = new Task(TaskName.WAIT_FOR_PARTICPANTS, author, project, Progress.FINISHED);
         taskDAO.updateForUser(task2);
         // Die Studierenden müssen nicht mehr auf die Gruppenfindung warten
         taskDAO.finishMemberTask(project, TaskName.WAITING_FOR_GROUP);
@@ -102,23 +99,22 @@ public class GroupFormationProcess {
             iCommunication.createChatRoom(group, false);
         }
 
-        Task closeGroupTask = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, author, project,
-                Progress.FINISHED);
+        Task closeGroupTask = new Task(TaskName.CLOSE_GROUP_FINDING_PHASE, author, project, Progress.FINISHED);
         taskDAO.updateForUser(closeGroupTask);
 
     }
 
     public void testForSingleGroups(Group[] groups, String isManipulated, Project project) {
-        if (isManipulated != null && isManipulated.equals("true")){
-            boolean isSingleUser =true;
-            for (Group group: groups) {
-                if (group.getMembers().size()>1){
+        if (isManipulated != null && isManipulated.equals("true")) {
+            boolean isSingleUser = true;
+            for (Group group : groups) {
+                if (group.getMembers().size() > 1) {
                     isSingleUser = false;
                 }
             }
-            if (isSingleUser){
+            if (isSingleUser) {
                 projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.SingleUser, project);
-            }else{
+            } else {
                 projectDAO.changeGroupFormationMechanism(GroupFormationMechanism.Manual, project);
             }
         }
@@ -173,16 +169,18 @@ public class GroupFormationProcess {
 
     /**
      * COMPBASE data for group matching alg 1
+     *
      * @param preferenceData
      * @throws Exception
      */
-    public void sendCompBaseUserData(Project project, User user, PreferenceData preferenceData)
-            throws Exception {
-        new CompBaseMatcher().sendPreferenceData(project.getName(), user.getEmail(), preferenceData);
+    public void sendCompBaseUserData(Project project, User user, PreferenceData preferenceData) throws Exception {
+        ((CompBaseMatcher) groupFormationFactory.instance(GroupFormationMechanism.LearningGoalStrategy))
+                                                .sendPreferenceData(project.getName(), user.getEmail(), preferenceData);
     }
 
     /**
      * make sure that keys in this match existing profilequestion ids (current range 1-28)
+     *
      * @param data
      * @param user
      * @param project

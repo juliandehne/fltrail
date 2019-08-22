@@ -39,10 +39,6 @@
         </li>
     </ul>
 </div>
-
-
-
-
 </script>
 
 <body>
@@ -51,7 +47,7 @@
         <jsp:param name="hierarchy" value="1"/>
     </jsp:include>
     <!-- back-->
-    <div class="row group nav">
+    <div class="backlink">
         <a id="backToTasks" style="cursor:pointer;"><i class="fas fa-chevron-circle-left"></i> zurück zu den
             Aufgaben</a>
     </div>
@@ -64,7 +60,7 @@
             <div class="col span_l_of_2" style="margin-left:0; margin-bottom:0;">
                 <div class="alert alert-warning" style="margin-bottom:0;">
                     <p>Wählen Sie die Studierenden an, die Sie verschieben wollen. Dann die Gruppe,
-                        in die die Studierenden verschoben werden sollen und klicken Sie auf "Personen verchieben".</p>
+                        in die die Studierenden verschoben werden sollen und klicken Sie auf "Personen verschieben".</p>
                 </div>
             </div>
 

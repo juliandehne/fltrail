@@ -295,10 +295,6 @@ ol#annotations {
     margin-top: 2em;
 }
 
-.modal-backdrop{
-    display:none !important;
-}
-
 /*
 #dialog {
     position: absolute;

@@ -66,7 +66,7 @@ function handlePhases(object, result) {
             break;
         case "Execution":
             result.phase = "card-execution";
-            result.headLine = "Durchführung";
+            result.headLine = "Projekt";
             break;
         case "Assessment":
             result.phase = "card-assessment";
@@ -186,10 +186,10 @@ function handleInfoTasks(object, result) {
             result.infoText = "Wählen Sie die Einträge aus, die Sie zur Bewertung einreichen möchten.";
             break;
         case "WAIT_FOR_EXECUTION_PHASE_END":
-            result.infoText = "Warten Sie darauf, dass die dozierende Person die Durchführungsphase beendet";
+            result.infoText = "Warten Sie darauf, dass die dozierende Person die Projektsphase beendet";
             break;
         case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS":
-            result.infoText = "Um die Durchführungsphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
+            result.infoText = "Um die Projektsphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
             break;
         case "SEE_LEARNING_GOAL_SELECTION_AGAIN":
             result.infoText = "Sehen Sie sich Ihre Auswahl von Reflexionsfragen und Lernzielen noch einmal an.";
@@ -198,7 +198,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Ein Lernender hat (mindestens) eine Reflexionsfrage beantwortet. Geben Sie Feedback.";
             break;
         case "CLOSE_EXECUTION_PHASE":
-            result.infoText = "Beenden Sie nun die Durchführungsphase.";
+            result.infoText = "Beenden Sie nun die Projektsphase.";
             result.taskData.numberOfMissingReflectionQuestions = result.taskData.userUnansweredReflectionQuestions.length;
             result.taskData.numberOfMissingForAssessmentChosen = result.taskData.userUnchosenAssessmentMaterial.length;
             break;
@@ -339,7 +339,7 @@ function handleLinkedTasks(object, result) {
                 result.taskData = object.taskData;
                 if (count === 0) {
                     result.infoText = "Alle Gruppen haben Feedback gegeben";
-                    result.solveTaskWith = "Durchführungsphase starten";
+                    result.solveTaskWith = "Projektsphase starten";
                     result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 } else {
                     if (count <= 3) {
@@ -484,6 +484,7 @@ function handleFinishedTasks(object, result) {
                 break;
             case "ANNOTATE_DOSSIER":
             case "UPLOAD_DOSSIER":
+                result.infoText = "Ihre Gruppe hat ein Dossier entworfen.";
                 result.solveTaskWith = "";
                 result.solveTaskWithLink = "";
                 break;

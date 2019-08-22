@@ -6,13 +6,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.IConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
+import unipotsdam.gf.modules.communication.model.RocketChatUser;
+import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.session.GFContexts;
 
 import javax.inject.Inject;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
@@ -29,6 +35,9 @@ public class ChatWindow extends SimpleTagSupport {
     @Inject
     private ICommunication communicationService;
 
+    @Inject
+    private IConfig iConfig;
+
     public void doTag() throws IOException {
 
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
@@ -44,6 +53,12 @@ public class ChatWindow extends SimpleTagSupport {
 
         if (userEmail != null && !(authToken == null) &&
                 FLTrailConfig.rocketChatIsOnline) {
+            HttpServletResponse response = (HttpServletResponse) pageContext.getResponse();
+            /*response.addHeader("Set-Cookie", "rc_token=;Path=/;Domain="+iConfig.ROCKET_CHAT_LINK_0());
+            response.addHeader("Set-Cookie", "connect.sid=;Path=/;Domain="+iConfig.ROCKET_CHAT_LINK_0());
+            response.addHeader("Set-Cookie", "rc_uid=;Path=/;Domain="+iConfig.ROCKET_CHAT_LINK_0());
+*/
+            response.addHeader("Set-Cookie", "SID=31d4d96e407aad42; Path=/; Secure; HttpOnly");
             /*
              * create project chatroom
              */
@@ -66,7 +81,6 @@ public class ChatWindow extends SimpleTagSupport {
                 }
             }
         }
-
 
     }
 

@@ -34,45 +34,12 @@ $(document).ready(async function () {
 
     $('#btnSave').click(function () {
         getMyGroupId(function (groupId) {
-            if (quill.getText().length > 1) {
-                let content = quill.getContents();
-                let html = quill.root.innerHTML;
-
-                // build request
-                let visibility = "GROUP";
-                if (typeof currentVisibility !== 'undefined') {
-                    visibility = currentVisibility.name
-                }
-                let header = "";
-                let ownTitle = $('#ownTitle');
-                if (ownTitle.is("input")) {
-                    header = ownTitle.val();
-                } else {
-                    header = ownTitle.html();
-                }
-                // TODO: separate everything completely, so the frontend template is the same for all pages, but functionality is separated per page
-                let fullSubmissionPostRequest = {
-                    header: header,
-                    id: fullSubmissionId,
-                    groupId: groupId,
-                    text: JSON.stringify(content),
-                    html: html,
-                    projectName: projectName,
-                    personal: personal,
-                    fileRole: fileRole.toUpperCase(),
-                    visibility: visibility,
-                    reflectionQuestionId: reflectionQuestionId
-                };
-                if (isPortfolioEntry && fullSubmissionId !== '') {
-                    updatePortfolioSubmission(fullSubmissionPostRequest, handleNextAction);
-                } else {
-                    // save request in database
-                    createFullSubmission(fullSubmissionPostRequest, handleNextAction)
-                }
-
-            } else {
-                alert("Ein Text wird benötigt");
-            }
+            uploadContribution(groupId, false);
+        });
+    });
+    $('#btnFinalSave').click(function () {
+        getMyGroupId(function (groupId) {
+            uploadContribution(groupId, true);
         });
     });
     $('#btnBack').click(function () {
@@ -228,5 +195,48 @@ function changeButtonText(clickedItem, callback) {
     dropBtn.html(newText);
     if (callback) {
         callback();
+    }
+}
+
+function uploadContribution(groupId, finalized) {
+    if (quill.getText().length > 1) {
+        let content = quill.getContents();
+        let html = quill.root.innerHTML;
+
+        // build request
+        let visibility = "GROUP";
+        if (typeof currentVisibility !== 'undefined') {
+            visibility = currentVisibility.name
+        }
+        let header = "";
+        let ownTitle = $('#ownTitle');
+        if (ownTitle.is("input")) {
+            header = ownTitle.val();
+        } else {
+            header = ownTitle.html();
+        }
+        // TODO: separate everything completely, so the frontend template is the same for all pages, but functionality is separated per page
+        let fullSubmissionPostRequest = {
+            header: header,
+            id: fullSubmissionId,
+            groupId: groupId,
+            text: JSON.stringify(content),
+            html: html,
+            projectName: projectName,
+            personal: personal,
+            fileRole: fileRole.toUpperCase(),
+            visibility: visibility,
+            reflectionQuestionId: reflectionQuestionId,
+            finalized: finalized,
+        };
+        if (isPortfolioEntry && fullSubmissionId !== '') {
+            updatePortfolioSubmission(fullSubmissionPostRequest, handleNextAction);
+        } else {
+            // save request in database
+            createFullSubmission(fullSubmissionPostRequest, handleNextAction)
+        }
+
+    } else {
+        alert("Ein Text wird benötigt");
     }
 }

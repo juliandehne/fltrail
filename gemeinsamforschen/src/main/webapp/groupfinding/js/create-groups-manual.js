@@ -1,5 +1,6 @@
 let manipulated=false;
 $(document).ready(function () {
+    $('#btnRelocate').attr("disabled", true);
     $('#studentsWithoutGroup').hide();
     getAllGroups(function (allGroups) {
         groupsToTemplate(allGroups, function (done) {
@@ -13,6 +14,8 @@ $(document).ready(function () {
         relocateMember(function (done) {
             selectableButtons(done);    //i have no clue why this needs to be called twice, but it seems necessary
         });
+        $('#btnRelocate').attr("disabled", true);
+
     });
     $('#btnSave').click(function () {
         viewToGroup(function (groups) {
@@ -62,6 +65,11 @@ function selectableButtons(done) {
     if (done) {
         $(".student-button").click(function () {
             $(this).toggleClass('active');
+            if ($('.student-button.active').length > 0) {
+                $('#btnRelocate').attr("disabled", false);
+            } else {
+                $('#btnRelocate').attr("disabled", true);
+            }
         });
         $(".group-button").click(function () {
             $(".group-button.active").toggleClass('active');

@@ -18,7 +18,8 @@ public abstract class GeneralConfig implements IConfig {
     public final static String EMAIL_ADRESS = "julian.dehne@web.de";
 
 
-    private static final String COMPBASE_URL= "https://apiup.uni-potsdam.de/endpoints/competenceAPI";
+    //private static final String COMPBASE_URL= "https://apiup.uni-potsdam.de/endpoints/competenceAPI";
+    private static final String COMPBASE_URL= "https://fleckenroller.cs.uni-potsdam.de/app/competence-database-prod";
 
     private static final String PASS = "voyager";
     private static final String DB_NAME = "fltrail_gf";
