@@ -2,6 +2,7 @@ package unipotsdam.gf.modules.communication.service;
 
 import io.github.openunirest.http.HttpResponse;
 import io.github.openunirest.request.body.RequestBodyEntity;
+import org.apache.catalina.startup.Tomcat;
 import org.apache.http.HttpEntity;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import unipotsdam.gf.modules.performance.PerformanceUtil;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.session.TomcatListener;
 
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
@@ -310,6 +312,9 @@ public class CommunicationService implements ICommunication {
         rocketChatUser.setRocketChatUserId(rocketChatLoginResponse.getUserId());
         rocketChatUser.setRocketChatAuthToken(rocketChatLoginResponse.getAuthToken());
 
+        // needed for logout during shutdown
+        TomcatListener.RocketChatUsersLoggedIn.add(rocketChatUser);
+
         return rocketChatUser;
     }
 
@@ -523,6 +528,8 @@ public class CommunicationService implements ICommunication {
         Boolean badRequest = isBadRequest(response);
         if (badRequest) {
             log.error(response.getStatusText().toString());
+        } else {
+            TomcatListener.RocketChatUsersLoggedIn.remove(user);
         }
     }
 }
