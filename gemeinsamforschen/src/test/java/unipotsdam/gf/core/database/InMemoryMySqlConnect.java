@@ -44,13 +44,13 @@ public class InMemoryMySqlConnect extends MysqlConnectImpl {
     @Override
     public void connect() {
         //
-        if (conn == null) {
+    /*    if (conn == null) {
             try {
                 conn = getConnection();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     @Override

@@ -55,7 +55,7 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     private static final Logger log = LoggerFactory.getLogger(MysqlConnect.class);
 
-    protected Connection conn = null;
+    //protected Connection conn = null;
 
     private String createConnectionString() {
 
@@ -67,17 +67,17 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     @Override
     public void connect() {
-        try {
+     /*   try {
             log.trace("opening connection" + this);
             conn = getConnection();
         } catch (ManagedProcessException | SQLException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
     public void close() {
-        try {
+        /*try {
             if (conn != null) {
                 log.trace("closing connection" + this);
                 conn.close();
@@ -85,7 +85,7 @@ public class MysqlConnectImpl implements MysqlConnect {
         } catch (final SQLException e) {
             log.error(e.toString());
             throw new Error("could not close mysql");
-        }
+        }*/
     }
 
     private PreparedStatement addParameters(final String statement, boolean returnGenerated, final Object[] args) {
@@ -93,9 +93,9 @@ public class MysqlConnectImpl implements MysqlConnect {
             PreparedStatement ps;
 
             if (returnGenerated) {
-                ps = conn.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
+                ps = getConnection().prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
             } else {
-                ps = conn.prepareStatement(statement);
+                ps = getConnection().prepareStatement(statement);
             }
             if (args != null) {
                 for (int i = 0; i < args.length; i++) {
@@ -150,9 +150,11 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     public void otherStatements(final String statement) {
         try {
-            this.conn.createStatement().execute(statement);
+            getConnection().createStatement().execute(statement);
         } catch (SQLException ex) {
             printErrorMessage(statement, ex);
+        } catch (ManagedProcessException e) {
+            e.printStackTrace();
         }
     }
 
@@ -238,10 +240,6 @@ public class MysqlConnectImpl implements MysqlConnect {
             }
         }
         return cpds.getConnection();
-    }
-
-    public void setConnection(Connection conn) {
-        this.conn = conn;
     }
 
     public void setiConfig(IConfig iConfig) {
