@@ -21,34 +21,20 @@ import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
-import unipotsdam.gf.modules.submission.model.FullSubmission;
-import unipotsdam.gf.modules.submission.model.FullSubmissionPostRequest;
-import unipotsdam.gf.modules.submission.model.SubmissionPartBodyElement;
-import unipotsdam.gf.modules.submission.model.SubmissionPartPostRequest;
-import unipotsdam.gf.modules.submission.model.Visibility;
+import unipotsdam.gf.modules.submission.model.*;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.wizard.compbase.TomcatConceptImporter;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.GroupFormationProcess;
 import unipotsdam.gf.process.ProjectCreationProcess;
 import unipotsdam.gf.process.phases.Phase;
-import unipotsdam.gf.process.tasks.Progress;
-import unipotsdam.gf.process.tasks.ProjectStatus;
-import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskName;
-import unipotsdam.gf.process.tasks.TaskOrder;
+import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -424,6 +410,7 @@ public class Wizard {
                 FullSubmissionPostRequest submission =
                         new FullSubmissionPostRequest(group, text, FileRole.DOSSIER, project, Visibility.PUBLIC, title);
                 submission.setHtml(text);
+                submission.setFinalized(true);
                 FullSubmission fullSubmission =
                         dossierCreationProcess.addDossier(submission, representativUser, project);
                 submission.setId(fullSubmission.getId());

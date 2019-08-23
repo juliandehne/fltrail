@@ -21,6 +21,11 @@
     display: flex;
 }
 
+.dropdown.fltrailselect > label {
+    font-size: 13px;
+    margin-bottom: 0.5em;
+}
+
 .document-text-buttons {
     margin-bottom: 15px;
     margin-top: 15px;
@@ -51,7 +56,6 @@
 }
 
 .upload-text label {
-
     font-size: 1em;
     margin-bottom: .5em;
 }
