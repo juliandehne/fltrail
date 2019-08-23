@@ -8,17 +8,28 @@ public class HealthData {
     private Boolean RocketChatOnline;
     private Boolean MysqlOnline;
 
-
     private Boolean GroupAlOnline;
+
+    public String getMysqlConnectionStatus() {
+        return mysqlConnectionStatus;
+    }
+
+    public void setMysqlConnectionStatus(String mysqlConnectionStatus) {
+        this.mysqlConnectionStatus = mysqlConnectionStatus;
+    }
+
+    private String mysqlConnectionStatus;
 
     public HealthData() {
     }
 
-    public HealthData(Boolean compBaseOnline, Boolean rocketChatOnline, Boolean mysqlOnline, Boolean groupAlOnline) {
+    public HealthData(Boolean compBaseOnline, Boolean rocketChatOnline, Boolean mysqlOnline, Boolean groupAlOnline,
+                      String mysqlConnectionStatus) {
         CompBaseOnline = compBaseOnline;
         RocketChatOnline = rocketChatOnline;
         MysqlOnline = mysqlOnline;
         GroupAlOnline = groupAlOnline;
+        this.mysqlConnectionStatus = mysqlConnectionStatus;
     }
 
     public Boolean getGroupAlOnline() {
