@@ -97,12 +97,11 @@ function saveComment(index) {
             currentPortfolioEntries[index].contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmissionId);
             renderPortfolioContent(currentPortfolioTemplateData);
         });
-
     });
 }
 
-function clickedCreatePrivatePortfolio() {
-    location.href = `../annotation/upload-unstructured-dossier.jsp?projectName=${projectName}&fileRole=Portfolio_Entry&personal=true`;
+function clickedCreatePortfolioEntry(personal) {
+    location.href = `../annotation/upload-unstructured-dossier.jsp?projectName=${projectName}&fileRole=Portfolio_Entry&personal=${personal}`;
 }
 
 function editButtonPressed(index) {

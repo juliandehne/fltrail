@@ -21,7 +21,7 @@ function clickItem(entryIndex) {
 
 function save() {
     let chosenPortfolioEntries = [];
-    templateData.data.forEach(function (portfolioEntry) {
+    templateData.data.forEach(portfolioEntry => {
         if (portfolioEntry.chosen) {
             let copy = $.extend({}, portfolioEntry);
             delete copy.chosen;
@@ -34,6 +34,11 @@ function save() {
             changeLocation();
         });
     } else {
-        alert('Sie müssen mindestens eine Reflexionsfrage zur Bewertung abgeben.')
+        alert('Sie müssen mindestens einen Portfolioeintrag auswählen zur Bewertung abgeben.')
     }
 }
+
+function redirectToPortfolio() {
+    location.href = `../portfolio/show-portfolio-student.jsp?projectName=${getProjectName()}`;
+}
+

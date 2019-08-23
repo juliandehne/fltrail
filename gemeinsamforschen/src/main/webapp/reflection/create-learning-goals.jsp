@@ -47,7 +47,7 @@
                     <div id="modalTemplateResult"></div>
                     <script id="modalTemplate" type="text/x-jsrender">
                         <div/>
-                            <label>Schritt {{:step}} von 3: {{:stepTitle}}</label>
+                            <label>Schritt {{:step}} von 2: {{:stepTitle}}</label>
 
                             {{if step == 1}}
                                 <div class="list-group" id="list-tab" role="tablist">

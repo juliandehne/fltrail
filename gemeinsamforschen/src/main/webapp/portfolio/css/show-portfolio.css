@@ -15,8 +15,6 @@ h2 {
     padding: 15px 15px;
     background-color: inherit;
     cursor: none;
-
-
 }
 
 .btn-primary.panel-heading {
@@ -210,4 +208,12 @@ a:visited {
 
 #portfolioTemplateResult {
     margin-top:10px;
+}
+
+.btn.btn-primary.pull-left.margin-left {
+    margin-left: 10px;
+}
+
+.margin {
+    padding-bottom: 20px;
 }

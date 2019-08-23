@@ -47,10 +47,16 @@
                 <div id="visibilityTemplateResult"></div>
                 <script id="visibilityTemplate" type="text/x-jsrender">
                 <div></div>
-                    <button class="btn btn-primary" onclick="clickedCreatePrivatePortfolio()">Eintrag erstellen</button>
-                      <hr class="spacer-nofloat" style="border-color:transparent">
-                     <label>Einträge</label><br>
+                    <div class="row">
+                        <button class="btn btn-primary pull-left" onclick="clickedCreatePortfolioEntry(true)">Eintrag erstellen</button>
+                        <button class="btn btn-primary pull-left margin-left" onclick="clickedCreatePortfolioEntry(false)">Gruppeneintrag erstellen</button>
+                    </div>
+                    <hr class="spacer-nofloat" style="border-color:transparent">
+                    <div class="row">
+                        <label>Einträge</label>
+                    </div>
                     <div class="dropdown fltrailselect">
+
                         <button class="dropbtn" onclick='dropDownClick("myDropdown")'>{{:currentVisibility.buttonText}}
                         </button>
                         <div class="dropdown-content" id="myDropdown">

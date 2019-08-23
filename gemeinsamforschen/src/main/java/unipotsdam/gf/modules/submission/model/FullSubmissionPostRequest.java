@@ -14,7 +14,7 @@ public class FullSubmissionPostRequest {
 
     // variables
     private Integer groupId;
-    private boolean personal;
+    private boolean saveUsername;
     // TODO should this be named title?
     private String header;
     private String text;
@@ -46,7 +46,7 @@ public class FullSubmissionPostRequest {
         this.groupId = group.getId();
         this.text = text;
         this.fileRole = fileRole;
-        this.personal = false;
+        this.saveUsername = false;
         this.projectName = project.getName();
         this.visibility = visibility;
         this.header = header;
@@ -101,12 +101,12 @@ public class FullSubmissionPostRequest {
         this.fileRole = fileRole;
     }
 
-    public boolean isPersonal() {
-        return personal;
+    public boolean isSaveUsername() {
+        return saveUsername;
     }
 
-    public void setPersonal(boolean personal) {
-        this.personal = personal;
+    public void setSaveUsername(boolean saveUsername) {
+        this.saveUsername = saveUsername;
     }
 
     public String getUserEMail() {
@@ -153,7 +153,7 @@ public class FullSubmissionPostRequest {
     public String toString() {
         return "FullSubmissionPostRequest{" +
                 "groupId=" + groupId +
-                ", personal=" + personal +
+                ", personal=" + saveUsername +
                 ", header='" + header + '\'' +
                 ", text='" + text + '\'' +
                 ", html='" + html + '\'' +

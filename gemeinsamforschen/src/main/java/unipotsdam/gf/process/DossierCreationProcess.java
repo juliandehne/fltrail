@@ -96,7 +96,7 @@ public class DossierCreationProcess {
     @WizardRelevant
     public FullSubmission addDossier(
             FullSubmissionPostRequest fullSubmissionPostRequest, User user, Project project) {
-        if (fullSubmissionPostRequest.isPersonal()) {
+        if (fullSubmissionPostRequest.isSaveUsername()) {
             fullSubmissionPostRequest.setUserEMail(user.getEmail());
         }
 

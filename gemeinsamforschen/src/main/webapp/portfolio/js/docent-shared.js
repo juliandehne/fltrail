@@ -46,6 +46,7 @@ async function visibilityButtonPressed(pressedButton) {
 }
 
 function saveComment(index) {
+    // noinspection JSUnresolvedFunction
     let contents = quillNewComment[index].getContents();
     let fullSubmissionId = sortedPortfolioEntries[currentVisibleButtonText][index].id;
     let contributionFeedbackRequest = {

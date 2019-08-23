@@ -26,3 +26,7 @@
 #assessmentTemplateResult .list-group .row {
     margin: 40px auto !important;
 }
+
+.pull-left {
+    margin-right: 10px;
+}

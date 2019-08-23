@@ -65,13 +65,12 @@ $(document).ready(async function () {
 });
 
 function handleNextAction() {
-    let projectName = $('#projectName').text().trim();
     if (isReflectionQuestion && Array.isArray(reflectionQuestions) && reflectionQuestions.length > 0) {
         renderReflectionQuestionTemplate();
     } else if (isPortfolioEntry) {
-        location.href = `${hierarchyLevel}portfolio/show-portfolio-student.jsp?projectName=${projectName}`;
+        location.href = `${hierarchyLevel}portfolio/show-portfolio-student.jsp?projectName=${getProjectName()}`;
     } else {
-        location.href = `${hierarchyLevel}project/tasks-student.jsp?projectName=${projectName}`;
+        location.href = `${hierarchyLevel}project/tasks-student.jsp?projectName=${getProjectName()}`;
     }
 }
 
@@ -101,7 +100,7 @@ async function setupPageContent() {
 
             });
         } else {
-            if (!personal) {
+            if (fileRole.toUpperCase() === "DOSSIER") {
                 getMyGroupId(function (groupId) {
                     getFullSubmissionOfGroupToEditor(groupId, 0);
                 });
@@ -223,7 +222,7 @@ function uploadContribution(groupId, finalized) {
             text: JSON.stringify(content),
             html: html,
             projectName: projectName,
-            personal: personal,
+            saveUsername: personal || fileRole.toUpperCase() !== "DOSSIER",
             fileRole: fileRole.toUpperCase(),
             visibility: visibility,
             reflectionQuestionId: reflectionQuestionId,

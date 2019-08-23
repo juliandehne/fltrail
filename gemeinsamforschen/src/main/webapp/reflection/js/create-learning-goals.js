@@ -130,6 +130,9 @@ function reflectionQuestionChosen(index) {
 
 function addCustomReflectionQuestion() {
     let customQuestionText = $('#customReflectionQuestion').val();
+    if (customQuestionText.length === 0) {
+        return;
+    }
     let customReflectionQuestion = {
         id: customQuestionText + modalTemplateData.selectedLearningGoal.text,
         learningGoal: modalTemplateData.selectedLearningGoal.text,

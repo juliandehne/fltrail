@@ -275,9 +275,9 @@ function getFullSubmissionOfGroup(groupId, version, fileRole = $('#fileRole').ht
     let projectName = $('#projectName').html().trim();
     $.ajax({
         url: '../rest/submissions/full/groupId/' + groupId +
-        '/project/' + projectName +
-        '/fileRole/' + fileRole.toUpperCase() +
-        '?version=' + version,
+            '/project/' + projectName +
+            '/fileRole/' + fileRole.toUpperCase() +
+            '?version=' + version,
         type: 'GET',
         async: false,
         headers: {
@@ -296,9 +296,9 @@ function getFullSubmissionOfGroupToEditor(groupId, version, fileRole = $('#fileR
     let projectName = $('#projectName').html().trim();
     $.ajax({
         url: '../rest/submissions/full/groupId/' + groupId +
-        '/project/' + projectName +
-        '/fileRole/' + fileRole.toUpperCase() +
-        '?version=' + version,
+            '/project/' + projectName +
+            '/fileRole/' + fileRole.toUpperCase() +
+            '?version=' + version,
         type: 'GET',
         headers: {
             "Cache-Control": "no-cache"
@@ -370,17 +370,9 @@ function changeLocation() {
     }
     if (typeof fileRole !== "undefined" && fileRole.toUpperCase() === "PORTFOLIO_ENTRY") {
         if (whatRole === "isDocent") {
-            if (personal) {
-                location.href = `../portfolio/show-portfolio-docent.jsp?projectName=${currentProjectName}`
-            } else {
-                location.href = `../project/tasks-docent.jsp?projectName=${currentProjectName}`;
-            }
+            location.href = `../portfolio/show-portfolio-docent.jsp?projectName=${currentProjectName}`;
         } else {
-            if (personal) {
-                location.href = `../portfolio/show-portfolio-student.jsp?projectName=${currentProjectName}`
-            } else {
-                location.href = `../project/tasks-student.jsp?projectName=${currentProjectName}`;
-            }
+            location.href = `../portfolio/show-portfolio-student.jsp?projectName=${currentProjectName}`;
         }
     } else {
         if (whatRole === "isDocent") {

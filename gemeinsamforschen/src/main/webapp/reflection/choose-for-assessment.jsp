@@ -42,12 +42,11 @@
                 <div id="assessmentTemplateResult"></div>
                 <script id="assessmentTemplate" type="text/x-jsrender">
                     <div/>
-                    <p>Klicken Sie auf die E-Portfolio-Einträge, die Sie von Ihren Eintrgägen für die Gruppe zur Bewertung einreichen möchten.</p>
-                    <p>Es werden Einträge angezeigt, die Sie für die Gruppe oder öffentlich freigegeben haben</p>
                     {{if data.length === 0}}
                         <h2>Keine Gruppeneinträge gefunden.</h2>
-                        <h2>Bitte markieren Sie Einträge für die Gruppe oder öffentlich sichtbar, um diese zur Gruppenbewertung einzureichen oder drücken Sie überspringen, wenn Sie keine Ihrer Einträge einreichen möchten.</h2>
                     {{else}}
+                        <p>Klicken Sie auf die E-Portfolio-Einträge, die Sie von Ihren Eintrgägen für die Gruppe zur Bewertung einreichen möchten.</p>
+                        <p>Es werden Einträge angezeigt, die Sie für die Gruppe oder öffentlich freigegeben haben</p>
                         <div class="list-group" id="list-tab" role="tablist">
                             {{for data}}
                                 <div class="row">
@@ -69,6 +68,9 @@
                         </div>
                     {{/if}}
                     <button type="button" onclick="save()" class="btn btn-primary pull-right" id="saveButton">{{:extraData.buttonText}}</button>
+                    {{if data.length === 0}}
+                         <button type="button" onclick="redirectToPortfolio()" class="btn btn-primary pull-left" id="portfolioButton">Gehe zu Portfolio</button>
+                    {{/if}}
 
                 </script>
                 <div hidden id="editor"></div>
