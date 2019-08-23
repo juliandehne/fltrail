@@ -22,5 +22,5 @@ public interface GroupFormationAlgorithm {
     // in case of groupal the data is added to the mysql db
     void addGroupRelevantData(Project project, Object data);
 
-    int getMinNumberOfStudentsNeeded();
+    int getMinNumberOfStudentsNeeded(Integer groupSize);
 }

@@ -41,7 +41,7 @@ public class SingleGroupMatcher implements GroupFormationAlgorithm {
     }
 
     @Override
-    public int getMinNumberOfStudentsNeeded() {
+    public int getMinNumberOfStudentsNeeded(Integer groupSize) {
         return 2;
     }
 }

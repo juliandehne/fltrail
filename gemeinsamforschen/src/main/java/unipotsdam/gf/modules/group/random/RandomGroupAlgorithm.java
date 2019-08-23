@@ -3,7 +3,6 @@ package unipotsdam.gf.modules.group.random;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.group.Group;
-import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.group.GroupFormationAlgorithm;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
@@ -80,7 +79,7 @@ public class RandomGroupAlgorithm implements GroupFormationAlgorithm {
     }
 
     @Override
-    public int getMinNumberOfStudentsNeeded() {
+    public int getMinNumberOfStudentsNeeded(Integer groupSize) {
         return 2;
     }
 

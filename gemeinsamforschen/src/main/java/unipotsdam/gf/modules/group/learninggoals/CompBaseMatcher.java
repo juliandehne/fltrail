@@ -76,7 +76,7 @@ public class CompBaseMatcher implements GroupFormationAlgorithm {
     }
 
     @Override
-    public int getMinNumberOfStudentsNeeded() {
+    public int getMinNumberOfStudentsNeeded(Integer groupSize) {
         return 5;
     }
 

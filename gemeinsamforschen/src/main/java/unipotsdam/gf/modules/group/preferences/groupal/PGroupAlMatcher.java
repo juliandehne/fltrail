@@ -1,6 +1,5 @@
 package unipotsdam.gf.modules.group.preferences.groupal;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import unipotsdam.gf.config.GeneralConfig;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupFormationAlgorithm;
@@ -161,8 +160,8 @@ public class PGroupAlMatcher implements GroupFormationAlgorithm {
     }
 
     @Override
-    public int getMinNumberOfStudentsNeeded() {
-        return 1;
+    public int getMinNumberOfStudentsNeeded(Integer groupSize) {
+        return groupSize * (groupSize - 1);
     }
 
 

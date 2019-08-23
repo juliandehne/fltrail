@@ -73,7 +73,7 @@ public class GroupfindingImpl implements IGroupFinding {
 
     @Override
     public int getMinNumberOfStudentsNeeded(Project project) {
-        return getGroupFormationAlgorithm(project).getMinNumberOfStudentsNeeded();
+        return getGroupFormationAlgorithm(project).getMinNumberOfStudentsNeeded(project.getGroupSize());
     }
 
     @Override
