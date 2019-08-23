@@ -16,6 +16,10 @@ import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
+import unipotsdam.gf.process.tasks.Progress;
+import unipotsdam.gf.process.tasks.Task;
+import unipotsdam.gf.process.tasks.TaskDAO;
+import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
@@ -41,10 +45,18 @@ public class ReflectionService implements IReflection {
     @Inject
     private SubmissionController submissionController;
 
+    @Inject
+    private TaskDAO taskDAO;
+
     @Override
     public LearningGoalRequestResult selectLearningGoalAndReflectionQuestion(LearningGoalRequest learningGoalRequest) {
         Project project = new Project(learningGoalRequest.getProjectName());
         LearningGoal learningGoal = new LearningGoal(learningGoalRequest.getLearningGoal(), project);
+        User docent = new User(project.getAuthorEmail());
+        Task createLearningGoalTask = taskDAO.getUserTask(project, docent, TaskName.CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS);
+        if (createLearningGoalTask != null && createLearningGoalTask.getProgress() == Progress.FINISHED) {
+            return null;
+        }
         String learningGoalUuid = selectedLearningGoalsDAO.persist(learningGoal);
         if (Strings.isNullOrEmpty(learningGoalUuid)) {
             return null;

@@ -166,9 +166,11 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
                         List<SelectedReflectionQuestion> reflectionQuestions = selectedReflectionQuestionsDAO.findBy(project);
                         createEntries(project, user, reflectionQuestions, fileRole, visibility);
                     }
+                    break;
                 case REFLECTION_QUESTION:
                     List<SelectedReflectionQuestion> unansweredQuestions = selectedReflectionQuestionsDAO.getUnansweredQuestions(project, user, false);
                     createEntries(project, user, unansweredQuestions, fileRole, visibility);
+                    break;
             }
         }
     }
@@ -176,7 +178,9 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
     private void createEntries(Project project, User user, List<SelectedReflectionQuestion> reflectionQuestions,
                                FileRole fileRole, Visibility visibility) throws Exception {
         if (reflectionQuestions != null) {
+            int counter = 0;
             for (SelectedReflectionQuestion reflectionQuestion : reflectionQuestions) {
+                counter++;
                 Group myGroup = groupDAO.getMyGroup(user, project);
                 String text = loremIpsum.getWords(500);
                 text = convertTextToQuillJs(text);
