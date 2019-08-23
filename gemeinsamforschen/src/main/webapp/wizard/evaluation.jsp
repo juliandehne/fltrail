@@ -133,6 +133,17 @@
 
                 <div class="row">
                     <div class="col" style="margin-top: 10px;">
+                        <button disabled id="answerQuestionsForProject"
+                                class="btn btn-primary reflexionButton btn-wizard">
+                            Fragen beantworten
+                        </button>
+                        <span style="margin: 20px;">Für die Reflexionsfragen, die die Studierenden beantworten sollen, werden
+                Antworten generiert</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col" style="margin-top: 10px;">
                         <button disabled id="giveFeedbackForReflexion"
                                 class="btn btn-primary reflexionButton btn-wizard">
                             Feedback generieren
@@ -148,17 +159,6 @@
                             Auswahl treffen
                         </button>
                         <span style="margin: 20px;">Für die Auswahl der Studierenden Einträge für das Assessment generieren</span>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col" style="margin-top: 10px;">
-                        <button disabled id="answerQuestionsForProject"
-                                class="btn btn-primary reflexionButton btn-wizard">
-                            Fragen beantworten
-                        </button>
-                        <span style="margin: 20px;">Für die Reflexionsfragen, die die Studierenden beantworten sollen, werden
-                Antworten generiert</span>
                     </div>
                 </div>
 

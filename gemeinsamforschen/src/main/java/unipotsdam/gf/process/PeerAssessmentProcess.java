@@ -8,6 +8,7 @@ import unipotsdam.gf.modules.assessment.UserAssessmentDataHolder;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
+import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.process.phases.Phase;
@@ -39,6 +40,9 @@ public class PeerAssessmentProcess {
 
     @Inject
     private AssessmentDAO assessmentDAO;
+
+    @Inject
+    private ProjectDAO projectDAO;
 
 
     private final static Logger log = LoggerFactory.getLogger(PeerAssessmentProcess.class);
@@ -197,6 +201,11 @@ public class PeerAssessmentProcess {
      * @param project of interest
      */
     public void startDocentGrading(Project project) throws Exception {
+        Task task = new Task(TaskName.GIVE_EXTERNAL_ASSESSMENT, null, project, Progress.FINISHED);
+        taskDAO.updateForAll(task);
+        Task task1 = new Task(TaskName.GIVE_INTERNAL_ASSESSMENT, null, project, Progress.FINISHED);
+        taskDAO.updateForAll(task1);
+
         // update task for docent
         taskDAO.updateTeacherTask(project, TaskName.CLOSE_PEER_ASSESSMENTS_PHASE, Progress.FINISHED);
         log.info("finished asessment process for project" + project.getName());
