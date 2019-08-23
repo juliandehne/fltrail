@@ -1,12 +1,15 @@
 package unipotsdam.gf.mysql;
 
 import ch.vorburger.exec.ManagedProcessException;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mysql.jdbc.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unipotsdam.gf.config.GeneralConfig;
 import unipotsdam.gf.config.IConfig;
 
 import javax.inject.Inject;
+import java.beans.PropertyVetoException;
 import java.sql.*;
 import java.util.Date;
 
@@ -17,6 +20,8 @@ public class MysqlConnectImpl implements MysqlConnect {
     @Inject
     IConfig iConfig;
 
+    private static ComboPooledDataSource cpds;
+
     public  MysqlConnectImpl() {
         //System.out.println("test");
     }
@@ -24,6 +29,27 @@ public class MysqlConnectImpl implements MysqlConnect {
     public  MysqlConnectImpl(IConfig iConfig) {
         //System.out.println("test");
         this.iConfig = iConfig;
+    }
+
+    private synchronized void constructC3PO() throws PropertyVetoException {
+        cpds = new ComboPooledDataSource();
+        cpds.setDriverClass(GeneralConfig.JDBC_DRIVER); //loads the jdbc driver
+        cpds.setJdbcUrl( iConfig.getDBURL()+"/"+iConfig.getDBName());
+        cpds.setUser(iConfig.getDBUserName());
+        cpds.setPassword(iConfig.getDBPassword());
+
+        // the settings below are optional -- c3p0 can work with defaults
+        cpds.setMinPoolSize(5);
+        cpds.setAcquireIncrement(5);
+        cpds.setMaxPoolSize(20);
+    }
+
+    public static String getConnectionStatus() throws SQLException {
+        String result =
+        "[num_connections: "      + cpds.getNumConnectionsDefaultUser() +
+        ", num_busy_connections: " + cpds.getNumBusyConnectionsDefaultUser() +
+        ", num_idle_connections: " + cpds.getNumIdleConnectionsDefaultUser()+ "]";
+        return result;
     }
 
 
@@ -42,6 +68,7 @@ public class MysqlConnectImpl implements MysqlConnect {
     @Override
     public void connect() {
         try {
+            log.trace("opening connection" + this);
             conn = getConnection();
         } catch (ManagedProcessException | SQLException e) {
             e.printStackTrace();
@@ -52,6 +79,7 @@ public class MysqlConnectImpl implements MysqlConnect {
     public void close() {
         try {
             if (conn != null) {
+                log.trace("closing connection" + this);
                 conn.close();
             }
         } catch (final SQLException e) {
@@ -200,21 +228,16 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     @Override
     public Connection getConnection() throws ManagedProcessException, SQLException {
-        try {
+        if (cpds == null) {
             try {
-                Class.forName("com.mysql.jdbc.Driver");
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
+                log.info("constructing c3po pooling");
+                constructC3PO();
+            } catch (PropertyVetoException e) {
+                e.printStackTrace();
+                log.error(e.getMessage());
             }
-            return DriverManager.getConnection(createConnectionString());
-
-        } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-            log.error(ex.getMessage());
-            return null;
         }
+        return cpds.getConnection();
     }
 
     public void setConnection(Connection conn) {
