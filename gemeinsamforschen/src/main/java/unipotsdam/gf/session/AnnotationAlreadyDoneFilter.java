@@ -3,6 +3,7 @@ package unipotsdam.gf.session;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.GFApplicationBinderFactory;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
@@ -32,7 +33,7 @@ public class AnnotationAlreadyDoneFilter extends BackwardNavigationFilter {
     ProjectDAO projectDAO;
 
     public AnnotationAlreadyDoneFilter() {
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(GFApplicationBinderFactory.instance());
         locator.inject(this);
     }
 

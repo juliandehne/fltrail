@@ -8,6 +8,7 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.GFApplicationBinderFactory;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.user.User;
@@ -50,7 +51,7 @@ public class ProjectDAOTest {
     public void setUp() throws IOException, SQLException, ManagedProcessException {
 
         //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(GFApplicationBinderFactory.instance());
         locator.inject(this);
 
         project = factory.manufacturePojo(Project.class);

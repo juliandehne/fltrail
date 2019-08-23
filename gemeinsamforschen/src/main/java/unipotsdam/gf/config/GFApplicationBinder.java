@@ -31,6 +31,7 @@ import unipotsdam.gf.modules.group.GroupfindingImpl;
 import unipotsdam.gf.modules.group.SingleGroupMatcher;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
+import unipotsdam.gf.modules.group.preferences.excel.ItemWriter;
 import unipotsdam.gf.modules.group.preferences.groupal.PGroupAlMatcher;
 import unipotsdam.gf.modules.group.preferences.survey.SurveyMapper;
 import unipotsdam.gf.modules.group.random.RandomGroupAlgorithm;
@@ -52,6 +53,8 @@ import unipotsdam.gf.modules.wizard.PeerAssessmentSimulation;
 import unipotsdam.gf.modules.wizard.ReflectionPhaseSimulation;
 import unipotsdam.gf.modules.wizard.Wizard;
 import unipotsdam.gf.modules.wizard.WizardDao;
+import unipotsdam.gf.mysql.ConnectionPoolUtility;
+import unipotsdam.gf.mysql.IConnectionPoolUtility;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.PoolingMysqlConnectImpl;
 import unipotsdam.gf.process.DossierCreationProcess;
@@ -71,11 +74,20 @@ import unipotsdam.gf.session.GFContext;
 import unipotsdam.gf.session.GFContexts;
 import unipotsdam.gf.session.Lock;
 
+import javax.inject.Singleton;
+
 import static unipotsdam.gf.config.FLTrailConfig.REFLECTION_MODULE_ENABLED;
 
 public class GFApplicationBinder extends AbstractBinder {
 
     private final static Logger log = LoggerFactory.getLogger(GFApplicationBinder.class);
+
+    /**
+     * @see unipotsdam.gf.config.GFApplicationBinderFactory
+     */
+    @Deprecated
+    GFApplicationBinder() {
+    }
 
     @Override
     protected void configure() {
@@ -89,6 +101,8 @@ public class GFApplicationBinder extends AbstractBinder {
         } else {
             bind(TestConfig.class).to(IConfig.class);
         }
+
+
 
         // check if rocket chat is online
         Boolean rocketOnline = HealthChecks.isRocketOnline();
@@ -106,6 +120,8 @@ public class GFApplicationBinder extends AbstractBinder {
         bindPhases();
 
         bindWizard();
+
+        bind(ItemWriter.class).to(ItemWriter.class);
 
     }
 
@@ -194,8 +210,9 @@ public class GFApplicationBinder extends AbstractBinder {
     }
 
     protected void bindDBConnections() {
+        bind(ConnectionPoolUtility.class).to(IConnectionPoolUtility.class).in(Singleton.class);
         bind(PoolingMysqlConnectImpl.class).to(MysqlConnect.class);
-        bind(MysqlConnect.class).to(MysqlConnect.class);
+        //bind(MysqlConnect.class).to(MysqlConnect.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(UnirestService.class).to(UnirestService.class);
         bind(ContributionFeedbackService.class).to(IContributionFeedback.class);

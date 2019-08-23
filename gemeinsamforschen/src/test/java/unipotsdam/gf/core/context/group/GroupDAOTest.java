@@ -7,6 +7,7 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.GFApplicationBinderFactory;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
 import unipotsdam.gf.modules.group.Group;
@@ -35,7 +36,7 @@ public class GroupDAOTest {
 
     @Before
     public void setUp() {
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(GFApplicationBinderFactory.instance());
 
         User userStudent = factory.manufacturePojo(User.class);
         userStudent.setStudent(true);

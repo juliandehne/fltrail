@@ -1,7 +1,7 @@
 package unipotsdam.gf.healthchecks;
 
-import unipotsdam.gf.config.IConfig;
-import unipotsdam.gf.mysql.ConnectionPoolUtility;
+import unipotsdam.gf.mysql.IConnectionPoolUtility;
+import unipotsdam.gf.mysql.PoolingMysqlConnectImpl;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -15,19 +15,20 @@ import java.sql.SQLException;
 public class HealthChecksView {
 
     @Inject
-    IConfig iConfig;
+    IConnectionPoolUtility connectionPoolUtility;
 
     @Path("/health")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public HealthData getHealth() throws SQLException, PropertyVetoException {
-        Boolean rocketOnline = HealthChecks.isRocketOnline();
+        /*Boolean rocketOnline = HealthChecks.isRocketOnline();
         Boolean compBaseOnline = HealthChecks.isCompBaseOnline();
         Boolean mysqlOnline = HealthChecks.isMysqlOnline();
-        Boolean groupAlOnline = HealthChecks.isGroupAlOnline();
+        Boolean groupAlOnline = HealthChecks.isGroupAlOnline();*/
         //return new HealthData(compBaseOnline, rocketOnline, mysqlOnline, groupAlOnline);
 
-        String mysqlConnectionStatus = ConnectionPoolUtility.getConnectionStatus(iConfig);
-        return new HealthData(true,false,true,true, mysqlConnectionStatus);
+        String mysqlConnectionStatus = connectionPoolUtility.getConnectionStatus();
+        mysqlConnectionStatus += "connect vs close counter: " + PoolingMysqlConnectImpl.counter.get();
+        return new HealthData(true, false, true, true, mysqlConnectionStatus);
     }
 }

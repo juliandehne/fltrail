@@ -46,7 +46,6 @@
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
-
     <filter>
         <filter-name>SessionValidatorFilter</filter-name> <!-- mandatory -->
         <filter-class>unipotsdam.gf.session.SessionExistsFilter</filter-class> <!-- mandatory -->

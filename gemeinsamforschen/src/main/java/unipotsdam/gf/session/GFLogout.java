@@ -1,17 +1,16 @@
 package unipotsdam.gf.session;
 
-import unipotsdam.gf.config.FLTrailConfig;
 import unipotsdam.gf.exceptions.RocketChatDownException;
 import unipotsdam.gf.exceptions.UserDoesNotExistInRocketChatException;
 import unipotsdam.gf.interfaces.ICommunication;
-import unipotsdam.gf.modules.communication.model.RocketChatUser;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
 
 @Path("/logout")
 public class GFLogout {

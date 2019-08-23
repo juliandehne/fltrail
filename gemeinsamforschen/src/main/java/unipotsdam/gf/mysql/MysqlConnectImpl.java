@@ -1,42 +1,31 @@
 package unipotsdam.gf.mysql;
 
 import ch.vorburger.exec.ManagedProcessException;
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mysql.jdbc.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unipotsdam.gf.config.GeneralConfig;
 import unipotsdam.gf.config.IConfig;
 
 import javax.inject.Inject;
-import java.beans.PropertyVetoException;
 import java.sql.*;
 import java.util.Date;
-import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class PoolingMysqlConnectImpl implements MysqlConnect {
+public class MysqlConnectImpl implements MysqlConnect {
 
-    public static final AtomicInteger counter = new AtomicInteger();
 
     @Inject
     IConfig iConfig;
 
-
-    @Inject
-    IConnectionPoolUtility connectionPoolUtility;
-
-
-    public PoolingMysqlConnectImpl() {
+    public  MysqlConnectImpl() {
         //System.out.println("test");
     }
 
- /*   public PoolingMysqlConnectImpl(IConfig iConfig, ConnectionPoolUtility connectionPoolUtility) {
+    public  MysqlConnectImpl(IConfig iConfig) {
         //System.out.println("test");
         this.iConfig = iConfig;
-        this.connectionPoolUtility = connectionPoolUtility;
     }
-*/
+
 
     private static final Logger log = LoggerFactory.getLogger(MysqlConnect.class);
 
@@ -44,25 +33,17 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     private String createConnectionString() {
 
-        String connString = iConfig.getDBURL() + "/" + iConfig.getDBName() + "?user=" + iConfig
-                .getDBUserName() + "&password=" + iConfig.getDBPassword();
+        String connString =
+                iConfig.getDBURL() + "/" + iConfig.getDBName() + "?user=" + iConfig.getDBUserName() + "&password=" +
+                        iConfig.getDBPassword();
         return String.format(connString, iConfig.getDBName());
     }
 
     @Override
     public void connect() {
-     /*   try {
-            log.trace("opening connection" + this);
+        try {
             conn = getConnection();
         } catch (ManagedProcessException | SQLException e) {
-            e.printStackTrace();
-        }*/
-        try {
-            conn = connectionPoolUtility.getDataSource().getConnection();
-            counter.addAndGet(1);
-        } catch (PropertyVetoException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -71,8 +52,6 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
     public void close() {
         try {
             if (conn != null) {
-                log.trace("closing connection" + this);
-                counter.addAndGet(-1);
                 conn.close();
             }
         } catch (final SQLException e) {
@@ -86,9 +65,9 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
             PreparedStatement ps;
 
             if (returnGenerated) {
-                ps = getConnection().prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
+                ps = conn.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
             } else {
-                ps = getConnection().prepareStatement(statement);
+                ps = conn.prepareStatement(statement);
             }
             if (args != null) {
                 for (int i = 0; i < args.length; i++) {
@@ -104,6 +83,7 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
         }
         return null;
     }
+
 
 
     @Override
@@ -142,11 +122,9 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     public void otherStatements(final String statement) {
         try {
-            getConnection().createStatement().execute(statement);
+            this.conn.createStatement().execute(statement);
         } catch (SQLException ex) {
             printErrorMessage(statement, ex);
-        } catch (ManagedProcessException e) {
-            e.printStackTrace();
         }
     }
 
@@ -172,7 +150,7 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     /**
      * @param statement equals an SQL query where values for parameters are encoded with a "?"
-     * @param args      values, that replace every "?" in order
+     * @param args values, that replace every "?" in order
      */
     @Override
     public void issueInsertOrDeleteStatement(final String statement, final Object... args) {
@@ -222,7 +200,25 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     @Override
     public Connection getConnection() throws ManagedProcessException, SQLException {
-        return conn;
+        try {
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            return DriverManager.getConnection(createConnectionString());
+
+        } catch (SQLException ex) {
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+            log.error(ex.getMessage());
+            return null;
+        }
+    }
+
+    public void setConnection(Connection conn) {
+        this.conn = conn;
     }
 
     public void setiConfig(IConfig iConfig) {

@@ -9,6 +9,7 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.GFApplicationBinderFactory;
 import unipotsdam.gf.exceptions.CompbaseDownException;
 import unipotsdam.gf.exceptions.WrongNumberOfParticipantsException;
 import unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher;
@@ -41,7 +42,7 @@ public class CompBaseTest {
     @Before
     public void setUp() throws Exception{
         //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(GFApplicationBinderFactory.instance());
         locator.inject(this);
     }
 

@@ -3,6 +3,7 @@ package unipotsdam.gf;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.GFApplicationBinderFactory;
 import unipotsdam.gf.config.GeneralConfig;
 import unipotsdam.gf.modules.group.GroupFormationMechanism;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
@@ -18,7 +19,7 @@ import unipotsdam.gf.modules.user.UserDAO;
 import javax.inject.Inject;
 import java.util.List;
 
-class SurveyPreparationHelper {
+public class SurveyPreparationHelper {
 
     @Inject
     ProfileDAO profileDAO;
@@ -29,9 +30,12 @@ class SurveyPreparationHelper {
     @Inject
     ProjectDAO projectDAO;
 
+    @Inject
+    ItemWriter itemWriter;
+
 
     SurveyPreparationHelper() {
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(GFApplicationBinderFactory.instance());
         locator.inject(this);
     }
 
@@ -54,7 +58,8 @@ class SurveyPreparationHelper {
         //String itemExample = "groupfindingitems_selected.xls";
 
         String itemExample = GeneralConfig.GROUPFINDING_ITEM_FILE;
-        ItemWriter itemWriter = new ItemWriter(itemExample);
+        //ItemWriter itemWriter = new ItemWriter(itemExample);
+        itemWriter.setExcelFileName(itemExample);
         itemWriter.writeItems();
 
         GroupWorkContext[] values = GroupWorkContext.values();

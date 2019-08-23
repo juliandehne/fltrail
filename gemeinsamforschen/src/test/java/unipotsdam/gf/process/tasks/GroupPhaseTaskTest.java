@@ -9,6 +9,7 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.GFApplicationBinderFactory;
 import unipotsdam.gf.core.database.UpdateDB;
 import unipotsdam.gf.exceptions.*;
 import unipotsdam.gf.interfaces.ICommunication;
@@ -48,7 +49,7 @@ public class GroupPhaseTaskTest {
     public void setUp() throws Exception {
         UpdateDB.main(new String[0]);
 
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(GFApplicationBinderFactory.instance());
         //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
         locator.inject(this);
 

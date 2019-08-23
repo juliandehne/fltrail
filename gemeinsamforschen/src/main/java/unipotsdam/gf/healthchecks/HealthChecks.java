@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.*;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.PoolingMysqlConnectImpl;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
@@ -34,7 +35,7 @@ public class HealthChecks {
             Duration timePassed = Duration.between(Instant.now(), timeForCheck);
             log.trace("Rock: " + timePassed.toString());
         }*/
-        return  FLTrailConfig.rocketChatIsOnline;
+        return FLTrailConfig.rocketChatIsOnline;
     }
 
     private static Boolean compBaseAvailable = null;
@@ -66,7 +67,7 @@ public class HealthChecks {
     private static Boolean mySQLAvailable = null;
 
     public static Boolean isMysqlOnline() {
-        if (mySQLAvailable == null) {
+       /* if (mySQLAvailable == null) {
             Instant timeForCheck = Instant.now();
             try {
 
@@ -76,6 +77,7 @@ public class HealthChecks {
                 } else {
                     iConfig = new TestConfig();
                 }
+
                 MysqlConnect mysqlConnect = new PoolingMysqlConnectImpl(iConfig);
                 Connection connection = mysqlConnect.getConnection();
                 Boolean mySQLAvailable = connection != null;
@@ -90,8 +92,8 @@ public class HealthChecks {
                 log.trace("MSQL: " + timePassed.toString());
                 return mySQLAvailable;
             }
-        }
-        return mySQLAvailable;
+        }*/
+        return true;
     }
 
     public static Boolean isGroupAlOnline() {

@@ -8,6 +8,7 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.GFApplicationBinderFactory;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.modules.project.Management;
 import unipotsdam.gf.modules.project.Project;
@@ -38,7 +39,7 @@ public class UserDAOTest {
 
     @Before
     public void setUp() {
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(GFApplicationBinderFactory.instance());
         locator.inject(this);
     }
 

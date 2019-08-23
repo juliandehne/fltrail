@@ -7,14 +7,13 @@ import unipotsdam.gf.config.IConfig;
 import unipotsdam.gf.config.ProductionConfig;
 import unipotsdam.gf.config.TestConfig;
 import unipotsdam.gf.mysql.MysqlConnect;
+import unipotsdam.gf.mysql.MysqlConnectImpl;
 import unipotsdam.gf.mysql.PoolingMysqlConnectImpl;
 
 import javax.annotation.ManagedBean;
 
 @ManagedBean
 public class LockCronJob implements Job {
-
-
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) {
@@ -28,7 +27,7 @@ public class LockCronJob implements Job {
         } else {
             iConfig = new TestConfig();
         }
-        MysqlConnect connection = new PoolingMysqlConnectImpl(iConfig);
+        MysqlConnect connection = new MysqlConnectImpl(iConfig);
 
         connection.connect();
         // build and execute request

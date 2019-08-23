@@ -8,6 +8,7 @@ import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 import unipotsdam.gf.config.GFApplicationBinder;
+import unipotsdam.gf.config.GFApplicationBinderFactory;
 import unipotsdam.gf.modules.group.preferences.database.ProfileDAO;
 import unipotsdam.gf.modules.group.preferences.database.ProfileQuestion;
 import unipotsdam.gf.modules.group.preferences.groupal.*;
@@ -48,7 +49,7 @@ public class GroupAlTest {
     @Before
     public void setUp() throws Exception {
         //final ServiceLocator locator = ServiceLocatorUtilities.bind(new TestGFApplicationBinder());
-        final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
+        final ServiceLocator locator = ServiceLocatorUtilities.bind(GFApplicationBinderFactory.instance());
         locator.inject(this);
         //
         JAXBContext jaxbContext = JAXBContext.newInstance(ParticipantsHolder.class);

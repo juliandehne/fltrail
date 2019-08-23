@@ -13,20 +13,19 @@ import java.util.ArrayList;
 
 public class ItemWriter {
 
-    private final String excelFileName;
+    private String excelFileName;
 
     @Inject
     ProfileDAO profileDAO;
 
-    public ItemWriter(String excelFileName) {
+    public void setExcelFileName(String excelFileName) {
         this.excelFileName = excelFileName;
     }
 
     public void writeItems() throws Exception {
-
-
+        /*
         final ServiceLocator locator = ServiceLocatorUtilities.bind(new GFApplicationBinder());
-        locator.inject(this);
+        locator.inject(this);*/
 
         String path = System.getProperty("user.dir") + "/src/main/resources/"+excelFileName;
         java.util.List<ItemSet> itemSets = Poiji.fromExcel(new File(path), ItemSet.class);
