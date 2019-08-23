@@ -58,12 +58,10 @@ public class GroupView {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/project/{projectName}/student/{userName}")
-    public GroupData getStudentsInSameGroup(
-            @PathParam("projectName") String projectName, @PathParam("userName") String userName){
-        User user = userDAO.getUserByEmail(userName);
-        Project project = new Project(projectName);
-        return groupfinding.getStudentsInSameGroup(project, user);
+    @Path("/groupId/{groupId}")
+    public GroupData getGroup(
+            @PathParam("groupId") Integer groupId) {
+        return groupfinding.getGroup(groupId);
     }
 
 

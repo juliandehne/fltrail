@@ -7,9 +7,9 @@ $(document).ready(function () {
 
     $('#missingFeedback').hide();
     $('#done').hide();
-
+    groupId = getQueryVariable("groupId");
     $.ajax({
-        url: "../rest/group/project/" + getQueryVariable("projectName") + "/student/" + $("#userEmail").html().trim(),
+        url: "../rest/group/groupId/" + groupId,
         type: 'GET',
         headers: {
             "Content-Type": "application/json",
@@ -18,12 +18,8 @@ $(document).ready(function () {
         success: function (group) {
             let groupName = group.groups[0].name;
             $('#groupName').append(groupName);
-        },
-        error: function (a, b, c) {
-            alert(a);
         }
     });
-    groupId = getQueryVariable("groupId");
 
     prepareContributionRating();
 
