@@ -62,8 +62,8 @@
                            {{if inCardSolver}}
                                 {{if inCardSolver=="RESIZE_GROUP"}}
                                 <div class="inCardSolver">
-                                    <p>Sollten Sie sich für eine andere Gruppengröße entschieden haben, können sie dies hier ändern. </p>
-                                    <label>Präferierte Gruppengröße <input value='${groupSize}' type='number' min='3' id='userCount' style='width:40px;' onchange='updateGroupSizeView()'></label>
+                                    <p>Sollten Sie sich für eine andere Gruppengröße entschieden haben, können Sie dies hier ändern. </p>
+                                    <label>Präferierte Gruppengröße <input value='${groupSize}' type='number' min='3' id='userCount' style='width:40px;' onchange='updateGroupSizeView();resizeGroup();'></label>
                                     <a data-toggle='collapse' href='#howToBuildGroups' role='button' aria-expanded='false' aria-controls='howToBuildGroups'>
                                         <i class='fas fa-question'></i>
                                     </a>
@@ -75,7 +75,6 @@
                                         zufällig auf die bestehenden Gruppen verteilt.
                                         </div>
                                     </div>
-                                    <button style="margin-top:20px;"  onClick='resizeGroup();'>speichern</button>
                                 </div>
                                 {{/if}}
                                 {{if inCardSolver=="WAIT_FOR_UPLOAD"}}

@@ -276,13 +276,25 @@ function handleLinkedTasks(object, result) {
                     result.infoText = "Sehen Sie sich den Gruppenvorschlag des Algorithmus an oder " +
                         "warten Sie auf weitere Teilnehmer. Die Gruppen sind noch nicht final gespeichert.\n" +
                         "Es sind bereits " + object.taskData.participantCount.participants + " Studierende eingetragen.";
-                    result.solveTaskWith = "Gruppen einsehen";
-                    switch (object.taskData.gfm) {
-                        default:
-                            result.solveTaskWithLink = "loaderStart();initializeGroups('" + object.projectName + "');";
-                            break;
-                    }
+                    result.solveTaskWith = "Vorschlag ansehen";
+                    result.solveTaskWithLink = "loaderStart();initializeGroups('" + object.projectName + "');";
                 } else {
+                    if (object.taskData.participantCount.participants > 1) {
+                        switch (object.taskData.gfm) {
+                            case "UserProfilStrategy":
+                                result.solveTaskWith = "Gruppen manuell bilden";
+                                break;
+                            case "Manual":
+                                result.solveTaskWith = "Gruppen manuell bilden";
+                                break;
+                            case "SingleUser":
+                                result.solveTaskWith = "Zuordnung einsehen";
+                                break;
+                            case "LearningGoalStrategy":
+                                result.solveTaskWith = "Gruppen manuell bilden";
+                                break;
+                        }
+                    }
                     result.infoText = waitForParticipantsInfoText(object);
                 }
                 break;
@@ -614,14 +626,19 @@ function countMissingStudents(object) {
 }
 
 function waitForParticipantsInfoText(object) {
-    let result = "Warten Sie auf die Anmeldungen der Studierenden.\n" +
-        "Es sind bereits " + object.taskData.participantCount.participants + " Studierende eingetragen.";
+    let result = "Warten Sie auf die Anmeldungen der Studierenden.\n";
+    if (object.taskData.participantCount.participants === 1) {
+        result = result + "Es ist eine studierende Person eingetragen.";
+    } else {
+        result = result + "Es sind bereits " + object.taskData.participantCount.participants + " Studierende eingetragen.";
+    }
+
     if (object.taskData.participantCount.participants === 0) {
         result = " Es hat sich noch niemand zu Ihrem Kurs angemeldet.";
     }
     if (countMissingStudents(object) > 0) {
         if (countMissingStudents(object) === 1) {
-            result += " Um Gruppen bilden zu können, fehlt noch ein Studierender.";
+            result += " Um Gruppen bilden zu können, fehlt noch eine studierende Person.";
         } else {
             result += " Um Gruppen bilden zu können, fehlen noch " + countMissingStudents(object) + " Studierende.";
         }
