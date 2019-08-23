@@ -1,25 +1,33 @@
 package unipotsdam.gf.healthchecks;
 
-import unipotsdam.gf.mysql.MysqlConnectImpl;
+import unipotsdam.gf.config.IConfig;
+import unipotsdam.gf.mysql.ConnectionPoolUtility;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 
 @Path("/system")
 public class HealthChecksView {
+
+    @Inject
+    IConfig iConfig;
+
     @Path("/health")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public HealthData getHealth() throws SQLException {
+    public HealthData getHealth() throws SQLException, PropertyVetoException {
         Boolean rocketOnline = HealthChecks.isRocketOnline();
         Boolean compBaseOnline = HealthChecks.isCompBaseOnline();
         Boolean mysqlOnline = HealthChecks.isMysqlOnline();
         Boolean groupAlOnline = HealthChecks.isGroupAlOnline();
         //return new HealthData(compBaseOnline, rocketOnline, mysqlOnline, groupAlOnline);
-        String mysqlConnectionStatus = MysqlConnectImpl.getConnectionStatus();
+
+        String mysqlConnectionStatus = ConnectionPoolUtility.getConnectionStatus(iConfig);
         return new HealthData(true,false,true,true, mysqlConnectionStatus);
     }
 }

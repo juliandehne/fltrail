@@ -6,7 +6,7 @@ import unipotsdam.gf.config.ProductionConfig;
 import unipotsdam.gf.config.StagingConfig;
 import unipotsdam.gf.config.TestConfig;
 import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.mysql.MysqlConnectImpl;
+import unipotsdam.gf.mysql.PoolingMysqlConnectImpl;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -37,15 +37,15 @@ public class UpdateDB {
 
 
     public static void main(String[] args) throws Exception {
-        MysqlConnect  mysqlConnect = new MysqlConnectImpl();
+        MysqlConnect  mysqlConnect = new PoolingMysqlConnectImpl();
         if (FLTrailConfig.productionContext) {
             if (FLTrailConfig.staging) {
-                ((MysqlConnectImpl) mysqlConnect).setiConfig(new StagingConfig());
+                ((PoolingMysqlConnectImpl) mysqlConnect).setiConfig(new StagingConfig());
             } else {
-                ((MysqlConnectImpl) mysqlConnect).setiConfig(new ProductionConfig());
+                ((PoolingMysqlConnectImpl) mysqlConnect).setiConfig(new ProductionConfig());
             }
         } else {
-            ((MysqlConnectImpl) mysqlConnect).setiConfig(new TestConfig());
+            ((PoolingMysqlConnectImpl) mysqlConnect).setiConfig(new TestConfig());
         }
         Connection connection = mysqlConnect.getConnection();
 
@@ -69,8 +69,8 @@ public class UpdateDB {
     }
 
   /*  public static void updateTestDB() throws SQLException, ManagedProcessException, IOException {
-        MysqlConnect  mysqlConnect = new MysqlConnectImpl();
-        ((MysqlConnectImpl) mysqlConnect).setiConfig(new TestConfig());
+        MysqlConnect  mysqlConnect = new PoolingMysqlConnectImpl();
+        ((PoolingMysqlConnectImpl) mysqlConnect).setiConfig(new TestConfig());
         Connection connection = mysqlConnect.getConnection();
 
         UpdateDB updateDB = new UpdateDB(connection, true, false);

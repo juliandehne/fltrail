@@ -53,7 +53,7 @@ import unipotsdam.gf.modules.wizard.ReflectionPhaseSimulation;
 import unipotsdam.gf.modules.wizard.Wizard;
 import unipotsdam.gf.modules.wizard.WizardDao;
 import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.mysql.MysqlConnectImpl;
+import unipotsdam.gf.mysql.PoolingMysqlConnectImpl;
 import unipotsdam.gf.process.DossierCreationProcess;
 import unipotsdam.gf.process.DummyExecutionProcess;
 import unipotsdam.gf.process.ExecutionProcess;
@@ -194,7 +194,7 @@ public class GFApplicationBinder extends AbstractBinder {
     }
 
     protected void bindDBConnections() {
-        bind(MysqlConnectImpl.class).to(MysqlConnect.class);
+        bind(PoolingMysqlConnectImpl.class).to(MysqlConnect.class);
         bind(MysqlConnect.class).to(MysqlConnect.class);
         bind(GroupfindingImpl.class).to(IGroupFinding.class);
         bind(UnirestService.class).to(UnirestService.class);

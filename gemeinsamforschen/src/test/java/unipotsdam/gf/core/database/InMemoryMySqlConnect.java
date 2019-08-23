@@ -3,20 +3,17 @@ package unipotsdam.gf.core.database;
 import ch.vorburger.exec.ManagedProcessException;
 import ch.vorburger.mariadb4j.DB;
 import ch.vorburger.mariadb4j.DBConfigurationBuilder;
-import org.apache.commons.dbutils.DbUtils;
-import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.mysql.MysqlConnectImpl;
+import unipotsdam.gf.mysql.PoolingMysqlConnectImpl;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 
 import javax.inject.Singleton;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Objects;
 
 
 @Singleton
-public class InMemoryMySqlConnect extends MysqlConnectImpl {
+public class InMemoryMySqlConnect extends PoolingMysqlConnectImpl {
 
     public InMemoryMySqlConnect() {
 

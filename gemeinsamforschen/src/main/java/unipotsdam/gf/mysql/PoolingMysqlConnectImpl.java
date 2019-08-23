@@ -14,42 +14,19 @@ import java.sql.*;
 import java.util.Date;
 
 
-public class MysqlConnectImpl implements MysqlConnect {
-
+public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     @Inject
     IConfig iConfig;
 
-    private static ComboPooledDataSource cpds;
 
-    public  MysqlConnectImpl() {
+    public PoolingMysqlConnectImpl() {
         //System.out.println("test");
     }
 
-    public  MysqlConnectImpl(IConfig iConfig) {
+    public PoolingMysqlConnectImpl(IConfig iConfig) {
         //System.out.println("test");
         this.iConfig = iConfig;
-    }
-
-    private synchronized void constructC3PO() throws PropertyVetoException {
-        cpds = new ComboPooledDataSource();
-        cpds.setDriverClass(GeneralConfig.JDBC_DRIVER); //loads the jdbc driver
-        cpds.setJdbcUrl( iConfig.getDBURL()+"/"+iConfig.getDBName());
-        cpds.setUser(iConfig.getDBUserName());
-        cpds.setPassword(iConfig.getDBPassword());
-
-        // the settings below are optional -- c3p0 can work with defaults
-        cpds.setMinPoolSize(5);
-        cpds.setAcquireIncrement(5);
-        cpds.setMaxPoolSize(20);
-    }
-
-    public static String getConnectionStatus() throws SQLException {
-        String result =
-        "[num_connections: "      + cpds.getNumConnectionsDefaultUser() +
-        ", num_busy_connections: " + cpds.getNumBusyConnectionsDefaultUser() +
-        ", num_idle_connections: " + cpds.getNumIdleConnectionsDefaultUser()+ "]";
-        return result;
     }
 
 
@@ -59,9 +36,8 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     private String createConnectionString() {
 
-        String connString =
-                iConfig.getDBURL() + "/" + iConfig.getDBName() + "?user=" + iConfig.getDBUserName() + "&password=" +
-                        iConfig.getDBPassword();
+        String connString = iConfig.getDBURL() + "/" + iConfig.getDBName() + "?user=" + iConfig
+                .getDBUserName() + "&password=" + iConfig.getDBPassword();
         return String.format(connString, iConfig.getDBName());
     }
 
@@ -111,7 +87,6 @@ public class MysqlConnectImpl implements MysqlConnect {
         }
         return null;
     }
-
 
 
     @Override
@@ -180,7 +155,7 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     /**
      * @param statement equals an SQL query where values for parameters are encoded with a "?"
-     * @param args values, that replace every "?" in order
+     * @param args      values, that replace every "?" in order
      */
     @Override
     public void issueInsertOrDeleteStatement(final String statement, final Object... args) {
@@ -230,16 +205,12 @@ public class MysqlConnectImpl implements MysqlConnect {
 
     @Override
     public Connection getConnection() throws ManagedProcessException, SQLException {
-        if (cpds == null) {
-            try {
-                log.info("constructing c3po pooling");
-                constructC3PO();
-            } catch (PropertyVetoException e) {
-                e.printStackTrace();
-                log.error(e.getMessage());
-            }
+        try (Connection connection = ConnectionPoolUtility.constructC3PO(iConfig).getConnection()) {
+            return connection;
+        } catch (PropertyVetoException e) {
+            e.printStackTrace();
         }
-        return cpds.getConnection();
+        return null;
     }
 
     public void setiConfig(IConfig iConfig) {

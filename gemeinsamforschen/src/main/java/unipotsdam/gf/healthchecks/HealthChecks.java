@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.config.*;
 import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.mysql.MysqlConnectImpl;
+import unipotsdam.gf.mysql.PoolingMysqlConnectImpl;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
@@ -76,7 +76,7 @@ public class HealthChecks {
                 } else {
                     iConfig = new TestConfig();
                 }
-                MysqlConnect mysqlConnect = new MysqlConnectImpl(iConfig);
+                MysqlConnect mysqlConnect = new PoolingMysqlConnectImpl(iConfig);
                 Connection connection = mysqlConnect.getConnection();
                 Boolean mySQLAvailable = connection != null;
                 if (mySQLAvailable) {
