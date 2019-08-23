@@ -35,7 +35,7 @@ public interface IGroupFinding {
 
     Integer getMyGroupId(User user, Project project);
 
-    GroupData getStudentsInSameGroup(Project project, User user);
+    GroupData getGroup(Integer groupId);
 
     int getMinNumberOfStudentsNeeded(Project project);
 

@@ -33,26 +33,22 @@ public class GroupDAO {
         this.connect = connect;
     }
 
-    GroupData getStudentsInSameGroupAs(Project project, User user) {
+    GroupData getGroup(Integer groupId) {
         String groupName = "";
+        String projectName = "";
         connect.connect();
-        String mysqlRequest = "SELECT gu2.userEmail, g2.name FROM groupuser gu2 JOIN groups g2 ON g2.id = gu2.groupId" +
-                "WHERE gu2.groupId IN " +
-                "(SELECT groupId FROM groupuser gu JOIN groups g ON gu.groupId = g.id AND " +
-                "gu.userEmail = ? " +
-                "AND g.projectName = ?) " +
-                "AND userEmail!=?";
+        String mysqlRequest = "SELECT gu.userEmail, g.name, g.projectName FROM groupuser gu JOIN groups g ON g.id = gu.groupId " +
+                "WHERE gu.groupId = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(
                 mysqlRequest,
-                user.getEmail(),
-                project.getName(),
-                user.getEmail()
+                groupId
         );
         List<String> peers = new ArrayList<>();
         while (vereinfachtesResultSet.next()) {
             String peer = vereinfachtesResultSet.getString("userEmail");
             peers.add(peer);
             groupName = vereinfachtesResultSet.getString("name");
+            projectName = vereinfachtesResultSet.getString("projectName");
         }
         connect.close();
         List<User> users = new ArrayList<>();
@@ -60,7 +56,7 @@ public class GroupDAO {
             users.add(userDAO.getUserByEmail(peer));
         }
         List<Group> groups = new ArrayList<>();
-        Group group = new Group(users, project.getName());
+        Group group = new Group(users, projectName);
         group.setName(groupName);
         groups.add(group);
         return new GroupData(groups);

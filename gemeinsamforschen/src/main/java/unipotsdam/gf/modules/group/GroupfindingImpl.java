@@ -67,8 +67,8 @@ public class GroupfindingImpl implements IGroupFinding {
     }
 
 
-    public GroupData getStudentsInSameGroup(Project project, User user) {
-        return groupDAO.getStudentsInSameGroupAs(project, user);
+    public GroupData getGroup(Integer groupId) {
+        return groupDAO.getGroup(groupId);
     }
 
     @Override
