@@ -39,8 +39,8 @@ import unipotsdam.gf.modules.project.ManagementImpl;
 import unipotsdam.gf.modules.project.ProjectConfigurationDAO;
 import unipotsdam.gf.modules.project.ProjectDAO;
 import unipotsdam.gf.modules.reflection.service.LearningGoalStoreDAO;
+import unipotsdam.gf.modules.reflection.service.ReflectionQuestionAnswersDAO;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsStoreDAO;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsToAnswerDAO;
 import unipotsdam.gf.modules.reflection.service.ReflectionService;
 import unipotsdam.gf.modules.reflection.service.SelectedLearningGoalsDAO;
 import unipotsdam.gf.modules.reflection.service.SelectedReflectionQuestionsDAO;
@@ -134,7 +134,7 @@ public class GFApplicationBinder extends AbstractBinder {
             bind(DummyExecutionProcess.class).to(IExecutionProcess.class);
             bind(DummyReflectionPhasesimulation.class).to(IReflectionPhaseSimulation.class);
         }
-        bind(ReflectionQuestionsToAnswerDAO.class).to(ReflectionQuestionsToAnswerDAO.class);
+        bind(ReflectionQuestionAnswersDAO.class).to(ReflectionQuestionAnswersDAO.class);
         bind(ReflectionQuestionsStoreDAO.class).to(ReflectionQuestionsStoreDAO.class);
         bind(LearningGoalStoreDAO.class).to(LearningGoalStoreDAO.class);
         bind(SelectedLearningGoalsDAO.class).to(SelectedLearningGoalsDAO.class);

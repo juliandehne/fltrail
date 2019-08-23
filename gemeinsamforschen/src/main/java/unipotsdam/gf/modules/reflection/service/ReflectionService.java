@@ -9,7 +9,6 @@ import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestionAnswer;
-import unipotsdam.gf.modules.reflection.model.ReflectionQuestionToAnswer;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestionWithAnswer;
 import unipotsdam.gf.modules.reflection.model.SelectedReflectionQuestion;
 import unipotsdam.gf.modules.submission.controller.SubmissionController;
@@ -31,7 +30,7 @@ public class ReflectionService implements IReflection {
     private SelectedLearningGoalsDAO selectedLearningGoalsDAO;
 
     @Inject
-    private ReflectionQuestionsToAnswerDAO reflectionQuestionsToAnswerDAO;
+    private ReflectionQuestionAnswersDAO reflectionQuestionAnswersDAO;
 
     @Inject
     private UserDAO userDAO;
@@ -56,8 +55,7 @@ public class ReflectionService implements IReflection {
         learningGoalRequestResult.setLearningGoal(learningGoal);
 
         learningGoalRequest.getReflectionQuestions().forEach(storeItem -> {
-            SelectedReflectionQuestion selectedReflectionQuestion = new SelectedReflectionQuestion(learningGoal.getId(),
-                    storeItem.getQuestion(), project.getName());
+            SelectedReflectionQuestion selectedReflectionQuestion = new SelectedReflectionQuestion(learningGoal.getId(), storeItem.getQuestion());
             String uuid = selectedReflectionQuestionsDAO.persist(selectedReflectionQuestion);
             selectedReflectionQuestion.setId(uuid);
             learningGoalRequestResult.getReflectionQuestions().add(selectedReflectionQuestion);
@@ -83,18 +81,6 @@ public class ReflectionService implements IReflection {
     }
 
     @Override
-    public void persistReflectionQuestionsToAnswer(Project project) {
-        List<User> users = userDAO.getUsersByProjectName(project.getName());
-        List<SelectedReflectionQuestion> selectedReflectionQuestions = selectedReflectionQuestionsDAO.findBy(project);
-        users.forEach(user -> {
-            List<ReflectionQuestionToAnswer> questionsToAnswer = selectedReflectionQuestions.stream()
-                    .map(selected -> new ReflectionQuestionToAnswer(selected, user, project))
-                    .collect(Collectors.toList());
-            questionsToAnswer.forEach(question -> reflectionQuestionsToAnswerDAO.persist(question));
-        });
-    }
-
-    @Override
     public List<FullSubmission> getGroupAndPublicVisiblePortfolioEntriesByUser(User user, Project project) {
         List<FullSubmission> portfolioEntries = submissionController.getPersonalSubmissions(user, project, FileRole.PORTFOLIO_ENTRY);
         return portfolioEntries.stream()
@@ -104,14 +90,14 @@ public class ReflectionService implements IReflection {
 
     @Override
     public List<ReflectionQuestionWithAnswer> getAnsweredReflectionQuestions(Project project) {
-        List<ReflectionQuestion> reflectionQuestions = reflectionQuestionsToAnswerDAO.getAnsweredQuestions(project);
+        List<ReflectionQuestion> reflectionQuestions = selectedReflectionQuestionsDAO.getAnsweredQuestions(project);
         return getAnswers(reflectionQuestions);
     }
 
 
     @Override
     public List<ReflectionQuestionWithAnswer> getAnsweredReflectionQuestionsFromUser(Project project, User user) {
-        List<ReflectionQuestion> reflectionQuestions = reflectionQuestionsToAnswerDAO.getAnsweredQuestionsFromUser(project, user);
+        List<ReflectionQuestion> reflectionQuestions = selectedReflectionQuestionsDAO.getAnsweredQuestionsFromUser(project, user);
         return getAnswers(reflectionQuestions);
     }
 

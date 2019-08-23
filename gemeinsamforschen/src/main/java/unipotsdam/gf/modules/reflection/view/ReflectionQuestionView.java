@@ -4,11 +4,11 @@ import com.google.common.base.Strings;
 import org.apache.commons.collections4.CollectionUtils;
 import unipotsdam.gf.interfaces.IReflection;
 import unipotsdam.gf.modules.project.Project;
-import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestionWithAnswer;
 import unipotsdam.gf.modules.reflection.model.ReflectionQuestionsStoreItem;
+import unipotsdam.gf.modules.reflection.model.SelectedReflectionQuestion;
 import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsStoreDAO;
-import unipotsdam.gf.modules.reflection.service.ReflectionQuestionsToAnswerDAO;
+import unipotsdam.gf.modules.reflection.service.SelectedReflectionQuestionsDAO;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.session.GFContexts;
 
@@ -31,7 +31,7 @@ import java.util.Objects;
 public class ReflectionQuestionView {
 
     @Inject
-    private ReflectionQuestionsToAnswerDAO reflectionQuestionsToAnswerDAO;
+    private SelectedReflectionQuestionsDAO selectedReflectionQuestionsDAO;
 
     @Inject
     private ReflectionQuestionsStoreDAO questionsStoreDAO;
@@ -52,7 +52,7 @@ public class ReflectionQuestionView {
             return Response.status(Response.Status.BAD_REQUEST).entity("project name is null or empty").build();
         }
 
-        List<ReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, false);
+        List<SelectedReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, false);
 
         if (Objects.isNull(reflectionQuestions)) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("user email was not in context").build();
@@ -76,7 +76,7 @@ public class ReflectionQuestionView {
             return Response.status(Response.Status.BAD_REQUEST).entity("learning goal id is null or empty").build();
         }
 
-        List<ReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, true);
+        List<SelectedReflectionQuestion> reflectionQuestions = getUnansweredReflectionQuestions(req, projectName, true);
 
         if (reflectionQuestions == null) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("user email was not in context").build();
@@ -143,12 +143,12 @@ public class ReflectionQuestionView {
         }
     }
 
-    private List<ReflectionQuestion> getUnansweredReflectionQuestions(HttpServletRequest req, String projectName, boolean onlyFirstEntry) {
+    private List<SelectedReflectionQuestion> getUnansweredReflectionQuestions(HttpServletRequest req, String projectName, boolean onlyFirstEntry) {
         try {
             String userEmail = gfContexts.getUserEmail(req);
             User user = new User(userEmail);
             Project project = new Project(projectName);
-            return reflectionQuestionsToAnswerDAO.getUnansweredQuestions(project, user, onlyFirstEntry);
+            return selectedReflectionQuestionsDAO.getUnansweredQuestions(project, user, onlyFirstEntry);
         } catch (IOException e) {
             e.getStackTrace();
             return null;

@@ -2,8 +2,6 @@ package unipotsdam.gf.modules.communication.service;
 
 import io.github.openunirest.http.HttpResponse;
 import io.github.openunirest.request.body.RequestBodyEntity;
-import org.apache.catalina.startup.Tomcat;
-import org.apache.http.HttpEntity;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +29,12 @@ import unipotsdam.gf.session.TomcatListener;
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -86,12 +87,14 @@ public class CommunicationService implements ICommunication {
     }*/
 
     @Override
+    @Deprecated
     public List<ChatMessage> getChatHistory(String roomId) {
         //TODO : not needed at the moment, possibly remove
         return null;
     }
 
     @Override
+    @Deprecated
     public boolean sendMessageToChat(EMailMessage EMailMessage, String roomId) {
         // TODO: not needed at the moment, possibly remove
         return false;
@@ -246,6 +249,7 @@ public class CommunicationService implements ICommunication {
     }
 
     @Override
+    @Deprecated
     public boolean setChatRoomTopic(String roomId, String topic) {
         // TODO: not needed at the moment, possibly remove
         return false;

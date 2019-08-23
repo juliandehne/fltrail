@@ -5,17 +5,30 @@ public class SelectedReflectionQuestion {
     private String id;
     private String learningGoalId;
     private String question;
-    private String projectName;
 
-    public SelectedReflectionQuestion(String learningGoalId, String question, String projectName) {
-        this.learningGoalId = learningGoalId;
-        this.question = question;
-        this.projectName = projectName;
+    public SelectedReflectionQuestion() {
     }
 
-    public SelectedReflectionQuestion(String id, String learningGoalId, String question, String projectName) {
-        this(learningGoalId, question, projectName);
+    public SelectedReflectionQuestion(String id) {
         this.id = id;
+    }
+
+    public SelectedReflectionQuestion(String learningGoalId, String question) {
+        this.learningGoalId = learningGoalId;
+        this.question = question;
+    }
+
+    public SelectedReflectionQuestion(String id, String learningGoalId, String question) {
+        this(learningGoalId, question);
+        this.id = id;
+    }
+
+    public SelectedReflectionQuestion(SelectedReflectionQuestion other) {
+        this(other.id, other.learningGoalId, other.question);
+    }
+
+    public SelectedReflectionQuestion(ReflectionQuestion reflectionQuestion) {
+        this(reflectionQuestion.getId(), reflectionQuestion.getLearningGoalId(), reflectionQuestion.getQuestion());
     }
 
     public String getId() {
@@ -40,13 +53,5 @@ public class SelectedReflectionQuestion {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
 }

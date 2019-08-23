@@ -18,8 +18,6 @@ public interface IReflection {
 
     List<LearningGoalRequestResult> getSelectedLearningGoalsAndReflectionQuestions(Project project);
 
-    void persistReflectionQuestionsToAnswer(Project project);
-
     List<FullSubmission> getGroupAndPublicVisiblePortfolioEntriesByUser(User user, Project project);
 
     List<ReflectionQuestionWithAnswer> getAnsweredReflectionQuestions(Project project);

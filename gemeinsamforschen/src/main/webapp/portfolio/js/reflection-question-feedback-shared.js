@@ -5,7 +5,7 @@ function convertObjectsToFullSubmissions(objectList) {
         fullSubmission.id = entry.answer.id;
         fullSubmission.text = entry.answer.text;
         fullSubmission.header = entry.question.question;
-        fullSubmission.userEmail = entry.question.userEmail;
+        fullSubmission.userEmail = entry.answer.userEmail;
         fullSubmission.timestamp = entry.answer.timestamp;
         fullSubmissionList.push(fullSubmission);
     }

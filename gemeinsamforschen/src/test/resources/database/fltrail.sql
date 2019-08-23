@@ -483,49 +483,15 @@ create table selectedlearninggoals
 )
     comment 'holds all learning goals';
 
-create table learninggoalstudentresults
-(
-    id             varchar(100)                        not null,
-    creationDate   timestamp default CURRENT_TIMESTAMP null,
-    learningGoalId varchar(200)                        not null,
-    groupId        int                                 not null,
-    userEmail      varchar(255)                        not null,
-    text           text                                not null,
-    visibility     varchar(100)                        not null,
-    projectName    varchar(100)                        not null,
-    constraint learninggoalstudentresults_id_uindex
-        unique (id),
-    constraint learninggoalstudentresults_groups_id_fk
-        foreign key (groupId) references `groups` (id)
-            on update cascade on delete cascade,
-    constraint learninggoalstudentresults_learninggoals_id_fk
-        foreign key (learningGoalId) references selectedlearninggoals (id)
-            on update cascade on delete cascade,
-    constraint learninggoalstudentresults_projects_name_fk
-        foreign key (projectName) references projects (name)
-            on update cascade on delete cascade,
-    constraint learninggoalstudentresults_users_email_fk
-        foreign key (userEmail) references users (email)
-            on update cascade on delete cascade
-)
-    comment 'holds all results from';
-
-alter table learninggoalstudentresults
-    add primary key (id);
-
 create table selectedreflectionquestions
 (
     id             varchar(200) not null,
     learningGoalId varchar(200) not null,
     question       text         not null,
-    projectName    varchar(100) not null,
     constraint selected_reflection_questions_id_uindex
         unique (id),
     constraint selectedreflectionquestions_learninggoals_id_fk
         foreign key (learningGoalId) references selectedlearninggoals (id)
-            on update cascade on delete cascade,
-    constraint selectedreflectionquestions_projects_name_fk
-        foreign key (projectName) references projects (name)
             on update cascade on delete cascade
 )
     comment 'Saves all selected reflection questions by docent';
@@ -533,29 +499,18 @@ create table selectedreflectionquestions
 alter table selectedreflectionquestions
     add primary key (id);
 
-create table reflectionquestionstoanswer
+create table reflectionquestionanswers
 (
     id                           varchar(100) not null
         primary key,
     selectedReflectionQuestionId varchar(200) not null,
-    userEmail                    varchar(255) not null,
     fullSubmissionId             varchar(120) null,
-    projectName                  varchar(100) not null,
-    learningGoalId               varchar(200) not null,
     constraint reflexionquestions_fullSubmissionId_uindex
         unique (fullSubmissionId),
     constraint reflectionquestions_selectedreflectionquestions_id_fk
-        foreign key (selectedReflectionQuestionId) references selectedreflectionquestions (id),
-    constraint reflectionquestionstoanswer_selectedlearninggoals_id_fk
-        foreign key (learningGoalId) references selectedlearninggoals (id)
+        foreign key (selectedReflectionQuestionId) references selectedreflectionquestions (id)
 )
     comment 'holds all reflection questions students have to answer or had answered';
-
-create index reflexionquestions_projects_name_fk
-    on reflectionquestionstoanswer (projectName);
-
-create index reflexionquestions_users_email_fk
-    on reflectionquestionstoanswer (userEmail);
 
 create table tags
 (

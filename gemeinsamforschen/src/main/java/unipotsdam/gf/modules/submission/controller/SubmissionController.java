@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.submission.controller;
 
 import com.google.common.base.Strings;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import unipotsdam.gf.interfaces.ISubmission;
 import unipotsdam.gf.modules.annotation.model.Category;
@@ -41,7 +42,9 @@ import java.util.UUID;
  */
 public class SubmissionController implements ISubmission, HasProgress {
 
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(SubmissionController.class);
+    public static final String DATABASE_NAME = "fullsubmissions";
+
+    private static final Logger log = LoggerFactory.getLogger(SubmissionController.class);
 
     @Inject
     private MysqlConnect connection;

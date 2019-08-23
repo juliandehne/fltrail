@@ -4,7 +4,7 @@ import com.itextpdf.text.DocumentException;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequest;
 import unipotsdam.gf.modules.reflection.model.LearningGoalRequestResult;
-import unipotsdam.gf.modules.reflection.model.ReflectionQuestion;
+import unipotsdam.gf.modules.reflection.model.SelectedReflectionQuestion;
 import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.user.User;
 import unipotsdam.gf.modules.user.UserDAO;
@@ -41,9 +41,8 @@ public class DummyExecutionProcess implements IExecutionProcess {
 
     }
 
-
     @Override
-    public void answerReflectionQuestion(FullSubmission fullSubmission, ReflectionQuestion reflectionQuestion) {
+    public void answerReflectionQuestion(FullSubmission fullSubmission, SelectedReflectionQuestion reflectionQuestion) throws Exception {
 
     }
 
