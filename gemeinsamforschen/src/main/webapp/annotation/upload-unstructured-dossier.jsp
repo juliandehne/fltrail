@@ -88,7 +88,8 @@
                     <div></div>
                     {{if fileRole.toUpperCase() == "PORTFOLIO_ENTRY"}}
                         <div class="dropdown fltrailselect">
-                            <button class="dropbtn btn btn-primary" onclick='dropDownClick("myDropdown")'>Sichtbarkeit: {{:currentVisibility.buttonText}}
+                            <label for="visibilityDropDown">Sichtbarkeit</label>
+                            <button id="visibilityDropDown"class="dropbtn" onclick='dropDownClick("myDropdown")'>{{:currentVisibility.buttonText}}
 
                             </button>
                             <div class="dropdown-content" id="myDropdown">
@@ -112,10 +113,10 @@
                 <div id="editorTitleTemplateResult"></div>
                 <script id="editorTitleTemplate" type="text/x-jsrender">
                     <div/>
-                    {{if fileRole.toUpperCase() == "DOSSIER"}}
+                    {{if fileRole.toUpperCase() === "DOSSIER" || fileRole.toUpperCase() === "PORTFOLIO_ENTRY"}}
                         <div class="upload-text" id="documentText">
-                            <label for="ownTitle">Fragestellung / Projektaufgabe</label>
-                            <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="Fügen Sie hier Ihre Fragestellung / Projektaufgabe ein">
+                            <label for="ownTitle">{{:label}}</label>
+                            <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" placeholder="{{:placeholder}}">
                         </div>
                     {{/if}}
 
@@ -160,10 +161,17 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                            veröffentlichen
-                        </button>
+                        <div id="saveTemplateResult"></div>
+                        <script id="saveTemplate" type="text/x-jsrender">
+                            <div/>
+                            {{if fileRole.toUpperCase() === "DOSSIER"}}
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    veröffentlichen
+                                </button>
+                            {{/if}}
+
+                        </script>
                     </div>
 
                         <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">
