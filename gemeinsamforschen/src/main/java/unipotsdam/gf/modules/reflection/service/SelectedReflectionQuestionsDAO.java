@@ -72,18 +72,28 @@ public class SelectedReflectionQuestionsDAO {
     }
 
     public List<SelectedReflectionQuestion> getUnansweredQuestions(Project project, User user, boolean onlyFirstEntry) {
-
-        String query = String.join(" ", "select * from selectedreflectionquestions where id not in",
-                "(select srq.id from selectedreflectionquestions srq",
+        connection.connect();
+        String query = String.join(" ", "select * from selectedreflectionquestions srq",
+                "left join selectedlearninggoals slg on srq.learningGoalId = slg.id",
+                "where srq.id not in (select srq.id from selectedreflectionquestions srq",
                 "left join reflectionquestionanswers rqa on srq.id = rqa.selectedReflectionQuestionId",
                 "left join selectedlearninggoals slg on srq.learningGoalId = slg.id",
                 "left join fullsubmissions fsm on rqa.fullSubmissionId = fsm.id",
-                "where fsm.projectName = ? and fsm.userEmail = ?)");
+                "where fsm.projectName = ? and fsm.userEmail = ?) and slg.projectName = ?");
 
         if (onlyFirstEntry) {
             query = String.join(" ", query.trim(), "LIMIT 1");
         }
-        return getSelectedQuestions(query, project, user);
+
+        VereinfachtesResultSet rs = connection.issueSelectStatement(query, project.getName(), user.getEmail(), project.getName());
+
+        ArrayList<SelectedReflectionQuestion> reflectionQuestions = new ArrayList<>();
+        while (rs.next()) {
+            SelectedReflectionQuestion reflectionQuestion = convertResultSet(rs);
+            reflectionQuestions.add(reflectionQuestion);
+        }
+        connection.close();
+        return reflectionQuestions;
     }
 
     private List<ReflectionQuestion> getQuestions(String query, Project project) {
@@ -108,20 +118,6 @@ public class SelectedReflectionQuestionsDAO {
         ArrayList<ReflectionQuestion> reflectionQuestions = new ArrayList<>();
         while (rs.next()) {
             ReflectionQuestion reflectionQuestion = convertResultSetToReflectionQuestion(rs);
-            reflectionQuestions.add(reflectionQuestion);
-        }
-        connection.close();
-        return reflectionQuestions;
-    }
-
-    private List<SelectedReflectionQuestion> getSelectedQuestions(String query, Project project, User user) {
-        connection.connect();
-
-        VereinfachtesResultSet rs = connection.issueSelectStatement(query, project.getName(), user.getEmail());
-
-        ArrayList<SelectedReflectionQuestion> reflectionQuestions = new ArrayList<>();
-        while (rs.next()) {
-            SelectedReflectionQuestion reflectionQuestion = convertResultSet(rs);
             reflectionQuestions.add(reflectionQuestion);
         }
         connection.close();
