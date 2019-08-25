@@ -4,6 +4,7 @@ let currentPortfolioEntries;
 let currentPortfolioTemplateData;
 let quillNewComment;
 let visibilityButtonTemplateData = {};
+let lastActivePortfolioIndex = -1;
 const nameForAllEntries = "KEIN FILTER";
 
 $(document).ready(async function () {
@@ -50,6 +51,7 @@ async function fillPortfolioEntriesAndFeedback() {
             data.error = response.error;
             fillWithTemplateMetadata(data);
             currentPortfolioTemplateData = data;
+
             renderPortfolioContent(data);
         });
     });
@@ -80,6 +82,11 @@ function changeButtonText(index, callback) {
 
 function saveComment(index) {
     let contents = quillNewComment[index].getContents();
+    if (lastActivePortfolioIndex !== -1) {
+        currentPortfolioEntries[lastActivePortfolioIndex].active = false;
+        lastActivePortfolioIndex = index;
+    }
+    currentPortfolioEntries[index].active = true;
     let fullSubmissionId = currentPortfolioEntries[index].id;
     getMyGroupId(function (groupId) {
         let contributionFeedbackRequest = {
@@ -89,8 +96,12 @@ function saveComment(index) {
             groupId: groupId
         };
         createContributionFeedback(contributionFeedbackRequest, async function () {
-            currentPortfolioEntries[index].contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmissionId);
-            renderPortfolioContent(currentPortfolioTemplateData);
+            getMyGroupId(async groupId => {
+                let groupIdInt = JSON.parse(groupId);
+                currentPortfolioEntries[index].contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmissionId, groupIdInt);
+                renderPortfolioContent(currentPortfolioTemplateData);
+            })
+
         });
     });
 }

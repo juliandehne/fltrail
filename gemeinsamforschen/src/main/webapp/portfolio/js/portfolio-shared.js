@@ -3,6 +3,9 @@ quillNewComment = [];
 function fillWithExtraTemplateData(fullSubmission, groupId, userEmail, editable) {
     fullSubmission.editable = (fullSubmission.userEmail === userEmail || (fullSubmission.groupId === groupId && fullSubmission.visibility !== 'PERSONAL')) && editable;
     fullSubmission.timestampDateTimeFormat = new Date(fullSubmission.timestamp).toLocaleString();
+    if (!fullSubmission.active) {
+        fullSubmission.active = false;
+    }
     if (fullSubmission.userEmail) {
         fullSubmission.creator = fullSubmission.userEmail;
     } else {

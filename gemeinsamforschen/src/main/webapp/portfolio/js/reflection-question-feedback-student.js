@@ -3,6 +3,7 @@ let userEmail;
 let currentPortfolioEntries;
 let currentPortfolioTemplateData;
 let quillNewComment;
+let lastActiveReflectionQuestionIndex = -1;
 
 $(document).ready(async function () {
     projectName = $('#projectName').html().trim();
@@ -47,6 +48,11 @@ function renderPortfolioContent(data) {
 function saveComment(index) {
     let contents = quillNewComment[index].getContents();
     let fullSubmissionId = currentPortfolioEntries[index].id;
+    if (lastActiveReflectionQuestionIndex !== -1) {
+        currentPortfolioEntries[lastActiveReflectionQuestionIndex].active = false;
+        lastActiveReflectionQuestionIndex = index;
+    }
+    currentPortfolioEntries[index].active = true;
     getMyGroupId(function (groupId) {
         let contributionFeedbackRequest = {
             userEmail: userEmail,

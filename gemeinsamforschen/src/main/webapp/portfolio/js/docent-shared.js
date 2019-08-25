@@ -1,3 +1,5 @@
+let lastActiveEntryIndex = -1;
+
 function fillLocalSubmissionStorage(fullSubmissions) {
     for (let element of fullSubmissions) {
         let key = element.userEmail ? 'Student: ' + element.userEmail : 'Gruppe: ' + element.groupId;
@@ -48,6 +50,11 @@ async function visibilityButtonPressed(pressedButton) {
 function saveComment(index) {
     // noinspection JSUnresolvedFunction
     let contents = quillNewComment[index].getContents();
+    if (lastActiveEntryIndex !== -1) {
+        sortedPortfolioEntries[currentVisibleButtonText][lastActiveEntryIndex].active = false;
+        lastActiveEntryIndex = index;
+    }
+    sortedPortfolioEntries[currentVisibleButtonText][index].active = true;
     let fullSubmissionId = sortedPortfolioEntries[currentVisibleButtonText][index].id;
     let contributionFeedbackRequest = {
         userEmail: userEmail,
