@@ -41,8 +41,9 @@ async function fillPortfolioEntriesAndFeedback() {
         let data = {};
         getMyGroupId(async function (groupId) {
             for (let fullSubmission of response) {
-                fillWithExtraTemplateData(fullSubmission, groupId, userEmail, true);
-                await addContributionFeedback(fullSubmission, groupId);
+                let groupIdInt = JSON.parse(groupId);
+                fillWithExtraTemplateData(fullSubmission, groupIdInt, userEmail, true);
+                await addContributionFeedback(fullSubmission, groupIdInt);
                 currentPortfolioEntries.push(fullSubmission);
             }
             data.submissionList = currentPortfolioEntries;
@@ -77,11 +78,6 @@ function changeButtonText(index, callback) {
     }
 }
 
-function clickedWantToComment(index) {
-    currentPortfolioEntries[index].wantToComment = true;
-    renderPortfolioContent(currentPortfolioTemplateData);
-}
-
 function saveComment(index) {
     let contents = quillNewComment[index].getContents();
     let fullSubmissionId = currentPortfolioEntries[index].id;
@@ -93,7 +89,6 @@ function saveComment(index) {
             groupId: groupId
         };
         createContributionFeedback(contributionFeedbackRequest, async function () {
-            currentPortfolioEntries[index].wantToComment = false;
             currentPortfolioEntries[index].contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmissionId);
             renderPortfolioContent(currentPortfolioTemplateData);
         });

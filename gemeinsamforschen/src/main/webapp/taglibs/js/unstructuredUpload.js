@@ -94,6 +94,10 @@ async function setupPageContent() {
             getFullSubmission(fullSubmissionId, function (fullSubmission) {
                 setQuillContentFromFullSubmission(fullSubmission);
                 currentVisibility = possibleVisibilities[fullSubmission.visibility];
+                if (getUserEmail() !== fullSubmission.userEmail) {
+                    delete possibleVisibilities['PERSONAL'];
+                    delete possibleVisibilities['DOCENT'];
+                }
                 populateVisibilityButton();
                 setHeader(fullSubmission.header);
             }, function (error) {

@@ -55,7 +55,6 @@ function saveComment(index) {
             groupId: groupId
         };
         createContributionFeedback(contributionFeedbackRequest, async function () {
-            currentPortfolioEntries[index].wantToComment = false;
             currentPortfolioEntries[index].contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmissionId);
             renderPortfolioContent(currentPortfolioTemplateData);
         });
