@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     public static final AtomicInteger counter = new AtomicInteger();
-    private AtomicBoolean saneState;
+    private Boolean saneState;
 
     @Inject
     IConfig iConfig;
@@ -31,7 +31,7 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     public PoolingMysqlConnectImpl() {
         //System.out.println("test");
-        saneState = new AtomicBoolean(true);
+        saneState = true;
     }
 
  /*   public PoolingMysqlConnectImpl(IConfig iConfig, ConnectionPoolUtility connectionPoolUtility) {
@@ -54,8 +54,8 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     @Override
     public void connect() {
-        if (saneState.get()) {
-            saneState.set(false);
+        if (saneState) {
+            saneState = false;
         } else {
             throw new Error("starting second connect but connection exists");
         }
@@ -77,10 +77,10 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     @Override
     public void close() {
-        if (saneState.get()) {
+        if (saneState) {
             throw new Error("closing connection but connection is already closed");
         } else {
-            saneState.set(true);
+            saneState = true;
         }
         try {
             if (conn != null) {

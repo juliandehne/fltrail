@@ -9,10 +9,7 @@ import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.process.phases.Phase;
 
-import javax.annotation.ManagedBean;
-import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.io.FileInputStream;
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -21,9 +18,6 @@ import java.util.List;
 /**
  * Created by dehne on 31.05.2018.
  */
-@ManagedBean
-@Resource
-@Singleton
 public class ManagementImpl implements Management {
 
     @Inject
@@ -58,13 +52,13 @@ public class ManagementImpl implements Management {
     }
 
     @Override
-    public void create(Project project, Integer groupSize){
+    public void create(Project project, Integer groupSize) {
         projectDAO.persist(project, groupSize);
     }
 
     @Override
     public void delete(Project project) {
-       projectDAO.delete(project);
+        projectDAO.delete(project);
     }
 
     @Override
@@ -121,14 +115,13 @@ public class ManagementImpl implements Management {
         return projectConfigurationDAO.loadProjectConfiguration(project);
     }
 
-       @Override
+    @Override
     public List<Project> getProjects(String authorEmail) {
         if (authorEmail == null) {
             return null;
         }
         connect.connect();
-        String mysqlRequest =
-                "SELECT * FROM projects where author = ?";
+        String mysqlRequest = "SELECT * FROM projects where author = ?";
 
         //49c6eeda-62d2-465e-8832-dc2db27e760c
 
@@ -153,8 +146,7 @@ public class ManagementImpl implements Management {
             return null;
         }
         connect.connect();
-        String mysqlRequest =
-                "SELECT projectName FROM projectuser WHERE userEmail=?";
+        String mysqlRequest = "SELECT projectName FROM projectuser WHERE userEmail=?";
         List<Project> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, user.getEmail());
         while (vereinfachtesResultSet.next()) {
@@ -172,10 +164,10 @@ public class ManagementImpl implements Management {
     @Override
     public List<Project> getJustStartedProjects() {
         connect.connect();
-        String mysqlRequest =
-                "SELECT name FROM projects WHERE phase=?";
+        String mysqlRequest = "SELECT name FROM projects WHERE phase=?";
         List<Project> result = new ArrayList<>();
-        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Phase.GroupFormation);
+        VereinfachtesResultSet vereinfachtesResultSet =
+                connect.issueSelectStatement(mysqlRequest, Phase.GroupFormation);
         while (vereinfachtesResultSet.next()) {
             String project = vereinfachtesResultSet.getString("name");
             try {
@@ -194,7 +186,8 @@ public class ManagementImpl implements Management {
         String mysqlRequest = "INSERT INTO `profilepicture`(`userName`, `image`) VALUES (?,?)";
         connect.issueInsertOrDeleteStatement(mysqlRequest, userName, blobbedImage);
         connect.close();
-        return "success";    }
+        return "success";
+    }
 
     @Override
     public List<String> getTags(Project project) {

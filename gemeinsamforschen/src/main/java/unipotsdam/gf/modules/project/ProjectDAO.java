@@ -118,18 +118,19 @@ public class ProjectDAO {
 
     public Project getProjectByName(String name) throws Exception {
         connect.connect();
-        String mysqlRequest = "SELECT * FROM projects where name = ?";
+        String mysqlRequest = "SELECT * FROM projects p left join tags t on p.name = t.projectName  where p.name = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, name);
         boolean next = vereinfachtesResultSet.next();
         if (!next) {
             throw new Exception("Project does not exist");
         }
+        ArrayList<String> tags = new ArrayList<>();
         Project result = getProjectFromResultSet(vereinfachtesResultSet);
-        List<String> tags = getTags(result);
-        if (tags != null) {
-            assert result != null;
-            result.setTags(tags.toArray(new String[0]));
+        tags.add(vereinfachtesResultSet.getString("tag"));
+        while (vereinfachtesResultSet.next()) {
+            tags.add(vereinfachtesResultSet.getString("tag"));
         }
+        result.setTags(tags.toArray(new String[0]));
         connect.close();
         return result;
     }
@@ -225,13 +226,20 @@ public class ProjectDAO {
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, user.getEmail());
         while (vereinfachtesResultSet.next()) {
             Project projectFromResultSet = getProjectFromResultSet(vereinfachtesResultSet);
-            List<String> tagsList = getTags(projectFromResultSet);
+            /*List<String> tagsList = getTags(projectFromResultSet);
             String[] tags = new String[tagsList.size()];
-            projectFromResultSet.setTags(tagsList.toArray(tags));
+            projectFromResultSet.setTags(tagsList.toArray(tags));*/
             projects.add(projectFromResultSet);
         }
         connect.close();
-        return projects;
+
+        ArrayList<Project> projectsWithTags = new ArrayList<>();
+        for (Project project : projects) {
+            List<String> tags = getTags(project);
+            project.setTags(tags.toArray(new String[0]));
+            projectsWithTags.add(project);
+        }
+        return projectsWithTags;
     }
 
     public SurveyProject getActiveSurveyProject(GroupWorkContext projectContext) {
