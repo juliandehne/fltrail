@@ -1,24 +1,14 @@
 package unipotsdam.gf.core.database;
 
 import unipotsdam.gf.SurveyPreparation;
-import unipotsdam.gf.config.FLTrailConfig;
-import unipotsdam.gf.config.ProductionConfig;
-import unipotsdam.gf.config.StagingConfig;
-import unipotsdam.gf.config.TestConfig;
+import unipotsdam.gf.config.*;
+import unipotsdam.gf.mysql.ConnectionPoolUtility;
+import unipotsdam.gf.mysql.IConnectionPoolUtility;
 import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.mysql.MysqlConnectImpl;
 import unipotsdam.gf.mysql.PoolingMysqlConnectImpl;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.LineNumberReader;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.*;
+import java.sql.*;
 
 public class UpdateDB {
 
@@ -38,50 +28,38 @@ public class UpdateDB {
 
 
     public static void main(String[] args) throws Exception {
-        MysqlConnect  mysqlConnect = new MysqlConnectImpl();
-        if (FLTrailConfig.productionContext) {
-            if (FLTrailConfig.staging) {
-                ((MysqlConnectImpl) mysqlConnect).setiConfig(new StagingConfig());
-            } else {
-                ((MysqlConnectImpl) mysqlConnect).setiConfig(new ProductionConfig());
-            }
-        } else {
-            ((MysqlConnectImpl) mysqlConnect).setiConfig(new TestConfig());
-        }
+
+        IConfig iConfig = ConnectionPoolUtility.getiConfigForStatic();
+        IConnectionPoolUtility iConnectionPoolUtility = new ConnectionPoolUtility();
+        MysqlConnect mysqlConnect = new PoolingMysqlConnectImpl(iConnectionPoolUtility, iConfig);
+        mysqlConnect.connect();
         Connection connection = mysqlConnect.getConnection();
 
         // update db
         UpdateDB updateDB = new UpdateDB(connection, true, false);
-        System.out.println(new java.io.File( "." ).getCanonicalPath());
+        System.out.println(new java.io.File(".").getCanonicalPath());
         if (FLTrailConfig.productionContext) {
             updateDB.runScript(new FileReader("src/test/resources/database/productiondb.sql"));
         } else {
             updateDB.runScript(new FileReader("src/test/resources/database/db.sql"));
         }
         updateDB.runScript(new FileReader("src/test/resources/database/fltrail.sql"));
+        mysqlConnect.close();
+
         // add questions for groupal matcher
         SurveyPreparation.main(null);
 
         // add date for reflexion questions
         PredefinedDataInsertionHelper dataInsertionHelper = new PredefinedDataInsertionHelper(mysqlConnect);
         dataInsertionHelper.saveLearningGoals("src/test/resources/reflectionQuestions/learningGoalsStore.json");
-        dataInsertionHelper.saveReflectionQuestions("src/test/resources/reflectionQuestions/reflectionQuestionsStore.json");
+        dataInsertionHelper
+                .saveReflectionQuestions("src/test/resources/reflectionQuestions/reflectionQuestionsStore.json");
         //updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
     }
 
-  /*  public static void updateTestDB() throws SQLException, ManagedProcessException, IOException {
-        MysqlConnect  mysqlConnect = new PoolingMysqlConnectImpl();
-        ((PoolingMysqlConnectImpl) mysqlConnect).setiConfig(new TestConfig());
-        Connection connection = mysqlConnect.getConnection();
 
-        UpdateDB updateDB = new UpdateDB(connection, true, false);
-        System.out.println(new java.io.File( "." ).getCanonicalPath());
-        updateDB.runScript(new FileReader("src/test/resources/database/test_db.sql"));
-        updateDB.runScript(new FileReader("src/test/resources/database/fltrail.sql"));
-        //updateDB.runScript(new FileReader("src/test/resources/database/testuser.sql"));
-    }*/
 
-    public UpdateDB(Connection connection, boolean stopOnError, boolean autoCommit) {
+    private UpdateDB(Connection connection, boolean stopOnError, boolean autoCommit) {
         this.connection = connection;
         this.stopOnError = stopOnError;
         this.autoCommit = autoCommit;
@@ -95,8 +73,7 @@ public class UpdateDB {
     /**
      * Setter for logWriter property
      *
-     * @param logWriter
-     *            - the new value of the logWriter property
+     * @param logWriter - the new value of the logWriter property
      */
     public void setLogWriter(PrintWriter logWriter) {
         this.logWriter = logWriter;
@@ -105,8 +82,7 @@ public class UpdateDB {
     /**
      * Setter for errorLogWriter property
      *
-     * @param errorLogWriter
-     *            - the new value of the errorLogWriter property
+     * @param errorLogWriter - the new value of the errorLogWriter property
      */
     public void setErrorLogWriter(PrintWriter errorLogWriter) {
         this.errorLogWriter = errorLogWriter;
@@ -115,8 +91,7 @@ public class UpdateDB {
     /**
      * Runs an SQL script (read in using the Reader parameter)
      *
-     * @param reader
-     *            - the source of the script
+     * @param reader - the source of the script
      */
     public void runScript(Reader reader) throws IOException, SQLException {
         try {
@@ -142,17 +117,12 @@ public class UpdateDB {
      * Runs an SQL script (read in using the Reader parameter) using the
      * connection passed in
      *
-     * @param conn
-     *            - the connection to use for the script
-     * @param reader
-     *            - the source of the script
-     * @throws SQLException
-     *             if any SQL errors occur
-     * @throws IOException
-     *             if there is an error reading from the Reader
+     * @param conn   - the connection to use for the script
+     * @param reader - the source of the script
+     * @throws SQLException if any SQL errors occur
+     * @throws IOException  if there is an error reading from the Reader
      */
-    private void runScript(Connection conn, Reader reader) throws IOException,
-            SQLException {
+    private void runScript(Connection conn, Reader reader) throws IOException, SQLException {
         StringBuffer command = null;
         try {
             LineNumberReader lineReader = new LineNumberReader(reader);
@@ -164,18 +134,13 @@ public class UpdateDB {
                 String trimmedLine = line.trim();
                 if (trimmedLine.startsWith("--")) {
                     println(trimmedLine);
-                } else if (trimmedLine.length() < 1
-                        || trimmedLine.startsWith("//")) {
+                } else if (trimmedLine.length() < 1 || trimmedLine.startsWith("//")) {
                     // Do nothing
-                } else if (trimmedLine.length() < 1
-                        || trimmedLine.startsWith("--")) {
+                } else if (trimmedLine.length() < 1 || trimmedLine.startsWith("--")) {
                     // Do nothing
-                } else if (!fullLineDelimiter
-                        && trimmedLine.endsWith(getDelimiter())
-                        || fullLineDelimiter
-                        && trimmedLine.equals(getDelimiter())) {
-                    command.append(line.substring(0, line
-                            .lastIndexOf(getDelimiter())));
+                } else if (!fullLineDelimiter && trimmedLine
+                        .endsWith(getDelimiter()) || fullLineDelimiter && trimmedLine.equals(getDelimiter())) {
+                    command.append(line.substring(0, line.lastIndexOf(getDelimiter())));
                     command.append(" ");
                     Statement statement = conn.createStatement();
 

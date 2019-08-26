@@ -36,7 +36,7 @@ import static unipotsdam.gf.util.CollectionUtil.updateValueInMap;
  * when changing between phases
  */
 @ManagedBean
-@Singleton
+
 public class PhasesImpl implements IPhases {
 
     private static Map<Phase, ArrayList<TaskName>> phaseMap = getPhaseMap();

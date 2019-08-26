@@ -6,7 +6,7 @@ import unipotsdam.gf.modules.communication.model.RocketChatUser;
 
 import javax.inject.Singleton;
 
-@Singleton
+
 public class ProductionConfig extends GeneralConfig implements IConfig {
 
     private final static Logger log = LoggerFactory.getLogger(ProductionConfig.class);

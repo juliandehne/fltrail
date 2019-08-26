@@ -20,7 +20,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 
-@Singleton
+
 @ManagedBean
 @Resource
 public class ContributionFeedbackService implements IContributionFeedback {

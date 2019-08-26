@@ -17,6 +17,10 @@ public class HealthChecksView {
     @Inject
     IConnectionPoolUtility connectionPoolUtility;
 
+    public HealthChecksView() {
+        //System.err.println(this);
+    }
+
     @Path("/health")
     @GET
     @Produces({MediaType.APPLICATION_JSON})

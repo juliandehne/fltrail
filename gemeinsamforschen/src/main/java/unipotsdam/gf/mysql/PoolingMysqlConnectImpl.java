@@ -34,6 +34,13 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
         saneState = true;
     }
 
+    public PoolingMysqlConnectImpl(IConnectionPoolUtility connectionPoolUtility, IConfig iConfig) {
+        //System.out.println("test");
+        saneState = true;
+        this.connectionPoolUtility = connectionPoolUtility;
+        this.iConfig = iConfig;
+    }
+
  /*   public PoolingMysqlConnectImpl(IConfig iConfig, ConnectionPoolUtility connectionPoolUtility) {
         //System.out.println("test");
         this.iConfig = iConfig;
@@ -45,12 +52,12 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     protected Connection conn = null;
 
-    private String createConnectionString() {
+/*    private String createConnectionString() {
 
         String connString = iConfig.getDBURL() + "/" + iConfig.getDBName() + "?user=" + iConfig
                 .getDBUserName() + "&password=" + iConfig.getDBPassword();
         return String.format(connString, iConfig.getDBName());
-    }
+    }*/
 
     @Override
     public void connect() {

@@ -30,6 +30,7 @@ import unipotsdam.gf.process.tasks.ProjectStatus;
 import unipotsdam.gf.process.tasks.TaskName;
 
 import javax.inject.Inject;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -758,7 +759,9 @@ public class SubmissionController implements ISubmission, HasProgress {
         String query = "SELECT * from fullsubmissions where feedbackGroup = ? and projectName = ? and version = 0";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, groupId,
                 project.getName());
-        return resultSetToFeedback(groupId, vereinfachtesResultSet);
+        GroupFeedbackTaskData groupFeedbackTaskData = resultSetToFeedback(groupId, vereinfachtesResultSet);
+        connection.close();
+        return groupFeedbackTaskData;
     }
 
     public GroupFeedbackTaskData getMyFeedback(User user, Project project) {
@@ -771,7 +774,9 @@ public class SubmissionController implements ISubmission, HasProgress {
         String query = "SELECT * from fullsubmissions where groupId = ? and projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query, groupId,
                 project.getName());
-        return resultSetToFeedback(groupId, vereinfachtesResultSet);
+        GroupFeedbackTaskData groupFeedbackTaskData = resultSetToFeedback(groupId, vereinfachtesResultSet);
+        connection.close();
+        return groupFeedbackTaskData;
     }
 
     private GroupFeedbackTaskData resultSetToFeedback(Integer targetGroupId, VereinfachtesResultSet vereinfachtesResultSet) {
@@ -780,8 +785,7 @@ public class SubmissionController implements ISubmission, HasProgress {
             String projectName = vereinfachtesResultSet.getString("projectName");
             FullSubmission fullSubmission = new FullSubmission(submissionId);
             fullSubmission.setProjectName(projectName);
-            connection.close();
-            String category = getAnnotationCategories(new Project(projectName)).get(0);
+            String category = getAnnotationCategoriesWithConnection(new Project(projectName)).get(0);
             return new GroupFeedbackTaskData(targetGroupId, fullSubmission, category);
         } else
             return null;
@@ -909,17 +913,22 @@ public class SubmissionController implements ISubmission, HasProgress {
         return feedbackedGroup;
     }
 
-    public List<String> getAnnotationCategories(Project project) {
+    public List<String> getAnnotationCategoriesWithConnection(Project project) {
         List<String> result = new ArrayList<>();
-        connection.connect();
+
         String query = "select * from categoriesselected where projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(query,
                 project.getName());
         while (vereinfachtesResultSet.next()) {
-
             result.add(vereinfachtesResultSet.getString("categorySelected"));
         }
-        connection.close();
         return result;
+    }
+
+    public List<String> getAnnotationCategoriesWithoutConnection(Project project) {
+        connection.connect();
+        List<String> annotationCategories = getAnnotationCategoriesWithConnection(project);
+        connection.close();
+        return annotationCategories;
     }
 }

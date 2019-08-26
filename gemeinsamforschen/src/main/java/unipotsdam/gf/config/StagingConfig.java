@@ -7,7 +7,7 @@ import unipotsdam.gf.modules.communication.service.CommunicationService;
 
 import javax.inject.Singleton;
 
-@Singleton
+
 public class StagingConfig extends GeneralConfig implements IConfig {
 
     private final static Logger log = LoggerFactory.getLogger(StagingConfig.class);

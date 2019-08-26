@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @ManagedBean
 @Resource
-@Singleton
+
 public class GroupDAO {
 
     @Inject

@@ -11,11 +11,10 @@ import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-//@Singleton
+//
 //@ApplicationScoped
 //@javax.ejb.Singleton
 public class ConnectionPoolUtility implements IConnectionPoolUtility {
-
 
 
     private ComboPooledDataSource dataSource;
@@ -28,16 +27,7 @@ public class ConnectionPoolUtility implements IConnectionPoolUtility {
 
     @Override
     public ComboPooledDataSource constructC3PO() throws PropertyVetoException {
-        IConfig iConfig;
-        if (FLTrailConfig.productionContext) {
-            if (FLTrailConfig.staging) {
-                iConfig = new StagingConfig();
-            } else {
-                iConfig = new ProductionConfig();
-            }
-        } else {
-            iConfig = new TestConfig();
-        }
+        IConfig iConfig = getiConfigForStatic();
 
         ComboPooledDataSource cpds = new ComboPooledDataSource();
         cpds.setDriverClass(GeneralConfig.JDBC_DRIVER); //loads the jdbc driver
@@ -55,6 +45,20 @@ public class ConnectionPoolUtility implements IConnectionPoolUtility {
         cpds.setMaxIdleTimeExcessConnections(300);
         //cpds.setTim
         return cpds;
+    }
+
+    public static IConfig getiConfigForStatic() {
+        IConfig iConfig;
+        if (FLTrailConfig.productionContext) {
+            if (FLTrailConfig.staging) {
+                iConfig = new StagingConfig();
+            } else {
+                iConfig = new ProductionConfig();
+            }
+        } else {
+            iConfig = new TestConfig();
+        }
+        return iConfig;
     }
 
     @Override

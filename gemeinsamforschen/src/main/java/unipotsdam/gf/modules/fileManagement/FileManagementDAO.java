@@ -16,7 +16,7 @@ import java.util.List;
 
 @ManagedBean
 @Resource
-@Singleton
+
 public class FileManagementDAO {
 
     @Inject

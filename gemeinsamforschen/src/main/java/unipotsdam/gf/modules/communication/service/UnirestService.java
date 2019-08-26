@@ -11,7 +11,7 @@ import javax.inject.Singleton;
 
 @ManagedBean
 @Resource
-@Singleton
+
 public class UnirestService {
 
     private static boolean isInitialized = false;

@@ -20,7 +20,7 @@ import java.util.List;
 
 @ManagedBean
 @Resource
-@Singleton
+
 public class ProjectDAO {
 
     @Inject
@@ -49,8 +49,7 @@ public class ProjectDAO {
             }
             connect.connect();
             String mysqlRequest =
-                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, `phase`, " +
-                            "`description`, `isSurvey`, `context`) values (?,?,?,?,?,?,?,?,?)";
+                    "INSERT INTO projects (`name`, `password`, `active`, `timecreated`, `author`, `phase`, " + "`description`, `isSurvey`, `context`) values (?,?,?,?,?,?,?,?,?)";
             connect.issueInsertOrDeleteStatement(mysqlRequest, project.getName(), project.getPassword(),
                     project.isActive(), timestamp, project.getAuthorEmail(),
                     project.getPhase() == null ? Phase.GroupFormation : project.getPhase(), project.getDescription(),
@@ -76,19 +75,17 @@ public class ProjectDAO {
 
     void updateGroupSize(Project project, Integer groupSize) {
         connect.connect();
-        String mysqlRequest =
-                "UPDATE projects SET `groupSize` = ? WHERE name = ?";
+        String mysqlRequest = "UPDATE projects SET `groupSize` = ? WHERE name = ?";
         connect.issueUpdateStatement(mysqlRequest, groupSize, project.getName());
         connect.close();
     }
 
-    public Integer getGroupSize(Project project){
+    public Integer getGroupSize(Project project) {
         int result = 3;
         connect.connect();
-        String mysqlRequest =
-                "SELECT groupSize FROM projects WHERE projects.name = ?";
+        String mysqlRequest = "SELECT groupSize FROM projects WHERE projects.name = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getName());
-        if (vereinfachtesResultSet.next()){
+        if (vereinfachtesResultSet.next()) {
             result = vereinfachtesResultSet.getInt("groupSize");
         }
         connect.close();
@@ -106,8 +103,7 @@ public class ProjectDAO {
         Boolean result;
         connect.connect();
         String mysqlRequest = "SELECT * FROM projects where name = ?";
-        VereinfachtesResultSet vereinfachtesResultSet =
-                connect.issueSelectStatement(mysqlRequest, project.getName());
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, project.getName());
         if (vereinfachtesResultSet == null) {
             return false;
         }
@@ -122,7 +118,8 @@ public class ProjectDAO {
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, name);
         boolean next = vereinfachtesResultSet.next();
         if (!next) {
-            throw new Exception("Project does not exist");
+            connect.close();
+            return null;
         }
         ArrayList<String> tags = new ArrayList<>();
         Project result = getProjectFromResultSet(vereinfachtesResultSet);
@@ -213,16 +210,8 @@ public class ProjectDAO {
         ArrayList<Project> projects = new ArrayList<>();
         connect.connect();
         //get all projectNames with the Student in GroupFormation Phase
-        String mysqlRequest = "" +
-                "SELECT * FROM projects " +
-                "LEFT JOIN " +
-                "(SELECT p.name as studentParticipatesIn FROM projects p " +
-                "LEFT JOIN " +
-                "projectuser pu on p.name = pu.projectName WHERE userEmail=?" +
-                ") as j1 " +
-                "on name=studentParticipatesIn " +
-                "WHERE studentParticipatesIn IS NULL AND phase='GroupFormation' " +
-                "AND context='FL';";
+        String mysqlRequest =
+                "" + "SELECT * FROM projects " + "LEFT JOIN " + "(SELECT p.name as studentParticipatesIn FROM projects p " + "LEFT JOIN " + "projectuser pu on p.name = pu.projectName WHERE userEmail=?" + ") as j1 " + "on name=studentParticipatesIn " + "WHERE studentParticipatesIn IS NULL AND phase='GroupFormation' " + "AND context='FL';";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, user.getEmail());
         while (vereinfachtesResultSet.next()) {
             Project projectFromResultSet = getProjectFromResultSet(vereinfachtesResultSet);

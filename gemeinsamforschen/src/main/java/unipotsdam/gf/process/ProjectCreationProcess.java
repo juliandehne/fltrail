@@ -23,13 +23,8 @@ import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
 
-
-@Singleton
 public class ProjectCreationProcess {
 
-
-    @Inject
-    private ConstraintsImpl constraintsImpl;
 
     @Inject
     private Management iManagement;
@@ -37,8 +32,6 @@ public class ProjectCreationProcess {
     @Inject
     private TaskDAO taskDao;
 
-    @Inject
-    private GroupDAO groupDAO;
 
     @Inject
     private ProfileDAO profileDAO;
@@ -82,7 +75,7 @@ public class ProjectCreationProcess {
      * @param project which project is entered
      * @param user    who is participates the project
      */
-    public void studentEntersProject(Project project, User user)
+    public synchronized void studentEntersProject(Project project, User user)
             throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         PerformanceUtil.start(PerformanceCandidates.STUDENT_ENTERS_PROJECT);
         // student enters project
@@ -91,7 +84,7 @@ public class ProjectCreationProcess {
         PerformanceUtil.stop(PerformanceCandidates.STUDENT_ENTERS_PROJECT);
     }
 
-    public void createUser(User user)
+    public synchronized void createUser(User user)
             throws UserExistsInMysqlException, RocketChatDownException, UserExistsInRocketChatException {
         PerformanceUtil.start(PerformanceCandidates.CREATE_USER);
         if (iManagement.exists(user)) {
@@ -121,7 +114,7 @@ public class ProjectCreationProcess {
         return iManagement.exists(user);
     }
 
-    public void deleteUser(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
+    public synchronized void deleteUser(User user) throws RocketChatDownException, UserDoesNotExistInRocketChatException {
         PerformanceUtil.start(PerformanceCandidates.DELETE_USER);
         iManagement.delete(user);
         iCommunication.delete(user);

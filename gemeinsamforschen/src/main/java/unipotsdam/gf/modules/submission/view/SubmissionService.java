@@ -210,7 +210,7 @@ public class SubmissionService {
     @GET
     @Path("categories/project/{projectName}")
     public List<String> getAnnotationCategories(@PathParam("projectName") String projectName) {
-        List<String> result = submissionController.getAnnotationCategories(new Project(projectName));
+        List<String> result = submissionController.getAnnotationCategoriesWithoutConnection(new Project(projectName));
         if (result.size() == 0) {
             return Categories.standardAnnotationCategories;
         }

@@ -11,8 +11,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
-@Singleton
 public class InMemoryMySqlConnect extends PoolingMysqlConnectImpl {
 
     public InMemoryMySqlConnect() {
