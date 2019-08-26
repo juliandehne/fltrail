@@ -91,7 +91,11 @@ public class TaskDAO {
     private Task getGeneralTask(Task task) {
         Task result = task;
         connect.connect();
-        String query = "Select * from tasks where (userEmail = ? OR groupTask = ? ) and projectName = ? and taskName = ?";
+        String query = "Select * from tasks where (userEmail = ? OR groupTask = ?) and projectName = ? and taskName = ?";
+        if (task.getGroupTask() == 0) {
+            query = "Select * from tasks where userEmail = ? AND groupTask = ? and projectName = ? and taskName = ?";
+        }
+
         VereinfachtesResultSet resultSet = connect.issueSelectStatement(
                 query,
                 task.getUserEmail(),
@@ -512,6 +516,7 @@ public class TaskDAO {
                     null,
                     project,
                     Progress.valueOf(vereinfachtesResultSet.getString("progress")));
+            shuttle.setGroupTask(vereinfachtesResultSet.getInt("groupTask"));
         }
         connect.close();
         return getTaskSpecifications(groupId, project, shuttle);
