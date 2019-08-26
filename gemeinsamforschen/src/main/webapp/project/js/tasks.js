@@ -183,10 +183,10 @@ function handleInfoTasks(object, result) {
             result.infoText = "Wählen Sie die Einträge aus, die Sie zur Bewertung einreichen möchten.";
             break;
         case "WAIT_FOR_EXECUTION_PHASE_END":
-            result.infoText = "Warten Sie darauf, dass die dozierende Person die Projektsphase beendet";
+            result.infoText = "Warten Sie darauf, dass die dozierende Person die Projektphase beendet";
             break;
         case "CREATE_LEARNING_GOALS_AND_CHOOSE_REFLECTION_QUESTIONS":
-            result.infoText = "Um die Projektsphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
+            result.infoText = "Um die Projektphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
             break;
         case "SEE_LEARNING_GOAL_SELECTION_AGAIN":
             result.infoText = "Sehen Sie sich Ihre Auswahl von Reflexionsfragen und Lernzielen noch einmal an.";
@@ -195,7 +195,7 @@ function handleInfoTasks(object, result) {
             result.infoText = "Ein Lernender hat (mindestens) eine Reflexionsfrage beantwortet. Geben Sie Feedback.";
             break;
         case "CLOSE_EXECUTION_PHASE":
-            result.infoText = "Beenden Sie nun die Projektsphase.";
+            result.infoText = "Beenden Sie nun die Projektphase.";
             result.taskData.numberOfMissingReflectionQuestions = result.taskData.userUnansweredReflectionQuestions.length;
             result.taskData.numberOfMissingForAssessmentChosen = result.taskData.userUnchosenAssessmentMaterial.length;
             break;
@@ -353,7 +353,7 @@ function handleLinkedTasks(object, result) {
                 result.taskData = object.taskData;
                 if (count === 0) {
                     result.infoText = "Alle Gruppen haben Feedback gegeben";
-                    result.solveTaskWith = "Projektsphase starten";
+                    result.solveTaskWith = "Projektphase starten";
                     result.solveTaskWithLink = "closePhase(\'" + object.phase + "\', \'" + object.projectName + "\');";
                 } else {
                     if (count <= 3) {

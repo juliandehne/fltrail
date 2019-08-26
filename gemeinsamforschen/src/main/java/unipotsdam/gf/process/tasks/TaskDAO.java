@@ -23,17 +23,11 @@ import unipotsdam.gf.process.phases.Phase;
 import javax.annotation.ManagedBean;
 import javax.inject.Inject;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static unipotsdam.gf.process.tasks.TaskName.CHOOSE_PORTFOLIO_ENTRIES;
-import static unipotsdam.gf.process.tasks.TaskName.WAITING_FOR_GROUP;
-import static unipotsdam.gf.process.tasks.TaskName.WAIT_FOR_PARTICPANTS;
+import static unipotsdam.gf.process.tasks.TaskName.*;
 
 @ManagedBean
 public class TaskDAO {
@@ -67,8 +61,6 @@ public class TaskDAO {
 
     // fill the task with the general data
     private Task getGeneralTask(VereinfachtesResultSet vereinfachtesResultSet) {
-
-
         User user = new User(vereinfachtesResultSet.getString("userEmail"));
         Project project = new Project(vereinfachtesResultSet.getString("projectName"));
         Progress progress = Progress.valueOf(vereinfachtesResultSet.getString("progress"));
@@ -93,6 +85,26 @@ public class TaskDAO {
         return task;
     }
 
+    /**
+     * adds general details to task
+     */
+    private Task getGeneralTask(Task task) {
+        Task result = task;
+        connect.connect();
+        String query = "Select * from tasks where (userEmail = ? OR groupTask = ? ) and projectName = ? and taskName = ?";
+        VereinfachtesResultSet resultSet = connect.issueSelectStatement(
+                query,
+                task.getUserEmail(),
+                task.getGroupTask(),
+                task.getProjectName(),
+                task.getTaskName());
+        if (resultSet.next()) {
+            result = getGeneralTask(resultSet);
+        }
+        connect.close();
+        return result;
+    }
+
     // bundle the taskModes
     private ArrayList<TaskType> getTaskModes(VereinfachtesResultSet vereinfachtesResultSet) {
         ArrayList<TaskType> taskTypes = new ArrayList<>();
@@ -114,9 +126,9 @@ public class TaskDAO {
         return taskTypes;
     }
 
-    private Task getTaskWaitForParticipants(VereinfachtesResultSet vereinfachtesResultSet) throws Exception {
-        Task task = getGeneralTask(vereinfachtesResultSet);
-        Project project = projectDAO.getProjectByName(vereinfachtesResultSet.getString("projectName"));
+    private Task getTaskWaitForParticipants(Task task) throws Exception {
+        Task result = getGeneralTask(task);
+        Project project = projectDAO.getProjectByName(task.getProjectName());
 
         ProjectStatus projectStatus = projectDAO.getParticipantCount(project);
         projectStatus.setParticipantsNeeded(groupFinding.getMinNumberOfStudentsNeeded(project));
@@ -125,12 +137,12 @@ public class TaskDAO {
         GroupFormationMechanism gfm = groupFinding.getGFM(project);
         taskData.put("gfm", gfm);
         taskData.put("groupSize", project.getGroupSize());
-        task.setTaskData(taskData);
+        result.setTaskData(taskData);
         if (gfm.equals(GroupFormationMechanism.Manual)) {
-            task.setTaskType(TaskType.LINKED);
+            result.setTaskType(TaskType.LINKED);
         }
-        task.setHasRenderModel(true);
-        return task;
+        result.setHasRenderModel(true);
+        return result;
     }
 
     public Task getUserTask(Project project, User user, TaskName taskName, Phase phase) {
@@ -298,56 +310,65 @@ public class TaskDAO {
                 "AND gu.userEmail=?) ORDER BY created DESC";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, user.getEmail(), project.getName(), project.getName(), user.getEmail());
-        ArrayList<Task> result = new ArrayList<>();
+        ArrayList<Task> shuttle = new ArrayList<>();
         while (vereinfachtesResultSet.next()) {
-            result.add(resultSetToTask(user, project, vereinfachtesResultSet));
+            Task task = new Task(
+                    TaskName.valueOf(vereinfachtesResultSet.getString("taskName")),
+                    user,
+                    project,
+                    Progress.valueOf(vereinfachtesResultSet.getString("progress"))
+            );
+            task.setGroupTask(vereinfachtesResultSet.getInt("groupTask"));
+            shuttle.add(task);
         }
         connect.close();
+        ArrayList<Task> result = new ArrayList<>();
+        for (Task task : shuttle) {
+            result.add(getTaskSpecifications(user, project, task));
+        }
         result = result.stream().filter(Objects::nonNull).collect(Collectors.toCollection(ArrayList::new));
         TaskOrder taskOrder = new TaskOrder();
         result.sort(taskOrder.byName);
         return result;
     }
 
-    private Task resultSetToTask(User user, Project project, VereinfachtesResultSet vereinfachtesResultSet)
+    private Task getTaskSpecifications(User user, Project project, Task task)
             throws Exception {
-        int groupId = vereinfachtesResultSet.getInt("groupTask");
+        int groupId = task.getGroupTask();
         if (groupId == 0) {
-            return resultSetToUserTask(user, project, vereinfachtesResultSet);
+            return resultSetToUserTask(user, project, task);
         } else {
-            return resultSetToGroupTask(groupId, project, vereinfachtesResultSet);
+            return resultSetToGroupTask(groupId, project, task);
         }
+
     }
 
-    private Task resultSetToTask(Integer groupId, Project project, VereinfachtesResultSet vereinfachtesResultSet) {
-        return resultSetToGroupTask(groupId, project, vereinfachtesResultSet);
+    private Task getTaskSpecifications(Integer groupId, Project project, Task task) {
+        return resultSetToGroupTask(groupId, project, task);
     }
 
-    private Task resultSetToGroupTask(Integer groupId, Project project, VereinfachtesResultSet vereinfachtesResultSet) {
-        String taskName = vereinfachtesResultSet.getString("taskName");
+    private Task resultSetToGroupTask(Integer groupId, Project project, Task task) {
         Task result;
-        TaskName taskName1 = TaskName.valueOf(taskName);
-        switch (taskName1) {
+        switch (task.getTaskName()) {
             case ANNOTATE_DOSSIER: {
                 //finalizeDossierTask.setTaskType(TaskType.LINKED);
-                result = getFinalizeDossierTask(vereinfachtesResultSet);
+                result = getFinalizeDossierTask(task);
                 break;
             }
             case UPLOAD_DOSSIER: {
                 //generalTask.setTaskType(TaskType.LINKED);
-                result = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
                 break;
             }
             case GIVE_FEEDBACK: {
-                Task feedbackTask = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
                 //feedback.assigningMissingFeedbackTasks();
-                feedbackTask.setTaskData(submissionController.getFeedbackTaskData(groupId, project));
-                feedbackTask.setHasRenderModel(true);
-                result = feedbackTask;
+                result.setTaskData(submissionController.getFeedbackTaskData(groupId, project));
+                result.setHasRenderModel(true);
                 break;
             }
             case REEDIT_DOSSIER: {
-                result = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
                 GroupFeedbackTaskData groupFeedbackTaskData = submissionController.getMyFeedback(groupId, project);
                 if (groupFeedbackTaskData == null) {
                     break;
@@ -358,40 +379,36 @@ public class TaskDAO {
                 break;
             }
             default: {
-                result = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
             }
         }
         return result;
     }
 
-    private Task resultSetToUserTask(User user, Project project, VereinfachtesResultSet vereinfachtesResultSet)
+    private Task resultSetToUserTask(User user, Project project, Task task)
             throws Exception {
-        String taskName = vereinfachtesResultSet.getString("taskName");
         Task result;
-        TaskName taskName1 = TaskName.valueOf(taskName);
-        switch (taskName1) {
+        switch (task.getTaskName()) {
             case WAIT_FOR_PARTICPANTS: {
-                result = getTaskWaitForParticipants(vereinfachtesResultSet);
+                result = getTaskWaitForParticipants(task);
                 break;
             }
             case WAITING_FOR_STUDENT_DOSSIERS: {
-                Task task = getGeneralTask(vereinfachtesResultSet);
-                task.setHasRenderModel(true);
-                task.setTaskData(submissionController.getProgressData(project));
-                result = task;
+                result = getGeneralTask(task);
+                result.setHasRenderModel(true);
+                result.setTaskData(submissionController.getProgressData(project));
                 break;
             }
             case CLOSE_DOSSIER_FEEDBACK_PHASE: {
-                Task task = getGeneralTask(vereinfachtesResultSet);
-                task.setHasRenderModel(true);
+                result = getGeneralTask(task);
+                result.setHasRenderModel(true);
                 List<Group> missingFeedbacks;
                 if (groupDAO.getGroupsByProjectName(project.getName()).size() > 1) {
                     missingFeedbacks = constraints.checkWhichDossiersAreNotFinalized(project);
                 } else {
                     missingFeedbacks = new ArrayList<>();
                 }
-                task.setTaskData(missingFeedbacks);  //frontendCheck if missingFeedbacks.size ==0
-                result = task;
+                result.setTaskData(missingFeedbacks);  //frontendCheck if missingFeedbacks.size ==0
                 Task waitingForDossiers = new Task(
                         TaskName.WAITING_FOR_STUDENT_DOSSIERS, user, project, Progress.FINISHED);
                 updateForUser(waitingForDossiers);
@@ -399,70 +416,64 @@ public class TaskDAO {
             }
             case CLOSE_PEER_ASSESSMENTS_PHASE:
             case WAIT_FOR_UPLOAD: {
-                Task task = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
                 task.setHasRenderModel(true);
                 // get Progress from peer assessment
-                task.setTaskData(assessmentDAO.getProgress(new Project(task.getProjectName())));
-                result = task;
+                result.setTaskData(assessmentDAO.getProgress(new Project(task.getProjectName())));
                 break;
             }
             case GIVE_INTERNAL_ASSESSMENT: {
-                Task task = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
                 InternalPeerAssessmentProgress ipap = assessmentDAO.getInternalPeerAssessmentProgress(project, user);
                 if (ipap.getNumberOfMissing() > 0) {
-                    task.setTaskData(ipap);
-                    result = task;
+                    result.setTaskData(ipap);
                 } else {
                     result = null;
                 }
                 break;
             }
             case GIVE_EXTERNAL_ASSESSMENT: {
-                Task task = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
                 TaskMapping taskMapping = assessmentDAO.getTargetGroupForAssessment(new User(task.getUserEmail()), project);
                 if (taskMapping == null) {
                     result = null;
                     break;
                 } else {
-                    task.setTaskData(taskMapping);
+                    result.setTaskData(taskMapping);
                 }
-                result = task;
                 break;
             }
             case WAIT_FOR_GRADING:
-                result = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
                 break;
             case GIVE_EXTERNAL_ASSESSMENT_TEACHER: {
-                Task task = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
                 ProgessAndTaskMapping taskMappingAndProgress = assessmentDAO.getTaskMappingAndProgress(project);
-                task.setTaskData(taskMappingAndProgress);
+                result.setTaskData(taskMappingAndProgress);
                 //task.setTaskData(assessmentDAO.getNextGroupToFeedbackForTeacher(project));
-                result = task;
                 break;
             }
             case END_STUDENT: {
-                Task task = getGeneralTask(vereinfachtesResultSet);
-                task.setTaskData(assessmentDAO.getGradesFromDB(project, user));
-                result = task;
+                result = getGeneralTask(task);
+                result.setTaskData(assessmentDAO.getGradesFromDB(project, user));
                 break;
             }
             case CONTACT_GROUP_MEMBERS: {
-                Task task = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
                 Group myGroup = groupDAO.getMyGroup(user, project);
                 if (myGroup.getMembers().size() < 2) {
                     result = null;
                     break;
                 }
-                result = task;
                 break;
             }
             case ANSWER_REFLECTION_QUESTIONS: {
-                result = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
                 break;
             }
 
             case CLOSE_EXECUTION_PHASE:
-                Task task = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
                 List<Task> notAllReflectionQuestionAnswered = getTaskForProjectWithoutProgress(project, TaskName.ANSWER_REFLECTION_QUESTIONS, Progress.FINISHED);
                 List<User> userWithUnansweredReflectionQuestions = new ArrayList<>();
                 notAllReflectionQuestionAnswered.forEach(unansweredReflectionQuestion -> {
@@ -472,11 +483,10 @@ public class TaskDAO {
 
                 List<User> userWithNoMaterialChosen = getUsersWithUnfinishedTask(project, CHOOSE_PORTFOLIO_ENTRIES);
                 ReflectionPhaseProgress progress = new ReflectionPhaseProgress(userWithUnansweredReflectionQuestions, userWithNoMaterialChosen);
-                task.setTaskData(progress);
-                result = task;
+                result.setTaskData(progress);
                 break;
             default: {
-                result = getGeneralTask(vereinfachtesResultSet);
+                result = getGeneralTask(task);
             }
         }
         return result;
@@ -491,22 +501,26 @@ public class TaskDAO {
     }
 
     public Task getTasksWithTaskName(Integer groupId, Project project, TaskName taskname) {
+
         connect.connect();
         String query = "Select * from tasks t where t.groupTask = ? AND t.projectName = ? AND t.taskName= ? ORDER BY created DESC";
         VereinfachtesResultSet vereinfachtesResultSet =
                 connect.issueSelectStatement(query, groupId, project.getName(), taskname.toString());
-        Task result = null;
+        Task shuttle = null;
         if (vereinfachtesResultSet.next()) { //an empty userEmail includes groupTasks and excludes userTasks
-            result = resultSetToTask(groupId, project, vereinfachtesResultSet);
+            shuttle = new Task(taskname,
+                    null,
+                    project,
+                    Progress.valueOf(vereinfachtesResultSet.getString("progress")));
         }
         connect.close();
-        return result;
+        return getTaskSpecifications(groupId, project, shuttle);
     }
 
-    private Task getFinalizeDossierTask(VereinfachtesResultSet vereinfachtesResultSet) {
-        Task task = getGeneralTask(vereinfachtesResultSet);
-        task.setTaskData(submissionController.getSubmissionData(task.getGroupTask(), new Project(task.getProjectName())));
-        return task;
+    private Task getFinalizeDossierTask(Task task) {
+        Task result = getGeneralTask(task);
+        result.setTaskData(submissionController.getSubmissionData(result.getGroupTask(), new Project(result.getProjectName())));
+        return result;
     }
 
     public void persist(Project project, User target, TaskName taskName, Phase phase) {
