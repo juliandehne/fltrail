@@ -1,6 +1,7 @@
 package unipotsdam.gf.modules.annotation.controller;
 
 import unipotsdam.gf.interfaces.Feedback;
+import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.GroupDAO;
 import unipotsdam.gf.modules.project.Project;
 import unipotsdam.gf.modules.user.User;
@@ -40,8 +41,12 @@ public class FeedbackImpl implements Feedback {
         connection.connect();
         Integer groupId = groupDAO.getMyGroupId(user, project);
         int feedbackTarget = 0;
-        String request = "SELECT * FROM `fullsubmissions` WHERE feedbackGroup=? AND projectName=?";
-        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(request, groupId, project.getName());
+        String request = "SELECT * FROM `fullsubmissions` WHERE feedbackGroup=? AND projectName=? AND fileRole=?";
+        VereinfachtesResultSet vereinfachtesResultSet = connection.issueSelectStatement(
+                request,
+                groupId,
+                project.getName(),
+                FileRole.DOSSIER);
         if (vereinfachtesResultSet.next()){
             feedbackTarget = vereinfachtesResultSet.getInt("groupId");
         }
