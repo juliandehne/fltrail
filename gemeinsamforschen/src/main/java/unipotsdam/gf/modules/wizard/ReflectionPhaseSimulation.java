@@ -2,6 +2,9 @@ package unipotsdam.gf.modules.wizard;
 
 import de.svenjacobs.loremipsum.LoremIpsum;
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import unipotsdam.gf.modules.communication.service.CommunicationService;
 import unipotsdam.gf.modules.fileManagement.FileRole;
 import unipotsdam.gf.modules.group.Group;
 import unipotsdam.gf.modules.group.GroupDAO;
@@ -39,7 +42,10 @@ import static unipotsdam.gf.modules.wizard.Wizard.convertTextToQuillJs;
 
 public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
 
-    public static Boolean FEEDBACK_IMPLEMENTED = false;
+    //public static Boolean FEEDBACK_IMPLEMENTED = false;
+
+
+    private final static Logger log = LoggerFactory.getLogger(CommunicationService.class);
 
     private final TomcatConceptImporter concepts;
 
@@ -177,20 +183,22 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
 
     private void createEntries(Project project, User user, List<SelectedReflectionQuestion> reflectionQuestions,
                                FileRole fileRole, Visibility visibility) throws Exception {
-        if (reflectionQuestions != null) {
-            int counter = 0;
-            for (SelectedReflectionQuestion reflectionQuestion : reflectionQuestions) {
-                counter++;
-                Group myGroup = groupDAO.getMyGroup(user, project);
-                String text = loremIpsum.getWords(500);
-                text = convertTextToQuillJs(text);
-                String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).orElse("Default");
-                FullSubmissionPostRequest submission =
-                        new FullSubmissionPostRequest(myGroup, text, fileRole, project, visibility, title);
-                submission.setHtml(text);
-                FullSubmission fullSubmission = dossierCreationProcess.addDossier(submission, user, project);
-                if (fileRole == FileRole.REFLECTION_QUESTION) {
-                    iExecutionProcess.answerReflectionQuestion(fullSubmission, reflectionQuestion);
+        if (user == null || user.getEmail() == null) {
+            log.error("cannot create entries for user null" + project.getName());
+        } else {
+            if (reflectionQuestions != null) {
+                for (SelectedReflectionQuestion reflectionQuestion : reflectionQuestions) {
+                    Group myGroup = groupDAO.getMyGroup(user, project);
+                    String text = loremIpsum.getWords(500);
+                    text = convertTextToQuillJs(text);
+                    String title = concepts.getNumberedConcepts(3).stream().reduce((x, y) -> x + " " + y).orElse("Default");
+                    FullSubmissionPostRequest submission =
+                            new FullSubmissionPostRequest(myGroup, text, fileRole, project, visibility, title);
+                    submission.setHtml(text);
+                    FullSubmission fullSubmission = dossierCreationProcess.addDossier(submission, user, project);
+                    if (fileRole == FileRole.REFLECTION_QUESTION) {
+                        iExecutionProcess.answerReflectionQuestion(fullSubmission, reflectionQuestion);
+                    }
                 }
             }
         }

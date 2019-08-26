@@ -178,6 +178,7 @@ public class Wizard {
                     break;
                 case ANSWER_REFLECTION_QUESTIONS:
                     reflectionPhaseSimulation.simulateAnsweringReflectiveQuestions(project);
+                    break;
                 case UPLOAD_PRESENTATION:
                     generatePresentationsForAllGroupsAndUploadThem(project);
                     break;

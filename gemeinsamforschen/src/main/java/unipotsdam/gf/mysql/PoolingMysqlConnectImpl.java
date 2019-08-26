@@ -12,12 +12,14 @@ import javax.inject.Inject;
 import java.beans.PropertyVetoException;
 import java.sql.*;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     public static final AtomicInteger counter = new AtomicInteger();
+    private AtomicBoolean saneState;
 
     @Inject
     IConfig iConfig;
@@ -29,6 +31,7 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     public PoolingMysqlConnectImpl() {
         //System.out.println("test");
+        saneState = new AtomicBoolean(true);
     }
 
  /*   public PoolingMysqlConnectImpl(IConfig iConfig, ConnectionPoolUtility connectionPoolUtility) {
@@ -51,6 +54,11 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     @Override
     public void connect() {
+        if (saneState.get()) {
+            saneState.set(false);
+        } else {
+            throw new Error("starting second connect but connection exists");
+        }
      /*   try {
             log.trace("opening connection" + this);
             conn = getConnection();
@@ -69,6 +77,11 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
 
     @Override
     public void close() {
+        if (saneState.get()) {
+            throw new Error("closing connection but connection is already closed");
+        } else {
+            saneState.set(true);
+        }
         try {
             if (conn != null) {
                 log.trace("closing connection" + this);

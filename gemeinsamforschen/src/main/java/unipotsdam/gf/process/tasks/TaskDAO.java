@@ -552,7 +552,7 @@ public class TaskDAO {
 
     public void updateForUser(Task task) throws Exception {
         if (task.getUserEmail() == null) {
-            throw new Exception("needs user not null to work properly");
+            throw new Exception("needs user not null to work properly" + task.getTaskName());
         }
         connect.connect();
         String query = "UPDATE tasks set progress = ? where userEmail = ? AND projectName = ? AND taskName = ?";
