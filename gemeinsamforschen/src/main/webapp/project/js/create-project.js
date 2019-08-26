@@ -68,6 +68,11 @@ function createNewProject(allTheTags) {
         $('#exactNumberOfTags').show();
     } else {
         if (project) {
+            if (groupSize === null || isNaN(groupSize) || groupSize === "") {// || !groupSize.match(/^[0-9]+$/)
+                $('#wrongSize').attr('hidden', false);
+                loaderStop();
+                return false;
+            }
             // create the project in local db
             let localurl = "../rest/project/create?groupSize=" + groupSize;
 

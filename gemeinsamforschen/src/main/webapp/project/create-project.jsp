@@ -88,6 +88,9 @@
                                 wenn sie sich in das Projekt einschreiben wollen.
                                 Dabei werden Gruppen gebildet, deren Gruppenmitglieder synergieren
                                 während das Konfliktpotential minimiert wird.</p>
+                                <div id="wrongSize" class="alert alert-warning" hidden>
+                                    <p>Die Gruppengröße muss eine Zahl sein.</p>
+                                </div>
                                 <label>Präferierte Gruppengröße <input value="3" type='number' min='3' id="userCount"
                                                                        style="width:40px;"></label>
                                 <a data-toggle="collapse" href="#howToBuildGroups" role="button" aria-expanded="false"
