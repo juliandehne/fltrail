@@ -9,7 +9,7 @@ import unipotsdam.gf.process.tasks.TaskName;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-@Singleton
+
 public class Lock {
 
     @Inject

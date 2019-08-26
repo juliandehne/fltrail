@@ -74,7 +74,7 @@ public class ProjectConfigurationDAO {
                 getSelectionFromTable(connect, Phase.class, project, "phasesSelected");
 
         HashMap<String, Boolean> categorySelected = new HashMap<>();
-        for (String category : submissionController.getAnnotationCategories(project)) {
+        for (String category : submissionController.getAnnotationCategoriesWithConnection(project)) {
             categorySelected.put(category, true);
         }
         AssessmentMechanism asmSelected = AssessmentMechanism.PEER_ASSESSMENT;

@@ -1,19 +1,25 @@
 package unipotsdam.gf.session;
 
+import org.glassfish.hk2.api.ServiceLocator;
+import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
-import unipotsdam.gf.config.FLTrailConfig;
+import unipotsdam.gf.config.GFApplicationBinderFactory;
 import unipotsdam.gf.config.IConfig;
-import unipotsdam.gf.config.ProductionConfig;
-import unipotsdam.gf.config.TestConfig;
+import unipotsdam.gf.mysql.ConnectionPoolUtility;
+import unipotsdam.gf.mysql.IConnectionPoolUtility;
 import unipotsdam.gf.mysql.MysqlConnect;
-import unipotsdam.gf.mysql.MysqlConnectImpl;
 import unipotsdam.gf.mysql.PoolingMysqlConnectImpl;
 
-import javax.annotation.ManagedBean;
+import javax.inject.Inject;
+import java.beans.PropertyVetoException;
+import java.sql.Connection;
 
-@ManagedBean
 public class LockCronJob implements Job {
+
+    public LockCronJob() {
+
+    }
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) {
@@ -21,19 +27,20 @@ public class LockCronJob implements Job {
     }
 
     private void deleteLockInDB() {
-        IConfig iConfig = null;
-        if (FLTrailConfig.productionContext) {
-            iConfig = new ProductionConfig();
-        } else {
-            iConfig = new TestConfig();
-        }
-        MysqlConnect connection = new MysqlConnectImpl(iConfig);
+        IConfig iConfig = ConnectionPoolUtility.getiConfigForStatic();
+        IConnectionPoolUtility iConnectionPoolUtility = new ConnectionPoolUtility();
+        MysqlConnect mysqlConnect = new PoolingMysqlConnectImpl(iConnectionPoolUtility, iConfig);
+        mysqlConnect.connect();
 
-        connection.connect();
         // build and execute request
         String request = "DELETE FROM tasklock WHERE timeStamp < CURRENT_TIMESTAMP - INTERVAL 5 MINUTE";
-        connection.issueInsertOrDeleteStatement(request);
+        mysqlConnect.issueInsertOrDeleteStatement(request);
         // close connection
-        connection.close();
+        mysqlConnect.close();
+        try {
+            iConnectionPoolUtility.getDataSource().close();
+        } catch (PropertyVetoException e) {
+            e.printStackTrace();
+        }
     }
 }

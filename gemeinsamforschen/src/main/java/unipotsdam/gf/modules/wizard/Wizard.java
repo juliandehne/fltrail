@@ -38,7 +38,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@Singleton
+
 public class Wizard {
 
     private final static Logger log = LoggerFactory.getLogger(Wizard.class);
@@ -359,7 +359,6 @@ public class Wizard {
         try {
 
             user.setStudent(true);
-
             user.setRocketChatUsername("studentwizard" + random.nextInt(1000000));
             user.setEmail("studentwizard" + random.nextInt(1000000) + "@stuff.com");
             user.setPassword("egal");
@@ -382,7 +381,7 @@ public class Wizard {
             if (annotateDossierTask == null || annotateDossierTask.getProgress() != Progress.FINISHED) {
                 FullSubmission fullSubmission =
                         submissionController.getFullSubmissionBy(group.getId(), project, FileRole.DOSSIER);
-                List<String> annotationCategories = submissionController.getAnnotationCategories(project);
+                List<String> annotationCategories = submissionController.getAnnotationCategoriesWithoutConnection(project);
                 int startCharacter = 0;
                 for (String category : annotationCategories) {
                     ArrayList<SubmissionPartBodyElement> spbe = new ArrayList<>();
@@ -428,7 +427,7 @@ public class Wizard {
                 //group writes a feedback
                 FullSubmission fullSubmission =
                         submissionController.getFullSubmissionBy(feedbackTarget, project, FileRole.DOSSIER, 0);
-                List<String> annotationCategories = submissionController.getAnnotationCategories(project);
+                List<String> annotationCategories = submissionController.getAnnotationCategoriesWithoutConnection(project);
                 for (String category : annotationCategories) {
                     String text = loremIpsum.getWords(20);
                     text = convertTextToQuillJs(text);

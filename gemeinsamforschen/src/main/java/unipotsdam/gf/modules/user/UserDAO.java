@@ -4,16 +4,10 @@ import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
 import unipotsdam.gf.util.ResultSetUtil;
 
-import javax.annotation.ManagedBean;
-import javax.annotation.Resource;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
-@ManagedBean
-@Resource
-@Singleton
 public class UserDAO {
 
 
@@ -23,6 +17,7 @@ public class UserDAO {
     public UserDAO() {
 
     }
+
     public void persist(User user) {
         connect.connect();
         String mysqlRequest =

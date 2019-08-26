@@ -26,7 +26,7 @@ import javax.xml.bind.JAXBException;
 import java.util.HashMap;
 import java.util.List;
 
-@Singleton
+
 public class GroupFormationProcess {
 
     @Inject
