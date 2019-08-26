@@ -118,7 +118,8 @@ public class GroupDAO {
 
     public List<Group> getGroupsByProjectName(String projectName) {
         connect.connect();
-        String mysqlRequest = "SELECT * FROM groups g " +
+        String mysqlRequest = "SELECT u.name as userName,  u.email as userEmail, u.discordid, " +
+                "g.name, gu.groupId, g.chatRoomId, g.projectName, g.chatRoomId FROM groups g " +
                 "JOIN groupuser gu ON g.id=gu.groupId " +
                 "JOIN users u ON " +
                 "gu.userEmail=u.email " +
@@ -157,7 +158,10 @@ public class GroupDAO {
 
     List<Group> getOriginalGroupsByProjectName(String projectName) {
         connect.connect();
-        String mysqlRequest = "SELECT * FROM originalgroups where projectName = ?";
+        String mysqlRequest = "SELECT u.name as userName, u.email as userEmail, u.discordid, " +
+                "g.name, gu.groupId, g.chatRoomId, g.projectName " +
+                "FROM originalgroups g JOIN groupuser gu on gu.groupId=g.groupId " +
+                "JOIN users u ON u.email=g.userEmail where projectName = ?";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, projectName);
         List<Group> uniqueGroups = resultSetToGroupList(vereinfachtesResultSet, false);
         connect.close();
@@ -166,11 +170,12 @@ public class GroupDAO {
 
     List<Group> getGroupsByContextUser(User user, GroupWorkContext context) {
         connect.connect();
-        String mysqlRequest = "SELECT p.name as projectName, gu.userEmail, gu.groupId, g.chatroomId  " +
+        String mysqlRequest = "SELECT u.name as userName,  u.email as userEmail, u.discordid, " +
+                "g.name, gu.groupId, g.chatRoomId, g.projectName, g.chatRoomId FROM groups g  " +
                 "FROM `projects` p JOIN " +
                 "projectuser pu on pu.projectName=p.name and p.context=? and pu.userEmail=? JOIN " +
                 "groups g on pu.projectName=g.projectName JOIN " +
-                "groupuser gu on g.id=gu.groupId ";
+                "groupuser gu on g.id=gu.groupId JOIN users u on gu.userEmail=u.email";
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, context.toString(), user.getEmail());
         List<Group> uniqueGroups = resultSetToGroupList(vereinfachtesResultSet, true);
         connect.close();
@@ -194,24 +199,6 @@ public class GroupDAO {
     public Group getMyGroup(User user, Project project) {
         int groupId = getMyGroupId(user, project);
         return getGroupByGroupId(groupId);
-    }
-
-    private void fillGroupFromResultSet(ArrayList<Group> groups, VereinfachtesResultSet vereinfachtesResultSet,
-                                        Boolean withRocketChatId) {
-        boolean next = vereinfachtesResultSet.next();
-        while (next) {
-            String projectName = vereinfachtesResultSet.getString("projectName");
-            User user = userDAO.getUserByEmail(vereinfachtesResultSet.getString("userEmail"));
-            String chatRoomId = null;
-            if (withRocketChatId) {
-                chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
-            }
-            ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
-            Group group = new Group(vereinfachtesResultSet.getInt("groupId"), userList, projectName, chatRoomId);
-            group.setName(vereinfachtesResultSet.getString("name"));
-            groups.add(group);
-            next = vereinfachtesResultSet.next();
-        }
     }
 
     public GroupFormationMechanism getGroupFormationMechanism(Project project) {
@@ -267,12 +254,30 @@ public class GroupDAO {
 
     private List<Group> resultSetToGroupList(VereinfachtesResultSet vereinfachtesResultSet, Boolean withRocketChatId) {
         if (Objects.isNull(vereinfachtesResultSet)) {
-            connect.close();
             return Collections.emptyList();
         }
 
         ArrayList<Group> groups = new ArrayList<>();
-        fillGroupFromResultSet(groups, vereinfachtesResultSet, withRocketChatId);
+        boolean next = vereinfachtesResultSet.next();
+        while (next) {
+            String projectName = vereinfachtesResultSet.getString("projectName");
+            String userName = vereinfachtesResultSet.getString("userName");
+            String userEmail = vereinfachtesResultSet.getString("userEmail");
+            String discordId = vereinfachtesResultSet.getString("discordid");
+            User user = new User(userName);
+            user.setEmail(userEmail);
+            user.setDiscordid(discordId);
+            String chatRoomId = null;
+            if (withRocketChatId) {
+                chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
+            }
+            ArrayList<User> userList = new ArrayList<>(Collections.singletonList(user));
+            Group group = new Group(vereinfachtesResultSet.getInt("groupId"), userList, projectName, chatRoomId);
+            group.setName(vereinfachtesResultSet.getString("name"));
+            groups.add(group);
+            next = vereinfachtesResultSet.next();
+        }
+
         ArrayList<Group> uniqueGroups = new ArrayList<>();
         ArrayList<Integer> groupIds = new ArrayList<>();
         for (Group group : groups) {
