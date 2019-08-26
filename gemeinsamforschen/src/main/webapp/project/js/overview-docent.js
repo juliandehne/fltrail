@@ -1,6 +1,5 @@
 let projects = [];
 let projectResponse;
-let userName = "";
 let response = {};
 let projectTitels = [];
 let projectTags = [];
@@ -9,7 +8,16 @@ let projectDescription = [];
 
 $(document).ready(function () {
 
-    getProjects(getUserEmail());
+    getProjects(getUserEmail(), function () {
+        $('.delete').each(function () {
+            $(this).on('click', function () {
+                $('#deleteProjectName').html($(this).attr('name'));
+            });
+        });
+    });
+    $('#btnDelete').on('click', function () {
+        deleteProject($('#deleteProjectName').html().trim());
+    });
 
     $('#createProject').on('click', function () {
         location.href = "create-project.jsp";
@@ -76,7 +84,7 @@ function repaintProjectList(callback, filterList) {
 }
 
 
-function getProjects(userName) {
+function getProjects(userName, callback) {
     $.ajax({
         url: '../rest/project/all/author/' + userName,
         headers: {
@@ -92,7 +100,6 @@ function getProjects(userName) {
                         projectTitels.push(projectResponse[project].name);
                         projectTags.push(projectResponse[project].tags);
                         projectDescription.push(projectResponse[project].description);
-
                     }
                 }
                 repaintProjectList(function () {
@@ -109,6 +116,7 @@ function getProjects(userName) {
                 });
                 $('#introduction').html("Um ein Projekt zu öffnen, drücken Sie oben links auf \"Projekt erstellen\".")
             }
+            callback();
         },
         error: function (a) {
 
@@ -146,5 +154,37 @@ function filterString(searchObj, filterString) {
         return false;
     } else {
         return searchObj.toLowerCase().indexOf(filterString) !== -1;
+    }
+}
+
+function deleteProject(projectName) {
+    let localurl = "../rest/project/delete/project/" + projectName;
+    if (projectName === "") {
+        return false;
+    } else {
+        $.ajax({
+            url: localurl,
+            data: "",
+            projectName: projectName,
+            contentType: "text/plain",
+            type: 'POST',
+            success: function (response) {
+                if (response === "no permission") {
+                    $("#noPermission").show();
+                    return false;
+                }
+                if (response === "not author") {
+                    $("#notAuthor").show();
+                    return false;
+                }
+                if (response === "project missing") {
+                    $("#projectIsMissing").show();
+                }
+                location.href = "overview-docent.jsp";
+            },
+            error: function (a) {
+                console.log(a);
+            }
+        });
     }
 }

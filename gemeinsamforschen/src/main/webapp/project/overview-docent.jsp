@@ -54,12 +54,40 @@
 
         </div>
 
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteProject"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteProject">Projekt löschen</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Sind Sie sich sicher das Projekt "<span id="deleteProjectName"></span>"
+                        unwiderruflich löschen zu wollen?
+                    </div>
+                    <div class="modal-footer">
+                        <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">schließen
+                          </button>--%>
+                        <button type="button" id="btnDelete" class="btn btn-warning">
+                            löschen
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <div class="row group projects-grid" id="projects">
             <script id="projectTRTemplate" type="text/x-jQuery-tmpl">
                 <div class="card card-project projectDynamic">
                     <div class="card-inner">
                     <div class="right">
-                        <a href="delete-project.jsp">
+                        <a class="delete" name="${projectName}" data-toggle="modal" data-target="#deleteModal">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </a>
                     </div>
