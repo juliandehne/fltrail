@@ -128,6 +128,7 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
 
     @Override
     public void simulateCreatingPortfolioEntries(Project project) throws Exception {
+        //if (submissionController.getProjectSubmissions(project, FileRole.PORTFOLIO_ENTRY, ))
         simulateSubmissions(project, FileRole.PORTFOLIO_ENTRY, Visibility.GROUP);
     }
 
@@ -163,20 +164,24 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
     }
 
     private void simulateSubmissions(Project project, FileRole fileRole, Visibility visibility) throws Exception {
-        List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
-        for (User user : usersByProjectName) {
-            switch (fileRole) {
-                case PORTFOLIO_ENTRY:
-                    List<FullSubmission> assessableSubmissions = submissionController.getAssessableSubmissions(user, project, fileRole);
-                    if (CollectionUtils.isEmpty(assessableSubmissions)) {
-                        List<SelectedReflectionQuestion> reflectionQuestions = selectedReflectionQuestionsDAO.findBy(project);
-                        createEntries(project, user, reflectionQuestions, fileRole, visibility);
-                    }
-                    break;
-                case REFLECTION_QUESTION:
-                    List<SelectedReflectionQuestion> unansweredQuestions = selectedReflectionQuestionsDAO.getUnansweredQuestions(project, user, false);
-                    createEntries(project, user, unansweredQuestions, fileRole, visibility);
-                    break;
+        if (submissionController.getProjectSubmissions(project, fileRole, visibility).size() < 2) {
+            List<User> usersByProjectName = userDAO.getUsersByProjectName(project.getName());
+            for (User user : usersByProjectName) {
+                switch (fileRole) {
+                    case PORTFOLIO_ENTRY:
+                        List<FullSubmission> assessableSubmissions =
+                                submissionController.getAssessableSubmissions(user, project, fileRole);
+                        if (CollectionUtils.isEmpty(assessableSubmissions)) {
+                            List<SelectedReflectionQuestion> reflectionQuestions = selectedReflectionQuestionsDAO.findBy(project);
+                            createEntries(project, user, reflectionQuestions, fileRole, visibility);
+                        }
+                        break;
+                    case REFLECTION_QUESTION:
+                        List<SelectedReflectionQuestion> unansweredQuestions =
+                                selectedReflectionQuestionsDAO.getUnansweredQuestions(project, user, false);
+                        createEntries(project, user, unansweredQuestions, fileRole, visibility);
+                        break;
+                }
             }
         }
     }
@@ -195,6 +200,11 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
                     FullSubmissionPostRequest submission =
                             new FullSubmissionPostRequest(myGroup, text, fileRole, project, visibility, title);
                     submission.setHtml(text);
+                    if (fileRole == FileRole.REFLECTION_QUESTION) {
+                        submission.setSaveUsername(true);
+                        submission.setUserEMail(user.getEmail());
+                        submission.setReflectionQuestionId(reflectionQuestion.getId());
+                    }
                     FullSubmission fullSubmission = dossierCreationProcess.addDossier(submission, user, project);
                     if (fileRole == FileRole.REFLECTION_QUESTION) {
                         iExecutionProcess.answerReflectionQuestion(fullSubmission, reflectionQuestion);

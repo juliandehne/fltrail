@@ -102,6 +102,23 @@ public class WizardDao {
         correctCreatePortfolioStatus(project, result);
         //correctPortfolioFeedback(project, result);
 
+        if (reflectiveQuestionsAreAnswered(project)) {
+            result.add(TaskName.ANSWER_REFLECTION_QUESTIONS);
+        }
+
+        return result;
+    }
+
+    public Boolean reflectiveQuestionsAreAnswered(Project project) {
+        Boolean result = false;
+        connect.connect();
+        VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(
+                "SELECT * from tasks where taskName = ? and projectName = ? and progress = ?",
+                TaskName.ANSWER_REFLECTION_QUESTIONS, project.getName(), Progress.FINISHED.name());
+        if (vereinfachtesResultSet != null) {
+            result = vereinfachtesResultSet.next();
+        }
+        connect.close();
         return result;
     }
 
