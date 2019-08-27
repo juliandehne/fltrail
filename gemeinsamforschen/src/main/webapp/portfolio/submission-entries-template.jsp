@@ -12,7 +12,7 @@
             {{for submissionList}}
                 <div class="panel panel-default">
                     <div>
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{:id}}" aria-expanded="false" class="collapsed" aria-controls="collapse-{{:id}}">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{:id}}" aria-expanded="{{:active}}" class="collapsed" aria-controls="collapse-{{:id}}">
                             <div class="btn btn-primary panel-heading" role="tab" id="heading-{{:id}}">
                                 <div class="iconGroup">
                                     {{if editable}} <button id="editButton" class="btn-primary iconItem" onClick='editButtonPressed("{{:#getIndex()}}")'>{{/if}}<i class="fas fa-edit iconItem {{if !editable}} invisible {{/if}}"></i></button>
@@ -38,7 +38,7 @@
                             </div>
                         </a>
                     </div>
-                    <div id="collapse-{{:id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{:id}}">
+                    <div id="collapse-{{:id}}" class="panel-collapse collapse {{if active}} in {{/if}}" role="tabpanel" aria-labelledby="heading-{{:id}}">
                         <div class="panel-body">
                             <div class="well">
                                 <div class="row">

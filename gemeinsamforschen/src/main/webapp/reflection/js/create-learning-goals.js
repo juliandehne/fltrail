@@ -99,6 +99,14 @@ function addCustomLearningGoal() {
     if (learningGoalText.length === 0) {
         return;
     }
+    if (websiteTemplateData.selectedEntries) {
+        for (let entry of websiteTemplateData.selectedEntries) {
+            if (entry.learningGoal.text === learningGoalText) {
+                alert('Sie haben dieses Lernziel bereits hinzugefügt.');
+                return;
+            }
+        }
+    }
     modalTemplateData.selectedLearningGoal = {text: learningGoalText};
     modalTemplateData.learningGoals.push(modalTemplateData.selectedLearningGoal);
     modalTemplateData.lastIndex = modalTemplateData.learningGoals.length - 1;

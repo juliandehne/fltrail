@@ -4,6 +4,7 @@ let currentPortfolioEntries;
 let currentPortfolioTemplateData;
 let quillNewComment;
 let visibilityButtonTemplateData = {};
+let lastActivePortfolioIndex = -1;
 const nameForAllEntries = "KEIN FILTER";
 
 $(document).ready(async function () {
@@ -41,14 +42,16 @@ async function fillPortfolioEntriesAndFeedback() {
         let data = {};
         getMyGroupId(async function (groupId) {
             for (let fullSubmission of response) {
-                fillWithExtraTemplateData(fullSubmission, groupId, userEmail, true);
-                await addContributionFeedback(fullSubmission, groupId);
+                let groupIdInt = JSON.parse(groupId);
+                fillWithExtraTemplateData(fullSubmission, groupIdInt, userEmail, true);
+                await addContributionFeedback(fullSubmission, groupIdInt);
                 currentPortfolioEntries.push(fullSubmission);
             }
             data.submissionList = currentPortfolioEntries;
             data.error = response.error;
             fillWithTemplateMetadata(data);
             currentPortfolioTemplateData = data;
+
             renderPortfolioContent(data);
         });
     });
@@ -77,13 +80,13 @@ function changeButtonText(index, callback) {
     }
 }
 
-function clickedWantToComment(index) {
-    currentPortfolioEntries[index].wantToComment = true;
-    renderPortfolioContent(currentPortfolioTemplateData);
-}
-
 function saveComment(index) {
     let contents = quillNewComment[index].getContents();
+    if (lastActivePortfolioIndex !== -1) {
+        currentPortfolioEntries[lastActivePortfolioIndex].active = false;
+        lastActivePortfolioIndex = index;
+    }
+    currentPortfolioEntries[index].active = true;
     let fullSubmissionId = currentPortfolioEntries[index].id;
     getMyGroupId(function (groupId) {
         let contributionFeedbackRequest = {
@@ -93,9 +96,12 @@ function saveComment(index) {
             groupId: groupId
         };
         createContributionFeedback(contributionFeedbackRequest, async function () {
-            currentPortfolioEntries[index].wantToComment = false;
-            currentPortfolioEntries[index].contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmissionId);
-            renderPortfolioContent(currentPortfolioTemplateData);
+            getMyGroupId(async groupId => {
+                let groupIdInt = JSON.parse(groupId);
+                currentPortfolioEntries[index].contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmissionId, groupIdInt);
+                renderPortfolioContent(currentPortfolioTemplateData);
+            })
+
         });
     });
 }
