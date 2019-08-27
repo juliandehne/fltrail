@@ -82,6 +82,7 @@
                     <div></div>
                     <h3>{{:header}}</h3>
 
+
                 </script>
                 <div id="visibilityTemplateResult"></div>
                 <script id="visibilityTemplate" type="text/x-jsrender">
@@ -100,6 +101,7 @@
                         </div>
                     {{/if}}
 
+
                 </script>
                 <div id="reflectionQuestionTemplateResult"></div>
                 <script id="reflectionQuestionTemplate" type="text/x-jsrender">
@@ -107,6 +109,7 @@
                     {{if fileRole.toUpperCase() == "REFLECTION_QUESTION"}}
                         <h4> Frage {{:currentReflectionQuestionCounter}} von {{:totalQuestions}}: {{:question}} </h4>
                     {{/if}}
+
 
                 </script>
                 <br>
@@ -125,6 +128,7 @@
                 <label for="editor">Texteingabe</label>
                 {{/if}}
 
+
                 </script>
                 <div id="editor"></div>
 
@@ -132,12 +136,22 @@
                 <div class="document-text-buttons">
                     <%--<button type="button" class="btn btn-secondary document-text-buttons-back" id="btnBack">Zurück
                     </button>--%>
+                    <div id="saveTemplateResult" class="document-text-buttons-back"></div>
+                    <script id="saveTemplate" type="text/x-jsrender">
+                            <div/>
+                            {{if fileRole.toUpperCase() === "DOSSIER"}}
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary"
+                                data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fas fa-arrow-alt-circle-up"></i> veröffentlichen
+                                </button>
+                            {{/if}}
 
-
-
+                    </script>
                     <div>
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="speichernDialog" aria-hidden="true">
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                             aria-labelledby="speichernDialog" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -152,8 +166,8 @@
                                         Dossiers zu überarbeiten.
                                     </div>
                                     <div class="modal-footer">
-                                      <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">schließen
-                                        </button>--%>
+                                        <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">schließen
+                                          </button>--%>
                                         <button type="button" id="btnFinalSave" class="btn btn-warning">final
                                             speichern
                                         </button>
@@ -161,22 +175,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="saveTemplateResult"></div>
-                        <script id="saveTemplate" type="text/x-jsrender">
-                            <div/>
-                            {{if fileRole.toUpperCase() === "DOSSIER"}}
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                    veröffentlichen
-                                </button>
-                            {{/if}}
-
-                        </script>
                     </div>
 
-                        <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">
-                           <i class="far fa-save"></i> Speichern
-                        </button>
+                    <button type="button" class="btn btn-primary document-text-buttons-next" id="btnSave">
+                        <i class="far fa-save"></i> Speichern
+                    </button>
 
                     <div style="display: block">
                         <%--<div style="display: inline-flex;">
@@ -240,6 +243,7 @@
                         </ul>
                     </div>
                 {{/if}}
+
 
 
             </script>

@@ -35,3 +35,10 @@ async function getContributionFeedbackFromSubmission(fullSubmissionId, groupId) 
 async function addContributionFeedback(fullSubmission, groupId) {
     fullSubmission.contributionFeedback = await getContributionFeedbackFromSubmission(fullSubmission.id, groupId);
 }
+
+function eventHandling() {
+    $('.collapsed').on('click', function (e) {
+        let distance = $(this).offset().top + $(this).height();
+        $('html,body').animate({scrollTop: distance}, 'slow');
+    });
+}

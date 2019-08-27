@@ -22,7 +22,9 @@
     <!-- css - annotationStyle -->
     <link rel="stylesheet" type="text/css" href="css/annotationStyle.css">
     <link rel="stylesheet" type="text/css" href="css/annotationColorTheme.css">
-    <!-- js - jQuery validation plugin -->
+        <link rel="stylesheet" type="text/css" href="../taglibs/css/unstructured-upload.css">
+
+        <!-- js - jQuery validation plugin -->
     <script src="../libs/jquery/jqueryValidate.js"></script>
     <!-- js - jQuery ui position -->
     <script src="../libs/jquery/jqueryUI.js" type="text/javascript"></script>
@@ -56,22 +58,34 @@
     <main id="reEdit" class="">
         <div class="row group">
             <div class="col span_2_of_2">
-                <p>Hier können Sie Ihr <span id="fileRole"></span> überarbeiten</p>
-
-                <h3 id="ownTitle"></h3>
+                <h3><span id="fileRole"></span> bearbeiten</h3>
+                <div style="width: 100%;height: 50px; position: absolute;">
+                    <button onClick="seeFeedBack();" type="button" class="btn btn-primary" title="Feedback sehen"
+                            style="float:right;margin-right: 5%;">
+                        <i class="fas fa-comments"></i> Feedback ansehen
+                    </button>
+                </div>
+                <div class="upload-text" id="documentText">
+                    <label>Fragestellung / Projektaufgabe</label>
+                    <input id="ownTitle" size="30" style="font-size: large; margin-bottom: 10px;" readonly/>
+                </div>
                 <br>
+                <label for="editor">Texteingabe</label>
                 <div id="editor"></div>
-                <div>
-                    <div class="rightcontent-buttons-next">
-                        <button onClick="seeFeedBack();" type="button" class="btn btn-primary" title="Feedback sehen">
-                            Feedback ansehen
+                <div class="document-text-buttons">
+                    <div class="document-text-buttons-back">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#exampleModal">
+                            <i class="fas fa-arrow-alt-circle-up"></i> veröffentlichen
                         </button>
                     </div>
-                    <div class="leftcontent-buttons-next">
-
+                    <button type="button" id="btnSave2" class="btn btn-primary document-text-buttons-next">
+                        <i class="far fa-save"></i> speichern
+                    </button>
                         <div>
                             <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="speichernDialog" aria-hidden="true">
+                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="speichernDialog" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -95,38 +109,9 @@
                                 </div>
                             </div>
                             <!-- Button trigger modal -->
-                            <button type="button" id="btnSave2" class="btn btn-primary">speichern
-                            </button>
-                            <button type="button" class="btn btn-primary" data-toggle="modal"
-                                     data-target="#exampleModal">
-                                veröffentlichen
-                            </button>
+
+
                         </div>
-
-
-
-                       <%-- <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
-                            <i class="far fa-save"></i> speichern
-                        </button>--%>
-
-
-                        <%--<div style="display: block">
-                            <div style="display: inline-flex;">
-                                <input id="finalizeReedit" type="checkbox" title="finalisieren" style="margin-top:-2px">
-                                <label for="finalizeReedit" style="margin-right:5px">Dies ist die finale
-                                    <a data-toggle='collapse' href='#whatIs' role='button'
-                                       aria-expanded='false' aria-controls='whatIs'>
-                                        <i class='fas fa-question'></i>
-                                    </a> Abgabe des Dossiers</label>
-                            </div>
-                            <div class='collapse' id='whatIs'>
-                                <div class='card card-body card-whatIs'>
-                                    Bestätigen Sie hier, wenn dies die Version ihres Dossiers ist, die später bewertet
-                                    werden soll.
-                                </div>
-                            </div>
-                        </div>--%>
-                    </div>
                 </div>
             </div>
         </div>
