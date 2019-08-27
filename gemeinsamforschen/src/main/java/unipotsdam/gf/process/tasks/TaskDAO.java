@@ -519,7 +519,12 @@ public class TaskDAO {
             shuttle.setGroupTask(vereinfachtesResultSet.getInt("groupTask"));
         }
         connect.close();
-        return getTaskSpecifications(groupId, project, shuttle);
+        if (shuttle != null) {
+            return getTaskSpecifications(groupId, project, shuttle);
+        } else {
+            return null;
+        }
+
     }
 
     private Task getFinalizeDossierTask(Task task) {
