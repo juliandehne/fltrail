@@ -22,7 +22,7 @@ public class ConnectionPoolUtility implements IConnectionPoolUtility {
     //private final static Logger log = LoggerFactory.getLogger(ConnectionPoolUtility.class);
 
     public ConnectionPoolUtility() {
-        System.err.println("constructor of class" + this);
+        //System.err.println("constructor of class" + this);
     }
 
     @Override

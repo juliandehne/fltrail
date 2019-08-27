@@ -64,7 +64,7 @@ public class PoolingMysqlConnectImpl implements MysqlConnect {
         if (saneState) {
             saneState = false;
         } else {
-            throw new Error("starting second connect but connection exists");
+            log.error("starting second connect but connection exists");
         }
      /*   try {
             log.trace("opening connection" + this);
