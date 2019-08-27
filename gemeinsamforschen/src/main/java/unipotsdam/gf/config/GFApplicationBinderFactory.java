@@ -11,9 +11,9 @@ public class GFApplicationBinderFactory {
 
     public static synchronized GFApplicationBinder instance() {
         if (gfApplicationBinder == null) {
-            log.info("CREATING gfApplicationBinder");
+            log.debug("CREATING gfApplicationBinder");
             gfApplicationBinder = new GFApplicationBinder();
-            log.info("FINISHED creating gfApplicationBinder"  + gfApplicationBinder);
+            log.debug("FINISHED creating gfApplicationBinder"  + gfApplicationBinder);
         }
         return gfApplicationBinder;
     }

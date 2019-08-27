@@ -142,7 +142,7 @@ public class Wizard {
     private void simulatePreviousTasks(Project project, List<TaskName> previousTasks) throws Exception {
         // previous tasks only contains tasks in this phase now
         for (TaskName name : previousTasks) {
-            log.info("start simulating in wizard: " + name);
+            log.debug("start simulating in wizard: " + name);
             switch (name) {
                 case WAIT_FOR_PARTICPANTS: {
                     ProjectStatus participantCount = projectDAO.getParticipantCount(project);
@@ -196,12 +196,12 @@ public class Wizard {
                     break;
             }
 
-            log.info("stop simulating in wizard: " + name);
+            log.debug("stop simulating in wizard: " + name);
         }
     }
 
     private void simulatePhase(Project project, Phase phase) throws Exception {
-        log.info("start simulating phase in wizard: " + phase.toString());
+        log.debug("start simulating phase in wizard: " + phase.toString());
         // phase will be ended as a call to phases, at the end in any case
         switch (phase) {
             case GroupFormation:
@@ -246,7 +246,7 @@ public class Wizard {
         }
         // finish phase this might duplicate finishing the tasks
         phases.endPhase(phase, project, new User(project.getAuthorEmail()));
-        log.info("stop simulating phase in wizard: " + phase.toString());
+        log.debug("stop simulating phase in wizard: " + phase.toString());
     }
 
 
