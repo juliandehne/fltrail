@@ -132,7 +132,9 @@ function handleInfoTasks(object, result) {
                 " ist.";
             break;
         case "UPLOAD_DOSSIER":
-            result.infoText = "Legen Sie ein Dossier an.";
+            result.infoText = "In ihrem Kurs sollen Sie ein Forschungskonzept erarbeiten. Dieses dient als" +
+                " Vorbereitung und/oder als Gegenstand für die Projektarbeit. In ihrem Kurs werden die Anforderungen" +
+                " an das zu erstellende Dossier erläutert.";
             break;
         case "ANNOTATE_DOSSIER":
             result.infoText = "Markieren Sie in ihrem Dossier Teile für das Feedback. \n" +
@@ -189,7 +191,8 @@ function handleInfoTasks(object, result) {
             result.infoText = "Um die Projektphase zu beginnen, müssen Sie zuerst Lernziele und Reflexionsfragen erstellen bzw. auswählen.";
             break;
         case "SEE_LEARNING_GOAL_SELECTION_AGAIN":
-            result.infoText = "Sehen Sie sich Ihre Auswahl von Reflexionsfragen und Lernzielen noch einmal an.";
+            result.infoText = "Sie haben hier die Möglcihkeit sich Ihre Auswahl von Reflexionsfragen und Lernzielen" +
+                " noch einmal anzuschauen.";
             break;
         case "FEEDBACK_REFLECTION_QUESTION_ANSWER":
             result.infoText = "Ein Lernender hat (mindestens) eine Reflexionsfrage beantwortet. Geben Sie Feedback.";

@@ -18,6 +18,7 @@
 
     <script src="../project/js/tasks.js"></script>
     <script src="../project/js/solve-inCardTasks.js"></script>
+    <link href="css/info.css" rel="stylesheet">
 </head>
 <body>
 <div id="flex-wrapper">
@@ -41,11 +42,10 @@
                 <h3 class="phase-heading card-draft">FL-Trail</h3>
                 <div class="card card-draft current readMe">
                     <div class="col icon infotask readMeDIV">
-
                     </div>
                     <div class="col span_l_of_2">
-                        Dieses Werkzeug kann Sie darin unterstützen forschendes Lernen
-                        (https://de.wikipedia.org/wiki/Forschendes_Lernen) in ihrem Kurs durchzuführen. Forschendes
+                        <img src="pics/path.JPEG">
+                        Dieses Werkzeug kann Sie darin unterstützen forschendes Lernen in ihrem Kurs durchzuführen. Forschendes
                         Lernen verfolgt das Ziel, dass Studierende eine längerfristige Perspektive auf ihr Fach und ihre
                         Identität als Forschende entwickeln anstatt von Klausur zu Klausur zu denken. Daher wird mit den
                         Studierenden der vollständige Forschungszyklus durchgespielt, der jedoch an einigen Stellen auf
@@ -62,6 +62,7 @@
                     <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
+                        <img src="pics/groups.JPEG">
                         In der Gruppenbildungsphase werden Studierende in Projektgruppen eingeteilt. Einzelarbeit wird
                         zwar softwareseitig unterstützt, ist aber nicht empfohlen. Wie in richtigen Forschungsprojekten
                         gehen wir davon aus, dass kooperatives Arbeiten gewünscht ist. Dabei können Sie als dozierende
@@ -80,6 +81,7 @@
                     <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
+                        <img src="pics/concept.JPEG">
                         <%--<img src="../taglibs/img/dossier-example.jpg">--%>
                         Nach der Gruppenfindungsphase werden Studierende beauftragt ein Forschungsentwurf/Dossier zu
                         erarbeiten. Je nach geplantem Kurs kann dies auch die finale Abgabe des Kurses sein, wodurch die
@@ -98,6 +100,7 @@
                     <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
+                        <img src="pics/project.JPEG">
                         <%--<img src="../taglibs/img/dossiers.jpg">--%>
                         Wir haben die Erfahrung gemacht, dass es für Studierende motivierend ist, wenn sie das
                         erarbeitete Konzept auch in einem Projekt durchführen. Manchmal wird dies durch einen
@@ -118,22 +121,20 @@
                     <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
-                        <img src="../taglibs/img/assessment.png">
-
+                        <img src="pics/assessment.JPEG">
+                        Häufig haben Dozierende wenig Einblick in die Gruppenarbeit von Studierenden,
+                        so dass solche Techniken als hilfreich wahrgenommen werden.
+                        Wir haben Formeln entwickelt, die die Peer-Noten in zweierlei Hinsicht korrigieren.
+                        Zum einen wird ein zu großes Delta zu der Note der dozierenden Person aufgezeigt,
+                        zum anderen werden Cheating oder anderer Bias entdeckt und bestraft.
+                        Es wird analog zu der Gruppenphase nur ein Vorschlag für eine Notengebung für Sie als dozierende
+                        Person entwickelt,
+                        den Sie daraufhin übernehmen können oder auch nicht.
                     </div>
-                    Häufig haben Dozierende wenig Einblick in die Gruppenarbeit von Studierenden,
-                    so dass solche Techniken als hilfreich wahrgenommen werden.
-                    Wir haben Formeln entwickelt, die die Peer-Noten in zweierlei Hinsicht korrigieren.
-                    Zum einen wird ein zu großes Delta zu der Note der dozierenden Person aufgezeigt,
-                    zum anderen werden Cheating oder anderer Bias  entdeckt und bestraft.
-                    Es wird analog zu der Gruppenphase nur ein Vorschlag für eine Notengebung für Sie als dozierende
-                    Person entwickelt,
-                    den Sie daraufhin übernehmen können oder auch nicht.
-
-                <div style="clear:left"></div>
+                    <div style="clear:left"></div>
                 </div>
 
-               <h3 class="phase-heading GRADING" id="Projektabschluss">Projektabschluss</h3>
+                <h3 class="phase-heading GRADING" id="Projektabschluss">Projektabschluss</h3>
                 <div class="card GRADING current readMe">
                     <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 

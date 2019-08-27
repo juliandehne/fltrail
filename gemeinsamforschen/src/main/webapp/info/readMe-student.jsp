@@ -18,6 +18,7 @@
 
     <script src="../project/js/tasks.js"></script>
     <script src="../project/js/solve-inCardTasks.js"></script>
+    <link href="css/info.css" rel="stylesheet">
 </head>
 <body>
 <div id="flex-wrapper">
@@ -44,9 +45,9 @@
 
                     </div>
                     <div class="col span_l_of_2">
+                        <img src="pics/path.JPEG">
                         Dieses Tool dient der Unterstützung von studentischen Forschungsprojekten. Es wird den Ablauf
                         in Ihrem Kurs vorstrukturieren.
-
                     </div>
                     <div style="clear:left"></div>
                 </div>
@@ -56,6 +57,7 @@
                     <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
+                        <img src="pics/groups.JPEG">
                         In der Gruppenbildungsphase werden die Studierenden in Projektgruppen eingeteilt.
                         Einzelarbeit wird zwar softwareseitig unterstützt, ist aber nicht empfohlen.
                         Wie in richtigen Forschungsprojekten gehen wir davon aus, dass kooperatives Arbeiten gewünscht ist.
@@ -70,7 +72,7 @@
                     <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
-                        <%--<img src="../taglibs/img/dossier-example.jpg">--%>
+                        <img src="pics/concept.JPEG">
                         Nach der Gruppenfindungsphase werden die Studierenden beauftragt ein Forschungsentwurf/Dossier
                         zu erarbeiten. In diesem plant ihr euer Projekt und die Methodik zur Beantwortung der
                         gewählten Forschungsfrage.<br>
@@ -90,7 +92,7 @@
                     <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
-                        <%--<img src="../taglibs/img/dossiers.jpg">--%>
+                        <img src="pics/project.JPEG">
                         Wir haben die Erfahrung gemacht, dass es für Studierende motivierend ist, wenn sie das
                         erarbeitete Konzept auch in einem Projekt durchführen. Da die Durchführung für die Fächer sehr
                         unterschiedlich abläuft, haben wir hier keine spezifische Unterstützung implementiert. Es ist
@@ -107,12 +109,10 @@
                     <div class="col span_s_of_2 icon infotask readMeDIV"></div>
 
                     <div class="col span_l_of_2">
-                        <%--<img src="../taglibs/img/assessment.png">--%>
-                        Zunächst werden die Produkte Ihrer Gruppenarbeit hochgeladen. Zum Ersten als eine Präsentation,
-                        die zur Vorstellung Ihrer Forschung dienen soll und zum Zweiten ein finaler Report, der
-                        eine ausführliche Dokumentation Ihrer Arbeit beinhaltet.<br>
-                        Des Weiteren werden Sie in der Peer-Assessment-Phase aufgefordert, Ihre Kommilitonen zu
-                        bewerten.
+                        <img src="pics/assessment.JPEG">
+                        Zunächst werden die Produkte Ihrer Gruppenarbeit hochgeladen. Zum ersten als eine Präsentation,
+                        die zur Vorstellung Ihrer Forschung dienen soll und zum zweiten ein finaler Report, der
+                        eine ausführliche Dokumentation Ihrer Arbeit beinhaltet.
                         Hierbei werden Sie zunächst die Produkte einer anderen Gruppe bewerten und dann Aspekte
                         der Teamarbeit Ihrer Gruppe von jedem Ihrer Gruppenmitglieder bewerten.
                         Die dozierende Person wird ebenfalls eine Bewertung der Produkte vornehmen.
