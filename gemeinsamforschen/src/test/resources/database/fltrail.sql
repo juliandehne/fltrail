@@ -562,3 +562,6 @@ create table workrating
 )
     comment 'Peers rate one another in different dimensions defined in "itemName". Its a part of assessment.';
 
+
+
+ALTER TABLE `reflectionquestionanswers` ADD CONSTRAINT `fullsubmissionIdKey` FOREIGN KEY (`fullSubmissionId`) REFERENCES `fullsubmissions`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;

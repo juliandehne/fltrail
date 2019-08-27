@@ -21,7 +21,8 @@ public class ReflectionQuestionAnswersDAO {
     public String persist(ReflectionQuestionAnswerDB question) {
         connection.connect();
         String uuid = UUID.randomUUID().toString();
-        String query = String.format("INSERT INTO %s (id,selectedReflectionQuestionId,fullSubmissionId) values (?,?,?)", DATABASE_NAME);
+        String query = String.format("INSERT IGNORE INTO %s (id,selectedReflectionQuestionId,fullSubmissionId) values" +
+                " (?,?,?)", DATABASE_NAME);
         connection.issueInsertOrDeleteStatement(query, uuid, question.getSelectedReflectionQuestionId(), question.getFullSubmissionId());
         connection.close();
         return uuid;

@@ -10,10 +10,7 @@ import unipotsdam.gf.modules.submission.model.FullSubmission;
 import unipotsdam.gf.modules.submission.model.Visibility;
 import unipotsdam.gf.mysql.MysqlConnect;
 import unipotsdam.gf.mysql.VereinfachtesResultSet;
-import unipotsdam.gf.process.tasks.Progress;
-import unipotsdam.gf.process.tasks.Task;
-import unipotsdam.gf.process.tasks.TaskDAO;
-import unipotsdam.gf.process.tasks.TaskName;
+import unipotsdam.gf.process.tasks.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -52,10 +49,7 @@ public class WizardDao {
     public List<WizardProject> getProjects() {
         connect.connect();
         String mysqlRequest =
-                " SELECT p.name, p.phase, t.taskName FROM projects "
-                        + " p join tasks t on p.name = t.projectName"
-                        + " where NOT t.progress = ? "
-                        + " Group By p.phase, p.name ORDER by t.created ASC ";
+                " SELECT p.name, p.phase, t.taskName FROM projects " + " p join tasks t on p.name = t.projectName" + " where NOT t.progress = ? " + " Group By p.phase, p.name ORDER by t.created ASC ";
         List<WizardProject> result = new ArrayList<>();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(mysqlRequest, Progress.FINISHED);
         while (vereinfachtesResultSet.next()) {
@@ -72,10 +66,7 @@ public class WizardDao {
         //relevantTasks.add(TaskName.WAITING_FOR_GROUP);
         Set<TaskName> relevantTaskList = getRelevantTaskSet();
         String query =
-                "SELECT t.taskName from tasks t" +
-                        " WHERE t.progress= ? AND t.projectName = ? " +
-                        "AND t.taskName NOT IN (SELECT t2.taskName from tasks t2 WHERE t2.progress<>? " +
-                        "AND t2.projectName=?) group by t.taskName";
+                "SELECT t.taskName from tasks t" + " WHERE t.progress= ? AND t.projectName = ? " + "AND t.taskName NOT IN (SELECT t2.taskName from tasks t2 WHERE t2.progress<>? " + "AND t2.projectName=?) group by t.taskName";
 
         Set<TaskName> result = new HashSet<>();
         connect.connect();
@@ -110,13 +101,18 @@ public class WizardDao {
     }
 
     public Boolean reflectiveQuestionsAreAnswered(Project project) {
+        ProjectStatus participantCount = projectDAO.getParticipantCount(project);
         Boolean result = false;
         connect.connect();
         VereinfachtesResultSet vereinfachtesResultSet = connect.issueSelectStatement(
-                "SELECT * from tasks where taskName = ? and projectName = ? and progress = ?",
-                TaskName.ANSWER_REFLECTION_QUESTIONS, project.getName(), Progress.FINISHED.name());
+                "SELECT count(*) as result from tasks t join projectuser pu on t.projectName = pu.projectName" +
+                        " where t.taskName = ? and t.projectName = ? and t.progress = ?",
+                TaskName.ANSWER_REFLECTION_QUESTIONS, project.getName(), Progress.JUSTSTARTED.name());
         if (vereinfachtesResultSet != null) {
-            result = vereinfachtesResultSet.next();
+            if (vereinfachtesResultSet.next()) {
+                int resultNumber = vereinfachtesResultSet.getInt("result");
+                result = participantCount.getParticipants() == resultNumber;
+            }
         }
         connect.close();
         return result;
@@ -138,8 +134,8 @@ public class WizardDao {
 
     private void correctDossierStatus(Project project, Set<TaskName> relevantTaskList) {
         List<Group> allGroupsWithDossierUploaded = submissionController.getAllGroupsWithDossierUploaded(project);
-        HashSet<Integer> allUpLoadedRemovedDuplicates = allGroupsWithDossierUploaded.stream().map(Group::getId)
-                .collect(Collectors.toCollection(HashSet::new));
+        HashSet<Integer> allUpLoadedRemovedDuplicates =
+                allGroupsWithDossierUploaded.stream().map(Group::getId).collect(Collectors.toCollection(HashSet::new));
         int existingGroupSize = groupDAO.getGroupsByProjectName(project.getName()).size();
         if (allUpLoadedRemovedDuplicates.size() == existingGroupSize && existingGroupSize > 0) {
             relevantTaskList.add(TaskName.UPLOAD_DOSSIER);

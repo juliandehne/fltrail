@@ -90,7 +90,6 @@ public class Wizard {
     private PodamFactoryImpl factory = new PodamFactoryImpl();
 
     public Wizard() throws UnsupportedEncodingException {
-
         this.concepts = new TomcatConceptImporter();
         this.loremIpsum = new LoremIpsum();
     }

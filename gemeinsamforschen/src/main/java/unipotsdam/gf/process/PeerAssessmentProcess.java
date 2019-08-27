@@ -58,7 +58,7 @@ public class PeerAssessmentProcess {
         // distribute teacher tasks
         taskDAO.persistTeacherTask(project, TaskName.WAIT_FOR_UPLOAD, Phase.Assessment);
 
-        log.info("started peer assessment phase for project" + project.getName());
+        log.debug("started peer assessment phase for project" + project.getName());
     }
 
     /**
@@ -191,7 +191,7 @@ public class PeerAssessmentProcess {
             taskMapper.persistTaskMapping(project, user, groupId, TaskName.GIVE_EXTERNAL_ASSESSMENT);
         }
 
-        log.info("finished uploading files for assessement for project" + project.getName());
+        log.debug("finished uploading files for assessement for project" + project.getName());
     }
 
     /**

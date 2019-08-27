@@ -59,6 +59,9 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
     GroupDAO groupDAO;
 
     @Inject
+    WizardDao wizardDao;
+
+    @Inject
     private IExecutionProcess iExecutionProcess;
 
     @Inject
@@ -158,9 +161,10 @@ public class ReflectionPhaseSimulation implements IReflectionPhaseSimulation {
 
     @Override
     public void simulateAnsweringReflectiveQuestions(Project project) throws Exception {
-        FileRole rq = FileRole.REFLECTION_QUESTION;
-        simulateSubmissions(project, rq, Visibility.DOCENT);
-
+        if (!wizardDao.reflectiveQuestionsAreAnswered(project)) {
+            FileRole rq = FileRole.REFLECTION_QUESTION;
+            simulateSubmissions(project, rq, Visibility.DOCENT);
+        }
     }
 
     private void simulateSubmissions(Project project, FileRole fileRole, Visibility visibility) throws Exception {
