@@ -62,6 +62,7 @@ function renderPortfolioContent(data) {
     let tmpl = $.templates("#portfolioTemplate");
     let html = tmpl.render(data);
     $("#portfolioTemplateResult").html(html);
+    eventHandling();
 }
 
 function visibilityButtonPressed(index) {

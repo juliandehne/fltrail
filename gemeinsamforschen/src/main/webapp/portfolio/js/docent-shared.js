@@ -33,6 +33,7 @@ async function fillSubmissions(templateData) {
     templateData.submissionList = portfolioEntries;
     fillWithTemplateMetadata(templateData);
     renderTemplate(templateData);
+    eventHandling();
 }
 
 function renderTemplate(templateTempData) {
