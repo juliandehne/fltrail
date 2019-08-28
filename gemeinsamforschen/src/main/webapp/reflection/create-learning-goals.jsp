@@ -144,9 +144,38 @@
                 </div>
                 {{if !finished}}
                     {{if selectedEntries.length > 0}}
-                        <div class="row">
-                            <button onclick="endLearningGoalSelection()" class="btn btn-primary float-right">Auswahl abschließen</button>
+                    <div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                         aria-labelledby="speichernDialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="speichernDialog">Auswahl bestätigen</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Nach dem Veröffentlichen können Sie die Fragestellungen nicht mehr ändern.
+                                    Die Studierenden werden mit Hilfe dieser Fragen ihren Projektfortschritt reflektieren.
+                                </div>
+                                <div class="modal-footer">
+                                    <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">schließen
+                                      </button>--%>
+                                    <button type="button" onClick="endLearningGoalSelection();" class="btn btn-warning"
+                                    style="margin-bottom:10px;margin-left:10px;">veröffentlichen
+                                    </button>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <!-- Button trigger modal -->
+                </div>
+                    <div class="row">
+                        <button type="button" class="btn btn-primary document-text-buttons-back" data-toggle="modal"
+                        data-target="#exampleModal"><i class="fas fa-arrow-alt-circle-up"></i> Auswahl abschließen</button>
+                    </div>
                     {{/if}}
                 {{/if}}
 

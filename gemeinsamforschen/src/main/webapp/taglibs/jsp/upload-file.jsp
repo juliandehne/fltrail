@@ -17,13 +17,29 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="speichernDialog"><%= fileRole%> hochladen</h5>
+                    <h5 class="modal-title" id="speichernDialog">
+                        <% if (fileRole.equals("FINAL_REPORT")) { %>
+                        Abschlussbericht
+                        <% } else {
+                            if (fileRole.equals("PRESENTATION")) { %>
+                        Präsentation
+                        <% }
+                        } %>
+                        hochladen</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Ihre Gruppe hat dann nicht mehr die Möglichkeit ihr <%= fileRole%> zu überarbeiten.
+                    Ihre Gruppe hat dann nicht mehr die Möglichkeit
+                    <% if (fileRole.equals("FINAL_REPORT")) { %>
+                    den Abschlussbericht
+                    <% } else {
+                        if (fileRole.equals("PRESENTATION")) { %>
+                    die Präsentation
+                    <% }
+                    } %>
+                    zu überarbeiten.
                 </div>
                 <div class="modal-footer">
                     <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">schließen

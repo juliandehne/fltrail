@@ -141,12 +141,10 @@
 
                     <div>
 
-                        <h3>Bestandteile des Projekts</h3>
+                        <h3>Projektarbeit konzeptionell vorbereiten</h3>
                         <div class="alert alert-info">
-                            In diesem Projekt erarbeiten Studierende eine Fragestellung, bzw. eine Projektaufgabe.
-                            Wählen Sie welche Teilschritte zur Beantwortung der Fragestellung, bzw. zur Vorbereitung des
-                            Projektes,
-                            die Studierenden erarbeiten sollen.
+                            Bevor das Projekt gestartet wird, bereiten die Studierenden dieses konzeptionell vor.
+                            Wählen Sie aus den Kategorien welche Teile die Ausarbeitung enthalten soll.
                         </div>
                         <p>Bestimmen Sie welche Abschnitte Sie in der studentischen Ausarbeitung sehen wollen:</p>
                         <ul id="categoryList">

@@ -37,11 +37,18 @@ $(document).ready(function () {
     });
     $('#btnSave').on('click', function () {
         loaderStart();
-        saveGrades(projectName, function () {
+        saveGrades(projectName, true, function () {
             loaderStop();
             taskCompleted();
-        })
-    })
+        });
+    });
+    $('#btnSave2').on('click', function () {
+        loaderStart();
+        saveGrades(projectName, false, function () {
+            loaderStop();
+            taskCompleted();
+        });
+    });
 
 
 });
@@ -208,8 +215,8 @@ function fillObjectWithGrades(data) {
     return resultList;
 }
 
-function saveGrades(projectName, callback) {
-    let data = viewToUserPeerAssessmentData();
+function saveGrades(projectName, final, callback) {
+    let data = viewToUserPeerAssessmentData(final);
     if (data !== null) {
         $.ajax({
             url: '../rest/assessment/grades/project/' + projectName + '/sendData',
@@ -230,7 +237,7 @@ function saveGrades(projectName, callback) {
     }
 }
 
-function viewToUserPeerAssessmentData() {
+function viewToUserPeerAssessmentData(final) {
     let grades = [];
     let result = {};
     let notFinal = false;
@@ -296,7 +303,7 @@ function viewToUserPeerAssessmentData() {
         grades.push(UserPeerAssessmentData);
     });
     result.data = grades;
-    result.final = $('#finalizeGrading').prop("checked");
+    result.final = final;
     if (notFinal && result.final) {
         $('#gradeMissing').attr('hidden', false);
         return null;
