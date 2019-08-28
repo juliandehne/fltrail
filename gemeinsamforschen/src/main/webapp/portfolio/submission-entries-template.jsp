@@ -44,6 +44,7 @@
                                 <div class="row">
                                     <div class="flex-container">
                                         <h3 class="new-comment"> Neuer Kommentar </h3>
+                                        <div class="alert alert-warning" style="margin-left: 25%; margin-top:-1%; position:absolute;" id="noComment-{{:id}}" hidden>Der Kommentar darf nicht leer sein</div>
                                         <button class="btn btn-primary save-button" onClick='saveComment("{{:#getIndex()}}")'>Speichern</button>
                                     </div>
                                 </div>

@@ -37,8 +37,8 @@ async function addContributionFeedback(fullSubmission, groupId) {
 }
 
 function eventHandling() {
-    $('.collapsed').on('click', function (e) {
+    /*$('.collapsed').on('click', function (e) {
         let distance = $(this).offset().top + $(this).height();
         $('html,body').animate({scrollTop: distance}, 'slow');
-    });
+    });*/
 }

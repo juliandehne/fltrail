@@ -149,6 +149,26 @@ function handleInfoTasks(object, result) {
         case "WAITING_FOR_STUDENT_DOSSIERS":
             result.infoText = "Studierende legen nun ein Dossier an und" +
                 " geben sich gegenseitig Feedback.";
+            let stillNeeded = object.taskData.numberNeeded - object.taskData.numberOfCompletion;
+            if (stillNeeded > 0) {
+                result.infoText += "Derzeit legen sie die Rohversionen an. ";
+                if (object.taskData.numberOfCompletion === 1) {
+                    result.infoText += "Eine Rohversion ist bereits fertig";
+                }
+                if (object.taskData.numberOfCompletion > 1) {
+                    result.infoText += "Von den " + object.taskData.numberNeeded + " Gruppen sind bereits" +
+                        object.taskData.numberOfCompletion + " fertig.";
+                }
+            } else {
+                result.infoText += " Die Studierenden geben nun einander Feedback zur Rohversion. Nachdem eine" +
+                    "Gruppe Feedback von einer anderen Gruppe bekommen hat, schreibt sie die finale Version des Dossiers.";
+                if (Math.abs(stillNeeded) !== 0)
+                    if (Math.abs(stillNeeded) === 1) {
+                        result.infoText += " Es gibt bereits ein finales Dossiers.";
+                    } else {
+                        result.infoText += " Es gibt bereits " + Math.abs(stillNeeded) + " finale Dossiers.";
+                    }
+            }
             break;
         case "REEDIT_DOSSIER":
             result.infoText = "Sobald Sie ein Feedback bekommen haben, können Sie hier Ihr Dossier überarbeiten.";

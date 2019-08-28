@@ -194,24 +194,46 @@
                             <p class="savedFinalMark">${finalMark}</p>
                         </td>
                     </tr>
-
-
-
-
-
-
-
             </script>
-            <div style="display:flex;">
-                <div id="divForSaving">
-                    <button id="btnSave" type="button" class="btn btn-primary" title="weiter">
-                        <i class="far fa-save"></i> speichern
+            <div class="document-text-buttons inProgressView">
+                <div class="document-text-buttons-back">
+                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#exampleModal">
+                        <i class="fas fa-arrow-alt-circle-up"></i> veröffentlichen
                     </button>
-                    <label for="finalizeGrading">
-                        Dies ist die finale Benotung der Studierenden
-                        <input id="finalizeGrading" style="margin-top:6px;" type="checkbox" title="finalisieren">
-                    </label>
                 </div>
+                <button type="button" id="btnSave2" class="btn btn-primary document-text-buttons-next">
+                    <i class="far fa-save"></i> speichern
+                </button>
+                <div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                         aria-labelledby="speichernDialog" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="speichernDialog">Noten final speichern</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Nach dem Veröffentlichen können Sie die Noten nicht mehr ändern und die Studierenden
+                                    können ihre Noten sehen.
+                                </div>
+                                <div class="modal-footer">
+                                    <%--  <button type="button" class="btn btn-secondary" data-dismiss="modal">schließen
+                                      </button>--%>
+                                    <button type="button" id="btnSave" class="btn btn-warning">veröffentlichen
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Button trigger modal -->
+                </div>
+            </div>
+            <div style="display:flex;">
                 <button title="print" id="print" class="btn btn-primary"><i class="fas fa-print"></i> print</button>
             </div>
         </div>

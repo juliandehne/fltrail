@@ -89,6 +89,10 @@ function saveComment(index) {
     }
     currentPortfolioEntries[index].active = true;
     let fullSubmissionId = currentPortfolioEntries[index].id;
+    if (contents.ops[0].insert === "\n" || contents.ops[0].insert === "" || contents.ops[0].insert === " ") {
+        $('#noComment-' + fullSubmissionId).attr("hidden", false);
+        return false;
+    }
     getMyGroupId(function (groupId) {
         let contributionFeedbackRequest = {
             userEmail: userEmail,

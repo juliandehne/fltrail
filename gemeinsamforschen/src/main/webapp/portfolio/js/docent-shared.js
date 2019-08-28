@@ -57,6 +57,10 @@ function saveComment(index) {
     }
     sortedPortfolioEntries[currentVisibleButtonText][index].active = true;
     let fullSubmissionId = sortedPortfolioEntries[currentVisibleButtonText][index].id;
+    if (contents.ops[0].insert === "\n" || contents.ops[0].insert === "" || contents.ops[0].insert === " ") {
+        $('#noComment').attr("hidden", false);
+        return false;
+    }
     let contributionFeedbackRequest = {
         userEmail: userEmail,
         fullSubmissionId: fullSubmissionId,

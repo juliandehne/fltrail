@@ -270,6 +270,22 @@ footer {
     background-color: #737373 !important;
 }
 
+.document-text-buttons {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    display: block;
+}
+
+.document-text-buttons-back {
+    float: left;
+    margin-bottom: 10px;
+}
+
+.document-text-buttons-next {
+    float: right;
+    margin-bottom: 10px;
+}
+
 /*tasklist */
 
 .tasklist {

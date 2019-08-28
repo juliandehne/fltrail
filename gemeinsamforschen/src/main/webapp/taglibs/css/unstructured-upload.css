@@ -26,20 +26,6 @@
     margin-bottom: 0.5em;
 }
 
-.document-text-buttons {
-    margin-bottom: 15px;
-    margin-top: 15px;
-    display: block;
-}
-
-.document-text-buttons-back {
-    float: left;
-}
-
-.document-text-buttons-next {
-    float: right;
-}
-
 .file-upload-area {
     height: 20%;
 }

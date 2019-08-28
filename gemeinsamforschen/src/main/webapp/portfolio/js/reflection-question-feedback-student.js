@@ -48,6 +48,10 @@ function renderPortfolioContent(data) {
 function saveComment(index) {
     let contents = quillNewComment[index].getContents();
     let fullSubmissionId = currentPortfolioEntries[index].id;
+    if (contents.ops[0].insert === "\n" || contents.ops[0].insert === "" || contents.ops[0].insert === " ") {
+        $('#noComment').attr("hidden", false);
+        return false;
+    }
     if (lastActiveReflectionQuestionIndex !== -1) {
         currentPortfolioEntries[lastActiveReflectionQuestionIndex].active = false;
         lastActiveReflectionQuestionIndex = index;

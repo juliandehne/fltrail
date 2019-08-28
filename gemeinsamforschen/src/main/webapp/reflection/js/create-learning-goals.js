@@ -194,9 +194,7 @@ function clickDeleteLearningGoalButton(index) {
 }
 
 function endLearningGoalSelection() {
-    if (confirm('Wollen Sie die Auswahl wirklich abschließen? Sie können danach keine weiteren Änderungen vornehmen.')) {
-        endLearningGoalAndReflectionQuestionChoice(projectName, changeLocation);
-    }
+    endLearningGoalAndReflectionQuestionChoice(projectName, changeLocation);
 }
 
 
