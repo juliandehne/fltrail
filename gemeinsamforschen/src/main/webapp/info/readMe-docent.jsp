@@ -36,7 +36,7 @@
                     <li class="icon phase5"><a href="#Bewertung">Bewertung</a></li>
                     <li class="icon phase6"><a href="#Projektabschluss">Projektabschluss</a></li>
                 </ul>
-
+                Hier geht es zur <a href="../index.jsp">Projektumgebung</a>.
             </div>
             <div class="col span_l_of_2">
                 <h3 class="phase-heading card-draft">FL-Trail</h3>
@@ -52,7 +52,7 @@
                         den pädagogischen Kontext angepasst wird. Da dies für Einsteigende sehr aufwändig erscheint,
                         haben wir aus empirischen Studien haben einen Vorschlag für einen Ablauf erstellt. Dieser wird
                         durch dieses Tool so passgenau unterstützt, dass sich der Aufwand für Lehrende auf ein Minimum
-                        reduziert:
+                        reduziert.
                     </div>
                     <div style="clear:left"></div>
                 </div>
@@ -123,7 +123,7 @@
                     <div class="col span_l_of_2">
                         <img src="pics/assessment.JPEG">
                         Häufig haben Dozierende wenig Einblick in die Gruppenarbeit von Studierenden,
-                        so dass solche Techniken als hilfreich wahrgenommen werden.
+                        so dass Techniken studentischer Bewertung als hilfreich wahrgenommen werden.
                         Wir haben Formeln entwickelt, die die Peer-Noten in zweierlei Hinsicht korrigieren.
                         Zum einen wird ein zu großes Delta zu der Note der dozierenden Person aufgezeigt,
                         zum anderen werden Cheating oder anderer Bias entdeckt und bestraft.

@@ -36,7 +36,7 @@
                     <li class="icon phase5"><a href="#Bewertung">Bewertung</a></li>
                     <li class="icon phase6"><a href="#Projektabschluss">Projektabschluss</a></li>
                 </ul>
-
+                Hier geht es zur <a href="../index.jsp">Projektumgebung</a>.
             </div>
             <div class="col span_l_of_2">
                 <h3 class="phase-heading card-draft">FL-Trail</h3>
