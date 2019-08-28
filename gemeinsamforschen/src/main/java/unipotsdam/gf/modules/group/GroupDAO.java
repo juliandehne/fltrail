@@ -118,7 +118,8 @@ public class GroupDAO {
 
     public List<Group> getGroupsByProjectName(String projectName) {
         connect.connect();
-        String mysqlRequest = "SELECT u.name as userName,  u.email as userEmail, u.discordid, " +
+        String mysqlRequest = "SELECT u.rocketChatUserName as rocketChatUserName, u.name as userName, u.email as " +
+                "userEmail, u.discordid, " +
                 "g.name, gu.groupId, g.chatRoomId, g.projectName, g.chatRoomId FROM groups g " +
                 "JOIN groupuser gu ON g.id=gu.groupId " +
                 "JOIN users u ON " +
@@ -264,9 +265,11 @@ public class GroupDAO {
             String userName = vereinfachtesResultSet.getString("userName");
             String userEmail = vereinfachtesResultSet.getString("userEmail");
             String discordId = vereinfachtesResultSet.getString("discordid");
+            String rocketChatUserName = vereinfachtesResultSet.getString("rocketChatUserName");
             User user = new User(userName);
             user.setEmail(userEmail);
             user.setDiscordid(discordId);
+            user.setRocketChatUsername(rocketChatUserName);
             String chatRoomId = null;
             if (withRocketChatId) {
                 chatRoomId = vereinfachtesResultSet.getString("chatRoomId");
