@@ -1,31 +1,33 @@
+# Deploying the System from Scratch
 
-# GroupAl Configuration
-
-## building your own groupal server
-
-The Source code lies currently at https://gitup.uni-potsdam.de/dehne/groupal-mono.
+1. Deploy the GroupAl Service (two mirrors below)
+https://gitup.uni-potsdam.de/dehne/groupal-mono
+https://github.com/juliandehne/groupal-mono
 Read the README in the CSharp directory (not in the main directory).
 
-## accessing the groupal server 
+2. Deploy the Compbase Service
+https://github.com/juliandehne/competence-database
+https://gitup.uni-potsdam.de/dehne/compbase
 
-1. Groupal is currently deployed at http://fleckenroller.cs.uni-potsdam.de:12345.
-1. The package unipotsdam.gf.modules.group.preferences.groupal contains examples for request and possible responses
-1. It also contains mapping classes
-1. The class GroupAlMatcher is the access point for matching groups using groupal
+3. Configure Rocketchat 
+https://rocket.chat/
 
-# CompBase Configuration
+(Instructions below)
 
-## building compbase from source
+4. Configure FlTrail (this app)
 
-The compbase code can be found at https://gitup.uni-potsdam.de/dehne/compbase. Use the extensive documentation
-in git wiki to get it to run.
+a) Import SQL schema into mysql db: test/database/fltrail.sql 
+b) Edit config/GeneralConfig.java with the correct mysql information
+c) Edit unipotsdam.gf.config.ProductionConfig with the correct rocket chat paths and admin user
+d) Change GroupAl Connection in config/GeneralConfig.java
+e) (optional) change Email settings in config/GeneralConfig.java
 
-## accessing the compbase
+FlTrail needs to access the mysqldb, rocketchat, compbase and groupal to work properly. Rocketchat can be deactivated
+ in config/FLTrailConfig. If GroupAl or Compbase are not connected the corresponding group formation algorithms are 
+ not available. 
+ 
+ In theory, [applicationpath]/rest/system/health should give you information whether the project is working or not. 
 
-1. Compbase is deployed at https://apiup.uni-potsdam.de/endpoints/competenceAPI
-2. An swagger documentation can be found at http://fleckenroller.cs.uni-potsdam.de/doku/api/#!/default
-3. The class unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher is the entry point for accessing the Compbase 
-over java
 
 # Rocket Chat Configuration
 
@@ -76,3 +78,31 @@ fleckenroller.cs.uni-potsdam.de:3000
    5. db.users.remove({"name": /[^fltrailadmin]/})
    6. db.rocketchat_room.remove({"name":/[^general]/})
    7. exit
+   
+# GroupAl Configuration
+
+## building your own groupal server
+
+The Source code lies currently at https://gitup.uni-potsdam.de/dehne/groupal-mono.
+Read the README in the CSharp directory (not in the main directory).
+
+## accessing the groupal server 
+
+1. Groupal is currently deployed at http://fleckenroller.cs.uni-potsdam.de:12345.
+1. The package unipotsdam.gf.modules.group.preferences.groupal contains examples for request and possible responses
+1. It also contains mapping classes
+1. The class GroupAlMatcher is the access point for matching groups using groupal
+
+# CompBase Configuration
+
+## building compbase from source
+
+The compbase code can be found at https://gitup.uni-potsdam.de/dehne/compbase. Use the extensive documentation
+in git wiki to get it to run.
+
+## accessing the compbase
+
+1. Compbase is deployed at https://apiup.uni-potsdam.de/endpoints/competenceAPI
+2. An swagger documentation can be found at http://fleckenroller.cs.uni-potsdam.de/doku/api/#!/default
+3. The class unipotsdam.gf.modules.group.learninggoals.CompBaseMatcher is the entry point for accessing the Compbase 
+over java
