@@ -1,0 +1,4 @@
+docker run --rm --name groupal -p 12345:12345 -d groupal 
+docker run --rm --name neo4j -p 7474:7474 -p 7687:7687 -v $home/neo4j/data:/data --env=NEO4J_AUTH=none -d neo4j:3.3
+docker run --rm --name compbase -p 8080:8080 -d -e JAVA_OPTS="-Xms512m -Xmx512m" compbase
+
