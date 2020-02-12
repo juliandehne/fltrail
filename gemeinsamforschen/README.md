@@ -5,16 +5,22 @@ https://gitup.uni-potsdam.de/dehne/groupal-mono
 https://github.com/juliandehne/groupal-mono
 Read the README in the CSharp directory (not in the main directory).
 
-2. Deploy the Compbase Service
+2. Deploy the Compbase Service (Tomcat App)
 https://github.com/juliandehne/competence-database
 https://gitup.uni-potsdam.de/dehne/compbase
+--> Neo4j (vendor specific)
 
 3. Configure Rocketchat 
 https://rocket.chat/
 
 (Instructions below)
 
-4. Configure FlTrail (this app)
+4. Configure FlTrail (this app) (Tomcat App)
+--> sql
+--> rocketchat (optional) (HTTP)
+--> groupal (HTTP)
+--> compbase (HTTP)
+--> local file system als Ablage für pdfs 
 
 a) Import SQL schema into mysql db: test/database/fltrail.sql 
 b) Edit config/GeneralConfig.java with the correct mysql information

@@ -86,11 +86,10 @@ public class ChatWindow extends SimpleTagSupport {
     }
 
     private void writeIframe(HttpServletRequest request, String chatRoomLink) throws IOException {
-        String getAuthToken = request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN).toString();
-        String getId = request.getSession().getAttribute(GFContexts.ROCKETCHATID).toString();
+        //String getAuthToken = request.getSession().getAttribute(GFContexts.ROCKETCHATAUTHTOKEN).toString();
+        //String getId = request.getSession().getAttribute(GFContexts.ROCKETCHATID).toString();
         JspWriter out = getJspContext().getOut();
-
-        log.debug("chatroom links for ChatWindow: {}", chatRoomLink);
+        log.warn("chatroom links for ChatWindow: {}", chatRoomLink);
 
         out.println("<iframe height=\"400px\" src=\"" + chatRoomLink + "\">");
         out.println("</iframe>");
