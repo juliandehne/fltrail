@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  groupal:
+    image: groupal
+    ports: 
+      - "12345:12345"
+
+  neo4j: 
+    image: neo4j:3.3
+    volumes: 
+      - "$home/neo4j/data:/data"
+    ports: 
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      - NEO4J_AUTH=none
+
+  compbase:
+    image: compbase
+    ports:
+      - "8080:8080"
+    environment: 
+      - JAVA_OPTS=-Xms512m -Xmx512m
+    depends_on:
+      - neo4j
+    command: bash -c "sleep 15 && catalina.sh run"
+
+  fltrail-db:
+    image: mariadb:10.1
+    volumes:
+      - "$PWD/mysql:/docker-entrypoint-initdb.d"
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=voyager

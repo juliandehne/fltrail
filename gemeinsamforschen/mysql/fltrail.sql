@@ -6,7 +6,7 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `fltrail_gf` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `fltrail_gf`;
 
-create table evaluationsus
+create table IF NOT EXISTS evaluationsus
 (
     project    varchar(100) not null,
     user       varchar(200) not null,
@@ -15,7 +15,7 @@ create table evaluationsus
     docent     tinyint(1)   not null
 );
 
-create table journals
+create table IF NOT EXISTS journals
 (
     id          varchar(100) not null
         primary key,
@@ -27,7 +27,7 @@ create table journals
     open        tinyint      not null
 );
 
-create table learninggoalstore
+create table IF NOT EXISTS learninggoalstore
 (
     text varchar(250) not null,
     constraint learningGoalStore_text_uindex
@@ -38,7 +38,7 @@ create table learninggoalstore
 alter table learninggoalstore
     add primary key (text);
 
-create table mappedtasks
+create table IF NOT EXISTS mappedtasks
 (
     id            int auto_increment
         primary key,
@@ -50,7 +50,7 @@ create table mappedtasks
 )
     comment 'This table holds the task mapping i.e. which user should give feedback to which groups products';
 
-create table originalgroups
+create table IF NOT EXISTS originalgroups
 (
     userEmail               varchar(200) not null,
     projectName             varchar(200) not null,
@@ -58,7 +58,7 @@ create table originalgroups
     groupFormationMechanism varchar(50)  not null
 );
 
-create table peerassessmentworkanswer
+create table IF NOT EXISTS peerassessmentworkanswer
 (
     propertieId    int          null,
     answerIndex    int          null,
@@ -66,7 +66,7 @@ create table peerassessmentworkanswer
     userEmail      varchar(255) not null
 );
 
-create table peerassessmentworkproperties
+create table IF NOT EXISTS peerassessmentworkproperties
 (
     id          int auto_increment,
     scaleSize   int          null,
@@ -81,7 +81,7 @@ create table peerassessmentworkproperties
 alter table peerassessmentworkproperties
     add primary key (id);
 
-create table profilequestionoptions
+create table IF NOT EXISTS profilequestionoptions
 (
     id                int auto_increment
         primary key,
@@ -90,7 +90,7 @@ create table profilequestionoptions
 )
     comment 'the options for a profile question for thegroup finding algorithm';
 
-create table profilequestions
+create table IF NOT EXISTS profilequestions
 (
     id          int auto_increment
         primary key,
@@ -102,7 +102,7 @@ create table profilequestions
 )
     comment 'stores the questions needed for group finding';
 
-create table profilequestionrelations
+create table IF NOT EXISTS profilequestionrelations
 (
     firstQuestionId  int          null,
     secondQuestionId int          null,
@@ -114,7 +114,7 @@ create table profilequestionrelations
 )
     comment 'This indicates if a profile question leads to homogenity in groups';
 
-create table profilevariables
+create table IF NOT EXISTS profilevariables
 (
     variable              varchar(100) null,
     subvariable           varchar(100) null,
@@ -126,7 +126,7 @@ create table profilevariables
     homogeneity           tinyint(1)   null
 );
 
-create table reflectionquestionsstore
+create table IF NOT EXISTS reflectionquestionsstore
 (
     id           varchar(200) not null
         primary key,
@@ -138,7 +138,7 @@ create table reflectionquestionsstore
 create index reflectionquestionsstore_learninggoalstore_text_fk
     on reflectionquestionsstore (learningGoal);
 
-create table submissionpartbodyelements
+create table IF NOT EXISTS submissionpartbodyelements
 (
     fullSubmissionId varchar(120) not null,
     category         varchar(30)  not null,
@@ -148,7 +148,7 @@ create table submissionpartbodyelements
 )
     comment 'holds the parts of a dossier that are annoated with category';
 
-create table submissionparts
+create table IF NOT EXISTS submissionparts
 (
     timestamp        timestamp default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP,
     groupId          int                                 not null,
@@ -158,7 +158,7 @@ create table submissionparts
 )
     comment 'no idea what that it does but it is important';
 
-create table surveyitemsselected
+create table IF NOT EXISTS surveyitemsselected
 (
     projectname       varchar(100) null,
     profilequestionid int          null,
@@ -166,7 +166,7 @@ create table surveyitemsselected
         foreign key (profilequestionid) references profilequestions (id)
 );
 
-create table tasklock
+create table IF NOT EXISTS tasklock
 (
     id        int auto_increment,
     taskName  varchar(100)                        not null,
@@ -180,7 +180,7 @@ create table tasklock
 create index tasklock_taskName_groupId_index
     on tasklock (taskName, groupId);
 
-create table users
+create table IF NOT EXISTS users
 (
     id                 int auto_increment
         primary key,
@@ -195,7 +195,7 @@ create table users
 )
     comment 'Just lists the users';
 
-create table profilequestionanswer
+create table IF NOT EXISTS profilequestionanswer
 (
     profileQuestionId int          null,
     answerIndex       int          null,
@@ -208,7 +208,7 @@ create table profilequestionanswer
 )
     comment 'the answer to a profile question needed for group finding algorithm';
 
-create table projects
+create table IF NOT EXISTS projects
 (
     name        varchar(100)                           not null,
     password    varchar(400)                           not null,
@@ -227,7 +227,7 @@ create table projects
 )
     comment 'just a list of all the projects';
 
-create table answeredquiz
+create table IF NOT EXISTS answeredquiz
 (
     projectName varchar(200) not null,
     userName    varchar(100) not null,
@@ -239,7 +239,7 @@ create table answeredquiz
 )
     comment 'The answered quiz table holds the interpreted result of the quiz answer';
 
-create table assessmentmechanismselected
+create table IF NOT EXISTS assessmentmechanismselected
 (
     projectName varchar(100) not null,
     amSelected  varchar(200) not null,
@@ -249,7 +249,7 @@ create table assessmentmechanismselected
 )
     comment 'Holds the peer assessement mechanism selected';
 
-create table categoriesselected
+create table IF NOT EXISTS categoriesselected
 (
     projectName      varchar(100) not null,
     categorySelected varchar(200) not null,
@@ -259,7 +259,7 @@ create table categoriesselected
 )
     comment 'NOT IMPLEMENTED';
 
-create table contributionrating
+create table IF NOT EXISTS contributionrating
 (
     projectName varchar(200) not null,
     userName    varchar(100) null,
@@ -276,7 +276,7 @@ create table contributionrating
 )
     comment 'Holds the quantitative peer assessment regarding the uploads.';
 
-create table grades
+create table IF NOT EXISTS grades
 (
     projectName varchar(200) not null,
     userEmail   varchar(100) not null,
@@ -289,7 +289,7 @@ create table grades
 )
     comment 'Shows the grades that are calculated for a given student';
 
-create table groupfindingmechanismselected
+create table IF NOT EXISTS groupfindingmechanismselected
 (
     projectName varchar(100) not null,
     gfmSelected varchar(200) not null,
@@ -299,7 +299,7 @@ create table groupfindingmechanismselected
 )
     comment 'Groupfinding is done either automatically or manual';
 
-create table `groups`
+create table IF NOT EXISTS `groups`
 (
     id          int auto_increment
         primary key,
@@ -312,7 +312,7 @@ create table `groups`
 )
     comment 'the groups that are created';
 
-create table fullsubmissions
+create table IF NOT EXISTS fullsubmissions
 (
     id            varchar(120)                        not null,
     version       int                                 not null,
@@ -349,7 +349,7 @@ create index fullsubmissions_version_fk
 alter table fullsubmissions
     add primary key (id);
 
-create table annotations
+create table IF NOT EXISTS annotations
 (
     id             varchar(120)                        not null
         primary key,
@@ -367,7 +367,7 @@ create table annotations
 )
     comment 'Stores comments to a part of the dossier for a category such as RESEARCH';
 
-create table contributionfeedback
+create table IF NOT EXISTS contributionfeedback
 (
     id                         varchar(120)                        not null,
     fullsubmissionId           varchar(120)                        null,
@@ -390,7 +390,7 @@ create table contributionfeedback
 alter table contributionfeedback
     add primary key (id);
 
-create table groupuser
+create table IF NOT EXISTS groupuser
 (
     userEmail varchar(255) not null,
     groupId   int          not null,
@@ -409,7 +409,7 @@ create index groupId
 create index userEmail
     on groupuser (userEmail);
 
-create table largefilestorage
+create table IF NOT EXISTS largefilestorage
 (
     id           int auto_increment
         primary key,
@@ -427,7 +427,7 @@ create table largefilestorage
             on update cascade on delete cascade
 );
 
-create table phasesselected
+create table IF NOT EXISTS phasesselected
 (
     projectName   varchar(100) not null,
     phaseSelected varchar(200) not null,
@@ -443,7 +443,7 @@ create index phasesselected_projectName_index
 create index author
     on projects (author);
 
-create table projectuser
+create table IF NOT EXISTS projectuser
 (
     projectName varchar(100) not null,
     userEmail   varchar(255) not null,
@@ -462,7 +462,7 @@ create index projectName
 create index userEmail
     on projectuser (userEmail);
 
-create table quiz
+create table IF NOT EXISTS quiz
 (
     author      varchar(100) not null,
     projectName varchar(200) not null,
@@ -479,7 +479,7 @@ create table quiz
 create index quiz_question_projectName_author_index
     on quiz (question, projectName, author);
 
-create table selectedlearninggoals
+create table IF NOT EXISTS selectedlearninggoals
 (
     id          varchar(200) not null
         primary key,
@@ -491,7 +491,7 @@ create table selectedlearninggoals
 )
     comment 'holds all learning goals';
 
-create table selectedreflectionquestions
+create table IF NOT EXISTS selectedreflectionquestions
 (
     id             varchar(200) not null,
     learningGoalId varchar(200) not null,
@@ -507,7 +507,7 @@ create table selectedreflectionquestions
 alter table selectedreflectionquestions
     add primary key (id);
 
-create table reflectionquestionanswers
+create table IF NOT EXISTS reflectionquestionanswers
 (
     id                           varchar(100) not null
         primary key,
@@ -520,7 +520,7 @@ create table reflectionquestionanswers
 )
     comment 'holds all reflection questions students have to answer or had answered';
 
-create table tags
+create table IF NOT EXISTS tags
 (
     projectName varchar(200) not null,
     tag         varchar(400) not null,
@@ -533,7 +533,7 @@ create table tags
 create index tags_projectName_index
     on tags (projectName);
 
-create table tasks
+create table IF NOT EXISTS tasks
 (
     userEmail   varchar(255) not null,
     projectName varchar(200) not null,
@@ -555,7 +555,7 @@ create table tasks
 )
     comment 'The task table is important. It lists the actual state of the system associated to tasks';
 
-create table workrating
+create table IF NOT EXISTS workrating
 (
     projectName varchar(200) not null,
     userEmail   varchar(100) not null,
